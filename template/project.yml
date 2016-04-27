@@ -1,0 +1,31 @@
+project:
+  # The acquia_subname value is the machine name of your Github repository.
+  # This will determine the the directory name of the new repository.
+  acquia_subname: 'bolted8'
+  # Used for enforcing correct git commit msg syntax.
+  prefix: 'BLT'
+  human_name: 'Bolted 8'
+  profile:
+    name: 'lightning'
+    # Please ensure contrib profiles are also in your composer.json file.
+    contrib: true
+  # This is used to build front end artifacts. E.g., SASS compilation.
+  themes:
+    - thunder
+  # These are random strings used to configure the hash salt.
+  hash_salt: ${project.hash_salt}
+
+# Configuration settings for new git repository.
+git:
+  default_branch: master
+  remotes:
+    # Defining git remotes allows builds deployed via CI.
+    - bolt8@svn-5223.devcloud.hosting.acquia.com:bolt8.git
+    - git@github.com:acquia-pso/bolted8.git
+
+drush:
+  aliases:
+    # The remote environment from which the database will be pulled.
+    remote: ${acquia_subname}.test
+    # The local environment against which all local drush commands are run.
+    local: self

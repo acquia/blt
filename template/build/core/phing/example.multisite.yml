@@ -1,0 +1,28 @@
+# Values in this file may override default values set elsewhere. You can pass
+# configuration from this file to Phing. E.g.,
+# ./bolt.sh tests:behat -propertyfile build/custom/phing/example.multisite.yml
+
+behat:
+  # @see http://docs.behat.org/en/v2.5/guides/6.cli.html#gherkin-filters
+  # When tests:behat target is executed, these tags will be passed to Behat.
+  tags: ~@example-multisite
+  # When tests:behat target is executed, this Behat profile will be used.
+  # @see tests/behat/example.local.yml for Behat profile definition.
+  profile: example-multisite
+  # This is used for ad-hoc creation of a server via `drush rs` during CI.
+  # This needs to match a site entry in docroot/sites/sites.php, and should
+  # be assigned as the base_url in a corresponding Behat profile in
+  # tests/behat/example.local.yml.
+  server-url: http://127.0.0.1:8888
+
+multisite:
+  # This should correspond the directory name in docroot/sites. E.g.,
+  # docroot/sites/example-multisite.com.
+  name: example-multisite.com
+
+project:
+  profile:
+    name: example_multisite_profile
+  # The acquia cloud alias for the site group. This will be used to execute
+  # against *.dev and *.test aliases for upstream db syncs.
+  cloud_alias: @example-multisite

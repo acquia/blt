@@ -1,0 +1,6 @@
+# This file will be copied into the docroot of the build artifact.
+# @see docroot/example.gitignore
+
+# Ignore paths that contain user-generated content.
+sites/*/files
+sites/*/private

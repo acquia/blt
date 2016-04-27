@@ -1,0 +1,23 @@
+<project name="project" default="list" phingVersion="2.8.2">
+
+  <!-- Example override of Bolt core Phing include. -->
+  <!--<import file="${project.basedir}/tasks/frontend.xml"/>-->
+
+  <!-- Include bolt core classes and tasks. -->
+  <property name="core.phing.dir.relative" value="${phing.dir}/../../core/phing" />
+  <resolvepath propertyName="core.phing.dir" file="${core.phing.dir.relative}"/>
+  <import file="${core.phing.dir}/build.xml"/>
+
+  <!-- Load custom property values. -->
+  <property file="${project.basedir}/build.yml" override="true"/>
+
+  <!-- Example  custom Phing include -->
+  <!--<import file="${project.basedir}/tasks/custom.xml"/>-->
+
+  <!-- You can override a specific Phing task provided by Bolt core like so: -->
+  <!--<target name="build:test"-->
+  <!--description="This overrides the Bolt core build:test target."-->
+  <!--depends="setup, tests:all">-->
+  <!--</target>-->
+
+</project>

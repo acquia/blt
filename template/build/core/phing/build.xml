@@ -1,0 +1,54 @@
+<project name="bolt-core" default="list" phingVersion="2.8.2">
+
+  <!-- Include custom task classes -->
+  <includepath classpath="${core.phing.dir}" />
+  <taskdef name="behat" classname="phingcludes.BehatTask"/>
+  <taskdef name="drush" classname="phingcludes.DrushTask"/>
+  <taskdef name="phpVariable" classname="phingcludes.PhpVariableTask"/>
+  <typedef name="fileInFileset" classname="phingcludes.FileInFilesetCondition"/>
+
+  <!-- Include task partials -->
+
+  <!-- Defines a list of default properties, available to all targets. -->
+  <import file="${core.phing.dir}/tasks/properties.xml"/>
+
+  <!-- Contains tasks relevant to validation. E.g., code metrics. -->
+  <import file="${core.phing.dir}/tasks/validate.xml"/>
+
+  <!-- Contains targets relevant to the execution of tests. E.g., Behat, jMeter. -->
+  <import file="${core.phing.dir}/tasks/tests.xml"/>
+
+  <!-- Contains targets used for setting up environment. E.g., installing Drupal. -->
+  <import file="${core.phing.dir}/tasks/setup.xml"/>
+
+  <!-- Contains fileset definitions. E.g., patterns defining contrib locations, theming files, etc. -->
+  <import file="${core.phing.dir}/tasks/filesets.xml"/>
+
+  <!-- E.g., commit build artifacts, push to remote. -->
+  <import file="${core.phing.dir}/tasks/deploy.xml"/>
+
+  <!-- Contains frontend tasks. -->
+  <import file="${core.phing.dir}/tasks/frontend.xml"/>
+
+  <!-- Contains local syncing tasks. -->
+  <import file="${core.phing.dir}/tasks/local-sync.xml"/>
+
+  <!--
+    The follow targets are intended to be wrapper targets that bundle
+    multiple targets from other includes.
+  -->
+  <target name="build:test"
+          description="Builds, tests, and deploys an artifact."
+          depends="setup, tests:all">
+  </target>
+
+  <target name="build:validate:test"
+          description="Builds, validates, tests, and deploys an artifact."
+          depends="validate:all, setup, tests:all">
+  </target>
+
+  <target name="list" hidden="true">
+    <exec dir="${repo.root}" command="./bolt.sh -q -l" passthru="true"/>
+  </target>
+
+</project>

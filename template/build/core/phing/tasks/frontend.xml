@@ -1,0 +1,39 @@
+<project name="frontend" default="frontend:install">
+
+  <target name="frontend:build" depends="frontend:install" description="Uses gulp to build front end dependencies for all themes.">
+    <foreach list="${project.themes}" param="frontend.theme" target="frontend:build:run"/>
+  </target>
+
+  <target name="frontend:build:run" depends="frontend:install" description="Uses gulp to build front end dependencies for a theme.">
+    <if>
+      <!-- We assume that if the theme name is not thunder, then a subtheme of thunder is being used. -->
+      <not><equals arg1="${frontend.theme}" arg2="thunder" /></not>
+      <then>
+        <exec dir="${docroot}/themes/custom/${frontend.theme}" command="npm run build" logoutput="true" checkreturn="true" />
+      </then>
+    </if>
+
+    <property name="project.frontend.nvmrc.file" value="${docroot}/themes/custom/${frontend.theme}/.nvmrc" />
+    <if>
+      <available file="${project.frontend.nvmrc.file}" />
+      <then>
+        <copy file="${project.frontend.nvmrc.file}" todir="${repo.root}" />
+      </then>
+    </if>
+  </target>
+
+  <target name="frontend:install" description="Installs front end dependencies for themes.">
+    <!-- Enable support for multiple themes (Base + Subtheme or multisite deployments) -->
+    <foreach list="${project.themes}" param="frontend.theme" target="frontend:install:run"/>
+  </target>
+
+  <target name="frontend:install:run" description="Installs front end dependencies for a theme.">
+    <if>
+      <!-- We assume that if the theme name is not thunder, then a subtheme of thunder is being used. -->
+      <not><equals arg1="${frontend.theme}" arg2="thunder" /></not>
+      <then>
+        <exec dir="${docroot}/themes/custom/${frontend.theme}" command="npm run install-tools" logoutput="true" checkreturn="true" />
+      </then>
+    </if>
+  </target>
+</project>

@@ -1,0 +1,58 @@
+# Note that the example .travis.yml file for child projects lives in /install.
+sudo: false
+language: php
+
+php:
+  - 5.6
+
+cache:
+  bundler: true
+  apt: true
+  directories:
+  - "$HOME/.composer/cache"
+  - "$HOME/.drush/cache"
+  - "$HOME/.npm"
+  - "$HOME/.nvm"
+  - "vendor"
+  # Cache front end dependecies to dramatically improve build time.
+  # - "docroot/themes/custom/mytheme/node_modules"
+  # - "docroot/themes/custom/mytheme/bower_components"
+
+addons:
+  ssh_known_hosts:
+  # - svn-4786.devcloud.hosting.acquia.com
+
+# @see https://docs.travis-ci.com/user/notifications
+notifications:
+# - hipchat: [api token]@[room id or name]
+# - slack: '<account>:<token>#[channel]'
+
+before_install:
+  - composer selfupdate
+  - phpenv config-rm xdebug.ini
+  - git config --global user.name "Travis-CI"
+  - git config --global user.email "noreply@travis-ci.org"
+  - mysql -e 'CREATE DATABASE drupal;'
+
+install:
+  # Load composer dependencies.
+  - composer install
+  - export PATH=$PATH:$TRAVIS_BUILD_DIR/vendor/bin
+  # Install proper version of node for front end tasks.
+  - nvm install 4.4.1
+  - nvm use 4.4.1
+
+before_script:
+  # Clear drush release history cache, to pick up new releases.
+  - rm -f ~/.drush/cache/download/*---updates.drupal.org-release-history-*
+  # Verify that no git diffs (caused by line ending variation) exist.
+  - git diff --exit-code
+
+script:
+  - ./bolt.sh -Dbehat.run-server=true -Dbehat.launch-phantom=true build:validate:test
+
+after_success:
+  # Watch for successful build job on `master` branch; deploy to `master-build`.
+  # - scripts/deploy/travis-deploy.sh master master-build
+  # Watch for successful build job on `develop` branch; deploy to `develop-build`.
+  # - scripts/deploy/travis-deploy.sh develop develop-build

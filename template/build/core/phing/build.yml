@@ -1,0 +1,44 @@
+behat:
+  config: ${repo.root}/tests/behat/local.yml
+  profile: local
+  # If true, `drush runserver` will be used for executing tests.
+  run-server: false
+  # This is used for ad-hoc creation of a server via `drush runserver`.
+  server-url: http://127.0.0.1:8888
+  # If true, PhantomJS GhostDriver will be launched with Behat.
+  launch-phantom: true
+  # An array of paths with behat tests that should be executed.
+  paths:
+    # - ${docroot}/modules
+    - ${docroot}/profiles
+    - ${repo.root}/tests/behat
+  tags: ''
+
+composer:
+  bin: ${repo.root}/vendor/bin
+
+deploy:
+  dir: ${repo.root}/deploy
+
+# File and Directory locations.
+docroot.relative: ${repo.root.relative}/docroot
+docroot: ${repo.root}/docroot
+
+# Drupal Account Credentials. These are used for installing Drupal.
+drupal:
+  account.name: admin
+  account.password: admin
+  account.mail: no-reply@acquia.com
+
+drush:
+  bin: ${composer.bin}/drush
+  cmd: ${drush.bin} @${drush.aliases.local} -r ${docroot} -l ${multisite.name}
+  root: ${docroot}
+
+multisite:
+  # The docroot/sites/default directory is used by default.
+  name: default
+
+reports:
+  localDir: ${repo.root}/reports
+  remoteDir: reports

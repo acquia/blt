@@ -1,0 +1,21 @@
+<project name="local" default="local:refresh">
+
+  <target name="local:refresh" description="Refreshes local environment from upstream testing database." depends="setup:build:all, local:sync, local:update"/>
+
+  <target name="local:sync" description="Synchronize remote environment with local environment."
+          depends="setup:drupal:settings">
+    <exec dir="${docroot}" command="${drush.cmd} sql-drop -y" logoutput="true"/>
+    <exec dir="${docroot}" command="${drush.cmd} sql-sync @${drush.aliases.remote} @${drush.aliases.local} --create-db --structure-tables-key=lightweight -y" logoutput="true"/>
+    <exec dir="${docroot}" command="${drush.cmd} cc drush" logoutput="true"/>
+    <exec dir="${docroot}" command="${drush.cmd} cr" logoutput="true"/>
+  </target>
+
+  <target name="local:update" description="Update current database to reflect the state of the Drupal file system.">
+    <exec dir="${docroot}" command="${drush.cmd} updb -y --entity-updates" logoutput="true"/>
+    <exec dir="${docroot}" command="${drush.cmd} config-import -y --partial" logoutput="true"/>
+    <exec dir="${docroot}" command="${drush.cmd} cc drush" logoutput="true"/>
+    <exec dir="${docroot}" command="${drush.cmd} fra -y" logoutput="true"/>
+    <exec dir="${docroot}" command="../hooks/dev/post-db-copy/dev-mode.sh" logoutput="true"/>
+  </target>
+
+</project>

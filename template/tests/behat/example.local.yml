@@ -1,0 +1,76 @@
+# To generate a local.yml file using this the example template, execute:
+# `./bolt.sh setup:behat` from the project root.
+imports:
+  - behat.yml
+
+local:
+  suites:
+    default:
+      paths:
+        # Set features to repo root so that .feature files belonging to contrib
+        # modules, themes, and profiles can be discovered. Enable these
+        # additional paths in build/phing/build.yml.
+        features: ${repo.root}
+        bootstrap: ${repo.root}/tests/behat/features/bootstrap
+      contexts:
+        - Drupal\FeatureContext:
+          parameters:
+            environment:
+              # absolute path to local directory to store screenshots - do not include trailing slash
+              screenshot_dir: '/Users/username/Desktop/test'
+        - Drupal\DrupalExtension\Context\DrupalContext
+        - Drupal\DrupalExtension\Context\MinkContext
+        - Drupal\DrupalExtension\Context\MessageContext
+        - Drupal\DrupalExtension\Context\DrushContext
+  extensions:
+    Behat\MinkExtension:
+      javascript_session: selenium2
+      # configure the base url for your site
+      base_url: ${local_url}
+      # set default command for "Show last response" step.
+      show_cmd: "open %s"
+      # ADDITIONAL OPTIONS FOR WEB DRIVERS
+      # use the following 3 lines to user phantomjs
+      # browser_name: phantomjs
+      # selenium2:
+      #   wd_host: "http://localhost:8643/wd/hub"
+      #   browser: chrome
+      #
+      # use the following lines to disable SSL authentication for goutte.
+      # goutte:
+      #   guzzle_parameters:
+      #     redirect.disable: true
+      #     ssl.certificate_authority: system
+      #     curl.options:
+      #       CURLOPT_SSL_VERIFYPEER: false
+      #       CURLOPT_SSL_VERIFYHOST: false
+      #       CURLOPT_CERTINFO: false
+      #       CURLOPT_TIMEOUT: 120
+      selenium2:
+        wd_host: http://127.0.0.1:4444/wd/hub
+        browser: chrome
+    Drupal\DrupalExtension:
+      drupal:
+        # This must be an absolute path.
+        drupal_root: ${docroot}
+      drush:
+        alias: '@self'
+
+example-multisite:
+  extensions:
+    Behat\MinkExtension:
+      javascript_session: selenium2
+      # Configure the base url for your site. For multisite, ensure that this
+      # corresponds to a valid domain entry in sites.php.
+      base_url: http://127.0.0.1:8889
+      # set default command for "Show last response" step.
+      show_cmd: "open %s"
+      selenium2:
+        wd_host: http://127.0.0.1:4444/wd/hub
+        browser: chrome
+    Drupal\DrupalExtension:
+      drupal:
+        # This must be an absolute path.
+        drupal_root: ${docroot}
+      drush:
+        alias: '@self'

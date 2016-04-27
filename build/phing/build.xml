@@ -1,0 +1,164 @@
+<!-- THESE TARGETS ARE FOR USE IN BOLT ONLY, NOT FOR CHILD PROJECTS
+     CREATED VIA PROJECT TEMPLATE. -->
+<project name="bolt" default="list">
+
+  <!-- Define bolt root directory. -->
+  <property name="bolt.root.relative" value="${project.basedir}/../.."/>
+  <resolvepath propertyName="bolt.root" file="${bolt.root.relative}"/>
+
+  <!-- Include yml setting. -->
+  <property file="${project.basedir}/build.yml" override="true"/>
+  <resolvepath propertyName="bolt.new.dir" file="${bolt.new.dir}"/>
+
+  <!-- Load the root project.yml file for this project. -->
+  <property file="${bolt.root}/project.yml" override="true"/>
+
+  <taskdef name="randomString" classname="${bolt.root}.vendor.platinumpixs.phing-random-string.src.PlatinumPixs.RandomString.GenerateTask" />
+
+  <!-- Runs all bolt related targets. -->
+  <target name="bolt:new-project" description="Runs all targets required to spin up new project from Bolt."
+          depends="bolt:configure, bolt:create">
+  </target>
+
+  <target name="bolt:clean" description="Removes generated configuration files from Bolt directory.">
+    <delete file="${bolt.root}/project.yml" quiet="true"/>
+    <delete file="${bolt.root}/local.settings.php" quiet="true"/>
+    <delete file="${bolt.root}/local.drushrc.php" quiet="true"/>
+    <delete file="${bolt.root}/template/sites/default/settings/local.settings.php" quiet="true"/>
+    <delete file="${bolt.root}/template/tests/behat/local.yml" quiet="true"/>
+    <delete dir="${bolt.root}/template/vendor" quiet="true"/>
+  </target>
+
+  <!-- Creates new configuration files to be used for new project generation.
+       Note: this target must be called by itself first. Other targets must be
+       executed separately so that they may load the correct configuration   -->
+  <target name="bolt:configure" description="Generates default .yml configuration files based on provided example files.">
+    <randomString name="project.hash_salt" length="55" stringType="lowercase_uppercase_numeric" />
+    <copy file="${bolt.root}/template/project.yml" todir="${bolt.root}">
+      <filterchain>
+        <expandproperties />
+      </filterchain>
+    </copy>
+    <copy file="${bolt.root}/template/docroot/sites/default/settings/default.local.settings.php" tofile="${bolt.root}/local.settings.php" />
+    <copy file="${bolt.root}/template/docroot/sites/default/default.local.drushrc.php" tofile="${bolt.root}/local.drushrc.php" />
+
+    <echo></echo>
+    <echo>The following files have been generated:</echo>
+    <echo>${bolt.root}/project.yml</echo>
+    <echo>${bolt.root}/local.settings.php</echo>
+    <echo>${bolt.root}/local.drushrc.php</echo>
+    <echo></echo>
+    <echo>Modify these files and then run "./bolt.sh bolt:create" to generate a new project.</echo>
+  </target>
+
+  <!-- Create a new project directory based on current repository. -->
+  <target name="bolt:create" description="Create a new project based on local repository.">
+    <available file="${bolt.root}/project.yml" property="project.yml.exists" value="true"/>
+    <if>
+      <not><istrue value="${project.yml.exists}"/></not>
+      <then>
+        <fail>Please run "./bolt.sh bolt:configure" before running "./bolt.sh bolt:create."</fail>
+      </then>
+    </if>
+
+    <if>
+      <available file="${bolt.new.dir}" type="dir" />
+      <then>
+        <input message="The following directory will be permanently deleted. Continue?${line.separator}${bolt.new.dir} " validArgs="y,n" propertyName="do.delete" />
+        <condition property="do.abort">
+          <equals arg1="n" arg2="${do.delete}"/>
+        </condition>
+        <fail if="do.abort">Build aborted by user.</fail>
+        <!-- Remove from existing directory. -->
+        <if>
+          <available file="${bolt.new.dir}/docroot/sites/default" type="dir" />
+          <then>
+            <chmod file="${bolt.new.dir}/docroot/sites/default" mode="0777" quiet="true" failonerror="false" />
+          </then>
+        </if>
+        <chmod file="${bolt.new.dir}" mode="0777" quiet="true" failonerror="false" />
+        <delete dir="${bolt.new.dir}" />
+      </then>
+    </if>
+
+    <!-- (re)Create project directory. -->
+    <mkdir dir="${bolt.new.dir}" />
+    <copy todir="${bolt.new.dir}" >
+      <fileset dir="${bolt.root}/template" casesensitive="false" defaultexcludes="false" excludes=".cvsignore SCCS SCCS/** vssver.scc .svn .svn/** ._* .DS_Store .darcs .darcs/** .git .git/** .gitattributes .gitmodules .idea .idea/** .editorconfig">
+        <!-- Exclude files that should not be copied. -->
+        <exclude name="vendor/**" />
+      </fileset>
+    </copy>
+
+    <!-- Copy configuration files to new project. -->
+    <copy file="${bolt.root}/project.yml" tofile="${bolt.new.dir}/project.yml" overwrite="true" />
+    <copy file="${bolt.root}/local.settings.php" tofile="${bolt.new.dir}/docroot/sites/default/settings/local.settings.php" overwrite="true" />
+    <copy file="${bolt.root}/local.drushrc.php" tofile="${bolt.new.dir}/docroot/sites/default/local.drushrc.php" overwrite="true" />
+
+    <!-- Rename minimal profile in new project. -->
+    <if>
+      <isfalse value="${project.profile.contrib}"/>
+      <then>
+        <property name="bolt.new.profile.dir" value="${bolt.new.dir}/docroot/profiles/custom/${project.profile.name}"/>
+        <move file="${bolt.new.dir}/docroot/profiles/custom/minimal" tofile="${bolt.new.profile.dir}"/>
+        <move file="${bolt.new.profile.dir}/minimal.info.yml" tofile="${bolt.new.profile.dir}/${project.profile.name}.info.yml"/>
+        <move file="${bolt.new.profile.dir}/minimal.install" tofile="${bolt.new.profile.dir}/${project.profile.name}.install"/>
+      </then>
+      <else>
+        <delete dir="${bolt.new.dir}/docroot/profiles/custom/minimal"/>
+      </else>
+    </if>
+
+    <!-- Reflexively expand properties in specified dirs/files. -->
+    <reflexive>
+      <fileset dir="${bolt.new.dir}">
+        <include name="composer.json" />
+        <include name="README.md" />
+        <include name="readme/**/*" />
+        <include name="docroot/profiles/**/*" />
+        <include name="docroot/sites/default/settings.php" />
+        <include name="docroot/sites/all/settings/**/*" />
+        <include name="scripts/git-hooks/*" />
+      </fileset>
+      <filterchain>
+        <expandproperties />
+      </filterchain>
+    </reflexive>
+
+    <!-- Initialize git repository. -->
+    <exec command="git init" dir="${bolt.new.dir}" logoutput="true" passthru="true"/>
+    <exec command="git checkout -b ${git.default_branch}" dir="${bolt.new.dir}" logoutput="true" passthru="true" />
+    <exec command="git add -A" dir="${bolt.new.dir}" logoutput="false" passthru="false" />
+    <exec command="git commit -m 'Initial commit of default files from Bolt.'" dir="${bolt.new.dir}" logoutput="false" passthru="false" />
+
+    <!-- Build composer dependencies. -->
+    <exec dir="${bolt.new.dir}" command="composer install" logoutput="true" passthru="true" checkreturn="true" />
+
+    <echo></echo>
+    <echo>New project was created in ${bolt.new.dir}</echo>
+    <echo>Please change to the new project directory and run the setup task:</echo>
+    <echo>cd ${bolt.new.dir}</echo>
+    <echo>./bolt.sh setup</echo>
+  </target>
+
+  <!-- This target is meant to test Bolt itself on TravisCI.
+       A few things to note:
+       - We do not run validate:* targets, since they can be run in parallel.
+  -->
+  <target name="bolt:self-test" description="Runs tests against acquia/bolt proper.">
+    <phingcall target="bolt:configure" />
+    <phingcall target="bolt:create" />
+    <phingcall target="setup:build:all" />
+    <phingcall target="setup:drupal:install" />
+    <phingcall target="setup:git-hooks" />
+    <phingcall target="setup:behat" />
+    <phingcall target="tests:security-updates" />
+    <phingcall target="tests:behat" />
+    <phingcall target="tests:phpunit" />
+  </target>
+
+  <target name="list" hidden="true">
+    <exec dir="${bolt.root}" command="./bolt.sh -q -l" passthru="true"/>
+  </target>
+
+</project>

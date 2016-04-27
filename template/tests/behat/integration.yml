@@ -1,0 +1,19 @@
+imports:
+  - behat.yml
+
+integration:
+  extensions:
+    Behat\MinkExtension:
+      # This is an example URL For an integration server.
+      base_url: https://example-integration-server.prod.acquia-sites.com/
+      selenium2:
+        # This is an example SauceLabs host URL.
+        wd_host: 4e19c8b-0986-4642-8ffd-c033649db9a2@ondemand.saucelabs.com/wd/hub
+        browser: "firefox"
+        capabilities: { "platform": "Windows 7", "browser": "firefox", "max-duration" : 3600}
+    Drupal\DrupalExtension:
+      drupal:
+        # This must be an absolute path.
+        drupal_root: "/var/www/html/example.integration/docroot"
+      drush:
+        alias: '@example.integration'

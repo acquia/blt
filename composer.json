@@ -1,0 +1,11 @@
+{
+  "name": "acquia/bolt",
+  "license": "proprietary",
+  "require": {
+    "phing/phing": "2.*",
+    "symfony/yaml": "~2.7",
+    "phpunit/phpunit": "4.6.*",
+    "platinumpixs/phing-random-string": "dev-master",
+    "squizlabs/php_codesniffer": "^2.4"
+  }
+}

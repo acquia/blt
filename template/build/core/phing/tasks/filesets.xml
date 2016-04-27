@@ -1,0 +1,52 @@
+<!-- This defines generic, reusable file sets that are used by other targets -->
+<project name="filesets" default="build">
+  <patternset id="files.php">
+    <include name="**/*.inc"/>
+    <include name="**/*.install"/>
+    <include name="**/*.module"/>
+    <include name="**/*.php"/>
+    <include name="**/*.profile"/>
+    <include name="**/*.test"/>
+    <exclude name="**/vendor/**/*"/>
+  </patternset>
+
+  <patternset id="files.frontend">
+    <include name="**/*.js"/>
+    <!-- Ignore CSS. SASS usage is expected. CSS should be compiled. -->
+    <exclude name="**/*.css"/>
+    <exclude name="**/bower_components/**/*"/>
+    <exclude name="**/css/**"/>
+    <exclude name="**/dist/**/*"/>
+    <exclude name="**/lib/**/*"/>
+    <exclude name="**/node_modules/**/*"/>
+    <exclude name="**/styleguide/**"/>
+    <exclude name="**/vendor/**/*"/>
+    <exclude name="**/gulpfile.js"/>
+
+  </patternset>
+
+  <fileset dir="${repo.root}" id="files.php.all">
+    <patternset refid="files.php"/>
+  </fileset>
+
+  <fileset dir="${docroot}/modules/custom" id="files.php.custom.modules">
+    <patternset refid="files.php"/>
+  </fileset>
+
+  <fileset dir="${docroot}/themes/custom" id="files.php.custom.themes">
+    <patternset refid="files.php"/>
+  </fileset>
+
+  <!-- @todo Add multisite subdirs. -->
+  <fileset dir="${docroot}/sites/default/settings" id="files.php.custom.settings" expandsymboliclinks="true">
+    <patternset refid="files.php"/>
+  </fileset>
+
+  <fileset dir="${repo.root}/tests" id="files.php.tests" expandsymboliclinks="true">
+    <patternset refid="files.php"/>
+  </fileset>
+
+  <fileset dir="${docroot}/themes/custom" id="files.frontend.custom.themes" expandsymboliclinks="true">
+    <patternset refid="files.frontend"/>
+  </fileset>
+</project>

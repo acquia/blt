@@ -1,0 +1,15 @@
+#!/bin/sh
+#
+# Cloud Hook: post-files-copy
+#
+# The post-files-copy hook is run whenever you use the Workflow page to
+# copy the files directory from one environment to another. See
+# ../README.md for details.
+#
+# Usage: post-files-copy site target-env source-env
+
+site="$1"
+target_env="$2"
+source_env="$3"
+
+echo "$site.$target_env: Received copy of files from $source_env."

@@ -1,0 +1,4 @@
+ROOM_ID=AAABBBAAA
+AUTH_TOKEN=XXXYYYXXX
+
+HIPCHAT_WEBHOOK_URL=https://api.hipchat.com/v2/room/$ROOM_ID/notification

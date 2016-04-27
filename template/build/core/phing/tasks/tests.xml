@@ -1,0 +1,144 @@
+<project name="tests" default="tests:all">
+
+  <target name="tests:all" description="Runs all tests, including Behat, PHPUnit, and Security Update check."
+          depends="tests:security-updates, tests:behat, tests:phpunit"/>
+
+  <!-- If you experience 'Maximum function nesting level' errors in your PHP
+       error log, set 'xdebug.max_nesting_level=1000' in php.ini. -->
+  <target name="tests:behat" depends="tests:run-server, tests:phantomjs:launch" description="Executes Behat all behat tests in behat.paths.">
+    <mkdir dir="${reports.localDir}/behat"/>
+    <foreach list="${behat.paths}" target="tests:behat:execute" param="behat.path"/>
+    <phingcall target="tests:phantomjs:kill"/>
+  </target>
+
+  <target name="tests:behat:execute" description="Executes behat tests against specific path.">
+    <!-- Check to see if any behat tests exist in this directory. If not,
+         behat will throw fatal error. -->
+    <exec command="find ${behat.path} -name *.feature -print -quit" logoutput="true" outputProperty="behat.tests.found"/>
+
+    <if>
+      <istrue value="${behat.tests.found}"/>
+      <then>
+        <!-- Run behat. Any settings in behat.yml or local.yml will be used. -->
+        <behat executable="${composer.bin}/behat"
+               config="${behat.config}"
+               profile="${behat.profile}"
+               verbose="true"
+               strict="true"
+               haltonerror="false"
+               returnProperty="behatPass"
+               out="std,${reports.localDir}"
+               format="pretty,junit"
+               path="${behat.path}"
+               tags="${behat.tags}"
+        />
+        <if>
+          <!-- A non-zero returns status indicates failure. -->
+          <not><equals arg1="${behatPass}" arg2="0"/></not>
+          <then>
+            <fail message="One ore more Behat tests failed." />
+          </then>
+          <else>
+            <echo>All Behat tests in ${behat.path} have passed.</echo>
+          </else>
+        </if>
+      </then>
+      <else>
+        <echo message="No Behat tests were found in ${behat.path}"/>
+      </else>
+    </if>
+  </target>
+
+  <target name="tests:phantomjs:launch"
+          description="Launches a GhostDriver.">
+
+    <if>
+      <equals arg1="${behat.launch-phantom}" arg2="true"/>
+      <then>
+        <echo message="Launching PhantomJS GhostDriver." />
+        <exec command="${composer.bin}/phantomjs --webdriver=4444"
+              passthru="true"
+              spawn="true"
+              checkreturn="true" />
+      </then>
+    </if>
+  </target>
+
+  <target name="tests:phantomjs:kill"
+          description="Launches a GhostDriver.">
+    <exec command="pgrep phantomjs | xargs kill" logoutput="true" passthru="true" />
+  </target>
+
+  <!-- Execute PHPUnit tests. -->
+  <target name="tests:phpunit" description="Executes PHPUnit tests against custom code." depends="setup:check:docroot">
+    <delete dir="${reports.localDir}/phpunit" quiet="true"/>
+    <mkdir dir="${reports.localDir}/phpunit"/>
+
+    <phpunit printsummary="true" failureproperty="phpunit.failures" errorproperty="phpunit.errors">
+      <formatter type="plain" usefile="false"/>
+      <formatter type="xml" todir="${reports.localDir}/phpunit"/>
+      <batchtest>
+        <fileset dir="${repo.root}/tests/phpunit">
+          <include name="**/*Test*.php"/>
+        </fileset>
+      </batchtest>
+    </phpunit>
+    <phpunitreport infile="${reports.localDir}/phpunit/testsuites.xml" format="noframes" todir="${reports.localDir}/phpunit" />
+    <property name="reports.phpunit.file" value="${reports.localDir}/phpunit/phpunit-noframes.html"/>
+    <echo>PHPUnit Report is available at ${reports.phpunit.file}</echo>
+
+    <if>
+      <or>
+        <equals arg1="${phpunit.failures}" arg2="true"/>
+        <equals arg1="${phpunit.errors}" arg2="true"/>
+      </or>
+      <then>
+        <fail message="PHPUnit Failed. See report for details."/>
+      </then>
+    </if>
+  </target>
+
+  <target name="rsync-results">
+    <property name="reports.remoteDir" value="build-results" />
+
+    <drush command="rsync">
+      <arg>"${reports.localDir}"</arg>
+      <arg>"${drush.aliases.default}:%files/${reports.remoteDir}"</arg>
+    </drush>
+
+    <!-- @todo Add message with link to new reports. -->
+  </target>
+
+  <!-- Optionally run tests against internal PHP server. -->
+  <target name="tests:run-server">
+    <if>
+      <equals arg1="${behat.run-server}" arg2="true"/>
+      <then>
+        <echo message="Using drush runserver for tests." />
+        <echo message="Running server at ${behat.server-url}"/>
+        <exec command="pkill -f runserver" logoutput="true"/>
+        <exec executable="${drush.bin}" dir="${docroot}" spawn="true">
+          <arg line="runserver ${behat.server-url} -l ${multisite.name}"/>
+        </exec>
+        <echo message="Waiting 10 seconds for ${behat.server-url} to become available."/>
+        <waitfor maxwait="10" maxwaitunit="second" checkevery="1" checkeveryunit="second">
+          <http url="${behat.server-url}"/>
+        </waitfor>
+      </then>
+      <else>
+        <echo message="Using local LAMP stack for tests." />
+      </else>
+    </if>
+  </target>
+
+  <!-- Ensure Drupal doesn't have any modules requiring security updates. -->
+  <!-- Intentionally removed checkreturn="true" so that this does not cause failure. -->
+  <target name="tests:security-updates"
+          description="Check local Drupal installation for security updates.">
+    <exec dir="${docroot}"
+          command="! ${drush.cmd} -n ups --check-disabled --security-only 2>/dev/null | grep 'SECURITY UPDATE'"
+          checkreturn="true"
+          logoutput="true"
+          passthru="true"/>
+  </target>
+</project>
