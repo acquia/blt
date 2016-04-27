@@ -53,11 +53,3 @@ maintain the project.
 - Considerations
     * should issues be handled on D.O, GitHub, or both?
         * recommendation: issues should be tracked on GitHub to integrate best with the workflow
-
-## Other factors
-
-### Organization credit on d.o
-
-* Engagement Managers should discuss organizational credit participation with the client
-* If the client is participating, both client organization and Acquia should be credited with all issues, projects, etc. 
-* Otherwise, give sole credit to Acquia
