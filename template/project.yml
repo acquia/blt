@@ -21,7 +21,6 @@ git:
   remotes:
     # Defining git remotes allows builds deployed via CI.
     - bolt8@svn-5223.devcloud.hosting.acquia.com:bolt8.git
-    - git@github.com:acquia-pso/bolted8.git
 
 drush:
   aliases:
