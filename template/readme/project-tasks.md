@@ -13,13 +13,13 @@
 
 Pre-requisites to installation:
 
-1. Ensure that `docroot/sites/default/settings/local.settings.php` exists by 
-  executing `./bolt.sh setup:drupal:settings`. 
-1. Verify that correct local database credentials are set in 
+1. Ensure that `docroot/sites/default/settings/local.settings.php` exists by
+  executing `./bolt.sh setup:drupal:settings`.
+1. Verify that correct local database credentials are set in
   `local.settings.php`.
-1. Ensure that project dependencies have already been built via 
+1. Ensure that project dependencies have already been built via
   `./bolt.sh setup:build:all`
-   
+
 To re-install Drupal, execute: `./bolt.sh setup:drupal:install`. Note that this
 will drop the existing database tables and install Drupal from scratch!
 
@@ -27,21 +27,21 @@ will drop the existing database tables and install Drupal from scratch!
 
 Composer should be used to manage Drupal core, all contributed dependencies, and
 most third party libraries. The primary exception to this is front end libraries
-that may be managed via a front-end specific dependency manager, such as 
+that may be managed via a front-end specific dependency manager, such as
 [Bower](http://bower.io/) or [NPM](https://www.npmjs.com/).
 
 ### Contributed projects and third party libraries
 
-To install or update contributed dependencies or third party libraries, simply 
-update the dependency version(s) in composer.json and run `composer install` or 
+To install or update contributed dependencies or third party libraries, simply
+update the dependency version(s) in composer.json and run `composer install` or
 `composer update`.
 
 All contributed projects hosted on drupal.org, including Drupal core, profiles,
 modules, and themes, can be found on [Drupal packagist]
-(https://packagist.drupal-composer.org/). Most non-Drupal libraries can be 
-found on [Packagist](http://packagist.com/). For any required packaged not 
+(https://packagist.drupal-composer.org/). Most non-Drupal libraries can be
+found on [Packagist](http://packagist.com/). For any required packaged not
 hosted on one of those two sites, you can define your own array of [custom
-repositories](https://getcomposer.org/doc/05-repositories.md#repository) for 
+repositories](https://getcomposer.org/doc/05-repositories.md#repository) for
 Composer to search.
 
 Note that Composer versioning is not identical to drupal.org versioning. See:
@@ -55,17 +55,17 @@ Note that Composer versioning is not identical to drupal.org versioning. See:
 
 ### Drupal core
 
-To update drupal core: 
+To update drupal core:
 
-1. Update the entry for `drupal/core` in the root composer.json. 
-2. Run `composer update`. 
-3. Run `./scripts/drupal/update-scaffold`. This will update the core files not included in `drupal/core`. 
-4. Use git to review changes to committed files. E.g., changes to .htaccess, robots.txt, etc. 
+1. Update the entry for `drupal/core` in the root composer.json.
+2. Run `composer update`.
+3. Run `./scripts/drupal/update-scaffold`. This will update the core files not included in `drupal/core`.
+4. Use git to review changes to committed files. E.g., changes to .htaccess, robots.txt, etc.
 5. Add and commit desired changes.
 
 ## <a name="patch"></a>Patch a project
 
-Please see [patches/README.md](../patches/README.md) for information on patch 
+Please see [patches/README.md](../patches/README.md) for information on patch
 naming, patch application, and patch contribution guidance.
 
 ## <a name="deploy"></a>Deploy to cloud
@@ -85,7 +85,7 @@ To execute PHP codesniffer and PHP lint against the project codebase, run:
 
 Ideally, you will be using a theme that uses SASS/SCSS, a styleguide, and other
 tools that require compilation. Like dependencies, the compiled assets should
-not be directly committed to the project repository. Instead, they should be 
+not be directly committed to the project repository. Instead, they should be
 built during the creation of a production-ready build artifact.
 
 Bolt only natively supports the [Acquia PS Thunder](https://github.com/acquia-pso/thunder)
@@ -93,9 +93,29 @@ base theme.
 
 To install Thunder's dependencies:
 
-1. See [Acquia PS Thunder](https://github.com/acquia-pso/thunder) for system requirements. 
+1. See [Acquia PS Thunder](https://github.com/acquia-pso/thunder) for system requirements.
 1. Execute `/.task frontend:install`.
 
 To build Thunder's assets, execute:
 
 `/.task frontend:build`.
+
+## <a name="local-tasks"></a>Updating you local environment
+
+The project is configured to update the local environment with a local drush alias and a remote alias as defined in `project.yml`. Given that these aliases match, those in `drush/site-aliases/`, you can update the site with Bolt.
+
+### Refresh: Rebuild the codebase, copy the database, and run updates
+
+This all in one command will make sure your local is in sync with the remote site.
+
+`./bolt.sh local:refresh`
+
+### Sync: Copy the database from the remote site
+
+`./bolt.sh local:sync`
+
+### Update: Run update tasks locally
+
+`./bolt.sh local:update`
+
+These tasks can be seen in `build/core/phing/tasks/local-sync.xml`. An additional script can be added at `/hooks/dev/post-db-copy/dev-mode.sh` which would run at the end of this task.

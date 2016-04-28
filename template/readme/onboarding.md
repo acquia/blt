@@ -69,6 +69,7 @@ requests made by Composer.
   database credentials and your local site URL.
 1. Run `./bolt.sh setup`. This will build all project dependencies and install
    drupal.
+1. Create and edit your local drush alias file. Copy `drush/site-aliases/example.local.aliases.drushrc.php` to `drush/site-aliases/local.aliases.drushrc.php`. Edit the new alias file with your local path.
 
 After this initial setup, you should only need to run `./bolt.sh setup:build:all`
 when composer.json is updated, and `./bolt.sh setup:drupal:install` when you
@@ -86,6 +87,12 @@ For readability of commit history, set your name and email address properly:
 
 Ensure that your local email address correctly matches the email address for
 your Jira account.
+
+## Updating you local environment
+
+The project is configured to update the local environment with a local drush alias and a remote alias as defined in `project.yml`. Given that these aliases match, those in `drush/site-aliases/`, you can update the site with Bolt.
+
+[Local Development Tasks](project-tasks.md#local-tasks)
 
 ## GitHub Configuration
 
