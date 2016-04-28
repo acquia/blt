@@ -30,7 +30,7 @@ operating system:
 
 # Generate and modify configuration files
 
-From the Bolt repository’s root directory, run `./bolt.sh bolt:configure`. This 
+From the Bolt repository’s root directory, run `./bolt.sh configure`. This 
 will create your project-specific configuration files. After running, the 
 following files should exist in the Bolt root directory:
 project.yml
@@ -56,7 +56,7 @@ Bolt’s “installer” will do the following:
 * Replaces tokens in copied files with project-specific strings
 * Removes installation artifacts
 
-Run `./bolt.sh bolt:create` to do all the things! Once it’s completed, change 
+Run `./bolt.sh create` to do all the things! Once it’s completed, change 
 directories to your new project directory. E.g., cd /path/to/my/new/project. 
 All subsequent steps will happen inside your new project. You have left the Bolt
 repository behind.

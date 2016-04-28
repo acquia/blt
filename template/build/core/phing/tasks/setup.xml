@@ -27,17 +27,24 @@
   </target>
 
   <target name="setup:build:profile" description="Build a subsidiary makefile shipped with profile">
+    <property name="profile.dir" value="${docroot}/profiles/contrib/${project.profile.name}"/>
+
     <if>
-      <equals arg1="${project.profile.contrib}" arg2="true"/>
+      <and>
+        <equals arg1="${project.profile.contrib}" arg2="true"/>
+        <not><available property="profile.has.composer.json" file="${profile.dir}/composer.json" type="file"/></not>
+      </and>
       <then>
         <echo message="Building make file for ${project.profile.name}"/>
-        <property name="profile.dir" value="${docroot}/profiles/contrib/${project.profile.name}"/>
         <drush command="make" assume="yes" verbose="TRUE">
           <option name="no-core"></option>
           <param>"${profile.dir}/drupal-org.make"</param>
           <param>${profile.dir}</param>
         </drush>
       </then>
+      <else>
+        <echo>${project.profile.name} contains a composer.json, ${profile.dir}/drupal-org.make will not be used.</echo>
+      </else>
     </if>
   </target>
 
