@@ -10,6 +10,7 @@
   <target name="acsf:init" description="Initializes ACSF support for project.">
     <exec dir="${docroot}" command="${drush.cmd} --include=${docroot}/modules/contrib/acsf/acsf_init acsf-init --skip-default-settings -y" logoutput="true" checkreturn="true"/>
     <echo>Please add acsf_init as a dependency for your installation profile to ensure that it remains enabled.</echo>
+    <echo>An example alias file for ACSF is located in /drush/site-aliases/example.acsf.aliases.drushrc.php.</echo>
   </target>
 
   <target name="setup:behat" description="Generates tests/behat/local.yml file for executing Behat tests locally.">

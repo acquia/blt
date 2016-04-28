@@ -31,4 +31,5 @@
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd "`dirname $0`"
 
-vendor/bin/drush.launcher --local --root=${DIR}/docroot "$@"
+# Only list local aliases and load the ones in drush/site-aliases.
+vendor/bin/drush.launcher --local --alias-path=${DIR}/drush/site-aliases "$@"

@@ -19,8 +19,8 @@ class DrushTest extends TestBase {
     $drush_bin = $this->projectDirectory . '/vendor/bin/drush';
     $command = "$drush_bin status";
 
+    // Test that drush can be run from the following directories.
     $dirs = array(
-      $this->projectDirectory,
       $this->projectDirectory . '/docroot',
       $this->projectDirectory . '/docroot/sites/default',
     );
