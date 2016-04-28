@@ -2,67 +2,47 @@
 
 “How do I contribute code to this project?”
 
-First off, take a moment to review our [Best Practices](best-practices.md)
-before writing or submitting any code.
+First off, take a moment to review our [Best Practices](best-practices.md)before writing or submitting any code.
 
 ## Git Workflow
 
-No direct changes should be pushed to the Acquia repository. The process of
-syncing these repositories is managed transparently in the background.
+No direct changes should be pushed to the Acquia repository. The process of syncing these repositories is managed transparently in the background.
 
-The recommended workflow resembles a [Gitflow Workflow]
-(https://www.atlassian.com/git/workflows#!workflow-gitflow) with the follow
-specifics -
+The recommended workflow resembles a [Gitflow Workflow](https://www.atlassian.com/git/workflows#!workflow-gitflow) with the follow specifics -
 
 * All development is performed against a `develop` branch.
-* Completed features are merged into a `release` branch until a new release
-  needs to be made. Additional QA testing should be made against this branch
-  and fixed inline, if needed.
-* Each commit to the `master` branch is tagged with a release number, named
-  either based on sprints (e.g. `24.0`) or date (e.g. `2014-08-19.0`).
-* Any hotfixes are merged directly into a `hotfix` branch, which can then be
-  merged to `master`.
+* Completed features are merged into a `release` branch until a new release needs to be made. Additional QA testing should be made against this branch and fixed inline, if needed.
+* Each commit to the `master` branch is tagged with a release number, named either based on sprints (e.g. `24.0`) or date (e.g. `2014-08-19.0`).
+* Any hotfixes are merged directly into a `hotfix` branch, which can then be merged to `master`.
 
 ## Beginning work locally
 
 1. Pull a ticket in JIRA
 1. Create a new local feature branch named according to the following pattern:
-  `abc-123-short-desc` Where "ABC" is the Jira prefix of your Jira project and
-  "123" is the ticket number for which the work is being performed.
+  `abc-123-short-desc` Where "ABC" is the Jira prefix of your Jira project and "123" is the ticket number for which the work is being performed.
 1. Make your code changes.
-1. Commit your changes. Each commit should be logically atomic, and your commit
-  messages should follow the pattern: "ABC-123 A grammatically correct sentence
-  ending within punctuation."
+1. Commit your changes. Each commit should be logically atomic, and your commit messages should follow the pattern: "ABC-123 A grammatically correct sentence ending within punctuation."
 
 ## Creating a Pull Request
 
-For any work, pull requests must be created for individual tasks and submitted
-for review. Before submitting a pull request, be sure to [sync the local branch]
-(https://help.github.com/articles/syncing-a-fork) with the upstream primary
-branch -
+For any work, pull requests must be created for individual tasks and submitted for review. Before submitting a pull request, be sure to [sync the local branch](https://help.github.com/articles/syncing-a-fork) with the upstream primary branch -
 
     git checkout develop
     git pull upstream develop
     git push origin develop
     git checkout -b XXX-<new-issue-branch> develop
 
-If you created many small commits locally while working through a ticket, you
-should clean the history so that it can be easily reviewed. You can combine
-these commits using `git rebase`.
+If you created many small commits locally while working through a ticket, you should clean the history so that it can be easily reviewed. You can combine these commits using `git rebase`.
 
     git rebase -i upstream/master
 
 Pull requests should never contain merge commits from upstream changes.
 
-Push your feature branch to your fork of the upstream repository, and submit a
-Pull Request from your-fork/feature-branch to canonical-repo/develop. You may
-optionally use [Hub](https://github.com/github/hub) to submit your pull request
-from the command line.
+Push your feature branch to your fork of the upstream repository, and submit a Pull Request from your-fork/feature-branch to canonical-repo/develop. You may optionally use [Hub](https://github.com/github/hub) to submit your pull request from the command line.
 
     hub pull-request
 
-In order to enforce consistency on a project, a pull request template can also
-be configured using `hub` -
+In order to enforce consistency on a project, a pull request template can also be configured using `hub` -
 
     git config --global --add hub.pull-request-template-path ~/.pr-template
 
@@ -94,42 +74,28 @@ Two versions of the integration workflow are recommended -
 1. Integration manager
 1. Peer review
 
-**In either workflow, no one should ever commit their own code to the primary
-working branch.**
+**In either workflow, no one should ever commit their own code to the primary working branch.**
 
 ### Integration Manager
 
-This model requires one (or more) lead developers to take the responsibility of
-merging all pull requests. This ensures consistency in quality control as well
-as identifying any potential issues with related, open pull requests.
+This model requires one (or more) lead developers to take the responsibility of merging all pull requests. This ensures consistency in quality control as well as identifying any potential issues with related, open pull requests.
 
-A small group of one or more person(s) is selected to be integrators. All
-commits are reviewed by this group. If work is done by an integrator, their work
-should be reviewed by a fellow integrator (as if they were a developer).
+A small group of one or more person(s) is selected to be integrators. All commits are reviewed by this group. If work is done by an integrator, their work should be reviewed by a fellow integrator (as if they were a developer).
 
 ### Peer Review
 
-This model removes the bottleneck of designated integrators, but still
-eliminates commits directly to the working branch. In short, every commit is
-reviewed by a developer other than the one submitting the original commit.
+This model removes the bottleneck of designated integrators, but still eliminates commits directly to the working branch. In short, every commit is reviewed by a developer other than the one submitting the original commit.
 
 ## Continuous Integration
 
-After a Pull Request has been submitted or merged, our continuous integration
-solution will automatically build a site artifact, install an ephemeral instance
-of Drupal, and execute tests against it. For more information on the build
-process, please see the [build directory](../build/README.md).
+After a Pull Request has been submitted or merged, our continuous integration solution will automatically build a site artifact, install an ephemeral instance of Drupal, and execute tests against it. For more information on the build process, please see the [build directory](../build/README.md).
 
 ## Deployment on Cloud
 
-Once work has been merged on GitHub and tested via the CI solution, a separate
-production-ready built artifact will be built and deployed to Acquia Cloud.
-This can be done either manually or automatically.
+Once work has been merged on GitHub and tested via the CI solution, a separate production-ready built artifact will be built and deployed to Acquia Cloud. This can be done either manually or automatically.
 
 Please see [deploy.md](deploy.md) for more information.
 
 ## Release Process
 
-A designated Release Master will perform the release to production. This is
-typically the project’s Technical Architect. See the
-[Release Process document](release-process.md) for detailed information.
+A designated Release Master will perform the release to production. This is typically the project’s Technical Architect. See the [Release Process document](release-process.md) for detailed information.

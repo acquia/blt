@@ -2,23 +2,15 @@
 
 "How do I perform a code review?"
 
-This document provides guidance for performing a review of another developer's
-code. This should occur on GitHub via a Pull Request. See [dev-workflow.md]
-(dev-workflow.md) for information on how to submit Pull Requests, and how they 
-fit into the development workflow.
+This document provides guidance for performing a review of another developer's code. This should occur on GitHub via a Pull Request. See [dev-workflow.md](dev-workflow.md) for information on how to submit Pull Requests, and how they fit into the development workflow.
 
 > "You just review the code right?" - Tim Holt
 
-No. Code review is both an art and a science. All code merged into a project
-should be reviewed. 
+No. Code review is both an art and a science. All code merged into a project should be reviewed. 
 
-In addition to ensuring that the code being reviewed meets the established 
-standards, the code reviewer must consider whether the work is being 
-accomplished in the best way given the project priorities and constraints. 
+In addition to ensuring that the code being reviewed meets the established standards, the code reviewer must consider whether the work is being accomplished in the best way given the project priorities and constraints. 
 
-It is not possible to create an exhaustive list of all things that should be 
-checked in a code review. Rather, we will enumerate the major considerations 
-that a code reviewer should make and include a few high level examples for each:
+It is not possible to create an exhaustive list of all things that should be checked in a code review. Rather, we will enumerate the major considerations that a code reviewer should make and include a few high level examples for each:
 
 * __Purpose and scope__ Does the code do the right things?
     * Does the code meet the requirements of the ticket?
@@ -32,8 +24,7 @@ that a code reviewer should make and include a few high level examples for each:
         * Use of t() 
     * Does it follow basic code principles? E.g.,
         * Functions are logically amotic with low cyclomatic complexity
-        * Logic is being performed at the correct layer. E.g., no logic in the
-        presentation layer.
+        * Logic is being performed at the correct layer. E.g., no logic in the presentation layer.
         * Are its components re-usable?
     * Verify [best practices](best-practices.md) are being used. E.g.,
         * Views
@@ -60,8 +51,7 @@ that a code reviewer should make and include a few high level examples for each:
     * Ensure that Drupal security best practices are being used:
        * [D7](https://drupal.org/writing-secure-code)
        * [D8](https://www.drupal.org/node/2489544)
-    * Verify that any contrib modules being added have stable releases and do 
-    not have outstanding [security advisories](https://www.drupal.org/security/contrib).
+    * Verify that any contrib modules being added have stable releases and do not have outstanding [security advisories](https://www.drupal.org/security/contrib).
 * __Performance__ How does the code impact site performance?
     * Code should [implement caching](best-practices.md#caching) whenever possible
         * Caution with using `$_SESSION`, which invalidates page cache
@@ -72,21 +62,15 @@ that a code reviewer should make and include a few high level examples for each:
               in `try { ... } catch (EntityMetadataWrapperException $e) { ... }`
         * Caution with `hook_init()` and `hook_boot()`
 * __Test coverage__ Does the pull request include required [automated tests](../tests/README.md)? 
-    * All application functionality should be covered by a functional test via
-    either Behat or PHPUnit
+    * All application functionality should be covered by a functional test via either Behat or PHPUnit
     * All custom libraries should be covered using unit tests via PHPUnit
 * __Documentation__
-    * Minimum documentation requirements set forth by Drupal Coding Standard
-      should be met.
-    * The code itself should be correctly self-documenting: [Code Tells You How,
-    Comments Tell You Why](http://blog.codinghorror.com/code-tells-you-how-comments-tell-you-why/)
+    * Minimum documentation requirements set forth by Drupal Coding Standard should be met.
+    * The code itself should be correctly self-documenting: [Code Tells You How, Comments Tell You Why](http://blog.codinghorror.com/code-tells-you-how-comments-tell-you-why/)
     * Additional user-facing documentation is included where necessary
 * Configuration management
-    * All configuration should be managed in code. Databases are never pushed
-     upstream.
-    * All required configuration changes should be managed in code via update
-    hooks. In most cases, it should not be necessary for the Release Master to 
-    run anything beyond `drush updb` when running a release.
+    * All configuration should be managed in code. Databases are never pushed upstream.
+    * All required configuration changes should be managed in code via update hooks. In most cases, it should not be necessary for the Release Master to run anything beyond `drush updb` when running a release.
 
 ## Resources
 

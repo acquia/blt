@@ -14,5 +14,4 @@ This directory contains [Acquia Cloud hooks](https://docs.acquia.com/cloud/manag
 
 ### Documentation
 
-For detailed information on how to implement these hooks, read the [documentation on Acquia.com](https://docs.acquia.com/cloud/manage/cloud-hooks)
-or visit the [Cloud Hook repository](https://github.com/acquia/cloud-hooks).
+For detailed information on how to implement these hooks, read the [documentation on Acquia.com](https://docs.acquia.com/cloud/manage/cloud-hooks)or visit the [Cloud Hook repository](https://github.com/acquia/cloud-hooks).
