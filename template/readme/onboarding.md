@@ -1,12 +1,10 @@
 # Onboarding
 
-Here is a quick-start guide to getting your local development environment
-set up and getting oriented with the project standards and workflows.
+Here is a quick-start guide to getting your local development environment set up and getting oriented with the project standards and workflows.
 
 ## Required SAAS Access:
 
-Please ask the project's engagement manager for access to the following SAAS
-services:
+Please ask the project's engagement manager for access to the following SAAS services:
 
 * JIRA
 * GitHub repository
@@ -14,8 +12,7 @@ services:
 
 ## System Requirements
 
-You should be able to use the following tools on the command line of your native
-operating system:
+You should be able to use the following tools on the command line of your native operating system:
 
 * [Git](https://git-scm.com/)
 * [Composer](https://getcomposer.org/download/)
@@ -26,11 +23,7 @@ operating system:
 
 ### Operating Systems
 
-We highly recommend that you *do not use Windows* directly for development.
-Many development tools (e.g., drush, gulp, etc.) are not built or tested for
-Windows compatibility. Furthermore, most CI solutions (e.g., Travis CI,
-Drupal CI, etc.) do not permit testing on Windows OS. Similarly, Bolt cannot be
-fully tested on Windows and is unsupported on this platform.
+We highly recommend that you *do not use Windows* directly for development. Many development tools (e.g., drush, gulp, etc.) are not built or tested for Windows compatibility. Furthermore, most CI solutions (e.g., Travis CI, Drupal CI, etc.) do not permit testing on Windows OS. Similarly, Bolt cannot be fully tested on Windows and is unsupported on this platform.
 
 If you must use Windows, we recommend that:
 * You have administrator access to your machine
@@ -42,18 +35,13 @@ If you must use Windows, we recommend that:
 
 ### Networking considerations
 
-Building project dependencies requires that your local machine make HTTP and
-HTTPS requests to various software providers on the internet. Please ensure
-that your local and network level security settings permit this to happen.
+Building project dependencies requires that your local machine make HTTP and HTTPS requests to various software providers on the internet. Please ensure that your local and network level security settings permit this to happen.
 
-If you need to make requests via a proxy server, please [configure git to use
-a proxy](http://stackoverflow.com/a/19213999). This will cover all git based
-requests made by Composer.
+If you need to make requests via a proxy server, please [configure git to use a proxy](http://stackoverflow.com/a/19213999). This will cover all git based requests made by Composer.
 
 ## Initial Setup
 
-1. [Fork](https://help.github.com/articles/fork-a-repo) the primary GitHub
-   repository
+1. [Fork](https://help.github.com/articles/fork-a-repo) the primary GitHub repository
 1. Clone your fork to your local machine:
 
        ```
@@ -71,12 +59,9 @@ requests made by Composer.
    drupal.
 1. Create and edit your local drush alias file. Copy `drush/site-aliases/example.local.aliases.drushrc.php` to `drush/site-aliases/local.aliases.drushrc.php`. Edit the new alias file with your local path.
 
-After this initial setup, you should only need to run `./bolt.sh setup:build:all`
-when composer.json is updated, and `./bolt.sh setup:drupal:install` when you
-need to reinstall the site.
+After this initial setup, you should only need to run `./bolt.sh setup:build:all` when composer.json is updated, and `./bolt.sh setup:drupal:install` when you need to reinstall the site.
 
-For a full list of available project tasks, run `./bolt.sh -l`. See
-[Project Tasks](project-tasks.md) for more information.
+For a full list of available project tasks, run `./bolt.sh -l`. See [Project Tasks](project-tasks.md) for more information.
 
 ### Local Git Configuration
 
@@ -85,8 +70,7 @@ For readability of commit history, set your name and email address properly:
     git config user.name "Your Name"
     git config user.email your-email-address@example.com
 
-Ensure that your local email address correctly matches the email address for
-your Jira account.
+Ensure that your local email address correctly matches the email address for your Jira account.
 
 ## Updating you local environment
 
@@ -96,21 +80,15 @@ The project is configured to update the local environment with a local drush ali
 
 ## GitHub Configuration
 
-In order to more easily identify developers in a project, please be sure to set
-a name and profile picture in your GitHub profile.
+In order to more easily identify developers in a project, please be sure to set a name and profile picture in your GitHub profile.
 
-When working with GitHub, the [hub](https://github.com/github/hub) utility can
-be helpful when managing forks and pull requests. Installing hub largely depends
-on your local environment, so please follow the [installation instructions]
-(https://github.com/github/hub#installation) accordingly.
+When working with GitHub, the [hub](https://github.com/github/hub) utility can be helpful when managing forks and pull requests. Installing hub largely depends on your local environment, so please follow the [installation instructions](https://github.com/github/hub#installation) accordingly.
 
 ## Configure Local Environment
 
-Please see [Local Development](local-development.md) for detailed information
-on setting up a local \*AMP stack.
+Please see [Local Development](local-development.md) for detailed information on setting up a local \*AMP stack.
 
-When you have completed setting up your local \*AMP stack, please have the
-following information ready and available:
+When you have completed setting up your local \*AMP stack, please have the following information ready and available:
 
 * The intended local URL of the site
 * The local database credentials

@@ -13,36 +13,21 @@
 
 Pre-requisites to installation:
 
-1. Ensure that `docroot/sites/default/settings/local.settings.php` exists by
-  executing `./bolt.sh setup:drupal:settings`.
-1. Verify that correct local database credentials are set in
-  `local.settings.php`.
-1. Ensure that project dependencies have already been built via
-  `./bolt.sh setup:build:all`
-
-To re-install Drupal, execute: `./bolt.sh setup:drupal:install`. Note that this
-will drop the existing database tables and install Drupal from scratch!
+1. Ensure that `docroot/sites/default/settings/local.settings.php` exists by executing `./bolt.sh setup:drupal:settings`. 
+1. Verify that correct local database credentials are set in `local.settings.php`.
+1. Ensure that project dependencies have already been built via `./bolt.sh setup:build:all`
+   
+To re-install Drupal, execute: `./bolt.sh setup:drupal:install`. Note that this will drop the existing database tables and install Drupal from scratch!
 
 ## <a name="update-dependency"></a>Update dependencies (core, profile, module, theme, libraries)
 
-Composer should be used to manage Drupal core, all contributed dependencies, and
-most third party libraries. The primary exception to this is front end libraries
-that may be managed via a front-end specific dependency manager, such as
-[Bower](http://bower.io/) or [NPM](https://www.npmjs.com/).
+Composer should be used to manage Drupal core, all contributed dependencies, and most third party libraries. The primary exception to this is front end libraries that may be managed via a front-end specific dependency manager, such as [Bower](http://bower.io/) or [NPM](https://www.npmjs.com/).
 
 ### Contributed projects and third party libraries
 
-To install or update contributed dependencies or third party libraries, simply
-update the dependency version(s) in composer.json and run `composer install` or
-`composer update`.
+To install or update contributed dependencies or third party libraries, simply update the dependency version(s) in composer.json and run `composer install` or `composer update`.
 
-All contributed projects hosted on drupal.org, including Drupal core, profiles,
-modules, and themes, can be found on [Drupal packagist]
-(https://packagist.drupal-composer.org/). Most non-Drupal libraries can be
-found on [Packagist](http://packagist.com/). For any required packaged not
-hosted on one of those two sites, you can define your own array of [custom
-repositories](https://getcomposer.org/doc/05-repositories.md#repository) for
-Composer to search.
+All contributed projects hosted on drupal.org, including Drupal core, profiles, modules, and themes, can be found on [Drupal packagist](https://packagist.drupal-composer.org/). Most non-Drupal libraries can be found on [Packagist](http://packagist.com/). For any required packaged not hosted on one of those two sites, you can define your own array of [custom repositories](https://getcomposer.org/doc/05-repositories.md#repository) for Composer to search.
 
 Note that Composer versioning is not identical to drupal.org versioning. See:
 
@@ -65,31 +50,23 @@ To update drupal core:
 
 ## <a name="patch"></a>Patch a project
 
-Please see [patches/README.md](../patches/README.md) for information on patch
-naming, patch application, and patch contribution guidance.
+Please see [patches/README.md](../patches/README.md) for information on patch naming, patch application, and patch contribution guidance.
 
 ## <a name="deploy"></a>Deploy to cloud
 
-Please see [Deploy](deploy.md) for a detailed description of how to deploy to
- Acquia Cloud.
+Please see [Deploy](deploy.md) for a detailed description of how to deploy to Acquia Cloud.
 
 ## <a name="tests"></a>Run tests & code validation
 
-Please see [tests/README.md](../tests/README.md) for information on running
-tests.
+Please see [tests/README.md](../tests/README.md) for information on running tests.
 
-To execute PHP codesniffer and PHP lint against the project codebase, run:
-`./bolt.sh validate:all`
+To execute PHP codesniffer and PHP lint against the project codebase, run: `./bolt.sh validate:all`
 
 ## <a name="frontend"></a>Build front end assets
 
-Ideally, you will be using a theme that uses SASS/SCSS, a styleguide, and other
-tools that require compilation. Like dependencies, the compiled assets should
-not be directly committed to the project repository. Instead, they should be
-built during the creation of a production-ready build artifact.
+Ideally, you will be using a theme that uses SASS/SCSS, a styleguide, and other tools that require compilation. Like dependencies, the compiled assets should not be directly committed to the project repository. Instead, they should be built during the creation of a production-ready build artifact.
 
-Bolt only natively supports the [Acquia PS Thunder](https://github.com/acquia-pso/thunder)
-base theme.
+Bolt only natively supports the [Acquia PS Thunder](https://github.com/acquia-pso/thunder) base theme.
 
 To install Thunder's dependencies:
 

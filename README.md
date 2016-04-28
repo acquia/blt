@@ -1,53 +1,37 @@
 # Bolt
 
-Bolt is a tool that generates new Drupal projects using a standardized template
-derived from Acquia Professional Services' best practices.
+Bolt is a tool that generates new Drupal projects using a standardized template derived from Acquia Professional Services' best practices.
 
 ## License
 
 Copyright (C) 2016 Acquia, Inc.
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 ## Philosophy and Purpose
 
-Bolt is designed to improve efficiency and collaboration across Drupal projects 
-by providing a common set of tools and standardized structure. It was born out 
-of the need to reduce re-work, project set up time, and developer onboarding 
-time.
+Bolt is designed to improve efficiency and collaboration across Drupal projects by providing a common set of tools and standardized structure. It was born out of the need to reduce re-work, project set up time, and developer onboarding time.
 
 Its explicit goals are to:
 
 * Provide a standard project template for Drupal based projects
-* Provide tools that automate much of the setup and maintenance work for 
-  projects
-* Document and enforce Drupal standards and best practices via default 
-  configuration, automated testing, and continuous integration
+* Provide tools that automate much of the setup and maintenance work for projects
+* Document and enforce Drupal standards and best practices via default configuration, automated testing, and continuous integration
 
 It scope is discretely defined. It is *not* intended to provide:
 
-* Drupal application features (e.g., workflow, media, layout, pre-fabbed content
-  types, etc.)
+* Drupal application features (e.g., workflow, media, layout, pre-fabbed content types, etc.)
 * A local hosting environment
-* A replacement for good judgement (as with Drupal, it leaves you the freedom to
-  make mistakes)
+* A replacement for good judgement (as with Drupal, it leaves you the freedom to make mistakes)
 
 ## Creating a new project with Bolt
 
-It isn’t accurate to say that you can “install” Bolt. Rather, you can use Bolt 
-to generate a new project. Within that project, you can then perform common 
-project tasks like build dependencies, install Drupal, run tests, etc.
+It isn’t accurate to say that you can “install” Bolt. Rather, you can use Bolt to generate a new project. Within that project, you can then perform common project tasks like build dependencies, install Drupal, run tests, etc.
 
-Follow the instructions in [INSTALL.md](INSTALL.md) to generate a new project
-using Bolt.
+Follow the instructions in [INSTALL.md](INSTALL.md) to generate a new project using Bolt.
 
 ## Features
 
@@ -77,39 +61,27 @@ using Bolt.
 
 This is a popular question, and it's difficult to answer. 
 
-Bolt is designed as a "starter kit" rather than a "distribution". It 
-intentionally began with a "fork it and forget it" approach to updates. This is
-largely due to the fact that Bolt generated files are templates that are meant 
-to be customized, and pulling in upstream updates would wipe out those 
-customizations.
+Bolt is designed as a "starter kit" rather than a "distribution". It intentionally began with a "fork it and forget it" approach to updates. This is largely due to the fact that Bolt generated files are templates that are meant to be customized, and pulling in upstream updates would wipe out those customizations.
 
-That said, there are components of Bolt that could be treated as dependencies
-that receive upstream updates. Those components include:
+That said, there are components of Bolt that could be treated as dependencies that receive upstream updates. Those components include:
 
 * Project tasks
 * Scripts
 * Acquia Cloud hooks
 
-The ideal approach would be to split each of these into a separate, versioned
-projects that could be treated as formal composer.json dependencies, but we 
-don't currently have the resources to maintain all of those projects.
+The ideal approach would be to split each of these into a separate, versioned projects that could be treated as formal composer.json dependencies, but we don't currently have the resources to maintain all of those projects.
 
-As a stopgap, you can run the following command to pull in upstream updates to 
-specific files and directories in your Bolt generated project:
+As a stopgap, you can run the following command to pull in upstream updates to specific files and directories in your Bolt generated project:
 
 `./bolt.sh setup:bolt:update`
 
-After running, you can review changes via `git diff` and decide what should be
-committed.
+After running, you can review changes via `git diff` and decide what should be committed.
 
 # License, support, and contribution
 
-Bolt is provided as an open source tool in the hope that it will enabled 
-developers to easily generate new Drupal projects that conform to Acquia 
-Professional Services' best practices.
+Bolt is provided as an open source tool in the hope that it will enabled developers to easily generate new Drupal projects that conform to Acquia Professional Services' best practices.
 
-Please feel free to contribute to the project or file issues via the GitHub 
-issue queue. When doing so, please keep the following points in mind:
+Please feel free to contribute to the project or file issues via the GitHub issue queue. When doing so, please keep the following points in mind:
  
 * Bolt is distributed under the GPLv3 license; WITHOUT ANY WARRANTY.
 * The project maintainers make no commitment to respond to support requests, 
