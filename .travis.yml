@@ -46,8 +46,8 @@ before_script:
 
 script:
   # Generate a new 'bolted' project.
-  - ./bolt.sh bolt:configure
-  - ./bolt.sh bolt:create
+  - ./bolt.sh configure
+  - ./bolt.sh create
   # Call targets in the new 'bolted' project.
   - ../bolted8/bolt.sh build:validate:test -Dbehat.run-server=true -Dbehat.launch-phantom=true
   # Deploy build artifact.
