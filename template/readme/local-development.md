@@ -3,7 +3,7 @@
 Acquia currently recommends the use of either:
 
   * [Drupal VM](http://www.drupalvm.com/): An isolated virtual machine, built with Vagrant and Ansible.
-  * [Acquia Dev Desktop](https://www.acquia.com/products-services/dev-desktop) A turn-key LAMP stack tailored specifically for Acquia-hosted Drupal sites.
+  * [Acquia Dev Desktop](https://www.acquia.com/products-services/dev-desktop): A turn-key LAMP stack tailored specifically for Acquia-hosted Drupal sites.
 
 No matter what local environment you choose to use, the following guidelines should be followed:
 
