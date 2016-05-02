@@ -47,6 +47,8 @@ before_script:
   - rm -f ~/.drush/cache/download/*---updates.drupal.org-release-history-*
   # Verify that no git diffs (caused by line ending variation) exist.
   - git diff --exit-code
+  # Verify that composer json and lock files are valid.
+  - composer validate
 
 script:
   - ./bolt.sh -Dbehat.run-server=true -Dbehat.launch-phantom=true build:validate:test
