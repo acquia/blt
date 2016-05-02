@@ -1,6 +1,6 @@
 <project name="local" default="local:refresh">
 
-  <target name="local:refresh" description="Refreshes local environment from upstream testing database." depends="setup:build:all, local:sync, local:update"/>
+  <target name="local:refresh" description="Refreshes local environment from upstream testing database." depends="setup:build:all, frontend:build, local:sync, local:update"/>
 
   <target name="local:sync" description="Synchronize remote environment with local environment."
           depends="setup:drupal:settings">
