@@ -51,6 +51,13 @@
 
   <target name="deploy:artifact:build" description="Generates a deploy-ready build in deploy.dir."
           depends="deploy:artifact:clean, deploy:artifact:copy, deploy:artifact:composer:install, deploy:artifact:profile:make, frontend:build, deploy:artifact:sanitize">
+    <!-- If we are using ACSF, run the ACSF Deploy command. -->
+    <if>
+      <equals arg1="${hosting}" arg2="acsf"/>
+      <then>
+        <phingcall target="deploy:acsf:init"/>
+      </then>
+    </if>
   </target>
 
   <target name="deploy:artifact:clean" description="Deletes the contents of the deploy dir.">
@@ -169,5 +176,10 @@
         <include name="**/CHANGELOG.txt"/>
       </fileset>
     </delete>
+  </target>
+
+  <target name="deploy:acsf:init" description="Re-initialize ACSF with the settings.php changes required for artifact.">
+    <chmod file="${deploy.dir}/docroot/sites/default/settings.php" mode="0755" />
+    <exec dir="${deploy.dir}/docroot" command="${drush.bin} --include=${deploy.dir}/docroot/modules/contrib/acsf/acsf_init acsf-init -y" logoutput="true" checkreturn="true"/>
   </target>
 </project>
