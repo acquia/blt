@@ -27,7 +27,12 @@ If you must use Windows, we recommend that:
 
 To use Drupal VM with a Drupal project that is generated with Bolt, first place your downloaded copy of Drupal VM inside the generated Drupal project folder, and name the drupal-vm directory `box`.
 
-Follow the Quick Start Guide in [Drupal VM's README](https://github.com/geerlingguy/drupal-vm#quick-start-guide), but before you run  `vagrant up`, make the following changes to your VM
+To make sure Drush commands work correctly with Drupal VM, inside the new project's `build/custom/phing/build.yml` file, override the `docroot` used for Drush commands with the value:
+
+    drush:
+      root: /var/www/[project_acquia_subname]/docroot
+
+Then follow the Quick Start Guide in [Drupal VM's README](https://github.com/geerlingguy/drupal-vm#quick-start-guide), but before you run  `vagrant up`, make the following changes to your VM
 `config.yml` file:
 
     # Update the hostname to the local development environment hostname.
