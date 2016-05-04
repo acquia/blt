@@ -1,0 +1,5 @@
+<?php
+// Include required files
+require_once DRUPAL_ROOT . '/sites/default/settings/envprotect.settings.php';
+// Call functionality from settings/features/envprotect.settings.php.
+protect_environment();
