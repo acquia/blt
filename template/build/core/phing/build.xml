@@ -4,8 +4,8 @@
   <includepath classpath="${core.phing.dir}" />
   <taskdef name="behat" classname="phingcludes.BehatTask"/>
   <taskdef name="drush" classname="phingcludes.DrushTask"/>
+  <taskdef name="filterFileListByFileSet" classname="phingcludes.FilterFileListByFileSetTask"/>
   <taskdef name="phpVariable" classname="phingcludes.PhpVariableTask"/>
-  <typedef name="fileInFileset" classname="phingcludes.FileInFilesetCondition"/>
 
   <!-- Include task partials -->
 
