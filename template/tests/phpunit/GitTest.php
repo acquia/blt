@@ -66,7 +66,7 @@ class GitTasksTest extends TestBase {
     // Commits must be executed inside of new project directory.
     chdir($this->projectDirectory);
     $prefix = $this->config['project']['prefix'];
-    $command = "git commit --amend -m '$prefix-123: This is a good commit.' 2>&1";
+    $command = "git commit --amend -m '$prefix-123: This is a good commit.' 2>&1 && git reset HEAD~1";
     $output = shell_exec($command);
     $this->assertNotContains('PHP Code Sniffer was not found', $output);
     $this->assertContains('Sniffing staged files via PHP Code Sniffer.', $output);
@@ -87,7 +87,7 @@ class GitTasksTest extends TestBase {
     chdir($this->projectDirectory);
 
     // "2>&1" redirects standard error output to standard output.
-    $command = "git commit --amend -m '$commit_message' 2>&1";
+    $command = "git commit --amend -m '$commit_message' 2>&1 && git reset HEAD~1";
     print "Executing \"$command\" \n";
 
     $output = shell_exec($command);
