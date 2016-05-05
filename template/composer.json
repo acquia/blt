@@ -10,7 +10,6 @@
   ],
   "require": {
     "composer/installers": "^1.0.20",
-    "drush/drush": "dev-master",
     "drupal/acquia_connector": "8.1.*",
     "drupal/acsf": "~8.1",
     "drupal/core": "~8",
@@ -28,6 +27,7 @@
     "behat/mink-goutte-driver":     "*",
     "behat/mink-selenium2-driver":  "*",
     "behat/mink-browserkit-driver": "*",
+    "drush/drush":                  "dev-master",
     "drupal/drupal-extension":      "~3.0",
     "drupal/coder":                 "~8.2",
     "phpunit/phpunit":              "4.6.*",
@@ -54,9 +54,6 @@
     "patches": {
       "drupal/core": {
         "Ignore front end vendor folders to improve directory search performance": "https://www.drupal.org/files/issues/ignore_front_end_vendor-2329453-116.patch"
-      },
-      "drupal/acsf": {
-        "Allow custom settings.php": "https://www.drupal.org/files/issues/acsf-2706365-2.patch"
       }
     }
   },

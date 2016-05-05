@@ -28,3 +28,8 @@ drush:
     remote: ${acquia_subname}.test
     # The local environment against which all local drush commands are run.
     local: self
+
+# Hosting environment flags.
+# Examples: acsf (Acquia Cloud Site Factory), ac (Acquia Cloud)
+# hosting: "acsf"
+# hosting: "ac"
