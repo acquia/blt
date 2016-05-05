@@ -1,7 +1,7 @@
 project:
-  # The acquia_subname value is the machine name of your Github repository.
   # This will determine the the directory name of the new repository.
-  acquia_subname: 'bolted8'
+  # Dev Desktop users: this should match your local site name
+  machine_name: 'bolted8'
   # Used for enforcing correct git commit msg syntax.
   prefix: 'BLT'
   human_name: 'Bolted 8'
@@ -25,7 +25,7 @@ git:
 drush:
   aliases:
     # The remote environment from which the database will be pulled.
-    remote: ${acquia_subname}.test
+    remote: ${machine_name}.test
     # The local environment against which all local drush commands are run.
     local: self
 

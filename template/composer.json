@@ -1,5 +1,5 @@
 {
-  "name":    "acquia/${project.acquia_subname}",
+  "name": "acquia/${project.machine_name}",
   "license": "proprietary",
   "type":    "project",
   "repositories": [

@@ -733,8 +733,8 @@ if ($is_ah_env && file_exists('/var/www/site-php')) {
  * Keep this code block at the end of this file to take full effect.
  */
 if ($is_local_env) {
-  if (isset($_SERVER['DEVDESKTOP_DRUPAL_SETTINGS_DIR']) && file_exists($_SERVER['DEVDESKTOP_DRUPAL_SETTINGS_DIR'] . '/loc_${project.acquia_subname}_dd.inc')) {
-    require $_SERVER['DEVDESKTOP_DRUPAL_SETTINGS_DIR'] . '/loc_${project.acquia_subname}_dd.inc';
+  if (isset($_SERVER['DEVDESKTOP_DRUPAL_SETTINGS_DIR']) && file_exists($_SERVER['DEVDESKTOP_DRUPAL_SETTINGS_DIR'] . '/loc_${project.machine_name}_dd.inc')) {
+    require $_SERVER['DEVDESKTOP_DRUPAL_SETTINGS_DIR'] . '/loc_${project.machine_name}_dd.inc';
   }
   elseif (file_exists(DRUPAL_ROOT . '/sites/default/settings/local.settings.php')) {
     require DRUPAL_ROOT . '/sites/default/settings/local.settings.php';
