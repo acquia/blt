@@ -86,6 +86,19 @@ Once you've made these changes and completed the steps in Drupal VM's Quick Star
 
 Add a new site in Dev Desktop by selecting _Import local Drupal site_. Point it at the `docroot` folder inside your new code base. Your `/sites/default/settings.php` file will be modified automatically to include the Dev Desktop database connection information.
 
+### Drush support
+
+In order to use a custom version of Drush with Dev Desktop, you must add the
+following lines to ~/.bash_profile:
+
+```
+export PATH="/Applications/DevDesktop/mysql/bin:$PATH"
+export DEVDESKTOP_DRUPAL_SETTINGS_DIR="$HOME/.acquia/DevDesktop/DrupalSettings"
+
+```
+
+Restart your terminal session after adding these lines.
+
 ## Alternative local development environments
 
 For reasons, some teams may prefer to use a different development environment. Drupal VM offers a great deal of flexibility and a uniform configuration for everyone, but sometimes a tool like Acquia Dev Desktop, MAMP/XAMPP, or a different environment (e.g. a bespoke Docker-based dev environment) may be preferable.
