@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "454a40ad7ef39c67c0f9b6ae164e3641",
-    "content-hash": "353b63ede0316c6c68e97796502d7b18",
+    "hash": "0aeddfa45af62bbd898734bba421be6f",
+    "content-hash": "fbc4331317d312b5bfafc43252963472",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -1309,6 +1309,38 @@
             "time": "2016-04-14 01:03:52"
         },
         {
+            "name": "drupal/entity",
+            "version": "8.1.0-alpha3",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/entity",
+                "reference": "70a105ae063c54bf59e67f9e41cb9121374acb7c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/entity-8.x-1.0-alpha3.zip",
+                "reference": null,
+                "shasum": null
+            },
+            "require": {
+                "drupal/core": "~8.1",
+                "drupal/system": ">=8.1.0"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-8.x-1.x": "8.1.x-dev"
+                }
+            },
+            "notification-url": "https://packagist.drupal-composer.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "description": "Provides expanded entity APIs, which will be moved to Drupal core one day.",
+            "homepage": "http://drupal.org/project/entity",
+            "time": "2016-04-27 08:54:12"
+        },
+        {
             "name": "drupal/entity_embed",
             "version": "8.1.0-alpha1",
             "source": {
@@ -1383,15 +1415,15 @@
         },
         {
             "name": "drupal/inline_entity_form",
-            "version": "8.1.0-alpha5",
+            "version": "8.1.0-alpha6",
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/inline_entity_form",
-                "reference": "ae44ef3d00a070ba137f6929772863ff7218926f"
+                "reference": "27af4de9fd961fa6ae1369604d05fec8b06db867"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/inline_entity_form-8.x-1.0-alpha5.zip",
+                "url": "https://ftp.drupal.org/files/projects/inline_entity_form-8.x-1.0-alpha6.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -1410,7 +1442,7 @@
             ],
             "description": "Provides a widget for inline management (creation, modification, removal) of referenced entities. ",
             "homepage": "https://www.drupal.org/project/inline_entity_form",
-            "time": "2016-02-29 21:27:04"
+            "time": "2016-04-18 21:57:48"
         },
         {
             "name": "drupal/layout_plugin",
@@ -1468,15 +1500,15 @@
         },
         {
             "name": "drupal/lightning",
-            "version": "8.1.00-rc3",
+            "version": "8.1.00-rc4",
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/lightning.git",
-                "reference": "1f0e3a6f280ffcc0c29d20435322c44265d72e3a"
+                "reference": "92bd014d22e366382f6f3fc4c3da56f9c3c9156a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/lightning-8.x-1.00-rc3.zip",
+                "url": "https://ftp.drupal.org/files/projects/lightning-8.x-1.00-rc4.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -1498,6 +1530,7 @@
                 "drupal/dblog": "8.*",
                 "drupal/editor": "8.*",
                 "drupal/embed": "8.1.0-rc2",
+                "drupal/entity": "8.1.0-alpha3",
                 "drupal/entity_embed": "8.1.0-alpha1",
                 "drupal/entity_reference": "8.*",
                 "drupal/features": "^8.3.0",
@@ -1506,13 +1539,13 @@
                 "drupal/help": "8.*",
                 "drupal/history": "8.*",
                 "drupal/image": "8.*",
-                "drupal/inline_entity_form": "8.1.0-alpha5",
+                "drupal/inline_entity_form": "8.1.0-alpha6",
                 "drupal/layout_plugin": "8.1.0-alpha22",
-                "drupal/media_entity": "8.1.0-beta2",
+                "drupal/media_entity": "~8.1.0",
                 "drupal/media_entity_embeddable_video": "8.1.0-beta2",
-                "drupal/media_entity_image": "8.1.0-beta2",
-                "drupal/media_entity_instagram": "8.1.0-beta2",
-                "drupal/media_entity_twitter": "8.1.0-beta2",
+                "drupal/media_entity_image": "~8.1.0",
+                "drupal/media_entity_instagram": "~8.1.0",
+                "drupal/media_entity_twitter": "~8.1.0",
                 "drupal/menu_link_content": "8.*",
                 "drupal/menu_ui": "8.*",
                 "drupal/metatag": "^8.1.0",
@@ -1586,9 +1619,6 @@
                     ]
                 },
                 "patches": {
-                    "drupal/media_entity": {
-                        "Make compatible with IEF alpha4 - alpha2 to f544c91": "https://www.drupal.org/files/issues/media_entity--beta2-to-f544c91.patch"
-                    },
                     "drupal/panelizer": {
                         "Generate new UUIDs for displays when switching from default to field storage": "https://www.drupal.org/files/issues/2701349-2.patch",
                         "Explicitly set the Panels IPE URL root when saving in Panelizer": "https://www.drupal.org/files/issues/panelizer-ipe-url-root-handling.patch"
@@ -1615,24 +1645,25 @@
             ],
             "description": "A fast and feature-rich Drupal distribution.",
             "homepage": "https://www.drupal.org/project/lightning",
-            "time": "2016-04-20 13:24:14"
+            "time": "2016-05-05 20:08:47"
         },
         {
             "name": "drupal/media_entity",
-            "version": "8.1.0-beta2",
+            "version": "8.1.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/media_entity.git",
-                "reference": "48e56165e6f68bad83098a2a77c3eb8bde2ecedf"
+                "reference": "4b9542b93966c411832eaa1dfd94f84bf3ad7a4a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/media_entity-8.x-1.0-beta2.zip",
+                "url": "https://ftp.drupal.org/files/projects/media_entity-8.x-1.0.zip",
                 "reference": null,
                 "shasum": null
             },
             "require": {
                 "drupal/core": "8.*",
+                "drupal/entity": ">=8.1.0-alpha3",
                 "drupal/image": "8.*",
                 "drupal/user": "8.*",
                 "drupal/views": "8.*"
@@ -1641,9 +1672,6 @@
             "extra": {
                 "branch-alias": {
                     "dev-8.x-1.x": "8.1.x-dev"
-                },
-                "patches_applied": {
-                    "Make compatible with IEF alpha4 - alpha2 to f544c91": "https://www.drupal.org/files/issues/media_entity--beta2-to-f544c91.patch"
                 }
             },
             "notification-url": "https://packagist.drupal-composer.org/downloads/",
@@ -1652,7 +1680,7 @@
             ],
             "description": "Media entity API.",
             "homepage": "https://www.drupal.org/project/media_entity",
-            "time": "2016-01-21 14:20:12"
+            "time": "2016-05-01 15:23:10"
         },
         {
             "name": "drupal/media_entity_embeddable_video",
@@ -1691,15 +1719,15 @@
         },
         {
             "name": "drupal/media_entity_image",
-            "version": "8.1.0-beta2",
+            "version": "8.1.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/media_entity_image.git",
-                "reference": "f17384aeba3c8c00bbc57bfa8fa68529992873ce"
+                "reference": "717acca8a2cc7ba6ab76f8a30bc7aa247f542255"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/media_entity_image-8.x-1.0-beta2.zip",
+                "url": "https://ftp.drupal.org/files/projects/media_entity_image-8.x-1.0.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -1719,19 +1747,19 @@
             ],
             "description": "Media entity local images provider.",
             "homepage": "https://www.drupal.org/project/media_entity_image",
-            "time": "2015-12-24 15:21:12"
+            "time": "2016-04-20 08:51:19"
         },
         {
             "name": "drupal/media_entity_instagram",
-            "version": "8.1.0-beta2",
+            "version": "8.1.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/media_entity_instagram.git",
-                "reference": "75e41cbae35f260fa0e3e76f90562e26b4dc162d"
+                "reference": "351d484ceff91623d32690cd57358f587c92ab4e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/media_entity_instagram-8.x-1.0-beta2.zip",
+                "url": "https://ftp.drupal.org/files/projects/media_entity_instagram-8.x-1.0.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -1752,19 +1780,19 @@
             ],
             "description": "Media entity Instagram provider.",
             "homepage": "https://www.drupal.org/project/media_entity_instagram",
-            "time": "2015-12-24 15:27:08"
+            "time": "2016-02-10 08:00:41"
         },
         {
             "name": "drupal/media_entity_twitter",
-            "version": "8.1.0-beta2",
+            "version": "8.1.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupal.org/project/media_entity_twitter.git",
-                "reference": "495e6771065ccc05c4f39a23a43fad50c8f99a23"
+                "reference": "ef412841b5666e07b09c1c5d3643597f2767aa84"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/media_entity_twitter-8.x-1.0-beta2.zip",
+                "url": "https://ftp.drupal.org/files/projects/media_entity_twitter-8.x-1.0.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -1785,7 +1813,7 @@
             ],
             "description": "Media entity Twitter provider.",
             "homepage": "https://www.drupal.org/project/media_entity_twitter",
-            "time": "2016-01-04 21:59:55"
+            "time": "2016-02-25 16:02:22"
         },
         {
             "name": "drupal/memcache",
@@ -2205,12 +2233,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/drush-ops/drush.git",
-                "reference": "1d7380decef2fe54567f419d63f2b1ab701df558"
+                "reference": "3a83ce2f7f4ef095fe31888a4259792b980c7f3f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drush-ops/drush/zipball/1d7380decef2fe54567f419d63f2b1ab701df558",
-                "reference": "1d7380decef2fe54567f419d63f2b1ab701df558",
+                "url": "https://api.github.com/repos/drush-ops/drush/zipball/3a83ce2f7f4ef095fe31888a4259792b980c7f3f",
+                "reference": "3a83ce2f7f4ef095fe31888a4259792b980c7f3f",
                 "shasum": ""
             },
             "require": {
@@ -2300,7 +2328,7 @@
             ],
             "description": "Drush is a command line shell and scripting interface for Drupal, a veritable Swiss Army knife designed to make life easier for those of us who spend some of our working hours hacking away at the command prompt.",
             "homepage": "http://www.drush.org",
-            "time": "2016-05-04 14:03:05"
+            "time": "2016-05-05 18:39:46"
         },
         {
             "name": "easyrdf/easyrdf",
