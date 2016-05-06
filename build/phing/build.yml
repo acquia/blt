@@ -1,2 +1,2 @@
 bolt:
-  new.dir: ${bolt.root}/../${project.acquia_subname}
+  new.dir: ${bolt.root}/../${project.machine_name}

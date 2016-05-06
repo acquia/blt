@@ -19,12 +19,4 @@
 
   <!-- Extracts value of $options['uri'] and outputs to local_url property in Phing. -->
   <phpVariable file="${repo.root}/drush/drushrc.php" variable="options[uri]" outputProperty="local_url" />
-  <!-- Extracts values from the $databases array and outputs to db.* properties. -->
-  <phpVariable file="${local.settings.file}" variable="databases[default][default][database]" outputProperty="db.database" />
-  <phpVariable file="${local.settings.file}" variable="databases[default][default][username]" outputProperty="db.username" />
-  <phpVariable file="${local.settings.file}" variable="databases[default][default][password]" outputProperty="db.password" />
-  <phpVariable file="${local.settings.file}" variable="databases[default][default][host]" outputProperty="db.host" />
-  <phpVariable file="${local.settings.file}" variable="databases[default][default][port]" outputProperty="db.port" />
-
-  <echo>Using "${db.database}" database</echo>
 </project>
