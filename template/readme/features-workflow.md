@@ -57,11 +57,51 @@ There are some configuration changes that Features just won't handle for you, in
 * Updating field storage (e.g. changing a single-value field to an unlimited-value field)
 * Adding a [new custom block type](https://www.drupal.org/node/2702659) to an existing feature (sadly, you have to create a new feature for every block type)
 * Deleting a field (you'll want to remove the field from the feature and then use the code snippet below to actually delete the field)
+* Adding a field to some types of content (such as [block content](https://www.drupal.org/node/2661806))
 
-To handle these things, you'll want to use update hooks. For instance, you can use the following snippet of code to delete a field:
+To handle these things, you'll want to use update hooks. For instance, you can use the following snippet of code to create or delete a field:
 
-    $field = FieldStorageConfig::loadByName('block_content', 'field_my_bundle_my_feature');
+    use Drupal\field\Entity\FieldStorageConfig;
+    use Drupal\field\Entity\FieldConfig;
+
+    // Create a new field.
+    module_load_include('profile', ‘foo', 'foo'); // See below; foo is your profile name.
+    $storage_values = foo_read_config('field.storage.block_content.field_my_new_field', 'foo_feature');
+    FieldStorageConfig::create($storage_values);
+    $field_values = foo_read_config('field.field.block_content.foo_my_block.field_my_new_field', 'foo_feature');
+    FieldConfig::create($field_values);
+
+    // Delete an existing field.
+    $field = FieldStorageConfig::loadByName('block_content', 'field_my_field');
     $field->delete();
+
+This depends on a helper function like this, which I suggest adding to your custom profile (Lightning includes this out of the box):
+
+    use Drupal\Core\Config\FileStorage;
+    use Drupal\Core\Config\InstallStorage;
+    
+    /**
+     * Reads a stored config file from a module's config/install directory.
+     *
+     * @param string $id
+     *   The config ID.
+     * @param string $module
+     *   (optional) The module to search. Defaults to 'foo' profile (not technically
+     *   a module, but profiles are treated like modules by the install system).
+     *
+     * @return array
+     *   The config data.
+     */
+    function foo_read_config($id, $module = 'foo') {
+      // Statically cache all FileStorage objects, keyed by module.
+      static $storage = [];
+    
+      if (empty($storage[$module])) {
+        $dir = \Drupal::service('module_handler')->getModule($module)->getPath();
+        $storage[$module] = new FileStorage($dir . '/' . InstallStorage::CONFIG_INSTALL_DIRECTORY);
+      }
+      return $storage[$module]->read($id);
+    }
 
 Additionally, there are some inherent limitations with the Drupal 8 configuration management system:
 
