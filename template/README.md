@@ -21,10 +21,6 @@ Documentation by role:
 ## Resources
 
 * JIRA - link me!
-* [GitHub](http://www.github.com/acquia-pso/${project.acquia_subname})
+* GitHub - link me!
 * Acquia Cloud subscription - link me!
-* [TravisCI](https://travis-ci.com/acquia-pso/${project.acquia_subname}) 
-
-----------------
-
-[![Build Status](https://magnum.travis-ci.com/acquia-pso/${project.acquia_subname}.svg?token=eFBAT6vQ9cqDh1Sed5Mw&branch=${git.default_branch})](https://magnum.travis-ci.com/acquia-pso/${project.acquia_subname})
+* TravisCI - link me!

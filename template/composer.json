@@ -1,24 +1,24 @@
 {
-  "name": "acquia/${project.acquia_subname}",
+  "name":    "acquia/${project.machine_name}",
   "license": "proprietary",
-  "type": "project",
+  "type":    "project",
   "repositories": [
     {
       "type": "composer",
-      "url": "https://packagist.drupal-composer.org"
+      "url":  "https://packagist.drupal-composer.org"
     }
   ],
   "require": {
-    "composer/installers": "^1.0.20",
-    "drupal/acquia_connector": "8.1.*",
-    "drupal/acsf": "~8.1",
-    "drupal/core": "~8",
-    "drupal/console": "~0.10",
-    "drupal/memcache" : "8.*",
-    "drupal/security_review" : "8.*",
-    "roave/security-advisories": "dev-master",
+    "composer/installers":                        "^1.0.20",
+    "drupal/acquia_connector":                    "8.1.*",
+    "drupal/acsf":                                "~8.1",
+    "drupal/core":                                "~8",
+    "drupal/console":                             "~0.10",
+    "drupal/memcache" :                           "8.*",
+    "drupal/security_review" :                    "8.*",
+    "roave/security-advisories":                  "dev-master",
     "drupal-composer/drupal-security-advisories": "8.0.x-dev",
-    "drupal/lightning": "8.1.00-rc3"
+    "drupal/lightning":                           "8.1.00-rc4"
   },
   "require-dev": {
     "behat/behat":                  "3.0.*",
@@ -42,14 +42,14 @@
     }
   },
   "minimum-stability": "dev",
-  "prefer-stable": true,
+  "prefer-stable":     true,
   "extra": {
     "installer-paths": {
-      "docroot/core": ["type:drupal-core"],
-      "docroot/modules/contrib/{$name}": ["type:drupal-module"],
+      "docroot/core":                     ["type:drupal-core"],
+      "docroot/modules/contrib/{$name}":  ["type:drupal-module"],
       "docroot/profiles/contrib/{$name}": ["type:drupal-profile"],
-      "docroot/themes/contrib/{$name}": ["type:drupal-theme"],
-      "drush/contrib/{$name}": ["type:drupal-drush"]
+      "docroot/themes/contrib/{$name}":   ["type:drupal-theme"],
+      "drush/contrib/{$name}":            ["type:drupal-drush"]
     },
     "patches": {
       "drupal/core": {

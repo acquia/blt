@@ -30,21 +30,21 @@ To use Drupal VM with a Drupal project that is generated with Bolt, first place 
 To make sure Drush commands work correctly with Drupal VM, inside the new project's `build/custom/phing/build.yml` file, override the `docroot` used for Drush commands with the value:
 
     drush:
-      root: /var/www/[project_acquia_subname]/docroot
+      root: /var/www/[project_machine_name]/docroot
 
 Then follow the Quick Start Guide in [Drupal VM's README](https://github.com/geerlingguy/drupal-vm#quick-start-guide), but before you run  `vagrant up`, make the following changes to your VM
 `config.yml` file:
 
     # Update the hostname to the local development environment hostname.
     vagrant_hostname: [project_local_domain]
-    vagrant_machine_name: [project_acquia_subname]
+    vagrant_machine_name: [project_machine_name]
 
     # Provide the path to the project root to Vagrant.
     vagrant_synced_folders:
       # Set the local_path for the first synced folder to `../`.
       - local_path: ../
         # Set the destination to the Acquia Cloud subscription machine name.
-        destination: /var/www/[project_acquia_subname]
+        destination: /var/www/[project_machine_name]
         type: nfs
 
     # Set this to `7` for a Drupal 7 site, or `8` for a Drupal 8 site.
@@ -52,7 +52,7 @@ Then follow the Quick Start Guide in [Drupal VM's README](https://github.com/gee
 
     # Set drupal_core_path to the `destination` in the synced folder
     # configuration above, plus `/docroot`.
-    drupal_core_path: /var/www/[project_acquia_subname]/docroot
+    drupal_core_path: /var/www/[project_machine_name]/docroot
 
     # Set drupal_domain to the same thing as the `vagrant_hostname` above.
     drupal_domain: [project_local_domain]
@@ -85,6 +85,19 @@ Once you've made these changes and completed the steps in Drupal VM's Quick Star
 ### Project creation and installation changes
 
 Add a new site in Dev Desktop by selecting _Import local Drupal site_. Point it at the `docroot` folder inside your new code base. Your `/sites/default/settings.php` file will be modified automatically to include the Dev Desktop database connection information.
+
+### Drush support
+
+In order to use a custom version of Drush with Dev Desktop, you must add the
+following lines to ~/.bash_profile:
+
+```
+export PATH="/Applications/DevDesktop/mysql/bin:$PATH"
+export DEVDESKTOP_DRUPAL_SETTINGS_DIR="$HOME/.acquia/DevDesktop/DrupalSettings"
+
+```
+
+Restart your terminal session after adding these lines.
 
 ## Alternative local development environments
 

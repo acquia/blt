@@ -19,7 +19,7 @@ class BoltTest extends \PHPUnit_Framework_TestCase {
 
     $this->projectDirectory = realpath(dirname(__FILE__) . '/../../');
     $this->config = Yaml::parse(file_get_contents("{$this->projectDirectory}/project.yml"));
-    $this->new_project_dir = dirname($this->projectDirectory) . '/' . $this->config['project']['acquia_subname'];
+    $this->new_project_dir = dirname($this->projectDirectory) . '/' . $this->config['project']['machine_name'];
   }
 
   /**
@@ -37,7 +37,7 @@ class BoltTest extends \PHPUnit_Framework_TestCase {
       );
     $this->assertFileNotExists($this->new_project_dir . '/build/tasks/bolt.xml');
     $this->assertNotContains(
-          '${project.acquia_subname}',
+          '${project.machine_name}',
           file_get_contents($this->new_project_dir . '/docroot/sites/default/settings.php')
       );
     $this->assertNotContains(
