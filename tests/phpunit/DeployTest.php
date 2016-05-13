@@ -59,29 +59,28 @@ class DeployTest extends \PHPUnit_Framework_TestCase {
     $deploy_branch = '8.x-build';
 
     foreach ($this->config['deployments'] as $deployment_target)  {
-      foreach ($deployment_target as $target) {
-        $remote = $this->config[$target]['git'];
-        $commands = [
-          "git remote add temp $remote",
-          "git fetch temp $deploy_branch",
-          "git log temp/$deploy_branch",
-          "git remote rm temp",
-        ];
+      $remote = $this->config[$deployment_target]['git'];
+      $commands = [
+        "git remote add temp $remote",
+        "git fetch temp $deploy_branch",
+        "git log temp/$deploy_branch",
+        "git remote rm temp",
+      ];
 
-        $log = '';
-        foreach ($commands as $command) {
-          print "Executing \"$command\" \n";
-          $log .= shell_exec($command);
-        }
+      $log = '';
+      foreach ($commands as $command) {
+        print "Executing \"$command\" \n";
+        $log .= shell_exec($command);
+      }
 
-        // We expect the remote git log to contain a commit message matching
-        // the current build number, unless this build has not introduced
-        // any new changes. Example message:
-        // "Automated commit by Travis CI for Build #$travis_build_id".
-        if (!empty($_ENV['DEPLOY_UPTODATE'])) {
-          $this->assertContains('#' . $_ENV['TRAVIS_BUILD_ID'], $log);
-        }
+      // We expect the remote git log to contain a commit message matching
+      // the current build number, unless this build has not introduced
+      // any new changes. Example message:
+      // "Automated commit by Travis CI for Build #$travis_build_id".
+      if (!empty($_ENV['DEPLOY_UPTODATE'])) {
+        $this->assertContains('#' . $_ENV['TRAVIS_BUILD_ID'], $log);
       }
     }
   }
+
 }
