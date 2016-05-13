@@ -27,18 +27,19 @@ drush:
 # Defining hosting allows certain artifacts to be deployed for different hosts
 
 deployments:
-  - acsf
-  - myhosting
+  - deploymenttarget
+  # - acsf
 
-acsf:
-  hosting: acsf
-  gits:
-    - bolt8@svn-5223.devcloud.hosting.acquia.com:bolt8.git
-    - bolt@bolt.com:bolt8.git
-  name: Profserv ACSF
-  
-myhosting:
+deploymenttarget:
   hosting: ace
   name: Profserv ACE
   gits:
     - bolt8@svn-5223.devcloud.hosting.acquia.com:bolt8.git
+
+# Below is an example of another deployment targert
+#acsf:
+#  hosting: acsf
+#  gits:
+#    - bolt8@svn-5223.devcloud.hosting.acquia.com:bolt8.git
+#    - bolt@bolt-example.com:bolt8.git
+#  name: Profserv ACSF
