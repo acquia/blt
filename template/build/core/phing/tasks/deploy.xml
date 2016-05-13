@@ -28,7 +28,7 @@
     <echo message="Running deployment on ${deploy.remote.name}" />
 
     <!-- Delete the existing deploy directory and re-initialize as an empty git repository. -->
-    <!-- <phingcall target="deploy:artifact:prepare-dir"/> -->
+     <phingcall target="deploy:artifact:prepare-dir"/>
 
     <!-- Add remotes and fetch upstream refs. Checkout local branch tracking
      tracking upstream branch, if it exists. Otherwise create new branch
