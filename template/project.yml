@@ -22,8 +22,13 @@ drush:
     # The local environment against which all local drush commands are run.
     local: self
 
-# Define deployment environments, and git repositories here here.
-# Defining git remotes allows builds deployed via CI.
+# Defaults for git configuration
+# Note: this is only used in `./bolt.sh create`
+git:
+  default_branch: develop
+
+# Define deployment environments, and git repositories here.
+# Defining git remotes allows builds to deployed via CI.
 # Defining hosting allows certain artifacts to be deployed for different hosts
 
 deployments:
@@ -31,12 +36,12 @@ deployments:
   # - acsf
 
 default:
-  hosting: ace
-  name: Profserv ACE
+  #hosting: aws
+  name: Default deployment environment
   gits:
     - bolt8@svn-5223.devcloud.hosting.acquia.com:bolt8.git
 
-# Below is an example of another deployment targert
+# Below is an example of another deployment target
 #acsf:
 #  hosting: acsf
 #  gits:
