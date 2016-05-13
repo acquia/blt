@@ -27,10 +27,10 @@ drush:
 # Defining hosting allows certain artifacts to be deployed for different hosts
 
 deployments:
-  - deploymenttarget
+  - default
   # - acsf
 
-deploymenttarget:
+default:
   hosting: ace
   name: Profserv ACE
   gits:
