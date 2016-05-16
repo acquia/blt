@@ -18,7 +18,7 @@
     "drupal/security_review" :                    "8.*",
     "roave/security-advisories":                  "dev-master",
     "drupal-composer/drupal-security-advisories": "8.0.x-dev",
-    "drupal/lightning":                           "8.1.00-rc3"
+    "drupal/lightning":                           "^8.1.0"
   },
   "require-dev": {
     "behat/behat":                  "3.0.*",
@@ -27,7 +27,7 @@
     "behat/mink-goutte-driver":     "*",
     "behat/mink-selenium2-driver":  "*",
     "behat/mink-browserkit-driver": "*",
-    "drush/drush":                  "dev-master",
+    "drush/drush":                  "^9.0",
     "drupal/drupal-extension":      "~3.0",
     "drupal/coder":                 "~8.2",
     "phpunit/phpunit":              "4.6.*",
