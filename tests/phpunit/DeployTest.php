@@ -18,7 +18,7 @@ class DeployTest extends \PHPUnit_Framework_TestCase {
 
     $this->projectDirectory = realpath(dirname(__FILE__) . '/../../');
     $this->config = Yaml::parse(file_get_contents("{$this->projectDirectory}/project.yml"));
-    $this->new_project_dir = dirname($this->projectDirectory) . '/' . $this->config['project']['acquia_subname'];
+    $this->new_project_dir = dirname($this->projectDirectory) . '/' . $this->config['project']['machine_name'];
     $this->deploy_dir = $this->new_project_dir . '/deploy';
   }
 

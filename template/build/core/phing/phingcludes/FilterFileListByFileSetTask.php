@@ -27,11 +27,6 @@ class FilterFileListByFileSetTask extends Task {
     $this->fileList = $fileList;
   }
 
-  public function setRoot($root)
-  {
-    $this->root = $root;
-  }
-
   /**
    * Nested adder, adds a set of files (nested fileset attribute).
    *
@@ -68,10 +63,6 @@ class FilterFileListByFileSetTask extends Task {
       throw new BuildException("You must set the file property.");
     }
 
-    if (!isset($this->root)) {
-      throw new BuildException("You must set the project root.");
-    }
-
     if (count($this->filesets) == 0) {
       throw new BuildException("You must define a fileset.");
     }
@@ -90,7 +81,7 @@ class FilterFileListByFileSetTask extends Task {
   }
 
   protected function prependProjectPath($relative_path) {
-    return $this->root. DIRECTORY_SEPARATOR . $relative_path;
+    return $this->project->getBasedir()->getAbsolutePath() . DIRECTORY_SEPARATOR . $relative_path;
   }
 
   /**
