@@ -38,7 +38,7 @@ Travis CI can be used to deploy a fully built site artifact (with the docroot) i
 1. A pull request is merged into the GitHub repository
 2. Travis builds the docroot
 3. Travis commits the docroot to a specific "build" branch and pushes to Acquia Cloud
-   
+
 To set up this workflow, you must configure Acquia Cloud, GitHub, and Travis CI to work together. Step-by-step instructions are provided below.
 
 
@@ -46,7 +46,7 @@ To set up this workflow, you must configure Acquia Cloud, GitHub, and Travis CI 
 
      ```
      cd ~/.ssh
-     ssh-keygen -t rsa
+     ssh-keygen -t rsa -b 4096
      ```
 
    Do not use a passphrase!
