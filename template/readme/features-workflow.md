@@ -52,16 +52,57 @@ For these reasons, it's important to have developers test importing their own fe
     }
     
 ### Features doesn't do that, a.k.a. workarounds
-There are some configuration changes that Features just won't handle for you, including:
+There are some configuration changes that Features doesn’t handle well, or doesn’t handle at all, including:
 
 * Updating field storage (e.g. changing a single-value field to an unlimited-value field)
 * Adding a [new custom block type](https://www.drupal.org/node/2702659) to an existing feature (sadly, you have to create a new feature for every block type)
 * Deleting a field (you'll want to remove the field from the feature and then use the code snippet below to actually delete the field)
+* Adding a field to some types of content (such as [block content](https://www.drupal.org/node/2661806))
+* Adding multiple config entities at once that depend on one another (leading to [cryptic exceptions](https://www.drupal.org/node/2726839) when you run features-import... use the workaround below)
 
-To handle these things, you'll want to use update hooks. For instance, you can use the following snippet of code to delete a field:
+To handle these things, you'll want to use update hooks. For instance, you can use the following snippet of code to create or delete a field:
 
-    $field = FieldStorageConfig::loadByName('block_content', 'field_my_bundle_my_feature');
+    use Drupal\field\Entity\FieldStorageConfig;
+    use Drupal\field\Entity\FieldConfig;
+
+    // Create a new field.
+    module_load_include('profile', ‘foo', 'foo'); // See below; foo is your profile name.
+    $storage_values = foo_read_config('field.storage.block_content.field_my_new_field', 'foo_feature');
+    FieldStorageConfig::create($storage_values)->save();
+    $field_values = foo_read_config('field.field.block_content.foo_my_block.field_my_new_field', 'foo_feature');
+    FieldConfig::create($field_values)->save();
+
+    // Delete an existing field.
+    $field = FieldStorageConfig::loadByName('block_content', 'field_my_field');
     $field->delete();
+
+This depends on a helper function like this, which I suggest adding to your custom profile (Lightning includes this out of the box):
+
+    use Drupal\Core\Config\FileStorage;
+    use Drupal\Core\Config\InstallStorage;
+    
+    /**
+     * Reads a stored config file from a module's config/install directory.
+     *
+     * @param string $id
+     *   The config ID.
+     * @param string $module
+     *   (optional) The module to search. Defaults to 'foo' profile (not technically
+     *   a module, but profiles are treated like modules by the install system).
+     *
+     * @return array
+     *   The config data.
+     */
+    function foo_read_config($id, $module = 'foo') {
+      // Statically cache all FileStorage objects, keyed by module.
+      static $storage = [];
+    
+      if (empty($storage[$module])) {
+        $dir = \Drupal::service('module_handler')->getModule($module)->getPath();
+        $storage[$module] = new FileStorage($dir . '/' . InstallStorage::CONFIG_INSTALL_DIRECTORY);
+      }
+      return $storage[$module]->read($id);
+    }
 
 Additionally, there are some inherent limitations with the Drupal 8 configuration management system:
 
@@ -77,7 +118,7 @@ Unfortunately, you lose the ability to track these changes and your active confi
 
 ### Other gotchas
 
-Be aware that since Features is a ground-up rewrite in Drupal 8 and still quite young, there are still a lot of bugs to work out. For instance, when you export a feature the UI will frequently try to automatically include unrelated configuration or dependencies (or worse, it will forget to include very necessary dependencies, such as the field storage for field instances!) Developers just need to keep a close eye on this when exporting features, and TA need to carefully review features in PRs for the gotchas and best practices listed above.
+Be aware that since Features is a ground-up rewrite in Drupal 8 and still quite young, there are still a lot of bugs to work out. For instance, when you export a feature the UI will frequently try to automatically include [unrelated configuration](https://www.drupal.org/node/2720167) or dependencies (or worse, it will [forget to include](https://www.drupal.org/node/2666836) very necessary dependencies, such as the field storage for field instances!) Developers just need to keep a close eye on this when exporting features, and TA need to carefully review features in PRs for the gotchas and best practices listed above.
 
 ## Getting set up on Acquia Cloud
 When setting up a project on Acquia Cloud, it's recommended to add Cloud Hooks for post-code-deploy, post-code-update, and post-db-copy that will automatically perform the following steps:
