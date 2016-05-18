@@ -51,8 +51,9 @@ before_script:
 script:
   - ./bolt.sh -Dbehat.run-server=true -Dbehat.launch-phantom=true build:validate:test
 
-after_success:
-  # Watch for successful build job on `master` branch; deploy to `master-build`.
-  # - scripts/deploy/travis-deploy.sh master
-  # Watch for successful build job on `develop` branch; deploy to `develop-build`.
-  # - scripts/deploy/travis-deploy.sh develop
+# deploy:
+#   provider: script
+#   script: scripts/deploy/travis-deploy.sh master master-build
+#   skip_cleanup: true
+#   on:
+#     branch: master
