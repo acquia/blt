@@ -39,7 +39,12 @@
     <exec command="git fetch ${remoteName}" dir="${deploy.dir}" logoutput="true" passthru="true"/>
 
     <!-- Create the new branch, "[source-branch-name]-build". -->
-    <exec command="git symbolic-ref --short HEAD" dir="${docroot}" outputProperty="current_branch"/>
+    <if>
+      <not><isset property="${current_branch}"/></not>
+      <then>
+        <exec command="git symbolic-ref --short HEAD" dir="${docroot}" outputProperty="current_branch"/>
+      </then>
+    </if>
     <property name="deploy.branch" value="${current_branch}-build" />
     <exec command="git checkout -b ${deploy.branch}" dir="${deploy.dir}" logoutput="true" passthru="true"/>
 
