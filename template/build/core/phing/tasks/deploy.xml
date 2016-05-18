@@ -2,15 +2,16 @@
 
   <target name="deploy:artifact" description="Builds separate artifact and pushes to git.remotes defined project.yml.">
 
-    <!-- deploy.commitMsg must be passed as a param at runtime. -->
+    <!-- deploy.branch and deploy.commitMsg must be passed as params at runtime. -->
     <if>
       <or>
+        <not><isset property="deploy.branch"/></not>
         <not><isset property="deploy.commitMsg"/></not>
       </or>
       <then>
-        <fail>You must pass deploy.commitMsg as a runtime parameter.</fail>
+        <fail>You must pass deploy.branch and deploy.commitMsg as runtime parameters.</fail>
         <echo message="Command should match syntax:"/>
-        <echo message="./bolt.sh deploy:artifact -Ddeploy.commitMsg='BLT-123: The commit message.'"/>
+        <echo message="./bolt.sh deploy:artifact -Ddeploy.branch=8.x-build -Ddeploy.commitMsg='BLT-123: The commit message.'"/>
       </then>
     </if>
 
@@ -38,10 +39,8 @@
     <exec command="git remote add ${remoteName} ${deploy.remote}" dir="${deploy.dir}" logoutput="true" passthru="true"/>
     <exec command="git fetch ${remoteName}" dir="${deploy.dir}" logoutput="true" passthru="true"/>
 
-    <!-- Create the new branch, "[source-branch-name]-build". -->
-    <property name="deploy.branch" value="${git.current_branch}-build" />
+    <!-- Create the new branch. -->
     <exec command="git checkout -b ${deploy.branch}" dir="${deploy.dir}" logoutput="true" passthru="true"/>
-
     <!-- Pull the latest updates (if available). -->
     <exec command="git merge ${remoteName}/${deploy.branch}" dir="${deploy.dir}" logoutput="true" passthru="true"/>
   </target>
