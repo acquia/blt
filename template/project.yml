@@ -25,7 +25,7 @@ git:
 drush:
   aliases:
     # The remote environment from which the database will be pulled.
-    remote: ${machine_name}.test
+    remote: ${project.machine_name}.test
     # The local environment against which all local drush commands are run.
     local: self
 
