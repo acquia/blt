@@ -125,7 +125,15 @@
   </target>
 
   <target name="setup:bolt:alias" description="Installs the Bolt alias for command line usage.">
-    <exec dir="${repo.root}/scripts/bolt" command="./install-alias.sh" passthru="true" checkreturn="true"/>
+    <echo>Bolt can automatically create a Bash alias to make it easier to run Bolt tasks.</echo>
+    <echo>This alias may be created in .bash_profile or .bashrc depending on your system architecture.</echo>
+    <propertyprompt propertyName="create_alias" defaultValue="y" useExistingValue="true" promptText="Create a bash alias now? (y/n)" />
+    <if>
+      <equals arg1="${create_alias}" arg2="y"/>
+      <then>
+        <exec dir="${repo.root}/scripts/bolt" command="./install-alias.sh" passthru="true" checkreturn="true"/>
+      </then>
+    </if>
   </target>
 
 </project>

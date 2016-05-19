@@ -1,22 +1,25 @@
 #!/usr/bin/env bash
 
-if [ -f ~/.bashrc ]; then
-  if [ ! "`grep 'function bolt' ~/.bashrc`" ]; then
-    # Check for aliases in old-style .bash_profile.
-    # This check can be removed after everyone has moved to .bashrc.
-    if [ -f ~/.bash_profile ]; then
-      if [ "`grep 'function bolt' ~/.bash_profile`" ]; then
-        echo "Alias for bolt already exists in ~/.bash_profile"
-        exit
-      fi
-    fi
-    DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-    cat $DIR/alias >> ~/.bashrc
-    echo "Added alias for bolt to ~/.bashrc."
-    echo "Restart your terminal session to use the new command."
-  else
-    echo "Alias for bolt already exists in ~/.bashrc"
+if [ "`basename "/$SHELL"`" = "zsh" ]; then
+  DETECTED_PROFILE="$HOME/.zshrc"
+elif [ -f "$HOME/.bashrc" ]; then
+  DETECTED_PROFILE="$HOME/.bashrc"
+elif [ -f "$HOME/.bash_profile" ]; then
+  DETECTED_PROFILE="$HOME/.bash_profile"
+elif [ -f "$HOME/.profile" ]; then
+  DETECTED_PROFILE="$HOME/.profile"
+fi
+
+if [ ! -z "$DETECTED_PROFILE" ]; then
+  if [ "`grep 'function bolt' $DETECTED_PROFILE`" ]; then
+    echo "Alias for bolt already exists in $DETECTED_PROFILE"
+    exit
   fi
+  DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+  cat $DIR/alias >> $DETECTED_PROFILE
+
+  echo "Added alias for bolt to $DETECTED_PROFILE"
+  echo "Restart your terminal session to use the new command."
 else
-  echo "~/.bashrc was not found. Could not install bolt alias."
+  echo "Could not install bolt alias. No profile found. Tried ~/.zshrc, ~/.bashrc, ~/.bash_profile and ~/.profile."
 fi
