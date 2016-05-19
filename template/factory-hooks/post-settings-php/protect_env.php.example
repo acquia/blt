@@ -1,0 +1,14 @@
+<?php
+
+/**
+ * @file
+ * Example implementation of ACSF post-settings-php hook.
+ *
+ * @see https://docs.acquia.com/site-factory/tiers/paas/workflow/hooks
+ */
+
+// Include required files.
+require_once DRUPAL_ROOT . '/sites/default/settings/envprotect.settings.php';
+
+// Call functionality from settings/features/envprotect.settings.php.
+protect_environment();

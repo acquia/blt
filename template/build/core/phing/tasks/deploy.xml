@@ -2,16 +2,15 @@
 
   <target name="deploy:artifact" description="Builds separate artifact and pushes to git.remotes defined project.yml.">
 
-    <!-- deploy.branch and deploy.commitMsg must be passed as params at runtime. -->
+    <!-- deploy.commitMsg must be passed as a param at runtime. -->
     <if>
       <or>
-        <not><isset property="deploy.branch"/></not>
         <not><isset property="deploy.commitMsg"/></not>
       </or>
       <then>
-        <fail>You must pass deploy.branch and deploy.commitMsg as runtime parameters.</fail>
+        <fail>You must pass deploy.commitMsg as a runtime parameter.</fail>
         <echo message="Command should match syntax:"/>
-        <echo message="./bolt.sh deploy:artifact -Ddeploy.branch=8.x-build -Ddeploy.commitMsg='BLT-123: The commit message.'"/>
+        <echo message="./bolt.sh deploy:artifact -Ddeploy.commitMsg='BLT-123: The commit message.'"/>
       </then>
     </if>
 
@@ -39,8 +38,10 @@
     <exec command="git remote add ${remoteName} ${deploy.remote}" dir="${deploy.dir}" logoutput="true" passthru="true"/>
     <exec command="git fetch ${remoteName}" dir="${deploy.dir}" logoutput="true" passthru="true"/>
 
-    <!-- Create the new branch. -->
+    <!-- Create the new branch, "[source-branch-name]-build". -->
+    <property name="deploy.branch" value="${git.current_branch}-build" />
     <exec command="git checkout -b ${deploy.branch}" dir="${deploy.dir}" logoutput="true" passthru="true"/>
+
     <!-- Pull the latest updates (if available). -->
     <exec command="git merge ${remoteName}/${deploy.branch}" dir="${deploy.dir}" logoutput="true" passthru="true"/>
   </target>
@@ -51,6 +52,13 @@
 
   <target name="deploy:artifact:build" description="Generates a deploy-ready build in deploy.dir."
           depends="deploy:artifact:clean, deploy:artifact:copy, deploy:artifact:composer:install, deploy:artifact:profile:make, frontend:build, deploy:artifact:sanitize">
+    <!-- If we are using ACSF, run the ACSF Deploy command. -->
+    <if>
+      <equals arg1="${hosting}" arg2="acsf"/>
+      <then>
+        <phingcall target="deploy:acsf:init"/>
+      </then>
+    </if>
   </target>
 
   <target name="deploy:artifact:clean" description="Deletes the contents of the deploy dir.">
@@ -99,11 +107,13 @@
 
     <!-- Copy required files from docroot. -->
     <copy todir="${deploy.dir}/docroot" overwrite="true">
-      <fileset dir="${docroot}">
+      <fileset dir="${docroot}" defaultexcludes="false">
         <!-- This should be similar to .gitigore. -->
-        <include name="**"></include>
+        <!-- We remove default excludes because they include .gitignore files we need, like the ACSF one. -->
+        <include name="**" />
         <exclude name="**/local.*" />
         <exclude name=".gitkeep" />
+        <exclude name=".DS_STORE" />
         <exclude name="core/**" />
         <exclude name="drush/contrib/**" />
         <exclude name="example.gitignore" />
@@ -113,8 +123,8 @@
         <exclude name="themes/contrib/**" />
         <exclude name="profiles/contrib/**" />
         <exclude name="modules/contrib/**" />
-        <exclude name="**/node_modules/**"></exclude>
-        <exclude name="**/bower_components/**"></exclude>
+        <exclude name="**/node_modules/**" />
+        <exclude name="**/bower_components/**" />
       </fileset>
     </copy>
 
@@ -169,5 +179,10 @@
         <include name="**/CHANGELOG.txt"/>
       </fileset>
     </delete>
+  </target>
+
+  <target name="deploy:acsf:init" description="Re-initialize ACSF with the settings.php changes required for artifact.">
+    <chmod file="${deploy.dir}/docroot/sites/default/settings.php" mode="0755" />
+    <exec dir="${deploy.dir}/docroot" command="${drush.bin} --include=${deploy.dir}/docroot/modules/contrib/acsf/acsf_init acsf-init -r ${deploy.dir}/docroot -y" logoutput="true" checkreturn="true"/>
   </target>
 </project>

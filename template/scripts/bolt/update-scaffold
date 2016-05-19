@@ -5,13 +5,18 @@ BOLT_BRANCH=8.x
 
 # Upstream directories to pull. These will be prefixed with "template/".
 BOLT_DIRS=(
+  "bolt.sh"
   "build/core"
   "drush.wrapper"
+  "factory-hooks/post-settings-php/protect_env.php.example"
+  "factory-hooks/pre-settings-php/includes.php.example"
+  "hooks/samples"
+  "hooks/templates"
   "scripts/bolt"
   "scripts/deploy"
-  "scripts/release-notes"
   "scripts/drupal"
-  "bolt.sh"
+  "scripts/git-hooks/pre-commit"
+  "scripts/release-notes"
 )
 
 # Move into repository root.

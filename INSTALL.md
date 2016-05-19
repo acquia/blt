@@ -49,7 +49,9 @@ Bolt’s “installer” will do the following:
 * Replaces tokens in copied files with project-specific strings
 * Removes installation artifacts
 
-Run `./bolt.sh create` to do all the things! Once it’s completed, change directories to your new project directory. E.g., cd /path/to/my/new/project. All subsequent steps will happen inside your new project. You have left the Bolt repository behind.
+Run `./bolt.sh create` to do all the things! 
+
+Once it’s completed, __change directories to your new project directory. All subsequent steps will happen inside your new project. You have left the Bolt repository behind.__
 
 ## Modifying project files
 
@@ -65,7 +67,10 @@ Note that all of the steps from this point forward are the same steps that would
 
 Before building your project dependencies and installing Drupal, you must have a fully functional \*AMP stack on your local machine. Bolt intentionally does not provide this local development environment--that is outside of the scope of Bolt’s intended responsibilities. It does, however, make recommendations for which tools you should use to manage your stack.
 
-Please see [Local Development](template/readme/local-development.md) for more information on setting up your \*AMP stack.
+Please see [Local Development](template/readme/local-development.md) for more information on setting up your \*AMP stack:
+  * [Acquia Dev Desktop](template/readme/local-development.md#using-acquia-dev-desktop-for-bolt-generated-projects)  
+  * [Drupal VM](template/readme/local-development.md#using-drupal-vm-for-bolt-generated-projects)
+  * [Other](https://github.com/acquia/bolt/blob/8.x/template/readme/local-development.md#alternative-local-development-environments)
 
 When you have completed setting up your local \*AMP stack, double check that the following pieces of information are still correct:
 
@@ -74,7 +79,7 @@ When you have completed setting up your local \*AMP stack, double check that the
 
 ## Build your project’s dependencies and install Drupal
 
-Run the following command from the project root: `./task setup`. This will do a lot of things for you, including:
+Run the following command from the project root: `./bolt.sh setup`. This will do a lot of things for you, including:
 
 * Building dependencies
 * Installing local git hooks

@@ -20,31 +20,35 @@
   </target>
 
   <!-- Run code sniffer against specific files. -->
-  <target name="validate:phpcs:file" description="Runs PHP Code Sniffer against a specific file.">
-    <fail unless="file" message="Missing file parameter."/>
-    <property name="file.path" value="${repo.root}/${file}"/>
+  <target name="validate:phpcs:files" description="">
+    <fail unless="files" message="Missing files parameter."/>
     <property name="phpcs.ruleset" value="${repo.root}/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml"/>
 
+    <filterFileListByFileSet fileList="${files}" returnProperty="filteredFileList">
+      <fileset refid="files.php.custom.modules"/>
+      <fileset refid="files.php.custom.themes"/>
+      <fileset refid="files.php.tests"/>
+    </filterFileListByFileSet>
+
     <if>
-      <fileInFileset file="${file.path}">
-        <fileset refid="files.php.custom.modules"/>
-        <fileset refid="files.php.custom.themes"/>
-        <fileset refid="files.php.tests"/>
-      </fileInFileset>
+      <istrue value="${filteredFileList}"/>
       <then>
-        <phpcodesniffer
-            standard="${phpcs.ruleset}"
-            showSniffs="false"
-            showWarnings="true"
-            haltonerror="true"
-            haltonwarning="true"
-            verbosity="1"
-            file="${file.path}">
-          <formatter type="full" usefile="false"/>
-        </phpcodesniffer>
+        <foreach list="${filteredFileList}" target="validate:phpcs:file" param="file"/>
       </then>
     </if>
+  </target>
 
+  <target name="validate:phpcs:file" description="Runs PHP Code Sniffer against a specific file.">
+    <fail unless="file" message="Missing file parameter."/>
+    <property name="phpcs.ruleset" value="${repo.root}/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml"/>
+    <phpcodesniffer
+        file="${file}"
+        standard="${phpcs.ruleset}"
+        showSniffs="false"
+        showWarnings="true"
+        haltonerror="true"
+        haltonwarning="true"
+        verbosity="1"/>
   </target>
 
   <!-- Run code sniffer against all custom code. -->

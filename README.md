@@ -1,5 +1,7 @@
 # Bolt
 
+[![Build Status](https://travis-ci.org/acquia/bolt.svg?branch=8.x)](https://travis-ci.org/acquia/bolt)
+
 Bolt is a tool that generates new Drupal projects using a standardized template derived from Acquia Professional Services' best practices.
 
 ## License
@@ -94,9 +96,3 @@ Please feel free to contribute to the project or file issues via the GitHub issu
 Bolt work is currently being tracked in the [Bolt GitHub issue queue]
 (https://github.com/acquia/bolt/issues) and organized via a 
 [Waffle.io Kanban Board](https://waffle.io/acquia/bolt).
-
-## Status:
-
-* Bolt: [![Bolt Build Status](https://travis-ci.com/acquia/bolt.svg?token=eFBAT6vQ9cqDh1Sed5Mw&branch=8.x)](https://travis-ci.com/acquia/bolt)
-
-See [build/README.md](build) for more information on Bolt's CI process.

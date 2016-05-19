@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * @file
+ * Example implementation of ACSF pre-settings-php hook.
+ *
+ * @see https://docs.acquia.com/site-factory/tiers/paas/workflow/hooks
+ */
+
+// Includes base settings.
+require DRUPAL_ROOT . '/sites/default/settings/base.settings.php';
+
+// Includes caching configuration.
+require DRUPAL_ROOT . '/sites/default/settings/cache.settings.php';
+
+// Includes settings/features.
+require_once DRUPAL_ROOT . '/sites/default/settings/logging.settings.php';
+require_once DRUPAL_ROOT . '/sites/default/settings/saml.settings.php';
