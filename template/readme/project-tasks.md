@@ -79,7 +79,7 @@ To build Thunder's assets, execute:
 
 ## <a name="local-tasks"></a>Updating you local environment
 
-The project is configured to update the local environment with a local drush alias and a remote alias as defined in `project.yml`. Given that these aliases match, those in `drush/site-aliases/`, you can update the site with Bolt.
+The project is configured to update the local environment with a local drush alias and a remote alias as defined in `project.yml`. Given that these aliases match, those in `drush/site-aliases/`, you can update the site with Bolt. Please see [drush/README.md](../drush/README.md) for details on how to create these aliases.
 
 ### Refresh: Rebuild the codebase, copy the database, and run updates
 
