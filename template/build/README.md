@@ -31,6 +31,26 @@ You may add your own custom tasks to the build engine by defining new [Phing](ht
 
 You may override or define custom Phing properties in [build/custom/phing/build.yml](custom/phing/build.yml)
 
+### Automated testing using live content
+
+By default, the Travis CI automated tests install and test your site from scratch. Once you have a production site in a remote environment, it’s recommended to also run automated tests against a copy of your production database, especially in order to functionally test update hooks.
+
+Automated testing of live content is easy to set up with two simple steps:
+
+1. Add the hostname of your staging server to .travis.yml:
+
+     ```
+     ssh_known_hosts:
+       - staging-12345.prod.hosting.acquia.com
+     ```
+2. Override the default `build:validate:test` target by adding the following to `build/custom/phing/build.xml`:
+
+     ```
+     <!-- Override the core build:validate:test target to include a local refresh-->
+     <target name="build:validate:test" description="Builds, validates, tests, and deploys an artifact."
+       depends="validate:all, setup, tests:security-updates, tests:phpunit, local:sync, local:update, tests:behat" />
+     ```
+
 ### Setting Up Travis CI for automated deployments
 
 Travis CI can be used to deploy a fully built site artifact (with the docroot) in the following manner:
@@ -54,14 +74,7 @@ To set up this workflow, you must configure Acquia Cloud, GitHub, and Travis CI 
 1. Login the your new Acquia Cloud account and add the public SSH key from the key pair that was generated in step 1 by visiting `https://accounts.acquia.com/account/[uid]/security`.
 1. Add the same public SSH key to the "Deployment Keys" section on your project's GitHub settings page, located at `https://github.com/acquia-pso/[project-name]/settings/keys`.
 1. Add the _private SSH key_ to your project's Travis CI settings located at `https://magnum.travis-ci.com/acquia-pso/[project-name]/settings`.
-1. Update your .travis.yml file to include the following lines:
-
-    ```
-     after_success:
-       - scripts/deploy/travis-deploy.sh build:validate:test develop develop-build
-    ```
-
-  Note that two branch names are referenced in this example: "develop" and "develop-build". This example will watch for changes to the "develop" branch on GitHub and deploy a build artifact to the "develop-build" branch on Acquia Cloud when the 'build:validate:test' Travis job is successful.
+1. Uncomment the example deployment steps in your .travis.yml file and customize them to deploy your desired branch.
 1. Add your cloud git repository to the remotes section of your project.yml file:
 
     ```
@@ -69,7 +82,7 @@ To set up this workflow, you must configure Acquia Cloud, GitHub, and Travis CI 
        - example@svn-14671.prod.hosting.acquia.com:example.git`
     ```
 
-1. Add your cloud git repository's server host name to `ssh_known_hosts` in you .travis.yml file.
+1. Add your cloud git repository's server host name to `ssh_known_hosts` in your .travis.yml file.
 
     ```
     addons:
