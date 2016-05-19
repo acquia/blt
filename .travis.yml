@@ -52,7 +52,7 @@ script:
   - ../bolted8/bolt.sh build:validate:test -Dbehat.run-server=true -Dbehat.launch-phantom=true
   # Deploy build artifact.
   - export DEPLOY_PR=true
-  - ../bolted8/scripts/deploy/travis-deploy.sh 8.x
+  - ../bolted8/scripts/deploy/travis-deploy.sh 8.x 8.x-build
   # Validate and run 'bolt' phpunit tests.
   - phpcs --standard=../bolted8/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml tests
   - phpunit tests

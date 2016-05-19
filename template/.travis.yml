@@ -53,6 +53,6 @@ script:
 
 after_success:
   # Watch for successful build job on `master` branch; deploy to `master-build`.
-  # - scripts/deploy/travis-deploy.sh master
+  # - scripts/deploy/travis-deploy.sh master master-build
   # Watch for successful build job on `develop` branch; deploy to `develop-build`.
-  # - scripts/deploy/travis-deploy.sh develop
+  # - scripts/deploy/travis-deploy.sh develop develop-build
