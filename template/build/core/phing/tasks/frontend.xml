@@ -24,7 +24,16 @@
 
   <target name="frontend:install" description="Installs front end dependencies for themes.">
     <!-- Enable support for multiple themes (Base + Subtheme or multisite deployments) -->
-    <foreach list="${project.themes}" param="frontend.theme" target="frontend:install:run"/>
+    <if>
+      <isset property="project.themes" />
+      <then>
+        <foreach list="${project.themes}" param="frontend.theme" target="frontend:install:run"/>
+      </then>
+      <else>
+        <!-- Skip and tell user no themes were found -->
+        <echo message="No Themes were found, skipping frontend:install."/>
+      </else>
+    </if>
   </target>
 
   <target name="frontend:install:run" description="Installs front end dependencies for a theme.">
