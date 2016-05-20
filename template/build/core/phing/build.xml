@@ -7,6 +7,14 @@
   <taskdef name="filterFileListByFileSet" classname="phingcludes.FilterFileListByFileSetTask"/>
   <taskdef name="phpVariable" classname="phingcludes.PhpVariableTask"/>
 
+  <if>
+    <available property="xdebug.enabled" extension="xdebug"/>
+    <then>
+      <echo level="warning">You are running Bolt with xdebug enabled. This has a major impact on
+        runtime performance.</echo>
+    </then>
+  </if>
+
   <!-- Include task partials -->
 
   <!-- Defines a list of default properties, available to all targets. -->
