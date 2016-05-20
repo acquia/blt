@@ -1,5 +1,6 @@
 {
   "name": "acquia/bolt",
+  "description": "Bolt",
   "license": "GPL-3.0",
   "require": {
     "phing/phing": "2.*",
