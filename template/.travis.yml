@@ -49,7 +49,7 @@ before_script:
   - git diff --exit-code
 
 script:
-  - ./bolt.sh -Dbehat.run-server=true -Dbehat.launch-phantom=true build:validate:test
+  - ./bolt.sh -Dbehat.run-server=true -Dcreate_alias=false -Dbehat.launch-phantom=true build:validate:test
 
 # deploy:
 #   provider: script
