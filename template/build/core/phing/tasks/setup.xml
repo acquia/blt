@@ -73,14 +73,18 @@
     <if>
       <available property="config.exists" file="${repo.root}/config/default/system.site.yml"/>
       <then>
+        <exec command="drush ev" outputProperty="config.dir">
+          <arg value="global $config_directories; print $config_directories['sync'];"/>
+        </exec>
+
         <drush command="site-install" assume="yes" verbose="TRUE" alias="${drush.aliases.local}">
           <option name="site-name">"${project.human_name}"</option>
           <option name="site-mail">"${drupal.account.mail}"</option>
           <option name="account-name">"${drupal.account.name}"</option>
           <option name="account-pass">"${drupal.account.password}"</option>
           <option name="account-mail">"${drupal.account.mail}"</option>
-          <option name="config-dir">"${repo.root}/config/default"</option>
           <option name="l">"${multisite.name}"</option>
+          <option name="config-dir">"${config.dir}"</option>
           <param>"${project.profile.name}"</param>
           <param>"install_configure_form.update_status_module='array(FALSE,FALSE)'"</param>
         </drush>
