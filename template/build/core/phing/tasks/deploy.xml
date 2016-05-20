@@ -13,6 +13,18 @@
         <echo message="./bolt.sh deploy:artifact -Ddeploy.commitMsg='BLT-123: The commit message.'"/>
       </then>
     </if>
+    <phingcall target="deploy:artifact:all"/>
+  </target>
+
+  <target name="deploy:artifact:all" description="Sets up env variables for deploy">
+    <foreach list="${deployments}" param="deploy.remote" target="deploy:artifact:single" />
+  </target>
+
+  <target name="deploy:artifact:single" description="Full runtime for all deployment remotes">
+    <property name="deploy.remote.name" value="${${deploy.remote}.name}" override="true"/>
+    <property name="deploy.remote.gits" value="${${deploy.remote}.gits}" override="true"/>
+    <property name="deploy.remote.hosting" value="${${deploy.remote}.hosting}" override="true"/>
+    <echo message="Running deployment on ${deploy.remote.name}" />
 
     <!-- Delete the existing deploy directory and re-initialize as an empty git repository. -->
     <phingcall target="deploy:artifact:prepare-dir"/>
@@ -30,13 +42,17 @@
     <phingcall target="deploy:artifact:push-all"/>
   </target>
 
+  <target name="deploy:artifact:add-remotes" description="Add remotes and fetch upstream refs.">
+      <foreach list="${deploy.remote.gits}" param="deploy.remote.git" target="deploy:artifact:add-remote"/>
+  </target>
+
   <target name="deploy:artifact:add-remote" description="Adds a git remote and checks out deploy branch from upstream.">
-    <echo message="Fetching from git remote ${deploy.remote}"/>
+    <echo message="Fetching from git remote ${deploy.remote.git}"/>
 
     <!-- Generate and md5 sum of the remote URL to use as remote name. -->
-    <exec command="echo ${deploy.remote} | openssl md5 | cut -d' ' -f 2" outputProperty="remoteName"/>
-    <exec command="git remote add ${remoteName} ${deploy.remote}" dir="${deploy.dir}" logoutput="true" passthru="true"/>
-    <exec command="git fetch ${remoteName}" dir="${deploy.dir}" logoutput="true" passthru="true"/>
+    <exec command="echo ${deploy.remote.git} | openssl md5 | cut -d' ' -f 2" outputProperty="deploy.remote.hash"/>
+    <exec command="git remote add ${deploy.remote.hash} ${deploy.remote.git}" dir="${deploy.dir}" logoutput="true" passthru="true"/>
+    <exec command="git fetch ${deploy.remote.hash}" dir="${deploy.dir}" logoutput="true" passthru="true"/>
 
     <!-- Create the new branch, "[source-branch-name]-build". -->
     <if>
@@ -49,18 +65,14 @@
     <exec command="git checkout -b ${deploy.branch}" dir="${deploy.dir}" logoutput="true" passthru="true"/>
 
     <!-- Pull the latest updates (if available). -->
-    <exec command="git merge ${remoteName}/${deploy.branch}" dir="${deploy.dir}" logoutput="true" passthru="true"/>
-  </target>
-
-  <target name="deploy:artifact:add-remotes" description="Add remotes and fetch upstream refs.">
-    <foreach list="${git.remotes}" param="deploy.remote" target="deploy:artifact:add-remote"/>
+    <exec command="git merge ${deploy.remote.hash}/${deploy.branch}" dir="${deploy.dir}" logoutput="true" passthru="true"/>
   </target>
 
   <target name="deploy:artifact:build" description="Generates a deploy-ready build in deploy.dir."
           depends="deploy:artifact:clean, deploy:artifact:copy, deploy:artifact:composer:install, deploy:artifact:profile:make, frontend:build, deploy:artifact:sanitize">
     <!-- If we are using ACSF, run the ACSF Deploy command. -->
     <if>
-      <equals arg1="${hosting}" arg2="acsf"/>
+      <equals arg1="${deploy.remote.hosting}" arg2="acsf"/>
       <then>
         <phingcall target="deploy:acsf:init"/>
       </then>
@@ -167,12 +179,13 @@
   </target>
 
   <target name="deploy:artifact:push-all">
-    <foreach list="${git.remotes}" param="deploy.remote" target="deploy:artifact:push-remote"/>
+    <foreach list="${deploy.remote.gits}" param="deploy.remote.git" target="deploy:artifact:push-remote"/>
   </target>
 
   <target name="deploy:artifact:push-remote" description="Pushes to a git remote.">
-    <exec command="echo ${deploy.remote} | openssl md5 | cut -d' ' -f 2" outputProperty="remoteName"/>
-    <exec command="git push ${remoteName} ${deploy.branch}" dir="${deploy.dir}" logoutput="true" outputProperty="deploy.push.output"/>
+    <exec command="echo ${deploy.remote.git} "/>
+    <exec command="echo ${deploy.remote.git} | openssl md5 | cut -d' ' -f 2" outputProperty="deploy.remote.hash"/>
+    <exec command="git push ${deploy.remote.hash} ${deploy.branch}" dir="${deploy.dir}" logoutput="true" outputProperty="deploy.push.output"/>
     <exec command="export DEPLOY_UPTODATE=$(echo '${deploy.push.output}' | grep --quiet 'Everything up-to-date')"/>
   </target>
 

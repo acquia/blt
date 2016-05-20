@@ -58,7 +58,10 @@ class DeployTest extends \PHPUnit_Framework_TestCase {
     global $_ENV;
     $deploy_branch = '8.x-build';
 
-    foreach ($this->config['git']['remotes'] as $remote) {
+    foreach ($this->config['deployments'] as $deployment_target) {
+
+      // Default is a single git, so pulling that one out.
+      $remote = $this->config[$deployment_target]['gits'][0];
       $commands = [
         "git remote add temp $remote",
         "git fetch temp $deploy_branch",
