@@ -36,8 +36,8 @@
     <!-- Generate and md5 sum of the remote URL to use as remote name. -->
     <exec command="echo ${deploy.remote} | openssl md5 | cut -d' ' -f 2" outputProperty="remoteName" checkreturn="true"/>
     <exec command="git remote add ${remoteName} ${deploy.remote}" dir="${deploy.dir}" logoutput="true" checkreturn="true"/>
-    <exec command="git fetch ${remoteName} ${deploy.branch}" dir="${deploy.dir}" logoutput="true" checkreturn="true"/>
-    
+    <exec command="git fetch ${remoteName} ${deploy.branch}" dir="${deploy.dir}" logoutput="true"/>
+
     <!-- Create the new branch, "[source-branch-name]-build". -->
     <if>
       <not><isset property="${current_branch}"/></not>
