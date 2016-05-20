@@ -13,6 +13,9 @@
 source_branch=$1  # The branch to watch.
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
+# Set current_branch when running on Travis, used by Phing.
+export current_branch=$TRAVIS_BRANCH
+
 # Note that the canonical repository is watched. Commits to forked repositories
 # will not trigger deployment unless DEPLOY_PR is true.
 if [[ "${TRAVIS_PULL_REQUEST}" = "false" ]] || [[ "${DEPLOY_PR}" = "true" ]];
