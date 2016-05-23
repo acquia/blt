@@ -70,34 +70,21 @@
           description="Installs a specific Drupal site."
           depends="setup:drupal:settings, setup:check:docroot">
 
-    <if>
-      <available property="config.exists" file="${repo.root}/config/default/system.site.yml"/>
-      <then>
-        <drush command="site-install" assume="yes" verbose="TRUE" alias="${drush.aliases.local}">
-          <option name="site-name">"${project.human_name}"</option>
-          <option name="site-mail">"${drupal.account.mail}"</option>
-          <option name="account-name">"${drupal.account.name}"</option>
-          <option name="account-pass">"${drupal.account.password}"</option>
-          <option name="account-mail">"${drupal.account.mail}"</option>
-          <option name="config-dir">"${repo.root}/config/default"</option>
-          <option name="l">"${multisite.name}"</option>
-          <param>"${project.profile.name}"</param>
-          <param>"install_configure_form.update_status_module='array(FALSE,FALSE)'"</param>
-        </drush>
-      </then>
-      <else>
-        <drush command="site-install" assume="yes" verbose="TRUE" alias="${drush.aliases.local}">
-          <option name="site-name">"${project.human_name}"</option>
-          <option name="site-mail">"${drupal.account.mail}"</option>
-          <option name="account-name">"${drupal.account.name}"</option>
-          <option name="account-pass">"${drupal.account.password}"</option>
-          <option name="account-mail">"${drupal.account.mail}"</option>
-          <option name="l">"${multisite.name}"</option>
-          <param>"${project.profile.name}"</param>
-          <param>"install_configure_form.update_status_module='array(FALSE,FALSE)'"</param>
-        </drush>
-      </else>
-      </if>
+    <drush command="site-install" assume="yes" verbose="TRUE" alias="${drush.aliases.local}">
+      <option name="site-name">"${project.human_name}"</option>
+      <option name="site-mail">"${drupal.account.mail}"</option>
+      <option name="account-name">"${drupal.account.name}"</option>
+      <option name="account-pass">"${drupal.account.password}"</option>
+      <option name="account-mail">"${drupal.account.mail}"</option>
+      <option name="l">"${multisite.name}"</option>
+      <param>"${project.profile.name}"</param>
+      <param>"install_configure_form.update_status_module='array(FALSE,FALSE)'"</param>
+    </drush>
+
+    <drush command="config-import" assume="yes" alias="${drush.aliases.local}">
+      <param>--partial</param>
+    </drush>
+
   </target>
 
   <target name="setup:git-hooks" description="Installs git hooks to local .git/hooks directory from version controlled scripts/git-hooks directory.">
