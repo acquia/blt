@@ -51,8 +51,7 @@ script:
   # Call targets in the new 'bolted' project.
   - ../bolted8/bolt.sh build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dbehat.launch-phantom=true
   # Deploy build artifact.
-  - export DEPLOY_PR=true
-  - ../bolted8/scripts/deploy/travis-deploy.sh 8.x
+  - ../bolted8/bolt.sh deploy:artifact -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="8.x-build"
   # Validate and run 'bolt' phpunit tests.
   - phpcs --standard=../bolted8/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml tests
   - phpunit tests
