@@ -34,9 +34,9 @@
     <echo message="Fetching from git remote ${deploy.remote}"/>
 
     <!-- Generate and md5 sum of the remote URL to use as remote name. -->
-    <exec command="echo ${deploy.remote} | openssl md5 | cut -d' ' -f 2" outputProperty="remoteName"/>
-    <exec command="git remote add ${remoteName} ${deploy.remote}" dir="${deploy.dir}" logoutput="true" passthru="true"/>
-    <exec command="git fetch ${remoteName}" dir="${deploy.dir}" logoutput="true" passthru="true"/>
+    <exec command="echo ${deploy.remote} | openssl md5 | cut -d' ' -f 2" outputProperty="remoteName" checkreturn="true"/>
+    <exec command="git remote add ${remoteName} ${deploy.remote}" dir="${deploy.dir}" logoutput="true" checkreturn="true"/>
+    <exec command="git fetch ${remoteName} ${deploy.branch}" dir="${deploy.dir}" logoutput="true"/>
 
     <!-- Create the new branch, "[source-branch-name]-build". -->
     <if>
@@ -46,7 +46,7 @@
       </then>
     </if>
     <property name="deploy.branch" value="${current_branch}-build" />
-    <exec command="git checkout -b ${deploy.branch}" dir="${deploy.dir}" logoutput="true" passthru="true"/>
+    <exec command="git checkout -b ${deploy.branch}" dir="${deploy.dir}" logoutput="true" passthru="true" checkreturn="true"/>
 
     <!-- Pull the latest updates (if available). -->
     <exec command="git merge ${remoteName}/${deploy.branch}" dir="${deploy.dir}" logoutput="true" passthru="true"/>
@@ -76,8 +76,8 @@
   </target>
 
   <target name="deploy:artifact:commit">
-    <exec command="git add -A" dir="${deploy.dir}" logoutput="true" passthru="true"/>
-    <exec command="git commit -m '${deploy.commitMsg}' --quiet" dir="${deploy.dir}" logoutput="true" passthru="true"/>
+    <exec command="git add -A" dir="${deploy.dir}" logoutput="true" checkreturn="true"/>
+    <exec command="git commit -m '${deploy.commitMsg}' --quiet" dir="${deploy.dir}" logoutput="true" checkreturn="true"/>
   </target>
 
   <target name="deploy:artifact:composer:install" description="Downloads core and contrib to deploy folder.">
@@ -163,7 +163,7 @@
 
   <target name="deploy:artifact:prepare-dir" description="Delete the existing deploy directory and re-initialize as an empty git repository.">
     <delete dir="${deploy.dir}" failonerror="false" quiet="true" />
-    <exec command="git init ${deploy.dir}" logoutput="true"/>
+    <exec command="git init ${deploy.dir}" logoutput="true" checkreturn="true"/>
   </target>
 
   <target name="deploy:artifact:push-all">
@@ -171,8 +171,8 @@
   </target>
 
   <target name="deploy:artifact:push-remote" description="Pushes to a git remote.">
-    <exec command="echo ${deploy.remote} | openssl md5 | cut -d' ' -f 2" outputProperty="remoteName"/>
-    <exec command="git push ${remoteName} ${deploy.branch}" dir="${deploy.dir}" logoutput="true" outputProperty="deploy.push.output"/>
+    <exec command="echo ${deploy.remote} | openssl md5 | cut -d' ' -f 2" outputProperty="remoteName" checkreturn="true"/>
+    <exec command="git push ${remoteName} ${deploy.branch}" dir="${deploy.dir}" logoutput="true" outputProperty="deploy.push.output" checkreturn="true"/>
     <exec command="export DEPLOY_UPTODATE=$(echo '${deploy.push.output}' | grep --quiet 'Everything up-to-date')"/>
   </target>
 

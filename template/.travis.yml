@@ -53,7 +53,7 @@ script:
 
 # deploy:
 #   provider: script
-#   script: scripts/deploy/travis-deploy.sh master master-build
+#   script: scripts/deploy/travis-deploy.sh master
 #   skip_cleanup: true
 #   on:
 #     branch: master
