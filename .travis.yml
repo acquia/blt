@@ -58,11 +58,11 @@ script:
   - ../bolted8/bolt.sh build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dbehat.launch-phantom=true
   # Validate and run 'bolt' phpunit tests.
   - phpcs --standard=../bolted8/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml tests
-  - phpunit tests
+  - phpunit tests/phpunit/BoltTest.php
 
 deploy:
   provider: script
-  script: ../bolted8/scripts/deploy/travis-deploy.sh public-repo-deploy
+  script: ../bolted8/scripts/deploy/travis-deploy.sh public-repo-deploy && phpunit tests/phpunit/DeployTest.php
   skip_cleanup: true
   on:
     branch: public-repo-deploy
