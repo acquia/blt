@@ -58,7 +58,7 @@ script:
 
 deploy:
   provider: script
-  script: scripts/deploy/travis-deploy.sh 8.x
+  script: ../bolted8/scripts/deploy/travis-deploy.sh 8.x
   skip_cleanup: true
   on:
     branch: 8.x
