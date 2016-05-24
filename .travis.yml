@@ -39,9 +39,6 @@ before_install:
   - touch $SSH_PRIVATE_PATH
   - echo $SSH_PRIVATE_KEY > "$SSH_PRIVATE_PATH"
   - chmod 600 $SSH_PRIVATE_PATH
-  # Start ssh-agent http://stackoverflow.com/questions/17846529/could-not-open-a-connection-to-your-authentication-agent
-  - eval `ssh-agent -s`
-  - ssh-add $SSH_PRIVATE_PATH
 
 install:
   - composer install
@@ -65,7 +62,7 @@ script:
 
 deploy:
   provider: script
-  script: ../bolted8/scripts/deploy/travis-deploy.sh 8.x
+  script: ../bolted8/scripts/deploy/travis-deploy.sh public-repo-deploy
   skip_cleanup: true
   on:
-    branch: 8.x
+    branch: public-repo-deploy
