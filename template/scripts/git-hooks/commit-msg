@@ -11,6 +11,6 @@ if ! grep -iqE "$regex" "$1"; then
   echo "* Contain the project prefix followed by a hyphen"
   echo "* Contain a ticket number followed by a colon and a space"
   echo "* Be at least 15 characters long and end with a period."
-  echo "Valid example: ${project.prefix}-135: Add the new picture field to the article feature."
+  echo "Valid example: ${project.prefix}-135: Added the new picture field to the article feature."
   exit 1;
 fi
