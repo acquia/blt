@@ -1,7 +1,12 @@
 <project name="frontend" default="frontend:install">
 
   <target name="frontend:build" depends="frontend:install" description="Uses gulp to build front end dependencies for all themes.">
-    <foreach list="${project.themes}" param="frontend.theme" target="frontend:build:run"/>
+    <if>
+      <isset property="project.themes"/>
+      <then>
+        <foreach list="${project.themes}" param="frontend.theme" target="frontend:build:run"/>
+      </then>
+    </if>
   </target>
 
   <target name="frontend:build:run" depends="frontend:install" description="Uses gulp to build front end dependencies for a theme.">
