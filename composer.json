@@ -1,7 +1,7 @@
 {
   "name": "acquia/bolt",
   "description": "Bolt",
-  "license": "GPL-3.0",
+  "license": "GPL-2.0",
   "require": {
     "phing/phing": "2.*",
     "symfony/yaml": "~2.7",
