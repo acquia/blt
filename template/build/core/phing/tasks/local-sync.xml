@@ -1,6 +1,18 @@
-<project name="local" default="local:refresh">
+<project name="local" default="local:setup">
+
+  <target name="local:drupal:install">
+    <phingcall target="setup:drupal:install">
+      <property name="drush.alias" value="${drush.aliases.local}" />
+    </phingcall>
+  </target>
 
   <target name="local:refresh" description="Refreshes local environment from upstream testing database." depends="setup:build:all, local:sync, local:update"/>
+
+  <target name="local:setup">
+    <phingcall target="setup">
+      <property name="drush.alias" value="${drush.aliases.local}" />
+    </phingcall>
+  </target>
 
   <target name="local:sync" description="Synchronize remote environment with local environment."
           depends="setup:drupal:settings">

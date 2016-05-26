@@ -1,0 +1,8 @@
+<project name="ci" default="ci:setup">
+  <target name="ci:setup">
+    <phingcall target="setup">
+      <property name="drush.alias" value="${drush.aliases.ci}"/>
+      <property name="create_alias" value="n"/>
+    </phingcall>
+  </target>
+</project>
