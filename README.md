@@ -4,13 +4,9 @@
 
 Bolt is a tool that generates new Drupal projects using a standardized template derived from Acquia Professional Services' best practices.
 
-## License
+[![Creating new Drupal projects with Acquia Bolt - Video](acquia_bolt_video.png)](https://www.youtube.com/watch?v=BrsZAyfj2tE)
 
-Copyright (C) 2016 Acquia, Inc.
-
-This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License version 2 as published by the Free Software Foundation.
-
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+[Creating new Drupal projects with Acquia Bolt - Video](https://www.youtube.com/watch?v=BrsZAyfj2tE)
 
 ## Philosophy and Purpose
 
@@ -27,12 +23,6 @@ It scope is discretely defined. It is *not* intended to provide:
 * Drupal application features (e.g., workflow, media, layout, pre-fabbed content types, etc.)
 * A local hosting environment
 * A replacement for good judgement (as with Drupal, it leaves you the freedom to make mistakes)
-
-## Creating a new project with Bolt
-
-It isn’t accurate to say that you can “install” Bolt. Rather, you can use Bolt to generate a new project. Within that project, you can then perform common project tasks like build dependencies, install Drupal, run tests, etc.
-
-Follow the instructions in [INSTALL.md](INSTALL.md) to generate a new project using Bolt.
 
 ## Features
 
@@ -56,11 +46,18 @@ Follow the instructions in [INSTALL.md](INSTALL.md) to generate a new project us
     * Travis CI
     * GitHub
 
+## Installation
+
+It isn’t accurate to say that you can “install” Bolt. Rather, you can use Bolt to generate a new project. Within that project, you can then perform common project tasks like build dependencies, install Drupal, run tests, etc.
+
+Follow the instructions in [INSTALL.md](INSTALL.md) to generate a new project using Bolt.
+
+
 ## Keeping Bolt projects up-to-date
 
 "How do I pull down upstream changes from Bolt to my Bolt-generated project?"
 
-This is a popular question, and it's difficult to answer. 
+This is a popular question, and it's difficult to answer.
 
 Bolt is designed as a "starter kit" rather than a "distribution". It intentionally began with a "fork it and forget it" approach to updates. This is largely due to the fact that Bolt generated files are templates that are meant to be customized, and pulling in upstream updates would wipe out those customizations.
 
@@ -78,14 +75,14 @@ As a stopgap, you can run the following command to pull in upstream updates to s
 
 After running, you can review changes via `git diff` and decide what should be committed.
 
-# License, support, and contribution
+# Support and contribution
 
 Bolt is provided as an open source tool in the hope that it will enabled developers to easily generate new Drupal projects that conform to Acquia Professional Services' best practices.
 
 Please feel free to contribute to the project or file issues via the GitHub issue queue. When doing so, please keep the following points in mind:
- 
-* Bolt is distributed under the GPLv3 license; WITHOUT ANY WARRANTY.
-* The project maintainers make no commitment to respond to support requests, 
+
+* Bolt is distributed under the GPLv2 license; WITHOUT ANY WARRANTY.
+* The project maintainers make no commitment to respond to support requests,
   feature requests, or pull requests.
 * All contributions to Bolt will be reviewed for compliance with Drupal Coding
   Standards and best practices as defined by the project maintainer.
@@ -93,5 +90,13 @@ Please feel free to contribute to the project or file issues via the GitHub issu
   will be prioritized for inclusion.
 
 Bolt work is currently being tracked in the [Bolt GitHub issue queue]
-(https://github.com/acquia/bolt/issues) and organized via a 
+(https://github.com/acquia/bolt/issues) and organized via a
 [Waffle.io Kanban Board](https://waffle.io/acquia/bolt).
+
+## License
+
+Copyright (C) 2016 Acquia, Inc.
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License version 2 as published by the Free Software Foundation.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the [GNU General Public License](LICENSE.txt) for more details.
