@@ -84,7 +84,7 @@ Bolt is provided as an open source tool in the hope that it will enabled develop
 
 Please feel free to contribute to the project or file issues via the GitHub issue queue. When doing so, please keep the following points in mind:
  
-* Bolt is distributed under the GPLv3 license; WITHOUT ANY WARRANTY.
+* Bolt is distributed under the GPLv2 license; WITHOUT ANY WARRANTY.
 * The project maintainers make no commitment to respond to support requests, 
   feature requests, or pull requests.
 * All contributions to Bolt will be reviewed for compliance with Drupal Coding
