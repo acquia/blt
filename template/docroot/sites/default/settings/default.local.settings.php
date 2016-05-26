@@ -30,7 +30,7 @@ $dir = dirname(DRUPAL_ROOT);
 $config_directories['sync'] = $dir . '/config/default';
 
 // Use development service parameters.
-$settings['container_yamls'][] = $dir . '/sites/development.services.yml';
+$settings['container_yamls'][] = $dir . '/docroot/sites/development.services.yml';
 
 /**
  * Assertions.
