@@ -79,7 +79,7 @@ When you have completed setting up your local \*AMP stack, double check that the
 
 ## Build your project’s dependencies and install Drupal
 
-Run the following command from the project root: `./blt.sh setup`. This will do a lot of things for you, including:
+Run the following command from the project root: `./blt.sh local:setup`. This will do a lot of things for you, including:
 
 * Building dependencies
 * Installing local git hooks
