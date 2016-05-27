@@ -23,9 +23,11 @@ To re-install Drupal, execute: `./bolt.sh setup:drupal:install`. Note that this 
 
 Composer should be used to manage Drupal core, all contributed dependencies, and most third party libraries. The primary exception to this is front end libraries that may be managed via a front-end specific dependency manager, such as [Bower](http://bower.io/) or [NPM](https://www.npmjs.com/).
 
-### Contributed projects and third party libraries
+Make sure to familiarize yourself with [basic usage](https://getcomposer.org/doc/01-basic-usage.md) of Composer, especially on how the [lock file](https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file) is used. In short: you should commit _both_ `composer.json` and `composer.lock` to your project, and every time you update `composer.json`, you must also run `composer update` to update `composer.lock`. You should never manually edit `composer.lock`.
 
-To install or update contributed dependencies or third party libraries, simply update the dependency version(s) in composer.json and run `composer install` or `composer update`.
+To add a new package to your project, simply add it to the “require” section of `composer.json`, run `composer update`, and then commit _both_ the modified `composer.json` and `composer.lock`. To update an existing package, it’s generally sufficient to run `composer update`, and commit the modified `composer.lock`.
+
+### Contributed projects and third party libraries
 
 All contributed projects hosted on drupal.org, including Drupal core, profiles, modules, and themes, can be found on [Drupal packagist](https://packagist.drupal-composer.org/). Most non-Drupal libraries can be found on [Packagist](http://packagist.com/). For any required packaged not hosted on one of those two sites, you can define your own array of [custom repositories](https://getcomposer.org/doc/05-repositories.md#repository) for Composer to search.
 
