@@ -23,9 +23,9 @@ If you must use Windows, we recommend that:
     * [cmder](http://cmder.net/)
     * [cygwin](https://www.cygwin.com/)
 
-## Using Drupal VM for Bolt-generated projects
+## Using Drupal VM for BLT-generated projects
 
-To use Drupal VM with a Drupal project that is generated with Bolt, first place your downloaded copy of Drupal VM inside the generated Drupal project folder, and name the drupal-vm directory `box`.
+To use Drupal VM with a Drupal project that is generated with BLT, first place your downloaded copy of Drupal VM inside the generated Drupal project folder, and name the drupal-vm directory `box`.
 
 To make sure Drush commands work correctly with Drupal VM, inside the new project's `build/custom/phing/build.yml` file, override the `docroot` used for Drush commands with the value:
 
@@ -60,7 +60,7 @@ Then follow the Quick Start Guide in [Drupal VM's README](https://github.com/gee
     # Set drupal_site_name to the project's human-readable name.
     drupal_site_name: [project_human_name]
 
-    # If you build the makefile using Bolt's built-in Phing task (recommended),
+    # If you build the makefile using BLT's built-in Phing task (recommended),
     # set `build_makefile` to `false`.
     build_makefile: false
 
@@ -70,7 +70,7 @@ Then follow the Quick Start Guide in [Drupal VM's README](https://github.com/gee
     # database.
     install_site: true
 
-    # To add support for XSL, which is used for some Bolt-supplied tests, add
+    # To add support for XSL, which is used for some BLT-supplied tests, add
     # `php5-xsl` to `extra_packages`.
     extra_packages:
       - unzip
@@ -80,7 +80,7 @@ There are also other changes you can make if you choose to match the Acquia Clou
 
 Once you've made these changes and completed the steps in Drupal VM's Quick Start Guide, you may run `vagrant up` to bring up your local development environment, and then access the site via the configured `drupal_domain`.
 
-## Using Acquia Dev Desktop for Bolt-generated projects
+## Using Acquia Dev Desktop for BLT-generated projects
 
 ### Project creation and installation changes
 

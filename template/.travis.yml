@@ -49,12 +49,12 @@ before_script:
   - git diff --exit-code
 
 script:
-  - ./bolt.sh -Dbehat.run-server=true -Dcreate_alias=false -Dbehat.launch-phantom=true build:validate:test
+  - ./blt.sh -Dbehat.run-server=true -Dcreate_alias=false -Dbehat.launch-phantom=true build:validate:test
 
 # Uncomment to enable automatic deployments following merges.
 deploy:
   # provider: script
-  # script: ./bolt.sh deploy:artifact -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="${TRAVIS_BRANCH}-build"
+  # script: ./blt.sh deploy:artifact -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="${TRAVIS_BRANCH}-build"
   # skip_cleanup: true
   # on:
   #   branch: master

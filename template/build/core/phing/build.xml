@@ -1,4 +1,4 @@
-<project name="bolt-core" default="list" phingVersion="2.8.2">
+<project name="blt-core" default="list" phingVersion="2.8.2">
 
   <!-- Include custom task classes -->
   <includepath classpath="${core.phing.dir}" />
@@ -10,7 +10,7 @@
   <if>
     <available property="xdebug.enabled" extension="xdebug"/>
     <then>
-      <echo level="warning">You are running Bolt with xdebug enabled. This has a major impact on
+      <echo level="warning">You are running BLT with xdebug enabled. This has a major impact on
         runtime performance.</echo>
     </then>
   </if>
@@ -56,7 +56,7 @@
   </target>
 
   <target name="list" hidden="true">
-    <exec dir="${repo.root}" command="./bolt.sh -q -l" passthru="true"/>
+    <exec dir="${repo.root}" command="./blt.sh -q -l" passthru="true"/>
   </target>
 
 </project>

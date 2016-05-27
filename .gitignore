@@ -100,6 +100,6 @@ nbproject/*
 *.sql
 *.zip
 
-# Some files should be excluded from bolt but not from the projects it
+# Some files should be excluded from blt but not from the projects it
 # generates, so they must be specified here rather than in template/.gitignore.
 template/.idea/.name

@@ -1,8 +1,8 @@
-# Bolt
+# BLT
 
-[![Build Status](https://travis-ci.org/acquia/bolt.svg?branch=8.x)](https://travis-ci.org/acquia/bolt)
+[![Build Status](https://travis-ci.org/acquia/blt.svg?branch=8.x)](https://travis-ci.org/acquia/blt)
 
-Bolt is a tool that generates new Drupal projects using a standardized template derived from Acquia Professional Services' best practices.
+BLT is a tool that generates new Drupal projects using a standardized template derived from Acquia Professional Services' best practices.
 
 ## License
 
@@ -14,7 +14,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 
 ## Philosophy and Purpose
 
-Bolt is designed to improve efficiency and collaboration across Drupal projects by providing a common set of tools and standardized structure. It was born out of the need to reduce re-work, project set up time, and developer onboarding time.
+BLT is designed to improve efficiency and collaboration across Drupal projects by providing a common set of tools and standardized structure. It was born out of the need to reduce re-work, project set up time, and developer onboarding time.
 
 Its explicit goals are to:
 
@@ -28,11 +28,11 @@ It scope is discretely defined. It is *not* intended to provide:
 * A local hosting environment
 * A replacement for good judgement (as with Drupal, it leaves you the freedom to make mistakes)
 
-## Creating a new project with Bolt
+## Creating a new project with BLT
 
-It isn’t accurate to say that you can “install” Bolt. Rather, you can use Bolt to generate a new project. Within that project, you can then perform common project tasks like build dependencies, install Drupal, run tests, etc.
+It isn’t accurate to say that you can “install” BLT. Rather, you can use BLT to generate a new project. Within that project, you can then perform common project tasks like build dependencies, install Drupal, run tests, etc.
 
-Follow the instructions in [INSTALL.md](INSTALL.md) to generate a new project using Bolt.
+Follow the instructions in [INSTALL.md](INSTALL.md) to generate a new project using BLT.
 
 ## Features
 
@@ -46,7 +46,7 @@ Follow the instructions in [INSTALL.md](INSTALL.md) to generate a new project us
     * HipChat
 * [Testing Framework](template/tests).
     * Behat: default `local.yml` configuration, example tests, `FeatureContext.php`
-    * PHPUnit: default tests for ensuring proper functioning of Bolt provided components
+    * PHPUnit: default tests for ensuring proper functioning of BLT provided components
 * [Project tasks](template/readme/project-tasks.md)
     * Executing tests and validating code
     * Building dependencies
@@ -56,15 +56,15 @@ Follow the instructions in [INSTALL.md](INSTALL.md) to generate a new project us
     * Travis CI
     * GitHub
 
-## Keeping Bolt projects up-to-date
+## Keeping BLT projects up-to-date
 
-"How do I pull down upstream changes from Bolt to my Bolt-generated project?"
+"How do I pull down upstream changes from BLT to my BLT-generated project?"
 
 This is a popular question, and it's difficult to answer. 
 
-Bolt is designed as a "starter kit" rather than a "distribution". It intentionally began with a "fork it and forget it" approach to updates. This is largely due to the fact that Bolt generated files are templates that are meant to be customized, and pulling in upstream updates would wipe out those customizations.
+BLT is designed as a "starter kit" rather than a "distribution". It intentionally began with a "fork it and forget it" approach to updates. This is largely due to the fact that BLT generated files are templates that are meant to be customized, and pulling in upstream updates would wipe out those customizations.
 
-That said, there are components of Bolt that could be treated as dependencies that receive upstream updates. Those components include:
+That said, there are components of BLT that could be treated as dependencies that receive upstream updates. Those components include:
 
 * Project tasks
 * Scripts
@@ -72,26 +72,26 @@ That said, there are components of Bolt that could be treated as dependencies th
 
 The ideal approach would be to split each of these into a separate, versioned projects that could be treated as formal composer.json dependencies, but we don't currently have the resources to maintain all of those projects.
 
-As a stopgap, you can run the following command to pull in upstream updates to specific files and directories in your Bolt generated project:
+As a stopgap, you can run the following command to pull in upstream updates to specific files and directories in your BLT generated project:
 
-`./bolt.sh setup:bolt:update`
+`./blt.sh setup:blt:update`
 
 After running, you can review changes via `git diff` and decide what should be committed.
 
 # License, support, and contribution
 
-Bolt is provided as an open source tool in the hope that it will enabled developers to easily generate new Drupal projects that conform to Acquia Professional Services' best practices.
+BLT is provided as an open source tool in the hope that it will enabled developers to easily generate new Drupal projects that conform to Acquia Professional Services' best practices.
 
 Please feel free to contribute to the project or file issues via the GitHub issue queue. When doing so, please keep the following points in mind:
  
-* Bolt is distributed under the GPLv2 license; WITHOUT ANY WARRANTY.
+* BLT is distributed under the GPLv2 license; WITHOUT ANY WARRANTY.
 * The project maintainers make no commitment to respond to support requests, 
   feature requests, or pull requests.
-* All contributions to Bolt will be reviewed for compliance with Drupal Coding
+* All contributions to BLT will be reviewed for compliance with Drupal Coding
   Standards and best practices as defined by the project maintainer.
-* Feature that are part of the [Road Map](https://github.com/acquia/bolt/wiki/Road-Map)
+* Feature that are part of the [Road Map](https://github.com/acquia/blt/wiki/Road-Map)
   will be prioritized for inclusion.
 
-Bolt work is currently being tracked in the [Bolt GitHub issue queue]
-(https://github.com/acquia/bolt/issues) and organized via a 
-[Waffle.io Kanban Board](https://waffle.io/acquia/bolt).
+BLT work is currently being tracked in the [BLT GitHub issue queue]
+(https://github.com/acquia/blt/issues) and organized via a 
+[Waffle.io Kanban Board](https://waffle.io/acquia/blt).

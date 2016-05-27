@@ -25,7 +25,7 @@ class DeployTest extends \PHPUnit_Framework_TestCase {
   /**
    * Tests Phing deploy:build:all target.
    */
-  public function testBoltDeployBuild() {
+  public function testBltDeployBuild() {
 
     // Ensure deploy directory exists.
     $this->assertFileExists($this->deploy_dir);
@@ -53,7 +53,7 @@ class DeployTest extends \PHPUnit_Framework_TestCase {
   /**
    * Tests Phing deploy:build:push target.
    */
-  public function testBoltDeployPush() {
+  public function testBltDeployPush() {
 
     global $_ENV;
     $deploy_branch = '8.x-build';

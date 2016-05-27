@@ -13,5 +13,5 @@ if [ ! -f $PHPCS_BIN ];
 fi
 
 
-${ROOT_DIR}bolt.sh validate:phpcs:files -Dfiles="$LIST" -q
+${ROOT_DIR}blt.sh validate:phpcs:files -Dfiles="$LIST" -q
 exit 0;
