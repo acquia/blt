@@ -1,5 +1,5 @@
 # To generate a local.yml file using this the example template, execute:
-# `./bolt.sh setup:behat` from the project root.
+# `./blt.sh setup:behat` from the project root.
 imports:
   - behat.yml
 

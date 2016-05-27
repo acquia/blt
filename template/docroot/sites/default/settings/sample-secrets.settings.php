@@ -21,7 +21,7 @@ if (isset($conf['acquia_hosting_site_info']['db'])) {
    * - ['db']['name'] is specific to a Drupal site in a specific environment.
    */
   switch ($conf['acquia_hosting_site_info']['db']['name']) {
-    case 'bolted':
+    case 'blted':
       /*
        * Acquia Network Connector
        *

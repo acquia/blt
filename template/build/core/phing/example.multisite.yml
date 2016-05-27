@@ -1,6 +1,6 @@
 # Values in this file may override default values set elsewhere. You can pass
 # configuration from this file to Phing. E.g.,
-# ./bolt.sh tests:behat -propertyfile build/custom/phing/example.multisite.yml
+# ./blt.sh tests:behat -propertyfile build/custom/phing/example.multisite.yml
 
 behat:
   # @see http://docs.behat.org/en/v2.5/guides/6.cli.html#gherkin-filters

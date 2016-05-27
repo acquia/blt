@@ -5,12 +5,12 @@ namespace Drupal;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Class BoltTest.
+ * Class BLTTest.
  *
- * Verifies that project structure and configuration matches Bolt
+ * Verifies that project structure and configuration matches BLT
  * standards.
  */
-class BoltTest extends \PHPUnit_Framework_TestCase {
+class BltTest extends \PHPUnit_Framework_TestCase {
 
   /**
    * Class constructor.
@@ -25,17 +25,17 @@ class BoltTest extends \PHPUnit_Framework_TestCase {
   /**
    * Tests Phing pt:create target.
    */
-  public function testBoltCreate() {
+  public function testBltCreate() {
 
     $this->assertFileExists($this->new_project_dir);
     $this->assertFileNotExists($this->new_project_dir . '/install');
-    $this->assertFileNotExists($this->new_project_dir . '/tests/phpunit/Bolt.php');
+    $this->assertFileNotExists($this->new_project_dir . '/tests/phpunit/BltTest.php');
     $this->assertFileExists($this->new_project_dir . '/vendor');
     $this->assertNotContains(
           'pt:self-test',
           file_get_contents($this->new_project_dir . '/.travis.yml')
       );
-    $this->assertFileNotExists($this->new_project_dir . '/build/tasks/bolt.xml');
+    $this->assertFileNotExists($this->new_project_dir . '/build/tasks/blt.xml');
     $this->assertNotContains(
           '${project.machine_name}',
           file_get_contents($this->new_project_dir . '/docroot/sites/default/settings.php')

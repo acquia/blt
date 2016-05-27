@@ -11,15 +11,15 @@ elif [ -f "$HOME/.profile" ]; then
 fi
 
 if [ ! -z "$DETECTED_PROFILE" ]; then
-  if [ "`grep 'function bolt' $DETECTED_PROFILE`" ]; then
-    echo "Alias for bolt already exists in $DETECTED_PROFILE"
+  if [ "`grep 'function blt' $DETECTED_PROFILE`" ]; then
+    echo "Alias for blt already exists in $DETECTED_PROFILE"
     exit
   fi
   DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
   cat $DIR/alias >> $DETECTED_PROFILE
 
-  echo "Added alias for bolt to $DETECTED_PROFILE"
+  echo "Added alias for blt to $DETECTED_PROFILE"
   echo "Restart your terminal session to use the new command."
 else
-  echo "Could not install bolt alias. No profile found. Tried ~/.zshrc, ~/.bashrc, ~/.bash_profile and ~/.profile."
+  echo "Could not install blt alias. No profile found. Tried ~/.zshrc, ~/.bashrc, ~/.bash_profile and ~/.profile."
 fi

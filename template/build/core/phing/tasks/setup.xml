@@ -1,9 +1,9 @@
 <project name="setup" default="setup">
 
   <target name="setup" description="Install dependencies, builds docroot, installs Drupal."
-          depends="setup:build:all, setup:drupal:install, setup:bolt:alias">
+          depends="setup:build:all, setup:drupal:install, setup:blt:alias">
     <echo>For a full list of available Phing targets, run:</echo>
-    <echo>./bolt.sh -l</echo>
+    <echo>./blt.sh -l</echo>
     <echo></echo>
   </target>
 
@@ -101,24 +101,24 @@
     </chmod>
   </target>
 
-  <target name="setup:bolt:update" description="Pulls in upstream changes to project template from Bolt repository.">
+  <target name="setup:blt:update" description="Pulls in upstream changes to project template from BLT repository.">
     <echo>You may be prompted to trust GitHub's SSL certification and to enter your GitHub password.</echo>
     <echo>If you have two factor authentication enabled for GitHub, you must use an access token in lieu of a password.</echo>
     <echo>GitHub access tokens can be generated here: https://github.com/settings/tokens</echo>
 
     <input message="Press any key to continue" propertyName="continue" />
 
-    <exec dir="${repo.root}" command="./scripts/bolt/update-scaffold" logoutput="true" passthru="true"/>
+    <exec dir="${repo.root}" command="./scripts/blt/update-scaffold" logoutput="true" passthru="true"/>
   </target>
 
-  <target name="setup:bolt:alias" description="Installs the Bolt alias for command line usage.">
-    <echo>Bolt can automatically create a Bash alias to make it easier to run Bolt tasks.</echo>
+  <target name="setup:blt:alias" description="Installs the BLT alias for command line usage.">
+    <echo>BLT can automatically create a Bash alias to make it easier to run BLT tasks.</echo>
     <echo>This alias may be created in .bash_profile or .bashrc depending on your system architecture.</echo>
     <propertyprompt propertyName="create_alias" defaultValue="y" useExistingValue="true" promptText="Create a bash alias now? (y/n)" />
     <if>
       <equals arg1="${create_alias}" arg2="y"/>
       <then>
-        <exec dir="${repo.root}/scripts/bolt" command="./install-alias.sh" passthru="true" checkreturn="true"/>
+        <exec dir="${repo.root}/scripts/blt" command="./install-alias.sh" passthru="true" checkreturn="true"/>
       </then>
     </if>
   </target>

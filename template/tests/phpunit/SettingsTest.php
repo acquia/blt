@@ -17,7 +17,7 @@ class SettingsTest extends TestBase {
   public function setupParams($env) {
 
     $_ENV['AH_SITE_ENVIRONMENT'] = $env;
-    $_ENV['AH_SITE_NAME'] = $_ENV['AH_SITE_GROUP'] = 'bolt';
+    $_ENV['AH_SITE_NAME'] = $_ENV['AH_SITE_GROUP'] = 'blt';
     // @codingStandardsIgnoreStart
     $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
     // @codingStandardsIgnoreEnd

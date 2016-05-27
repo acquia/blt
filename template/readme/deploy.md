@@ -22,7 +22,7 @@ Ensure your ACE remote is listed in project.yml under git:remotes.
 
 In order to create the build artifact in `/deploy`, simply run
 ```
-./bolt.sh deploy:artifact:build
+./blt.sh deploy:artifact:build
 ```
 
 This task is analogous to `setup:build:all` but with a few critical differences:
@@ -38,7 +38,7 @@ After the artifact is created, you can inspect it or even run it as a website lo
 To both create and deploy the build artifact in a single command, run the following command
  
 ````
-./bolt.sh deploy:artifact -Ddeploy.branch=develop-build -Ddeploy.commitMsg='BLT-123: The commit message.'
+./blt.sh deploy:artifact -Ddeploy.branch=develop-build -Ddeploy.commitMsg='BLT-123: The commit message.'
 ````
 
 This command will commit the artifact to the `develop-build` branch with the specified commit message and push it to the remotes defined in project.yml.

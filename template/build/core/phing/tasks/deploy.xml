@@ -11,7 +11,7 @@
       <then>
         <fail message="You must pass deploy.commitMsg and deploy.branch as runtime parameters."/>
         <echo message="Command should match syntax:"/>
-        <echo message="./bolt.sh deploy:artifact -Ddeploy.commitMsg='BLT-123: The commit message.' -Ddeploy.branch='master-build'"/>
+        <echo message="./blt.sh deploy:artifact -Ddeploy.commitMsg='BLT-123: The commit message.' -Ddeploy.branch='master-build'"/>
       </then>
     </if>
 
