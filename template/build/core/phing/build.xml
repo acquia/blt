@@ -44,6 +44,9 @@
   <!-- Contains local syncing tasks. -->
   <import file="${core.phing.dir}/tasks/local-sync.xml"/>
 
+  <!-- Contains acsf tasks. -->
+  <import file="${core.phing.dir}/tasks/acsf.xml"/>
+
   <!--
     The follow targets are intended to be wrapper targets that bundle
     multiple targets from other includes.
