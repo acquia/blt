@@ -746,6 +746,7 @@ if ($is_local_env) {
   if (getenv('TRAVIS') && file_exists(DRUPAL_ROOT . '/sites/default/settings/travis.settings.php')) {
     require DRUPAL_ROOT . '/sites/default/settings/travis.settings.php';
   }
+  // Load Tugboat settings.
   elseif (getenv('TUGBOAT_URL') && file_exists(DRUPAL_ROOT . '/sites/default/settings/tugboat.settings.php')) {
     require DRUPAL_ROOT . '/sites/default/settings/tugboat.settings.php';
   }
