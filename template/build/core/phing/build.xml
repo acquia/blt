@@ -20,6 +20,9 @@
   <!-- Defines a list of default properties, available to all targets. -->
   <import file="${core.phing.dir}/tasks/properties.xml"/>
 
+  <!-- Contains Continuous Integration tasks. -->
+  <import file="${core.phing.dir}/tasks/ci.xml"/>
+
   <!-- Contains tasks relevant to validation. E.g., code metrics. -->
   <import file="${core.phing.dir}/tasks/validate.xml"/>
 

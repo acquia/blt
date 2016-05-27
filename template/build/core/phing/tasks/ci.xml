@@ -1,4 +1,15 @@
 <project name="ci" default="ci:setup">
+
+  <target name="ci:build:test"
+          description="Builds, tests, and deploys an artifact."
+          depends="ci:setup, tests:all">
+  </target>
+
+  <target name="ci:build:validate:test"
+          description="Builds, validates, tests, and deploys an artifact."
+          depends="validate:all, ci:setup, tests:all">
+  </target>
+
   <target name="ci:setup">
     <phingcall target="setup">
       <property name="drush.alias" value="${drush.aliases.ci}"/>

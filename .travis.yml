@@ -49,7 +49,7 @@ script:
   - ./blt.sh configure
   - ./blt.sh create
   # Call targets in the new 'blted' project.
-  - ../blted8/blt.sh build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dbehat.launch-phantom=true
+  - ../blted8/blt.sh ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dbehat.launch-phantom=true
   # Deploy build artifact.
   - ../blted8/blt.sh deploy:artifact -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="8.x-build"
   # Validate and run 'blt' phpunit tests.

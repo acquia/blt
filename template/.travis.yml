@@ -49,7 +49,7 @@ before_script:
   - git diff --exit-code
 
 script:
-  - ./blt.sh -Dbehat.run-server=true -Dcreate_alias=false -Dbehat.launch-phantom=true build:validate:test
+  - ./blt.sh -Dbehat.run-server=true -Dcreate_alias=false -Dbehat.launch-phantom=true ci:build:validate:test
 
 # Uncomment to enable automatic deployments following merges.
 deploy:
