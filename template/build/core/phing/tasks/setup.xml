@@ -53,18 +53,6 @@
     <exec dir="${repo.root}" command="composer install" logoutput="true" passthru="true"/>
   </target>
 
-  <!-- Check for docroot. -->
-  <target name="setup:check:docroot" description="Checks to see if docroot exists. Fails if it does not.">
-    <if>
-      <not>
-        <available property="sites.exists" file="${docroot}/sites/default" type="dir"/>
-      </not>
-      <then>
-        <fail message="The docroot is missing. Please run setup:build:all." />
-      </then>
-    </if>
-  </target>
-
   <target name="setup:drupal:settings" description="Create local settings files using default settings files.">
     <chmod mode="0755" file="${docroot}/sites/default"/>
     <copy file="${docroot}/sites/${multisite.name}/settings/default.local.settings.php" tofile="${docroot}/sites/${multisite.name}/settings/local.settings.php"/>
@@ -76,7 +64,7 @@
 
   <target name="setup:drupal:install"
           description="Installs a specific Drupal site."
-          depends="setup:drupal:settings, setup:check:docroot">
+          depends="setup:drupal:settings">
 
     <drush command="site-install" assume="yes" verbose="TRUE" alias="${drush.alias}">
       <option name="site-name">"${project.human_name}"</option>

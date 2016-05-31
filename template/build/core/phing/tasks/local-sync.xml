@@ -1,6 +1,6 @@
 <project name="local" default="local:setup">
 
-  <target name="local:drupal:install">
+  <target name="local:drupal:install" description="Installs a specific Drupal site using local drush alias.">
     <phingcall target="setup:drupal:install">
       <property name="drush.alias" value="${drush.aliases.local}" />
     </phingcall>
@@ -8,7 +8,7 @@
 
   <target name="local:refresh" description="Refreshes local environment from upstream testing database." depends="setup:build:all, local:sync, local:update"/>
 
-  <target name="local:setup">
+  <target name="local:setup" description="Install dependencies, builds docroot, installs Drupal; uses local drush alias.">
     <phingcall target="setup">
       <property name="drush.alias" value="${drush.aliases.local}" />
     </phingcall>
