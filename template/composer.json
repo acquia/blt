@@ -19,7 +19,7 @@
     "drupal/security_review" :                    "8.*",
     "roave/security-advisories":                  "dev-master",
     "drupal-composer/drupal-security-advisories": "8.0.x-dev",
-    "drupal/lightning":                           "^8.1.0"
+    "drupal/lightning":                           "~8.1.0"
   },
   "require-dev": {
     "behat/behat":                  "3.0.*",
