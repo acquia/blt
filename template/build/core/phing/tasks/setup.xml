@@ -7,12 +7,6 @@
     <echo></echo>
   </target>
 
-  <target name="acsf:init" description="Initializes ACSF support for project.">
-    <exec dir="${docroot}" command="${drush.cmd} --include=${docroot}/modules/contrib/acsf/acsf_init acsf-init --skip-default-settings -y" logoutput="true" checkreturn="true"/>
-    <echo>Please add acsf_init as a dependency for your installation profile to ensure that it remains enabled.</echo>
-    <echo>An example alias file for ACSF is located in /drush/site-aliases/example.acsf.aliases.drushrc.php.</echo>
-  </target>
-
   <target name="setup:behat" description="Generates tests/behat/local.yml file for executing Behat tests locally.">
     <copy file="${repo.root}/tests/behat/example.local.yml" tofile="${repo.root}/tests/behat/local.yml">
       <filterchain>
@@ -41,20 +35,22 @@
     </if>
   </target>
 
-  <target name="setup:composer:install" description="Installs project dependencies, including drupal core and contrib.">
-    <exec dir="${repo.root}" command="composer install" logoutput="true" passthru="true"/>
+  <target name="setup:clean" description="Removes .gitignored files and directories.">
+    <delete>
+      <fileset dir="${repo.root}">
+        <include name="docroot/core"/>
+        <include name="docroot/libraries"/>
+        <include name="docroot/modules/contrib"/>
+        <include name="docroot/profiles/contrib"/>
+        <include name="docroot/themes/contrib"/>
+        <include name="drush/contrib"/>
+        <include name="vendor"/>
+      </fileset>
+    </delete>
   </target>
 
-  <!-- Check for docroot. -->
-  <target name="setup:check:docroot" description="Checks to see if docroot exists. Fails if it does not.">
-    <if>
-      <not>
-        <available property="sites.exists" file="${docroot}/sites/default" type="dir"/>
-      </not>
-      <then>
-        <fail message="The docroot is missing. Please run setup:build:all." />
-      </then>
-    </if>
+  <target name="setup:composer:install" description="Installs project dependencies, including drupal core and contrib.">
+    <exec dir="${repo.root}" command="composer install" logoutput="true" passthru="true"/>
   </target>
 
   <target name="setup:drupal:settings" description="Create local settings files using default settings files.">
@@ -68,9 +64,9 @@
 
   <target name="setup:drupal:install"
           description="Installs a specific Drupal site."
-          depends="setup:drupal:settings, setup:check:docroot">
+          depends="setup:drupal:settings">
 
-    <drush command="site-install" assume="yes" verbose="TRUE" alias="${drush.aliases.local}">
+    <drush command="site-install" assume="yes" verbose="TRUE" alias="${drush.alias}">
       <option name="site-name">"${project.human_name}"</option>
       <option name="site-mail">"${drupal.account.mail}"</option>
       <option name="account-name">"${drupal.account.name}"</option>

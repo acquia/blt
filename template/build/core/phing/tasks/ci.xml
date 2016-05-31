@@ -1,0 +1,19 @@
+<project name="ci" default="ci:setup">
+
+  <target name="ci:build:test"
+          description="Builds, tests, and deploys an artifact; uses ci drush alias."
+          depends="ci:setup, tests:all">
+  </target>
+
+  <target name="ci:build:validate:test"
+          description="Builds, validates, tests, and deploys an artifact; uses ci drush alias."
+          depends="validate:all, ci:setup, tests:all">
+  </target>
+
+  <target name="ci:setup" description="Install dependencies, builds docroot, installs Drupal; uses ci drush alias.">
+    <phingcall target="setup">
+      <property name="drush.alias" value="${drush.aliases.ci}"/>
+      <property name="create_alias" value="n"/>
+    </phingcall>
+  </target>
+</project>

@@ -20,6 +20,9 @@
   <!-- Defines a list of default properties, available to all targets. -->
   <import file="${core.phing.dir}/tasks/properties.xml"/>
 
+  <!-- Contains Continuous Integration tasks. -->
+  <import file="${core.phing.dir}/tasks/ci.xml"/>
+
   <!-- Contains tasks relevant to validation. E.g., code metrics. -->
   <import file="${core.phing.dir}/tasks/validate.xml"/>
 
@@ -40,6 +43,9 @@
 
   <!-- Contains local syncing tasks. -->
   <import file="${core.phing.dir}/tasks/local-sync.xml"/>
+
+  <!-- Contains acsf tasks. -->
+  <import file="${core.phing.dir}/tasks/acsf.xml"/>
 
   <!--
     The follow targets are intended to be wrapper targets that bundle

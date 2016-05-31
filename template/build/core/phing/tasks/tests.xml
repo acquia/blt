@@ -70,7 +70,7 @@
   </target>
 
   <!-- Execute PHPUnit tests. -->
-  <target name="tests:phpunit" description="Executes PHPUnit tests against custom code." depends="setup:check:docroot">
+  <target name="tests:phpunit" description="Executes PHPUnit tests against custom code.">
     <delete dir="${reports.localDir}/phpunit" quiet="true"/>
     <mkdir dir="${reports.localDir}/phpunit"/>
 
@@ -114,7 +114,7 @@
     <if>
       <equals arg1="${behat.run-server}" arg2="true"/>
       <then>
-        <echo message="Using drush runserver for tests." />
+        <echo message="Using 'drush runserver' for tests." />
         <echo message="Running server at ${behat.server-url}"/>
         <exec command="pkill -f runserver" logoutput="true"/>
         <exec executable="${drush.bin}" dir="${docroot}" spawn="true">
@@ -126,7 +126,7 @@
         </waitfor>
       </then>
       <else>
-        <echo message="Using local LAMP stack for tests." />
+        <echo message="NOT using `drush runserver' for tests." />
       </else>
     </if>
   </target>
