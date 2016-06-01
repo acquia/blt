@@ -1,4 +1,4 @@
-# BLT
+# BLT (Build and Launch Tool)
 
 [![Build Status](https://travis-ci.org/acquia/blt.svg?branch=8.x)](https://travis-ci.org/acquia/blt)
 
