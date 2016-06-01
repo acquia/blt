@@ -19,4 +19,7 @@
 
   <!-- Extracts value of $options['uri'] and outputs to local_url property in Phing. -->
   <phpVariable file="${repo.root}/drush/drushrc.php" variable="options[uri]" outputProperty="local_url" />
+
+  <!-- Default drush alias. -->
+  <property name="drush.alias" value="self" override="false" />
 </project>
