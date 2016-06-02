@@ -27,7 +27,7 @@ In order to create the build artifact in `/deploy`, simply run
 
 This task is analogous to `setup:build:all` but with a few critical differences:
 * The docroot is created at `/deploy/docroot`.
-* Only production required to the docroot 
+* Only production required to the docroot
 * (planned) CSS / JS are compiled in production mode (compressed / minified)
 * (planned) Sensitive files, such as CHANGELOG.txt, are removed.
 
@@ -36,7 +36,7 @@ After the artifact is created, you can inspect it or even run it as a website lo
 ## <a name="build-artifact"></a>Create and deploy the build artifact
 
 To both create and deploy the build artifact in a single command, run the following command
- 
+
 ````
 ./blt.sh deploy:artifact -Ddeploy.branch=develop-build -Ddeploy.commitMsg='BLT-123: The commit message.'
 ````
@@ -58,3 +58,11 @@ For more information on configuring Travis CI, see "Setting Up Travis CI for aut
 Jenkins is more expensive and time-consuming to set up, but offers much more flexibility. For instance, you can add a Slack slash command (such as `/deploy`) that allows your QA team to deploy specific branches to ACE on demand. See the forthcoming README on Jenkins integration for more information.
 
 Note, we previously used Engineering's Jenkins instance for CI (ci.acquia.com), but this should be avoided going forward. Instead, a starter account with Cloudbees is recommended. There's a two-week free trial, and after that the service is ~$60 per month, and must be paid for on a per-project basis.
+
+### Bamboo (Pipeline)
+
+Bamboo has close integration with Bitbucket (Stash). Pipeline is a cloud solution for Bamboo that is currently in beta.
+
+In order to set up Bamboo, you must host Bamboo on a server. This server can be in the cloud or contained within an internal network. The server running Bamboo must support Java (Bamboo is built on Java) as well as Composer, PHPUnit, and frontend build tools as necessary. This server must also be able to connect to your Git repository as the user running Bamboo.
+
+Once set up, Bamboo can be configured to watch for updates to the codebase and run BLT tasks. For more information on configuring Bamboo, see "Setting Up Bamboo for automated deployments" in [build/README.md](../build/README.md).
