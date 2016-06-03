@@ -5,4 +5,4 @@ cd /var/lib/tugboat/docroot
 chown -R www-data sites/default/files
 
 # Update current database to reflect the state of the Drupal file system
-$DIR/../../bolt.sh ci:update
+$DIR/../../blt.sh ci:update

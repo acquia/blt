@@ -11,4 +11,4 @@ composer install
 $DIR/install-node.sh 4.4.1
 
 
-$DIR/../../bolt.sh ci:setup
+$DIR/../../blt.sh ci:setup
