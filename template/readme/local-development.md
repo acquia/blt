@@ -2,8 +2,8 @@
 
 Acquia currently recommends the use of either:
 
-  * [Drupal VM](http://www.drupalvm.com/): An isolated virtual machine, built with Vagrant and Ansible.
-  * [Acquia Dev Desktop](https://www.acquia.com/products-services/dev-desktop): A turn-key LAMP stack tailored specifically for Acquia-hosted Drupal sites.
+  * [Drupal VM](#drupal-vm): An isolated virtual machine, built with Vagrant and Ansible.
+  * [Acquia Dev Desktop](#dd): A turn-key LAMP stack tailored specifically for Acquia-hosted Drupal sites.
 
 No matter what local environment you choose to use, the following guidelines should be followed:
 
@@ -23,18 +23,36 @@ If you must use Windows, we recommend that:
     * [cmder](http://cmder.net/)
     * [cygwin](https://www.cygwin.com/)
 
-## Using Drupal VM for BLT-generated projects
+## <a name="drupal-vm"></a>Using Drupal VM for BLT-generated projects
 
-To use Drupal VM with a Drupal project that is generated with BLT, first place your downloaded copy of Drupal VM inside the generated Drupal project folder, and name the drupal-vm directory `box`.
+To use [Drupal VM](https://www.acquia.com/products-services/dev-desktop) with a Drupal project that is generated with BLT:
 
-To make sure Drush commands work correctly with Drupal VM, inside the new project's `build/custom/phing/build.yml` file, override the `docroot` used for Drush commands with the value:
+1. Place your downloaded copy of Drupal VM inside the generated Drupal project folder, and name the drupal-vm directory `box`.
+2. Inside the new project's `build/custom/phing/build.yml` file, override the `docroot` used for Drush commands with the value:
 
+    ```
     drush:
-      root: /var/www/[project_machine_name]/docroot
+      root: ''
+    ```
+3. Add a drush alias to `drush/site-aliases/aliases.drushrc.php`:
 
-Then follow the Quick Start Guide in [Drupal VM's README](https://github.com/geerlingguy/drupal-vm#quick-start-guide), but before you run  `vagrant up`, make the following changes to your VM
-`config.yml` file:
+    ```
+    // [vagrant_machine_name].local
+    $aliases['[vagrant_machine_name].local'] = array(
+      // /var/www/[vagrant_machine_name]/docroot
+      'root' => '/var/www/[vagrant_machine_name]/docroot',
+      // vagrant_hostname
+      'uri' => '[vagrant_hostname]',
+      // vagrant_hostname
+      'remote-host' => '[vagrant_hostname]',
+      'remote-user' => 'vagrant',
+      'ssh-options' => '-i ~/.vagrant.d/insecure_private_key',
+    );
+    ```
+4. Follow the Quick Start Guide in [Drupal VM's README](https://github.com/geerlingguy/drupal-vm#quick-start-guide)
+5. Before you run `vagrant up`, make the following changes to your VM `config.yml` file:
 
+    ```
     # Update the hostname to the local development environment hostname.
     vagrant_hostname: [project_local_domain]
     vagrant_machine_name: [project_machine_name]
@@ -74,17 +92,22 @@ Then follow the Quick Start Guide in [Drupal VM's README](https://github.com/gee
     # `php5-xsl` to `extra_packages`.
     extra_packages:
       - unzip
-      - php5-xsl
+    # - php5-xsl
+
+    drupal_mysql_user: drupal
+    drupal_mysql_password: drupal
+    ```
+
 
 There are also other changes you can make if you choose to match the Acquia Cloud server configuration more closely. See Drupal VM's example configuration changes in Drupal VM's `examples/acquia/acquia.overrides.yml` file.
 
 Once you've made these changes and completed the steps in Drupal VM's Quick Start Guide, you may run `vagrant up` to bring up your local development environment, and then access the site via the configured `drupal_domain`.
 
-## Using Acquia Dev Desktop for BLT-generated projects
+## <a name="dd"></a>Using Acquia Dev Desktop for BLT-generated projects
 
 ### Project creation and installation changes
 
-Add a new site in Dev Desktop by selecting _Import local Drupal site_. Point it at the `docroot` folder inside your new code base. Your `/sites/default/settings.php` file will be modified automatically to include the Dev Desktop database connection information.
+Add a new site in [Dev Desktop](https://www.acquia.com/products-services/dev-desktop) by selecting _Import local Drupal site_. Point it at the `docroot` folder inside your new code base. Your `/sites/default/settings.php` file will be modified automatically to include the Dev Desktop database connection information.
 
 ### Drush support
 
