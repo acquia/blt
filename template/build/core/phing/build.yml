@@ -12,7 +12,7 @@ behat:
     # - ${docroot}/modules
     - ${docroot}/profiles
     - ${repo.root}/tests/behat
-  tags: ''
+  tags: '~ajax'
 
 composer:
   bin: ${repo.root}/vendor/bin
@@ -32,7 +32,7 @@ drupal:
 
 drush:
   bin: ${composer.bin}/drush
-  cmd: ${drush.bin} @${drush.aliases.local} -r ${docroot} -l ${multisite.name}
+  cmd: ${drush.bin} @${drush.alias} -r ${docroot} -l ${multisite.name}
   root: ${docroot}
 
 multisite:
