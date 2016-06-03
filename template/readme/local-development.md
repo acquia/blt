@@ -28,13 +28,13 @@ If you must use Windows, we recommend that:
 To use [Drupal VM](https://www.acquia.com/products-services/dev-desktop) with a Drupal project that is generated with BLT:
 
 1. Place your downloaded copy of Drupal VM inside the generated Drupal project folder, and name the drupal-vm directory `box`.
-2. Inside the new project's `build/custom/phing/build.yml` file, override the `docroot` used for Drush commands with the value:
+1. Inside the new project's `build/custom/phing/build.yml` file, override the `docroot` used for Drush commands with the value:
 
     ```
     drush:
       root: ''
     ```
-3. Add a drush alias to `drush/site-aliases/aliases.drushrc.php`:
+1. Add a drush alias to `drush/site-aliases/aliases.drushrc.php`:
 
     ```
     // [vagrant_machine_name].local
@@ -49,8 +49,9 @@ To use [Drupal VM](https://www.acquia.com/products-services/dev-desktop) with a 
       'ssh-options' => '-i ~/.vagrant.d/insecure_private_key',
     );
     ```
-4. Follow the Quick Start Guide in [Drupal VM's README](https://github.com/geerlingguy/drupal-vm#quick-start-guide)
-5. Before you run `vagrant up`, make the following changes to your VM `config.yml` file:
+1. Updating `project.yml` so that `drush.default_alias` is set to your Drupal VM alias.
+1. Follow the Quick Start Guide in [Drupal VM's README](https://github.com/geerlingguy/drupal-vm#quick-start-guide)
+1. Before you run `vagrant up`, make the following changes to your VM `config.yml` file:
 
     ```
     # Update the hostname to the local development environment hostname.
