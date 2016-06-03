@@ -60,7 +60,7 @@ Follow the instructions in [INSTALL.md](INSTALL.md) to generate a new project us
 
 "How do I pull down upstream changes from BLT to my BLT-generated project?"
 
-This is a popular question, and it's difficult to answer. 
+This is a popular question, and it's difficult to answer.
 
 BLT is designed as a "starter kit" rather than a "distribution". It intentionally began with a "fork it and forget it" approach to updates. This is largely due to the fact that BLT generated files are templates that are meant to be customized, and pulling in upstream updates would wipe out those customizations.
 
@@ -74,7 +74,7 @@ The ideal approach would be to split each of these into a separate, versioned pr
 
 As a stopgap, you can run the following command to pull in upstream updates to specific files and directories in your BLT generated project:
 
-`./blt.sh setup:blt:update`
+`./blt.sh blt:update`
 
 After running, you can review changes via `git diff` and decide what should be committed.
 
@@ -83,9 +83,9 @@ After running, you can review changes via `git diff` and decide what should be c
 BLT is provided as an open source tool in the hope that it will enabled developers to easily generate new Drupal projects that conform to Acquia Professional Services' best practices.
 
 Please feel free to contribute to the project or file issues via the GitHub issue queue. When doing so, please keep the following points in mind:
- 
+
 * BLT is distributed under the GPLv2 license; WITHOUT ANY WARRANTY.
-* The project maintainers make no commitment to respond to support requests, 
+* The project maintainers make no commitment to respond to support requests,
   feature requests, or pull requests.
 * All contributions to BLT will be reviewed for compliance with Drupal Coding
   Standards and best practices as defined by the project maintainer.
@@ -93,5 +93,5 @@ Please feel free to contribute to the project or file issues via the GitHub issu
   will be prioritized for inclusion.
 
 BLT work is currently being tracked in the [BLT GitHub issue queue]
-(https://github.com/acquia/blt/issues) and organized via a 
+(https://github.com/acquia/blt/issues) and organized via a
 [Waffle.io Kanban Board](https://waffle.io/acquia/blt).

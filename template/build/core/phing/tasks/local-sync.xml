@@ -22,12 +22,10 @@
     <exec dir="${docroot}" command="${drush.cmd} cr" logoutput="true" checkreturn="true"/>
   </target>
 
-  <target name="local:update" description="Update current database to reflect the state of the Drupal file system.">
-    <exec dir="${docroot}" command="${drush.cmd} updb -y --entity-updates" logoutput="true" checkreturn="true"/>
-    <exec dir="${docroot}" command="${drush.cmd} config-import -y --partial" logoutput="true" checkreturn="true"/>
-    <exec dir="${docroot}" command="${drush.cmd} cc drush" logoutput="true" checkreturn="true"/>
-    <exec dir="${docroot}" command="${drush.cmd} fra -y" logoutput="true" checkreturn="true"/>
-    <exec dir="${docroot}" command="../hooks/dev/post-db-copy/dev-mode.sh" logoutput="true"/>
+  <target name="local:update" description="Update current database to reflect the state of the Drupal file system; uses local drush alias.">
+    <phingcall target="setup:update">
+      <property name="drush.alias" value="${drush.aliases.local}"/>
+    </phingcall>
   </target>
 
 </project>
