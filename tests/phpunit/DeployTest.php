@@ -24,6 +24,8 @@ class DeployTest extends \PHPUnit_Framework_TestCase {
 
   /**
    * Tests Phing deploy:build:all target.
+   *
+   * @group deploy
    */
   public function testBltDeployBuild() {
 
@@ -52,6 +54,9 @@ class DeployTest extends \PHPUnit_Framework_TestCase {
 
   /**
    * Tests Phing deploy:build:push target.
+   *
+   * @group deploy
+   * @group deploy-push
    */
   public function testBltDeployPush() {
 

@@ -22,6 +22,8 @@ addons:
   - svn-5223.devcloud.hosting.acquia.com
 
 before_install:
+  # Decrypt private SSH key id_rsa_bolt.enc, save as ~/.ssh/id_rsa_bolt.
+  - if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then openssl aes-256-cbc -K $encrypted_665bd7a0b921_key -iv $encrypted_665bd7a0b921_iv -in id_rsa_bolt.enc -out ~/.ssh/id_rsa_bolt -d; chmod 600 ~/.ssh/id_rsa_bolt; fi
   - nvm install 0.12
   - nvm use 0.12
   - composer selfupdate
@@ -51,7 +53,14 @@ script:
   # Call targets in the new 'blted' project.
   - ../blted8/blt.sh ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dbehat.launch-phantom=true
   # Deploy build artifact.
-  - ../blted8/blt.sh deploy:artifact -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="8.x-build"
+  - ../blted8/blt.sh deploy:artifact:build -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="8.x-build"
   # Validate and run 'blt' phpunit tests.
   - phpcs --standard=../blted8/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml tests
-  - phpunit tests
+  - phpunit tests/phpunit --exclude-group deploy-push
+
+deploy:
+  provider: script
+  script: ../bolted8/bolt.sh deploy:artifact -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="8.x-build" && phpunit tests/phpunit --group=deploy
+  skip_cleanup: true
+  on:
+    branch: 8.x
