@@ -113,6 +113,7 @@
     <reflexive>
       <fileset dir="${blt.new.dir}">
         <include name="composer.json" />
+        <include name="config/drupal-vm/*" />
         <include name="README.md" />
         <include name="readme/**/*" />
         <include name="docroot/profiles/**/*" />

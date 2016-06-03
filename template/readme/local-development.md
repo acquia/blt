@@ -80,6 +80,15 @@ There are also other changes you can make if you choose to match the Acquia Clou
 
 Once you've made these changes and completed the steps in Drupal VM's Quick Start Guide, you may run `vagrant up` to bring up your local development environment, and then access the site via the configured `drupal_domain`.
 
+### Using Drupal VM
+
+This project has been configured to run with [Drupal VM](geerlingguy/drupal-vm). You can call `vagrant up` directly from the project root as of version 3.0. The new Drupal VM is pulled in as a dev dependency through composer, and uses a delegating Vagrantfile to call the project's Vagrantfile in the `vendor/geerlingguy/drupal-vm` folder. The project is pre-configured with a config.yml file located at /config/drupalvm/config.yml. You may use a local.config.yml file to overwrite any values in the repositories copy of the file.
+
+It is recommended you have the following set up on your local machine.
+* Vagrant (required)
+* vagrant plugin vagrant-auto_network
+* vagrant plugin vagrant-hostsupdater <or> vagrant-hostmanager
+
 ## Using Acquia Dev Desktop for BLT-generated projects
 
 ### Project creation and installation changes
