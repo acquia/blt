@@ -13,7 +13,6 @@ BLT_DIRS=(
   "hooks/samples"
   "hooks/templates"
   "scripts/blt"
-  "scripts/deploy"
   "scripts/drupal"
   "scripts/git-hooks/pre-commit"
   "scripts/release-notes"
