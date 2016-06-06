@@ -139,7 +139,7 @@
     <echo>New project was created in ${blt.new.dir}</echo>
     <echo>Please change to the new project directory and run the setup task:</echo>
     <echo>cd ${blt.new.dir}</echo>
-    <echo>./blt.sh setup</echo>
+    <echo>./blt.sh local:setup</echo>
   </target>
 
   <!-- This target is meant to test BLT itself on TravisCI.
