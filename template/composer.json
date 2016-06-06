@@ -12,7 +12,6 @@
   "require": {
     "composer/installers":                        "^1.0.20",
     "drupal/acquia_connector":                    "8.1.*",
-    "drupal/acsf":                                "~8.1",
     "drupal/core":                                "~8",
     "drupal/console":                             "~0.10",
     "drupal/memcache" :                           "8.*",
