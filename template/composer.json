@@ -1,5 +1,5 @@
 {
-  "name":    "acquia/${project.machine_name}",
+  "name":    "${project.vendor_name}/${project.machine_name}",
   "license": "proprietary",
   "type":    "project",
   "description": "${project.acquia_subname}",
