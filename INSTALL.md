@@ -36,7 +36,7 @@ From the BLT repository’s root directory, run `./blt.sh configure`. This will 
 
 You will need to open these files and modify their values with settings for your project. At a minimum, you must set the following configuration items:
 
-* Local site URL: `$options[‘uri’]` in local.drushrc.php
+* Local site URL: `$options['uri']` in local.drushrc.php
 * Local site DB credentials: `$databases` in local.settings.php
 
 At this point, you likely have not configured your local *AMP stack for your new site. That’s ok. Simply enter the local URL and local DB credentials that you intend to use when your *AMP stack is up and running.
@@ -49,7 +49,7 @@ BLT’s “installer” will do the following:
 * Replaces tokens in copied files with project-specific strings
 * Removes installation artifacts
 
-Run `./blt.sh create` to do all the things! 
+Run `./blt.sh create` to do all the things!
 
 Once it’s completed, __change directories to your new project directory. All subsequent steps will happen inside your new project. You have left the BLT repository behind.__
 

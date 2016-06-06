@@ -17,7 +17,10 @@
 
   <!-- Runs all blt related targets. -->
   <target name="new-project" description="Runs all targets required to spin up new project from BLT."
-          depends="configure, create">
+          depends="clean, configure">
+    <phingcall target="create">
+      <property name="do.abort" value="n"/>
+    </phingcall>
   </target>
 
   <target name="clean" description="Removes generated configuration files from BLT directory.">

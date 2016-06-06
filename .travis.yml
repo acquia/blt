@@ -54,8 +54,11 @@ script:
   - ../blted8/blt.sh ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dbehat.launch-phantom=true
   # Deploy build artifact.
   - ../blted8/blt.sh deploy:artifact:build -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="8.x-build"
+  # Add Drupal VM config to repo.
+  - ../blted8/blt.sh vm:init
   # Validate and run 'blt' phpunit tests.
   - phpcs --standard=../blted8/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml tests
+  # Run phpunit tests, excluding deploy-push tests.
   - phpunit tests/phpunit --exclude-group deploy-push
 
 deploy:

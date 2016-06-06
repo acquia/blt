@@ -1,6 +1,6 @@
 # Ignore configuration files that may contain sensitive information.
-build/phing/build.properties
 local.*
+*.local
 
 # Ignore drupal core.
 docroot/core
@@ -20,12 +20,7 @@ drush/contrib
 /deploy
 bin/*
 tmp
-install/bin
 reports
-deploy_key
-
-# Local testing config
-tests/behat/local.yml
 
 # OS X
 .DS_Store
@@ -105,3 +100,5 @@ vendor/.git
 nbproject
 nbproject/*
 
+# DrupalVM
+.vagrant/

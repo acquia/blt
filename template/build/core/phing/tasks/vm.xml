@@ -1,0 +1,22 @@
+<project name="vm" default="vm:init">
+
+  <target name="vm:init" description="Initializes Drupal VM for this project.">
+    <copy file="${repo.root}/scripts/drupal-vm/drupal-vm.aliases.drushrc.php" todir="${repo.root}/drush/site-aliases">
+      <filterchain>
+        <expandproperties />
+      </filterchain>
+    </copy>
+    <mkdir dir="${repo.root}/box" mode="755"/>
+    <exec dir="${repo.root}" command="composer require --dev geerlingguy/drupal-vm:^3.1" logoutput="true" checkreturn="true"/>
+    <copy file="${repo.root}/scripts/drupal-vm/config.yml" tofile="${repo.root}/box/config.yml">
+      <filterchain>
+        <expandproperties />
+      </filterchain>
+    </copy>
+    <copy file="${repo.root}/scripts/drupal-vm/Vagrantfile" todir="${repo.root}"/>
+    <!-- Sadly this wipes out comments in the file. -->
+    <exec dir="${repo.root}" command="${composer.bin}/drupal yaml:update:value ${repo.root}/project.yml drush.default_alias '${project.machine_name}.local'" logoutput="true" checkreturn="true"/>
+    <exec dir="${repo.root}" command="${composer.bin}/drupal yaml:update:value ${repo.root}/project.yml drush.local '${project.machine_name}.local'" logoutput="true" checkreturn="true"/>
+    <exec dir="${repo.root}" command="${composer.bin}/drupal yaml:update:value ${repo.root}/build/custom/phing/build.yml drush.root ''" logoutput="true" checkreturn="true"/>
+  </target>
+</project>
