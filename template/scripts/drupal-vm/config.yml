@@ -1,5 +1,5 @@
 # Update the hostname to the local development environment hostname
-vagrant_hostname: ${project.machine_name}.localhost
+vagrant_hostname: ${project.local_uri}
 vagrant_machine_name: ${project.machine_name}
 
 # Set drupal_site_name to the project's human-readable name.
