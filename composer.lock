@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7ac59e0727cadf765e5a786d36aeda71",
-    "content-hash": "61d9ea08b0ecdbb4b34ab25a2f8522f2",
+    "hash": "dba559e35bae8f1b7abb230ade0d3042",
+    "content-hash": "f746219bc6261d66402f8af1503eaa42",
     "packages": [
         {
             "name": "doctrine/instantiator",
@@ -60,6 +60,42 @@
                 "instantiate"
             ],
             "time": "2015-06-14 21:17:01"
+        },
+        {
+            "name": "drupal/coder",
+            "version": "8.2.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/klausi/coder.git",
+                "reference": "a5b5f6b5769393a016da0d106a3b33f932c73331"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/klausi/coder/zipball/a5b5f6b5769393a016da0d106a3b33f932c73331",
+                "reference": "a5b5f6b5769393a016da0d106a3b33f932c73331",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "squizlabs/php_codesniffer": ">=2.5.1",
+                "symfony/yaml": ">=2.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": ">=3.7"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "description": "Coder is a library to review Drupal code.",
+            "homepage": "https://www.drupal.org/project/coder",
+            "keywords": [
+                "code review",
+                "phpcs",
+                "standards"
+            ],
+            "time": "2016-03-27 09:53:21"
         },
         {
             "name": "myclabs/deep-copy",
