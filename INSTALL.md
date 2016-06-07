@@ -2,7 +2,7 @@
 
 The following high-level steps will be required to generate a new, fully functioning site using BLT:
 
-1. Ensure your native OS meets minimum requirements
+1. Ensure your native OS meets system requirements found below
 1. Clone BLT to your local machine
 1. Generate and modify configuration files for your new project
 1. Use BLT’s “installer” to generate a new site
@@ -20,11 +20,10 @@ You should be able to use the following tools on the command line of your native
     * [Windows](http://php.net/manual/en/install.windows.php)
     * [Linux](http://php.net/manual/en/install.unix.debian.php)
 
-## Prepare BLT installer
+## Clone BLT
 
 * Clone BLT to your local machine on your native OS: 
-  `git clone https://github.com/acquia/blt.git`
-* From the BLT repository’s root directory, run `composer install`. This will build the dependencies required for BLT’s “installer”. 
+  `git clone https://github.com/acquia/blt.git` 
 
 # Generate and modify configuration files
 
