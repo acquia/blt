@@ -3,7 +3,7 @@
 <project name="blt" default="list">
 
   <!-- Define blt root directory. -->
-  <property name="blt.root.relative" value="${project.basedir}/../.."/>
+  <property name="blt.root.relative" value="${project.basedir}/../../.."/>
   <resolvepath propertyName="blt.root" file="${blt.root.relative}"/>
 
   <!-- Include yml setting. -->
@@ -93,6 +93,9 @@
       </fileset>
     </copy>
 
+    <!-- Copy blt.sh to new project. -->
+    <copy file="${blt.root}/blt.sh" tofile="${blt.new.dir}/blt.sh" overwrite="true" />
+
     <!-- Copy configuration files to new project. -->
     <copy file="${blt.root}/project.yml" tofile="${blt.new.dir}/project.yml" overwrite="true" />
     <copy file="${blt.root}/local.settings.php" tofile="${blt.new.dir}/docroot/sites/default/settings/local.settings.php" overwrite="true" />
@@ -134,10 +137,6 @@
     <exec command="git checkout -b ${git.default_branch}" dir="${blt.new.dir}" logoutput="true" passthru="true" />
     <exec command="git add -A" dir="${blt.new.dir}" logoutput="false" passthru="false" />
     <exec command="git commit -m 'Initial commit of default files from BLT.'" dir="${blt.new.dir}" logoutput="false" passthru="false" />
-
-    <!-- Build composer dependencies. -->
-    <exec dir="${blt.new.dir}" command="composer install" logoutput="true" passthru="true" checkreturn="true" />
-
     <echo></echo>
     <echo>New project was created in ${blt.new.dir}</echo>
     <echo>Please change to the new project directory and run the setup task:</echo>
@@ -159,6 +158,13 @@
     <phingcall target="tests:security-updates" />
     <phingcall target="tests:behat" />
     <phingcall target="tests:phpunit" />
+  </target>
+
+  <!-- This target is meant for developing BLT itself. -->
+  <target name="clean-build" description="Only used for development of the BLT project. (Re)Builds the project completely.">
+    <phingcall target="clean" />
+    <phingcall target="configure" />
+    <phingcall target="create" />
   </target>
 
   <target name="list" hidden="true">
