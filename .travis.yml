@@ -59,7 +59,7 @@ script:
   # Deploy build artifact.
   - ./blt.sh deploy:artifact:build -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="8.x-build"
   # Validate 'blt' phpunit tests
-    - phpunit tests/phpunit --exclude-group deploy-push
+  - phpunit tests/phpunit --exclude-group deploy-push
 
 deploy:
   provider: script
