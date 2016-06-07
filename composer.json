@@ -3,7 +3,7 @@
   "description": "BLT",
   "license": "GPL-2.0",
   "require": {
-    "phing/phing": "2.*",
+    "phing/phing": "dev-master#0ef30e55bb5871cb38903cc0ee9d76074118a22c",
     "symfony/yaml": "~2.7",
     "phpunit/phpunit": "5.4.*",
     "platinumpixs/phing-random-string": "dev-master",
