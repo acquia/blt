@@ -62,7 +62,10 @@
     </if>
 
     <if>
-      <available file="${blt.new.dir}" type="dir" />
+      <and>
+        <available file="${blt.new.dir}" type="dir" />
+        <not><equals arg1="${do.abort}" arg2="n"/></not>
+      </and>
       <then>
         <input message="The following directory will be permanently deleted. Continue?${line.separator}${blt.new.dir} " validArgs="y,n" propertyName="do.delete" />
         <condition property="do.abort">
