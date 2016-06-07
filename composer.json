@@ -5,8 +5,10 @@
   "require": {
     "phing/phing": "dev-master#0ef30e55bb5871cb38903cc0ee9d76074118a22c",
     "symfony/yaml": "~2.7",
+    "platinumpixs/phing-random-string": "dev-master"
+  },
+  "require-dev": {
     "phpunit/phpunit": "5.4.*",
-    "platinumpixs/phing-random-string": "dev-master",
     "squizlabs/php_codesniffer": "^2.4",
     "drupal/coder": "~8.2"
   }
