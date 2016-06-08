@@ -52,6 +52,8 @@ script:
   - ./blt.sh create
   # Call targets in the new 'blted' project.
   - ../blted8/blt.sh ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dbehat.launch-phantom=true
+  # Initialize ACSF config.
+  - ../blted8/blt.sh acsf:init
   # Deploy build artifact.
   - ../blted8/blt.sh deploy:artifact:build -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="8.x-build"
   # Validate and run 'blt' phpunit tests.
