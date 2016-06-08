@@ -17,7 +17,10 @@
 
   <!-- Runs all blt related targets. -->
   <target name="new-project" description="Runs all targets required to spin up new project from BLT."
-          depends="configure, create">
+          depends="clean, configure">
+    <phingcall target="create">
+      <property name="do.abort" value="n"/>
+    </phingcall>
   </target>
 
   <target name="clean" description="Removes generated configuration files from BLT directory.">
@@ -40,7 +43,11 @@
       </filterchain>
     </copy>
     <copy file="${blt.root}/template/docroot/sites/default/settings/default.local.settings.php" tofile="${blt.root}/local.settings.php" />
-    <copy file="${blt.root}/template/docroot/sites/default/default.local.drushrc.php" tofile="${blt.root}/local.drushrc.php" />
+    <copy file="${blt.root}/template/docroot/sites/default/default.local.drushrc.php" tofile="${blt.root}/local.drushrc.php">
+      <filterchain>
+        <expandproperties />
+      </filterchain>
+    </copy>
 
     <echo></echo>
     <echo>The following files have been generated:</echo>
@@ -96,7 +103,11 @@
     <!-- Copy configuration files to new project. -->
     <copy file="${blt.root}/project.yml" tofile="${blt.new.dir}/project.yml" overwrite="true" />
     <copy file="${blt.root}/local.settings.php" tofile="${blt.new.dir}/docroot/sites/default/settings/local.settings.php" overwrite="true" />
-    <copy file="${blt.root}/local.drushrc.php" tofile="${blt.new.dir}/docroot/sites/default/local.drushrc.php" overwrite="true" />
+    <copy file="${blt.root}/local.drushrc.php" tofile="${blt.new.dir}/docroot/sites/default/local.drushrc.php" overwrite="true">
+      <filterchain>
+        <expandproperties />
+      </filterchain>
+    </copy>
 
     <!-- Rename minimal profile in new project. -->
     <if>
