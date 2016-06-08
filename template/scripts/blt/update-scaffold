@@ -15,8 +15,9 @@ BLT_DIRS=(
   "scripts/drupal"
   "scripts/git-hooks/pre-commit"
   "scripts/release-notes"
-   "tests/behat/behat.yml"
-   "tests/behat/example.local.yml"
+  "tests/behat/behat.yml"
+  "tests/behat/example.local.yml"
+  "tests/phpunit/Bolt"
 )
 
 # Move into repository root.
