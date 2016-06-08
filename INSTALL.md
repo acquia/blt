@@ -23,8 +23,7 @@ You should be able to use the following tools on the command line of your native
 ## Prepare BLT installer
 
 * Clone BLT to your local machine on your native OS: 
-  `git clone https://github.com/acquia/blt.git`
-* From the BLT repository’s root directory, run `composer install`. This will build the dependencies required for BLT’s “installer”. 
+  `git clone https://github.com/acquia/blt.git` 
 
 # Generate and modify configuration files
 
