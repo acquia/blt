@@ -141,9 +141,6 @@
     <exec command="git add -A" dir="${blt.new.dir}" logoutput="false" passthru="false" />
     <exec command="git commit -m 'Initial commit of default files from BLT.'" dir="${blt.new.dir}" logoutput="false" passthru="false" />
 
-    <!-- Build composer dependencies. -->
-    <exec dir="${blt.new.dir}" command="composer install" logoutput="true" passthru="true" checkreturn="true" />
-
     <echo></echo>
     <echo>New project was created in ${blt.new.dir}</echo>
     <echo>Please change to the new project directory!</echo>
