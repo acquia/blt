@@ -146,9 +146,16 @@
 
     <echo></echo>
     <echo>New project was created in ${blt.new.dir}</echo>
-    <echo>Please change to the new project directory and run the setup task:</echo>
+    <echo>Please change to the new project directory!</echo>
     <echo>cd ${blt.new.dir}</echo>
+    <echo></echo>
+    <echo>All subsequent steps should be performed in the new project:</echo>
+    <echo>1. Configure the local *AMP stack of your choice. See readme/local-development.md for more information.</echo>
+    <echo>2. Verify that $databases in docroot/sites/default/settings/local.settings.php contains correct credentials.</echo>
+    <echo>3. Verify that $options[‘uri’] in docroot/sites/default/local.drushrc.php contains correct local URL.</echo>
+    <echo>4. Run the following command from the new project root:</echo>
     <echo>./blt.sh local:setup</echo>
+    <echo></echo>
   </target>
 
   <!-- This target is meant to test BLT itself on TravisCI.
