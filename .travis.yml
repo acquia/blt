@@ -47,6 +47,8 @@ before_script:
   - git diff --exit-code
 
 script:
+  # Ensure code quality of 'blt'.
+  - phpcs --standard=./vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml tests
   # Generate a new 'blted' project.
   - ./blt.sh configure
   - ./blt.sh create
@@ -54,8 +56,7 @@ script:
   - ../blted8/blt.sh ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dbehat.launch-phantom=true
   # Deploy build artifact.
   - ../blted8/blt.sh deploy:artifact:build -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="8.x-build"
-  # Validate and run 'blt' phpunit tests.
-  - phpcs --standard=../blted8/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml tests
+  # Run 'blt' phpunit tests.
   - phpunit tests/phpunit --exclude-group deploy-push
 
 deploy:
