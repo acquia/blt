@@ -50,6 +50,8 @@ before_script:
   - git diff --exit-code
 
 script:
+  # Ensure code quality of 'blt' itself.
+  - phpcs --standard=./vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml tests
   # Generate a new 'blted' project.
   - ./blt.sh configure
   # The local.hostname must be set to 127.0.0.1:8888 because we are using drush runserver to run the site on Travis CI.
@@ -61,11 +63,9 @@ script:
   - ./blt.sh ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dbehat.launch-phantom=true
   # Deploy build artifact.
   - ./blt.sh deploy:artifact:build -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="8.x-build"
-  # Validate and run 'blt' phpunit tests.
-  - phpcs --standard=../blted8/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml tests
   # Switch back to 'blt' directory
   - cd ../blt
-  # Run phpunit tests, excluding deploy-push tests.
+  # Run 'blt' phpunit tests, excluding deploy-push tests.
   - phpunit tests/phpunit --exclude-group deploy-push
 
 deploy:
