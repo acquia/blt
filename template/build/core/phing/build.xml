@@ -50,6 +50,9 @@
   <!-- Contains acsf tasks. -->
   <import file="${core.phing.dir}/tasks/acsf.xml"/>
 
+  <!-- Contains Drupal VM tasks. -->
+  <import file="${core.phing.dir}/tasks/vm.xml"/>
+
   <target name="list" hidden="true">
     <exec dir="${repo.root}" command="./blt.sh -q -l" passthru="true"/>
   </target>
