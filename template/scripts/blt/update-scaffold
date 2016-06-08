@@ -7,7 +7,6 @@ BLT_BRANCH=8.x
 BLT_DIRS=(
   "blt.sh"
   "build/core"
-  "drush.wrapper"
   "factory-hooks/post-settings-php/protect_env.php.example"
   "factory-hooks/pre-settings-php/includes.php.example"
   "hooks/samples"
@@ -31,6 +30,5 @@ done
 
 # Restore execute permissions.
 chmod 755 blt.sh
-chmod 755 drush.wrapper
 
 echo "Changes have been pulled down. Please review and commit desired changes."
