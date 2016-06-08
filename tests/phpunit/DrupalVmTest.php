@@ -26,7 +26,7 @@ class DrupalVmTest extends \PHPUnit_Framework_TestCase {
   public function testVmInit() {
     $this->assertFileExists($this->new_project_dir . '/Vagrantfile');
     $this->assertFileExists($this->new_project_dir . '/box/config.yml');
-    $this->assertFileExists($this->new_project_dir . '/drush/site-aliases/drupal-vm.drushrc.aliases.php');
+    $this->assertFileExists($this->new_project_dir . '/drush/site-aliases/drupal-vm.aliases.drushrc.php');
 
     $this->assertNotContains(
       '${project.machine_name}',
@@ -34,10 +34,14 @@ class DrupalVmTest extends \PHPUnit_Framework_TestCase {
     );
     $this->assertNotContains(
       '${project.machine_name}',
-      file_get_contents($this->new_project_dir . '/drush/site-aliases/drupal-vm.drushrc.aliases.php')
+      file_get_contents($this->new_project_dir . '/drush/site-aliases/drupal-vm.aliases.drushrc.php')
     );
     $this->assertContains(
-      'drush.root',
+      'drush:',
+      file_get_contents($this->new_project_dir . '/build/custom/phing/build.yml')
+    );
+    $this->assertContains(
+      'root:',
       file_get_contents($this->new_project_dir . '/build/custom/phing/build.yml')
     );
   }
