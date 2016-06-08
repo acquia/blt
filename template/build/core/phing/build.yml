@@ -42,3 +42,7 @@ multisite:
 reports:
   localDir: ${repo.root}/reports
   remoteDir: reports
+
+project:
+  local:
+    uri: ${project.local.protocol}://${project.local.hostname}

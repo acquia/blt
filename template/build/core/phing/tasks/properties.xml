@@ -21,5 +21,5 @@
   <phpVariable file="${repo.root}/drush/drushrc.php" variable="options[uri]" outputProperty="local_url" />
 
   <!-- Default drush alias. -->
-  <property name="drush.alias" value="self" override="false" />
+  <property name="drush.alias" value="${drush.default_alias}" override="false" />
 </project>

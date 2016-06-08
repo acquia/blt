@@ -16,6 +16,10 @@ project:
     - thunder
   # These are random strings used to configure the hash salt.
   hash_salt: ${project.hash_salt}
+  # This will be used as the local uri for all developers.
+  local:
+    protocol: http
+    hostname: ${project.machine_name}.localhost
 
 # Configuration settings for new git repository.
 git:
@@ -33,6 +37,8 @@ drush:
     local: self
     # The drush alias against which all ci commands are run.
     ci: self
+    # The default drush alias to be used when no environment is specified.
+  default_alias: ${drush.aliases.local}
 
 # Hosting environment flags.
 # Examples: acsf (Acquia Cloud Site Factory), ac (Acquia Cloud)

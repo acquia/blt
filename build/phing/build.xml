@@ -12,6 +12,8 @@
 
   <!-- Load the root project.yml file for this project. -->
   <property file="${blt.root}/project.yml" override="true"/>
+  <!-- Load the core build.yml. -->
+  <property file="${blt.root}/template/build/core/phing/build.yml" />
 
   <taskdef name="randomString" classname="${blt.root}.vendor.platinumpixs.phing-random-string.src.PlatinumPixs.RandomString.GenerateTask" />
 
@@ -26,7 +28,6 @@
   <target name="clean" description="Removes generated configuration files from BLT directory.">
     <delete file="${blt.root}/project.yml" quiet="true"/>
     <delete file="${blt.root}/local.settings.php" quiet="true"/>
-    <delete file="${blt.root}/local.drushrc.php" quiet="true"/>
     <delete file="${blt.root}/template/sites/default/settings/local.settings.php" quiet="true"/>
     <delete file="${blt.root}/template/tests/behat/local.yml" quiet="true"/>
     <delete dir="${blt.root}/template/vendor" quiet="true"/>
@@ -42,18 +43,12 @@
         <expandproperties />
       </filterchain>
     </copy>
-    <copy file="${blt.root}/template/docroot/sites/default/settings/default.local.settings.php" tofile="${blt.root}/local.settings.php" />
-    <copy file="${blt.root}/template/docroot/sites/default/default.local.drushrc.php" tofile="${blt.root}/local.drushrc.php">
-      <filterchain>
-        <expandproperties />
-      </filterchain>
-    </copy>
+    <copy file="${blt.root}/template/docroot/sites/default/settings/default.local.settings.php" tofile="${blt.root}/local.settings.php"/>
 
     <echo></echo>
     <echo>The following files have been generated:</echo>
     <echo>${blt.root}/project.yml</echo>
     <echo>${blt.root}/local.settings.php</echo>
-    <echo>${blt.root}/local.drushrc.php</echo>
     <echo></echo>
     <echo>Modify these files and then run "./blt.sh create" to generate a new project.</echo>
   </target>
@@ -103,7 +98,7 @@
     <!-- Copy configuration files to new project. -->
     <copy file="${blt.root}/project.yml" tofile="${blt.new.dir}/project.yml" overwrite="true" />
     <copy file="${blt.root}/local.settings.php" tofile="${blt.new.dir}/docroot/sites/default/settings/local.settings.php" overwrite="true" />
-    <copy file="${blt.root}/local.drushrc.php" tofile="${blt.new.dir}/docroot/sites/default/local.drushrc.php" overwrite="true">
+    <copy file="${blt.root}/template/docroot/sites/default/default.local.drushrc.php" tofile="${blt.new.dir}/docroot/sites/default/local.drushrc.php">
       <filterchain>
         <expandproperties />
       </filterchain>
