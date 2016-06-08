@@ -25,7 +25,7 @@ If you must use Windows, we recommend that:
 
 ## <a name="drupal-vm"></a>Using Drupal VM for BLT-generated projects
 
-To use [Drupal VM](https://www.acquia.com/products-services/dev-desktop) with a Drupal project that is generated with BLT:
+To use [Drupal VM](http://www.drupalvm.com/) with a Drupal project that is generated with BLT:
 
 1. Place your downloaded copy of Drupal VM inside the generated Drupal project folder, and name the drupal-vm directory `box`.
 1. Inside the new project's `build/custom/phing/build.yml` file, override the `docroot` used for Drush commands with the value:
