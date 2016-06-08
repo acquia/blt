@@ -63,6 +63,8 @@ script:
   - ./blt.sh deploy:artifact:build -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="8.x-build"
   # Validate and run 'blt' phpunit tests.
   - phpcs --standard=../blted8/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml tests
+  # Switch back to 'blt' directory
+  - cd ../blt
   # Run phpunit tests, excluding deploy-push tests.
   - phpunit tests/phpunit --exclude-group deploy-push
 
