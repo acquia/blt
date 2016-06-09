@@ -54,7 +54,7 @@
   </target>
 
   <target name="setup:drupal:settings" description="Create local settings files using default settings files.">
-    <chmod mode="0755" file="${docroot}/sites/default"/>
+    <chmod mode="0755" file="${docroot}/sites/default" failonerror="false" verbose="true"/>
     <copy file="${docroot}/sites/${multisite.name}/settings/default.local.settings.php" tofile="${docroot}/sites/${multisite.name}/settings/local.settings.php"/>
     <copy file="${docroot}/sites/${multisite.name}/default.local.drushrc.php" tofile="${docroot}/sites/${multisite.name}/local.drushrc.php">
       <filterchain>
