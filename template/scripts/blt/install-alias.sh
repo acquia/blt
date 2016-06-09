@@ -16,10 +16,13 @@ if [ ! -z "$DETECTED_PROFILE" ]; then
     exit
   fi
   DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-  cat $DIR/alias >> $DETECTED_PROFILE
 
-  echo "Added alias for blt to $DETECTED_PROFILE"
-  echo "Restart your terminal session to use the new command."
+  if cat $DIR/alias >> $DETECTED_PROFILE; then
+    echo "Added alias for blt to $DETECTED_PROFILE"
+    echo "Restart your terminal session to use the new command."
+  else
+    echo "Error: Could not modify $DETECTED_PROFILE."
+  fi
 else
   echo "Could not install blt alias. No profile found. Tried ~/.zshrc, ~/.bashrc, ~/.bash_profile and ~/.profile."
 fi
