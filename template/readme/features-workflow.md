@@ -120,6 +120,8 @@ Unfortunately, you lose the ability to track these changes and your active confi
 
 Be aware that since Features is a ground-up rewrite in Drupal 8 and still quite young, there are still a lot of bugs to work out. For instance, when you export a feature the UI will frequently try to automatically include [unrelated configuration](https://www.drupal.org/node/2720167) or dependencies (or worse, it will [forget to include](https://www.drupal.org/node/2666836) very necessary dependencies, such as the field storage for field instances!) Developers just need to keep a close eye on this when exporting features, and TA need to carefully review features in PRs for the gotchas and best practices listed above.
 
+You also have to be careful when updating core and contributed modules. If those updates make changes to a module’s configuration schema, you must make sure to also update your exported features definitions. Otherwise, the next time you run features-import it will import a stale configuration schema and cause unexpected behavior. We need to find a better way of preventing this than manually monitoring module updates. Find more information in [this discussion](https://www.drupal.org/node/2745685).
+
 ## Getting set up on Acquia Cloud
 When setting up a project on Acquia Cloud, it's recommended to add Cloud Hooks for post-code-deploy, post-code-update, and post-db-copy that will automatically perform the following steps:
 
