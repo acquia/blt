@@ -10,6 +10,7 @@
   </target>
 
   <target name="blt:alias" description="Installs the BLT alias for command line usage.">
+    <!-- @todo Check to see if alias is already present. -->
     <echo>BLT can automatically create a Bash alias to make it easier to run BLT tasks.</echo>
     <echo>This alias may be created in .bash_profile or .bashrc depending on your system architecture.</echo>
     <propertyprompt propertyName="create_alias" defaultValue="y" useExistingValue="true" promptText="Create a bash alias now? (y/n)" />
