@@ -15,14 +15,14 @@ You should be able to use the following tools on the command line of your native
 
 * [Git](https://git-scm.com/)
 * [Composer](https://getcomposer.org/download/)
-* PHP 5.3.9+ (PHP 5.6 recommended). PHP installation instructions:
+* PHP 5.6. PHP installation instructions:
     * [OSX](http://justinhileman.info/article/reinstalling-php-on-mac-os-x/)
     * [Windows](http://php.net/manual/en/install.windows.php)
     * [Linux](http://php.net/manual/en/install.unix.debian.php)
 
 ## Prepare BLT installer
 
-* Clone BLT to your local machine on your native OS: 
+* Clone BLT to your local machine on your native OS:
   `git clone https://github.com/acquia/blt.git` 
 
 # Generate and modify configuration files
@@ -91,7 +91,7 @@ Note that all common project tasks are executed through `blt.sh` in your project
 
 ## Next Steps
 
-Now that your new project works locally, you’ll want to integrate with with your SAAS tools (GitHub, TravisCI, Jenkins, etc.) and your Acquia Cloud subscription. 
+Now that your new project works locally, you’ll want to integrate with with your SAAS tools (GitHub, TravisCI, Jenkins, etc.) and your Acquia Cloud subscription.
 
 See the following documents for more detailed instructions on those tasks:
 
