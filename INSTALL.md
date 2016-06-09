@@ -30,12 +30,10 @@ You should be able to use the following tools on the command line of your native
 From the BLT repository’s root directory, run `./blt.sh configure`. This will create your project-specific configuration files. After running, the following files should exist in the BLT root directory:
 
 * project.yml
-* local.drushrc.php
 * local.settings.php
 
 You will need to open these files and modify their values with settings for your project. At a minimum, you must set the following configuration items:
 
-* Local site URL: `$options['uri']` in local.drushrc.php
 * Local site DB credentials: `$databases` in local.settings.php
 
 At this point, you likely have not configured your local *AMP stack for your new site. That’s ok. Simply enter the local URL and local DB credentials that you intend to use when your *AMP stack is up and running.
@@ -73,7 +71,6 @@ Please see [Local Development](template/readme/local-development.md) for more in
 
 When you have completed setting up your local \*AMP stack, double check that the following pieces of information are still correct:
 
-* Local site URL: `$options[‘uri’]` in docroot/sites/default/local.drushrc.php
 * Local site DB credentials: `$databases` in docroot/sites/default/settings/local.settings.php
 
 ## Build your project’s dependencies and install Drupal
