@@ -72,6 +72,7 @@ Please see [Local Development](template/readme/local-development.md) for more in
 When you have completed setting up your local \*AMP stack, double check that the following pieces of information are still correct:
 
 * Local site DB credentials: `$databases` in docroot/sites/default/settings/local.settings.php
+* Local site URL: `$options[‘uri’]` in docroot/sites/default/local.drushrc.php
 
 ## Build your project’s dependencies and install Drupal
 
