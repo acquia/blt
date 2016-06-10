@@ -1,6 +1,8 @@
 <project name="vm" default="vm:init">
 
   <target name="vm:init" description="Initializes Drupal VM for this project.">
+    <echo>BLT support for Drupal VM is EXPERIMENTAL. Not all BLT features currently work with Drupal VM. </echo>
+
     <copy file="${repo.root}/scripts/drupal-vm/drupal-vm.aliases.drushrc.php" todir="${repo.root}/drush/site-aliases">
       <filterchain>
         <expandproperties />

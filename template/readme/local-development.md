@@ -25,6 +25,8 @@ If you must use Windows, we recommend that:
 
 ## <a name="drupal-vm"></a>Using Drupal VM for BLT-generated projects
 
+_BLT support for Drupal VM is experimental. Not all BLT features currently work with Drupal VM. Additionally, Drupal VM integration with BLT cannot be tested via Travis CI, and is prone to regressions._
+
 To use [Drupal VM](http://www.drupalvm.com/) with a Drupal project that is generated with BLT:
 
 1. Execute `./blt.sh vm:init` from the project root directory.
