@@ -26,7 +26,7 @@ git:
   default_branch: master
   remotes:
     # Defining git remotes allows builds deployed via CI.
-    - blt8@svn-5223.devcloud.hosting.acquia.com:blt8.git
+    - bolt8@svn-5223.devcloud.hosting.acquia.com:bolt8.git
 
 drush:
   # You can set custom project aliases in drush/site-aliases/aliases.drushrc.php.
