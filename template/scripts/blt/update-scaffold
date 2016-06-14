@@ -3,14 +3,16 @@
 GIT_ROOT=$(git rev-parse --show-toplevel)
 BLT_BRANCH=8.x
 
+command -v svn >/dev/null 2>&1 || { echo "The svn command could not be found. Please install subversion." >&2; exit 1; }
+
 # Upstream directories to pull. These will be prefixed with "template/".
 BLT_DIRS=(
   "blt.sh"
   "build/core"
   "factory-hooks/post-settings-php/protect_env.php.example"
-  "factory-hooks/pre-settings-php/includes.php.example"
   "hooks/samples"
   "hooks/templates"
+  "readme"
   "scripts/blt"
   "scripts/drupal"
   "scripts/git-hooks/pre-commit"
@@ -33,5 +35,6 @@ done
 
 # Restore execute permissions.
 chmod 755 blt.sh
+chmod 755 scripts/git-hooks/pre-commit
 
 echo "Changes have been pulled down. Please review and commit desired changes."
