@@ -27,8 +27,13 @@
     <phingcall target="deploy:artifact:build"/>
     <phingcall target="deploy:artifact:commit"/>
 
-    <!-- Push up changes to remotes. -->
-    <phingcall target="deploy:artifact:push-all"/>
+    <!-- Push up changes to remotes if this is not a dry run.-->
+    <if>
+      <not><isset property="deploy.dryRun"/></not>
+      <then>
+        <phingcall target="deploy:artifact:push-all"/>
+      </then>
+    </if>
   </target>
 
   <target name="deploy:artifact:add-remote" description="Adds a git remote and checks out deploy branch from upstream.">
@@ -70,6 +75,7 @@
   </target>
 
   <target name="deploy:artifact:commit">
+    <!-- We make these commands quiet because they can cause the output to be so long that Travis CI stops logging. -->
     <exec command="git add -A" dir="${deploy.dir}" logoutput="true" passthru="true" checkreturn="true"/>
     <exec command="git commit -m '${deploy.commitMsg}' --quiet" dir="${deploy.dir}" logoutput="true" passthru="true" checkreturn="true"/>
   </target>

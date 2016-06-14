@@ -27,7 +27,7 @@ In order to create the build artifact in `/deploy`, simply run
 
 This task is analogous to `setup:build:all` but with a few critical differences:
 * The docroot is created at `/deploy/docroot`.
-* Only production required to the docroot 
+* Only production required to the docroot
 * (planned) CSS / JS are compiled in production mode (compressed / minified)
 * (planned) Sensitive files, such as CHANGELOG.txt, are removed.
 
@@ -36,12 +36,22 @@ After the artifact is created, you can inspect it or even run it as a website lo
 ## <a name="build-artifact"></a>Create and deploy the build artifact
 
 To both create and deploy the build artifact in a single command, run the following command
- 
+
 ````
 ./blt.sh deploy:artifact -Ddeploy.branch=develop-build -Ddeploy.commitMsg='BLT-123: The commit message.'
 ````
 
 This command will commit the artifact to the `develop-build` branch with the specified commit message and push it to the remotes defined in project.yml.
+
+### Debugging deployment artifacts
+
+If you would like to create, commit, but _not push_ the artifact, you may do a dry run:
+
+````
+./blt.sh deploy:artifact -Ddeploy.branch=develop-build -Ddeploy.commitMsg='BLT-123: The commit message.' -Ddeploy.dryRun=true
+````
+
+This is helpful for debugging deployment artifacts.
 
 ## Continuous integration
 
