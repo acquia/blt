@@ -36,12 +36,18 @@
     </if>
   </target>
 
-  <target name="deploy:artifact:add-remote" description="Adds a git remote and checks out deploy branch from upstream.">
+  <target name="deploy:artifact:remote:add" description="Adds a git remote and checks out deploy branch from upstream.">
     <echo message="Fetching from git remote ${deploy.remote}"/>
 
     <!-- Generate an md5 sum of the remote URL to use as remote name. -->
     <exec command="echo ${deploy.remote} | openssl md5 | cut -d' ' -f 2" outputProperty="remoteName" checkreturn="true"/>
     <exec command="git remote add ${remoteName} ${deploy.remote}" dir="${deploy.dir}" logoutput="true" passthru="true" checkreturn="true"/>
+
+    <!-- @todo Only call this for the first remote. -->
+    <phingcall target="deploy:artifact:remote:pull" />
+  </target>
+
+  <target name="deploy:artifact:remote:pull" description="Checks out deploy branch from upstream remote.">
     <exec command="git fetch ${remoteName} ${deploy.branch}" dir="${deploy.dir}" logoutput="true" passthru="true"/>
 
     <!-- Create the new branch, "[source-branch-name]-build". -->
@@ -52,7 +58,7 @@
   </target>
 
   <target name="deploy:artifact:add-remotes" description="Add remotes and fetch upstream refs.">
-    <foreach list="${git.remotes}" param="deploy.remote" target="deploy:artifact:add-remote"/>
+    <foreach list="${git.remotes}" param="deploy.remote" target="deploy:artifact:remote:add"/>
   </target>
 
   <target name="deploy:artifact:build" description="Generates a deploy-ready build in deploy.dir."
@@ -72,6 +78,7 @@
     <delete dir="${deploy.dir}/hooks" failonerror="false" quiet="true" />
     <delete dir="${deploy.dir}/factory-hooks" failonerror="false" quiet="true" />
     <delete dir="${deploy.dir}/patches" failonerror="false" quiet="true" />
+    <delete dir="${deploy.dir}/vendor" failonerror="false" quiet="true" />
   </target>
 
   <target name="deploy:artifact:commit">
