@@ -13,10 +13,10 @@
 
 Pre-requisites to installation:
 
-1. Ensure that `docroot/sites/default/settings/local.settings.php` exists by executing `./blt.sh setup:drupal:settings`. 
+1. Ensure that `docroot/sites/default/settings/local.settings.php` exists by executing `./blt.sh setup:drupal:settings`.
 1. Verify that correct local database credentials are set in `local.settings.php`.
 1. Ensure that project dependencies have already been built via `./blt.sh setup:build:all`
-   
+
 To re-install Drupal, execute: `./blt.sh setup:drupal:install`. Note that this will drop the existing database tables and install Drupal from scratch!
 
 ## <a name="update-dependency"></a>Update dependencies (core, profile, module, theme, libraries)
@@ -42,11 +42,16 @@ Note that Composer versioning is not identical to drupal.org versioning. See:
 
 ### Drupal core
 
-To update drupal core:
+Drupal core files can be grouped into two categories: those that are within the `docroot/core` directory, and those that are witin the `docroot` directory (scaffold files).
+
+Scaffold files are automatically updated via the drupal-composer/drupal-scaffold library, which hooks into the `composer update` and `composer install` commands. If you would like to exclude any scaffold files from automated updates, see the [Drupal Scaffold configuration documentation](https://github.com/drupal-composer/drupal-scaffold#configuration).
+
+All other core files are updated in normal composer fashion.
+
+To update all drupal core files (scaffold and non-scaffold):
 
 1. Update the entry for `drupal/core` in the root composer.json.
 2. Run `composer update`.
-3. Run `./scripts/drupal/update-scaffold`. This will update the core files not included in `drupal/core`.
 4. Use git to review changes to committed files. E.g., changes to .htaccess, robots.txt, etc.
 5. Add and commit desired changes.
 
