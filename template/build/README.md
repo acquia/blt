@@ -18,11 +18,31 @@ For a full list of available Phing tasks, run `./blt.sh -list` from the project'
 
 ## <a name="ci"></a> Continuous Integration
 
+### Integration with Travis CI
+
 Integration with Travis CI is included, although Phing tasks can be used with any CI tool. The default Travis CI build process is as follows:
 
 1. Pull request or commit to GitHub triggers Travis CI.
 1. `.travis.yml` is read and executed by Travis CI. The environment is built by installing composer dependencies.
 1. Travis CI begins a a build and calls various Phing targets.
+
+### Integration with Bamboo
+
+Integration with Bamboo is included. The default Bamboo build process is as follows:
+
+1. Pull request or commit to git repository triggers Bamboo.
+1. `bamboo.sh` is read and executed by Bamboo. The environment is built by installing composer dependencies.
+1. Bamboo begins a a build and calls various Phing targets.
+
+Bamboo setup is more involved than Travis CI. In order to create a Bamboo based deployment, you manually configure integrations, triggers, and tasks.
+
+1. Create a new plan.
+1. Create a new job under `Stages`.
+1. Create a `Source Code Checkout` task that checks out the `develop` or relevant branch.
+1. Create a `Script` task,
+    1. Set `Script location` to `File`.
+    1. Set `Script file` to `bamboo.sh`.
+1. Create a new `Remote trigger` trigger under `Triggers`.
 
 ### Creating your own custom tasks
 
