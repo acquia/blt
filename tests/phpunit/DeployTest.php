@@ -50,6 +50,12 @@ class DeployTest extends \PHPUnit_Framework_TestCase {
 
     // Ensure deploy directory was sanitized.
     $this->assertFileNotExists($this->deploy_dir . '/docroot/LICENSE.txt');
+
+    // Ensure non-required files are not in deploy dir.
+    $this->assertFileNotExists($this->deploy_dir . '/blt.sh');
+    $this->assertFileNotExists($this->deploy_dir . '/build');
+    $this->assertFileNotExists($this->deploy_dir . '/project.yml');
+    $this->assertFileNotExists($this->deploy_dir . '/tests');
   }
 
   /**

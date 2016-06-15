@@ -9,9 +9,10 @@
         <not><isset property="deploy.branch"/></not>
       </or>
       <then>
-        <fail message="You must pass deploy.commitMsg and deploy.branch as runtime parameters."/>
+        <echo message="You must pass deploy.commitMsg and deploy.branch as runtime parameters."/>
         <echo message="Command should match syntax:"/>
         <echo message="./blt.sh deploy:artifact -Ddeploy.commitMsg='BLT-123: The commit message.' -Ddeploy.branch='master-build'"/>
+        <fail message="Missing required parameters."/>
       </then>
     </if>
 
@@ -62,7 +63,7 @@
   </target>
 
   <target name="deploy:artifact:build" description="Generates a deploy-ready build in deploy.dir."
-          depends="deploy:artifact:clean, deploy:artifact:copy, deploy:artifact:composer:install, deploy:artifact:profile:make, frontend:build, deploy:artifact:sanitize">
+          depends="frontend:build, deploy:artifact:copy, deploy:artifact:composer:install, deploy:artifact:profile:make, deploy:artifact:sanitize">
     <!-- If we are using ACSF, run the ACSF Deploy command. -->
     <if>
       <equals arg1="${hosting}" arg2="acsf"/>
@@ -70,15 +71,6 @@
         <phingcall target="deploy:acsf:init"/>
       </then>
     </if>
-  </target>
-
-  <target name="deploy:artifact:clean" description="Deletes the contents of the deploy dir.">
-    <delete dir="${deploy.dir}/config" failonerror="false" quiet="true" />
-    <delete dir="${deploy.dir}/docroot" failonerror="false" quiet="true" />
-    <delete dir="${deploy.dir}/hooks" failonerror="false" quiet="true" />
-    <delete dir="${deploy.dir}/factory-hooks" failonerror="false" quiet="true" />
-    <delete dir="${deploy.dir}/patches" failonerror="false" quiet="true" />
-    <delete dir="${deploy.dir}/vendor" failonerror="false" quiet="true" />
   </target>
 
   <target name="deploy:artifact:commit">
@@ -118,50 +110,10 @@
     <!-- @todo Support multisite. -->
     <chmod file="${docroot}/sites/default" mode="0777" />
 
-    <!-- Copy required files from docroot. -->
-    <copy todir="${deploy.dir}/docroot" overwrite="true">
-      <fileset dir="${docroot}" defaultexcludes="false">
-        <!-- This should be similar to .gitigore. -->
-        <!-- We remove default excludes because they include .gitignore files we need, like the ACSF one. -->
-        <include name="**" />
-        <exclude name="**/local.*" />
-        <exclude name=".gitkeep" />
-        <exclude name=".DS_STORE" />
-        <exclude name="core/**" />
-        <exclude name="drush/contrib/**" />
-        <exclude name="example.gitignore" />
-        <exclude name="vendor/**" />
-        <exclude name="sites/**/files/**" />
-        <exclude name="sites/**/private/**" />
-        <exclude name="themes/contrib/**" />
-        <exclude name="profiles/contrib/**" />
-        <exclude name="modules/contrib/**" />
-        <exclude name="**/node_modules/**" />
-        <exclude name="**/bower_components/**" />
-      </fileset>
-    </copy>
-
-    <!-- Copy Acquia Cloud hooks. -->
-    <copy todir="${deploy.dir}/hooks" overwrite="true">
-      <fileset dir="${repo.root}/hooks"/>
-    </copy>
-
-    <copy todir="${deploy.dir}/factory-hooks" overwrite="true" haltonerror="false">
-      <fileset dir="${repo.root}/factory-hooks"/>
-    </copy>
-
-    <!-- Copy configuration. -->
-    <copy todir="${deploy.dir}/config" overwrite="true">
-      <fileset dir="${repo.root}/config"/>
-    </copy>
-
-    <!-- Copy local patches. -->
-    <copy todir="${deploy.dir}/patches" overwrite="true">
-      <fileset dir="${repo.root}/patches"/>
-    </copy>
+    <exec dir="${repo.root}" command="rsync -a --no-g --no-p --delete --delete-excluded --exclude-from=${deploy.exclude_file} ${repo.root}/ ${deploy.dir}/ --filter 'protect /.git/'" logoutput="true" checkreturn="true"/>
 
     <!-- Use our own .gitignore -->
-    <copy file="${repo.root}/build/core/files/.gitignore" tofile="${deploy.dir}/docroot/.gitignore" overwrite="true"/>
+    <copy file="${repo.root}/build/core/files/.gitignore" tofile="${deploy.dir}/.gitignore" overwrite="true"/>
 
     <!-- Set sites/default back to 755 permissions. -->
     <!-- @todo Support multisite. -->
