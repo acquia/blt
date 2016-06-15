@@ -54,7 +54,7 @@ local:
         # This must be an absolute path.
         drupal_root: ${docroot}
       drush:
-        alias: '@self'
+        alias: ${drush.aliases.local}
 
 example-multisite:
   extensions:
@@ -62,7 +62,7 @@ example-multisite:
       javascript_session: selenium2
       # Configure the base url for your site. For multisite, ensure that this
       # corresponds to a valid domain entry in sites.php.
-      base_url: http://127.0.0.1:8889
+      base_url: ${project.local.uri}
       # set default command for "Show last response" step.
       show_cmd: "open %s"
       selenium2:
@@ -73,4 +73,4 @@ example-multisite:
         # This must be an absolute path.
         drupal_root: ${docroot}
       drush:
-        alias: '@self'
+        alias: ${drush.aliases.local}
