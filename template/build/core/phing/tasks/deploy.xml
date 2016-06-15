@@ -114,7 +114,7 @@
     <!-- @todo Support multisite. -->
     <chmod file="${docroot}/sites/default" mode="0777" />
 
-    <exec dir="${repo.root}" command="rsync -a --no-g --no-p --delete --exclude-from=${deploy.exclude_file} ${repo.root}/ ${deploy.dir}/" logoutput="true" checkreturn="true"/>
+    <exec dir="${repo.root}" command="rsync -a --no-g --no-p --delete --delete-excluded --exclude-from=${deploy.exclude_file} ${repo.root}/ ${deploy.dir}/ --filter 'protect /.git/'" logoutput="true" checkreturn="true"/>
 
     <!-- Use our own .gitignore -->
     <copy file="${repo.root}/build/core/files/.gitignore" tofile="${deploy.dir}/.gitignore" overwrite="true"/>
