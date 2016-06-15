@@ -63,7 +63,7 @@
   </target>
 
   <target name="deploy:artifact:build" description="Generates a deploy-ready build in deploy.dir."
-          depends="deploy:artifact:clean, frontend:build, deploy:artifact:copy, deploy:artifact:composer:install, deploy:artifact:profile:make, deploy:artifact:sanitize">
+          depends="frontend:build, deploy:artifact:copy, deploy:artifact:composer:install, deploy:artifact:profile:make, deploy:artifact:sanitize">
     <!-- If we are using ACSF, run the ACSF Deploy command. -->
     <if>
       <equals arg1="${hosting}" arg2="acsf"/>
@@ -71,10 +71,6 @@
         <phingcall target="deploy:acsf:init"/>
       </then>
     </if>
-  </target>
-
-  <target name="deploy:artifact:clean" description="Deletes the contents of the deploy dir.">
-    <delete dir="${deploy.dir}/vendor" failonerror="false" quiet="true" />
   </target>
 
   <target name="deploy:artifact:commit">
