@@ -6,7 +6,7 @@
 
     <input message="Press any key to continue" propertyName="continue" />
 
-    <exec dir="${repo.root}" command="./scripts/blt/update-scaffold" logoutput="true" passthru="true"/>
+    <exec dir="${repo.root}" command="./scripts/blt/update-scaffold" logoutput="true" passthru="true" checkreturn="true"/>
   </target>
 
   <target name="blt:alias" description="Installs the BLT alias for command line usage.">

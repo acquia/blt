@@ -699,14 +699,8 @@ $settings['container_yamls'][] = __DIR__ . '/services.yml';
  * example.org, with all subdomains included.
  */
 
-// Includes required Acquia configuration and set $base_url correctly.
-require DRUPAL_ROOT . '/sites/default/settings/base.settings.php';
-
-// Includes caching configuration.
-require DRUPAL_ROOT . '/sites/default/settings/cache.settings.php';
-
-// Includes logging configuration.
-require DRUPAL_ROOT . '/sites/default/settings/logging.settings.php';
+// Include custom settings (caching, logging, etc...).
+require DRUPAL_ROOT . '/sites/default/settings/includes.settings.php';
 
 /**
  * Acquia Cloud settings.

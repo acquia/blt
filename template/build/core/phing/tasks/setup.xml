@@ -87,7 +87,7 @@
     </drush>
 
     <!-- Grant execution permissions. -->
-    <chmod mode="0755">
+    <chmod mode="0755" failonerror="false">
       <fileset dir="${docroot}/sites/default">
         <include name="**" />
       </fileset>

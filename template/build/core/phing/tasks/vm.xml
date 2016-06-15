@@ -1,6 +1,8 @@
 <project name="vm" default="vm:init">
 
   <target name="vm:init" description="Initializes Drupal VM for this project.">
+    <echo>BLT support for Drupal VM is EXPERIMENTAL. Not all BLT features currently work with Drupal VM. </echo>
+
     <copy file="${repo.root}/scripts/drupal-vm/drupal-vm.aliases.drushrc.php" todir="${repo.root}/drush/site-aliases">
       <filterchain>
         <expandproperties />
@@ -18,6 +20,16 @@
     <exec dir="${repo.root}" command="${composer.bin}/drupal yaml:update:value ${repo.root}/project.yml drush.default_alias '${project.machine_name}.local'" logoutput="true" checkreturn="true"/>
     <exec dir="${repo.root}" command="${composer.bin}/drupal yaml:update:value ${repo.root}/project.yml drush.aliases.local '${project.machine_name}.local'" logoutput="true" checkreturn="true"/>
     <exec dir="${repo.root}" command="${composer.bin}/drupal yaml:update:value ${repo.root}/build/custom/phing/build.yml drush.root ''" logoutput="true" checkreturn="true"/>
+
+    <echo></echo>
+    <echo>A new "box" directory and a Vagrantfile have been added to ${repo.root}</echo>
+    <echo></echo>
+    <echo>To customize the VM, follow the Quick Start Guide in Drupal VM's README:</echo>
+    <echo>https://github.com/geerlingguy/drupal-vm#quick-start-guide</echo>
+    <echo></echo>
+    <echo>To boot the VM, run "vagrant up" from the project root.</echo>
+    <echo>To run drush commands against the VM, use the @${project.drush.aliases.local} alias.</echo>
+    <echo>You may pin yourself to this alias using "drush use @${project.drush.aliases.local}"</echo>
   </target>
 
 </project>

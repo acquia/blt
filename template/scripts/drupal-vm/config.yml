@@ -32,3 +32,7 @@ install_site: false
 # Drupal VM automatically creates a drush alias file in your ~/.drush folder if
 # this variable is 'true'.
 configure_drush_aliases: false
+
+extra_packages:
+  # This is required for PhantomJS Installer.
+  - php-bz2
