@@ -8,6 +8,7 @@ project:
   prefix: 'BLT'
   human_name: 'BLTed 8'
   profile:
+    # E.g., lightning, standard, minimal.
     name: 'lightning'
     # Please ensure contrib profiles are also in your composer.json file.
     contrib: true
