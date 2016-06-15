@@ -65,15 +65,17 @@
 
     <if>
       <and>
+        <not><equals arg1="y" arg2="${do.delete}"/></not>
         <available file="${blt.new.dir}" type="dir" />
-        <not><equals arg1="${do.abort}" arg2="n"/></not>
       </and>
       <then>
         <input message="The following directory will be permanently deleted. Continue?${line.separator}${blt.new.dir} " validArgs="y,n" propertyName="do.delete" />
-        <condition property="do.abort">
-          <equals arg1="n" arg2="${do.delete}"/>
-        </condition>
-        <fail if="do.abort">Build aborted by user.</fail>
+      </then>
+    </if>
+
+    <if>
+      <equals arg1="y" arg2="${do.delete}"/>
+      <then>
         <!-- Remove from existing directory. -->
         <if>
           <available file="${blt.new.dir}/docroot/sites/default" type="dir" />
@@ -84,6 +86,9 @@
         <chmod file="${blt.new.dir}" mode="0777" quiet="true" failonerror="false" />
         <delete dir="${blt.new.dir}" />
       </then>
+      <else>
+        <fail>Build aborted by user.</fail>
+      </else>
     </if>
 
     <!-- (re)Create project directory. -->
