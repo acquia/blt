@@ -62,7 +62,7 @@ script:
   # Call targets in the new 'blted' project.
   - ./blt.sh ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dbehat.launch-phantom=true
   # Deploy build artifact.
-  - ./blt.sh deploy:artifact:build -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="8.x-build"
+  - ./blt.sh deploy:build -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="8.x-build"
   # Add Drupal VM config to repo.
   - ./blt.sh vm:init
   # Switch back to 'blt' directory
@@ -72,7 +72,7 @@ script:
 
 deploy:
   provider: script
-  script: ../blted8/blt.sh deploy:artifact -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="8.x-build" && phpunit tests/phpunit --group=deploy
+  script: ../blted8/blt.sh deploy -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="8.x-build" && phpunit tests/phpunit --group=deploy
   skip_cleanup: true
   on:
     branch: 8.x
