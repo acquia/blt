@@ -19,6 +19,7 @@ composer:
 
 deploy:
   dir: ${repo.root}/deploy
+  exclude_file: ${repo.root}/build/core/files/deploy-exclude.txt
 
 # File and Directory locations.
 docroot.relative: ${repo.root.relative}/docroot
