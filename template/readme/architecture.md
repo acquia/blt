@@ -139,7 +139,7 @@ Because platforms are largely composed of sets of independent components, the co
 
 
 ####Load and stress testing
-Prior to public launch, the site(s) should be load and stress tested on the hosting cluster’s Staging environment to provide indications of bottlenecks.  Load and stress test need to occur on a timetable of no less than 2-3 weeks prior to launch in order to allow proper remediation of bottlenecks and tuning of hosting environments.
+Prior to public launch, the site(s) should be load and stress tested on a suitable load test environment, ideally one which mirrors the production environment, to provide indications of bottlenecks.  Load and stress test need to occur on a timetable of no less than 2-3 weeks prior to launch in order to allow proper remediation of bottlenecks and tuning of hosting environments.
 
 **The base platform should include a basic JMeter performance testing script which can be augmented with site-specific URLs (if relevant) and editorial process for authenticated traffic.** If further modes of testing are required (such as full browser emulation), additional tools or vendors may be required. If extensive AJAX / JS-related functionality exists, "real user" load testing is recommended over request-based tools like JMeter.
 
