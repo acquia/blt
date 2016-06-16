@@ -2,7 +2,6 @@
 # If these files already exist in the upstream artifact, they will be removed.
 /.drush-use
 /.idea
-/.git
 /.travis.yml
 /.vagrant
 /blt.sh
@@ -16,12 +15,13 @@
 /docroot/themes/contrib
 /drush/contrib
 /drush.wrapper
-/local.*
 /project.yml
 /readme
 /tests
 /Vagrantfile
-/vendor
+.git
 .gitignore
 bower_components
+local.*
 node_modules
+vendor
