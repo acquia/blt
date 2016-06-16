@@ -33,6 +33,7 @@
     <if>
       <istrue value="${filteredFileList}"/>
       <then>
+        <!--@todo Pass an entire fileset to PHPCS rather than looping over a list. -->
         <foreach list="${filteredFileList}" target="validate:phpcs:file" param="file"/>
       </then>
     </if>

@@ -87,13 +87,11 @@ class GitTasksTest extends TestBase {
     chdir($this->projectDirectory);
 
     // "2>&1" redirects standard error output to standard output.
-    $command = "git commit --amend -m '$commit_message' 2>&1";
+    $command = "mkdir -p {$this->projectDirectory}/tmp && echo '$commit_message' > {$this->projectDirectory}/tmp/blt_commit_msg && {$this->projectDirectory}/.git/hooks/commit-msg {$this->projectDirectory}/tmp/blt_commit_msg 2>&1";
     print "Executing \"$command\" \n";
 
-    $output = shell_exec($command);
-    $invalid_commit_text = 'Invalid commit message';
-    $output_contains_invalid_commit_text = (bool) strstr($output, $invalid_commit_text);
-    $this->assertNotSame($is_valid, $output_contains_invalid_commit_text, $message);
+    exec($command, $output, $return);
+    $this->assertNotSame($is_valid, (bool) $return, $message);
   }
 
 }

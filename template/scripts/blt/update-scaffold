@@ -37,6 +37,6 @@ done
 
 # Restore execute permissions.
 chmod 755 blt.sh
-chmod 755 scripts/git-hooks/pre-commit
+chmod -R 755 scripts/git-hooks/pre-commit
 
 echo "Changes have been pulled down. Please review and commit desired changes."
