@@ -38,11 +38,19 @@ class DrupalVmTest extends \PHPUnit_Framework_TestCase {
     );
     $this->assertContains(
       'drush:',
-      file_get_contents($this->new_project_dir . '/build/custom/phing/build.yml')
+      file_get_contents($this->new_project_dir . '/example.project.local.yml')
     );
     $this->assertContains(
       'root:',
-      file_get_contents($this->new_project_dir . '/build/custom/phing/build.yml')
+      file_get_contents($this->new_project_dir . '/example.project.local.yml')
+    );
+    $this->assertContains(
+      'drush:',
+      file_get_contents($this->new_project_dir . '/project.local.yml')
+    );
+    $this->assertContains(
+      'root:',
+      file_get_contents($this->new_project_dir . '/project.local.yml')
     );
   }
 
