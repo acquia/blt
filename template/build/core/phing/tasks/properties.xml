@@ -7,6 +7,14 @@
   <!-- Load the root project.yml file for this project. -->
   <property file="${repo.root}/project.yml" override="true"/>
 
+  <!-- Load the local project.local.yml file for this project. -->
+  <if>
+    <available file="${repo.root}/project.local.yml" type="file" property="local.properties"/>
+    <then>
+      <property file="${repo.root}/project.local.yml" override="true"/>
+    </then>
+  </if>
+
   <!-- Load file directory and binary locations. -->
   <property file="${core.phing.dir}/build.yml" override="true"/>
 

@@ -13,10 +13,10 @@
 
 Pre-requisites to installation:
 
-1. Ensure that `docroot/sites/default/settings/local.settings.php` exists by executing `./blt.sh setup:drupal:settings`. 
+1. Ensure that `docroot/sites/default/settings/local.settings.php` exists by executing `./blt.sh setup:drupal:settings`.
 1. Verify that correct local database credentials are set in `local.settings.php`.
 1. Ensure that project dependencies have already been built via `./blt.sh setup:build:all`
-   
+
 To re-install Drupal, execute: `./blt.sh setup:drupal:install`. Note that this will drop the existing database tables and install Drupal from scratch!
 
 ## <a name="update-dependency"></a>Update dependencies (core, profile, module, theme, libraries)
@@ -81,7 +81,7 @@ To build Thunder's assets, execute:
 
 ## <a name="local-tasks"></a>Updating you local environment
 
-The project is configured to update the local environment with a local drush alias and a remote alias as defined in `project.yml`. Given that these aliases match, those in `drush/site-aliases/`, you can update the site with BLT. Please see [drush/README.md](../drush/README.md) for details on how to create these aliases.
+The project is configured to update the local environment with a local drush alias and a remote alias as defined in `project.yml` or `project.local.yml`. Given that these aliases match, those in `drush/site-aliases/`, you can update the site with BLT. Please see [drush/README.md](../drush/README.md) for details on how to create these aliases.
 
 ### Refresh: Rebuild the codebase, copy the database, and run updates
 
