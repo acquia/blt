@@ -1,6 +1,7 @@
 # Ignore configuration files that may contain sensitive information.
 local.*
-*.local.*
+*.local
+project.local.yml
 
 # Ignore drupal core.
 docroot/core
