@@ -44,16 +44,22 @@ Add a new site in [Dev Desktop](https://www.acquia.com/products-services/dev-des
 
 ### Drush support
 
-In order to use a custom version of Drush with Dev Desktop, you must add the
-following lines to ~/.bash_profile:
+In order to use a custom version of Drush (required by BLT) with Dev Desktop, you must:
 
-```
-export PATH="/Applications/DevDesktop/mysql/bin:$PATH"
-export DEVDESKTOP_DRUPAL_SETTINGS_DIR="$HOME/.acquia/DevDesktop/DrupalSettings"
+1. Add the following lines to `~/.bash_profile`:
 
-```
+  ```
+  export PATH="/Applications/DevDesktop/mysql/bin:$PATH"
+  export DEVDESKTOP_DRUPAL_SETTINGS_DIR="~/.acquia/DevDesktop/DrupalSettings"
+  
+  ```
+1. Ensure that Dev Desktop's PHP binary is being used on the CLI. You can check this via `which php`. 
+1. Enable the usage of environmental variables by adding the following line to `php.ini`, which you can locate with `php --ini`:
 
-Restart your terminal session after adding these lines.
+  ```
+  variables_order = "EGPCS"
+  ```
+1. Restart your terminal session after making the aforementioned changes.
 
 ## Alternative local development environments
 
