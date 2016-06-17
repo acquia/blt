@@ -73,11 +73,11 @@ BLT only natively supports the [Acquia PS Thunder](https://github.com/acquia-pso
 To install Thunder's dependencies:
 
 1. See [Acquia PS Thunder](https://github.com/acquia-pso/thunder) for system requirements.
-1. Execute `/.task frontend:install`.
+1. Execute `/.blt.sh frontend:install`.
 
 To build Thunder's assets, execute:
 
-`/.task frontend:build`.
+`/.blt.sh frontend:build`.
 
 ## <a name="local-tasks"></a>Updating you local environment
 
