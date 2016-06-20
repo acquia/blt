@@ -7,6 +7,9 @@
   <!-- Load the root project.yml file for this project. -->
   <property file="${repo.root}/project.yml" override="true"/>
 
+  <!-- Load file directory and binary locations. -->
+  <property file="${core.phing.dir}/build.yml" override="true"/>
+
   <!-- Load the local project.local.yml file for this project. -->
   <!--@todo Change this so that it is only loaded for local:* targets. -->
   <if>
@@ -15,9 +18,6 @@
       <property file="${repo.root}/project.local.yml" override="true"/>
     </then>
   </if>
-
-  <!-- Load file directory and binary locations. -->
-  <property file="${core.phing.dir}/build.yml" override="true"/>
 
   <!-- Extract PHP variable values from local.settings.php. -->
   <property name="local.settings.file" value="${docroot}/sites/${multisite.name}/settings/local.settings.php" />
