@@ -1,25 +1,26 @@
 {
-  "name":    "${project.vendor_name}/${project.machine_name}",
-  "license": "proprietary",
-  "type":    "project",
+  "name":        "${project.vendor_name}/${project.machine_name}",
+  "license":     "proprietary",
+  "type":        "project",
   "description": "${project.acquia_subname}",
-  "repositories": [
-    {
+  "repositories": {
+    "drupal": {
       "type": "composer",
-      "url":  "https://packagist.drupal-composer.org"
+      "url":  "https://packages.drupal.org/8"
     }
-  ],
+  },
   "require": {
     "composer/installers":                        "^1.0.20",
-    "drupal/acquia_connector":                    "8.1.*",
-    "drupal/acsf":                                "~8.1",
+    "cweagans/composer-patches": "~1.0",
+    "drupal/acquia_connector":                    "1.*",
+    "drupal/acsf":                                "~1",
     "drupal/core":                                "~8",
     "drupal/console":                             "~0.10",
-    "drupal/memcache" :                           "8.*",
-    "drupal/security_review" :                    "8.*",
+    "drupal/memcache" :                           "*",
+    "drupal/security_review" :                    "*",
     "roave/security-advisories":                  "dev-master",
-    "drupal-composer/drupal-security-advisories": "8.0.x-dev",
-    "drupal/lightning":                           "~8.1.0"
+    "drupal-composer/drupal-scaffold": "^2.0.1",
+    "drupal-composer/drupal-security-advisories": "8.0.x-dev"
   },
   "require-dev": {
     "behat/behat":                  "3.0.*",
@@ -30,7 +31,7 @@
     "behat/mink-browserkit-driver": "*",
     "drush/drush":                  "^9.0",
     "drupal/drupal-extension":      "~3.0",
-    "drupal/coder":                 "~8.2",
+    "drupal/coder":                 "~2",
     "phpunit/phpunit":              "4.6.*",
     "squizlabs/php_codesniffer":    "2.*",
     "phing/phing":                  "dev-master#0ef30e55bb5871cb38903cc0ee9d76074118a22c",
@@ -59,6 +60,7 @@
     }
   },
   "scripts": {
+    "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
     "post-install-cmd": [
       "PhantomInstaller\\Installer::installPhantomJS"
     ],
