@@ -59,6 +59,7 @@
     }
   },
   "scripts": {
+    "install-phantomjs": "PhantomInstaller\\Installer::installPhantomJS",
     "post-install-cmd": [
       "PhantomInstaller\\Installer::installPhantomJS"
     ],
