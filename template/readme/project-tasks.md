@@ -29,26 +29,28 @@ To add a new package to your project, simply add it to the “require” section
 
 ### Contributed projects and third party libraries
 
-All contributed projects hosted on drupal.org, including Drupal core, profiles, modules, and themes, can be found on [Drupal packagist](https://packagist.drupal-composer.org/). Most non-Drupal libraries can be found on [Packagist](http://packagist.com/). For any required packaged not hosted on one of those two sites, you can define your own array of [custom repositories](https://getcomposer.org/doc/05-repositories.md#repository) for Composer to search.
+All contributed Drupal projects, including Drupal core, profiles, modules, and themes, can be found on Drupal.org and [built via composer](https://www.drupal.org/node/2718229). Most non-Drupal libraries can be found on [Packagist](http://packagist.com/). For any required packaged not hosted on one of those two sites, you can define your own array of [custom repositories](https://getcomposer.org/doc/05-repositories.md#repository) for Composer to search.
 
 Note that Composer versioning is not identical to drupal.org versioning. See:
 
 * [Composer Versions](https://getcomposer.org/doc/articles/versions.md) - Read up on how to specify versions.
-* [Drupal packagist site](https://packagist.drupal-composer.org/) - Find packages and their current versions.
-* [Drupal packagist project](https://github.com/drupal-composer/drupal-packagist) - Submit issues and pull requests to the engine that runs Drupal packagist.
-* [Drupal packagist project](https://github.com/drupal-composer/drupal-packagist) - Submit issues and pull requests to the engine that runs Drupal packagist.
 * [Drupal Composer package naming conventions](https://www.drupal.org/node/2471927)
 * [Packagist](http://packagist.com/) - Find non-drupal libraries and their current versions.
 
 ### Drupal core
 
+Drupal core files can be grouped into two categories: those that are within the `docroot/core` directory, and those that are directly within the `docroot` directory (scaffold files).
+
+Scaffold files are automatically updated via the `drupal-composer/drupal-scaffold library`, which hooks into the `composer update` and `composer install` commands. If you would like to exclude any scaffold files from automated updates, see the [Drupal Scaffold configuration documentation](https://github.com/drupal-composer/drupal-scaffold#configuration). All other core files are updated in normal composer fashion.
+
+To update all drupal core files (scaffold and non-scaffold):
+
 To update drupal core:
 
 1. Update the entry for `drupal/core` in the root composer.json.
-2. Run `composer update`.
-3. Run `./scripts/drupal/update-scaffold`. This will update the core files not included in `drupal/core`.
-4. Use git to review changes to committed files. E.g., changes to .htaccess, robots.txt, etc.
-5. Add and commit desired changes.
+1. Run `composer update`.
+1. Use git to review changes to committed files. E.g., changes to .htaccess, robots.txt, etc.
+1. Add and commit desired changes.
 
 ## <a name="patch"></a>Patch a project
 
