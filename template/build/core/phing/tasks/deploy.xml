@@ -26,6 +26,13 @@
 
     <!-- Build artifact and commit locally. -->
     <phingcall target="deploy:build"/>
+
+    <!--Allow custom commands to be run before commit.-->
+    <phingcall target="task:execute">
+      <property name="task-name" value="deploy"/>
+    </phingcall>
+
+    <!--Commit artifact. -->
     <phingcall target="deploy:commit"/>
 
     <!-- Push up changes to remotes if this is not a dry run.-->
@@ -63,7 +70,7 @@
   </target>
 
   <target name="deploy:build" description="Generates a deploy-ready build in deploy.dir."
-          depends="frontend:build, deploy:copy, deploy:composer:install, deploy:profile:make, deploy:sanitize">
+          depends="frontend:build, deploy:copy, deploy:composer:install, deploy:sanitize">
     <!-- If we are using ACSF, run the ACSF Deploy command. -->
     <if>
       <equals arg1="${hosting}" arg2="acsf"/>
@@ -88,21 +95,6 @@
       </fileset>
     </copy>
     <exec dir="${deploy.dir}" command="export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --no-dev --prefer-dist --no-interaction" passthru="true" logoutput="true" checkreturn="true"/>
-  </target>
-
-  <target name="deploy:profile:make" description="Build a subsidiary makefile shipped with profile.">
-    <if>
-      <equals arg1="${project.profile.contrib}" arg2="true"/>
-      <then>
-        <echo message="Building make file for ${project.profile.name}"/>
-        <property name="profile.dir" value="${deploy.dir}/docroot/profiles/contrib/${project.profile.name}"/>
-        <drush command="make" assume="yes" verbose="TRUE">
-          <param>"${profile.dir}/drupal-org.make"</param>
-          <param>"${profile.dir}"</param>
-          <option name="no-core"></option>
-        </drush>
-      </then>
-    </if>
   </target>
 
   <target name="deploy:copy" description="Copy required files from /docroot/sites to /deploy/docroot/sites.">
