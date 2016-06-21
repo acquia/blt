@@ -5,6 +5,7 @@
 /.travis.yml
 /.vagrant
 /blt.sh
+/box
 /build
 /deploy
 /docroot/core
@@ -16,12 +17,15 @@
 /drush/contrib
 /drush.wrapper
 /project.yml
+/README.md
 /readme
 /tests
 /Vagrantfile
 .git
 .gitignore
 bower_components
+example.*
 local.*
+*.local.*
 node_modules
 vendor
