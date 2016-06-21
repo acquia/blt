@@ -43,18 +43,18 @@ drush:
 # Custom tasks that are triggered at pre-defined times in the build process.
 # Available keys are setup, frontend.
 tasks:
+  # Executed when front end assets should be generated.
+  frontend-build:
+    dir: ${docroot}
+    command: echo 'Hello world!'
+  # Executed after deployment artifact is created.
+  post-deploy-build:
+    dir: ${deploy.dir}/docroot/profiles/contrib/lightning
+    command: npm install && bower install
   # Executed after setup:build:all is run.
-  setup:
+  post-setup-build:
     dir: ${docroot}/profiles/contrib/lightning
     command: npm install && bower install
-  # Executed when front end assets should be generated.
-  # frontend:
-  #   dir: ${docroot}/sites/all/themes/contrib/thunder
-  #   command: npm run build
-  # Executed after deployment artifact is created.
-  deploy:
-    dir: ${deploy.dir}
-    command: cd docroot/profiles/contrib/lightning && npm install && bower install
 
 # Hosting environment flags.
 # Examples: acsf (Acquia Cloud Site Factory), ac (Acquia Cloud)

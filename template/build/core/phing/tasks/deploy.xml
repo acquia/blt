@@ -29,7 +29,7 @@
 
     <!--Allow custom commands to be run before commit.-->
     <phingcall target="task:execute">
-      <property name="task-name" value="deploy"/>
+      <property name="task-name" value="post-deploy-build"/>
     </phingcall>
 
     <!--Commit artifact. -->

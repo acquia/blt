@@ -20,7 +20,7 @@
           depends="setup:git-hooks, setup:drupal:settings, setup:behat, setup:composer:install, frontend:build">
 
     <phingcall target="task:execute">
-      <property name="task-name" value="setup"/>
+      <property name="task-name" value="post-setup-build"/>
     </phingcall>
 
   </target>

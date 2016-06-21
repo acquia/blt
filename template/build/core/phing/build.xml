@@ -64,7 +64,7 @@
       <isset property="tasks.${task-name}.command"/>
       <then>
         <if>
-          <not><available file="${tasks.${task-name}.dir}" type="dir" property="taskDirExists" /></not>
+          <available file="${tasks.${task-name}.dir}" type="dir" property="taskDirExists" />
           <then>
             <exec dir="${tasks.${task-name}.dir}" command="${tasks.${task-name}.command}" logoutput="true" checkreturn="true" />
           </then>
