@@ -11,6 +11,7 @@
   ],
   "require": {
     "composer/installers":                        "^1.0.20",
+    "cweagans/composer-patches":                  "~1.0",
     "drupal/acquia_connector":                    "8.1.*",
     "drupal/acsf":                                "~8.1",
     "drupal/core":                                "~8",
