@@ -45,7 +45,7 @@ drush:
 tasks:
   # Executed after setup:build:all is run.
   setup:
-    dir: ${docroot}/profiles/contrib/lighting
+    dir: ${docroot}/profiles/contrib/lightning
     command: npm install && bower install
   # Executed when front end assets should be generated.
   # frontend:
