@@ -36,6 +36,7 @@ before_install:
 
 install:
   # Load composer dependencies.
+  - composer validate --no-check-all --ansi
   - composer install
   - export PATH=$PATH:$TRAVIS_BUILD_DIR/vendor/bin
   # Install proper version of node for front end tasks.
