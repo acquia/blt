@@ -48,9 +48,9 @@ tasks:
     dir: ${docroot}/profiles/contrib/lighting
     command: npm install && bower install
   # Executed when front end assets should be generated.
-  frontend:
-    dir: ${docroot}/sites/all/themes/contrib/thunder
-    command: npm run build
+  # frontend:
+  #   dir: ${docroot}/sites/all/themes/contrib/thunder
+  #   command: npm run build
   # Executed after deployment artifact is created.
   deploy:
     dir: ${deploy.dir}
