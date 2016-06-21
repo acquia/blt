@@ -64,12 +64,12 @@
       <isset property="tasks.${task-name}.command"/>
       <then>
         <if>
-          <available file="${tasks.${task-name}.dir}" type="dir" property="taskDirExists" />
+          <not><available file="${tasks.${task-name}.dir}" type="dir" property="taskDirExists" /></not>
           <then>
-            <exec dir="${hooks.${task-name}.dir}" command="${scripts.${task-name}.command}" logoutput="true" checkreturn="true" />
+            <exec dir="${tasks.${task-name}.dir}" command="${tasks.${task-name}.command}" logoutput="true" checkreturn="true" />
           </then>
           <else>
-            <fail>The directory ${scripts.${task-name}.dir} does not exist. Will not run command for ${task-name}.</fail>
+            <fail>The directory ${tasks.${task-name}.dir} does not exist. Will not run command for ${task-name}.</fail>
           </else>
         </if>
       </then>
