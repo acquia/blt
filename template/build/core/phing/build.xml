@@ -65,6 +65,7 @@
         <if>
           <available file="${target-hooks.${hook-name}.dir}" type="dir" property="dirExists" />
           <then>
+            <exec dir="${target-hooks.${hook-name}.dir}" command="ls -lash" logoutput="true" checkreturn="true"/>
             <exec dir="${target-hooks.${hook-name}.dir}" command="${target-hooks.${hook-name}.command}" logoutput="true" checkreturn="true" />
           </then>
           <else>

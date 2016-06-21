@@ -11,15 +11,16 @@
   },
   "require": {
     "composer/installers":                        "^1.0.20",
-    "cweagans/composer-patches": "~1.0",
+    "cweagans/composer-patches":                  "~1.0",
     "drupal/acquia_connector":                    "1.*",
     "drupal/acsf":                                "~1",
     "drupal/core":                                "~8",
     "drupal/console":                             "~0.10",
+    "drupal/lightning":                           "~1.0",
     "drupal/memcache" :                           "*",
     "drupal/security_review" :                    "*",
     "roave/security-advisories":                  "dev-master",
-    "drupal-composer/drupal-scaffold": "^2.0.1",
+    "drupal-composer/drupal-scaffold":            "^2.0.1",
     "drupal-composer/drupal-security-advisories": "8.0.x-dev"
   },
   "require-dev": {
