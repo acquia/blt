@@ -17,22 +17,12 @@
 
   <!-- This is run when a project is cloned to a new environment. -->
   <target name="setup:build:all" description="Generates all required files for a full build. E.g., (re)builds docroot, etc."
-          depends="setup:git-hooks, setup:drupal:settings, setup:behat, setup:composer:install, setup:build:profile, frontend:build">
-  </target>
+          depends="setup:git-hooks, setup:drupal:settings, setup:behat, setup:composer:install, frontend:build">
 
-  <target name="setup:build:profile" description="Build a subsidiary makefile shipped with profile">
-    <if>
-      <equals arg1="${project.profile.contrib}" arg2="true"/>
-      <then>
-        <echo message="Building make file for ${project.profile.name}"/>
-        <property name="profile.dir" value="${docroot}/profiles/contrib/${project.profile.name}"/>
-        <drush command="make" assume="yes" verbose="TRUE">
-          <option name="no-core"></option>
-          <param>"${profile.dir}/drupal-org.make"</param>
-          <param>${profile.dir}</param>
-        </drush>
-      </then>
-    </if>
+    <phingcall target="task:execute">
+      <property name="task-name" value="setup"/>
+    </phingcall>
+
   </target>
 
   <target name="setup:clean" description="Removes .gitignored files and directories.">

@@ -57,4 +57,27 @@
     <exec dir="${repo.root}" command="./blt.sh -q -l" passthru="true"/>
   </target>
 
+  <target name="task:execute">
+    <fail unless="task-name"/>
+
+    <if>
+      <available property="${tasks.${task-name}.command}" />
+      <then>
+        <if>
+          <available file="${tasks.${task-name}.dir}" type="dir" property="taskDirExists" />
+          <then>
+            <exec dir="${hooks.${task-name}.dir}" command="${scripts.${task-name}.command}" logoutput="true" checkreturn="true" />
+          </then>
+          <else>
+            <fail>The directory ${scripts.${task-name}.dir} does not exist. Will not run command for ${task-name}.</fail>
+          </else>
+        </if>
+      </then>
+      <else>
+        <echo>No commands are defined for ${task-name}. Skipping.</echo>
+      </else>
+    </if>
+
+  </target>
+
 </project>
