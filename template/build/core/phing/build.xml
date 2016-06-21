@@ -57,9 +57,8 @@
     <exec dir="${repo.root}" command="./blt.sh -q -l" passthru="true"/>
   </target>
 
-  <target name="task:execute">
+  <target name="task:execute" description="Executes a task defined in the tasks array.">
     <fail unless="task-name"/>
-
     <if>
       <isset property="tasks.${task-name}.command"/>
       <then>
@@ -77,7 +76,6 @@
         <echo>No commands are defined for ${task-name}. Skipping.</echo>
       </else>
     </if>
-
   </target>
 
 </project>

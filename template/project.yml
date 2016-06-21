@@ -45,7 +45,9 @@ drush:
 tasks:
   # Executed when front end assets should be generated.
   frontend-build:
+    # E.g., ${docroot}/sites/all/themes/custom/mytheme.
     dir: ${docroot}
+    # E.g., `npm install` or `bower install`.
     command: echo 'Hello world!'
   # Executed after deployment artifact is created.
   post-deploy-build:
