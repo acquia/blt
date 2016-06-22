@@ -41,7 +41,7 @@ drush:
   default_alias: ${drush.aliases.local}
 
 # Custom tasks that are triggered at pre-defined times in the build process.
-# Available keys are setup, frontend.
+# Available keys are frontend-build, post-deploy-build, and post-setup-build.
 tasks:
   # Executed when front end assets should be generated.
   frontend-build:
