@@ -1,8 +1,8 @@
 <project name="frontend" default="frontend:install">
 
   <target name="frontend:build" description="Uses gulp to build front end dependencies for all themes.">
-    <phingcall target="task:execute">
-      <property name="task-name" value="frontend-build"/>
+    <phingcall target="target-hook:invoke">
+      <property name="hook-name" value="frontend-build"/>
     </phingcall>
   </target>
 

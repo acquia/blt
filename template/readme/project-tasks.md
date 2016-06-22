@@ -72,10 +72,10 @@ To execute PHP codesniffer and PHP lint against the project codebase, run:
 
 Ideally, you will be using a theme that uses SASS/SCSS, a styleguide, and other tools that require compilation. Like dependencies, the compiled assets should not be directly committed to the project repository. Instead, they should be built during the creation of a production-ready build artifact.
 
-BLT allows you to define a custom command that will be run to compile your project's frontend assets. You can specify the command in your project's `project.yml` file under the `tasks.frontend-build` key:
+BLT allows you to define a custom command that will be run to compile your project's frontend assets. You can specify the command in your project's `project.yml` file under the `target-hooks.frontend-build` key:
 
 ```
-tasks:
+target-hooks:
   frontend-build:
     # The directory in which the command will be executed.
     dir: ${docroot}
@@ -85,7 +85,7 @@ tasks:
 If you need to run more than one command, you may use this feature to call a custom script:
 
 ```
-tasks:
+target-hooks:
   frontend-build:
     # The directory in which the command will be executed.
     dir: ${repo.root}

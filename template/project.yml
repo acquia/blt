@@ -41,8 +41,9 @@ drush:
   default_alias: ${drush.aliases.local}
 
 # Custom tasks that are triggered at pre-defined times in the build process.
-# Available keys are frontend-build, post-deploy-build, and post-setup-build.
-tasks:
+# The tasks hook into BLT's existing Phing targets. Available hooks keys are:
+# frontend-build, post-deploy-build, and post-setup-build.
+target-hooks:
   # Executed when front end assets should be generated.
   frontend-build:
     # E.g., ${docroot}/sites/all/themes/custom/mytheme.
