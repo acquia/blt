@@ -48,7 +48,7 @@ tasks:
     # E.g., ${docroot}/sites/all/themes/custom/mytheme.
     dir: ${docroot}
     # E.g., `npm install` or `bower install`.
-    command: echo 'Hello world!'
+    command: echo 'No frontend build configured.'
   # Executed after deployment artifact is created.
   post-deploy-build:
     dir: ${deploy.dir}/docroot/profiles/contrib/lightning
