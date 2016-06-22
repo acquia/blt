@@ -1,7 +1,7 @@
 <project name="setup" default="setup">
 
   <target name="setup" description="Install dependencies, builds docroot, installs Drupal."
-          depends="setup:build:all, setup:drupal:install, blt:alias">
+          depends="setup:build, setup:drupal:install, blt:alias">
     <echo>For a full list of available Phing targets, run:</echo>
     <echo>./blt.sh -l</echo>
     <echo></echo>
@@ -16,7 +16,7 @@
   </target>
 
   <!-- This is run when a project is cloned to a new environment. -->
-  <target name="setup:build:all" description="Generates all required files for a full build. E.g., (re)builds docroot, etc."
+  <target name="setup:build" description="Generates all required files for a full build. E.g., (re)builds docroot, etc."
           depends="setup:git-hooks, setup:drupal:settings, setup:behat, setup:composer:install, frontend:build">
 
     <phingcall target="task:execute">

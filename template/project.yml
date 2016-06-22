@@ -53,7 +53,7 @@ tasks:
   post-deploy-build:
     dir: ${deploy.dir}/docroot/profiles/contrib/lightning
     command: npm install && bower install
-  # Executed after setup:build:all is run.
+  # Executed after setup:build is run.
   post-setup-build:
     dir: ${docroot}/profiles/contrib/lightning
     command: npm install && bower install
