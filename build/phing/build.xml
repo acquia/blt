@@ -162,7 +162,7 @@
   <target name="self-test" description="Runs tests against acquia/blt proper.">
     <phingcall target="configure" />
     <phingcall target="create" />
-    <phingcall target="setup:build:all" />
+    <phingcall target="setup:build" />
     <phingcall target="setup:drupal:install" />
     <phingcall target="setup:git-hooks" />
     <phingcall target="setup:behat" />
