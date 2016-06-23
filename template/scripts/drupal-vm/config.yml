@@ -36,3 +36,4 @@ configure_drush_aliases: false
 extra_packages:
   # This is required for PhantomJS Installer.
   - php-bz2
+  - subversion
