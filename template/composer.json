@@ -4,9 +4,13 @@
   "type":        "project",
   "description": "${project.acquia_subname}",
   "repositories": {
-    "drupal": {
+    "drupal.org": {
       "type": "composer",
       "url":  "https://packages.drupal.org/8"
+    },
+    "drupal-packagist": {
+      "type": "composer",
+      "url":  "https://packagist.drupal-composer.org"
     }
   },
   "require": {
@@ -16,7 +20,7 @@
     "drupal/acsf":                                "~1",
     "drupal/core":                                "~8",
     "drupal/console":                             "~0.10",
-    "drupal/lightning":                           "~1.0",
+    "drupal/lightning":                           "~8.1.0",
     "drupal/memcache" :                           "*",
     "drupal/security_review" :                    "*",
     "roave/security-advisories":                  "dev-master",
