@@ -30,10 +30,10 @@ local:
       # set default command for "Show last response" step.
       show_cmd: "open %s"
       # ADDITIONAL OPTIONS FOR WEB DRIVERS
-      # use the following 3 lines to user phantomjs
+      # use the following 3 lines to use phantomjs
       # browser_name: phantomjs
       # selenium2:
-      #   wd_host: "http://localhost:8643/wd/hub"
+      #   wd_host: "http://localhost:4444/wd/hub"
       #   browser: chrome
       #
       # use the following lines to disable SSL authentication for goutte.
