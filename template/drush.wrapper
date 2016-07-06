@@ -37,4 +37,4 @@ if [ ! -f ${DIR}/vendor/bin/drush ]; then
   composer install
 fi
 
-vendor/bin/drush.launcher --alias-path=${DIR}/drush/site-aliases "$@"
+vendor/bin/drush.launcher --alias-path=${DIR}/drush/site-aliases "$@" -r ${DIR}/docroot
