@@ -128,8 +128,8 @@
   </target>
 
   <target name="deploy:sanitize" description="Removes sensitive files from the deploy docroot.">
-    <exec command="find . -type d | grep .git | xargs rm -rf" dir="${deploy.dir}/docroot"/>
-    <exec command="find . -type d | grep .git | xargs rm -rf" dir="${deploy.dir}/vendor"/>
+    <exec command="find . -type d | grep '\.git' | xargs rm -rf" dir="${deploy.dir}/docroot"/>
+    <exec command="find . -type d | grep '\.git' | xargs rm -rf" dir="${deploy.dir}/vendor"/>
     <delete>
       <fileset dir="${deploy.dir}/docroot">
         <include name="core/*.txt"/>
