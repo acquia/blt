@@ -153,6 +153,8 @@
     <echo>4. Run the following command from the new project root:</echo>
     <echo>./blt.sh local:setup</echo>
     <echo></echo>
+    <echo>Follow the documentation in ${blt.new.dir}/README.md for anything else.</echo>
+    <echo></echo>
   </target>
 
   <!-- This target is meant to test BLT itself on TravisCI.
