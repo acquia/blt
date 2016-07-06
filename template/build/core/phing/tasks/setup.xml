@@ -48,11 +48,25 @@
 
     <if>
       <not>
-        <available file="${repo.root}/project.local.yml" type="file" property="localConfigFilesExist" />
+        <available file="${repo.root}/project.local.yml" type="file" />
       </not>
       <then>
         <copy file="${repo.root}/example.project.local.yml" tofile="${repo.root}/project.local.yml" />
+      </then>
+    </if>
+    <if>
+      <not>
+          <available file="${docroot}/sites/${multisite.name}/settings/local.settings.php" type="file" />
+      </not>
+      <then>
         <copy file="${docroot}/sites/${multisite.name}/settings/default.local.settings.php" tofile="${docroot}/sites/${multisite.name}/settings/local.settings.php" />
+      </then>
+    </if>
+    <if>
+      <not>
+          <available file="${docroot}/sites/${multisite.name}/local.drushrc.php" type="file" />
+      </not>
+      <then>
         <copy file="${docroot}/sites/${multisite.name}/default.local.drushrc.php" tofile="${docroot}/sites/${multisite.name}/local.drushrc.php">
           <filterchain>
             <expandproperties />
