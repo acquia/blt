@@ -1,6 +1,7 @@
 <?php
 
 namespace Drupal\Tests\PHPUnit;
+
 /**
  * Class SettingsTest.
  *
