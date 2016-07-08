@@ -8,6 +8,7 @@
     <include name="**/*.profile"/>
     <include name="**/*.test"/>
     <exclude name="**/vendor/**/*"/>
+    <exclude name="**/behat/**/*"/>
   </patternset>
 
   <patternset id="files.frontend">
@@ -20,6 +21,7 @@
     <exclude name="**/lib/**/*"/>
     <exclude name="**/node_modules/**/*"/>
     <exclude name="**/styleguide/**"/>
+    <exclude name="**/style-guide/**"/>
     <exclude name="**/vendor/**/*"/>
     <exclude name="**/gulpfile.js"/>
 
