@@ -8,6 +8,7 @@
     <include name="**/*.profile"/>
     <include name="**/*.test"/>
     <exclude name="**/vendor/**/*"/>
+    <!-- Behat php files are ignored because method names and comments do not conform to Drupal coding standards by default. -->
     <exclude name="**/behat/**/*"/>
   </patternset>
 
