@@ -1,162 +1,84 @@
-<!-- THESE TARGETS ARE FOR USE IN BLT ONLY, NOT FOR CHILD PROJECTS
-     CREATED VIA PROJECT TEMPLATE. -->
-<project name="blt" default="list">
+<project name="blt-core" default="list" phingVersion="2.8.2">
 
-  <!-- Define blt root directory. -->
-  <property name="blt.root.relative" value="${project.basedir}/../.."/>
-  <resolvepath propertyName="blt.root" file="${blt.root.relative}"/>
+  <!-- Include custom task classes -->
+  <includepath classpath="${core.phing.dir}" />
+  <taskdef name="behat" classname="phingcludes.BehatTask"/>
+  <taskdef name="drush" classname="phingcludes.DrushTask"/>
+  <taskdef name="filterFileListByFileSet" classname="phingcludes.FilterFileListByFileSetTask"/>
+  <taskdef name="phpVariable" classname="phingcludes.PhpVariableTask"/>
 
-  <!-- Include yml setting. -->
+  <if>
+    <available property="xdebug.enabled" extension="xdebug"/>
+    <then>
+      <echo level="warning">You are running BLT with xdebug enabled. This has a major impact on
+        runtime performance.</echo>
+    </then>
+  </if>
+
+  <!-- Load custom property values. -->
   <property file="${project.basedir}/build.yml" override="true"/>
-  <resolvepath propertyName="blt.new.dir" file="${blt.new.dir}"/>
 
-  <!-- Load the root project.yml file for this project. -->
-  <property file="${blt.root}/project.yml" override="true"/>
-  <!-- Load the core build.yml. -->
-  <property file="${blt.root}/template/build/core/phing/build.yml" />
+  <!-- Include task partials -->
 
-  <!-- Creates new configuration files to be used for new project generation.
-       Note: this target must be called by itself first. Other targets must be
-       executed separately so that they may load the correct configuration   -->
-  <target name="configure" description="Generates default .yml configuration files based on provided example files.">
-    <randomString name="project.hash_salt" length="55" stringType="lowercase_uppercase_numeric" />
-    <copy file="${blt.root}/template/project.yml" todir="${blt.root}">
-      <filterchain>
-        <expandproperties />
-      </filterchain>
-    </copy>
-    <copy file="${blt.root}/template/docroot/sites/default/settings/default.local.settings.php" tofile="${blt.root}/local.settings.php"/>
+  <!-- Defines a list of default properties, available to all targets. -->
+  <import file="${core.phing.dir}/tasks/properties.xml"/>
 
-    <echo></echo>
-    <echo>The following files have been generated:</echo>
-    <echo>${blt.root}/project.yml</echo>
-    <echo>${blt.root}/local.settings.php</echo>
-    <echo></echo>
-    <echo>Modify these files and then run "./blt.sh create" to generate a new project.</echo>
-  </target>
+  <!-- Contains BLT tasks. -->
+  <import file="${core.phing.dir}/tasks/blt.xml"/>
 
-  <!-- Create a new project directory based on current repository. -->
-  <target name="create" description="Create a new project based on local repository.">
-    <available file="${blt.root}/project.yml" property="project.yml.exists" value="true"/>
-    <if>
-      <not><istrue value="${project.yml.exists}"/></not>
-      <then>
-        <fail>Please run "./blt.sh configure" before running "./blt.sh create."</fail>
-      </then>
-    </if>
+  <!-- Contains Continuous Integration tasks. -->
+  <import file="${core.phing.dir}/tasks/ci.xml"/>
 
-    <if>
-      <and>
-        <available file="${blt.new.dir}" type="dir" />
-        <not><equals arg1="${do.abort}" arg2="n"/></not>
-      </and>
-      <then>
-        <input message="The following directory will be permanently deleted. Continue?${line.separator}${blt.new.dir} " validArgs="y,n" propertyName="do.delete" />
-        <condition property="do.abort">
-          <equals arg1="n" arg2="${do.delete}"/>
-        </condition>
-        <fail if="do.abort">Build aborted by user.</fail>
-        <!-- Remove from existing directory. -->
-        <if>
-          <available file="${blt.new.dir}/docroot/sites/default" type="dir" />
-          <then>
-            <chmod file="${blt.new.dir}/docroot/sites/default" mode="0777" quiet="true" failonerror="false" />
-          </then>
-        </if>
-        <chmod file="${blt.new.dir}" mode="0777" quiet="true" failonerror="false" />
-        <delete dir="${blt.new.dir}" />
-      </then>
-    </if>
+  <!-- Contains tasks relevant to validation. E.g., code metrics. -->
+  <import file="${core.phing.dir}/tasks/validate.xml"/>
 
-    <!-- (re)Create project directory. -->
-    <mkdir dir="${blt.new.dir}" />
-    <copy todir="${blt.new.dir}" >
-      <fileset dir="${blt.root}/template" casesensitive="false" defaultexcludes="false" excludes=".cvsignore SCCS SCCS/** vssver.scc .svn .svn/** ._* .DS_Store .darcs .darcs/** .git .git/** .gitattributes .gitmodules .idea .idea/** .editorconfig">
-        <!-- Exclude files that should not be copied. -->
-        <exclude name="vendor/**" />
-      </fileset>
-    </copy>
+  <!-- Contains targets relevant to the execution of tests. E.g., Behat, jMeter. -->
+  <import file="${core.phing.dir}/tasks/tests.xml"/>
 
-    <!-- Copy configuration files to new project. -->
-    <copy file="${blt.root}/project.yml" tofile="${blt.new.dir}/project.yml" overwrite="true" />
-    <copy file="${blt.root}/local.settings.php" tofile="${blt.new.dir}/docroot/sites/default/settings/local.settings.php" overwrite="true" />
-    <copy file="${blt.root}/template/docroot/sites/default/default.local.drushrc.php" tofile="${blt.new.dir}/docroot/sites/default/local.drushrc.php">
-      <filterchain>
-        <expandproperties />
-      </filterchain>
-    </copy>
+  <!-- Contains targets used for setting up environment. E.g., installing Drupal. -->
+  <import file="${core.phing.dir}/tasks/setup.xml"/>
 
-    <!-- Rename minimal profile in new project. -->
-    <if>
-      <isfalse value="${project.profile.contrib}"/>
-      <then>
-        <property name="blt.new.profile.dir" value="${blt.new.dir}/docroot/profiles/custom/${project.profile.name}"/>
-        <move file="${blt.new.dir}/docroot/profiles/custom/minimal" tofile="${blt.new.profile.dir}"/>
-        <move file="${blt.new.profile.dir}/minimal.info.yml" tofile="${blt.new.profile.dir}/${project.profile.name}.info.yml"/>
-        <move file="${blt.new.profile.dir}/minimal.install" tofile="${blt.new.profile.dir}/${project.profile.name}.install"/>
-      </then>
-      <else>
-        <delete dir="${blt.new.dir}/docroot/profiles/custom/minimal"/>
-      </else>
-    </if>
+  <!-- Contains fileset definitions. E.g., patterns defining contrib locations, theming files, etc. -->
+  <import file="${core.phing.dir}/tasks/filesets.xml"/>
 
-    <!-- Reflexively expand properties in specified dirs/files. -->
-    <reflexive>
-      <fileset dir="${blt.new.dir}">
-        <include name="composer.json" />
-        <include name="project.yml" />
-        <include name="README.md" />
-        <include name="readme/**/*" />
-        <include name="docroot/profiles/**/*" />
-        <include name="docroot/sites/default/settings.php" />
-        <include name="docroot/sites/all/settings/**/*" />
-        <include name="scripts/git-hooks/*" />
-      </fileset>
-      <filterchain>
-        <expandproperties />
-      </filterchain>
-    </reflexive>
+  <!-- E.g., commit build artifacts, push to remote. -->
+  <import file="${core.phing.dir}/tasks/deploy.xml"/>
 
-    <!-- Initialize git repository. -->
-    <exec command="git init" dir="${blt.new.dir}" logoutput="true" passthru="true"/>
-    <exec command="git checkout -b ${git.default_branch}" dir="${blt.new.dir}" logoutput="true" passthru="true" />
-    <exec command="git add -A" dir="${blt.new.dir}" logoutput="false" passthru="false" />
-    <exec command="git commit -m 'Initial commit of default files from BLT.'" dir="${blt.new.dir}" logoutput="false" passthru="false" />
+  <!-- Contains frontend tasks. -->
+  <import file="${core.phing.dir}/tasks/frontend.xml"/>
 
-    <echo></echo>
-    <echo>New project was created in ${blt.new.dir}</echo>
-    <echo>Please change to the new project directory!</echo>
-    <echo>cd ${blt.new.dir}</echo>
-    <echo></echo>
-    <echo>All subsequent steps should be performed in the new project:</echo>
-    <echo>1. Configure the local *AMP stack of your choice. See readme/local-development.md for more information.</echo>
-    <echo>2. Verify that $databases in docroot/sites/default/settings/local.settings.php contains correct credentials.</echo>
-    <echo>3. Verify that $options[‘uri’] in docroot/sites/default/local.drushrc.php contains correct local URL.</echo>
-    <echo>4. Run the following command from the new project root:</echo>
-    <echo>./blt.sh local:setup</echo>
-    <echo></echo>
-    <echo>Follow the documentation in ${blt.new.dir}/README.md for anything else.</echo>
-    <echo></echo>
-  </target>
+  <!-- Contains local syncing tasks. -->
+  <import file="${core.phing.dir}/tasks/local-sync.xml"/>
 
-  <!-- This target is meant to test BLT itself on TravisCI.
-       A few things to note:
-       - We do not run validate:* targets, since they can be run in parallel.
-  -->
-  <target name="self-test" description="Runs tests against acquia/blt proper.">
-    <phingcall target="configure" />
-    <phingcall target="create" />
-    <phingcall target="setup:build" />
-    <phingcall target="setup:drupal:install" />
-    <phingcall target="setup:git-hooks" />
-    <phingcall target="setup:behat" />
-    <phingcall target="tests:security-updates" />
-    <phingcall target="tests:behat" />
-    <phingcall target="tests:phpunit" />
-  </target>
+  <!-- Contains acsf tasks. -->
+  <import file="${core.phing.dir}/tasks/acsf.xml"/>
+
+  <!-- Contains Drupal VM tasks. -->
+  <import file="${core.phing.dir}/tasks/vm.xml"/>
 
   <target name="list" hidden="true">
-    <exec dir="${blt.root}" command="./blt.sh -q -l" passthru="true"/>
+    <exec dir="${repo.root}" command="./blt.sh -q -l" passthru="true"/>
+  </target>
+
+  <target name="target-hook:invoke" description="Executes a command defined in the target-hooks array.">
+    <fail unless="hook-name"/>
+    <if>
+      <isset property="target-hooks.${hook-name}.command"/>
+      <then>
+        <if>
+          <available file="${target-hooks.${hook-name}.dir}" type="dir" property="dirExists" />
+          <then>
+            <exec dir="${target-hooks.${hook-name}.dir}" command="${target-hooks.${hook-name}.command}" logoutput="true" checkreturn="true" />
+          </then>
+          <else>
+            <fail>The directory ${target-hooks.${hook-name}.dir} does not exist. Will not run command for ${hook-name}.</fail>
+          </else>
+        </if>
+      </then>
+      <else>
+        <echo>No commands are defined for ${hook-name}. Skipping.</echo>
+      </else>
+    </if>
   </target>
 
 </project>
