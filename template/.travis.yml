@@ -28,8 +28,15 @@ notifications:
 # - slack: '<account>:<token>#[channel]'
 
 before_install:
+  # Enable aliases for non-interactive shell.
+  - shopt -s expand_aliases
   - composer selfupdate
+  # Disable xdebug.
   - phpenv config-rm xdebug.ini
+  # Enable $_ENV variables in PHP.
+  - echo 'variables_order = "EGPCS"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+  # Ensure that always_populate_raw_post_data PHP setting: Not set to -1 does not happen.
+  - echo "always_populate_raw_post_data = -1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - git config --global user.name "Travis-CI"
   - git config --global user.email "noreply@travis-ci.org"
   - mysql -e 'CREATE DATABASE drupal;'
@@ -38,10 +45,12 @@ install:
   # Load composer dependencies.
   - composer validate --no-check-all --ansi
   - composer install
-  - export PATH=$PATH:$TRAVIS_BUILD_DIR/vendor/bin
+  - export PATH=$TRAVIS_BUILD_DIR/vendor/bin:$PATH
   # Install proper version of node for front end tasks.
   - nvm install 4.4.1
   - nvm use 4.4.1
+  # Initialize drupal console default configuration.
+  - drupal init
 
 before_script:
   # Clear drush release history cache, to pick up new releases.

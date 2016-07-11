@@ -5,7 +5,3 @@
 services:
   cache.backend.null:
     class: Drupal\Core\Cache\NullBackendFactory
-
-parameters:
-  twig.config:
-    debug: true

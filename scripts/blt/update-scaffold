@@ -1,0 +1,42 @@
+#!/bin/bash -e
+
+GIT_ROOT=$(git rev-parse --show-toplevel)
+BLT_BRANCH=8.x
+
+command -v svn >/dev/null 2>&1 || { echo "The svn command could not be found. Please install subversion." >&2; exit 1; }
+
+# Upstream directories to pull. These will be prefixed with "template/".
+BLT_DIRS=(
+  "blt.sh"
+  "example.project.local.yml"
+  ".gitignore"
+  "build/core"
+  "factory-hooks/post-settings-php/protect_env.php.example"
+  "hooks/samples"
+  "hooks/templates"
+  "readme"
+  "scripts/blt"
+  "scripts/drupal"
+  "scripts/git-hooks/pre-commit"
+  "scripts/release-notes"
+  "tests/behat/behat.yml"
+  "tests/behat/example.local.yml"
+  "tests/phpunit/Bolt"
+)
+
+# Move into repository root.
+cd $GIT_ROOT
+
+echo "Copying down upstream changes to the BLT template."
+
+# Iteratively pull down upstream directories.
+for i in "${BLT_DIRS[@]}"
+  do
+    svn export https://github.com/acquia/blt/branches/$BLT_BRANCH/template/$i $i --force
+done
+
+# Restore execute permissions.
+chmod 755 blt.sh
+chmod -R 755 scripts/git-hooks/pre-commit
+
+echo "Changes have been pulled down. Please review and commit desired changes."

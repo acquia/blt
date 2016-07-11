@@ -12,12 +12,17 @@ if [[ $COMPOSER_IS_INSTALLED -ne 0 ]]; then
   exit 1
 fi
 
-DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-if [ ! -f ${DIR}/vendor/bin/phing ]; then
+SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+echo $SCRIPT_DIR
+BIN=$(cd ${SCRIPT_DIR}/../../bin && pwd)
+echo $BIN
+PHING=${BIN}/phing
+
+if [ ! -f ${PHING} ]; then
   echo "Phing was not found in this project's vendor/bin directory."
   echo "Attempting to run composer install. This takes a few minutes."
   composer install
 fi
 
 # This script simply passes all arguments to Phing.
-${DIR}/vendor/bin/phing -f ${DIR}/build/phing/build.xml "$@"
+${PHING} -f ${SCRIPT_DIR}/phing/build.xml "$@"

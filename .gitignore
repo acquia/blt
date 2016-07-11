@@ -2,9 +2,6 @@
 /project.yml
 local.*
 
-# Ignore build artifacts
-bin/*
-
 # OS X
 .DS_Store
 .AppleDouble
@@ -103,3 +100,6 @@ nbproject/*
 # Some files should be excluded from blt but not from the projects it
 # generates, so they must be specified here rather than in template/.gitignore.
 template/.idea/.name
+
+blt-project/composer.lock
+blt-project/vendor
