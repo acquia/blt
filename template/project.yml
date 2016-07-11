@@ -10,14 +10,13 @@ project:
   prefix: 'BLT'
   human_name: 'BLTed 8'
   profile:
+    # You can generate a custom profile by running '../vendor/bin/drupal generate:profile' from the docroot.
     name: 'lightning'
     # Please ensure contrib profiles are also in your composer.json file.
     contrib: true
   # This is used to build front end artifacts. E.g., SASS compilation.
   themes:
     - thunder
-  # These are random strings used to configure the hash salt.
-  hash_salt: ${project.hash_salt}
   # This will be used as the local uri for all developers.
   local:
     protocol: http
@@ -29,6 +28,7 @@ git:
   remotes:
     # Defining git remotes allows builds deployed via CI.
     - bolt8@svn-5223.devcloud.hosting.acquia.com:bolt8.git
+    # - radass4@svn-11692.prod.hosting.acquia.com:radass4.git
 
 drush:
   # You can set custom project aliases in drush/site-aliases/aliases.drushrc.php.
@@ -55,7 +55,7 @@ target-hooks:
   # Executed after deployment artifact is created.
   post-deploy-build:
     dir: ${deploy.dir}/docroot/profiles/contrib/lightning
-    command: npm install && bower install
+    command: npm run install-libraries
   # Executed after setup:build is run.
   post-setup-build:
     dir: ${docroot}/profiles/contrib/lightning

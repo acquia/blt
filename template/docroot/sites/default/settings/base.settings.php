@@ -47,3 +47,6 @@ $is_local_env = !$is_ah_env;
  *   }
  * }
 **/
+
+// Prevent APCu memory exhaustion.
+$settings['container_yamls'][] = __DIR__ . '/apcu_fix.yml';

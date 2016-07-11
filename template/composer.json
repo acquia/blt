@@ -15,13 +15,12 @@
     "drupal/acquia_connector":                    "8.1.*",
     "drupal/acsf":                                "~8.1",
     "drupal/core":                                "~8",
-    "drupal/console":                             "~0.10",
+    "drupal/console":                             "~1",
     "drupal/memcache" :                           "8.*",
     "drupal/security_review" :                    "8.*",
     "roave/security-advisories":                  "dev-master",
-    "drupal-composer/drupal-scaffold":            "^2.0.1",
     "drupal-composer/drupal-security-advisories": "8.0.x-dev",
-    "drupal/lightning":                           "~8.1.0"
+    "drupal/lightning":                           "~8.1"
   },
   "require-dev": {
     "behat/behat":                  "3.0.*",
@@ -33,7 +32,7 @@
     "drush/drush":                  "^9.0",
     "drupal/drupal-extension":      "~3.0",
     "drupal/coder":                 "~8.2",
-    "phpunit/phpunit":              "4.6.*",
+    "phpunit/phpunit":             "~5.4",
     "squizlabs/php_codesniffer":    "2.*",
     "phing/phing":                  "dev-master#0ef30e55bb5871cb38903cc0ee9d76074118a22c",
     "jakoch/phantomjs-installer":   "1.9.8",
@@ -44,8 +43,6 @@
       "Drupal\\Tests\\PHPUnit\\": "tests/phpunit/src/"
     }
   },
-  "minimum-stability": "dev",
-  "prefer-stable":     true,
   "extra": {
     "installer-paths": {
       "docroot/core":                     ["type:drupal-core"],
@@ -62,12 +59,13 @@
   },
   "scripts": {
     "install-phantomjs": "PhantomInstaller\\Installer::installPhantomJS",
-    "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
     "post-install-cmd": [
       "PhantomInstaller\\Installer::installPhantomJS"
     ],
     "post-update-cmd": [
       "PhantomInstaller\\Installer::installPhantomJS"
     ]
-  }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable":     true
 }
