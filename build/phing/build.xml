@@ -15,24 +15,6 @@
   <!-- Load the core build.yml. -->
   <property file="${blt.root}/template/build/core/phing/build.yml" />
 
-  <taskdef name="randomString" classname="${blt.root}.vendor.platinumpixs.phing-random-string.src.PlatinumPixs.RandomString.GenerateTask" />
-
-  <!-- Runs all blt related targets. -->
-  <target name="new-project" description="Runs all targets required to spin up new project from BLT."
-          depends="clean, configure">
-    <phingcall target="create">
-      <property name="do.abort" value="n"/>
-    </phingcall>
-  </target>
-
-  <target name="clean" description="Removes generated configuration files from BLT directory.">
-    <delete file="${blt.root}/project.yml" quiet="true"/>
-    <delete file="${blt.root}/local.settings.php" quiet="true"/>
-    <delete file="${blt.root}/template/sites/default/settings/local.settings.php" quiet="true"/>
-    <delete file="${blt.root}/template/tests/behat/local.yml" quiet="true"/>
-    <delete dir="${blt.root}/template/vendor" quiet="true"/>
-  </target>
-
   <!-- Creates new configuration files to be used for new project generation.
        Note: this target must be called by itself first. Other targets must be
        executed separately so that they may load the correct configuration   -->

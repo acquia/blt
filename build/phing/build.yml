@@ -1,2 +1,0 @@
-blt:
-  new.dir: ${blt.root}/../${project.machine_name}

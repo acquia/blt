@@ -15,6 +15,9 @@
     </then>
   </if>
 
+  <!-- Load custom property values. -->
+  <property file="${project.basedir}/build.yml" override="true"/>
+
   <!-- Include task partials -->
 
   <!-- Defines a list of default properties, available to all targets. -->
