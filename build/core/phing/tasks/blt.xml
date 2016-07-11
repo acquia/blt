@@ -9,6 +9,10 @@
     <exec dir="${repo.root}" command="./scripts/blt/update-scaffold" logoutput="true" passthru="true" checkreturn="true"/>
   </target>
 
+  <target name="blt:init">
+    <taskdef name="randomString" classname="${blt.root}.vendor.platinumpixs.phing-random-string.src.PlatinumPixs.RandomString.GenerateTask" />
+  </target>
+
   <target name="blt:alias" description="Installs the BLT alias for command line usage.">
     <if>
       <not><equals arg1="${create_alias}" arg2="false"/></not>

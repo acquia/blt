@@ -1,3 +1,0 @@
-# Define custom property values here. You can override values defined in
-# ../../core/phing/build.yml.
-example.property: 'example value'
