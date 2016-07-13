@@ -68,7 +68,7 @@ In order to use a custom version of Drush (required by BLT) with Dev Desktop, yo
 
   ```
   export PATH="/Applications/DevDesktop/mysql/bin:$PATH"
-  export DEVDESKTOP_DRUPAL_SETTINGS_DIR="~/.acquia/DevDesktop/DrupalSettings"
+  export DEVDESKTOP_DRUPAL_SETTINGS_DIR="$HOME/.acquia/DevDesktop/DrupalSettings"
   
   ```
 1. Ensure that Dev Desktop's PHP binary is being used on the CLI. You can check this via `which php`. 
