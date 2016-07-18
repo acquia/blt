@@ -35,7 +35,7 @@
     "phpunit/phpunit":              "4.6.*",
     "squizlabs/php_codesniffer":    "2.*",
     "phing/phing":                  "dev-master#0ef30e55bb5871cb38903cc0ee9d76074118a22c",
-    "jakoch/phantomjs-installer":   "1.9.8",
+    "jakoch/phantomjs-installer":   "~2.0",
     "jarnaiz/behat-junit-formatter": "^1.2"
   },
   "autoload-dev": {
