@@ -57,4 +57,25 @@
     <exec dir="${repo.root}" command="./blt.sh -q -l" passthru="true"/>
   </target>
 
+  <target name="target-hook:invoke" description="Executes a command defined in the target-hooks array.">
+    <fail unless="hook-name"/>
+    <if>
+      <isset property="target-hooks.${hook-name}.command"/>
+      <then>
+        <if>
+          <available file="${target-hooks.${hook-name}.dir}" type="dir" property="dirExists" />
+          <then>
+            <exec dir="${target-hooks.${hook-name}.dir}" command="${target-hooks.${hook-name}.command}" logoutput="true" checkreturn="true" />
+          </then>
+          <else>
+            <fail>The directory ${target-hooks.${hook-name}.dir} does not exist. Will not run command for ${hook-name}.</fail>
+          </else>
+        </if>
+      </then>
+      <else>
+        <echo>No commands are defined for ${hook-name}. Skipping.</echo>
+      </else>
+    </if>
+  </target>
+
 </project>

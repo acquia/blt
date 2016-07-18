@@ -1,6 +1,6 @@
 <?php
 
-// Includes required Acquia configuration and set $base_url correctly.
+// Includes required Acquia configuration.
 require DRUPAL_ROOT . '/sites/default/settings/base.settings.php';
 
 // Includes caching configuration.

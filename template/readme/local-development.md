@@ -36,6 +36,24 @@ There are also other changes you can make if you choose to match the Acquia Clou
 
 Once you've made these changes and completed the steps in Drupal VM's Quick Start Guide, you may run `vagrant up` to bring up your local development environment, and then access the site via the configured `drupal_domain`.
 
+### Drupal VM and Behat tests
+
+#### Using the Drupal Extension's "drupal" driver with Drupal VM
+
+The Drupal Extension for Behat has an [inherent limitation](https://behat-drupal-extension.readthedocs.io/en/3.1/drivers.html): it cannot use the 'drupal' driver to bootstrap Drupal on a remote server. If you're using Drupal VM and would like to execute Behat tests using the 'drupal' driver, you must execute them from within the VM. This is a break of the established pattern of running all BLT commands outside of the VM.
+
+To execute Behat tests using the 'drupal' driver on a Drupal VM environment, you must do the following:
+
+1. Update `tests/behat/local.yml` with the absolute file path to your project _inside the VM_. I.e., find and replace all instances of `host/machine/path/to/repo` with `/vm/path/to/repo`, which should look something like `var/www/[project.machine_name]`. 
+1. SSH into the VM `vagrant ssh`.
+1. Change to your project directory `cd /var/www/[project.machine_name]`.
+1. Assert that PhantomJS is installed for VM: `composer run-script install-phantomjs`
+1. Execute behat tests `./blt.sh tests:behat`
+
+#### Using the Drupal Extension's "drush" driver with Drupal VM
+
+You may choose to write only behat tests that utilize the Drupal Extension's "drupal" driver. Doing this will allow you to run `./blt.sh tests:behat` from the host machine without modificaitons to the Behat local.yml configuration.
+
 ## <a name="dd"></a>Using Acquia Dev Desktop for BLT-generated projects
 
 ### Project creation and installation changes
@@ -44,16 +62,22 @@ Add a new site in [Dev Desktop](https://www.acquia.com/products-services/dev-des
 
 ### Drush support
 
-In order to use a custom version of Drush with Dev Desktop, you must add the
-following lines to ~/.bash_profile:
+In order to use a custom version of Drush (required by BLT) with Dev Desktop, you must:
 
-```
-export PATH="/Applications/DevDesktop/mysql/bin:$PATH"
-export DEVDESKTOP_DRUPAL_SETTINGS_DIR="$HOME/.acquia/DevDesktop/DrupalSettings"
+1. Add the following lines to `~/.bash_profile`:
 
-```
+  ```
+  export PATH="/Applications/DevDesktop/mysql/bin:$PATH"
+  export DEVDESKTOP_DRUPAL_SETTINGS_DIR="$HOME/.acquia/DevDesktop/DrupalSettings"
+  
+  ```
+1. Ensure that Dev Desktop's PHP binary is being used on the CLI. You can check this via `which php`. 
+1. Enable the usage of environmental variables by adding the following line to `php.ini`, which you can locate with `php --ini`:
 
-Restart your terminal session after adding these lines.
+  ```
+  variables_order = "EGPCS"
+  ```
+1. Restart your terminal session after making the aforementioned changes.
 
 ## Alternative local development environments
 

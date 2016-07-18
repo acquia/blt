@@ -8,6 +8,8 @@ command -v svn >/dev/null 2>&1 || { echo "The svn command could not be found. Pl
 # Upstream directories to pull. These will be prefixed with "template/".
 BLT_DIRS=(
   "blt.sh"
+  "example.project.local.yml"
+  ".gitignore"
   "build/core"
   "factory-hooks/post-settings-php/protect_env.php.example"
   "hooks/samples"
@@ -35,6 +37,6 @@ done
 
 # Restore execute permissions.
 chmod 755 blt.sh
-chmod 755 scripts/git-hooks/pre-commit
+chmod -R 755 scripts/git-hooks/pre-commit
 
 echo "Changes have been pulled down. Please review and commit desired changes."

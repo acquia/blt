@@ -13,10 +13,10 @@
 
 Pre-requisites to installation:
 
-1. Ensure that `docroot/sites/default/settings/local.settings.php` exists by executing `./blt.sh setup:drupal:settings`. 
+1. Ensure that `docroot/sites/default/settings/local.settings.php` exists by executing `./blt.sh setup:drupal:settings`.
 1. Verify that correct local database credentials are set in `local.settings.php`.
-1. Ensure that project dependencies have already been built via `./blt.sh setup:build:all`
-   
+1. Ensure that project dependencies have already been built via `./blt.sh setup:build`
+
 To re-install Drupal, execute: `./blt.sh setup:drupal:install`. Note that this will drop the existing database tables and install Drupal from scratch!
 
 ## <a name="update-dependency"></a>Update dependencies (core, profile, module, theme, libraries)
@@ -62,39 +62,64 @@ Please see [Deploy](deploy.md) for a detailed description of how to deploy to Ac
 
 Please see [tests/README.md](../tests/README.md) for information on running tests.
 
-To execute PHP codesniffer and PHP lint against the project codebase, run: `./blt.sh validate:all`
+To execute PHP codesniffer and PHP lint against the project codebase, run:
+
+```
+./blt.sh validate:all
+```
 
 ## <a name="frontend"></a>Build front end assets
 
 Ideally, you will be using a theme that uses SASS/SCSS, a styleguide, and other tools that require compilation. Like dependencies, the compiled assets should not be directly committed to the project repository. Instead, they should be built during the creation of a production-ready build artifact.
 
-BLT only natively supports the [Acquia PS Thunder](https://github.com/acquia-pso/thunder) base theme.
+BLT allows you to define a custom command that will be run to compile your project's frontend assets. You can specify the command in your project's `project.yml` file under the `target-hooks.frontend-build` key:
 
-To install Thunder's dependencies:
+```
+target-hooks:
+  frontend-build:
+    # The directory in which the command will be executed.
+    dir: ${docroot}
+    command: npm install.
+```
 
-1. See [Acquia PS Thunder](https://github.com/acquia-pso/thunder) for system requirements.
-1. Execute `/.task frontend:install`.
+If you need to run more than one command, you may use this feature to call a custom script:
 
-To build Thunder's assets, execute:
+```
+target-hooks:
+  frontend-build:
+    # The directory in which the command will be executed.
+    dir: ${repo.root}
+    command: ./scripts/custom/my-script.sh
+```
 
-`/.task frontend:build`.
+This command will be executed when dependencies are built in a local or CI environment, and when a deployment artifact is generated. You may execute the command directly by calling the `frontend:build` target:
+
+```
+./blt.sh frontend:build
+```
 
 ## <a name="local-tasks"></a>Updating you local environment
 
-The project is configured to update the local environment with a local drush alias and a remote alias as defined in `project.yml`. Given that these aliases match, those in `drush/site-aliases/`, you can update the site with BLT. Please see [drush/README.md](../drush/README.md) for details on how to create these aliases.
+The project is configured to update the local environment with a local drush alias and a remote alias as defined in `project.yml` or `project.local.yml`. Given that these aliases match, those in `drush/site-aliases/`, you can update the site with BLT. Please see [drush/README.md](../drush/README.md) for details on how to create these aliases.
 
 ### Refresh: Rebuild the codebase, copy the database, and run updates
 
 This all in one command will make sure your local is in sync with the remote site.
 
-`./blt.sh local:refresh`
+```
+./blt.sh local:refresh
+```
 
 ### Sync: Copy the database from the remote site
 
-`./blt.sh local:sync`
+```
+./blt.sh local:sync
+```
 
 ### Update: Run update tasks locally
 
-`./blt.sh local:update`
+```
+./blt.sh local:update
+```
 
 These tasks can be seen in `build/core/phing/tasks/local-sync.xml`. An additional script can be added at `/hooks/dev/post-db-copy/dev-mode.sh` which would run at the end of this task.

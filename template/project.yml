@@ -1,6 +1,8 @@
 project:
-  # This will be used as the vendor name in the new project's composer.json file.
+  # The project's composer.json will be updated with the below vendor_name and description
+  # and should be updated directly to change these values after initial creation.
   vendor_name: 'acquia'
+  description: 'A short description of the package. Usually this is just one line long.'
   # Everyone: This will determine the the directory name of the new repository.
   # Dev Desktop users: this should match your local site name.
   machine_name: 'blted8'
@@ -39,6 +41,25 @@ drush:
     ci: self
     # The default drush alias to be used when no environment is specified.
   default_alias: ${drush.aliases.local}
+
+# Custom tasks that are triggered at pre-defined times in the build process.
+# The tasks hook into BLT's existing Phing targets. Available hooks keys are:
+# frontend-build, post-deploy-build, and post-setup-build.
+target-hooks:
+  # Executed when front end assets should be generated.
+  frontend-build:
+    # E.g., ${docroot}/sites/all/themes/custom/mytheme.
+    dir: ${docroot}
+    # E.g., `npm install` or `bower install`.
+    command: echo 'No frontend build configured.'
+  # Executed after deployment artifact is created.
+  post-deploy-build:
+    dir: ${deploy.dir}/docroot/profiles/contrib/lightning
+    command: npm install && bower install
+  # Executed after setup:build is run.
+  post-setup-build:
+    dir: ${docroot}/profiles/contrib/lightning
+    command: npm install && bower install
 
 # Hosting environment flags.
 # Examples: acsf (Acquia Cloud Site Factory), ac (Acquia Cloud)

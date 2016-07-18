@@ -36,6 +36,7 @@ before_install:
 
 install:
   # Load composer dependencies.
+  - composer validate --no-check-all --ansi
   - composer install
   - export PATH=$PATH:$TRAVIS_BUILD_DIR/vendor/bin
   # Install proper version of node for front end tasks.
@@ -56,7 +57,7 @@ script:
 # Uncomment to enable automatic deployments following merges.
 deploy:
   # provider: script
-  # script: ./blt.sh deploy:artifact -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="${TRAVIS_BRANCH}-build"
+  # script: ./blt.sh deploy -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="${TRAVIS_BRANCH}-build"
   # skip_cleanup: true
   # on:
   #   branch: master

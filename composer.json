@@ -3,7 +3,7 @@
   "description": "BLT",
   "license": "GPL-2.0",
   "require": {
-    "drupal/console":                             "~0.10",
+    "drupal/console": "~0.10",
     "phing/phing": "2.*",
     "phpunit/phpunit": "5.4.*",
     "platinumpixs/phing-random-string": "dev-master",

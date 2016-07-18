@@ -2,7 +2,7 @@
   "name":    "${project.vendor_name}/${project.machine_name}",
   "license": "proprietary",
   "type":    "project",
-  "description": "${project.acquia_subname}",
+  "description": "${project.description}",
   "repositories": [
     {
       "type": "composer",
@@ -11,6 +11,7 @@
   ],
   "require": {
     "composer/installers":                        "^1.0.20",
+    "cweagans/composer-patches":                  "~1.0",
     "drupal/acquia_connector":                    "8.1.*",
     "drupal/acsf":                                "~8.1",
     "drupal/core":                                "~8",
@@ -59,6 +60,7 @@
     }
   },
   "scripts": {
+    "install-phantomjs": "PhantomInstaller\\Installer::installPhantomJS",
     "post-install-cmd": [
       "PhantomInstaller\\Installer::installPhantomJS"
     ],

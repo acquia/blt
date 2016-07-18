@@ -106,3 +106,16 @@ $settings['extension_discovery_scan_tests'] = TRUE;
  * using these parameters in a request to rebuild.php.
  */
 $settings['rebuild_access'] = TRUE;
+
+/**
+ * Temporary file path:
+ *
+ * A local file system path where temporary files will be stored. This
+ * directory should not be accessible over the web.
+ *
+ * Note: Caches need to be cleared when this value is changed.
+ *
+ * See https://www.drupal.org/node/1928898 for more information
+ * about global configuration override.
+ */
+$config['system.file']['path']['temporary'] = '/tmp';

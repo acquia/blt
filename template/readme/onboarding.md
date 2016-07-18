@@ -59,7 +59,7 @@ If you need to make requests via a proxy server, please [configure git to use a 
    drupal.
 1. Create and edit your local drush alias file. Copy `drush/site-aliases/example.local.aliases.drushrc.php` to `drush/site-aliases/local.aliases.drushrc.php`. Edit the new alias file with your local path.
 
-After this initial setup, you should only need to run `./blt.sh setup:build:all` when composer.json is updated, and `./blt.sh local:drupal:install` when you need to reinstall the site.
+After this initial setup, you should only need to run `./blt.sh setup:build` when composer.json is updated, and `./blt.sh local:drupal:install` when you need to reinstall the site.
 
 For a full list of available project tasks, run `./blt.sh -l`. See [Project Tasks](project-tasks.md) for more information.
 
@@ -74,7 +74,7 @@ Ensure that your local email address correctly matches the email address for you
 
 ## Updating you local environment
 
-The project is configured to update the local environment with a local drush alias and a remote alias as defined in `project.yml`. Given that these aliases match, those in `drush/site-aliases/`, you can update the site with BLT.
+The project is configured to update the local environment with a local drush alias and a remote alias as defined in `project.yml` or `project.local.yml`. Given that these aliases match, those in `drush/site-aliases/`, you can update the site with BLT.
 
 [Local Development Tasks](project-tasks.md#local-tasks)
 

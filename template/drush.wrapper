@@ -31,5 +31,10 @@
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd "`dirname $0`"
 
-# Only list local aliases and load the ones in drush/site-aliases.
-vendor/bin/drush.launcher --local --alias-path=${DIR}/drush/site-aliases "$@"
+if [ ! -f ${DIR}/vendor/bin/drush ]; then
+  echo "Drush was not found in this project's vendor/bin directory."
+  echo "Attempting to run composer install. This takes a few minutes."
+  composer install
+fi
+
+vendor/bin/drush.launcher --alias-path=${DIR}/drush/site-aliases "$@" -r ${DIR}/docroot

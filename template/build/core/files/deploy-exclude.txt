@@ -1,0 +1,31 @@
+# These files and their children will not be copied to the deployment artifact.
+# If these files already exist in the upstream artifact, they will be removed.
+/.drush-use
+/.idea
+/.travis.yml
+/.vagrant
+/blt.sh
+/box
+/build
+/deploy
+/docroot/core
+/docroot/libraries/contrib
+/docroot/modules/contrib
+/docroot/sites/*/files
+/docroot/sites/*/private
+/docroot/themes/contrib
+/drush/contrib
+/drush.wrapper
+/project.yml
+/README.md
+/readme
+/tests
+/Vagrantfile
+.git
+.gitignore
+bower_components
+example.*
+local.*
+*.local.*
+node_modules
+vendor

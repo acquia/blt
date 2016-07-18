@@ -93,6 +93,34 @@ Consequently, proper Behat tests should be written using business domain languag
 
 See referenced materials for more information on BDD best practices. 
 
+### Configuration
+
+Configuration for the BLT Behat commands is stored in the `behat` array in `build/core/phing/build.yml`. Any of these values can be overriden by defining the new values in `* build/custom/phing/build.yml`. E.g., if you wish to scan _only_ tests/behat/features for Behat tests, you could add the following to `build/custom/phing/build.yml`:
+
+```
+behat:
+  config: ${repo.root}/tests/behat/local.yml
+  profile: local
+  # If true, `drush runserver` will be used for executing tests.
+  run-server: false
+  # This is used for ad-hoc creation of a server via `drush runserver`.
+  server-url: http://127.0.0.1:8888
+  # If true, PhantomJS GhostDriver will be launched with Behat.
+  launch-phantom: true
+  # An array of paths with behat tests that should be executed.
+  paths:
+    # - ${docroot}/modules
+    # - ${docroot}/profiles
+    - ${repo.root}/tests/behat
+  tags: '~ajax'
+```
+
+Behat's own configuration is defined in the following files:
+* tests/behat/behat.yml
+* tests/behat/example.local.yml
+* tests/behat/local.yml
+
+
 ### Best practices:
 
 * Behat tests must be used behaviorally. I.E., they must use business domain language.
