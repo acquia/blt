@@ -42,13 +42,18 @@ Note that Composer versioning is not identical to drupal.org versioning. See:
 
 ### Drupal core
 
+Drupal core files can be grouped into two categories: those that are within the `docroot/core` directory, and those that are directly within the `docroot` directory (scaffold files).
+
+Scaffold files are automatically updated via the `drupal-composer/drupal-scaffold library`, which hooks into the `composer update` and `composer install` commands. If you would like to exclude any scaffold files from automated updates, see the [Drupal Scaffold configuration documentation](https://github.com/drupal-composer/drupal-scaffold#configuration). All other core files are updated in normal composer fashion.
+
+To update all drupal core files (scaffold and non-scaffold):
+
 To update drupal core:
 
 1. Update the entry for `drupal/core` in the root composer.json.
-2. Run `composer update`.
-3. Run `./scripts/drupal/update-scaffold`. This will update the core files not included in `drupal/core`.
-4. Use git to review changes to committed files. E.g., changes to .htaccess, robots.txt, etc.
-5. Add and commit desired changes.
+1. Run `composer update`.
+1. Use git to review changes to committed files. E.g., changes to .htaccess, robots.txt, etc.
+1. Add and commit desired changes.
 
 ## <a name="patch"></a>Patch a project
 
