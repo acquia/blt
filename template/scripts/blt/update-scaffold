@@ -16,7 +16,6 @@ BLT_DIRS=(
   "hooks/templates"
   "readme"
   "scripts/blt"
-  "scripts/drupal"
   "scripts/git-hooks/pre-commit"
   "scripts/release-notes"
   "tests/behat/behat.yml"
