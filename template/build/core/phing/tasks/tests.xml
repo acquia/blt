@@ -132,13 +132,21 @@
   </target>
 
   <!-- Ensure Drupal doesn't have any modules requiring security updates. -->
-  <!-- Intentionally removed checkreturn="true" so that this does not cause failure. -->
   <target name="tests:security-updates"
           description="Check local Drupal installation for security updates.">
     <exec dir="${docroot}"
           command="! ${drush.cmd} -n ups --check-disabled --security-only 2>/dev/null | grep 'SECURITY UPDATE'"
           checkreturn="true"
           logoutput="true"
+          returnProperty="securityPass"
           passthru="true"/>
+
+    <!-- Output message on failure. -->
+    <if>
+      <not><equals arg1="${securityPass}" arg2="0"/></not>
+      <then>
+        <echo>One or more of your dependency has an outstanding security update. Please apply update(s) immediately. Failing build.</echo>
+      </then>
+    </if>
   </target>
 </project>
