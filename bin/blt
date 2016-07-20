@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 if [ "`git rev-parse --show-cdup 2> /dev/null`" != "" ]; then
   GIT_ROOT=$(git rev-parse --show-cdup)
 else
