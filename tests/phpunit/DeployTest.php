@@ -19,7 +19,7 @@ class DeployTest extends \PHPUnit_Framework_TestCase {
     $this->projectDirectory = realpath(dirname(__FILE__) . '/../../');
     $this->newProjectDir = dirname($this->projectDirectory) . '/blt-project';
     $this->config = Yaml::parse(file_get_contents("{$this->newProjectDir}/project.yml"));
-    $this->deploy_dir = $this->new_project_dir . '/deploy';
+    $this->deploy_dir = $this->newProjectDir . '/deploy';
   }
 
   /**
