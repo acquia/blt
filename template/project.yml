@@ -59,7 +59,7 @@ target-hooks:
   # Executed after setup:build is run.
   post-setup-build:
     dir: ${docroot}/profiles/contrib/lightning
-    command: npm install && bower install
+    command: npm run install-libraries
 
 # Hosting environment flags.
 # Examples: acsf (Acquia Cloud Site Factory), ac (Acquia Cloud)
