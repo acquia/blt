@@ -13,9 +13,7 @@ if [[ $COMPOSER_IS_INSTALLED -ne 0 ]]; then
 fi
 
 SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-echo $SCRIPT_DIR
 BIN=$(cd ${SCRIPT_DIR}/../../bin && pwd)
-echo $BIN
 PHING=${BIN}/phing
 
 if [ ! -f ${PHING} ]; then
