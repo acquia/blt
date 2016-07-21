@@ -36,7 +36,7 @@ The following is an overview of the purpose of each top level directory in the p
 
 ## Dependency Management
 
-All project and Drupal (module, themes, libraries) dependencies are managed via Composer. The management strategy is based on [The Drupal Project](github.com/drupal-composer/drupal-project). 
+All project and Drupal (module, themes, libraries) dependencies are managed via Composer. The management strategy is based on [The Drupal Project](https://github.com/drupal-composer/drupal-project). 
 
 Modules, themes, and other contributed drupal projects can be added as dependencies in the root composer.json file.
 
