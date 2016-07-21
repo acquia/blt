@@ -45,6 +45,12 @@ reports:
   localDir: ${repo.root}/reports
   remoteDir: reports
 
+phpcs:
+  filesets:
+    - files.php.custom.modules
+    - files.php.tests
+    - files.frontend.custom.themes
+
 project:
   local:
     uri: ${project.local.protocol}://${project.local.hostname}
