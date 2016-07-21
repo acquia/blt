@@ -11,6 +11,8 @@ BLT_DIRS=(
   "example.project.local.yml"
   ".gitignore"
   "build/core"
+  "docroot/sites/default/settings.php"
+  "docroot/sites/default/settings"
   "factory-hooks/post-settings-php/protect_env.php.example"
   "hooks/samples"
   "hooks/templates"
