@@ -1,8 +1,4 @@
 project:
-  # The project's composer.json will be updated with the below vendor_name and description
-  # and should be updated directly to change these values after initial creation.
-  vendor_name: 'acquia'
-  description: 'A short description of the package. Usually this is just one line long.'
   # Everyone: This will determine the the directory name of the new repository.
   # Dev Desktop users: this should match your local site name.
   machine_name: 'blted8'
@@ -60,6 +56,9 @@ target-hooks:
   post-setup-build:
     dir: ${docroot}/profiles/contrib/lightning
     command: npm run install-libraries
+
+# Define any custom Phing files that you'd like to import. E.g., ${repo.root}/blt/phing/build.xml
+imports: []
 
 # Hosting environment flags.
 # Examples: acsf (Acquia Cloud Site Factory), ac (Acquia Cloud)

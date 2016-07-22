@@ -15,7 +15,10 @@
   "autoload": {
     "psr-4": {"Acquia\\Blt\\": "src/"}
   },
-  "bin": ["bin/blt"],
+  "bin": [
+    "bin/blt",
+    "bin/blt-console"
+  ],
   "minimum-stability": "beta",
   "prefer-stable": true,
   "scripts": {

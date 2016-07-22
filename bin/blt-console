@@ -1,0 +1,25 @@
+#!/usr/bin/env php
+<?php
+
+use Acquia\Blt\Console\Command\ComposerMungeCommand;
+use Acquia\Blt\Console\Command\YamlMungeCommand;
+use Symfony\Component\Console\Application;
+
+set_time_limit(0);
+$consoleRoot = __DIR__ . '/../';
+if (file_exists($consoleRoot . 'vendor/autoload.php')) {
+  $autoload = include_once $consoleRoot . 'vendor/autoload.php';
+}
+elseif (file_exists($consoleRoot.'../../autoload.php')) {
+  $autoload = include_once $consoleRoot . '../../autoload.php';
+}
+else {
+  echo 'Something goes wrong with your archive' . PHP_EOL .
+    'Try downloading again' . PHP_EOL;
+  exit(1);
+}
+
+$application = new Application();
+$application->add(new ComposerMungeCommand());
+$application->add(new YamlMungeCommand());
+$application->run();
