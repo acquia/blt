@@ -44,8 +44,11 @@ class ComposerMungeCommand extends Command
    * @param $file2
    */
   protected function munge($file1, $file2) {
-    $file1_contents = (array) json_decode(file_get_contents($file1), true);
-    $file2_contents = (array) json_decode(file_get_contents($file2), true);
+    $default_contents = [
+      'repositories' => [],
+    ];
+    $file1_contents = (array) json_decode(file_get_contents($file1), true) + $default_contents;
+    $file2_contents = (array) json_decode(file_get_contents($file2), true) + $default_contents;
     $output = $this->mergeKeyed($file1_contents, $file2_contents);
     $output['repositories'] = $this->mergeRepositories((array) $file1_contents['repositories'], (array) $file2_contents['repositories']);
 

@@ -1,8 +1,6 @@
 {
-  "name":    "${project.vendor_name}/${project.machine_name}",
   "license": "proprietary",
   "type":    "project",
-  "description": "${project.description}",
   "repositories": [
     {
       "type": "composer",
