@@ -2,10 +2,10 @@
 
 * System requirements
 * [Creating a new project with BLT](#creating-new)
-* Adding BLT to and existing project
-* Updating to the latest version of BLT
-  * Updating from a non-composer-managed version
-  * Updating a composer-managed version
+* [Adding BLT to and existing project](#existing-project)
+* [Updating to the latest version of BLT](#updating)
+  * [Updating from a non-composer-managed version](#update-non-composered)
+  * [Updating a composer-managed version](#update-composered)
 
 ## System Requirements
 
@@ -21,23 +21,12 @@ You should be able to use the following tools on the command line of your native
 
 ## <a href="creating-new"></a>Creating a new project with BLT
 
-The following high-level steps will be required to generate a new, fully functioning site using BLT:
-
-1. Ensure your native OS meets minimum requirements
-1. Create a new project and add acquia/blt as a composer dependency
-1. Generate and modify configuration files for your new project
-1. Build your new project’s dependencies
-1. Setup a local *AMP stack
-1. Install Drupal locally via BLT
-
-
-### Generate and modify configuration files
-
-1. Create a new empty directory for your project.
+1. Create a new empty directory for your project and initialize it as a new Git repository.
 
   ```
   mkdir myproject
   cd myproject
+  git init
   ```
 1. (optional) Globally install pretissimo for parallelized composer downloads:
 
@@ -72,15 +61,32 @@ The following high-level steps will be required to generate a new, fully functio
   ```
   composer update
   ```
+  This command may take a long time to run. It is recursively discovering and downloading all of your project's upstream dependencies.
+1. Modify project files. This is an optional step. Important files that you may want to modify include:
+  * composer.json. Note that Drupal core, contrib, and third party dependencies are all managed here.
+  * Project’s root README.md.
+  * Other project documentation in the readme directory.
+1. Commit new a modified project files to Git:
+  ```
+  git add -A
+  git commit
+  ```
 
+## <a name="existing-project"></a>Adding BLT to and existing project
 
-### Modify project files
+To add BLT to a pre-existing Drupal project, do the following:
 
-This is an optional step. Important files that you may want to modify include:
+1. Ensure that your project directory structure is Acquia-cloud compatible by asserting that the Drupal root is in a top-level folder called `docroot`.
+1. If you currently manage your dependencies via Composer, ensure that they are all up to date via `composer update`. Assert that these updates do not break your project.
+1. `cd` into your existing project directory.
+1. Follow instructions under "Creating a new project with BLT", starting at step 2.
 
-* composer.json. Note that Drupal core, contrib, and third party dependencies are all managed here.
-* Project’s root README.md.
-* Other project documentation in the readme directory.
+## <a name=""></a>Updating to the latest version of BLT
+
+### <a name=""></a>Updating from a non-composer-managed version
+
+### <a name=""></a>Updating a composer-managed version
+
 
 Note that all of the steps from this point forward are the same steps that would be used by a newly onboarded developer setting up your existing project on their local machine for the first time.
 
@@ -98,9 +104,9 @@ When you have completed setting up your local \*AMP stack, double check that the
 * Local site DB credentials: `$databases` in docroot/sites/default/settings/local.settings.php
 * Local site URL: `$options[‘uri’]` in docroot/sites/default/local.drushrc.php
 
-## Build your project’s dependencies and install Drupal
+## Build your project’s local dependencies and install Drupal locally
 
-Run the following command from the project root: `./blt.sh local:setup`. This will do a lot of things for you, including:
+Run the following command from the project root: `blt local:setup`. This will do a lot of things for you, including:
 
 * Building dependencies
 * Installing local git hooks
@@ -109,7 +115,7 @@ Run the following command from the project root: `./blt.sh local:setup`. This wi
 
 When this task is complete, you should have a fully functioning Drupal site on your local machine. You can login to the site by running `drush uli`.
 
-Note that all common project tasks are executed through `blt.sh` in your project’s root directory. This file simply passes arguments through to Phing, which manages all task automation. For a full list of available tasks, run `./blt.sh -l`.
+Note that all common project tasks are executed through `blt`. For a full list of available tasks, run `blt -l`.
 
 ## Next Steps
 

@@ -8,7 +8,7 @@
   <target name="blt:rsync-template">
     <echo>Copying files from BLT's template into your project.</echo>
     <!-- @todo Do not overwrite structured or executable files. Instead, update them intelligently. composer.json, project.yml, settings.php, drush.wrapper etc. -->
-    <exec dir="${repo.root}" command="rsync -a --no-g --no-p --update ${blt.root}/template/ ${repo.root}/ --filter 'protect /.git/' --filter 'protect /project.yml/'" logoutput="true" checkreturn="true"/>
+    <exec dir="${repo.root}" command="rsync -a --no-g --no-p --update ${blt.root}/template/ ${repo.root}/ --filter 'protect /.git/' --filter 'protect /project.yml/' --filter 'protect /composer.json/'" logoutput="true" checkreturn="true"/>
   </target>
 
   <target name="update" depends="init, blt:update-yml, configure">
