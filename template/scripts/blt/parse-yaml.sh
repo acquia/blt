@@ -1,21 +1,18 @@
 #!/usr/bin/env bash
-#
-# To enable this hook, developers should place it in .git/hooks/.
-#
-# You may adapt the message length check. Currently checking it's longer than
-# 15 characters.
-
-# Load YAML parser.
-. `dirname $0`/../blt/parse-yaml.sh
-
-eval $(parse_yaml project.yml)
-
-regex="^${project_prefix}-[0-9]+(: )[^ ].{15,}\."
-if ! grep -iqE "$regex" "$1"; then
-  echo "Invalid commit message. Commit messages must:"
-  echo "* Contain the project prefix followed by a hyphen"
-  echo "* Contain a ticket number followed by a colon and a space"
-  echo "* Be at least 15 characters long and end with a period."
-  echo "Valid example: ${project_prefix}-135: Added the new picture field to the article feature."
-  exit 1;
-fi
+parse_yaml() {
+    local prefix=$2
+       local s='[[:space:]]*' w='[a-zA-Z0-9_]*' fs=$(echo @|tr @ '\034')
+       sed -ne "s|^\($s\):|\1|" \
+            -e 's|`||g;s|\$||g;' \
+            -e "s|^\($s\)\($w\)$s:$s[\"']\(.*\)[\"']$s\$|\1$fs\2$fs\3|p" \
+            -e "s|^\($s\)\($w\)$s:$s\(.*\)$s\$|\1$fs\2$fs\3|p"  $1 |
+       awk -F$fs '{
+          indent = length($1)/7;
+          vname[indent] = $2;
+          for (i in vname) {if (i > indent) {delete vname[i]}}
+          if (length($3) > 0) {
+             vn=""; for (i=0; i<indent; i++) {vn=(vn)(vname[i])("_")}
+             printf("%s%s%s=\"%s\"\n", "'$prefix'",vn, $2, $3);
+          }
+       }'
+}
