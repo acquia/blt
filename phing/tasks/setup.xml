@@ -162,7 +162,7 @@
     <if>
       <not><available file="${repo.root}/salt.txt"/></not>
       <then>
-        <taskdef name="randomString" classname="${blt.root}.vendor.platinumpixs.phing-random-string.src.PlatinumPixs.RandomString.GenerateTask" />
+        <taskdef name="randomString" classname="${repo.root}.vendor.platinumpixs.phing-random-string.src.PlatinumPixs.RandomString.GenerateTask" />
         <randomString name="project.hash_salt" length="55" stringType="lowercase_uppercase_numeric" />
         <exec dir="${repo.root}" command="echo ${project.hash_salt} > salt.txt" logoutput="true" checkreturn="true"/>
       </then>

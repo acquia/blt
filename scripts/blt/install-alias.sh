@@ -12,6 +12,13 @@ fi
 
 if [ ! -z "$DETECTED_PROFILE" ]; then
   if [ "`grep 'function blt' $DETECTED_PROFILE`" ]; then
+
+    if [ "`grep 'GIT_ROOT/blt.sh' $DETECTED_PROFILE`" ]; then
+      echo "You have an outdated version of the blt alias installed."
+      echo "Please remove it from $DETECTED_PROFILE and re-run this command."
+      exit 1
+    fi
+
     echo "Alias for blt already exists in $DETECTED_PROFILE"
     exit
   fi
