@@ -84,7 +84,7 @@
     <!-- We make these commands quiet because they can cause the output to be so long that Travis CI stops logging. -->
     <exec command="git add -A" dir="${deploy.dir}" logoutput="true" passthru="true" checkreturn="true"/>
     <!-- We are forcing vendor everywhere to add here in case a global git ignore flags it -->
-    <exec command="git add vendor -f" dir="${deploy.dir}" logoutput="true" passthru="true" checkreturn="true"/>
+    <exec command="git add /vendor -f" dir="${deploy.dir}" logoutput="true" passthru="true" checkreturn="true"/>
     <exec command="git commit -m '${deploy.commitMsg}' --quiet" dir="${deploy.dir}" logoutput="true" passthru="true" checkreturn="true"/>
   </target>
 
