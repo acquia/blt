@@ -25,7 +25,8 @@
 
   </target>
 
-  <target name="setup:clean" description="Removes .gitignored files and directories.">
+  <target name="setup:composer:clean" description="Wipes all composer managed directories and clears composer cache.">
+    <echo>Removing all composer managed dependencies.</echo>
     <delete>
       <fileset dir="${repo.root}">
         <include name="docroot/core"/>
@@ -37,10 +38,11 @@
         <include name="vendor"/>
       </fileset>
     </delete>
+    <exec dir="${repo.root}" command="composer clear-cache" logoutput="true" passthru="true" checkreturn="true"/>
   </target>
 
-  <target name="setup:composer:install" description="Installs project dependencies, including drupal core and contrib.">
-    <exec dir="${repo.root}" command="export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --ansi" logoutput="true" passthru="true" checkreturn="true"/>
+  <target name="setup:composer:install" description="Installs project dependencies, including drupal core and contrib." depends="setup:composer:clean">
+    <exec dir="${repo.root}" command="export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --ansi --no-interaction" logoutput="true" passthru="true" checkreturn="true"/>
   </target>
 
   <target name="setup:drupal:settings" description="Create local settings files using default settings files.">
