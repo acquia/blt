@@ -96,6 +96,8 @@
         <include name="composer.lock"/>
       </fileset>
     </copy>
+
+    <exec dir="${deploy.dir}" command="composer clear-cache" passthru="true" logoutput="true" checkreturn="true"/>
     <exec dir="${deploy.dir}" command="export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --no-dev --prefer-dist --no-interaction" passthru="true" logoutput="true" checkreturn="true"/>
   </target>
 
