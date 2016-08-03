@@ -19,6 +19,8 @@ You should be able to use the following tools on the command line of your native
     * [Linux](http://php.net/manual/en/install.unix.debian.php)
 * [NPM](https://nodejs.org/en/download/) (for [Lightning](https://github.com/acquia/lightning) support)
 
+_If you have xDebug enabled for your PHP CLI binary, it is highly recommended that you disable it._
+
 ## <a href="creating-new"></a>Creating a new project with BLT
 
 1. Create a new empty directory for your project and initialize it as a new Git repository.
@@ -33,14 +35,18 @@ You should be able to use the following tools on the command line of your native
   ```
   composer global require "hirak/prestissimo:^0.3"
   ```
-1. Initialize Composer and install BLT:
+1. Initialize Composer:
 
   ```
   composer init --stability=dev
-  composer config prefer-stable true
-  composer require acquia/blt:~8
   ```
   * Do not define dependencies or dev dependencies interactively.
+
+1. Add BLT to project:
+  ```
+  composer config prefer-stable true
+  composer require acquia/blt:~8 --dev
+  ```
 1. Install BLT alias and initialize BLT:
 
   ```
@@ -56,7 +62,7 @@ You should be able to use the following tools on the command line of your native
   ```
   blt configure
   ```
-1. Update your project with new dependencies that were added BLT:
+1. Update your project with new dependencies that were added by BLT:
 
   ```
   composer update
@@ -67,10 +73,12 @@ You should be able to use the following tools on the command line of your native
   * Project’s root README.md.
   * Other project documentation in the readme directory.
 1. Commit new a modified project files to Git:
+
   ```
   git add -A
   git commit
   ```
+1. Follow instructions for <a href="#install">installing Drupal locally</a>.
 
 ## <a name="existing-project"></a>Adding BLT to and existing project
 
@@ -81,12 +89,25 @@ To add BLT to a pre-existing Drupal project, do the following:
 1. `cd` into your existing project directory.
 1. Follow instructions under "Creating a new project with BLT", starting at step 2.
 
-## <a name=""></a>Updating to the latest version of BLT
-
-### <a name=""></a>Updating from a non-composer-managed version
+## <a name=""></a>Updating BLT
 
 ### <a name=""></a>Updating a composer-managed version
 
+If you are already using BLT via Composer, you can update to the latest version of BLT by running the following commands from your project's root directory:
+
+```
+composer update acquia/blt
+blt update
+```
+
+### <a name=""></a>Updating from a non-Composer-managed version
+
+If you are using an older version of BLT that was not installed using Composer, you may update to the Composer-managed version by running the following commands:
+
+```
+composer require acquia/blt:~8
+./vendor/acquia/blt/scripts/blt/convert-to-composer.sh
+```
 
 Note that all of the steps from this point forward are the same steps that would be used by a newly onboarded developer setting up your existing project on their local machine for the first time.
 
@@ -104,7 +125,7 @@ When you have completed setting up your local \*AMP stack, double check that the
 * Local site DB credentials: `$databases` in docroot/sites/default/settings/local.settings.php
 * Local site URL: `$options[‘uri’]` in docroot/sites/default/local.drushrc.php
 
-## Build your project’s local dependencies and install Drupal locally
+## <a name="install"></a>Build your project’s local dependencies and install Drupal locally
 
 Run the following command from the project root: `blt local:setup`. This will do a lot of things for you, including:
 
