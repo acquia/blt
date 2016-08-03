@@ -15,7 +15,7 @@
     "drupal/acquia_connector":                    "8.1.*",
     "drupal/acsf":                                "~8.1",
     "drupal/core":                                "~8",
-    "drupal/console":                             "~0.10",
+    "drupal/console":                             "~=1.0",
     "drupal/memcache" :                           "8.*",
     "drupal/security_review" :                    "8.*",
     "roave/security-advisories":                  "dev-master",
@@ -36,7 +36,7 @@
     "phpunit/phpunit":              "4.6.*",
     "squizlabs/php_codesniffer":    "2.*",
     "phing/phing":                  "dev-master#0ef30e55bb5871cb38903cc0ee9d76074118a22c",
-    "jakoch/phantomjs-installer":   "1.9.8",
+    "jakoch/phantomjs-installer":   "2.*",
     "jarnaiz/behat-junit-formatter": "^1.2"
   },
   "autoload-dev": {
