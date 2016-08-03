@@ -8,7 +8,7 @@
   </target>
 
   <target name="setup:behat" description="Generates tests/behat/local.yml file for executing Behat tests locally.">
-    <echo>Attempting to generate tests/behat/local.yml using tests/behat/example.local.yml.</echo>
+    <echo>Attempting to generate tests/behat/local.yml.</echo>
     <copy file="${repo.root}/tests/behat/example.local.yml" tofile="${repo.root}/tests/behat/local.yml">
       <filterchain>
         <expandproperties />
@@ -26,8 +26,9 @@
 
   </target>
 
-  <target name="setup:clean" description="Removes .gitignored files and directories.">
-    <delete>
+  <target name="setup:composer:clean" description="Wipes all composer managed directories and clears composer cache.">
+    <echo>Removing all composer managed dependencies.</echo>
+    <delete verbose="true">
       <fileset dir="${repo.root}">
         <include name="docroot/core"/>
         <include name="docroot/libraries"/>
@@ -38,13 +39,15 @@
         <include name="vendor"/>
       </fileset>
     </delete>
+    <exec dir="${repo.root}" command="composer clear-cache" logoutput="true" passthru="true" checkreturn="true"/>
   </target>
 
   <target name="setup:composer:install" description="Installs project dependencies, including drupal core and contrib.">
-    <exec dir="${repo.root}" command="export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --ansi" logoutput="true" passthru="true" checkreturn="true"/>
+    <exec dir="${repo.root}" command="export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --ansi --no-interaction" logoutput="true" passthru="true" checkreturn="true"/>
   </target>
 
   <target name="setup:drupal:settings" description="Create local settings files using default settings files.">
+    <echo>Making ${docroot}/sites/default writable.</echo>
     <chmod mode="0755" file="${docroot}/sites/default" failonerror="false" verbose="true"/>
     <!-- Ensure that settings.php exists and that it requires BLT settings files. -->
     <if>
@@ -54,13 +57,16 @@
         <copy file="${docroot}/sites/default/default.settings.php" tofile="${docroot}/sites/default/settings.php"/>
       </then>
     </if>
+    <echo>Making ${docroot}/sites/default/settings.php writable.</echo>
     <chmod mode="0755" failonerror="false" file="${docroot}/sites/default/settings.php"/>
     <echo>Ensuring that blt.settings.php is required by settings.php</echo>
     <exec dir="${docroot}/sites/default" command="grep blt.settings.php settings.php || echo 'require DRUPAL_ROOT . &quot;/sites/default/settings/blt.settings.php&quot;;' >> settings.php " logoutput="true" checkreturn="true"/>
 
+    <echo>Generating local settings files.</echo>
     <copy file="${repo.root}/example.project.local.yml" tofile="${repo.root}/project.local.yml" overwrite="false"/>
     <copy file="${docroot}/sites/${multisite.name}/settings/default.local.settings.php" tofile="${docroot}/sites/${multisite.name}/settings/local.settings.php" overwrite="false"/>
     <copy file="${docroot}/sites/${multisite.name}/default.local.drushrc.php" tofile="${docroot}/sites/${multisite.name}/local.drushrc.php" overwrite="false"/>
+    <echo>Replacing placeholders in local settings files.</echo>
     <reflexive file="${docroot}/sites/${multisite.name}/local.drushrc.php">
       <filterchain>
         <expandproperties />
@@ -75,6 +81,7 @@
           description="Installs a specific Drupal site."
           depends="setup:drupal:settings, setup:hash-salt, configure">
 
+    <echo>Installing Drupal.</echo>
     <drush command="site-install" assume="yes" verbose="TRUE" alias="${drush.alias}">
       <option name="site-name">"${project.human_name}"</option>
       <option name="site-mail">"${drupal.account.mail}"</option>
@@ -89,6 +96,7 @@
     <phingcall target="setup:config-import"/>
 
     <!-- Set sites directory file permissions. -->
+    <echo>Making ${docroot}/sites/default writable.</echo>
     <chmod mode="0755" failonerror="false">
       <fileset dir="${docroot}/sites/default">
         <type type="dir" />
@@ -105,6 +113,7 @@
   </target>
 
   <target name="setup:config-import" description="Import configuration from the config directory.">
+    <echo>Importing configuration.</echo>
     <drush command="pm-enable" assume="yes" alias="${drush.alias}">
       <param>config</param>
     </drush>
@@ -119,12 +128,15 @@
   </target>
 
   <target name="setup:git-hooks" description="Installs git hooks to local .git/hooks directory from version controlled scripts/git-hooks directory.">
+    <echo>Removing ${repo.root}/.git/hooks, if it exists.</echo>
     <!-- Symlink into .git directory. -->
     <delete dir="${repo.root}/.git/hooks" quiet="true" failonerror="false"/>
     <delete file="${repo.root}/.git/hooks" quiet="true" failonerror="false"/>
+    <echo>Symlinking ${repo.root}/scripts/git-hooks to ${repo.root}/.git/hooks.</echo>
     <exec dir="${repo.root}/.git" command="ln -snv ../scripts/git-hooks hooks" logoutput="true"/>
 
     <!-- Grant execution permissions. -->
+    <echo>Making git hooks executable.</echo>
     <chmod mode="0755">
       <fileset dir="${repo.root}/scripts/git-hooks">
         <exclude name="**/*.sample" />
@@ -140,6 +152,7 @@
       <then>
         <taskdef name="randomString" classname="${repo.root}.vendor.platinumpixs.phing-random-string.src.PlatinumPixs.RandomString.GenerateTask" />
         <randomString name="project.hash_salt" length="55" stringType="lowercase_uppercase_numeric" />
+        <echo>Writing hash salt to ${repo.root}/salt.txt</echo>
         <exec dir="${repo.root}" command="echo ${project.hash_salt} > salt.txt" logoutput="true" checkreturn="true"/>
       </then>
     </if>
