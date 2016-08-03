@@ -6,9 +6,8 @@
 # 15 characters.
 
 
-GIT_ROOT=$(git rev-parse --show-toplevel)
-PREFIX=$($GIT_ROOT/../../vendor/bin/drupal yaml:get:value $GIT_ROOT/project.yml project.prefix)
-
+ROOT_DIR="$(pwd)/"
+PREFIX=$($ROOT_DIR/vendor/bin/drupal yaml:get:value $ROOT_DIR/project.yml project.prefix)
 regex="^${PREFIX}-[0-9]+(: )[^ ].{15,}\."
 if ! grep -iqE "$regex" "$1"; then
   echo "Invalid commit message. Commit messages must:"
