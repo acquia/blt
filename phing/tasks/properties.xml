@@ -2,17 +2,17 @@
 
   <!-- Define the repo root as a property, and resolve to an absolute file path. -->
   <!-- We assume that Phing is running in vendor/acquia/blt/phing of a parent project. -->
-  <property name="repo.root.relative" value="${phing.dir}/../../../.."/>
+  <property name="repo.root.relative" value="${phing.dir}/../../../.." logoutput="false"/>
   <resolvepath propertyName="repo.root" file="${repo.root.relative}"/>
 
-  <property name="blt.root.relative" value="${phing.dir}/.."/>
+  <property name="blt.root.relative" value="${phing.dir}/.." logoutput="false"/>
   <resolvepath propertyName="blt.root" file="${blt.root.relative}"/>
 
   <!-- Load file directory and binary locations. -->
-  <property file="${phing.dir}/build.yml" override="true"/>
+  <property file="${phing.dir}/build.yml" override="true" logoutput="false"/>
 
   <!-- Load the root project.yml file for this project. -->
-  <property file="${repo.root}/project.yml" override="true"/>
+  <property file="${repo.root}/project.yml" override="true" logoutput="false"/>
 
   <!-- Load the local project.local.yml file for this project. -->
   <!--@todo Change this so that it is only loaded for local:* targets. -->
@@ -27,6 +27,6 @@
 
 
   <!-- Default drush alias. -->
-  <property name="drush.default_alias" value="self" override="false" />
-  <property name="drush.alias" value="${drush.default_alias}" override="false" />
+  <property name="drush.default_alias" value="self" override="false" logoutput="false"/>
+  <property name="drush.alias" value="${drush.default_alias}" override="false" logoutput="false"/>
 </project>
