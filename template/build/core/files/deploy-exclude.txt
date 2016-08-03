@@ -23,9 +23,8 @@
 /Vagrantfile
 .git
 .gitignore
-bower_components
 example.*
 local.*
 *.local.*
 node_modules
-vendor
+/vendor
