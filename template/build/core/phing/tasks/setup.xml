@@ -45,13 +45,36 @@
 
   <target name="setup:drupal:settings" description="Create local settings files using default settings files.">
     <chmod mode="0755" file="${docroot}/sites/default" failonerror="false" verbose="true"/>
-    <copy file="${repo.root}/example.project.local.yml" tofile="${repo.root}/project.local.yml" overwrite="false"/>
-    <copy file="${docroot}/sites/${multisite.name}/settings/default.local.settings.php" tofile="${docroot}/sites/${multisite.name}/settings/local.settings.php" overwrite="false"/>
-    <copy file="${docroot}/sites/${multisite.name}/default.local.drushrc.php" tofile="${docroot}/sites/${multisite.name}/local.drushrc.php" overwrite="false">
-      <filterchain>
-        <expandproperties />
-      </filterchain>
-    </copy>
+
+    <if>
+      <not>
+        <available file="${repo.root}/project.local.yml" type="file" />
+      </not>
+      <then>
+        <copy file="${repo.root}/example.project.local.yml" tofile="${repo.root}/project.local.yml" />
+      </then>
+    </if>
+    <if>
+      <not>
+          <available file="${docroot}/sites/${multisite.name}/settings/local.settings.php" type="file" />
+      </not>
+      <then>
+        <copy file="${docroot}/sites/${multisite.name}/settings/default.local.settings.php" tofile="${docroot}/sites/${multisite.name}/settings/local.settings.php" />
+      </then>
+    </if>
+    <if>
+      <not>
+          <available file="${docroot}/sites/${multisite.name}/local.drushrc.php" type="file" />
+      </not>
+      <then>
+        <copy file="${docroot}/sites/${multisite.name}/default.local.drushrc.php" tofile="${docroot}/sites/${multisite.name}/local.drushrc.php">
+          <filterchain>
+            <expandproperties />
+          </filterchain>
+        </copy>
+      </then>
+    </if>
+
     <!-- Re-extract value of $options['uri'] in case it was not yet set. -->
     <!-- @todo Add multisite support. -->
     <phpVariable file="${repo.root}/drush/drushrc.php" variable="options[uri]" outputProperty="local_url" />
