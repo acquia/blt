@@ -65,7 +65,7 @@
         <if>
           <available file="${target-hooks.${hook-name}.dir}" type="dir" property="dirExists" />
           <then>
-            <exec dir="${target-hooks.${hook-name}.dir}" command="${target-hooks.${hook-name}.command}" logoutput="true" checkreturn="true" />
+            <exec dir="${target-hooks.${hook-name}.dir}" passthru="true" command="${target-hooks.${hook-name}.command}" logoutput="true" checkreturn="true" />
           </then>
           <else>
             <fail>The directory ${target-hooks.${hook-name}.dir} does not exist. Will not run command for ${hook-name}.</fail>
