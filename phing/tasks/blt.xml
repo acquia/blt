@@ -1,14 +1,19 @@
 <project name="blt" default="update">
   <target name="init" depends="blt:rsync-template, blt:update-composer, setup:drupal:settings">
     <echo>BLT files have been copied to your project directory.</echo>
+    <echo>Some of your existing files may have been modified.</echo>
+    <echo></echo>
     <echo>Please customize ${repo.root}/project.yml and then run:</echo>
     <echo>blt configure</echo>
+    <echo></echo>
+    <echo>This will replace placeholders with your custom values in the new files created by BLT.</echo>
   </target>
 
   <target name="blt:rsync-template">
     <echo>Copying files from BLT's template into your project.</echo>
     <!-- @todo Do not overwrite structured or executable files. Instead, update them intelligently. composer.json, project.yml, settings.php, drush.wrapper etc. -->
     <exec dir="${repo.root}" command="rsync -a --no-g --no-p --update ${blt.root}/template/ ${repo.root}/ --exclude 'project.yml' --exclude 'composer.json'" logoutput="true" checkreturn="true"/>
+    <exec dir="${repo.root}" command="rsync -a --no-g --no-p --update ${blt.root}/template/project.yml ${repo.root}/ --ignore-existing" logoutput="true" checkreturn="true"/>
   </target>
 
   <target name="update" depends="init, blt:update-yml, configure">
