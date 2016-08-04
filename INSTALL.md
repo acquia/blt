@@ -68,17 +68,17 @@ _If you have xDebug enabled for your PHP CLI binary, it is highly recommended th
   composer update
   ```
   This command may take a long time to run. It is recursively discovering and downloading all of your project's upstream dependencies.
-1. Modify project files. This is an optional step. Important files that you may want to modify include:
+1. (optional) Modify project files. Important files that you may want to modify include:
   * composer.json. Note that Drupal core, contrib, and third party dependencies are all managed here.
   * Project’s root README.md.
   * Other project documentation in the readme directory.
-1. Commit new a modified project files to Git:
+1. (optional) Commit new a modified project files to Git:
 
   ```
   git add -A
   git commit
   ```
-1. Follow instructions for <a href="#install">installing Drupal locally</a>.
+1. (optional) Follow instructions for <a href="#install">installing Drupal locally</a>.
 
 ## <a name="existing-project"></a>Adding BLT to and existing project
 

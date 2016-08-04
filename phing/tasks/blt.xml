@@ -1,5 +1,5 @@
 <project name="blt" default="update">
-  <target name="init" depends="blt:rsync-template, blt:update-composer, setup:drupal:settings">
+  <target name="init" depends="blt:rsync-template, blt:update-composer, blt:update-yml, setup:drupal:settings">
     <echo>BLT files have been copied to your project directory.</echo>
     <echo>Some of your existing files may have been modified.</echo>
     <echo></echo>
@@ -45,14 +45,18 @@
   </target>
 
   <target name="configure">
+    <echo>Making ${docroot}/sites/default/settings.php writable.</echo>
+    <chmod mode="0755" failonerror="false" file="${docroot}/sites/default/settings.php"/>
+
     <echo>Expanding Phing properties in BLT files.</echo>
     <!-- Reflexively expand properties in specified dirs/files. -->
     <reflexive>
       <fileset dir="${repo.root}">
         <include name="composer.json" />
         <include name="README.md" />
-        <include name="docroot/sites/default/settings.php" />
-        <include name="docroot/sites/default/settings/**/*" />
+        <include name="docroot/sites/*/settings.php" />
+        <include name="docroot/sites/*/settings/**/*" />
+        <include name="docroot/sites/*/local.drushrc.php" />
         <include name="readme/**/*" />
         <include name="scripts/git-hooks/*" />
         <include name="tests/phpunit/Bolt" />

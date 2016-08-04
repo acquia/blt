@@ -24,7 +24,7 @@ echo "* Add a blt alias to $DETECTED_PROFILE"
 echo "* Remove and modify files in your codebase."
 echo "* Update your composer dependencies."
 echo ""
-read -p "Continue? (y/n)" -n 1 -r
+read -p "Continue? (y/n) " -n 1 -r
 echo ""
 
 if [[ $REPLY =~ ^[Yy]$ ]]; then
@@ -33,23 +33,26 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
   # Move values from custom/build.yml to project.yml.
   # @todo Check if this exists and if it exactly matches core value.
   if [[ ! -z build/custom/phing/build.yml ]]; then
+    echo "Moving custom Phing properties to project.yml."
     echo "" >> project.yml
     cat build/custom/phing/build.yml >> project.yml
   fi
 
   # Move build/custom/files to new locations (e.g., deploy excludes or .gitignores).
+  echo "Moving custom Phing files from build/custom to blt."
   mkdir blt
   mv build/custom blt
 
 
   # Remove unneeded files.
+  echo "Removing deprecated BLT files from project."
   rm -rf build blt.sh tests/phpunit/blt
 
   # Install (new) alias
+  echo "Installing blt alias"
   yes | ./vendor/acquia/blt/blt.sh install-alias
-  source $DETECTED_PROFILE
-  blt init
-  blt configure
+  ./vendor/acquia/blt/blt.sh init
+  ./vendor/acquia/blt/blt.sh configure
   composer update
 
   echo "Update complete. Please do the following:"
