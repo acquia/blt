@@ -104,10 +104,33 @@ blt update
 
 If you are using an older version of BLT that was not installed using Composer, you may update to the Composer-managed version by running the following commands:
 
-```
-composer require acquia/blt:~8
-./vendor/acquia/blt/scripts/blt/convert-to-composer.sh
-```
+1. Remove any dependencies that may conflict with upstream acquia/blt. You may add these back later after the upgrade, if necessary.
+
+  ```
+  composer remove drush/drush drupal/console phing/phing phpunit/phpunit squizlabs/php_codesniffer symfony/yaml drupal/coder symfony/console --no-interaction --no-update
+  composer remove drush/drush drupal/console phing/phing phpunit/phpunit squizlabs/php_codesniffer symfony/yaml drupal/coder symfony/console --dev --no-interaction --no-update
+  composer config minimum-stability dev
+  ```
+1. (conditional) If you are using Lightning, verify that your version constraint allows it to be updated to the latest stable version:
+
+  ```
+  composer require drupal/lightning:~8 --no-update
+  ```
+1. Require acquia/blt as a dev dependency:
+
+  ```
+  composer require acquia/blt:~8 --dev --no-update
+  ```
+1. Update all dependencies:
+
+  ```
+  composer update
+  ```
+1. Execute update script:
+
+  ```
+  ./vendor/acquia/blt/scripts/blt/convert-to-composer.sh
+  ```
 
 Note that all of the steps from this point forward are the same steps that would be used by a newly onboarded developer setting up your existing project on their local machine for the first time.
 
