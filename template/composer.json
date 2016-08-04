@@ -15,7 +15,7 @@
     "drupal/acquia_connector":                    "8.1.*",
     "drupal/acsf":                                "~8.1",
     "drupal/core":                                "~8",
-    "drupal/console":                             "~0.10",
+    "drupal/console":                             "~1",
     "drupal/memcache" :                           "8.*",
     "drupal/security_review" :                    "8.*",
     "roave/security-advisories":                  "dev-master",
