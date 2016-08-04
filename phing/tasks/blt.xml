@@ -8,7 +8,7 @@
   <target name="blt:rsync-template">
     <echo>Copying files from BLT's template into your project.</echo>
     <!-- @todo Do not overwrite structured or executable files. Instead, update them intelligently. composer.json, project.yml, settings.php, drush.wrapper etc. -->
-    <exec dir="${repo.root}" command="rsync -a --no-g --no-p --update ${blt.root}/template/ ${repo.root}/ --filter 'protect /.git/' --filter 'protect /project.yml/' --filter 'protect /composer.json/'" logoutput="true" checkreturn="true"/>
+    <exec dir="${repo.root}" command="rsync -a --no-g --no-p --update ${blt.root}/template/ ${repo.root}/ --exclude 'project.yml' --exclude 'composer.json'" logoutput="true" checkreturn="true"/>
   </target>
 
   <target name="update" depends="init, blt:update-yml, configure">
@@ -23,7 +23,6 @@
     <echo>Merging BLT's composer.json template with your project's composer.json.</echo>
     <echo>This MAY overwrite some existing values.</echo>
     <!--Values in the project's existing composer.json file will be overwritten.-->
-    <echo>${repo.root}/vendor/bin/blt-console composer:munge ${repo.root}/composer.json ${blt.root}/template/composer.json > ${repo.root}/composer.json.tmp</echo>
     <exec dir="${repo.root}" command="${repo.root}/vendor/bin/blt-console composer:munge ${repo.root}/composer.json ${blt.root}/template/composer.json > ${repo.root}/composer.json.tmp" logoutput="true" checkreturn="true"/>
     <!--@todo Find out why can't we just redirect output directly back to composer.json. -->
     <exec dir="${repo.root}" command="mv ${repo.root}/composer.json.tmp ${repo.root}/composer.json" logoutput="true" checkreturn="true"/>
