@@ -19,19 +19,27 @@ You should be able to use the following tools on the command line of your native
     * [Linux](http://php.net/manual/en/install.unix.debian.php)
 * [NPM](https://nodejs.org/en/download/) (for [Lightning](https://github.com/acquia/lightning) support)
 
-_If you have xDebug enabled for your PHP CLI binary, it is highly recommended that you disable it._
+### Recommended tools and configuration
 
-## <a href="creating-new"></a>Creating a new project with BLT
-
-1. (optional) Globally install pretissimo for parallelized composer downloads:
+* Globally install pretissimo for parallelized composer downloads:
 
   ```
   composer global require "hirak/prestissimo:^0.3"
   ```
+* If you have xDebug enabled for your PHP CLI binary, it is highly recommended that you disable it to dramatically improve performance.
+
+## <a name="creating-new"></a>Creating a new project with BLT
+
 1. Create a new project using the [blt-project](https://github.com/acquia/blt-project) template:
 
   ```
-  composer create-project acquia/blt-project:~8 MY_PROJECT --no-interaction
+  composer create-project acquia/blt-project:8.x-dev MY_PROJECT --no-interaction
+  cd MY_PROJECT
+  ```
+1. Install the `blt` alias and follow on-screen instructions:
+
+  ```
+  ./vendor/bin/blt install-alias
   ```
 1. Customize BLT configuration files:
   * `project.yml`
@@ -48,7 +56,7 @@ _If you have xDebug enabled for your PHP CLI binary, it is highly recommended th
   * Other project documentation in the readme directory.
 1. (optional) Follow instructions for <a href="#install">installing Drupal locally</a>.
 
-## <a name="existing-project"></a>Adding BLT to and existing project
+## <a name="existing-project"></a>Adding BLT to an existing project
 
 To add BLT to a pre-existing Drupal project, do the following:
 
@@ -140,9 +148,4 @@ Note that all common project tasks are executed through `blt`. For a full list o
 
 ## Next Steps
 
-Now that your new project works locally, you’ll want to integrate with with your SAAS tools (GitHub, TravisCI, Jenkins, etc.) and your Acquia Cloud subscription.
-
-See the following documents for more detailed instructions on those tasks:
-
-* Configure your CI solution @todo link
-* Deploy to Acquia Cloud @todo link
+Now that your new project works locally, read through the new [README.md](https://github.com/acquia/blt/blob/8.x/template/README.md) file in your project to learn how to perform common project tasks and integrate with third party tools.

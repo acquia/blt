@@ -19,7 +19,7 @@
   <if>
     <available file="${repo.root}/project.local.yml" type="file" property="local.properties"/>
     <then>
-      <property file="${repo.root}/project.local.yml" override="true"/>
+      <property file="${repo.root}/project.local.yml" override="true" logoutput="false"/>
     </then>
   </if>
 
