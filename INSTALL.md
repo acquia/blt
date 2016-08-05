@@ -23,61 +23,29 @@ _If you have xDebug enabled for your PHP CLI binary, it is highly recommended th
 
 ## <a href="creating-new"></a>Creating a new project with BLT
 
-1. Create a new empty directory for your project and initialize it as a new Git repository.
-
-  ```
-  mkdir myproject
-  cd myproject
-  git init
-  ```
 1. (optional) Globally install pretissimo for parallelized composer downloads:
 
   ```
   composer global require "hirak/prestissimo:^0.3"
   ```
-1. Initialize Composer:
+1. Create a new project using the [blt-project](https://github.com/acquia/blt-project) template:
 
   ```
-  composer init --stability=dev
-  ```
-  * Do not define dependencies or dev dependencies interactively.
-
-1. Add BLT to project:
-  ```
-  composer config prefer-stable true
-  composer require acquia/blt:~8 --dev
-  ```
-1. Install BLT alias and initialize BLT:
-
-  ```
-  ./vendor/acquia/blt/blt.sh install-alias
-  blt init
+  composer create-project acquia/blt-project:~8 MY_PROJECT --no-interaction
   ```
 1. Customize BLT configuration files:
   * `project.yml`
   * `docroot/sites/default/settings/local.settings.php`
     * Add your local DB credentials to `$databases`
-1. Replace tokens in new BLT-generated files:
+1. Replace tokens in new BLT-generated files with your custom values in project.yml:
 
   ```
   blt configure
   ```
-1. Update your project with new dependencies that were added by BLT:
-
-  ```
-  composer update
-  ```
-  This command may take a long time to run. It is recursively discovering and downloading all of your project's upstream dependencies.
 1. (optional) Modify project files. Important files that you may want to modify include:
   * composer.json. Note that Drupal core, contrib, and third party dependencies are all managed here.
   * Project’s root README.md.
   * Other project documentation in the readme directory.
-1. (optional) Commit new a modified project files to Git:
-
-  ```
-  git add -A
-  git commit
-  ```
 1. (optional) Follow instructions for <a href="#install">installing Drupal locally</a>.
 
 ## <a name="existing-project"></a>Adding BLT to and existing project
