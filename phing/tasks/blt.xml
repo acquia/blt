@@ -1,12 +1,13 @@
 <project name="blt" default="update">
-  <target name="create-project" depends="install-alias, init">
+  <target name="create-project" depends="init">
     <exec dir="${repo.root}" command="git init" logoutput="true" checkreturn="true"/>
     <exec dir="${repo.root}" command="composer update" logoutput="true" checkreturn="true"/>
     <exec dir="${repo.root}" command="git add -A" logoutput="true" checkreturn="true"/>
     <exec dir="${repo.root}" command="git commit -m 'Initial commit.'" logoutput="true" checkreturn="true"/>
+    <exec dir="${repo.root}" command="rm LICENSE.txt" logoutput="true" checkreturn="true"/>
   </target>
 
-  <target name="init" depends="blt:rsync-template, blt:update-composer, blt:update-yml, setup:drupal:settings">
+  <target name="init" depends="install-alias, blt:rsync-template, blt:update-composer, blt:update-yml, setup:drupal:settings">
     <echo>BLT files have been copied to your project directory.</echo>
     <echo>Some of your existing files may have been modified.</echo>
     <echo></echo>
