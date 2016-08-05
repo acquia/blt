@@ -70,11 +70,11 @@ script:
   - composer install
   - export PATH=$TRAVIS_BUILD_DIR/../blt-project/vendor/bin:$PATH
   - blt init
+  # The local.hostname must be set to 127.0.0.1:8888 because we are using drush runserver to run the site on Travis CI.
+  - drupal yaml:update:value project.yml project.local.hostname '127.0.0.1:8888'
   - blt configure
   # Running `blt init` modified composer.json, so we must update.
   - composer update
-  # The local.hostname must be set to 127.0.0.1:8888 because we are using drush runserver to run the site on Travis CI.
-  - drupal yaml:update:value project.yml project.local.hostname '127.0.0.1:8888'
   # Call targets in the new 'blt-project' project.
   - blt ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dbehat.launch-phantom=true
   # Deploy build artifact.

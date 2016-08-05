@@ -45,6 +45,7 @@
   </target>
 
   <target name="configure">
+    <!-- @todo add multisite support. -->
     <echo>Making ${docroot}/sites/default/settings.php writable.</echo>
     <chmod mode="0755" failonerror="false" file="${docroot}/sites/default/settings.php"/>
 
