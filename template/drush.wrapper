@@ -29,6 +29,9 @@
 # composer-managed Drupal sites.
 #
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
+DRUSH_ROOT=`${DIR}/vendor/bin/drupal yaml:get:value ${DIR}/project.local.yml drush.root`
+
 cd "`dirname $0`"
 
 if [ ! -f ${DIR}/vendor/bin/drush ]; then
@@ -37,4 +40,4 @@ if [ ! -f ${DIR}/vendor/bin/drush ]; then
   composer install
 fi
 
-vendor/bin/drush.launcher --alias-path=${DIR}/drush/site-aliases "$@" -r ${DIR}/docroot
+vendor/bin/drush.launcher --alias-path=${DIR}/drush/site-aliases "$@" -r ${DRUSH_ROOT}
