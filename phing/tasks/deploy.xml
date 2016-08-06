@@ -11,7 +11,7 @@
       <then>
         <echo message="You must pass deploy.commitMsg and deploy.branch as runtime parameters."/>
         <echo message="Command should match syntax:"/>
-        <echo message="./blt.sh deploy -Ddeploy.commitMsg='BLT-123: The commit message.' -Ddeploy.branch='master-build'"/>
+        <echo message="blt deploy -Ddeploy.commitMsg='BLT-123: The commit message.' -Ddeploy.branch='master-build'"/>
         <fail message="Missing required parameters."/>
       </then>
     </if>

@@ -61,12 +61,12 @@ before_script:
   - drupal yaml:update:value project.yml project.local.hostname '127.0.0.1:8888'
 
 script:
-  - ./blt.sh -Dbehat.run-server=true -Dcreate_alias=false -Dbehat.launch-phantom=true ci:build:validate:test
+  - blt -Dbehat.run-server=true -Dcreate_alias=false -Dbehat.launch-phantom=true ci:build:validate:test
 
 # Uncomment to enable automatic deployments following merges.
 deploy:
   # provider: script
-  # script: ./blt.sh deploy -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="${TRAVIS_BRANCH}-build"
+  # script: blt deploy -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="${TRAVIS_BRANCH}-build"
   # skip_cleanup: true
   # on:
   #   branch: master

@@ -3,7 +3,7 @@
 To set up this project with Tugboat, run the following commands from the project root:
 
 ```
-./blt.sh ci:tugboat:init
+blt ci:tugboat:init
 ```
 
 ## Workflow

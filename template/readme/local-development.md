@@ -29,7 +29,7 @@ _BLT support for Drupal VM is experimental. Not all BLT features currently work 
 
 To use [Drupal VM](http://www.drupalvm.com/) with a Drupal project that is generated with BLT:
 
-1. Execute `./blt.sh vm:init` from the project root directory.
+1. Execute `blt vm:init` from the project root directory.
 1. Follow the Quick Start Guide in [Drupal VM's README](https://github.com/geerlingguy/drupal-vm#quick-start-guide)
 
 There are also other changes you can make if you choose to match the Acquia Cloud server configuration more closely. See Drupal VM's example configuration changes in Drupal VM's `examples/acquia/acquia.overrides.yml` file.
@@ -48,11 +48,11 @@ To execute Behat tests using the 'drupal' driver on a Drupal VM environment, you
 1. SSH into the VM `vagrant ssh`.
 1. Change to your project directory `cd /var/www/[project.machine_name]`.
 1. Assert that PhantomJS is installed for VM: `composer run-script install-phantomjs`
-1. Execute behat tests `./blt.sh tests:behat`
+1. Execute behat tests `blt tests:behat`
 
 #### Using the Drupal Extension's "drush" driver with Drupal VM
 
-You may choose to write only behat tests that utilize the Drupal Extension's "drupal" driver. Doing this will allow you to run `./blt.sh tests:behat` from the host machine without modificaitons to the Behat local.yml configuration.
+You may choose to write only behat tests that utilize the Drupal Extension's "drupal" driver. Doing this will allow you to run `blt tests:behat` from the host machine without modificaitons to the Behat local.yml configuration.
 
 ## <a name="dd"></a>Using Acquia Dev Desktop for BLT-generated projects
 
