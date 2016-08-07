@@ -48,7 +48,7 @@
 
   <target name="setup:drupal:settings" description="Create local settings files using default settings files.">
     <echo>Making ${docroot}/sites/default writable.</echo>
-    <chmod mode="0755" file="${docroot}/sites/default" failonerror="false" verbose="true"/>
+    <chmod mode="0755" file="${docroot}/sites/default" failonerror="false" verbose="true" />
 
     <!-- Ensure that settings.php exists and that it requires BLT settings files. -->
     <if>

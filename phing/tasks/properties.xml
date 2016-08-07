@@ -23,17 +23,6 @@
     </then>
   </if>
 
-  <!-- Extract PHP variable values from local.settings.php. -->
-  <property name="local.settings.file" value="${docroot}/sites/${multisite.name}/settings/local.settings.php" />
-  <if>
-    <not>
-        <available file="${local.settings.file}" type="file" />
-    </not>
-    <then>
-      <copy file="${docroot}/sites/${multisite.name}/settings/default.local.settings.php" tofile="${local.settings.file}" verbose="true"/>
-    </then>
-  </if>
-
   <echo>Executing commands against multisite "${multisite.name}"</echo>
 
   <!-- Default drush alias. -->
