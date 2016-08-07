@@ -36,7 +36,6 @@
 
   <echo>Executing commands against multisite "${multisite.name}"</echo>
 
-
   <!-- Default drush alias. -->
   <property name="drush.default_alias" value="self" override="false" logoutput="false"/>
   <property name="drush.alias" value="${drush.default_alias}" override="false" logoutput="false"/>

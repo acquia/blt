@@ -58,7 +58,7 @@ target-hooks:
     command: npm run install-libraries
 
 # Define any custom Phing files that you'd like to import. E.g., ${repo.root}/blt/phing/build.xml
-imports: []
+import: ~
 
 # Hosting environment flags.
 # Examples: acsf (Acquia Cloud Site Factory), ac (Acquia Cloud)

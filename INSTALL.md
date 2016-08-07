@@ -2,7 +2,7 @@
 
 * System requirements
 * [Creating a new project with BLT](#creating-new)
-* [Adding BLT to and existing project](#existing-project)
+* [Adding BLT to an existing project](#existing-project)
 * [Updating to the latest version of BLT](#updating)
   * [Updating from a non-composer-managed version](#update-non-composered)
   * [Updating a composer-managed version](#update-composered)
