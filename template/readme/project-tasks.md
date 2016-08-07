@@ -13,11 +13,11 @@
 
 Pre-requisites to installation:
 
-1. Ensure that `docroot/sites/default/settings/local.settings.php` exists by executing `./blt.sh setup:drupal:settings`.
+1. Ensure that `docroot/sites/default/settings/local.settings.php` exists by executing `blt setup:drupal:settings`.
 1. Verify that correct local database credentials are set in `local.settings.php`.
-1. Ensure that project dependencies have already been built via `./blt.sh setup:build`
+1. Ensure that project dependencies have already been built via `blt setup:build`
 
-To re-install Drupal, execute: `./blt.sh setup:drupal:install`. Note that this will drop the existing database tables and install Drupal from scratch!
+To re-install Drupal, execute: `blt setup:drupal:install`. Note that this will drop the existing database tables and install Drupal from scratch!
 
 ## <a name="update-dependency"></a>Update dependencies (core, profile, module, theme, libraries)
 
@@ -65,7 +65,7 @@ Please see [tests/README.md](../tests/README.md) for information on running test
 To execute PHP codesniffer and PHP lint against the project codebase, run:
 
 ```
-./blt.sh validate:all
+blt validate:all
 ```
 
 ## <a name="frontend"></a>Build front end assets
@@ -95,7 +95,7 @@ target-hooks:
 This command will be executed when dependencies are built in a local or CI environment, and when a deployment artifact is generated. You may execute the command directly by calling the `frontend:build` target:
 
 ```
-./blt.sh frontend:build
+blt frontend:build
 ```
 
 ## <a name="local-tasks"></a>Updating you local environment
@@ -107,19 +107,19 @@ The project is configured to update the local environment with a local drush ali
 This all in one command will make sure your local is in sync with the remote site.
 
 ```
-./blt.sh local:refresh
+blt local:refresh
 ```
 
 ### Sync: Copy the database from the remote site
 
 ```
-./blt.sh local:sync
+blt local:sync
 ```
 
 ### Update: Run update tasks locally
 
 ```
-./blt.sh local:update
+blt local:update
 ```
 
 These tasks can be seen in `build/core/phing/tasks/local-sync.xml`. An additional script can be added at `/hooks/dev/post-db-copy/dev-mode.sh` which would run at the end of this task.
