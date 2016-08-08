@@ -54,7 +54,7 @@ See [INSTALL.md](INSTALL.md) to:
     * Building dependencies
     * (Re)installation of Drupal
     * Production-safe artifact generation and deployment
-* [Continuous Integration](template/build/README.md)
+* [Continuous Integration](template/readme/ci.md)
     * Travis CI
     * GitHub
 

@@ -15,7 +15,7 @@ Documentation by role:
     * [Project Architecture document](readme/architecture.md)
     * [Deploying to cloud](readme/deploy.md)
     * [Release process](readme/release-process.md)
-    * [Setting up continuous integration](build/README.md#ci)
+    * [Setting up continuous integration](readme/ci.md)
     * [Open source contribution](readme/os-contribution.md)
 
 ## Resources
