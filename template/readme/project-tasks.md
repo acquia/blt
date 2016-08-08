@@ -2,14 +2,7 @@
 
 “how do I _____ on my local machine?”
 
-* [(re)Install Drupal](#install-drupal)
-* [Update dependencies (module, theme, core, etc.)](#update-dependency)
-* [Patch a project](#patch)
-* [Deploy to cloud](#deploy)
-* [Run tests & code validation](#tests)
-* [Build frontend assets](#frontend)
-
-## <a name="install-drupal"></a>(re)Install Drupal
+## (re)Install Drupal
 
 Pre-requisites to installation:
 
@@ -19,7 +12,7 @@ Pre-requisites to installation:
 
 To re-install Drupal, execute: `blt setup:drupal:install`. Note that this will drop the existing database tables and install Drupal from scratch!
 
-## <a name="update-dependency"></a>Update dependencies (core, profile, module, theme, libraries)
+## Update dependencies (core, profile, module, theme, libraries)
 
 Composer should be used to manage Drupal core, all contributed dependencies, and most third party libraries. The primary exception to this is front end libraries that may be managed via a front-end specific dependency manager, such as [Bower](http://bower.io/) or [NPM](https://www.npmjs.com/).
 
@@ -50,15 +43,15 @@ To update drupal core:
 4. Use git to review changes to committed files. E.g., changes to .htaccess, robots.txt, etc.
 5. Add and commit desired changes.
 
-## <a name="patch"></a>Patch a project
+## Patch a project
 
 Please see [patches/README.md](../patches/README.md) for information on patch naming, patch application, and patch contribution guidance.
 
-## <a name="deploy"></a>Deploy to cloud
+## Deploy to cloud
 
 Please see [Deploy](deploy.md) for a detailed description of how to deploy to Acquia Cloud.
 
-## <a name="tests"></a>Run tests & code validation
+## Run tests & code validation
 
 Please see [tests/README.md](../tests/README.md) for information on running tests.
 
@@ -68,7 +61,7 @@ To execute PHP codesniffer and PHP lint against the project codebase, run:
 blt validate:all
 ```
 
-## <a name="frontend"></a>Build front end assets
+## Build front end assets
 
 Ideally, you will be using a theme that uses SASS/SCSS, a styleguide, and other tools that require compilation. Like dependencies, the compiled assets should not be directly committed to the project repository. Instead, they should be built during the creation of a production-ready build artifact.
 
@@ -98,7 +91,7 @@ This command will be executed when dependencies are built in a local or CI envir
 blt frontend:build
 ```
 
-## <a name="local-tasks"></a>Updating your local environment
+## Updating your local environment
 
 The project is configured to update the local environment with a local drush alias and a remote alias as defined in `project.yml` or `project.local.yml`. Given that these aliases match, those in `drush/site-aliases/`, you can update the site with BLT. Please see [drush/README.md](../drush/README.md) for details on how to create these aliases.
 
