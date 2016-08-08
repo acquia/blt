@@ -46,6 +46,7 @@ install:
   - composer validate --no-check-all --ansi
   - composer install
   - export PATH=$TRAVIS_BUILD_DIR/vendor/bin:$PATH
+  - drupal init --quiet
   # Install proper version of node for front end tasks.
   - nvm install 4.4.1
   - nvm use 4.4.1
