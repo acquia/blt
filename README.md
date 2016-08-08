@@ -4,6 +4,8 @@
 
 BLT (Build and Launch Tool) is a tool that generates new Drupal projects using a standardized template derived from Acquia Professional Services' best practices.
 
+You can find all BLT documentation on [Read the Docs](http://blt.readthedocs.io).
+
 ## Getting started
 
 See [INSTALL.md](INSTALL.md) to:
