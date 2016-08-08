@@ -11,19 +11,25 @@ markdown_extensions:
 pages:
   - Home: 'index.md'
   - Overview: 'README.md'
-  - Getting Started: 'INSTALL.md'
-  - Project Documentation:
+  - Getting started: 'INSTALL.md'
+    - Local development: 'template/readme/local-development.md'
+  - Project documentation: 'template/README.md'
     - Developer:
           - Onboarding: 'template/readme/onboarding.md'
           - Repository architecture: 'template/readme/repo-architecture.md'
           - Running project tasks: 'template/readme/project-tasks.md'
+            - Patches: 'template/patches/README.md'
+            - Drush: 'template/drush/README.MD'
+            - Git hooks: 'scripts/git-hook/README.md'
           - Best practices: 'template/readme/best-practices.md'
+            - Views: 'template/readme/views.md'
           - Workflow: 'template/readme/dev-workflow.md'
           - Automated testing: 'template/tests/README.md'
     - Technical Architect:
-        - Project Architecture document: 'template/readme/architecture.md'
+        - Project architecture document: 'template/readme/architecture.md'
         - Deploying to cloud: 'template/readme/deploy.md'
         - Release process: 'template/readme/release-process.md'
+          - Release notes: 'scripts/release-notes/README.md'
         - Setting up continuous integration: 'template/readme/ci.md'
         - Open source contribution: 'template/readme/os-contribution.md'
   - Contributing: 'CONTRIBUTING.md'

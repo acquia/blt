@@ -74,4 +74,4 @@ To set up this workflow, you must configure Acquia Cloud, GitHub, and Travis CI 
 
 1. Commits or merges to the develop branch on GitHub should now trigger a fully built artifact to be deployed to your specified remotes.
 
-For information on manually deploying your project, read [readme/deploy.md](readme/deploy.md)
+For information on manually deploying your project, read [deploy.md](deploy.md)
