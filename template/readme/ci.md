@@ -21,17 +21,15 @@ Automated testing of live content is easy to set up with two simple steps:
 
 1. Add the hostname of your staging server to .travis.yml:
 
-     ```
-     ssh_known_hosts:
-       - staging-12345.prod.hosting.acquia.com
-     ```
+         ssh_known_hosts:
+           - staging-12345.prod.hosting.acquia.com
+
 2. Override the default `ci:build:validate:test` target by adding the following to `build/custom/phing/build.xml`:
 
-     ```
-     <!-- Override the core ci:build:validate:test target to include a local refresh-->
-     <target name="ci:build:validate:test" description="Builds, validates, tests, and deploys an artifact."
-       depends="validate:all, ci:setup, tests:security-updates, tests:phpunit, local:sync, local:update, tests:behat" />
-     ```
+         <!-- Override the core ci:build:validate:test target to include a local refresh-->
+         <target name="ci:build:validate:test" description="Builds, validates, tests, and deploys an artifact."
+           depends="validate:all, ci:setup, tests:security-updates, tests:phpunit, local:sync, local:update, tests:behat" />
+
 
 ### Setting Up Travis CI for automated deployments
 
@@ -46,31 +44,26 @@ To set up this workflow, you must configure Acquia Cloud, GitHub, and Travis CI 
 
 1. Generate an SSH key locally. E.g.,
 
-     ```
-     cd ~/.ssh
-     ssh-keygen -t rsa -b 4096
-     ```
+         cd ~/.ssh
+         ssh-keygen -t rsa -b 4096
 
    Do not use a passphrase!
+   
 1. Create a new Acquia Cloud account to be used exclusively as a container for the SSH keys that will grant Travis push access to Acquia Cloud. This can be done by inviting a new team member on the "Teams" tab in Acquia Cloud. You can use an email address like `<email>+travis@acquia.com`. The team member must have SSH push access.
 1. Login the your new Acquia Cloud account and add the public SSH key from the key pair that was generated in step 1 by visiting `https://accounts.acquia.com/account/[uid]/security`.
 1. Add the same public SSH key to the "Deployment Keys" section on your project's GitHub settings page, located at `https://github.com/acquia-pso/[project-name]/settings/keys`.
 1. Add the _private SSH key_ to your project's Travis CI settings located at `https://magnum.travis-ci.com/acquia-pso/[project-name]/settings`.
 1. Uncomment the example deployment steps in your .travis.yml file and customize them to deploy your desired branch.
 1. Add your cloud git repository to the remotes section of your project.yml file:
-
-    ```
-    remotes:
-       - example@svn-14671.prod.hosting.acquia.com:example.git`
-    ```
+    
+        remotes:
+           - example@svn-14671.prod.hosting.acquia.com:example.git`
 
 1. Add your cloud git repository's server host name to `ssh_known_hosts` in your .travis.yml file.
 
-    ```
-    addons:
-      ssh_known_hosts:
-      - svn-14671.prod.hosting.acquia.com
-    ```
+        addons:
+          ssh_known_hosts:
+          - svn-14671.prod.hosting.acquia.com
 
 1. Commits or merges to the develop branch on GitHub should now trigger a fully built artifact to be deployed to your specified remotes.
 

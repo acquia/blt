@@ -44,19 +44,13 @@ If you need to make requests via a proxy server, please [configure git to use a 
 1. [Fork](https://help.github.com/articles/fork-a-repo) the primary GitHub repository
 1. Clone your fork to your local machine:
 
-       ```
-       git clone git@github.com:username/project-repo.git -b develop
-       git remote add upstream git@github.com:acquia-pso/project-repo.git
-       ```
+         git clone git@github.com:username/project-repo.git -b develop
+         git remote add upstream git@github.com:acquia-pso/project-repo.git
 
 1. Checkout the `develop` branch. `git checkout develop`
 1. Run `composer install` (you must already have Composer installed).
-1. Run `blt setup:drupal:settings` This will generate
-  `docroot/sites/default/settings/local.settings.php` and
-  `docroot/sites/default/local.drushrc.php`. Update these with your local
-  database credentials and your local site URL.
-1. Run `blt local:setup`. This will build all project dependencies and install
-   drupal.
+1. Run `blt setup:drupal:settings` This will generate `docroot/sites/default/settings/local.settings.php` and `docroot/sites/default/local.drushrc.php`. Update these with your local database credentials and your local site URL.
+1. Run `blt local:setup`. This will build all project dependencies and install drupal.
 1. Create and edit your local drush alias file. Copy `drush/site-aliases/example.local.aliases.drushrc.php` to `drush/site-aliases/local.aliases.drushrc.php`. Edit the new alias file with your local path.
 
 After this initial setup, you should only need to run `blt setup:build` when composer.json is updated, and `blt local:drupal:install` when you need to reinstall the site.

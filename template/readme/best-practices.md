@@ -8,7 +8,7 @@ _This document is a work in progress._ Unlinked items are planned topics, feel f
 
 All work must conform to established best practices and coding standards. Code quality is ensured in a variety of ways:
 
-* All code must conform to [Drupal Coding Standards](https://www.drupal.org/coding-standards). This is enforced via [local git hooks](../scripts/git-hooks/README.md) and [code checks](../build/ performed during continuous integration.
+* All code must conform to [Drupal Coding Standards](https://www.drupal.org/coding-standards). This is enforced via [local git hooks](../scripts/git-hooks/README.md) and code checks performed during continuous integration.
 * All front end code must follow Drupal Theming Best Practices.
 * All code must be reviewed by a peer or established integrator before being merged into the master branch.
 * All new features must covered by an automated test that mirrors the ticket acceptance criteria.
@@ -91,13 +91,14 @@ Please see [views.md](views.md).
 
 ## Logging
 
-* Any configuration changes from custom modules should be logged to watchdog (also [Acquia Library recommendations|https://docs.acquia.com/articles/how-audit-authenticated-user-actions-better-risk-management])
+* Any configuration changes from custom modules should be logged to watchdog (also [Acquia Library recommendations](https://docs.acquia.com/articles/how-audit-authenticated-user-actions-better-risk-management)
 * Any destructive actions **must** be logged
 
 
 ## Building content types
 
 @todo Document:
+
 * Appropriate time to use fields
 * Audit for overly complex content types
     * Reason: All fields loaded for each node load

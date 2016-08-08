@@ -66,17 +66,14 @@ In order to use a custom version of Drush (required by BLT) with Dev Desktop, yo
 
 1. Add the following lines to `~/.bash_profile`:
 
-  ```
-  export PATH="/Applications/DevDesktop/mysql/bin:$PATH"
-  export DEVDESKTOP_DRUPAL_SETTINGS_DIR="~/.acquia/DevDesktop/DrupalSettings"
-  
-  ```
+        export PATH="/Applications/DevDesktop/mysql/bin:$PATH"
+        export DEVDESKTOP_DRUPAL_SETTINGS_DIR="~/.acquia/DevDesktop/DrupalSettings"
+
 1. Ensure that Dev Desktop's PHP binary is being used on the CLI. You can check this via `which php`. 
 1. Enable the usage of environmental variables by adding the following line to `php.ini`, which you can locate with `php --ini`:
 
-  ```
-  variables_order = "EGPCS"
-  ```
+        variables_order = "EGPCS"
+
 1. Restart your terminal session after making the aforementioned changes.
 
 ## Alternative local development environments
@@ -85,10 +82,10 @@ For reasons, some teams may prefer to use a different development environment. D
 
 It is up to each team to choose how to handle local development, but some of the main things that help a project's velocity with regard to local development include:
 
-  - Uniformity and the same configuration across all developer environments.
-  - Ease of initial environment configuration (if it takes more than an hour to get a new developer running your project locally, you're doing it wrong).
-  - Ability to emulate all aspects of the production environment with minimal hassle (e.g. Varnish, Memcached, Solr, Elasticsearch, different PHP versions, etc.).
-  - Helpful built-in developer tools (e.g. XHProf, Xdebug, Adminer, PimpMyLog).
-  - Ease of use across Windows, Mac, or Linux workstations.
+* Uniformity and the same configuration across all developer environments.
+* Ease of initial environment configuration (if it takes more than an hour to get a new developer running your project locally, you're doing it wrong).
+* Ability to emulate all aspects of the production environment with minimal hassle (e.g. Varnish, Memcached, Solr, Elasticsearch, different PHP versions, etc.).
+* Helpful built-in developer tools (e.g. XHProf, Xdebug, Adminer, PimpMyLog).
+* Ease of use across Windows, Mac, or Linux workstations.
 
 If you choose to use a different solution than recommended here, please make sure it fits all the needs of your team and project, and will not be a hindrance to project development velocity!

@@ -32,18 +32,18 @@ You should be able to use the following tools on the command line of your native
         ./vendor/bin/blt install-alias
 
 1. Customize BLT configuration files:
-  * `project.yml`
-  * `docroot/sites/default/settings/local.settings.php`
-    * Add your local DB credentials to `$databases`
+    * `project.yml`
+    * `docroot/sites/default/settings/local.settings.php`
+        * Add your local DB credentials to `$databases`
 1. Replace tokens in new BLT-generated files with your custom values in project.yml:
 
 
         blt configure
 
 1. (optional) Modify project files. Important files that you may want to modify include:
-  * composer.json. Note that Drupal core, contrib, and third party dependencies are all managed here.
-  * Project’s root README.md.
-  * Other project documentation in the readme directory.
+    * composer.json. Note that Drupal core, contrib, and third party dependencies are all managed here.
+    * Project’s root README.md.
+    * Other project documentation in the readme directory.
 1. (optional) Follow instructions for <a href="#install">installing Drupal locally</a>.
 
 ## Adding BLT to an existing project
@@ -59,9 +59,9 @@ To add BLT to a pre-existing Drupal project, do the following:
         ./vendor/acquia/blt/blt.sh init
 
 1. (optional) Modify project files. Important files that you may want to modify include:
-  * composer.json. Note that Drupal core, contrib, and third party dependencies are all managed here.
-  * Project’s root README.md.
-  * Other project documentation in the readme directory.
+    * composer.json. Note that Drupal core, contrib, and third party dependencies are all managed here.
+    * Project’s root README.md.
+    * Other project documentation in the readme directory.
 1. (optional) Follow instructions for <a href="#install">installing Drupal locally</a>.
 
 ## Updating BLT
@@ -109,9 +109,9 @@ Before building your project dependencies and installing Drupal, you must have a
 
 Please see [Local Development](template/readme/local-development.md) for more information on setting up your \*AMP stack:
 
-  * [Acquia Dev Desktop](template/readme/local-development.md#using-acquia-dev-desktop-for-blt-generated-projects)
-  * [Drupal VM](template/readme/local-development.md#using-drupal-vm-for-blt-generated-projects)
-  * [Other](https://github.com/acquia/blt/blob/8.x/template/readme/local-development.md#alternative-local-development-environments)
+* [Acquia Dev Desktop](template/readme/local-development.md#using-acquia-dev-desktop-for-blt-generated-projects)
+* [Drupal VM](template/readme/local-development.md#using-drupal-vm-for-blt-generated-projects)
+* [Other](https://github.com/acquia/blt/blob/8.x/template/readme/local-development.md#alternative-local-development-environments)
 
 When you have completed setting up your local \*AMP stack, double check that the following pieces of information are still correct:
 
