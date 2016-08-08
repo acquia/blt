@@ -36,10 +36,6 @@ See [INSTALL.md](INSTALL.md) to:
 * [Add BLT to an existing project](https://github.com/acquia/blt/blob/8.x/INSTALL.md#adding-blt-to-an-existing-project)
 * [Update BLT](https://github.com/acquia/blt/blob/8.x/INSTALL.md#updating-blt)
 
-Follow the instructions in [INSTALL.md](INSTALL.md) to generate a new project using BLT.
-
-## Adding
-
 ## Features
 
 * [Documentation templates](template/README.md)
