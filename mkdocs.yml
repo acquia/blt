@@ -9,7 +9,8 @@ markdown_extensions:
       permalink: True
 
 pages:
-  - Home: 'README.md'
+  - Home: 'index.md'
+  - Overview: 'README.md'
   - Getting Started: 'INSTALL.md'
   - Project Documentation:
     - Developer:

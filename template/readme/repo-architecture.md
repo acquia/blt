@@ -11,7 +11,7 @@ The repository architecture is driven by a set of core principles:
 Consequently, there are a few aspects of this project’s architecture and workflow that may be unfamiliar to you.
 
 * Drupal core, contrib modules, themes, and third parties libraries are not committed to the repository. Contrib directories .gitignored and populated during [build artifact](deploy.md) generation.
-* The repository is never pushed directly to the cloud. Instead, changes to the repository on GitHub trigger tests to be run via [Continuous Integration](../phing/readme#ci). Changes that pass testing will automatically cause a [build artifact](deploy.md) to be created and deployed to the cloud.
+* The repository is never pushed directly to the cloud. Instead, changes to the repository on GitHub trigger tests to be run via [Continuous Integration](ci.md). Changes that pass testing will automatically cause a [build artifact](deploy.md) to be created and deployed to the cloud.
 * [Common project tasks](project-tasks.md) are executed via a build tool (Phing) so that they can be executed exactly the same in all circumstances.
 
 ## Directory structure
