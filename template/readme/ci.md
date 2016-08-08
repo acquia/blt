@@ -1,4 +1,4 @@
-## <a name="ci"></a> Continuous Integration
+## Continuous Integration
 
 Integration with Travis CI is included, although Phing tasks can be used with any CI tool. The default Travis CI build process is as follows:
 

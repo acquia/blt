@@ -1,33 +1,24 @@
 # Release Process
 
-This document is a work in progress.
-
-* [Generating a build artifact](#build-artifact)
-* [Branching strategies](#branching)
-* [Tagging](#tagging)
-* [Release Notes](#release-notes)
-* [Deploying tag and executing updates](#deploy-tag)
-* [Notifications](#notifications) (slack, hipchat, etc)
-
-## <a name="branching"></a>Branching strategies
+## Branching strategies
 
 @todo Document this!
 
-## <a name="build-artifact"></a>Generating a build artifact
+## Generating a build artifact
 
-See [Create and deploy the build artifact](deploy.md#build-artifact) in [deploy.md](deploy.md).
+See [Create and deploy the build artifact](deploy.md#create-and-deploy-the-build-artifact) in [deploy.md](deploy.md).
 
-## <a name="tagging"></a>Tagging
+## Tagging
 
 @todo Document this!
 
-## <a name="release-notes"></a>Release notes
+## Release notes
 
 Each release should be accompanied by a set of release notes, which can be easily generated using the [Release Notes Script](../scripts/release-notes/README.md).
 
 This script will automatically aggregate all of the descriptions from Pull Requests since a specified date. The generated tet aggregate can then be copied and pasted into release notes on GitHub.
 
-## <a name="deploy-tag"></a>Deploying tag and executing updates
+## Deploying tag and executing updates
 
 Deploying Drupal across environments can be daunting, but if due diligence has been taken with configuration management, the process of deployment is actually quite simple.
 
@@ -48,7 +39,7 @@ A few things that you should (almost) never do on production:
 
 There might be some extra steps depending on the infrastructure and the extent of site changes. For example, a major application change might require a flush of other caches in the system such as Varnish or Memcached. 
 
-# <a name="notifications">Notifications
+# Notifications
 
 You can configure various tools to provide notifications of deployment related events. For instance:
 

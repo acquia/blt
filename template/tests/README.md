@@ -65,7 +65,7 @@ This directory contains all projects tests, grouped by testing technology. For a
     ├── jmeter  - contains all jMeter tests
     └── phpunit - contains all PHP Unit tests
 
-## <a name="executing-tests"></a>Executing tests
+## Executing tests
 
 Before attempting to execute any tests, verify that composer dependencies are built by running `composer install` in the project root.
 
@@ -85,7 +85,7 @@ For more information on the commands, run:
 * `./vendor/bin/phpunit --help`
 * `./vendor/bin/behat --help`
 
-## <a name="behat"></a>Behat
+## Behat
 
 The high-level purpose BDD is to create a strong connection between business requirements and the actual tests. Behat tests should mirror ticket acceptance criteria as closely as possible.
 
@@ -144,7 +144,7 @@ PHP based BDD library. Best practices for tests writing apply to both
 * [The training wheels came off](http://aslakhellesoy.com/post/11055981222/the-training-wheels-came-off)
 
 
-## <a name="phpunit"></a>PHPUnit
+## PHPUnit
 
 Project level, functional PHPUnit tests are included in `tests/phpunit`. Any PHPUnit tests that affect specific modules or application level features should be placed in the same directory as that module, not in this directory.
 

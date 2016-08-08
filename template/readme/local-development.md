@@ -2,8 +2,8 @@
 
 Acquia currently recommends the use of either:
 
-  * [Drupal VM](#drupal-vm): An isolated virtual machine, built with Vagrant and Ansible.
-  * [Acquia Dev Desktop](#dd): A turn-key LAMP stack tailored specifically for Acquia-hosted Drupal sites.
+  * [Drupal VM](#using-drupal-vm-for-blt-generated-projects): An isolated virtual machine, built with Vagrant and Ansible.
+  * [Acquia Dev Desktop](#acquia-dev-desktop): A turn-key LAMP stack tailored specifically for Acquia-hosted Drupal sites.
 
 No matter what local environment you choose to use, the following guidelines should be followed:
 
@@ -23,7 +23,7 @@ If you must use Windows, we recommend that:
     * [cmder](http://cmder.net/)
     * [cygwin](https://www.cygwin.com/)
 
-## <a name="drupal-vm"></a>Using Drupal VM for BLT-generated projects
+## Using Drupal VM for BLT-generated projects
 
 _BLT support for Drupal VM is experimental. Not all BLT features currently work with Drupal VM. Additionally, Drupal VM integration with BLT cannot be tested via Travis CI, and is prone to regressions._
 
@@ -54,7 +54,7 @@ To execute Behat tests using the 'drupal' driver on a Drupal VM environment, you
 
 You may choose to write only behat tests that utilize the Drupal Extension's "drupal" driver. Doing this will allow you to run `blt tests:behat` from the host machine without modificaitons to the Behat local.yml configuration.
 
-## <a name="dd"></a>Using Acquia Dev Desktop for BLT-generated projects
+## Using Acquia Dev Desktop for BLT-generated projects
 
 ### Project creation and installation changes
 
