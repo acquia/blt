@@ -10,7 +10,7 @@ markdown_extensions:
 
 pages:
   - Home: 'index.md'
-  - BLT Overview: 'README.md'
+  - Overview: 'README.md'
   - Getting Started: 'INSTALL.md'
   - Project Documentation:
     - Developer:

@@ -4,13 +4,13 @@
 
 BLT (Build and Launch Tool) is a tool that generates new Drupal projects using a standardized template derived from Acquia Professional Services' best practices.
 
-## License
+## Getting started
 
-Copyright (C) 2016 Acquia, Inc.
+See [INSTALL.md](INSTALL.md) to:
 
-This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License version 2 as published by the Free Software Foundation.
-
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+* [Create a new project with BLT](https://github.com/acquia/blt/blob/8.x/INSTALL.md#creating-a-new-project-with-blt)
+* [Add BLT to an existing project](https://github.com/acquia/blt/blob/8.x/INSTALL.md#adding-blt-to-an-existing-project)
+* [Update BLT](https://github.com/acquia/blt/blob/8.x/INSTALL.md#updating-blt)
 
 ## Philosophy and Purpose
 
@@ -27,14 +27,6 @@ It scope is discretely defined. It is *not* intended to provide:
 * Drupal application features (e.g., workflow, media, layout, pre-fabbed content types, etc.)
 * A local hosting environment
 * A replacement for good judgement (as with Drupal, it leaves you the freedom to make mistakes)
-
-## Getting started
-
-See [INSTALL.md](INSTALL.md) to:
-
-* [Create a new project with BLT](https://github.com/acquia/blt/blob/8.x/INSTALL.md#creating-a-new-project-with-blt)
-* [Add BLT to an existing project](https://github.com/acquia/blt/blob/8.x/INSTALL.md#adding-blt-to-an-existing-project)
-* [Update BLT](https://github.com/acquia/blt/blob/8.x/INSTALL.md#updating-blt)
 
 ## Features
 
@@ -58,8 +50,16 @@ See [INSTALL.md](INSTALL.md) to:
     * Travis CI
     * GitHub
 
-# License, support, and contribution
+# Support and contribution
 
 BLT is provided as an open source tool in the hope that it will enabled developers to easily generate new Drupal projects that conform to Acquia Professional Services' best practices.
 
 Please feel free to contribute to the project or file issues via the GitHub issue queue. See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines and instructions.
+
+# License
+
+Copyright (C) 2016 Acquia, Inc.
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License version 2 as published by the Free Software Foundation.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
