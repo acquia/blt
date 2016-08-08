@@ -96,21 +96,25 @@ If you are using an older version of BLT that was not installed using Composer, 
   composer remove drush/drush drupal/console phing/phing phpunit/phpunit squizlabs/php_codesniffer symfony/yaml drupal/coder symfony/console --dev --no-interaction --no-update
   composer config minimum-stability dev
   ```
+  
 1. (conditional) If you are using Lightning, verify that your version constraint allows it to be updated to the latest stable version:
 
   ```
   composer require drupal/lightning:~8 --no-update
   ```
+  
 1. Require acquia/blt as a dev dependency:
 
   ```
   composer require acquia/blt:~8 --dev --no-update
   ```
+  
 1. Update all dependencies:
 
   ```
   composer update
   ```
+  
 1. Execute update script:
 
   ```
