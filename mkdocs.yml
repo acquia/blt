@@ -11,18 +11,18 @@ markdown_extensions:
 pages:
   - Home: 'README.md'
   - Getting Started: 'INSTALL.md'
-  - Project Documentation: 'template/README.md'
+  - Project Documentation:
     - Developer:
           - Onboarding: 'template/readme/onboarding.md'
           - Repository architecture: 'template/readme/repo-architecture.md'
           - Running project tasks: 'template/readme/project-tasks.md'
           - Best practices: 'template/readme/best-practices.md'
           - Workflow: 'template/readme/dev-workflow.md'
-          - Automated testing: 'tests/README.md'
+          - Automated testing: 'template/tests/README.md'
     - Technical Architect:
         - Project Architecture document: 'template/readme/architecture.md'
         - Deploying to cloud: 'template/readme/deploy.md'
         - Release process: 'template/readme/release-process.md'
-        - Setting up continuous integration: 'build/README.md'
+        - Setting up continuous integration: 'template/readme/ci.md'
         - Open source contribution: 'template/readme/os-contribution.md'
   - Contributing: 'CONTRIBUTING.md'

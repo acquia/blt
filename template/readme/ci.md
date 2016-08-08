@@ -1,21 +1,3 @@
-# Build files
-
-This directory contains configuration files for running common project tasks. These may be used for running tasks locally, or for running automated builds via continuous integration solutions.
-
-This directory should not contain any test files. Those exist in the [/tests](/tests) directory.
-
-## Build Tasks
-
-A large number of common build tasks are provided via Phing targets. These include tasks for things like code sniffing, executing tests, building dependencies, installing Drupal, etc.
-
-For a full list of available Phing tasks, run `blt -list` from the project's root directory.
-
-### Executing Tasks
-
-* For a full list of the available Phing targets, run `blt -list`
-* To manually test a Phing target, run the following command matching the the following pattern: `blt <target-name>`. For example `blt validate:all`
-* To run Phing directly from the binary, simply run `./bin/phing -f build/phing/build.xml <arguments>`
-
 ## <a name="ci"></a> Continuous Integration
 
 Integration with Travis CI is included, although Phing tasks can be used with any CI tool. The default Travis CI build process is as follows:

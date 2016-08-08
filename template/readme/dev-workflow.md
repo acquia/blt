@@ -88,7 +88,7 @@ This model removes the bottleneck of designated integrators, but still eliminate
 
 ## Continuous Integration
 
-After a Pull Request has been submitted or merged, our continuous integration solution will automatically build a site artifact, install an ephemeral instance of Drupal, and execute tests against it. For more information on the build process, please see the [build directory](../build/README.md).
+After a Pull Request has been submitted or merged, our continuous integration solution will automatically build a site artifact, install an ephemeral instance of Drupal, and execute tests against it. For more information on the build process, please see the [Continuous Integration documentation](ci.md).
 
 ## Deployment on Cloud
 
