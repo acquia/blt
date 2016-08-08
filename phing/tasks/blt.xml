@@ -1,0 +1,109 @@
+<project name="blt" default="update">
+  <target name="create-project" depends="init">
+    <exec dir="${repo.root}" command="git init" logoutput="true" checkreturn="true"/>
+    <exec dir="${repo.root}" command="composer update" logoutput="true" checkreturn="true"/>
+    <exec dir="${repo.root}" command="git add -A" logoutput="true" checkreturn="true"/>
+    <exec dir="${repo.root}" command="git commit -m 'Initial commit.'" logoutput="true" checkreturn="true"/>
+    <exec dir="${repo.root}" command="rm LICENSE.txt" logoutput="true" checkreturn="true"/>
+  </target>
+
+  <target name="init" depends="blt:rsync-template, blt:update-composer, blt:update-yml, setup:drupal:settings">
+    <echo>BLT files have been copied to your project directory.</echo>
+    <echo>Some of your existing files may have been modified.</echo>
+    <echo></echo>
+    <echo>Please customize ${repo.root}/project.yml and then run:</echo>
+    <echo>blt configure</echo>
+    <echo></echo>
+    <echo>This will replace placeholders with your custom values in the new files created by BLT.</echo>
+  </target>
+
+  <target name="blt:rsync-template">
+    <echo>Copying files from BLT's template into your project.</echo>
+    <!-- @todo Do not overwrite structured or executable files. Instead, update them intelligently. composer.json, project.yml, settings.php, drush.wrapper etc. -->
+    <exec dir="${repo.root}" command="rsync -a --no-g --no-p --update ${blt.root}/template/ ${repo.root}/ --exclude 'project.yml' --exclude 'composer.json'" logoutput="true" checkreturn="true"/>
+    <exec dir="${repo.root}" command="rsync -a --no-g --no-p --update ${blt.root}/template/project.yml ${repo.root}/ --ignore-existing" logoutput="true" checkreturn="true"/>
+  </target>
+
+  <target name="update" depends="init, blt:update-yml, configure">
+    <!-- @todo Ignore some files, settings.php, project.yml, in update. Instead, change only specific values. -->
+    <echo>Some of your customized files may have been modified.</echo>
+    <echo>Please review changes with "git diff".</echo>
+    <echo>If your composer.json was modified, you need to run "composer update".</echo>
+    <echo>Commit changes, or use "git add -p [filename]" to select which changes should be committed to each file.</echo>
+  </target>
+
+  <target name="blt:update-composer" description="Updates project composer.json with a subset of new key value pairs from upstream. This WILL overwrite existing values.">
+    <echo>Merging BLT's composer.json template with your project's composer.json.</echo>
+    <echo>This MAY overwrite some existing values.</echo>
+    <!--Values in the project's existing composer.json file will be overwritten.-->
+    <exec dir="${repo.root}" command="${repo.root}/vendor/bin/blt-console composer:munge ${repo.root}/composer.json ${blt.root}/template/composer.json > ${repo.root}/composer.json.tmp" logoutput="true" checkreturn="true"/>
+    <!--@todo Find out why can't we just redirect output directly back to composer.json. -->
+    <exec dir="${repo.root}" command="mv ${repo.root}/composer.json.tmp ${repo.root}/composer.json" logoutput="true" checkreturn="true"/>
+    <echo>If your composer.json was modified, you need to run "composer update".</echo>
+  </target>
+
+  <target name="blt:update-yml" description="Updates project BLT .yml files with new key value pairs from upstream. This WILL NOT overwrite existing values.">
+    <echo>Merging BLT's project.yml template with your project's project.yml</echo>
+    <echo>This WILL NOT overwrite existing values.</echo>
+    <!--Values in the project's existing project.yml file will be preserved and not overridden.-->
+    <exec dir="${repo.root}" command="${repo.root}/vendor/bin/blt-console yaml:munge ${blt.root}/template/project.yml ${repo.root}/project.yml > ${repo.root}/project.yml.tmp" logoutput="true" checkreturn="true"/>
+    <!--@todo Find out why can't we just redirect output directly back to project.yml. -->
+    <exec dir="${repo.root}" command="mv ${repo.root}/project.yml.tmp ${repo.root}/project.yml" logoutput="true" checkreturn="true"/>
+    <echo>project.yml has been modified.</echo>
+  </target>
+
+  <target name="configure">
+    <!-- @todo add multisite support. -->
+    <echo>Making ${docroot}/sites/default/settings.php writable.</echo>
+    <chmod mode="0755" failonerror="false" file="${docroot}/sites/default/settings.php"/>
+
+    <echo>Expanding Phing properties in BLT files.</echo>
+    <!-- Reflexively expand properties in specified dirs/files. -->
+    <reflexive>
+      <fileset dir="${repo.root}">
+        <include name="composer.json" />
+        <include name="README.md" />
+        <include name="docroot/sites/*/settings.php" />
+        <include name="docroot/sites/*/settings/**/*" />
+        <include name="docroot/sites/*/local.drushrc.php" />
+        <include name="readme/**/*" />
+        <include name="scripts/git-hooks/*" />
+        <include name="tests/phpunit/Bolt" />
+      </fileset>
+      <filterchain>
+        <expandproperties />
+      </filterchain>
+    </reflexive>
+  </target>
+
+  <target name="install-alias" description="Installs the BLT alias for command line usage.">
+    <if>
+      <not><equals arg1="${create_alias}" arg2="false"/></not>
+      <then>
+        <!-- @todo Add this to ~/.blt/aliases and include that into ~/.bashrc or whatever. -->
+        <exec dir="${blt.root}/scripts/blt" command="./install-alias.sh" logoutput="true" passthru="true"/>
+      </then>
+    </if>
+  </target>
+
+  <target name="echo-property">
+    <echo>${property.name}</echo>
+    <echo>${${property.name}}</echo>
+  </target>
+
+  <!-- This target is meant to test BLT itself on TravisCI.
+       A few things to note:
+       - We do not run validate:* targets, since they can be run in parallel.
+  -->
+  <target name="self-test" description="Runs tests against acquia/blt proper.">
+    <phingcall target="configure" />
+    <phingcall target="create" />
+    <phingcall target="setup:build" />
+    <phingcall target="setup:drupal:install" />
+    <phingcall target="setup:git-hooks" />
+    <phingcall target="setup:behat" />
+    <phingcall target="tests:security-updates" />
+    <phingcall target="tests:behat" />
+    <phingcall target="tests:phpunit" />
+  </target>
+</project>

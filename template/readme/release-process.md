@@ -25,7 +25,7 @@ See [Create and deploy the build artifact](deploy.md#build-artifact) in [deploy.
 
 Each release should be accompanied by a set of release notes, which can be easily generated using the [Release Notes Script](../scripts/release-notes/README.md).
 
-This script will automatically aggregate all of the descriptions from Pull Requests since a specified date. The generated text aggregate can then be copied and pasted into release notes on GitHub.
+This script will automatically aggregate all of the descriptions from Pull Requests since a specified date. The generated tet aggregate can then be copied and pasted into release notes on GitHub.
 
 ## <a name="deploy-tag"></a>Deploying tag and executing updates
 

@@ -2,9 +2,6 @@
 /project.yml
 local.*
 
-# Ignore build artifacts
-bin/*
-
 # OS X
 .DS_Store
 .AppleDouble

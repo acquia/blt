@@ -4,6 +4,7 @@ language: php
 
 php:
   - 5.6
+  - 7
 
 cache:
   bundler: true
@@ -25,9 +26,8 @@ addons:
 before_install:
   # Decrypt private SSH key id_rsa_blt.enc, save as ~/.ssh/id_rsa_blt.
   - if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then openssl aes-256-cbc -K $encrypted_c0b166e924da_key -iv $encrypted_c0b166e924da_iv -in id_rsa_blt.enc -out ~/.ssh/id_rsa -d; chmod 600 ~/.ssh/id_rsa; ls -lash ~/.ssh; eval "$(ssh-agent -s)"; ssh-add ~/.ssh/id_rsa; fi
-  - nvm install 0.12
-  - nvm use 0.12
   - composer selfupdate
+  # Disable xdebug.
   - phpenv config-rm xdebug.ini
   # Enable $_ENV variables in PHP.
   - echo 'variables_order = "EGPCS"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
@@ -38,10 +38,16 @@ before_install:
   - mysql -e 'CREATE DATABASE drupal;'
 
 install:
+  # Load composer dependencies.
   - composer validate --no-check-all --ansi
+  # Remove acquia packages from cache before running `composer install`.
+  - rm -rf vendor/acquia
   - composer install
   - export PATH=$TRAVIS_BUILD_DIR/vendor/bin:$PATH
-  # Initialize drupal consile default configuration.
+  # Install proper version of node for front end tasks.
+  - nvm install 4.4.1
+  - nvm use 4.4.1
+  # Initialize drupal console default configuration.
   - drupal init
 
 before_script:
@@ -53,27 +59,36 @@ before_script:
 script:
   # Ensure code quality of 'blt' itself.
   - phpcs --standard=./vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml tests
-  # Generate a new 'blted' project.
-  - ./blt.sh configure
+  # Generate a new 'blt-project' project.
+  - cp -R blt-project ../
+  - cd ../blt-project
+  - git init
+  - git add -A
+  # Commit so that susbsequent git commit tests have something to ammend.
+  - git commit -m 'Initial commit.'
+  # BLT is the only dependency at this point. Install it.
+  - composer install
+  - export PATH=$TRAVIS_BUILD_DIR/../blt-project/vendor/bin:$PATH
+  - yes | blt init
   # The local.hostname must be set to 127.0.0.1:8888 because we are using drush runserver to run the site on Travis CI.
   - drupal yaml:update:value project.yml project.local.hostname '127.0.0.1:8888'
-  - ./blt.sh create
-  # Move to the target directory.
-  - cd ../blted8
-  # Call targets in the new 'blted' project.
-  - ./blt.sh ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dbehat.launch-phantom=true
+  - blt configure
+  # Running `blt init` modified composer.json, so we must update.
+  - composer update
+  # Call targets in the new 'blt-project' project.
+  - blt ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dbehat.launch-phantom=true
   # Deploy build artifact.
-  - ./blt.sh deploy:build -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="8.x-build"
+  - blt deploy:build
   # Add Drupal VM config to repo.
-  - ./blt.sh vm:init
-  # Switch back to 'blt' directory
+  - blt vm:init
+  # Switch back to 'blt' directory.
   - cd ../blt
   # Run 'blt' phpunit tests, excluding deploy-push tests.
   - phpunit tests/phpunit --exclude-group deploy-push
 
 deploy:
   provider: script
-  script: ../blted8/blt.sh deploy -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="8.x-build" && phpunit tests/phpunit --group=deploy
+  script: cd blt-project && blt deploy -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="8.x-build" && phpunit tests/phpunit --group=deploy
   skip_cleanup: true
   on:
     branch: 8.x

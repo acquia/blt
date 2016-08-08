@@ -10,4 +10,4 @@
 // Configure your hash salt here.
 // $settings['hash_salt'] = '';
 
-require DRUPAL_ROOT . '/sites/default/settings/includes.settings.php';
+require DRUPAL_ROOT . '/sites/default/settings/blt.settings.php';

@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+if [ "`git rev-parse --show-cdup 2> /dev/null`" != "" ]; then
+  GIT_ROOT=$(git rev-parse --show-cdup)
+else
+  GIT_ROOT="."
+fi
+
+if [ -f "$GIT_ROOT/vendor/acquia/blt/blt.sh" ]; then
+  $GIT_ROOT/vendor/acquia/blt/blt.sh "$@"
+else
+  echo "You must run this command from within a BLT-generated project repository."
+fi

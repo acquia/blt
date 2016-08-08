@@ -51,17 +51,17 @@ If you need to make requests via a proxy server, please [configure git to use a 
 
 1. Checkout the `develop` branch. `git checkout develop`
 1. Run `composer install` (you must already have Composer installed).
-1. Run `./blt.sh setup:drupal:settings` This will generate
+1. Run `blt setup:drupal:settings` This will generate
   `docroot/sites/default/settings/local.settings.php` and
   `docroot/sites/default/local.drushrc.php`. Update these with your local
   database credentials and your local site URL.
-1. Run `./blt.sh local:setup`. This will build all project dependencies and install
+1. Run `blt local:setup`. This will build all project dependencies and install
    drupal.
 1. Create and edit your local drush alias file. Copy `drush/site-aliases/example.local.aliases.drushrc.php` to `drush/site-aliases/local.aliases.drushrc.php`. Edit the new alias file with your local path.
 
-After this initial setup, you should only need to run `./blt.sh setup:build` when composer.json is updated, and `./blt.sh local:drupal:install` when you need to reinstall the site.
+After this initial setup, you should only need to run `blt setup:build` when composer.json is updated, and `blt local:drupal:install` when you need to reinstall the site.
 
-For a full list of available project tasks, run `./blt.sh -l`. See [Project Tasks](project-tasks.md) for more information.
+For a full list of available project tasks, run `blt -l`. See [Project Tasks](project-tasks.md) for more information.
 
 ### Local Git Configuration
 

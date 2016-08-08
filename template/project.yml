@@ -1,8 +1,4 @@
 project:
-  # The project's composer.json will be updated with the below vendor_name and description
-  # and should be updated directly to change these values after initial creation.
-  vendor_name: 'acquia'
-  description: 'A short description of the package. Usually this is just one line long.'
   # Everyone: This will determine the the directory name of the new repository.
   # Dev Desktop users: this should match your local site name.
   machine_name: 'blted8'
@@ -10,14 +6,13 @@ project:
   prefix: 'BLT'
   human_name: 'BLTed 8'
   profile:
+    # You can generate a custom profile by running '../vendor/bin/drupal generate:profile' from the docroot.
     name: 'lightning'
     # Please ensure contrib profiles are also in your composer.json file.
     contrib: true
   # This is used to build front end artifacts. E.g., SASS compilation.
   themes:
     - thunder
-  # These are random strings used to configure the hash salt.
-  hash_salt: ${project.hash_salt}
   # This will be used as the local uri for all developers.
   local:
     protocol: http
@@ -29,6 +24,7 @@ git:
   remotes:
     # Defining git remotes allows builds deployed via CI.
     - bolt8@svn-5223.devcloud.hosting.acquia.com:bolt8.git
+    # - radass4@svn-11692.prod.hosting.acquia.com:radass4.git
 
 drush:
   # You can set custom project aliases in drush/site-aliases/aliases.drushrc.php.
@@ -55,11 +51,14 @@ target-hooks:
   # Executed after deployment artifact is created.
   post-deploy-build:
     dir: ${deploy.dir}/docroot/profiles/contrib/lightning
-    command: npm install && bower install
+    command: npm run install-libraries
   # Executed after setup:build is run.
   post-setup-build:
     dir: ${docroot}/profiles/contrib/lightning
     command: npm run install-libraries
+
+# Define any custom Phing files that you'd like to import. E.g., ${repo.root}/blt/phing/build.xml
+import: ~
 
 # Hosting environment flags.
 # Examples: acsf (Acquia Cloud Site Factory), ac (Acquia Cloud)
