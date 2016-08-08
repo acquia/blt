@@ -98,7 +98,7 @@ This command will be executed when dependencies are built in a local or CI envir
 blt frontend:build
 ```
 
-## <a name="local-tasks"></a>Updating you local environment
+## <a name="local-tasks"></a>Updating your local environment
 
 The project is configured to update the local environment with a local drush alias and a remote alias as defined in `project.yml` or `project.local.yml`. Given that these aliases match, those in `drush/site-aliases/`, you can update the site with BLT. Please see [drush/README.md](../drush/README.md) for details on how to create these aliases.
 
