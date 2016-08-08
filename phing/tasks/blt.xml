@@ -88,7 +88,7 @@
 
   <target name="echo-property">
     <echo>${property.name}</echo>
-    <echo>${${property.name}}</echo>
+    <echo level="warning">${${property.name}}</echo>
   </target>
 
   <!-- This target is meant to test BLT itself on TravisCI.
