@@ -74,9 +74,9 @@ To add BLT to a pre-existing Drupal project, do the following:
   * Other project documentation in the readme directory.
 1. (optional) Follow instructions for <a href="#install">installing Drupal locally</a>.
 
-## <a name=""></a>Updating BLT
+## <a name="updating"></a>Updating BLT
 
-### <a name=""></a>Updating a composer-managed version
+### <a name="update-composered"></a>Updating a composer-managed version
 
 If you are already using BLT via Composer, you can update to the latest version of BLT by running the following commands from your project's root directory:
 
@@ -85,7 +85,7 @@ composer update acquia/blt
 blt update
 ```
 
-### <a name=""></a>Updating from a non-Composer-managed version
+### <a name="update-non-composered"></a>Updating from a non-Composer-managed version
 
 If you are using an older version of BLT that was not installed using Composer, you may update to the Composer-managed version by running the following commands:
 
