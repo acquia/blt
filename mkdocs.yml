@@ -13,29 +13,29 @@ pages:
   - Overview: 'README.md'
   - Getting started:
     - Installation & upgrade:  'INSTALL.md'
-    - Local development: 'docs/local-development.md'
+    - Local development: 'readme/local-development.md'
   - Project documentation:
     - Overview: 'template/README.md'
     - Developer:
-          - Onboarding: 'docs/onboarding.md'
-          - Repository architecture: 'docs/repo-architecture.md'
+          - Onboarding: 'readme/onboarding.md'
+          - Repository architecture: 'readme/repo-architecture.md'
           - Running project tasks:
-            - Overview: 'docs/project-tasks.md'
+            - Overview: 'readme/project-tasks.md'
             - Patches: 'template/patches/README.md'
             - Drush: 'template/drush/README.md'
             - Git hooks: 'template/scripts/git-hooks/README.md'
           - Best practices:
-            - Overview: 'docs/best-practices.md'
-            - Views: 'docs/views.md'
-          - Workflow: 'docs/dev-workflow.md'
+            - Overview: 'readme/best-practices.md'
+            - Views: 'readme/views.md'
+          - Workflow: 'readme/dev-workflow.md'
           - Automated testing: 'template/tests/README.md'
     - Technical Architect:
-        - Project architecture document: 'docs/architecture.md'
-        - Deploying to cloud: 'docs/deploy.md'
+        - Project architecture document: 'readme/architecture.md'
+        - Deploying to cloud: 'readme/deploy.md'
         - Releases:
-          - Release process: 'docs/release-process.md'
+          - Release process: 'readme/release-process.md'
           - Release notes: 'scripts/release-notes/README.md'
-        - Setting up continuous integration: 'docs/ci.md'
-        - Open source contribution: 'docs/os-contribution.md'
-  - Extending / Overriding BLT: 'docs/extending-blt.md'
+        - Setting up continuous integration: 'readme/ci.md'
+        - Open source contribution: 'readme/os-contribution.md'
+  - Extending / Overriding BLT: 'readme/extending-blt.md'
   - Contributing: 'CONTRIBUTING.md'
