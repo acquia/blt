@@ -31,6 +31,7 @@
   <if>
     <not><equals arg1="${drush.alias}" arg2="self"/></not>
     <then>
+      <echo>Unsetting drush.root because a remote alias is being used.</echo>
       <property name="drush.root" value=""/>
     </then>
   </if>
