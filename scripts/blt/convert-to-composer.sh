@@ -48,6 +48,20 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
   echo "Removing deprecated BLT files from project."
   rm -rf build blt.sh tests/phpunit/blt
 
+  # Removing old docs.
+  rm acsf-setup.md
+  rm architecture.md
+  rm best-practices.md
+  rm deploy.md
+  rm dev-workflow.md
+  rm features-workflow.md
+  rm local-development.md
+  rm onboarding.md
+  rm project-tasks.md
+  rm release-process.md
+  rm repo-architecture.md
+  rm views.md
+
   # Install (new) alias
   echo "Installing blt alias"
   yes | ./vendor/acquia/blt/blt.sh install-alias

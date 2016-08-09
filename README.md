@@ -43,12 +43,12 @@ It scope is discretely defined. It is *not* intended to provide:
 * [Testing Framework](template/tests).
     * Behat: default `local.yml` configuration, example tests, `FeatureContext.php`
     * PHPUnit: default tests for ensuring proper functioning of BLT provided components
-* [Project tasks](template/readme/project-tasks.md)
+* [Project tasks](docs/project-tasks.md)
     * Executing tests and validating code
     * Building dependencies
     * (Re)installation of Drupal
     * Production-safe artifact generation and deployment
-* [Continuous Integration](template/readme/ci.md)
+* [Continuous Integration](docs/ci.md)
     * Travis CI
     * GitHub
 
