@@ -26,6 +26,23 @@
   <echo>Executing commands against multisite "${multisite.name}"</echo>
 
   <!-- Default drush alias. -->
-  <property name="drush.default_alias" value="self" override="false" logoutput="false"/>
   <property name="drush.alias" value="${drush.default_alias}" override="false" logoutput="false"/>
+  <!--If alias is not self, then we do not specify the drush root. The drush alias itself should define this in its docroot key.-->
+  <if>
+    <not><equals arg1="${drush.alias}" arg2="self"/></not>
+    <then>
+      <property name="drush.root" value=""/>
+    </then>
+  </if>
+
+  <target name="echo-property" description="Echoes the value of a Phing property.">
+    <echo>${property.name}</echo>
+    <if>
+      <isset property="${property.name}"/>
+      <then>
+        <echo level="warning">${${property.name}}</echo>
+      </then>
+    </if>
+  </target>
+
 </project>
