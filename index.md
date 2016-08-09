@@ -2,6 +2,14 @@
 
 Welcome to the BLT documentation site! Please read through the [Quick Start Guide](https://github.com/acquia/blt/INSTALL.md) to get started, and then browse the rest of this project's documentation in the sidebar.
                                        
+# Documentation structure
+
+BLT Documentation is broken into the following top-level segments:
+
+* Overview - Information about BLT
+* Getting started - How to add BLT to your project
+* Project documentation - Templated documentation that will be added to your BLTed project. 
+
 # Contributing to BLT
                                        
 Please feel free to edit any of the pages in this documentation via the 'Edit on GitHub' link at the top right. If you would like to help improve BLT, please file issues via the GitHub issue queue. See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines and instructions.

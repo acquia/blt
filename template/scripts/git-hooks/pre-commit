@@ -12,6 +12,5 @@ if [ ! -f $PHPCS_BIN ];
     echo "Sniffing staged files via PHP Code Sniffer."
 fi
 
-
-${ROOT_DIR}blt.sh validate:phpcs:files -Dfiles="$LIST" -q
+${ROOT_DIR}/vendor/bin/blt validate:phpcs:files -Dfiles="$LIST" -q
 exit 0;

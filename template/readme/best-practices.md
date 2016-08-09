@@ -82,8 +82,7 @@ See the [Drupal 8 Cache API](https://www.drupal.org/developing/api/8/cache) docu
 
 ## Patching
 
-All modifications to contributed code should be performed via a patch. For detailed information on how to patch projects, please see [../patches/README.md]
-(../patches/README.md)
+All modifications to contributed code should be performed via a patch. For detailed information on how to patch projects, please see [../patches/README.md](../patches/README.md)
 
 ## Views
 
