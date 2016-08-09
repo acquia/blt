@@ -39,10 +39,6 @@ class BltTest extends \PHPUnit_Framework_TestCase {
           '${project.machine_name}',
           file_get_contents($this->newProjectDir . '/docroot/sites/default/settings.php')
       );
-    $this->assertNotContains(
-          '${project.human_name}',
-          file_get_contents($this->newProjectDir . '/readme/architecture.md')
-      );
   }
 
 }

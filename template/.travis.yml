@@ -46,12 +46,11 @@ install:
   - composer validate --no-check-all --ansi
   - composer install
   - export PATH=$TRAVIS_BUILD_DIR/vendor/bin:$PATH
-  - drupal init --quiet
+  # Initialize drupal console default configuration.
+  - drupal init
   # Install proper version of node for front end tasks.
   - nvm install 4.4.1
   - nvm use 4.4.1
-  # Initialize drupal console default configuration.
-  - drupal init
 
 before_script:
   # Clear drush release history cache, to pick up new releases.

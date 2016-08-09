@@ -107,11 +107,11 @@ Note that all of the steps from this point forward are the same steps that would
 
 Before building your project dependencies and installing Drupal, you must have a fully functional \*AMP stack on your local machine. BLT intentionally does not provide this local development environment--that is outside of the scope of BLT’s intended responsibilities. It does, however, make recommendations for which tools you should use to manage your stack.
 
-Please see [Local Development](template/readme/local-development.md) for more information on setting up your \*AMP stack:
+Please see [Local Development](docs/local-development.md) for more information on setting up your \*AMP stack:
 
-* [Acquia Dev Desktop](template/readme/local-development.md#using-acquia-dev-desktop-for-blt-generated-projects)
-* [Drupal VM](template/readme/local-development.md#using-drupal-vm-for-blt-generated-projects)
-* [Other](https://github.com/acquia/blt/blob/8.x/template/readme/local-development.md#alternative-local-development-environments)
+* [Acquia Dev Desktop](docs/local-development.md#using-acquia-dev-desktop-for-blt-generated-projects)
+* [Drupal VM](docs/local-development.md#using-drupal-vm-for-blt-generated-projects)
+* [Other](https://github.com/acquia/blt/blob/8.x/docs/local-development.md#alternative-local-development-environments)
 
 When you have completed setting up your local \*AMP stack, double check that the following pieces of information are still correct:
 
