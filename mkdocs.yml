@@ -13,29 +13,29 @@ pages:
   - Overview: 'README.md'
   - Getting started:
     - Installation & upgrade:  'INSTALL.md'
-    - Local development: 'template/readme/local-development.md'
+    - Local development: 'docs/local-development.md'
   - Project documentation:
     - Overview: 'template/README.md'
     - Developer:
-          - Onboarding: 'template/readme/onboarding.md'
-          - Repository architecture: 'template/readme/repo-architecture.md'
+          - Onboarding: 'docs/onboarding.md'
+          - Repository architecture: 'docs/repo-architecture.md'
           - Running project tasks:
-            - Overview: 'template/readme/project-tasks.md'
+            - Overview: 'docs/project-tasks.md'
             - Patches: 'template/patches/README.md'
             - Drush: 'template/drush/README.md'
             - Git hooks: 'template/scripts/git-hooks/README.md'
           - Best practices:
-            - Overview: 'template/readme/best-practices.md'
-            - Views: 'template/readme/views.md'
-          - Workflow: 'template/readme/dev-workflow.md'
+            - Overview: 'docs/best-practices.md'
+            - Views: 'docs/views.md'
+          - Workflow: 'docs/dev-workflow.md'
           - Automated testing: 'template/tests/README.md'
     - Technical Architect:
-        - Project architecture document: 'template/readme/architecture.md'
-        - Deploying to cloud: 'template/readme/deploy.md'
+        - Project architecture document: 'docs/architecture.md'
+        - Deploying to cloud: 'docs/deploy.md'
         - Releases:
-          - Release process: 'template/readme/release-process.md'
+          - Release process: 'docs/release-process.md'
           - Release notes: 'scripts/release-notes/README.md'
-        - Setting up continuous integration: 'template/readme/ci.md'
-        - Open source contribution: 'template/readme/os-contribution.md'
-  - Extending / Overriding BLT: 'template/readme/extending-blt.md'
+        - Setting up continuous integration: 'docs/ci.md'
+        - Open source contribution: 'docs/os-contribution.md'
+  - Extending / Overriding BLT: 'docs/extending-blt.md'
   - Contributing: 'CONTRIBUTING.md'
