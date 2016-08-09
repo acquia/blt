@@ -15,7 +15,6 @@ pages:
     - Installation & upgrade:  'INSTALL.md'
     - Local development: 'readme/local-development.md'
   - Project documentation:
-    - Overview: 'template/README.md'
     - Developer:
           - Onboarding: 'readme/onboarding.md'
           - Repository architecture: 'readme/repo-architecture.md'
