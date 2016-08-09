@@ -17,7 +17,7 @@ class BehatTest extends TestBase {
     // Assert that a local.yml file was created in the new project.
     $this->assertFileExists($this->projectDirectory . '/tests/behat/local.yml');
     $this->assertNotContains(
-          '${local_url}',
+          '${local.uri}',
           file_get_contents("{$this->projectDirectory}/tests/behat/local.yml")
       );
   }

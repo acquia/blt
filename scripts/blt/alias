@@ -10,5 +10,6 @@ function blt() {
     $GIT_ROOT/vendor/bin/blt "$@"
   else
     echo "You must run this command from within a BLT-generated project repository."
+    echo "If you are in a BLT-generated repository, try running 'composer install'."
   fi
 }

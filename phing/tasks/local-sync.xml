@@ -8,10 +8,49 @@
 
   <target name="local:refresh" description="Refreshes local environment from upstream testing database." depends="setup:build, local:sync, local:update"/>
 
-  <target name="local:setup" description="Install dependencies, builds docroot, installs Drupal; uses local drush alias.">
+  <target name="local:setup" description="Install dependencies, builds docroot, installs Drupal; uses local drush alias." depends="local:settings">
     <phingcall target="setup">
       <property name="drush.alias" value="${drush.aliases.local}" />
     </phingcall>
+  </target>
+
+  <target name="local:settings">
+    <echo>Generating local settings files.</echo>
+
+    <if>
+      <not>
+        <available file="${repo.root}/project.local.yml" type="file" />
+      </not>
+      <then>
+        <copy file="${repo.root}/example.project.local.yml" tofile="${repo.root}/project.local.yml" />
+      </then>
+    </if>
+
+    <if>
+      <not>
+        <available file="${docroot}/sites/${multisite.name}/settings/local.settings.php" type="file" />
+      </not>
+      <then>
+        <copy file="${docroot}/sites/${multisite.name}/settings/default.local.settings.php" tofile="${docroot}/sites/${multisite.name}/settings/local.settings.php" />
+      </then>
+    </if>
+
+    <if>
+      <not>
+        <available file="${docroot}/sites/${multisite.name}/local.drushrc.php" type="file" />
+      </not>
+      <then>
+        <copy file="${docroot}/sites/${multisite.name}/default.local.drushrc.php" tofile="${docroot}/sites/${multisite.name}/local.drushrc.php"/>
+      </then>
+    </if>
+
+    <echo>Expanding Phing variables in ${docroot}/sites/${multisite.name}/local.drushrc.php.</echo>
+
+    <reflexive file="${docroot}/sites/${multisite.name}/local.drushrc.php">
+      <filterchain>
+        <expandproperties />
+      </filterchain>
+    </reflexive>
   </target>
 
   <target name="local:sync" description="Synchronize remote environment with local environment."

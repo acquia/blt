@@ -62,47 +62,6 @@
     <chmod mode="0755" failonerror="false" file="${docroot}/sites/default/settings.php"/>
     <echo>Ensuring that blt.settings.php is required by settings.php</echo>
     <exec dir="${docroot}/sites/default" command="grep blt.settings.php settings.php || echo 'require DRUPAL_ROOT . &quot;/sites/default/settings/blt.settings.php&quot;;' >> settings.php " logoutput="false" checkreturn="true"/>
-
-    <echo>Generating local settings files.</echo>
-
-    <if>
-      <not>
-        <available file="${repo.root}/project.local.yml" type="file" />
-      </not>
-      <then>
-        <copy file="${repo.root}/example.project.local.yml" tofile="${repo.root}/project.local.yml" />
-      </then>
-    </if>
-
-    <if>
-      <not>
-        <available file="${docroot}/sites/${multisite.name}/settings/local.settings.php" type="file" />
-      </not>
-      <then>
-        <copy file="${docroot}/sites/${multisite.name}/settings/default.local.settings.php" tofile="${docroot}/sites/${multisite.name}/settings/local.settings.php" />
-      </then>
-    </if>
-
-    <if>
-      <not>
-        <available file="${docroot}/sites/${multisite.name}/local.drushrc.php" type="file" />
-      </not>
-      <then>
-        <copy file="${docroot}/sites/${multisite.name}/default.local.drushrc.php" tofile="${docroot}/sites/${multisite.name}/local.drushrc.php"/>
-      </then>
-    </if>
-
-    <echo>Expanding Phing variables in ${docroot}/sites/${multisite.name}/local.drushrc.php.</echo>
-
-    <reflexive file="${docroot}/sites/${multisite.name}/local.drushrc.php">
-      <filterchain>
-        <expandproperties />
-      </filterchain>
-    </reflexive>
-
-    <!-- Re-extract value of $options['uri'] in case it was not yet set. -->
-    <!-- @todo Add multisite support. -->
-    <phpVariable file="${repo.root}/drush/drushrc.php" variable="options[uri]" outputProperty="local_url" />
   </target>
 
   <target name="setup:drupal:install"
