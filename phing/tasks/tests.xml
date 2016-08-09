@@ -38,6 +38,7 @@
           <!-- A non-zero returns status indicates failure. -->
           <not><equals arg1="${behatPass}" arg2="0"/></not>
           <then>
+            <phingcall target="tests:phantomjs:kill"/>
             <fail message="One ore more Behat tests failed." />
           </then>
           <else>
