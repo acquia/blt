@@ -26,6 +26,7 @@ blt deploy:build
 ```
 
 This task is analogous to `setup:build` but with a few critical differences:
+
 * The docroot is created at `/deploy/docroot`.
 * Only production required to the docroot
 * (planned) CSS / JS are compiled in production mode (compressed / minified)
@@ -46,6 +47,7 @@ This command will commit the artifact to the `develop-build` branch with the spe
 ## Modifying the artifact
 
 The artifact is built by:
+
 * Rsyncing files from the repository root
 * Re-building dependencies directly in the deploy directory. E.g., `composer install`
 
