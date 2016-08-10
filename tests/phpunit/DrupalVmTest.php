@@ -36,22 +36,6 @@ class DrupalVmTest extends \PHPUnit_Framework_TestCase {
       '${project.machine_name}',
       file_get_contents($this->newProjectDir . '/drush/site-aliases/drupal-vm.aliases.drushrc.php')
     );
-    $this->assertContains(
-      'drush:',
-      file_get_contents($this->newProjectDir . '/example.project.local.yml')
-    );
-    $this->assertContains(
-      'root:',
-      file_get_contents($this->newProjectDir . '/example.project.local.yml')
-    );
-    $this->assertContains(
-      'drush:',
-      file_get_contents($this->newProjectDir . '/project.local.yml')
-    );
-    $this->assertContains(
-      'root:',
-      file_get_contents($this->newProjectDir . '/project.local.yml')
-    );
   }
 
 }
