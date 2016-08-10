@@ -20,6 +20,7 @@ pages:
           - Repository architecture: 'readme/repo-architecture.md'
           - Running project tasks:
             - Overview: 'readme/project-tasks.md'
+            - Dependency management: 'readme/dependency-management.md'
             - Patches: 'template/patches/README.md'
             - Drush: 'template/drush/README.md'
             - Git hooks: 'template/scripts/git-hooks/README.md'
