@@ -43,6 +43,31 @@ blt deploy -Ddeploy.branch=develop-build -Ddeploy.commitMsg='BLT-123: The commit
 
 This command will commit the artifact to the `develop-build` branch with the specified commit message and push it to the remotes defined in project.yml.
 
+## Modifying the artifact
+
+The artifact is built by:
+* Rsyncing files from the repository root
+* Re-building dependencies directly in the deploy directory. E.g., `composer install`
+
+You can modify the build artifact in a few ways:
+
+1. Change which files are rsynced to the artifact by providing your own `deploy.exclude_file` value in project.yml. See [upstream deploy-exclude.txt](https://github.com/acquia/blt/blob/8.x/phing/files/deploy-exclude.txt) for example contents.  E.g.,
+
+          deploy:
+            exclude_file: ${repo.root}/blt/deploy/rsync-exclude.txt
+
+1. Change which files are gitignored in the artifact by providing your own `deploy.gitignore_file` value in project.yml. See [upstream .gitignore](https://github.com/acquia/blt/blob/8.x/phing/files/.gitignore) for example contents. E.g.,
+
+          deploy:
+            gitignore_file: ${repo.root}/blt/deploy/.gitignore
+
+1. Execute a custom command after the artifact by providing your own `target-hooks.post-deploy-build.dir` and `target-hooks.post-deploy-build.command` values in project.yml. E.g.,
+
+          # Executed after deployment artifact is created.
+          post-deploy-build:
+            dir: ${deploy.dir}/docroot/profiles/contrib/lightning
+            command: npm run install-libraries
+
 ### Debugging deployment artifacts
 
 If you would like to create, commit, but _not push_ the artifact, you may do a dry run:

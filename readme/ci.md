@@ -6,13 +6,6 @@ Integration with Travis CI is included, although Phing tasks can be used with an
 1. `.travis.yml` is read and executed by Travis CI. The environment is built by installing composer dependencies.
 1. Travis CI begins a a build and calls various Phing targets.
 
-### Creating your own custom tasks
-
-You may add your own custom tasks to the build engine by defining new [Phing](https://www.phing.info/) targets in [build/custom/phing/build.xml]
-(custom/phing/build.xml).
-
-You may override or define custom Phing properties in [build/custom/phing/build.yml](custom/phing/build.yml)
-
 ### Automated testing using live content
 
 By default, the Travis CI automated tests install and test your site from scratch. Once you have a production site in a remote environment, it’s recommended to also run automated tests against a copy of your production database, especially in order to functionally test update hooks.
