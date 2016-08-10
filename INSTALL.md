@@ -37,14 +37,14 @@ You should be able to use the following tools on the command line of your native
         * Add your local DB credentials to `$databases`
 1. Replace tokens in new BLT-generated files with your custom values in project.yml:
 
-
         blt configure
 
+1. Follow instructions for <a href="#build-your-projects-local-dependencies-and-install-drupal-locally">installing Drupal locally</a>. Don't install Drupal locally using your web browser.
+1. Follow instructions for [Setting up your *AMP stack](local-development.md)
 1. (optional) Modify project files. Important files that you may want to modify include:
     * composer.json. Note that Drupal core, contrib, and third party dependencies are all managed here.
     * Project’s root README.md.
     * Other project documentation in the readme directory.
-1. (optional) Follow instructions for <a href="#install">installing Drupal locally</a>.
 
 ## Adding BLT to an existing project
 
@@ -58,11 +58,12 @@ To add BLT to a pre-existing Drupal project, do the following:
         composer require acquia/blt:~8
         ./vendor/acquia/blt/blt.sh init
 
+1. Follow instructions for <a href="#build-your-projects-local-dependencies-and-install-drupal-locally">installing Drupal locally</a>. Don't install Drupal locally using your web browser.
+1. Follow instructions for [Setting up your *AMP stack](local-development.md)
 1. (optional) Modify project files. Important files that you may want to modify include:
     * composer.json. Note that Drupal core, contrib, and third party dependencies are all managed here.
     * Project’s root README.md.
     * Other project documentation in the readme directory.
-1. (optional) Follow instructions for <a href="#install">installing Drupal locally</a>.
 
 ## Updating BLT
 
