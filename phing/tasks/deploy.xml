@@ -87,14 +87,25 @@
   </target>
 
   <target name="deploy:composer:install" description="Downloads core and contrib to deploy folder.">
-    <delete dir="${deploy.dir}/vendor"/>
-    <copy todir="${deploy.dir}" overwrite="true">
-      <fileset dir="${repo.root}">
-        <include name="composer.json"/>
-        <include name="composer.lock"/>
-      </fileset>
-    </copy>
-    <exec dir="${deploy.dir}" command="export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --no-dev --prefer-dist --no-interaction" passthru="true" logoutput="true" checkreturn="true"/>
+    <if>
+      <equals arg1="${deploy.build-dependencies}" arg2="true"/>
+      <then>
+        <echo>Rebuilding composer dependencies without require-dev.</echo>
+        <delete dir="${deploy.dir}/vendor"/>
+        <copy todir="${deploy.dir}" overwrite="true">
+          <fileset dir="${repo.root}">
+            <include name="composer.json"/>
+            <include name="composer.lock"/>
+          </fileset>
+        </copy>
+        <exec dir="${deploy.dir}" command="export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --no-dev --prefer-dist --no-interaction" passthru="true" logoutput="true" checkreturn="true"/>
+      </then>
+      <else>
+        <echo>Dependencies will not be built because deploy.build-dependencies is not enabled.</echo>
+        <echo>You should define a custom deploy.exclude_file to ensure that dependecies are copied from the root repository.</echo>
+      </else>
+    </if>
+
   </target>
 
   <target name="deploy:copy" description="Copy required files from /docroot/sites to /deploy/docroot/sites.">
