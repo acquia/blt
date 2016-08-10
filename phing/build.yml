@@ -18,6 +18,7 @@ composer:
   bin: ${repo.root}/vendor/bin
 
 deploy:
+  build-dependencies: true
   dir: ${repo.root}/deploy
   exclude_file: ${blt.root}/phing/files/deploy-exclude.txt
   gitignore_file: ${blt.root}/phing/files/.gitignore
