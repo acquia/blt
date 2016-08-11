@@ -61,7 +61,7 @@ It is not possible to create an exhaustive list of all things that should be che
               access and traverse entity properties and fields. Make sure to wrap usages 
               in `try { ... } catch (EntityMetadataWrapperException $e) { ... }`
         * Caution with `hook_init()` and `hook_boot()`
-* __Test coverage__ Does the pull request include required [automated tests](../tests/README.md)? 
+* __Test coverage__ Does the pull request include required [automated tests](readme/testing.md)? 
     * All application functionality should be covered by a functional test via either Behat or PHPUnit
     * All custom libraries should be covered using unit tests via PHPUnit
 * __Documentation__

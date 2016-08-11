@@ -10,7 +10,7 @@ Welcome to the BLT documentation site! Please read through the [Quick Start Guid
     * [Running project tasks](readme/project-tasks.md): “how do I _____ on my local machine?”
     * [Best practices](readme/best-practices.md): "how should I write code?"
     * [Workflow](readme/dev-workflow.md): “how do I contribute my code to this project?”
-    * [Automated testing](tests/README.md): “how do I write / run them, and why should I care?”
+    * [Automated testing](readme/testing.md): “how do I write / run them, and why should I care?”
 * Technical Architect
     * [Project Architecture document](readme/architecture.md)
     * [Deploying to cloud](readme/deploy.md)
