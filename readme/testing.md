@@ -75,13 +75,17 @@ Each testing type can be either executed directly, or via a corresponding Phing 
 * `blt tests:behat`
 * `blt tests:phpunit`
 
+To execute a single test (with Phing):
+
+* `blt tests:behat:execute -Dbehat.param=tests/behat/features/Examples.feature`
+
 To execute the tests directly (without Phing) see the following examples:
 
 * `./vendor/bin/behat -c tests/behat/local.yml tests/behat/features/Examples.feature -p local`
 * `./vendor/bin/phpunit tests/phpunit/BLTTest.php`
 
 ### Modifying test targets
-          
+
 See [Extending BLT](extending-blt.md#target-configuration) for more information on overriding Phing variables.
 
 For more information on the commands, run:
@@ -93,13 +97,13 @@ For more information on the commands, run:
 
 The high-level purpose BDD is to create a strong connection between business requirements and the actual tests. Behat tests should mirror ticket acceptance criteria as closely as possible.
 
-Consequently, proper Behat tests should be written using business domain language. The test should be comprehensible by the stakeholder and represent a clear business value. It should represent a typical user behavior and need not be an exhaustive representation of all possible scenarios. 
+Consequently, proper Behat tests should be written using business domain language. The test should be comprehensible by the stakeholder and represent a clear business value. It should represent a typical user behavior and need not be an exhaustive representation of all possible scenarios.
 
-See referenced materials for more information on BDD best practices. 
+See referenced materials for more information on BDD best practices.
 
 ### Configuration
 
-Configuration for the BLT Behat commands is stored in the `behat` Phing variable. You can modify the behavior of the BLT `tests:behat` target by customizing this configuration. See [Extending BLT](extending-blt.md) for more information on overriding Phing variables. 
+Configuration for the BLT Behat commands is stored in the `behat` Phing variable. You can modify the behavior of the BLT `tests:behat` target by customizing this configuration. See [Extending BLT](extending-blt.md) for more information on overriding Phing variables.
 
 Behat's own configuration is defined in the following files:
 
@@ -125,8 +129,8 @@ Behat's own configuration is defined in the following files:
 
 ### Resources:
 
-* [Cucumber - Where to start?](https://github.com/cucumber/cucumber/wiki/Cucumber-Backgrounder#where-to-start) 
-Note that Cucumber is simply a Ruby based BDD library, whereas Behat is a 
+* [Cucumber - Where to start?](https://github.com/cucumber/cucumber/wiki/Cucumber-Backgrounder#where-to-start)
+Note that Cucumber is simply a Ruby based BDD library, whereas Behat is a
 PHP based BDD library. Best practices for tests writing apply to both
 * [The training wheels came off](http://aslakhellesoy.com/post/11055981222/the-training-wheels-came-off)
 
