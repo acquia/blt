@@ -63,6 +63,14 @@
               passthru="true"
               spawn="true"
               checkreturn="true" />
+        <exec command="which curl &gt; /dev/null &amp;&amp; echo $?" checkreturn="false" outputProperty="hasCurl" />
+        <if>
+          <equals arg1="${hasCurl}" arg2="0"/>
+          <then>
+            <echo message="Waiting for PhantomJS to start..." />
+            <exec command="while ! curl -v -L http://127.0.0.1:4444/wd/hub/session; do sleep 1; done" checkreturn="false" />
+          </then>
+        </if>
       </then>
     </if>
   </target>
