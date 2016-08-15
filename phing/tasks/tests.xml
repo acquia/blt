@@ -63,6 +63,10 @@
               passthru="true"
               spawn="true"
               checkreturn="true" />
+        <echo message="Waiting 10 seconds for PhantomJS (http://127.0.0.1:4444) to become available."/>
+        <waitfor maxwait="10" maxwaitunit="second" checkevery="1" checkeveryunit="second">
+          <http url="http://127.0.0.1:4444"/>
+        </waitfor>
       </then>
     </if>
   </target>
