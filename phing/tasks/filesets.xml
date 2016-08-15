@@ -13,19 +13,10 @@
   </patternset>
 
   <patternset id="files.frontend">
-    <include name="**/*.js"/>
-    <!-- Ignore CSS. SASS usage is expected. CSS should be compiled. -->
-    <exclude name="**/*.css"/>
+    <include name="**/js/**/*.js"/>
     <exclude name="**/bower_components/**/*"/>
-    <exclude name="**/css/**"/>
-    <exclude name="**/dist/**/*"/>
-    <exclude name="**/lib/**/*"/>
     <exclude name="**/node_modules/**/*"/>
-    <exclude name="**/styleguide/**"/>
-    <exclude name="**/style-guide/**"/>
     <exclude name="**/vendor/**/*"/>
-    <exclude name="**/gulpfile.js"/>
-
   </patternset>
 
   <fileset dir="${repo.root}" id="files.php.all">
