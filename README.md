@@ -32,7 +32,6 @@ It scope is discretely defined. It is *not* intended to provide:
 
 ## Features
 
-* [Documentation templates](template/README.md)
 * [Git Hooks](template/scripts/git-hooks)
     * pre-commit: Checks for Drupal coding standards compliance
     * commit-msg: Check for proper formatting and syntax
