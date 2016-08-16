@@ -23,7 +23,7 @@ pages:
             - Dependency management: 'readme/dependency-management.md'
             - Patches: 'template/patches/README.md'
             - Drush: 'template/drush/README.md'
-            - Git hooks: 'template/scripts/git-hooks/README.md'
+            - Git hooks: 'scripts/git-hooks/README.md'
           - Best practices:
             - Overview: 'readme/best-practices.md'
             - Views: 'readme/views.md'

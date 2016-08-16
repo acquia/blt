@@ -16,10 +16,6 @@ class GitTasksTest extends TestBase {
     $this->assertFileExists($this->projectDirectory . '/.git');
     $this->assertFileExists($this->projectDirectory . '/.git/hooks/commit-msg');
     $this->assertFileExists($this->projectDirectory . '/.git/hooks/pre-commit');
-    $this->assertNotContains(
-      '${project.prefix}',
-      file_get_contents($this->projectDirectory . '/.git/hooks/commit-msg')
-    );
   }
 
   /**
