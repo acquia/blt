@@ -47,8 +47,12 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
   # Remove unneeded files.
   echo "Removing deprecated BLT files from project."
   rm -rf build blt.sh tests/phpunit/blt
-
-  # Removing old docs.
+  rm -rf scripts/blt
+  rm -rf scripts/drupal
+  rm -rf scripts/drupal-vm
+  rm -rf scripts/git-hooks
+  rm -rf scripts/release-notes
+  rm -rf scripts/tugboat
   rm readme/acsf-setup.md
   rm readme/architecture.md
   rm readme/best-practices.md
