@@ -49,18 +49,18 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
   rm -rf build blt.sh tests/phpunit/blt
 
   # Removing old docs.
-  rm acsf-setup.md
-  rm architecture.md
-  rm best-practices.md
-  rm deploy.md
-  rm dev-workflow.md
-  rm features-workflow.md
-  rm local-development.md
-  rm onboarding.md
-  rm project-tasks.md
-  rm release-process.md
-  rm repo-architecture.md
-  rm views.md
+  rm readme/acsf-setup.md
+  rm readme/architecture.md
+  rm readme/best-practices.md
+  rm readme/deploy.md
+  rm readme/dev-workflow.md
+  rm readme/features-workflow.md
+  rm readme/local-development.md
+  rm readme/onboarding.md
+  rm readme/project-tasks.md
+  rm readme/release-process.md
+  rm readme/repo-architecture.md
+  rm readme/views.md
 
   # Install (new) alias
   echo "Installing blt alias"
