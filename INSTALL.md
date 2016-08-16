@@ -74,6 +74,7 @@ If you are already using BLT via Composer, you can update to the latest version 
       composer update acquia/blt
       blt update
 
+Review and commit changes to your project files. For customized files like `.travis.yml` or `docroot/sites/default/settings.php` it is recommended that you use `git add -p` to select which specific line changes you'd like to stage and commit.
 
 ### Updating from a non-Composer-managed version
 
@@ -100,6 +101,8 @@ If you are using an older version of BLT that was not installed using Composer, 
 1. Execute update script:
 
         ./vendor/acquia/blt/scripts/blt/convert-to-composer.sh
+
+Review and commit changes to your project files. For customized files like `.travis.yml` or `docroot/sites/default/settings.php` it is recommended that you use `git add -p` to select which specific line changes you'd like to stage and commit.
 
 ## Set up your \*AMP stack
 
