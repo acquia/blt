@@ -73,11 +73,12 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
   echo ""
   echo "* Restart your terminal session to register your new blt alias."
   echo "* Review your codebase and commit the desired changes."
-  echo "* If you have a custom Phing build file, you will likely need to update it and add it to project.yml under the 'import' key. See readme/extending-blt.md."
-  echo "* If you are not using Lightning, remove lightning-specific target-hooks from project.yml."
-  # .travis.yml
-  # hash salt in settings.php
-  # readme overrides
+  echo "    * If you have a custom Phing build file, you will likely need to update it and add it to project.yml under the 'import' key. See readme/extending-blt.md."
+  echo "    * If you are not using Lightning, remove lightning-specific target-hooks from project.yml."
+  # link to online docs
+
+  ./vendor/bin/drupal yaml:get:value project.yml project.hash_salt > salt.txt
+  # remove project.hash_salt, project.themes, project.vendor from project.yml
 
 else
   exit 1

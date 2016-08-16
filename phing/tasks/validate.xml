@@ -62,6 +62,7 @@
   </target>
 
   <target name="validate:phpcs:fileset" description="Runs PHP Code Sniffer against only custom modules.">
+    <echo>Code sniffing ${fileset_refid}</echo>
     <!-- Sniff tests. -->
     <phpcodesniffer
       standard="${phpcs.ruleset}"
