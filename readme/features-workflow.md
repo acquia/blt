@@ -25,6 +25,19 @@ Features lets you define custom "bundles" that essentially let you train Feature
 
 Bundles can also do a lot more to make your life easier. For instance, Features automatically suggests features based around content types and taxonomies. If you'd also like to automatically create features for, say, custom block types, you can configure that preference in your custom bundle. You can also choose to always exclude certain types of configuration (such as permissions--see below), or always group certain types of configuration (such as field storage) into a "core" bundle, which is super helpful for breaking circular dependencies (see below).
 
+### Config vs content
+Drupal’s core config system (and by extension, the Features ecosystem) cannot be used to manage entities that Drupal considers to be content, such as nodes, taxonomy terms, and files. This can create conflicts when a configuration entity depends on a content entity, such as:
+
+* You have a block type that includes a file upload field, and you want to place the block in a theme and export the block as a feature.
+* You have a view that is filtered by a static taxonomy term, and you want to export that view as a feature.
+
+In these cases, the exported configuration file for the block or view will contain a defined dependency on a content object (referenced by UUID). If that content doesn’t exist when the feature is installed, the installation will fail.
+
+The solution is to make sure that the referenced content exists before the feature is installed. There are currently two recommended methods for this:
+
+* Use the default_content module to export the referenced content as JSON files, and store these files with your feature or in a dependency.
+* Use Migrate and a custom module to create default content from any number of custom sources, such as JSON files stored with your feature.
+
 ### Testing features
 It’s important to ensure via automated testing that features can be installed on a new site as well as enabled on existing sites.
 
