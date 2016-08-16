@@ -700,4 +700,4 @@ $settings['container_yamls'][] = __DIR__ . '/services.yml';
  */
 
 // Include BLT configuration.
-require DRUPAL_ROOT . '/sites/default/settings/blt.settings.php';
+require_once DRUPAL_ROOT . '/sites/default/settings/blt.settings.php';
