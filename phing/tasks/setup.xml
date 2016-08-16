@@ -161,12 +161,12 @@
     <delete dir="${repo.root}/.git/hooks" quiet="true" failonerror="false"/>
     <delete file="${repo.root}/.git/hooks" quiet="true" failonerror="false"/>
     <echo>Symlinking ${repo.root}/scripts/git-hooks to ${repo.root}/.git/hooks.</echo>
-    <exec dir="${repo.root}/.git" command="ln -snv ../scripts/git-hooks hooks" logoutput="true"/>
+    <exec dir="${repo.root}/.git" command="ln -snv ../vendor/acquia/blt/scripts/git-hooks hooks" logoutput="true"/>
 
     <!-- Grant execution permissions. -->
     <echo>Making git hooks executable.</echo>
     <chmod mode="0755">
-      <fileset dir="${repo.root}/scripts/git-hooks">
+      <fileset dir="${blt.root}/scripts/git-hooks">
         <exclude name="**/*.sample" />
         <exclude name="**/README.md" />
       </fileset>
