@@ -23,7 +23,7 @@ git clone https://github.com/acquia/blt.git
 cp -R blt/blt-project .
 cd blt-project
 composer install
-./vendor/acquia/blt/blt.sh install-alias
+./vendor/bin/blt install-alias
 blt init
 blt configure
 composer update
