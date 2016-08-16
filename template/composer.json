@@ -5,15 +5,11 @@
     {
       "type": "composer",
       "url":  "https://packagist.drupal-composer.org"
-    },
-    {
-      "type": "git",
-      "url": "https://github.com/FloeDesignTechnologies/composer-patches"
     }
   ],
   "require": {
     "composer/installers":                        "^1.0.20",
-    "cweagans/composer-patches":                  "dev-master as 1.5.0",
+    "cweagans/composer-patches":                  "^1.5.0",
     "drupal/acquia_connector":                    "8.1.*",
     "drupal/acsf":                                "~8.1",
     "drupal/core":                                "~8",
