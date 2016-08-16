@@ -30,7 +30,6 @@ pages:
           - Workflow: 'readme/dev-workflow.md'
           - Automated testing: 'template/tests/README.md'
     - Technical Architect:
-        - Project architecture document: 'readme/architecture.md'
         - Deploying to cloud: 'readme/deploy.md'
         - Releases:
           - Release process: 'readme/release-process.md'

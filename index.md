@@ -12,7 +12,6 @@ Welcome to the BLT documentation site! Please read through the [Quick Start Guid
     * [Workflow](readme/dev-workflow.md): “how do I contribute my code to this project?”
     * [Automated testing](readme/testing.md): “how do I write / run them, and why should I care?”
 * Technical Architect
-    * [Project Architecture document](readme/architecture.md)
     * [Deploying to cloud](readme/deploy.md)
     * [Release process](readme/release-process.md)
     * [Setting up continuous integration](readme/ci.md)
