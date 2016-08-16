@@ -13,10 +13,8 @@
     "symfony/console":                  "~2"
   },
   "autoload": {
-    "psr-4": {"Acquia\\Blt\\": "src/"}
-  },
-  "autoload-dev": {
     "psr-4": {
+      "Acquia\\Blt\\": "src/",
       "Drupal\\Tests\\PHPUnit\\": "tests/phpunit/src/"
     }
   },
