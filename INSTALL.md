@@ -101,9 +101,6 @@ If you are using an older version of BLT that was not installed using Composer, 
 
         ./vendor/acquia/blt/scripts/blt/convert-to-composer.sh
 
-
-Note that all of the steps from this point forward are the same steps that would be used by a newly onboarded developer setting up your existing project on their local machine for the first time.
-
 ## Set up your \*AMP stack
 
 Before building your project dependencies and installing Drupal, you must have a fully functional \*AMP stack on your local machine. BLT intentionally does not provide this local development environment--that is outside of the scope of BLT’s intended responsibilities. It does, however, make recommendations for which tools you should use to manage your stack.
