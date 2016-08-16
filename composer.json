@@ -15,6 +15,11 @@
   "autoload": {
     "psr-4": {"Acquia\\Blt\\": "src/"}
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Drupal\\Tests\\PHPUnit\\": "tests/phpunit/src/"
+    }
+  },
   "bin": [
     "bin/blt",
     "bin/blt-console"
