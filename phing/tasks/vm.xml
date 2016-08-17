@@ -3,13 +3,19 @@
   <target name="vm:init" description="Initializes Drupal VM for this project.">
     <echo>BLT support for Drupal VM is EXPERIMENTAL. Not all BLT features currently work with Drupal VM. </echo>
 
-    <copy file="${blt.root}/scripts/drupal-vm/drupal-vm.aliases.drushrc.php" todir="${repo.root}/drush/site-aliases">
+    <echo>Creating a drush alias for the new VM.</echo>
+    <exec dir="${repo.root}" command="cat ${blt.root}/scripts/drupal-vm/drupal-vm.aliases.drushrc.php >> ${repo.root}/drush/site-aliases/aliases.drushrc.php" checkreturn="true" logoutput="true"/>
+    <reflexive>
+      <fileset dir="${repo.root}">
+        <include name="drush/site-aliases/aliases.drushrc.php" />
+      </fileset>
       <filterchain>
         <expandproperties />
       </filterchain>
-    </copy>
+    </reflexive>
     <mkdir dir="${repo.root}/box" mode="755"/>
-    <exec dir="${repo.root}" command="composer require --dev geerlingguy/drupal-vm:~3.1" logoutput="true" checkreturn="true"/>
+    <echo>Adding geerlingguy/drupal-vm to composer dev dependencies.</echo>
+    <exec dir="${repo.root}" command="composer require --dev geerlingguy/drupal-vm:~3.1" logoutput="true" checkreturn="true" passthru="true"/>
     <copy file="${blt.root}/scripts/drupal-vm/config.yml" tofile="${repo.root}/box/config.yml">
       <filterchain>
         <expandproperties />
@@ -27,8 +33,16 @@
     <echo>https://github.com/geerlingguy/drupal-vm#quick-start-guide</echo>
     <echo></echo>
     <echo>To boot the VM, run "vagrant up" from the project root.</echo>
-    <echo>To run drush commands against the VM, use the @${project.drush.aliases.local} alias.</echo>
-    <echo>You may pin yourself to this alias using "drush use @${project.drush.aliases.local}"</echo>
+    <echo>To run drush commands against the VM, use the @${drush.aliases.local} alias.</echo>
+    <echo>You may pin yourself to this alias using "drush use @${drush.aliases.local}"</echo>
+
+    <exec dir="${repo.root}" command="vagrant plugin list | grep vagrant-hostsupdater" outputProperty="vagrant.hostsupdater.exists"/>
+    <if>
+      <not><istrue value="${vagrant.hostsupdater.exists}"/></not>
+      <then>
+        <echo>The vagrant-hostsupdater plugin is not installed!</echo>
+      </then>
+    </if>
   </target>
 
 </project>

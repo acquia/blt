@@ -26,15 +26,18 @@ class DrupalVmTest extends \PHPUnit_Framework_TestCase {
   public function testVmInit() {
     $this->assertFileExists($this->newProjectDir . '/Vagrantfile');
     $this->assertFileExists($this->newProjectDir . '/box/config.yml');
-    $this->assertFileExists($this->newProjectDir . '/drush/site-aliases/drupal-vm.aliases.drushrc.php');
 
     $this->assertNotContains(
       '${project.machine_name}',
       file_get_contents($this->newProjectDir . '/box/config.yml')
     );
-    $this->assertNotContains(
-      '${project.machine_name}',
-      file_get_contents($this->newProjectDir . '/drush/site-aliases/drupal-vm.aliases.drushrc.php')
+    $this->assertContains(
+      $this->config['project']['machine_name'] . '.local',
+      file_get_contents($this->newProjectDir . '/drush/site-aliases/aliases.drushrc.php')
+    );
+    $this->assertContains(
+      $this->config['project']['machine_name'] . '.local',
+      file_get_contents($this->newProjectDir . '/project.yml')
     );
   }
 

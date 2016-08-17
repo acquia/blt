@@ -2,7 +2,7 @@
   <target name="create-project" depends="init">
     <exec dir="${repo.root}" command="git init" logoutput="true" checkreturn="true" passthru="true"/>
     <echo>Updating composer dependencies, this make take a while...</echo>
-    <exec dir="${repo.root}" command="composer update" logoutput="true" checkreturn="true" passthru="true"/>
+    <exec dir="${repo.root}" command="export COMPOSER_PROCESS_TIMEOUT=600; composer update" logoutput="true" checkreturn="true" passthru="true"/>
     <exec dir="${repo.root}" command="git add -A" logoutput="true" checkreturn="true" passthru="true"/>
     <exec dir="${repo.root}" command="git commit -m 'Initial commit.'" logoutput="true" checkreturn="true" passthru="true"/>
     <exec dir="${repo.root}" command="rm LICENSE.txt" logoutput="true" checkreturn="true"/>
@@ -37,6 +37,7 @@
   </target>
 
   <target name="blt:update-composer" description="Updates project composer.json with a subset of new key value pairs from upstream. This WILL overwrite existing values.">
+    <!--@todo Output different message if composer.json does not exist.-->
     <echo>Merging BLT's composer.json template with your project's composer.json.</echo>
     <echo>This MAY overwrite some existing values.</echo>
     <!--Values in the project's existing composer.json file will be overwritten.-->
@@ -47,6 +48,7 @@
   </target>
 
   <target name="blt:update-yml" description="Updates project BLT .yml files with new key value pairs from upstream. This WILL NOT overwrite existing values.">
+    <!--@todo Output different message if project.yml does not exist-->
     <echo>Merging BLT's project.yml template with your project's project.yml</echo>
     <echo>This WILL NOT overwrite existing values.</echo>
     <!--Values in the project's existing project.yml file will be preserved and not overridden.-->
