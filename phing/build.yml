@@ -34,8 +34,9 @@ drupal:
   account.mail: no-reply@acquia.com
 
 drush:
-  bin: ${repo.root}/drush.wrapper
+  bin: ${composer.bin}/drush
   cmd: ${drush.bin} @${drush.alias} -r ${docroot} -l ${multisite.name}
+  dir: ${repo.root}
   root: ${docroot}
 
 multisite:

@@ -62,6 +62,7 @@ class DrushTask extends Task {
   private $bin = NULL;
   private $alias = NULL;
   private $uri = NULL;
+  private $dir = NULL;
   private $root = NULL;
   private $assume = NULL;
   private $simulate = FALSE;
@@ -94,6 +95,12 @@ class DrushTask extends Task {
     $this->alias = $str;
   }
 
+  /**
+   * Drupal working directory to use.
+   */
+  public function setDir($str) {
+    $this->dir = $str;
+  }
   /**
    * Drupal root directory to use.
    */
@@ -206,6 +213,7 @@ class DrushTask extends Task {
     $this->root = $this->getProject()->getProperty('drush.root');
     $this->uri = $this->getProject()->getProperty('drush.uri');
     $this->bin = $this->getProject()->getProperty('drush.bin');
+    $this->dir = $this->getProject()->getProperty('drush.dir');
   }
 
   /**
@@ -274,8 +282,13 @@ class DrushTask extends Task {
 
     $command = implode(' ', $command);
 
+    if (!empty($this->dir)) {
+      $this->log("Changing working directory to: $this->dir");
+      chdir($this->dir);
+    }
+
     // Execute Drush.
-    $this->log("Executing '$command'...");
+    $this->log("Executing: $command");
     $output = array();
     exec($command, $output, $return);
     // Collect Drush output for display through Phing's log.
