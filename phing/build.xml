@@ -10,8 +10,7 @@
   <if>
     <available property="xdebug.enabled" extension="xdebug"/>
     <then>
-      <echo level="warning">You are running BLT with xdebug enabled. This has a major impact on
-        runtime performance.</echo>
+      <echo level="warning">You are running BLT with xdebug enabled. This has a major impact on runtime performance.</echo>
     </then>
   </if>
 
