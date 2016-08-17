@@ -44,8 +44,12 @@ if ($is_local_env) {
     require_once DRUPAL_ROOT . '/sites/default/settings/local.settings.php';
   }
 
+  // Load Acquia Pipeline settings.
+  if (getenv('PIPELINE_ENV') && file_exists(DRUPAL_ROOT . '/sites/default/settings/pipelines.settings.php')) {
+    require_once DRUPAL_ROOT . '/sites/default/settings/pipelines.settings.php';
+  }
   // Load Travis CI settings.
-  if (getenv('TRAVIS') && file_exists(DRUPAL_ROOT . '/sites/default/settings/travis.settings.php')) {
+  elseif (getenv('TRAVIS') && file_exists(DRUPAL_ROOT . '/sites/default/settings/travis.settings.php')) {
     require_once DRUPAL_ROOT . '/sites/default/settings/travis.settings.php';
   }
   // Load Tugboat settings.
