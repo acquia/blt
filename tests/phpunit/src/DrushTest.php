@@ -11,6 +11,8 @@ class DrushTest extends TestBase {
 
   /**
    * Tests that correct drush configuration is loaded.
+   *
+   * @group drush
    */
   public function testDrushConfig() {
 
@@ -29,9 +31,8 @@ class DrushTest extends TestBase {
     foreach ($dirs as $dir) {
       chdir($dir);
       print "Executing \"$command\" in $dir \n";
-      // If it contains the local URI, we know it is correctly loading
-      // drushrc.php.
-      $this->assertContains($this->config['project']['local']['hostname'], shell_exec($command));
+      // Check for the path to drushrc.php that is included in the project.
+      $this->assertContains($this->projectDirectory . '/drush/drushrc.php', shell_exec($command));
     }
   }
 
