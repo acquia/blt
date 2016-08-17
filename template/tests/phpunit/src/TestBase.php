@@ -24,6 +24,9 @@ abstract class TestBase extends \PHPUnit_Framework_TestCase {
     $this->projectDirectory = dirname(dirname(dirname(__DIR__)));
     $this->drupalRoot = $this->projectDirectory . '/docroot';
     $this->config = Yaml::parse(file_get_contents("{$this->projectDirectory}/project.yml"));
+    if (file_exists("{$this->projectDirectory}/project.local.yml")) {
+      $this->config = array_replace_recursive($this->config, Yaml::parse(file_get_contents("{$this->projectDirectory}/project.local.yml")));
+    }
   }
 
 }
