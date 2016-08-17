@@ -19,7 +19,9 @@ class DrushTest extends TestBase {
     // We must define the absolute path of the binary because child shell
     // processes in PHP to not inherit $PATH setting from environment.
     $drush_bin = $this->projectDirectory . '/vendor/bin/drush';
-    $command = "$drush_bin status";
+    // Use --format=json output so we don't have to deal with output line
+    // wrapping when running the tests.
+    $command = "$drush_bin status --format=json";
 
     // Test that drush can be run from the following directories.
     $dirs = array(
@@ -31,8 +33,10 @@ class DrushTest extends TestBase {
     foreach ($dirs as $dir) {
       chdir($dir);
       print "Executing \"$command\" in $dir \n";
+      $json_output = shell_exec($command);
+      $drush_output = json_decode($json_output, TRUE);
       // Check for the path to drushrc.php that is included in the project.
-      $this->assertContains($this->projectDirectory . '/drush/drushrc.php', shell_exec($command));
+      $this->assertContains($this->projectDirectory . '/drush/drushrc.php', $drush_output['drush-conf']);
     }
   }
 
