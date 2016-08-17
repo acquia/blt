@@ -35,6 +35,14 @@
     <echo>To boot the VM, run "vagrant up" from the project root.</echo>
     <echo>To run drush commands against the VM, use the @${drush.aliases.local} alias.</echo>
     <echo>You may pin yourself to this alias using "drush use @${drush.aliases.local}"</echo>
+
+    <exec dir="${repo.root}" command="vagrant plugin list | grep vagrant-hostsupdater" outputProperty="vagrant.hostsupdater.exists"/>
+    <if>
+      <not><istrue value="${vagrant.hostsupdater.exists}"/></not>
+      <then>
+        <echo>The vagrant-hostsupdater plugin is not installed!</echo>
+      </then>
+    </if>
   </target>
 
 </project>
