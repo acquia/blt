@@ -35,10 +35,6 @@ It scope is discretely defined. It is *not* intended to provide:
 * [Git Hooks](template/scripts/git-hooks)
     * pre-commit: Checks for Drupal coding standards compliance
     * commit-msg: Check for proper formatting and syntax
-* [Acquia Cloud Hooks](template/hooks). Example integrations for third party services such as:
-    * Slack
-    * New Relic
-    * HipChat
 * [Testing Framework](template/tests).
     * Behat: default `local.yml` configuration, example tests, `FeatureContext.php`
     * PHPUnit: default tests for ensuring proper functioning of BLT provided components
@@ -46,10 +42,11 @@ It scope is discretely defined. It is *not* intended to provide:
     * Executing tests and validating code
     * Building dependencies
     * (Re)installation of Drupal
-    * Production-safe artifact generation and deployment
-* [Continuous Integration](readme/ci.md)
-    * Travis CI
-    * GitHub
+* [Artifact Generation](readme/deploy.md)
+* [Continuous Integration & Deployment](readme/ci.md)
+    * [Acquia Pipelines](https://dev.acquia.com/request-invite-acquia-pipelines) (coming soon)
+    * [Travis CI](https://travis-ci.com)
+    * [GitHub](https://github.com)
 
 # Support and contribution
 
