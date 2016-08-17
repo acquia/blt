@@ -61,10 +61,11 @@
     <echo>Making ${docroot}/sites/default/settings.php writable.</echo>
     <chmod mode="0755" failonerror="false" file="${docroot}/sites/default/settings.php"/>
     <echo>Ensuring that blt.settings.php is required by settings.php</echo>
-    <exec dir="${docroot}/sites/default" command="grep blt.settings.php settings.php || echo 'require DRUPAL_ROOT . &quot;/sites/default/settings/blt.settings.php&quot;;' >> settings.php " logoutput="false" checkreturn="true"/>
+    <exec dir="${docroot}/sites/default" command="grep blt.settings.php settings.php || echo 'require_once DRUPAL_ROOT . &quot;/vendor/acquia/blt/settings/blt.settings.php&quot;;' >> settings.php " logoutput="false" checkreturn="true"/>
 
+    <!--@todo Check that install_profile is set in settings.php.-->
+    
     <echo>Generating local settings files.</echo>
-
     <if>
       <not>
         <available file="${repo.root}/project.local.yml" type="file" />
@@ -108,6 +109,9 @@
   <target name="setup:drupal:install"
           description="Installs a specific Drupal site."
           depends="setup:drupal:settings, setup:hash-salt, configure">
+
+    <echo>Printing drush status.</echo>
+    <drush command="status" alias="${drush.alias}"/>
 
     <echo>Installing Drupal.</echo>
     <drush command="site-install" assume="yes" verbose="TRUE" alias="${drush.alias}">
