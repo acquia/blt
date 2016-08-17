@@ -1,0 +1,18 @@
+<project name="acsf" default="acsf:init">
+
+  <target name="acsf:init" description="Initializes ACSF support for project.">
+    <if>
+      <not>
+        <available property="acsf.exists" file="${docroot}/modules/contrib/acsf" type="dir"/>
+      </not>
+      <then>
+        <fail>The acsf module does not exist. Ensure that it is in your composer.json file and that dependencies have been built.</fail>
+      </then>
+    </if>
+
+    <exec dir="${docroot}" command="${drush.cmd} --include=${docroot}/modules/contrib/acsf/acsf_init acsf-init --skip-default-settings -y" logoutput="true" checkreturn="true"/>
+    <echo>Please add acsf_init as a dependency for your installation profile to ensure that it remains enabled.</echo>
+    <echo>An example alias file for ACSF is located in /drush/site-aliases/example.acsf.aliases.drushrc.php.</echo>
+  </target>
+
+</project>

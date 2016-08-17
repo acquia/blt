@@ -1,0 +1,32 @@
+<project name="local" default="local:setup">
+
+  <target name="local:drupal:install" description="Installs a specific Drupal site using local drush alias.">
+    <phingcall target="setup:drupal:install">
+      <property name="drush.alias" value="${drush.aliases.local}" />
+    </phingcall>
+  </target>
+
+  <target name="local:refresh" description="Refreshes local environment from upstream testing database." depends="setup:build, local:sync, local:update"/>
+
+  <target name="local:setup" description="Install dependencies, builds docroot, installs Drupal; uses local drush alias.">
+    <phingcall target="setup">
+      <property name="drush.alias" value="${drush.aliases.local}" />
+    </phingcall>
+  </target>
+
+  <target name="local:sync" description="Synchronize remote environment with local environment."
+          depends="setup:drupal:settings">
+    <exec dir="${docroot}" command="${drush.cmd} sql-drop -y" logoutput="true" checkreturn="true"/>
+    <!--We cannot use drush.cmd here because it incorrectly assigns an alias to the command. -->
+    <exec dir="${docroot}" command="${drush.bin} -r ${docroot} -l ${multisite.name} sql-sync @${drush.aliases.remote} @${drush.aliases.local} --create-db --structure-tables-key=lightweight -y" logoutput="true" checkreturn="true"/>
+    <exec dir="${docroot}" command="${drush.cmd} cc drush" logoutput="true" checkreturn="true"/>
+    <exec dir="${docroot}" command="${drush.cmd} cr" logoutput="true" checkreturn="true"/>
+  </target>
+
+  <target name="local:update" description="Update current database to reflect the state of the Drupal file system; uses local drush alias.">
+    <phingcall target="setup:update">
+      <property name="drush.alias" value="${drush.aliases.local}"/>
+    </phingcall>
+  </target>
+
+</project>

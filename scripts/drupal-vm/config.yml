@@ -1,0 +1,39 @@
+# Update the hostname to the local development environment hostname
+vagrant_hostname: ${project.local.hostname}
+vagrant_machine_name: ${project.machine_name}
+
+# Set drupal_site_name to the project's human-readable name.
+drupal_site_name: "${project.human_name}"
+
+# Provide the path to the project root to Vagrant.
+vagrant_synced_folders:
+  # Set the local_path for the first synced folder to `.`.
+  - local_path: .
+    # Set the destination to the Acquia Cloud subscription machine name.
+    destination: /var/www/${project.machine_name}
+    type: nfs
+
+build_composer_project: false
+# Toggling this to `true` would invoke `composer install` with the
+# projects own `composer.json` successfully.
+build_composer: false
+drupal_composer_path: false
+drupal_composer_install_dir: "/var/www/${project.machine_name}"
+drupal_core_path: "{{ drupal_composer_install_dir }}/docroot"
+
+drupal_mysql_user: drupal
+drupal_mysql_password: drupal
+drupal_mysql_database: drupal
+
+# Set this to 'false' if you don't need to install drupal (using the drupal_*
+# settings below), but instead copy down a database (e.g. using drush sql-sync).
+install_site: false
+
+# Drupal VM automatically creates a drush alias file in your ~/.drush folder if
+# this variable is 'true'.
+configure_drush_aliases: false
+
+extra_packages:
+  # This is required for PhantomJS Installer.
+  - php-bz2
+  - subversion

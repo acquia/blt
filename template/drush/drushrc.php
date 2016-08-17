@@ -63,6 +63,10 @@ if (file_exists(__DIR__ . '/../docroot/sites/default/local.drushrc.php')) {
   require __DIR__ . '/../docroot/sites/default/local.drushrc.php';
 }
 
+if (getenv('TUGBOAT_URL')) {
+  $options['uri'] = $_ENV['TUGBOAT_URL'];
+}
+
 // Specify the base_url that should be used when generating links
 # $options['l'] = 'http://example.com/subdir';
 

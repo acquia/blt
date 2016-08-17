@@ -17,15 +17,17 @@ class DeployTest extends \PHPUnit_Framework_TestCase {
   public function __construct() {
 
     $this->projectDirectory = realpath(dirname(__FILE__) . '/../../');
-    $this->config = Yaml::parse(file_get_contents("{$this->projectDirectory}/project.yml"));
-    $this->new_project_dir = dirname($this->projectDirectory) . '/' . $this->config['project']['machine_name'];
-    $this->deploy_dir = $this->new_project_dir . '/deploy';
+    $this->newProjectDir = dirname($this->projectDirectory) . '/blt-project';
+    $this->config = Yaml::parse(file_get_contents("{$this->newProjectDir}/project.yml"));
+    $this->deploy_dir = $this->newProjectDir . '/deploy';
   }
 
   /**
    * Tests Phing deploy:build:all target.
+   *
+   * @group deploy
    */
-  public function testBoltDeployBuild() {
+  public function testBltDeployBuild() {
 
     // Ensure deploy directory exists.
     $this->assertFileExists($this->deploy_dir);
@@ -48,12 +50,21 @@ class DeployTest extends \PHPUnit_Framework_TestCase {
 
     // Ensure deploy directory was sanitized.
     $this->assertFileNotExists($this->deploy_dir . '/docroot/LICENSE.txt');
+
+    // Ensure non-required files are not in deploy dir.
+    $this->assertFileNotExists($this->deploy_dir . '/blt.sh');
+    $this->assertFileNotExists($this->deploy_dir . '/build');
+    $this->assertFileNotExists($this->deploy_dir . '/project.yml');
+    $this->assertFileNotExists($this->deploy_dir . '/tests');
   }
 
   /**
    * Tests Phing deploy:build:push target.
+   *
+   * @group deploy
+   * @group deploy-push
    */
-  public function testBoltDeployPush() {
+  public function testBltDeployPush() {
 
     global $_ENV;
     $deploy_branch = '8.x-build';

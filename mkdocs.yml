@@ -1,0 +1,40 @@
+site_name: Acquia BLT Documentaton
+
+repo_url: https://github.com/acquia/blt
+site_description: 'BLT - Acquia Build & Launch Tools'
+theme: readthedocs
+
+markdown_extensions:
+  - toc:
+      permalink: True
+
+pages:
+  - Home: 'index.md'
+  - Overview: 'README.md'
+  - Getting started:
+    - Installation & upgrade:  'INSTALL.md'
+    - Local development: 'readme/local-development.md'
+  - Project documentation:
+    - Developer:
+          - Onboarding: 'readme/onboarding.md'
+          - Repository architecture: 'readme/repo-architecture.md'
+          - Running project tasks:
+            - Overview: 'readme/project-tasks.md'
+            - Dependency management: 'readme/dependency-management.md'
+            - Patches: 'template/patches/README.md'
+            - Drush: 'template/drush/README.md'
+            - Git hooks: 'scripts/git-hooks/README.md'
+          - Best practices:
+            - Overview: 'readme/best-practices.md'
+            - Views: 'readme/views.md'
+          - Workflow: 'readme/dev-workflow.md'
+          - Automated testing: 'template/tests/README.md'
+    - Technical Architect:
+        - Deploying to cloud: 'readme/deploy.md'
+        - Releases:
+          - Release process: 'readme/release-process.md'
+          - Release notes: 'scripts/release-notes/README.md'
+        - Setting up continuous integration: 'readme/ci.md'
+        - Open source contribution: 'readme/os-contribution.md'
+  - Extending / Overriding BLT: 'readme/extending-blt.md'
+  - Contributing: 'CONTRIBUTING.md'

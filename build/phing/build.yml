@@ -1,2 +1,0 @@
-bolt:
-  new.dir: ${bolt.root}/../${project.machine_name}

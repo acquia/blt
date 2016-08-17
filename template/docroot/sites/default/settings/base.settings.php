@@ -24,10 +24,10 @@ $forwarded_protocol = !empty($_ENV['HTTP_X_FORWARDED_PROTO']) ? $_ENV['HTTP_X_FO
  */
 $ah_env = isset($_ENV['AH_SITE_ENVIRONMENT']) ? $_ENV['AH_SITE_ENVIRONMENT'] : NULL;
 $is_ah_env = (bool) $ah_env;
-$is_ah_prod_env = ($ah_env == 'prod');
-$is_ah_stage_env = ($ah_env == 'test');
+$is_ah_prod_env = ($ah_env == 'prod' || $ah_env == '01live');
+$is_ah_stage_env = ($ah_env == 'test' || $ah_env == '01test');
 $is_ah_dev_cloud = (!empty($_SERVER['HTTP_HOST']) && strstr($_SERVER['HTTP_HOST'], 'devcloud'));
-$is_ah_dev_env = (preg_match('/^dev[0-9]*$/', $ah_env) == TRUE);
+$is_ah_dev_env = (preg_match('/^dev[0-9]*$/', $ah_env) || $ah_env == '01dev');
 $is_acsf = (isset($_ENV['AH_SITE_GROUP']) && file_exists("/mnt/files/{$_ENV['AH_SITE_GROUP']}.$ah_env/files-private/sites.json"));
 $is_local_env = !$is_ah_env;
 
@@ -47,3 +47,6 @@ $is_local_env = !$is_ah_env;
  *   }
  * }
 **/
+
+// Prevent APCu memory exhaustion.
+$settings['container_yamls'][] = __DIR__ . '/apcu_fix.yml';

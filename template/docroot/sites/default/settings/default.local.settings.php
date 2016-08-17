@@ -14,8 +14,8 @@ $databases = array(
     'default' =>
     array(
       'database' => 'drupal',
-      'username' => 'root',
-      'password' => '',
+      'username' => 'drupal',
+      'password' => 'drupal',
       'host' => 'localhost',
       'port' => '3306',
       'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
@@ -30,7 +30,7 @@ $dir = dirname(DRUPAL_ROOT);
 $config_directories['sync'] = $dir . '/config/default';
 
 // Use development service parameters.
-$settings['container_yamls'][] = $dir . '/sites/development.services.yml';
+$settings['container_yamls'][] = $dir . '/docroot/sites/development.services.yml';
 
 /**
  * Assertions.
@@ -106,3 +106,16 @@ $settings['extension_discovery_scan_tests'] = TRUE;
  * using these parameters in a request to rebuild.php.
  */
 $settings['rebuild_access'] = TRUE;
+
+/**
+ * Temporary file path:
+ *
+ * A local file system path where temporary files will be stored. This
+ * directory should not be accessible over the web.
+ *
+ * Note: Caches need to be cleared when this value is changed.
+ *
+ * See https://www.drupal.org/node/1928898 for more information
+ * about global configuration override.
+ */
+$config['system.file']['path']['temporary'] = '/tmp';
