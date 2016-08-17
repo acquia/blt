@@ -64,7 +64,7 @@
     <exec dir="${docroot}/sites/default" command="grep blt.settings.php settings.php || echo 'require_once DRUPAL_ROOT . &quot;/vendor/acquia/blt/settings/blt.settings.php&quot;;' >> settings.php " logoutput="false" checkreturn="true"/>
 
     <!--@todo Check that install_profile is set in settings.php.-->
-    
+
     <echo>Generating local settings files.</echo>
     <if>
       <not>

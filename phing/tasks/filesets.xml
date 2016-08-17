@@ -32,7 +32,7 @@
   </fileset>
 
   <!-- @todo Add multisite subdirs. -->
-  <fileset dir="${docroot}/sites/default/settings" id="files.php.custom.settings" expandsymboliclinks="true">
+  <fileset dir="${docroot}/sites/default" id="files.php.custom.settings" expandsymboliclinks="true">
     <patternset refid="files.php"/>
   </fileset>
 
