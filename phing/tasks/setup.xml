@@ -61,7 +61,7 @@
     <echo>Making ${docroot}/sites/default/settings.php writable.</echo>
     <chmod mode="0755" failonerror="false" file="${docroot}/sites/default/settings.php"/>
     <echo>Ensuring that blt.settings.php is required by settings.php</echo>
-    <exec dir="${docroot}/sites/default" command="grep blt.settings.php settings.php || echo 'require_once DRUPAL_ROOT . &quot;/vendor/acquia/blt/settings/blt.settings.php&quot;;' >> settings.php " logoutput="false" checkreturn="true"/>
+    <exec dir="${docroot}/sites/default" command="grep blt.settings.php settings.php || echo 'require_once DRUPAL_ROOT . &quot;/../vendor/acquia/blt/settings/blt.settings.php&quot;;' >> settings.php " logoutput="false" checkreturn="true"/>
 
     <!--@todo Check that install_profile is set in settings.php.-->
 
@@ -76,20 +76,34 @@
     </if>
 
     <if>
-      <not>
-        <available file="${docroot}/sites/${multisite.name}/settings/local.settings.php" type="file" />
-      </not>
+      <not><available file="${docroot}/sites/${multisite.name}/settings/local.settings.php" type="file" /></not>
       <then>
-        <copy file="${docroot}/sites/${multisite.name}/settings/default.local.settings.php" tofile="${docroot}/sites/${multisite.name}/settings/local.settings.php" />
+        <if>
+          <available file="${docroot}/sites/${multisite.name}/settings/default.local.settings.php" type="file" />
+          <then>
+            <copy file="${docroot}/sites/${multisite.name}/settings/default.local.settings.php" tofile="${docroot}/sites/${multisite.name}/settings/local.settings.php" />
+          </then>
+          <else>
+            <copy file="${blt.root}/settings/default.local.settings.php" tofile="${docroot}/sites/${multisite.name}/settings/default.local.settings.php" />
+            <copy file="${blt.root}/settings/default.local.settings.php" tofile="${docroot}/sites/${multisite.name}/settings/local.settings.php" />
+          </else>
+        </if>
       </then>
     </if>
 
     <if>
-      <not>
-        <available file="${docroot}/sites/${multisite.name}/local.drushrc.php" type="file" />
-      </not>
+      <not><available file="${docroot}/sites/${multisite.name}/local.drushrc.php" type="file" /></not>
       <then>
-        <copy file="${docroot}/sites/${multisite.name}/default.local.drushrc.php" tofile="${docroot}/sites/${multisite.name}/local.drushrc.php"/>
+        <if>
+          <available file="${docroot}/sites/${multisite.name}/default.local.drushrc.php" type="file" />
+          <then>
+            <copy file="${docroot}/sites/${multisite.name}/default.local.drushrc.php" tofile="${docroot}/sites/${multisite.name}/local.drushrc.php" />
+          </then>
+          <else>
+            <copy file="${blt.root}/settings/default.local.drushrc.php" tofile="${docroot}/sites/${multisite.name}/default.local.drushrc.php" />
+            <copy file="${blt.root}/settings/default.local.drushrc.php" tofile="${docroot}/sites/${multisite.name}/local.drushrc.php" />
+          </else>
+        </if>
       </then>
     </if>
 
