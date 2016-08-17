@@ -22,10 +22,12 @@ Use the following commands to create a testable BLT-created project alongside BL
 git clone https://github.com/acquia/blt.git
 cp -R blt/blt-project .
 cd blt-project
+git init
 composer install
 ./vendor/bin/blt install-alias
 blt init
 blt configure
+rm -rf vendor
 composer update
 ```
 
