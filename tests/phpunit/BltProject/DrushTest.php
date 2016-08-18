@@ -7,12 +7,12 @@ namespace Drupal\Tests\PHPUnit;
  *
  * Verifies that git related tasks work as expected.
  */
-class DrushTest extends TestBase {
+class DrushTest extends BltProjectTestBase {
 
   /**
    * Tests that correct drush configuration is loaded.
    *
-   * @group drush
+   * @group blt-project
    */
   public function testDrushConfig() {
 

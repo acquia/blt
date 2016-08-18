@@ -7,12 +7,14 @@ namespace Drupal\Tests\PHPUnit;
  *
  * Verifies that build tasks work as expected.
  */
-class BuildTest extends TestBase {
+class BuildTest extends BltProjectTestBase {
 
   /**
    * Tests Phing setup:make target.
    *
    * This should build /make.yml.
+   *
+   * @group blt-project
    */
   public function testSetupMake() {
 

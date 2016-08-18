@@ -1,8 +1,8 @@
 <?php
 
-namespace Drupal;
+namespace Acquia\Blt\Tests\Blt;
 
-use Symfony\Component\Yaml\Yaml;
+use Acquia\Blt\Tests\BltTestBase;
 
 /**
  * Class BLTTest.
@@ -10,19 +10,12 @@ use Symfony\Component\Yaml\Yaml;
  * Verifies that project structure and configuration matches BLT
  * standards.
  */
-class BltTest extends \PHPUnit_Framework_TestCase {
-
-  /**
-   * Class constructor.
-   */
-  public function __construct() {
-    $this->projectDirectory = realpath(dirname(__FILE__) . '/../../');
-    $this->newProjectDir = dirname($this->projectDirectory) . '/blt-project';
-    $this->config = Yaml::parse(file_get_contents("{$this->newProjectDir}/project.yml"));
-  }
+class BltTest extends BltTestBase {
 
   /**
    * Tests Phing pt:create target.
+   *
+   * @group blt
    */
   public function testBltCreate() {
 

@@ -1,24 +1,22 @@
 <?php
 
-namespace Drupal;
+namespace Acquia\Blt\Tests\Blt;
 
-use Symfony\Component\Yaml\Yaml;
+use Acquia\Blt\Tests\BltTestBase;
 
 /**
  * Class DeployTest.
  *
  * Verifies that build artifact matches standards.
  */
-class DeployTest extends \PHPUnit_Framework_TestCase {
+class DeployTest extends BltTestBase {
 
   /**
    * Class constructor.
    */
-  public function __construct() {
+  public function __construct($name = NULL, array $data = array(), $data_name = '') {
+    parent::__construct($name, $data, $data_name);
 
-    $this->projectDirectory = realpath(dirname(__FILE__) . '/../../');
-    $this->newProjectDir = dirname($this->projectDirectory) . '/blt-project';
-    $this->config = Yaml::parse(file_get_contents("{$this->newProjectDir}/project.yml"));
     $this->deploy_dir = $this->newProjectDir . '/deploy';
   }
 
@@ -26,6 +24,7 @@ class DeployTest extends \PHPUnit_Framework_TestCase {
    * Tests Phing deploy:build:all target.
    *
    * @group deploy
+   * @group blt
    */
   public function testBltDeployBuild() {
 
@@ -63,6 +62,7 @@ class DeployTest extends \PHPUnit_Framework_TestCase {
    *
    * @group deploy
    * @group deploy-push
+   * @group blt
    */
   public function testBltDeployPush() {
 
