@@ -37,15 +37,4 @@ if [ ! -f ${DIR}/vendor/bin/drush ]; then
   composer install
 fi
 
-if [ ! -f ${DIR}/vendor/bin/blt ]; then
-  echo "BLT was not found in this project's vendor/bin directory."
-  echo "Attempting to run composer install. This takes a few minutes."
-  composer install
-fi
-
-DOCROOT=$(${DIR}/vendor/bin/blt echo-property -Dproperty.name=drush.root -S -e)
-if [ -z "$DOCROOT" ]; then
-  vendor/bin/drush.launcher --alias-path=${DIR}/drush/site-aliases "$@"
-else
-  vendor/bin/drush.launcher --alias-path=${DIR}/drush/site-aliases "$@" -r $DOCROOT
-fi
+vendor/bin/drush.launcher --alias-path=${DIR}/drush/site-aliases "$@" --config=drush/drushrc.php

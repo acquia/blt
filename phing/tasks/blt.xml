@@ -69,8 +69,6 @@
       <fileset dir="${repo.root}">
         <include name="composer.json" />
         <include name="README.md" />
-        <include name="docroot/sites/*/settings.php" />
-        <include name="docroot/sites/*/settings/**/*" />
         <include name="docroot/sites/*/local.drushrc.php" />
         <include name="readme/**/*" />
         <include name="scripts/git-hooks/*" />

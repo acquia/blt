@@ -1,13 +1,13 @@
 <?php
 
 // Includes required Acquia configuration and set $base_url correctly.
-require_once DRUPAL_ROOT . '/sites/default/settings/base.settings.php';
+require_once __DIR__ . '/base.settings.php';
 
 // Includes caching configuration.
-require_once DRUPAL_ROOT . '/sites/default/settings/cache.settings.php';
+require_once __DIR__ . '/cache.settings.php';
 
 // Includes logging configuration.
-require_once DRUPAL_ROOT . '/sites/default/settings/logging.settings.php';
+require_once __DIR__ . '/logging.settings.php';
 
 
 /**
@@ -40,16 +40,16 @@ if ($is_local_env) {
     require_once $_SERVER['DEVDESKTOP_DRUPAL_SETTINGS_DIR'] . '/loc_${project.machine_name}_dd.inc';
   }
   // Load local machine settings.
-  elseif (file_exists(DRUPAL_ROOT . '/sites/default/settings/local.settings.php')) {
-    require_once DRUPAL_ROOT . '/sites/default/settings/local.settings.php';
+  elseif (file_exists(DRUPAL_ROOT . '/sites/default/local.settings.php')) {
+    require_once DRUPAL_ROOT . '/sites/default/local.settings.php';
   }
 
   // Load Travis CI settings.
-  if (getenv('TRAVIS') && file_exists(DRUPAL_ROOT . '/sites/default/settings/travis.settings.php')) {
-    require_once DRUPAL_ROOT . '/sites/default/settings/travis.settings.php';
+  if (getenv('TRAVIS') && file_exists(__DIR__ . '/travis.settings.php')) {
+    require_once __DIR__ . '/travis.settings.php';
   }
   // Load Tugboat settings.
-  elseif (getenv('TUGBOAT_URL') && file_exists(DRUPAL_ROOT . '/sites/default/settings/tugboat.settings.php')) {
-    require_once DRUPAL_ROOT . '/sites/default/settings/tugboat.settings.php';
+  elseif (getenv('TUGBOAT_URL') && file_exists(__DIR__ . '/tugboat.settings.php')) {
+    require_once __DIR__ . '/tugboat.settings.php';
   }
 }
