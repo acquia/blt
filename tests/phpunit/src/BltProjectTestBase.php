@@ -1,15 +1,15 @@
 <?php
 
-namespace Drupal\Tests\PHPUnit;
+namespace Acquia\Blt\Tests;
 
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Class TestBase.
+ * Class BltProjectTestBase.
  *
- * Verifies that behat configuration is as expected.
+ * Base class for all tests that are executed within a blt project.
  */
-abstract class TestBase extends \PHPUnit_Framework_TestCase {
+abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
 
   protected $projectDirectory;
   protected $drupalRoot;
@@ -19,9 +19,9 @@ abstract class TestBase extends \PHPUnit_Framework_TestCase {
    * Class constructor.
    */
   public function __construct($name = NULL, array $data = array(), $data_name = '') {
-
     parent::__construct($name, $data, $data_name);
-    $this->projectDirectory = dirname(dirname(dirname(__DIR__)));
+
+    $this->projectDirectory = dirname(dirname(dirname(dirname(dirname(dirname(__DIR__))))));
     $this->drupalRoot = $this->projectDirectory . '/docroot';
     $this->config = Yaml::parse(file_get_contents("{$this->projectDirectory}/project.yml"));
     if (file_exists("{$this->projectDirectory}/project.local.yml")) {

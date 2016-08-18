@@ -7,7 +7,7 @@ namespace Drupal\Tests\PHPUnit;
  *
  * Verifies $settings.php configuration.
  */
-class SettingsTest extends TestBase {
+class SettingsTest extends BltProjectTestBase {
 
   /**
    * Sets up require parameters for tests to run.
@@ -29,6 +29,8 @@ class SettingsTest extends TestBase {
 
   /**
    * Test configuration for production environment on ACE.
+   *
+   * @group blt-project
    */
   public function testProd() {
 
@@ -40,6 +42,8 @@ class SettingsTest extends TestBase {
 
   /**
    * Tests Phing setup:drupal:settings target.
+   *
+   * @group blt-project
    */
   public function testSetupLocalSettings() {
 
