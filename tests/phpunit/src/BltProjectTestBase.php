@@ -16,12 +16,11 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
   protected $config;
 
   /**
-   * Class constructor.
+   * {@inheritdoc}
    */
-  public function __construct($name = NULL, array $data = array(), $data_name = '') {
-    parent::__construct($name, $data, $data_name);
-
-    $this->projectDirectory = dirname(dirname(dirname(dirname(dirname(dirname(__DIR__))))));
+  public function setUp() {
+    parent::setUp();
+    $this->projectDirectory = $this->projectDirectory = dirname(dirname(dirname((__DIR__))));
     $this->drupalRoot = $this->projectDirectory . '/docroot';
     $this->config = Yaml::parse(file_get_contents("{$this->projectDirectory}/project.yml"));
     if (file_exists("{$this->projectDirectory}/project.local.yml")) {

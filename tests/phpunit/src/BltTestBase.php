@@ -16,14 +16,14 @@ abstract class BltTestBase extends \PHPUnit_Framework_TestCase {
   protected $config;
 
   /**
-   * Class constructor.
+   * {@inheritdoc}
    */
-  public function __construct($name = NULL, array $data = array(), $data_name = '') {
-    parent::__construct($name, $data, $data_name);
-
+  public function setUp() {
+    parent::setUp();
     $this->bltDirectory = realpath(dirname(__FILE__) . '/../../');
-    $this->newProjectDir = dirname($this->bltDirectory) . '/blt-project';
+    $this->newProjectDir = dirname(dirname($this->bltDirectory)) . '/blt-project';
     $this->config = Yaml::parse(file_get_contents("{$this->newProjectDir}/project.yml"));
+
   }
 
 }
