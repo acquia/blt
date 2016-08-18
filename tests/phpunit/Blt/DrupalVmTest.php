@@ -3,7 +3,6 @@
 namespace Acquia\Blt\Tests\Blt;
 
 use Acquia\Blt\Tests\BltTestBase;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class DrupalVM.
