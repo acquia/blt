@@ -44,7 +44,7 @@ class GitTasksTest extends BltProjectTestBase {
    * Data provider.
    */
   public function providerTestGitHookCommitMsg() {
-    $prefix = $this->config['project']['prefix'];
+    $prefix = isset($this->config['project']) ? $this->config['project']['prefix'] : '';
     return array(
       array(FALSE, "This is a bad commit.", 'Missing prefix and ticket number.'),
       array(FALSE, "123: This is a bad commit.", 'Missing project prefix.'),
