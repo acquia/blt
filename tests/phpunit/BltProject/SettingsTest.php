@@ -1,6 +1,7 @@
 <?php
 
-namespace Drupal\Tests\PHPUnit;
+namespace Acquia\Blt\Tests\BltProject;
+use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
  * Class SettingsTest.

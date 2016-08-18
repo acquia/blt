@@ -12,11 +12,10 @@ use Acquia\Blt\Tests\BltTestBase;
 class DeployTest extends BltTestBase {
 
   /**
-   * Class constructor.
+   * {@inheritdoc}
    */
-  public function __construct($name = NULL, array $data = array(), $data_name = '') {
-    parent::__construct($name, $data, $data_name);
-
+  public function setUp() {
+    parent::setUp();
     $this->deploy_dir = $this->newProjectDir . '/deploy';
   }
 

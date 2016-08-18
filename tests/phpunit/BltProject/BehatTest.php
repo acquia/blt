@@ -12,6 +12,8 @@ class BehatTest extends BltProjectTestBase {
 
   /**
    * Tests Phing setup:behat target.
+   *
+   * @group blt-project
    */
   public function testSetupBehat() {
 
