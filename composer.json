@@ -15,7 +15,7 @@
   "autoload": {
     "psr-4": {
       "Acquia\\Blt\\": "src/",
-      "Drupal\\Tests\\PHPUnit\\": "tests/phpunit/src/"
+      "Acquia\\Blt\\Tests\\": "tests/phpunit/src/"
     }
   },
   "bin": [
