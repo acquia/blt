@@ -84,8 +84,6 @@ script:
   - blt deploy:build
   # Add Drupal VM config to repo.
   - blt vm:init
-  # Run the 'blt-project' phpunit tests.
-  - phpunit vendor/acquia/blt/tests/phpunit --group blt-project
   # Switch back to 'blt' directory.
   - cd ../blt
   # Run 'blt' phpunit tests, excluding deploy-push tests.
