@@ -45,7 +45,7 @@ fi
 
 DOCROOT=$(${DIR}/vendor/bin/blt echo-property -Dproperty.name=drush.root -S -e)
 if [ -z "$DOCROOT" ]; then
-  vendor/bin/drush.launcher --alias-path=${DIR}/drush/site-aliases "$@"
+  vendor/bin/drush.launcher --config=${DIR}/drush/drushrc.php --alias-path=${DIR}/drush/site-aliases "$@"
 else
-  vendor/bin/drush.launcher --alias-path=${DIR}/drush/site-aliases "$@" -r $DOCROOT
+  vendor/bin/drush.launcher --config=${DIR}/drush/drushrc.php --alias-path=${DIR}/drush/site-aliases "$@" -r $DOCROOT
 fi

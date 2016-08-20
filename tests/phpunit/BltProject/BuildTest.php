@@ -1,18 +1,22 @@
 <?php
 
-namespace Drupal\Tests\PHPUnit;
+namespace Acquia\Blt\Tests\BltProject;
+
+use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
  * Class BuildTest.
  *
  * Verifies that build tasks work as expected.
  */
-class BuildTest extends TestBase {
+class BuildTest extends BltProjectTestBase {
 
   /**
    * Tests Phing setup:make target.
    *
    * This should build /make.yml.
+   *
+   * @group blt-project
    */
   public function testSetupMake() {
 

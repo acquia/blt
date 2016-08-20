@@ -1,16 +1,20 @@
 <?php
 
-namespace Drupal\Tests\PHPUnit;
+namespace Acquia\Blt\Tests\BltProject;
+
+use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
  * Class BehatTest.
  *
  * Verifies that behat configuration is as expected.
  */
-class BehatTest extends TestBase {
+class BehatTest extends BltProjectTestBase {
 
   /**
    * Tests Phing setup:behat target.
+   *
+   * @group blt-project
    */
   public function testSetupBehat() {
 

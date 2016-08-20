@@ -87,7 +87,7 @@ script:
   # Switch back to 'blt' directory.
   - cd ../blt
   # Run 'blt' phpunit tests, excluding deploy-push tests.
-  - phpunit tests/phpunit --exclude-group deploy-push
+  - phpunit tests/phpunit --group blt --exclude-group deploy-push
 
 deploy:
   provider: script
