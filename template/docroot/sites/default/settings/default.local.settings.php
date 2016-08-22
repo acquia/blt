@@ -119,3 +119,8 @@ $settings['rebuild_access'] = TRUE;
  * about global configuration override.
  */
 $config['system.file']['path']['temporary'] = '/tmp';
+
+/**
+ * Private file path.
+ */
+$settings['file_private_path'] = $dir . '/files-private';
