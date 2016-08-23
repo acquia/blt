@@ -43,7 +43,15 @@ if [ ! -f ${DIR}/vendor/bin/blt ]; then
   composer install
 fi
 
-DOCROOT=$(${DIR}/vendor/bin/blt echo-property -Dproperty.name=drush.root -S -e)
+# Get the value defined for drush.root by the project. Split the command output
+# into an array and use the last element of the array in case there is other
+# command output, for instance, when the user has xdebug enabled.
+OLDIFS=$IFS
+IFS=$'\n'
+PROPERTY=( $(${DIR}/vendor/bin/blt echo-property -Dproperty.name=drush.root -S -e) )
+DOCROOT=${PROPERTY[${#PROPERTY[@]}]}
+IFS=$OLDIFS
+
 if [ -z "$DOCROOT" ]; then
   vendor/bin/drush.launcher --config=${DIR}/drush/drushrc.php --alias-path=${DIR}/drush/site-aliases "$@"
 else
