@@ -70,7 +70,7 @@
   </target>
 
   <target name="deploy:build" description="Generates a deploy-ready build in deploy.dir."
-          depends="frontend:build, deploy:copy, deploy:composer:install, deploy:sanitize">
+          depends="frontend, deploy:copy, deploy:composer:install, deploy:sanitize">
     <!-- If we are using ACSF, run the ACSF Deploy command. -->
     <if>
       <equals arg1="${hosting}" arg2="acsf"/>
