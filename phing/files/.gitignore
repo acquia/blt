@@ -6,10 +6,6 @@ local.*
 docroot/sites/*/files
 docroot/sites/*/private
 
-# Front end libraries.
-node_modules
-bower_components
-
 # OS X
 .DS_Store
 .AppleDouble
