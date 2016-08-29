@@ -33,7 +33,18 @@ install_site: false
 # this variable is 'true'.
 configure_drush_aliases: false
 
+# This is required for front-end building tools.
+nodejs_version: "0.12"
+nodejs_npm_global_packages:
+  - name: bower
+  - name: gulp-cli
+nodejs_install_npm_user: "{{ drupalvm_user }}"
+npm_config_prefix: "/home/{{ drupalvm_user }}/.npm-global"
+installed_extras:
+  - nodejs
+
 extra_packages:
   # This is required for PhantomJS Installer.
   - php-bz2
   - subversion
+  - php-bcmath
