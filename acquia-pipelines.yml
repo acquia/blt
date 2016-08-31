@@ -1,0 +1,43 @@
+version: 1.0.0
+
+events:
+  build:
+    steps:
+        # Install global libraries and set global configurations.
+        - setup-environment:
+            type: script
+            script:
+              - git config --global user.name "Acquia Cloud"
+              - git config --global user.email "noreply@acquia.com"
+              - sudo /etc/init.d/mysql start
+              - mysql -u root -proot -e "CREATE DATABASE drupal" -v
+
+        - setup-repository:
+            type: script
+            script:
+              - composer install
+              # Download, install, and use correct node version.
+              - nvm download 4.4.1
+              - nvm install 4.4.1
+              - nvm use 4.4.1
+
+        - run-tests:
+            type: script
+            script:
+              - export PATH=$PATH:$BUILD_DIR/vendor/bin
+              - drupal init
+              #  The local.hostname must be set to 127.0.0.1:8888 because we are using drush runserver to test the site.
+              - drupal yaml:update:value project.yml project.local.hostname '127.0.0.1:8888'
+              - blt -Dbehat.run-server=true -Dcreate_alias=false -Dbehat.launch-phantom=true ci:build:validate:test
+
+        - prepare-artifact:
+            type: script
+            script:
+            # Generate artifact in a separate directory.
+            - export NEW_BUILD_DIR=/tmp/artifact
+            - bltl deploy:build -Ddeploy.dir=$NEW_BUILD_DIR
+            # Copy git history to artifact directory. Required for pipelines to commit and push.
+            - cp -R $BUILD_DIR/.git $NEW_BUILD_DIR/
+            # Replace build directory with artifact.
+            - rm -rf $BUILD_DIR
+            - mv $NEW_BUILD_DIR $BUILD_DIR
