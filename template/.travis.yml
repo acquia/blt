@@ -7,7 +7,7 @@ php:
 
 env:
   global:
-    - PHANTOMJS_CDNURL=http://cnpmjs.org/downloads
+    - PHANTOMJS_CDNURL=https://cnpmjs.org/downloads/
 
 cache:
   bundler: true
