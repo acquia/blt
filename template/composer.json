@@ -5,11 +5,15 @@
     {
       "type": "composer",
       "url":  "https://packagist.drupal-composer.org"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/mortenson/composer-patches"
     }
   ],
   "require": {
     "composer/installers":                        "^1.0.20",
-    "cweagans/composer-patches":                  "^1.5.0",
+    "cweagans/composer-patches":                  "master as 1.5.0",
     "drupal/acquia_connector":                    "8.1.*",
     "drupal/acsf":                                "~8.1",
     "drupal/core":                                "~8",
@@ -18,7 +22,8 @@
     "drupal/security_review" :                    "8.*",
     "roave/security-advisories":                  "dev-master",
     "drupal-composer/drupal-security-advisories": "8.0.x-dev",
-    "drupal/lightning":                           "8.1.x-dev"
+    "drupal/lightning":                           "8.1.03",
+    "drupal/metatag":                             "8.1.0-beta9"
   },
   "require-dev": {
     "behat/behat":                  "3.0.*",
@@ -52,6 +57,18 @@
     "patches": {
       "drupal/core": {
         "Ignore front end vendor folders to improve directory search performance": "https://www.drupal.org/files/issues/ignore_front_end_vendor-2329453-116.patch"
+      }
+    },
+    "patches-ignore": {
+      "drupal/lightning": {
+        "drupal/panels": {
+          "Bandaid patch breaking save after previewing blocks with Panelizer":
+          "https://www.drupal.org/files/issues/bandaid.patch"
+        },
+        "drupal/metatag": {
+          "Patch already committed to metatag 8.1.0-beta10":
+          "https://www.drupal.org/files/issues/2765137-2.patch"
+        }
       }
     }
   },
