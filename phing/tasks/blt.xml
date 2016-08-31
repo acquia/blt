@@ -30,6 +30,7 @@
 
   <target name="update" depends="init, blt:update-yml, configure">
     <!-- @todo Ignore some files, settings.php, project.yml, in update. Instead, change only specific values. -->
+    <exec dir="${repo.root}" command="${blt.root}/scripts/blt/update.sh" logoutput="true" checkreturn="true" />
     <echo>Some of your customized files may have been modified.</echo>
     <echo>Please review changes with "git diff".</echo>
     <echo>If your composer.json was modified, you need to run "composer update".</echo>
