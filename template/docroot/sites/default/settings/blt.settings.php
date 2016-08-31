@@ -35,12 +35,8 @@ if ($is_ah_env && file_exists('/var/www/site-php')) {
  * Keep this code block at the end of this file to take full effect.
  */
 if ($is_local_env) {
-  // Load Dev Desktop settings.
-  if (isset($_SERVER['DEVDESKTOP_DRUPAL_SETTINGS_DIR']) && file_exists($_SERVER['DEVDESKTOP_DRUPAL_SETTINGS_DIR'] . '/loc_${project.machine_name}_dd.inc')) {
-    require_once $_SERVER['DEVDESKTOP_DRUPAL_SETTINGS_DIR'] . '/loc_${project.machine_name}_dd.inc';
-  }
   // Load local machine settings.
-  elseif (file_exists(DRUPAL_ROOT . '/sites/default/settings/local.settings.php')) {
+  if (file_exists(DRUPAL_ROOT . '/sites/default/settings/local.settings.php')) {
     require_once DRUPAL_ROOT . '/sites/default/settings/local.settings.php';
   }
 
