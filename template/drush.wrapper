@@ -43,7 +43,7 @@ if [ ! -f ${DIR}/vendor/bin/blt ]; then
   composer install
 fi
 
-DOCROOT=$(${DIR}/vendor/bin/blt echo-property -Dproperty.name=drush.root -S -e)
+DOCROOT=$(${DIR}/vendor/bin/blt echo-property -Dproperty.name=drush.root -S -e | tail -1)
 if [ -z "$DOCROOT" ]; then
   vendor/bin/drush.launcher --config=${DIR}/drush/drushrc.php --alias-path=${DIR}/drush/site-aliases "$@"
 else
