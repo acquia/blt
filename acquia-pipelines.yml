@@ -35,7 +35,7 @@ events:
             script:
             # Generate artifact in a separate directory.
             - export NEW_BUILD_DIR=/tmp/artifact
-            - bltl deploy:build -Ddeploy.dir=$NEW_BUILD_DIR
+            - blt deploy:build -Ddeploy.dir=$NEW_BUILD_DIR
             # Copy git history to artifact directory. Required for pipelines to commit and push.
             - cp -R $BUILD_DIR/.git $NEW_BUILD_DIR/
             # Replace build directory with artifact.
