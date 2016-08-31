@@ -18,7 +18,7 @@
 
   <!-- This is run when a project is cloned to a new environment. -->
   <target name="setup:build" description="Generates all required files for a full build. E.g., (re)builds docroot, etc."
-          depends="setup:git-hooks, setup:drupal:settings, setup:behat, setup:composer:install, frontend:build">
+          depends="setup:git-hooks, setup:drupal:settings, setup:behat, setup:composer:install, frontend">
 
     <phingcall target="target-hook:invoke">
       <property name="hook-name" value="post-setup-build"/>
