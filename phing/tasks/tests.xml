@@ -62,7 +62,7 @@
         <exec command="${composer.bin}/phantomjs --webdriver=4444"
               passthru="true"
               spawn="true"
-              checkreturn="true" />
+              checkreturn="true" level="info" />
         <echo message="Waiting 10 seconds for PhantomJS (http://127.0.0.1:4444) to become available."/>
         <waitfor maxwait="10" maxwaitunit="second" checkevery="1" checkeveryunit="second">
           <http url="http://127.0.0.1:4444"/>
@@ -144,7 +144,7 @@
           description="Check local Drupal installation for security updates.">
     <exec dir="${docroot}"
           command="! ${drush.cmd} -n ups --check-disabled --security-only 2>/dev/null | grep 'SECURITY UPDATE'"
-          checkreturn="true"
+          checkreturn="true" level="info"
           logoutput="true"
           returnProperty="securityPass"
           passthru="true"/>

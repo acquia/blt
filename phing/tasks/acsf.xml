@@ -10,7 +10,7 @@
       </then>
     </if>
 
-    <exec dir="${docroot}" command="${drush.cmd} --include=${docroot}/modules/contrib/acsf/acsf_init acsf-init --skip-default-settings -y" logoutput="true" checkreturn="true"/>
+    <exec dir="${docroot}" command="${drush.cmd} --include=${docroot}/modules/contrib/acsf/acsf_init acsf-init --skip-default-settings -y" logoutput="true" checkreturn="true" level="info"/>
     <echo>Please add acsf_init as a dependency for your installation profile to ensure that it remains enabled.</echo>
     <echo>An example alias file for ACSF is located in /drush/site-aliases/example.acsf.aliases.drushrc.php.</echo>
   </target>

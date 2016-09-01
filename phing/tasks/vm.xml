@@ -4,7 +4,7 @@
     <echo>BLT support for Drupal VM is EXPERIMENTAL. Not all BLT features currently work with Drupal VM. </echo>
 
     <echo>Creating a drush alias for the new VM.</echo>
-    <exec dir="${repo.root}" command="cat ${blt.root}/scripts/drupal-vm/drupal-vm.aliases.drushrc.php >> ${repo.root}/drush/site-aliases/aliases.drushrc.php" checkreturn="true" logoutput="true"/>
+    <exec dir="${repo.root}" command="cat ${blt.root}/scripts/drupal-vm/drupal-vm.aliases.drushrc.php >> ${repo.root}/drush/site-aliases/aliases.drushrc.php" checkreturn="true" level="info" logoutput="true"/>
     <reflexive>
       <fileset dir="${repo.root}">
         <include name="drush/site-aliases/aliases.drushrc.php" />
@@ -15,7 +15,7 @@
     </reflexive>
     <mkdir dir="${repo.root}/box" mode="755"/>
     <echo>Adding geerlingguy/drupal-vm to composer dev dependencies.</echo>
-    <exec dir="${repo.root}" command="composer require --dev geerlingguy/drupal-vm:~3.1" logoutput="true" checkreturn="true" passthru="true"/>
+    <exec dir="${repo.root}" command="composer require --dev geerlingguy/drupal-vm:~3.1" logoutput="true" checkreturn="true" level="info" passthru="true"/>
     <copy file="${blt.root}/scripts/drupal-vm/config.yml" tofile="${repo.root}/box/config.yml">
       <filterchain>
         <expandproperties />
@@ -23,8 +23,8 @@
     </copy>
     <copy file="${blt.root}/scripts/drupal-vm/Vagrantfile" todir="${repo.root}"/>
     <!-- Sadly this wipes out comments in the file. -->
-    <exec dir="${repo.root}" command="${composer.bin}/drupal yaml:update:value ${repo.root}/project.yml drush.default_alias '${project.machine_name}.local'" logoutput="true" checkreturn="true"/>
-    <exec dir="${repo.root}" command="${composer.bin}/drupal yaml:update:value ${repo.root}/project.yml drush.aliases.local '${project.machine_name}.local'" logoutput="true" checkreturn="true"/>
+    <exec dir="${repo.root}" command="${composer.bin}/drupal yaml:update:value ${repo.root}/project.yml drush.default_alias '${project.machine_name}.local'" logoutput="true" checkreturn="true" level="info"/>
+    <exec dir="${repo.root}" command="${composer.bin}/drupal yaml:update:value ${repo.root}/project.yml drush.aliases.local '${project.machine_name}.local'" logoutput="true" checkreturn="true" level="info"/>
 
     <echo></echo>
     <echo>A new "box" directory and a Vagrantfile have been added to ${repo.root}</echo>

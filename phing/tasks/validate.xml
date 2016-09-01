@@ -9,7 +9,7 @@
 
   <!-- Verify that composer json and lock files are in sync. -->
   <target name="validate:composer" description="Validate composer files.">
-    <exec dir="${repo.root}" command="composer validate --no-check-all --ansi" logoutput="true" checkreturn="true"/>
+    <exec dir="${repo.root}" command="composer validate --no-check-all --ansi" logoutput="true" checkreturn="true" level="info"/>
   </target>
 
   <!-- Run linter against all php files in repository. -->
