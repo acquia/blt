@@ -77,7 +77,7 @@ Each testing type can be either executed directly, or via a corresponding Phing 
 
 To execute a single test (with Phing):
 
-* `blt tests:behat:execute -Dbehat.param=tests/behat/features/Examples.feature`
+* `blt tests:behat:execute -Dbehat.path=${PWD}/tests/behat/features/Examples.feature`
 
 To execute the tests directly (without Phing) see the following examples:
 
