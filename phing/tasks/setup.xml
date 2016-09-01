@@ -39,11 +39,11 @@
         <include name="vendor"/>
       </fileset>
     </delete>
-    <exec dir="${repo.root}" command="composer clear-cache" logoutput="true" passthru="true" checkreturn="true" level="info"/>
+    <exec dir="${repo.root}" command="composer clear-cache" logoutput="true" checkreturn="true" level="info" passthru="true"/>
   </target>
 
   <target name="setup:composer:install" description="Installs project dependencies, including drupal core and contrib.">
-    <exec dir="${repo.root}" command="export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --ansi --no-interaction" logoutput="true" passthru="true" checkreturn="true" level="info" />
+    <exec dir="${repo.root}" command="export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --ansi --no-interaction" logoutput="true" checkreturn="true" level="info" passthru="true" />
   </target>
 
   <target name="setup:drupal:settings" description="Create local settings files using default settings files.">
@@ -61,7 +61,7 @@
     <echo>Making ${docroot}/sites/default/settings.php writable.</echo>
     <chmod mode="0755" failonerror="false" file="${docroot}/sites/default/settings.php"/>
     <echo>Ensuring that blt.settings.php is required by settings.php</echo>
-    <exec dir="${docroot}/sites/default" command="grep blt.settings.php settings.php || echo 'require DRUPAL_ROOT . &quot;/sites/default/settings/blt.settings.php&quot;;' >> settings.php " logoutput="false" checkreturn="true" level="info"/>
+    <exec dir="${docroot}/sites/default" command="grep blt.settings.php settings.php || echo 'require DRUPAL_ROOT . &quot;/sites/default/settings/blt.settings.php&quot;;' >> settings.php " logoutput="true" checkreturn="true" level="info" passthru="true"/>
 
     <echo>Generating local settings files.</echo>
 
@@ -161,7 +161,7 @@
     <delete dir="${repo.root}/.git/hooks" quiet="true" failonerror="false"/>
     <delete file="${repo.root}/.git/hooks" quiet="true" failonerror="false"/>
     <echo>Symlinking ${repo.root}/scripts/git-hooks to ${repo.root}/.git/hooks.</echo>
-    <exec dir="${repo.root}/.git" command="ln -snv ../vendor/acquia/blt/scripts/git-hooks hooks" logoutput="true"/>
+    <exec dir="${repo.root}/.git" command="ln -snv ../vendor/acquia/blt/scripts/git-hooks hooks" logoutput="true" checkreturn="true" level="info" passthru="true"/>
 
     <!-- Grant execution permissions. -->
     <echo>Making git hooks executable.</echo>
@@ -182,7 +182,7 @@
         <echo>Writing hash salt to ${repo.root}/salt.txt</echo>
         <taskdef name="randomString" classname="${repo.root}.vendor.platinumpixs.phing-random-string.src.PlatinumPixs.RandomString.GenerateTask" />
         <randomString name="project.hash_salt" length="55" stringType="lowercase_uppercase_numeric" />
-        <exec dir="${repo.root}" command="echo ${project.hash_salt} > salt.txt" logoutput="true" checkreturn="true" level="info"/>
+        <exec dir="${repo.root}" command="echo ${project.hash_salt} > salt.txt" logoutput="true" checkreturn="true" level="info" passthru="true"/>
       </then>
       <else>
         <echo>${repo.root}/salt.txt already exists.</echo>

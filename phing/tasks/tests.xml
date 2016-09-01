@@ -73,7 +73,7 @@
 
   <target name="tests:phantomjs:kill"
           description="Launches a GhostDriver.">
-    <exec command="pgrep phantomjs | xargs kill" logoutput="true" passthru="true" />
+    <exec command="pgrep phantomjs | xargs kill" logoutput="true" level="info" passthru="true" />
   </target>
 
   <!-- Execute PHPUnit tests. -->
@@ -124,8 +124,8 @@
       <then>
         <echo message="Using 'drush runserver' for tests." />
         <echo message="Running server at ${behat.server-url}"/>
-        <exec command="pkill -f runserver" logoutput="true"/>
-        <exec executable="${drush.bin}" dir="${docroot}" spawn="true">
+        <exec command="pkill -f runserver" logoutput="true" level="info" passthru="true"/>
+        <exec executable="${drush.bin}" dir="${docroot}" spawn="true" level="info" passthru="true">
           <arg line="runserver ${behat.server-url} -l ${multisite.name}"/>
         </exec>
         <echo message="Waiting 10 seconds for ${behat.server-url} to become available."/>
