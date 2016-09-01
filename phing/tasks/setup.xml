@@ -61,7 +61,7 @@
     <echo>Making ${docroot}/sites/default/settings.php writable.</echo>
     <chmod mode="0755" failonerror="false" file="${docroot}/sites/default/settings.php"/>
     <echo>Ensuring that blt.settings.php is required by settings.php</echo>
-    <exec dir="${docroot}/sites/default" command="grep blt.settings.php settings.php || echo 'require DRUPAL_ROOT . &quot;/sites/default/settings/blt.settings.php&quot;;' >> settings.php " logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <exec dir="${docroot}/sites/default" command="grep blt.settings.php settings.php || echo 'require DRUPAL_ROOT . &quot;/sites/default/settings/blt.settings.php&quot;;' >> settings.php" logoutput="true" checkreturn="true" level="info"/>
 
     <echo>Generating local settings files.</echo>
 
