@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
-
 # This script will be run every single time that `blt update` is executed.
-
-echo "Removing deprecated BLT files from project."
 
 rm -rf build
 rm -rf tests/phpunit/blt
