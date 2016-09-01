@@ -1,11 +1,11 @@
 <project name="blt" default="update">
   <target name="create-project" depends="init">
-    <exec dir="${repo.root}" command="git init" logoutput="true" checkreturn="true" passthru="true"/>
+    <exec dir="${repo.root}" command="git init" logoutput="true" checkreturn="true" level="info" passthru="true"/>
     <echo>Updating composer dependencies, this make take a while...</echo>
-    <exec dir="${repo.root}" command="export COMPOSER_PROCESS_TIMEOUT=600; composer update" logoutput="true" checkreturn="true" passthru="true"/>
-    <exec dir="${repo.root}" command="git add -A" logoutput="true" checkreturn="true" passthru="true"/>
-    <exec dir="${repo.root}" command="git commit -m 'Initial commit.'" logoutput="true" checkreturn="true" passthru="true"/>
-    <exec dir="${repo.root}" command="rm LICENSE.txt" logoutput="true" checkreturn="true"/>
+    <exec dir="${repo.root}" command="export COMPOSER_PROCESS_TIMEOUT=600; composer update" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <exec dir="${repo.root}" command="git add -A" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <exec dir="${repo.root}" command="git commit -m 'Initial commit.'" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <exec dir="${repo.root}" command="rm LICENSE.txt" logoutput="true" checkreturn="true" level="info" passthru="true"/>
   </target>
 
   <target name="init" depends="blt:rsync-template, blt:update-composer, blt:update-yml, setup:drupal:settings">
@@ -21,16 +21,16 @@
   <target name="blt:rsync-template">
     <echo>Copying files from BLT's template into your project.</echo>
     <!-- @todo Do not overwrite structured or executable files. Instead, update them intelligently settings.php, drush.wrapper etc. -->
-    <exec dir="${repo.root}" command="rsync -a --no-g ${blt.root}/template/ ${repo.root}/ --exclude '/project.yml' --exclude '/composer.json' --exclude '/README.md'" logoutput="true" checkreturn="true"/>
+    <exec dir="${repo.root}" command="rsync -a --no-g ${blt.root}/template/ ${repo.root}/ --exclude '/project.yml' --exclude '/composer.json' --exclude '/README.md'" logoutput="true" checkreturn="true" level="info" passthru="true"/>
 
     <!--Rsync files without overwriting existing-->
-    <exec dir="${repo.root}" command="rsync -a --no-g ${blt.root}/template/project.yml ${repo.root}/ --ignore-existing" logoutput="true" checkreturn="true"/>
-    <exec dir="${repo.root}" command="rsync -a --no-g ${blt.root}/template/README.md ${repo.root}/ --ignore-existing" logoutput="true" checkreturn="true"/>
+    <exec dir="${repo.root}" command="rsync -a --no-g ${blt.root}/template/project.yml ${repo.root}/ --ignore-existing" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <exec dir="${repo.root}" command="rsync -a --no-g ${blt.root}/template/README.md ${repo.root}/ --ignore-existing" logoutput="true" checkreturn="true" level="info" passthru="true"/>
   </target>
 
   <target name="update" depends="init, blt:update-yml, configure">
     <!-- @todo Ignore some files, settings.php, project.yml, in update. Instead, change only specific values. -->
-    <exec dir="${repo.root}" command="${blt.root}/scripts/blt/update.sh" logoutput="true" checkreturn="true" />
+    <exec dir="${repo.root}" command="${blt.root}/scripts/blt/update.sh" logoutput="true" checkreturn="true" level="info" passthru="true" />
     <echo>Some of your customized files may have been modified.</echo>
     <echo>Please review changes with "git diff".</echo>
     <echo>If your composer.json was modified, you need to run "composer update".</echo>
@@ -42,9 +42,9 @@
     <echo>Merging BLT's composer.json template with your project's composer.json.</echo>
     <echo>This MAY overwrite some existing values.</echo>
     <!--Values in the project's existing composer.json file will be overwritten.-->
-    <exec dir="${repo.root}" command="${repo.root}/vendor/bin/blt-console composer:munge ${repo.root}/composer.json ${blt.root}/template/composer.json > ${repo.root}/composer.json.tmp" logoutput="true" checkreturn="true"/>
+    <exec dir="${repo.root}" command="${repo.root}/vendor/bin/blt-console composer:munge ${repo.root}/composer.json ${blt.root}/template/composer.json > ${repo.root}/composer.json.tmp" logoutput="true" checkreturn="true" level="info" passthru="true"/>
     <!--@todo Find out why can't we just redirect output directly back to composer.json. -->
-    <exec dir="${repo.root}" command="mv ${repo.root}/composer.json.tmp ${repo.root}/composer.json" logoutput="true" checkreturn="true"/>
+    <exec dir="${repo.root}" command="mv ${repo.root}/composer.json.tmp ${repo.root}/composer.json" logoutput="true" checkreturn="true" level="info" passthru="true"/>
     <echo>If your composer.json was modified, you need to run "composer update".</echo>
   </target>
 
@@ -53,9 +53,9 @@
     <echo>Merging BLT's project.yml template with your project's project.yml</echo>
     <echo>This WILL NOT overwrite existing values.</echo>
     <!--Values in the project's existing project.yml file will be preserved and not overridden.-->
-    <exec dir="${repo.root}" command="${repo.root}/vendor/bin/blt-console yaml:munge ${blt.root}/template/project.yml ${repo.root}/project.yml > ${repo.root}/project.yml.tmp" logoutput="true" checkreturn="true"/>
+    <exec dir="${repo.root}" command="${repo.root}/vendor/bin/blt-console yaml:munge ${blt.root}/template/project.yml ${repo.root}/project.yml > ${repo.root}/project.yml.tmp" logoutput="true" checkreturn="true" level="info" passthru="true"/>
     <!--@todo Find out why can't we just redirect output directly back to project.yml. -->
-    <exec dir="${repo.root}" command="mv ${repo.root}/project.yml.tmp ${repo.root}/project.yml" logoutput="true" checkreturn="true"/>
+    <exec dir="${repo.root}" command="mv ${repo.root}/project.yml.tmp ${repo.root}/project.yml" logoutput="true" checkreturn="true" level="info" passthru="true"/>
     <echo>project.yml has been modified.</echo>
   </target>
 
@@ -88,7 +88,7 @@
       <not><equals arg1="${create_alias}" arg2="false"/></not>
       <then>
         <!-- @todo Add this to ~/.blt/aliases and include that into ~/.bashrc or whatever. -->
-        <exec dir="${blt.root}/scripts/blt" command="./install-alias.sh" logoutput="true" passthru="true"/>
+        <exec dir="${blt.root}/scripts/blt" command="./install-alias.sh" logoutput="true" level="info" passthru="true"/>
       </then>
     </if>
   </target>
