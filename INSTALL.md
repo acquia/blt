@@ -76,6 +76,8 @@ If you are already using BLT via Composer, you can update to the latest version 
 
 Review and commit changes to your project files. For customized files like `.travis.yml` or `docroot/sites/default/settings.php` it is recommended that you use `git add -p` to select which specific line changes you'd like to stage and commit.
 
+Rarely, you may need to refresh your local environment via `blt local:setup` to provision new upstream changes.
+
 ### Updating from a non-Composer-managed version
 
 If you are using an older version of BLT that was not installed using Composer, you may update to the Composer-managed version by running the following commands:
