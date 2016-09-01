@@ -4,7 +4,6 @@
 
 echo "Removing deprecated BLT files from project."
 
-rm blt.sh
 rm -rf build
 rm -rf tests/phpunit/blt
 rm -rf scripts/blt
@@ -13,6 +12,7 @@ rm -rf scripts/drupal-vm
 rm -rf scripts/git-hooks
 rm -rf scripts/release-notes
 rm -rf scripts/tugboat
+rm -f blt.sh
 rm -f readme/acsf-setup.md
 rm -f readme/architecture.md
 rm -f readme/best-practices.md

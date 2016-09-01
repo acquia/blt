@@ -41,5 +41,5 @@ events:
             - shopt -s dotglob
             # Remove all files, including hidden files, from working directory.
             - rm -rf $BUILD_DIR/*
-            # Move all files from build artifact into working directory.
+            # Move all files, including hidden files, from build artifact into working directory.
             - mv $NEW_BUILD_DIR/* $BUILD_DIR/
