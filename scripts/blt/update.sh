@@ -3,7 +3,8 @@
 # This script will be run every single time that `blt update` is executed.
 
 echo "Removing deprecated BLT files from project."
-rm -blt.sh
+
+rm blt.sh
 rm -rf build
 rm -rf tests/phpunit/blt
 rm -rf scripts/blt
@@ -12,15 +13,15 @@ rm -rf scripts/drupal-vm
 rm -rf scripts/git-hooks
 rm -rf scripts/release-notes
 rm -rf scripts/tugboat
-rm readme/acsf-setup.md
-rm readme/architecture.md
-rm readme/best-practices.md
-rm readme/deploy.md
-rm readme/dev-workflow.md
-rm readme/features-workflow.md
-rm readme/local-development.md
-rm readme/onboarding.md
-rm readme/project-tasks.md
-rm readme/release-process.md
-rm readme/repo-architecture.md
-rm readme/views.md
+rm -f readme/acsf-setup.md
+rm -f readme/architecture.md
+rm -f readme/best-practices.md
+rm -f readme/deploy.md
+rm -f readme/dev-workflow.md
+rm -f readme/features-workflow.md
+rm -f readme/local-development.md
+rm -f readme/onboarding.md
+rm -f readme/project-tasks.md
+rm -f readme/release-process.md
+rm -f readme/repo-architecture.md
+rm -f readme/views.md
