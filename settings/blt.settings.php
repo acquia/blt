@@ -121,14 +121,14 @@ if ($is_local_env) {
 
   // Load Acquia Pipeline settings.
   if (getenv('PIPELINE_ENV') && file_exists(__DIR__ . '/pipelines.settings.php')) {
-    require __DIR__ . '/sites/default/settings/pipelines.settings.php';
+    require __DIR__ . '/pipelines.settings.php';
   }
   // Load Travis CI settings.
   elseif (getenv('TRAVIS') && file_exists(__DIR__ . '/travis.settings.php')) {
-    require __DIR__ . '/sites/default/settings/travis.settings.php';
+    require __DIR__ . '/travis.settings.php';
   }
   // Load Tugboat settings.
   elseif (getenv('TUGBOAT_URL') && file_exists(__DIR__ . '/tugboat.settings.php')) {
-    require __DIR__ . '/sites/default/settings/tugboat.settings.php';
+    require __DIR__ . '/tugboat.settings.php';
   }
 }
