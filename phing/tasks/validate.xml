@@ -17,7 +17,6 @@
     <phplint>
       <fileset refid="files.php.custom.modules"/>
       <fileset refid="files.php.custom.themes"/>
-      <fileset refid="files.php.custom.settings"/>
       <fileset refid="files.php.tests"/>
     </phplint>
   </target>
