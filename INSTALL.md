@@ -39,7 +39,7 @@ You should be able to use the following tools on the command line of your native
 
         blt configure
 
-1. Follow instructions for [Setting up your \*AMP stack](#set-up-your-42amp-stack)
+1. Follow instructions for [Setting up your \*AMP stack](#set-up-your-amp-stack)
 1. Follow instructions for <a href="#build-your-projects-local-dependencies-and-install-drupal-locally">installing Drupal locally</a>. Don't install Drupal locally using your web browser.
 1. (optional) Modify project files. Important files that you may want to modify include:
     * composer.json. Note that Drupal core, contrib, and third party dependencies are all managed here.
@@ -91,11 +91,11 @@ If you are using an older version of BLT that was not installed using Composer, 
 1. (conditional) If you are using Lightning, verify that your version constraint allows it to be updated to the latest stable version:
 
         composer require drupal/lightning:~8 --no-update
-  
+
 1. Require acquia/blt as a dev dependency:
 
         composer require acquia/blt:~8 --dev --no-update
-  
+
 1. Update all dependencies:
 
         composer update
