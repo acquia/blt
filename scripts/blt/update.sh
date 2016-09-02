@@ -2,6 +2,7 @@
 # This script will be run every single time that `blt update` is executed.
 
 rm -rf build
+rm -rf docroot/sites/default/settings
 rm -rf tests/phpunit/blt
 rm -rf scripts/blt
 rm -rf scripts/drupal
