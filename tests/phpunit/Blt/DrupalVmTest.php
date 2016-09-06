@@ -1,27 +1,20 @@
 <?php
 
-namespace Drupal;
+namespace Acquia\Blt\Tests\Blt;
 
-use Symfony\Component\Yaml\Yaml;
+use Acquia\Blt\Tests\BltTestBase;
 
 /**
  * Class DrupalVM.
  *
  * Verifies that Drupal VM integration works as expected.
  */
-class DrupalVmTest extends \PHPUnit_Framework_TestCase {
-
-  /**
-   * Class constructor.
-   */
-  public function __construct() {
-    $this->projectDirectory = realpath(dirname(__FILE__) . '/../../');
-    $this->newProjectDir = dirname($this->projectDirectory) . '/blt-project';
-    $this->config = Yaml::parse(file_get_contents("{$this->newProjectDir}/project.yml"));
-  }
+class DrupalVmTest extends BltTestBase {
 
   /**
    * Tests Phing vm:init target.
+   *
+   * @group blt
    */
   public function testVmInit() {
     $this->assertFileExists($this->newProjectDir . '/Vagrantfile');

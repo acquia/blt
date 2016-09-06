@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5b5f0b9363a4bb102abf5aacb3b3d2c4",
-    "content-hash": "61d202b45a369d069844d9cdaa1fa743",
+    "hash": "3e67c29878ed42ab740772e1242391a6",
+    "content-hash": "6a105c27815bfa4a668eaf4ba74690ee",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -3369,6 +3369,87 @@
                 }
             ],
             "description": "Symfony Translation Component",
+            "homepage": "https://symfony.com",
+            "time": "2016-07-30 07:20:35"
+        },
+        {
+            "name": "symfony/twig-bridge",
+            "version": "v2.8.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/twig-bridge.git",
+                "reference": "8e7aafdd037e0a12be436e863bc9695f6d65518b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/twig-bridge/zipball/8e7aafdd037e0a12be436e863bc9695f6d65518b",
+                "reference": "8e7aafdd037e0a12be436e863bc9695f6d65518b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9",
+                "twig/twig": "~1.23|~2.0"
+            },
+            "require-dev": {
+                "symfony/asset": "~2.7|~3.0.0",
+                "symfony/console": "~2.8|~3.0.0",
+                "symfony/expression-language": "~2.4|~3.0.0",
+                "symfony/finder": "~2.3|~3.0.0",
+                "symfony/form": "~2.8.4",
+                "symfony/http-kernel": "~2.8|~3.0.0",
+                "symfony/polyfill-intl-icu": "~1.0",
+                "symfony/routing": "~2.2|~3.0.0",
+                "symfony/security": "~2.6|~3.0.0",
+                "symfony/security-acl": "~2.6|~3.0.0",
+                "symfony/stopwatch": "~2.2|~3.0.0",
+                "symfony/templating": "~2.1|~3.0.0",
+                "symfony/translation": "~2.7|~3.0.0",
+                "symfony/var-dumper": "~2.7.16|~2.8.9|~3.0.9",
+                "symfony/yaml": "~2.0,>=2.0.5|~3.0.0"
+            },
+            "suggest": {
+                "symfony/asset": "For using the AssetExtension",
+                "symfony/expression-language": "For using the ExpressionExtension",
+                "symfony/finder": "",
+                "symfony/form": "For using the FormExtension",
+                "symfony/http-kernel": "For using the HttpKernelExtension",
+                "symfony/routing": "For using the RoutingExtension",
+                "symfony/security": "For using the SecurityExtension",
+                "symfony/stopwatch": "For using the StopwatchExtension",
+                "symfony/templating": "For using the TwigEngine",
+                "symfony/translation": "For using the TranslationExtension",
+                "symfony/var-dumper": "For using the DumpExtension",
+                "symfony/yaml": "For using the YamlExtension"
+            },
+            "type": "symfony-bridge",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.8-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Bridge\\Twig\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Twig Bridge",
             "homepage": "https://symfony.com",
             "time": "2016-07-30 07:20:35"
         },

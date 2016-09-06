@@ -1,0 +1,48 @@
+version: 1.0.0
+
+events:
+  build:
+    steps:
+        # Install global packages and set global configuration.
+        - setup-environment:
+            type: script
+            script:
+              - git config --global user.name "Acquia Cloud"
+              - git config --global user.email "noreply@acquia.com"
+              - sudo /etc/init.d/mysql start
+              - mysql -u root -proot -e "CREATE DATABASE drupal" -v
+
+        # Install project level packages and set project level configuration.
+        - setup-project:
+            type: script
+            script:
+              - composer install
+              - nvm install 4.4.1
+              - nvm use 4.4.1
+
+        # Execute all testing and validation tasks.
+        - run-tests:
+            type: script
+            script:
+              - export PATH=$PATH:$BUILD_DIR/vendor/bin
+              - drupal init
+              #  The local.hostname must be set to 127.0.0.1:8888 because we are using drush runserver to test the site.
+              - drupal yaml:update:value project.yml project.local.hostname '127.0.0.1:8888'
+              - blt -Dbehat.run-server=true -Dcreate_alias=false -Dbehat.launch-phantom=true ci:build:validate:test
+
+        # Generate
+        - prepare-artifact:
+            type: script
+            script:
+            - export PATH=$PATH:$BUILD_DIR/vendor/bin
+            # Generate artifact in a separate directory.
+            - export NEW_BUILD_DIR=/tmp/artifact
+            - blt deploy:build -Ddeploy.dir=$NEW_BUILD_DIR
+            # Move git history to artifact directory. Required for pipelines to commit and push.
+            - mv $BUILD_DIR/.git $NEW_BUILD_DIR/
+            # Allow dotfiles (hidden) to be globbed (via *).
+            - shopt -s dotglob
+            # Remove all files, including hidden files, from working directory.
+            - rm -rf $BUILD_DIR/*
+            # Move all files, including hidden files, from build artifact into working directory.
+            - mv $NEW_BUILD_DIR/* $BUILD_DIR/

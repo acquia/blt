@@ -62,7 +62,8 @@
         <exec command="${composer.bin}/phantomjs --webdriver=4444"
               passthru="true"
               spawn="true"
-              checkreturn="true" />
+              checkreturn="true"
+              level="info"/>
         <echo message="Waiting 10 seconds for PhantomJS (http://127.0.0.1:4444) to become available."/>
         <waitfor maxwait="10" maxwaitunit="second" checkevery="1" checkeveryunit="second">
           <http url="http://127.0.0.1:4444"/>
@@ -73,7 +74,7 @@
 
   <target name="tests:phantomjs:kill"
           description="Launches a GhostDriver.">
-    <exec command="pgrep phantomjs | xargs kill" logoutput="true" passthru="true" />
+    <exec command="pgrep phantomjs | xargs kill" logoutput="true" level="info" passthru="true" />
   </target>
 
   <!-- Execute PHPUnit tests. -->
@@ -88,6 +89,7 @@
         <fileset dir="${repo.root}/tests/phpunit">
           <include name="**/*Test*.php"/>
         </fileset>
+        <fileset dir="${blt.root}/tests/phpunit/BltProject"/>
       </batchtest>
     </phpunit>
     <phpunitreport infile="${reports.localDir}/phpunit/testsuites.xml" format="noframes" todir="${reports.localDir}/phpunit" />
@@ -123,8 +125,8 @@
       <then>
         <echo message="Using 'drush runserver' for tests." />
         <echo message="Running server at ${behat.server-url}"/>
-        <exec command="pkill -f runserver" logoutput="true"/>
-        <exec executable="${drush.bin}" dir="${docroot}" spawn="true">
+        <exec command="pkill -f runserver" logoutput="true" level="info" passthru="true"/>
+        <exec executable="${drush.bin}" dir="${docroot}" spawn="true" level="info">
           <arg line="runserver ${behat.server-url} -l ${multisite.name}"/>
         </exec>
         <echo message="Waiting 10 seconds for ${behat.server-url} to become available."/>
@@ -143,7 +145,7 @@
           description="Check local Drupal installation for security updates.">
     <exec dir="${docroot}"
           command="! ${drush.cmd} -n ups --check-disabled --security-only 2>/dev/null | grep 'SECURITY UPDATE'"
-          checkreturn="true"
+          checkreturn="true" level="info"
           logoutput="true"
           returnProperty="securityPass"
           passthru="true"/>

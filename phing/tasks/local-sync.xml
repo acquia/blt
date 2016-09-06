@@ -14,13 +14,13 @@
     </phingcall>
   </target>
 
-  <target name="local:sync" description="Synchronize remote environment with local environment."
+  <target name="local:sync" description="Synchronize local environment from remote (remote --> local)."
           depends="setup:drupal:settings">
-    <exec dir="${docroot}" command="${drush.cmd} sql-drop -y" logoutput="true" checkreturn="true"/>
+    <exec dir="${docroot}" command="${drush.cmd} sql-drop -y" logoutput="true" checkreturn="true" level="info" passthru="true"/>
     <!--We cannot use drush.cmd here because it incorrectly assigns an alias to the command. -->
-    <exec dir="${docroot}" command="${drush.bin} -r ${docroot} -l ${multisite.name} sql-sync @${drush.aliases.remote} @${drush.aliases.local} --create-db --structure-tables-key=lightweight -y" logoutput="true" checkreturn="true"/>
-    <exec dir="${docroot}" command="${drush.cmd} cc drush" logoutput="true" checkreturn="true"/>
-    <exec dir="${docroot}" command="${drush.cmd} cr" logoutput="true" checkreturn="true"/>
+    <exec dir="${docroot}" command="${drush.bin} -r ${docroot} -l ${multisite.name} sql-sync @${drush.aliases.remote} @${drush.aliases.local} --create-db --structure-tables-key=lightweight -y" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <exec dir="${docroot}" command="${drush.cmd} cc drush" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <exec dir="${docroot}" command="${drush.cmd} cr" logoutput="true" checkreturn="true" level="info" passthru="true"/>
   </target>
 
   <target name="local:update" description="Update current database to reflect the state of the Drupal file system; uses local drush alias.">

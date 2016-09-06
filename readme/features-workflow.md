@@ -56,8 +56,18 @@ You can use the following code snippet in your profile's install file to enable 
       }
       \Drupal::service('module_installer')->install($dependencies);
     }
-    
+
 ## Gotchas and workarounds
+
+### Customizing features
+Commonly, you will need to modify the configuration provided by a feature, such as:
+* Adding an explicit dependency on another module
+* Adding custom install and update hooks
+* Adding other custom code to provide custom functionality that’s closely tied to the feature
+
+It’s a bad idea to try to modify the exported feature module to add this functionality, because Features will most likely [overwrite](https://www.drupal.org/node/2720155) or [delete](https://www.drupal.org/node/2710089) your changes the next time you export the feature. Additionally, manually modifying a feature is risky in the first place, because it’s easy to unknowingly break a configuration export.
+
+A safer alternative is to create a separate wrapper module to contain any custom functionality and have this module depend on your feature in order to segregate Feature-managed and manually-managed code.
 
 ### Managing roles and permissions
 You can manage roles with Features, but not individual permissions ([reference](https://www.drupal.org/node/2383439)). For this reason, it's recommended that you use Bundles (see above) to exclude roles from features.
@@ -93,7 +103,7 @@ This depends on a helper function like this, which I suggest adding to your cust
 
     use Drupal\Core\Config\FileStorage;
     use Drupal\Core\Config\InstallStorage;
-    
+
     /**
      * Reads a stored config file from a module's config/install directory.
      *
@@ -109,7 +119,7 @@ This depends on a helper function like this, which I suggest adding to your cust
     function foo_read_config($id, $module = 'foo') {
       // Statically cache all FileStorage objects, keyed by module.
       static $storage = [];
-    
+
       if (empty($storage[$module])) {
         $dir = \Drupal::service('module_handler')->getModule($module)->getPath();
         $storage[$module] = new FileStorage($dir . '/' . InstallStorage::CONFIG_INSTALL_DIRECTORY);

@@ -39,7 +39,7 @@ You should be able to use the following tools on the command line of your native
 
         blt configure
 
-1. Follow instructions for [Setting up your \*AMP stack](#set-up-your-42amp-stack)
+1. Follow instructions for [Setting up your \*AMP stack](#set-up-your-amp-stack)
 1. Follow instructions for <a href="#build-your-projects-local-dependencies-and-install-drupal-locally">installing Drupal locally</a>. Don't install Drupal locally using your web browser.
 1. (optional) Modify project files. Important files that you may want to modify include:
     * composer.json. Note that Drupal core, contrib, and third party dependencies are all managed here.
@@ -76,6 +76,8 @@ If you are already using BLT via Composer, you can update to the latest version 
 
 Review and commit changes to your project files. For customized files like `.travis.yml` or `docroot/sites/default/settings.php` it is recommended that you use `git add -p` to select which specific line changes you'd like to stage and commit.
 
+Rarely, you may need to refresh your local environment via `blt local:setup` to provision new upstream changes.
+
 ### Updating from a non-Composer-managed version
 
 If you are using an older version of BLT that was not installed using Composer, you may update to the Composer-managed version by running the following commands:
@@ -89,11 +91,11 @@ If you are using an older version of BLT that was not installed using Composer, 
 1. (conditional) If you are using Lightning, verify that your version constraint allows it to be updated to the latest stable version:
 
         composer require drupal/lightning:~8 --no-update
-  
+
 1. Require acquia/blt as a dev dependency:
 
         composer require acquia/blt:~8 --dev --no-update
-  
+
 1. Update all dependencies:
 
         composer update

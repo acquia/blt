@@ -19,6 +19,18 @@
   <!-- Defines a list of default properties, available to all targets. -->
   <import file="${phing.dir}/tasks/properties.xml"/>
 
+  <!-- Allow custom file to be imported. -->
+  <if>
+    <isset property="import" />
+    <then>
+      <echo>Importing custom Phing file ${import}.</echo>
+      <import file="${import}"/>
+    </then>
+    <else>
+      <echo>No custom Phing file specified.</echo>
+    </else>
+  </if>
+
   <!-- Contains BLT tasks. -->
   <import file="${phing.dir}/tasks/blt.xml"/>
 
@@ -52,18 +64,6 @@
   <!-- Contains Drupal VM tasks. -->
   <import file="${phing.dir}/tasks/vm.xml"/>
 
-  <!-- Allow custom file to be imported. -->
-  <if>
-    <isset property="import" />
-    <then>
-      <echo>Importing custom Phing file ${import}.</echo>
-      <import file="${import}"/>
-    </then>
-    <else>
-      <echo>No custom Phing file specified.</echo>
-    </else>
-  </if>
-
   <target name="list" hidden="true">
     <exec dir="${blt.root}" command="${repo.root}/vendor/bin/phing -f ${phing.dir}/build.xml -q -l" passthru="true"/>
   </target>
@@ -77,8 +77,7 @@
           <available file="${target-hooks.${hook-name}.dir}" type="dir" property="dirExists" />
           <then>
             <echo>Executing command in ${target-hooks.${hook-name}.dir}:</echo>
-            <echo>${target-hooks.${hook-name}.command}</echo>
-            <exec dir="${target-hooks.${hook-name}.dir}" command="${target-hooks.${hook-name}.command}" logoutput="true" checkreturn="true" passthru="true" />
+            <exec dir="${target-hooks.${hook-name}.dir}" command="${target-hooks.${hook-name}.command}" logoutput="true" checkreturn="true" level="info" passthru="true" />
           </then>
           <else>
             <fail>The directory ${target-hooks.${hook-name}.dir} does not exist. Will not run command for ${hook-name}.</fail>

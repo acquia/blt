@@ -700,4 +700,6 @@ $settings['container_yamls'][] = __DIR__ . '/services.yml';
  */
 
 // Include BLT configuration.
-require_once DRUPAL_ROOT . '/sites/default/settings/blt.settings.php';
+// Do not change to require_once().
+// @see https://github.com/acquia/blt/issues/345
+require DRUPAL_ROOT . '/sites/default/settings/blt.settings.php';

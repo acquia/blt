@@ -80,6 +80,8 @@ script:
   - composer update
   # Call targets in the new 'blt-project' project.
   - blt ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dbehat.launch-phantom=true
+  # Initialize ACSF config.
+  - blt acsf:init
   # Deploy build artifact.
   - blt deploy:build
   # Add Drupal VM config to repo.
@@ -87,7 +89,7 @@ script:
   # Switch back to 'blt' directory.
   - cd ../blt
   # Run 'blt' phpunit tests, excluding deploy-push tests.
-  - phpunit tests/phpunit --exclude-group deploy-push
+  - phpunit tests/phpunit --group blt --exclude-group deploy-push
 
 deploy:
   provider: script

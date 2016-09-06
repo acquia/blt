@@ -45,26 +45,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 
 
   # Remove unneeded files.
-  echo "Removing deprecated BLT files from project."
-  rm -rf build blt.sh tests/phpunit/blt
-  rm -rf scripts/blt
-  rm -rf scripts/drupal
-  rm -rf scripts/drupal-vm
-  rm -rf scripts/git-hooks
-  rm -rf scripts/release-notes
-  rm -rf scripts/tugboat
-  rm readme/acsf-setup.md
-  rm readme/architecture.md
-  rm readme/best-practices.md
-  rm readme/deploy.md
-  rm readme/dev-workflow.md
-  rm readme/features-workflow.md
-  rm readme/local-development.md
-  rm readme/onboarding.md
-  rm readme/project-tasks.md
-  rm readme/release-process.md
-  rm readme/repo-architecture.md
-  rm readme/views.md
+  ./vendor/acquia/blt/scripts/blt/update.sh
 
   # Install (new) alias
   echo "Installing blt alias"

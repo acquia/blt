@@ -1,16 +1,20 @@
 <?php
 
-namespace Drupal\Tests\PHPUnit;
+namespace Acquia\Blt\Tests\BltProject;
+
+use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
  * Class GitTasksTest.
  *
  * Verifies that git related tasks work as expected.
  */
-class GitTasksTest extends TestBase {
+class GitTasksTest extends BltProjectTestBase {
 
   /**
    * Tests Phing setup:git-hooks target.
+   *
+   * @group blt-project
    */
   public function testGitConfig() {
     $this->assertFileExists($this->projectDirectory . '/.git');
@@ -29,6 +33,8 @@ class GitTasksTest extends TestBase {
    *   The PHPUnit message to be output for this datapoint.
    *
    * @dataProvider providerTestGitHookCommitMsg
+   *
+   * @group blt-project
    */
   public function testGitHookCommitMsg($is_valid, $commit_message, $message = NULL) {
     $this->assertCommitMessageValidity($is_valid, $commit_message, $message);
@@ -38,7 +44,7 @@ class GitTasksTest extends TestBase {
    * Data provider.
    */
   public function providerTestGitHookCommitMsg() {
-    $prefix = $this->config['project']['prefix'];
+    $prefix = isset($this->config['project']) ? $this->config['project']['prefix'] : '';
     return array(
       array(FALSE, "This is a bad commit.", 'Missing prefix and ticket number.'),
       array(FALSE, "123: This is a bad commit.", 'Missing project prefix.'),
@@ -57,6 +63,8 @@ class GitTasksTest extends TestBase {
    * Tests operation of scripts/git-hooks/pre-commit.
    *
    * Should assert that code validation via phpcs is functioning.
+   *
+   * @group blt-project
    */
   public function testGitPreCommitHook() {
     // Commits must be executed inside of new project directory.
