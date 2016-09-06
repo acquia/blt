@@ -16,10 +16,13 @@
 /docroot/themes/contrib
 /drush/contrib
 /drush.wrapper
+/patches
 /project.yml
 /README.md
 /readme
+/scripts
 /tests
+/tmp
 /Vagrantfile
 .git
 .gitignore
