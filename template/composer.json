@@ -18,6 +18,7 @@
     "drupal/security_review" :                    "8.*",
     "roave/security-advisories":                  "dev-master",
     "drupal-composer/drupal-security-advisories": "8.0.x-dev",
+    "drupal-composer/drupal-scaffold":            "^2.0.0",
     "drupal/lightning":                           "8.1.03",
     "drupal/metatag":                             "8.1.0-beta9"
   },

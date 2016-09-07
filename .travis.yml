@@ -90,6 +90,8 @@ script:
   - cd ../blt
   # Run 'blt' phpunit tests, excluding deploy-push tests.
   - phpunit tests/phpunit --group blt --exclude-group deploy-push
+  # Execute 'blt update' just to ensure that there isn't a non-zero exit code.
+  # - blt update
 
 deploy:
   provider: script
