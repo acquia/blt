@@ -46,7 +46,7 @@ class SettingsTest extends BltProjectTestBase {
    * @group blt-project
    */
   public function testSetupLocalSettings() {
-    $this->assertFileExists($this->projectDirectory . '/docroot/sites/default/local.settings.php');
+    $this->assertFileExists($this->projectDirectory . '/docroot/sites/default/settings/local.settings.php');
   }
 
 }
