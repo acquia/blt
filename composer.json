@@ -23,6 +23,9 @@
     "bin/blt",
     "bin/blt-console"
   ],
+  "conflict": {
+    "drupal/core": "7.*"
+  },
   "minimum-stability": "beta",
   "prefer-stable": true,
   "scripts": {
