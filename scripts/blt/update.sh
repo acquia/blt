@@ -2,6 +2,15 @@
 # This script will be run every single time that `blt update` is executed.
 
 rm -rf build
+rm -rf docroot/sites/default/settings/base.settings.php
+rm -rf docroot/sites/default/settings/cache.settings.php
+rm -rf docroot/sites/default/settings/filesystem.settings.php
+rm -rf docroot/sites/default/settings/logging.settings.php
+rm -rf docroot/sites/default/settings/travis.settings.php
+rm -rf docroot/sites/default/settings/pipelines.settings.php
+rm -rf docroot/sites/default/settings/tugboat.settings.php
+rm -rf docroot/sites/default/settings/default.local.settings.php
+rm -rf docroot/sites/default/settings/local.settings.php
 rm -rf tests/phpunit/blt
 rm -rf scripts/blt
 rm -rf scripts/drupal

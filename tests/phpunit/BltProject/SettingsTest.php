@@ -18,7 +18,6 @@ class SettingsTest extends BltProjectTestBase {
    *   The acquia environment being simulated. E.g., prod, test, dev, etc.
    */
   public function setupParams($env) {
-
     $_ENV['AH_SITE_ENVIRONMENT'] = $env;
     $_ENV['AH_SITE_NAME'] = $_ENV['AH_SITE_GROUP'] = 'blt';
     // @codingStandardsIgnoreStart
@@ -35,7 +34,6 @@ class SettingsTest extends BltProjectTestBase {
    * @group blt-project
    */
   public function testProd() {
-
     $this->setupParams('prod');
     require $this->drupalRoot . '/sites/default/settings.php';
 
@@ -48,7 +46,6 @@ class SettingsTest extends BltProjectTestBase {
    * @group blt-project
    */
   public function testSetupLocalSettings() {
-
     $this->assertFileExists($this->projectDirectory . '/docroot/sites/default/settings/local.settings.php');
   }
 

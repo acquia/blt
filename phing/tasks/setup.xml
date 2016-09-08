@@ -61,34 +61,47 @@
     <echo>Making ${docroot}/sites/default/settings.php writable.</echo>
     <chmod mode="0755" failonerror="false" file="${docroot}/sites/default/settings.php"/>
     <echo>Ensuring that blt.settings.php is required by settings.php</echo>
-    <exec dir="${docroot}/sites/default" command="grep blt.settings.php settings.php || echo 'require DRUPAL_ROOT . &quot;/sites/default/settings/blt.settings.php&quot;;' >> settings.php" logoutput="true" checkreturn="true" level="info"/>
+    <exec dir="${docroot}/sites/default" command="grep blt.settings.php settings.php || echo 'require DRUPAL_ROOT . &quot;/../vendor/acquia/blt/settings/blt.settings.php&quot;;' >> settings.php" logoutput="true" checkreturn="true" level="info"/>
 
     <echo>Generating local settings files.</echo>
+    <!--@todo Check that install_profile is set in settings.php.-->
 
     <if>
-      <not>
-        <available file="${repo.root}/project.local.yml" type="file" />
-      </not>
+      <not><available file="${repo.root}/project.local.yml" type="file" /></not>
       <then>
         <copy file="${repo.root}/example.project.local.yml" tofile="${repo.root}/project.local.yml" />
       </then>
     </if>
 
     <if>
-      <not>
-        <available file="${docroot}/sites/${multisite.name}/settings/local.settings.php" type="file" />
-      </not>
+      <not><available file="${docroot}/sites/${multisite.name}/settings/local.settings.php" type="file" /></not>
       <then>
-        <copy file="${docroot}/sites/${multisite.name}/settings/default.local.settings.php" tofile="${docroot}/sites/${multisite.name}/settings/local.settings.php" />
+        <if>
+          <available file="${docroot}/sites/${multisite.name}/settings/default.local.settings.php" type="file" />
+          <then>
+            <copy file="${docroot}/sites/${multisite.name}/settings/default.local.settings.php" tofile="${docroot}/sites/${multisite.name}/settings/local.settings.php" />
+          </then>
+          <else>
+            <copy file="${blt.root}/settings/default.local.settings.php" tofile="${docroot}/sites/${multisite.name}/settings/default.local.settings.php" />
+            <copy file="${blt.root}/settings/default.local.settings.php" tofile="${docroot}/sites/${multisite.name}/settings/local.settings.php" />
+          </else>
+        </if>
       </then>
     </if>
 
     <if>
-      <not>
-        <available file="${docroot}/sites/${multisite.name}/local.drushrc.php" type="file" />
-      </not>
+      <not><available file="${docroot}/sites/${multisite.name}/local.drushrc.php" type="file" /></not>
       <then>
-        <copy file="${docroot}/sites/${multisite.name}/default.local.drushrc.php" tofile="${docroot}/sites/${multisite.name}/local.drushrc.php"/>
+        <if>
+          <available file="${docroot}/sites/${multisite.name}/default.local.drushrc.php" type="file" />
+          <then>
+            <copy file="${docroot}/sites/${multisite.name}/default.local.drushrc.php" tofile="${docroot}/sites/${multisite.name}/local.drushrc.php" />
+          </then>
+          <else>
+            <copy file="${blt.root}/settings/default.local.drushrc.php" tofile="${docroot}/sites/${multisite.name}/default.local.drushrc.php" />
+            <copy file="${blt.root}/settings/default.local.drushrc.php" tofile="${docroot}/sites/${multisite.name}/local.drushrc.php" />
+          </else>
+        </if>
       </then>
     </if>
 
@@ -108,6 +121,9 @@
   <target name="setup:drupal:install"
           description="Installs a specific Drupal site."
           depends="setup:drupal:settings, setup:hash-salt, configure">
+
+    <echo>Printing drush status.</echo>
+    <drush command="status" alias="${drush.alias}"/>
 
     <echo>Installing Drupal.</echo>
     <drush command="site-install" assume="yes" verbose="TRUE" alias="${drush.alias}">
