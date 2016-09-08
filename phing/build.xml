@@ -27,7 +27,7 @@
       <import file="${import}"/>
     </then>
     <else>
-      <echo>No custom Phing file specified.</echo>
+      <echo level="debug">No custom Phing file specified.</echo>
     </else>
   </if>
 
