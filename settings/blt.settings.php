@@ -54,18 +54,6 @@ require __DIR__ . '/filesystem.settings.php';
 $settings['container_yamls'][] = __DIR__ . '/apcu_fix.yml';
 
 /**
- * The active installation profile.
- *
- * Changing this after installation is not recommended as it changes which
- * directories are scanned during extension discovery. If this is set prior to
- * installation this value will be rewritten according to the profile selected
- * by the user.
- *
- * @see install_select_profile()
- */
-$settings['install_profile'] = '${project.profile.name}';
-
-/**
  * Salt for one-time login links, cancel links, form tokens, etc.
  *
  * This variable will be set to a random value by the installer. All one-time
@@ -115,8 +103,8 @@ if ($is_ah_env && file_exists('/var/www/site-php')) {
  */
 if ($is_local_env) {
   // Load local machine settings.
-  if (file_exists(DRUPAL_ROOT . '/sites/default/local.settings.php')) {
-    require DRUPAL_ROOT . '/sites/default/local.settings.php';
+  if (file_exists(DRUPAL_ROOT . '/sites/default/settings/local.settings.php')) {
+    require DRUPAL_ROOT . '/sites/default/settings/local.settings.php';
   }
 
   // Load Acquia Pipeline settings.
