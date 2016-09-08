@@ -20,6 +20,7 @@ Use the following commands to create a testable BLT-created project alongside BL
 
 ```
 git clone https://github.com/acquia/blt.git
+composer install --working-dir=blt
 cp -R blt/blt-project .
 cd blt-project
 git init
