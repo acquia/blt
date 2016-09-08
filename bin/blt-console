@@ -15,8 +15,7 @@ elseif (file_exists($consoleRoot.'../../autoload.php')) {
   $autoload = include_once $consoleRoot . '../../autoload.php';
 }
 else {
-  echo 'Something goes wrong with your archive' . PHP_EOL .
-    'Try downloading again' . PHP_EOL;
+  echo 'Unable to autoload classes for blt-console.' . PHP_EOL;
   exit(1);
 }
 
