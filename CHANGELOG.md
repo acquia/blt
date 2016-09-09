@@ -1,7 +1,7 @@
 # Change Log
 
-## [8.3.5](https://github.com/acquia/blt/tree/8.3.5) (2016-09-08)
-[Full Changelog](https://github.com/acquia/blt/compare/8.3.4...8.3.5)
+## [8.4.0](https://github.com/acquia/blt/tree/8.4.0) (2016-09-08)
+[Full Changelog](https://github.com/acquia/blt/compare/8.3.4...8.4.0)
 
 **Implemented enhancements:**
 
