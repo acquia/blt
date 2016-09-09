@@ -29,7 +29,7 @@ You should be able to use the following tools on the command line of your native
 
 1. Install the `blt` alias and follow on-screen instructions:
 
-        ./vendor/bin/blt install-alias
+        composer blt-alias
 
 1. Customize BLT configuration files:
     * `project.yml`

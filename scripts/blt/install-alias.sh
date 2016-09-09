@@ -2,10 +2,10 @@
 
 if [ "`basename "/$SHELL"`" = "zsh" ]; then
   DETECTED_PROFILE="$HOME/.zshrc"
-elif [ -f "$HOME/.bashrc" ]; then
-  DETECTED_PROFILE="$HOME/.bashrc"
 elif [ -f "$HOME/.bash_profile" ]; then
   DETECTED_PROFILE="$HOME/.bash_profile"
+elif [ -f "$HOME/.bashrc" ]; then
+  DETECTED_PROFILE="$HOME/.bashrc"
 elif [ -f "$HOME/.profile" ]; then
   DETECTED_PROFILE="$HOME/.profile"
 fi
