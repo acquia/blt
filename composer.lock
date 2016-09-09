@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "693d125627cafdc5cf7204dcb98ed5a3",
-    "content-hash": "d6a08564eea3d27404b9ce2c13bf7d63",
+    "hash": "8dd09926e0b0b1b2f4d8e3ea985bf71a",
+    "content-hash": "713211a890b1b7bf03627a6d6839a1d5",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -1769,48 +1769,6 @@
                 "xunit"
             ],
             "time": "2016-09-06 16:07:45"
-        },
-        {
-            "name": "platinumpixs/phing-random-string",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/platinumpixs/phing-random-string.git",
-                "reference": "d395d365a8d8c75fd7944328a2a64b1c33f57665"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/platinumpixs/phing-random-string/zipball/d395d365a8d8c75fd7944328a2a64b1c33f57665",
-                "reference": "d395d365a8d8c75fd7944328a2a64b1c33f57665",
-                "shasum": ""
-            },
-            "require-dev": {
-                "phing/phing": "dev-master",
-                "phpunit/phpunit": "3.7.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "PlatinumPixs": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Platinum Pixs",
-                    "homepage": "http://www.platinumpixs.com"
-                }
-            ],
-            "description": "Provides A Task To Generate A Random String For Phing",
-            "homepage": "https://github.com/platinumpixs/phing-random-string",
-            "keywords": [
-                "phing",
-                "random string"
-            ],
-            "time": "2013-02-19 16:46:36"
         },
         {
             "name": "psr/http-message",
@@ -3622,9 +3580,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "beta",
-    "stability-flags": {
-        "platinumpixs/phing-random-string": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
