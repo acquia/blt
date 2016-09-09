@@ -35,6 +35,6 @@
   "minimum-stability": "beta",
   "prefer-stable": true,
   "scripts": {
-    "install-blt-alias": "yes | ./blt.sh install-alias"
+    "install-blt-alias": "blt install-alias -Dcreate_alias=true"
   }
 }
