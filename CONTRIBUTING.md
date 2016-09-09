@@ -30,6 +30,8 @@ blt init
 blt configure
 rm -rf vendor
 composer update
+git add -A
+git commit -m 'Initial commit.'
 ```
 
 The new `blt-project` directory will have a composer dependency on your local clone of BLT via a `../blt` symlink. You can therefore make changes to files in `blt` and see them immediately reflected in `blt-project/vendor/acquia/blt`.

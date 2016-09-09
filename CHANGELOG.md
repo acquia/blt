@@ -1,5 +1,40 @@
 # Change Log
 
+## [8.3.5](https://github.com/acquia/blt/tree/8.3.5) (2016-09-08)
+[Full Changelog](https://github.com/acquia/blt/compare/8.3.4...8.3.5)
+
+**Implemented enhancements:**
+
+- local-sync.xml tasks should use drush instead of exec and aliases [\#56](https://github.com/acquia/blt/issues/56)
+- Bolt should adhere to verbose options and not hardcode them [\#36](https://github.com/acquia/blt/issues/36)
+- Removing extraneous base.settings.php. [\#367](https://github.com/acquia/blt/pull/367) ([grasmash](https://github.com/grasmash))
+- Fixes \#36, \#56: Making DrushTask conform to Phing verbosity. Converting \<exec\> instances to \<drush\>. [\#366](https://github.com/acquia/blt/pull/366) ([grasmash](https://github.com/grasmash))
+- Making repetitive messages less verbose. [\#365](https://github.com/acquia/blt/pull/365) ([grasmash](https://github.com/grasmash))
+- Moving default settings files out of template. [\#364](https://github.com/acquia/blt/pull/364) ([grasmash](https://github.com/grasmash))
+- Adding patches and tmp to deploy excludes [\#362](https://github.com/acquia/blt/pull/362) ([dpagini](https://github.com/dpagini))
+
+## [8.3.4](https://github.com/acquia/blt/tree/8.3.4) (2016-09-02)
+[Full Changelog](https://github.com/acquia/blt/compare/8.3.3...8.3.4)
+
+**Implemented enhancements:**
+
+- BLT doesn't define file system storage intelligently [\#211](https://github.com/acquia/blt/issues/211)
+- Fixes \#211: Store filepaths intelligently. [\#359](https://github.com/acquia/blt/pull/359) ([grasmash](https://github.com/grasmash))
+- Add configuration for filesystem settings. \(\#211\) [\#322](https://github.com/acquia/blt/pull/322) ([pixlkat](https://github.com/pixlkat))
+- Resolves \#44: Register lint:twig console command. [\#297](https://github.com/acquia/blt/pull/297) ([grasmash](https://github.com/grasmash))
+
+**Fixed bugs:**
+
+- drush problem with deploy:acsf:init [\#356](https://github.com/acquia/blt/issues/356)
+- VM Initialization \(./blt.sh vm:init\) freezes in terminal when copying drush aliases [\#241](https://github.com/acquia/blt/issues/241)
+- Fixing bug in `blt init` [\#360](https://github.com/acquia/blt/pull/360) ([grasmash](https://github.com/grasmash))
+- Fixes \#356: deploy:acsf:init uses wrong docroot. [\#357](https://github.com/acquia/blt/pull/357) ([grasmash](https://github.com/grasmash))
+
+**Merged pull requests:**
+
+- Fix the setup amp stack anchor. [\#355](https://github.com/acquia/blt/pull/355) ([naveenvalecha](https://github.com/naveenvalecha))
+- Adding CHANGELOG.md and generator settings. [\#354](https://github.com/acquia/blt/pull/354) ([grasmash](https://github.com/grasmash))
+
 ## [8.3.3](https://github.com/acquia/blt/tree/8.3.3) (2016-09-01)
 [Full Changelog](https://github.com/acquia/blt/compare/8.3.2...8.3.3)
 
