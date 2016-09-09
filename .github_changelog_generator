@@ -1,2 +1,3 @@
 project=acquia/blt
 since-tag=8.2.0
+pr-label=**Misc merged pull requests**
