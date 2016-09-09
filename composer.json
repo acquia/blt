@@ -23,7 +23,7 @@
     }
   },
   "extra": {
-    "class": "Acquia\\Blt\\Composer\\BltPlugin"
+    "class": "Acquia\\Blt\\Composer\\Plugin"
   },
   "bin": [
     "bin/blt",

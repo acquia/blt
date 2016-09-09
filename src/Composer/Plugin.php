@@ -94,7 +94,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    * @param \Composer\Script\Event $event
    */
   public function onPostCmdEvent(\Composer\Script\Event $event) {
-    // Only install the scaffolding if acquia/blt was installed,
+    // Only install the template files if acquia/blt was installed.
     if (isset($this->bltPackage)) {
       $this->executeBltUpdate();
     }
