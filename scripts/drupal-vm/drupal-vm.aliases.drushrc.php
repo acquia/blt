@@ -1,5 +1,3 @@
-<?php
-
 // [vagrant_machine_name].local
 $aliases['${project.machine_name}.local'] = array(
   // /var/www/[vagrant_machine_name]/docroot
