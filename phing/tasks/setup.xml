@@ -196,7 +196,6 @@
       <not><available file="${repo.root}/salt.txt"/></not>
       <then>
         <echo>Writing hash salt to ${repo.root}/salt.txt</echo>
-        <taskdef name="randomstring" classname="tasks.RandomStringTask" />
         <randomstring propertyName="project.hash_salt" />
         <exec dir="${repo.root}" command="echo ${project.hash_salt} > salt.txt" logoutput="true" checkreturn="true" level="info"/>
       </then>
