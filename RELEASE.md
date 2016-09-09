@@ -20,7 +20,6 @@ This test verifies that a new project can be created using `acquia/blt-project` 
     composer create-project acquia/blt-project:8.x-dev blt8-release --no-interaction
     cd blt8-release
     ./vendor/bin/drupal yaml:update:value project.yml project.local.hostname 'blt8-release.localhost'
-    blt configure
     # update local.settings.php pw
     echo '$databases["default"]["default"]["username"] = "drupal";' >> docroot/sites/default/settings/local.settings.php
     echo '$databases["default"]["default"]["password"] = "drupal";' >> docroot/sites/default/settings/local.settings.php
@@ -30,8 +29,6 @@ This test verifies that a new project can be created using `acquia/blt-project` 
     
     # This updates to the latest dev version.
     composer update acquia/blt:8.x-dev
-    blt update
-    composer update
     dr uli
     read -p "Press any key to continue"
     cd ../
@@ -45,9 +42,7 @@ This test verifies that a new project can be created using `acquia/blt-project` 
     composer init --stability=dev --no-interaction
     composer config prefer-stable true
     composer require acquia/blt:8.x-dev --dev
-    blt init
     ./vendor/bin/drupal yaml:update:value project.yml project.local.hostname 'blt8-release.localhost'
-    blt configure
     composer update
     echo '$databases["default"]["default"]["username"] = "drupal";' >> docroot/sites/default/settings/local.settings.php
     echo '$databases["default"]["default"]["password"] = "drupal";' >> docroot/sites/default/settings/local.settings.php
@@ -65,11 +60,8 @@ This test verifies that a new project can be created using `acquia/blt-project` 
     composer init --stability=dev --no-interaction
     composer config prefer-stable true
     composer require acquia/blt:8.x-dev --dev
-    blt init
     ./vendor/bin/drupal yaml:update:value project.yml project.local.hostname 'blt8-release.localhost'
-    blt configure
     composer update
-    blt vm:init
     vagrant up
     blt local:setup
     drush @blted8.local uli
