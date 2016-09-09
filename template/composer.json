@@ -59,7 +59,7 @@
   },
   "scripts": {
     "install-phantomjs": "PhantomInstaller\\Installer::installPhantomJS",
-    "blt-alias": "blt install-alias",
+    "blt-alias": "blt install-alias -Dcreate_alias=true",
     "post-install-cmd": [
       "PhantomInstaller\\Installer::installPhantomJS"
     ],

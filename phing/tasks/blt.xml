@@ -60,8 +60,15 @@
     <if>
       <not><equals arg1="${create_alias}" arg2="false"/></not>
       <then>
-        <!-- @todo Add this to ~/.blt/aliases and include that into ~/.bashrc or whatever. -->
-        <exec dir="${blt.root}/scripts/blt" command="./install-alias.sh" logoutput="true" level="info" passthru="true"/>
+        <if>
+          <equals arg1="${create_alias}" arg2="true"/>
+          <then>
+            <exec dir="${blt.root}/scripts/blt" command="./install-alias.sh -y" logoutput="true" level="info" passthru="true"/>
+          </then>
+          <else>
+            <exec dir="${blt.root}/scripts/blt" command="./install-alias.sh" logoutput="true" level="info" passthru="true"/>
+          </else>
+        </if>
       </then>
     </if>
   </target>

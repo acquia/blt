@@ -36,10 +36,6 @@ git commit -m 'Initial commit.'
 
 The new `blt-project` directory will have a composer dependency on your local clone of BLT via a `../blt` symlink. You can therefore make changes to files in `blt` and see them immediately reflected in `blt-project/vendor/acquia/blt`.
 
-### Updating BLT
-
-Given that `vendor/acquia/blt` is symlinked to `../blt`, you won't need to actually rebuild the blt dependency often. However, you may need to trigger a blt event or rebuild autoloader files, in which case you should run the following command: `rm -rf vendor/acquia/blt && composer update acquia/blt`.
-
 ## Development conventions
 
 ### Phing targets vs. Symfony commands?
