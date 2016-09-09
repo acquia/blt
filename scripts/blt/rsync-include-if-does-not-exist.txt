@@ -1,3 +1,6 @@
-# These files will be included if they do not yet exist. They will not overwrite
+# These files from template dir will be included if they do not yet exist. They will not overwrite
 # existing files.
 project.yml
+composer.json
+README.md
+drush/site-aliases/aliases.drushrc.php
