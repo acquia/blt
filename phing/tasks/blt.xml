@@ -12,10 +12,7 @@
     <echo>BLT files have been copied to your project directory.</echo>
     <echo>Some of your existing files may have been modified.</echo>
     <echo></echo>
-    <echo>Please customize ${repo.root}/project.yml and then run:</echo>
-    <echo>blt configure</echo>
-    <echo></echo>
-    <echo>This will replace placeholders with your custom values in the new files created by BLT.</echo>
+    <echo>Please customize ${repo.root}/project.yml.</echo>
   </target>
 
   <target name="blt:rsync-template">
@@ -28,7 +25,7 @@
     <exec dir="${repo.root}" command="rsync -a --no-g ${blt.root}/template/README.md ${repo.root}/ --ignore-existing" logoutput="true" checkreturn="true" level="info" passthru="true"/>
   </target>
 
-  <target name="update" depends="init, configure">
+  <target name="update" depends="init">
     <!-- @todo Ignore some files, settings.php, project.yml, in update. Instead, change only specific values. -->
     <exec dir="${repo.root}" command="${blt.root}/scripts/blt/update.sh" logoutput="true" checkreturn="true" level="info" passthru="true" />
     <echo>Some of your customized files may have been modified.</echo>
@@ -59,28 +56,6 @@
     <echo>project.yml has been modified.</echo>
   </target>
 
-  <target name="configure">
-    <!-- @todo add multisite support. -->
-    <echo>Making ${docroot}/sites/default/settings.php writable.</echo>
-    <chmod mode="0644" failonerror="false" file="${docroot}/sites/default/settings.php"/>
-
-    <echo>Expanding Phing properties in BLT files.</echo>
-    <!-- Reflexively expand properties in specified dirs/files. -->
-    <reflexive>
-      <fileset dir="${repo.root}">
-        <include name="composer.json" />
-        <include name="README.md" />
-        <include name="docroot/sites/*/local.drushrc.php" />
-        <include name="readme/**/*" />
-        <include name="scripts/git-hooks/*" />
-        <include name="tests/phpunit/Bolt" />
-      </fileset>
-      <filterchain>
-        <expandproperties />
-      </filterchain>
-    </reflexive>
-  </target>
-
   <target name="install-alias" description="Installs the BLT alias for command line usage.">
     <if>
       <not><equals arg1="${create_alias}" arg2="false"/></not>
@@ -89,21 +64,5 @@
         <exec dir="${blt.root}/scripts/blt" command="./install-alias.sh" logoutput="true" level="info" passthru="true"/>
       </then>
     </if>
-  </target>
-
-  <!-- This target is meant to test BLT itself on TravisCI.
-       A few things to note:
-       - We do not run validate:* targets, since they can be run in parallel.
-  -->
-  <target name="self-test" description="Runs tests against acquia/blt proper.">
-    <phingcall target="configure" />
-    <phingcall target="create" />
-    <phingcall target="setup:build" />
-    <phingcall target="setup:drupal:install" />
-    <phingcall target="setup:git-hooks" />
-    <phingcall target="setup:behat" />
-    <phingcall target="tests:security-updates" />
-    <phingcall target="tests:behat" />
-    <phingcall target="tests:phpunit" />
   </target>
 </project>
