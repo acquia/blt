@@ -55,7 +55,7 @@
       <not><available file="${docroot}/sites/default/settings.php"/></not>
       <then>
         <echo>Generating settings.php from default.settings.php.</echo>
-        <copy file="${docroot}/sites/default/default.settings.php" tofile="${docroot}/sites/default/settings.php"/>
+        <copy file="${docroot}/sites/default/default.settings.php" tofile="${docroot}/sites/default/settings.php" verbose="true"/>
       </then>
     </if>
     <echo>Making ${docroot}/sites/default/settings.php writable.</echo>
@@ -70,7 +70,7 @@
     <if>
       <not><available file="${repo.root}/project.local.yml" type="file" /></not>
       <then>
-        <copy file="${repo.root}/example.project.local.yml" tofile="${repo.root}/project.local.yml" />
+        <copy file="${repo.root}/example.project.local.yml" tofile="${repo.root}/project.local.yml" verbose="true" />
       </then>
     </if>
 
@@ -80,11 +80,11 @@
         <if>
           <available file="${docroot}/sites/${multisite.name}/settings/default.local.settings.php" type="file" />
           <then>
-            <copy file="${docroot}/sites/${multisite.name}/settings/default.local.settings.php" tofile="${docroot}/sites/${multisite.name}/settings/local.settings.php" />
+            <copy file="${docroot}/sites/${multisite.name}/settings/default.local.settings.php" tofile="${docroot}/sites/${multisite.name}/settings/local.settings.php" verbose="true"/>
           </then>
           <else>
-            <copy file="${blt.root}/settings/default.local.settings.php" tofile="${docroot}/sites/${multisite.name}/settings/default.local.settings.php" />
-            <copy file="${blt.root}/settings/default.local.settings.php" tofile="${docroot}/sites/${multisite.name}/settings/local.settings.php" />
+            <copy file="${blt.root}/settings/default.local.settings.php" tofile="${docroot}/sites/${multisite.name}/settings/default.local.settings.php" verbose="true"/>
+            <copy file="${blt.root}/settings/default.local.settings.php" tofile="${docroot}/sites/${multisite.name}/settings/local.settings.php" verbose="true" />
           </else>
         </if>
       </then>
@@ -96,11 +96,11 @@
         <if>
           <available file="${docroot}/sites/${multisite.name}/default.local.drushrc.php" type="file" />
           <then>
-            <copy file="${docroot}/sites/${multisite.name}/default.local.drushrc.php" tofile="${docroot}/sites/${multisite.name}/local.drushrc.php" />
+            <copy file="${docroot}/sites/${multisite.name}/default.local.drushrc.php" tofile="${docroot}/sites/${multisite.name}/local.drushrc.php" verbose="true" />
           </then>
           <else>
-            <copy file="${blt.root}/settings/default.local.drushrc.php" tofile="${docroot}/sites/${multisite.name}/default.local.drushrc.php" />
-            <copy file="${blt.root}/settings/default.local.drushrc.php" tofile="${docroot}/sites/${multisite.name}/local.drushrc.php" />
+            <copy file="${blt.root}/settings/default.local.drushrc.php" tofile="${docroot}/sites/${multisite.name}/default.local.drushrc.php" verbose="true"/>
+            <copy file="${blt.root}/settings/default.local.drushrc.php" tofile="${docroot}/sites/${multisite.name}/local.drushrc.php" verbose="true"/>
           </else>
         </if>
       </then>
@@ -124,16 +124,15 @@
           depends="setup:drupal:settings, setup:hash-salt, configure">
 
     <echo>Printing drush status.</echo>
-    <drush command="status" alias="${drush.alias}"/>
+    <drush command="status"/>
 
     <echo>Installing Drupal.</echo>
-    <drush command="site-install" assume="yes" verbose="TRUE" alias="${drush.alias}">
+    <drush command="site-install">
       <option name="site-name">"${project.human_name}"</option>
       <option name="site-mail">"${drupal.account.mail}"</option>
       <option name="account-name">"${drupal.account.name}"</option>
       <option name="account-pass">"${drupal.account.password}"</option>
       <option name="account-mail">"${drupal.account.mail}"</option>
-      <option name="l">"${multisite.name}"</option>
       <param>"${project.profile.name}"</param>
       <param>"install_configure_form.update_status_module='array(FALSE,FALSE)'"</param>
     </drush>

@@ -6,7 +6,10 @@
     <echo>Modifying project.yml.</echo>
     <exec dir="${repo.root}" command="drupal yaml:update:value project.yml hosting acsf" logoutput="true" checkreturn="true" passthru="true" level="info"/>
     <echo>Executing initialization command for acsf module.</echo>
-    <exec dir="${docroot}" command="${drush.cmd} --include=${docroot}/modules/contrib/acsf/acsf_init acsf-init --skip-default-settings -y" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <drush command="acsf-init">
+      <option name="include">"${docroot}/modules/contrib/acsf/acsf_init"</option>
+      <option name="skip-default-settings"></option>
+    </drush>
     <echo>Please add acsf_init as a dependency for your installation profile to ensure that it remains enabled.</echo>
     <echo>An example alias file for ACSF is located in /drush/site-aliases/example.acsf.aliases.drushrc.php.</echo>
   </target>

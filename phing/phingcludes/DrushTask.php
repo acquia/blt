@@ -73,6 +73,7 @@ class DrushTask extends Task {
   private $return_property = NULL;
   private $verbose = FALSE;
   private $haltonerror = TRUE;
+  private $passthru = FALSE;
 
   /**
    * The Drush command to run.
@@ -119,8 +120,11 @@ class DrushTask extends Task {
    * Assume 'yes' or 'no' to all prompts.
    */
   public function setAssume($var) {
-    if (is_string($var)) {
-      $this->assume = ($var === 'yes');
+    if ($var === "") {
+      unset($this->assume);
+    }
+    elseif (is_string($var)) {
+      $this->assume = ($var === 'yes' || $var === 'true');
     } else {
       $this->assume = !!$var;
     }
@@ -199,7 +203,18 @@ class DrushTask extends Task {
    */
   public function setVerbose($var) {
     if (is_string($var)) {
-      $this->verbose = ($var === 'yes');
+      $this->verbose = ($var === 'yes' || $var === 'true');
+    } else {
+      $this->verbose = !!$var;
+    }
+  }
+
+  /**
+   * Use passthru() rather than exec() for command execution.
+   */
+  public function setPassthru($var) {
+    if (is_string($var)) {
+      $this->verbose = ($var === 'yes' || $var === 'true');
     } else {
       $this->verbose = !!$var;
     }
@@ -214,6 +229,14 @@ class DrushTask extends Task {
     $this->uri = $this->getProject()->getProperty('drush.uri');
     $this->bin = $this->getProject()->getProperty('drush.bin');
     $this->dir = $this->getProject()->getProperty('drush.dir');
+    $this->alias = $this->getProject()->getProperty('drush.alias');
+    $this->setVerbose($this->getProject()->getProperty('drush.verbose'));
+    $this->setAssume($this->getProject()->getProperty('drush.assume'));
+    $this->setPassthru($this->getProject()->getProperty('drush.passthru'));
+
+    if (Phing::getMsgOutputLevel() >= Project::MSG_VERBOSE) {
+      $this->setVerbose('yes');
+    }
   }
 
   /**
@@ -290,11 +313,19 @@ class DrushTask extends Task {
     // Execute Drush.
     $this->log("Executing: $command");
     $output = array();
-    exec($command, $output, $return);
-    // Collect Drush output for display through Phing's log.
-    foreach ($output as $line) {
-      $this->log($line);
+    $return = NULL;
+
+    if ($this->passthru) {
+      passthru($command, $return);
     }
+    else {
+      exec($command, $output, $return);
+      // Collect Drush output for display through Phing's log.
+      foreach ($output as $line) {
+        $this->log($line);
+      }
+    }
+
     // Set value of the 'pipe' property.
     if (!empty($this->return_property)) {
       $this->getProject()->setProperty($this->return_property, implode($this->return_glue, $output));

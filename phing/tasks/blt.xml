@@ -50,7 +50,7 @@
 
   <target name="blt:update-yml" description="Updates project BLT .yml files with new key value pairs from upstream. This WILL NOT overwrite existing values.">
     <!--@todo Output different message if project.yml does not exist-->
-    <echo>Merging BLT's project.yml template with your project's project.yml</echo>
+    <echo>Merging BLT's project.yml template with your project's project.yml.</echo>
     <echo>This WILL NOT overwrite existing values.</echo>
     <!--Values in the project's existing project.yml file will be preserved and not overridden.-->
     <exec dir="${repo.root}" command="${repo.root}/vendor/bin/blt-console yaml:munge ${blt.root}/template/project.yml ${repo.root}/project.yml > ${repo.root}/project.yml.tmp" logoutput="true" checkreturn="true" level="info"/>
