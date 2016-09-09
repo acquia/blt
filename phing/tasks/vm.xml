@@ -4,7 +4,7 @@
     <echo>BLT support for Drupal VM is EXPERIMENTAL. Not all BLT features currently work with Drupal VM. </echo>
 
     <echo>Creating a drush alias for the new VM.</echo>
-    <exec dir="${repo.root}" command="cat ${blt.root}/scripts/drupal-vm/drupal-vm.aliases.drushrc.php >> ${repo.root}/drush/site-aliases/aliases.drushrc.php" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <exec dir="${repo.root}" command="cat ${blt.root}/scripts/drupal-vm/drupal-vm.aliases.drushrc.php >> ${repo.root}/drush/site-aliases/aliases.drushrc.php" logoutput="true" checkreturn="true" level="info"/>
     <reflexive>
       <fileset dir="${repo.root}">
         <include name="drush/site-aliases/aliases.drushrc.php" />
@@ -43,12 +43,21 @@
     <echo>To run drush commands against the VM, use the @${drush.aliases.local} alias.</echo>
     <echo>You may pin yourself to this alias using "drush use @${drush.aliases.local}"</echo>
 
-    <exec dir="${repo.root}" command="vagrant plugin list | grep vagrant-hostsupdater" outputProperty="vagrant.hostsupdater.exists"/>
+    <exec dir="${repo.root}" command="vagrant" returnProperty="vagrant.exists"/>
     <if>
-      <not><istrue value="${vagrant.hostsupdater.exists}"/></not>
+      <not><istrue value="${vagrant.exists}"/></not>
       <then>
-        <echo>The vagrant-hostsupdater plugin is not installed!</echo>
+        <echo>The vagrant is not installed!</echo>
       </then>
+      <else>
+        <exec dir="${repo.root}" command="vagrant plugin list | grep vagrant-hostsupdater" outputProperty="vagrant.hostsupdater.exists"/>
+        <if>
+          <not><istrue value="${vagrant.hostsupdater.exists}"/></not>
+          <then>
+            <echo>The vagrant-hostsupdater plugin is not installed!</echo>
+          </then>
+        </if>
+      </else>
     </if>
   </target>
 
