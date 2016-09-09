@@ -62,7 +62,7 @@
   <target name="configure">
     <!-- @todo add multisite support. -->
     <echo>Making ${docroot}/sites/default/settings.php writable.</echo>
-    <chmod mode="0755" failonerror="false" file="${docroot}/sites/default/settings.php"/>
+    <chmod mode="0644" failonerror="false" file="${docroot}/sites/default/settings.php"/>
 
     <echo>Expanding Phing properties in BLT files.</echo>
     <!-- Reflexively expand properties in specified dirs/files. -->
