@@ -38,6 +38,10 @@ drush:
   cmd: ${drush.bin} @${drush.alias} -r ${docroot} -l ${multisite.name}
   dir: ${repo.root}
   root: ${docroot}
+  uri: ${multisite.name}
+  assume: yes
+  passthru: yes
+  verbose: yes
 
 multisite:
   # The docroot/sites/default directory is used by default.
