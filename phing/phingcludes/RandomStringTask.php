@@ -32,17 +32,36 @@ class RandomStringTask extends Task
     $this->propertyName = $v;
   }
 
-
+  // @see https://api.drupal.org/api/drupal/core%21lib%21Drupal%21Component%21Utility%21Random.php/class/Random/8.2.x
   public function main() {
     if (!$this->propertyName) {
       throw new BuildException("You must specify the propertyName attribute", $this->getLocation());
     }
 
-    $random = $this->string(55);
+    $random = $this->name(55);
     $this->project->setProperty($this->propertyName, $random);
   }
 
-  // @see https://api.drupal.org/api/drupal/core!lib!Drupal!Component!Utility!Random.php/function/Random%3A%3Astring/8.2.x
+  /**
+   * Generates a random string of ASCII characters of codes 32 to 126.
+   *
+   * The generated string includes alpha-numeric characters and common
+   * miscellaneous characters. Use this method when testing general input
+   * where the content is not restricted.
+   *
+   * @param int $length
+   *   Length of random string to generate.
+   * @param bool $unique
+   *   (optional) If TRUE ensures that the random string returned is unique.
+   *   Defaults to FALSE.
+   * @param callable $validator
+   *   (optional) A callable to validate the string. Defaults to NULL.
+   *
+   * @return string
+   *   Randomly generated string.
+   *
+   * @see \Drupal\Component\Utility\Random::name()
+   */
   public function string($length = 8, $unique = FALSE, $validator = NULL) {
     $counter = 0;
 
@@ -72,6 +91,49 @@ class RandomStringTask extends Task
 
     if ($unique) {
       $this->strings[$str] = TRUE;
+    }
+
+    return $str;
+  }
+
+  /**
+   * Generates a random string containing letters and numbers.
+   *
+   * The string will always start with a letter. The letters may be upper or
+   * lower case. This method is better for restricted inputs that do not
+   * accept certain characters. For example, when testing input fields that
+   * require machine readable values (i.e. without spaces and non-standard
+   * characters) this method is best.
+   *
+   * @param int $length
+   *   Length of random string to generate.
+   * @param bool $unique
+   *   (optional) If TRUE ensures that the random string returned is unique.
+   *   Defaults to FALSE.
+   *
+   * @return string
+   *   Randomly generated string.
+   *
+   * @see \Drupal\Component\Utility\Random::string()
+   */
+  public function name($length = 8, $unique = FALSE) {
+    $values = array_merge(range(65, 90), range(97, 122), range(48, 57));
+    $max = count($values) - 1;
+    $counter = 0;
+
+    do {
+      if ($counter == static::MAXIMUM_TRIES) {
+        throw new \RuntimeException('Unable to generate a unique random name');
+      }
+      $str = chr(mt_rand(97, 122));
+      for ($i = 1; $i < $length; $i++) {
+        $str .= chr($values[mt_rand(0, $max)]);
+      }
+      $counter++;
+    } while ($unique && isset($this->names[$str]));
+
+    if ($unique) {
+      $this->names[$str] = TRUE;
     }
 
     return $str;

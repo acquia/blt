@@ -197,7 +197,7 @@
       <then>
         <echo>Writing hash salt to ${repo.root}/salt.txt</echo>
         <randomstring propertyName="project.hash_salt" />
-        <exec dir="${repo.root}" command="echo ${project.hash_salt} > salt.txt" logoutput="true" checkreturn="true" level="info"/>
+        <exec dir="${repo.root}" command="echo '${project.hash_salt}' > salt.txt" logoutput="true" checkreturn="true" level="info"/>
       </then>
       <else>
         <echo>${repo.root}/salt.txt already exists.</echo>
