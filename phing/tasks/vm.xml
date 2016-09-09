@@ -13,16 +13,23 @@
         <expandproperties />
       </filterchain>
     </reflexive>
+
+    <echo>Creating a config.yml file for Drupal VM.</echo>
     <mkdir dir="${repo.root}/box" mode="755"/>
-    <echo>Adding geerlingguy/drupal-vm to composer dev dependencies.</echo>
-    <exec dir="${repo.root}" command="composer require --dev geerlingguy/drupal-vm:~3.1" logoutput="true" checkreturn="true" level="info" passthru="true"/>
     <copy file="${blt.root}/scripts/drupal-vm/config.yml" tofile="${repo.root}/box/config.yml">
       <filterchain>
         <expandproperties />
       </filterchain>
     </copy>
+
+    <echo>Creating a Vagrantfile.</echo>
     <copy file="${blt.root}/scripts/drupal-vm/Vagrantfile" todir="${repo.root}"/>
+
+    <echo>Adding geerlingguy/drupal-vm to composer dev dependencies.</echo>
+    <exec dir="${repo.root}" command="composer require --dev geerlingguy/drupal-vm:~3.1" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+
     <!-- Sadly this wipes out comments in the file. -->
+    <echo>Updating project.yml.</echo>
     <exec dir="${repo.root}" command="${composer.bin}/drupal yaml:update:value ${repo.root}/project.yml drush.default_alias '${project.machine_name}.local'" logoutput="true" checkreturn="true" level="info" passthru="true"/>
     <exec dir="${repo.root}" command="${composer.bin}/drupal yaml:update:value ${repo.root}/project.yml drush.aliases.local '${project.machine_name}.local'" logoutput="true" checkreturn="true" level="info" passthru="true"/>
 
