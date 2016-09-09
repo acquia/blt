@@ -59,11 +59,14 @@
   },
   "scripts": {
     "install-phantomjs": "PhantomInstaller\\Installer::installPhantomJS",
+    "install-blt-alias": "./vendor/acquia/blt/scripts/blt/install-alias.sh -y",
     "post-install-cmd": [
-      "PhantomInstaller\\Installer::installPhantomJS"
+      "PhantomInstaller\\Installer::installPhantomJS",
+      "@composer install-blt-alias"
     ],
     "post-update-cmd": [
-      "PhantomInstaller\\Installer::installPhantomJS"
+      "PhantomInstaller\\Installer::installPhantomJS",
+      "@composer install-blt-alias"
     ]
   },
   "minimum-stability": "dev",

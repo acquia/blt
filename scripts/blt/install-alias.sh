@@ -23,11 +23,22 @@ if [ ! -z "$DETECTED_PROFILE" ]; then
     exit
   fi
 
+  while getopts ":y" arg; do
+  case $arg in
+    y)
+      REPLY=y
+      ;;
+    esac
+  done
+
   echo "BLT can automatically create a Bash alias to make it easier to run BLT tasks."
   echo "This alias may be created in .bash_profile or .bashrc depending on your system architecture."
   echo ""
-  read -p "Install alias? (y/n)" -n 1 -r
-  echo ""
+
+  if [ -z $REPLY ]; then
+    read -p "Install alias? (y/n)" -n 1 -r
+    echo ""
+  fi
 
   if [[ $REPLY =~ ^[Yy]$ ]]; then
     DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
