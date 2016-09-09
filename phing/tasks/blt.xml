@@ -28,7 +28,7 @@
     <exec dir="${repo.root}" command="rsync -a --no-g ${blt.root}/template/README.md ${repo.root}/ --ignore-existing" logoutput="true" checkreturn="true" level="info" passthru="true"/>
   </target>
 
-  <target name="update" depends="init, blt:update-yml, configure">
+  <target name="update" depends="init, configure">
     <!-- @todo Ignore some files, settings.php, project.yml, in update. Instead, change only specific values. -->
     <exec dir="${repo.root}" command="${blt.root}/scripts/blt/update.sh" logoutput="true" checkreturn="true" level="info" passthru="true" />
     <echo>Some of your customized files may have been modified.</echo>
