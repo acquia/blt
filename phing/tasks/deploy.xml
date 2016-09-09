@@ -59,7 +59,7 @@
     <exec command="git fetch ${remoteName} ${deploy.branch}" dir="${deploy.dir}" logoutput="true" level="info" passthru="true"/>
 
     <!-- Create the new branch, "[source-branch-name]-build". -->
-    <exec command="git checkout -b ${deploy.branch}" dir="${deploy.dir}" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <exec command="git checkout -B ${deploy.branch}" dir="${deploy.dir}" logoutput="true" checkreturn="true" level="info" passthru="true"/>
 
     <!-- Pull the latest updates (if available). -->
     <exec command="git merge ${remoteName}/${deploy.branch}" dir="${deploy.dir}" logoutput="true" passthru="true"/>
