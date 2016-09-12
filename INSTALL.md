@@ -51,7 +51,7 @@ To add BLT to a pre-existing Drupal project, do the following:
 1. `cd` into your existing project directory.
 1. Add BLT via composer:
 
-        composer require acquia/blt:~8 --dev
+        composer require acquia/blt:~8
 
 1. Follow instructions for [Setting up your \*AMP stack](#set-up-your-42amp-stack)
 1. Follow instructions for <a href="#build-your-projects-local-dependencies-and-install-drupal-locally">installing Drupal locally</a>. Don't install Drupal locally using your web browser.
@@ -79,7 +79,7 @@ If you are using an older version of BLT that was not installed using Composer, 
 1. Remove any dependencies that may conflict with upstream acquia/blt. You may add these back later after the upgrade, if necessary.
 
         composer remove drush/drush drupal/console phing/phing phpunit/phpunit squizlabs/php_codesniffer symfony/yaml drupal/coder symfony/console --no-interaction --no-update
-        composer remove drush/drush drupal/console phing/phing phpunit/phpunit squizlabs/php_codesniffer symfony/yaml drupal/coder symfony/console --dev --no-interaction --no-update
+        composer remove drush/drush drupal/console phing/phing phpunit/phpunit squizlabs/php_codesniffer symfony/yaml drupal/coder symfony/console --no-interaction --no-update
         composer config minimum-stability dev
 
 1. (conditional) If you are using Lightning, verify that your version constraint allows it to be updated to the latest stable version:
@@ -88,7 +88,7 @@ If you are using an older version of BLT that was not installed using Composer, 
 
 1. Require acquia/blt as a dev dependency:
 
-        composer require acquia/blt:~8 --dev --no-update
+        composer require acquia/blt:~8 --no-update
 
 1. Update all dependencies:
 
