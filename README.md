@@ -44,8 +44,13 @@ It scope is discretely defined. It is *not* intended to provide:
 * [Project tasks](readme/project-tasks.md)
     * Executing tests and validating code
     * Building dependencies
+        * Management of Drupal core, contrib, and third party libraries via Composer
+        * Building front end assets. E.g, via gulp, npm, bower, etc.
     * (Re)installation of Drupal
+      * Configuration import
 * [Artifact Generation](readme/deploy.md)
+    * Building production-only dependencies
+    * Sanitation of production code
 * [Continuous Integration & Deployment](readme/ci.md)
     * [Acquia Pipelines](https://dev.acquia.com/request-invite-acquia-pipelines) (coming soon)
     * [Travis CI](https://travis-ci.com)
