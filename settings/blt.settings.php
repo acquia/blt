@@ -4,6 +4,9 @@
  * Setup BLT utility variables.
  ******************************************************************************/
 
+// We assume that we are operating against the default site dir. You may alternatively set this variable before including blt.settings.php.
+$site_dir = !empty($site_dir) ? $site_dir : 'default';
+
 /**
  * Host detection.
  */
@@ -103,8 +106,8 @@ if ($is_ah_env && file_exists('/var/www/site-php')) {
  */
 if ($is_local_env) {
   // Load local machine settings.
-  if (file_exists(DRUPAL_ROOT . '/sites/default/settings/local.settings.php')) {
-    require DRUPAL_ROOT . '/sites/default/settings/local.settings.php';
+  if (file_exists(DRUPAL_ROOT . "/sites/$site_dir/settings/local.settings.php")) {
+    require DRUPAL_ROOT . "/sites/$site_dir/settings/local.settings.php";
   }
 
   // Load Acquia Pipeline settings.

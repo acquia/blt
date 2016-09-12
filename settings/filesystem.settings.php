@@ -5,7 +5,7 @@
  * Contains filesystem settings.
  */
 
-$settings['file_public_path'] = 'sites/default/files';
+$settings['file_public_path'] = "sites/$site_dir/files";
 
 // ACSF file paths.
 if ($is_acsf) {
