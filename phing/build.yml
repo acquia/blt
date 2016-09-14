@@ -14,6 +14,10 @@ behat:
     - ${repo.root}/tests/behat
   tags: '~ajax'
 
+blt:
+  update:
+    ignore-existing-file: ${blt.root}/scripts/blt/ignore-existing.txt
+
 composer:
   bin: ${repo.root}/vendor/bin
 
