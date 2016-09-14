@@ -51,7 +51,6 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
   echo "Installing blt alias"
   yes | ./vendor/acquia/blt/blt.sh install-alias
   ./vendor/acquia/blt/blt.sh init
-  ./vendor/acquia/blt/blt.sh configure
   composer update
 
   echo "Update complete. Please do the following:"
