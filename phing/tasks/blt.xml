@@ -18,10 +18,10 @@
   <target name="blt:rsync-template">
     <echo>Copying files from BLT's template into your project.</echo>
     <!-- @todo Do not overwrite structured or executable files. Instead, update them intelligently settings.php, drush.wrapper etc. -->
-    <exec dir="${repo.root}" command="rsync -a --no-g ${blt.root}/template/ ${repo.root}/ --exclude-from=${blt.root}/scripts/blt/rsync-include-if-does-not-exist.txt" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <exec dir="${repo.root}" command="rsync -a --no-g ${blt.root}/template/ ${repo.root}/ --exclude-from=${blt.update.ignore-existing-file}" logoutput="true" checkreturn="true" level="info" passthru="true"/>
 
     <!--Rsync files without overwriting existing-->
-    <exec dir="${repo.root}" command="rsync -a --no-g ${blt.root}/template/ ${repo.root}/ --include-from=${blt.root}/scripts/blt/rsync-include-if-does-not-exist.txt --ignore-existing" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <exec dir="${repo.root}" command="rsync -a --no-g ${blt.root}/template/ ${repo.root}/ --include-from=${blt.update.ignore-existing-file} --ignore-existing" logoutput="true" checkreturn="true" level="info" passthru="true"/>
   </target>
 
   <target name="update" depends="init">
