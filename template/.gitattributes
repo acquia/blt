@@ -64,12 +64,12 @@
 *.OTF     -text diff
 *.eot     -text diff
 *.EOT     -text diff
-*.woff2     -text diff
-*.WOFF2     -text di
+*.woff2   -text diff
+*.WOFF2   -text diff
 *.swf     -text diff
 *.SWF     -text diff
-*.db     -text diff
-*.DB     -text diff
+*.db      -text diff
+*.DB      -text diff
 *.tar     -text diff
 *.TAR     -text diff
 *.pdf     -text diff
