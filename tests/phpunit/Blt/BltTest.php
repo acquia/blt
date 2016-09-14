@@ -23,10 +23,6 @@ class BltTest extends BltTestBase {
     $this->assertFileNotExists($this->newProjectDir . '/install');
     $this->assertFileNotExists($this->newProjectDir . '/tests/phpunit/BltTest.php');
     $this->assertFileExists($this->newProjectDir . '/vendor');
-    $this->assertNotContains(
-          'pt:self-test',
-          file_get_contents($this->newProjectDir . '/.travis.yml')
-      );
     $this->assertFileNotExists($this->newProjectDir . '/build/tasks/blt.xml');
     $this->assertNotContains(
           '${project.machine_name}',
