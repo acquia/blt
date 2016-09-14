@@ -24,11 +24,11 @@
   <if>
     <isset property="import" />
     <then>
-      <echo>Importing custom Phing file ${import}.</echo>
+      <echo level="verbose">Importing custom Phing file ${import}.</echo>
       <import file="${import}"/>
     </then>
     <else>
-      <echo level="debug">No custom Phing file specified.</echo>
+      <echo level="verbose">No custom Phing file specified.</echo>
     </else>
   </if>
 

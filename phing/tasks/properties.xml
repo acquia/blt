@@ -23,7 +23,7 @@
     </then>
   </if>
 
-  <echo level="debug">Executing commands against multisite "${multisite.name}"</echo>
+  <echo level="verbose">Executing commands against multisite "${multisite.name}"</echo>
 
   <!-- Default drush alias. -->
   <property name="drush.alias" value="${drush.default_alias}" override="false" logoutput="false"/>
@@ -31,7 +31,7 @@
   <if>
     <not><equals arg1="${drush.alias}" arg2="self"/></not>
     <then>
-      <echo level="debug">Unsetting drush.root because a remote alias is being used.</echo>
+      <echo level="verbose">Unsetting drush.root because a remote alias is being used.</echo>
       <property name="drush.root" value="" override="true"/>
     </then>
   </if>
