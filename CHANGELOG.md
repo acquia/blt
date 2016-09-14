@@ -1,6 +1,38 @@
 # Change Log
 
-## [8.4.0](https://github.com/acquia/blt/tree/8.4.0) (2016-09-08)
+## [8.4.1](https://github.com/acquia/blt/tree/8.4.1) (2016-09-12)
+[Full Changelog](https://github.com/acquia/blt/compare/8.4.0...8.4.1)
+
+**Implemented enhancements:**
+
+- BLT presumes sites/default, complicates multisite settings [\#380](https://github.com/acquia/blt/issues/380)
+- Automate execution of `blt update` after composer update [\#341](https://github.com/acquia/blt/issues/341)
+- Install BLT alias automatically for developers [\#284](https://github.com/acquia/blt/issues/284)
+- Making vm:init task more verbose. [\#376](https://github.com/acquia/blt/pull/376) ([grasmash](https://github.com/grasmash))
+- Replacing external Phing random string task with internal one. [\#375](https://github.com/acquia/blt/pull/375) ([grasmash](https://github.com/grasmash))
+- Added search modules [\#374](https://github.com/acquia/blt/pull/374) ([danepowell](https://github.com/danepowell))
+- Chmod settings.php to 644 instead of 755 [\#370](https://github.com/acquia/blt/pull/370) ([bkosborne](https://github.com/bkosborne))
+- Fixes \#341 \#284: Automating alias installation and template updates. [\#368](https://github.com/acquia/blt/pull/368) ([grasmash](https://github.com/grasmash))
+
+**Fixed bugs:**
+
+- fatal: A branch named 'master-build' already exists. [\#381](https://github.com/acquia/blt/issues/381)
+- Fixing multiple deployment target bug. [\#373](https://github.com/acquia/blt/pull/373) ([grasmash](https://github.com/grasmash))
+- Revert "Modify deploy phing to enable multiple environment deployments." [\#372](https://github.com/acquia/blt/pull/372) ([grasmash](https://github.com/grasmash))
+- Modify deploy phing to enable multiple environment deployments. [\#363](https://github.com/acquia/blt/pull/363) ([marksakurada](https://github.com/marksakurada))
+
+**Closed issues:**
+
+- Move all common settings files to `sites/all/settings` [\#147](https://github.com/acquia/blt/issues/147)
+
+**Misc merged pull requests**
+
+- Updating documentation. [\#383](https://github.com/acquia/blt/pull/383) ([grasmash](https://github.com/grasmash))
+- Fixes \#380: Allow $site\_dir to be defined for multisite. [\#382](https://github.com/acquia/blt/pull/382) ([grasmash](https://github.com/grasmash))
+- Update RELEASE.md [\#378](https://github.com/acquia/blt/pull/378) ([grasmash](https://github.com/grasmash))
+- Updating CONTRIBUTING.md and RELEASE.md [\#371](https://github.com/acquia/blt/pull/371) ([grasmash](https://github.com/grasmash))
+
+## [8.4.0](https://github.com/acquia/blt/tree/8.4.0) (2016-09-09)
 [Full Changelog](https://github.com/acquia/blt/compare/8.3.4...8.4.0)
 
 **Implemented enhancements:**
@@ -30,7 +62,7 @@
 - Fixing bug in `blt init` [\#360](https://github.com/acquia/blt/pull/360) ([grasmash](https://github.com/grasmash))
 - Fixes \#356: deploy:acsf:init uses wrong docroot. [\#357](https://github.com/acquia/blt/pull/357) ([grasmash](https://github.com/grasmash))
 
-**Merged pull requests:**
+**Misc merged pull requests**
 
 - Fix the setup amp stack anchor. [\#355](https://github.com/acquia/blt/pull/355) ([naveenvalecha](https://github.com/naveenvalecha))
 - Adding CHANGELOG.md and generator settings. [\#354](https://github.com/acquia/blt/pull/354) ([grasmash](https://github.com/grasmash))
@@ -41,18 +73,18 @@
 **Implemented enhancements:**
 
 - Move tests/phpunit/Bolt tests into /tests [\#295](https://github.com/acquia/blt/issues/295)
+- Completing pipelines build file. [\#351](https://github.com/acquia/blt/pull/351) ([grasmash](https://github.com/grasmash))
+- Tweaking verbosity. [\#349](https://github.com/acquia/blt/pull/349) ([grasmash](https://github.com/grasmash))
+- Increasing verbosity of all exec tasks. [\#347](https://github.com/acquia/blt/pull/347) ([grasmash](https://github.com/grasmash))
 
 **Fixed bugs:**
 
 - Configuration written to settings.php during install [\#345](https://github.com/acquia/blt/issues/345)
+- Issue \#345: Changing require\_once\(\) to require\(\). [\#346](https://github.com/acquia/blt/pull/346) ([grasmash](https://github.com/grasmash))
 
-**Merged pull requests:**
+**Misc merged pull requests**
 
 - Switch -Dbehat.param to path in single behat test example. [\#353](https://github.com/acquia/blt/pull/353) ([seanpclark](https://github.com/seanpclark))
-- Completing pipelines build file. [\#351](https://github.com/acquia/blt/pull/351) ([grasmash](https://github.com/grasmash))
-- Tweaking verbosity. [\#349](https://github.com/acquia/blt/pull/349) ([grasmash](https://github.com/grasmash))
-- Increasing verbosity of all exec tasks. [\#347](https://github.com/acquia/blt/pull/347) ([grasmash](https://github.com/grasmash))
-- Issue \#345: Changing require\_once\(\) to require\(\). [\#346](https://github.com/acquia/blt/pull/346) ([grasmash](https://github.com/grasmash))
 
 ## [8.3.2](https://github.com/acquia/blt/tree/8.3.2) (2016-08-31)
 [Full Changelog](https://github.com/acquia/blt/compare/8.3.1...8.3.2)
@@ -61,27 +93,27 @@
 
 - NPM management of deployed front-end libraries [\#333](https://github.com/acquia/blt/issues/333)
 - Add nodejs frontend tools for drupalvm integration [\#324](https://github.com/acquia/blt/issues/324)
+- Removing DevDesktop settings include. [\#343](https://github.com/acquia/blt/pull/343) ([grasmash](https://github.com/grasmash))
+- Set perms on settings files. [\#342](https://github.com/acquia/blt/pull/342) ([danepowell](https://github.com/danepowell))
+- Adding an update.sh script. [\#339](https://github.com/acquia/blt/pull/339) ([grasmash](https://github.com/grasmash))
+- Issue \#333: Allow deployment of front-end libraries. [\#334](https://github.com/acquia/blt/pull/334) ([danepowell](https://github.com/danepowell))
 
 **Fixed bugs:**
 
 - override blt phing target [\#316](https://github.com/acquia/blt/issues/316)
 - drush.wrapper broken by xdebug message [\#315](https://github.com/acquia/blt/issues/315)
 - PHPUnit Tests should load project.local.yml [\#309](https://github.com/acquia/blt/issues/309)
+- Removing Phantom JS CDN URL. [\#340](https://github.com/acquia/blt/pull/340) ([grasmash](https://github.com/grasmash))
+- Fixes \#315: Resolving xdebug and drush.wrapper bug. [\#337](https://github.com/acquia/blt/pull/337) ([grasmash](https://github.com/grasmash))
+- Ignoring a lightning patch. [\#335](https://github.com/acquia/blt/pull/335) ([grasmash](https://github.com/grasmash))
 
 **Closed issues:**
 
 - Clean up the Continuous Integration instructions [\#319](https://github.com/acquia/blt/issues/319)
 
-**Merged pull requests:**
+**Misc merged pull requests**
 
-- Removing DevDesktop settings include. [\#343](https://github.com/acquia/blt/pull/343) ([grasmash](https://github.com/grasmash))
-- Set perms on settings files. [\#342](https://github.com/acquia/blt/pull/342) ([danepowell](https://github.com/danepowell))
-- Removing Phantom JS CDN URL. [\#340](https://github.com/acquia/blt/pull/340) ([grasmash](https://github.com/grasmash))
-- Adding an update.sh script. [\#339](https://github.com/acquia/blt/pull/339) ([grasmash](https://github.com/grasmash))
-- Fixes \#315: Resolving xdebug and drush.wrapper bug. [\#337](https://github.com/acquia/blt/pull/337) ([grasmash](https://github.com/grasmash))
 - The URL in template README.md is malformed [\#336](https://github.com/acquia/blt/pull/336) ([bhasselbeck](https://github.com/bhasselbeck))
-- Ignoring a lightning patch. [\#335](https://github.com/acquia/blt/pull/335) ([grasmash](https://github.com/grasmash))
-- Issue \#333: Allow deployment of front-end libraries. [\#334](https://github.com/acquia/blt/pull/334) ([danepowell](https://github.com/danepowell))
 - Added tips on features wrappers. [\#330](https://github.com/acquia/blt/pull/330) ([danepowell](https://github.com/danepowell))
 - Setup and deploy should install frontend dependencies. [\#327](https://github.com/acquia/blt/pull/327) ([danepowell](https://github.com/danepowell))
 - Felt backwards to me. [\#326](https://github.com/acquia/blt/pull/326) ([justinlevi](https://github.com/justinlevi))
@@ -114,7 +146,7 @@
 - Site installs crash if files directory is not empty [\#128](https://github.com/acquia/blt/issues/128)
 - Installation script fails when using VM and configuration directory exists [\#64](https://github.com/acquia/blt/issues/64)
 
-**Merged pull requests:**
+**Misc merged pull requests**
 
 - Resolves \#204: Removing architecture.md. [\#303](https://github.com/acquia/blt/pull/303) ([grasmash](https://github.com/grasmash))
 - Improving upgrade path. [\#302](https://github.com/acquia/blt/pull/302) ([grasmash](https://github.com/grasmash))
@@ -196,7 +228,7 @@
 - composer install is run twice on initial setup [\#8](https://github.com/acquia/blt/issues/8)
 - Switch documentation to not use line breaks at 80 cols [\#4](https://github.com/acquia/blt/issues/4)
 
-**Merged pull requests:**
+**Misc merged pull requests**
 
 - Resolves \#243: Document how to run a partial set of tests. [\#282](https://github.com/acquia/blt/pull/282) ([grasmash](https://github.com/grasmash))
 - Resolves \#219: Documenting committing dependencies. [\#280](https://github.com/acquia/blt/pull/280) ([grasmash](https://github.com/grasmash))
