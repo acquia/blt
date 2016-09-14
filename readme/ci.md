@@ -34,6 +34,9 @@ Travis CI can be used to deploy a fully built site artifact (with the docroot) i
 
 To set up this workflow, you must configure Acquia Cloud, GitHub, and Travis CI to work together. Step-by-step instructions are provided below. _The following instructions apply only to private GitHub repositories._
 
+1. Initialize Travis CI support for your project
+
+         blt ci:travis:init
 
 1. Generate an SSH key locally. E.g.,
 
