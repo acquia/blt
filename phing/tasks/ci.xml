@@ -17,6 +17,14 @@
     </phingcall>
   </target>
 
+  <target name="ci:pipelines:init" description="Initializes default Acquia Pipelines configuration for this project.">
+    <copy file="${blt.root}/scripts/pipelines/acquia-pipelines.yml" tofile="${repo.root}/acquia-pipelines.yml"/>
+  </target>
+
+  <target name="ci:travis:init" description="Initializes default Travis CI configuration for this project.">
+    <copy file="${blt.root}/scripts/travis/.travis.yml" tofile="${repo.root}/.travis.yml"/>
+  </target>
+
   <target name="ci:tugboat:init" description="Initializes default tugboat configuration for this project.">
     <copy file="${blt.root}/scripts/tugboat/Makefile" tofile="${repo.root}/Makefile"/>
     <copy file="${blt.root}/scripts/tugboat/tugboat.drushrc.aliases.php" todir="${repo.root}/drush/site-aliases">

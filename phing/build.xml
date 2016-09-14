@@ -4,6 +4,7 @@
   <includepath classpath="${phing.dir}" />
   <taskdef name="behat" classname="phingcludes.BehatTask"/>
   <taskdef name="drush" classname="phingcludes.DrushTask"/>
+  <taskdef name="randomstring" classname="phingcludes.RandomStringTask" />
   <taskdef name="filterFileListByFileSet" classname="phingcludes.FilterFileListByFileSetTask"/>
   <taskdef name="phpVariable" classname="phingcludes.PhpVariableTask"/>
 
@@ -23,11 +24,11 @@
   <if>
     <isset property="import" />
     <then>
-      <echo>Importing custom Phing file ${import}.</echo>
+      <echo level="verbose">Importing custom Phing file ${import}.</echo>
       <import file="${import}"/>
     </then>
     <else>
-      <echo>No custom Phing file specified.</echo>
+      <echo level="verbose">No custom Phing file specified.</echo>
     </else>
   </if>
 

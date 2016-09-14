@@ -1,3 +1,11 @@
-# These files will be included if they do not yet exist. They will not overwrite
+# These files from template dir will be included if they do not yet exist. They will not overwrite
 # existing files.
+.gitattributes
+.travis.yml
 project.yml
+composer.json
+README.md
+drush/site-aliases/aliases.drushrc.php
+docroot/sites/default/services.yml
+tests/behat/behat.yml
+tests/behat/example.local.yml

@@ -1,6 +1,6 @@
-# ${project.human_name}
+# My Project
 
-Replace this with a brief description of the ${project.human_name} project.
+A brief description of My Project.
 
 ## BLT
 

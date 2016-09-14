@@ -29,16 +29,12 @@ You should be able to use the following tools on the command line of your native
 
 1. Install the `blt` alias and follow on-screen instructions:
 
-        ./vendor/bin/blt install-alias
+        composer blt-alias
 
 1. Customize BLT configuration files:
     * `project.yml`
     * `docroot/sites/default/settings/local.settings.php`
         * Add your local DB credentials to `$databases`
-1. Replace tokens in new BLT-generated files with your custom values in project.yml:
-
-        blt configure
-
 1. Follow instructions for [Setting up your \*AMP stack](#set-up-your-amp-stack)
 1. Follow instructions for <a href="#build-your-projects-local-dependencies-and-install-drupal-locally">installing Drupal locally</a>. Don't install Drupal locally using your web browser.
 1. (optional) Modify project files. Important files that you may want to modify include:
@@ -53,10 +49,9 @@ To add BLT to a pre-existing Drupal project, do the following:
 1. Ensure that your project directory structure is Acquia-cloud compatible by asserting that the Drupal root is in a top-level folder called `docroot`.
 1. If you currently manage your dependencies via Composer, ensure that they are all up to date via `composer update`. Assert that these updates do not break your project.
 1. `cd` into your existing project directory.
-1. Add BLT via composer and initialize it:
+1. Add BLT via composer:
 
-        composer require acquia/blt:~8
-        ./vendor/acquia/blt/blt.sh init
+        composer require acquia/blt:^8.3
 
 1. Follow instructions for [Setting up your \*AMP stack](#set-up-your-42amp-stack)
 1. Follow instructions for <a href="#build-your-projects-local-dependencies-and-install-drupal-locally">installing Drupal locally</a>. Don't install Drupal locally using your web browser.
@@ -72,7 +67,6 @@ To add BLT to a pre-existing Drupal project, do the following:
 If you are already using BLT via Composer, you can update to the latest version of BLT by running the following commands from your project's root directory:
 
       composer update acquia/blt
-      blt update
 
 Review and commit changes to your project files. For customized files like `.travis.yml` or `docroot/sites/default/settings.php` it is recommended that you use `git add -p` to select which specific line changes you'd like to stage and commit.
 
@@ -85,7 +79,7 @@ If you are using an older version of BLT that was not installed using Composer, 
 1. Remove any dependencies that may conflict with upstream acquia/blt. You may add these back later after the upgrade, if necessary.
 
         composer remove drush/drush drupal/console phing/phing phpunit/phpunit squizlabs/php_codesniffer symfony/yaml drupal/coder symfony/console --no-interaction --no-update
-        composer remove drush/drush drupal/console phing/phing phpunit/phpunit squizlabs/php_codesniffer symfony/yaml drupal/coder symfony/console --dev --no-interaction --no-update
+        composer remove drush/drush drupal/console phing/phing phpunit/phpunit squizlabs/php_codesniffer symfony/yaml drupal/coder symfony/console --no-interaction --no-update
         composer config minimum-stability dev
 
 1. (conditional) If you are using Lightning, verify that your version constraint allows it to be updated to the latest stable version:
@@ -94,7 +88,7 @@ If you are using an older version of BLT that was not installed using Composer, 
 
 1. Require acquia/blt as a dev dependency:
 
-        composer require acquia/blt:~8 --dev --no-update
+        composer require acquia/blt:^8.3 --no-update
 
 1. Update all dependencies:
 

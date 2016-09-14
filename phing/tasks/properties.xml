@@ -23,7 +23,7 @@
     </then>
   </if>
 
-  <echo>Executing commands against multisite "${multisite.name}"</echo>
+  <echo level="verbose">Executing commands against multisite "${multisite.name}"</echo>
 
   <!-- Default drush alias. -->
   <property name="drush.alias" value="${drush.default_alias}" override="false" logoutput="false"/>
@@ -31,12 +31,13 @@
   <if>
     <not><equals arg1="${drush.alias}" arg2="self"/></not>
     <then>
-      <echo>Unsetting drush.root because a remote alias is being used.</echo>
+      <echo level="verbose">Unsetting drush.root because a remote alias is being used.</echo>
       <property name="drush.root" value="" override="true"/>
     </then>
   </if>
 
   <target name="echo-property" description="Echoes the value of a Phing property.">
+    <fail unless="property.name" message="property.name must be set!"/>
     <echo>${property.name}</echo>
     <if>
       <isset property="${property.name}"/>
@@ -44,6 +45,10 @@
         <echo level="warning">${${property.name}}</echo>
       </then>
     </if>
+  </target>
+
+  <target name="echo-properties" description="Echoes the value of all Phing properties.">
+    <echoproperties/>
   </target>
 
 </project>

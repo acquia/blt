@@ -4,7 +4,10 @@
 
 BLT (Build and Launch Tool) is a tool that generates new Drupal projects using a standardized template derived from Acquia Professional Services' best practices.
 
-You can find all BLT documentation on [Read the Docs](http://blt.readthedocs.io).
+You can find all BLT documentation on [Read the Docs](http://blt.readthedocs.io):
+
+* [Latest release documentation](http://blt.readthedocs.io/en/stable/)
+* [Latest documentation (8.x / 8.x-dev)](http://blt.readthedocs.io/en/latest/)
 
 ## Getting started
 
@@ -41,8 +44,13 @@ It scope is discretely defined. It is *not* intended to provide:
 * [Project tasks](readme/project-tasks.md)
     * Executing tests and validating code
     * Building dependencies
+        * Management of Drupal core, contrib, and third party libraries via Composer
+        * Building front end assets. E.g, via gulp, npm, bower, etc.
     * (Re)installation of Drupal
+      * Configuration import
 * [Artifact Generation](readme/deploy.md)
+    * Building production-only dependencies
+    * Sanitation of production code
 * [Continuous Integration & Deployment](readme/ci.md)
     * [Acquia Pipelines](https://dev.acquia.com/request-invite-acquia-pipelines) (coming soon)
     * [Travis CI](https://travis-ci.com)

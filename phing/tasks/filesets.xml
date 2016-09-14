@@ -31,11 +31,6 @@
     <patternset refid="files.php"/>
   </fileset>
 
-  <!-- @todo Add multisite subdirs. -->
-  <fileset dir="${docroot}/sites/default/settings" id="files.php.custom.settings" expandsymboliclinks="true">
-    <patternset refid="files.php"/>
-  </fileset>
-
   <fileset dir="${repo.root}/tests" id="files.php.tests" expandsymboliclinks="true">
     <patternset refid="files.php"/>
   </fileset>
