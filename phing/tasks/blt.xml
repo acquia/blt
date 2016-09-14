@@ -26,11 +26,12 @@
 
   <target name="update" depends="init">
     <!-- @todo Ignore some files, settings.php, project.yml, in update. Instead, change only specific values. -->
-    <exec dir="${repo.root}" command="${blt.root}/scripts/blt/update.sh" logoutput="true" checkreturn="true" level="info" passthru="true" />
     <echo>Some of your customized files may have been modified.</echo>
     <echo>Please review changes with "git diff".</echo>
     <echo>If your composer.json was modified, you need to run "composer update".</echo>
     <echo>Commit changes, or use "git add -p [filename]" to select which changes should be committed to each file.</echo>
+    <echo></echo>
+    <echo>To remove deprecated BLT files, run "blt remove-deprecated".</echo>
   </target>
 
   <target name="blt:update-composer" description="Updates project composer.json with a subset of new key value pairs from upstream. This WILL overwrite existing values.">
@@ -53,6 +54,10 @@
     <!--@todo Find out why can't we just redirect output directly back to project.yml. -->
     <exec dir="${repo.root}" command="mv ${repo.root}/project.yml.tmp ${repo.root}/project.yml" logoutput="true" checkreturn="true" level="info" passthru="true"/>
     <echo>project.yml has been modified.</echo>
+  </target>
+
+  <target name="remove-deprecated" description="Removes deprecated BLT files and directories.">
+    <exec dir="${repo.root}" command="${blt.root}/scripts/blt/remove-deprecated.sh" logoutput="true" checkreturn="true" level="info" passthru="true" />
   </target>
 
   <target name="install-alias" description="Installs the BLT alias for command line usage.">
