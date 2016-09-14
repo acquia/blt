@@ -31,7 +31,7 @@
     <echo>If your composer.json was modified, you need to run "composer update".</echo>
     <echo>Commit changes, or use "git add -p [filename]" to select which changes should be committed to each file.</echo>
     <echo></echo>
-    <echo>To remove deprecated BLT files, run "blt remove-deprecated".</echo>
+    <echo>To remove deprecated BLT files, run "blt cleanup".</echo>
   </target>
 
   <target name="blt:update-composer" description="Updates project composer.json with a subset of new key value pairs from upstream. This WILL overwrite existing values.">
@@ -56,7 +56,7 @@
     <echo>project.yml has been modified.</echo>
   </target>
 
-  <target name="remove-deprecated" description="Removes deprecated BLT files and directories.">
+  <target name="cleanup" description="Removes deprecated BLT files and directories.">
     <exec dir="${repo.root}" command="${blt.root}/scripts/blt/remove-deprecated.sh" logoutput="true" checkreturn="true" level="info" passthru="true" />
   </target>
 
