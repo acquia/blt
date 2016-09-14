@@ -22,6 +22,8 @@ You should be able to use the following tools on the command line of your native
 
 ## Creating a new project with BLT
 
+Before creating a new project, it's recommended that your composer cache has been cleared `composer cache-clear`.
+
 1. Create a new project using the [blt-project](https://github.com/acquia/blt-project) template:
 
         composer create-project acquia/blt-project:8.x-dev MY_PROJECT --no-interaction
