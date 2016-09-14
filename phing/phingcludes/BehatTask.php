@@ -422,7 +422,7 @@ class BehatTask extends Task
     }
 
     if ($this->tags) {
-      $this->options['tags'] = $this->tags;
+      $this->options['tags'] = '"' . $this->tags . '"';
     }
 
     if ($this->format) {
