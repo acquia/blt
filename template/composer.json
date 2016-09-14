@@ -20,7 +20,6 @@
     "drupal/search_api":                          "8.1.0-alpha14",
     "drupal/search_api_solr":                     "8.1.0-alpha3",
     "drupal/security_review":                     "8.*",
-    "drupal-composer/drupal-scaffold":            "^2.0.0",
     "drupal-composer/drupal-security-advisories": "8.0.x-dev",
     "roave/security-advisories":                  "dev-master"
   },
@@ -34,9 +33,10 @@
     "drupal/coder":                 "~8.2",
     "drupal/drupal-extension":      "~3.0",
     "drush/drush":                  "^9.0",
+    "drupal-composer/drupal-scaffold": "^2.0.0",
     "jakoch/phantomjs-installer":   "dev-master as 1.9.8",
     "jarnaiz/behat-junit-formatter": "^1.2",
-    "phing/phing":                  "dev-master#0ef30e55bb5871cb38903cc0ee9d76074118a22c",
+    "phing/phing":                  "~2",
     "phpunit/phpunit":             "~5.4",
     "squizlabs/php_codesniffer":    "2.*"
   },
