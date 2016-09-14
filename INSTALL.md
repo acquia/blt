@@ -51,7 +51,7 @@ To add BLT to a pre-existing Drupal project, do the following:
 1. `cd` into your existing project directory.
 1. Add BLT via composer:
 
-        composer require acquia/blt:~8
+        composer require acquia/blt:^8.3
 
 1. Follow instructions for [Setting up your \*AMP stack](#set-up-your-42amp-stack)
 1. Follow instructions for <a href="#build-your-projects-local-dependencies-and-install-drupal-locally">installing Drupal locally</a>. Don't install Drupal locally using your web browser.
@@ -88,7 +88,7 @@ If you are using an older version of BLT that was not installed using Composer, 
 
 1. Require acquia/blt as a dev dependency:
 
-        composer require acquia/blt:~8 --no-update
+        composer require acquia/blt:^8.3 --no-update
 
 1. Update all dependencies:
 
