@@ -16,7 +16,6 @@
 /docroot/themes/contrib
 /drush/contrib
 /drush.wrapper
-/patches
 /project.yml
 /README.md
 /readme
