@@ -1,5 +1,31 @@
 # Change Log
 
+## [8.4.2](https://github.com/acquia/blt/tree/8.4.2) (2016-09-14)
+[Full Changelog](https://github.com/acquia/blt/compare/8.4.1...8.4.2)
+
+**Implemented enhancements:**
+
+- Create init tasks for ci [\#379](https://github.com/acquia/blt/issues/379)
+- Allow customization of blt update file excludes. [\#396](https://github.com/acquia/blt/pull/396) ([grasmash](https://github.com/grasmash))
+- Updating Phing to latest version. [\#395](https://github.com/acquia/blt/pull/395) ([grasmash](https://github.com/grasmash))
+- Removing duplicative drupal scaffold files. [\#391](https://github.com/acquia/blt/pull/391) ([grasmash](https://github.com/grasmash))
+- Ignoring various files in rsync update. [\#390](https://github.com/acquia/blt/pull/390) ([grasmash](https://github.com/grasmash))
+- Fixes \#379: Adding init tasks for ci config. [\#389](https://github.com/acquia/blt/pull/389) ([grasmash](https://github.com/grasmash))
+- Making deprecated file deletion opt-in. [\#388](https://github.com/acquia/blt/pull/388) ([grasmash](https://github.com/grasmash))
+
+**Fixed bugs:**
+
+- Update ACSF hooks to use new blt vendor settings. [\#393](https://github.com/acquia/blt/pull/393) ([dpagini](https://github.com/dpagini))
+- fix template/.gitattributes [\#392](https://github.com/acquia/blt/pull/392) ([dpagini](https://github.com/dpagini))
+- Adding quotes to Behat tags. [\#387](https://github.com/acquia/blt/pull/387) ([grasmash](https://github.com/grasmash))
+
+**Misc merged pull requests**
+
+- Adding tests and docs for travis:ci:init command. [\#398](https://github.com/acquia/blt/pull/398) ([grasmash](https://github.com/grasmash))
+- Simple grammar update to add a space. [\#397](https://github.com/acquia/blt/pull/397) ([dpagini](https://github.com/dpagini))
+- BLT: Encourage cache clear upon project creation. [\#394](https://github.com/acquia/blt/pull/394) ([bhasselbeck](https://github.com/bhasselbeck))
+- Removing invaid @todo. [\#386](https://github.com/acquia/blt/pull/386) ([grasmash](https://github.com/grasmash))
+
 ## [8.4.1](https://github.com/acquia/blt/tree/8.4.1) (2016-09-12)
 [Full Changelog](https://github.com/acquia/blt/compare/8.4.0...8.4.1)
 
@@ -8,6 +34,7 @@
 - BLT presumes sites/default, complicates multisite settings [\#380](https://github.com/acquia/blt/issues/380)
 - Automate execution of `blt update` after composer update [\#341](https://github.com/acquia/blt/issues/341)
 - Install BLT alias automatically for developers [\#284](https://github.com/acquia/blt/issues/284)
+- Fixes \#380: Allow $site\_dir to be defined for multisite. [\#382](https://github.com/acquia/blt/pull/382) ([grasmash](https://github.com/grasmash))
 - Making vm:init task more verbose. [\#376](https://github.com/acquia/blt/pull/376) ([grasmash](https://github.com/grasmash))
 - Replacing external Phing random string task with internal one. [\#375](https://github.com/acquia/blt/pull/375) ([grasmash](https://github.com/grasmash))
 - Added search modules [\#374](https://github.com/acquia/blt/pull/374) ([danepowell](https://github.com/danepowell))
@@ -28,7 +55,6 @@
 **Misc merged pull requests**
 
 - Updating documentation. [\#383](https://github.com/acquia/blt/pull/383) ([grasmash](https://github.com/grasmash))
-- Fixes \#380: Allow $site\_dir to be defined for multisite. [\#382](https://github.com/acquia/blt/pull/382) ([grasmash](https://github.com/grasmash))
 - Update RELEASE.md [\#378](https://github.com/acquia/blt/pull/378) ([grasmash](https://github.com/grasmash))
 - Updating CONTRIBUTING.md and RELEASE.md [\#371](https://github.com/acquia/blt/pull/371) ([grasmash](https://github.com/grasmash))
 
