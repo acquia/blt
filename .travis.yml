@@ -72,12 +72,11 @@ script:
   # Commit so that susbsequent git commit tests have something to ammend.
   - git commit -m 'Initial commit.'
   # BLT is the only dependency at this point. Install it.
-  - composer install
+  - composer install -v
   - export PATH=$TRAVIS_BUILD_DIR/../blt-project/vendor/bin:$PATH
-  - yes | blt init
   # The local.hostname must be set to 127.0.0.1:8888 because we are using drush runserver to run the site on Travis CI.
   - drupal yaml:update:value project.yml project.local.hostname '127.0.0.1:8888'
-  # Running `blt init` modified composer.json, so we must update.
+  # BLT added new dependencies for us, so we must update.
   - composer update
   # Create a .travis.yml, just to make sure it works. It won't be executed.
   - blt ci:travis:init

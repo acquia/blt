@@ -120,7 +120,6 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     // @todo cd into project root from getVendorPath?
     $this->io->write('<info>Updating BLT templated files</info>');
     $this->executeCommand('blt update');
-    $this->io->write('<info>BLT template files were updated</info>');
     $this->io->write('<comment>This may have modified your composer.json and require a subsequent `composer update`</comment>');
   }
 

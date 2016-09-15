@@ -1,18 +1,11 @@
 <project name="blt" default="update">
-  <target name="create-project" depends="init">
+  <target name="create-project" depends="update">
     <exec dir="${repo.root}" command="git init" logoutput="true" checkreturn="true" level="info" passthru="true"/>
     <echo>Updating composer dependencies, this make take a while...</echo>
     <exec dir="${repo.root}" command="export COMPOSER_PROCESS_TIMEOUT=600; composer update" logoutput="true" checkreturn="true" level="info" passthru="true"/>
     <exec dir="${repo.root}" command="git add -A" logoutput="true" checkreturn="true" level="info" passthru="true"/>
     <exec dir="${repo.root}" command="git commit -m 'Initial commit.'" logoutput="true" checkreturn="true" level="info" passthru="true"/>
     <exec dir="${repo.root}" command="rm LICENSE.txt" logoutput="true" checkreturn="true" level="info" passthru="true"/>
-  </target>
-
-  <target name="init" depends="blt:rsync-template, blt:update-composer, blt:update-yml, setup:drupal:settings">
-    <echo>BLT files have been copied to your project directory.</echo>
-    <echo>Some of your existing files may have been modified.</echo>
-    <echo></echo>
-    <echo>Please customize ${repo.root}/project.yml.</echo>
   </target>
 
   <target name="blt:rsync-template">
@@ -24,8 +17,7 @@
     <exec dir="${repo.root}" command="rsync -a --no-g ${blt.root}/template/ ${repo.root}/ --include-from=${blt.update.ignore-existing-file} --ignore-existing" logoutput="true" checkreturn="true" level="info" passthru="true"/>
   </target>
 
-  <target name="update" depends="init">
-    <!-- @todo Ignore some files, settings.php, project.yml, in update. Instead, change only specific values. -->
+  <target name="update" depends="blt:rsync-template, blt:update-composer, blt:update-yml, setup:drupal:settings">
     <echo>Some of your customized files may have been modified.</echo>
     <echo>Please review changes with "git diff".</echo>
     <echo>If your composer.json was modified, you need to run "composer update".</echo>
