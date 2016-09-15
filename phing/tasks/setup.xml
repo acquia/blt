@@ -87,7 +87,9 @@
         </if>
       </then>
     </if>
+  </target>
 
+  <target name="setup:drush" description="Create local drush settings files.">
     <if>
       <not><available file="${docroot}/sites/${multisite.name}/local.drushrc.php" type="file" /></not>
       <then>
@@ -119,7 +121,7 @@
 
   <target name="setup:drupal:install"
           description="Installs a specific Drupal site."
-          depends="setup:drupal:settings, setup:hash-salt">
+          depends="setup:drupal:settings, setup:drush, setup:hash-salt">
 
     <echo>Printing drush status.</echo>
     <drush command="status"/>
