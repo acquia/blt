@@ -7,7 +7,7 @@ This document outlines the process for creating a new BLT release.
 In order to use these testing instructions:
 
 * The `blt` alias must be installed.
-* Your LAMP stack must have host entry for `http://blt8-release.localhost` pointing to `./blt8-release/docroot`.
+* Your LAMP stack must have host entry for `http://blted8.localhost` pointing to `./blted8/docroot`.
 * MySQL must use `mysql://drupal:drupal@localhost/drupal:3306`. If this is not the case, modify the instructions below for your credentials.
 * In order to test Drupal VM, you must install VirtualBox and Vagrant. See [Drupal VM](https://github.com/geerlingguy/drupal-vm#quick-start-guide) for more information.
 
@@ -16,17 +16,17 @@ In order to use these testing instructions:
 This test verifies that a new project can be created using `acquia/blt-project` via composer. This also tests the `blt update` process.
 
     export COMPOSER_PROCESS_TIMEOUT=2000
-    composer create-project acquia/blt-project blt8-release --no-interaction
-    cd blt8-release
-    ./vendor/bin/drupal yaml:update:value project.yml project.local.hostname 'blt8-release.localhost'
-    echo '$databases["default"]["default"]["username"] = "drupal";' >> docroot/sites/default/settings/local.settings.php
-    echo '$databases["default"]["default"]["password"] = "drupal";' >> docroot/sites/default/settings/local.settings.php
+    composer create-project acquia/blt-project blted8 --no-interaction
+    cd blted8
+    # Overwrite MySQL creds for your local machine, if necessary.
+    # echo '$databases["default"]["default"]["username"] = "drupal";' >> docroot/sites/default/settings/local.settings.php
+    # echo '$databases["default"]["default"]["password"] = "drupal";' >> docroot/sites/default/settings/local.settings.php
     blt local:setup
     drush uli
     read -p "Press any key to continue"
     
     # This updates to the latest dev version.
-    composer update acquia/blt:8.x-dev
+    composer require acquia/blt:8.x-dev
     dr uli
     read -p "Press any key to continue"
     cd ../
@@ -35,14 +35,13 @@ This test verifies that a new project can be created using `acquia/blt-project` 
 
 This test verifies that a new project can be created from scratch using blt, without blt-project. It also tests Drupal VM integration.
 
-    rm -rf blt8-release
-    mkdir blt8-release
-    cd blt8-release
+    rm -rf blted8
+    mkdir blted8
+    cd blted8
     git init
     composer init --stability=dev --no-interaction
     composer config prefer-stable true
     composer require acquia/blt:8.x-dev
-    ./vendor/bin/drupal yaml:update:value project.yml project.local.hostname 'blt8-release.localhost'
     composer update
     blt vm:init
     vagrant up
