@@ -47,7 +47,7 @@ To execute Behat tests using the 'drupal' driver on a Drupal VM environment, you
 1. Update `tests/behat/local.yml` with the absolute file path to your project _inside the VM_. I.e., find and replace all instances of `host/machine/path/to/repo` with `/vm/path/to/repo`, which should look something like `var/www/[project.machine_name]`. 
 1. SSH into the VM `vagrant ssh`.
 1. Change to your project directory `cd /var/www/[project.machine_name]`.
-1. Assert that PhantomJS is installed for VM: `composer run-script install-phantomjs`
+1. Assert that PhantomJS is installed for VM. Unfortunately, this requires building Composer dependencies while SSHed into the VM: `rm -rf vendor && composer install`.
 1. Execute behat tests `blt tests:behat`
 
 #### Using the Drupal Extension's "drush" driver with Drupal VM

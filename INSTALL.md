@@ -33,6 +33,12 @@ You should be able to use the following tools on the command line of your native
 
         composer blt-alias
 
+1. Initialize BLT:
+
+        blt init
+
+   This will copy the required files from BLT into you project. This command only needs to be run once. Subsequent updates to the acquia/blt package will automatically update the copied files.
+
 1. Customize BLT configuration files:
     * `project.yml`
     * `docroot/sites/default/settings/local.settings.php`
@@ -42,7 +48,6 @@ You should be able to use the following tools on the command line of your native
 1. (optional) Modify project files. Important files that you may want to modify include:
     * composer.json. Note that Drupal core, contrib, and third party dependencies are all managed here.
     * Project’s root README.md.
-    * Other project documentation in the readme directory.
 
 ## Adding BLT to an existing project
 
@@ -55,12 +60,25 @@ To add BLT to a pre-existing Drupal project, do the following:
 
         composer require acquia/blt:^8.3
 
+1. Install the `blt` alias and follow on-screen instructions:
+
+        composer blt-alias
+
+1. Initialize BLT:
+
+        blt init
+
+   This will copy the required files from BLT into you project. This command only needs to be run once. Subsequent updates to the acquia/blt package will automatically update the copied files.
+
+1. Customize BLT configuration files:
+    * `project.yml`
+    * `docroot/sites/default/settings/local.settings.php`
+        * Add your local DB credentials to `$databases`
 1. Follow instructions for [Setting up your \*AMP stack](#set-up-your-42amp-stack)
 1. Follow instructions for <a href="#build-your-projects-local-dependencies-and-install-drupal-locally">installing Drupal locally</a>. Don't install Drupal locally using your web browser.
 1. (optional) Modify project files. Important files that you may want to modify include:
     * composer.json. Note that Drupal core, contrib, and third party dependencies are all managed here.
     * Project’s root README.md.
-    * Other project documentation in the readme directory.
 
 ## Updating BLT
 
