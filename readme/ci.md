@@ -49,13 +49,12 @@ To set up this workflow, you must configure Acquia Cloud, GitHub, and Travis CI 
 1. Login to the new Acquia Cloud account and add the public SSH key from the key pair that was generated in step 1 by visiting `https://accounts.acquia.com/account/[uid]/security`.
 1. Add the same public SSH key to the "Deployment Keys" section on your project's GitHub settings page, located at `https://github.com/acquia-pso/[project-name]/settings/keys`. **Note: You may not have direct access to these settings if you do not have administrative control over your repository.**
 1. Add the _private SSH key_ to your project's Travis CI settings located at `https://magnum.travis-ci.com/acquia-pso/[project-name]/settings`.
-1. Uncomment the example deployment steps in your .travis.yml file and customize them to deploy your desired branch.
 1. Add your cloud git repository to the remotes section of your project.yml file:
 
         remotes:
            - example@svn-14671.prod.hosting.acquia.com:example.git`
 
-1. Add your cloud git repository's server host name to `ssh_known_hosts` in your .travis.yml file.
+1. Add your cloud git repository's server host name to `ssh_known_hosts` in your .travis.yml file. Take care to remove the user name and file name (example.git) and use only the hostname.
 
         addons:
           ssh_known_hosts:
