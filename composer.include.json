@@ -1,0 +1,59 @@
+{
+  "repositories": [
+    {
+      "type": "composer",
+      "url":  "https://packagist.drupal-composer.org"
+    }
+  ],
+  "require": {
+    "composer/installers":                        "^1.0.20",
+    "cweagans/composer-patches":                  "^1.5.0",
+    "drupal/acquia_connector":                    "8.1.*",
+    "drupal/acsf":                                "~8.1",
+    "drupal/console":                             "~1",
+    "drupal/core":                                "~8",
+    "drupal/lightning":                           "~8",
+    "drupal/memcache" :                           "8.*",
+    "drupal/search_api":                          "8.1.0-alpha14",
+    "drupal/search_api_solr":                     "8.1.0-alpha3",
+    "drupal/security_review":                     "8.*",
+    "drupal-composer/drupal-security-advisories": "8.0.x-dev",
+    "roave/security-advisories":                  "dev-master"
+  },
+  "require-dev": {
+    "behat/behat":                  "3.0.*",
+    "behat/mink":                   "1.6@stable",
+    "behat/mink-browserkit-driver": "*",
+    "behat/mink-extension":         "*",
+    "behat/mink-goutte-driver":     "*",
+    "behat/mink-selenium2-driver":  "*",
+    "drupal/coder":                 "~8.2",
+    "drupal/drupal-extension":      "~3.0",
+    "drush/drush":                  "^9.0",
+    "drupal-composer/drupal-scaffold": "^2.0.0",
+    "jakoch/phantomjs-installer":   "dev-master as 1.9.8",
+    "jarnaiz/behat-junit-formatter": "^1.2",
+    "phing/phing":                  "~2",
+    "phpunit/phpunit":             "~5.4",
+    "squizlabs/php_codesniffer":    "2.*"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Drupal\\Tests\\PHPUnit\\": "tests/phpunit/src/"
+    }
+  },
+  "extra": {
+    "installer-paths": {
+      "docroot/core":                     ["type:drupal-core"],
+      "docroot/modules/contrib/{$name}":  ["type:drupal-module"],
+      "docroot/profiles/contrib/{$name}": ["type:drupal-profile"],
+      "docroot/themes/contrib/{$name}":   ["type:drupal-theme"],
+      "drush/contrib/{$name}":            ["type:drupal-drush"]
+    },
+    "patches": {
+      "drupal/core": {
+        "Ignore front end vendor folders to improve directory search performance": "https://www.drupal.org/files/issues/ignore_front_end_vendor-2329453-116.patch"
+      }
+    }
+  },
+}
