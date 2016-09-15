@@ -1,6 +1,28 @@
 # Change Log
 
-## [8.4.2](https://github.com/acquia/blt/tree/8.4.2) (2016-09-14)
+## [8.4.3](https://github.com/acquia/blt/tree/8.4.3) (2016-09-15)
+[Full Changelog](https://github.com/acquia/blt/compare/8.4.2...8.4.3)
+
+**Implemented enhancements:**
+
+- Optimizing autoload for artifact. [\#409](https://github.com/acquia/blt/pull/409) ([grasmash](https://github.com/grasmash))
+- Separating setup:drush from setup:drupal:settings. [\#407](https://github.com/acquia/blt/pull/407) ([grasmash](https://github.com/grasmash))
+- Adding test for Pipelines integration. [\#406](https://github.com/acquia/blt/pull/406) ([grasmash](https://github.com/grasmash))
+- Update behat/mink to ~1.7 \(v1.6.0 -\> v1.7.1\), upgrade lightning to ~8 \(1.03 -\> 1.04\) [\#405](https://github.com/acquia/blt/pull/405) ([balsama](https://github.com/balsama))
+- Installing alias automatically. [\#404](https://github.com/acquia/blt/pull/404) ([grasmash](https://github.com/grasmash))
+- Removing blt init from more places. [\#403](https://github.com/acquia/blt/pull/403) ([grasmash](https://github.com/grasmash))
+
+**Fixed bugs:**
+
+- Adding patches dir back to artifact. [\#402](https://github.com/acquia/blt/pull/402) ([grasmash](https://github.com/grasmash))
+- Removing POST\_INSTALL\_CMD event from BLT composer plugin. [\#401](https://github.com/acquia/blt/pull/401) ([grasmash](https://github.com/grasmash))
+
+**Misc merged pull requests**
+
+- Updating release instructions. [\#410](https://github.com/acquia/blt/pull/410) ([grasmash](https://github.com/grasmash))
+- Resolve typo in install docs. [\#400](https://github.com/acquia/blt/pull/400) ([srowlands](https://github.com/srowlands))
+
+## [8.4.2](https://github.com/acquia/blt/tree/8.4.2) (2016-09-15)
 [Full Changelog](https://github.com/acquia/blt/compare/8.4.1...8.4.2)
 
 **Implemented enhancements:**
