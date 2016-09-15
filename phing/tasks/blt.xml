@@ -18,6 +18,10 @@
   </target>
 
   <target name="update" depends="blt:rsync-template, blt:update-composer, blt:update-yml, setup:drupal:settings">
+    <phingcall target="install-alias">
+      <property name="create_alias" value="true"/>
+    </phingcall>
+
     <echo>Some of your customized files may have been modified.</echo>
     <echo>Please review changes with "git diff".</echo>
     <echo>If your composer.json was modified, you need to run "composer update".</echo>
