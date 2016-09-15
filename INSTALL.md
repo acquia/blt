@@ -33,12 +33,6 @@ You should be able to use the following tools on the command line of your native
 
         composer blt-alias
 
-1. Initialize BLT:
-
-        blt init
-
-   This will copy the required files from BLT into you project. This command only needs to be run once. Subsequent updates to the acquia/blt package will automatically update the copied files.
-
 1. Customize BLT configuration files:
     * `project.yml`
     * `docroot/sites/default/settings/local.settings.php`
@@ -63,12 +57,6 @@ To add BLT to a pre-existing Drupal project, do the following:
 1. Install the `blt` alias and follow on-screen instructions:
 
         composer blt-alias
-
-1. Initialize BLT:
-
-        blt init
-
-   This will copy the required files from BLT into you project. This command only needs to be run once. Subsequent updates to the acquia/blt package will automatically update the copied files.
 
 1. Customize BLT configuration files:
     * `project.yml`
