@@ -18,7 +18,6 @@ This test verifies that a new project can be created using `acquia/blt-project` 
     export COMPOSER_PROCESS_TIMEOUT=2000
     composer create-project acquia/blt-project blt8-release --no-interaction
     cd blt8-release
-    blt init
     ./vendor/bin/drupal yaml:update:value project.yml project.local.hostname 'blt8-release.localhost'
     echo '$databases["default"]["default"]["username"] = "drupal";' >> docroot/sites/default/settings/local.settings.php
     echo '$databases["default"]["default"]["password"] = "drupal";' >> docroot/sites/default/settings/local.settings.php
@@ -43,7 +42,6 @@ This test verifies that a new project can be created from scratch using blt, wit
     composer init --stability=dev --no-interaction
     composer config prefer-stable true
     composer require acquia/blt:8.x-dev
-    blt init
     ./vendor/bin/drupal yaml:update:value project.yml project.local.hostname 'blt8-release.localhost'
     composer update
     blt vm:init
