@@ -1,11 +1,11 @@
 <project name="blt" default="update">
-  <target name="create-project" depends="update">
+  <target name="create-project">
     <exec dir="${repo.root}" command="git init" logoutput="true" checkreturn="true" level="info" passthru="true"/>
     <echo>Updating composer dependencies, this make take a while...</echo>
     <exec dir="${repo.root}" command="export COMPOSER_PROCESS_TIMEOUT=600; composer update" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <exec dir="${repo.root}" command="rm LICENSE.txt" logoutput="true" checkreturn="true" level="info" passthru="true"/>
     <exec dir="${repo.root}" command="git add -A" logoutput="true" checkreturn="true" level="info" passthru="true"/>
     <exec dir="${repo.root}" command="git commit -m 'Initial commit.'" logoutput="true" checkreturn="true" level="info" passthru="true"/>
-    <exec dir="${repo.root}" command="rm LICENSE.txt" logoutput="true" checkreturn="true" level="info" passthru="true"/>
   </target>
 
   <target name="blt:rsync-template">
