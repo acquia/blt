@@ -17,6 +17,12 @@ See [INSTALL.md](INSTALL.md) to:
 * [Add BLT to an existing project](https://github.com/acquia/blt/blob/8.x/INSTALL.md#adding-blt-to-an-existing-project)
 * [Update BLT](https://github.com/acquia/blt/blob/8.x/INSTALL.md#updating-blt)
 
+## Videos
+
+* [Create a new Drupal site](https://www.youtube.com/watch?v=BrsZAyfj2tE)
+* [Deploy to Acquia Cloud](https://www.youtube.com/watch?v=jjnPMvZ2x-c)
+* [Deploy to DrupaVM](https://www.youtube.com/watch?v=jEzHzdrzR3c)
+
 ## Philosophy and Purpose
 
 BLT is designed to improve efficiency and collaboration across Drupal projects by providing a common set of tools and standardized structure. It was born out of the need to reduce re-work, project set up time, and developer onboarding time.
