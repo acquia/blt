@@ -214,9 +214,9 @@ class DrushTask extends Task {
    */
   public function setPassthru($var) {
     if (is_string($var)) {
-      $this->verbose = ($var === 'yes' || $var === 'true');
+      $this->passthru = ($var === 'yes' || $var === 'true');
     } else {
-      $this->verbose = !!$var;
+      $this->passthru = !!$var;
     }
   }
 
@@ -250,10 +250,6 @@ class DrushTask extends Task {
     if (!empty($this->alias)) {
       $command[] = '@' . $this->alias;
     }
-
-    $option = new DrushOption();
-    $option->setName('nocolor');
-    $this->options[] = $option;
 
     if (!empty($this->root)) {
       $option = new DrushOption();
@@ -303,7 +299,6 @@ class DrushTask extends Task {
       $command[] = $param->getValue();
     }
 
-    $command = implode(' ', $command);
 
     if (!empty($this->dir)) {
       $this->log("Changing working directory to: $this->dir");
@@ -311,14 +306,20 @@ class DrushTask extends Task {
     }
 
     // Execute Drush.
-    $this->log("Executing: $command");
     $output = array();
     $return = NULL;
 
     if ($this->passthru) {
+      $command = implode(' ', $command);
+      $this->log("Executing: $command");
       passthru($command, $return);
     }
     else {
+      // Redirect sterr to stout for Phing log.
+      $command[] = '2>&1';
+
+      $command = implode(' ', $command);
+      $this->log("Executing: $command");
       exec($command, $output, $return);
       // Collect Drush output for display through Phing's log.
       foreach ($output as $line) {

@@ -8,6 +8,12 @@
     <exec dir="${repo.root}" command="git commit -m 'Initial commit.'" logoutput="true" checkreturn="true" level="info" passthru="true"/>
   </target>
 
+  <target name="doctor" description="Inspects your local blt configuration for possible issues.">
+    <drush command="blt-doctor" verbose="false" uri="">
+      <option name="include">${blt.root}/drush</option>
+    </drush>
+  </target>
+
   <target name="blt:rsync-template">
     <echo>Copying files from BLT's template into your project.</echo>
     <!-- @todo Do not overwrite structured or executable files. Instead, update them intelligently settings.php, drush.wrapper etc. -->

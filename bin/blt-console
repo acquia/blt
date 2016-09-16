@@ -11,6 +11,9 @@ $consoleRoot = __DIR__ . '/../';
 if (file_exists($consoleRoot . 'vendor/autoload.php')) {
   $autoload = include_once $consoleRoot . 'vendor/autoload.php';
 }
+elseif (file_exists($consoleRoot . '../blt-project/vendor/autoload.php')) {
+  $autoload = include_once $consoleRoot . '../blt-project/vendor/autoload.php';
+}
 elseif (file_exists($consoleRoot.'../../autoload.php')) {
   $autoload = include_once $consoleRoot . '../../autoload.php';
 }
