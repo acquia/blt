@@ -4,12 +4,17 @@
 use Acquia\Blt\Console\Command\ComposerMungeCommand;
 use Acquia\Blt\Console\Command\YamlMungeCommand;
 use Symfony\Bridge\Twig\Command\LintCommand;
+use Acquia\Blt\Console\Command\BltDoctorCommand;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Helper\HelperSet;
 
 set_time_limit(0);
 $consoleRoot = __DIR__ . '/../';
 if (file_exists($consoleRoot . 'vendor/autoload.php')) {
   $autoload = include_once $consoleRoot . 'vendor/autoload.php';
+}
+elseif (file_exists($consoleRoot . '../blt-project/vendor/autoload.php')) {
+  $autoload = include_once $consoleRoot . '../blt-project/vendor/autoload.php';
 }
 elseif (file_exists($consoleRoot.'../../autoload.php')) {
   $autoload = include_once $consoleRoot . '../../autoload.php';
@@ -23,4 +28,5 @@ $application = new Application();
 $application->add(new ComposerMungeCommand());
 $application->add(new YamlMungeCommand());
 $application->add(new LintCommand());
+$application->add(new BltDoctorCommand(new HelperSet()));
 $application->run();
