@@ -34,9 +34,19 @@ class BltDoctor {
 
     // @todo Check if Drupal is installed.
     // @todo Check if files directory exists.
-    // @todo Check error_level.
+    // @todo Check if config dir exists.
+    // @todo Check for config issues. E.g., features overrides, config/optional dirs, etc.
+    // @todo Check error_level is correct for local dev.
     // @todo Check if theme dependencies have been built.
     // @todo Check if composer dependencies have been built.
+    // @todo If using DD, verify correct environmental variables.
+    // @todo Check that CI is initialized, repos are populated.
+    // @todo Check that if drupal/acsf is in composer.json, acsf is initialized.
+    // @todo If using lightning, check lightning.extend.yml exists.
+    // @todo Check for existence of deprecated BLT files.
+    // @todo Check that docroot value in Behat's local.yml is correct. Consider DrupalVM.
+    // @todo Check that base_url value in Behat's local.yml is correct. Consider DrupalVM.
+    // @todo Check is PhantomJS bin matches OS.
   }
 
   /**
