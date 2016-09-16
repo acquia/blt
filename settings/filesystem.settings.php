@@ -9,6 +9,7 @@ $settings['file_public_path'] = "sites/$site_dir/files";
 
 // ACSF file paths.
 if ($is_acsf) {
+  $settings['file_public_path'] = "sites/g/files/$acsf_db_name/files";
   $settings['file_private_path'] = "/mnt/gfs/$ah_group.$ah_env/files-private/$acsf_db_name";
 }
 // Acquia cloud file paths.
