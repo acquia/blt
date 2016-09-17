@@ -89,12 +89,12 @@ script:
   - blt deploy:build
   # Add Drupal VM config to repo.
   - blt vm:init
+  # Ensure that the doctor doesn't report any problems at this point.
+  - blt doctor
   # Switch back to 'blt' directory.
   - cd ../blt
   # Run 'blt' phpunit tests, excluding deploy-push tests.
   - phpunit tests/phpunit --group blt --exclude-group deploy-push
-  # Execute 'blt update' just to ensure that there isn't a non-zero exit code.
-  # - blt update
 
 deploy:
   provider: script
