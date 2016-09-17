@@ -16,8 +16,26 @@ class BltDoctor {
    * BoltDoctor constructor.
    */
   public function __construct() {
-    $this->statusTable = drush_core_status();
-    $this->localSettingsPath = $this->statusTable['root'] . '/' . $this->statusTable['site'] . '/settings/' . 'local.settings.php';
+    $this->statusTable = $this->getStatusTable();
+    $this->docroot = $this->statusTable['root'];
+    $this->siteRoot = $this->docroot . '/' . $this->statusTable['site'];
+    $this->uri = $this->getUri();
+    $this->localSettingsPath = $this->siteRoot . '/settings/' . 'local.settings.php';
+    $this->localDrushRcPath = $this->siteRoot . '/local.drushrc.php';
+  }
+
+  public function getStatusTable() {
+    $status_table = drush_core_status();
+    $status_table['php-mysql'] = ini_get('pdo_mysql.default_socket');
+
+    return $status_table;
+  }
+
+  public function getUri() {
+    if (!empty($this->statusTable['uri'])) {
+      return $this->statusTable['uri'];
+    }
+    return NULL;
   }
 
   /**
@@ -25,14 +43,14 @@ class BltDoctor {
    */
   public function checkAll() {
     $this->checkLocalSettingsFile();
+    $this->checkLocalDrushFile();
     $this->checkUriResponse();
     $this->checkHttps();
     $this->checkDbConnection();
     $this->checkCachingConfig();
     $this->checkNvmExists();
     //$this->checkDatabaseUpdates();
-
-    // @todo Check if Drupal is installed.
+    // @todo Check if Drupal is installed (apart from being bootstrapped by drush).
     // @todo Check if files directory exists.
     // @todo Check if config dir exists.
     // @todo Check for config issues. E.g., features overrides, config/optional dirs, etc.
@@ -47,6 +65,8 @@ class BltDoctor {
     // @todo Check that docroot value in Behat's local.yml is correct. Consider DrupalVM.
     // @todo Check that base_url value in Behat's local.yml is correct. Consider DrupalVM.
     // @todo Check is PhantomJS bin matches OS.
+    // @todo Check for hirak/pretisimmo composer plugin.
+    // @todo Check that acquia/validate is in require array and not require-dev.
   }
 
   /**
@@ -64,18 +84,41 @@ class BltDoctor {
     drush_print();
   }
 
+  protected function checkLocalDrushFile() {
+    if (!file_exists($this->localDrushRcPath)) {
+      drush_log("$this->localDrushRcPath does not exist", 'error');
+      drush_print("Run `blt setup:drush` to generate it automatically.", 2);
+    }
+    else {
+      drush_log("Found your local drush settings file at:", 'success');
+      drush_print($this->localDrushRcPath, 2);
+    }
+    drush_print();
+  }
+
   /**
    * Checks that configured $base_url responds to requests.
    */
   protected function checkUriResponse() {
-    $site_available = drush_shell_exec("curl -I --insecure %s", $this->statusTable['uri']);
+    if (!$this->uri) {
+      drush_log("Site URI is not set", 'error');
+      drush_print("Is \$options['uri'] set correctly in $this->localDrushRcPath?", 2);
+
+      return FALSE;
+    }
+
+    $site_available = drush_shell_exec("curl -I --insecure %s", $this->uri);
     if (!$site_available) {
-      drush_log("Did not get response from $this->statusTable['uri']", 'error');
+      drush_log("Did not get a response from $this->uri", 'error');
       drush_print("Is your *AMP stack running?", 2);
-      drush_print("Is your \$base_url set correctly in $this->localSettingsPath?", 2);
+      drush_print("Is your web server configured to serve this URI from $this->docroot?", 2);
+      drush_print("Is Drupal installed?", 2);
+      drush_print("Is \$options['uri'] set correctly in $this->localDrushRcPath?", 2);
+      drush_print();
+      drush_print("To generate settings files and install Drupal, run `blt local:setup`", 2);
     }
     else {
-      drush_log("Received response from site:", 'success');
+      drush_log("Received a response from site:", 'success');
       drush_print($this->statusTable['uri'], 2);
     }
     drush_print();
@@ -111,12 +154,21 @@ class BltDoctor {
         'db-port',
       ));
 
-      drush_print('Is the active PHP binary the same one that is associated with your database service?');
+      if ($this->statusTable['db-driver'] == 'mysql') {
+        drush_print("To verify your mysql credentials, run `mysql -u {$this->statusTable['db-username']} -h {$this->statusTable['db-hostname']} -p{$this->statusTable['db-password']} -P {$this->statusTable['db-port']}`", 2);
+        drush_print();
+      }
+
+      drush_print('Are you using the correct PHP binary?', 2);
+      drush_print('Is PHP using the correct MySQL socket?', 2);
       drush_blt_print_status_rows($this->statusTable, array(
         'php-os',
         'php-bin',
         'php-conf',
+        'php-mysql'
       ));
+      drush_print("To verify, run `drush sqlc`", 2);
+      drush_print();
 
       drush_print('Are you using the correct site and settings.php file?');
       drush_blt_print_status_rows($this->statusTable, array(

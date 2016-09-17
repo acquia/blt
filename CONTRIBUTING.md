@@ -7,8 +7,6 @@ Please feel free to contribute to the project or file issues via the GitHub issu
   feature requests, or pull requests.
 * All contributions to BLT will be reviewed for compliance with Drupal Coding
   Standards and best practices as defined by the project maintainer.
-* Feature that are part of the [Road Map](https://github.com/acquia/blt/wiki/Road-Map)
-  will be prioritized for inclusion.
 
 BLT work is currently being tracked in the [BLT GitHub issue queue](https://github.com/acquia/blt/issues) and organized via a [Waffle.io Kanban Board](https://waffle.io/acquia/blt).
 

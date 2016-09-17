@@ -43,5 +43,6 @@ pages:
           - Release notes: 'scripts/release-notes/README.md'
         - Setting up continuous integration: 'readme/ci.md'
         - Open source contribution: 'readme/os-contribution.md'
+  - Troubleshooting & Support: 'readme/support.md'
   - Extending / Overriding BLT: 'readme/extending-blt.md'
   - Contributing: 'CONTRIBUTING.md'
