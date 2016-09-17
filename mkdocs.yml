@@ -14,6 +14,13 @@ pages:
   - Getting started:
     - Installation & upgrade:  'INSTALL.md'
     - Local development: 'readme/local-development.md'
+    - Integrations:
+      - Acquia Dev Desktop
+      - Acquia Cloud Site Factory
+      - Drupal VM
+      - Pipelines
+      - Travis CI
+      - Tugboat
   - Project documentation:
     - Developer:
           - Onboarding: 'readme/onboarding.md'
@@ -36,5 +43,6 @@ pages:
           - Release notes: 'scripts/release-notes/README.md'
         - Setting up continuous integration: 'readme/ci.md'
         - Open source contribution: 'readme/os-contribution.md'
+  - Troubleshooting & Support: 'readme/support.md'
   - Extending / Overriding BLT: 'readme/extending-blt.md'
   - Contributing: 'CONTRIBUTING.md'

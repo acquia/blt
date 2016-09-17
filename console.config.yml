@@ -1,0 +1,6 @@
+pplication:
+  autowire:
+    commands:
+      name:
+        blt:
+          class: '\Acquia\Blt\Console\Command\BltDoctorCommand
