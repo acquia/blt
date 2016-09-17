@@ -94,9 +94,9 @@ If you are using an older version of BLT that was not installed using Composer, 
 
         composer require drupal/lightning:~8 --no-update
 
-1. Require acquia/blt as a dev dependency:
+1. Require acquia/blt version 8.3.0 as a dependency:
 
-        composer require acquia/blt:^8.3 --no-update
+        composer require acquia/blt:8.3.0 --no-update
 
 1. Update all dependencies:
 
@@ -105,6 +105,10 @@ If you are using an older version of BLT that was not installed using Composer, 
 1. Execute update script:
 
         ./vendor/acquia/blt/scripts/blt/convert-to-composer.sh
+
+1. Upgrade to the latest version of BLT:
+
+        composer require acquia/blt:^8.3
 
 Review and commit changes to your project files. For customized files like `.travis.yml` or `docroot/sites/default/settings.php` it is recommended that you use `git add -p` to select which specific line changes you'd like to stage and commit.
 
