@@ -1,5 +1,5 @@
 # Note that the example .travis.yml file for child projects lives in /install.
-sudo: false
+sudo: required
 language: php
 
 php:
@@ -54,8 +54,6 @@ install:
   - nvm use 4.4.1
   # Initialize drupal console default configuration.
   - drupal init
-  # Install Vagrant and Virtualbox so that correct directories exist. We will not boot a VM.
-  - apt-get install vagrant virtualbox
 
 before_script:
   # Clear drush release history cache, to pick up new releases.
@@ -89,10 +87,10 @@ script:
   - blt acsf:init
   # Deploy build artifact.
   - blt deploy:build
-  # Add Drupal VM config to repo.
-  - blt vm:init
   # Ensure that the doctor doesn't report any problems at this point.
   - blt doctor
+  # Add Drupal VM config to repo.
+  - blt vm:init
   # Switch back to 'blt' directory.
   - cd ../blt
   # Run 'blt' phpunit tests, excluding deploy-push tests.
