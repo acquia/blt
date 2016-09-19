@@ -541,7 +541,7 @@ class BltDoctor {
 
     $prestissimo_intalled = drush_shell_exec("composer global show | grep hirak/prestissimo");
     if (!$prestissimo_intalled) {
-      drush_log("prestissimo plugin for composer is not installed.");
+      drush_set_error("prestissimo plugin for composer is not installed.");
       drush_print("Run `composer global require hirak/prestissimo:^0.3` to install it.", 2);
       drush_print("This will improve composer install/update performance by parallelizing the download of dependency information.", 2);
     }

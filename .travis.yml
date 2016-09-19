@@ -88,12 +88,11 @@ script:
   # Deploy build artifact.
   - blt deploy:build
   # Ensure that the doctor doesn't report any problems at this point.
-  # We must temporarily move acquia/blt to require to appease the Doctor. It must be moved back to require-dev because deploy cannot resolve the symlink later.
+  # We must temporarily move acquia/blt to require to appease the Doctor. It must then be removed so deploy cannot resolve the symlink later.
   - composer remove acquia/blt --no-update --dev
   - composer require acquia/blt --no-update
   - blt doctor
   - composer remove acquia/blt --no-update
-  - composer require acquia/blt --no-update --dev
   # Add Drupal VM config to repo.
   - blt vm:init
   # Switch back to 'blt' directory.
