@@ -1,0 +1,7 @@
+    autowire:
+      commands:
+        forced: {}
+        name:
+          'blt:doctor':
+            class: '\Acquia\Blt\Console\Command\BltDoctorCommand'
+            arguments: ['@app.root']
