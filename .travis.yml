@@ -91,6 +91,7 @@ script:
   # We must temporarily move acquia/blt to require to appease the Doctor. It must then be removed so deploy cannot resolve the symlink later.
   - composer remove acquia/blt --no-update --dev
   - composer require acquia/blt --no-update
+  - composer global require "hirak/prestissimo:^0.3"
   - blt doctor
   - composer remove acquia/blt --no-update
   # Add Drupal VM config to repo.

@@ -2,6 +2,7 @@
 
 Please feel free to contribute to the project or file issues via the GitHub issue queue. When doing so, please keep the following points in mind:
 
+
 * BLT is distributed under the GPLv2 license; WITHOUT ANY WARRANTY.
 * The project maintainers make no commitment to respond to support requests,
   feature requests, or pull requests.
@@ -24,8 +25,6 @@ cd blt-project
 git init
 composer install
 ./vendor/bin/blt install-alias
-blt init
-blt configure
 rm -rf vendor
 composer update
 git add -A
