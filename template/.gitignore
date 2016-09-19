@@ -105,3 +105,8 @@ nbproject/*
 
 # DrupalVM
 .vagrant/
+
+#Exports
+*.gz
+*.sql
+*.zip

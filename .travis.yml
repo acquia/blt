@@ -54,6 +54,8 @@ install:
   - nvm use 4.4.1
   # Initialize drupal console default configuration.
   - drupal init
+  # Install Vagrant and Virtualbox so that correct directories exist. We will not boot a VM.
+  - apt-get install vagrant virtualbox
 
 before_script:
   # Clear drush release history cache, to pick up new releases.
