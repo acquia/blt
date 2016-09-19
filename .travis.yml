@@ -87,14 +87,19 @@ script:
   - blt acsf:init
   # Deploy build artifact.
   - blt deploy:build
+  # Ensure that the doctor doesn't report any problems at this point.
+  # We must temporarily move acquia/blt to require to appease the Doctor. It must then be removed so deploy cannot resolve the symlink later.
+  - composer remove acquia/blt --no-update --dev
+  - composer require acquia/blt --no-update
+  - composer global require "hirak/prestissimo:^0.3"
+  - blt doctor
+  - composer remove acquia/blt --no-update
   # Add Drupal VM config to repo.
   - blt vm:init
   # Switch back to 'blt' directory.
   - cd ../blt
   # Run 'blt' phpunit tests, excluding deploy-push tests.
   - phpunit tests/phpunit --group blt --exclude-group deploy-push
-  # Execute 'blt update' just to ensure that there isn't a non-zero exit code.
-  # - blt update
 
 deploy:
   provider: script

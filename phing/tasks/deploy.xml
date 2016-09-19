@@ -13,6 +13,7 @@
         <echo message="Command should match syntax:"/>
         <echo message="blt deploy -Ddeploy.commitMsg='BLT-123: The commit message.' -Ddeploy.branch='master-build'"/>
         <fail message="Missing required parameters."/>
+        <!-- @todo create default values for these params. E.g., the last commit msg from the source branch, and "[source-branch]-build". -->
       </then>
     </if>
 

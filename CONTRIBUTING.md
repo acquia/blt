@@ -2,13 +2,12 @@
 
 Please feel free to contribute to the project or file issues via the GitHub issue queue. When doing so, please keep the following points in mind:
 
+
 * BLT is distributed under the GPLv2 license; WITHOUT ANY WARRANTY.
 * The project maintainers make no commitment to respond to support requests,
   feature requests, or pull requests.
 * All contributions to BLT will be reviewed for compliance with Drupal Coding
   Standards and best practices as defined by the project maintainer.
-* Feature that are part of the [Road Map](https://github.com/acquia/blt/wiki/Road-Map)
-  will be prioritized for inclusion.
 
 BLT work is currently being tracked in the [BLT GitHub issue queue](https://github.com/acquia/blt/issues) and organized via a [Waffle.io Kanban Board](https://waffle.io/acquia/blt).
 
@@ -26,8 +25,6 @@ cd blt-project
 git init
 composer install
 ./vendor/bin/blt install-alias
-blt init
-blt configure
 rm -rf vendor
 composer update
 git add -A
