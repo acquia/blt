@@ -1,5 +1,5 @@
 # Note that the example .travis.yml file for child projects lives in /install.
-sudo: required
+sudo: false
 language: php
 
 php:
@@ -88,6 +88,9 @@ script:
   # Deploy build artifact.
   - blt deploy:build
   # Ensure that the doctor doesn't report any problems at this point.
+  # We must move acquia/blt to become a non-dev-dependency to appease the Doctor. It must not be a prod dependency sooner, or else deploy:build would choke on an incorrect symlink.
+  - composer remove acquia/blt --no-update --dev
+  - composer require acqiua/blt --no-update
   - blt doctor
   # Add Drupal VM config to repo.
   - blt vm:init

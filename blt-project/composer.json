@@ -17,7 +17,7 @@
         }
       }
     ],
-    "require": {
+    "require-dev": {
         "acquia/blt": "*@dev"
     },
     "minimum-stability": "dev",
