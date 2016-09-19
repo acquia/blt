@@ -8,16 +8,16 @@
             "email": "matthew.grasmick@acquia.com"
         }
     ],
-    "repositories": [
-      {
-        "type": "path",
-        "url": "../blt",
-        "options": {
-          "symlink": true
+    "repositories": {
+        "blt": {
+            "type": "path",
+            "url": "../blt",
+            "options": {
+                "symlink": true
+            }
         }
-      }
-    ],
-    "require-dev": {
+    },
+    "require": {
         "acquia/blt": "*@dev"
     },
     "minimum-stability": "dev",
