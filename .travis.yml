@@ -85,19 +85,21 @@ script:
   - blt ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dbehat.launch-phantom=true
   # Initialize ACSF config.
   - blt acsf:init
-  # Deploy build artifact.
-  - blt deploy:build
   # Ensure that the doctor doesn't report any problems at this point.
   - composer global require "hirak/prestissimo:^0.3"
   - blt doctor
   # Add Drupal VM config to repo.
   - blt vm:init
+  # Update blt symlink prior to deploy.
+  - composer config repositories.blt.url '"../../blt"'
+  - composer require acquia/blt:*@dev --no-update
+  - rm composer.lock
+  # Deploy build artifact.
+  - blt deploy:build
   # Switch back to 'blt' directory.
   - cd ../blt
   # Run 'blt' phpunit tests, excluding deploy-push tests.
   - phpunit tests/phpunit --group blt --exclude-group deploy-push
-  # Update blt symlink prior to deploy.
-  - composer config repositories.blt.url '"../../blt"'
 
 deploy:
   provider: script
