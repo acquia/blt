@@ -71,7 +71,7 @@ class BltDoctor {
   protected function setProjectConfig() {
     $filepath = $this->repoRoot . '/project.yml';
     if (!file_exists($filepath)) {
-      drush_log("project.yml is missing from the repository root directory!", 'error');
+      drush_set_error("project.yml is missing from the repository root directory!");
 
       return [];
     }
@@ -177,7 +177,7 @@ class BltDoctor {
    */
   protected function checkLocalSettingsFile() {
     if (!file_exists($this->localSettingsPath)) {
-      drush_log("Could not find local settings file!", 'error');
+      drush_set_error("Could not find local settings file!");
       drush_print("Your local settings file should exist at $this->localSettingsPath", 2);
     }
     else {
@@ -192,7 +192,7 @@ class BltDoctor {
    */
   protected function checkSettingsFile() {
     if (!file_exists($this->statusTable['drupal-settings-file'])) {
-      drush_print("Could not find settings.php for this site!", 'error');
+      drush_set_error("Could not find settings.php for this site!");
     }
 
     $settings_file_path = $this->docroot . '/' . $this->statusTable['drupal-settings-file'];
@@ -202,7 +202,7 @@ class BltDoctor {
       drush_print($settings_file_path, 2);
     }
     if (strstr($settings_file_contents, '/sites/default/settings/blt.settings.php')) {
-      drush_log("Your settings file contains a deprecated statement for including BLT settings.", 'error');
+      drush_set_error("Your settings file contains a deprecated statement for including BLT settings.");
       drush_print("Please remove the line containing \"/sites/default/settings/blt.settings.php\" in $settings_file_path.", 2);
     }
     drush_print();
@@ -213,7 +213,7 @@ class BltDoctor {
    */
   protected function checkLocalDrushFile() {
     if (!file_exists($this->localDrushRcPath)) {
-      drush_log("$this->localDrushRcPath does not exist", 'error');
+      drush_set_error("$this->localDrushRcPath does not exist");
       drush_print("Run `blt setup:drush` to generate it automatically.", 2);
     }
     else {
@@ -228,7 +228,7 @@ class BltDoctor {
    */
   protected function checkUriResponse() {
     if (!$this->uri) {
-      drush_log("Site URI is not set", 'error');
+      drush_set_error("Site URI is not set");
       drush_print("Is \$options['uri'] set correctly in $this->localDrushRcPath?", 2);
 
       return FALSE;
@@ -236,7 +236,7 @@ class BltDoctor {
 
     $site_available = drush_shell_exec("curl -I --insecure %s", $this->uri);
     if (!$site_available) {
-      drush_log("Did not get a response from $this->uri", 'error');
+      drush_set_error("Did not get a response from $this->uri");
       drush_print("Is your *AMP stack running?", 2);
       drush_print("Is your web server configured to serve this URI from $this->docroot?", 2);
       drush_print("Is \$options['uri'] set correctly in $this->localDrushRcPath?", 2);
@@ -256,7 +256,7 @@ class BltDoctor {
   protected function checkHttps() {
     if (strstr($this->statusTable['uri'], 'https')) {
       if (!drush_shell_exec('curl -cacert %s', $this->statusTable['uri'])) {
-        drush_log('The SSL certificate for your local site appears to be invalid:', 'error');
+        drush_set_error('The SSL certificate for your local site appears to be invalid:');
         drush_print($this->statusTable['uri'], 2);
         drush_print();
       }
@@ -276,7 +276,7 @@ class BltDoctor {
       return TRUE;
     }
 
-    drush_log('Could not connect to MySQL database.', 'error');
+    drush_set_error('Could not connect to MySQL database.');
     drush_print("Is your *AMP stack running?", 2);
     drush_print('Are your database credentials correct?', 2);
     drush_blt_print_status_rows($this->statusTable, array(
@@ -321,7 +321,7 @@ class BltDoctor {
     $pending = update_main();
 
     if ($pending) {
-      drush_log("There are pending database updates", 'error');
+      drush_set_error("There are pending database updates");
       drush_print("Run `drush updb` to execute the updates.", 2);
     }
     else {
@@ -365,7 +365,7 @@ class BltDoctor {
    */
   protected function checkCoreExists() {
     if (!$this->coreExists()) {
-      drush_log("Drupal core is missing!", 'error');
+      drush_set_error("Drupal core is missing!");
       drush_print("Check and re-install your composer dependencies.", 2);
     }
     else {
@@ -433,12 +433,12 @@ class BltDoctor {
           drush_log("$title is writable.", 'success');
         }
         else {
-          drush_log("$title is not writable.", 'error');
+          drush_set_error("$title is not writable.");
           drush_print("Change the permissions on $full_path", 2);
         }
       }
       else {
-        drush_log("$title does not exist.", 'error');
+        drush_set_error("$title does not exist.");
         drush_print("Create $full_path", 2);
       }
     }
@@ -450,12 +450,12 @@ class BltDoctor {
   protected function checkDevDesktopConfig() {
     if ($this->devDesktopEnabled) {
       if (empty($ENV['DEVDESKTOP_DRUPAL_SETTINGS_DIR'])) {
-        drush_log("DevDesktop usage is enabled, but \$DEVDESKTOP_DRUPAL_SETTINGS_DIR is not set in your environmental variables.", 'error');
+        drush_set_error("DevDesktop usage is enabled, but \$DEVDESKTOP_DRUPAL_SETTINGS_DIR is not set in your environmental variables.");
         drush_print("Add `export DEVDESKTOP_DRUPAL_SETTINGS_DIR=\"\$HOME/.acquia/DevDesktop/DrupalSettings\"` to ~/.bash_profile or equivalent for your system.`", 2);
         drush_print();
       }
       elseif (strstr($ENV['DEVDESKTOP_DRUPAL_SETTINGS_DIR'], '~')) {
-        drush_log("\$DEVDESKTOP_DRUPAL_SETTINGS_DIR contains a '~'. This does not always expand to your home directory.", 'error');
+        drush_set_error("\$DEVDESKTOP_DRUPAL_SETTINGS_DIR contains a '~'. This does not always expand to your home directory.");
         drush_print("Add `export DEVDESKTOP_DRUPAL_SETTINGS_DIR=\"\$HOME/.acquia/DevDesktop/DrupalSettings\"` to ~/.bash_profile or equivalent for your system.`", 2);
         drush_print();
       }
@@ -463,7 +463,7 @@ class BltDoctor {
       $variables_order = ini_get('variables_order');
       $php_ini_file = php_ini_loaded_file();
       if (!strstr($variables_order, 'E')) {
-        drush_log("DevDesktop usage is enabled, but variables_order does support environmental variables.", 'error');
+        drush_set_error("DevDesktop usage is enabled, but variables_order does support environmental variables.");
         drush_print("Define variables_order = \"EGPCS\" in $php_ini_file", 2);
         drush_print();
       }
@@ -487,7 +487,7 @@ class BltDoctor {
    */
   protected function checkBehatConfig() {
     if (!file_exists($this->repoRoot . '/tests/behat/local.yml')) {
-      drush_log("tests/behat/local.yml is missing!", 'error');
+      drush_set_error("tests/behat/local.yml is missing!");
 
       drush_print("Run `blt setup:behat` to generate it from example.local.yml.", 2);
       return FALSE;
@@ -497,13 +497,13 @@ class BltDoctor {
     if ($this->drupalVmEnabled) {
       $behat_drupal_root = $this->behatDefaultLocalConfig['local']['extensions']['Drupal\DrupalExtension']['drupal']['drupal_root'];
       if (strstr($behat_drupal_root, '/var/www/')) {
-        drush_log("You have DrupalVM initialized, but drupal_root in tests/behat/local.yml does not reference the DrupalVM docroot.", 'error');
+        drush_set_error("You have DrupalVM initialized, but drupal_root in tests/behat/local.yml does not reference the DrupalVM docroot.");
       }
     }
 
     $behat_base_url = $this->behatDefaultLocalConfig['local']['extensions']['Behat\MinkExtension']['base_url'];
     if ($behat_base_url != $this->getUri()) {
-      drush_log("base_url in tests/behat/local.yml does not match the site URI. It is set to \"$behat_base_url\".", 'error');
+      drush_set_error("base_url in tests/behat/local.yml does not match the site URI. It is set to \"$behat_base_url\".");
       drush_print("Set base_url to {$this->getUri()}", 2);
     }
   }
@@ -522,9 +522,9 @@ class BltDoctor {
    */
   protected function checkCiConfig() {
     if ($this->ciEnabled) {
-      if (empty($this->config['git']['repos'])) {
-        drush_log("Git repositories are not defined in project.yml.", 'error');
-        drush_print("Add values for git.repos to project.yml to enabled automated deployment.", 2);
+      if (empty($this->config['git']['remotes'])) {
+        drush_set_error("Git repositories are not defined in project.yml.");
+        drush_print("Add values for git.remotes to project.yml to enabled automated deployment.", 2);
       }
     }
   }
@@ -534,7 +534,7 @@ class BltDoctor {
    */
   protected function checkComposerConfig() {
     if (!empty($this->composerJson['require-dev']['acquia/blt'])) {
-      drush_log("acquia/blt is defined as a development dependency in composer.json", 'error');
+      drush_set_error("acquia/blt is defined as a development dependency in composer.json");
       drush_print("Move acquia/blt out of the require-dev object and into the require object in composer.json.", 2);
       drush_print("This is necessary for BLT settings files to be available at runtime in production.", 2);
     }
@@ -580,7 +580,7 @@ class BltDoctor {
    */
   protected function checkContribExists() {
     if (!file_exists($this->docroot . '/sites/all/modules/contrib')) {
-      drush_log("Contributed module dependencies are missing.", 'error');
+      drush_set_error("Contributed module dependencies are missing.");
       drush_print("Run `blt setup:build to build all contributed dependencies.", 2);
       drush_print();
     }
