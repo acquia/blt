@@ -206,7 +206,7 @@
   </target>
 
   <target name="setup:update" description="Update current database to reflect the state of the Drupal file system.">
-    <!-- Import configuration. -->
+    <!-- Import configuration before executing updates, in case any db updates are dependent on new configs to be imported. -->
     <drush command="config-import" assume="yes" alias="${drush.alias}">
       <option name="partial"></option>
     </drush>
