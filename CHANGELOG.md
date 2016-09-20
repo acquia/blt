@@ -1,5 +1,16 @@
 # Change Log
 
+## [8.4.5](https://github.com/acquia/blt/tree/8.4.5) (2016-09-20)
+[Full Changelog](https://github.com/acquia/blt/compare/8.4.4...8.4.5)
+
+**Implemented enhancements:**
+
+- Improving doctor output on brand-new sites. [\#429](https://github.com/acquia/blt/pull/429) ([grasmash](https://github.com/grasmash))
+
+**Misc merged pull requests**
+
+- Suggesting hirak/prestissimo in composer.json. [\#430](https://github.com/acquia/blt/pull/430) ([grasmash](https://github.com/grasmash))
+
 ## [8.4.4](https://github.com/acquia/blt/tree/8.4.4) (2016-09-20)
 [Full Changelog](https://github.com/acquia/blt/compare/8.4.3...8.4.4)
 
