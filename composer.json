@@ -32,6 +32,9 @@
   "conflict": {
     "drupal/core": "7.*"
   },
+  "suggest": {
+    "hirak/prestissimo": "^0.3"
+  },
   "minimum-stability": "beta",
   "prefer-stable": true,
   "scripts": {
