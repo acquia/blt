@@ -8,7 +8,7 @@
   </target>
 
   <target name="doctor" description="Inspects your local blt configuration for possible issues.">
-    <drush command="blt-doctor" verbose="false" uri="">
+    <drush command="blt-doctor" verbose="false" uri="" alias="">
       <option name="include">${blt.root}/drush</option>
     </drush>
   </target>

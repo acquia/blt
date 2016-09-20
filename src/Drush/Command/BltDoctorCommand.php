@@ -149,13 +149,16 @@ class BltDoctor {
     $this->checkSettingsFile();
     $this->checkLocalSettingsFile();
     $this->checkLocalDrushFile();
-    $this->checkUriResponse();
-    $this->checkHttps();
+
+    if ($this->localDrushFileExists()) {
+      $this->checkUriResponse();
+      $this->checkHttps();
+    }
+
     $this->checkFileSystem();
     $this->checkDbConnection();
     $this->checkDrupalBootstrapped();
     $this->checkDrupalInstalled();
-    //$this->checkDatabaseUpdates();
     $this->checkCachingConfig();
     $this->checkNvmExists();
     $this->checkDevDesktopConfig();
@@ -165,6 +168,7 @@ class BltDoctor {
     $this->checkProjectYml();
     $this->checkAcsfConfig();
 
+    //$this->checkDatabaseUpdates();
     // @todo Check error_level.
     // @todo Check if theme dependencies have been built.
     // @todo Check that if drupal/acsf is in composer.json, acsf is initialized.
@@ -213,17 +217,27 @@ class BltDoctor {
   }
 
   /**
-   * Checks local.drushrc.php file.
+   * Indicates whether a local.drushrc.php file exists.
+   *
+   * @return bool
+   */
+  protected function localDrushFileExists() {
+    return file_exists($this->localDrushRcPath);
+  }
+
+  /**
+   * Checks for local.drushrc.php file and prints messaging to screen.
    */
   protected function checkLocalDrushFile() {
-    if (!file_exists($this->localDrushRcPath)) {
-      drush_set_error("$this->localDrushRcPath does not exist");
-      drush_print("Run `blt setup:drush` to generate it automatically.", 2);
+    if (!$this->localDrushFileExists()) {
+      drush_set_error("Local drushrc file does not exist at $this->localDrushRcPath.");
+      drush_print("Run `blt setup:drush` to generate it automatically, or run `blt setup` to repeat the entire setup process.", 2);
     }
     else {
       drush_log("Found your local drush settings file at:", 'success');
       drush_print($this->localDrushRcPath, 2);
     }
+
     drush_print();
   }
 
@@ -438,12 +452,14 @@ class BltDoctor {
         }
         else {
           drush_set_error("$title is not writable.");
-          drush_print("Change the permissions on $full_path", 2);
+          drush_print("Change the permissions on $full_path.", 2);
+          drush_print("Run `chmod 755 $full_path`.", 2);
         }
       }
       else {
         drush_set_error("$title does not exist.");
-        drush_print("Create $full_path", 2);
+        drush_print("Create $full_path.", 2);
+        drush_print("Installing Drupal may do this for you. Run `blt setup:drupal:install` to install Drupal, or run `blt setup` to repeat the entire setup process.", 2);
       }
     }
   }
@@ -493,7 +509,7 @@ class BltDoctor {
     if (!file_exists($this->repoRoot . '/tests/behat/local.yml')) {
       drush_set_error("tests/behat/local.yml is missing!");
 
-      drush_print("Run `blt setup:behat` to generate it from example.local.yml.", 2);
+      drush_print("Run `blt setup:behat` to generate it from example.local.yml, or run `blt setup` to repeat the entire setup process.", 2);
       return FALSE;
     }
 
