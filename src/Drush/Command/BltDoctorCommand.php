@@ -357,11 +357,10 @@ class BltDoctor {
   protected function checkNvmExists() {
     $home = getenv("HOME");
     if (!file_exists("$home/.nvm")) {
-      drush_log('NVM does not exist. Using NVM will help you manage multiple versions of NodeJS on one machine. Install using the following commands:', 'warning');
-      drush_print('curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh | bash', 2);
-      drush_print('source ~/.bashrc', 2);
-      drush_print('nvm install 0.12.7', 2);
-      drush_print('nvm use 0.12.7', 2);
+      drush_log('NVM does not exist.', 'warning');
+      drush_print('It is recommended that you use NVM to manage multiple versions of NodeJS on one machine.', 2);
+      drush_print('Instructions for installing NVM can be found at:', 2);
+      drush_print('https://github.com/creationix/nvm#installation', 4);
       drush_print();
     }
     else {
@@ -453,7 +452,7 @@ class BltDoctor {
         else {
           drush_set_error("$title is not writable.");
           drush_print("Change the permissions on $full_path.", 2);
-          drush_print("Run `chmod 755 $full_path`.", 2);
+          drush_print("Run `chmod 750 $full_path`.", 2);
         }
       }
       else {
