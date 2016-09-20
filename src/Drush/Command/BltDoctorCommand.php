@@ -384,6 +384,7 @@ class BltDoctor {
     if (!$this->coreExists()) {
       drush_set_error("Drupal core is missing!");
       drush_print("Check and re-install your composer dependencies.", 2);
+      drush_print();
     }
     else {
       drush_log("Drupal core exists.", 'success');
@@ -453,6 +454,7 @@ class BltDoctor {
           drush_set_error("$title is not writable.");
           drush_print("Change the permissions on $full_path.", 2);
           drush_print("Run `chmod 750 $full_path`.", 2);
+          drush_print();
         }
       }
       else {
@@ -460,7 +462,8 @@ class BltDoctor {
         drush_print("Create $full_path.", 2);
         if (in_array($key, ['%files', '%private'])) {
           drush_print("Installing Drupal will create this directory for you. Run `blt setup:drupal:install` to install Drupal, or run `blt setup` to repeat the entire setup process.", 2);
-          drush_print("Othewise, run `mkdir $full_path`.", 2);
+          drush_print("Otherwise, run `mkdir -p $full_path`.", 2);
+          drush_print();
         }
       }
     }
@@ -510,8 +513,9 @@ class BltDoctor {
   protected function checkBehatConfig() {
     if (!file_exists($this->repoRoot . '/tests/behat/local.yml')) {
       drush_set_error("tests/behat/local.yml is missing!");
-
       drush_print("Run `blt setup:behat` to generate it from example.local.yml, or run `blt setup` to repeat the entire setup process.", 2);
+      drush_print();
+
       return FALSE;
     }
 
@@ -520,6 +524,7 @@ class BltDoctor {
       $behat_drupal_root = $this->behatDefaultLocalConfig['local']['extensions']['Drupal\DrupalExtension']['drupal']['drupal_root'];
       if (strstr($behat_drupal_root, '/var/www/')) {
         drush_set_error("You have DrupalVM initialized, but drupal_root in tests/behat/local.yml does not reference the DrupalVM docroot.");
+        drush_print();
       }
     }
 
@@ -527,6 +532,7 @@ class BltDoctor {
     if ($behat_base_url != $this->getUri()) {
       drush_set_error("base_url in tests/behat/local.yml does not match the site URI. It is set to \"$behat_base_url\".");
       drush_print("Set base_url to {$this->getUri()}", 2);
+      drush_print();
     }
   }
 
@@ -547,6 +553,7 @@ class BltDoctor {
       if (empty($this->config['git']['remotes'])) {
         drush_set_error("Git repositories are not defined in project.yml.");
         drush_print("Add values for git.remotes to project.yml to enabled automated deployment.", 2);
+        drush_print();
       }
     }
   }
@@ -559,13 +566,15 @@ class BltDoctor {
       drush_set_error("acquia/blt is defined as a development dependency in composer.json");
       drush_print("Move acquia/blt out of the require-dev object and into the require object in composer.json.", 2);
       drush_print("This is necessary for BLT settings files to be available at runtime in production.", 2);
+      drush_print();
     }
 
     $prestissimo_intalled = drush_shell_exec("composer global show | grep hirak/prestissimo");
     if (!$prestissimo_intalled) {
-      drush_set_error("prestissimo plugin for composer is not installed.");
+      drush_log("prestissimo plugin for composer is not installed.", 'warning');
       drush_print("Run `composer global require hirak/prestissimo:^0.3` to install it.", 2);
       drush_print("This will improve composer install/update performance by parallelizing the download of dependency information.", 2);
+      drush_print();
     }
   }
 
@@ -576,6 +585,7 @@ class BltDoctor {
       if (!strstr($file_contents, '/../vendor/acquia/blt/settings/blt.settings.php')) {
         drush_set_error("BLT settings are not included in your pre-settings-php include.");
         drush_print("Add a require statement for \"/../vendor/acquia/blt/settings/blt.settings.php\" to $file_path", 2);
+        drush_print();
       }
     }
   }
@@ -638,6 +648,7 @@ class BltDoctor {
     foreach ($deprecated_keys as $deprecated_key) {
       if ($config->get($deprecated_key)) {
         drush_log("The $deprecated_key key is deprecated. Please remove it from project.yml.", 'warning');
+        drush_print();
       }
     }
   }
