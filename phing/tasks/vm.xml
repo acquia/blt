@@ -43,9 +43,9 @@
     <echo>To run drush commands against the VM, use the @${drush.aliases.local} alias.</echo>
     <echo>You may pin yourself to this alias using "drush use @${drush.aliases.local}"</echo>
 
-    <exec dir="${repo.root}" command="vagrant" returnProperty="vagrant.exists"/>
+    <exec dir="${repo.root}" command="command -v vagrant >/dev/null 2>&amp;1" returnProperty="vagrant.exists" logoutput="true"/>
     <if>
-      <not><istrue value="${vagrant.exists}"/></not>
+      <isfalse value="${vagrant.exists}"/>
       <then>
         <echo>The vagrant is not installed!</echo>
       </then>
