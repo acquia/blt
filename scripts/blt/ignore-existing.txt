@@ -6,5 +6,7 @@ composer.json
 README.md
 drush/site-aliases/aliases.drushrc.php
 docroot/sites/default/services.yml
+factory-hooks/pre-settings-php/includes.php
 tests/behat/behat.yml
 tests/behat/example.local.yml
+tests/behat/features/bootstrap/Drupal/FeatureContext.php
