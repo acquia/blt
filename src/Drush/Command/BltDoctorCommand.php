@@ -163,6 +163,7 @@ class BltDoctor {
     $this->checkComposerConfig();
     $this->checkBehatConfig();
     $this->checkProjectYml();
+    $this->checkAcsfConfig();
 
     // @todo Check error_level.
     // @todo Check if theme dependencies have been built.
@@ -200,6 +201,9 @@ class BltDoctor {
     if (strstr($settings_file_contents, '/../vendor/acquia/blt/settings/blt.settings.php')) {
       drush_log("BLT settings are included in settings file:", 'success');
       drush_print($settings_file_path, 2);
+    }
+    else {
+      drush_set_error("BLT settings are not included in your settings file.");
     }
     if (strstr($settings_file_contents, '/sites/default/settings/blt.settings.php')) {
       drush_set_error("Your settings file contains a deprecated statement for including BLT settings.");
@@ -544,6 +548,17 @@ class BltDoctor {
       drush_set_error("prestissimo plugin for composer is not installed.");
       drush_print("Run `composer global require hirak/prestissimo:^0.3` to install it.", 2);
       drush_print("This will improve composer install/update performance by parallelizing the download of dependency information.", 2);
+    }
+  }
+
+  protected function checkAcsfConfig() {
+    $file_path = $this->repoRoot . '/factory-hooks/pre-settings-php/includes.php';
+    if (file_exists($file_path)) {
+      $file_contents = file_get_contents($file_path);
+      if (!strstr($file_contents, '/../vendor/acquia/blt/settings/blt.settings.php')) {
+        drush_set_error("BLT settings are not included in your pre-settings-php include.");
+        drush_print("Add a require statement for \"/../vendor/acquia/blt/settings/blt.settings.php\" to $file_path", 2);
+      }
     }
   }
 
