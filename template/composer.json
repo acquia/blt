@@ -59,8 +59,9 @@
     }
   },
   "scripts": {
-    "install-phantomjs": "PhantomInstaller\\Installer::installPhantomJS",
     "blt-alias": "blt install-alias -Dcreate_alias=true",
+    "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
+    "install-phantomjs": "PhantomInstaller\\Installer::installPhantomJS",
     "post-install-cmd": [
       "PhantomInstaller\\Installer::installPhantomJS"
     ],
