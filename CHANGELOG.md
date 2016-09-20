@@ -1,5 +1,29 @@
 # Change Log
 
+## [8.4.4](https://github.com/acquia/blt/tree/8.4.4) (2016-09-20)
+[Full Changelog](https://github.com/acquia/blt/compare/8.4.3...8.4.4)
+
+**Implemented enhancements:**
+
+- Change order of running updates and config imports [\#419](https://github.com/acquia/blt/issues/419)
+- Adding check for blt.settings.php in factory hooks to doctor. [\#428](https://github.com/acquia/blt/pull/428) ([grasmash](https://github.com/grasmash))
+- Delete protect\_env.php.example [\#422](https://github.com/acquia/blt/pull/422) ([dpagini](https://github.com/dpagini))
+- 419: Added another Config import before Database updates are executed. [\#420](https://github.com/acquia/blt/pull/420) ([vaibhavjain-in](https://github.com/vaibhavjain-in))
+- Expanding doctor command. [\#417](https://github.com/acquia/blt/pull/417) ([grasmash](https://github.com/grasmash))
+- Adding doctor command. [\#415](https://github.com/acquia/blt/pull/415) ([grasmash](https://github.com/grasmash))
+- Update filesystem.settings.php for ACSF [\#411](https://github.com/acquia/blt/pull/411) ([dpagini](https://github.com/dpagini))
+
+**Fixed bugs:**
+
+- README from blt-project is created on project creation [\#421](https://github.com/acquia/blt/issues/421)
+- Fixes \#423: Prevent overwrite of factory-hooks and FeatureContext.php. [\#427](https://github.com/acquia/blt/pull/427) ([grasmash](https://github.com/grasmash))
+- Fixing blt symlink for deployment testing. [\#425](https://github.com/acquia/blt/pull/425) ([grasmash](https://github.com/grasmash))
+- Bugfix for ACSF db name. [\#418](https://github.com/acquia/blt/pull/418) ([lcatlett](https://github.com/lcatlett))
+
+**Closed issues:**
+
+- Updating BLT with composer [\#423](https://github.com/acquia/blt/issues/423)
+
 ## [8.4.3](https://github.com/acquia/blt/tree/8.4.3) (2016-09-15)
 [Full Changelog](https://github.com/acquia/blt/compare/8.4.2...8.4.3)
 
