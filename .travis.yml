@@ -92,7 +92,6 @@ script:
   - blt vm:init
   # Update blt symlink prior to deploy.
   - composer config repositories.blt.url '"../../blt"'
-  - composer require acquia/blt:*@dev --no-update
   - rm composer.lock
   # Deploy build artifact.
   - blt deploy:build
