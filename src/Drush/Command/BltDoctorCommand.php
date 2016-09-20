@@ -459,7 +459,10 @@ class BltDoctor {
       else {
         drush_set_error("$title does not exist.");
         drush_print("Create $full_path.", 2);
-        drush_print("Installing Drupal may do this for you. Run `blt setup:drupal:install` to install Drupal, or run `blt setup` to repeat the entire setup process.", 2);
+        if (in_array($key, ['%files', '%private'])) {
+          drush_print("Installing Drupal will create this directory for you. Run `blt setup:drupal:install` to install Drupal, or run `blt setup` to repeat the entire setup process.", 2);
+          drush_print("Othewise, run `mkdir $full_path`.", 2);
+        }
       }
     }
   }
