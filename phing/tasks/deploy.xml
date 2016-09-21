@@ -1,6 +1,10 @@
 <project name="deploy" default="deploy">
 
   <target name="deploy" description="Builds separate artifact and pushes to git.remotes defined project.yml.">
+    
+    <!-- Prompt for user input -->
+    <propertyprompt propertyName="deploy.commitMsg" useExistingValue="true" promptText="Enter a valid commit message" promptCharacter=":" />
+    <propertyprompt propertyName="deploy.branch" useExistingValue="true" promptText="Enter a deploy branch" promptCharacter=":" />
 
     <!-- Check necessary runtime parameters. -->
     <if>
