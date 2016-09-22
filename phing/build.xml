@@ -3,6 +3,7 @@
   <!-- Include custom task classes -->
   <includepath classpath="${phing.dir}" />
   <taskdef name="behat" classname="phingcludes.BehatTask"/>
+  <taskdef name="targets" classname="phingcludes.TargetsTask"/>
   <taskdef name="drush" classname="phingcludes.DrushTask"/>
   <taskdef name="randomstring" classname="phingcludes.RandomStringTask" />
   <taskdef name="filterFileListByFileSet" classname="phingcludes.FilterFileListByFileSetTask"/>
