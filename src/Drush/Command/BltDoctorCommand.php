@@ -251,6 +251,9 @@ class BltDoctor {
 
       return FALSE;
     }
+    else {
+      drush_log("\$options['uri'] is set correctly.", 'success');
+    }
 
     $site_available = drush_shell_exec("curl -I --insecure %s", $this->uri);
     if (!$site_available) {
@@ -277,6 +280,9 @@ class BltDoctor {
         drush_set_error('The SSL certificate for your local site appears to be invalid:');
         drush_print($this->statusTable['uri'], 2);
         drush_print();
+      }
+      else {
+        drush_log("The SSL certificate for your local site appears valid.", 'success');
       }
     }
   }
@@ -484,6 +490,9 @@ class BltDoctor {
         drush_print("Add `export DEVDESKTOP_DRUPAL_SETTINGS_DIR=\"\$HOME/.acquia/DevDesktop/DrupalSettings\"` to ~/.bash_profile or equivalent for your system.`", 2);
         drush_print();
       }
+      else {
+        drush_log("\$DEVDESKTOP_DRUPAL_SETTINGS_DIR is set.", 'success');
+      }
 
       $variables_order = ini_get('variables_order');
       $php_ini_file = php_ini_loaded_file();
@@ -491,6 +500,9 @@ class BltDoctor {
         drush_set_error("DevDesktop usage is enabled, but variables_order does support environmental variables.");
         drush_print("Define variables_order = \"EGPCS\" in $php_ini_file", 2);
         drush_print();
+      }
+      else {
+        drush_log("variables_order allows environment variables in php.ini.", 'success');
       }
     }
   }
@@ -518,6 +530,9 @@ class BltDoctor {
 
       return FALSE;
     }
+    else {
+      drush_log("Behat local settings file exists.", 'success');
+    }
 
     $this->behatDefaultLocalConfig = Yaml::parse(file_get_contents($this->repoRoot . '/tests/behat/local.yml'));
     if ($this->drupalVmEnabled) {
@@ -526,6 +541,9 @@ class BltDoctor {
         drush_set_error("You have DrupalVM initialized, but drupal_root in tests/behat/local.yml does not reference the DrupalVM docroot.");
         drush_print();
       }
+      else {
+        drush_log("Behat drupal_root is set correctly for Drupal VM.", 'success');
+      }
     }
 
     $behat_base_url = $this->behatDefaultLocalConfig['local']['extensions']['Behat\MinkExtension']['base_url'];
@@ -533,6 +551,9 @@ class BltDoctor {
       drush_set_error("base_url in tests/behat/local.yml does not match the site URI. It is set to \"$behat_base_url\".");
       drush_print("Set base_url to {$this->getUri()}", 2);
       drush_print();
+    }
+    else {
+      drush_log("Behat base_url matches drush URI.", 'success');
     }
   }
 
@@ -555,6 +576,9 @@ class BltDoctor {
         drush_print("Add values for git.remotes to project.yml to enabled automated deployment.", 2);
         drush_print();
       }
+      else {
+        drush_log("Git remotes are set in project.yml.", 'success');
+      }
     }
   }
 
@@ -568,13 +592,19 @@ class BltDoctor {
       drush_print("This is necessary for BLT settings files to be available at runtime in production.", 2);
       drush_print();
     }
+    else {
+      drush_log("acquia/blt is in composer.json's require object.", 'success');
+    }
 
     $prestissimo_intalled = drush_shell_exec("composer global show | grep hirak/prestissimo");
     if (!$prestissimo_intalled) {
-      drush_log("prestissimo plugin for composer is not installed.", 'warning');
+      drush_log("hirak/prestissimo plugin for composer is not installed.", 'warning');
       drush_print("Run `composer global require hirak/prestissimo:^0.3` to install it.", 2);
       drush_print("This will improve composer install/update performance by parallelizing the download of dependency information.", 2);
       drush_print();
+    }
+    else {
+      drush_log("hirak/prestissimo plugin for composer is installed.", 'success');
     }
   }
 
@@ -586,6 +616,9 @@ class BltDoctor {
         drush_set_error("BLT settings are not included in your pre-settings-php include.");
         drush_print("Add a require statement for \"/../vendor/acquia/blt/settings/blt.settings.php\" to $file_path", 2);
         drush_print();
+      }
+      else {
+        drush_log("BLT settings are included in your pre-settings-php include.", 'success');
       }
     }
   }
@@ -628,7 +661,7 @@ class BltDoctor {
       drush_print();
     }
     else {
-      drush_log("Contributed module dependencies are present.");
+      drush_log("Contributed module dependencies are present.", 'success');
     }
   }
 
@@ -645,11 +678,17 @@ class BltDoctor {
     ];
 
     $config = new Data($this->config);
+    $deprecated_keys_exist = FALSE;
     foreach ($deprecated_keys as $deprecated_key) {
       if ($config->get($deprecated_key)) {
         drush_log("The $deprecated_key key is deprecated. Please remove it from project.yml.", 'warning');
         drush_print();
+        $deprecated_keys_exist = TRUE;
       }
+    }
+
+    if (!$deprecated_keys_exist) {
+      drush_log("project.yml has no deprecated keys.", 'success');
     }
   }
 }
