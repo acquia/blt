@@ -1,6 +1,16 @@
 {
   "name": "acquia/blt",
   "description": "BLT",
+  "keywords": [ "drupal", "testing", "deployment", "automation", "template" ],
+  "authors": [
+    {
+      "name": "Matthew Grasmick"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/acquia/blt/issues",
+    "docs": "http://blt.readthedocs.io/en/stable"
+  },
   "type": "composer-plugin",
   "license": "GPL-2.0",
   "require": {
