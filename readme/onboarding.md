@@ -59,7 +59,7 @@ If your project uses a virtual development environment such as DrupalVM:
 
 If your project does not use a virtual development environment:
 
-1. Run `blt setup:drupal:settings` This will generate `docroot/sites/default/settings/local.settings.php` and `docroot/sites/default/local.drushrc.php`. Update these with your local database credentials and your local site URL.
+1. Run `blt setup:settings` This will generate `docroot/sites/default/settings/local.settings.php` and `docroot/sites/default/local.drushrc.php`. Update these with your local database credentials and your local site URL.
 1. Run `blt local:setup`. This will build all project dependencies and install drupal.
 1. Create and edit your local drush alias file. Copy `drush/site-aliases/example.local.aliases.drushrc.php` to `drush/site-aliases/local.aliases.drushrc.php`. Edit the new alias file with your local path.
 

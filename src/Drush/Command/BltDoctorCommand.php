@@ -273,7 +273,7 @@ class BltDoctor {
     if (!$this->localDrushFileExists()) {
       $this->logError("Local drushrc file does not exist.");
       $this->logErrorDetail("Create $this->localDrushRcPath.");
-      $this->logErrorDetail("Run `blt setup:drush` to generate it automatically, or run `blt setup` to run the entire setup process.");
+      $this->logErrorDetail("Run `blt setup:drush:settings` to generate it automatically, or run `blt setup` to run the entire setup process.");
       $this->logErrorDetail();
     }
     else {
