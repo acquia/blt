@@ -302,6 +302,7 @@ class DrushTask extends Task {
 
     if (!empty($this->dir)) {
       $this->log("Changing working directory to: $this->dir");
+      $initial_cwd = getcwd();
       chdir($this->dir);
     }
 
@@ -326,6 +327,9 @@ class DrushTask extends Task {
         $this->log($line);
       }
     }
+
+    $this->log("Changing working directory back to $initial_cwd.");
+    chdir($initial_cwd);
 
     // Set value of the 'pipe' property.
     if (!empty($this->return_property)) {
