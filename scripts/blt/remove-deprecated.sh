@@ -2,10 +2,12 @@
 # This script will be run every single time that `blt update` is executed.
 
 rm -rf build
+rm -rf docroot/sites/default/settings/apcu_fix.yml
 rm -rf docroot/sites/default/settings/base.settings.php
 rm -rf docroot/sites/default/settings/blt.settings.php
 rm -rf docroot/sites/default/settings/cache.settings.php
 rm -rf docroot/sites/default/settings/filesystem.settings.php
+rm -rf docroot/sites/default/settings/includes.settings.php
 rm -rf docroot/sites/default/settings/logging.settings.php
 rm -rf docroot/sites/default/settings/travis.settings.php
 rm -rf docroot/sites/default/settings/pipelines.settings.php
