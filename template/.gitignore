@@ -106,6 +106,9 @@ nbproject/*
 # DrupalVM
 .vagrant/
 
+# DevDesktop
+*.dd
+
 #Exports
 *.gz
 *.sql

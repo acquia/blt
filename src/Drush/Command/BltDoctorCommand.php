@@ -33,6 +33,11 @@ class BltDoctor {
    */
   public function __construct() {
     $this->setStatusTable();
+
+    if (!$this->checkDocrootExists()) {
+      return FALSE;
+    }
+
     $this->docroot = $this->statusTable['root'];
     $this->repoRoot = $this->statusTable['root'] . '/../';
 
@@ -175,6 +180,16 @@ class BltDoctor {
     // @todo If using lightning, check lightning.extend.yml exists, check for $config['profile'] = 'lighting';
     // @todo Check for existence of deprecated BLT files.
     // @todo Check is PhantomJS bin matches OS.
+  }
+
+  protected function checkDocrootExists() {
+    if (empty($this->statusTable['root'])) {
+      drush_set_error('Drush could not find the docroot!');
+
+      return FALSE;
+    }
+
+    return TRUE;
   }
 
   /**
@@ -389,6 +404,7 @@ class BltDoctor {
   protected function checkCoreExists() {
     if (!$this->coreExists()) {
       drush_set_error("Drupal core is missing!");
+      drush_print("Looked for docroot in {$this->docroot}.", 2);
       drush_print("Check and re-install your composer dependencies.", 2);
       drush_print();
     }
@@ -442,6 +458,12 @@ class BltDoctor {
     ];
 
     foreach ($paths as $key => $title) {
+      if (empty($this->statusTable['%paths'][$key])) {
+        drush_set_error("$title is not set.");
+
+        continue;
+      }
+
       $path = $this->statusTable['%paths'][$key];
       if (substr($path, 0, 1) == '/') {
         $full_path = $path;
@@ -609,7 +631,7 @@ class BltDoctor {
   }
 
   protected function checkAcsfConfig() {
-    $file_path = $this->repoRoot . '/factory-hooks/pre-settings-php/includes.php';
+    $file_path = $this->repoRoot . 'factory-hooks/pre-settings-php/includes.php';
     if (file_exists($file_path)) {
       $file_contents = file_get_contents($file_path);
       if (!strstr($file_contents, '/../vendor/acquia/blt/settings/blt.settings.php')) {
