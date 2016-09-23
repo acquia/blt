@@ -1,8 +1,45 @@
-<project name="vm" default="vm:init">
+<project name="vm" default="vm">
 
-  <target name="vm:init" description="Initializes Drupal VM for this project.">
+  <target name="vm" description="Installs requirements, initializes, and boots DrupalVM.">
+
+    <!--Initialize DrupalVM for this project if necessary.-->
+    <if>
+      <not><available file="${repo.root}/Vagrantfile"/></not>
+      <then>
+        <phingcall target="vm:project:init"/>
+      </then>
+    </if>
+
+    <!--Initialize DrupalVM for this machine if necessary.-->
+    <if>
+      <not><equals arg1="${drush.aliases.local}" arg2="${project.machine_name}.local"/></not>
+      <then>
+        <phingcall target="vm:local:init"/>
+      </then>
+    </if>
+
+    <if>
+      <not><equals arg1="${vm.boot}" arg2="false"/></not>
+      <then>
+        <phingcall target="vm:up"/>
+      </then>
+    </if>
+  </target>
+
+
+  <target name="vm:local:init" depends="setup:drupal:settings" description="Initializes DrupalVM for this machine." hidden="true">
+    <!-- Sadly this wipes out comments in the file. -->
+    <echo>Updating project.local.yml.</echo>
+    <exec dir="${repo.root}" command="${composer.bin}/drupal yaml:update:value ${repo.root}/project.local.yml drush.default_alias '${project.machine_name}.local'" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <exec dir="${repo.root}" command="${composer.bin}/drupal yaml:update:value ${repo.root}/project.local.yml drush.aliases.local '${project.machine_name}.local'" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+
+    <echo>project.local.yml has been modified.</echo>
+    <echo>drush.default_alias has been set to ${project.machine_name}.local'</echo>
+    <echo>drush.aliases.local has been set to ${project.machine_name}.local'</echo>
+  </target>
+
+  <target name="vm:project:init" description="Initializes Drupal VM for this project." hidden="true">
     <echo>BLT support for Drupal VM is EXPERIMENTAL. Not all BLT features currently work with Drupal VM. </echo>
-
     <echo>Creating a drush alias for the new VM.</echo>
     <exec dir="${repo.root}" command="cat ${blt.root}/scripts/drupal-vm/drupal-vm.aliases.drushrc.php >> ${repo.root}/drush/site-aliases/aliases.drushrc.php" logoutput="true" checkreturn="true" level="info"/>
     <reflexive>
@@ -28,37 +65,56 @@
     <echo>Adding geerlingguy/drupal-vm to composer dev dependencies.</echo>
     <exec dir="${repo.root}" command="composer require --dev geerlingguy/drupal-vm:~3.1" logoutput="true" checkreturn="true" level="info" passthru="true"/>
 
-    <!-- Sadly this wipes out comments in the file. -->
-    <echo>Updating project.yml.</echo>
-    <exec dir="${repo.root}" command="${composer.bin}/drupal yaml:update:value ${repo.root}/project.yml drush.default_alias '${project.machine_name}.local'" logoutput="true" checkreturn="true" level="info" passthru="true"/>
-    <exec dir="${repo.root}" command="${composer.bin}/drupal yaml:update:value ${repo.root}/project.yml drush.aliases.local '${project.machine_name}.local'" logoutput="true" checkreturn="true" level="info" passthru="true"/>
-
     <echo></echo>
     <echo>A new "box" directory and a Vagrantfile have been added to ${repo.root}</echo>
     <echo></echo>
     <echo>To customize the VM, follow the Quick Start Guide in Drupal VM's README:</echo>
     <echo>https://github.com/geerlingguy/drupal-vm#quick-start-guide</echo>
     <echo></echo>
-    <echo>To boot the VM, run "vagrant up" from the project root.</echo>
     <echo>To run drush commands against the VM, use the @${drush.aliases.local} alias.</echo>
     <echo>You may pin yourself to this alias using "drush use @${drush.aliases.local}"</echo>
+  </target>
 
-    <exec dir="${repo.root}" command="command -v vagrant >/dev/null 2>&amp;1" returnProperty="vagrant.exists" logoutput="true"/>
+  <target name="vm:requirements" description="Checks and conditionally installs DrupalVM requirements." hidden="true">
+
+    <echo>Operating system is ${os.name}</echo>
+
+    <!-- Check for VirtualBox. -->
+    <exec dir="${repo.root}" command="command -v VirtualBox >/dev/null 2>&amp;1" returnProperty="virtualbox.missing" logoutput="true" checkreturn="false"/>
     <if>
-      <isfalse value="${vagrant.exists}"/>
+      <istrue value="${virtualbox.missing}"/>
       <then>
-        <echo>The vagrant is not installed!</echo>
+        <echo>Please install all dependencies for Drupal VM by following the Quickstart Guide:</echo>
+        <echo>https://github.com/geerlingguy/drupal-vm#quick-start-guide</echo>
+        <fail message="Virtualbox is missing is not installed."/>
       </then>
-      <else>
-        <exec dir="${repo.root}" command="vagrant plugin list | grep vagrant-hostsupdater" outputProperty="vagrant.hostsupdater.exists"/>
-        <if>
-          <not><istrue value="${vagrant.hostsupdater.exists}"/></not>
-          <then>
-            <echo>The vagrant-hostsupdater plugin is not installed!</echo>
-          </then>
-        </if>
-      </else>
     </if>
+
+    <!-- Check for vagrant. -->
+    <exec dir="${repo.root}" command="command -v vagrant >/dev/null 2>&amp;1" returnProperty="vagrant.missing" logoutput="true" checkreturn="false"/>
+    <if>
+      <istrue value="${vagrant.missing}"/>
+      <then>
+        <echo>Please install all dependencies for Drupal VM by following the Quickstart Guide:</echo>
+        <echo>https://github.com/geerlingguy/drupal-vm#quick-start-guide</echo>
+        <fail message="Vagrant is not installed."/>
+      </then>
+    </if>
+
+    <exec dir="${repo.root}" command="vagrant plugin list | grep vagrant-hostsupdater" returnProperty="vagrant.hostsupdater.missing"/>
+    <!--Check for hostsupdater plugin for Vagrant-->
+    <if>
+      <istrue value="${vagrant.hostsupdater.missing}"/>
+      <then>
+        <echo>The vagrant-hostsupdater plugin is not installed! Attempting to install it...</echo>
+        <exec command="vagrant plugin install vagrant-hostsupdater" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+      </then>
+    </if>
+
+  </target>
+
+  <target name="vm:up" depends="vm:requirements" hidden="true">
+    <exec command="vagrant up" logoutput="true" checkreturn="true" level="info" passthru="true" />
   </target>
 
 </project>
