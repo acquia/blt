@@ -46,6 +46,9 @@
     <exec dir="${repo.root}" command="export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --ansi --no-interaction" logoutput="true" checkreturn="true" level="info" passthru="true" />
   </target>
 
+  <target name="setup:settings" depends="setup:drupal:settings, setup:drush:settings, setup:behat" description="Creates settings files for Drupal, drush, and Behat.">
+  </target>
+
   <target name="setup:drupal:settings" description="Create local settings files using default settings files.">
     <echo>Making ${docroot}/sites/default writable.</echo>
     <chmod mode="0755" file="${docroot}/sites/default" failonerror="false" verbose="true" />
@@ -89,7 +92,7 @@
     </if>
   </target>
 
-  <target name="setup:drush" description="Create local drush settings files.">
+  <target name="setup:drush:settings" description="Create local drush settings files.">
     <if>
       <not><available file="${docroot}/sites/${multisite.name}/local.drushrc.php" type="file" /></not>
       <then>
@@ -121,7 +124,7 @@
 
   <target name="setup:drupal:install"
           description="Installs a specific Drupal site."
-          depends="setup:drupal:settings, setup:drush, setup:hash-salt">
+          depends="setup:drupal:settings, setup:drush:settings, setup:hash-salt">
 
     <echo>Printing drush status.</echo>
     <drush command="status"/>
