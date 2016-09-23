@@ -23,14 +23,27 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
   public function __construct($name = NULL, array $data = [], $dataName = '') {
     parent::__construct($name, $data, $dataName);
 
-    // This seems super hacky, but when blt is included as a symlink in the
-    // test project, php resolves the symlink and we end up in the wrong
-    // directory when Travis runs the tests.
-    if (strpos(__DIR__, 'vendor/acquia') !== FALSE) {
-      $this->projectDirectory = dirname(dirname(dirname(dirname(dirname(dirname((__DIR__)))))));
+    // We must consider that this package may be symlinked into its location.
+    $repo_root_locations = [
+      dirname($_SERVER['SCRIPT_FILENAME']) . '/../..',
+      getcwd(),
+    ];
+
+    foreach ($repo_root_locations as $location) {
+      if (file_exists($location . '/vendor/bin/blt')
+        && file_exists($location . '/composer.json')) {
+        if ($path = realpath($location)) {
+          $this->projectDirectory = $path;
+        }
+        else {
+          $this->projectDirectory = $location;
+        }
+        break;
+      }
     }
-    else {
-      $this->projectDirectory = getcwd();
+
+    if (empty($this->projectDirectory)) {
+      throw new \Exception("Could not find project root directory!");
     }
 
     $this->drupalRoot = $this->projectDirectory . '/docroot';
