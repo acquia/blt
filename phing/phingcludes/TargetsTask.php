@@ -4,12 +4,9 @@
  * A phing task to loop through properties.
  */
 require_once 'phing/Task.php';
-
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Parse a given yml file to locate targets for a specific key.
- *
  * @author Steve Worley <sj.worley88@gmail.com>
  */
 class TargetsTask extends PropertyTask {
@@ -82,7 +79,7 @@ class TargetsTask extends PropertyTask {
    * @param string $property
    *   A name that will be accessible by other phing tasks in the target.
    */
-  public function setProperty($property = 'targets') {
+  public function setProperty($property) {
     $this->property = $property;
   }
 
@@ -97,7 +94,7 @@ class TargetsTask extends PropertyTask {
    * @param string $glue
    *   A string to join the return value.
    */
-  public function setGlue($glue = ',') {
+  public function setGlue($glue) {
     $this->glue = $glue;
   }
 
@@ -114,7 +111,7 @@ class TargetsTask extends PropertyTask {
    * @param string $default
    *   A glue separated string.
    */
-  public function setDefault($default = "") {
+  public function setDefault($default) {
     $this->default = $default;
   }
 
@@ -142,7 +139,7 @@ class TargetsTask extends PropertyTask {
    * @return string
    */
   public function getProperty() {
-    return $this->property;
+    return empty($this->property) ? 'targets' : $this->property;
   }
 
   /**
@@ -151,7 +148,7 @@ class TargetsTask extends PropertyTask {
    * @return string
    */
   public function getGlue() {
-    return $this->glue;
+    return empty($this->glue) ? ',' : $this->glue;
   }
 
   /**
@@ -167,6 +164,7 @@ class TargetsTask extends PropertyTask {
    * The main entry point method.
    *
    * @return bool
+   * @throws BuildException
    */
   public function main() {
 
@@ -183,7 +181,7 @@ class TargetsTask extends PropertyTask {
     $parsed_target_list = [];
 
     foreach ($this->arrayFlatten($values) as $name => $value) {
-      array_push($parsed_target_list, "$name:" . substr($value, 0, -2));
+      array_push($parsed_target_list, $name);
     }
 
     $parsed_target_list = implode($this->getGlue(), $parsed_target_list);
@@ -216,11 +214,8 @@ class TargetsTask extends PropertyTask {
 
   /**
    * Flatten array values into a string.
-   *
-   * @param array $array
-   *   A list of values.
-   *
-   * @return array
+   * @param  [type] $array [description]
+   * @return [type]        [description]
    */
   public function arrayFlatten($array) {
     $result = array();
