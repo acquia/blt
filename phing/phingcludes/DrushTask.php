@@ -233,10 +233,6 @@ class DrushTask extends Task {
     $this->setVerbose($this->getProject()->getProperty('drush.verbose'));
     $this->setAssume($this->getProject()->getProperty('drush.assume'));
     $this->setPassthru($this->getProject()->getProperty('drush.passthru'));
-
-    if (Phing::getMsgOutputLevel() >= Project::MSG_VERBOSE) {
-      $this->setVerbose('yes');
-    }
   }
 
   /**
@@ -281,6 +277,10 @@ class DrushTask extends Task {
       $option = new DrushOption();
       $option->setName('pipe');
       $this->options[] = $option;
+    }
+
+    if (Phing::getMsgOutputLevel() >= Project::MSG_VERBOSE) {
+      $this->setVerbose('true');
     }
 
     if ($this->verbose) {
