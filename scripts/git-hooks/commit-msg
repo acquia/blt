@@ -8,12 +8,9 @@
 
 ROOT_DIR="$(pwd)/"
 PREFIX=$($ROOT_DIR/vendor/bin/drupal yaml:get:value $ROOT_DIR/project.yml project.prefix)
-regex="^${PREFIX}-[0-9]+(: )[^ ].{15,}\."
-if ! grep -iqE "$regex" "$1"; then
-  echo "Invalid commit message. Commit messages must:"
-  echo "* Contain the project prefix followed by a hyphen"
-  echo "* Contain a ticket number followed by a colon and a space"
-  echo "* Be at least 15 characters long and end with a period."
-  echo "Valid example: $PREFIX-135: Added the new picture field to the article feature."
+REGEX=$($ROOT_DIR/vendor/bin/drupal yaml:get:value $ROOT_DIR/project.yml git.commit_message.regex)
+MESSAGE=$($ROOT_DIR/vendor/bin/drupal yaml:get:value $ROOT_DIR/project.yml git.commit_message.instructions)
+if ! grep -iqE "$REGEX" "$1"; then
+  echo -e "$MESSAGE";
   exit 1;
 fi
