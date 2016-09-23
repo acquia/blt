@@ -22,6 +22,13 @@ class FilterFileListByFileSetTask extends Task {
    */
   protected $return_property = null;
 
+  /**
+   * The project root directory.
+   *
+   * @var string
+   */
+  protected $root;
+
   public function setFileList($fileList)
   {
     $this->fileList = $fileList;
@@ -50,6 +57,16 @@ class FilterFileListByFileSetTask extends Task {
     $this->return_property = $str;
   }
 
+  /**
+   * Project root directory.
+   *
+   * @param string $root The project root.
+   * @return void
+   */
+  public function setRoot($root)
+  {
+    $this->root = $root;
+  }
 
   /**
    * The main entry point method.
@@ -80,8 +97,18 @@ class FilterFileListByFileSetTask extends Task {
     return (bool) $filteredList;
   }
 
+  /**
+   * Convert given relative paths to absolute file paths.
+   *
+   * @param string $relative_path A relative file path.
+   *
+   * @return string
+   *   Absolute file path.
+   */
   protected function prependProjectPath($relative_path) {
-    return $this->project->getBasedir()->getAbsolutePath() . DIRECTORY_SEPARATOR . $relative_path;
+    return isset($this->root)
+        ? $this->root . DIRECTORY_SEPARATOR . $relative_path
+        : $this->project->getBasedir()->getAbsolutePath() . DIRECTORY_SEPARATOR . $relative_path;
   }
 
   /**
