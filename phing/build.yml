@@ -40,7 +40,7 @@ drupal:
 drush:
   bin: ${composer.bin}/drush
   cmd: ${drush.bin} @${drush.alias} -r ${docroot} -l ${multisite.name}
-  dir: ${docroot}
+  dir: ${repo.root}
   root: ${docroot}
   uri: ${multisite.name}
   assume: yes
