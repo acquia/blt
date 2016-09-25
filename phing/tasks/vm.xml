@@ -18,7 +18,12 @@
       </then>
     </if>
 
-    <phingcall target="vm:up"/>
+    <if>
+      <not><equals arg1="${vm.boot}" arg2="false"/></not>
+      <then>
+        <phingcall target="vm:up"/>
+      </then>
+    </if>
   </target>
 
 
