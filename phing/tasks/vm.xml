@@ -18,7 +18,6 @@
       </then>
     </if>
 
-    <phingcall target="vm:local:init"/>
     <phingcall target="vm:up"/>
   </target>
 
@@ -26,8 +25,8 @@
   <target name="vm:local:init" depends="setup:drupal:settings" description="Initializes DrupalVM for this machine." hidden="true">
     <!-- Sadly this wipes out comments in the file. -->
     <echo>Updating project.local.yml.</echo>
-    <exec dir="${repo.root}" command="${composer.bin}/drupal yaml:update:value ${repo.root}/project.yml drush.default_alias '${project.machine_name}.local'" logoutput="true" checkreturn="true" level="info" passthru="true"/>
-    <exec dir="${repo.root}" command="${composer.bin}/drupal yaml:update:value ${repo.root}/project.yml drush.aliases.local '${project.machine_name}.local'" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <exec dir="${repo.root}" command="${composer.bin}/drupal yaml:update:value ${repo.root}/project.local.yml drush.default_alias '${project.machine_name}.local'" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <exec dir="${repo.root}" command="${composer.bin}/drupal yaml:update:value ${repo.root}/project.local.yml drush.aliases.local '${project.machine_name}.local'" logoutput="true" checkreturn="true" level="info" passthru="true"/>
 
     <echo>project.local.yml has been modified.</echo>
     <echo>drush.default_alias has been set to ${project.machine_name}.local'</echo>
@@ -86,6 +85,12 @@
             <echo>VirtualBox is missing!</echo>
             <phingcall target="vm:requirements:darwin:virtualbox"/>
           </then>
+          <elseif>
+            <equals arg1="${os.name}" arg2="Linux"/>
+            <then>
+              <phingcall target="vm:requirements:linux:virtualbox"/>
+            </then>
+          </elseif>
           <else>
             <fail message="Please install VirtualBox and retry."/>
           </else>
