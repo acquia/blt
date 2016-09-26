@@ -9,13 +9,15 @@ use Symfony\Component\Yaml\Yaml;
 class DisableTargetsTask extends PropertyTask {
 
   /**
-   * Path to a file that contains targets.
+   * Path to the yml file that defines $this->property.
    *
    * @var string
    */
   protected $file;
 
   /**
+   * The name of the property listing the targets to be disabled.
+   *
    * @var string
    */
   protected $property;
@@ -34,7 +36,6 @@ class DisableTargetsTask extends PropertyTask {
    * Set the return property name.
    *
    * @param string $property
-   *   A name that will be accessible by other phing tasks in the target.
    */
   public function setProperty($property) {
     $this->property = $property;
@@ -56,7 +57,7 @@ class DisableTargetsTask extends PropertyTask {
    * @return string
    */
   public function getProperty() {
-    return empty($this->property) ? 'targets' : $this->property;
+    return empty($this->property) ? 'disable-targets' : $this->property;
   }
 
   /**
@@ -68,20 +69,32 @@ class DisableTargetsTask extends PropertyTask {
   public function main() {
 
     $file = $this->loadFile($this->getFile());
-    $targets_to_replace = $this->arrayFlatten($file[$this->getProperty()]);
-    foreach ($targets_to_replace as $target_name => $disable) {
-      if ($disable) {
-        $replacement_target = new Target();
-        $echo_task = new EchoTask();
-        $echo_task->setMessage("$target_name is disabled in {$this->getFile()}, skipping.");
-        $echo_task->setLevel('warning');
-        $echo_task->setProject($this->project);
-        $replacement_target->addTask($echo_task);
-        $replacement_target->setName($target_name);
-        $this->project->addOrReplaceTarget($target_name, $replacement_target);
-      }
+
+    if (empty($file[$this->getProperty()])) {
+      $this->log("Property {$this->getProperty()} does not exist in {$this->getFile()}.", PROJECT::MSG_DEBUG);
+
+      return FALSE;
     }
 
+    $targets_to_replace = $this->arrayFlatten($file[$this->getProperty()]);
+    $project_targets = $this->getProject()->getTargets();
+    foreach ($targets_to_replace as $target_name => $disable) {
+      if ($disable) {
+        if (empty($project_targets[$target_name])) {
+          $this->log("Cannot disable target $target_name, it does not exist.", PROJECT::MSG_WARN);
+        }
+        else {
+          $replacement_target = new Target();
+          $echo_task = new EchoTask();
+          $echo_task->setMessage("$target_name is disabled in {$this->getFile()}, skipping.");
+          $echo_task->setLevel('warning');
+          $echo_task->setProject($this->project);
+          $replacement_target->addTask($echo_task);
+          $replacement_target->setName($target_name);
+          $this->project->addOrReplaceTarget($target_name, $replacement_target);
+        }
+      }
+    }
 
     return TRUE;
   }
@@ -111,6 +124,7 @@ class DisableTargetsTask extends PropertyTask {
 
   /**
    * Flatten array values into a string.
+   *
    * @param  [type] $array [description]
    * @return [type]        [description]
    */
