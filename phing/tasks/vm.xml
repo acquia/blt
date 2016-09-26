@@ -77,6 +77,8 @@
 
   <target name="vm:requirements" description="Checks and conditionally installs DrupalVM requirements." hidden="true">
 
+    <echo>Operating system is ${os.name}</echo>
+
     <!-- Check for VirtualBox. -->
     <exec dir="${repo.root}" command="command -v VirtualBox >/dev/null 2>&amp;1" returnProperty="virtualbox.missing" logoutput="true" checkreturn="false"/>
     <if>
