@@ -49,5 +49,5 @@ extra_packages:
   - subversion
   - php-bcmath
 
-pre_provision_scripts:
-  - "../vendor/acquia/blt/scripts/drupal-vm/pre-provision.sh"
+post_provision_scripts:
+  - "../vendor/acquia/blt/scripts/drupal-vm/post-provision.sh"

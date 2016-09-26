@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-export $PATH=/var/www/$(hostname)/vendor/bin
+export $PATH=/var/www/$(hostname)/vendor/bin:$PATH
