@@ -166,12 +166,15 @@
   </target>
 
   <!--@todo Verify that apt is the package manager, not yum.-->
-  <target name="vm:requirements:linux:virtualbox" depends="vm:requirements:darwin:brew" hidden="true">
+  <target name="vm:requirements:linux:apt" hidden="true">
+
+  </target>
+
+  <target name="vm:requirements:linux:virtualbox" depends="vm:requirements:linux:apt" hidden="true">
     <exec command="apt-get install virtualbox" logoutput="true" checkreturn="true" level="info" passthru="true"/>
   </target>
 
-  <!--@todo Verify that apt is the package manager, not yum.-->
-  <target name="vm:requirements:linux:vagrant" depends="vm:requirements:darwin:brew" hidden="true">
+  <target name="vm:requirements:linux:vagrant" depends="vm:requirements:linux:apt" hidden="true">
     <exec command="apt-get install vagrant" logoutput="true" checkreturn="true" level="info" passthru="true"/>
   </target>
 
