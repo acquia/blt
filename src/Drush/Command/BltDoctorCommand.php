@@ -87,6 +87,11 @@ class BltDoctor {
 
     $this->config = Yaml::parse(file_get_contents($filepath));
 
+    $filepath = $this->repoRoot . '/project.local.yml';
+    if (file_exists($filepath)) {
+      $this->config = array_replace_recursive($this->config, Yaml::parse(file_get_contents($filepath)));
+    }
+
     return $this->config;
   }
 
