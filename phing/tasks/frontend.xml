@@ -4,13 +4,13 @@
           depends="frontend:setup, frontend:build">
   </target>
 
-  <target name="frontend:setup" description="Uses project.yml hooks to run custom defined commands to setup front end dependencies for frontend:build.">
+  <target name="frontend:setup" description="Uses project.yml hooks to run custom defined commands to setup front end dependencies for frontend:build." hidden="true">
     <phingcall target="target-hook:invoke">
       <property name="hook-name" value="frontend-setup"/>
     </phingcall>
   </target>
 
-  <target name="frontend:build" description="Uses project.yml hooks to run custom defined commands to build front end dependencies for custom themes.">
+  <target name="frontend:build" description="Uses project.yml hooks to run custom defined commands to build front end dependencies for custom themes." hidden="true">
     <phingcall target="target-hook:invoke">
       <property name="hook-name" value="frontend-build"/>
     </phingcall>

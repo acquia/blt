@@ -72,7 +72,7 @@
     <exec dir="${blt.root}" command="${repo.root}/vendor/bin/phing -f ${phing.dir}/build.xml -q -l" passthru="true"/>
   </target>
 
-  <target name="target-hook:invoke" description="Executes a command defined in the target-hooks array.">
+  <target name="target-hook:invoke" description="Executes a command defined in the target-hooks array." hidden="true">
     <fail unless="hook-name"/>
     <if>
       <isset property="target-hooks.${hook-name}.command"/>
