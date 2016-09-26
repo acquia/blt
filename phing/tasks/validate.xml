@@ -61,7 +61,7 @@
     <foreach list="${phpcs.filesets}" target="validate:phpcs:fileset" param="fileset_refid"/>
   </target>
 
-  <target name="validate:phpcs:fileset" description="Runs PHP Code Sniffer against only custom modules.">
+  <target name="validate:phpcs:fileset" description="Runs PHP Code Sniffer against only custom modules." hidden="true">
     <echo>Code sniffing ${fileset_refid}</echo>
     <!-- Sniff tests. -->
     <phpcodesniffer

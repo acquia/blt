@@ -1,9 +1,10 @@
 <project name="tests" default="tests:all">
 
-  <target name="test" description="Runs all tests." depends="tests:all"></target>
+  <target name="tests" depends="tests:all" description="Runs all tests, including Behat, PHPUnit, and Security Update check."/>
 
-  <target name="tests:all" description="Runs all tests, including Behat, PHPUnit, and Security Update check."
-          depends="tests:security-updates, tests:phpunit, tests:behat"/>
+  <target name="test" depends="tests" hidden="true"/>
+
+  <target name="tests:all" depends="tests:security-updates, tests:phpunit, tests:behat" hidden="true"/>
 
   <!-- If you experience 'Maximum function nesting level' errors in your PHP
        error log, set 'xdebug.max_nesting_level=1000' in php.ini. -->
@@ -13,7 +14,7 @@
     <phingcall target="tests:phantomjs:kill"/>
   </target>
 
-  <target name="tests:behat:execute" description="Executes behat tests against specific path.">
+  <target name="tests:behat:execute" description="Executes behat tests against specific path." hidden="true">
     <!-- Check to see if any behat tests exist in this directory. If not,
          behat will throw fatal error. -->
     <exec command="find ${behat.path} -name *.feature -print -quit" logoutput="true" outputProperty="behat.tests.found"/>
@@ -53,7 +54,8 @@
   </target>
 
   <target name="tests:phantomjs:launch"
-          description="Launches a GhostDriver.">
+          description="Launches a GhostDriver."
+          hidden="true">
 
     <if>
       <equals arg1="${behat.launch-phantom}" arg2="true"/>
@@ -73,7 +75,7 @@
   </target>
 
   <target name="tests:phantomjs:kill"
-          description="Launches a GhostDriver.">
+          description="Launches a GhostDriver." hidden="true">
     <exec command="pgrep phantomjs | xargs kill" logoutput="true" level="info" passthru="true" />
   </target>
 
@@ -107,19 +109,8 @@
     </if>
   </target>
 
-  <target name="rsync-results">
-    <property name="reports.remoteDir" value="build-results" />
-
-    <drush command="rsync">
-      <arg>"${reports.localDir}"</arg>
-      <arg>"${drush.aliases.default}:%files/${reports.remoteDir}"</arg>
-    </drush>
-
-    <!-- @todo Add message with link to new reports. -->
-  </target>
-
   <!-- Optionally run tests against internal PHP server. -->
-  <target name="tests:run-server">
+  <target name="tests:run-server" hidden="true">
     <if>
       <equals arg1="${behat.run-server}" arg2="true"/>
       <then>
