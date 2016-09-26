@@ -1,5 +1,5 @@
 # Note that the example .travis.yml file for child projects lives in /install.
-sudo: false
+sudo: true
 language: php
 
 php:
@@ -89,7 +89,7 @@ script:
   - composer global require "hirak/prestissimo:^0.3"
   - blt doctor
   # Add Drupal VM config to repo.
-  - blt vm:init
+  - blt vm -Dvm.boot='false'
   # Update blt symlink prior to deploy.
   - composer config repositories.blt.url '"../../blt"'
   - rm composer.lock
