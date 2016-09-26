@@ -233,10 +233,6 @@ class DrushTask extends Task {
     $this->setVerbose($this->getProject()->getProperty('drush.verbose'));
     $this->setAssume($this->getProject()->getProperty('drush.assume'));
     $this->setPassthru($this->getProject()->getProperty('drush.passthru'));
-
-    if (Phing::getMsgOutputLevel() >= Project::MSG_VERBOSE) {
-      $this->setVerbose('yes');
-    }
   }
 
   /**
@@ -283,6 +279,10 @@ class DrushTask extends Task {
       $this->options[] = $option;
     }
 
+    if (Phing::getMsgOutputLevel() >= Project::MSG_VERBOSE) {
+      $this->setVerbose('true');
+    }
+
     if ($this->verbose) {
       $option = new DrushOption();
       $option->setName('verbose');
@@ -302,6 +302,7 @@ class DrushTask extends Task {
 
     if (!empty($this->dir)) {
       $this->log("Changing working directory to: $this->dir");
+      $initial_cwd = getcwd();
       chdir($this->dir);
     }
 
@@ -325,6 +326,11 @@ class DrushTask extends Task {
       foreach ($output as $line) {
         $this->log($line);
       }
+    }
+
+    if (isset($initial_cwd)) {
+      $this->log("Changing working directory back to $initial_cwd.");
+      chdir($initial_cwd);
     }
 
     // Set value of the 'pipe' property.

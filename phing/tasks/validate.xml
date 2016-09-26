@@ -26,7 +26,7 @@
     <fail unless="files" message="Missing files parameter."/>
     <property name="phpcs.ruleset" value="${repo.root}/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml"/>
 
-    <filterFileListByFileSet fileList="${files}" returnProperty="filteredFileList">
+    <filterFileListByFileSet fileList="${files}" root="${repo.root}" returnProperty="filteredFileList">
       <fileset refid="files.php.custom.modules"/>
       <fileset refid="files.php.custom.themes"/>
       <fileset refid="files.php.tests"/>

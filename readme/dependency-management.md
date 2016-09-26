@@ -68,3 +68,19 @@ Commit `composer.json` and `composer.lock` afterwards.
 ## Patch a project
 
 Please see [patches/README.md](../patches/README.md) for information on patch naming, patch application, and patch contribution guidance.
+
+## Merging in additional composer.json files
+
+In situations where you have local projects, e.g. a custom module, that have their own composer.json files, you can merge them in by including the composer-merge-plugin.
+
+    composer require wikimedia/composer-merge-plugin
+
+Reference these additional composer.json files in the `extra` section of your root composer.json file.
+
+    "extra": {
+      "merge-plugin": {
+        "require": [
+          "docroot/modules/custom/example/composer.json"
+        ]
+      }
+    }

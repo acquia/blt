@@ -16,6 +16,8 @@
     </then>
   </if>
 
+  <!--@todo Warn if Windows is being used.-->
+
   <!-- Include task partials -->
 
   <!-- Defines a list of default properties, available to all targets. -->
@@ -67,6 +69,7 @@
   <import file="${phing.dir}/tasks/vm.xml"/>
 
   <target name="list" hidden="true">
+    <exec dir="${repo.root}" command="cat ${blt.root}/scripts/blt/ascii-art.txt" logoutput="true" passthru="true" checkreturn="false"/>
     <exec dir="${blt.root}" command="${repo.root}/vendor/bin/phing -f ${phing.dir}/build.xml -q -l" passthru="true"/>
   </target>
 
