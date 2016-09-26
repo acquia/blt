@@ -14,6 +14,11 @@
     </drush>
   </target>
 
+  <target name="blt:call" description="Call targets available to BLT">
+    <!-- Phingcall cannot be used as a target for <foreach> so this is a wrapper -->
+    <phingcall target="${target}" />
+  </target>
+
   <target name="blt:rsync-template">
     <echo>Copying files from BLT's template into your project.</echo>
     <!-- @todo Do not overwrite structured or executable files. Instead, update them intelligently settings.php, drush.wrapper etc. -->
