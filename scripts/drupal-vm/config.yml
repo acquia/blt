@@ -48,3 +48,6 @@ extra_packages:
   - php-bz2
   - subversion
   - php-bcmath
+
+pre_provision_scripts:
+  - "../vendor/acquia/blt/scripts/drupal-vm/pre-provision.sh"

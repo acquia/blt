@@ -3,7 +3,7 @@ $aliases['${project.machine_name}.local'] = array(
   // /var/www/[vagrant_machine_name]/docroot
   'root' => '/var/www/${project.machine_name}/docroot',
   // vagrant_hostname
-  'uri' => '${project.local.hostname}',
+  'uri' => '${project.local.uri}',
   // vagrant_hostname
   'remote-host' => '${project.local.hostname}',
   'remote-user' => 'vagrant',

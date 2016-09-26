@@ -41,7 +41,6 @@ drush:
   bin: ${composer.bin}/drush
   cmd: ${drush.bin} @${drush.alias} -r ${docroot} -l ${multisite.name}
   dir: ${docroot}
-  root: ${docroot}
   uri: ${multisite.name}
   assume: yes
   passthru: yes

@@ -23,6 +23,8 @@ class BltDoctor {
   protected $composerJson = [];
   /** @var bool */
   protected $drupalVmEnabled = FALSE;
+  /** @var array */
+  protected $drupalVmConfig = [];
   /** @var bool */
   protected $devDesktopEnabled = FALSE;
   /** @var array */
@@ -192,6 +194,7 @@ class BltDoctor {
     // @todo Check that if drupal/acsf is in composer.json, acsf is initialized.
     // @todo If using lightning, check lightning.extend.yml exists, check for $config['profile'] = 'lighting';
     // @todo Check is PhantomJS bin matches OS.
+    // @todo Check global drush version.
 
     if ($this->passed) {
       drush_log("Everything looks good enough!\n", "success");
@@ -451,7 +454,7 @@ class BltDoctor {
    * This is only possible if Drupal is installed.
    */
   protected function checkDrupalBootstrapped() {
-    if (empty($this->statusTable['bootstrap']) || $this->statusTable['bootstrap'] != 'noticeful') {
+    if (empty($this->statusTable['bootstrap']) || $this->statusTable['bootstrap'] != 'Successful') {
       drush_log('Could not bootstrap Drupal via drush without alias.', 'warning');
     }
     else {
@@ -573,8 +576,10 @@ class BltDoctor {
         $this->logErrorDetail();
         $passed = FALSE;
       }
-      elseif ($this->drushAliasesFileExists()) {
-        $vm_config = Yaml::parse(file_get_contents($this->repoRoot . '/box/config.yml'));
+      else {
+        $this->setDrupalVmConfig();
+      }
+      if ($this->drushAliasesFileExists()) {
         $local_alias_id = $this->config['drush']['aliases']['local'];
         if (empty($this->drushAliases[$local_alias_id])) {
           $this->logError("The drush alias assigned to drush.aliases.local does not exist in your drush aliases file.");
@@ -585,23 +590,24 @@ class BltDoctor {
         }
         else {
           $local_alias = $this->drushAliases[$local_alias_id];
-          if ($local_alias['remote-host'] != $vm_config['vagrant_hostname']) {
+          if ($local_alias['remote-host'] != $this->drupalVmConfig['vagrant_hostname']) {
             $this->logError("remote-host for @$local_alias_id drush alias does not match vagrant_hostname for DrupalVM.");
             $this->logErrorDetail("remote-host is set to {$local_alias['remote-host']} for @$local_alias_id");
-            $this->logErrorDetail("vagrant_hostname is set to {$vm_config['vagrant_hostname']} for DrupalVM.");
-            $this->logErrorDetail("{$local_alias['remote-host']} != {$vm_config['vagrant_hostname']}");
+            $this->logErrorDetail("vagrant_hostname is set to {$this->drupalVmConfig['vagrant_hostname']} for DrupalVM.");
+            $this->logErrorDetail("{$local_alias['remote-host']} != {$this->drupalVmConfig['vagrant_hostname']}");
             $this->logErrorDetail();
             $passed = FALSE;
           }
-          if ($local_alias['uri'] != $vm_config['vagrant_hostname']) {
+          $parsed_uri = parse_url($local_alias['uri']);
+          if ($parsed_uri['host'] != $this->drupalVmConfig['vagrant_hostname']) {
             $this->logError("uri for @$local_alias_id drush alias does not match vagrant_hostname for DrupalVM.");
             $this->logErrorDetail("uri is set to {$local_alias['uri']} for @$local_alias_id");
-            $this->logErrorDetail("vagrant_hostname is set to {$vm_config['vagrant_hostname']} for DrupalVM.");
-            $this->logErrorDetail("{$local_alias['uri']} != {$vm_config['vagrant_hostname']}");
+            $this->logErrorDetail("vagrant_hostname is set to {$this->drupalVmConfig['vagrant_hostname']} for DrupalVM.");
+            $this->logErrorDetail("{$local_alias['uri']} != {$this->drupalVmConfig['vagrant_hostname']}");
             $this->logErrorDetail();
             $passed = FALSE;
           }
-          $expected_root = $vm_config['drupal_composer_install_dir'] . '/docroot';
+          $expected_root = $this->drupalVmConfig['drupal_composer_install_dir'] . '/docroot';
           if ($local_alias['root'] != $expected_root) {
             $this->logError("root for @$local_alias_id drush alias does not match docroot for DrupalVM.");
             $this->logErrorDetail("root is set to {$local_alias['root']} for @$local_alias_id");
@@ -616,6 +622,12 @@ class BltDoctor {
     if ($passed) {
       drush_log("Drupal VM is configured correctly.", 'notice');
     }
+  }
+
+  protected function setDrupalVmConfig() {
+    $this->drupalVmConfig  = Yaml::parse(file_get_contents($this->repoRoot . '/box/config.yml'));
+
+    return $this->drupalVmConfig;
   }
 
   protected function drushAliasesFileExists() {
@@ -666,8 +678,9 @@ class BltDoctor {
 
     $behat_base_url = $this->behatDefaultLocalConfig['local']['extensions']['Behat\MinkExtension']['base_url'];
     if ($behat_base_url != $this->getUri()) {
-      $this->logError("base_url in tests/behat/local.yml does not match the site URI. It is set to \"$behat_base_url\".");
-      $this->logErrorDetail("Set base_url to {$this->getUri()}");
+      $this->logError("base_url in tests/behat/local.yml does not match the site URI.");
+      $this->logErrorDetail("Behat base_url is set to \"$behat_base_url\".");
+      $this->logErrorDetail("Drush site URI is set to {$this->getUri()}.");
       $this->logErrorDetail();
     }
     else {

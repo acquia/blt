@@ -27,12 +27,11 @@
 
   <!-- Default drush alias. -->
   <property name="drush.alias" value="${drush.default_alias}" override="false" logoutput="false"/>
-  <!--If alias is not self, then we do not specify the drush root. The drush alias itself should define this in its docroot key.-->
   <if>
-    <not><equals arg1="${drush.alias}" arg2="self"/></not>
+    <equals arg1="${env.USER}" arg2="vagrant"/>
     <then>
-      <echo level="verbose">Unsetting drush.root because a remote alias is being used.</echo>
-      <property name="drush.root" value="" override="true"/>
+      <echo level="verbose">You are running commands inside of a vagrant machine. Setting drush alias to @self.</echo>
+      <property name="drush.alias" value="self" override="true"/>
     </then>
   </if>
 
