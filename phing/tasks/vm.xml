@@ -40,6 +40,7 @@
 
   <target name="vm:project:init" description="Initializes Drupal VM for this project." hidden="true">
     <echo>BLT support for Drupal VM is EXPERIMENTAL. Not all BLT features currently work with Drupal VM. </echo>
+    <echo></echo>
     <echo>Creating a drush alias for the new VM.</echo>
     <exec dir="${repo.root}" command="cat ${blt.root}/scripts/drupal-vm/drupal-vm.aliases.drushrc.php >> ${repo.root}/drush/site-aliases/aliases.drushrc.php" logoutput="true" checkreturn="true" level="info"/>
     <reflexive>
@@ -107,14 +108,14 @@
       <istrue value="${vagrant.hostsupdater.missing}"/>
       <then>
         <echo>The vagrant-hostsupdater plugin is not installed! Attempting to install it...</echo>
-        <exec command="vagrant plugin install vagrant-hostsupdater" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+        <exec dir="${repo.root}" command="vagrant plugin install vagrant-hostsupdater" logoutput="true" checkreturn="true" level="info" passthru="true"/>
       </then>
     </if>
 
   </target>
 
-  <target name="vm:up" depends="vm:requirements" hidden="true">
-    <exec command="vagrant up" logoutput="true" checkreturn="true" level="info" passthru="true" />
+  <target name="vm:up" depends="vm:requirements" hidden="true" description="Boots DrupalVM.">
+    <exec dir="${repo.root}" command="vagrant up" logoutput="true" checkreturn="true" level="info" passthru="true" />
   </target>
 
 </project>

@@ -521,7 +521,8 @@ class BltDoctor {
         $this->logError("$title does not exist.");
         $this->logErrorDetail("Create $full_path.");
         if (in_array($key, ['%files', '%private'])) {
-          $this->logErrorDetail("Installing Drupal will create this directory for you. Run `blt setup:drupal:install` to install Drupal, or run `blt setup` to run the entire setup process.");
+          $this->logErrorDetail("Installing Drupal will create this directory for you.");
+          $this->logErrorDetail("Run `blt setup:drupal:install` to install Drupal, or run `blt setup` to run the entire setup process.");
           $this->logErrorDetail("Otherwise, run `mkdir -p $full_path`.");
           $this->logErrorDetail();
         }
