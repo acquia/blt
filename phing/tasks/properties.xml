@@ -36,7 +36,7 @@
     </then>
   </if>
 
-  <target name="echo-property" description="Echoes the value of a Phing property.">
+  <target name="echo-property" description="Echoes the value of a Phing property." hidden="true">
     <fail unless="property.name" message="property.name must be set!"/>
     <echo>${property.name}</echo>
     <if>
@@ -47,7 +47,7 @@
     </if>
   </target>
 
-  <target name="echo-properties" description="Echoes the value of all Phing properties.">
+  <target name="echo-properties" description="Echoes the value of all Phing properties." hidden="true">
     <echoproperties/>
   </target>
 

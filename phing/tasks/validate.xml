@@ -5,7 +5,8 @@
 
   <!-- Run all validation targets. -->
   <target name="validate:all" description="Runs all code validation targets."
-          depends="validate:composer, validate:lint, validate:phpcs"/>
+          depends="validate:composer, validate:lint, validate:phpcs"
+          hidden="true" />
 
   <!-- Verify that composer json and lock files are in sync. -->
   <target name="validate:composer" description="Validate composer files.">
@@ -22,7 +23,7 @@
   </target>
 
   <!-- Run code sniffer against specific files. -->
-  <target name="validate:phpcs:files" description="">
+  <target name="validate:phpcs:files" description="" hidden="true">
     <fail unless="files" message="Missing files parameter."/>
     <property name="phpcs.ruleset" value="${repo.root}/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml"/>
 
@@ -41,7 +42,7 @@
     </if>
   </target>
 
-  <target name="validate:phpcs:file" description="Runs PHP Code Sniffer against a specific file.">
+  <target name="validate:phpcs:file" description="Runs PHP Code Sniffer against a specific file." hidden="true">
     <fail unless="file" message="Missing file parameter."/>
     <property name="phpcs.ruleset" value="${repo.root}/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml"/>
     <phpcodesniffer
