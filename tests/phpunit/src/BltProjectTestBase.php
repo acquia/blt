@@ -30,7 +30,7 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
       $this->projectDirectory = dirname(dirname(dirname(dirname(dirname(dirname((__DIR__)))))));
     }
     else {
-      $this->projectDirectory = getcwd();
+      $this->projectDirectory = isset($_SERVER['SCRIPT_FILENAME']) ? dirname(dirname(dirname($_SERVER['SCRIPT_FILENAME']))) : getcwd();
     }
 
     $this->drupalRoot = $this->projectDirectory . '/docroot';
