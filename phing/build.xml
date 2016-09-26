@@ -5,6 +5,7 @@
   <taskdef name="behat" classname="phingcludes.BehatTask"/>
   <taskdef name="drush" classname="phingcludes.DrushTask"/>
   <taskdef name="randomstring" classname="phingcludes.RandomStringTask" />
+  <taskdef name="disabletargets" classname="phingcludes.DisableTargetsTask" />
   <taskdef name="filterFileListByFileSet" classname="phingcludes.FilterFileListByFileSetTask"/>
   <taskdef name="phpVariable" classname="phingcludes.PhpVariableTask"/>
 
@@ -66,6 +67,8 @@
 
   <!-- Contains Drupal VM tasks. -->
   <import file="${phing.dir}/tasks/vm.xml"/>
+
+  <disabletargets file="${repo.root}/project.yml" property="disable-targets"/>
 
   <target name="list" hidden="true">
     <exec dir="${repo.root}" command="cat ${blt.root}/scripts/blt/ascii-art.txt" logoutput="true" passthru="true" checkreturn="false"/>
