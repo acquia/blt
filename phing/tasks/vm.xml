@@ -167,15 +167,15 @@
 
   <!--@todo Verify that apt is the package manager, not yum.-->
   <target name="vm:requirements:linux:apt" hidden="true">
-    <exec command="apt-get update" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <exec command="sudo apt-get update" logoutput="true" checkreturn="true" level="info" passthru="true"/>
   </target>
 
   <target name="vm:requirements:linux:virtualbox" depends="vm:requirements:linux:apt" hidden="true">
-    <exec command="apt-get install virtualbox" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <exec command="sudo apt-get install virtualbox" logoutput="true" checkreturn="true" level="info" passthru="true"/>
   </target>
 
   <target name="vm:requirements:linux:vagrant" depends="vm:requirements:linux:apt" hidden="true">
-    <exec command="apt-get install vagrant" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <exec command="sudo apt-get install vagrant" logoutput="true" checkreturn="true" level="info" passthru="true"/>
   </target>
 
   <target name="vm:up" hidden="true">

@@ -1,5 +1,5 @@
 # Note that the example .travis.yml file for child projects lives in /install.
-sudo: false
+sudo: true
 language: php
 
 php:
