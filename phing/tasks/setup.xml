@@ -44,6 +44,7 @@
 
   <target name="setup:composer:install" description="Installs project dependencies, including drupal core and contrib.">
     <exec dir="${repo.root}" command="export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --ansi --no-interaction" logoutput="true" checkreturn="true" level="info" passthru="true" />
+    <exec dir="${repo.root}" command="composer drupal-scaffold --ansi --no-interaction" logoutput="true" checkreturn="true" level="info" passthru="true" />
   </target>
 
   <target name="setup:settings" depends="setup:drupal:settings, setup:drush:settings, setup:behat" description="Creates settings files for Drupal, drush, and Behat.">

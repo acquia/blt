@@ -5,6 +5,7 @@ project.yml
 composer.json
 README.md
 drush/site-aliases/aliases.drushrc.php
+docroot/.gitignore
 docroot/sites/default/services.yml
 factory-hooks/pre-settings-php/includes.php
 tests/behat/behat.yml

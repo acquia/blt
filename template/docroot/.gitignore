@@ -1,0 +1,21 @@
+# Ignore drupal-scaffold files.
+# This file mirrors the default list of packages at:
+# ~ https://github.com/drupal-composer/drupal-scaffold#configuration
+#
+# If you want to make changes to a Drupal Core scaffold file, remove it from
+# this list, and commit it to your repository.
+/.csslintrc
+/.editorconfig
+/.eslintignore
+/.eslintrc
+/.gitattributes
+/.htaccess
+/index.php
+/robots.txt
+/sites/default/default.settings.php
+/sites/default/default.services.yml
+/sites/development.services.yml
+/sites/example.settings.local.php
+/sites/example.sites.php
+/update.php
+/web.config
