@@ -32,11 +32,6 @@
     <!-- Build artifact and commit locally. -->
     <phingcall target="deploy:build"/>
 
-    <!--Allow custom commands to be run before commit.-->
-    <phingcall target="target-hook:invoke">
-      <property name="hook-name" value="post-deploy-build"/>
-    </phingcall>
-
     <!--Commit artifact. -->
     <phingcall target="deploy:commit"/>
 
@@ -84,6 +79,11 @@
         <phingcall target="deploy:acsf:init"/>
       </then>
     </if>
+
+    <!--Allow custom commands to be run before commit.-->
+    <phingcall target="target-hook:invoke">
+      <property name="hook-name" value="post-deploy-build"/>
+    </phingcall>
   </target>
 
   <target name="deploy:commit" hidden="true">
