@@ -75,6 +75,9 @@ $settings['container_yamls'][] = __DIR__ . '/apcu_fix.yml';
  */
 $settings['hash_salt'] = file_get_contents(DRUPAL_ROOT . '/../salt.txt');
 
+if (file_exists(__DIR__ . '/simplesamlphp.settings.php')) {
+  require __DIR__ . '/simplesamlphp.settings.php';
+}
 
 /*******************************************************************************
  * Environment-specific includes.

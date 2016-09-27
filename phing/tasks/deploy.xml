@@ -84,6 +84,12 @@
     <phingcall target="target-hook:invoke">
       <property name="hook-name" value="post-deploy-build"/>
     </phingcall>
+    <if>
+      <isset property="simplesamlphp"/>
+      <then>
+        <phingcall target="simplesamlphp:deploy:config"/>
+      </then>
+    </if>
   </target>
 
   <target name="deploy:commit" hidden="true">

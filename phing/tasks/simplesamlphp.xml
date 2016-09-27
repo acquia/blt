@@ -1,0 +1,54 @@
+<project name="simplesamlphp" default="simplesamlphp:init">
+
+  <!-- Add description -->
+  <target name="simplesamlphp:init" description="Initializes SimpleSAMLphp support for project.">
+    <echo>Adding acquia/simplesamlphp package as a dependency.</echo>
+    <!--<exec dir="${repo.root}" command="composer require acquia/blt-simplesamlphp:*" logoutput="true" checkreturn="true" passthru="true" level="info"/>-->
+    <exec dir="${repo.root}" command="composer require drupal/simplesamlphp_auth:8.3.x-dev" logoutput="true" checkreturn="true" passthru="true" level="info"/>
+
+    <echo>Copying config files to ${repo.root}/simplesamlphp.</echo>
+    <copy todir="${repo.root}/simplesamlphp/config">
+      <filelist dir="${repo.root}/vendor/simplesamlphp/simplesamlphp/config-templates"
+                files="config.php, authsources.php"/>
+      <!--<fileset dir="${repo.root}/vendor/simplesamlphp/simplesamlphp/config"/>-->
+    </copy>
+    <copy todir="${repo.root}/simplesamlphp/metadata"
+          file="${repo.root}/vendor/simplesamlphp/simplesamlphp/metadata-templates/saml20-idp-remote.php"/>
+      <!--<fileset dir="${repo.root}/vendor/simplesamlphp/simplesamlphp/metadata"/>-->
+    <!--<copy file="${repo.root}/vendor/acquia/simplesamlphp/files/simplesamlphp/simplesamlphp.gitignore.txt" tofile="${repo.root}/vendor/simplesamlphp/simplesamlphp/.gitignore" overwrite="true"/>-->
+
+    <!--<exec dir="${repo.root}"
+        command="drupal yaml:update:value project.yml simplesamlphp \$\{repo.root\}/vendor/acquia/blt-simplesamlphp/simplesamlphp.xml" 
+        logoutput="true" 
+        checkreturn="true" 
+        passthru="true" 
+        level="info"/>-->
+    <exec dir="${repo.root}" command="drupal yaml:update:value project.yml simplesamlphp true" logoutput="true" checkreturn="true" passthru="true" level="info"/>
+
+    <copy file="${phing.dir}/files/simplesamlphp/simplesamlphp.settings.php"
+        tofile="${docroot}/sites/default/settings/simplesamlphp.settings.php"/>
+
+    <!-- if settings file exists in docroot append blt.settings.php with some code to include it. -->
+
+    <echo>Creating a symbolic link from ${docroot}/simplesaml to web accessible directory in the simplesamlphp library</echo>
+    <symlink target="${repo.root}/vendor/simplesamlphp/simplesamlphp/www" link="${docroot}/simplesaml" />
+    
+  </target>
+
+  <target name="simplesamlphp:deploy:config" description="Copies config template files to the appropriate place in simplesamlphp library.">
+    <echo>Copying config files to the appropriate place in simplesamlphp library.</echo>
+    <copy file="${repo.root}/simplesamlphp/config/config.php" tofile="${repo.root}/deploy/vendor/simplesamlphp/simplesamlphp/config/config.php" overwrite="true"/>
+    <copy file="${repo.root}/simplesamlphp/config/authsources.php" tofile="${repo.root}/deploy/vendor/simplesamlphp/simplesamlphp/config/authsources.php" overwrite="true"/>
+    <copy file="${repo.root}/simplesamlphp/metadata/saml20-idp-remote.php" tofile="${repo.root}/deploy/vendor/simplesamlphp/simplesamlphp/metadata/saml20-idp-remote.php" overwrite="true"/>
+    <copy file="${phing.dir}/files/simplesamlphp/gitignore.txt" tofile="${repo.root}/deploy/vendor/simplesamlphp/simplesamlphp/.gitignore" overwrite="true"/>
+  </target>
+
+  <target name="simplesamlphp:build:config" description="Copies config template files to the appropriate place in simplesamlphp library.">
+    <echo>Copying config files to the appropriate place in simplesamlphp library.</echo>
+    <copy file="${repo.root}/simplesamlphp/config/config.php" tofile="${repo.root}/vendor/simplesamlphp/simplesamlphp/config/config.php" overwrite="true"/>
+    <copy file="${repo.root}/simplesamlphp/config/authsources.php" tofile="${repo.root}/vendor/simplesamlphp/simplesamlphp/config/authsources.php" overwrite="true"/>
+    <copy file="${repo.root}/simplesamlphp/metadata/saml20-idp-remote.php" tofile="${repo.root}/vendor/simplesamlphp/simplesamlphp/metadata/saml20-idp-remote.php" overwrite="true"/>
+    <copy file="${phing.dir}/files/simplesamlphp/gitignore.txt" tofile="${repo.root}/vendor/simplesamlphp/simplesamlphp/.gitignore" overwrite="true"/>
+  </target>
+
+</project>
