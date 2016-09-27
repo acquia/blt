@@ -78,7 +78,7 @@ To add BLT to a pre-existing Drupal project, do the following:
 
 If you are already using BLT via Composer, you can update to the latest version of BLT by running the following commands from your project's root directory:
 
-      composer update acquia/blt
+      composer update acquia/blt --with-dependencies
 
 Review and commit changes to your project files. For customized files like `.travis.yml` or `docroot/sites/default/settings.php` it is recommended that you use `git add -p` to select which specific line changes you'd like to stage and commit.
 
