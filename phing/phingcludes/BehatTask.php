@@ -164,7 +164,14 @@ class BehatTask extends Task
    */
   public function setPath($path)
   {
-    $this->path = $path;
+    if (strstr($path, ':')) {
+      $array = explode(':', $path);
+      $this->path = $array[0];
+      $this->line = $array[1];
+    }
+    else {
+      $this->path = $path;
+    }
   }
 
   /**
@@ -404,7 +411,18 @@ class BehatTask extends Task
         );
       }
     }
-    $command[] = !empty($this->path) ? $this->path : '';
+
+    if (!empty($this->path)) {
+      if (isset($this->line)) {
+        $command[] = "{$this->path}:{$this->line}";
+      }
+      else{
+        $command[] = "{$this->path}";
+      }
+    }
+    else {
+      $command[] = "";
+    }
 
     if ($this->config) {
       if (!file_exists($this->config)) {
