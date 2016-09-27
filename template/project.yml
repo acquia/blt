@@ -21,7 +21,7 @@ git:
     - bolt8@svn-5223.devcloud.hosting.acquia.com:bolt8.git
     # - radass4@svn-11692.prod.hosting.acquia.com:radass4.git
     commit_message:
-      regex: "^$BLT-[0-9]+(: )[^ ].{15,}\."
+      regex: '^$BLT-[0-9]+(: )[^ ].{15,}\.'
       instructions: |
         Invalid commit message. Commit messages must:
 
