@@ -13,11 +13,11 @@ To add or override a Phing target, you may create a custom build file. You must 
 To override an existing target, just give it the same name as the default target provided by BLT. E.g.,
 
       <project name="custom" default="build">
-        <patternset id="files.frontend">
-          <include name="**/*.js"/>
-          <!-- Ignore custom bootstrap_sass directory. -->
-          <exclude name="**/bootstrap_sass/**/*"/>
-        </patternset>
+        <target name="local:update" description="Update current database to reflect the state of the Drupal file system; uses local drush alias.">
+          <phingcall target="setup:update">
+            <property name="drush.alias" value="${drush.aliases.local}"/>
+          </phingcall>
+        </target>
       </project>
 
 ## Overriding a variable value: 
@@ -36,6 +36,16 @@ You can override the value of any Phing variable used by BLT by either:
 
         blt tests:behat -propertyfile mycustomfile.yml -propertyfileoverride
 
+
+## Disabling a target
+
+You may disable any BLT target. This will cause the target to be skipped during the normal build process. To disable a target, add a `disable-targets` key to your project.yml file:
+
+      disable-targets:
+        validate:
+          phpcs: true
+          
+This snippet would cause the `validate:phpcs` target to be skipped during BLT builds.
 
 ## Modifying BLT Configuration
 
