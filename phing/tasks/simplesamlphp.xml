@@ -29,7 +29,7 @@
     <phingcall target="simplesamlphp:settings"/>
 
     <echo>Creating a symbolic link from ${docroot}/simplesaml to web accessible directory in the simplesamlphp library</echo>
-    <symlink target="${repo.root}/vendor/simplesamlphp/simplesamlphp/www" link="${docroot}/simplesaml" />
+    <symlink target="../vendor/simplesamlphp/simplesamlphp/www/" link="${docroot}/simplesaml" overwrite="true" />
     
   </target>
 
