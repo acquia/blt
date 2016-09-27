@@ -50,4 +50,4 @@ extra_packages:
   - php-bcmath
 
 post_provision_scripts:
-  - "../vendor/acquia/blt/scripts/drupal-vm/post-provision.sh"
+  - "../../../acquia/blt/scripts/drupal-vm/post-provision.sh"
