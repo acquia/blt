@@ -29,8 +29,8 @@ _BLT support for Drupal VM is experimental. Not all BLT features currently work 
 
 To use [Drupal VM](http://www.drupalvm.com/) with a Drupal project that is generated with BLT:
 
-1. Execute `blt vm:init` from the project root directory.
-1. Follow the Quick Start Guide in [Drupal VM's README](https://github.com/geerlingguy/drupal-vm#quick-start-guide)
+1. Download the Drupal VM dependencies listed in [Drupal VM's README](https://github.com/geerlingguy/drupal-vm#quick-start-guide) (VirtualBox, Vagrant, Ansible).
+1. Execute `blt vm` from the project root directory.
 
 There are also other changes you can make if you choose to match the Acquia Cloud server configuration more closely. See Drupal VM's example configuration changes in Drupal VM's `examples/acquia/acquia.overrides.yml` file.
 
