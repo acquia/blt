@@ -9,8 +9,8 @@
   </target>
 
   <target name="doctor" description="Inspects your local blt configuration for possible issues.">
-    <drush command="blt-doctor" verbose="false" uri="" alias="">
-      <option name="include">${blt.root}/drush</option>
+    <drush command="blt-doctor" verbose="false" uri="" dir="${docroot}">
+      <option name="include">../vendor/acquia/blt/drush</option>
     </drush>
   </target>
 
