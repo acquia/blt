@@ -12,6 +12,7 @@
     "cweagans/composer-patches":                  "^1.5.0",
     "drupal/acquia_connector":                    "8.1.*",
     "drupal/acsf":                                "~8.1",
+    "drupal/cog":                                 "~8",
     "drupal/console":                             "~1",
     "drupal/core":                                "~8",
     "drupal/lightning":                           "~8",
