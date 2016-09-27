@@ -32,10 +32,12 @@
     <echo>Updating project.local.yml.</echo>
     <exec dir="${repo.root}" command="${composer.bin}/drupal yaml:update:value ${repo.root}/project.local.yml drush.default_alias '${project.machine_name}.local'" logoutput="true" checkreturn="true" level="info" passthru="true"/>
     <exec dir="${repo.root}" command="${composer.bin}/drupal yaml:update:value ${repo.root}/project.local.yml drush.aliases.local '${project.machine_name}.local'" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <!-- Load new values into Phing. -->
+    <property file="${repo.root}/project.local.yml" override="true" logoutput="false"/>
 
     <echo>project.local.yml has been modified.</echo>
-    <echo>drush.default_alias has been set to ${project.machine_name}.local'</echo>
-    <echo>drush.aliases.local has been set to ${project.machine_name}.local'</echo>
+    <echo>drush.default_alias has been set to ${project.machine_name}.local</echo>
+    <echo>drush.aliases.local has been set to ${project.machine_name}.local</echo>
   </target>
 
   <target name="vm:project:init" description="Initializes Drupal VM for this project." hidden="true">
