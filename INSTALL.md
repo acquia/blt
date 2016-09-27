@@ -6,10 +6,14 @@ You should be able to use the following tools on the command line of your native
 
 * [Git](https://git-scm.com/)
 * [Composer](https://getcomposer.org/download/)
-* PHP 5.6+, PHP installation instructions:
-    * [OSX](http://justinhileman.info/article/reinstalling-php-on-mac-os-x/)
-    * [Windows](http://php.net/manual/en/install.windows.php)
-    * [Linux](http://php.net/manual/en/install.unix.debian.php)
+* PHP 5.6+
+    * PHP installation instructions:
+        * [OSX](http://justinhileman.info/article/reinstalling-php-on-mac-os-x/)
+        * [Windows](http://php.net/manual/en/install.windows.php)
+        * [Linux](http://php.net/manual/en/install.unix.debian.php)
+    * PHP BZ2 extension is required (included by default in many cases).
+        * Install with PECL `pecl install bz2`
+        * Install with apt `apt-get install php5.6-bz2`
 * [NPM](https://nodejs.org/en/download/) (for [Lightning](https://github.com/acquia/lightning) support)
 
 ### Recommended tools and configuration
