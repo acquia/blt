@@ -29,12 +29,17 @@ _BLT support for Drupal VM is experimental. Not all BLT features currently work 
 
 To use [Drupal VM](http://www.drupalvm.com/) with a Drupal project that is generated with BLT:
 
-1. Download the Drupal VM dependencies listed in [Drupal VM's README](https://github.com/geerlingguy/drupal-vm#quick-start-guide) (VirtualBox, Vagrant, Ansible).
+1. Download the Drupal VM dependencies listed in [Drupal VM's README](https://github.com/geerlingguy/drupal-vm#quick-start-guide). If you're running [Homebrew](http://brew.sh/index.html) on Mac OSX, this is as simple as:
+
+        brew install ansible
+        brew cask install virtualbox
+        brew cask install vagrant
+
 1. Execute `blt vm` from the project root directory.
+1. Follow normal setup process by running `blt local:setup`
+1. Login to your VM using your local drush alias `drush @[machine_name].local uli`
 
 There are also other changes you can make if you choose to match the Acquia Cloud server configuration more closely. See Drupal VM's example configuration changes in Drupal VM's `examples/acquia/acquia.overrides.yml` file.
-
-Once you've made these changes and completed the steps in Drupal VM's Quick Start Guide, you may run `vagrant up` to bring up your local development environment, and then access the site via the configured `drupal_domain`.
 
 ### Drupal VM and Behat tests
 
