@@ -68,7 +68,7 @@ class DisableTargetsTask extends PropertyTask {
    */
   public function main() {
 
-    $file = $this->loadFile($this->getFile());
+    $file = $this->loadYamlFile($this->getFile());
 
     if (empty($file[$this->getProperty()])) {
       $this->log("Property {$this->getProperty()} does not exist in {$this->getFile()}.", PROJECT::MSG_DEBUG);
@@ -110,7 +110,7 @@ class DisableTargetsTask extends PropertyTask {
    *
    * @throws BuildException
    */
-  public function loadFile($file) {
+  public function loadYamlFile($file) {
     try {
       if (file_exists($file)) {
         $data = Yaml::parse(file_get_contents($file));
