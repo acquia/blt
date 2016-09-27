@@ -75,8 +75,9 @@ $settings['container_yamls'][] = __DIR__ . '/apcu_fix.yml';
  */
 $settings['hash_salt'] = file_get_contents(DRUPAL_ROOT . '/../salt.txt');
 
-if (file_exists(__DIR__ . '/simplesamlphp.settings.php')) {
-  require __DIR__ . '/simplesamlphp.settings.php';
+// Include simplesamlphp settings if the file exists.
+if (file_exists(DRUPAL_ROOT . "/sites/$site_dir/settings/simplesamlphp.settings.php")) {
+  require DRUPAL_ROOT . "/sites/$site_dir/settings/simplesamlphp.settings.php";
 }
 
 /*******************************************************************************
