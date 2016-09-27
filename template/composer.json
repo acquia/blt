@@ -60,6 +60,7 @@
     }
   },
   "scripts": {
+    "reinstall-phantomjs": "rm -rf vendor/bin/phantomjs && @install-phantomjs",
     "install-phantomjs": "PhantomInstaller\\Installer::installPhantomJS",
     "blt-alias": "blt install-alias -Dcreate_alias=true",
     "post-install-cmd": [

@@ -14,6 +14,41 @@
         <expandproperties />
       </filterchain>
     </copy>
+
+    <exec dir="${repo.root}" command="php -r 'require &quot;./vendor/jakoch/phantomjs-installer/src/PhantomInstaller/PhantomBinary.php&quot;; $pb = new \PhantomInstaller\PhantomBinary(); echo $pb->getBin();'" checkreturn="false" returnProperty="phantomjs.missing" outputProperty="phantomjs.bin"/>
+    <if>
+      <or>
+        <istrue value="${phantomjs.missing}"/>
+        <not><available file="${composer.bin}/phantomjs"/></not>
+        <not><available file="${phantomjs.bin}"/></not>
+      </or>
+      <then>
+        <exec dir="${repo.root}" command="composer install-phantom" checkreturn="true" logoutput="true" passthru="true" level="info"/>
+      </then>
+      <else>
+        <echo>Found PhantomJS at ${phantomjs.bin}</echo>
+      </else>
+    </if>
+
+    <property file="${repo.root}/tests/behat/local.yml" prefix="behatConfig"/>
+    <if>
+      <or>
+        <not><available file="${behatConfig.local.extensions.Drupal\DrupalExtension.drupal.drupal_root}"/></not>
+        <not><available file="${behatConfig.local.suites.default.paths.features}"/></not>
+        <not><available file="${behatConfig.local.suites.default.paths.bootstrap}"/></not>
+      </or>
+      <then>
+        <echo></echo>
+        <echo level="error">One or more values in tests/behat/local.yml reference file paths that do not exist on this system.</echo>
+        <echo level="error">Either correct the value(s) or remove tests/behat/local.yml so that it can be regenerated automatically from example.local.yml.</echo>
+        <echo level="error">Values are:</echo>
+        <echo level="error">drupal_root: ${behatConfig.local.extensions.Drupal\DrupalExtension.drupal.drupal_root}"</echo>
+        <echo level="error">features:    ${behatConfig.local.suites.default.paths.features}"</echo>
+        <echo level="error">bootstrap:   ${behatConfig.local.suites.default.paths.bootstrap}</echo>
+        <fail>Your Behat configuration is invalid.</fail>
+      </then>
+    </if>
+
   </target>
 
   <!-- This is run when a project is cloned to a new environment. -->
