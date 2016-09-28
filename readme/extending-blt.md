@@ -1,6 +1,8 @@
 # Extending / Overriding BLT
 
-To add or override a Phing target, you may create a custom build file. You must specify the location of your custom build file using the `import` key to your project.yml file.
+To add or override a Phing target, you may create a custom build file. You must specify the location of your custom build file using the `import` key to your project.yml file, e.g.:
+
+    import: '${repo.root}/custom.xml'
 
 ## Adding a custom target
 
@@ -20,18 +22,18 @@ To override an existing target, just give it the same name as the default target
         </target>
       </project>
 
-## Overriding a variable value: 
+## Overriding a variable value:
 
 You can override the value of any Phing variable used by BLT by either:
 
 1. Adding the variable to your project.yml file:
-   
+
         behat.tags: @mytags
-   
+
 2. Specifying the variable value in your `blt` command using [Phing](https://www.phing.info/docs/stable/hlhtml/index.html#d5e792) argument syntax `-D[key]=[value]`, e.g.,
 
         blt tests:behat -Dbehat.tags='@mytags'
-        
+
 3. Using a custom build properties file rather than project.yml:
 
         blt tests:behat -propertyfile mycustomfile.yml -propertyfileoverride
@@ -44,7 +46,7 @@ You may disable any BLT target. This will cause the target to be skipped during 
       disable-targets:
         validate:
           phpcs: true
-          
+
 This snippet would cause the `validate:phpcs` target to be skipped during BLT builds.
 
 ## Modifying BLT Configuration
@@ -119,6 +121,6 @@ To modify the behavior of the validate:phpcs target, you may override BLT's `php
             - files.php.tests
             - files.frontend.custom.themes
 
-The phpcs.filesets array contains references to Phing `<fileset>`s. You can remove or add your own custom filesets to the phpcs.filesets array. 
+The phpcs.filesets array contains references to Phing `<fileset>`s. You can remove or add your own custom filesets to the phpcs.filesets array.
 
 The default filesets are defined in [filesets.xml](https://github.com/acquia/blt/blob/8.x/phing/tasks/filesets.xml).
