@@ -12,29 +12,24 @@ No matter what local environment you choose to use, the following guidelines sho
 
 Acquia developers use [PHPStorm](http://www.jetbrains.com/phpstorm/) and recommend it for local development environments. Acquia has written [several articles](https://docs.acquia.com/search/site/phpstorm) on effectively using PHPStorm for Drupal development.
 
-### Operating Systems
-
-We highly recommend that you *do not use Windows* directly for development. Many development tools (e.g., drush, gulp, etc.) are not built or tested for Windows compatibility. Furthermore, most CI solutions (e.g., Travis CI, Drupal CI, etc.) do not permit testing on Windows OS.
-
-If you must use Windows, we recommend that:
-* You have administrator access to your machine
-* You execute the necessary command line functions a bash emulator such as:
-    * [Git Bash](https://git-for-windows.github.io/)
-    * [cmder](http://cmder.net/)
-    * [cygwin](https://www.cygwin.com/)
-
 ## Using Drupal VM for BLT-generated projects
-
-_BLT support for Drupal VM is experimental. Not all BLT features currently work with Drupal VM. Additionally, Drupal VM integration with BLT cannot be tested via Travis CI, and is prone to regressions._
 
 To use [Drupal VM](http://www.drupalvm.com/) with a Drupal project that is generated with BLT:
 
-1. Download the Drupal VM dependencies listed in [Drupal VM's README](https://github.com/geerlingguy/drupal-vm#quick-start-guide) (VirtualBox, Vagrant, Ansible).
-1. Execute `blt vm` from the project root directory.
+1. Download the Drupal VM dependencies listed in [Drupal VM's README](https://github.com/geerlingguy/drupal-vm#quick-start-guide). If you're running [Homebrew](http://brew.sh/index.html) on Mac OSX, this is as simple as:
+
+        brew tap caskroom/cask
+        brew install php56 git composer ansible drush
+        brew cask install virtualbox vagrant
+
+1. Create & boot the VM, install Drupal. 
+
+        blt vm
+        blt local:setup
+
+1. Login to Drupal `drush @[project.machine_name].local uli`, where [project.machine_name] is the value that you set in project.yml.
 
 There are also other changes you can make if you choose to match the Acquia Cloud server configuration more closely. See Drupal VM's example configuration changes in Drupal VM's `examples/acquia/acquia.overrides.yml` file.
-
-Once you've made these changes and completed the steps in Drupal VM's Quick Start Guide, you may run `vagrant up` to bring up your local development environment, and then access the site via the configured `drupal_domain`.
 
 ### Drupal VM and Behat tests
 
@@ -44,26 +39,23 @@ The Drupal Extension for Behat has an [inherent limitation](https://behat-drupal
 
 To execute Behat tests using the 'drupal' driver on a Drupal VM environment, you must do the following:
 
-1. Update `tests/behat/local.yml` with the absolute file path to your project _inside the VM_. I.e., find and replace all instances of `host/machine/path/to/repo` with `/vm/path/to/repo`, which should look something like `var/www/[project.machine_name]`. 
-1. SSH into the VM `vagrant ssh`.
-1. Change to your project directory `cd /var/www/[project.machine_name]`.
-1. Execute behat tests `blt tests:behat`
+1. SSH into the VM `drush @[project.machine_name].local ssh`, where [project.machine_name] is the value that you set in project.yml.
+1. Execute behat tests `blt tests:behat`.
 
-#### Using the Drupal Extension's "drush" driver with Drupal VM
-
-You may choose to write only behat tests that utilize the Drupal Extension's "drupal" driver. Doing this will allow you to run `blt tests:behat` from the host machine without modificaitons to the Behat local.yml configuration.
+Alternatively, you may choose to write only behat tests that utilize the Drupal Extension's "drush" driver. Doing this will allow you to run `blt tests:behat` from the host machine.
 
 ## Using Acquia Dev Desktop for BLT-generated projects
 
 ### Project creation and installation changes
 
-Add a new site in [Dev Desktop](https://www.acquia.com/products-services/dev-desktop) by selecting _Import local Drupal site_. Point it at the `docroot` folder inside your new code base. Your `/sites/default/settings.php` file will be modified automatically to include the Dev Desktop database connection information.
+1. Add a new site in [Dev Desktop](https://www.acquia.com/products-services/dev-desktop) by selecting _Import local Drupal site_. Point it at the `docroot` folder inside your new code base. Your `/sites/default/settings.php` file will be modified automatically to include the Dev Desktop database connection information.
+1. Follow the normal setup process by executing `blt local:setup`.
 
 ### Drush support
 
 In order to use a custom version of Drush (required by BLT) with Dev Desktop, you must:
 
-1. Add the following lines to `~/.bash_profile`:
+1. Add the following lines to `~/.bash_profile` (or equivalent file):
 
         export PATH="/Applications/DevDesktop/mysql/bin:$PATH"
         export DEVDESKTOP_DRUPAL_SETTINGS_DIR="$HOME/.acquia/DevDesktop/DrupalSettings"
@@ -74,10 +66,11 @@ In order to use a custom version of Drush (required by BLT) with Dev Desktop, yo
         variables_order = "EGPCS"
 
 1. Restart your terminal session after making the aforementioned changes.
+1. Optionally, run `blt doctor` to verify your configuration.
 
 ## Alternative local development environments
 
-For reasons, some teams may prefer to use a different development environment. Drupal VM offers a great deal of flexibility and a uniform configuration for everyone, but sometimes a tool like Acquia Dev Desktop, MAMP/XAMPP, or a different environment (e.g. a bespoke Docker-based dev environment) may be preferable.
+Some teams may prefer to use a different development environment. Drupal VM offers a great deal of flexibility and a uniform configuration for everyone, but sometimes a tool like Acquia Dev Desktop, MAMP/XAMPP, or a different environment (e.g. a bespoke Docker-based dev environment) may be preferable.
 
 It is up to each team to choose how to handle local development, but some of the main things that help a project's velocity with regard to local development include:
 
