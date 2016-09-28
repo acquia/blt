@@ -43,6 +43,6 @@ If you are using a Linux machine, it is assumed that you will not be using Drupa
 
 Choose your own adventure:
 
-* [Creating a new project with BLT](creating-new-project.md)
-* [Adding BLT to an existing project](adding-to-project.md)
-* [Upgrading BLT](upgrading-blt.md)
+* [Creating a new project with BLT](readme/creating-new-project.md)
+* [Adding BLT to an existing project](readme/adding-to-project.md)
+* [Upgrading BLT](readme/upgrading-blt.md)
