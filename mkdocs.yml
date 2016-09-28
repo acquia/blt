@@ -13,9 +13,9 @@ pages:
   - Overview: 'README.md'
   - Getting started:
     - System requirements:  'INSTALL.md'
-    - Create a new project: 'creating-new-project.md'
-    - Add to existing project: 'adding-to-project.md'
-    - Upgrade BLT: 'updating-blt.md'
+    - Create a new project: 'readme/creating-new-project.md'
+    - Add to existing project: 'readme/adding-to-project.md'
+    - Upgrade BLT: 'readme/updating-blt.md'
     - Alternative LAMP stacks: 'readme/local-development.md'
   - Project documentation:
     - Developer:
