@@ -26,15 +26,13 @@
 
   <target name="simplesamlphp:lib:init" unless="simplesamlphp" hidden="true">
     <echo>Adding SimpleSAMLphp Auth module as a dependency.</echo>
-    <!--<exec dir="${repo.root}" command="composer require acquia/blt-simplesamlphp:*" logoutput="true" checkreturn="true" passthru="true" level="info"/>-->
     <exec dir="${repo.root}" command="composer require drupal/simplesamlphp_auth:8.3.x-dev" logoutput="true" checkreturn="true" passthru="true" level="info"/>
   </target>
 
   <target name="simplesamlphp:config:init" unless="simplesamlphp"  hidden="true">
     <echo>Copying config files to ${repo.root}/simplesamlphp/config.</echo>
-    <copy todir="${repo.root}/simplesamlphp/config" overwrite="false">
-      <filelist dir="${repo.root}/vendor/simplesamlphp/simplesamlphp/config-templates" files="config.php, authsources.php"/>
-    </copy>
+    <copy todir="${repo.root}/simplesamlphp/config" file="${repo.root}/vendor/simplesamlphp/simplesamlphp/config-templates/authsources.php" overwrite="false"/>
+    <exec dir="${repo.root}/simplesamlphp/config" command="curl https://gist.githubusercontent.com/acquialibrary/8059715/raw/a6dc376bfb5068a2c7fe01be315d13bd47d4c10b/9191_config.php > config.php" passthru="true"/>
     <echo>Copying config files to ${repo.root}/simplesamlphp/metadata.</echo>
     <copy todir="${repo.root}/simplesamlphp/metadata" file="${repo.root}/vendor/simplesamlphp/simplesamlphp/metadata-templates/saml20-idp-remote.php" overwrite="false"/>
   </target>
@@ -45,7 +43,7 @@
   </target>
 
   <!-- Copies customized config files into the library on deployments. -->
-  <target name="simplesamlphp:deploy:config" description="Copies config template files to the appropriate place in simplesamlphp library.">
+  <target name="simplesamlphp:deploy:config" description="Copies config template files to the appropriate place in simplesamlphp library." hidden="true">
     <echo>Copying config files to the appropriate place in simplesamlphp library in the deploy artifact.</echo>
     <copy todir="${repo.root}/deploy/vendor/simplesamlphp/simplesamlphp" overwrite="true">
       <fileset dir="${repo.root}/simplesamlphp/" />
