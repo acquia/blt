@@ -1,4 +1,5 @@
 <project name="blt" default="list" phingVersion="2.8.2">
+  <property environment="env"/>
 
   <!-- Include custom task classes -->
   <includepath classpath="${phing.dir}" />

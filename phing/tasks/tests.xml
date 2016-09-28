@@ -83,21 +83,45 @@
   <target name="tests:phpunit" description="Executes PHPUnit tests against custom code.">
     <delete dir="${reports.localDir}/phpunit" quiet="true"/>
     <mkdir dir="${reports.localDir}/phpunit"/>
+    <if>
+      <and>
+        <isset property="phpunit.local" />
+        <not><isset property="env.TRAVIS" /></not>
+      </and>
+      <then>
+        <property name="phpunit.dirs" value="${phpunit.local}" />
+      </then>
 
+      <elseif>
+        <and>
+          <isset property="phpunit.deploy" />
+          <isset property="env.TRAVIS" />
+        </and>
+        <then>
+          <property name="phpunit.dirs" value="${phpunit.deploy}" />
+        </then>
+      </elseif>
+
+      <else>
+        <property name="phpunit.dirs" value="${repo.root}/tests/phpunit,${blt.root}/tests/phpunit/BltProject" />
+      </else>
+    </if>
+    <foreach list="${phpunit.dirs}" param="dir" target="tests:phpunit:dir"/>
+  </target>
+
+  <target name="tests:phpunit:dir" description="Run phpunit against given directories." hidden="true">
     <phpunit printsummary="true" failureproperty="phpunit.failures" errorproperty="phpunit.errors">
       <formatter type="plain" usefile="false"/>
       <formatter type="xml" todir="${reports.localDir}/phpunit"/>
       <batchtest>
-        <fileset dir="${repo.root}/tests/phpunit">
+        <fileset dir="${dir}">
           <include name="**/*Test*.php"/>
         </fileset>
-        <fileset dir="${blt.root}/tests/phpunit/BltProject"/>
       </batchtest>
     </phpunit>
     <phpunitreport infile="${reports.localDir}/phpunit/testsuites.xml" format="noframes" todir="${reports.localDir}/phpunit" />
     <property name="reports.phpunit.file" value="${reports.localDir}/phpunit/phpunit-noframes.html"/>
     <echo>PHPUnit Report is available at ${reports.phpunit.file}</echo>
-
     <if>
       <or>
         <equals arg1="${phpunit.failures}" arg2="true"/>
