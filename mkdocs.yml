@@ -12,8 +12,11 @@ pages:
   - Home: 'index.md'
   - Overview: 'README.md'
   - Getting started:
-    - Installation & upgrade:  'INSTALL.md'
-    - Local development: 'readme/local-development.md'
+    - System requirements:  'INSTALL.md'
+    - Create a new project: 'creating-new-project.md'
+    - Add to existing project: 'adding-to-project.md'
+    - Upgrade BLT: 'updating-blt.md'
+    - Alternative LAMP stacks: 'readme/local-development.md'
   - Project documentation:
     - Developer:
           - Onboarding: 'readme/onboarding.md'

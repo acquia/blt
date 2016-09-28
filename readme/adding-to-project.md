@@ -10,3 +10,7 @@ To add BLT to a pre-existing Drupal project, do the following:
         composer require acquia/blt:^8.3
 
 1. Continue following instructions for step 2 and beyond in [Creating a new project with BLT](../INSTALL.md#creating-a-new-project-with-blt). 
+
+## Next steps
+
+Review [BLT documentation by role](https://http://blt.readthedocs.io/) to learn how to perform common project tasks and integrate with third party tools.
