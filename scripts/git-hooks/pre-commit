@@ -4,13 +4,10 @@ ROOT_DIR="$(pwd)/"
 LIST=$( git diff --name-only --cached --diff-filter=ACM )
 PHPCS_BIN=vendor/bin/phpcs
 
-if [ ! -f $PHPCS_BIN ];
-  then
-    echo "PHP Code Sniffer was not found in this project's bin directory. Please run composer install. "
-    exit 1
-  else
-    echo "Sniffing staged files via PHP Code Sniffer."
+if [ ! -f $PHPCS_BIN ]; then
+  echo "PHP Code Sniffer was not found in this project's bin directory. Please run composer install. "
+  exit 1
 fi
 
-${ROOT_DIR}/vendor/bin/blt validate:phpcs:files -Dfiles="$LIST" -q
+${ROOT_DIR}/vendor/bin/blt git:precommit -Dfiles="$LIST" -q
 exit 0;

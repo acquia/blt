@@ -1,0 +1,26 @@
+<project name="git" default="git:precommit">
+
+  <target name="git:precommit" description="Perform configured precommit tasks">
+    <fail unless="files" message="Missing files parameter."/>
+    <if>
+      <not><isset property="targets.precommit" /></not>
+      <then>
+        <property name="targets.precommit" value="validate:phpcs:files" />
+      </then>
+    </if>
+
+    <!-- Properties defined in foreach are passed as arguments to the target -->
+    <foreach list="${targets.precommit}" param="hook" target="git:call">
+      <property name="files" value="${files}" />
+    </foreach>
+  </target>
+
+  <!-- Call the given $hook and provide files. -->
+  <target name="git:call" hidden="true">
+    <fail unless="files" message="Missing files parameter."/>
+    <phingcall target="${hook}">
+      <property name="files" value="${files}" />
+    </phingcall>
+  </target>
+
+</project>

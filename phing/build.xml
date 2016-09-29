@@ -68,6 +68,9 @@
   <!-- Contains Drupal VM tasks. -->
   <import file="${phing.dir}/tasks/vm.xml"/>
 
+  <!-- Git tasks. -->
+  <import file="${phing.dir}/tasks/git.xml"/>
+
   <!-- Disable targets defined in the disable-targets array in project.yml. -->
   <!-- This must be executed after all targets are defined. -->
   <disabletargets file="${repo.root}/project.yml" property="disable-targets"/>
