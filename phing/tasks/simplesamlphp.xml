@@ -12,7 +12,7 @@
     <echo>Updating project.yml.</echo>
     <exec dir="${repo.root}" command="drupal yaml:update:value project.yml simplesamlphp true" logoutput="true" checkreturn="true" passthru="true" level="info"/>
 
-    <!-- Copies a settings file used by the simplesamlphp_auth modeul to site's settings dir. -->
+    <!-- Copies a settings file used by the simplesamlphp_auth module to site's settings dir. -->
     <phingcall target="simplesamlphp:settings"/>
 
     <!-- Creates a symlink from the docroot to the web accessible library dir. -->
@@ -26,7 +26,7 @@
 
   <target name="simplesamlphp:lib:init" unless="simplesamlphp" hidden="true">
     <echo>Adding SimpleSAMLphp Auth module as a dependency.</echo>
-    <exec dir="${repo.root}" command="composer require drupal/simplesamlphp_auth:8.3.x-dev" logoutput="true" checkreturn="true" passthru="true" level="info"/>
+    <exec dir="${repo.root}" command="composer require drupal/simplesamlphp_auth:8.3.x-dev#283994f" logoutput="true" checkreturn="true" passthru="true" level="info"/>
   </target>
 
   <target name="simplesamlphp:config:init" unless="simplesamlphp"  hidden="true">
@@ -39,7 +39,7 @@
 
   <target name="simplesamlphp:settings" hidden="true">
     <echo>Adding a simplesamlphp.settings.php file.</echo>
-    <copy file="${phing.dir}/files/simplesamlphp/simplesamlphp.settings.php" tofile="${docroot}/sites/default/settings/simplesamlphp.settings.php" overwrite="false"/>
+    <copy file="${blt.root}/scripts/simplesamlphp/simplesamlphp.settings.php" tofile="${blt.root}/settings/simplesamlphp.settings.php" overwrite="false"/>
   </target>
 
   <!-- Copies customized config files into the library on deployments. -->
@@ -48,7 +48,7 @@
     <copy todir="${repo.root}/deploy/vendor/simplesamlphp/simplesamlphp" overwrite="true">
       <fileset dir="${repo.root}/simplesamlphp/" />
     </copy>
-    <copy file="${phing.dir}/files/simplesamlphp/gitignore.txt" tofile="${repo.root}/deploy/vendor/simplesamlphp/simplesamlphp/.gitignore" overwrite="true"/>
+    <copy file="${blt.root}/scripts/simplesamlphp/gitignore.txt" tofile="${repo.root}/deploy/vendor/simplesamlphp/simplesamlphp/.gitignore" overwrite="true"/>
   </target>
 
   <!-- Copies customized config files into the library on builds. -->
@@ -57,7 +57,7 @@
     <copy todir="${repo.root}/vendor/simplesamlphp/simplesamlphp" overwrite="true">
       <fileset dir="${repo.root}/simplesamlphp/" />
     </copy>
-    <copy file="${phing.dir}/files/simplesamlphp/gitignore.txt" tofile="${repo.root}/vendor/simplesamlphp/simplesamlphp/.gitignore" overwrite="true"/>
+    <copy file="${blt.root}/scripts/simplesamlphp/gitignore.txt" tofile="${repo.root}/vendor/simplesamlphp/simplesamlphp/.gitignore" overwrite="true"/>
   </target>
 
   <!-- Simple message to add lines to .htaccess file -->

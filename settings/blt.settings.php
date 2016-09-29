@@ -56,6 +56,11 @@ require __DIR__ . '/filesystem.settings.php';
 // Prevent APCu memory exhaustion.
 $settings['container_yamls'][] = __DIR__ . '/apcu_fix.yml';
 
+// Include simplesamlphp settings if the file exists.
+if (file_exists(__DIR__ . '/simplesamlphp.settings.php')) {
+  require __DIR__ . '/simplesamlphp.settings.php';
+}
+
 /**
  * Salt for one-time login links, cancel links, form tokens, etc.
  *
@@ -74,11 +79,6 @@ $settings['container_yamls'][] = __DIR__ . '/apcu_fix.yml';
  * @endcode
  */
 $settings['hash_salt'] = file_get_contents(DRUPAL_ROOT . '/../salt.txt');
-
-// Include simplesamlphp settings if the file exists.
-if (file_exists(DRUPAL_ROOT . "/sites/$site_dir/settings/simplesamlphp.settings.php")) {
-  require DRUPAL_ROOT . "/sites/$site_dir/settings/simplesamlphp.settings.php";
-}
 
 /*******************************************************************************
  * Environment-specific includes.
