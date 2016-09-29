@@ -30,7 +30,17 @@ This will install all remaining dependencies for BLT and DrupalVM. If you'd like
 
 ### Windows
 
-Windows is currently unsupported.
+Windows is currently supported only when using the [Bash on Ubuntu on Windows](https://msdn.microsoft.com/en-us/commandline/wsl/about) feature available in the latest version of Windows 10.
+
+Pre-requisite requirements:
+* You must be running a 64-bit version of Windows 10 Anniversary update (build 14393 or later)
+* Access to a local account with administrative rights for initial install
+
+Follow the official [installation guide](https://msdn.microsoft.com/en-us/commandline/wsl/install_guide).
+
+Note you **must** create a UNIX username with a password when prompted at the final step in the process. Certain BLT commands will not function correctly if you install with a passwordless root account.
+
+Once complete follow the [BLT on Windows installation instructions](readme/windows-install.md).
 
 ### Linux
 
