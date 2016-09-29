@@ -22,7 +22,7 @@ Please see [Deploy](deploy.md) for a detailed description of how to deploy to Ac
 
 ## Run tests & code validation
 
-Please see [readme/testing.md](readme/testing.md) for information on running tests.
+Please see [testing.md](testing.md) for information on running tests.
 
 To execute PHP codesniffer and PHP lint against the project codebase, run:
 

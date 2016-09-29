@@ -20,7 +20,7 @@ Ensure that [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12) is 
         xcodebuild -license
         xcode-select --install
 
-This will install all remaining dependencies for BLT and DrupalVM. If you'd like to use a LAMP stack other than Drupal VM, see [Local Development](readme/local-development.md).
+Then install the remaining dependencies for BLT and DrupalVM via Homebrew. If you'd like to use a LAMP stack other than Drupal VM, see [Local Development](readme/local-development.md).
 
         /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
         brew tap caskroom/cask
