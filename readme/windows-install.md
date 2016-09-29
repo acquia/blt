@@ -37,4 +37,4 @@ The following packages would apply to any fresh Ubuntu installation.
 
 ## Next steps
 
-Your environment is now ready to [create a new](readme/creating-new-project.md) BLT project, or use an [existing one](readme/onboarding.md).
+Your environment is now ready to [create a new](creating-new-project.md) BLT project, or use an [existing one](onboarding.md).
