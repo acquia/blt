@@ -16,11 +16,10 @@ pages:
     - System requirements:
        - Overview:  'INSTALL.md'
        - Running BLT in Ubuntu on Bash on Windows: 'readme/windows-install.md'
+       - Alternative LAMP stacks: 'readme/local-development.md'
     - Create a new project: 'readme/creating-new-project.md'
     - Add to existing project: 'readme/adding-to-project.md'
     - Upgrade BLT: 'readme/updating-blt.md'
-    - Alternative LAMP stacks: 'readme/local-development.md'
-    - Ubuntu Bash for Windows setup: 'readme/windows-install.md'
   - Project documentation:
     - Developer:
           - Onboarding: 'readme/onboarding.md'
