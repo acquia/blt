@@ -67,7 +67,7 @@ Commit `composer.json` and `composer.lock` afterwards.
 
 ## Patch a project
 
-Please see [patches/README.md](../patches/README.md) for information on patch naming, patch application, and patch contribution guidance.
+Please see [patches/README.md](../template/patches/README.md) for information on patch naming, patch application, and patch contribution guidance.
 
 ## Merging in additional composer.json files
 

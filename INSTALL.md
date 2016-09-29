@@ -55,4 +55,4 @@ Choose your own adventure:
 
 * [Creating a new project with BLT](readme/creating-new-project.md)
 * [Adding BLT to an existing project](readme/adding-to-project.md)
-* [Upgrading BLT](readme/upgrading-blt.md)
+* [Upgrading BLT](readme/updating-blt.md)
