@@ -33,8 +33,8 @@ Then install the remaining dependencies for BLT and DrupalVM via Homebrew. If yo
 Windows is currently supported only when using the [Bash on Ubuntu on Windows](https://msdn.microsoft.com/en-us/commandline/wsl/about) feature available in the latest version of Windows 10.
 
 Pre-requisite requirements:
-* You must be running a 64-bit version of Windows 10 Anniversary update (build 14393 or later)
-* Access to a local account with administrative rights for initial install
+  - You must be running a 64-bit version of Windows 10 Anniversary update (build 14393 or later)
+  - Access to a local account with administrative rights for initial install
 
 Follow the official [installation guide](https://msdn.microsoft.com/en-us/commandline/wsl/install_guide).
 
