@@ -272,7 +272,9 @@
       <param>drush</param>
     </drush>
     <!-- Revert all features. -->
-    <drush command="fra" assume="yes" alias="${drush.alias}"/>
+    <drush command="fra" assume="yes" alias="${drush.alias}">
+      <option name="bundle">${cm.features.bundle}</option>
+    </drush>
     <!-- Rebuild caches. -->
     <drush command="cr" alias="${drush.alias}"/>
   </target>
