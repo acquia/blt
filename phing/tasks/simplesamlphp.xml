@@ -73,7 +73,7 @@
   </target>
 
   <!-- Outputs a message to edit the new config files. -->
-  <target name="simplesamlphp:htaccess" hidden="true">
+  <target name="simplesamlphp:init:complete" hidden="true">
     <echo>
 
 
