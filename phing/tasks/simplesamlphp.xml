@@ -90,7 +90,7 @@
       After editting these files execute the following command to copy the
       modified files to the correct location in the SimpleSAMLphp library
 
-      'blt simplesamlphp:config:build'
+      'blt simplesamlphp:build:config'
 
     ============================================================================
       See simplesamlphp-setup.md for details on how to modify the files.
