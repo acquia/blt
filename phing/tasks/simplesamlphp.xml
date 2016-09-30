@@ -8,7 +8,7 @@
     <!-- Copies the configuration templates from the library to a simplesamlphp directory located in the project root. -->
     <phingcall target="simplesamlphp:config:init"/>
 
-    <!-- Sets a value in project.yml to let other targets know simplesamlphp is installed -->
+    <!-- Sets a property in project.yml to let other targets know simplesamlphp is installed -->
     <echo>Updating project.yml.</echo>
     <exec dir="${repo.root}" command="drupal yaml:update:value project.yml simplesamlphp true" logoutput="true" checkreturn="true" passthru="true" level="info"/>
 
@@ -19,16 +19,18 @@
     <echo>Creating a symbolic link from ${docroot}/simplesaml to web accessible directory in the simplesamlphp library</echo>
     <symlink target="../vendor/simplesamlphp/simplesamlphp/www/" link="${docroot}/simplesaml" overwrite="true" />
 
-    <!-- Outputs a message to edit .htaccess -->
-    <phingcall target="simplesamlphp:htaccess"/>
+    <!-- Outputs a message to edit the new config files. -->
+    <phingcall target="simplesamlphp:init:complete"/>
 
   </target>
 
+  <!-- Adds simplesamlphp_auth as a dependency. -->
   <target name="simplesamlphp:lib:init" unless="simplesamlphp" hidden="true">
     <echo>Adding SimpleSAMLphp Auth module as a dependency.</echo>
     <exec dir="${repo.root}" command="composer require drupal/simplesamlphp_auth:8.3.x-dev#283994f" logoutput="true" checkreturn="true" passthru="true" level="info"/>
   </target>
 
+  <!-- Copies the configuration templates from the library to a simplesamlphp directory located in the project root. -->
   <target name="simplesamlphp:config:init" unless="simplesamlphp" hidden="true">
     <echo>Copying config files to ${repo.root}/simplesamlphp/config.</echo>
     <copy todir="${repo.root}/simplesamlphp/config" overwrite="false">
@@ -46,6 +48,7 @@
     <copy todir="${repo.root}/simplesamlphp/metadata" file="${repo.root}/vendor/simplesamlphp/simplesamlphp/metadata-templates/saml20-idp-remote.php" overwrite="false"/>
   </target>
 
+  <!-- Copies a settings file used by simplesamlphp_auth to blt settings dir. -->
   <target name="simplesamlphp:settings" hidden="true">
     <echo>Adding a simplesamlphp.settings.php file.</echo>
     <copy file="${blt.root}/scripts/simplesamlphp/simplesamlphp.settings.php" tofile="${blt.root}/settings/simplesamlphp.settings.php" overwrite="false"/>
@@ -69,7 +72,7 @@
     <copy file="${blt.root}/scripts/simplesamlphp/gitignore.txt" tofile="${repo.root}/vendor/simplesamlphp/simplesamlphp/.gitignore" overwrite="true"/>
   </target>
 
-  <!-- Simple message to add lines to .htaccess file -->
+  <!-- Outputs a message to edit the new config files. -->
   <target name="simplesamlphp:htaccess" hidden="true">
     <echo>
 
