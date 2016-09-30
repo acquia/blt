@@ -59,9 +59,9 @@ target-hooks:
     command: npm run install-libraries
 
 # Configuration management options, such as core CM or features.
-cm:
-  features:
-    bundle: blted8
+# cm:
+#   features:
+#     bundle: blted8
 
 # Define any custom Phing files that you'd like to import. E.g., ${repo.root}/blt/phing/build.xml
 import: ~
