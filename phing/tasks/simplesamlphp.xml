@@ -29,10 +29,19 @@
     <exec dir="${repo.root}" command="composer require drupal/simplesamlphp_auth:8.3.x-dev#283994f" logoutput="true" checkreturn="true" passthru="true" level="info"/>
   </target>
 
-  <target name="simplesamlphp:config:init" unless="simplesamlphp"  hidden="true">
+  <target name="simplesamlphp:config:init" unless="simplesamlphp" hidden="true">
     <echo>Copying config files to ${repo.root}/simplesamlphp/config.</echo>
-    <copy todir="${repo.root}/simplesamlphp/config" file="${repo.root}/vendor/simplesamlphp/simplesamlphp/config-templates/authsources.php" overwrite="false"/>
-    <exec dir="${repo.root}/simplesamlphp/config" command="curl https://gist.githubusercontent.com/acquialibrary/8059715/raw/a6dc376bfb5068a2c7fe01be315d13bd47d4c10b/9191_config.php > config.php" passthru="true"/>
+    <copy todir="${repo.root}/simplesamlphp/config" overwrite="false">
+      <filelist dir="${repo.root}/vendor/simplesamlphp/simplesamlphp/config-templates" files="authsources.php, config.php"/>
+    </copy>
+    <exec dir="${repo.root}/simplesamlphp/config" command="curl https://gist.githubusercontent.com/acquialibrary/8059715/raw/a6dc376bfb5068a2c7fe01be315d13bd47d4c10b/9191_config.php > acquia_config.php" passthru="true"/>
+    <append destFile="${repo.root}/simplesamlphp/config/config.php" file="${repo.root}/simplesamlphp/config/acquia_config.php">
+      <filterchain>
+        <replaceregexp>
+          <regexp pattern=".*php\n" replace="" ignoreCase="true"/>
+        </replaceregexp>
+      </filterchain>
+    </append>
     <echo>Copying config files to ${repo.root}/simplesamlphp/metadata.</echo>
     <copy todir="${repo.root}/simplesamlphp/metadata" file="${repo.root}/vendor/simplesamlphp/simplesamlphp/metadata-templates/saml20-idp-remote.php" overwrite="false"/>
   </target>
@@ -63,18 +72,27 @@
   <!-- Simple message to add lines to .htaccess file -->
   <target name="simplesamlphp:htaccess" hidden="true">
     <echo>
-      To complete the setup you must manually modify your .htaccess file by adding
-      the 2 lines with the + signs in the snippet below.
-    </echo>
-    <echo>
 
-      # Copy and adapt this rule to directly execute PHP files in contributed or
-      # custom modules or to run another PHP application in the same directory.
-      RewriteCond %{REQUEST_URI} !/core/modules/statistics/statistics.php$
-    + # Allow access to simplesaml paths
-    + RewriteCond %{REQUEST_URI} !^/simplesaml
-      # Deny access to any other PHP files that do not match the rules above.
-      RewriteRule "^.+/.*\.php$" - [F]
+
+    ============================================================================
+      To complete the setup you must manually modify several files.
+    ============================================================================
+
+      * ${docroot}/.htaccess
+      * ${repo.root}/simplesamlphp/config/config.php
+      * ${repo.root}/simplesamlphp/config/authsources.php
+      * ${repo.root}/simplesamlphp/metadata/saml20-idp-remote.php
+
+
+      After editting these files execute the following command to copy the
+      modified files to the correct location in the SimpleSAMLphp library
+
+      'blt simplesamlphp:config:build'
+
+    ============================================================================
+      See simplesamlphp-setup.md for details on how to modify the files.
+    ============================================================================
+
 
     </echo>
   </target>
