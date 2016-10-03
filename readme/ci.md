@@ -21,7 +21,7 @@ Automated testing of live content is easy to set up with two simple steps:
 
          <!-- Override the core ci:build:validate:test target to include a local refresh-->
          <target name="ci:build:validate:test" description="Builds, validates, tests, and deploys an artifact."
-           depends="validate:all, ci:setup, tests:security-updates, tests:phpunit, local:sync, local:update, tests:behat" />
+           depends="validate:all, ci:setup, local:sync, local:update, tests:all" />
 
 
 ### Setting Up Travis CI for automated deployments
