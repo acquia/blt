@@ -3,35 +3,40 @@
   <target name="simplesamlphp:init" description="Initializes SimpleSAMLphp for project.">
 
     <!-- Adds simplesamlphp_auth as a dependency. -->
-    <phingcall target="simplesamlphp:lib:init"/>
+    <available property="simplesamlphp" file="${blt.root}/settings/simplesamlphp.settings.php"/>
 
-    <!-- Copies the configuration templates from the library to a simplesamlphp directory located in the project root. -->
-    <phingcall target="simplesamlphp:config:init"/>
+    <if>
+      <isfalse value="${simplesamlphp}"/>
+      <then>
+        <phingcall target="simplesamlphp:lib:init"/>
 
-    <!-- Sets a property in project.yml to let other targets know simplesamlphp is installed -->
-    <echo>Updating project.yml.</echo>
-    <exec dir="${repo.root}" command="drupal yaml:update:value project.yml simplesamlphp true" logoutput="true" checkreturn="true" passthru="true" level="info"/>
+        <!-- Copies the configuration templates from the library to a simplesamlphp directory located in the project root. -->
+        <phingcall target="simplesamlphp:config:init"/>
 
-    <!-- Copies a settings file used by the simplesamlphp_auth module to site's settings dir. -->
-    <phingcall target="simplesamlphp:settings"/>
+        <!-- Copies a settings file used by the simplesamlphp_auth module to blt's settings dir. -->
+        <phingcall target="simplesamlphp:settings"/>
 
-    <!-- Creates a symlink from the docroot to the web accessible library dir. -->
-    <echo>Creating a symbolic link from ${docroot}/simplesaml to web accessible directory in the simplesamlphp library</echo>
-    <symlink target="../vendor/simplesamlphp/simplesamlphp/www/" link="${docroot}/simplesaml" overwrite="true" />
+        <!-- Creates a symlink from the docroot to the web accessible library dir. -->
+        <echo>Creating a symbolic link from ${docroot}/simplesaml to web accessible directory in the simplesamlphp library</echo>
+        <symlink target="../vendor/simplesamlphp/simplesamlphp/www/" link="${docroot}/simplesaml" overwrite="true" />
 
-    <!-- Outputs a message to edit the new config files. -->
-    <phingcall target="simplesamlphp:init:complete"/>
-
+        <!-- Outputs a message to edit the new config files. -->
+        <phingcall target="simplesamlphp:init:complete"/>
+      </then>
+      <else>
+        <echo>SimpleSAMLphp has already been initialized by BLT.</echo>
+      </else>
+    </if>
   </target>
 
   <!-- Adds simplesamlphp_auth as a dependency. -->
-  <target name="simplesamlphp:lib:init" unless="simplesamlphp" hidden="true">
+  <target name="simplesamlphp:lib:init" hidden="true">
     <echo>Adding SimpleSAMLphp Auth module as a dependency.</echo>
     <exec dir="${repo.root}" command="composer require drupal/simplesamlphp_auth:8.3.x-dev#283994f" logoutput="true" checkreturn="true" passthru="true" level="info"/>
   </target>
 
   <!-- Copies the configuration templates from the library to a simplesamlphp directory located in the project root. -->
-  <target name="simplesamlphp:config:init" unless="simplesamlphp" hidden="true">
+  <target name="simplesamlphp:config:init" hidden="true">
     <echo>Copying config files to ${repo.root}/simplesamlphp/config.</echo>
     <copy todir="${repo.root}/simplesamlphp/config" overwrite="false">
       <filelist dir="${repo.root}/vendor/simplesamlphp/simplesamlphp/config-templates" files="authsources.php, config.php"/>

@@ -84,11 +84,13 @@
     <phingcall target="target-hook:invoke">
       <property name="hook-name" value="post-deploy-build"/>
     </phingcall>
+
+    <available property="simplesamlphp" file="${blt.root}/settings/simplesamlphp.settings.php"/>
     <if>
-      <isset property="simplesamlphp"/>
-      <then>
-        <phingcall target="simplesamlphp:deploy:config"/>
-      </then>
+      <istrue value="${simplesamlphp}"/>
+        <then>
+          <phingcall target="simplesamlphp:deploy:config"/>
+        </then>
     </if>
   </target>
 
