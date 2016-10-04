@@ -14,7 +14,7 @@
   "type": "composer-plugin",
   "license": "GPL-2.0",
   "require": {
-    "drupal/console":                   "~1",
+    "drupal/console":                   "1.0.0-beta5",
     "phing/phing":                      "~2",
     "phpunit/phpunit":                  "~5.4",
     "squizlabs/php_codesniffer":        "^2.4",
@@ -46,8 +46,5 @@
     "hirak/prestissimo": "^0.3"
   },
   "minimum-stability": "beta",
-  "prefer-stable": true,
-  "scripts": {
-    "install-blt-alias": "blt install-alias -Dcreate_alias=true"
-  }
+  "prefer-stable": true
 }

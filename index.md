@@ -1,6 +1,6 @@
 [Acquia BLT (Build and Launch Tool)](https://github.com/acquia/blt) generates new Drupal projects using a standardized template derived from Acquia Professional Services' best practices.
 
-Welcome to the BLT documentation site! Please read through the [Quick Start Guide](https://github.com/acquia/blt/INSTALL.md) to get started, and then browse the rest of this project's documentation in the sidebar.
+Welcome to the BLT documentation site! Please read through [Getting started](INSTALL.md), then review the documentation below.
 
 # Documentation by role
 

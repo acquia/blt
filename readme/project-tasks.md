@@ -22,7 +22,7 @@ Please see [Deploy](deploy.md) for a detailed description of how to deploy to Ac
 
 ## Run tests & code validation
 
-Please see [readme/testing.md](readme/testing.md) for information on running tests.
+Please see [testing.md](testing.md) for information on running tests.
 
 To execute PHP codesniffer and PHP lint against the project codebase, run:
 
@@ -55,7 +55,7 @@ This command will be executed when dependencies are built in a local or CI envir
 
 ## Updating your local environment
 
-The project is configured to update the local environment with a local drush alias and a remote alias as defined in `project.yml` or `project.local.yml`. Given that these aliases match, those in `drush/site-aliases/`, you can update the site with BLT. Please see [drush/README.md](../drush/README.md) for details on how to create these aliases.
+The project is configured to update the local environment with a local drush alias and a remote alias as defined in `project.yml` or `project.local.yml`. Given that these aliases match, those in `drush/site-aliases/`, you can update the site with BLT. Please see [drush/README.md](../template/drush/README.md) for details on how to create these aliases.
 
 ### Refresh: Rebuild the codebase, copy the database, and run updates
 

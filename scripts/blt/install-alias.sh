@@ -35,6 +35,7 @@ if [ ! -z "$DETECTED_PROFILE" ]; then
   echo "BLT can automatically create a Bash alias to make it easier to run BLT tasks."
   echo "This alias may be created in .bash_profile or .bashrc depending on your system architecture."
   echo ""
+  sleep 1
 
   if [ -z $REPLY ]; then
     read -p "Install alias? (y/n)" -n 1 -r

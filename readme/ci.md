@@ -17,11 +17,11 @@ Automated testing of live content is easy to set up with two simple steps:
          ssh_known_hosts:
            - staging-12345.prod.hosting.acquia.com
 
-2. Override the default `ci:build:validate:test` target by adding the following to `build/custom/phing/build.xml`:
+2. Follow the steps in [extending BLT](extending-blt.md) to override the default `ci:build:validate:test` target:
 
          <!-- Override the core ci:build:validate:test target to include a local refresh-->
          <target name="ci:build:validate:test" description="Builds, validates, tests, and deploys an artifact."
-           depends="validate:all, ci:setup, tests:security-updates, tests:phpunit, local:sync, local:update, tests:behat" />
+           depends="validate:all, ci:setup, local:sync, local:update, tests:all" />
 
 
 ### Setting Up Travis CI for automated deployments

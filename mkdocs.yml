@@ -3,6 +3,7 @@ site_name: Acquia BLT Documentaton
 repo_url: https://github.com/acquia/blt
 site_description: 'BLT - Acquia Build & Launch Tools'
 theme: readthedocs
+strict: true
 
 markdown_extensions:
   - toc:
@@ -12,8 +13,13 @@ pages:
   - Home: 'index.md'
   - Overview: 'README.md'
   - Getting started:
-    - Installation & upgrade:  'INSTALL.md'
-    - Local development: 'readme/local-development.md'
+    - System requirements:
+       - Overview:  'INSTALL.md'
+       - Running BLT in Ubuntu on Bash on Windows: 'readme/windows-install.md'
+       - Alternative LAMP stacks: 'readme/local-development.md'
+    - Create a new project: 'readme/creating-new-project.md'
+    - Add to existing project: 'readme/adding-to-project.md'
+    - Upgrade BLT: 'readme/updating-blt.md'
   - Project documentation:
     - Developer:
           - Onboarding: 'readme/onboarding.md'

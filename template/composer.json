@@ -13,7 +13,7 @@
     "drupal/acquia_connector":                    "8.1.*",
     "drupal/acsf":                                "~8.1",
     "drupal/cog":                                 "~8",
-    "drupal/console":                             "~1",
+    "drupal/console":                             "1.0.0-beta5",
     "drupal/core":                                "~8",
     "drupal/lightning":                           "~8",
     "drupal/memcache" :                           "8.*",
@@ -60,8 +60,11 @@
     }
   },
   "scripts": {
-    "install-phantomjs": "PhantomInstaller\\Installer::installPhantomJS",
     "blt-alias": "blt install-alias -Dcreate_alias=true",
+    "install-phantomjs": [
+      "rm -rf vendor/bin/phantomjs",
+      "PhantomInstaller\\Installer::installPhantomJS"
+    ],
     "post-install-cmd": [
       "PhantomInstaller\\Installer::installPhantomJS"
     ],
