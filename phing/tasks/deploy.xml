@@ -87,7 +87,7 @@
 
     <available property="simplesamlphp" file="${blt.root}/settings/simplesamlphp.settings.php"/>
     <if>
-      <istrue value="${simplesamlphp}"/>
+      <equals arg1="${simplesamlphp}" arg2="true"/>
         <then>
           <phingcall target="simplesamlphp:deploy:config"/>
         </then>

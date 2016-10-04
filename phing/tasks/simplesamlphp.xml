@@ -6,7 +6,7 @@
     <available property="simplesamlphp" file="${blt.root}/settings/simplesamlphp.settings.php"/>
 
     <if>
-      <isfalse value="${simplesamlphp}"/>
+      <not><equals arg1="${simplesamlphp}" arg2="true"/></not>
       <then>
         <phingcall target="simplesamlphp:lib:init"/>
 
