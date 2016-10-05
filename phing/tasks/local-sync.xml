@@ -16,6 +16,7 @@
 
   <target name="local:sync" description="Synchronize local environment from remote (remote --> local)."
           depends="setup:drupal:settings">
+    <drush command="cc drush"/>
     <drush command="sql-drop"/>
     <drush command="sql-sync" alias="">
       <option name="structure-tables-key">lightweight</option>
