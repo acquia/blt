@@ -65,6 +65,10 @@
     },
     "scripts": {
         "blt-alias": "blt install-alias -Dcreate_alias=true",
+        "nuke": [
+            "rm -rf vendor composer.lock",
+            "@composer install"
+        ],
         "install-phantomjs": [
             "rm -rf vendor/bin/phantomjs",
             "PhantomInstaller\\Installer::installPhantomJS"
