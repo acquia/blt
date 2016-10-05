@@ -38,6 +38,7 @@
         <not><available file="${behatConfig.local.suites.default.paths.bootstrap}"/></not>
       </or>
       <then>
+        <!--@todo Prompt to re-generate local.yml.-->
         <echo></echo>
         <echo level="error">One or more values in tests/behat/local.yml reference file paths that do not exist on this system.</echo>
         <echo level="error">This is typically related to using a virtual machine.</echo>
@@ -88,7 +89,8 @@
     <exec dir="${repo.root}" command="export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --ansi --no-interaction" logoutput="true" checkreturn="true" level="info" passthru="true" />
   </target>
 
-  <target name="setup:settings" depends="setup:drupal:settings, setup:drush:settings, setup:behat" description="Creates settings files for Drupal, drush, and Behat.">
+  <!-- We intentionally do not run setup:behat because we'd like to delay setting values in local.yml until just before they are run. -->
+  <target name="setup:settings" depends="setup:drupal:settings, setup:drush:settings" description="Creates settings files for Drupal and drush.">
   </target>
 
   <target name="setup:drupal:settings" description="Create local settings files using default settings files.">
