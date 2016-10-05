@@ -659,7 +659,7 @@ class BltDoctor {
   protected function checkBehatConfig() {
     if (!file_exists($this->repoRoot . '/tests/behat/local.yml')) {
       $this->logError("tests/behat/local.yml is missing!");
-      $this->logErrorDetail("Run `blt setup:behat` to generate it from example.local.yml, or run `blt setup` to run the entire setup process.");
+      $this->logErrorDetail("Run `blt setup:behat` to generate it from example.local.yml.");
       $this->logErrorDetail();
 
       return FALSE;
@@ -674,6 +674,7 @@ class BltDoctor {
       if (!strstr($behat_drupal_root, '/var/www/')) {
         $this->logError("You have DrupalVM initialized, but drupal_root in tests/behat/local.yml does not reference the DrupalVM docroot.");
         $this->logErrorDetail("Behat drupal_root is $behat_drupal_root.");
+        $this->logErrorDetail("To resolve, remove tests/behat/local.yml, ssh into the VM, and run blt setup:behat.");
         $this->logErrorDetail();
       }
       else {
