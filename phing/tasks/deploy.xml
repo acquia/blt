@@ -3,6 +3,7 @@
   <target name="deploy" description="Builds separate artifact and pushes to git.remotes defined project.yml.">
 
     <!-- Prompt for user input -->
+    <echo>This will build a production-safe artifact, commit it to a branch, and  push it to your git.remotes.</echo>
     <propertyprompt propertyName="deploy.commitMsg" useExistingValue="true" promptText="Enter a valid commit message" promptCharacter=":" />
     <propertyprompt propertyName="deploy.branch" useExistingValue="true" promptText="Enter a deploy branch" promptCharacter=":" />
 
