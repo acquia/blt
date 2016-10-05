@@ -851,14 +851,18 @@ class BltDoctor {
 
       // Check for the configurable files in docroot/simplesamlphp.
       if (!file_exists($config_root)) {
+        $this->logNewLine();
         $this->logError("Simplesamlphp config directory is missing. $config_root");
         $this->logErrorDetail("Run `blt simplesamlphp:config:init` to create a config directory.");
+        $this->logNewLine();
       }
 
       // Check for the SimpleSAMLphp library in the vendor directory.
       if (!file_exists($lib_root)) {
+        $this->logNewLine();
         $this->logError("The SimpleSAMLphp library was not found in the vendor directory.");
         $this->logErrorDetail("Run `blt simplesamlphp:config:init` to add the library as a dependency.");
+        $this->logNewLine();
       }
 
       // Compare config files in $config_root and $lib_root.
@@ -869,27 +873,38 @@ class BltDoctor {
           '/metadata/saml20-idp-remote.php',
         ];
         foreach ($config_files as $config_file) {
-          $config_file_content = file_get_contents($config_root . $config_file);
-          $lib_file_content = file_get_contents($lib_root . $config_file);
-          if (strcmp($config_file_content, $lib_file_content) !== 0) {
-            $this->logError("The configuration file: $config_file in $config_root does not match the one in $lib_root.");
-            $this->logErrorDetail("Run `blt simplesamlphp:build:config` to copy the files from the repo root to the library.");
+          if (file_exists($lib_root . $config_file) && file_exists($config_root . $config_file)){
+            $config_file_content = file_get_contents($config_root . $config_file);
+            $lib_file_content = file_get_contents($lib_root . $config_file);
+            if (strcmp($config_file_content, $lib_file_content) !== 0) {
+              $this->logNewLine();
+              $this->logError("The configuration file: $config_file in $config_root does not match the one in $lib_root.");
+              $this->logErrorDetail("Run `blt simplesamlphp:build:config` to copy the files from the repo root to the library.");
+              $this->logNewLine();
+            }
+          } else {
+            $lib_file_path = $lib_root . $config_file;
+            $this->logNewLine();
+            $this->logError("$lib_file_path is missing. Run `blt simplesamlphp:build:config`.");
           }
-
         }
       }
 
       // Check that the library's www dirctory is symlinked in the docroot.
       if (!file_exists($this->docroot . '/simplesaml')) {
+        $this->logNewLine();
         $this->logError("The symlink to the SimpleSAMLphp library is missing from your docroot.");
         $this->logErrorDetail("Run `blt simplesamlphp:init`");
+        $this->logNewLine();
       }
 
       // Check that access to the symlinked directory is not blocked.
       $htaccess = file_get_contents($this->docroot . '/.htaccess');
       if (!strstr($htaccess, 'simplesaml')) {
+        $this->logNewLine();
         $this->logError("Access to $this->docroot/simplesaml is blocked by .htaccess");
         $this->logErrorDetail("Add the snippet in simplesamlphp-setup.md readme to your .htaccess file.");
+        $this->logNewLine();
       }
     }
   }
