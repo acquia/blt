@@ -6,7 +6,6 @@
     <echo>Executing initialization command for acsf module.</echo>
     <drush command="acsf-init">
       <option name="include">"${docroot}/modules/contrib/acsf/acsf_init"</option>
-      <option name="skip-default-settings"></option>
     </drush>
     <echo>Please add acsf_init as a dependency for your installation profile to ensure that it remains enabled.</echo>
     <echo>An example alias file for ACSF is located in /drush/site-aliases/example.acsf.aliases.drushrc.php.</echo>
