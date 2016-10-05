@@ -64,8 +64,15 @@ script:
   - blt -Dbehat.run-server=true -Dcreate_alias=false -Dbehat.launch-phantom=true ci:build:validate:test
 
 deploy:
-   provider: script
-   script: blt deploy -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="${TRAVIS_BRANCH}-build"
-   skip_cleanup: true
-   on:
-     branch: master
+   - provider: script
+     script: blt deploy -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="${TRAVIS_BRANCH}-build"
+     skip_cleanup: true
+     on:
+       branch: master
+   #  Uncomment the following section to perform deployments on more than one branch.
+   #  This pattern be repeated for multiple integration branches.
+#   - provider: script
+#     script: blt deploy -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="${TRAVIS_BRANCH}-build"
+#     skip_cleanup: true
+#     on:
+#       branch: integration
