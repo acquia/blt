@@ -811,6 +811,7 @@ class BltDoctor {
       'project.vendor',
       'project.description',
       'project.themes',
+      'hosting',
     ];
 
     $config = new Data($this->config);
