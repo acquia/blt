@@ -51,12 +51,16 @@ target-hooks:
     command: echo 'No frontend build configured.'
   # Executed after deployment artifact is created.
   post-deploy-build:
-    dir: ${deploy.dir}/docroot/profiles/contrib/lightning
-    command: npm run install-libraries
+    # E.g., ${docroot}/sites/all/themes/custom/mytheme.
+    dir: ${docroot}
+    # E.g., `npm run build`.
+    command: echo 'No post-deploy build configured.'
   # Executed after setup:build is run.
   post-setup-build:
-    dir: ${docroot}/profiles/contrib/lightning
-    command: npm run install-libraries
+    # E.g., ${docroot}/sites/all/themes/custom/mytheme.
+    dir: ${docroot}
+    # E.g., `npm run build`.
+    command: echo 'No post-setup build configured.'
 
 # Configuration management options, such as core CM or features.
 # cm:
