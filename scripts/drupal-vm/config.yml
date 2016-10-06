@@ -24,9 +24,9 @@ drupal_composer_path: false
 drupal_composer_install_dir: "/var/www/${project.machine_name}"
 drupal_core_path: "{{ drupal_composer_install_dir }}/docroot"
 
-drupal_mysql_user: drupal
-drupal_mysql_password: drupal
-drupal_mysql_database: drupal
+drupal_db_user: drupal
+drupal_db_password: drupal
+drupal_db_database: drupal
 
 # Set this to 'false' if you don't need to install drupal (using the drupal_*
 # settings below), but instead copy down a database (e.g. using drush sql-sync).
