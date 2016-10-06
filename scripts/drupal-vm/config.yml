@@ -2,6 +2,9 @@
 vagrant_hostname: ${project.local.hostname}
 vagrant_machine_name: ${project.machine_name}
 
+# Use Ubuntu 14.04 LTS so PHP 5.6 can be installed.
+vagrant_box: geerlingguy/ubuntu1404
+
 # Set drupal_site_name to the project's human-readable name.
 drupal_site_name: "${project.human_name}"
 
@@ -42,6 +45,40 @@ nodejs_install_npm_user: "{{ drupalvm_user }}"
 npm_config_prefix: "/home/{{ drupalvm_user }}/.npm-global"
 installed_extras:
   - nodejs
+
+# Use PHP 5.6 and change package names to work with 5.6.
+php_version: "5.6"
+php_packages:
+  - php5
+  - php5-apcu
+  - php5-mcrypt
+  - php5-cli
+  - php5-common
+  - php5-curl
+  - php5-dev
+  - php5-fpm
+  - php5-gd
+  - php5-sqlite
+  - php-pear
+  - libpcre3-dev
+php_conf_paths:
+  - /etc/php5/fpm
+  - /etc/php5/apache2
+  - /etc/php5/cli
+php_extension_conf_paths:
+  - /etc/php5/fpm/conf.d
+  - /etc/php5/apache2/conf.d
+  - /etc/php5/cli/conf.d
+php_fpm_daemon: php5-fpm
+php_fpm_conf_path: "/etc/php5/fpm"
+php_fpm_pool_conf_path: "/etc/php5/fpm/pool.d/www.conf"
+php_mysql_package: php5-mysql
+php_redis_package: php5-redis
+php_memcached_package: php5-memcached
+
+# Use PHP 5.6-compatible version of XHProf.
+xhprof_download_url: https://github.com/phacility/xhprof/archive/master.tar.gz
+xhprof_download_folder_name: xhprof-master
 
 extra_packages:
   # This is required for PhantomJS Installer.
