@@ -89,7 +89,7 @@
       <then>
         <echo>Please install all dependencies for Drupal VM by following the Quickstart Guide:</echo>
         <echo>https://github.com/geerlingguy/drupal-vm#quick-start-guide</echo>
-        <fail message="Virtualbox is missing is not installed."/>
+        <fail message="VirtualBox is missing or is not installed."/>
       </then>
     </if>
 
