@@ -1,5 +1,17 @@
 # Change Log
 
+## [8.4.8](https://github.com/acquia/blt/tree/8.4.8) (2016-10-05)
+[Full Changelog](https://github.com/acquia/blt/compare/8.4.7...8.4.8)
+
+**Implemented enhancements:**
+
+- Clarifying doctor output for Behat config issues. [\#494](https://github.com/acquia/blt/pull/494) ([grasmash](https://github.com/grasmash))
+
+**Fixed bugs:**
+
+- Fixing acsf:init bug preventing include from being written. [\#496](https://github.com/acquia/blt/pull/496) ([grasmash](https://github.com/grasmash))
+- Removing Lightning target hooks. [\#495](https://github.com/acquia/blt/pull/495) ([grasmash](https://github.com/grasmash))
+
 ## [8.4.7](https://github.com/acquia/blt/tree/8.4.7) (2016-10-05)
 [Full Changelog](https://github.com/acquia/blt/compare/8.4.6...8.4.7)
 
