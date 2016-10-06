@@ -12,7 +12,7 @@ Follow Microsoft's official instructions to install [Bash on Ubuntu on Windows](
 
   1. `sudo add-apt-repository ppa:ondrej/php` (hit 'Enter' when prompted)
   2. `sudo apt-get update`
-  3. `sudo apt-get install -y php5.6-cli php5.6-curl php5.6-xml php5.6-mbstring php5.6-bz2 php5.6-gd`
+  3. `sudo apt-get install -y php5.6-cli php5.6-curl php5.6-xml php5.6-mbstring php5.6-gd`
   4. `sudo apt-get install -y git nodejs npm unzip`
   4. `php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"`
   5. `php composer-setup.php`

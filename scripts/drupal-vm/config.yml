@@ -80,11 +80,5 @@ php_memcached_package: php5-memcached
 xhprof_download_url: https://github.com/phacility/xhprof/archive/master.tar.gz
 xhprof_download_folder_name: xhprof-master
 
-extra_packages:
-  # This is required for PhantomJS Installer.
-  - php-bz2
-  - subversion
-  - php-bcmath
-
 post_provision_scripts:
   - "../../../acquia/blt/scripts/drupal-vm/post-provision.sh"
