@@ -66,7 +66,7 @@
       <equals arg1="${behat.launch-phantom}" arg2="true"/>
       <then>
         <echo message="Launching PhantomJS GhostDriver." />
-        <exec command="${composer.bin}/phantomjs --webdriver=4444"
+        <exec command="${composer.bin}/phantomjs --webdriver=4444 --debug=true --ignore-ssl-errors=true --ssl-protocol=TLSv1 --web-security=false"
               passthru="true"
               spawn="true"
               checkreturn="true"
