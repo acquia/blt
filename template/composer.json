@@ -35,7 +35,7 @@
         "drupal/drupal-extension":      "~3.0",
         "drush/drush":                  "^9.0",
         "drupal-composer/drupal-scaffold": "^2.0.0",
-        "jakoch/phantomjs-installer":   "dev-master as 1.9.8",
+        "jakoch/phantomjs-installer":   "dev-master as 2.1.1",
         "jarnaiz/behat-junit-formatter": "^1.2",
         "phing/phing":                  "~2",
         "phpunit/phpunit":             "~5.4",
