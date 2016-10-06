@@ -21,25 +21,23 @@
         "drupal/search_api":                          "8.1.0-alpha14",
         "drupal/search_api_solr":                     "8.1.0-alpha3",
         "drupal/security_review":                     "8.*",
-        "drupal-composer/drupal-security-advisories": "8.0.x-dev",
-        "roave/security-advisories":                  "dev-master"
+        "drupal-composer/drupal-security-advisories": "8.0.x-dev"
     },
     "require-dev": {
-        "behat/behat":                  "3.0.*",
-        "behat/mink":                   "~1.7",
-        "behat/mink-browserkit-driver": "*",
-        "behat/mink-extension":         "*",
-        "behat/mink-goutte-driver":     "*",
-        "behat/mink-selenium2-driver":  "*",
-        "drupal/coder":                 "~8.2",
-        "drupal/drupal-extension":      "~3.0",
-        "drush/drush":                  "^9.0",
-        "drupal-composer/drupal-scaffold": "^2.0.0",
-        "jakoch/phantomjs-installer":   "dev-master as 1.9.8",
-        "jarnaiz/behat-junit-formatter": "^1.2",
-        "phing/phing":                  "~2",
-        "phpunit/phpunit":             "~5.4",
-        "squizlabs/php_codesniffer":    "2.*"
+        "behat/behat":                                "3.0.*",
+        "behat/mink":                                 "~1.7",
+        "behat/mink-extension":                       "*",
+        "behat/mink-goutte-driver":                   "*",
+        "behat/mink-selenium2-driver":                "*",
+        "drupal/coder":                               "~8.2",
+        "drupal/drupal-extension":                    "~3.0",
+        "drush/drush":                                "^9.0",
+        "drupal-composer/drupal-scaffold":            "^2.0.0",
+        "jarnaiz/behat-junit-formatter":              "^1.2",
+        "phing/phing":                                "~2",
+        "phpunit/phpunit":                            "~5.4",
+        "se/selenium-server-standalone":              "^2.53",
+        "squizlabs/php_codesniffer":                  "2.*"
     },
     "autoload-dev": {
         "psr-4": {
@@ -68,16 +66,6 @@
         "nuke": [
             "rm -rf vendor composer.lock",
             "@composer install"
-        ],
-        "install-phantomjs": [
-            "rm -rf vendor/bin/phantomjs",
-            "PhantomInstaller\\Installer::installPhantomJS"
-        ],
-        "post-install-cmd": [
-            "PhantomInstaller\\Installer::installPhantomJS"
-        ],
-        "post-update-cmd": [
-            "PhantomInstaller\\Installer::installPhantomJS"
         ]
     },
     "minimum-stability": "dev",
