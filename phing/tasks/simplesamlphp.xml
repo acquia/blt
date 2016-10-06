@@ -1,0 +1,108 @@
+<project name="simplesamlphp" default="simplesamlphp:init">
+
+  <target name="simplesamlphp:init" description="Initializes SimpleSAMLphp for project.">
+
+    <!-- Adds simplesamlphp_auth as a dependency. -->
+    <available property="simplesamlphp" file="${blt.root}/settings/simplesamlphp.settings.php"/>
+
+    <if>
+      <not><equals arg1="${simplesamlphp}" arg2="true"/></not>
+      <then>
+        <phingcall target="simplesamlphp:lib:init"/>
+
+        <!-- Copies the configuration templates from the library to a simplesamlphp directory located in the project root. -->
+        <phingcall target="simplesamlphp:config:init"/>
+
+        <!-- Copies a settings file used by the simplesamlphp_auth module to blt's settings dir. -->
+        <phingcall target="simplesamlphp:settings"/>
+
+        <!-- Creates a symlink from the docroot to the web accessible library dir. -->
+        <echo>Creating a symbolic link from ${docroot}/simplesaml to web accessible directory in the simplesamlphp library</echo>
+        <symlink target="../vendor/simplesamlphp/simplesamlphp/www/" link="${docroot}/simplesaml" overwrite="true" />
+
+        <!-- Outputs a message to edit the new config files. -->
+        <phingcall target="simplesamlphp:init:complete"/>
+      </then>
+      <else>
+        <echo>SimpleSAMLphp has already been initialized by BLT.</echo>
+      </else>
+    </if>
+  </target>
+
+  <!-- Adds simplesamlphp_auth as a dependency. -->
+  <target name="simplesamlphp:lib:init" hidden="true">
+    <echo>Adding SimpleSAMLphp Auth module as a dependency.</echo>
+    <exec dir="${repo.root}" command="composer require drupal/simplesamlphp_auth:8.3.x-dev#283994f" logoutput="true" checkreturn="true" passthru="true" level="info"/>
+  </target>
+
+  <!-- Copies the configuration templates from the library to a simplesamlphp directory located in the project root. -->
+  <target name="simplesamlphp:config:init" hidden="true">
+    <echo>Copying config files to ${repo.root}/simplesamlphp/config.</echo>
+    <copy todir="${repo.root}/simplesamlphp/config" overwrite="false">
+      <filelist dir="${repo.root}/vendor/simplesamlphp/simplesamlphp/config-templates" files="authsources.php, config.php"/>
+    </copy>
+    <exec dir="${repo.root}/simplesamlphp/config" command="curl https://gist.githubusercontent.com/acquialibrary/8059715/raw/a6dc376bfb5068a2c7fe01be315d13bd47d4c10b/9191_config.php > acquia_config.php" passthru="true"/>
+    <append destFile="${repo.root}/simplesamlphp/config/config.php" file="${repo.root}/simplesamlphp/config/acquia_config.php">
+      <filterchain>
+        <replaceregexp>
+          <regexp pattern=".*php\n" replace="" ignoreCase="true"/>
+        </replaceregexp>
+      </filterchain>
+    </append>
+    <echo>Copying config files to ${repo.root}/simplesamlphp/metadata.</echo>
+    <copy todir="${repo.root}/simplesamlphp/metadata" file="${repo.root}/vendor/simplesamlphp/simplesamlphp/metadata-templates/saml20-idp-remote.php" overwrite="false"/>
+  </target>
+
+  <!-- Copies a settings file used by simplesamlphp_auth to blt settings dir. -->
+  <target name="simplesamlphp:settings" hidden="true">
+    <echo>Adding a simplesamlphp.settings.php file.</echo>
+    <copy file="${blt.root}/scripts/simplesamlphp/simplesamlphp.settings.php" tofile="${blt.root}/settings/simplesamlphp.settings.php" overwrite="false"/>
+  </target>
+
+  <!-- Copies customized config files into the library on deployments. -->
+  <target name="simplesamlphp:deploy:config" description="Copies config template files to the appropriate place in simplesamlphp library." hidden="true">
+    <echo>Copying config files to the appropriate place in simplesamlphp library in the deploy artifact.</echo>
+    <copy todir="${repo.root}/deploy/vendor/simplesamlphp/simplesamlphp" overwrite="true">
+      <fileset dir="${repo.root}/simplesamlphp/" />
+    </copy>
+    <copy file="${blt.root}/scripts/simplesamlphp/gitignore.txt" tofile="${repo.root}/deploy/vendor/simplesamlphp/simplesamlphp/.gitignore" overwrite="true"/>
+  </target>
+
+  <!-- Copies customized config files into the library on builds. -->
+  <target name="simplesamlphp:build:config" description="Copies config template files to the appropriate place in simplesamlphp library.">
+    <echo>Copying config files to the appropriate place in simplesamlphp library.</echo>
+    <copy todir="${repo.root}/vendor/simplesamlphp/simplesamlphp" overwrite="true">
+      <fileset dir="${repo.root}/simplesamlphp/" />
+    </copy>
+    <copy file="${blt.root}/scripts/simplesamlphp/gitignore.txt" tofile="${repo.root}/vendor/simplesamlphp/simplesamlphp/.gitignore" overwrite="true"/>
+  </target>
+
+  <!-- Outputs a message to edit the new config files. -->
+  <target name="simplesamlphp:init:complete" hidden="true">
+    <echo>
+
+
+    ============================================================================
+      To complete the setup you must manually modify several files.
+    ============================================================================
+
+      * ${docroot}/.htaccess
+      * ${repo.root}/simplesamlphp/config/config.php
+      * ${repo.root}/simplesamlphp/config/authsources.php
+      * ${repo.root}/simplesamlphp/metadata/saml20-idp-remote.php
+
+
+      After editting these files execute the following command to copy the
+      modified files to the correct location in the SimpleSAMLphp library
+
+      'blt simplesamlphp:build:config'
+
+    ============================================================================
+      See simplesamlphp-setup.md for details on how to modify the files.
+    ============================================================================
+
+
+    </echo>
+  </target>
+
+</project>
