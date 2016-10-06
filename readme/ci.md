@@ -17,11 +17,11 @@ Automated testing of live content is easy to set up with two simple steps:
          ssh_known_hosts:
            - staging-12345.prod.hosting.acquia.com
 
-2. Override the default `ci:build:validate:test` target by adding the following to `build/custom/phing/build.xml`:
+2. Follow the steps in [extending BLT](extending-blt.md) to override the default `ci:build:validate:test` target:
 
          <!-- Override the core ci:build:validate:test target to include a local refresh-->
          <target name="ci:build:validate:test" description="Builds, validates, tests, and deploys an artifact."
-           depends="validate:all, ci:setup, tests:security-updates, tests:phpunit, local:sync, local:update, tests:behat" />
+           depends="validate:all, ci:setup, local:sync, local:update, tests:all" />
 
 
 ### Setting Up Travis CI for automated deployments
@@ -63,3 +63,21 @@ To set up this workflow, you must configure Acquia Cloud, GitHub, and Travis CI 
 1. Commits or merges to the develop branch on GitHub should now trigger a fully built artifact to be deployed to your specified remotes.
 
 For information on manually deploying your project, read [deploy.md](deploy.md)
+
+### Setting Up Travis CI for automated deployments on multiple branches
+You can monitor multiple branches on github for deployment, for example master and integration, by adding another "provider" block to the deploy section of your project's .travis file. You can add as many provider blocks as needed.
+
+````
+deploy:
+   - provider: script
+     script: blt deploy -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="${TRAVIS_BRANCH}-build"
+     skip_cleanup: true
+     on:
+       branch: master
+       
+   - provider: script
+     script: blt deploy -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="${TRAVIS_BRANCH}-build"
+     skip_cleanup: true
+     on:
+       branch: integration
+````

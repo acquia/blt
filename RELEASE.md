@@ -43,8 +43,7 @@ This test verifies that a new project can be created from scratch using blt, wit
     composer config prefer-stable true
     composer require acquia/blt:8.x-dev
     composer update
-    blt vm:init
-    vagrant up
+    blt vm
     blt local:setup
     drush @blted8.local uli
     read -p "Press any key to continue"

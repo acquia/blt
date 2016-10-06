@@ -1,15 +1,77 @@
 # Change Log
 
+## [8.4.7](https://github.com/acquia/blt/tree/8.4.7) (2016-10-05)
+[Full Changelog](https://github.com/acquia/blt/compare/8.4.6...8.4.7)
+
+**Implemented enhancements:**
+
+- Disable twig cache for local development [\#477](https://github.com/acquia/blt/issues/477)
+- Adding composer nuke script. [\#491](https://github.com/acquia/blt/pull/491) ([grasmash](https://github.com/grasmash))
+- Updating spacing in composer.json. [\#490](https://github.com/acquia/blt/pull/490) ([grasmash](https://github.com/grasmash))
+- Removing setup:behat from setup:settings. [\#488](https://github.com/acquia/blt/pull/488) ([grasmash](https://github.com/grasmash))
+- Adding drush policy file to prevent drush9 usage on Acquia Cloud. [\#487](https://github.com/acquia/blt/pull/487) ([grasmash](https://github.com/grasmash))
+- Resolves \#477: Disable twig cache for local development. [\#482](https://github.com/acquia/blt/pull/482) ([grasmash](https://github.com/grasmash))
+- Consistent settings.php permissions. [\#480](https://github.com/acquia/blt/pull/480) ([danepowell](https://github.com/danepowell))
+- Added features bundle argument. [\#479](https://github.com/acquia/blt/pull/479) ([danepowell](https://github.com/danepowell))
+- Removing hosting flag for acsf. [\#471](https://github.com/acquia/blt/pull/471) ([grasmash](https://github.com/grasmash))
+- Deploy build tweak. [\#467](https://github.com/acquia/blt/pull/467) ([danepowell](https://github.com/danepowell))
+- Allowing single Behat scenario to be executed via BLT. [\#466](https://github.com/acquia/blt/pull/466) ([grasmash](https://github.com/grasmash))
+
+**Misc merged pull requests**
+
+- Updated deployment code and documentation for travis-ci. [\#492](https://github.com/acquia/blt/pull/492) ([aweingarten](https://github.com/aweingarten))
+- Update ci.md [\#485](https://github.com/acquia/blt/pull/485) ([danepowell](https://github.com/danepowell))
+- Fix missing links and formatting in Windows setup docs. [\#476](https://github.com/acquia/blt/pull/476) ([srowlands](https://github.com/srowlands))
+- Add documentation for using BLT with Ubuntu Bash on Windows 10. [\#475](https://github.com/acquia/blt/pull/475) ([srowlands](https://github.com/srowlands))
+- Cleaned up live testing docs. [\#473](https://github.com/acquia/blt/pull/473) ([danepowell](https://github.com/danepowell))
+- Simplifying install instructions. [\#472](https://github.com/acquia/blt/pull/472) ([grasmash](https://github.com/grasmash))
+
+## [8.4.6](https://github.com/acquia/blt/tree/8.4.6) (2016-09-27)
+[Full Changelog](https://github.com/acquia/blt/compare/8.4.5...8.4.6)
+
+**Implemented enhancements:**
+
+- Improved DX with DrupalVM [\#441](https://github.com/acquia/blt/issues/441)
+- Remote Drush commands from BLT repo root [\#426](https://github.com/acquia/blt/issues/426)
+- Allow targets to be disabled in project.yml [\#290](https://github.com/acquia/blt/issues/290)
+- Improving Behat + Drupal VM integration. [\#462](https://github.com/acquia/blt/pull/462) ([grasmash](https://github.com/grasmash))
+- Adding cog as a default dependency. [\#460](https://github.com/acquia/blt/pull/460) ([grasmash](https://github.com/grasmash))
+- Hiding more targets from list. [\#459](https://github.com/acquia/blt/pull/459) ([grasmash](https://github.com/grasmash))
+- Closes \#290: Allow targets to be disabled in project.yml. [\#458](https://github.com/acquia/blt/pull/458) ([grasmash](https://github.com/grasmash))
+- Resolves \#441: Improving DX of DrupalVM integration [\#457](https://github.com/acquia/blt/pull/457) ([grasmash](https://github.com/grasmash))
+- Adding setup:settings target. [\#451](https://github.com/acquia/blt/pull/451) ([grasmash](https://github.com/grasmash))
+- Hiding subtargets from blt command list. [\#449](https://github.com/acquia/blt/pull/449) ([grasmash](https://github.com/grasmash))
+- Running all drush commands from docroot in case alias is unset. [\#448](https://github.com/acquia/blt/pull/448) ([grasmash](https://github.com/grasmash))
+- Add documentation covering wikimedia/composer-merge-plugin. [\#447](https://github.com/acquia/blt/pull/447) ([jrbeeman](https://github.com/jrbeeman))
+- Adding more files to deprecated files list for cleanup command. [\#445](https://github.com/acquia/blt/pull/445) ([grasmash](https://github.com/grasmash))
+- Removing composer checks from BLT. Composer is assumed. [\#444](https://github.com/acquia/blt/pull/444) ([grasmash](https://github.com/grasmash))
+- Adding VM config checks to the doctor. [\#443](https://github.com/acquia/blt/pull/443) ([grasmash](https://github.com/grasmash))
+- Remove root detection to allow drush to run remotely [\#438](https://github.com/acquia/blt/pull/438) ([steveworley](https://github.com/steveworley))
+- Making doctor command more verbose for checking correct config. [\#437](https://github.com/acquia/blt/pull/437) ([grasmash](https://github.com/grasmash))
+- Adding metadata to composer.json. [\#436](https://github.com/acquia/blt/pull/436) ([grasmash](https://github.com/grasmash))
+- Prompt for deploy properties [\#434](https://github.com/acquia/blt/pull/434) ([steveworley](https://github.com/steveworley))
+- Adding ascii art to blt command list. [\#433](https://github.com/acquia/blt/pull/433) ([grasmash](https://github.com/grasmash))
+
+**Fixed bugs:**
+
+- Fixing bug in Doctor's VM config check. [\#465](https://github.com/acquia/blt/pull/465) ([grasmash](https://github.com/grasmash))
+- Pinning Drupal Console to 1.0.0-beta5 to prevent bug in RC1. [\#463](https://github.com/acquia/blt/pull/463) ([grasmash](https://github.com/grasmash))
+- Passes repo.root into filterFileListByFileSet target [\#446](https://github.com/acquia/blt/pull/446) ([steveworley](https://github.com/steveworley))
+- Update blt.settings.php ACE/ACSF logic [\#431](https://github.com/acquia/blt/pull/431) ([dpagini](https://github.com/dpagini))
+
+**Misc merged pull requests**
+
+- Updating docs to indicate PHP BZ2 extension requirement. [\#464](https://github.com/acquia/blt/pull/464) ([grasmash](https://github.com/grasmash))
+- Temporarily disabling Lightning Behat tests. [\#461](https://github.com/acquia/blt/pull/461) ([grasmash](https://github.com/grasmash))
+- Cleaned up onboarding docs. [\#435](https://github.com/acquia/blt/pull/435) ([danepowell](https://github.com/danepowell))
+
 ## [8.4.5](https://github.com/acquia/blt/tree/8.4.5) (2016-09-20)
 [Full Changelog](https://github.com/acquia/blt/compare/8.4.4...8.4.5)
 
 **Implemented enhancements:**
 
-- Improving doctor output on brand-new sites. [\#429](https://github.com/acquia/blt/pull/429) ([grasmash](https://github.com/grasmash))
-
-**Misc merged pull requests**
-
 - Suggesting hirak/prestissimo in composer.json. [\#430](https://github.com/acquia/blt/pull/430) ([grasmash](https://github.com/grasmash))
+- Improving doctor output on brand-new sites. [\#429](https://github.com/acquia/blt/pull/429) ([grasmash](https://github.com/grasmash))
 
 ## [8.4.4](https://github.com/acquia/blt/tree/8.4.4) (2016-09-20)
 [Full Changelog](https://github.com/acquia/blt/compare/8.4.3...8.4.4)

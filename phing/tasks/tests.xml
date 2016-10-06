@@ -17,7 +17,12 @@
   <target name="tests:behat:execute" description="Executes behat tests against specific path." hidden="true">
     <!-- Check to see if any behat tests exist in this directory. If not,
          behat will throw fatal error. -->
-    <exec command="find ${behat.path} -name *.feature -print -quit" logoutput="true" outputProperty="behat.tests.found"/>
+    <if>
+      <not><contains string="${behat.path}" substring=".feature"/></not>
+      <then>
+        <exec command="find ${behat.path} -name *.feature -print -quit" logoutput="true" outputProperty="behat.tests.found"/>
+      </then>
+    </if>
 
     <if>
       <istrue value="${behat.tests.found}"/>

@@ -4,7 +4,7 @@ Here is a quick-start guide to getting your local development environment set up
 
 ## Required SAAS Access:
 
-Please ask the project's engagement manager for access to the following SAAS services:
+Please ask the project's engagement manager for access to the following SaaS services:
 
 * JIRA
 * GitHub repository
@@ -12,26 +12,7 @@ Please ask the project's engagement manager for access to the following SAAS ser
 
 ## System Requirements
 
-You should be able to use the following tools on the command line of your native operating system:
-
-* [Git](https://git-scm.com/)
-* [Composer](https://getcomposer.org/download/)
-* PHP 5.6. PHP installation instructions:
-    * [OSX](http://justinhileman.info/article/reinstalling-php-on-mac-os-x/)
-    * [Windows](http://php.net/manual/en/install.windows.php)
-    * [Linux](http://php.net/manual/en/install.unix.debian.php)
-
-### Operating Systems
-
-We highly recommend that you *do not use Windows* directly for development. Many development tools (e.g., drush, gulp, etc.) are not built or tested for Windows compatibility. Furthermore, most CI solutions (e.g., Travis CI, Drupal CI, etc.) do not permit testing on Windows OS. Similarly, BLT cannot be fully tested on Windows and is unsupported on this platform.
-
-If you must use Windows, we recommend that:
-* You have administrator access to your machine
-* You execute the necessary command line functions a bash emulator such as:
-    * [Git Bash](https://git-for-windows.github.io/)
-    * [cmder](http://cmder.net/)
-    * [cygwin](https://www.cygwin.com/)
-* Run BLT inside of a Drupal-VM instance
+Verify that your system meets [System requirements](../INSTALL.md)
 
 ### Networking considerations
 
@@ -54,18 +35,20 @@ If you need to make requests via a proxy server, please [configure git to use a 
 If your project uses a virtual development environment such as DrupalVM:
 
 1. Make sure you have installed any prerequisites. For DrupalVM, see the [quick start guide](https://github.com/geerlingguy/drupal-vm#quick-start-guide).
-1. Start your virtual machine: `vagrant up`
-1. Build and install the Drupal installation: `blt setup`
+1. Start your virtual machine: `blt vm`
+1. Build and install the Drupal installation: `blt local:setup`
 
 If your project does not use a virtual development environment:
 
+1. Setup your local LAMP stack with the webroot pointing at you project's `docroot` directory.
 1. Run `blt setup:settings` This will generate `docroot/sites/default/settings/local.settings.php` and `docroot/sites/default/local.drushrc.php`. Update these with your local database credentials and your local site URL.
 1. Run `blt local:setup`. This will build all project dependencies and install drupal.
 1. Create and edit your local drush alias file. Copy `drush/site-aliases/example.local.aliases.drushrc.php` to `drush/site-aliases/local.aliases.drushrc.php`. Edit the new alias file with your local path.
 
-Please see [Local Development](local-development.md) for detailed information on setting up a local \*AMP stack or virtual development environment.
+Please see [Local Development](local-development.md) for more information on setting up a local \*AMP stack or virtual development environment.
 
 ## Ongoing development
+
 As development progresses, you can use the following commands to keep your local environment up to date:
 
 - Run `blt local:setup` to rebuild the codebase and reinstall your Drupal site (most commonly used early in development).
@@ -96,9 +79,4 @@ When working with GitHub, the [hub](https://github.com/github/hub) utility can b
 
 ## Next steps
 
-Review review the following documentation:
-
-* [Repository architecture](repo-architecture.md): “how is the code organized, and why?”
-* [Running project tasks](project-tasks.md): “how do I _____ on my local machine?”
-* [Workflow](dev-workflow.md): “I wrote code, how does it get from here to there?”
-* [Automated testing](readme/testing.md): “how do I write / run them, and why should care?”
+Review [BLT documentation by role](https://http://blt.readthedocs.io/) to learn how to perform common project tasks and integrate with third party tools.

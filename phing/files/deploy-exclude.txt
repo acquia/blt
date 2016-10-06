@@ -22,8 +22,8 @@
 /tests
 /tmp
 /Vagrantfile
+/.gitignore
 .git
-.gitignore
 example.*
 local.*
 *.local.*

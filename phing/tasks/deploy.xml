@@ -3,6 +3,7 @@
   <target name="deploy" description="Builds separate artifact and pushes to git.remotes defined project.yml.">
 
     <!-- Prompt for user input -->
+    <echo>This will build a production-safe artifact, commit it to a branch, and  push it to your git.remotes.</echo>
     <propertyprompt propertyName="deploy.commitMsg" useExistingValue="true" promptText="Enter a valid commit message" promptCharacter=":" />
     <propertyprompt propertyName="deploy.branch" useExistingValue="true" promptText="Enter a deploy branch" promptCharacter=":" />
 
@@ -31,11 +32,6 @@
 
     <!-- Build artifact and commit locally. -->
     <phingcall target="deploy:build"/>
-
-    <!--Allow custom commands to be run before commit.-->
-    <phingcall target="target-hook:invoke">
-      <property name="hook-name" value="post-deploy-build"/>
-    </phingcall>
 
     <!--Commit artifact. -->
     <phingcall target="deploy:commit"/>
@@ -77,13 +73,10 @@
 
   <target name="deploy:build" description="Generates a deploy-ready build in deploy.dir."
           depends="frontend, deploy:copy, deploy:composer:install, deploy:sanitize">
-    <!-- If we are using ACSF, run the ACSF Deploy command. -->
-    <if>
-      <equals arg1="${hosting}" arg2="acsf"/>
-      <then>
-        <phingcall target="deploy:acsf:init"/>
-      </then>
-    </if>
+    <!--Allow custom commands to be run before commit.-->
+    <phingcall target="target-hook:invoke">
+      <property name="hook-name" value="post-deploy-build"/>
+    </phingcall>
   </target>
 
   <target name="deploy:commit" hidden="true">
@@ -155,10 +148,5 @@
         <include name="**/CHANGELOG.txt"/>
       </fileset>
     </delete>
-  </target>
-
-  <target name="deploy:acsf:init" description="Re-initialize ACSF with the settings.php changes required for artifact." hidden="true">
-    <chmod file="${deploy.dir}/docroot/sites/default/settings.php" mode="0755" />
-    <exec dir="${deploy.dir}/docroot" command="${drush.bin} --include=${deploy.dir}/docroot/modules/contrib/acsf/acsf_init acsf-init -r ${deploy.dir}/docroot -y" logoutput="true" checkreturn="true" level="info" passthru="true"/>
   </target>
 </project>
