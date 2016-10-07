@@ -7,7 +7,7 @@ This document outlines the process for creating a new BLT release.
 In order to use these testing instructions:
 
 * The `blt` alias must be installed.
-* Your LAMP stack must have host entry for `http://blted8.localhost` pointing to `./blted8/docroot`.
+* Your LAMP stack must have host entry for `http://local.blted8.com` pointing to `./blted8/docroot`.
 * MySQL must use `mysql://drupal:drupal@localhost/drupal:3306`. If this is not the case, modify the instructions below for your credentials.
 * In order to test Drupal VM, you must install VirtualBox and Vagrant. See [Drupal VM](https://github.com/geerlingguy/drupal-vm#quick-start-guide) for more information.
 
