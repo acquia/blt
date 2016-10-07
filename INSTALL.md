@@ -20,13 +20,17 @@ Ensure that [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12) is 
         xcodebuild -license
         xcode-select --install
 
-Then install the remaining dependencies for BLT and DrupalVM via Homebrew. If you'd like to use a LAMP stack other than Drupal VM, see [Local Development](readme/local-development.md).
+Then install the  minimum dependencies for BLT. The preferred method is via Homebrew, though you could install these yourself without a package manager.
 
         /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-        brew tap caskroom/cask
-        brew install php56 git composer ansible drush
-        brew cask install virtualbox vagrant
+        brew install git composer drush
         composer global require "hirak/prestissimo:^0.3"
+
+If you'd like to create a VM with BLT, you will require the following additional libraries. If you'd like to use a LAMP stack other than Drupal VM, see [Local Development](readme/local-development.md).
+
+        brew tap caskroom/cask
+        brew install ansible
+        brew cask install virtualbox vagrant
 
 ### Windows
 
