@@ -63,3 +63,7 @@ phpcs:
 project:
   local:
     uri: ${project.local.protocol}://${project.local.hostname}
+
+targets:
+  precommit:
+    - validate:phpcs:files
