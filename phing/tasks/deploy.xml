@@ -72,7 +72,7 @@
   </target>
 
   <target name="deploy:build" description="Generates a deploy-ready build in deploy.dir."
-          depends="frontend, setup:hash-salt, deploy:copy, deploy:composer:install, deploy:sanitize">
+          depends="frontend, deploy:copy, deploy:composer:install, deploy:sanitize">
     <!--Allow custom commands to be run before commit.-->
     <phingcall target="target-hook:invoke">
       <property name="hook-name" value="post-deploy-build"/>
