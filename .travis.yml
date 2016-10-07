@@ -59,6 +59,9 @@ install:
   - "sh -e /etc/init.d/xvfb start"
   # Installs chromedriver to vendor/bin.
   - ./scripts/common/chromedriver.sh $TRAVIS_BUILD_DIR/vendor/bin
+  - sudo apt-get install -y libappindicator1 fonts-liberation
+  - wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+  - sudo dpkg -i google-chrome*.deb
 
 before_script:
   # Clear drush release history cache, to pick up new releases.
