@@ -88,30 +88,31 @@
   <target name="tests:phpunit" description="Executes PHPUnit tests against custom code.">
     <delete dir="${reports.localDir}/phpunit" quiet="true"/>
     <mkdir dir="${reports.localDir}/phpunit"/>
-    <if>
-      <and>
-        <isset property="phpunit.local" />
-        <not><isset property="env.TRAVIS" /></not>
-      </and>
-      <then>
-        <property name="phpunit.dirs" value="${phpunit.local}" />
-      </then>
-
-      <elseif>
-        <and>
-          <isset property="phpunit.deploy" />
-          <isset property="env.TRAVIS" />
-        </and>
-        <then>
-          <property name="phpunit.dirs" value="${phpunit.deploy}" />
-        </then>
-      </elseif>
-
-      <else>
-        <property name="phpunit.dirs" value="${repo.root}/tests/phpunit,${blt.root}/tests/phpunit/BltProject" />
-      </else>
-    </if>
     <foreach list="${phpunit.dirs}" param="dir" target="tests:phpunit:dir"/>
+  </target>
+
+  <target name="tests:phpunit:groups" description="Exceuts PHPUnit tests against given groups." hidden="true">
+    <fail unless="phpunit.groups" message="No groups have been defined." />
+
+    <if>
+      <isset property="phpunit.excludeGroups"/>
+      <then>
+        <!-- PHPUnit throws errors if exclude group option is included with an empty group set -->
+        <property name="phpunit.excludeGroups" value="--exclude-group ${phpunit.excludeGroups}"/>
+      </then>
+    </if>
+
+    <!--
+    PHPUnit task does not support all configuration values, we need to specify the the Drupal core configuration file
+    to so that we can use the group option.
+
+    @see https://www.phing.info/trac/ticket/1233
+     -->
+    <exec
+      command="phpunit -c ${phpunit.conf} --log-junit ${reports.localDir}/phpunit/groups.xml --group ${phpunit.groups} ${phpunit.excludeGroups}"
+      logoutput="/dev/stdout"
+      checkreturn="true"
+    />
   </target>
 
   <target name="tests:phpunit:dir" description="Run phpunit against given directories." hidden="true">
