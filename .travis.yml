@@ -61,7 +61,9 @@ install:
   # Initialize drupal console default configuration.
   - drupal init
   # Installs chromedriver to vendor/bin.
-  - ./scripts/linux/chromedriver.sh $TRAVIS_BUILD_DIR/vendor/bin
+  - ./scripts/linux/install-chrome.sh $TRAVIS_BUILD_DIR/vendor/bin
+  # Install and start xvfb to enable headless use of chrome.
+  - ./scripts/linux/xvfb.sh $TRAVIS_BUILD_DIR/vendor/bin
 
 before_script:
   # Clear drush release history cache, to pick up new releases.
