@@ -7,6 +7,7 @@ events:
         - setup-environment:
             type: script
             script:
+              - set -x
               - git config --global user.name "Acquia Cloud"
               - git config --global user.email "noreply@acquia.com"
               - sudo /etc/init.d/mysql start
@@ -16,6 +17,7 @@ events:
         - setup-project:
             type: script
             script:
+              - set -x
               - composer install
               - nvm install 4.4.1
               - nvm use 4.4.1
@@ -24,7 +26,10 @@ events:
         - run-tests:
             type: script
             script:
+              - set -x
               - export PATH=$PATH:$BUILD_DIR/vendor/bin
+              # Install chromedriver.
+              - ./vendor/acquia/blt/scripts/linux/chromedriver.sh $BUILD_DIR/vendor/bin
               - drupal init
               #  The local.hostname must be set to 127.0.0.1:8888 because we are using drush runserver to test the site.
               - drupal yaml:update:value project.yml project.local.hostname '127.0.0.1:8888'
@@ -34,6 +39,7 @@ events:
         - prepare-artifact:
             type: script
             script:
+            - set -x
             - export PATH=$PATH:$BUILD_DIR/vendor/bin
             # Generate artifact in a separate directory.
             - export NEW_BUILD_DIR=/tmp/artifact

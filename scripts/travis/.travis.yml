@@ -46,11 +46,13 @@ install:
   - composer validate --no-check-all --ansi
   - composer install
   - export PATH=$TRAVIS_BUILD_DIR/vendor/bin:$PATH
-  # Initialize drupal console default configuration.
-  - drupal init
   # Install proper version of node for front end tasks.
   - nvm install 4.4.1
   - nvm use 4.4.1
+  # Initialize drupal console default configuration.
+  - drupal init
+  # Installs chromedriver to vendor/bin.
+  - ./vendor/acquia/blt/scripts/linux/chromedriver.sh $TRAVIS_BUILD_DIR/vendor/bin
 
 before_script:
   # Clear drush release history cache, to pick up new releases.
