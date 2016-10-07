@@ -32,6 +32,10 @@ If you'd like to create a VM with BLT, you will require the following additional
         brew install ansible
         brew cask install virtualbox vagrant
 
+If you'd like to execute Behat tests from the host machine, you will need Java:
+
+        brew cask install java
+
 ### Windows
 
 Windows is currently supported only when using the [Bash on Ubuntu on Windows](https://msdn.microsoft.com/en-us/commandline/wsl/about) feature available in the latest version of Windows 10.

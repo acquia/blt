@@ -1,5 +1,7 @@
 <project name="blt" default="list" phingVersion="2.8.2">
 
+  <!--Increase PHP memory limit to 2G-->
+
   <!-- Include custom task classes -->
   <includepath classpath="${phing.dir}" />
   <taskdef name="behat" classname="phingcludes.BehatTask"/>
