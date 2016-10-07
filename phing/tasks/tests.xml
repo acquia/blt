@@ -109,7 +109,7 @@
     @see https://www.phing.info/trac/ticket/1233
      -->
     <exec
-      command="phpunit -c ${phpunit.conf} --log-junit ${reports.localDir}/phpunit/groups.xml --group ${phpunit.groups} ${phpunit.excludeGroups}"
+      command="${phpunit.phar} -c ${phpunit.conf} --log-junit ${reports.localDir}/phpunit/groups.xml --group ${phpunit.groups} ${phpunit.excludeGroups}"
       logoutput="/dev/stdout"
       checkreturn="true"
     />
