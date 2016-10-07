@@ -30,6 +30,8 @@ events:
               - export PATH=$PATH:$BUILD_DIR/vendor/bin
               # Install chromedriver.
               - ./vendor/acquia/blt/scripts/linux/chromedriver.sh $BUILD_DIR/vendor/bin
+              # Install and start xvfb to enable headless use of chrome.
+              - ./vendor/acquia/blt/scripts/linux/xvfb.sh $BUILD_DIR/vendor/bin
               - drupal init
               #  The local.hostname must be set to 127.0.0.1:8888 because we are using drush runserver to test the site.
               - drupal yaml:update:value project.yml project.local.hostname '127.0.0.1:8888'

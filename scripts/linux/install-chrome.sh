@@ -1,18 +1,13 @@
 #!/usr/bin/env bash
 # Installs chromedriver for Linux 64 bit systems.
 # Requires Trusty or higher.
+# example usage `./chromedriver.sh usr/local/bin`
 
 # Scripts expect argument specifying bin dir.
 BIN_DIR=$1
 
 if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
   set -x
-
-  # Install and start xvfb.
-  # @see http://tobyho.com/2015/01/09/headless-browser-testing-xvfb/
-  apt-get install xvfb
-  export DISPLAY=:99.0
-  sh -e /etc/init.d/xvfb start
 
   # Download google chrome.
   wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
