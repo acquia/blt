@@ -1,13 +1,22 @@
-# Contributing to BLT
+# Support
 
-Please feel free to contribute to the project or file issues via the GitHub issue queue. When doing so, please keep the following points in mind:
+If you experience issues with a local BLT build, try using Dr. BLT to diagnose your problem:
 
+    blt doctor
+
+If that isn't helpful, please post an issue on the [GitHub issue queue](https://github.com/acquia/blt/issues) including the following information:
+
+- Your version of BLT, `composer info acquia/blt`
+- Your operating system
+- The full log output of your BLT command, wrapped in a [codeblock](https://help.github.com/articles/basic-writing-and-formatting-syntax/#quoting-code).
+
+In seeking help, please keep the following points in mind:
 
 * BLT is distributed under the GPLv2 license; WITHOUT ANY WARRANTY.
-* The project maintainers make no commitment to respond to support requests,
-  feature requests, or pull requests.
-* All contributions to BLT will be reviewed for compliance with Drupal Coding
-  Standards and best practices as defined by the project maintainer.
+* The project maintainers are under no obligation to respond to support requests, feature requests, or pull requests.
+* All contributions to BLT will be reviewed for compliance with Drupal Coding Standards and best practices as defined by the project maintainer.
+
+# Contributing to BLT
 
 BLT work is currently being tracked in the [BLT GitHub issue queue](https://github.com/acquia/blt/issues) and organized via a [Waffle.io Kanban Board](https://waffle.io/acquia/blt).
 
@@ -19,9 +28,10 @@ Use the following commands to create a testable BLT-created project alongside BL
 
 ```
 git clone https://github.com/acquia/blt.git
+rm -rf blted8
 composer install --working-dir=blt
-cp -R blt/blt-project .
-cd blt-project
+cp -R blt/blt-project blted8
+cd blted8
 git init
 composer install
 ./vendor/bin/blt install-alias
