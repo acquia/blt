@@ -162,7 +162,7 @@ class BltDoctor {
    * Sets SimpleSAMLphp enabled status.
    */
   protected function setSimpleSamlPhpEnabled() {
-    if (file_exists($this->repoRoot . '/vendor/acquia/blt/settings/simplesamlphp.settings.php')) {
+    if ($this->config['simplesamlphp']) {
       $this->SimpleSamlPhpEnabled = TRUE;
     }
   }

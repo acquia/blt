@@ -63,7 +63,6 @@
   <target name="setup:build" description="Generates all required files for a full build. E.g., (re)builds docroot, etc."
           depends="setup:git-hooks, setup:drupal:settings, setup:behat, setup:composer:install, frontend">
 
-    <available property="simplesamlphp" file="${blt.root}/settings/simplesamlphp.settings.php"/>
     <if>
       <equals arg1="${simplesamlphp}" arg2="true"/>
         <then>

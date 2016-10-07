@@ -78,7 +78,6 @@
       <property name="hook-name" value="post-deploy-build"/>
     </phingcall>
 
-    <available property="simplesamlphp" file="${blt.root}/settings/simplesamlphp.settings.php"/>
     <if>
       <equals arg1="${simplesamlphp}" arg2="true"/>
         <then>
