@@ -70,6 +70,9 @@
   <!-- Contains local tasks. -->
   <import file="${phing.dir}/tasks/local.xml"/>
 
+  <!-- Contains Drupal SimpleSAMLphp tasks. -->
+  <import file="${phing.dir}/tasks/simplesamlphp.xml"/>
+
   <!-- Disable targets defined in the disable-targets array in project.yml. -->
   <!-- This must be executed after all targets are defined. -->
   <disabletargets file="${repo.root}/project.yml" property="disable-targets"/>

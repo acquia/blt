@@ -27,7 +27,6 @@ class DrushTest extends BltProjectTestBase {
 
     // Test that drush can be run from the following directories.
     $dirs = array(
-      $this->projectDirectory,
       $this->projectDirectory . '/docroot',
       $this->projectDirectory . '/docroot/sites/default',
     );
