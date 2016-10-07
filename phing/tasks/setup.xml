@@ -38,6 +38,7 @@
         <not><available file="${behatConfig.local.suites.default.paths.bootstrap}"/></not>
       </or>
       <then>
+        <!--@todo Prompt to re-generate local.yml.-->
         <echo></echo>
         <echo level="error">One or more values in tests/behat/local.yml reference file paths that do not exist on this system.</echo>
         <echo level="error">This is typically related to using a virtual machine.</echo>
@@ -61,6 +62,14 @@
   <!-- This is run when a project is cloned to a new environment. -->
   <target name="setup:build" description="Generates all required files for a full build. E.g., (re)builds docroot, etc."
           depends="setup:git-hooks, setup:drupal:settings, setup:behat, setup:composer:install, frontend">
+
+    <available property="simplesamlphp" file="${blt.root}/settings/simplesamlphp.settings.php"/>
+    <if>
+      <equals arg1="${simplesamlphp}" arg2="true"/>
+        <then>
+          <phingcall target="simplesamlphp:build:config"/>
+        </then>
+    </if>
 
     <phingcall target="target-hook:invoke">
       <property name="hook-name" value="post-setup-build"/>
@@ -88,7 +97,8 @@
     <exec dir="${repo.root}" command="export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --ansi --no-interaction" logoutput="true" checkreturn="true" level="info" passthru="true" />
   </target>
 
-  <target name="setup:settings" depends="setup:drupal:settings, setup:drush:settings, setup:behat" description="Creates settings files for Drupal, drush, and Behat.">
+  <!-- We intentionally do not run setup:behat because we'd like to delay setting values in local.yml until just before they are run. -->
+  <target name="setup:settings" depends="setup:drupal:settings, setup:drush:settings" description="Creates settings files for Drupal and drush.">
   </target>
 
   <target name="setup:drupal:settings" description="Create local settings files using default settings files.">
@@ -263,16 +273,23 @@
     <drush command="config-import" assume="yes" alias="${drush.alias}">
       <option name="partial"></option>
     </drush>
-    <!-- Enable features module. -->
-    <drush command="en" assume="yes" alias="${drush.alias}">
-      <param>features</param>
-    </drush>
-    <!-- Clear drush caches to register features drush commands. -->
-    <drush command="cc" assume="yes" alias="${drush.alias}">
-      <param>drush</param>
-    </drush>
-    <!-- Revert all features. -->
-    <drush command="fra" assume="yes" alias="${drush.alias}"/>
+    <if>
+      <isset property="cm.features.bundle"/>
+      <then>
+        <!-- Enable features module. -->
+        <drush command="en" assume="yes" alias="${drush.alias}">
+          <param>features</param>
+        </drush>
+        <!-- Clear drush caches to register features drush commands. -->
+        <drush command="cc" assume="yes" alias="${drush.alias}">
+          <param>drush</param>
+        </drush>
+        <!-- Revert all features. -->
+        <drush command="fra" assume="yes" alias="${drush.alias}">
+          <option name="bundle">${cm.features.bundle}</option>
+        </drush>
+      </then>
+    </if>
     <!-- Rebuild caches. -->
     <drush command="cr" alias="${drush.alias}"/>
   </target>
