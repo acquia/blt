@@ -28,6 +28,7 @@ The following packages would apply to any fresh Ubuntu installation.
 3. Various
 
         sudo apt-get install git unzip bzip2
+        ./vendor/acquia/blt/scripts/linux/install-chrome.sh
 
 ## Usage notes
 
