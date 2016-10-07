@@ -8,10 +8,10 @@
 
   <!-- If you experience 'Maximum function nesting level' errors in your PHP
        error log, set 'xdebug.max_nesting_level=1000' in php.ini. -->
-  <target name="tests:behat" depends="setup:behat, tests:run-server, tests:phantomjs:launch" description="Executes Behat all behat tests in behat.paths.">
+  <target name="tests:behat" depends="setup:behat, tests:run-server, tests:selenium:launch" description="Executes Behat all behat tests in behat.paths.">
     <mkdir dir="${reports.localDir}/behat"/>
     <foreach list="${behat.paths}" target="tests:behat:execute" param="behat.path"/>
-    <phingcall target="tests:phantomjs:kill"/>
+    <phingcall target="tests:selenium:kill"/>
   </target>
 
   <target name="tests:behat:execute" description="Executes behat tests against specific path." hidden="true">
@@ -44,7 +44,7 @@
           <!-- A non-zero returns status indicates failure. -->
           <not><equals arg1="${behatPass}" arg2="0"/></not>
           <then>
-            <phingcall target="tests:phantomjs:kill"/>
+            <phingcall target="tests:selenium:kill"/>
             <fail message="One ore more Behat tests failed." />
           </then>
           <else>
@@ -58,30 +58,61 @@
     </if>
   </target>
 
-  <target name="tests:phantomjs:launch"
-          description="Launches a GhostDriver."
+  <target name="tests:selenium:launch"
+          description="Launches Selenium standalone server."
           hidden="true">
 
     <if>
-      <equals arg1="${behat.launch-phantom}" arg2="true"/>
+      <equals arg1="${behat.launch-selenium}" arg2="true"/>
       <then>
-        <echo message="Launching PhantomJS GhostDriver." />
-        <exec command="${composer.bin}/phantomjs --webdriver=4444"
+        <phingcall target="tests:selenium:kill"/>
+        <echo message="Launching Selenium standalone server." />
+        <touch file="${repo.root}/reports/selenium2.log"/>
+        <property name="reports.selenium2" value="${reports.localDir}/selenium2.log"/>
+        <exec command="${composer.bin}/selenium-server-standalone -port 4444 -log ${reports.selenium2}"
+              dir="${repo.root}"
               passthru="true"
               spawn="true"
               checkreturn="true"
+<<<<<<< HEAD
               level="${blt.exec_level}"/>
         <echo message="Waiting 10 seconds for PhantomJS (http://127.0.0.1:4444) to become available."/>
         <waitfor maxwait="10" maxwaitunit="second" checkevery="1" checkeveryunit="second">
           <http url="http://127.0.0.1:4444"/>
+=======
+              logoutput="false"/>
+        <echo>Selenium2 logs are being written to ${reports.selenium2}.</echo>
+        <echo message="Waiting 10 seconds for Selenium standalone server (http://127.0.0.1:4444) to become available."/>
+        <waitfor maxwait="10" maxwaitunit="second" checkevery="1" checkeveryunit="second" timeoutproperty="selenium.timedout">
+          <http url="http://127.0.0.1:4444/wd/hub"/>
+>>>>>>> Trying messy version...
         </waitfor>
+
+        <if>
+          <equals arg1="${selenium.timedout}" arg2="true"/>
+          <then>
+            <fail>
+              Unable to start Selenium2 standalone server on http://127.0.0.1:4444/wd/hub.
+            </fail>
+          </then>
+        </if>
       </then>
+      <else>
+        <echo>Not starting Selenium2 standalone server. Hope that you have something else setup!</echo>
+      </else>
     </if>
   </target>
 
+<<<<<<< HEAD
   <target name="tests:phantomjs:kill"
           description="Launches a GhostDriver." hidden="true">
     <exec command="pgrep phantomjs | xargs kill" logoutput="true" level="${blt.exec_level}" passthru="true" />
+=======
+  <target name="tests:selenium:kill"
+          description="Kills Selenium standalone server process and any process running on port 4444." hidden="true">
+    <exec command="lsof -ti tcp:4444 | xargs kill" logoutput="false" level="info" passthru="true" checkreturn="false" />
+    <exec command="pgrep selenium | xargs kill" logoutput="false" level="info" passthru="true" checkreturn="false" />
+>>>>>>> Trying messy version...
   </target>
 
   <!-- Execute PHPUnit tests. -->
