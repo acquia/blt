@@ -8,27 +8,13 @@
   </target>
 
   <target name="setup:behat" description="Generates tests/behat/local.yml file for executing Behat tests locally.">
+    <mkdir dir="${reports.localDir}/behat"/>
     <echo>Attempting to generate tests/behat/local.yml.</echo>
     <copy file="${repo.root}/tests/behat/example.local.yml" tofile="${repo.root}/tests/behat/local.yml" verbose="true">
       <filterchain>
         <expandproperties />
       </filterchain>
     </copy>
-
-    <exec dir="${repo.root}" command="php -r 'require &quot;./vendor/jakoch/phantomjs-installer/src/PhantomInstaller/PhantomBinary.php&quot;; $pb = new \PhantomInstaller\PhantomBinary(); echo $pb->getBin();'" checkreturn="false" returnProperty="phantomjs.missing" outputProperty="phantomjs.bin"/>
-    <if>
-      <or>
-        <istrue value="${phantomjs.missing}"/>
-        <not><available file="${composer.bin}/phantomjs"/></not>
-        <not><available file="${phantomjs.bin}"/></not>
-      </or>
-      <then>
-        <exec dir="${repo.root}" command="composer install-phantom" checkreturn="true" logoutput="true" passthru="true" level="info"/>
-      </then>
-      <else>
-        <echo>Found PhantomJS at ${phantomjs.bin}</echo>
-      </else>
-    </if>
 
     <property file="${repo.root}/tests/behat/local.yml" prefix="behatConfig"/>
     <if>

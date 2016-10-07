@@ -45,6 +45,7 @@ nodejs_install_npm_user: "{{ drupalvm_user }}"
 npm_config_prefix: "/home/{{ drupalvm_user }}/.npm-global"
 installed_extras:
   - nodejs
+  - java
 
 # Use PHP 5.6 and change package names to work with 5.6.
 php_version: "5.6"
