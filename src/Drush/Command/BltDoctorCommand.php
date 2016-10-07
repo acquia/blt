@@ -11,6 +11,12 @@ use Dflydev\DotAccessData\Data;
 use Symfony\Component\Yaml\Yaml;
 use Drupal\Core\Installer\Exception\AlreadyInstalledException;
 
+// @todo test with missing local.drushrc.php.
+// @todo figure out why dotaccess data isn't autoloading.
+// @todo check memory limit.
+// @todo show status table regardless of if there's a warning.
+// @todo check if deprecated files from blt cleanup exist
+
 class BltDoctor {
 
   /** @var string */
