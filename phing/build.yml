@@ -1,5 +1,7 @@
 behat:
   config: ${repo.root}/tests/behat/local.yml
+  haltonerror: true
+  strict: true
   profile: local
   # If true, `drush runserver` will be used for executing tests.
   run-server: false
