@@ -74,18 +74,12 @@
               passthru="true"
               spawn="true"
               checkreturn="true"
-<<<<<<< HEAD
-              level="${blt.exec_level}"/>
-        <echo message="Waiting 10 seconds for PhantomJS (http://127.0.0.1:4444) to become available."/>
-        <waitfor maxwait="10" maxwaitunit="second" checkevery="1" checkeveryunit="second">
-          <http url="http://127.0.0.1:4444"/>
-=======
+              level="${blt.exec_level}"
               logoutput="false"/>
         <echo>Selenium2 logs are being written to ${reports.selenium2}.</echo>
         <echo message="Waiting 10 seconds for Selenium standalone server (http://127.0.0.1:4444) to become available."/>
         <waitfor maxwait="10" maxwaitunit="second" checkevery="1" checkeveryunit="second" timeoutproperty="selenium.timedout">
           <http url="http://127.0.0.1:4444/wd/hub"/>
->>>>>>> Trying messy version...
         </waitfor>
 
         <if>
@@ -103,16 +97,10 @@
     </if>
   </target>
 
-<<<<<<< HEAD
-  <target name="tests:phantomjs:kill"
-          description="Launches a GhostDriver." hidden="true">
-    <exec command="pgrep phantomjs | xargs kill" logoutput="true" level="${blt.exec_level}" passthru="true" />
-=======
   <target name="tests:selenium:kill"
           description="Kills Selenium standalone server process and any process running on port 4444." hidden="true">
-    <exec command="lsof -ti tcp:4444 | xargs kill" logoutput="false" level="info" passthru="true" checkreturn="false" />
-    <exec command="pgrep selenium | xargs kill" logoutput="false" level="info" passthru="true" checkreturn="false" />
->>>>>>> Trying messy version...
+    <exec command="lsof -ti tcp:4444 | xargs kill" logoutput="false" level="${blt.exec_level}" passthru="true" checkreturn="false" />
+    <exec command="pgrep selenium | xargs kill" logoutput="false" level="${blt.exec_level}" passthru="true" checkreturn="false" />
   </target>
 
   <!-- Execute PHPUnit tests. -->
