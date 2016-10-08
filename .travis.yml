@@ -61,7 +61,9 @@ install:
   # Initialize drupal console default configuration.
   - drupal init
   # Initialize xvfb (see https://docs.travis-ci.com/user/gui-and-headless-browsers)
-  - ./scripts/linux/xvbf.sh
+  - sudo apt-get install xvfb
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
   # Installs chromedriver to vendor/bin.
   - ./scripts/linux/install-chrome.sh $TRAVIS_BUILD_DIR/vendor/bin
 
