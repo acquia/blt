@@ -13,15 +13,25 @@ behat:
     # - ${docroot}/profiles
     - ${repo.root}/tests/behat
   tags: '~ajax'
+  verbose: ${blt.verbose}
 
 blt:
   update:
     ignore-existing-file: ${blt.root}/scripts/blt/ignore-existing.txt
+  # Default verbosity level for <exec> tasks.
+  exec_level: verbose
+  # If blt.level >= info, this will be changed to true. Affects verbosity of tasks like Drush, Behat.
+  verbose: false
+  # From most to least verbose: debug, verbose, info, warn, error.
+  # Equivalent of using Phing arguments -debug, -verbose, [none], -quiet, -silent
+  # Note that this does not affect passthru output.
+  level: info
 
 composer:
   bin: ${repo.root}/vendor/bin
 
 deploy:
+  # If true, dependencies will be built during deploy. If false, you should commit dependencies directly.
   build-dependencies: true
   dir: ${repo.root}/deploy
   exclude_file: ${blt.root}/phing/files/deploy-exclude.txt
@@ -44,7 +54,7 @@ drush:
   uri: ${multisite.name}
   assume: yes
   passthru: yes
-  verbose: yes
+  verbose: ${blt.verbose}
 
 multisite:
   # The docroot/sites/default directory is used by default.
