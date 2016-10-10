@@ -18,8 +18,9 @@ behat:
 blt:
   update:
     ignore-existing-file: ${blt.root}/scripts/blt/ignore-existing.txt
-  # If blt.verbose, then exec_level = info.
+  # Default verbosity level for <exec> tasks.
   exec_level: verbose
+  # If blt.level >= info, this will be changed to true. Affects verbosity of tasks like Drush, Behat.
   verbose: false
   # From most to least verbose: debug, verbose, info, warn, error.
   # Equivalent of using Phing arguments -debug, -verbose, [none], -quiet, -silent
@@ -30,6 +31,7 @@ composer:
   bin: ${repo.root}/vendor/bin
 
 deploy:
+  # If true, dependencies will be built during deploy. If false, you should commit dependencies directly.
   build-dependencies: true
   dir: ${repo.root}/deploy
   exclude_file: ${blt.root}/phing/files/deploy-exclude.txt
