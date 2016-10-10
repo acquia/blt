@@ -10,4 +10,7 @@ if [ ! -f $PHPCS_BIN ]; then
 fi
 
 ${ROOT_DIR}/vendor/bin/blt git:precommit -Dfiles="$LIST" -q
-exit 0;
+
+# Return the status of git:precommit. Any target executed should throw a build exception to prevent
+# code from being commited during the precommit.
+exit $?
