@@ -14,7 +14,7 @@
     "type": "composer-plugin",
     "license": "GPL-2.0",
     "require": {
-        "drupal/console":                   "1.0.0-beta5",
+        "drupal/console":                   "^1.0.0-rc5",
         "phing/phing":                      "~2",
         "phpunit/phpunit":                  "~5.4",
         "squizlabs/php_codesniffer":        "^2.4",
