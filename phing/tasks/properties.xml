@@ -23,6 +23,20 @@
     </then>
   </if>
 
+  <verbosityTask level="${blt.level}"/>
+  <!-- When blt verbosity level is above "warn", then increase verbosity of exec_level and various other tasks using blt.verbose property (Behat, Drush). -->
+  <if>
+    <or>
+      <equals arg1="${blt.level}" arg2="debug"/>
+      <equals arg1="${blt.level}" arg2="verbose"/>
+      <equals arg1="${blt.level}" arg2="info"/>
+    </or>
+    <then>
+      <property name="blt.exec_level" value="info"/>
+      <property name="blt.verbose" value="true"/>
+    </then>
+  </if>
+
   <echo level="verbose">Executing commands against multisite "${multisite.name}"</echo>
 
   <!-- Default drush alias. -->

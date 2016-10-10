@@ -13,10 +13,18 @@ behat:
     # - ${docroot}/profiles
     - ${repo.root}/tests/behat
   tags: '~ajax'
+  verbose: ${blt.verbose}
 
 blt:
   update:
     ignore-existing-file: ${blt.root}/scripts/blt/ignore-existing.txt
+  # If blt.verbose, then exec_level = info.
+  exec_level: verbose
+  verbose: false
+  # From most to least verbose: debug, verbose, info, warn, error.
+  # Equivalent of using Phing arguments -debug, -verbose, [none], -quiet, -silent
+  # Note that this does not affect passthru output.
+  level: info
 
 composer:
   bin: ${repo.root}/vendor/bin
@@ -44,7 +52,7 @@ drush:
   uri: ${multisite.name}
   assume: yes
   passthru: yes
-  verbose: yes
+  verbose: ${blt.verbose}
 
 multisite:
   # The docroot/sites/default directory is used by default.

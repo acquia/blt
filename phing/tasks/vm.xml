@@ -30,8 +30,8 @@
   <target name="vm:local:init" depends="setup:drupal:settings" description="Initializes DrupalVM for this machine." hidden="true">
     <!-- Sadly this wipes out comments in the file. -->
     <echo>Updating project.local.yml.</echo>
-    <exec dir="${repo.root}" command="${composer.bin}/drupal yaml:update:value ${repo.root}/project.local.yml drush.default_alias '${project.machine_name}.local'" logoutput="true" checkreturn="true" level="info" passthru="true"/>
-    <exec dir="${repo.root}" command="${composer.bin}/drupal yaml:update:value ${repo.root}/project.local.yml drush.aliases.local '${project.machine_name}.local'" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <exec dir="${repo.root}" command="${composer.bin}/drupal yaml:update:value ${repo.root}/project.local.yml drush.default_alias '${project.machine_name}.local'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec dir="${repo.root}" command="${composer.bin}/drupal yaml:update:value ${repo.root}/project.local.yml drush.aliases.local '${project.machine_name}.local'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <!-- Load new values into Phing. -->
     <property file="${repo.root}/project.local.yml" override="true" logoutput="false"/>
 
@@ -44,7 +44,7 @@
     <echo>BLT support for Drupal VM is EXPERIMENTAL. Not all BLT features currently work with Drupal VM. </echo>
     <echo></echo>
     <echo>Creating a drush alias for the new VM.</echo>
-    <exec dir="${repo.root}" command="cat ${blt.root}/scripts/drupal-vm/drupal-vm.aliases.drushrc.php >> ${repo.root}/drush/site-aliases/aliases.drushrc.php" logoutput="true" checkreturn="true" level="info"/>
+    <exec dir="${repo.root}" command="cat ${blt.root}/scripts/drupal-vm/drupal-vm.aliases.drushrc.php >> ${repo.root}/drush/site-aliases/aliases.drushrc.php" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
     <reflexive>
       <fileset dir="${repo.root}">
         <include name="drush/site-aliases/aliases.drushrc.php" />
@@ -66,7 +66,7 @@
     <copy file="${blt.root}/scripts/drupal-vm/Vagrantfile" todir="${repo.root}" verbose="true"/>
 
     <echo>Adding geerlingguy/drupal-vm to composer dev dependencies.</echo>
-    <exec dir="${repo.root}" command="composer require --dev geerlingguy/drupal-vm:~3.3" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <exec dir="${repo.root}" command="composer require --dev geerlingguy/drupal-vm:~3.3" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
 
     <echo></echo>
     <echo>A new "box" directory and a Vagrantfile have been added to ${repo.root}</echo>
@@ -110,14 +110,14 @@
       <istrue value="${vagrant.hostsupdater.missing}"/>
       <then>
         <echo>The vagrant-hostsupdater plugin is not installed! Attempting to install it...</echo>
-        <exec dir="${repo.root}" command="vagrant plugin install vagrant-hostsupdater" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+        <exec dir="${repo.root}" command="vagrant plugin install vagrant-hostsupdater" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
       </then>
     </if>
 
   </target>
 
   <target name="vm:up" depends="vm:requirements" hidden="true" description="Boots DrupalVM.">
-    <exec dir="${repo.root}" command="vagrant up" logoutput="true" checkreturn="true" level="info" passthru="true" />
+    <exec dir="${repo.root}" command="vagrant up" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true" />
   </target>
 
 </project>

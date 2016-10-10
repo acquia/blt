@@ -289,7 +289,7 @@ class BehatTask extends Task
    */
   public function setVerbose($verbose)
   {
-    $this->verbose = StringHelper::booleanValue($verbose);
+    $this->verbose = StringHelper::booleanValue($verbose) || StringHelper::booleanValue((bool) $verbose);
   }
 
   /**
@@ -386,6 +386,13 @@ class BehatTask extends Task
   }
 
   /**
+   * Initialize the task.
+   */
+  public function init() {
+    $this->setVerbose($this->getProject()->getProperty('behat.verbose'));
+  }
+
+  /**
    * The main entry point method.
    *
    * @throws BuildException
@@ -471,6 +478,10 @@ class BehatTask extends Task
       $this->options[] = 'verbose';
     }
 
+    if (Phing::getMsgOutputLevel() >= Project::MSG_VERBOSE) {
+      $this->options[] = 'verbose';
+    }
+
     if ($this->colors) {
       $this->options[] = 'colors';
     }
@@ -488,7 +499,12 @@ class BehatTask extends Task
       $command[] = $this->createOption($name, $value);
     }
     $command = implode(' ', $command);
-    $this->log("Running '$command'");
+    if ($this->verbose) {
+      $this->log("Running '$command'", Project::MSG_INFO);
+    }
+    else {
+      $this->log("Running '$command'", Project::MSG_VERBOSE);
+    }
 
     // Run Behat.
     $last_line = system($command, $return);
