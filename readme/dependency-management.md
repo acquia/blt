@@ -84,3 +84,15 @@ Reference these additional composer.json files in the `extra` section of your ro
         ]
       }
     }
+
+## Front end dependencies
+
+Drupal 8 does not have a definitive solution for downloading front end dependencies. The following solutions are suggested:
+
+* Load the library as an external library. See [Adding stylesheets (CSS) and JavaScript (JS) to a Drupal 8 module](https://www.drupal.org/developing/api/8/assets).
+* Use a front end package manager (e.g., [NPM](https://www.npmjs.com/)) to download your dependencies. Then use BLT's `frontend-build` and `post-deploy-build` target-hooks to trigger building those dependencies. E.g., call `npm install` in your theme directory via these hooks.
+*  Add the library to composer.json via a [custom repository](https://getcomposer.org/doc/05-repositories.md). Designate the package as a `drupal-library` and define a `installer-paths` path for that package type to ensure that it is installed to `docroot/libraries.` Ensure that it can be discovered in that location. See [example composer.json](https://gist.github.com/mortenson/a5390d99013b5b8c0254081e89bb4d47).
+
+Contributed projects should provide the ability to download and discover the libraries. If you are using a contributed project, it is suggested that you patch the project to support one of these strategies.
+
+If you cannot, then commit the dependency. You can use a custom .gitignore file for you project, [ensure that it is copied to the deployment artifact, and supply your own, custom .gitignore file to be used in the deployment artifact](extending-blt.md#deploybuild).
