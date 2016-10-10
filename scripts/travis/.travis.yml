@@ -69,6 +69,7 @@ deploy:
      skip_cleanup: true
      on:
        branch: master
+       php: 5.6
    #  Uncomment the following section to perform deployments on more than one branch.
    #  This pattern be repeated for multiple integration branches.
 #   - provider: script
@@ -76,3 +77,4 @@ deploy:
 #     skip_cleanup: true
 #     on:
 #       branch: integration
+#       php: 5.6
