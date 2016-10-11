@@ -85,7 +85,7 @@
       * ${repo.root}/simplesamlphp/metadata/saml20-idp-remote.php
 
 
-      After editting these files execute the following command to copy the
+      After editing these files execute the following command to copy the
       modified files to the correct location in the SimpleSAMLphp library
 
       'blt simplesamlphp:build:config'
