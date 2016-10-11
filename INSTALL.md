@@ -7,9 +7,6 @@ You must have the following tools on the command line of your *host operating sy
 * [Git](https://git-scm.com/)
 * [Composer](https://getcomposer.org/download/)
 * [PHP 5.6+](http://php.net/manual/en/install.php)
-    * PHP BZ2 extension is required (included by default in many cases).
-        * Install with PECL `pecl install bz2`
-        * Install with apt `apt-get install php5.6-bz2`
 
 ## Installing requirements
 
