@@ -25,9 +25,11 @@ events:
             type: script
             script:
               - export PATH=$PATH:$BUILD_DIR/vendor/bin
+              - cd docroot
               - drupal init
               #  The local.hostname must be set to 127.0.0.1:8888 because we are using drush runserver to test the site.
               - drupal yaml:update:value project.yml project.local.hostname '127.0.0.1:8888'
+              - cd ../
               - blt -Dbehat.run-server=true -Dcreate_alias=false -Dbehat.launch-phantom=true ci:build:validate:test
 
         # Generate

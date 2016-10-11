@@ -13,7 +13,7 @@
         "drupal/acquia_connector":                    "8.1.*",
         "drupal/acsf":                                "~8.1",
         "drupal/cog":                                 "~8",
-        "drupal/console":                             "1.0.0-beta5",
+        "drupal/console":                             "^1.0.0-rc5",
         "drupal/core":                                "~8",
         "drupal/features":                            "~8.3.0-beta9",
         "drupal/lightning":                           "~8",

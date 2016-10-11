@@ -52,8 +52,6 @@ install:
   # Install proper version of node for front end tasks.
   - nvm install 4.4.1
   - nvm use 4.4.1
-  # Initialize drupal console default configuration.
-  - drupal init
 
 before_script:
   # Clear drush release history cache, to pick up new releases.
@@ -74,8 +72,12 @@ script:
   # BLT is the only dependency at this point. Install it.
   - composer install -v
   - export PATH=$TRAVIS_BUILD_DIR/../blt-project/vendor/bin:$PATH
+  # Initialize drupal console default configuration.
+  - cd docroot
+  - drupal init
   # The local.hostname must be set to 127.0.0.1:8888 because we are using drush runserver to run the site on Travis CI.
-  - drupal yaml:update:value project.yml project.local.hostname '127.0.0.1:8888'
+  - drupal yaml:update:value ../project.yml project.local.hostname '127.0.0.1:8888'
+  - cd ../
   # BLT added new dependencies for us, so we must update.
   - composer update
   # Create a .travis.yml, just to make sure it works. It won't be executed.

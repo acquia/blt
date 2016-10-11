@@ -30,8 +30,8 @@
   <target name="vm:local:init" depends="setup:drupal:settings" description="Initializes DrupalVM for this machine." hidden="true">
     <!-- Sadly this wipes out comments in the file. -->
     <echo>Updating project.local.yml.</echo>
-    <exec dir="${repo.root}" command="${composer.bin}/drupal yaml:update:value ${repo.root}/project.local.yml drush.default_alias '${project.machine_name}.local'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
-    <exec dir="${repo.root}" command="${composer.bin}/drupal yaml:update:value ${repo.root}/project.local.yml drush.aliases.local '${project.machine_name}.local'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec dir="${docroot}" command="${composer.bin}/drupal yaml:update:value ${repo.root}/project.local.yml drush.default_alias '${project.machine_name}.local'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec dir="${docroot}" command="${composer.bin}/drupal yaml:update:value ${repo.root}/project.local.yml drush.aliases.local '${project.machine_name}.local'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <!-- Load new values into Phing. -->
     <property file="${repo.root}/project.local.yml" override="true" logoutput="false"/>
 
