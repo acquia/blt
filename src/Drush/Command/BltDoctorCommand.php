@@ -559,12 +559,12 @@ class BltDoctor {
    */
   protected function checkDevDesktopConfig() {
     if ($this->devDesktopEnabled) {
-      if (empty($ENV['DEVDESKTOP_DRUPAL_SETTINGS_DIR'])) {
+      if (empty($_ENV['DEVDESKTOP_DRUPAL_SETTINGS_DIR'])) {
         $this->logError("DevDesktop usage is enabled, but \$DEVDESKTOP_DRUPAL_SETTINGS_DIR is not set in your environmental variables.");
         $this->logErrorDetail("Add `export DEVDESKTOP_DRUPAL_SETTINGS_DIR=\"\$HOME/.acquia/DevDesktop/DrupalSettings\"` to ~/.bash_profile or equivalent for your system.`");
         $this->logErrorDetail();
       }
-      elseif (strstr($ENV['DEVDESKTOP_DRUPAL_SETTINGS_DIR'], '~')) {
+      elseif (strstr($_ENV['DEVDESKTOP_DRUPAL_SETTINGS_DIR'], '~')) {
         $this->logError("\$DEVDESKTOP_DRUPAL_SETTINGS_DIR contains a '~'. This does not always expand to your home directory.");
         $this->logErrorDetail("Add `export DEVDESKTOP_DRUPAL_SETTINGS_DIR=\"\$HOME/.acquia/DevDesktop/DrupalSettings\"` to ~/.bash_profile or equivalent for your system.`");
         $this->logErrorDetail();
