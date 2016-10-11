@@ -12,7 +12,7 @@
         composer blt-alias
 
 1. Customize `project.yml`.
-1. Create & boot the VM, install Drupal.
+1. If using Drupal VM for local development, run the following commands. Otherwise, see [Local Development](http://blt.readthedocs.io/en/8.x/readme/local-development/).
 
         blt vm
         blt local:setup
