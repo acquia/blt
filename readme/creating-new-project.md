@@ -12,9 +12,8 @@
         composer blt-alias
 
 1. Customize `project.yml`.
-1. Create & boot the VM, install Drupal.
+1. If using a VM for local development, see instructions for [Drupal VM](http://blt.readthedocs.io/en/8.x/readme/local-development/#using-drupal-vm-for-blt-generated-projects) or [Acquia Dev Desktop](http://blt.readthedocs.io/en/8.x/readme/local-development/#acquia-dev-desktop). Otherwise, run:
 
-        blt vm
         blt local:setup
 
 1. Login to Drupal `drush @[project.machine_name].local uli`, where [project.machine_name] is the value that you set in project.yml.
