@@ -14,7 +14,7 @@ To re-install Drupal, execute: `blt setup:drupal:install`. Note that this will d
 
 ## Add, update, or patch a dependency
 
-Please [dependency management](dependency-management.md] for all information on managing core and contributed packages for your project.
+Please [dependency management](dependency-management.md) for all information on managing core and contributed packages for your project.
 
 ## Deploy to cloud
 
