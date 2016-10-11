@@ -118,3 +118,4 @@ deploy:
   skip_cleanup: true
   on:
     branch: 8.x
+    php: 5.6
