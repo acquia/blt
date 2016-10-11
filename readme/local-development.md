@@ -22,7 +22,7 @@ To use [Drupal VM](http://www.drupalvm.com/) with a Drupal project that is gener
         brew install php56 git composer ansible drush
         brew cask install virtualbox vagrant
 
-1. Create & boot the VM, install Drupal. 
+1. Create & boot the VM, install Drupal.
 
         blt vm
         blt local:setup
@@ -60,7 +60,11 @@ In order to use a custom version of Drush (required by BLT) with Dev Desktop, yo
         export PATH="/Applications/DevDesktop/mysql/bin:$PATH"
         export DEVDESKTOP_DRUPAL_SETTINGS_DIR="$HOME/.acquia/DevDesktop/DrupalSettings"
 
-1. Ensure that Dev Desktop's PHP binary is being used on the CLI. You can check this via `which php`. 
+1. Ensure that Dev Desktop's PHP binary is being used on the CLI. This will require adding a line *like* this to your `~/.bash_profile`:
+
+        export PATH=/Applications/DevDesktop/php7_0/bin:$PATH
+
+   The exact line will depend upon the version of PHP that you intend to use. You can check the effect of this value via `which php`.
 1. Enable the usage of environmental variables by adding the following line to `php.ini`, which you can locate with `php --ini`:
 
         variables_order = "EGPCS"
