@@ -46,7 +46,7 @@ npm_config_prefix: "/home/{{ drupalvm_user }}/.npm-global"
 installed_extras:
   - adminer
   - nodejs
-  - java
+  - selenium
 
 # Use PHP 5.6 and change package names to work with 5.6.
 php_version: "5.6"
@@ -84,3 +84,4 @@ xhprof_download_folder_name: xhprof-master
 
 post_provision_scripts:
   - "../../../acquia/blt/scripts/drupal-vm/post-provision.sh"
+  - "../../../acquia/blt/scripts/linux/install-chrome.sh /usr/bin"
