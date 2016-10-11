@@ -17,6 +17,9 @@
     </then>
   </if>
 
+  <!--Increase PHP memory limit. -->
+  <php expression="ini_set('memory_limit', '1G');" />
+
   <!--@todo Warn if Windows is being used.-->
 
   <!-- Include task partials -->
