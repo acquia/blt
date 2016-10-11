@@ -44,6 +44,7 @@ nodejs_npm_global_packages:
 nodejs_install_npm_user: "{{ drupalvm_user }}"
 npm_config_prefix: "/home/{{ drupalvm_user }}/.npm-global"
 installed_extras:
+  - adminer
   - nodejs
 
 # Use PHP 5.6 and change package names to work with 5.6.
