@@ -16,12 +16,6 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Yaml\Yaml;
 use Drupal\Core\Installer\Exception\AlreadyInstalledException;
 
-// @todo test with missing local.drushrc.php.
-// @todo figure out why dotaccess data isn't autoloading.
-// @todo check memory limit.
-// @todo show status table regardless of if there's a warning.
-// @todo check if deprecated files from blt cleanup exist
-
 class BltDoctor {
 
   /** @var string */
@@ -121,7 +115,7 @@ class BltDoctor {
   protected function setProjectConfig() {
     $filepath = $this->repoRoot . '/project.yml';
     if (!file_exists($filepath)) {
-      $this->logError("project.yml is missing from the repository root directory!");
+      $this->output->write("<error>project.yml is missing from the repository root directory!</error>");
 
       return [];
     }
@@ -223,8 +217,6 @@ class BltDoctor {
    * Performs all checks.
    */
   public function checkAll() {
-    $this->logErrorDetail();
-
     $this->checkCoreExists();
     if (!$this->coreExists()) {
       return FALSE;
@@ -262,16 +254,13 @@ class BltDoctor {
     $this->printArrayAsTable($this->statusTable);
     $this->printArrayAsTable($this->outputTable, ['Check', 'Outcome']);
 
-    //$this->checkDatabaseUpdates();
     // @todo Check error_level.
     // @todo Check if theme dependencies have been built.
     // @todo Check that if drupal/acsf is in composer.json, acsf is initialized.
     // @todo If using lightning, check lightning.extend.yml exists, check for $config['profile'] = 'lighting';
     // @todo Check global drush version.
-
-    if ($this->passed) {
-      drush_log("Everything looks good enough!\n", "success");
-    }
+    // @todo test with missing local.drushrc.php.
+    // @todo check if deprecated files from blt cleanup exist
   }
 
   protected function logOutcome($check, $outcome, $type) {
@@ -322,19 +311,9 @@ class BltDoctor {
       ->render();
   }
 
-  protected function logError($message = '') {
-    $this->passed = FALSE;
-    drush_set_error($message);
-  }
-
-  protected function logErrorDetail($message = '') {
-    drush_print($message, 2);
-  }
-
-  protected function logNewLine() {
-    drush_print();
-  }
-
+  /**
+   * @return bool
+   */
   protected function checkDocrootExists() {
     if (empty($this->statusTable['root'])) {
       $this->logOutcome(__FUNCTION__, "Drush could not find the docroot.", 'error');
@@ -416,6 +395,9 @@ class BltDoctor {
     }
   }
 
+  /**
+   * @return bool
+   */
   protected function checkUri() {
     if (!$this->uri) {
       $this->logOutcome(__FUNCTION__, [
@@ -782,16 +764,25 @@ class BltDoctor {
     }
   }
 
+  /**
+   * @return array|mixed
+   */
   protected function setDrupalVmConfig() {
     $this->drupalVmConfig  = Yaml::parse(file_get_contents($this->repoRoot . '/box/config.yml'));
 
     return $this->drupalVmConfig;
   }
 
+  /**
+   * @return mixed
+   */
   protected function drushAliasesFileExists() {
     return file_exists($this->repoRoot . '/drush/site-aliases/aliases.drushrc.php');
   }
 
+  /**
+   *
+   */
   protected function checkDrushAliases() {
     $file_path = $this->repoRoot . '/drush/site-aliases/aliases.drushrc.php';
     if (!$this->drushAliasesFileExists()) {
@@ -889,8 +880,6 @@ class BltDoctor {
         "  Move acquia/blt out of the require-dev object and into the require object in composer.json.",
         "  This is necessary for BLT settings files to be available at runtime in production.",
       ], 'error');
-
-      $this->logErrorDetail();
     }
     else {
       $this->logOutcome(__FUNCTION__ . ':require', [
