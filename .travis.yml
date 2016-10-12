@@ -1,5 +1,5 @@
 # Note that the example .travis.yml file for child projects lives in /install.
-sudo: true
+sudo: required
 language: php
 dist: trusty
 
@@ -65,7 +65,7 @@ install:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   # Installs chromedriver to vendor/bin.
-  - ./scripts/linux/install-chrome.sh $TRAVIS_BUILD_DIR/vendor/bin
+  - ./vendor/acquia/blt/scripts/linux/install-chrome.sh $TRAVIS_BUILD_DIR/vendor/bin
 
 before_script:
   # Clear drush release history cache, to pick up new releases.
