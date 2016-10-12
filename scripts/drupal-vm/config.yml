@@ -84,4 +84,3 @@ xhprof_download_folder_name: xhprof-master
 
 post_provision_scripts:
   - "../../../acquia/blt/scripts/drupal-vm/post-provision.sh"
-  - "../../../acquia/blt/scripts/linux/install-chrome.sh /usr/bin"
