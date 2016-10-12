@@ -208,6 +208,7 @@ class BltDoctor {
     $this->checkDrushAliases();
     $this->checkDrupalVmConfig();
     $this->checkSimpleSamlPhp();
+    $this->checkPhpDateTimezone();
 
     //$this->checkDatabaseUpdates();
     // @todo Check error_level.
@@ -914,6 +915,22 @@ class BltDoctor {
         $this->logErrorDetail("Add the snippet in simplesamlphp-setup.md readme to your .htaccess file.");
         $this->logNewLine();
       }
+    }
+  }
+
+  /**
+   * Checks the php date.timezone setting is correctly set.
+   */
+  protected function checkPhpDateTimezone() {
+    $dateTimezone = ini_get('date.timezone');
+    $php_ini_file = php_ini_loaded_file();
+    if (!$dateTimezone) {
+      $this->logError("PHP setting for date.timezone is not set.");
+      $this->logErrorDetail("Define date.timezone in $php_ini_file");
+      $this->logErrorDetail();
+    }
+    else {
+      drush_log("PHP setting for date.timezone is correctly set", 'notice');
     }
   }
 }
