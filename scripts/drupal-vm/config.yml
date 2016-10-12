@@ -46,7 +46,7 @@ npm_config_prefix: "/home/{{ drupalvm_user }}/.npm-global"
 installed_extras:
   - adminer
   - nodejs
-  - java
+  - selenium
 
 # Use PHP 5.6 and change package names to work with 5.6.
 php_version: "5.6"

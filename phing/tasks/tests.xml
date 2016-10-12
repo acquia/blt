@@ -99,8 +99,8 @@
 
   <target name="tests:selenium:kill"
           description="Kills Selenium standalone server process and any process running on port 4444." hidden="true">
-    <exec command="lsof -ti tcp:4444 | xargs kill" logoutput="false" level="${blt.exec_level}" passthru="true" checkreturn="false" />
-    <exec command="pgrep selenium | xargs kill" logoutput="false" level="${blt.exec_level}" passthru="true" checkreturn="false" />
+    <exec command="lsof -ti tcp:4444 | xargs kill" logoutput="false" level="${blt.exec_level}" passthru="false" checkreturn="false" />
+    <exec command="pgrep selenium | xargs kill" logoutput="false" level="${blt.exec_level}" passthru="false" checkreturn="false" />
   </target>
 
   <!-- Execute PHPUnit tests. -->
