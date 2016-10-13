@@ -8,13 +8,12 @@
 
   <!-- If you experience 'Maximum function nesting level' errors in your PHP
        error log, set 'xdebug.max_nesting_level=1000' in php.ini. -->
-  <target name="tests:behat" depends="setup:behat, tests:run-server, tests:selenium:launch" description="Executes Behat all behat tests in behat.paths.">
+  <target name="tests:behat" depends="setup:behat, tests:run-server" description="Executes Behat all behat tests in behat.paths.">
     <mkdir dir="${reports.localDir}/behat"/>
     <foreach list="${behat.paths}" target="tests:behat:execute" param="behat.path"/>
-    <phingcall target="tests:selenium:kill"/>
   </target>
 
-  <target name="tests:behat:execute" description="Executes behat tests against specific path." hidden="true">
+  <target name="tests:behat:execute" description="Executes behat tests against specific path." hidden="true" depends="tests:selenium:launch">
     <!-- Check to see if any behat tests exist in this directory. If not,
          behat will throw fatal error. -->
     <if>
@@ -44,7 +43,6 @@
           <!-- A non-zero returns status indicates failure. -->
           <not><equals arg1="${behatPass}" arg2="0"/></not>
           <then>
-            <phingcall target="tests:selenium:kill"/>
             <fail message="One ore more Behat tests failed." />
           </then>
           <else>
@@ -56,6 +54,8 @@
         <echo message="No Behat tests were found in ${behat.path}"/>
       </else>
     </if>
+
+    <phingcall target="tests:selenium:kill"/>
   </target>
 
   <target name="tests:selenium:launch"
