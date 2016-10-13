@@ -4,7 +4,7 @@ To configure SimpleSAMLphp, perform the following steps after initially setting 
 
 1. Execute `blt simplesamlphp:init`. This will perform the initial setup tasks including:
 	* Adds the simplesamlphp_auth module as a project dependency.
-	* Copies congigruation files to `${project.root}/simplesamlphp`
+	* Copies configuration files to `${project.root}/simplesamlphp`
 	* Adds a simplesamlphp property to project.yml
 	* Creates a symbolic link in the docroot to the web accessible directory of the simplesamlphp library.
 	* Adds a settings.php file to the project's default settings directory.
