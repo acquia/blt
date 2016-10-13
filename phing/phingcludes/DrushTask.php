@@ -69,7 +69,6 @@ class DrushTask extends Task {
   private $pipe = FALSE;
   private $options = array();
   private $params = array();
-  private $return_glue = "\n";
   private $return_property = NULL;
   private $verbose = FALSE;
   private $haltonerror = TRUE;
@@ -153,13 +152,6 @@ class DrushTask extends Task {
     } else {
       $this->pipe = !!$var;
     }
-  }
-
-  /**
-   * The 'glue' characters used between each line of the returned output.
-   */
-  public function setReturnGlue($str) {
-    $this->return_glue = (string) $str;
   }
 
   /**
@@ -351,7 +343,7 @@ class DrushTask extends Task {
 
     // Set value of the return property.
     if (!empty($this->return_property)) {
-      $this->getProject()->setProperty($this->return_property, implode($this->return_glue, $output));
+      $this->getProject()->setProperty($this->return_property, $return);
     }
     // Build fail.
     if ($this->haltonerror && $return != 0) {
