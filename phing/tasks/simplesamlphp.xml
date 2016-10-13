@@ -1,42 +1,41 @@
 <project name="simplesamlphp" default="simplesamlphp:init">
 
   <target name="simplesamlphp:init" description="Initializes SimpleSAMLphp for project.">
-
-    <!-- Adds simplesamlphp_auth as a dependency. -->
-    <available property="simplesamlphp" file="${blt.root}/settings/simplesamlphp.settings.php"/>
-
     <if>
       <not><equals arg1="${simplesamlphp}" arg2="true"/></not>
       <then>
+
+        <!-- Adds simplesamlphp_auth as a dependency. -->
         <phingcall target="simplesamlphp:lib:init"/>
 
         <!-- Copies the configuration templates from the library to a simplesamlphp directory located in the project root. -->
         <phingcall target="simplesamlphp:config:init"/>
 
-        <!-- Copies a settings file used by the simplesamlphp_auth module to blt's settings dir. -->
-        <phingcall target="simplesamlphp:settings"/>
+        <!-- Sets a value in project.yml to let other targets know simplesamlphp is installed -->
+        <echo>Updating project.yml.</echo>
+        <exec dir="${repo.root}" command="drupal yaml:update:value project.yml simplesamlphp true" logoutput="true" checkreturn="true" passthru="true" level="${blt.exec_level}"/>
 
         <!-- Creates a symlink from the docroot to the web accessible library dir. -->
         <echo>Creating a symbolic link from ${docroot}/simplesaml to web accessible directory in the simplesamlphp library</echo>
         <symlink target="../vendor/simplesamlphp/simplesamlphp/www/" link="${docroot}/simplesaml" overwrite="true" />
 
-        <!-- Outputs a message to edit the new config files. -->
-        <phingcall target="simplesamlphp:init:complete"/>
       </then>
       <else>
         <echo>SimpleSAMLphp has already been initialized by BLT.</echo>
       </else>
     </if>
+    <!-- Outputs a message to edit the new config files. -->
+    <phingcall target="simplesamlphp:init:complete"/>
   </target>
 
   <!-- Adds simplesamlphp_auth as a dependency. -->
-  <target name="simplesamlphp:lib:init" hidden="true">
+  <target name="simplesamlphp:lib:init" hidden="true" unless="simplesamlphp">
     <echo>Adding SimpleSAMLphp Auth module as a dependency.</echo>
-    <exec dir="${repo.root}" command="composer require drupal/simplesamlphp_auth:8.3.x-dev#283994f" logoutput="true" checkreturn="true" passthru="true" level="info"/>
+    <exec dir="${repo.root}" command="composer require drupal/simplesamlphp_auth:8.3.x-dev#283994f" logoutput="true" checkreturn="true" passthru="true" level="${blt.exec_level}"/>
   </target>
 
   <!-- Copies the configuration templates from the library to a simplesamlphp directory located in the project root. -->
-  <target name="simplesamlphp:config:init" hidden="true">
+  <target name="simplesamlphp:config:init" hidden="true" unless="simplesamlphp">
     <echo>Copying config files to ${repo.root}/simplesamlphp/config.</echo>
     <copy todir="${repo.root}/simplesamlphp/config" overwrite="false">
       <filelist dir="${repo.root}/vendor/simplesamlphp/simplesamlphp/config-templates" files="authsources.php, config.php"/>
@@ -51,12 +50,6 @@
     </append>
     <echo>Copying config files to ${repo.root}/simplesamlphp/metadata.</echo>
     <copy todir="${repo.root}/simplesamlphp/metadata" file="${repo.root}/vendor/simplesamlphp/simplesamlphp/metadata-templates/saml20-idp-remote.php" overwrite="false"/>
-  </target>
-
-  <!-- Copies a settings file used by simplesamlphp_auth to blt settings dir. -->
-  <target name="simplesamlphp:settings" hidden="true">
-    <echo>Adding a simplesamlphp.settings.php file.</echo>
-    <copy file="${blt.root}/scripts/simplesamlphp/simplesamlphp.settings.php" tofile="${blt.root}/settings/simplesamlphp.settings.php" overwrite="false"/>
   </target>
 
   <!-- Copies customized config files into the library on deployments. -->
@@ -92,13 +85,14 @@
       * ${repo.root}/simplesamlphp/metadata/saml20-idp-remote.php
 
 
-      After editting these files execute the following command to copy the
+      After editing these files execute the following command to copy the
       modified files to the correct location in the SimpleSAMLphp library
 
       'blt simplesamlphp:build:config'
 
     ============================================================================
-      See simplesamlphp-setup.md for details on how to modify the files.
+      See http://blt.readthedocs.io/en/latest/readme/simplesamlphp-setup/
+      for details on how to modify the files.
     ============================================================================
 
 

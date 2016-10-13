@@ -1,6 +1,6 @@
 <?php
 
-// Use the folloing alias as a guide for creating a local alias.
+// Use the following alias as a guide for creating a local alias.
 
 // $aliases['[PROJECT-NAME]'] = array(
 //   'uri' => '[PROJECT-NAME].dev',

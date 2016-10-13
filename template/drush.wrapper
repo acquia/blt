@@ -31,10 +31,10 @@
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 cd "`dirname $0`"
 
-if [ ! -f ${DIR}/vendor/bin/drush ]; then
-  echo "Drush was not found in this project's vendor/bin directory."
-  echo "Attempting to run composer install. This takes a few minutes."
-  composer install
+if [ ! -f ${DIR}/vendor/drush/drush/drush.launcher ]; then
+  echo >&2 "Drush was not found in this project's vendor directory. You can install it by typing:"
+  echo >&2 "composer install"
+  exit 1
 fi
 
-vendor/bin/drush.launcher --config=${DIR}/drush/drushrc.php --alias-path=${DIR}/drush/site-aliases "$@"
+vendor/drush/drush/drush.launcher --config=${DIR}/drush/drushrc.php --alias-path=${DIR}/drush/site-aliases "$@"

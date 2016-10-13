@@ -12,6 +12,7 @@ class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext
 
   /**
    * Every scenario gets its own context instance.
+   *
    * You can also pass arbitrary arguments to the
    * context constructor through behat.yml.
    */

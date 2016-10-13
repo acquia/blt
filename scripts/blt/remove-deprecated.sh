@@ -13,6 +13,7 @@ rm -rf docroot/sites/default/settings/travis.settings.php
 rm -rf docroot/sites/default/settings/pipelines.settings.php
 rm -rf docroot/sites/default/settings/tugboat.settings.php
 rm -rf tests/phpunit/blt
+rm -rf tests/phpunit/Bolt
 rm -rf scripts/blt
 rm -rf scripts/drupal
 rm -rf scripts/drupal-vm

@@ -11,6 +11,8 @@ fi
 
 ${ROOT_DIR}/vendor/bin/blt git:precommit -Dfiles="$LIST" -q
 
-# Return the status of git:precommit. Any target executed should throw a build exception to prevent
-# code from being commited during the precommit.
+# Return the status of the phing task. Any target executed should throw a build exception to prevent
+# code from being committed during the precommit. The hooks can be skipped by adding `--no-verify` to
+# a commit.
 exit $?
+

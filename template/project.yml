@@ -11,7 +11,7 @@ project:
   # This will be used as the local uri for all developers.
   local:
     protocol: http
-    hostname: ${project.machine_name}.localhost
+    hostname: local.${project.machine_name}.com
 
 # Configuration settings for new git repository.
 git:
@@ -42,13 +42,13 @@ target-hooks:
     # E.g., ${docroot}/sites/all/themes/custom/mytheme.
     dir: ${docroot}
     # E.g., `npm install` or `bower install`.
-    command: echo 'No frontend setup configured.'
+    command: echo 'No frontend-setup configured.'
   # Executed when front end assets should be generated.
   frontend-build:
     # E.g., ${docroot}/sites/all/themes/custom/mytheme.
     dir: ${docroot}
     # E.g., `npm run build`.
-    command: echo 'No frontend build configured.'
+    command: echo 'No frontend-build configured.'
   # Executed after deployment artifact is created.
   post-deploy-build:
     # E.g., ${docroot}/sites/all/themes/custom/mytheme.

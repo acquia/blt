@@ -79,4 +79,4 @@ When working with GitHub, the [hub](https://github.com/github/hub) utility can b
 
 ## Next steps
 
-Review [BLT documentation by role](https://http://blt.readthedocs.io/) to learn how to perform common project tasks and integrate with third party tools.
+Review [BLT documentation by role](http://blt.readthedocs.io/) to learn how to perform common project tasks and integrate with third party tools.
