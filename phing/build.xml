@@ -18,7 +18,7 @@
   </if>
 
   <!--Increase PHP memory limit. -->
-  <php expression="ini_set('memory_limit', '1G');" />
+  <php expression="ini_set('memory_limit', '1G');" level="${blt.exec_level}" />
 
   <!--@todo Warn if Windows is being used.-->
 
