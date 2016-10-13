@@ -56,6 +56,7 @@ drush:
   uri: ${multisite.name}
   assume: yes
   passthru: yes
+  logoutput: yes
   verbose: ${blt.verbose}
 
 multisite:

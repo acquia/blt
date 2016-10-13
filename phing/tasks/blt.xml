@@ -9,16 +9,16 @@
   </target>
 
   <target name="doctor" description="Inspects your local blt configuration for possible issues.">
-    <drush command="status" returnProperty="drush.status" haltonerror="false" passthru="false" verbose="false"/>
+    <drush command="status" returnProperty="drush.status" haltonerror="false" passthru="false" verbose="false" logoutput="false"/>
     <if>
       <equals arg1="${drush.status}" arg2="0"/>
       <then>
-        <drush command="blt-doctor" verbose="false" uri="" dir="${docroot}">
+        <drush command="blt-doctor" verbose="false"  dir="${docroot}">
           <option name="include">../vendor/acquia/blt/drush</option>
         </drush>
       </then>
       <else>
-        <drush command="blt-doctor" verbose="false" uri="" dir="${docroot}" alias="">
+        <drush command="blt-doctor" verbose="false"  dir="${docroot}" alias="">
           <option name="include">../vendor/acquia/blt/drush</option>
         </drush>
       </else>

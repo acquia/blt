@@ -69,11 +69,11 @@ class DrushTask extends Task {
   private $pipe = FALSE;
   private $options = array();
   private $params = array();
-  private $return_glue = "\n";
   private $return_property = NULL;
   private $verbose = FALSE;
   private $haltonerror = TRUE;
   private $passthru = FALSE;
+  private $logoutput = TRUE;
 
   /**
    * The Drush command to run.
@@ -155,13 +155,6 @@ class DrushTask extends Task {
   }
 
   /**
-   * The 'glue' characters used between each line of the returned output.
-   */
-  public function setReturnGlue($str) {
-    $this->return_glue = (string) $str;
-  }
-
-  /**
    * The name of a Phing property to assign the Drush command's output to.
    */
   public function setReturnProperty($str) {
@@ -221,6 +214,17 @@ class DrushTask extends Task {
   }
 
   /**
+   * Log output.
+   */
+  public function setLogOutput($var) {
+    if (is_string($var)) {
+      $this->logoutput = ($var === 'yes' || $var === 'true');
+    } else {
+      $this->logoutput = !!$var;
+    }
+  }
+
+  /**
    * Initialize the task.
    */
   public function init() {
@@ -233,6 +237,7 @@ class DrushTask extends Task {
     $this->setVerbose($this->getProject()->getProperty('drush.verbose'));
     $this->setAssume($this->getProject()->getProperty('drush.assume'));
     $this->setPassthru($this->getProject()->getProperty('drush.passthru'));
+    $this->setLogOutput($this->getProject()->getProperty('drush.logoutput'));
   }
 
   /**
@@ -322,9 +327,12 @@ class DrushTask extends Task {
       $command = implode(' ', $command);
       $this->log("Executing: $command");
       exec($command, $output, $return);
-      // Collect Drush output for display through Phing's log.
-      foreach ($output as $line) {
-        $this->log($line);
+
+      if ($this->logoutput) {
+        // Collect Drush output for display through Phing's log.
+        foreach ($output as $line) {
+          $this->log($line);
+        }
       }
     }
 
@@ -333,9 +341,9 @@ class DrushTask extends Task {
       chdir($initial_cwd);
     }
 
-    // Set value of the 'pipe' property.
+    // Set value of the return property.
     if (!empty($this->return_property)) {
-      $this->getProject()->setProperty($this->return_property, implode($this->return_glue, $output));
+      $this->getProject()->setProperty($this->return_property, $return);
     }
     // Build fail.
     if ($this->haltonerror && $return != 0) {
