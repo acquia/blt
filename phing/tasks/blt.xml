@@ -9,7 +9,7 @@
   </target>
 
   <target name="doctor" description="Inspects your local blt configuration for possible issues.">
-    <drush command="status" returnProperty="drush.status" haltonerror="false" passthru="false" verbose="false"/>
+    <drush command="status" returnProperty="drush.status" haltonerror="false" passthru="false" verbose="false" logoutput="false"/>
     <if>
       <equals arg1="${drush.status}" arg2="0"/>
       <then>
