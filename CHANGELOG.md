@@ -1,7 +1,15 @@
 # Change Log
 
-## [8.5.0](https://github.com/acquia/blt/tree/8.5.0) (2016-10-13)
-[Full Changelog](https://github.com/acquia/blt/compare/8.4.8...8.5.0)
+## [Unreleased](https://github.com/acquia/blt/tree/HEAD)
+
+[Full Changelog](https://github.com/acquia/blt/compare/8.5.0-beta1...HEAD)
+
+**Fixed bugs:**
+
+- Cleaned up SimpleSAML\_php integration. [\#555](https://github.com/acquia/blt/pull/555) ([danepowell](https://github.com/danepowell))
+
+## [8.5.0-beta1](https://github.com/acquia/blt/tree/8.5.0-beta1) (2016-10-13)
+[Full Changelog](https://github.com/acquia/blt/compare/8.4.9...8.5.0-beta1)
 
 **Implemented enhancements:**
 
@@ -25,12 +33,7 @@
 - Switching PhantomJS to Selenium [\#520](https://github.com/acquia/blt/pull/520) ([grasmash](https://github.com/grasmash))
 - Issue \#509: Use default hostname that works more universally. [\#516](https://github.com/acquia/blt/pull/516) ([geerlingguy](https://github.com/geerlingguy))
 - Issue \#509: Adjust drush wrapper bin path so it works on Windows with bad symlinks. [\#515](https://github.com/acquia/blt/pull/515) ([geerlingguy](https://github.com/geerlingguy))
-- Fix typo in VirtualBox missing error message. [\#508](https://github.com/acquia/blt/pull/508) ([geerlingguy](https://github.com/geerlingguy))
-- Fixes \#504: Use newer version of Drupal VM, 3.3.x. [\#507](https://github.com/acquia/blt/pull/507) ([geerlingguy](https://github.com/geerlingguy))
 - Follow-up to \#502: Remove bz2 requirement after switch to Selenium2. [\#503](https://github.com/acquia/blt/pull/503) ([geerlingguy](https://github.com/geerlingguy))
-- Fixes \#501: Default Drupal VM to PHP 5.6. [\#502](https://github.com/acquia/blt/pull/502) ([geerlingguy](https://github.com/geerlingguy))
-- Ensuring that a hash salt is generated prior to deployment. [\#497](https://github.com/acquia/blt/pull/497) ([grasmash](https://github.com/grasmash))
-- BLT-481: BLT/SimpleSAMLphp Integration [\#478](https://github.com/acquia/blt/pull/478) ([dooleymatt](https://github.com/dooleymatt))
 
 **Fixed bugs:**
 
@@ -38,7 +41,6 @@
 - Fixing Drupal VM integration with Selenium. [\#544](https://github.com/acquia/blt/pull/544) ([grasmash](https://github.com/grasmash))
 - Fixing coder syntax violation. [\#540](https://github.com/acquia/blt/pull/540) ([grasmash](https://github.com/grasmash))
 - Fixes \#514: Accomodating spaces in dir path. [\#532](https://github.com/acquia/blt/pull/532) ([grasmash](https://github.com/grasmash))
-- Fixing broken drush test. [\#512](https://github.com/acquia/blt/pull/512) ([grasmash](https://github.com/grasmash))
 - Fixes \#506: Include config in deploy artifact. [\#511](https://github.com/acquia/blt/pull/511) ([dooleymatt](https://github.com/dooleymatt))
 
 **Closed issues:**
@@ -47,8 +49,6 @@
 - DrupalVM init fails due to missing package php-bz2 [\#521](https://github.com/acquia/blt/issues/521)
 - Space in project directory path causes initial composer create-project to fail.  [\#514](https://github.com/acquia/blt/issues/514)
 - SimpleSAMLphp config files not included in deploy artifact [\#506](https://github.com/acquia/blt/issues/506)
-- Use newer version of Drupal VM \(currently ~3.1\) [\#504](https://github.com/acquia/blt/issues/504)
-- Default DrupalVM to PHP 5.6 [\#501](https://github.com/acquia/blt/issues/501)
 - Document a typical update process, including BLT and a major dependency [\#493](https://github.com/acquia/blt/issues/493)
 - Confusion over setting up with Acquia DevDesktop [\#369](https://github.com/acquia/blt/issues/369)
 
@@ -62,6 +62,29 @@
 - Adding docs for front end dependencies. [\#527](https://github.com/acquia/blt/pull/527) ([grasmash](https://github.com/grasmash))
 - Document that users may need to run composer update after updating BLT. [\#522](https://github.com/acquia/blt/pull/522) ([jrbeeman](https://github.com/jrbeeman))
 - Adding next steps docs. [\#518](https://github.com/acquia/blt/pull/518) ([grasmash](https://github.com/grasmash))
+
+## [8.4.9](https://github.com/acquia/blt/tree/8.4.9) (2016-10-07)
+[Full Changelog](https://github.com/acquia/blt/compare/8.4.8...8.4.9)
+
+**Implemented enhancements:**
+
+- Fix typo in VirtualBox missing error message. [\#508](https://github.com/acquia/blt/pull/508) ([geerlingguy](https://github.com/geerlingguy))
+- Fixes \#504: Use newer version of Drupal VM, 3.3.x. [\#507](https://github.com/acquia/blt/pull/507) ([geerlingguy](https://github.com/geerlingguy))
+- Fixes \#501: Default Drupal VM to PHP 5.6. [\#502](https://github.com/acquia/blt/pull/502) ([geerlingguy](https://github.com/geerlingguy))
+- Ensuring that a hash salt is generated prior to deployment. [\#497](https://github.com/acquia/blt/pull/497) ([grasmash](https://github.com/grasmash))
+- BLT-481: BLT/SimpleSAMLphp Integration [\#478](https://github.com/acquia/blt/pull/478) ([dooleymatt](https://github.com/dooleymatt))
+
+**Fixed bugs:**
+
+- Fixing broken drush test. [\#512](https://github.com/acquia/blt/pull/512) ([grasmash](https://github.com/grasmash))
+
+**Closed issues:**
+
+- Use newer version of Drupal VM \(currently ~3.1\) [\#504](https://github.com/acquia/blt/issues/504)
+- Default DrupalVM to PHP 5.6 [\#501](https://github.com/acquia/blt/issues/501)
+
+**Misc merged pull requests**
+
 - Issue \#509: Update Documentation for BLT under WSL. [\#510](https://github.com/acquia/blt/pull/510) ([geerlingguy](https://github.com/geerlingguy))
 
 ## [8.4.8](https://github.com/acquia/blt/tree/8.4.8) (2016-10-05)
