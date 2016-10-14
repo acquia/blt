@@ -5,10 +5,12 @@
 If you are already using BLT via Composer, you can update to the latest version of BLT by running the following commands from your project's root directory:
 
       composer update acquia/blt --with-dependencies
+      # Remove deprecated files.
+      blt cleanup
 
 Review and commit changes to your project files. For customized files like `.travis.yml` or `docroot/sites/default/settings.php` it is recommended that you use `git add -p` to select which specific line changes you'd like to stage and commit.
 
-On occasion, updating BLT will result in changes to your project's composer.json file. This can happen when the upstream BLT project adds new dependencies or changes the pinned version of a dependency. In cases like this, BLT will print a message alerting you to run `composer update` an additional time so that you apply the changed dependencies locally. 
+On occasion, updating BLT will result in changes to your project's composer.json file. This can happen when the upstream BLT project adds new dependencies or changes the pinned version of a dependency. In cases like this, BLT will print a message alerting you to run `composer update` an additional time so that you apply the changed dependencies locally.
 
 Rarely, you may need to refresh your local environment via `blt local:setup` to provision new upstream changes.
 
