@@ -56,9 +56,6 @@
             },
             "drupal/features": {
                 "Bundle support": "https://www.drupal.org/files/issues/features-2808303-2.patch"
-            },
-            "drupal/lightning": {
-                "Fix failing Behat test for Selenium": "https://www.drupal.org/files/issues/issue-158-selenium-behat-tests.patch"
             }
         }
     },

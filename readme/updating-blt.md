@@ -42,6 +42,7 @@ If you are using an older version of BLT that was not installed using Composer, 
 
 1. Upgrade to the latest version of BLT:
 
-        composer require acquia/blt:^8.3
+        composer require acquia/blt:^8.3 --no-update
+        composer update
 
 Review and commit changes to your project files. For customized files like `.travis.yml` or `docroot/sites/default/settings.php` it is recommended that you use `git add -p` to select which specific line changes you'd like to stage and commit.
