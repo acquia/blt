@@ -124,3 +124,12 @@ $config['system.file']['path']['temporary'] = '/tmp';
  * Private file path.
  */
 $settings['file_private_path'] = $dir . '/files-private';
+
+/**
+ * Trusted host configuration.
+ *
+ * See full description in default.settings.php.
+ */
+# $settings['trusted_host_patterns'] = array(
+#   '^example\.local$',
+# );
