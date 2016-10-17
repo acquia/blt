@@ -56,13 +56,14 @@ class ComposerMungeCommand extends Command
     }
     // Skip merging entirely if '*' is excluded.
     if ($exclude_keys == '*') {
-      return $file1_contents;
+      $output = $file1_contents;
     }
+    else {
+      $output = $this->mergeKeyed($file1_contents, $file2_contents, $exclude_keys);
 
-    $output = $this->mergeKeyed($file1_contents, $file2_contents, $exclude_keys);
-
-    if (empty($exclude_keys['repositories'])) {
-      $output['repositories'] = $this->mergeRepositories((array) $file1_contents['repositories'], (array) $file2_contents['repositories']);
+      if (empty($exclude_keys['repositories'])) {
+        $output['repositories'] = $this->mergeRepositories((array) $file1_contents['repositories'], (array) $file2_contents['repositories']);
+      }
     }
 
     $output_json = json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES);
@@ -75,10 +76,11 @@ class ComposerMungeCommand extends Command
    *
    * @param $file1_contents
    * @param $file2_contents
+   * @param array $exclude_keys
    *
    * @return mixed
    */
-  protected function mergeKeyed($file1_contents, $file2_contents, $exclude_keys) {
+  protected function mergeKeyed($file1_contents, $file2_contents, $exclude_keys = []) {
     // Merge keyed arrays objects.
     $merge_keys = [
       'autoload-dev',
@@ -91,17 +93,24 @@ class ComposerMungeCommand extends Command
     foreach ($merge_keys as $key) {
 
       // Handle exclusions.
-      if (in_array($key, $exclude_keys)) {
-        $exclude_key = $exclude_keys[$key];
+      if (in_array($key, array_keys($exclude_keys))) {
+        $excludes_value = $exclude_keys[$key];
 
         // Wildcard exclusion.
-        if (is_string($exclude_key) && $exclude_key == '*') {
-          continue;
+        if (is_string($excludes_value)) {
+          // "require": "*"
+          if ($excludes_value == '*') {
+            continue;
+          }
+          // "require": "drupal/core"
+          else {
+            unset($file2_contents[$key][$excludes_value]);
+          }
         }
-        // This implementation only supports an array depth of 1.
-        elseif (is_array($exclude_key)) {
-          foreach ($exclude_key as $exclude_subkey) {
-            unset($file2_contents[$exclude_key][$exclude_subkey]);
+        // "require": [ "drupal/core" ]
+        elseif (is_array($excludes_value)) {
+          foreach ($excludes_value as $exclude_package) {
+            unset($file2_contents[$key][$exclude_package]);
           }
         }
       }
