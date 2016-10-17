@@ -42,8 +42,8 @@
         <if>
           <equals arg1="${behat.regenerate}" arg2="y" casesensitive="false"/>
           <then>
-              <delete file="${repo.root}/tests/behat/local.yml"/>
-              <phingcall target="setup:behat"/>
+            <delete file="${repo.root}/tests/behat/local.yml"/>
+            <phingcall target="setup:behat"/>
           </then>
           <else>
             <fail>Cannot execute behat tests because Behat configuration is invalid.</fail>
@@ -51,6 +51,11 @@
         </if>
       </then>
     </if>
+
+    <echo>Executing Behat tests with configuratoin:</echo>
+    <echo>drupal_root: ${behatConfig.local.extensions.Drupal\DrupalExtension.drupal.drupal_root}"</echo>
+    <echo>base_url: ${behatConfig.local.extensions.Behat\MinkExtension.base_url}"</echo>
+
   </target>
 
   <target name="tests:behat:execute" description="Executes behat tests against specific path." hidden="true">
@@ -138,6 +143,7 @@
 
   <target name="tests:selenium:kill"
           description="Kills Selenium standalone server process and any process running on port 4444." hidden="true">
+    <echo>Killing any selenium processes that are already running.</echo>
     <exec command="lsof -ti tcp:4444 | xargs kill" logoutput="false" level="${blt.exec_level}" passthru="false" checkreturn="false" />
     <exec command="pgrep selenium | xargs kill" logoutput="false" level="${blt.exec_level}" passthru="false" checkreturn="false" />
   </target>
