@@ -53,14 +53,14 @@ class BltDoctor {
    * BoltDoctor constructor.
    */
   public function __construct() {
-    $this->setStatusTable();
-
-    if (!$this->checkDocrootExists()) {
-      return FALSE;
-    }
-
     $this->output = new ConsoleOutput();
     $this->output->setFormatter(new OutputFormatter(true));
+
+    $this->setStatusTable();
+
+    if (!$this->docrootExists()) {
+      return FALSE;
+    }
 
     $this->docroot = $this->statusTable['root'];
     $this->repoRoot = $this->statusTable['root'] . '/..';
@@ -217,6 +217,10 @@ class BltDoctor {
    * Performs all checks.
    */
   public function checkAll() {
+    if (!$this->checkDocrootExists()) {
+      return FALSE;
+    }
+
     $this->checkCoreExists();
     if (!$this->coreExists()) {
       return FALSE;
@@ -311,12 +315,16 @@ class BltDoctor {
       ->render();
   }
 
+  protected function docrootExists() {
+    return !empty($this->statusTable['root']);
+  }
+
   /**
    * @return bool
    */
   protected function checkDocrootExists() {
-    if (empty($this->statusTable['root'])) {
-      $this->logOutcome(__FUNCTION__, "Drush could not find the docroot.", 'error');
+    if (!$this->docrootExists()) {
+      $this->output->writeln("<error>Drush could not find the docroot.</error>");
 
       return FALSE;
     }
