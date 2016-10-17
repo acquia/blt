@@ -152,9 +152,9 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
       'composer-exclude-merge' => [],
     ];
     $extra = $this->composer->getPackage()->getExtra() + ['blt' => []];
-    $options = $extra['blt'] + $defaults;
+    $extra['blt'] = $extra['blt'] + $defaults;
 
-    return $options;
+    return $extra;
   }
 
   /**
