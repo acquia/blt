@@ -66,6 +66,7 @@
         "blt-alias": "blt install-alias -Dcreate_alias=true",
         "nuke": [
             "rm -rf vendor composer.lock",
+            "@composer clearcache",
             "@composer install"
         ]
     },
