@@ -76,10 +76,11 @@ class ComposerMungeCommand extends Command
    *
    * @param $file1_contents
    * @param $file2_contents
+   * @param array $exclude_keys
    *
    * @return mixed
    */
-  protected function mergeKeyed($file1_contents, $file2_contents, $exclude_keys) {
+  protected function mergeKeyed($file1_contents, $file2_contents, $exclude_keys = []) {
     // Merge keyed arrays objects.
     $merge_keys = [
       'autoload-dev',
