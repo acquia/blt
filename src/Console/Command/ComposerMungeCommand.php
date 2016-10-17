@@ -56,7 +56,7 @@ class ComposerMungeCommand extends Command
     }
     // Skip merging entirely if '*' is excluded.
     if ($exclude_keys == '*') {
-      $file1_contents;
+      return $file1_contents;
     }
 
     $output = $this->mergeKeyed($file1_contents, $file2_contents, $exclude_keys);
