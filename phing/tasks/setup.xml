@@ -16,33 +16,6 @@
       </filterchain>
     </copy>
 
-    <property file="${repo.root}/tests/behat/local.yml" prefix="behatConfig"/>
-    <if>
-      <or>
-        <not><available file="${behatConfig.local.extensions.Drupal\DrupalExtension.drupal.drupal_root}"/></not>
-        <not><available file="${behatConfig.local.suites.default.paths.features}"/></not>
-        <not><available file="${behatConfig.local.suites.default.paths.bootstrap}"/></not>
-      </or>
-      <then>
-        <!--@todo Prompt to re-generate local.yml.-->
-        <echo></echo>
-        <echo level="error">One or more values in tests/behat/local.yml reference file paths that do not exist on this system.</echo>
-        <echo level="error">This is typically related to using a virtual machine.</echo>
-        <echo level="error"></echo>
-        <echo level="error">Try one of the following solution:</echo>
-        <echo level="error">1) Execute the tests on the correct system.</echo>
-        <echo level="error">2) Correct the value(s).</echo>
-        <echo level="error">3) Remove tests/behat/local.yml so that it can be regenerated automatically from example.local.yml.</echo>
-        <echo level="error"></echo>
-        <echo level="error">Values are:</echo>
-        <echo level="error">drupal_root: ${behatConfig.local.extensions.Drupal\DrupalExtension.drupal.drupal_root}"</echo>
-        <echo level="error">features:    ${behatConfig.local.suites.default.paths.features}"</echo>
-        <echo level="error">bootstrap:   ${behatConfig.local.suites.default.paths.bootstrap}</echo>
-        <echo level="error"></echo>
-        <fail>Your Behat configuration is invalid.</fail>
-      </then>
-    </if>
-
   </target>
 
   <!-- This is run when a project is cloned to a new environment. -->
