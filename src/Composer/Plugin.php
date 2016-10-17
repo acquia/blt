@@ -117,10 +117,15 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
   }
 
   protected function executeBltUpdate() {
-    // @todo cd into project root from getVendorPath?
-    $this->io->write('<info>Updating BLT templated files</info>');
-    $this->executeCommand('blt update');
-    $this->io->write('<comment>This may have modified your composer.json and require a subsequent `composer update`</comment>');
+    $options = $this->getOptions();
+    if ($options['blt']['update']) {
+      $this->io->write('<info>Updating BLT templated files</info>');
+      $this->executeCommand('blt update');
+      $this->io->write('<comment>This may have modified your composer.json and require a subsequent `composer update`</comment>');
+    }
+    else {
+      $this->io->write('<comment>Skipping update of BLT templated files</comment>');
+    }
   }
 
   /**
@@ -134,6 +139,22 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     $filesystem->ensureDirectoryExists($config->get('vendor-dir'));
     $vendorPath = $filesystem->normalizePath(realpath($config->get('vendor-dir')));
     return $vendorPath;
+  }
+
+  /**
+   * Retrieve "extra" configuration.
+   *
+   * @return array
+   */
+  protected function getOptions() {
+    $defaults = [
+      'update' => TRUE,
+      'composer-exclude-merge' => [],
+    ];
+    $extra = $this->composer->getPackage()->getExtra() + ['blt' => []];
+    $options = $extra['blt'] + $defaults;
+
+    return $options;
   }
 
   /**

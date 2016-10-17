@@ -43,6 +43,9 @@
         }
     },
     "extra": {
+        "blt": {
+            "update": true
+        },
         "installer-paths": {
             "docroot/core":                     ["type:drupal-core"],
             "docroot/modules/contrib/{$name}":  ["type:drupal-module"],
