@@ -10,7 +10,17 @@
 
   <!-- Verify that composer json and lock files are in sync. -->
   <target name="validate:composer" description="Validate composer files.">
-    <exec dir="${repo.root}" command="composer validate --no-check-all --ansi" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec dir="${repo.root}" command="composer validate --no-check-all --ansi" logoutput="true" level="${blt.exec_level}" passthru="true" returnProperty="composer.invalid"/>
+    <if>
+      <istrue value="${composer.invalid}"/>
+      <then>
+        <echo level="warning">composer.lock is invalid.</echo>
+        <echo level="warning">If this is simply a matter of the lock file being out of date, you may attempt to use `composer update --lock` to quickly generate a new hash in your lock file.</echo>
+        <echo level="warning">Otherwise, `composer update` is likely necessary.</echo>
+
+        <fail>composer.lock is invalid.</fail>
+      </then>
+    </if>
   </target>
 
   <!-- Run linter against all php files in repository. -->
