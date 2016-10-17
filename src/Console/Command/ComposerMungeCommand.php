@@ -49,8 +49,21 @@ class ComposerMungeCommand extends Command
     ];
     $file1_contents = (array) json_decode(file_get_contents($file1), true) + $default_contents;
     $file2_contents = (array) json_decode(file_get_contents($file2), true) + $default_contents;
-    $output = $this->mergeKeyed($file1_contents, $file2_contents);
-    $output['repositories'] = $this->mergeRepositories((array) $file1_contents['repositories'], (array) $file2_contents['repositories']);
+
+    $exclude_keys = [];
+    if (!empty($file1_contents['extra']['blt']['composer-exclude-merge'])) {
+      $exclude_keys = $file1_contents['extra']['blt']['composer-exclude-merge'];
+    }
+    // Skip merging entirely if '*' is excluded.
+    if ($exclude_keys == '*') {
+      return $file1_contents;
+    }
+
+    $output = $this->mergeKeyed($file1_contents, $file2_contents, $exclude_keys);
+
+    if (empty($exclude_keys['repositories'])) {
+      $output['repositories'] = $this->mergeRepositories((array) $file1_contents['repositories'], (array) $file2_contents['repositories']);
+    }
 
     $output_json = json_encode($output, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES);
 
@@ -65,7 +78,7 @@ class ComposerMungeCommand extends Command
    *
    * @return mixed
    */
-  protected function mergeKeyed($file1_contents, $file2_contents) {
+  protected function mergeKeyed($file1_contents, $file2_contents, $exclude_keys) {
     // Merge keyed arrays objects.
     $merge_keys = [
       'autoload-dev',
@@ -76,12 +89,32 @@ class ComposerMungeCommand extends Command
     ];
     $output = $file1_contents;
     foreach ($merge_keys as $key) {
+
+      // Handle exclusions.
+      if (in_array($key, $exclude_keys)) {
+        $exclude_key = $exclude_keys[$key];
+
+        // Wildcard exclusion.
+        if (is_string($exclude_key) && $exclude_key == '*') {
+          continue;
+        }
+        // This implementation only supports an array depth of 1.
+        elseif (is_array($exclude_key)) {
+          foreach ($exclude_key as $exclude_subkey) {
+            unset($file2_contents[$exclude_key][$exclude_subkey]);
+          }
+        }
+      }
+
+      // Set empty keys to empty placeholder arrays.
       if (!array_key_exists($key, $file1_contents)) {
         $file1_contents[$key] = [];
       }
       if (!array_key_exists($key, $file2_contents)) {
         $file2_contents[$key] = [];
       }
+
+      // Merge!
       $output[$key] = $this->array_merge_recursive_distinct($file1_contents[$key], $file2_contents[$key]);
     }
 
