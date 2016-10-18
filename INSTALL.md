@@ -32,6 +32,7 @@ If you'd like to create a VM with BLT, you will require the following additional
 If you'd like to execute Behat tests from the host machine, you will need Java:
 
         brew cask install java
+        brew install chromedriver
 
 ### Windows
 
