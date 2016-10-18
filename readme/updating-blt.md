@@ -18,15 +18,15 @@ Rarely, you may need to refresh your local environment via `blt local:setup` to 
 
 By default BLT will modify your project's composer.json to conform with the upstream composer.json template. If you'd like to prevent a specific package or key in composer.json from being modified, use the `composer-exclude-merge` option:
 
-    "blt": {
-          "composer-exclude-merge": {
-            "require": [
-              "drupal/core"
-            ],
-            "require-dev": "*"
-          }
-       }
-    }
+      "blt": {
+            "composer-exclude-merge": {
+              "require": [
+                "drupal/core"
+              ],
+              "require-dev": "*"
+            }
+         }
+      }
 
 This would prevent the merging of any upstream updates to the composer.json configuration for drupal/core or require-dev.
 
