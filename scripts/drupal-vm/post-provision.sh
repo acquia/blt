@@ -6,4 +6,4 @@ REPO_ROOT=/var/www/${VAGRANT_MACHINE_NAME}
 cd ${REPO_ROOT}
 
 # Add blt alias to front of .bashrc
-grep -q -F 'blt' ~/.bashrc || (cat ./vendor/acquia/blt/scripts/blt/alias ~/.bashrc > temp && mv temp ~/.bashrc)
+grep -q -F 'blt' /home/vagrant/.bashrc || (cat ./vendor/acquia/blt/scripts/blt/alias /home/vagrant/.bashrc > temp && mv temp /home/vagrant/.bashrc)
