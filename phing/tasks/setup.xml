@@ -185,7 +185,7 @@
 
     <drush command="config-import" assume="yes" alias="${drush.alias}">
       <option name="partial"></option>
-      <param>sync</param>
+      <param>${cm.core.config-dir}</param>
     </drush>
   </target>
 
@@ -227,6 +227,7 @@
     <!-- Import configuration before executing updates, in case any db updates are dependent on new configs to be imported. -->
     <drush command="config-import" assume="yes" alias="${drush.alias}">
       <option name="partial"></option>
+      <param>${cm.core.config-dir}</param>
     </drush>
     <!-- Execute db updates. -->
     <drush command="updb" assume="yes" alias="${drush.alias}">
@@ -235,6 +236,7 @@
     <!-- Import configuration. -->
     <drush command="config-import" assume="yes" alias="${drush.alias}">
       <option name="partial"></option>
+      <param>${cm.core.config-dir}</param>
     </drush>
     <if>
       <isset property="cm.features.bundle"/>
