@@ -9,16 +9,18 @@
   </target>
 
   <target name="doctor" description="Inspects your local blt configuration for possible issues.">
-    <drush command="status" returnProperty="drush.status" haltonerror="false" passthru="false" verbose="false" logoutput="false"/>
+    <drush command="status" returnProperty="drush.return" haltonerror="false" passthru="false" verbose="false" logoutput="false">
+      <option name="include">../vendor/acquia/blt/drush</option>
+    </drush>
     <if>
-      <equals arg1="${drush.status}" arg2="0"/>
+      <equals arg1="${drush.return}" arg2="0"/>
       <then>
         <drush command="blt-doctor" verbose="false"  dir="${docroot}" uri="">
           <option name="include">../vendor/acquia/blt/drush</option>
         </drush>
       </then>
       <else>
-        <drush command="blt-doctor" verbose="false" dir="${docroot}" alias="">
+        <drush command="blt-doctor" verbose="false" dir="${docroot}" alias="" uri="">
           <option name="include">../vendor/acquia/blt/drush</option>
         </drush>
       </else>
@@ -78,7 +80,7 @@
   </target>
 
   <target name="version" description="Display the currently installed version of BLT.">
-      <exec dir="${repo.root}" command="echo 'BLT version:' $(composer info acquia/blt | grep ^versions | awk '{print $4}')" logoutput="true" checkreturn="true" level="${blt.exec_level}" />
+    <exec dir="${repo.root}" command="echo 'BLT version:' $(composer info acquia/blt | grep ^versions | awk '{print $4}')" logoutput="true" checkreturn="true" level="${blt.exec_level}" />
   </target>
 
   <target name="install-alias" description="Installs the BLT alias for command line usage." hidden="true">
