@@ -74,7 +74,7 @@
     ============================================================================
 
       * ${docroot}/.htaccess
-      * ${repo.root}/simplesamlphp/config/config.php
+      * ${repo.root}/simplesamlphp/config/acquia_config.php
       * ${repo.root}/simplesamlphp/config/authsources.php
       * ${repo.root}/simplesamlphp/metadata/saml20-idp-remote.php
 
