@@ -12,7 +12,7 @@
     <echo>Attempting to generate tests/behat/local.yml.</echo>
     <copy file="${repo.root}/tests/behat/example.local.yml" tofile="${repo.root}/tests/behat/local.yml" verbose="true">
       <filterchain>
-        <expandproperties />
+        <expandproperties level="verbose" />
       </filterchain>
     </copy>
 
@@ -121,10 +121,9 @@
     </if>
 
     <echo>Expanding Phing variables in ${docroot}/sites/${multisite.name}/local.drushrc.php.</echo>
-
     <reflexive file="${docroot}/sites/${multisite.name}/local.drushrc.php">
       <filterchain>
-        <expandproperties />
+        <expandproperties level="verbose" />
       </filterchain>
     </reflexive>
 
