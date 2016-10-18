@@ -292,6 +292,10 @@ class DrushTask extends Task {
       $option = new DrushOption();
       $option->setName('verbose');
       $this->options[] = $option;
+      $exec_level = Project::MSG_INFO;
+    }
+    else {
+      $exec_level = Project::MSG_VERBOSE;
     }
 
     foreach ($this->options as $option) {
@@ -304,9 +308,8 @@ class DrushTask extends Task {
       $command[] = $param->getValue();
     }
 
-
     if (!empty($this->dir)) {
-      $this->log("Changing working directory to: $this->dir");
+      $this->log("Changing working directory to: $this->dir", $exec_level);
       $initial_cwd = getcwd();
       chdir($this->dir);
     }
@@ -317,7 +320,7 @@ class DrushTask extends Task {
 
     if ($this->passthru) {
       $command = implode(' ', $command);
-      $this->log("Executing: $command");
+      $this->log("Executing: $command", $exec_level);
       passthru($command, $return);
     }
     else {
@@ -325,7 +328,7 @@ class DrushTask extends Task {
       $command[] = '2>&1';
 
       $command = implode(' ', $command);
-      $this->log("Executing: $command");
+      $this->log("Executing: $command", $exec_level);
       exec($command, $output, $return);
 
       if ($this->logoutput) {
@@ -337,7 +340,7 @@ class DrushTask extends Task {
     }
 
     if (isset($initial_cwd)) {
-      $this->log("Changing working directory back to $initial_cwd.");
+      $this->log("Changing working directory back to $initial_cwd.", $exec_level);
       chdir($initial_cwd);
     }
 
