@@ -1,12 +1,46 @@
 # Change Log
 
-## [Unreleased](https://github.com/acquia/blt/tree/HEAD)
+## [8.5.0](https://github.com/acquia/blt/tree/8.5.0) (2016-10-18)
+[Full Changelog](https://github.com/acquia/blt/compare/8.5.0-beta1...8.5.0)
 
-[Full Changelog](https://github.com/acquia/blt/compare/8.5.0-beta1...HEAD)
+**Implemented enhancements:**
+
+- Defining composer version contraints using carets. [\#587](https://github.com/acquia/blt/pull/587) ([grasmash](https://github.com/grasmash))
+- Temporarily pinning to Lightning 8.1.x-dev. [\#586](https://github.com/acquia/blt/pull/586) ([grasmash](https://github.com/grasmash))
+- Fixing user directory. [\#585](https://github.com/acquia/blt/pull/585) ([grasmash](https://github.com/grasmash))
+- Updating post-provision.sh for Drupal VM. [\#584](https://github.com/acquia/blt/pull/584) ([grasmash](https://github.com/grasmash))
+- Considering "default" as an unset URI in doctor. [\#582](https://github.com/acquia/blt/pull/582) ([grasmash](https://github.com/grasmash))
+- Reducing DrushTask default verbosity. [\#581](https://github.com/acquia/blt/pull/581) ([grasmash](https://github.com/grasmash))
+- Making doctor work with DD/VM/MAMP. [\#580](https://github.com/acquia/blt/pull/580) ([grasmash](https://github.com/grasmash))
+- Tweak simplesaml config. [\#579](https://github.com/acquia/blt/pull/579) ([danepowell](https://github.com/danepowell))
+- Adding more verbose Behat output. [\#577](https://github.com/acquia/blt/pull/577) ([grasmash](https://github.com/grasmash))
+- Fixing composer excludes. [\#576](https://github.com/acquia/blt/pull/576) ([grasmash](https://github.com/grasmash))
+- Improving composer integration UX. [\#574](https://github.com/acquia/blt/pull/574) ([grasmash](https://github.com/grasmash))
+- Fixes \#557: Allow packages to be excluded from BLT templated updates. [\#572](https://github.com/acquia/blt/pull/572) ([grasmash](https://github.com/grasmash))
+- Prompting for re-generation of behat local.yml. [\#571](https://github.com/acquia/blt/pull/571) ([grasmash](https://github.com/grasmash))
+- Ignoring @preview tag in Behat tests \(experimental\). [\#570](https://github.com/acquia/blt/pull/570) ([grasmash](https://github.com/grasmash))
+- Executing lightning tests only on 8.x. [\#569](https://github.com/acquia/blt/pull/569) ([grasmash](https://github.com/grasmash))
+- Default local trusted host settings [\#566](https://github.com/acquia/blt/pull/566) ([jrbeeman](https://github.com/jrbeeman))
+- Change default local settings for visibility of test projects and rebuild access [\#565](https://github.com/acquia/blt/pull/565) ([jrbeeman](https://github.com/jrbeeman))
+- Removing Lightning patch. [\#564](https://github.com/acquia/blt/pull/564) ([grasmash](https://github.com/grasmash))
+- Fixes \#562. Add a version target to the blt phing file to display version info. [\#563](https://github.com/acquia/blt/pull/563) ([gollyg](https://github.com/gollyg))
+- Disabling Selenium tests for Pipelines. [\#556](https://github.com/acquia/blt/pull/556) ([grasmash](https://github.com/grasmash))
 
 **Fixed bugs:**
 
+- Fixing doctor when used with symlinks. [\#575](https://github.com/acquia/blt/pull/575) ([grasmash](https://github.com/grasmash))
 - Cleaned up SimpleSAML\_php integration. [\#555](https://github.com/acquia/blt/pull/555) ([danepowell](https://github.com/danepowell))
+
+**Closed issues:**
+
+- Drupal VM integration broken in latest stable release of DrupalVM [\#568](https://github.com/acquia/blt/issues/568)
+- Add BLT command to show current version [\#562](https://github.com/acquia/blt/issues/562)
+- Doctor doesn't recognize DEVDESKTOP\_DRUPAL\_SETTINGS\_DIR on Dev Desktop [\#559](https://github.com/acquia/blt/issues/559)
+- Allow packages to be excluded from BLT templated updates [\#557](https://github.com/acquia/blt/issues/557)
+
+**Misc merged pull requests**
+
+- Add documentation for installing the chromedriver in OSX. [\#578](https://github.com/acquia/blt/pull/578) ([gollyg](https://github.com/gollyg))
 
 ## [8.5.0-beta1](https://github.com/acquia/blt/tree/8.5.0-beta1) (2016-10-13)
 [Full Changelog](https://github.com/acquia/blt/compare/8.4.9...8.5.0-beta1)
