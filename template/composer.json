@@ -16,7 +16,7 @@
         "drupal/console":                             "1.0.0-beta5",
         "drupal/core":                                "~8",
         "drupal/features":                            "~8.3.0-beta9",
-        "drupal/lightning":                           "~8",
+        "drupal/lightning":                           "8.1.x-dev",
         "drupal/memcache" :                           "8.*",
         "drupal/search_api":                          "8.1.0-alpha14",
         "drupal/search_api_solr":                     "8.1.0-alpha3",
