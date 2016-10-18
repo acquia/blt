@@ -407,7 +407,7 @@ class BltDoctor {
    * @return bool
    */
   protected function checkUri() {
-    if (!$this->uri) {
+    if (!$this->uri || $this->uri == 'default') {
       $this->logOutcome(__FUNCTION__, [
         "Site URI is not set",
         "",
