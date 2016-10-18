@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 set -x
-REPO_ROOT=/var/www/$(hostname -d | cut -d"." -f 1)
+VAGRANT_MACHINE_NAME=$(grep vagrant_machine_name: /vagrant/box/config.yml | cut -d' ' -f 2)
+REPO_ROOT=/var/www/${VAGRANT_MACHINE_NAME}
 cd ${REPO_ROOT}
 
 # Add blt alias to front of .bashrc
