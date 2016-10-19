@@ -1,10 +1,11 @@
 # Change Log
 
-## [8.5.0](https://github.com/acquia/blt/tree/8.5.0) (2016-10-18)
+## [8.5.0](https://github.com/acquia/blt/tree/8.5.0) (2016-10-19)
 [Full Changelog](https://github.com/acquia/blt/compare/8.5.0-beta1...8.5.0)
 
 **Implemented enhancements:**
 
+- Toning down verbosity a bit. [\#588](https://github.com/acquia/blt/pull/588) ([grasmash](https://github.com/grasmash))
 - Defining composer version contraints using carets. [\#587](https://github.com/acquia/blt/pull/587) ([grasmash](https://github.com/grasmash))
 - Temporarily pinning to Lightning 8.1.x-dev. [\#586](https://github.com/acquia/blt/pull/586) ([grasmash](https://github.com/grasmash))
 - Fixing user directory. [\#585](https://github.com/acquia/blt/pull/585) ([grasmash](https://github.com/grasmash))
@@ -28,6 +29,7 @@
 
 **Fixed bugs:**
 
+- Updating composer-patches to latest dev-master commit. [\#590](https://github.com/acquia/blt/pull/590) ([grasmash](https://github.com/grasmash))
 - Fixing doctor when used with symlinks. [\#575](https://github.com/acquia/blt/pull/575) ([grasmash](https://github.com/grasmash))
 - Cleaned up SimpleSAML\_php integration. [\#555](https://github.com/acquia/blt/pull/555) ([danepowell](https://github.com/danepowell))
 
