@@ -14,6 +14,7 @@
     "type": "composer-plugin",
     "license": "GPL-2.0",
     "require": {
+        "composer/installers":              "^1.2.0",
         "composer-plugin-api":              "^1.0.0",
         "dflydev/dot-access-data":          "^1.0",
         "drupal/coder":                     "^8.2.8",

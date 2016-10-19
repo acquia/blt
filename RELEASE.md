@@ -22,6 +22,7 @@ This test verifies that a new project can be created using `acquia/blt-project` 
     # echo '$databases["default"]["default"]["username"] = "drupal";' >> docroot/sites/default/settings/local.settings.php
     # echo '$databases["default"]["default"]["password"] = "drupal";' >> docroot/sites/default/settings/local.settings.php
     blt local:setup
+    cd docroot
     drush uli
     read -p "Press any key to continue"
 
