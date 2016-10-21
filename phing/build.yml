@@ -24,6 +24,7 @@ blt:
   exec_level: verbose
   # If blt.level >= info, this will be changed to true. Affects verbosity of tasks like Drush, Behat.
   verbose: false
+  # Control the maximum level of verbosity that will be printed to screen.
   # From most to least verbose: debug, verbose, info, warn, error.
   # Equivalent of using Phing arguments -debug, -verbose, [none], -quiet, -silent
   # Note that this does not affect passthru output.
