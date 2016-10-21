@@ -156,4 +156,11 @@
       </fileset>
     </delete>
   </target>
+
+  <target name="deploy:update" description="Update current database to reflect the state of the Drupal file system; uses local drush alias.">
+    <phingcall target="setup:update">
+      <property name="drush.alias" value="self"/>
+    </phingcall>
+  </target>
+
 </project>
