@@ -8,7 +8,7 @@ class Updates {
 
   /**
    * @Update(
-   *   version = "8.5.0",
+   *   version = "8.5.1",
    *   description = "Re-initialize VM."
    * )
    */

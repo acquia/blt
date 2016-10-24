@@ -7,7 +7,7 @@
 
 namespace Acquia\Blt\Composer;
 
-use Acquia\Blt\Updater;
+use Acquia\Blt\Update\Updater;
 use Composer\Composer;
 use Composer\DependencyResolver\Operation\InstallOperation;
 use Composer\DependencyResolver\Operation\UninstallOperation;
@@ -134,16 +134,17 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     return NULL;
   }
 
-  protected function executeBltUpdate() {
+  protected function executeBltUpdate($version) {
     $options = $this->getOptions();
     if ($options['blt']['update']) {
       $this->io->write('<info>Updating BLT templated files</info>');
       // Rsyncs, updates composer.json, project.yml.
       $this->executeCommand('blt update');
       $this->io->write('<comment>This may have modified your composer.json and require a subsequent `composer update`</comment>');
-      // Run specific delta updates.
-      $updater = new Updater();
-      $updater->executeUpdates($this->blt_prior_version, $this->bltPackage->getVersion());
+
+      if (isset($this->blt_prior_version)) {
+        $this->executeCommand("blt-console blt:update {$this->blt_prior_version} $version");
+      }
     }
     else {
       $this->io->write('<comment>Skipping update of BLT templated files</comment>');
