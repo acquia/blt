@@ -26,7 +26,8 @@
         "symfony/yaml":                     "^2.8.11",
         "symfony/console":                  "^2.8.11",
         "symfony/twig-bridge":              "^2.8.11",
-        "doctrine/common": "^2.6"
+        "doctrine/common": "^2.6",
+        "vierbergenlars/php-semver": "^3.0"
     },
     "autoload": {
         "psr-4": {

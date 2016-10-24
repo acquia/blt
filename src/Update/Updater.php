@@ -8,6 +8,7 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Annotations\IndexedReader;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Output\ConsoleOutput;
+use vierbergenlars\SemVer\version;
 
 class Updater {
 
@@ -23,6 +24,9 @@ class Updater {
     $this->updateClass = $update_class;
   }
 
+  /**
+   * @param $updates \Acquia\Blt\Annotations\Update[]
+   */
   public function executeUpdates($updates) {
     /**
      * @var string $method_name
@@ -34,6 +38,9 @@ class Updater {
     }
   }
 
+  /**
+   * @param $updates \Acquia\Blt\Annotations\Update[]
+   */
   public function printUpdates($updates) {
     /**
      * @var string $method_name
@@ -54,7 +61,7 @@ class Updater {
     foreach ($update_methods as $method_name => $metadata) {
       $version = $metadata->version;
 
-      if ($version > $starting_version && $version <= $ending_version) {
+      if (version::gt($version, $starting_version) && version::lte($version, $ending_version)) {
         $updates[$method_name] = $metadata;
       }
     }
