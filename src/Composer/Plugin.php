@@ -7,6 +7,7 @@
 
 namespace Acquia\Blt\Composer;
 
+use Acquia\Blt\Updater;
 use Composer\Composer;
 use Composer\DependencyResolver\Operation\InstallOperation;
 use Composer\DependencyResolver\Operation\UninstallOperation;
@@ -49,6 +50,9 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    */
   protected $bltPackage;
 
+  /** @var string */
+  protected $blt_prior_version;
+
   /**
    * Apply plugin modifications to composer
    *
@@ -67,12 +71,25 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    */
   public static function getSubscribedEvents() {
     return array(
+      PackageEvents::PRE_PACKAGE_INSTALL => "onPrePackageEvent",
+      PackageEvents::PRE_PACKAGE_INSTALL => "onPrePackageEvent",
       PackageEvents::POST_PACKAGE_INSTALL => "onPostPackageEvent",
       PackageEvents::POST_PACKAGE_UPDATE => "onPostPackageEvent",
       ScriptEvents::POST_UPDATE_CMD => 'onPostCmdEvent'
     );
   }
 
+  /**
+   * Marks initial blt version before install or update command.
+   *
+   * @param \Composer\Installer\PackageEvent $event
+   */
+  public function onPrePackageEvent(\Composer\Installer\PackageEvent $event){
+    $package = $this->getBltPackage($event->getOperation());
+    if ($package) {
+      $this->blt_prior_version = $package->getVersion();
+    }
+  }
   /**
    * Marks blt to be processed after an install or update command.
    *
@@ -95,7 +112,8 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
   public function onPostCmdEvent(\Composer\Script\Event $event) {
     // Only install the template files if acquia/blt was installed.
     if (isset($this->bltPackage)) {
-      $this->executeBltUpdate();
+      $version = $this->bltPackage->getVersion();
+      $this->executeBltUpdate($version);
     }
   }
 
@@ -120,8 +138,12 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     $options = $this->getOptions();
     if ($options['blt']['update']) {
       $this->io->write('<info>Updating BLT templated files</info>');
+      // Rsyncs, updates composer.json, project.yml.
       $this->executeCommand('blt update');
       $this->io->write('<comment>This may have modified your composer.json and require a subsequent `composer update`</comment>');
+      // Run specific delta updates.
+      $updater = new Updater();
+      $updater->executeUpdates($this->blt_prior_version, $this->bltPackage->getVersion());
     }
     else {
       $this->io->write('<comment>Skipping update of BLT templated files</comment>');
@@ -138,6 +160,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     $filesystem = new Filesystem();
     $filesystem->ensureDirectoryExists($config->get('vendor-dir'));
     $vendorPath = $filesystem->normalizePath(realpath($config->get('vendor-dir')));
+
     return $vendorPath;
   }
 
