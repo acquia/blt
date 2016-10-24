@@ -16,7 +16,7 @@ class UpdateCommand extends Command
   protected function configure()
   {
     $this
-      ->setName('update')
+      ->setName('blt:update')
       ->setDescription('Performs BLT updates for specific version delta.')
       ->addArgument(
         'starting_version',
