@@ -8,10 +8,54 @@
 
   <!-- If you experience 'Maximum function nesting level' errors in your PHP
        error log, set 'xdebug.max_nesting_level=1000' in php.ini. -->
-  <target name="tests:behat" depends="setup:behat, tests:run-server, tests:selenium:launch" description="Executes Behat all behat tests in behat.paths.">
+  <target name="tests:behat" depends="test:behat:check, tests:run-server, tests:selenium:launch" description="Executes Behat all behat tests in behat.paths.">
     <mkdir dir="${reports.localDir}/behat"/>
     <foreach list="${behat.paths}" target="tests:behat:execute" param="behat.path"/>
     <phingcall target="tests:selenium:kill"/>
+  </target>
+
+  <target name="test:behat:check" description="Checks Behat configuration" hidden="true" depends="setup:behat">
+    <property file="${repo.root}/tests/behat/local.yml" prefix="behatConfig"/>
+    <if>
+      <or>
+        <not><available file="${behatConfig.local.extensions.Drupal\DrupalExtension.drupal.drupal_root}"/></not>
+        <not><available file="${behatConfig.local.suites.default.paths.features}"/></not>
+        <not><available file="${behatConfig.local.suites.default.paths.bootstrap}"/></not>
+      </or>
+      <then>
+        <echo></echo>
+        <echo level="warning">One or more values in tests/behat/local.yml reference file paths that do not exist on this system.</echo>
+        <echo level="warning">This is typically related to using a virtual machine.</echo>
+        <echo level="warning"></echo>
+        <echo level="warning">Try one of the following solution:</echo>
+        <echo level="warning">1) Execute the tests on the correct system.</echo>
+        <echo level="warning">2) Correct the value(s).</echo>
+        <echo level="warning">3) Remove tests/behat/local.yml so that it can be regenerated automatically from example.local.yml.</echo>
+        <echo level="warning"></echo>
+        <echo level="warning">Values are:</echo>
+        <echo level="warning">drupal_root: ${behatConfig.local.extensions.Drupal\DrupalExtension.drupal.drupal_root}"</echo>
+        <echo level="warning">features:    ${behatConfig.local.suites.default.paths.features}"</echo>
+        <echo level="warning">bootstrap:   ${behatConfig.local.suites.default.paths.bootstrap}</echo>
+        <echo level="warning"></echo>
+
+        <propertyprompt promptText="Do you want to re-generate Behat configuration? [y/n]" propertyName="behat.regenerate" defaultValue="y"/>
+        <if>
+          <equals arg1="${behat.regenerate}" arg2="y" casesensitive="false"/>
+          <then>
+            <delete file="${repo.root}/tests/behat/local.yml"/>
+            <phingcall target="setup:behat"/>
+          </then>
+          <else>
+            <fail>Cannot execute behat tests because Behat configuration is invalid.</fail>
+          </else>
+        </if>
+      </then>
+    </if>
+
+    <echo>Executing Behat tests with configuratoin:</echo>
+    <echo>drupal_root: ${behatConfig.local.extensions.Drupal\DrupalExtension.drupal.drupal_root}"</echo>
+    <echo>base_url: ${behatConfig.local.extensions.Behat\MinkExtension.base_url}"</echo>
+
   </target>
 
   <target name="tests:behat:execute" description="Executes behat tests against specific path." hidden="true">
@@ -65,6 +109,7 @@
     <if>
       <equals arg1="${behat.launch-selenium}" arg2="true"/>
       <then>
+        <echo>Killing any selenium processes that are already running.</echo>
         <phingcall target="tests:selenium:kill"/>
         <echo message="Launching Selenium standalone server." />
         <touch file="${repo.root}/reports/selenium2.log"/>

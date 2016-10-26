@@ -14,17 +14,18 @@
     "type": "composer-plugin",
     "license": "GPL-2.0",
     "require": {
+        "composer/installers":              "^1.2.0",
+        "composer-plugin-api":              "^1.0.0",
+        "dflydev/dot-access-data":          "^1.0",
+        "drupal/coder":                     "^8.2.8",
         "drupal/console":                   "1.0.0-beta5",
-        "phing/phing":                      "~2",
-        "phpunit/phpunit":                  "~5.4",
-        "squizlabs/php_codesniffer":        "^2.4",
-        "symfony/yaml":                     "~2.7",
-        "drupal/coder":                     "~8.2",
-        "symfony/console":                  "~2",
-        "symfony/twig-bridge": "~2",
-        "php": ">=5.6",
-        "composer-plugin-api": "^1.0.0",
-        "dflydev/dot-access-data": "^1.0"
+        "phing/phing":                      "^2.15.0",
+        "php":                              ">=5.6",
+        "phpunit/phpunit":                  "^5.5.4",
+        "squizlabs/php_codesniffer":        "^2.7",
+        "symfony/yaml":                     "^2.8.11",
+        "symfony/console":                  "^2.8.11",
+        "symfony/twig-bridge":              "^2.8.11"
     },
     "autoload": {
         "psr-4": {

@@ -9,16 +9,18 @@
   </target>
 
   <target name="doctor" description="Inspects your local blt configuration for possible issues.">
-    <drush command="status" returnProperty="drush.status" haltonerror="false" passthru="false" verbose="false"/>
+    <drush command="status" returnProperty="drush.return" haltonerror="false" passthru="false" verbose="false" logoutput="false">
+      <option name="include">../vendor/acquia/blt/drush</option>
+    </drush>
     <if>
-      <equals arg1="${drush.status}" arg2="0"/>
+      <equals arg1="${drush.return}" arg2="0"/>
       <then>
-        <drush command="blt-doctor" verbose="false" uri="" dir="${docroot}">
+        <drush command="blt-doctor" verbose="false"  dir="${docroot}" uri="">
           <option name="include">../vendor/acquia/blt/drush</option>
         </drush>
       </then>
       <else>
-        <drush command="blt-doctor" verbose="false" uri="" dir="${docroot}" alias="">
+        <drush command="blt-doctor" verbose="false" dir="${docroot}" alias="" uri="">
           <option name="include">../vendor/acquia/blt/drush</option>
         </drush>
       </else>
@@ -51,10 +53,14 @@
     <!--@todo Output different message if composer.json does not exist.-->
     <echo>Merging BLT's composer.json template with your project's composer.json.</echo>
     <echo>This MAY overwrite some existing values.</echo>
-    <!--Values in the project's existing composer.json file will be overwritten.-->
-    <exec dir="${repo.root}" command="${repo.root}/vendor/bin/blt-console composer:munge ${repo.root}/composer.json ${blt.root}/template/composer.json > ${repo.root}/composer.json.tmp" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
-    <!--@todo Find out why can't we just redirect output directly back to composer.json. -->
-    <exec dir="${repo.root}" command="mv ${repo.root}/composer.json.tmp ${repo.root}/composer.json" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec dir="${repo.root}" command="${repo.root}/vendor/bin/blt-console composer:munge ${repo.root}/composer.json ${blt.root}/template/composer.json > ${repo.root}/composer.json.tmp" logoutput="true" checkreturn="true" level="${blt.exec_level}" returnProperty="composer.munge.return"/>
+    <if>
+      <equals arg1="${composer.munge.return}" arg2="0"/>
+      <then>
+        <!--@todo Find out why can't we just redirect output directly back to composer.json. -->
+        <exec dir="${repo.root}" command="mv ${repo.root}/composer.json.tmp ${repo.root}/composer.json" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+      </then>
+    </if>
     <echo>If your composer.json was modified, you need to run "composer update".</echo>
   </target>
 
@@ -71,6 +77,10 @@
 
   <target name="cleanup" description="Removes deprecated BLT files and directories.">
     <exec dir="${repo.root}" command="${blt.root}/scripts/blt/remove-deprecated.sh" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true" />
+  </target>
+
+  <target name="version" description="Display the currently installed version of BLT.">
+    <exec dir="${repo.root}" command="echo 'BLT version:' $(composer info acquia/blt | grep ^versions | awk '{print $4}')" logoutput="true" checkreturn="true" level="${blt.exec_level}" />
   </target>
 
   <target name="install-alias" description="Installs the BLT alias for command line usage." hidden="true">

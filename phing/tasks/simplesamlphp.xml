@@ -13,7 +13,7 @@
 
         <!-- Sets a value in project.yml to let other targets know simplesamlphp is installed -->
         <echo>Updating project.yml.</echo>
-        <exec dir="${repo.root}" command="drupal yaml:update:value project.yml simplesamlphp true" logoutput="true" checkreturn="true" passthru="true" level="${blt.exec_level}"/>
+        <exec dir="${repo.root}" command="${composer.bin}/drupal yaml:update:value project.yml simplesamlphp true" logoutput="true" checkreturn="true" passthru="true" level="${blt.exec_level}"/>
 
         <!-- Creates a symlink from the docroot to the web accessible library dir. -->
         <echo>Creating a symbolic link from ${docroot}/simplesaml to web accessible directory in the simplesamlphp library</echo>
@@ -41,13 +41,7 @@
       <filelist dir="${repo.root}/vendor/simplesamlphp/simplesamlphp/config-templates" files="authsources.php, config.php"/>
     </copy>
     <exec dir="${repo.root}/simplesamlphp/config" command="curl https://gist.githubusercontent.com/acquialibrary/8059715/raw/a6dc376bfb5068a2c7fe01be315d13bd47d4c10b/9191_config.php > acquia_config.php" passthru="true"/>
-    <append destFile="${repo.root}/simplesamlphp/config/config.php" file="${repo.root}/simplesamlphp/config/acquia_config.php">
-      <filterchain>
-        <replaceregexp>
-          <regexp pattern=".*php\n" replace="" ignoreCase="true"/>
-        </replaceregexp>
-      </filterchain>
-    </append>
+    <append destFile="${repo.root}/simplesamlphp/config/config.php" text="include 'acquia_config.php';"/>
     <echo>Copying config files to ${repo.root}/simplesamlphp/metadata.</echo>
     <copy todir="${repo.root}/simplesamlphp/metadata" file="${repo.root}/vendor/simplesamlphp/simplesamlphp/metadata-templates/saml20-idp-remote.php" overwrite="false"/>
   </target>
@@ -80,7 +74,7 @@
     ============================================================================
 
       * ${docroot}/.htaccess
-      * ${repo.root}/simplesamlphp/config/config.php
+      * ${repo.root}/simplesamlphp/config/acquia_config.php
       * ${repo.root}/simplesamlphp/config/authsources.php
       * ${repo.root}/simplesamlphp/metadata/saml20-idp-remote.php
 

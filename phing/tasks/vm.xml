@@ -41,8 +41,6 @@
   </target>
 
   <target name="vm:project:init" description="Initializes Drupal VM for this project." hidden="true">
-    <echo>BLT support for Drupal VM is EXPERIMENTAL. Not all BLT features currently work with Drupal VM. </echo>
-    <echo></echo>
     <echo>Creating a drush alias for the new VM.</echo>
     <exec dir="${repo.root}" command="cat ${blt.root}/scripts/drupal-vm/drupal-vm.aliases.drushrc.php >> ${repo.root}/drush/site-aliases/aliases.drushrc.php" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
     <reflexive>

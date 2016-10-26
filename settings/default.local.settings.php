@@ -95,7 +95,7 @@ $config['system.performance']['js']['preprocess'] = FALSE;
  * During development it can be useful to install test extensions for debugging
  * purposes.
  */
-$settings['extension_discovery_scan_tests'] = TRUE;
+$settings['extension_discovery_scan_tests'] = FALSE;
 
 /**
  * Enable access to rebuild.php.
@@ -105,7 +105,7 @@ $settings['extension_discovery_scan_tests'] = TRUE;
  * be gained by generating a query string from rebuild_token_calculator.sh and
  * using these parameters in a request to rebuild.php.
  */
-$settings['rebuild_access'] = TRUE;
+$settings['rebuild_access'] = FALSE;
 
 /**
  * Temporary file path:
@@ -124,3 +124,12 @@ $config['system.file']['path']['temporary'] = '/tmp';
  * Private file path.
  */
 $settings['file_private_path'] = $dir . '/files-private';
+
+/**
+ * Trusted host configuration.
+ *
+ * See full description in default.settings.php.
+ */
+# $settings['trusted_host_patterns'] = array(
+#   '^example\.local$',
+# );

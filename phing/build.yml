@@ -12,9 +12,9 @@ behat:
   # An array of paths with behat tests that should be executed.
   paths:
     # - ${docroot}/modules
-    - ${docroot}/profiles
+    # - ${docroot}/profiles
     - ${repo.root}/tests/behat
-  tags: '~ajax'
+  tags: '~ajax&&~experimental&&~preview'
   verbose: ${blt.verbose}
 
 blt:
@@ -24,6 +24,7 @@ blt:
   exec_level: verbose
   # If blt.level >= info, this will be changed to true. Affects verbosity of tasks like Drush, Behat.
   verbose: false
+  # Control the maximum level of verbosity that will be printed to screen.
   # From most to least verbose: debug, verbose, info, warn, error.
   # Equivalent of using Phing arguments -debug, -verbose, [none], -quiet, -silent
   # Note that this does not affect passthru output.
@@ -56,6 +57,7 @@ drush:
   uri: ${multisite.name}
   assume: yes
   passthru: yes
+  logoutput: yes
   verbose: ${blt.verbose}
 
 multisite:
