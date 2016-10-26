@@ -32,6 +32,9 @@
   <target name="simplesamlphp:lib:init" hidden="true" unless="simplesamlphp">
     <echo>Adding SimpleSAMLphp Auth module as a dependency.</echo>
     <exec dir="${repo.root}" command="composer require drupal/simplesamlphp_auth:8.3.x-dev#283994f" logoutput="true" checkreturn="true" passthru="true" level="${blt.exec_level}"/>
+    <exec dir="${repo.root}" command="${repo.root}/vendor/bin/blt-console composer:munge ${blt.root}/scripts/simplesamlphp/htaccess-saml.json ${repo.root}/composer.json > ${repo.root}/composer.json.tmp" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
+    <!--@todo Find out why can't we just redirect output directly back to composer.json. -->
+    <exec dir="${repo.root}" command="mv ${repo.root}/composer.json.tmp ${repo.root}/composer.json" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
   </target>
 
   <!-- Copies the configuration templates from the library to a simplesamlphp directory located in the project root. -->
@@ -73,7 +76,6 @@
       To complete the setup you must manually modify several files.
     ============================================================================
 
-      * ${docroot}/.htaccess
       * ${repo.root}/simplesamlphp/config/acquia_config.php
       * ${repo.root}/simplesamlphp/config/authsources.php
       * ${repo.root}/simplesamlphp/metadata/saml20-idp-remote.php
