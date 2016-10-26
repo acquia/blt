@@ -5,4 +5,4 @@ BIN=$(cd ${SCRIPT_DIR}/../../bin && pwd)
 PHING=${BIN}/phing
 
 # This script simply passes all arguments to Phing.
-${PHING} -f ${SCRIPT_DIR}/phing/build.xml "$@"
+"${PHING}" -f "${SCRIPT_DIR}/phing/build.xml" "$@"

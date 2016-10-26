@@ -8,10 +8,54 @@
 
   <!-- If you experience 'Maximum function nesting level' errors in your PHP
        error log, set 'xdebug.max_nesting_level=1000' in php.ini. -->
-  <target name="tests:behat" depends="setup:behat, tests:run-server, tests:phantomjs:launch" description="Executes Behat all behat tests in behat.paths.">
+  <target name="tests:behat" depends="test:behat:check, tests:run-server, tests:selenium:launch" description="Executes Behat all behat tests in behat.paths.">
     <mkdir dir="${reports.localDir}/behat"/>
     <foreach list="${behat.paths}" target="tests:behat:execute" param="behat.path"/>
-    <phingcall target="tests:phantomjs:kill"/>
+    <phingcall target="tests:selenium:kill"/>
+  </target>
+
+  <target name="test:behat:check" description="Checks Behat configuration" hidden="true" depends="setup:behat">
+    <property file="${repo.root}/tests/behat/local.yml" prefix="behatConfig"/>
+    <if>
+      <or>
+        <not><available file="${behatConfig.local.extensions.Drupal\DrupalExtension.drupal.drupal_root}"/></not>
+        <not><available file="${behatConfig.local.suites.default.paths.features}"/></not>
+        <not><available file="${behatConfig.local.suites.default.paths.bootstrap}"/></not>
+      </or>
+      <then>
+        <echo></echo>
+        <echo level="warning">One or more values in tests/behat/local.yml reference file paths that do not exist on this system.</echo>
+        <echo level="warning">This is typically related to using a virtual machine.</echo>
+        <echo level="warning"></echo>
+        <echo level="warning">Try one of the following solution:</echo>
+        <echo level="warning">1) Execute the tests on the correct system.</echo>
+        <echo level="warning">2) Correct the value(s).</echo>
+        <echo level="warning">3) Remove tests/behat/local.yml so that it can be regenerated automatically from example.local.yml.</echo>
+        <echo level="warning"></echo>
+        <echo level="warning">Values are:</echo>
+        <echo level="warning">drupal_root: ${behatConfig.local.extensions.Drupal\DrupalExtension.drupal.drupal_root}"</echo>
+        <echo level="warning">features:    ${behatConfig.local.suites.default.paths.features}"</echo>
+        <echo level="warning">bootstrap:   ${behatConfig.local.suites.default.paths.bootstrap}</echo>
+        <echo level="warning"></echo>
+
+        <propertyprompt promptText="Do you want to re-generate Behat configuration? [y/n]" propertyName="behat.regenerate" defaultValue="y"/>
+        <if>
+          <equals arg1="${behat.regenerate}" arg2="y" casesensitive="false"/>
+          <then>
+            <delete file="${repo.root}/tests/behat/local.yml"/>
+            <phingcall target="setup:behat"/>
+          </then>
+          <else>
+            <fail>Cannot execute behat tests because Behat configuration is invalid.</fail>
+          </else>
+        </if>
+      </then>
+    </if>
+
+    <echo>Executing Behat tests with configuratoin:</echo>
+    <echo>drupal_root: ${behatConfig.local.extensions.Drupal\DrupalExtension.drupal.drupal_root}"</echo>
+    <echo>base_url: ${behatConfig.local.extensions.Behat\MinkExtension.base_url}"</echo>
+
   </target>
 
   <target name="tests:behat:execute" description="Executes behat tests against specific path." hidden="true">
@@ -20,7 +64,7 @@
     <if>
       <not><contains string="${behat.path}" substring=".feature"/></not>
       <then>
-        <exec command="find ${behat.path} -name *.feature -print -quit" logoutput="true" outputProperty="behat.tests.found"/>
+        <exec command="find ${behat.path} -name *.feature -print -quit" logoutput="true" outputProperty="behat.tests.found" level="${blt.exec_level}"/>
       </then>
     </if>
 
@@ -31,9 +75,9 @@
         <behat executable="${composer.bin}/behat"
                config="${behat.config}"
                profile="${behat.profile}"
-               verbose="true"
-               strict="true"
-               haltonerror="false"
+               verbose="${behat.verbose}"
+               strict="${behat.strict}"
+               haltonerror="${behat.haltonerror}"
                returnProperty="behatPass"
                out="std,${reports.localDir}"
                format="pretty,junit"
@@ -44,7 +88,7 @@
           <!-- A non-zero returns status indicates failure. -->
           <not><equals arg1="${behatPass}" arg2="0"/></not>
           <then>
-            <phingcall target="tests:phantomjs:kill"/>
+            <phingcall target="tests:selenium:kill"/>
             <fail message="One ore more Behat tests failed." />
           </then>
           <else>
@@ -58,30 +102,50 @@
     </if>
   </target>
 
-  <target name="tests:phantomjs:launch"
-          description="Launches a GhostDriver."
+  <target name="tests:selenium:launch"
+          description="Launches Selenium standalone server."
           hidden="true">
 
     <if>
-      <equals arg1="${behat.launch-phantom}" arg2="true"/>
+      <equals arg1="${behat.launch-selenium}" arg2="true"/>
       <then>
-        <echo message="Launching PhantomJS GhostDriver." />
-        <exec command="${composer.bin}/phantomjs --webdriver=4444"
+        <echo>Killing any selenium processes that are already running.</echo>
+        <phingcall target="tests:selenium:kill"/>
+        <echo message="Launching Selenium standalone server." />
+        <touch file="${repo.root}/reports/selenium2.log"/>
+        <property name="reports.selenium2" value="${reports.localDir}/selenium2.log"/>
+        <exec command="${composer.bin}/selenium-server-standalone -port 4444 -log ${reports.selenium2}"
+              dir="${repo.root}"
               passthru="true"
               spawn="true"
               checkreturn="true"
-              level="info"/>
-        <echo message="Waiting 10 seconds for PhantomJS (http://127.0.0.1:4444) to become available."/>
-        <waitfor maxwait="10" maxwaitunit="second" checkevery="1" checkeveryunit="second">
-          <http url="http://127.0.0.1:4444"/>
+              level="${blt.exec_level}"
+              logoutput="false"/>
+        <echo>Selenium2 logs are being written to ${reports.selenium2}.</echo>
+        <echo message="Waiting 10 seconds for Selenium standalone server (http://127.0.0.1:4444) to become available."/>
+        <waitfor maxwait="10" maxwaitunit="second" checkevery="1" checkeveryunit="second" timeoutproperty="selenium.timedout">
+          <http url="http://127.0.0.1:4444/wd/hub"/>
         </waitfor>
+
+        <if>
+          <equals arg1="${selenium.timedout}" arg2="true"/>
+          <then>
+            <fail>
+              Unable to start Selenium2 standalone server on http://127.0.0.1:4444/wd/hub.
+            </fail>
+          </then>
+        </if>
       </then>
+      <else>
+        <echo>Not starting Selenium2 standalone server. Hope that you have something else setup!</echo>
+      </else>
     </if>
   </target>
 
-  <target name="tests:phantomjs:kill"
-          description="Launches a GhostDriver." hidden="true">
-    <exec command="pgrep phantomjs | xargs kill" logoutput="true" level="info" passthru="true" />
+  <target name="tests:selenium:kill"
+          description="Kills Selenium standalone server process and any process running on port 4444." hidden="true">
+    <exec command="lsof -ti tcp:4444 | xargs kill" logoutput="false" level="${blt.exec_level}" passthru="false" checkreturn="false" />
+    <exec command="pgrep selenium | xargs kill" logoutput="false" level="${blt.exec_level}" passthru="false" checkreturn="false" />
   </target>
 
   <!-- Execute PHPUnit tests. -->
@@ -146,8 +210,8 @@
       <then>
         <echo message="Using 'drush runserver' for tests." />
         <echo message="Running server at ${behat.server-url}"/>
-        <exec command="pkill -f runserver" logoutput="true" level="info" passthru="true"/>
-        <exec executable="${drush.bin}" dir="${docroot}" spawn="true" level="info">
+        <exec command="pkill -f runserver" logoutput="true" level="${blt.exec_level}" passthru="true"/>
+        <exec executable="${drush.bin}" dir="${docroot}" spawn="true" level="${blt.exec_level}">
           <arg line="runserver ${behat.server-url} -l ${multisite.name}"/>
         </exec>
         <echo message="Waiting 10 seconds for ${behat.server-url} to become available."/>
@@ -166,7 +230,7 @@
           description="Check local Drupal installation for security updates.">
     <exec dir="${docroot}"
           command="! ${drush.cmd} -n ups --check-disabled --security-only 2>/dev/null | grep 'SECURITY UPDATE'"
-          checkreturn="true" level="info"
+          checkreturn="true" level="${blt.exec_level}"
           logoutput="true"
           returnProperty="securityPass"
           passthru="true"/>

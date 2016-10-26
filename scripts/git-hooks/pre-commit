@@ -13,4 +13,8 @@ if [ ! -f $PHPCS_BIN ];
 fi
 
 ${ROOT_DIR}/vendor/bin/blt validate:phpcs:files -Dfiles="$LIST" -q
-exit 0;
+
+# Return the status of the phing task. Any target executed should throw a build exception to prevent
+# code from being committed during the precommit. The hooks can be skipped by adding `--no-verify` to
+# a commit.
+exit $?

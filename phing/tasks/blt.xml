@@ -1,26 +1,39 @@
 <project name="blt" default="update">
   <target name="create-project" hidden="true">
-    <exec dir="${repo.root}" command="git init" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <exec dir="${repo.root}" command="git init" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <echo>Updating composer dependencies, this make take a while...</echo>
-    <exec dir="${repo.root}" command="export COMPOSER_PROCESS_TIMEOUT=600; composer update --no-interaction" logoutput="true" checkreturn="true" level="info" passthru="true"/>
-    <exec dir="${repo.root}" command="git add -A" logoutput="true" checkreturn="true" level="info" passthru="true"/>
-    <exec dir="${repo.root}" command="git commit -m 'Initial commit.'" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <exec dir="${repo.root}" command="export COMPOSER_PROCESS_TIMEOUT=600; composer update --no-interaction" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec dir="${repo.root}" command="git add -A" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec dir="${repo.root}" command="git commit -m 'Initial commit.'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <exec dir="${repo.root}" command="cat ${blt.root}/scripts/blt/ascii-art.txt" logoutput="true" passthru="true" checkreturn="false"/>
   </target>
 
   <target name="doctor" description="Inspects your local blt configuration for possible issues.">
-    <drush command="blt-doctor" verbose="false" uri="" dir="${docroot}">
+    <drush command="status" returnProperty="drush.return" haltonerror="false" passthru="false" verbose="false" logoutput="false">
       <option name="include">../vendor/acquia/blt/drush</option>
     </drush>
+    <if>
+      <equals arg1="${drush.return}" arg2="0"/>
+      <then>
+        <drush command="blt-doctor" verbose="false"  dir="${docroot}" uri="">
+          <option name="include">../vendor/acquia/blt/drush</option>
+        </drush>
+      </then>
+      <else>
+        <drush command="blt-doctor" verbose="false" dir="${docroot}" alias="" uri="">
+          <option name="include">../vendor/acquia/blt/drush</option>
+        </drush>
+      </else>
+    </if>
   </target>
 
   <target name="blt:rsync-template" hidden="true">
     <echo>Copying files from BLT's template into your project.</echo>
     <!-- @todo Do not overwrite structured or executable files. Instead, update them intelligently settings.php, drush.wrapper etc. -->
-    <exec dir="${repo.root}" command="rsync -a --no-g ${blt.root}/template/ ${repo.root}/ --exclude-from=${blt.update.ignore-existing-file}" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <exec dir="${repo.root}" command="rsync -a --no-g ${blt.root}/template/ ${repo.root}/ --exclude-from=${blt.update.ignore-existing-file}" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
 
     <!--Rsync files without overwriting existing-->
-    <exec dir="${repo.root}" command="rsync -a --no-g ${blt.root}/template/ ${repo.root}/ --include-from=${blt.update.ignore-existing-file} --ignore-existing" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <exec dir="${repo.root}" command="rsync -a --no-g ${blt.root}/template/ ${repo.root}/ --include-from=${blt.update.ignore-existing-file} --ignore-existing" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
   </target>
 
   <target name="update" depends="blt:rsync-template, blt:update-composer, blt:update-yml, setup:drupal:settings" hidden="true">
@@ -40,10 +53,14 @@
     <!--@todo Output different message if composer.json does not exist.-->
     <echo>Merging BLT's composer.json template with your project's composer.json.</echo>
     <echo>This MAY overwrite some existing values.</echo>
-    <!--Values in the project's existing composer.json file will be overwritten.-->
-    <exec dir="${repo.root}" command="${repo.root}/vendor/bin/blt-console composer:munge ${repo.root}/composer.json ${blt.root}/template/composer.json > ${repo.root}/composer.json.tmp" logoutput="true" checkreturn="true" level="info"/>
-    <!--@todo Find out why can't we just redirect output directly back to composer.json. -->
-    <exec dir="${repo.root}" command="mv ${repo.root}/composer.json.tmp ${repo.root}/composer.json" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <exec dir="${repo.root}" command="${repo.root}/vendor/bin/blt-console composer:munge ${repo.root}/composer.json ${blt.root}/template/composer.json > ${repo.root}/composer.json.tmp" logoutput="true" checkreturn="true" level="${blt.exec_level}" returnProperty="composer.munge.return"/>
+    <if>
+      <equals arg1="${composer.munge.return}" arg2="0"/>
+      <then>
+        <!--@todo Find out why can't we just redirect output directly back to composer.json. -->
+        <exec dir="${repo.root}" command="mv ${repo.root}/composer.json.tmp ${repo.root}/composer.json" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+      </then>
+    </if>
     <echo>If your composer.json was modified, you need to run "composer update".</echo>
   </target>
 
@@ -52,14 +69,18 @@
     <echo>Merging BLT's project.yml template with your project's project.yml.</echo>
     <echo>This WILL NOT overwrite existing values.</echo>
     <!--Values in the project's existing project.yml file will be preserved and not overridden.-->
-    <exec dir="${repo.root}" command="${repo.root}/vendor/bin/blt-console yaml:munge ${blt.root}/template/project.yml ${repo.root}/project.yml > ${repo.root}/project.yml.tmp" logoutput="true" checkreturn="true" level="info"/>
+    <exec dir="${repo.root}" command="${repo.root}/vendor/bin/blt-console yaml:munge ${blt.root}/template/project.yml ${repo.root}/project.yml > ${repo.root}/project.yml.tmp" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
     <!--@todo Find out why can't we just redirect output directly back to project.yml. -->
-    <exec dir="${repo.root}" command="mv ${repo.root}/project.yml.tmp ${repo.root}/project.yml" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <exec dir="${repo.root}" command="mv ${repo.root}/project.yml.tmp ${repo.root}/project.yml" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <echo>project.yml has been modified.</echo>
   </target>
 
   <target name="cleanup" description="Removes deprecated BLT files and directories.">
-    <exec dir="${repo.root}" command="${blt.root}/scripts/blt/remove-deprecated.sh" logoutput="true" checkreturn="true" level="info" passthru="true" />
+    <exec dir="${repo.root}" command="${blt.root}/scripts/blt/remove-deprecated.sh" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true" />
+  </target>
+
+  <target name="version" description="Display the currently installed version of BLT.">
+    <exec dir="${repo.root}" command="echo 'BLT version:' $(composer info acquia/blt | grep ^versions | awk '{print $4}')" logoutput="true" checkreturn="true" level="${blt.exec_level}" />
   </target>
 
   <target name="install-alias" description="Installs the BLT alias for command line usage." hidden="true">
@@ -69,10 +90,10 @@
         <if>
           <equals arg1="${create_alias}" arg2="true"/>
           <then>
-            <exec dir="${blt.root}/scripts/blt" command="./install-alias.sh -y" logoutput="true" level="info" passthru="true"/>
+            <exec dir="${blt.root}/scripts/blt" command="./install-alias.sh -y" logoutput="true" level="${blt.exec_level}" passthru="true"/>
           </then>
           <else>
-            <exec dir="${blt.root}/scripts/blt" command="./install-alias.sh" logoutput="true" level="info" passthru="true"/>
+            <exec dir="${blt.root}/scripts/blt" command="./install-alias.sh" logoutput="true" level="${blt.exec_level}" passthru="true"/>
           </else>
         </if>
       </then>

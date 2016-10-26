@@ -6,6 +6,7 @@
   <taskdef name="randomstring" classname="phingcludes.RandomStringTask" />
   <taskdef name="disabletargets" classname="phingcludes.DisableTargetsTask" />
   <taskdef name="filterFileListByFileSet" classname="phingcludes.FilterFileListByFileSetTask"/>
+  <taskdef name="verbosityTask" classname="phingcludes.VerbosityTask"/>
   <taskdef name="phpVariable" classname="phingcludes.PhpVariableTask"/>
 
   <if>
@@ -14,6 +15,9 @@
       <echo level="warning">You are running BLT with xdebug enabled. This has a major impact on runtime performance.</echo>
     </then>
   </if>
+
+  <!--Increase PHP memory limit. -->
+  <php expression="ini_set('memory_limit', '1G');" level="verbose" />
 
   <!--@todo Warn if Windows is being used.-->
 
@@ -91,7 +95,7 @@
           <available file="${target-hooks.${hook-name}.dir}" type="dir" property="dirExists" />
           <then>
             <echo>Executing command in ${target-hooks.${hook-name}.dir}:</echo>
-            <exec dir="${target-hooks.${hook-name}.dir}" command="${target-hooks.${hook-name}.command}" logoutput="true" checkreturn="true" level="info" passthru="true" />
+            <exec dir="${target-hooks.${hook-name}.dir}" command="${target-hooks.${hook-name}.command}" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true" />
           </then>
           <else>
             <fail>The directory ${target-hooks.${hook-name}.dir} does not exist. Will not run command for ${hook-name}.</fail>

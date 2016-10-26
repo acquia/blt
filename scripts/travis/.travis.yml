@@ -1,9 +1,13 @@
 # Note that the example .travis.yml file for child projects lives in /install.
-sudo: false
+sudo: required
 language: php
+dist: trusty
 
 php:
   - 5.6
+
+matrix:
+  fast_finish: true
 
 cache:
   bundler: true
@@ -21,6 +25,11 @@ cache:
 addons:
   ssh_known_hosts:
   # - svn-4786.devcloud.hosting.acquia.com
+  apt:
+    packages:
+    - mysql-server-5.6
+    - mysql-client-core-5.6
+    - mysql-client-5.6
 
 # @see https://docs.travis-ci.com/user/notifications
 notifications:
@@ -39,18 +48,24 @@ before_install:
   - echo "always_populate_raw_post_data = -1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - git config --global user.name "Travis-CI"
   - git config --global user.email "noreply@travis-ci.org"
-  - mysql -e 'CREATE DATABASE drupal;'
+  - mysql -u root -e 'CREATE DATABASE drupal;'
 
 install:
   # Load composer dependencies.
   - composer validate --no-check-all --ansi
   - composer install
   - export PATH=$TRAVIS_BUILD_DIR/vendor/bin:$PATH
-  # Initialize drupal console default configuration.
-  - drupal init
   # Install proper version of node for front end tasks.
   - nvm install 4.4.1
   - nvm use 4.4.1
+  # Initialize drupal console default configuration.
+  - drupal init
+  # Initialize xvfb (see https://docs.travis-ci.com/user/gui-and-headless-browsers)
+  - sudo apt-get install xvfb
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  # Installs chromedriver to vendor/bin.
+  - ./vendor/acquia/blt/scripts/linux/install-chrome.sh $TRAVIS_BUILD_DIR/vendor/bin
 
 before_script:
   # Clear drush release history cache, to pick up new releases.
@@ -69,10 +84,4 @@ deploy:
      skip_cleanup: true
      on:
        branch: master
-   #  Uncomment the following section to perform deployments on more than one branch.
-   #  This pattern be repeated for multiple integration branches.
-#   - provider: script
-#     script: blt deploy -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="${TRAVIS_BRANCH}-build"
-#     skip_cleanup: true
-#     on:
-#       branch: integration
+       php: 5.6

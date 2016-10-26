@@ -8,54 +8,13 @@
   </target>
 
   <target name="setup:behat" description="Generates tests/behat/local.yml file for executing Behat tests locally.">
+    <mkdir dir="${reports.localDir}/behat"/>
     <echo>Attempting to generate tests/behat/local.yml.</echo>
     <copy file="${repo.root}/tests/behat/example.local.yml" tofile="${repo.root}/tests/behat/local.yml" verbose="true">
       <filterchain>
-        <expandproperties />
+        <expandproperties level="verbose" />
       </filterchain>
     </copy>
-
-    <exec dir="${repo.root}" command="php -r 'require &quot;./vendor/jakoch/phantomjs-installer/src/PhantomInstaller/PhantomBinary.php&quot;; $pb = new \PhantomInstaller\PhantomBinary(); echo $pb->getBin();'" checkreturn="false" returnProperty="phantomjs.missing" outputProperty="phantomjs.bin"/>
-    <if>
-      <or>
-        <istrue value="${phantomjs.missing}"/>
-        <not><available file="${composer.bin}/phantomjs"/></not>
-        <not><available file="${phantomjs.bin}"/></not>
-      </or>
-      <then>
-        <exec dir="${repo.root}" command="composer install-phantom" checkreturn="true" logoutput="true" passthru="true" level="info"/>
-      </then>
-      <else>
-        <echo>Found PhantomJS at ${phantomjs.bin}</echo>
-      </else>
-    </if>
-
-    <property file="${repo.root}/tests/behat/local.yml" prefix="behatConfig"/>
-    <if>
-      <or>
-        <not><available file="${behatConfig.local.extensions.Drupal\DrupalExtension.drupal.drupal_root}"/></not>
-        <not><available file="${behatConfig.local.suites.default.paths.features}"/></not>
-        <not><available file="${behatConfig.local.suites.default.paths.bootstrap}"/></not>
-      </or>
-      <then>
-        <!--@todo Prompt to re-generate local.yml.-->
-        <echo></echo>
-        <echo level="error">One or more values in tests/behat/local.yml reference file paths that do not exist on this system.</echo>
-        <echo level="error">This is typically related to using a virtual machine.</echo>
-        <echo level="error"></echo>
-        <echo level="error">Try one of the following solution:</echo>
-        <echo level="error">1) Execute the tests on the correct system.</echo>
-        <echo level="error">2) Correct the value(s).</echo>
-        <echo level="error">3) Remove tests/behat/local.yml so that it can be regenerated automatically from example.local.yml.</echo>
-        <echo level="error"></echo>
-        <echo level="error">Values are:</echo>
-        <echo level="error">drupal_root: ${behatConfig.local.extensions.Drupal\DrupalExtension.drupal.drupal_root}"</echo>
-        <echo level="error">features:    ${behatConfig.local.suites.default.paths.features}"</echo>
-        <echo level="error">bootstrap:   ${behatConfig.local.suites.default.paths.bootstrap}</echo>
-        <echo level="error"></echo>
-        <fail>Your Behat configuration is invalid.</fail>
-      </then>
-    </if>
 
   </target>
 
@@ -63,7 +22,6 @@
   <target name="setup:build" description="Generates all required files for a full build. E.g., (re)builds docroot, etc."
           depends="setup:git-hooks, setup:drupal:settings, setup:behat, setup:composer:install, frontend">
 
-    <available property="simplesamlphp" file="${blt.root}/settings/simplesamlphp.settings.php"/>
     <if>
       <equals arg1="${simplesamlphp}" arg2="true"/>
         <then>
@@ -90,11 +48,12 @@
         <include name="vendor"/>
       </fileset>
     </delete>
-    <exec dir="${repo.root}" command="composer clear-cache" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <exec dir="${repo.root}" command="composer clear-cache" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
   </target>
 
   <target name="setup:composer:install" description="Installs project dependencies, including drupal core and contrib.">
-    <exec dir="${repo.root}" command="export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --ansi --no-interaction" logoutput="true" checkreturn="true" level="info" passthru="true" />
+    <!-- Prefer distributions locally so that the downloaded archives are cached. -->
+    <exec dir="${repo.root}" command="export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --ansi --no-interaction --prefer-dist" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true" />
   </target>
 
   <!-- We intentionally do not run setup:behat because we'd like to delay setting values in local.yml until just before they are run. -->
@@ -116,7 +75,7 @@
     <echo>Making ${docroot}/sites/default/settings.php writable.</echo>
     <chmod mode="0644" failonerror="false" file="${docroot}/sites/default/settings.php"/>
     <echo>Ensuring that blt.settings.php is required by settings.php</echo>
-    <exec dir="${docroot}/sites/default" command="grep vendor/acquia/blt/settings/blt.settings.php settings.php || echo 'require DRUPAL_ROOT . &quot;/../vendor/acquia/blt/settings/blt.settings.php&quot;;' >> settings.php" logoutput="true" checkreturn="true" level="info"/>
+    <exec dir="${docroot}/sites/default" command="grep vendor/acquia/blt/settings/blt.settings.php settings.php || echo 'require DRUPAL_ROOT . &quot;/../vendor/acquia/blt/settings/blt.settings.php&quot;;' >> settings.php" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
 
     <echo>Generating local settings files.</echo>
 
@@ -162,10 +121,9 @@
     </if>
 
     <echo>Expanding Phing variables in ${docroot}/sites/${multisite.name}/local.drushrc.php.</echo>
-
     <reflexive file="${docroot}/sites/${multisite.name}/local.drushrc.php">
       <filterchain>
-        <expandproperties />
+        <expandproperties level="verbose" />
       </filterchain>
     </reflexive>
 
@@ -178,8 +136,13 @@
           description="Installs a specific Drupal site."
           depends="setup:drupal:settings, setup:drush:settings, setup:hash-salt">
 
-    <echo>Printing drush status.</echo>
-    <drush command="status"/>
+    <if>
+      <istrue value="${drush.verbose}"/>
+      <then>
+        <echo>Printing drush status.</echo>
+        <drush command="status"/>
+      </then>
+    </if>
 
     <echo>Installing Drupal.</echo>
     <drush command="site-install">
@@ -218,7 +181,7 @@
     </drush>
 
     <!-- Make db site uuid match site uuid of exported config. -->
-    <!--<exec dir="${repo.root}" command="cat ./config/default/system.site.yml | grep uuid | tail -c +7 | head -c 36 | ${drush.cmd} config-set -y system.site uuid -" logoutput="true" checkreturn="true" level="info"/>-->
+    <!--<exec dir="${repo.root}" command="cat ./config/default/system.site.yml | grep uuid | tail -c +7 | head -c 36 | ${drush.cmd} config-set -y system.site uuid -" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>-->
 
     <drush command="config-import" assume="yes" alias="${drush.alias}">
       <option name="partial"></option>
@@ -232,7 +195,7 @@
     <delete dir="${repo.root}/.git/hooks" quiet="true" failonerror="false"/>
     <delete file="${repo.root}/.git/hooks" quiet="true" failonerror="false"/>
     <echo>Symlinking ${repo.root}/scripts/git-hooks to ${repo.root}/.git/hooks.</echo>
-    <exec dir="${repo.root}/.git" command="ln -snv ../vendor/acquia/blt/scripts/git-hooks hooks" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <exec dir="${repo.root}/.git" command="ln -snv ../vendor/acquia/blt/scripts/git-hooks hooks" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
 
     <!-- Grant execution permissions. -->
     <echo>Making git hooks executable.</echo>
@@ -252,7 +215,7 @@
       <then>
         <echo>Writing hash salt to ${repo.root}/salt.txt</echo>
         <randomstring propertyName="project.hash_salt" />
-        <exec dir="${repo.root}" command="echo '${project.hash_salt}' > salt.txt" logoutput="true" checkreturn="true" level="info"/>
+        <exec dir="${repo.root}" command="echo '${project.hash_salt}' > salt.txt" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
       </then>
       <else>
         <echo>${repo.root}/salt.txt already exists.</echo>

@@ -49,19 +49,19 @@
     <echo message="Fetching from git remote ${deploy.remote}"/>
 
     <!-- Generate an md5 sum of the remote URL to use as remote name. -->
-    <exec command="echo ${deploy.remote} | openssl md5 | cut -d' ' -f 2" outputProperty="remoteName" checkreturn="true" level="info"/>
-    <exec command="git remote add ${remoteName} ${deploy.remote}" dir="${deploy.dir}" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <exec command="echo ${deploy.remote} | openssl md5 | cut -d' ' -f 2" outputProperty="remoteName" checkreturn="true" level="${blt.exec_level}"/>
+    <exec command="git remote add ${remoteName} ${deploy.remote}" dir="${deploy.dir}" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
 
     <!-- @todo Only call this for the first remote. -->
     <phingcall target="deploy:remote:pull" />
   </target>
 
   <target name="deploy:remote:pull" description="Checks out deploy branch from upstream remote." hidden="true">
-    <exec command="git fetch ${remoteName} ${deploy.branch}" dir="${deploy.dir}" logoutput="true" level="info" passthru="true"/>
+    <exec command="git fetch ${remoteName} ${deploy.branch}" dir="${deploy.dir}" logoutput="true" level="${blt.exec_level}" passthru="true"/>
 
     <!-- Create the new branch, "[source-branch-name]-build". -->
     <!-- We intentionally use checkreturn="false" in case the branch already exists. `git checkout -B` does not seem to work as advertised -->
-    <exec command="git checkout -b ${deploy.branch}" dir="${deploy.dir}" logoutput="true" checkreturn="false" level="info" passthru="true"/>
+    <exec command="git checkout -b ${deploy.branch}" dir="${deploy.dir}" logoutput="true" checkreturn="false" level="${blt.exec_level}" passthru="true"/>
 
     <!-- Pull the latest updates (if available). -->
     <exec command="git merge ${remoteName}/${deploy.branch}" dir="${deploy.dir}" logoutput="true" passthru="true"/>
@@ -78,7 +78,6 @@
       <property name="hook-name" value="post-deploy-build"/>
     </phingcall>
 
-    <available property="simplesamlphp" file="${blt.root}/settings/simplesamlphp.settings.php"/>
     <if>
       <equals arg1="${simplesamlphp}" arg2="true"/>
         <then>
@@ -89,8 +88,8 @@
 
   <target name="deploy:commit" hidden="true">
     <!-- We make these commands quiet because they can cause the output to be so long that Travis CI stops logging. -->
-    <exec command="git add -A" dir="${deploy.dir}" logoutput="true" checkreturn="true" level="info" passthru="true"/>
-    <exec command="git commit -m '${deploy.commitMsg}' --quiet" dir="${deploy.dir}" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <exec command="git add -A" dir="${deploy.dir}" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec command="git commit -m '${deploy.commitMsg}' --quiet" dir="${deploy.dir}" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
   </target>
 
   <target name="deploy:composer:install" description="Downloads core and contrib to deploy folder." hidden="true">
@@ -105,7 +104,7 @@
             <include name="composer.lock"/>
           </fileset>
         </copy>
-        <exec dir="${deploy.dir}" command="export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+        <exec dir="${deploy.dir}" command="export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
       </then>
       <else>
         <echo>Dependencies will not be built because deploy.build-dependencies is not enabled.</echo>
@@ -120,7 +119,7 @@
     <!-- @todo Support multisite. -->
     <chmod file="${docroot}/sites/default" mode="0777" />
 
-    <exec dir="${repo.root}" command="rsync -a --no-g --delete --delete-excluded --exclude-from=${deploy.exclude_file} ${repo.root}/ ${deploy.dir}/ --filter 'protect /.git/'" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <exec dir="${repo.root}" command="rsync -a --no-g --delete --delete-excluded --exclude-from=${deploy.exclude_file} ${repo.root}/ ${deploy.dir}/ --filter 'protect /.git/'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
 
     <!-- Use our own .gitignore -->
     <copy file="${deploy.gitignore_file}" tofile="${deploy.dir}/.gitignore" overwrite="true"/>
@@ -132,8 +131,8 @@
 
   <target name="deploy:prepare-dir" description="Delete the existing deploy directory and re-initialize as an empty git repository." hidden="true">
     <delete dir="${deploy.dir}" failonerror="false" quiet="true" />
-    <exec command="git init ${deploy.dir}" logoutput="true" checkreturn="true" level="info" passthru="true"/>
-    <exec dir="${deploy.dir}" command="git config --local core.excludesfile false" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <exec command="git init ${deploy.dir}" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec dir="${deploy.dir}" command="git config --local core.excludesfile false" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <echo>Global .gitignore file is being disabled for this repository to prevent unexpected behavior.</echo>
   </target>
 
@@ -143,13 +142,13 @@
 
   <target name="deploy:push-remote" description="Pushes to a git remote." hidden="true">
     <exec command="echo ${deploy.remote} | openssl md5 | cut -d' ' -f 2" outputProperty="remoteName"/>
-    <exec command="git push ${remoteName} ${deploy.branch}" dir="${deploy.dir}" outputProperty="deploy.push.output" logoutput="true" checkreturn="true" level="info"/>
-    <exec command="export DEPLOY_UPTODATE=$(echo '${deploy.push.output}' | grep --quiet 'Everything up-to-date')" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <exec command="git push ${remoteName} ${deploy.branch}" dir="${deploy.dir}" outputProperty="deploy.push.output" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
+    <exec command="export DEPLOY_UPTODATE=$(echo '${deploy.push.output}' | grep --quiet 'Everything up-to-date')" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
   </target>
 
   <target name="deploy:sanitize" description="Removes sensitive files from the deploy docroot." hidden="true">
-    <exec command="find . -type d | grep '\.git' | xargs rm -rf" dir="${deploy.dir}/docroot" logoutput="true" checkreturn="true" level="info" passthru="true"/>
-    <exec command="find . -type d | grep '\.git' | xargs rm -rf" dir="${deploy.dir}/vendor" logoutput="true" checkreturn="true" level="info" passthru="true"/>
+    <exec command="find . -type d | grep '\.git' | xargs rm -rf" dir="${deploy.dir}/docroot" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec command="find . -type d | grep '\.git' | xargs rm -rf" dir="${deploy.dir}/vendor" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <delete>
       <fileset dir="${deploy.dir}/docroot">
         <include name="core/*.txt"/>

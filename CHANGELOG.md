@@ -1,5 +1,128 @@
 # Change Log
 
+## [8.5.0](https://github.com/acquia/blt/tree/8.5.0) (2016-10-19)
+[Full Changelog](https://github.com/acquia/blt/compare/8.5.0-beta1...8.5.0)
+
+**Implemented enhancements:**
+
+- Toning down verbosity a bit. [\#588](https://github.com/acquia/blt/pull/588) ([grasmash](https://github.com/grasmash))
+- Defining composer version contraints using carets. [\#587](https://github.com/acquia/blt/pull/587) ([grasmash](https://github.com/grasmash))
+- Temporarily pinning to Lightning 8.1.x-dev. [\#586](https://github.com/acquia/blt/pull/586) ([grasmash](https://github.com/grasmash))
+- Fixing user directory. [\#585](https://github.com/acquia/blt/pull/585) ([grasmash](https://github.com/grasmash))
+- Updating post-provision.sh for Drupal VM. [\#584](https://github.com/acquia/blt/pull/584) ([grasmash](https://github.com/grasmash))
+- Considering "default" as an unset URI in doctor. [\#582](https://github.com/acquia/blt/pull/582) ([grasmash](https://github.com/grasmash))
+- Reducing DrushTask default verbosity. [\#581](https://github.com/acquia/blt/pull/581) ([grasmash](https://github.com/grasmash))
+- Making doctor work with DD/VM/MAMP. [\#580](https://github.com/acquia/blt/pull/580) ([grasmash](https://github.com/grasmash))
+- Tweak simplesaml config. [\#579](https://github.com/acquia/blt/pull/579) ([danepowell](https://github.com/danepowell))
+- Adding more verbose Behat output. [\#577](https://github.com/acquia/blt/pull/577) ([grasmash](https://github.com/grasmash))
+- Fixing composer excludes. [\#576](https://github.com/acquia/blt/pull/576) ([grasmash](https://github.com/grasmash))
+- Improving composer integration UX. [\#574](https://github.com/acquia/blt/pull/574) ([grasmash](https://github.com/grasmash))
+- Fixes \#557: Allow packages to be excluded from BLT templated updates. [\#572](https://github.com/acquia/blt/pull/572) ([grasmash](https://github.com/grasmash))
+- Prompting for re-generation of behat local.yml. [\#571](https://github.com/acquia/blt/pull/571) ([grasmash](https://github.com/grasmash))
+- Ignoring @preview tag in Behat tests \(experimental\). [\#570](https://github.com/acquia/blt/pull/570) ([grasmash](https://github.com/grasmash))
+- Executing lightning tests only on 8.x. [\#569](https://github.com/acquia/blt/pull/569) ([grasmash](https://github.com/grasmash))
+- Default local trusted host settings [\#566](https://github.com/acquia/blt/pull/566) ([jrbeeman](https://github.com/jrbeeman))
+- Change default local settings for visibility of test projects and rebuild access [\#565](https://github.com/acquia/blt/pull/565) ([jrbeeman](https://github.com/jrbeeman))
+- Removing Lightning patch. [\#564](https://github.com/acquia/blt/pull/564) ([grasmash](https://github.com/grasmash))
+- Fixes \#562. Add a version target to the blt phing file to display version info. [\#563](https://github.com/acquia/blt/pull/563) ([gollyg](https://github.com/gollyg))
+- Disabling Selenium tests for Pipelines. [\#556](https://github.com/acquia/blt/pull/556) ([grasmash](https://github.com/grasmash))
+
+**Fixed bugs:**
+
+- Updating composer-patches to latest dev-master commit. [\#590](https://github.com/acquia/blt/pull/590) ([grasmash](https://github.com/grasmash))
+- Fixing doctor when used with symlinks. [\#575](https://github.com/acquia/blt/pull/575) ([grasmash](https://github.com/grasmash))
+- Cleaned up SimpleSAML\_php integration. [\#555](https://github.com/acquia/blt/pull/555) ([danepowell](https://github.com/danepowell))
+
+**Closed issues:**
+
+- Drupal VM integration broken in latest stable release of DrupalVM [\#568](https://github.com/acquia/blt/issues/568)
+- Add BLT command to show current version [\#562](https://github.com/acquia/blt/issues/562)
+- Doctor doesn't recognize DEVDESKTOP\_DRUPAL\_SETTINGS\_DIR on Dev Desktop [\#559](https://github.com/acquia/blt/issues/559)
+- Allow packages to be excluded from BLT templated updates [\#557](https://github.com/acquia/blt/issues/557)
+
+**Misc merged pull requests**
+
+- Add documentation for installing the chromedriver in OSX. [\#578](https://github.com/acquia/blt/pull/578) ([gollyg](https://github.com/gollyg))
+
+## [8.5.0-beta1](https://github.com/acquia/blt/tree/8.5.0-beta1) (2016-10-13)
+[Full Changelog](https://github.com/acquia/blt/compare/8.4.9...8.5.0-beta1)
+
+**Implemented enhancements:**
+
+- Add verbosity control variable to BLT. Reduce default verbosity. [\#529](https://github.com/acquia/blt/issues/529)
+- Update Documentation for BLT under WSL [\#509](https://github.com/acquia/blt/issues/509)
+- Add support for SimpleSAMLphp [\#481](https://github.com/acquia/blt/issues/481)
+- Harmonize ACE and ACSF deploy artifacts [\#164](https://github.com/acquia/blt/issues/164)
+- Hiding drush status check output in doctor command. [\#554](https://github.com/acquia/blt/pull/554) ([grasmash](https://github.com/grasmash))
+- Adding blt alias to Drupal VM. [\#552](https://github.com/acquia/blt/pull/552) ([grasmash](https://github.com/grasmash))
+- Modifying template .travis.yml. [\#550](https://github.com/acquia/blt/pull/550) ([grasmash](https://github.com/grasmash))
+- Moving doctor output to table. [\#548](https://github.com/acquia/blt/pull/548) ([grasmash](https://github.com/grasmash))
+- Check date.timezone in doctor. [\#547](https://github.com/acquia/blt/pull/547) ([srowlands](https://github.com/srowlands))
+- Deploying on only one PHP build. [\#545](https://github.com/acquia/blt/pull/545) ([grasmash](https://github.com/grasmash))
+- Upping Phing's memory limit to 1G. [\#541](https://github.com/acquia/blt/pull/541) ([grasmash](https://github.com/grasmash))
+- Added adminer to DrupalVM. [\#538](https://github.com/acquia/blt/pull/538) ([danepowell](https://github.com/danepowell))
+- Change drush.wrapper to not run 'composer install' automatically [\#535](https://github.com/acquia/blt/pull/535) ([TravisCarden](https://github.com/TravisCarden))
+- Adding more verbosity control variables. [\#530](https://github.com/acquia/blt/pull/530) ([grasmash](https://github.com/grasmash))
+- Adding tests/phpunit/Bolt to cleanup. [\#528](https://github.com/acquia/blt/pull/528) ([grasmash](https://github.com/grasmash))
+- Only deploy on a single php version. [\#524](https://github.com/acquia/blt/pull/524) ([srowlands](https://github.com/srowlands))
+- Ensure correct exit status on pre-commit [\#523](https://github.com/acquia/blt/pull/523) ([steveworley](https://github.com/steveworley))
+- Switching PhantomJS to Selenium [\#520](https://github.com/acquia/blt/pull/520) ([grasmash](https://github.com/grasmash))
+- Issue \#509: Use default hostname that works more universally. [\#516](https://github.com/acquia/blt/pull/516) ([geerlingguy](https://github.com/geerlingguy))
+- Issue \#509: Adjust drush wrapper bin path so it works on Windows with bad symlinks. [\#515](https://github.com/acquia/blt/pull/515) ([geerlingguy](https://github.com/geerlingguy))
+- Follow-up to \#502: Remove bz2 requirement after switch to Selenium2. [\#503](https://github.com/acquia/blt/pull/503) ([geerlingguy](https://github.com/geerlingguy))
+
+**Fixed bugs:**
+
+- Detect environment variables correctly with doctor. [\#546](https://github.com/acquia/blt/pull/546) ([srowlands](https://github.com/srowlands))
+- Fixing Drupal VM integration with Selenium. [\#544](https://github.com/acquia/blt/pull/544) ([grasmash](https://github.com/grasmash))
+- Fixing coder syntax violation. [\#540](https://github.com/acquia/blt/pull/540) ([grasmash](https://github.com/grasmash))
+- Fixes \#514: Accomodating spaces in dir path. [\#532](https://github.com/acquia/blt/pull/532) ([grasmash](https://github.com/grasmash))
+- Fixes \#506: Include config in deploy artifact. [\#511](https://github.com/acquia/blt/pull/511) ([dooleymatt](https://github.com/dooleymatt))
+
+**Closed issues:**
+
+- \[Feature Request\] Provide the option to manage the jquery libraries [\#525](https://github.com/acquia/blt/issues/525)
+- DrupalVM init fails due to missing package php-bz2 [\#521](https://github.com/acquia/blt/issues/521)
+- Space in project directory path causes initial composer create-project to fail.  [\#514](https://github.com/acquia/blt/issues/514)
+- SimpleSAMLphp config files not included in deploy artifact [\#506](https://github.com/acquia/blt/issues/506)
+- Document a typical update process, including BLT and a major dependency [\#493](https://github.com/acquia/blt/issues/493)
+- Confusion over setting up with Acquia DevDesktop [\#369](https://github.com/acquia/blt/issues/369)
+
+**Misc merged pull requests**
+
+- Update to Drupal VM 3.4.x with Selenium and Chromedriver. [\#549](https://github.com/acquia/blt/pull/549) ([geerlingguy](https://github.com/geerlingguy))
+- Include Instructions for VM configuration / customization on Create New Projects Page [\#542](https://github.com/acquia/blt/pull/542) ([mikemadison13](https://github.com/mikemadison13))
+- Correcting typos in BLT Drush template and Onboarding documentation [\#539](https://github.com/acquia/blt/pull/539) ([mikemadison13](https://github.com/mikemadison13))
+- Fixes \#369: Documenting DD php bin .bash\_profile example. [\#537](https://github.com/acquia/blt/pull/537) ([grasmash](https://github.com/grasmash))
+- Fix typo that was breaking the dependency management link. [\#534](https://github.com/acquia/blt/pull/534) ([jrbeeman](https://github.com/jrbeeman))
+- Adding docs for front end dependencies. [\#527](https://github.com/acquia/blt/pull/527) ([grasmash](https://github.com/grasmash))
+- Document that users may need to run composer update after updating BLT. [\#522](https://github.com/acquia/blt/pull/522) ([jrbeeman](https://github.com/jrbeeman))
+- Adding next steps docs. [\#518](https://github.com/acquia/blt/pull/518) ([grasmash](https://github.com/grasmash))
+
+## [8.4.9](https://github.com/acquia/blt/tree/8.4.9) (2016-10-07)
+[Full Changelog](https://github.com/acquia/blt/compare/8.4.8...8.4.9)
+
+**Implemented enhancements:**
+
+- Fix typo in VirtualBox missing error message. [\#508](https://github.com/acquia/blt/pull/508) ([geerlingguy](https://github.com/geerlingguy))
+- Fixes \#504: Use newer version of Drupal VM, 3.3.x. [\#507](https://github.com/acquia/blt/pull/507) ([geerlingguy](https://github.com/geerlingguy))
+- Fixes \#501: Default Drupal VM to PHP 5.6. [\#502](https://github.com/acquia/blt/pull/502) ([geerlingguy](https://github.com/geerlingguy))
+- Ensuring that a hash salt is generated prior to deployment. [\#497](https://github.com/acquia/blt/pull/497) ([grasmash](https://github.com/grasmash))
+- BLT-481: BLT/SimpleSAMLphp Integration [\#478](https://github.com/acquia/blt/pull/478) ([dooleymatt](https://github.com/dooleymatt))
+
+**Fixed bugs:**
+
+- Fixing broken drush test. [\#512](https://github.com/acquia/blt/pull/512) ([grasmash](https://github.com/grasmash))
+
+**Closed issues:**
+
+- Use newer version of Drupal VM \(currently ~3.1\) [\#504](https://github.com/acquia/blt/issues/504)
+- Default DrupalVM to PHP 5.6 [\#501](https://github.com/acquia/blt/issues/501)
+
+**Misc merged pull requests**
+
+- Issue \#509: Update Documentation for BLT under WSL. [\#510](https://github.com/acquia/blt/pull/510) ([geerlingguy](https://github.com/geerlingguy))
+
 ## [8.4.8](https://github.com/acquia/blt/tree/8.4.8) (2016-10-05)
 [Full Changelog](https://github.com/acquia/blt/compare/8.4.7...8.4.8)
 

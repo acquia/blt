@@ -43,6 +43,5 @@ pages:
         - Setting up continuous integration: 'readme/ci.md'
         - Setting up SSO with SimpleSAMLphp: 'readme/simplesamlphp-setup.md'
         - Open source contribution: 'readme/os-contribution.md'
-  - Troubleshooting & Support: 'readme/support.md'
   - Extending / Overriding BLT: 'readme/extending-blt.md'
-  - Contributing: 'CONTRIBUTING.md'
+  - Support & Contribution: 'CONTRIBUTING.md'
