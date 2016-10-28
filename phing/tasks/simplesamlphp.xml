@@ -35,6 +35,7 @@
     <exec dir="${repo.root}" command="${repo.root}/vendor/bin/blt-console composer:munge ${repo.root}/composer.json ${blt.root}/scripts/simplesamlphp/htaccess-saml.json > ${repo.root}/composer.json.tmp" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
     <!--@todo Find out why can't we just redirect output directly back to composer.json. -->
     <exec dir="${repo.root}" command="mv ${repo.root}/composer.json.tmp ${repo.root}/composer.json" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec dir="${repo.root}" command="composer update drupal/core" logoutput="true" checkreturn="true" passthru="true" level="${blt.exec_level}"/>
   </target>
 
   <!-- Copies the configuration templates from the library to a simplesamlphp directory located in the project root. -->
