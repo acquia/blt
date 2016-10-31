@@ -35,7 +35,7 @@ It scope is discretely defined. It is *not* intended to provide:
 
 ## Features
 
-* [Git Hooks](template/scripts/git-hooks)
+* [Git Hooks](scripts/git-hooks)
     * pre-commit: Checks for Drupal coding standards compliance
     * commit-msg: Check for proper formatting and syntax
 * [Testing Framework](template/tests).
