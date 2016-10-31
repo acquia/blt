@@ -1,0 +1,9 @@
+{
+  "extra": {
+    "patches": {
+      "drupal/core": {
+        "SimpleSAML htaccess": "./patches/htacess-simplesaml.patch"
+      }
+    }
+  }
+}
