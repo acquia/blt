@@ -109,7 +109,6 @@
     <if>
       <equals arg1="${behat.launch-selenium}" arg2="true"/>
       <then>
-        <echo>Killing any selenium processes that are already running.</echo>
         <phingcall target="tests:selenium:kill"/>
         <echo message="Launching Selenium standalone server." />
         <touch file="${repo.root}/reports/selenium2.log"/>
@@ -144,6 +143,7 @@
 
   <target name="tests:selenium:kill"
           description="Kills Selenium standalone server process and any process running on port 4444." hidden="true">
+    <echo>Killing any selenium processes that are already running.</echo>
     <exec command="lsof -ti tcp:4444 | xargs kill" logoutput="false" level="${blt.exec_level}" passthru="false" checkreturn="false" />
     <exec command="pgrep selenium | xargs kill" logoutput="false" level="${blt.exec_level}" passthru="false" checkreturn="false" />
   </target>
