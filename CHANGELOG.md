@@ -15,6 +15,7 @@
 
 **Fixed bugs:**
 
+- Disabling chromedriver installation on Pipelines. [\#619](https://github.com/acquia/blt/pull/619) ([grasmash](https://github.com/grasmash))
 - Fixed installation of packages with commit refs. [\#606](https://github.com/acquia/blt/pull/606) ([danepowell](https://github.com/danepowell))
 - Adding include path to drush.wrapper. [\#593](https://github.com/acquia/blt/pull/593) ([grasmash](https://github.com/grasmash))
 
