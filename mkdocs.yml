@@ -13,12 +13,13 @@ pages:
   - Home: 'index.md'
   - Overview: 'README.md'
   - Getting started:
-    - System requirements:
-       - Overview:  'INSTALL.md'
+    - Installation:
+       - System requirements:  'INSTALL.md'
        - Running BLT in Ubuntu on Bash on Windows: 'readme/windows-install.md'
        - Alternative LAMP stacks: 'readme/local-development.md'
     - Create a new project: 'readme/creating-new-project.md'
     - Add to existing project: 'readme/adding-to-project.md'
+    - Next steps: 'readme/next-steps.md'
     - Upgrade BLT: 'readme/updating-blt.md'
   - Project documentation:
     - Developer:
@@ -33,7 +34,8 @@ pages:
           - Best practices:
             - Overview: 'readme/best-practices.md'
             - Views: 'readme/views.md'
-          - Workflow: 'readme/dev-workflow.md'
+          - Development Workflow: 'readme/dev-workflow.md'
+          - Configuration Management: 'readme/features-workflow.md'
           - Automated testing: 'readme/testing.md'
     - Technical Architect:
         - Deploying to cloud: 'readme/deploy.md'
