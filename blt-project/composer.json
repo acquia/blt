@@ -18,7 +18,7 @@
         }
     },
     "require": {
-        "acquia/blt": "*@dev"
+        "acquia/blt": "^8.5.0@dev"
     },
     "minimum-stability": "dev",
     "prefer-stable": true
