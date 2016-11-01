@@ -9,7 +9,7 @@
 
   <target name="setup:behat" description="Generates tests/behat/local.yml file for executing Behat tests locally.">
     <mkdir dir="${reports.localDir}/behat"/>
-    <echo>Attempting to generate tests/behat/local.yml.</echo>
+    <echo level="${blt.level}">Attempting to generate tests/behat/local.yml.</echo>
     <copy file="${repo.root}/tests/behat/example.local.yml" tofile="${repo.root}/tests/behat/local.yml" verbose="true">
       <filterchain>
         <expandproperties level="verbose" />
