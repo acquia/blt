@@ -93,8 +93,8 @@ script:
   # Create a .travis.yml, just to make sure it works. It won't be executed.
   - blt ci:travis:init
   - blt ci:pipelines:init
-  # On 8.x only, run tests in docroot/profiles directory.
-  - if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then echo $'behat:\n  paths:\n    - ${docroot}/profiles\n    - ${repo.root}/tests/behat' >> project.yml; fi
+  # Disable Lightning tests on pull requests.
+  - if [[ "$TRAVIS_PULL_REQUEST" == "true" ]]; then echo $'behat:\n  paths:\n    - ${repo.root}/tests/behat' >> project.yml; fi
   # Call targets in the new 'blt-project' project.
   - blt ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dbehat.launch-phantom=true
   # Initialize ACSF config.
