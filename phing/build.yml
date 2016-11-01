@@ -14,7 +14,7 @@ behat:
     # - ${docroot}/modules
     - ${docroot}/profiles
     - ${repo.root}/tests/behat
-  tags: '~ajax&&~experimental&&~preview'
+  tags: '~ajax&&~experimental'
   verbose: ${blt.verbose}
 
 blt:
