@@ -1,5 +1,40 @@
 # Change Log
 
+## [8.5.1](https://github.com/acquia/blt/tree/8.5.1) (2016-11-01)
+[Full Changelog](https://github.com/acquia/blt/compare/8.5.0...8.5.1)
+
+**Implemented enhancements:**
+
+- Enabling Lightning tests by default on new projects. [\#618](https://github.com/acquia/blt/pull/618) ([grasmash](https://github.com/grasmash))
+- Improving output of setup tasks. [\#617](https://github.com/acquia/blt/pull/617) ([grasmash](https://github.com/grasmash))
+- Revert "Automated SimpleSAMLphp htaccess patch." [\#605](https://github.com/acquia/blt/pull/605) ([grasmash](https://github.com/grasmash))
+- Automated SimpleSAMLphp htaccess patch. [\#603](https://github.com/acquia/blt/pull/603) ([danepowell](https://github.com/danepowell))
+- Added sample patches for SSL and SAML. [\#602](https://github.com/acquia/blt/pull/602) ([danepowell](https://github.com/danepowell))
+- Adding composer/installers. [\#592](https://github.com/acquia/blt/pull/592) ([grasmash](https://github.com/grasmash))
+- Removed duplicate dependencies. [\#591](https://github.com/acquia/blt/pull/591) ([danepowell](https://github.com/danepowell))
+
+**Fixed bugs:**
+
+- Fixed installation of packages with commit refs. [\#606](https://github.com/acquia/blt/pull/606) ([danepowell](https://github.com/danepowell))
+- Adding include path to drush.wrapper. [\#593](https://github.com/acquia/blt/pull/593) ([grasmash](https://github.com/grasmash))
+
+**Closed issues:**
+
+- Broken link to next-steps.md from creating-new-project.md [\#612](https://github.com/acquia/blt/issues/612)
+- Issues with default install process  [\#567](https://github.com/acquia/blt/issues/567)
+- Behat tests fail on Dev Desktop [\#561](https://github.com/acquia/blt/issues/561)
+- Doctor fails on new install in Dev Desktop [\#560](https://github.com/acquia/blt/issues/560)
+- Doctor doesn't recognize Dev Desktop sites [\#558](https://github.com/acquia/blt/issues/558)
+- Error after deploying artifact branch build with blt deploy.  [\#533](https://github.com/acquia/blt/issues/533)
+- Behat: First test tagged @javascript in a feature fails, subsequent pass [\#456](https://github.com/acquia/blt/issues/456)
+
+**Misc merged pull requests**
+
+- Updating docs, adding video links and next steps. [\#614](https://github.com/acquia/blt/pull/614) ([grasmash](https://github.com/grasmash))
+- Fixed broken link to git-hooks documentation. [\#611](https://github.com/acquia/blt/pull/611) ([larruda](https://github.com/larruda))
+- Fix Drupal-VM config name drupal\_db\_name [\#597](https://github.com/acquia/blt/pull/597) ([dpagini](https://github.com/dpagini))
+- Improvements to the Ubuntu Bash on Windows documentation. [\#596](https://github.com/acquia/blt/pull/596) ([srowlands](https://github.com/srowlands))
+
 ## [8.5.0](https://github.com/acquia/blt/tree/8.5.0) (2016-10-19)
 [Full Changelog](https://github.com/acquia/blt/compare/8.5.0-beta1...8.5.0)
 
