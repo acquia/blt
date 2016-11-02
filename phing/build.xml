@@ -71,6 +71,9 @@
 
   <!-- Contains Drupal VM tasks. -->
   <import file="${phing.dir}/tasks/vm.xml"/>
+  
+  <!-- Git tasks. -->
+  <import file="${phing.dir}/tasks/git.xml"/>
 
   <!-- Contains Drupal SimpleSAMLphp tasks. -->
   <import file="${phing.dir}/tasks/simplesamlphp.xml"/>
