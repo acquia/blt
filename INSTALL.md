@@ -52,7 +52,14 @@ Once complete follow the [BLT on Windows installation instructions](readme/windo
 
 If you are using a Linux machine, it is assumed that you will not be using Drupal VM and that you will be configuring your own LAMP stack. Disregard the `blt vm` command and `@[project.machine_name]` references in subsequent documentation.
 
+#### Ubuntu / Debian
+
         apt-get install git composer drush
+        composer global require "hirak/prestissimo:^0.3"
+
+#### Fedora
+
+        dnf install git composer drush
         composer global require "hirak/prestissimo:^0.3"
 
 # Installing BLT
