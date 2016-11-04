@@ -1,6 +1,6 @@
 # Next steps
 
-Now that your new project works locally, review [BLT documentation by role](https://http://blt.readthedocs.io/) to learn how to perform common project tasks and integrate with third party tools.
+Now that your new project works locally, review [BLT documentation by role](https://blt.readthedocs.io/) to learn how to perform common project tasks and integrate with third party tools.
 
 Here are tasks that are typically performed at this stage:
 
