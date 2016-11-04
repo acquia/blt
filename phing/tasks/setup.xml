@@ -18,9 +18,9 @@
 
   </target>
 
-  <!-- This is run when a project is cloned to a new environment. -->
+  <!-- setup:composer:install must run prior to setup:drupal:settings to ensure that scaffold files are present. -->
   <target name="setup:build" description="Generates all required files for a full build. E.g., (re)builds docroot, etc."
-          depends="setup:git-hooks, setup:drupal:settings, setup:behat, setup:composer:install, frontend">
+          depends="setup:git-hooks, setup:composer:install, setup:drupal:settings, setup:behat, frontend">
 
     <if>
       <equals arg1="${simplesamlphp}" arg2="true"/>
