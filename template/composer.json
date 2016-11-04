@@ -13,7 +13,7 @@
         "drupal/acsf":                                "^8.1.32",
         "drupal/cog":                                 "^8.1.0",
         "drupal/core":                                "~8",
-        "drupal/features":                            "^8.3.0-beta9",
+        "drupal/features":                            "^8.3.0",
         "drupal/lightning":                           "8.1.x-dev",
         "drupal/memcache" :                           "^8.2.0-alpha2",
         "drupal/search_api":                          "8.1.0-alpha14",
@@ -50,9 +50,6 @@
         "patches": {
             "drupal/core": {
                 "Ignore front end vendor folders to improve directory search performance": "https://www.drupal.org/files/issues/ignore_front_end_vendor-2329453-116.patch"
-            },
-            "drupal/features": {
-                "Bundle support": "https://www.drupal.org/files/issues/features-2808303-2.patch"
             }
         }
     },
