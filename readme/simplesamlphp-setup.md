@@ -1,24 +1,33 @@
-# SimpleSAMLphp Setup
+# SimpleSAMLphp using BLT
 
-To configure SimpleSAMLphp, perform the following steps after initially setting up BLT:
+To configure SimpleSAMLphp with BLT perform the following steps after initially setting up BLT:
 
-1. Execute `blt simplesamlphp:init`. This performs the following initial setup tasks:
+#### <i class="icon-code"></i>  BLT Basic Setup
+Execute `blt simplesamlphp:init`. This performs the following initial setup tasks:
 
-  * Adds the `simplesamlphp_auth` module as a project dependency.
+  * Adds the `simplesamlphp_auth` module as a project dependency in your `composer.json` file.
   * Copies configuration files to `${project.root}/simplesamlphp`.
   * Adds a `simplesamlphp` property to `project.yml`.
   * Creates a symbolic link in the docroot to the web accessible directory of the `simplesamlphp` library.
 
-1. Add the following two lines to `docroot/.htaccess`:
+> **Note:**
+
+> - The `simplesamlphp_auth` module contains a `composer.json` file where you can find the version (`~1.14.4`) of the SimpleSamlPHP library that will be installed.
+> - As part of `blt simplesamlphp:init` BLT creates a `config` directory that contains three important files: `config.php`, `acquia_config.php` and `authsources.php`.
+
+#### <i class="icon-pencil"></i> Basic Config
+
+ - Add the following two lines to `docroot/.htaccess`:
 
   ```
   # Allow access to simplesaml paths.
   RewriteCond %{REQUEST_URI} !^/simplesaml
   ```
 
-  ...for example, as depicted in the "diff" below:
+> **Note:**
 
-  ```
+> For example, as depicted in the "diff" below: 
+> ```
     # Copy and adapt this rule to directly execute PHP files in contributed or
     # custom modules or to run another PHP application in the same directory.
     RewriteCond %{REQUEST_URI} !/core/modules/statistics/statistics.php$
@@ -28,7 +37,7 @@ To configure SimpleSAMLphp, perform the following steps after initially setting 
     RewriteRule "^.+/.*\.php$" - [F]
   ```
 
-1. Edit `${project.root}/simplesamlphp/config/acquia_config.php` as follows:
+- Edit `${project.root}/simplesamlphp/config/acquia_config.php` as follows:
 
   * Update your database name in `$ah_options`:
 
@@ -63,19 +72,25 @@ To configure SimpleSAMLphp, perform the following steps after initially setting 
     $config['admin.protectmetadata'] = true;
     ```
 
-1. Edit `${project.root}/simplesamlphp/config/authsources.php` as described in [SimpleSAMLphp Service Provider QuickStart](https://simplesamlphp.org/docs/stable/simplesamlphp-sp) (except enabling a certificate for your service provider, which should be done according to the instructions below).
+> **Note:**
 
-1. If your Identity Provider/Federation requires that your Service Providers hold a certificate...
+> - The file `acquia_config.php` is created in the first step i.e. Basic Setup and the file `config.php` must contain a line `include 'acquia_config.php'` that includes that particular file.
 
-  1. Create a self-signed certificate in the `${project.root}/simplesamlphp/cert` directory:
+- Edit `${project.root}/simplesamlphp/config/authsources.php` as described in [SimpleSAMLphp Service Provider QuickStart](https://simplesamlphp.org/docs/stable/simplesamlphp-sp) (except enabling a certificate for your service provider, which should be done according to the instructions below).
 
-    ```
+- Edit `${project.root}/simplesamlphp/metadata/saml20-idp-remote.php` as described in [IdP remote metadata reference](https://simplesamlphp.org/docs/stable/simplesamlphp-reference-idp-remote).
+
+#### <i class="icon-pencil"></i> Optional Config
+
+If your Identity Provider/Federation requires that your Service Providers hold a certificate.
+	
+ 1. Create a self-signed certificate in the `${project.root}/simplesamlphp/cert` directory: 
+   ```
     cd simplesamlphp/cert
     openssl req -x509 -sha256 -nodes -days 3652 -newkey rsa:2048 -keyout saml.pem -out saml.crt
     ```
-
-  1. Edit your `${project.root}/simplesamlphp/config/authsources.php` entry, and add references to your certificate:
-
+    
+ 2. Edit your `${project.root}/simplesamlphp/config/authsources.php` entry, and add references to your certificate:
     ```
     'default-sp' => array(
       'saml:SP',
@@ -85,10 +100,13 @@ To configure SimpleSAMLphp, perform the following steps after initially setting 
     ),
     ```
 
-1. Review `${project.root}/simplesamlphp/config/config.php` and set any values called for by your project requirements.
+#### <i class="icon-check"></i> Check Config
 
-1. Edit `${project.root}/simplesamlphp/metadata/saml20-idp-remote.php` as described in [IdP remote metadata reference](https://simplesamlphp.org/docs/stable/simplesamlphp-reference-idp-remote).
+Review `${project.root}/simplesamlphp/config/config.php` and set any values called for by your project requirements.
 
-1. Execute `blt simplesamlphp:config:build` to copy these configuration files to the SimpleSAMLphp library.
+#### <i class="icon-code"></i> BLT Copy Config
 
-1. Commit the changes.
+Execute `blt simplesamlphp:config:build` to copy these configuration files to the SimpleSAMLphp library.
+
+#### <i class="icon-provider-github"></i> Deploy Code
+Commit your changes to your Git repository.
