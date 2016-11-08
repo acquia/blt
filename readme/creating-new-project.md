@@ -12,6 +12,9 @@
         composer blt-alias
 
 1. Customize `project.yml`.
+    
+    By default, BLT will use the [`lightning`](https://github.com/acquia/lightning) profile, other valid values are `standard` or `minimal`.
+
 1. If using Drupal VM for local development, run the following commands. Otherwise, see [Local Development](http://blt.readthedocs.io/en/8.x/readme/local-development/).
 
         blt vm
