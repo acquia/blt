@@ -17,8 +17,8 @@ deployed_tag="$4"
 repo_url="$5"
 repo_type="$6"
 
-. `dirname $0`/../functions.sh
+. /var/www/html/$site.$target_env/vendor/acquia/blt/scripts/cloud-hooks/functions.sh
 
-env_refresh
+deploy_updates
 
 exit $status
