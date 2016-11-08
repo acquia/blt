@@ -248,13 +248,17 @@
           <param>drush</param>
         </drush>
         <!-- Revert all features. -->
-        <drush command="fra" assume="yes" alias="${drush.alias}">
-          <option name="bundle">${cm.features.bundle}</option>
-        </drush>
+        <foreach list="${cm.features.bundle}" param="bundle" target="setup:update:features-import" />
       </then>
     </if>
     <!-- Rebuild caches. -->
     <drush command="cr" alias="${drush.alias}"/>
+  </target>
+
+  <target name="setup:update:features-import" description="Perform a features import on the specified bundle.">
+    <drush command="fra" assume="yes" alias="${drush.alias}">
+      <option name="bundle">${bundle}</option>
+    </drush>
   </target>
 
 </project>
