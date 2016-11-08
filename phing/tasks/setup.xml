@@ -76,6 +76,7 @@
     <chmod mode="0644" failonerror="false" file="${docroot}/sites/default/settings.php"/>
     <echo>Ensuring that blt.settings.php is required by settings.php</echo>
     <exec dir="${docroot}/sites/default" command="grep vendor/acquia/blt/settings/blt.settings.php settings.php || echo 'require DRUPAL_ROOT . &quot;/../vendor/acquia/blt/settings/blt.settings.php&quot;;' >> settings.php" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
+    <exec dir="${docroot}/sites/default" command="grep trusted_host.settings.php settings.php || echo '// require DRUPAL_ROOT . &quot;/sites/default/settings/trusted_host.settings.php&quot;;' >> settings.php" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
 
     <echo>Generating local settings files.</echo>
 
