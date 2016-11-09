@@ -29,14 +29,13 @@
 
   <target name="blt:rsync-template" hidden="true">
     <echo>Copying files from BLT's template into your project.</echo>
-    <!-- @todo Do not overwrite structured or executable files. Instead, update them intelligently settings.php, drush.wrapper etc. -->
     <exec dir="${repo.root}" command="rsync -a --no-g ${blt.root}/template/ ${repo.root}/ --exclude-from=${blt.update.ignore-existing-file}" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
 
     <!--Rsync files without overwriting existing-->
     <exec dir="${repo.root}" command="rsync -a --no-g ${blt.root}/template/ ${repo.root}/ --include-from=${blt.update.ignore-existing-file} --ignore-existing" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
   </target>
 
-  <target name="update" depends="blt:rsync-template, blt:update-composer, blt:update-yml, setup:drupal:settings" hidden="true">
+  <target name="update" depends="blt:rsync-template, blt:update-composer, blt:update-yml" hidden="true">
     <phingcall target="install-alias">
       <property name="create_alias" value="true"/>
     </phingcall>
