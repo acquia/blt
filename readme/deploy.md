@@ -75,3 +75,9 @@ For more information on configuring Travis CI, see "Setting Up Travis CI for aut
 Jenkins is more expensive and time-consuming to set up, but offers much more flexibility. For instance, you can add a Slack slash command (such as `/deploy`) that allows your QA team to deploy specific branches to ACE on demand. See the forthcoming README on Jenkins integration for more information.
 
 Note, we previously used Engineering's Jenkins instance for CI (ci.acquia.com), but this should be avoided going forward. Instead, a starter account with Cloudbees is recommended. There's a two-week free trial, and after that the service is ~$60 per month, and must be paid for on a per-project basis.
+
+## Cloud Hooks
+
+On Acquia Cloud, [Cloud Hooks](https://docs.acquia.com/cloud/manage/cloud-hooks) are the preferred method to run database updates and configuration imports on each deploy. BLT provides a post-code-deploy hook that will conveniently run these updates automatically and fail the deployment task in Insight if anything goes wrong.
+
+For consistency and reliability, you should run the same updates on deployment as you would run locally or in CI testing. BLT provides aliases for the `setup:update` task to support this, such as `local:update` and `deploy:update`. These aliases all run the same updates, but with the appropriate aliases and configuration directories for each environment.

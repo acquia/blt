@@ -16,7 +16,6 @@
 /docroot/themes/contrib
 /drush/contrib
 /drush.wrapper
-/project.yml
 /README.md
 /readme
 /tests

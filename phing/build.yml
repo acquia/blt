@@ -77,3 +77,7 @@ phpcs:
 project:
   local:
     uri: ${project.local.protocol}://${project.local.hostname}
+
+cm:
+  core:
+    config-dir: sync

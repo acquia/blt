@@ -52,7 +52,7 @@ class DeployTest extends BltTestBase {
     // Ensure non-required files are not in deploy dir.
     $this->assertFileNotExists($this->deploy_dir . '/blt.sh');
     $this->assertFileNotExists($this->deploy_dir . '/build');
-    $this->assertFileNotExists($this->deploy_dir . '/project.yml');
+    $this->assertFileExists($this->deploy_dir . '/project.yml');
     $this->assertFileNotExists($this->deploy_dir . '/tests');
   }
 
