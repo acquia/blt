@@ -1,5 +1,42 @@
 # Change Log
 
+## [8.5.2](https://github.com/acquia/blt/tree/8.5.2) (2016-11-09)
+[Full Changelog](https://github.com/acquia/blt/compare/8.5.1...8.5.2)
+
+**Implemented enhancements:**
+
+- Allow cm.features.bundle to contain multiple feature bundles [\#626](https://github.com/acquia/blt/issues/626)
+- Add patch for .htaccess for SSL Only on Acquia Cloud [\#598](https://github.com/acquia/blt/issues/598)
+- Add blt target for use in cloud-hooks [\#594](https://github.com/acquia/blt/issues/594)
+- Fixing toggle-modules targets. [\#644](https://github.com/acquia/blt/pull/644) ([grasmash](https://github.com/grasmash))
+- Adding local:toggle-modules and deploy:toggle-modules targets. [\#643](https://github.com/acquia/blt/pull/643) ([grasmash](https://github.com/grasmash))
+- Added trusted host configuration. [\#640](https://github.com/acquia/blt/pull/640) ([danepowell](https://github.com/danepowell))
+- Removing uncustomized scaffold files [\#632](https://github.com/acquia/blt/pull/632) ([grasmash](https://github.com/grasmash))
+- Requiring Lightning ^8.1.12. [\#631](https://github.com/acquia/blt/pull/631) ([grasmash](https://github.com/grasmash))
+- Allow specification of multiple Features bundles [\#627](https://github.com/acquia/blt/pull/627) ([timcosgrove](https://github.com/timcosgrove))
+- Removed features patch. [\#625](https://github.com/acquia/blt/pull/625) ([danepowell](https://github.com/danepowell))
+- Run BLT commands on ACE [\#589](https://github.com/acquia/blt/pull/589) ([danepowell](https://github.com/danepowell))
+
+**Fixed bugs:**
+
+- Features patch no longer applies [\#630](https://github.com/acquia/blt/issues/630)
+- Build failing [\#622](https://github.com/acquia/blt/issues/622)
+- Ignoring experimental tests on Pipelines builds. [\#620](https://github.com/acquia/blt/pull/620) ([grasmash](https://github.com/grasmash))
+
+**Closed issues:**
+
+- Running blt local:setup fails [\#635](https://github.com/acquia/blt/issues/635)
+- Features patch error [\#634](https://github.com/acquia/blt/issues/634)
+- Fails with Permission denied on blt.sh [\#616](https://github.com/acquia/blt/issues/616)
+
+**Misc merged pull requests**
+
+- Add profile options documentation [\#637](https://github.com/acquia/blt/pull/637) ([bobbygryzynger](https://github.com/bobbygryzynger))
+- Fix docs url [\#633](https://github.com/acquia/blt/pull/633) ([bobbygryzynger](https://github.com/bobbygryzynger))
+- Added and refactored some of the information for SimpleSAMLPHP setup. [\#629](https://github.com/acquia/blt/pull/629) ([wouteradem](https://github.com/wouteradem))
+- Add instructions for Fedora [\#623](https://github.com/acquia/blt/pull/623) ([anavarre](https://github.com/anavarre))
+- Expand and improve SimpleSAMLphp documentation [\#621](https://github.com/acquia/blt/pull/621) ([TravisCarden](https://github.com/TravisCarden))
+
 ## [8.5.1](https://github.com/acquia/blt/tree/8.5.1) (2016-11-01)
 [Full Changelog](https://github.com/acquia/blt/compare/8.5.0...8.5.1)
 
