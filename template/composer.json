@@ -8,7 +8,7 @@
         }
     ],
     "require": {
-        "cweagans/composer-patches":                  "dev-master",
+        "cweagans/composer-patches":                  "dev-master#5456199acdcc16b243814aa45259f4c56272a634 as 1.5.0",
         "drupal/acquia_connector":                    "^8.1.5",
         "drupal/acsf":                                "^8.1.32",
         "drupal/cog":                                 "^8.1.0",
@@ -48,6 +48,7 @@
                 "sites/default/default.settings.php": "sites/default/settings.php"
             }
         },
+        "enable-patching": true,
         "installer-paths": {
             "docroot/core":                     ["type:drupal-core"],
             "docroot/modules/contrib/{$name}":  ["type:drupal-module"],
