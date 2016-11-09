@@ -43,21 +43,23 @@
         "blt": {
             "update": true
         },
+        "drupal-scaffold": {
+            "initial": {
+                "sites/default/default.services.yml": "sites/default/services.yml",
+                "sites/default/default.settings.php": "sites/default/settings.php"
+            }
+        },
         "installer-paths": {
             "docroot/core":                     ["type:drupal-core"],
             "docroot/modules/contrib/{$name}":  ["type:drupal-module"],
             "docroot/profiles/contrib/{$name}": ["type:drupal-profile"],
             "docroot/themes/contrib/{$name}":   ["type:drupal-theme"],
             "drush/contrib/{$name}":            ["type:drupal-drush"]
-        },
-        "patches": {
-            "drupal/core": {
-                "Ignore front end vendor folders to improve directory search performance": "https://www.drupal.org/files/issues/ignore_front_end_vendor-2329453-116.patch"
-            }
         }
     },
     "scripts": {
         "blt-alias": "blt install-alias -Dcreate_alias=true",
+        "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
         "nuke": [
             "rm -rf vendor composer.lock",
             "@composer clearcache",

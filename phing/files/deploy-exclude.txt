@@ -18,6 +18,7 @@
 /drush.wrapper
 /README.md
 /readme
+/sites/development.services.yml
 /tests
 /tmp
 /Vagrantfile
