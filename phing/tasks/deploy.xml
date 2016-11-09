@@ -168,8 +168,8 @@
 
   <target name="deploy:toggle-modules" description="Enables modules.deploy.enable projects and uninstalls modules.deploy.uninstall projects.">
     <phingcall target="setup:toggle-modules">
-      <param name="enable" value="${modules.deploy.enable}"/>
-      <param name="uninstall" value="${modules.deploy.uninstall}"/>
+      <param name="enable_property" value="modules.deploy.enable"/>
+      <param name="uninstall_property" value="modules.deploy.uninstall"/>
     </phingcall>
   </target>
 </project>
