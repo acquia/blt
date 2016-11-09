@@ -69,3 +69,32 @@ target-hooks:
 
 # Define any custom Phing files that you'd like to import. E.g., ${repo.root}/blt/phing/build.xml
 import: ~
+
+# An array of modules to be enabled or uninstalled automatically in dev vs prod contexts.
+# All local:* targets assume the "dev" context, whereas "deploy:*" targets assume a prod context.
+modules:
+  ci:
+    enable: []
+    uninstall:
+      - acquia_connector
+      - shield
+  deploy:
+    enable:
+      - acquia_connector
+      - shield
+    uninstall:
+      - devel
+      - field_ui
+      - views_ui
+  local:
+    enable:
+      - dblog
+      - devel
+      - field_ui
+      - seckit
+      - views_ui
+    uninstall:
+      - acsf
+      - acquia_connector
+      - dblog
+      - shield
