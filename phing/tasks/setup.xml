@@ -158,6 +158,9 @@
 
     <phingcall target="setup:config-import"/>
 
+    <!-- enable_property and uninstall_property must be set at this time. -->
+    <phingcall target="setup:update"/>
+
     <!-- Set sites directory file permissions. -->
     <echo>Making ${docroot}/sites/default writable.</echo>
     <chmod mode="0755" failonerror="false">
@@ -225,6 +228,10 @@
   </target>
 
   <target name="setup:update" description="Update current database to reflect the state of the Drupal file system.">
+
+    <!-- enable_property and uninstall_property must be set at this time. -->
+    <phingcall target="setup:toggle-modules"/>
+
     <!-- Import configuration before executing updates, in case any db updates are dependent on new configs to be imported. -->
     <drush command="config-import" assume="yes" alias="${drush.alias}">
       <option name="partial"></option>
