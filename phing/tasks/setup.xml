@@ -264,4 +264,14 @@
     </drush>
   </target>
 
+  <target name="setup:toggle-modules" description="Enables and uninstalls specified modules.">
+    <drush command="pm-enable" assume="yes">
+      <param>${enable}</param>
+      <option>skip</option>
+    </drush>
+    <drush command="pm-uninstall" assume="yes">
+      <param>${uninstall}</param>
+    </drush>
+  </target>
+
 </project>

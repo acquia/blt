@@ -157,7 +157,7 @@
     </delete>
   </target>
 
-  <target name="deploy:update" description="Update current database to reflect the state of the Drupal file system; uses local drush alias.">
+  <target name="deploy:update" description="Update current database to reflect the state of the Drupal file system; uses local drush alias." depends="deploy:toggle-modules">
     <phingcall target="setup:update">
       <property name="drush.alias" value="self"/>
       <!-- Most sites store their version-controlled configuration in /config/default. -->
@@ -166,4 +166,10 @@
     </phingcall>
   </target>
 
+  <target name="deploy:toggle-modules" description="Enables modules.deploy.enable projects and uninstalls modules.deploy.uninstall projects.">
+    <phingcall target="setup:toggle-modules">
+      <param name="enable" value="${modules.deploy.enable}"/>
+      <param name="uninstall" value="${modules.deploy.uninstall}"/>
+    </phingcall>
+  </target>
 </project>

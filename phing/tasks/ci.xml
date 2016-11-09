@@ -39,4 +39,11 @@
       <property name="drush.alias" value="${drush.aliases.ci}"/>
     </phingcall>
   </target>
+
+  <target name="ci:toggle-modules" description="Enables modules.ci.enable projects and uninstalls modules.ci.uninstall projects.">
+    <phingcall target="setup:toggle-modules">
+      <param name="enable" value="${modules.ci.enable}"/>
+      <param name="uninstall" value="${modules.ci.uninstall}"/>
+    </phingcall>
+  </target>
 </project>
