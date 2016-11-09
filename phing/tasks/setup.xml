@@ -68,6 +68,14 @@
     <if>
       <not><available file="${docroot}/sites/default/settings.php"/></not>
       <then>
+        <if>
+          <not><available file="${docroot}/sites/default/default.settings.php"/></not>
+          <then>
+            <echo level="verbose">Download scaffold files so that default.settings.php is available.</echo>
+            <exec dir="${repo.root}" command="composer drupal-scaffold" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true" />
+          </then>
+        </if>
+
         <echo>Generating settings.php from default.settings.php.</echo>
         <copy file="${docroot}/sites/default/default.settings.php" tofile="${docroot}/sites/default/settings.php" verbose="true"/>
       </then>
