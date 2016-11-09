@@ -158,6 +158,9 @@
 
     <phingcall target="setup:config-import"/>
 
+    <!-- enable_property and uninstall_property must be set at this time. -->
+    <phingcall target="setup:update"/>
+
     <!-- Set sites directory file permissions. -->
     <echo>Making ${docroot}/sites/default writable.</echo>
     <chmod mode="0755" failonerror="false">
@@ -225,6 +228,10 @@
   </target>
 
   <target name="setup:update" description="Update current database to reflect the state of the Drupal file system.">
+
+    <!-- enable_property and uninstall_property must be set at this time. -->
+    <phingcall target="setup:toggle-modules"/>
+
     <!-- Import configuration before executing updates, in case any db updates are dependent on new configs to be imported. -->
     <drush command="config-import" assume="yes" alias="${drush.alias}">
       <option name="partial"></option>
@@ -265,13 +272,23 @@
   </target>
 
   <target name="setup:toggle-modules" description="Enables and uninstalls specified modules.">
-    <drush command="pm-enable" assume="yes">
-      <param>${enable}</param>
-      <option>skip</option>
-    </drush>
-    <drush command="pm-uninstall" assume="yes">
-      <param>${uninstall}</param>
-    </drush>
+    <if>
+      <isset property="${enable_property}"/>
+      <then>
+        <drush command="pm-enable" assume="yes">
+          <param>${${enable_property}}</param>
+          <option name="skip"></option>
+        </drush>
+      </then>
+    </if>
+    <if>
+      <isset property="${uninstall_property}"/>
+      <then>
+        <drush command="pm-uninstall" assume="yes">
+          <param>${${uninstall_property}}</param>
+        </drush>
+      </then>
+    </if>
   </target>
 
 </project>

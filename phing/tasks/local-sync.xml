@@ -8,9 +8,11 @@
 
   <target name="local:refresh" description="Refreshes local environment from upstream testing database." depends="setup:build, local:sync, local:update"/>
 
-  <target name="local:setup" description="Install dependencies, builds docroot, installs Drupal; uses local drush alias." depends="local:toggle-modules">
+  <target name="local:setup" description="Install dependencies, builds docroot, installs Drupal; uses local drush alias.">
     <phingcall target="setup">
       <property name="drush.alias" value="${drush.aliases.local}" />
+      <param name="enable_property" value="modules.local.enable"/>
+      <param name="uninstall_property" value="modules.local.uninstall"/>
     </phingcall>
   </target>
 
@@ -30,16 +32,11 @@
     <drush command="cache-rebuild"/>
   </target>
 
-  <target name="local:toggle-modules" description="Enables modules.local.enable projects and uninstalls modules.local.uninstall projects.">
-    <phingcall target="setup:toggle-modules">
-      <param name="enable" value="${modules.local.enable}"/>
-      <param name="uninstall" value="${modules.local.uninstall}"/>
-    </phingcall>
-  </target>
-
-  <target name="local:update" description="Update current database to reflect the state of the Drupal file system; uses local drush alias." depends="local:toggle-modules">
+  <target name="local:update" description="Update current database to reflect the state of the Drupal file system; uses local drush alias.">
     <phingcall target="setup:update">
       <property name="drush.alias" value="${drush.aliases.local}"/>
+      <property name="enable_property" value="modules.local.enable"/>
+      <property name="uninstall_property" value="modules.local.uninstall"/>
     </phingcall>
   </target>
 

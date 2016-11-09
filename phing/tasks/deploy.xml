@@ -157,19 +157,14 @@
     </delete>
   </target>
 
-  <target name="deploy:update" description="Update current database to reflect the state of the Drupal file system; uses local drush alias." depends="deploy:toggle-modules">
+  <target name="deploy:update" description="Update current database to reflect the state of the Drupal file system; uses local drush alias.">
     <phingcall target="setup:update">
+      <param name="enable_property" value="modules.deploy.enable"/>
+      <param name="uninstall_property" value="modules.deploy.uninstall"/>
       <property name="drush.alias" value="self"/>
       <!-- Most sites store their version-controlled configuration in /config/default. -->
       <!-- ACE internally sets the vcs configuration directory to /config/default, so we use that. -->
       <property name="cm.core.config-dir" value="vcs"/>
-    </phingcall>
-  </target>
-
-  <target name="deploy:toggle-modules" description="Enables modules.deploy.enable projects and uninstalls modules.deploy.uninstall projects.">
-    <phingcall target="setup:toggle-modules">
-      <param name="enable" value="${modules.deploy.enable}"/>
-      <param name="uninstall" value="${modules.deploy.uninstall}"/>
     </phingcall>
   </target>
 </project>

@@ -8,6 +8,7 @@
         }
     ],
     "require": {
+
         "cweagans/composer-patches":                  "dev-master#5456199acdcc16b243814aa45259f4c56272a634 as 1.5.0",
         "drupal/acquia_connector":                    "^8.1.5",
         "drupal/acsf":                                "^8.1.32",
