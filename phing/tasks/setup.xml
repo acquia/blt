@@ -240,6 +240,10 @@
     <!-- enable_property and uninstall_property must be set at this time. -->
     <phingcall target="setup:toggle-modules"/>
 
+    <!-- Rebuild caches in case service definitions have changed. -->
+    <!-- @see https://www.drupal.org/node/2826466 -->
+    <drush command="cr" alias="${drush.alias}"/>
+
     <!-- Import configuration before executing updates, in case any db updates are dependent on new configs to be imported. -->
     <drush command="config-import" assume="yes" alias="${drush.alias}">
       <option name="partial"></option>
