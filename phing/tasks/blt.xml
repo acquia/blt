@@ -79,7 +79,7 @@
   </target>
 
   <target name="version" description="Display the currently installed version of BLT.">
-    <exec dir="${repo.root}" command="echo 'BLT version:' $(composer info acquia/blt | grep ^versions | awk '{print $4}')" logoutput="true" checkreturn="true" level="${blt.exec_level}" />
+    <exec dir="${repo.root}" command="echo 'BLT version:' $(composer info acquia/blt | grep versions | awk '{print $4}')" logoutput="true" checkreturn="true" level="${blt.exec_level}" />
   </target>
 
   <target name="install-alias" description="Installs the BLT alias for command line usage." hidden="true">
