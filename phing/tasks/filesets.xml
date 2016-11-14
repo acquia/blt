@@ -20,6 +20,9 @@
     <exclude name="**/vendor/**/*"/>
   </patternset>
 
+  <!--
+    PHP Files
+  -->
   <fileset dir="${repo.root}" id="files.php.all">
     <patternset refid="files.php"/>
   </fileset>
@@ -36,7 +39,12 @@
     <patternset refid="files.php"/>
   </fileset>
 
+  <!--
+    Frontend Files
+  -->
   <fileset dir="${docroot}/themes/custom" id="files.frontend.custom.themes" expandsymboliclinks="true">
     <patternset refid="files.frontend"/>
   </fileset>
+
+
 </project>

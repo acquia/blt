@@ -85,4 +85,9 @@
     </phpcodesniffer>
   </target>
 
+  <target name="validate:twig" description="Validates twig syntax on custom twig files.">
+    <echo>Validating twig syntax for all custom modules and themes...</echo>
+    <exec dir="${repo.root}" command="${composer.bin}/blt-console lint:twig ${repo.root} ${docroot}/modules/custom ${docroot}/themes/custom" logoutput="true" checkreturn="true" passthru="true"  level="${blt.exec_level}" />
+  </target>
+
 </project>

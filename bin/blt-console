@@ -25,5 +25,5 @@ else {
 $application = new Application();
 $application->add(new ComposerMungeCommand());
 $application->add(new YamlMungeCommand());
-$application->add(new LintCommand());
+$application->add(new \Acquia\Blt\Console\Command\TwigLintCommand);
 $application->run();
