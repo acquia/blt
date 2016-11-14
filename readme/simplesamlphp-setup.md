@@ -106,7 +106,7 @@ Review `${project.root}/simplesamlphp/config/config.php` and set any values call
 
 #### <i class="icon-code"></i> BLT Copy Config
 
-Execute `blt simplesamlphp:config:build` to copy these configuration files to the SimpleSAMLphp library.
+Execute `blt simplesamlphp:build:config` to copy these configuration files to the SimpleSAMLphp library.
 
 #### <i class="icon-provider-github"></i> Deploy Code
 Commit your changes to your Git repository.
