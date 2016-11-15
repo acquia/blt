@@ -162,7 +162,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
         $this->executeCommand("blt-console blt:update {$this->blt_prior_version} $version {$this->getRepoRoot()} -y");
       }
       else {
-        $this->io->write("<comment>Could not detect prior BLT version. Skipping scripted updates.");
+        $this->io->write("<comment>Could not detect prior BLT version. Skipping scripted updates.</comment>");
       }
 
       $this->io->write('<comment>This may have modified your composer.json and require a subsequent `composer update`</comment>');

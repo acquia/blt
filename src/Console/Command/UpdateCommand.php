@@ -53,7 +53,7 @@ class UpdateCommand extends Command
     $updater->setRepoRoot($repo_root);
     $updates = $updater->getUpdates($starting_version, $ending_version);
     if ($updates) {
-      $output->writeln("<comment>The following BLT updates are outstanding:");
+      $output->writeln("<comment>The following BLT updates are outstanding:</comment>");
       $updater->printUpdates($updates);
 
       if (!$input->getOption('yes')) {
@@ -71,7 +71,7 @@ class UpdateCommand extends Command
       $updater->executeUpdates($updates);
     }
     else {
-      $output->writeln("<comment>There are no scripted updates avaiable between BLT versions $starting_version and $ending_version.");
+      $output->writeln("<comment>There are no scripted updates avaiable between BLT versions $starting_version and $ending_version.</comment>");
     }
   }
 }
