@@ -153,8 +153,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
       if (isset($this->blt_prior_version)) {
         $this->io->write("<info>Executing scripted updates for BLT version delta {$this->blt_prior_version} -> $version ...</info>");
         // $this->executeCommand("blt blt:update-delta -Dblt.prior_version={$this->blt_prior_version} -Dblt.version=$version");
-        $repo_root = (string) $this->getRepoRoot();
-        $this->executeCommand("blt-console blt:update {$this->blt_prior_version} $version {$repo_root}");
+        $this->executeCommand("blt-console blt:update {$this->blt_prior_version} $version {$this->getRepoRoot()}");
       }
       else {
         $this->io->write("<comment>Could not detect prior BLT version. Skipping scripted updates.");
@@ -177,7 +176,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    *   The file path of the repository root.
    */
   public function getRepoRoot() {
-    return dir($this->getVendorPath());
+    return dirname($this->getVendorPath());
   }
 
   /**
