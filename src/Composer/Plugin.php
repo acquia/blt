@@ -88,6 +88,8 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     $package = $this->getBltPackage($event->getOperation());
     if ($package) {
       $this->blt_prior_version = $package->getVersion();
+      // We write this to disk because the blt_prior_version property does not persist.
+      file_put_contents($this->getVendorPath() . '/blt_prior_version.txt', $this->blt_prior_version);
     }
   }
   /**
@@ -141,6 +143,11 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
 
       // Rsyncs, updates composer.json, project.yml.
       $this->executeCommand('blt update');
+
+      if (file_exists($this->getVendorPath() . '/blt_prior_version.txt')) {
+        $this->blt_prior_version = file_get_contents($this->getVendorPath() . '/blt_prior_version.txt');
+        unlink($this->getVendorPath() . '/blt_prior_version.txt');
+      }
 
       // Execute update hooks for this specific version delta.
       if (isset($this->blt_prior_version)) {
