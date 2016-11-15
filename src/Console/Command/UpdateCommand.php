@@ -37,7 +37,7 @@ class UpdateCommand extends Command
       ->addOption(
         'yes',
         'y',
-        InputOption::VALUE_OPTIONAL,
+        InputOption::VALUE_NONE,
         'Answers yes to all question prompts'
       )
     ;

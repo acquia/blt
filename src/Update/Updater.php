@@ -119,8 +119,8 @@ class Updater {
     $update_methods = $this->getAllUpdateMethods();
     $include_all_updates = FALSE;
 
-    if (strpos($starting_version, '-dev') !== FALSE
-      || strpos($ending_version, '-dev') !== FALSE ) {
+    if (strpos($starting_version, 'dev') !== FALSE
+      || strpos($ending_version, 'dev') !== FALSE ) {
       $this->output->writeln("<comment>You are (or were) using a development branch of BLT. Assuming that you require all scripted updates.</comment>");
       $include_all_updates = TRUE;
     }

@@ -107,7 +107,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
   }
 
   /**
-   * Post install command event to execute the blt update.
+   * Execute blt update after update command has been executed, if applicable.
    *
    * @param \Composer\Script\Event $event
    */
@@ -120,6 +120,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
   }
 
   /**
+   * Gets the acquia/blt package, if it is the package that is being operated on.
    * @param $operation
    * @return mixed
    */
@@ -136,6 +137,10 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     return NULL;
   }
 
+  /**
+   * Executes `blt update` and `blt-console blt:update` commands.
+   * @param $version
+   */
   protected function executeBltUpdate($version) {
     $options = $this->getOptions();
     if ($options['blt']['update']) {
