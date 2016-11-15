@@ -34,7 +34,12 @@ class UpdateCommand extends Command
         InputArgument::REQUIRED,
         'The root directory of the repository that utilizes BLT.'
       )
-      ->addOption('yes', 'y', InputOption::VALUE_OPTIONAL)
+      ->addOption(
+        'yes',
+        'y',
+        InputOption::VALUE_OPTIONAL,
+        'Answers yes to all question prompts'
+      )
     ;
   }
 
