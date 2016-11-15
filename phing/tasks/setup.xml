@@ -237,9 +237,6 @@
 
   <target name="setup:update" description="Update current database to reflect the state of the Drupal file system.">
 
-    <!-- enable_property and uninstall_property must be set at this time. -->
-    <phingcall target="setup:toggle-modules"/>
-
     <!-- Rebuild caches in case service definitions have changed. -->
     <!-- @see https://www.drupal.org/node/2826466 -->
     <drush command="cr" alias="${drush.alias}"/>
@@ -275,6 +272,9 @@
     </if>
     <!-- Rebuild caches. -->
     <drush command="cr" alias="${drush.alias}"/>
+
+    <!-- enable_property and uninstall_property must be set at this time. -->
+    <phingcall target="setup:toggle-modules"/>
   </target>
 
   <target name="setup:update:features-import" description="Perform a features import on the specified bundle.">
