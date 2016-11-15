@@ -29,6 +29,11 @@ class UpdateCommand extends Command
         InputArgument::REQUIRED,
         'The ending version.'
       )
+      ->addArgument(
+        'repo_root',
+        InputArgument::REQUIRED,
+        'The root directory of the repository that utilizes BLT.'
+      )
     ;
   }
 
@@ -36,8 +41,10 @@ class UpdateCommand extends Command
   {
     $starting_version = $input->getArgument('starting_version');
     $ending_version = $input->getArgument('ending_version');
+    $repo_root = $input->getArgument('repo_root');
 
     $updater = new Updater();
+    $updater->setRepoRoot($repo_root);
     $updates = $updater->getUpdates($starting_version, $ending_version);
     if ($updates) {
       $output->writeln("<comment>The following BLT updates are outstanding:");
@@ -53,6 +60,8 @@ class UpdateCommand extends Command
 
       $updater->executeUpdates($updates);
     }
-
+    else {
+      $output->writeln("<comment>There are no scripted updates avaiable between BLT versions $starting_version and $ending_version.");
+    }
   }
 }

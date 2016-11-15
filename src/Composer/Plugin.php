@@ -142,13 +142,27 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
       $this->executeCommand('blt update');
       $this->io->write('<comment>This may have modified your composer.json and require a subsequent `composer update`</comment>');
 
+      // Execute update hooks for this specific version delta.
       if (isset($this->blt_prior_version)) {
-        $this->executeCommand("blt-console blt:update {$this->blt_prior_version} $version");
+        $this->executeCommand("blt-console blt:update {$this->blt_prior_version} $version {$this->getRepoRoot()}");
       }
+
+      // @todo check if require or require-dev changed. If so, run `composer update`.
+      // @todo if require and require-dev did not change, but something else in composer.json changed, execute `composer update --lock`.
     }
     else {
       $this->io->write('<comment>Skipping update of BLT templated files</comment>');
     }
+  }
+
+  /**
+   * Returns the repo root's filepath, assumed to be one dir above vendor dir.
+   *
+   * @return string
+   *   The file path of the repository root.
+   */
+  public function getRepoRoot() {
+    return dir($this->getVendorPath());
   }
 
   /**
