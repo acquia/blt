@@ -14,6 +14,8 @@ echo "Sniffing staged files via PHP Code Sniffer..."
 ${ROOT_DIR}/vendor/bin/blt validate:phpcs:files -Dfiles="$LIST" -silent -emacs || exit 1;
 echo "Linting staged twig files..."
 ${ROOT_DIR}/vendor/bin/blt validate:twig:files -Dfiles="$LIST" -silent -emacs || exit 1;
+echo "Validating composer.json..."
+composer validate -q || echo 'composer.json is not valid. Run `composer validate` for more information.' && exit 1;
 
 # Return the status of the last run command.
 exit $?
