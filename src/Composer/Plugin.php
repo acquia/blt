@@ -153,7 +153,8 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
       if (isset($this->blt_prior_version)) {
         $this->io->write("<info>Executing scripted updates for BLT version delta {$this->blt_prior_version} -> $version ...</info>");
         // $this->executeCommand("blt blt:update-delta -Dblt.prior_version={$this->blt_prior_version} -Dblt.version=$version");
-        $this->executeCommand("blt-console blt:update {$this->blt_prior_version} $version {$this->getRepoRoot()}");
+        $repo_root = (string) $this->getRepoRoot();
+        $this->executeCommand("blt-console blt:update {$this->blt_prior_version} $version {$repo_root}");
       }
       else {
         $this->io->write("<comment>Could not detect prior BLT version. Skipping scripted updates.");
