@@ -85,6 +85,14 @@ class Updater {
   public function getUpdates($starting_version, $ending_version) {
     $updates = [];
     $update_methods = $this->getAllUpdateMethods();
+    $include_all_updates = FALSE;
+
+    if (strpos($starting_version, '-dev') !== FALSE
+      || strpos($ending_version, '-dev') !== FALSE ) {
+      $this->output->writeln("<comment>You are (or were) using a development branch of BLT. Assuming that you require all scripted updates.</comment>");
+      $include_all_updates = TRUE;
+    }
+
     /**
      * @var string $method_name
      * @var Update $metadata
@@ -92,7 +100,8 @@ class Updater {
     foreach ($update_methods as $method_name => $metadata) {
       $version = $metadata->version;
 
-      if (version::gt($version, $starting_version) && version::lte($version, $ending_version)) {
+      if ($include_all_updates
+        || (version::gt($version, $starting_version) && version::lte($version, $ending_version))) {
         $updates[$method_name] = $metadata;
       }
     }
