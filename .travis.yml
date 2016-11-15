@@ -58,8 +58,6 @@ install:
   # Install proper version of node for front end tasks.
   - nvm install 4.4.1
   - nvm use 4.4.1
-  # Initialize drupal console default configuration.
-  - drupal init
   # Initialize xvfb (see https://docs.travis-ci.com/user/gui-and-headless-browsers)
   - sudo apt-get install xvfb
   - export DISPLAY=:99.0
@@ -96,7 +94,7 @@ script:
   # Disable Lightning tests on pull requests.
   - if [[ "$TRAVIS_PULL_REQUEST" == "true" ]]; then echo $'behat:\n  paths:\n    - ${repo.root}/tests/behat' >> project.yml; fi
   # Call targets in the new 'blt-project' project.
-  - blt ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dbehat.launch-phantom=true
+  - blt ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true
   # Initialize ACSF config.
   - blt acsf:init
   # Ensure that the doctor doesn't report any problems at this point.

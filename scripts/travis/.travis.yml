@@ -58,8 +58,6 @@ install:
   # Install proper version of node for front end tasks.
   - nvm install 4.4.1
   - nvm use 4.4.1
-  # Initialize drupal console default configuration.
-  - drupal init
   # Initialize xvfb (see https://docs.travis-ci.com/user/gui-and-headless-browsers)
   - sudo apt-get install xvfb
   - export DISPLAY=:99.0
