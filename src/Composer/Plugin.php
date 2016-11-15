@@ -23,8 +23,7 @@ use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
 use Composer\Script\PackageEvent;
 use Composer\Util\ProcessExecutor;
-use Composer\Util\RemoteFilesystem;
-use Symfony\Component\Filesystem\Filesystem;
+use Composer\Util\Filesystem;
 use Symfony\Component\Process\Process;
 
 class Plugin implements PluginInterface, EventSubscriberInterface {
