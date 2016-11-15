@@ -10,6 +10,7 @@ class Update
 {
   /** @Required */
   public $version;
+  
   /**
    * @var string
    * @Required

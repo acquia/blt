@@ -25,14 +25,23 @@ class Updater {
   protected $fs;
 
   /**
+   * Returns $this->repoRoot.
+   *
    * @return string
+   *   The filepath of the repository root directory.
    */
   public function getRepoRoot() {
     return $this->repoRoot;
   }
 
   /**
+   * The filepath of the repository root directory.
+   *
+   * This directory is expected to contain the composer.json that defines
+   * acquia/blt as a dependency.
+   *
    * @param string $repoRoot
+   *   The filepath of the repository root directory.
    */
   public function setRepoRoot($repoRoot) {
     if (!$this->fs->exists($repoRoot)) {
@@ -42,6 +51,12 @@ class Updater {
     $this->repoRoot = $repoRoot;
   }
 
+  /**
+   * Updater constructor.
+   *
+   * @param string $update_class
+   *   The name of the class containing the update methods to be executed.
+   */
   public function __construct($update_class = 'Acquia\Blt\Update\Updates')
   {
     $this->output = new ConsoleOutput();
@@ -53,6 +68,8 @@ class Updater {
   }
 
   /**
+   * Executes an array of updates.
+   *
    * @param $updates \Acquia\Blt\Annotations\Update[]
    */
   public function executeUpdates($updates) {
@@ -70,6 +87,8 @@ class Updater {
   }
 
   /**
+   * Prints a human-readable list of update methods to the screen.
+   *
    * @param $updates \Acquia\Blt\Annotations\Update[]
    */
   public function printUpdates($updates) {
@@ -82,6 +101,19 @@ class Updater {
     }
   }
 
+  /**
+   * Gets all applicable updates for a given version delta.
+   *
+   * @param string $starting_version
+   *   The starting version. E.g., 8.5.0.
+   *
+   * @param string $ending_version
+   *   The ending version. E.g., 8.5.1.
+   *
+   * @return array
+   *   An array of applicable update methods, keyed by method name. Each row
+   *   contains the metadata from the Update annotation.
+   */
   public function getUpdates($starting_version, $ending_version) {
     $updates = [];
     $update_methods = $this->getAllUpdateMethods();
@@ -110,6 +142,9 @@ class Updater {
   }
 
   /**
+   * Gather an array of all available update methods.
+   *
+   * This will only return methods using the Update annotation.
    *
    * @see drupal_get_schema_versions()
    */

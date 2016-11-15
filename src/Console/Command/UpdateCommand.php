@@ -34,6 +34,7 @@ class UpdateCommand extends Command
         InputArgument::REQUIRED,
         'The root directory of the repository that utilizes BLT.'
       )
+      ->addOption('yes', 'y', InputOption::VALUE_OPTIONAL)
     ;
   }
 
@@ -49,13 +50,17 @@ class UpdateCommand extends Command
     if ($updates) {
       $output->writeln("<comment>The following BLT updates are outstanding:");
       $updater->printUpdates($updates);
-      $question = new ConfirmationQuestion(
-        '<question>Would you like to perform the listed updates?</question> ',
-        false
-      );
-      $continue = $this->getHelper('question')->ask($input, $output, $question);
-      if (!$continue) {
-        return 1;
+
+      if (!$input->getOption('yes')) {
+        $question = new ConfirmationQuestion(
+          '<question>Would you like to perform the listed updates?</question> ',
+          false
+        );
+
+        $continue = $this->getHelper('question')->ask($input, $output, $question);
+        if (!$continue) {
+          return 1;
+        }
       }
 
       $updater->executeUpdates($updates);

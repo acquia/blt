@@ -137,15 +137,22 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
   protected function executeBltUpdate($version) {
     $options = $this->getOptions();
     if ($options['blt']['update']) {
-      $this->io->write('<info>Updating BLT templated files</info>');
+      $this->io->write('<info>Updating BLT templated files...</info>');
+
       // Rsyncs, updates composer.json, project.yml.
       $this->executeCommand('blt update');
-      $this->io->write('<comment>This may have modified your composer.json and require a subsequent `composer update`</comment>');
 
       // Execute update hooks for this specific version delta.
       if (isset($this->blt_prior_version)) {
-        $this->executeCommand("blt-console blt:update {$this->blt_prior_version} $version {$this->getRepoRoot()}");
+        $this->io->write("<info>Executing scripted updates for BLT version delta {$this->blt_prior_version} -> $version ...</info>");
+        // $this->executeCommand("blt blt:update-delta -Dblt.prior_version={$this->blt_prior_version} -Dblt.version=$version");
+        $this->executeCommand("blt-console blt:update {$this->blt_prior_version} $version {$this->repoRoot}");
       }
+      else {
+        $this->io->write("<comment>Could not detect prior BLT version. Skipping scripted updates.");
+      }
+
+      $this->io->write('<comment>This may have modified your composer.json and require a subsequent `composer update`</comment>');
 
       // @todo check if require or require-dev changed. If so, run `composer update`.
       // @todo if require and require-dev did not change, but something else in composer.json changed, execute `composer update --lock`.

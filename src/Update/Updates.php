@@ -22,7 +22,7 @@ class Updates {
    *   description = "Removes deprecated features patch."
    * )
    */
-  public function update_850() {
+  public function update_851() {
     $this->updater->removePatch("drupal/features", "https://www.drupal.org/files/issues/features-2808303-2.patch");
   }
 }
