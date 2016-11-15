@@ -90,6 +90,8 @@ script:
   - drupal yaml:update:value project.yml project.local.hostname '127.0.0.1:8888'
   # BLT added new dependencies for us, so we must update.
   - composer update
+  # Execute all updates with fake "dev" => "dev" version specs. This must be done manually since BLT was not installed prior to this.
+  - blt-console blt:update dev dev $(pwd)
   # Create a .travis.yml, just to make sure it works. It won't be executed.
   - blt ci:travis:init
   - blt ci:pipelines:init
