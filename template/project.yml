@@ -95,5 +95,4 @@ modules:
     uninstall:
       - acsf
       - acquia_connector
-      - dblog
       - shield
