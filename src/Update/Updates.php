@@ -21,7 +21,8 @@ class Updates {
   /**
    * @Update(
    *   version = "8.5.1",
-   *   description = "Removes deprecated features patch."
+   *   description = "Removes deprecated features patch.
+   *   Moves configuration files to blt subdirectory."
    * )
    */
   public function update_851() {
