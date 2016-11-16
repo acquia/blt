@@ -158,7 +158,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
       if (isset($this->blt_prior_version)) {
         $this->io->write("<info>Executing scripted updates for BLT version delta {$this->blt_prior_version} -> $version ...</info>");
         // @todo Allow prompt here.
-        $this->executeCommand("blt-console blt:update %s %s %s",
+        $this->executeCommand("blt-console blt:update %s %s %s %s",
           [
             $this->blt_prior_version,
             $version,
