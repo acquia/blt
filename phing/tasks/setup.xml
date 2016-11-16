@@ -91,7 +91,7 @@
     <if>
       <not><available file="${blt.config-files.local}" type="file" /></not>
       <then>
-        <copy file="${repo.root}/example.project.local.yml" tofile="${blt.config-files.local}" verbose="true" />
+        <copy file="${blt.config-files.example-local}" tofile="${blt.config-files.local}" verbose="true" />
       </then>
     </if>
 

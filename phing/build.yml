@@ -32,6 +32,7 @@ blt:
   config-files:
     project: ${repo.root}/blt/project.yml
     local: ${repo.root}/blt/project.local.yml
+    example-local: ${repo.root}/blt/example.project.local.yml
     schema-version: ${repo.root}/blt/.schema_version
 
 composer:
