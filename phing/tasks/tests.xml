@@ -121,8 +121,8 @@
               level="${blt.exec_level}"
               logoutput="false"/>
         <echo>Selenium2 logs are being written to ${reports.selenium2}.</echo>
-        <echo message="Waiting 10 seconds for Selenium standalone server (http://127.0.0.1:4444) to become available."/>
-        <waitfor maxwait="10" maxwaitunit="second" checkevery="1" checkeveryunit="second" timeoutproperty="selenium.timedout">
+        <echo message="Waiting 15 seconds for Selenium standalone server (http://127.0.0.1:4444) to become available."/>
+        <waitfor maxwait="15" maxwaitunit="second" checkevery="1" checkeveryunit="second" timeoutproperty="selenium.timedout">
           <http url="http://127.0.0.1:4444/wd/hub"/>
         </waitfor>
 

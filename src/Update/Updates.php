@@ -5,7 +5,11 @@ namespace Acquia\Blt\Update;
 use Acquia\Blt\Annotations\Update;
 
 /**
+ * Defines scripted updates for specific version deltas of BLT.
  *
+ * Note that every update should be designed to execute against *any* version of
+ * blt given that a dev version of BLT will execute all updates regardless of
+ * recency.
  */
 class Updates {
 
