@@ -157,9 +157,16 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
       // Execute update hooks for this specific version delta.
       if (isset($this->blt_prior_version)) {
         $this->io->write("<info>Executing scripted updates for BLT version delta {$this->blt_prior_version} -> $version ...</info>");
-        // $this->executeCommand("blt blt:update-delta -Dblt.prior_version={$this->blt_prior_version} -Dblt.version=$version");
         // @todo Allow prompt here.
-        $this->executeCommand("blt-console blt:update {$this->blt_prior_version} $version {$this->getRepoRoot()} --yes");
+        $this->executeCommand("blt-console blt:update",
+          [
+            $this->blt_prior_version,
+            $version,
+            $this->getRepoRoot(),
+            '--yes',
+          ],
+          TRUE
+        );
       }
       else {
         $this->io->write("<comment>Could not detect prior BLT version. Skipping scripted updates.</comment>");
@@ -219,20 +226,23 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    * Executes a shell command with escaping.
    *
    * @param string $cmd
+   * @param bool $display_output
+   *   Optional. Defaults to FALSE. If TRUE, command output will be displayed
+   *   on screen.
    * @return bool
+   *   TRUE if command returns successfully with a 0 exit code.
    */
-  protected function executeCommand($cmd) {
+  protected function executeCommand($cmd, $args = [], $display_output = FALSE) {
     // Shell-escape all arguments except the command.
-    $args = func_get_args();
     foreach ($args as $index => $arg) {
-      if ($index !== 0) {
-        $args[$index] = escapeshellarg($arg);
-      }
+      $args[$index] = escapeshellarg($arg);
     }
+    // Add command as first arg.
+    array_unshift($args, $cmd);
     // And replace the arguments.
     $command = call_user_func_array('sprintf', $args);
     $output = '';
-    if ($this->io->isVerbose()) {
+    if ($this->io->isVerbose() || $display_output) {
       $this->io->write('<comment> > ' . $command . '</comment>');
       $io = $this->io;
       $output = function ($type, $buffer) use ($io) {
