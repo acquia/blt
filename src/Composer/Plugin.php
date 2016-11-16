@@ -71,8 +71,6 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    */
   public static function getSubscribedEvents() {
     return array(
-      PackageEvents::PRE_PACKAGE_INSTALL => "onPrePackageEvent",
-      PackageEvents::PRE_PACKAGE_UPDATE => "onPrePackageEvent",
       PackageEvents::POST_PACKAGE_INSTALL => "onPostPackageEvent",
       PackageEvents::POST_PACKAGE_UPDATE => "onPostPackageEvent",
       ScriptEvents::POST_UPDATE_CMD => 'onPostCmdEvent'
