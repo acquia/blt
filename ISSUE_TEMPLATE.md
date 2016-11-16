@@ -1,7 +1,7 @@
 My system information:
 * Operating system type: [replace]
 * Operating system version: [replace]
-* BLT version [replace]
+* BLT version: [replace]
 
 Output of `blt doctor`:
 ```
