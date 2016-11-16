@@ -158,7 +158,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
       if (isset($this->blt_prior_version)) {
         $this->io->write("<info>Executing scripted updates for BLT version delta {$this->blt_prior_version} -> $version ...</info>");
         // @todo Allow prompt here.
-        $this->executeCommand("blt-console blt:update",
+        $this->executeCommand("blt-console blt:update %s %s %s",
           [
             $this->blt_prior_version,
             $version,
@@ -233,7 +233,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    *   TRUE if command returns successfully with a 0 exit code.
    */
   protected function executeCommand($cmd, $args = [], $display_output = FALSE) {
-    // Shell-escape all arguments except the command.
+    // Shell-escape all arguments.
     foreach ($args as $index => $arg) {
       $args[$index] = escapeshellarg($arg);
     }
