@@ -7,7 +7,7 @@
 
 
 ROOT_DIR="$(pwd)/"
-PREFIX=$($ROOT_DIR/vendor/bin/drupal yaml:get:value $ROOT_DIR/project.yml project.prefix)
+PREFIX=$($ROOT_DIR/vendor/bin/drupal yaml:get:value $ROOT_DIR/blt/project.yml project.prefix)
 regex="^${PREFIX}-[0-9]+(: )[^ ].{15,}\."
 if ! grep -iqE "$regex" "$1"; then
   echo "Invalid commit message. Commit messages must:"

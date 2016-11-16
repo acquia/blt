@@ -90,9 +90,4 @@
     <exec dir="${repo.root}" command="${composer.bin}/blt-console lint:twig ${repo.root} ${docroot}/modules/custom ${docroot}/themes/custom" logoutput="true" checkreturn="true" passthru="true"  level="${blt.exec_level}" />
   </target>
 
-  <target name="validate:twig:files" description="Validates twig syntax on custom twig files.">
-    <fail unless="files" message="Missing files parameter."/>
-    <exec dir="${repo.root}" command="${composer.bin}/blt-console lint:twig ${repo.root} ${files}" logoutput="true" checkreturn="true" passthru="true"  level="${blt.exec_level}" />
-  </target>
-
 </project>
