@@ -10,9 +10,11 @@ class Updates {
   protected $updater;
 
   /**
-   * @param Updater $updater
+   * Updates constructor.
+   *
+   * @param \Acquia\Blt\Update\Updater $updater
    */
-  public function setUpdater($updater) {
+  public function __construct(Updater $updater) {
     $this->updater = $updater;
   }
 
@@ -24,5 +26,10 @@ class Updates {
    */
   public function update_851() {
     $this->updater->removePatch("drupal/features", "https://www.drupal.org/files/issues/features-2808303-2.patch");
+
+    // Move files to blt subdir.
+    $this->updater->moveFile('project.yml', 'blt/project.yml');
+    $this->updater->moveFile('project.local.yml', 'blt/project.local.yml');
+    $this->updater->moveFile('example.project.local.yml', 'blt/example.project.local.yml');
   }
 }

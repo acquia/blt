@@ -52,6 +52,13 @@ class Updater {
   }
 
   /**
+   * @return \Symfony\Component\Filesystem\Filesystem
+   */
+  public function getFileSystem() {
+    return $this->fs;
+  }
+
+  /**
    * Updater constructor.
    *
    * @param string $update_class
@@ -74,8 +81,8 @@ class Updater {
    */
   public function executeUpdates($updates) {
     /** @var Updates $updates_object */
-    $updates_object = new $this->updateClassName();
-    $updates_object->setUpdater($this);
+    $updates_object = new $this->updateClassName($this);
+
     /**
      * @var string $method_name
      * @var Update $update
@@ -223,5 +230,15 @@ class Updater {
       }
     }
     return FALSE;
+  }
+
+  /**
+   * Moves a file from one location to another, relative to repo root.
+   * 
+   * @param $source
+   * @param $target
+   */
+  public function moveFile($source, $target) {
+    $this->getFileSystem()->rename($this->getRepoRoot() . '/' . $source, $this->getRepoRoot() . '/' . $target);
   }
 }

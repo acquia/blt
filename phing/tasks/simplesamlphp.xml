@@ -12,8 +12,8 @@
         <phingcall target="simplesamlphp:config:init"/>
 
         <!-- Sets a value in project.yml to let other targets know simplesamlphp is installed -->
-        <echo>Updating project.yml.</echo>
-        <exec dir="${repo.root}" command="${composer.bin}/drupal yaml:update:value project.yml simplesamlphp true" logoutput="true" checkreturn="true" passthru="true" level="${blt.exec_level}"/>
+        <echo>Updating ${blt.config-files.project}...</echo>
+        <exec dir="${repo.root}" command="${composer.bin}/drupal yaml:update:value ${blt.config-files.project} simplesamlphp true" logoutput="true" checkreturn="true" passthru="true" level="${blt.exec_level}"/>
 
         <!-- Creates a symlink from the docroot to the web accessible library dir. -->
         <echo>Creating a symbolic link from ${docroot}/simplesaml to web accessible directory in the simplesamlphp library</echo>

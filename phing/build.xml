@@ -77,7 +77,7 @@
 
   <!-- Disable targets defined in the disable-targets array in project.yml. -->
   <!-- This must be executed after all targets are defined. -->
-  <disabletargets file="${repo.root}/project.yml" property="disable-targets"/>
+  <disabletargets file="${blt.config-files.project}" property="disable-targets"/>
 
   <target name="list" hidden="true">
     <exec dir="${repo.root}" command="cat ${blt.root}/scripts/blt/ascii-art.txt" logoutput="true" passthru="true" checkreturn="false"/>

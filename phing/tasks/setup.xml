@@ -89,9 +89,9 @@
     <echo>Generating local settings files.</echo>
 
     <if>
-      <not><available file="${repo.root}/project.local.yml" type="file" /></not>
+      <not><available file="${blt.config-files.local}" type="file" /></not>
       <then>
-        <copy file="${repo.root}/example.project.local.yml" tofile="${repo.root}/project.local.yml" verbose="true" />
+        <copy file="${repo.root}/example.project.local.yml" tofile="${blt.config-files.local}" verbose="true" />
       </then>
     </if>
 
