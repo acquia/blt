@@ -41,12 +41,12 @@
       <property name="create_alias" value="true"/>
     </phingcall>
 
-    <echo>Some of your customized files may have been modified.</echo>
-    <echo>Please review changes with "git diff".</echo>
-    <echo>If your composer.json was modified, you need to run "composer update".</echo>
-    <echo>Commit changes, or use "git add -p [filename]" to select which changes should be committed to each file.</echo>
-    <echo></echo>
-    <echo>To remove deprecated BLT files, run "blt cleanup".</echo>
+    <echo>Some of your customized files may have been modified.
+          Please review changes with "git diff".
+          If your composer.json was modified, you need to run "composer update".
+          Commit changes, or use "git add -p [filename]" to select which changes should be committed to each file.
+
+          To remove deprecated BLT files, run "blt cleanup".</echo>
   </target>
 
   <target name="blt:update-delta" description="Performs scripted updates for a specific BLT version delta." hidden="true">
