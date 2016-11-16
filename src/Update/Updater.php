@@ -87,13 +87,14 @@ class Updater {
   public function executeUpdates($updates) {
     /** @var Updates $updates_object */
     $updates_object = new $this->updateClassName($this);
+    $this->output->writeln("Executing updates...");
 
     /**
      * @var string $method_name
      * @var Update $update
      */
     foreach ($updates as $method_name => $update) {
-      $this->output->writeln("Executing Updater->$method_name: {$update->description}");
+      $this->output->writeln("-> $method_name: {$update->description}");
       call_user_func([$updates_object, $method_name]);
     }
   }
@@ -109,8 +110,9 @@ class Updater {
      * @var Update $update
      */
     foreach ($updates as $method_name => $update) {
-      $this->output->writeln("{$update->version}: {$update->description}");
+      $this->output->writeln(" - $method_name: {$update->description}");
     }
+    $this->output->writeln('');
   }
 
   /**
@@ -133,7 +135,7 @@ class Updater {
 
     if (strpos($starting_version, 'dev') !== FALSE
       || strpos($ending_version, 'dev') !== FALSE) {
-      $this->output->writeln("<comment>You are (or were) using a development branch of BLT. Assuming that you require all scripted updates.</comment>");
+      $this->output->writeln("<comment>You are (or were) using a development branch of BLT. It is assumed that you require all scripted updates.</comment>");
       $include_all_updates = TRUE;
     }
 

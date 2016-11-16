@@ -80,19 +80,6 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
   }
 
   /**
-   * Marks initial blt version before install or update command.
-   *
-   * @param \Composer\Installer\PackageEvent $event
-   */
-  public function onPrePackageEvent(\Composer\Installer\PackageEvent $event){
-    $package = $this->getBltPackage($event->getOperation());
-    if ($package) {
-      $this->blt_prior_version = $package->getVersion();
-      // We write this to disk because the blt_prior_version property does not persist.
-      file_put_contents($this->getVendorPath() . '/blt_prior_version.txt', $this->blt_prior_version);
-    }
-  }
-  /**
    * Marks blt to be processed after an install or update command.
    *
    * @param \Composer\Installer\PackageEvent $event
@@ -146,31 +133,8 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     if ($options['blt']['update']) {
       $this->io->write('<info>Updating BLT templated files...</info>');
 
-      // Rsyncs, updates composer.json, project.yml.
+      // Rsyncs, updates composer.json, project.yml, executes scripted updates for version delta.
       $this->executeCommand('blt update');
-
-      if (file_exists($this->getVendorPath() . '/blt_prior_version.txt')) {
-        $this->blt_prior_version = file_get_contents($this->getVendorPath() . '/blt_prior_version.txt');
-        unlink($this->getVendorPath() . '/blt_prior_version.txt');
-      }
-
-      // Execute update hooks for this specific version delta.
-      if (isset($this->blt_prior_version)) {
-        $this->io->write("<info>Executing scripted updates for BLT version delta {$this->blt_prior_version} -> $version ...</info>");
-        // @todo Allow prompt here.
-        $this->executeCommand("blt-console blt:update %s %s %s --yes",
-          [
-            $this->blt_prior_version,
-            $version,
-            $this->getRepoRoot(),
-          ],
-          TRUE
-        );
-      }
-      else {
-        $this->io->write("<comment>Could not detect prior BLT version. Skipping scripted updates.</comment>");
-      }
-
       $this->io->write('<comment>This may have modified your composer.json and require a subsequent `composer update`</comment>');
 
       // @todo check if require or require-dev changed. If so, run `composer update`.
