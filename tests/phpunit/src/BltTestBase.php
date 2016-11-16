@@ -22,7 +22,7 @@ abstract class BltTestBase extends \PHPUnit_Framework_TestCase {
     parent::setUp();
     $this->bltDirectory = realpath(dirname(__FILE__) . '/../../');
     $this->newProjectDir = dirname(dirname($this->bltDirectory)) . '/blt-project';
-    $this->config = Yaml::parse(file_get_contents("{$this->newProjectDir}/project.yml"));
+    $this->config = Yaml::parse(file_get_contents("{$this->newProjectDir}/blt/project.yml"));
 
   }
 

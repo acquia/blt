@@ -87,7 +87,7 @@ script:
   - composer install -v
   - export PATH=$TRAVIS_BUILD_DIR/../blt-project/vendor/bin:$PATH
   # The local.hostname must be set to 127.0.0.1:8888 because we are using drush runserver to run the site on Travis CI.
-  - drupal yaml:update:value project.yml project.local.hostname '127.0.0.1:8888'
+  - drupal yaml:update:value blt/project.yml project.local.hostname '127.0.0.1:8888'
   # BLT added new dependencies for us, so we must update.
   - composer update
   # Execute all updates with fake "dev" => "dev" version specs. This must be done manually since BLT was not installed prior to this.
@@ -96,7 +96,8 @@ script:
   - blt ci:travis:init
   - blt ci:pipelines:init
   # Disable Lightning tests on pull requests.
-  - if [[ "$TRAVIS_PULL_REQUEST" == "true" ]]; then echo $'behat:\n  paths:\n    - ${repo.root}/tests/behat' >> project.yml; fi
+  - if [[ "$TRAVIS_PULL_REQUEST" == "true" ]]; then echo 'behat:\n  paths:\n    - ${repo.root}/tests/behat' >> blt/project.yml; fi
+  - cat blt/project.yml
   # Call targets in the new 'blt-project' project.
   - blt ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dbehat.launch-phantom=true
   # Initialize ACSF config.

@@ -71,27 +71,12 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    */
   public static function getSubscribedEvents() {
     return array(
-      PackageEvents::PRE_PACKAGE_INSTALL => "onPrePackageEvent",
-      PackageEvents::PRE_PACKAGE_UPDATE => "onPrePackageEvent",
       PackageEvents::POST_PACKAGE_INSTALL => "onPostPackageEvent",
       PackageEvents::POST_PACKAGE_UPDATE => "onPostPackageEvent",
       ScriptEvents::POST_UPDATE_CMD => 'onPostCmdEvent'
     );
   }
 
-  /**
-   * Marks initial blt version before install or update command.
-   *
-   * @param \Composer\Installer\PackageEvent $event
-   */
-  public function onPrePackageEvent(\Composer\Installer\PackageEvent $event){
-    $package = $this->getBltPackage($event->getOperation());
-    if ($package) {
-      $this->blt_prior_version = $package->getVersion();
-      // We write this to disk because the blt_prior_version property does not persist.
-      file_put_contents($this->getVendorPath() . '/blt_prior_version.txt', $this->blt_prior_version);
-    }
-  }
   /**
    * Marks blt to be processed after an install or update command.
    *
@@ -146,25 +131,8 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     if ($options['blt']['update']) {
       $this->io->write('<info>Updating BLT templated files...</info>');
 
-      // Rsyncs, updates composer.json, project.yml.
+      // Rsyncs, updates composer.json, project.yml, executes scripted updates for version delta.
       $this->executeCommand('blt update');
-
-      if (file_exists($this->getVendorPath() . '/blt_prior_version.txt')) {
-        $this->blt_prior_version = file_get_contents($this->getVendorPath() . '/blt_prior_version.txt');
-        unlink($this->getVendorPath() . '/blt_prior_version.txt');
-      }
-
-      // Execute update hooks for this specific version delta.
-      if (isset($this->blt_prior_version)) {
-        $this->io->write("<info>Executing scripted updates for BLT version delta {$this->blt_prior_version} -> $version ...</info>");
-        // $this->executeCommand("blt blt:update-delta -Dblt.prior_version={$this->blt_prior_version} -Dblt.version=$version");
-        // @todo Allow prompt here.
-        $this->executeCommand("blt-console blt:update {$this->blt_prior_version} $version {$this->getRepoRoot()} --yes");
-      }
-      else {
-        $this->io->write("<comment>Could not detect prior BLT version. Skipping scripted updates.</comment>");
-      }
-
       $this->io->write('<comment>This may have modified your composer.json and require a subsequent `composer update`</comment>');
 
       // @todo check if require or require-dev changed. If so, run `composer update`.
@@ -218,21 +186,27 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
   /**
    * Executes a shell command with escaping.
    *
+   * Example usage: $this->executeCommand("test command %s", [ $value ]).
+   *
    * @param string $cmd
+   * @param array $args
+   * @param bool $display_output
+   *   Optional. Defaults to FALSE. If TRUE, command output will be displayed
+   *   on screen.
    * @return bool
+   *   TRUE if command returns successfully with a 0 exit code.
    */
-  protected function executeCommand($cmd) {
-    // Shell-escape all arguments except the command.
-    $args = func_get_args();
+  protected function executeCommand($cmd, $args = [], $display_output = FALSE) {
+    // Shell-escape all arguments.
     foreach ($args as $index => $arg) {
-      if ($index !== 0) {
-        $args[$index] = escapeshellarg($arg);
-      }
+      $args[$index] = escapeshellarg($arg);
     }
+    // Add command as first arg.
+    array_unshift($args, $cmd);
     // And replace the arguments.
     $command = call_user_func_array('sprintf', $args);
     $output = '';
-    if ($this->io->isVerbose()) {
+    if ($this->io->isVerbose() || $display_output) {
       $this->io->write('<comment> > ' . $command . '</comment>');
       $io = $this->io;
       $output = function ($type, $buffer) use ($io) {

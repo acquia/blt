@@ -13,15 +13,21 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
 use vierbergenlars\SemVer\version;
 
+/**
+ *
+ */
 class Updater {
 
-  /** @var \Symfony\Component\Console\Output\ConsoleOutput */
+  /**
+   * @var \Symfony\Component\Console\Output\ConsoleOutput*/
   protected $output;
 
-  /** @var string */
+  /**
+   * @var string*/
   protected $repoRoot;
 
-  /** @var \Symfony\Component\Filesystem\Filesystem  */
+  /**
+   * @var \Symfony\Component\Filesystem\Filesystem*/
   protected $fs;
 
   /**
@@ -52,15 +58,21 @@ class Updater {
   }
 
   /**
+   * @return \Symfony\Component\Filesystem\Filesystem
+   */
+  public function getFileSystem() {
+    return $this->fs;
+  }
+
+  /**
    * Updater constructor.
    *
    * @param string $update_class
    *   The name of the class containing the update methods to be executed.
    */
-  public function __construct($update_class = 'Acquia\Blt\Update\Updates')
-  {
+  public function __construct($update_class = 'Acquia\Blt\Update\Updates') {
     $this->output = new ConsoleOutput();
-    $this->output->setFormatter(new OutputFormatter(true));
+    $this->output->setFormatter(new OutputFormatter(TRUE));
     AnnotationRegistry::registerFile(__DIR__ . '/../Annotations/Update.php');
     $this->annotationsReader = new IndexedReader(new AnnotationReader());
     $this->updateClassName = $update_class;
@@ -74,14 +86,15 @@ class Updater {
    */
   public function executeUpdates($updates) {
     /** @var Updates $updates_object */
-    $updates_object = new $this->updateClassName();
-    $updates_object->setUpdater($this);
+    $updates_object = new $this->updateClassName($this);
+    $this->output->writeln("Executing updates...");
+
     /**
      * @var string $method_name
      * @var Update $update
      */
     foreach ($updates as $method_name => $update) {
-      $this->output->writeln("Executing Updater->$method_name: {$update->description}");
+      $this->output->writeln("-> $method_name: {$update->description}");
       call_user_func([$updates_object, $method_name]);
     }
   }
@@ -97,8 +110,9 @@ class Updater {
      * @var Update $update
      */
     foreach ($updates as $method_name => $update) {
-      $this->output->writeln("{$update->version}: {$update->description}");
+      $this->output->writeln(" - $method_name: {$update->description}");
     }
+    $this->output->writeln('');
   }
 
   /**
@@ -120,8 +134,8 @@ class Updater {
     $include_all_updates = FALSE;
 
     if (strpos($starting_version, 'dev') !== FALSE
-      || strpos($ending_version, 'dev') !== FALSE ) {
-      $this->output->writeln("<comment>You are (or were) using a development branch of BLT. Assuming that you require all scripted updates.</comment>");
+      || strpos($ending_version, 'dev') !== FALSE) {
+      $this->output->writeln("<comment>You are (or were) using a development branch of BLT. It is assumed that you require all scripted updates.</comment>");
       $include_all_updates = TRUE;
     }
 
@@ -174,20 +188,20 @@ class Updater {
    *   If $display_output is true, method will return TRUE for success, FALSE
    *   for failure. If $display_output false, method will return command output.
    */
-  public static function executeCommand($command, $cwd = null, $display_output = true, $mustRun = true)
-  {
+  public static function executeCommand($command, $cwd = NULL, $display_output = TRUE, $mustRun = TRUE) {
     $timeout = 10800;
     $env = [
-        'COMPOSER_PROCESS_TIMEOUT' => $timeout
-      ] + $_ENV;
-    $process = new Process($command, $cwd, $env, null, $timeout);
+      'COMPOSER_PROCESS_TIMEOUT' => $timeout,
+    ] + $_ENV;
+    $process = new Process($command, $cwd, $env, NULL, $timeout);
     $method = $mustRun ? 'mustRun' : 'run';
     if ($display_output) {
       $process->$method(function ($type, $buffer) {
         print $buffer;
       });
       return $process->isSuccessful();
-    } else {
+    }
+    else {
       $process->$method();
       return $process->getOutput();
     }
@@ -216,7 +230,7 @@ class Updater {
           if (empty($composer_json['extra']['patches'][$package])) {
             unset($composer_json['extra']['patches'][$package]);
           }
-          file_put_contents($composer_json_filepath, json_encode($composer_json, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES));
+          file_put_contents($composer_json_filepath, json_encode($composer_json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
           return TRUE;
         }
@@ -224,4 +238,34 @@ class Updater {
     }
     return FALSE;
   }
+
+  /**
+   * Moves a file from one location to another, relative to repo root.
+   *
+   * @param string $source
+   *   The source filepath, relative to the repository root.
+   * @param string $target
+   *   The target filepath, relative to the repository root.
+   *
+   * @return bool
+   *   FALSE if nothing happened.
+   */
+  public function moveFile($source, $target, $overwrite = FALSE) {
+    $source_path = $this->getRepoRoot() . '/' . $source;
+    $target_path = $this->getRepoRoot() . '/' . $target;
+
+    if ($this->getFileSystem()->exists($source)) {
+      if ($overwrite) {
+        $this->getFileSystem()->rename($source_path, $target_path, TRUE);
+      }
+      // We "fail" silently if target file already exists. The default behavior
+      // is quiet and non-destructive.
+      elseif (!$this->getFileSystem()->exists($target_path)) {
+        $this->getFileSystem()->rename($source_path, $target_path);
+      }
+    }
+
+    return FALSE;
+  }
+
 }

@@ -29,9 +29,18 @@ blt:
   # Equivalent of using Phing arguments -debug, -verbose, [none], -quiet, -silent
   # Note that this does not affect passthru output.
   level: info
+  config-files:
+    project: ${repo.root}/blt/project.yml
+    local: ${repo.root}/blt/project.local.yml
+    example-local: ${repo.root}/blt/example.project.local.yml
+    schema-version: ${repo.root}/blt/.schema_version
 
 composer:
   bin: ${repo.root}/vendor/bin
+
+cm:
+  core:
+    config-dir: sync
 
 deploy:
   # If true, dependencies will be built during deploy. If false, you should commit dependencies directly.
@@ -77,7 +86,3 @@ phpcs:
 project:
   local:
     uri: ${project.local.protocol}://${project.local.hostname}
-
-cm:
-  core:
-    config-dir: sync

@@ -113,3 +113,9 @@ nbproject/*
 *.gz
 *.sql
 *.zip
+
+# PHPStorm
+atlassian-ide-plugin.xml
+
+# Drupal console
+console

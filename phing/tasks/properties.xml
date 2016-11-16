@@ -12,16 +12,28 @@
   <property file="${phing.dir}/build.yml" override="true" logoutput="false"/>
 
   <!-- Load the root project.yml file for this project. -->
-  <property file="${repo.root}/project.yml" override="true" logoutput="false"/>
+  <property file="${blt.config-files.project}" override="true" logoutput="false"/>
 
   <!-- Load the local project.local.yml file for this project. -->
   <!--@todo Change this so that it is only loaded for local:* targets. -->
   <if>
-    <available file="${repo.root}/project.local.yml" type="file" property="local.properties"/>
+    <available file="${blt.config-files.local}" type="file" property="local.properties"/>
     <then>
-      <property file="${repo.root}/project.local.yml" override="true" logoutput="false"/>
+      <property file="${blt.config-files.local}" override="true" logoutput="false"/>
     </then>
   </if>
+
+  <!--Get version information. -->
+  <if>
+    <not><available file="${blt.config-files.schema-version}"/></not>
+    <then>
+      <!-- If no schema version exists, assume 8.5.2, which is last release before this file was introduced. -->
+      <exec dir="${repo.root}" command="mkdir -p blt" checkreturn="true" logoutput="true" passthru="false" level="${blt.exec_level}"/>
+      <exec dir="${repo.root}" command="echo '8.5.2' >> ${blt.config-files.schema-version}" checkreturn="true" logoutput="true" passthru="false" level="${blt.exec_level}"/>
+    </then>
+  </if>
+  <exec dir="${repo.root}" command="cat ${blt.config-files.schema-version}" outputProperty="blt.schema-version" checkreturn="true" logoutput="false" level="${blt.exec_level}"/>
+  <exec dir="${repo.root}" command="composer info acquia/blt | grep versions | awk '{print $4}'" outputProperty="blt.version" logoutput="false " checkreturn="true" level="${blt.exec_level}" />
 
   <!--verbosityTask is used to set the verbosity level of Phing via a property. It is necessary because the -verbose, -debug, -silent, and -quiet command line options are not available as properties and cannot be utilized in task conditionals. -->
   <verbosityTask level="${blt.level}"/>

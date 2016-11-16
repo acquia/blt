@@ -71,27 +71,27 @@
         <if>
           <not><available file="${docroot}/sites/default/default.settings.php"/></not>
           <then>
-            <echo level="verbose">Download scaffold files so that default.settings.php is available.</echo>
+            <echo level="verbose">Downloading scaffold files so that default.settings.php is available...</echo>
             <exec dir="${repo.root}" command="composer drupal-scaffold" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true" />
           </then>
         </if>
 
-        <echo>Generating settings.php from default.settings.php.</echo>
+        <echo>Generating settings.php from default.settings.php...</echo>
         <copy file="${docroot}/sites/default/default.settings.php" tofile="${docroot}/sites/default/settings.php" verbose="true"/>
       </then>
     </if>
-    <echo>Making ${docroot}/sites/default/settings.php writable.</echo>
+    <echo>Making ${docroot}/sites/default/settings.php writable...</echo>
     <chmod mode="0644" failonerror="false" file="${docroot}/sites/default/settings.php"/>
-    <echo>Ensuring that blt.settings.php is required by settings.php</echo>
+    <echo>Ensuring that blt.settings.php is required by settings.php...</echo>
     <exec dir="${docroot}/sites/default" command="grep vendor/acquia/blt/settings/blt.settings.php settings.php || echo 'require DRUPAL_ROOT . &quot;/../vendor/acquia/blt/settings/blt.settings.php&quot;;' >> settings.php" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
     <exec dir="${docroot}/sites/default" command="grep trusted_host.settings.php settings.php || echo '// require DRUPAL_ROOT . &quot;/sites/default/settings/trusted_host.settings.php&quot;;' >> settings.php" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
 
     <echo>Generating local settings files.</echo>
 
     <if>
-      <not><available file="${repo.root}/project.local.yml" type="file" /></not>
+      <not><available file="${blt.config-files.local}" type="file" /></not>
       <then>
-        <copy file="${repo.root}/example.project.local.yml" tofile="${repo.root}/project.local.yml" verbose="true" />
+        <copy file="${blt.config-files.example-local}" tofile="${blt.config-files.local}" verbose="true" />
       </then>
     </if>
 
@@ -119,17 +119,17 @@
         <if>
           <available file="${docroot}/sites/${multisite.name}/default.local.drushrc.php" type="file" />
           <then>
-            <copy file="${docroot}/sites/${multisite.name}/default.local.drushrc.php" tofile="${docroot}/sites/${multisite.name}/local.drushrc.php" verbose="true" />
+            <copy file="${docroot}/sites/${multisite.name}/default.local.drushrc.php" tofile="${docroot}/sites/${multisite.name}/local.drushrc.php"/>
           </then>
           <else>
-            <copy file="${blt.root}/settings/default.local.drushrc.php" tofile="${docroot}/sites/${multisite.name}/default.local.drushrc.php" verbose="true"/>
-            <copy file="${blt.root}/settings/default.local.drushrc.php" tofile="${docroot}/sites/${multisite.name}/local.drushrc.php" verbose="true"/>
+            <copy file="${blt.root}/settings/default.local.drushrc.php" tofile="${docroot}/sites/${multisite.name}/default.local.drushrc.php"/>
+            <copy file="${blt.root}/settings/default.local.drushrc.php" tofile="${docroot}/sites/${multisite.name}/local.drushrc.php"/>
           </else>
         </if>
       </then>
     </if>
 
-    <echo>Expanding Phing variables in ${docroot}/sites/${multisite.name}/local.drushrc.php.</echo>
+    <echo level="verbose">Expanding Phing variables in ${docroot}/sites/${multisite.name}/local.drushrc.php...</echo>
     <reflexive file="${docroot}/sites/${multisite.name}/local.drushrc.php">
       <filterchain>
         <expandproperties level="verbose" />
@@ -148,12 +148,12 @@
     <if>
       <istrue value="${drush.verbose}"/>
       <then>
-        <echo>Printing drush status.</echo>
+        <echo level="verbose">Printing drush status...</echo>
         <drush command="status"/>
       </then>
     </if>
 
-    <echo>Installing Drupal.</echo>
+    <echo>Installing Drupal...</echo>
     <drush command="site-install">
       <option name="site-name">"${project.human_name}"</option>
       <option name="site-mail">"${drupal.account.mail}"</option>
@@ -168,7 +168,7 @@
     <phingcall target="setup:update"/>
 
     <!-- Set sites directory file permissions. -->
-    <echo>Making ${docroot}/sites/default writable.</echo>
+    <echo level="verbose">Making ${docroot}/sites/default writable...</echo>
     <chmod mode="0755" failonerror="false">
       <fileset dir="${docroot}/sites/default">
         <type type="dir" />
@@ -185,7 +185,7 @@
   </target>
 
   <target name="setup:config-import" description="Import configuration from the config directory.">
-    <echo>Importing configuration.</echo>
+    <echo>Importing configuration...</echo>
     <drush command="pm-enable" assume="yes" alias="${drush.alias}">
       <param>config</param>
     </drush>
