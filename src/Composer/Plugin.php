@@ -7,6 +7,7 @@
 
 namespace Acquia\Blt\Composer;
 
+use Acquia\Blt\Update\Updater;
 use Composer\Composer;
 use Composer\DependencyResolver\Operation\InstallOperation;
 use Composer\DependencyResolver\Operation\UninstallOperation;
@@ -22,7 +23,7 @@ use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
 use Composer\Script\PackageEvent;
 use Composer\Util\ProcessExecutor;
-use Composer\Util\RemoteFilesystem;
+use Composer\Util\Filesystem;
 use Symfony\Component\Process\Process;
 
 class Plugin implements PluginInterface, EventSubscriberInterface {
@@ -49,6 +50,9 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    */
   protected $bltPackage;
 
+  /** @var string */
+  protected $blt_prior_version;
+
   /**
    * Apply plugin modifications to composer
    *
@@ -67,12 +71,27 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    */
   public static function getSubscribedEvents() {
     return array(
+      PackageEvents::PRE_PACKAGE_INSTALL => "onPrePackageEvent",
+      PackageEvents::PRE_PACKAGE_UPDATE => "onPrePackageEvent",
       PackageEvents::POST_PACKAGE_INSTALL => "onPostPackageEvent",
       PackageEvents::POST_PACKAGE_UPDATE => "onPostPackageEvent",
       ScriptEvents::POST_UPDATE_CMD => 'onPostCmdEvent'
     );
   }
 
+  /**
+   * Marks initial blt version before install or update command.
+   *
+   * @param \Composer\Installer\PackageEvent $event
+   */
+  public function onPrePackageEvent(\Composer\Installer\PackageEvent $event){
+    $package = $this->getBltPackage($event->getOperation());
+    if ($package) {
+      $this->blt_prior_version = $package->getVersion();
+      // We write this to disk because the blt_prior_version property does not persist.
+      file_put_contents($this->getVendorPath() . '/blt_prior_version.txt', $this->blt_prior_version);
+    }
+  }
   /**
    * Marks blt to be processed after an install or update command.
    *
@@ -88,18 +107,20 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
   }
 
   /**
-   * Post install command event to execute the blt update.
+   * Execute blt update after update command has been executed, if applicable.
    *
    * @param \Composer\Script\Event $event
    */
   public function onPostCmdEvent(\Composer\Script\Event $event) {
     // Only install the template files if acquia/blt was installed.
     if (isset($this->bltPackage)) {
-      $this->executeBltUpdate();
+      $version = $this->bltPackage->getVersion();
+      $this->executeBltUpdate($version);
     }
   }
 
   /**
+   * Gets the acquia/blt package, if it is the package that is being operated on.
    * @param $operation
    * @return mixed
    */
@@ -116,16 +137,52 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     return NULL;
   }
 
-  protected function executeBltUpdate() {
+  /**
+   * Executes `blt update` and `blt-console blt:update` commands.
+   * @param $version
+   */
+  protected function executeBltUpdate($version) {
     $options = $this->getOptions();
     if ($options['blt']['update']) {
-      $this->io->write('<info>Updating BLT templated files</info>');
+      $this->io->write('<info>Updating BLT templated files...</info>');
+
+      // Rsyncs, updates composer.json, project.yml.
       $this->executeCommand('blt update');
+
+      if (file_exists($this->getVendorPath() . '/blt_prior_version.txt')) {
+        $this->blt_prior_version = file_get_contents($this->getVendorPath() . '/blt_prior_version.txt');
+        unlink($this->getVendorPath() . '/blt_prior_version.txt');
+      }
+
+      // Execute update hooks for this specific version delta.
+      if (isset($this->blt_prior_version)) {
+        $this->io->write("<info>Executing scripted updates for BLT version delta {$this->blt_prior_version} -> $version ...</info>");
+        // $this->executeCommand("blt blt:update-delta -Dblt.prior_version={$this->blt_prior_version} -Dblt.version=$version");
+        // @todo Allow prompt here.
+        $this->executeCommand("blt-console blt:update {$this->blt_prior_version} $version {$this->getRepoRoot()} --yes");
+      }
+      else {
+        $this->io->write("<comment>Could not detect prior BLT version. Skipping scripted updates.</comment>");
+      }
+
       $this->io->write('<comment>This may have modified your composer.json and require a subsequent `composer update`</comment>');
+
+      // @todo check if require or require-dev changed. If so, run `composer update`.
+      // @todo if require and require-dev did not change, but something else in composer.json changed, execute `composer update --lock`.
     }
     else {
       $this->io->write('<comment>Skipping update of BLT templated files</comment>');
     }
+  }
+
+  /**
+   * Returns the repo root's filepath, assumed to be one dir above vendor dir.
+   *
+   * @return string
+   *   The file path of the repository root.
+   */
+  public function getRepoRoot() {
+    return dirname($this->getVendorPath());
   }
 
   /**
@@ -138,6 +195,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     $filesystem = new Filesystem();
     $filesystem->ensureDirectoryExists($config->get('vendor-dir'));
     $vendorPath = $filesystem->normalizePath(realpath($config->get('vendor-dir')));
+
     return $vendorPath;
   }
 

@@ -48,6 +48,12 @@
     <echo>To remove deprecated BLT files, run "blt cleanup".</echo>
   </target>
 
+  <target name="blt:update-delta" description="Performs scripted updates for a specific BLT version delta." hidden="true">
+    <fail unless="blt.prior_version"/>
+    <fail unless="blt.version"/>
+    <exec dir="${repo.root}" command="${repo.root}/vendor/bin/blt-console blt:update ${blt.prior_version} ${blt.version} ${blt.root}" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+  </target>
+
   <target name="blt:update-composer" description="Updates project composer.json with a subset of new key value pairs from upstream. This WILL overwrite existing values." hidden="true">
     <!--@todo Output different message if composer.json does not exist.-->
     <echo>Merging BLT's composer.json template with your project's composer.json.</echo>
