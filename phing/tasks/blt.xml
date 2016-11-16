@@ -74,7 +74,7 @@
     <echo level="verbose">Merging BLT's project.yml template with your project's project.yml.</echo>
     <echo level="verbose">This WILL NOT overwrite existing values.</echo>
     <!--Values in the project's existing project.yml file will be preserved and not overridden.-->
-    <exec dir="${repo.root}" command="${repo.root}/vendor/bin/blt-console yaml:munge ${blt.root}/template/project.yml ${blt.config-files.project} > ${blt.config-files.project}.tmp" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
+    <exec dir="${repo.root}" command="${repo.root}/vendor/bin/blt-console yaml:munge ${blt.root}/template/blt/project.yml ${blt.config-files.project} > ${blt.config-files.project}.tmp" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
     <!--@todo Find out why can't we just redirect output directly back to project.yml. -->
     <exec dir="${repo.root}" command="mv ${blt.config-files.project}.tmp ${blt.config-files.project}" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <echo>${blt.config-files.project} was modified.</echo>
