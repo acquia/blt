@@ -4,9 +4,13 @@ namespace Acquia\Blt\Update;
 
 use Acquia\Blt\Annotations\Update;
 
+/**
+ *
+ */
 class Updates {
 
-  /** @var Updater */
+  /**
+   * @var Updater*/
   protected $updater;
 
   /**
@@ -22,15 +26,16 @@ class Updates {
    * @Update(
    *   version = "8.5.1",
    *   description = "Removes deprecated features patch.
-   *   Moves configuration files to blt subdirectory."
+                      Moves configuration files to blt subdirectory."
    * )
    */
   public function update_851() {
     $this->updater->removePatch("drupal/features", "https://www.drupal.org/files/issues/features-2808303-2.patch");
 
     // Move files to blt subdir.
-    $this->updater->moveFile('project.yml', 'blt/project.yml');
-    $this->updater->moveFile('project.local.yml', 'blt/project.local.yml');
-    $this->updater->moveFile('example.project.local.yml', 'blt/example.project.local.yml');
+    $this->updater->moveFile('project.yml', 'blt/project.yml', TRUE);
+    $this->updater->moveFile('project.local.yml', 'blt/project.local.yml', TRUE);
+    $this->updater->moveFile('example.project.local.yml', 'blt/example.project.local.yml', TRUE);
   }
+
 }

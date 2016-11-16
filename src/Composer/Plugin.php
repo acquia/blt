@@ -158,12 +158,11 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
       if (isset($this->blt_prior_version)) {
         $this->io->write("<info>Executing scripted updates for BLT version delta {$this->blt_prior_version} -> $version ...</info>");
         // @todo Allow prompt here.
-        $this->executeCommand("blt-console blt:update %s %s %s %s",
+        $this->executeCommand("blt-console blt:update %s %s %s --yes",
           [
             $this->blt_prior_version,
             $version,
             $this->getRepoRoot(),
-            '--yes',
           ],
           TRUE
         );
@@ -225,7 +224,10 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
   /**
    * Executes a shell command with escaping.
    *
+   * Example usage: $this->executeCommand("test command %s", [ $value ]).
+   *
    * @param string $cmd
+   * @param array $args
    * @param bool $display_output
    *   Optional. Defaults to FALSE. If TRUE, command output will be displayed
    *   on screen.
