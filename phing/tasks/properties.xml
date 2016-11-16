@@ -25,13 +25,11 @@
 
   <!--Get version information. -->
   <if>
-    <or>
-      <not><available file="${repo.root}/blt" type="dir"/></not>
-      <not><available file="${blt.config-files.schema-version}" /></not>
-    </or>
+    <not><available file="${blt.config-files.schema-version}"/></not>
     <then>
       <!-- If no schema version exists, assume 8.5.2, which is last release before this file was introduced. -->
-      <exec dir="${repo.root}/blt" command="echo '8.5.2' >> ${blt.config-files.schema-version}" checkreturn="true" logoutput="true" passthru="false" level="${blt.exec_level}"/>
+      <exec dir="${repo.root}" command="mkdir -p blt" checkreturn="true" logoutput="true" passthru="false" level="${blt.exec_level}"/>
+      <exec dir="${repo.root}" command="echo '8.5.2' >> ${blt.config-files.schema-version}" checkreturn="true" logoutput="true" passthru="false" level="${blt.exec_level}"/>
     </then>
   </if>
   <exec dir="${repo.root}" command="cat ${blt.config-files.schema-version}" outputProperty="blt.schema-version" checkreturn="true" logoutput="false" level="${blt.exec_level}"/>
