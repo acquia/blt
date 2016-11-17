@@ -134,6 +134,17 @@ Additionally, an inherent limitation of the Drupal 8 configuration system is tha
 
 Finally, you have to be careful when updating core and contributed modules. If those updates make changes to a module’s configuration schema, you must make sure to also update your exported features definitions. Otherwise, the next time you run features-import it will import a stale configuration schema and cause unexpected behavior. We need to find a better way of preventing this than manually monitoring module updates. Find more information in [this discussion](https://www.drupal.org/node/2745685).
 
+### Overriding configuration
+
+If you need to override the default configuration provided by another project (or core), the available solutions are:
+
+* Use a feature module. Features will prevent a PreExistingConfigException from being thrown when a feature containing pre-existing configuration is installed. It is recommended that you add a dependency on the features module in your feature module to ensure that features is actually enabled during installation.
+* Move your config into the a custom profile. Configuration imports for Profiles are treated differently than for module. Importing pre-existing configuration for a Profile will not throw a PreExistingConfigException.
+* Use [config rewrite](https://www.drupal.org/project/config_rewrite), which will allow you to rewrite the configuration of another module prior to installation.
+* Use the [config override system](https://www.drupal.org/docs/8/api/configuration-api/configuration-override-system) built into core. This has [some limitations](https://www.drupal.org/node/2614480#comment-10573274) of which you should be wary.
+
+Using a feature module is the recommended approach.
+
 ### Other gotchas
 
 Features is a ground-up rewrite in Drupal 8 and is maturing quickly, but may still have some traps. Developers should keep a close eye on exported features, and TA need to carefully review features in PRs for the gotchas and best practices listed above.
