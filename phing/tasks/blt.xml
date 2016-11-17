@@ -52,6 +52,8 @@
   <target name="blt:update-delta" description="Performs scripted updates for a specific BLT version delta." hidden="true">
     <echo level="verbose">Executing scripted updates for version delta ${blt.schema-version} -> ${blt.version}...</echo>
     <exec dir="${repo.root}" command="${repo.root}/vendor/bin/blt-console blt:update ${blt.schema-version} ${blt.version} ${repo.root} --yes" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+
+    <exec dir="${repo.root}" command="echo ${blt.version} > ${blt.config-files.schema-version}" checkreturn="true" logoutput="true" passthru="false" level="${blt.exec_level}"/>
   </target>
 
   <target name="blt:update-composer" description="Updates project composer.json with a subset of new key value pairs from upstream. This WILL overwrite existing values." hidden="true">

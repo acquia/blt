@@ -19,7 +19,7 @@
   <if>
     <available file="${blt.config-files.local}" type="file" property="local.properties"/>
     <then>
-      <property file="${blt.config-files.local}" override="true" logoutput="false"/>
+      <property file="${blt.config-files.local}" override="true" logoutput="${blt.verbose}"/>
     </then>
   </if>
 
