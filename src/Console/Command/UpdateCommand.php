@@ -71,7 +71,7 @@ class UpdateCommand extends Command
       $updater->executeUpdates($updates);
     }
     else {
-      $output->writeln("<comment>There are no scripted updates avaiable between BLT versions $starting_version and $ending_version.</comment>");
+      $output->writeln("<comment>There are no scripted updates available between BLT versions $starting_version and $ending_version.</comment>");
     }
   }
 }
