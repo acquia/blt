@@ -1,2 +1,0 @@
-TOKEN=yourtoken
-SLACK_WEBHOOK_URL=https://yoursite.slack.com/services/hooks/incoming-webhook?token=$TOKEN
