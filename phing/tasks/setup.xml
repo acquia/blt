@@ -228,8 +228,6 @@
   </target>
 
   <target name="setup:git-hooks" description="Installs git hooks to local .git/hooks directory from version controlled scripts/git-hooks directory.">
-    <echo level="verbose">Removing ${repo.root}/.git/hooks, if it exists.</echo>
-
     <exec dir="${repo.root}/.git" command="mkdir -p hooks" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <delete file="${repo.root}/.git/hooks/pre-commit" failonerror="false" quiet="true" verbose="${blt.verbose}"/>
     <delete file="${repo.root}/.git/hooks/commit-msg" failonerror="false" quiet="true" verbose="${blt.verbose}"/>
