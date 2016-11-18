@@ -69,6 +69,12 @@ drush:
   logoutput: yes
   verbose: ${blt.verbose}
 
+git:
+  # Changing a hook value to false will disable it.
+  hooks:
+    pre-commit: ${blt.root}/scripts/git-hooks
+    commit-msg: ${blt.root}/scripts/git-hooks
+
 multisite:
   # The docroot/sites/default directory is used by default.
   name: default

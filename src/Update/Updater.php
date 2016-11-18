@@ -58,6 +58,13 @@ class Updater {
   }
 
   /**
+   * @return ConsoleOutput
+   */
+  public function getOutput() {
+    return $this->output;
+  }
+
+  /**
    * @return \Symfony\Component\Filesystem\Filesystem
    */
   public function getFileSystem() {
@@ -266,6 +273,14 @@ class Updater {
     }
 
     return FALSE;
+  }
+
+  /**
+   * @param $filepath
+   */
+  public function deleteFile($filepath) {
+    $abs_path = $this->getRepoRoot() . '/' . $filepath;
+    $this->getFileSystem()->remove($abs_path);
   }
 
 }

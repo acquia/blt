@@ -228,16 +228,30 @@
   </target>
 
   <target name="setup:git-hooks" description="Installs git hooks to local .git/hooks directory from version controlled scripts/git-hooks directory.">
-    <echo>Removing ${repo.root}/.git/hooks, if it exists.</echo>
-    <!-- Symlink into .git directory. -->
-    <delete dir="${repo.root}/.git/hooks" quiet="true" failonerror="false"/>
-    <delete file="${repo.root}/.git/hooks" quiet="true" failonerror="false"/>
-    <echo>Symlinking ${repo.root}/scripts/git-hooks to ${repo.root}/.git/hooks.</echo>
-    <exec dir="${repo.root}/.git" command="ln -snv ../vendor/acquia/blt/scripts/git-hooks hooks" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <echo level="verbose">Removing ${repo.root}/.git/hooks, if it exists.</echo>
+
+    <exec dir="${repo.root}/.git" command="mkdir -p hooks" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <delete file="${repo.root}/.git/hooks/pre-commit" failonerror="false" quiet="true" verbose="${blt.verbose}"/>
+    <delete file="${repo.root}/.git/hooks/commit-msg" failonerror="false" quiet="true" verbose="${blt.verbose}"/>
+
+    <if>
+      <not><equals arg1="${git.hooks.pre-commit}" arg2="false"/></not>
+      <then>
+        <echo level="info">Symlinking ${repo.root}/scripts/git-hooks/pre-commit to ${git.hooks.pre-commit}/pre-commit</echo>
+        <exec dir="${repo.root}/.git/hooks" command="ln -snv ${git.hooks.pre-commit}/pre-commit pre-commit" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+      </then>
+    </if>
+    <if>
+      <not><equals arg1="${git.hooks.commit-msg}" arg2="false"/></not>
+      <then>
+        <echo level="verbose">Symlinking ${repo.root}/scripts/git-hooks/commit-msg to ${git.hooks.pre-commit}/commit-msg</echo>
+        <exec dir="${repo.root}/.git/hooks" command="ln -snv ${git.hooks.commit-msg}/commit-msg commit-msg" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+      </then>
+    </if>
 
     <!-- Grant execution permissions. -->
-    <echo>Making git hooks executable.</echo>
-    <chmod mode="0755">
+    <echo level="verbose">Making git hooks executable.</echo>
+    <chmod mode="0755" verbose="false">
       <fileset dir="${blt.root}/scripts/git-hooks">
         <exclude name="**/*.sample" />
         <exclude name="**/README.md" />
