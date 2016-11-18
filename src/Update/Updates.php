@@ -29,7 +29,7 @@ class Updates {
   /**
    * @Update(
    *   version = "8.5.1",
-   *   description = "Removes deprecated features patch. Moves configuration files to blt subdirectory."
+   *   description = "Removes deprecated features patch. Moves configuration files to blt subdirectory. Removes .git/hooks symlink."
    * )
    */
   public function update_851() {
@@ -39,6 +39,10 @@ class Updates {
     $this->updater->moveFile('project.yml', 'blt/project.yml', TRUE);
     $this->updater->moveFile('project.local.yml', 'blt/project.local.yml', TRUE);
     $this->updater->moveFile('example.project.local.yml', 'blt/example.project.local.yml', TRUE);
+
+    // Delete symlink to hooks directory. Individual git hooks are now symlinked, not the entire directory.
+    $this->updater->deleteFile('.git/hooks');
+    $this->updater->getOutput()->writeln('.git/hooks was deleted. Please re-run setup:git-hooks to install git hooks locally.');
   }
 
 }

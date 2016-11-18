@@ -69,6 +69,14 @@ drush:
   logoutput: yes
   verbose: ${blt.verbose}
 
+git:
+  # The value of a hook should be the file path to a directory containing an
+  # executable file named after the hook.
+  # Changing a hook value to 'false' will disable it.
+  hooks:
+    pre-commit: ${blt.root}/scripts/git-hooks
+    commit-msg: ${blt.root}/scripts/git-hooks
+
 multisite:
   # The docroot/sites/default directory is used by default.
   name: default

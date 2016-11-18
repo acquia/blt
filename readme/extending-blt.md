@@ -86,6 +86,24 @@ More specifically, you can modify the build artifact in the following key ways:
             dir: ${deploy.dir}/docroot/profiles/contrib/lightning
             command: npm run install-libraries
 
+### setup:*
+
+#### setup:git-hooks
+
+You may disable a git hook by setting its value under `git.hooks` to false:
+
+        git:
+          hooks:
+            pre-commit: false
+
+You may use a custom git hook in place of BLT's default git hooks by setting its value under `git.hooks` to the directory path containing of the hook. The directory must contain an executable file named after the git hook:
+
+        git:
+          hooks:
+            pre-commit: ${repo.root}/my-custom-git-hooks
+
+In this example, an executable file named `pre-commit` should exist in `${repo.root}/my-custom-git-hooks`.
+
 ### tests:*
 
 #### tests:behat
