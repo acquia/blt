@@ -159,8 +159,7 @@
 
   <target name="deploy:update" description="Update current database to reflect the state of the Drupal file system; uses local drush alias.">
     <phingcall target="setup:update">
-      <param name="enable_property" value="modules.deploy.enable"/>
-      <param name="uninstall_property" value="modules.deploy.uninstall"/>
+      <param name="environment" value="deploy"/>
       <property name="drush.alias" value="self"/>
       <!-- Most sites store their version-controlled configuration in /config/default. -->
       <!-- ACE internally sets the vcs configuration directory to /config/default, so we use that. -->
