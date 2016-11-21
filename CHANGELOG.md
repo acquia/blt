@@ -1,5 +1,53 @@
 # Change Log
 
+## [8.6.0-beta1](https://github.com/acquia/blt/tree/8.6.0-beta1) (2016-11-21)
+[Full Changelog](https://github.com/acquia/blt/compare/8.5.2...8.6.0-beta1)
+
+**Implemented enhancements:**
+
+- Git-hooks configuration [\#628](https://github.com/acquia/blt/issues/628)
+- Clean up repo root--move top-level BLT files into their own directory [\#604](https://github.com/acquia/blt/issues/604)
+- Implement a hook\_update\_n\(\) analog  [\#600](https://github.com/acquia/blt/issues/600)
+- Add Twig syntax check to Git pre-commit hook [\#44](https://github.com/acquia/blt/issues/44)
+- Fixes \#628: Allowing custom git hooks to be used. [\#692](https://github.com/acquia/blt/pull/692) ([grasmash](https://github.com/grasmash))
+- Preventing PHPUnit failure when project.local.yml is empty. [\#691](https://github.com/acquia/blt/pull/691) ([grasmash](https://github.com/grasmash))
+- Making target hooks more verbose. [\#687](https://github.com/acquia/blt/pull/687) ([grasmash](https://github.com/grasmash))
+- Removed cloud hook samples. [\#684](https://github.com/acquia/blt/pull/684) ([danepowell](https://github.com/danepowell))
+- Fixes \#604: Moving root blt files to blt subdir. [\#676](https://github.com/acquia/blt/pull/676) ([grasmash](https://github.com/grasmash))
+- Validating composer.json in pre-commit hook. [\#672](https://github.com/acquia/blt/pull/672) ([grasmash](https://github.com/grasmash))
+- Adding validate:twig target. [\#665](https://github.com/acquia/blt/pull/665) ([grasmash](https://github.com/grasmash))
+- Add .theme files to validation patternset [\#660](https://github.com/acquia/blt/pull/660) ([bobbygryzynger](https://github.com/bobbygryzynger))
+
+**Fixed bugs:**
+
+- Git Hooks Fail after BLT Update [\#679](https://github.com/acquia/blt/issues/679)
+- Travis and D8 CMI [\#657](https://github.com/acquia/blt/issues/657)
+- Ensuring that drush policy applies only to AC. [\#693](https://github.com/acquia/blt/pull/693) ([grasmash](https://github.com/grasmash))
+- Updating schema version after updates. [\#686](https://github.com/acquia/blt/pull/686) ([grasmash](https://github.com/grasmash))
+- Fixing default acquia-pipelines.yml for new project.yml location. [\#683](https://github.com/acquia/blt/pull/683) ([grasmash](https://github.com/grasmash))
+- Resolves \#679: Twig validation hook fails. [\#680](https://github.com/acquia/blt/pull/680) ([grasmash](https://github.com/grasmash))
+- Don't uninstall dblog locally. [\#675](https://github.com/acquia/blt/pull/675) ([bobbygryzynger](https://github.com/bobbygryzynger))
+- Resolves \#670: Remove duplicate config imports. [\#674](https://github.com/acquia/blt/pull/674) ([grasmash](https://github.com/grasmash))
+- Made cloud hooks executable. [\#648](https://github.com/acquia/blt/pull/648) ([danepowell](https://github.com/danepowell))
+
+**Closed issues:**
+
+- How to handle D8 config with local/deploy modules [\#670](https://github.com/acquia/blt/issues/670)
+- Is adding BLT to an existing project still a viable option? [\#650](https://github.com/acquia/blt/issues/650)
+
+**Misc merged pull requests**
+
+- Adding docs for configuration overrides. [\#690](https://github.com/acquia/blt/pull/690) ([grasmash](https://github.com/grasmash))
+- Adding Pull Request template. [\#677](https://github.com/acquia/blt/pull/677) ([grasmash](https://github.com/grasmash))
+- Fix SimpleSaml Markdown formatting. [\#673](https://github.com/acquia/blt/pull/673) ([grasmash](https://github.com/grasmash))
+- Validated SimpleSAML docs Markdown fix [\#669](https://github.com/acquia/blt/pull/669) ([TravisCarden](https://github.com/TravisCarden))
+- ReadTheDocs is not good at Markdown [\#667](https://github.com/acquia/blt/pull/667) ([TravisCarden](https://github.com/TravisCarden))
+- Correct SimpleSAML documentation [\#666](https://github.com/acquia/blt/pull/666) ([TravisCarden](https://github.com/TravisCarden))
+- Fix 'blt version' [\#656](https://github.com/acquia/blt/pull/656) ([TravisCarden](https://github.com/TravisCarden))
+- Update Drupal VM to latest stable release. [\#655](https://github.com/acquia/blt/pull/655) ([geerlingguy](https://github.com/geerlingguy))
+- Rebuild caches before running updates. [\#652](https://github.com/acquia/blt/pull/652) ([danepowell](https://github.com/danepowell))
+- Adding updater for specific BLT delta migrations. [\#601](https://github.com/acquia/blt/pull/601) ([grasmash](https://github.com/grasmash))
+
 ## [8.5.2](https://github.com/acquia/blt/tree/8.5.2) (2016-11-09)
 [Full Changelog](https://github.com/acquia/blt/compare/8.5.1...8.5.2)
 
@@ -19,8 +67,10 @@
 
 **Fixed bugs:**
 
+- development.services.yml gets clobbered on updates [\#641](https://github.com/acquia/blt/issues/641)
 - Features patch no longer applies [\#630](https://github.com/acquia/blt/issues/630)
 - Build failing [\#622](https://github.com/acquia/blt/issues/622)
+- Fixes \#641: Preventing overwrite of customized scaffold files. [\#642](https://github.com/acquia/blt/pull/642) ([grasmash](https://github.com/grasmash))
 - Ignoring experimental tests on Pipelines builds. [\#620](https://github.com/acquia/blt/pull/620) ([grasmash](https://github.com/grasmash))
 
 **Closed issues:**
