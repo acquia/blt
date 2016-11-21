@@ -15,7 +15,6 @@
 /docroot/sites/*/private
 /docroot/themes/contrib
 /drush/contrib
-/drush.wrapper
 /README.md
 /readme
 /sites/development.services.yml

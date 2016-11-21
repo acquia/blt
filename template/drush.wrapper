@@ -37,4 +37,4 @@ if [ ! -f ${DIR}/vendor/drush/drush/drush.launcher ]; then
   exit 1
 fi
 
-vendor/drush/drush/drush.launcher --config=${DIR}/drush/drushrc.php --alias-path=${DIR}/drush/site-aliases --include=${DIR}/drush "$@"
+vendor/drush/drush/drush.launcher --config=${DIR}/drush/drushrc.php --alias-path=${DIR}/drush/site-aliases "$@"
