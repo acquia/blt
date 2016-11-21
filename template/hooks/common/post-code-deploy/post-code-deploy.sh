@@ -17,8 +17,12 @@ deployed_tag="$4"
 repo_url="$5"
 repo_type="$6"
 
-. /var/www/html/$site.$target_env/vendor/acquia/blt/scripts/cloud-hooks/functions.sh
+# 1 if is ACSF, 0 if not.
+[[ ! -f "/mnt/files/$AH_SITE_GROUP.$AH_SITE_ENVIRONMENT/files-private/sites.json" ]]
+is_acsf=$?
 
-deploy_updates
-
-exit $status
+if [ ! $is_acsf ]; then
+  . /var/www/html/$site.$target_env/vendor/acquia/blt/scripts/cloud-hooks/functions.sh
+  deploy_updates
+  exit $status
+fi
