@@ -72,7 +72,20 @@ modules:
     uninstall:
       - acquia_connector
       - shield
-  deploy:
+  dev:
+    enable:
+      - acquia_connector
+      - shield
+    uninstall: []
+  test:
+    enable:
+      - acquia_connector
+      - shield
+    uninstall:
+      - devel
+      - field_ui
+      - views_ui
+  prod:
     enable:
       - acquia_connector
       - shield

@@ -11,8 +11,7 @@
   <target name="local:setup" description="Install dependencies, builds docroot, installs Drupal; uses local drush alias.">
     <phingcall target="setup">
       <property name="drush.alias" value="${drush.aliases.local}" />
-      <param name="enable_property" value="modules.local.enable"/>
-      <param name="uninstall_property" value="modules.local.uninstall"/>
+      <param name="environment" value="local"/>
     </phingcall>
   </target>
 
@@ -35,8 +34,7 @@
   <target name="local:update" description="Update current database to reflect the state of the Drupal file system; uses local drush alias.">
     <phingcall target="setup:update">
       <property name="drush.alias" value="${drush.aliases.local}"/>
-      <property name="enable_property" value="modules.local.enable"/>
-      <property name="uninstall_property" value="modules.local.uninstall"/>
+      <property name="environment" value="local"/>
     </phingcall>
   </target>
 

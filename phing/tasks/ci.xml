@@ -14,8 +14,7 @@
     <phingcall target="setup">
       <property name="drush.alias" value="${drush.aliases.ci}"/>
       <property name="create_alias" value="n"/>
-      <property name="enable_property" value="modules.ci.enable"/>
-      <property name="uninstall_property" value="modules.ci.uninstall"/>
+      <property name="environment" value="ci"/>
     </phingcall>
   </target>
 
@@ -39,8 +38,7 @@
   <target name="ci:update" description="Update current database to reflect the state of the Drupal file system; uses ci drush alias." hidden="true">
     <phingcall target="setup:update">
       <property name="drush.alias" value="${drush.aliases.ci}"/>
-      <property name="enable_property" value="modules.ci.enable"/>
-      <property name="uninstall_property" value="modules.ci.uninstall"/>
+      <property name="environment" value="ci"/>
     </phingcall>
   </target>
 </project>
