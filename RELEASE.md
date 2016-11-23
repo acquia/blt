@@ -53,6 +53,16 @@ This test verifies that a new project can be created from scratch using blt, wit
     cd ../
 
 
+## Updates existing project Pipelines project
+
+    composer require acquia/blt:8.x-dev --no-update
+    composer update
+    git add -A
+    git commit -m 'Updating acquia/blt to latest dev version.'
+    git push origin
+    pipelines start
+    pipelines log
+
 ## Generate CHANGELOG.md
 
 ### Prerequisites
