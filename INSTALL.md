@@ -1,5 +1,7 @@
 # BLT installation
 
+*Please do not clone BLT as a means of using it. The only reason to clone BLT is to contribute outside the context of a particular Drupal site.*
+
 ## System requirements
 
 You must have the following tools on the command line of your *host operating system*:
