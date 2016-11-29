@@ -5,6 +5,9 @@ site_description: 'BLT - Acquia Build & Launch Tools'
 theme: readthedocs
 strict: true
 
+extra_javascript:
+  - readme/js/fix_search.js
+
 markdown_extensions:
   - toc:
       permalink: True
