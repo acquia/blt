@@ -26,11 +26,6 @@ notifications:
 addons:
   ssh_known_hosts:
     - svn-5223.devcloud.hosting.acquia.com
-  apt:
-    packages:
-    - mysql-server-5.6
-    - mysql-client-core-5.6
-    - mysql-client-5.6
 
 before_install:
   # Decrypt private SSH key id_rsa_blt.enc, save as ~/.ssh/id_rsa_blt.
@@ -46,7 +41,7 @@ before_install:
   - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - git config --global user.name "Travis-CI"
   - git config --global user.email "noreply@travis-ci.org"
-  - mysql -u root -e 'CREATE DATABASE drupal;'
+  - mysql -u root -e "CREATE DATABASE drupal; CREATE USER 'drupal'@'localhost' IDENTIFIED BY 'drupal'; GRANT ALL ON drupal.* TO 'drupal'@'localhost';"
 
 install:
   # Load composer dependencies.
