@@ -38,11 +38,11 @@ class Updates {
 
   /**
    * @Update(
-   *   version = "8.5.2",
+   *   version = "8.6.0-beta1",
    *   description = "Moves configuration files to blt subdirectory. Removes .git/hooks symlink."
    * )
    */
-  public function update_852() {
+  public function update_860() {
     // Move files to blt subdir.
     $this->updater->moveFile('project.yml', 'blt/project.yml', TRUE);
     $this->updater->moveFile('project.local.yml', 'blt/project.local.yml', TRUE);
