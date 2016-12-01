@@ -44,8 +44,9 @@
         },
         "drupal-scaffold": {
             "initial": {
-                "sites/default/default.services.yml": "sites/default/services.yml",
-                "sites/default/default.settings.php": "sites/default/settings.php"
+                "docroot/sites/default/default.services.yml": "docroot/sites/default/default.services.yml",
+                "docroot/sites/default/default.settings.php": "docroot/sites/default/default.settings.php",
+                "docroot/sites/default/development.services.yml": "docroot/sites/default/development.services.yml"
             }
         },
         "enable-patching": true,

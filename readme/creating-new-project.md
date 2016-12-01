@@ -2,7 +2,7 @@
 
 *Please do not clone BLT or BLT Project as a means of using them. Just follow the directions below.*
 
-1. Create a new project with the commands below. It will create the necessary directories and download all dependencies. **Do not run these commands inside of an existing git repository**. Replace `MY_PROJECT` in the commands below with the desired name of your new project directory.
+1. Run the commands below. It will create the necessary directories and download all dependencies. **Do not run these commands inside of an existing git repository**. Replace `MY_PROJECT` in the commands below with the desired name of your new project directory.
 
         composer clear-cache
         export COMPOSER_PROCESS_TIMEOUT=2000
