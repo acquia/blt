@@ -234,26 +234,18 @@
     <if>
       <not><equals arg1="${git.hooks.pre-commit}" arg2="false"/></not>
       <then>
-        <echo level="info">Symlinking ${repo.root}/scripts/git-hooks/pre-commit to ${git.hooks.pre-commit}/pre-commit</echo>
+        <echo level="info">Symlinking ${repo.root}/.git/hooks/pre-commit to ${git.hooks.pre-commit}/pre-commit</echo>
         <exec dir="${repo.root}/.git/hooks" command="ln -snv ${git.hooks.pre-commit}/pre-commit pre-commit" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
       </then>
     </if>
     <if>
       <not><equals arg1="${git.hooks.commit-msg}" arg2="false"/></not>
       <then>
-        <echo level="verbose">Symlinking ${repo.root}/scripts/git-hooks/commit-msg to ${git.hooks.pre-commit}/commit-msg</echo>
+        <echo level="verbose">Symlinking ${repo.root}/.git/hooks/commit-msg to ${git.hooks.pre-commit}/commit-msg</echo>
         <exec dir="${repo.root}/.git/hooks" command="ln -snv ${git.hooks.commit-msg}/commit-msg commit-msg" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
       </then>
     </if>
 
-    <!-- Grant execution permissions. -->
-    <echo level="verbose">Making git hooks executable.</echo>
-    <chmod mode="0755" verbose="false">
-      <fileset dir="${blt.root}/scripts/git-hooks">
-        <exclude name="**/*.sample" />
-        <exclude name="**/README.md" />
-      </fileset>
-    </chmod>
   </target>
 
   <target name="setup:hash-salt" description="Generates and writes a hash salt to ${repo.root}/salt.txt if one does not exist.">
