@@ -29,12 +29,20 @@ class Updates {
   /**
    * @Update(
    *   version = "8.5.1",
-   *   description = "Removes deprecated features patch. Moves configuration files to blt subdirectory. Removes .git/hooks symlink."
+   *   description = "Removes deprecated features patch."
    * )
    */
   public function update_851() {
     $this->updater->removePatch("drupal/features", "https://www.drupal.org/files/issues/features-2808303-2.patch");
+  }
 
+  /**
+   * @Update(
+   *   version = "8.6.0-beta1",
+   *   description = "Moves configuration files to blt subdirectory. Removes .git/hooks symlink."
+   * )
+   */
+  public function update_860() {
     // Move files to blt subdir.
     $this->updater->moveFile('project.yml', 'blt/project.yml', TRUE);
     $this->updater->moveFile('project.local.yml', 'blt/project.local.yml', TRUE);
@@ -44,5 +52,6 @@ class Updates {
     $this->updater->deleteFile('.git/hooks');
     $this->updater->getOutput()->writeln('.git/hooks was deleted. Please re-run setup:git-hooks to install git hooks locally.');
   }
+
 
 }
