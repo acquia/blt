@@ -20,6 +20,7 @@
         "drupal/search_api_solr":                     "8.1.0-alpha3",
         "drupal/seckit":                              "^8.1.0-alpha2",
         "drupal/security_review":                     "8.*",
+        "drupal/shield":                              "^8.1.0",
         "drupal-composer/drupal-security-advisories": "8.0.x-dev",
         "drush/drush":                                "^9.0"
     },
