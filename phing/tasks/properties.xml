@@ -33,7 +33,7 @@
     </then>
   </if>
   <exec dir="${repo.root}" command="cat ${blt.config-files.schema-version}" outputProperty="blt.schema-version" checkreturn="true" logoutput="false" level="${blt.exec_level}"/>
-  <exec dir="${repo.root}" command="composer info acquia/blt | grep versions | awk '{print $4}'" outputProperty="blt.version" logoutput="false " checkreturn="true" level="${blt.exec_level}" error="/dev/null" />
+  <exec dir="${repo.root}" command="composer info acquia/blt | grep versions | awk '{print $4}'" outputProperty="blt.version" logoutput="false" checkreturn="true" level="${blt.exec_level}" />
 
   <!--verbosityTask is used to set the verbosity level of Phing via a property. It is necessary because the -verbose, -debug, -silent, and -quiet command line options are not available as properties and cannot be utilized in task conditionals. -->
   <verbosityTask level="${blt.level}"/>
