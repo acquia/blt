@@ -61,6 +61,8 @@ install:
   - sh -e /etc/init.d/xvfb start
   # Installs chromedriver to vendor/bin.
   - ./scripts/linux/install-chrome.sh $TRAVIS_BUILD_DIR/vendor/bin
+  # Use JDK 8.
+  - jdk_switcher use oraclejdk8
 
 before_script:
   # Clear drush release history cache, to pick up new releases.
