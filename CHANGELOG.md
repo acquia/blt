@@ -1,5 +1,48 @@
 # Change Log
 
+## [8.6.0-beta2](https://github.com/acquia/blt/tree/8.6.0-beta2) (2016-12-02)
+[Full Changelog](https://github.com/acquia/blt/compare/8.6.0-beta1...8.6.0-beta2)
+
+**Implemented enhancements:**
+
+- More granular control of modules per environment [\#668](https://github.com/acquia/blt/issues/668)
+- Moving drush to require dependencies interferes with Acquia-provided drush commands on ACE [\#647](https://github.com/acquia/blt/issues/647)
+- Ignoring PHPStorm files. [\#734](https://github.com/acquia/blt/pull/734) ([grasmash](https://github.com/grasmash))
+- Fixed munged YAML indentation. [\#731](https://github.com/acquia/blt/pull/731) ([danepowell](https://github.com/danepowell))
+- Upgrading cweagens/composer-patches to 1.6.0. [\#730](https://github.com/acquia/blt/pull/730) ([grasmash](https://github.com/grasmash))
+- Generating default lightning.extend.yml on project creation. [\#726](https://github.com/acquia/blt/pull/726) ([grasmash](https://github.com/grasmash))
+- Fixes \#712: Fix BLT's ReadTheDocs search. [\#713](https://github.com/acquia/blt/pull/713) ([geerlingguy](https://github.com/geerlingguy))
+- Exit gracefully when `blt` command cannot be run [\#709](https://github.com/acquia/blt/pull/709) ([TravisCarden](https://github.com/TravisCarden))
+- Fixes \#647: Include Acquia cloud drush commands with BLT provided drush. [\#696](https://github.com/acquia/blt/pull/696) ([grasmash](https://github.com/grasmash))
+
+**Fixed bugs:**
+
+- Travis CI Drupal site install failing \(as of today\) [\#720](https://github.com/acquia/blt/issues/720)
+- blt local:refresh fails after upgrade to 8.6.0-beta1 [\#699](https://github.com/acquia/blt/issues/699)
+- Disable default cloud hooks on ACSF [\#664](https://github.com/acquia/blt/issues/664)
+- Fixed errors on ACE deploys. [\#733](https://github.com/acquia/blt/pull/733) ([danepowell](https://github.com/danepowell))
+- Fixes \#710: Adding shield module to composer.json template. [\#729](https://github.com/acquia/blt/pull/729) ([grasmash](https://github.com/grasmash))
+- Issue \#704: Fixed update hooks. [\#724](https://github.com/acquia/blt/pull/724) ([danepowell](https://github.com/danepowell))
+- Issue \#719: Fixed failing setup:git-hooks. [\#723](https://github.com/acquia/blt/pull/723) ([danepowell](https://github.com/danepowell))
+- Fixes \#720: Fixing MySQL connection issue caused by use of localhost. [\#722](https://github.com/acquia/blt/pull/722) ([grasmash](https://github.com/grasmash))
+- Fixed cloud hooks. [\#698](https://github.com/acquia/blt/pull/698) ([danepowell](https://github.com/danepowell))
+- Fixes \#664: Disable cloud hooks on ACSF. [\#695](https://github.com/acquia/blt/pull/695) ([grasmash](https://github.com/grasmash))
+
+**Closed issues:**
+
+- BLT setup:git-hooks fails [\#719](https://github.com/acquia/blt/issues/719)
+- Fix BLT's ReadTheDocs Search [\#712](https://github.com/acquia/blt/issues/712)
+- Acquia Cloud Hooks not executable by default [\#711](https://github.com/acquia/blt/issues/711)
+- Exit gracefully if `blt` command can't be run [\#708](https://github.com/acquia/blt/issues/708)
+
+**Misc merged pull requests**
+
+- Updating brew docs. [\#725](https://github.com/acquia/blt/pull/725) ([grasmash](https://github.com/grasmash))
+- Clarifying install instructions. [\#717](https://github.com/acquia/blt/pull/717) ([grasmash](https://github.com/grasmash))
+- Adding clarity to documentation. [\#707](https://github.com/acquia/blt/pull/707) ([grasmash](https://github.com/grasmash))
+- Toggle modules per environment. [\#700](https://github.com/acquia/blt/pull/700) ([danepowell](https://github.com/danepowell))
+- Fix and expand SimpleSAML docs further [\#694](https://github.com/acquia/blt/pull/694) ([TravisCarden](https://github.com/TravisCarden))
+
 ## [8.6.0-beta1](https://github.com/acquia/blt/tree/8.6.0-beta1) (2016-11-21)
 [Full Changelog](https://github.com/acquia/blt/compare/8.5.2...8.6.0-beta1)
 

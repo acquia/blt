@@ -61,6 +61,7 @@ local.properties
 auto-save-list
 tramp
 .\#*
+temp*
 
 .idea
 
