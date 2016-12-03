@@ -60,7 +60,7 @@
   <target name="setup:settings" depends="setup:drupal:settings, setup:drush:settings" description="Creates settings files for Drupal and drush.">
   </target>
 
-  <target name="setup:drupal:settings:site" description="Create local settings files using default settings files for an indiviudal site." hidden="true">
+  <target name="setup:drupal:settings:site" description="Create local settings files using default settings files for an individual site." hidden="true">
     <echo>Making ${docroot}/sites/${multisite.name} writable.</echo>
     <chmod mode="0755" file="${docroot}/sites/${multisite.name}" failonerror="false" verbose="true" />
 
@@ -117,7 +117,7 @@
     <foreach list="${multisite.name}" param="multisite.name" target="setup:drupal:settings:site"/>
   </target>
 
-  <target name="setup:drush:settings:site" description="Create local drush settings files for an indiviudal site." hidden="true">
+  <target name="setup:drush:settings:site" description="Create local drush settings files for an individual site." hidden="true">
     <if>
       <not><available file="${docroot}/sites/${multisite.name}/local.drushrc.php" type="file" /></not>
       <then>
