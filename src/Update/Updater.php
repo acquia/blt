@@ -31,6 +31,27 @@ class Updater {
   protected $fs;
 
   /**
+   * @var string
+   */
+  protected $composerJsonFilepath;
+
+  /**
+   * Updater constructor.
+   *
+   * @param string $update_class
+   *   The name of the class containing the update methods to be executed.
+   */
+  public function __construct($update_class = 'Acquia\Blt\Update\Updates') {
+    $this->output = new ConsoleOutput();
+    $this->output->setFormatter(new OutputFormatter(TRUE));
+    AnnotationRegistry::registerFile(__DIR__ . '/../Annotations/Update.php');
+    $this->annotationsReader = new IndexedReader(new AnnotationReader());
+    $this->updateClassName = $update_class;
+    $this->fs = new Filesystem();
+    $this->composerJsonFilepath = $this->repoRoot . '/composer.json';
+  }
+
+  /**
    * Returns $this->repoRoot.
    *
    * @return string
@@ -69,21 +90,6 @@ class Updater {
    */
   public function getFileSystem() {
     return $this->fs;
-  }
-
-  /**
-   * Updater constructor.
-   *
-   * @param string $update_class
-   *   The name of the class containing the update methods to be executed.
-   */
-  public function __construct($update_class = 'Acquia\Blt\Update\Updates') {
-    $this->output = new ConsoleOutput();
-    $this->output->setFormatter(new OutputFormatter(TRUE));
-    AnnotationRegistry::registerFile(__DIR__ . '/../Annotations/Update.php');
-    $this->annotationsReader = new IndexedReader(new AnnotationReader());
-    $this->updateClassName = $update_class;
-    $this->fs = new Filesystem();
   }
 
   /**
@@ -226,9 +232,8 @@ class Updater {
    * @return bool
    *   TRUE if patch was removed, otherwise FALSE.
    */
-  public function removePatch($package, $url) {
-    $composer_json_filepath = $this->repoRoot . '/composer.json';
-    $composer_json = json_decode(file_get_contents($composer_json_filepath), TRUE);
+  public function removeComposerPatch($package, $url) {
+    $composer_json = $this->getComposerJson();
     if (!empty($composer_json['extra']['patches'][$package])) {
       foreach ($composer_json['extra']['patches'][$package] as $key => $patch_url) {
         if ($patch_url == $url) {
@@ -237,7 +242,7 @@ class Updater {
           if (empty($composer_json['extra']['patches'][$package])) {
             unset($composer_json['extra']['patches'][$package]);
           }
-          file_put_contents($composer_json_filepath, json_encode($composer_json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+          $this->writeComposerJson($composer_json);
 
           return TRUE;
         }
@@ -245,6 +250,78 @@ class Updater {
     }
     return FALSE;
   }
+
+  /**
+   * Removes a repository from composer.json using the repository url[
+   *
+   * @param string $repo_url
+   *   The url property of the repository to remove.
+   *
+   * @return bool
+   *   TRUE if repo was removed, otherwise false.
+   */
+  public function removeComposerRepository($repo_url) {
+    $composer_json = $this->getComposerJson();
+    if (!empty($composer_json['repositories'])) {
+      foreach ($composer_json['repositories'] as $key => $repo) {
+        $url = $repo['url'];
+        if ($repo_url == $url) {
+          unset($composer_json['repositories'][$key]);
+          $this->writeComposerJson($composer_json);
+
+          return TRUE;
+        }
+      }
+    }
+    return FALSE;
+  }
+
+  /**
+   * Removes a repository from composer.json using the repository url[
+   *
+   * @param string $script_key
+   *   The key of the scripts to remove. E.g., post-create-project-cmd.
+   *
+   * @return bool
+   *   TRUE if script was removed, otherwise false.
+   */
+  public function removeComposerScript($script_key) {
+    $composer_json = $this->getComposerJson();
+    if (!empty($composer_json['scripts'])) {
+      foreach ($composer_json['scripts'] as $key => $script) {
+        if ($script_key == $key) {
+          unset($composer_json['scripts'][$key]);
+          $this->writeComposerJson($composer_json);
+
+          return TRUE;
+        }
+      }
+    }
+    return FALSE;
+  }
+
+  /**
+   * Returns composer.json content.
+   *
+   * @return array
+   *   The contents of composer.json.
+   */
+  public function getComposerJson() {
+    $composer_json = json_decode(file_get_contents($this->composerJsonFilepath), TRUE);
+
+    return $composer_json;
+  }
+
+  /**
+   * Writes an array to composer.json.
+   *
+   * @param array $contents
+   *   The new contents of composer.json.
+   */
+  public function writeComposerJson($contents) {
+    file_put_contents($this->composerJsonFilepath, json_encode($contents, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+  }
+
 
   /**
    * Moves a file from one location to another, relative to repo root.
