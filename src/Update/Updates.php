@@ -33,7 +33,7 @@ class Updates {
    * )
    */
   public function update_851() {
-    $this->updater->removePatch("drupal/features", "https://www.drupal.org/files/issues/features-2808303-2.patch");
+    $this->updater->removeComposerPatch("drupal/features", "https://www.drupal.org/files/issues/features-2808303-2.patch");
   }
 
   /**
@@ -51,7 +51,9 @@ class Updates {
     // Delete symlink to hooks directory. Individual git hooks are now symlinked, not the entire directory.
     $this->updater->deleteFile('.git/hooks');
     $this->updater->getOutput()->writeln('.git/hooks was deleted. Please re-run setup:git-hooks to install git hooks locally.');
-  }
 
+    $this->updater->removeComposerRepository('https://github.com/mortenson/composer-patches');
+    $this->updater->removeComposerScript('post-create-project-cmd');
+  }
 
 }

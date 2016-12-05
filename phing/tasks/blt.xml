@@ -36,7 +36,7 @@
     <exec dir="${repo.root}" command="rsync -a --no-g ${blt.root}/template/ ${repo.root}/ --include-from=${blt.update.ignore-existing-file} --ignore-existing" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
   </target>
 
-  <target name="update" depends="blt:rsync-template, blt:update-composer, blt:update-yml, blt:update-delta" hidden="true">
+  <target name="update" depends="blt:rsync-template, blt:update-composer, blt:update-yml, blt:update-delta, cleanup" hidden="true">
 
     <phingcall target="install-alias">
       <property name="create_alias" value="true"/>
