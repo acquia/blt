@@ -13,8 +13,6 @@ All work must conform to established best practices and coding standards. Code q
 * All code must be reviewed by a peer or established integrator before being merged into the master branch.
 * All new features must covered by an automated test that mirrors the ticket acceptance criteria.
 
-Please peruse the [examples](examples) directory for examples of various coding best practices.
-
 ## Exporting configuration
 
 All site functionality should be represented in version-controlled code. This includes all configuration. Drupal configuration is typically exported via [Features](https://www.drupal.org/project/features).
