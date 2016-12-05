@@ -54,6 +54,14 @@ class Updates {
 
     $this->updater->removeComposerRepository('https://github.com/mortenson/composer-patches');
     $this->updater->removeComposerScript('post-create-project-cmd');
+
+    // Change 'deploy' module key to 'prod'.
+    // @see https://github.com/acquia/blt/pull/700.
+    $project_config = $this->updater->getProjectConfig();
+    if (!empty($project_config['modules']['deploy'])) {
+      $project_config['modules']['prod'] = $project_config['modules']['deploy'];
+      unset($project_config['modules']['deploy']);
+    }
   }
 
 }

@@ -11,6 +11,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
+use Symfony\Component\Yaml\Yaml;
 use vierbergenlars\SemVer\version;
 
 /**
@@ -49,6 +50,7 @@ class Updater {
     $this->updateClassName = $update_class;
     $this->fs = new Filesystem();
     $this->composerJsonFilepath = $this->repoRoot . '/composer.json';
+    $this->projectYmlFilepath = $this->repoRoot . '/blt/project.yml';
   }
 
   /**
@@ -322,6 +324,21 @@ class Updater {
     file_put_contents($this->composerJsonFilepath, json_encode($contents, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
   }
 
+  /**
+   * @return mixed
+   */
+  public function getProjectConfig() {
+    $project_yml = Yaml::parse(file_get_contents($this->projectYmlFilepath));
+
+    return $project_yml;
+  }
+
+  /**
+   * @param $contents
+   */
+  public function writeProjectConfig($contents) {
+    file_put_contents($this->projectYmlFilepath, Yaml::dump($contents, 3, 2));
+  }
 
   /**
    * Moves a file from one location to another, relative to repo root.
