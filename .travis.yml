@@ -48,7 +48,7 @@ install:
   - composer validate --no-check-all --ansi
   # Remove acquia packages from cache before running `composer install`.
   - rm -rf vendor/acquia
-  - composer install
+  - composer install -v
   - export PATH=$TRAVIS_BUILD_DIR/vendor/bin:$PATH
   # Install proper version of node for front end tasks.
   - nvm install 4.4.1
