@@ -12,6 +12,11 @@ project:
   local:
     protocol: http
     hostname: local.${project.machine_name}.com
+  # These values will be used to generate the theme for this project.
+  subtheme:
+    machine_name: cogsub
+    human_name: 'Cog Subtheme'
+    description: 'A subtheme of Cog.'
 
 # Configuration settings for new git repository.
 git:
@@ -39,15 +44,15 @@ target-hooks:
   # Executed when front end dependencies should be installed.
   frontend-setup:
     # E.g., ${docroot}/sites/all/themes/custom/mytheme.
-    dir: ${docroot}
+    dir: '${docroot}/themes/custom/${project.subtheme.machine_name}'
     # E.g., `npm install` or `bower install`.
-    command: echo 'No frontend-setup configured.'
+    command: 'yarn install; npm run build'
   # Executed when front end assets should be generated.
   frontend-build:
     # E.g., ${docroot}/sites/all/themes/custom/mytheme.
-    dir: ${docroot}
+    dir: '${docroot}/themes/custom/${project.subtheme.machine_name}'
     # E.g., `npm run build`.
-    command: echo 'No frontend-build configured.'
+    command: 'gulp'
   # Executed after deployment artifact is created.
   post-deploy-build:
     dir: ${docroot}

@@ -1,7 +1,7 @@
 <project name="setup" default="setup">
 
   <target name="setup" description="Install dependencies, builds docroot, installs Drupal."
-          depends="setup:build, setup:drupal:install, install-alias">
+          depends="setup:build, setup:drupal:install, setup:subtheme, install-alias, setup:enable-subtheme">
     <echo>For a full list of available Phing targets, run:</echo>
     <echo>blt -l</echo>
     <echo></echo>
@@ -287,6 +287,19 @@
         </drush>
       </then>
     </if>
+  </target>
+
+  <!-- Create a subtheme and set it as the site default -->
+  <target name="setup:subtheme" description="Creates a new subtheme of Cog.">
+    <drush command="en cog -y" verbose="false" logoutput="true" />
+    <drush command="cog ${project.subtheme.machine_name} ${project.subtheme.human_name} --description=${project.subtheme.description}" verbose="false" dir="${docroot}/themes/contrib/cog" logoutput="true" />
+    <echo>Created ${project.subtheme.machine_name} subtheme</echo>
+  </target>
+
+  <target name="setup:enable-subtheme" description="Enables subtheme">
+    <drush command="en ${project.subtheme.machine_name} -y" verbose="false" logoutput="true" />
+    <drush command="config-set system.theme default ${project.subtheme.machine_name}" verbose="false" logoutput="true" />
+    <phingcall target="frontend" />
   </target>
 
 </project>
