@@ -41,14 +41,17 @@ class Updater {
    *
    * @param string $update_class
    *   The name of the class containing the update methods to be executed.
+   * @param string $repo_root
+   *   The root directory for this project.
    */
-  public function __construct($update_class = 'Acquia\Blt\Update\Updates') {
+  public function __construct($update_class = 'Acquia\Blt\Update\Updates', $repo_root) {
     $this->output = new ConsoleOutput();
     $this->output->setFormatter(new OutputFormatter(TRUE));
     AnnotationRegistry::registerFile(__DIR__ . '/../Annotations/Update.php');
     $this->annotationsReader = new IndexedReader(new AnnotationReader());
     $this->updateClassName = $update_class;
     $this->fs = new Filesystem();
+    $this->setRepoRoot($repo_root);
     $this->composerJsonFilepath = $this->repoRoot . '/composer.json';
     $this->projectYmlFilepath = $this->repoRoot . '/blt/project.yml';
   }
