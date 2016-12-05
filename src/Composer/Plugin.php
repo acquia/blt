@@ -133,10 +133,11 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
 
       // Rsyncs, updates composer.json, project.yml, executes scripted updates for version delta.
       $this->executeCommand('blt update');
-      $this->io->write('<comment>This may have modified your composer.json and require a subsequent `composer update`</comment>');
 
-      // @todo check if require or require-dev changed. If so, run `composer update`.
-      // @todo if require and require-dev did not change, but something else in composer.json changed, execute `composer update --lock`.
+      $output = $this->executeCommand('composer validate --no-check-all');
+      if (strstr($output, 'The lock file is not up to date')) {
+        $this->io->write('<error>Your composer.json dependencies were modified, you MUST run "composer update" to update your composer.lock file. This is not an error.</error>');
+      }
     }
     else {
       $this->io->write('<comment>Skipping update of BLT templated files</comment>');
