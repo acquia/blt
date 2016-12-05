@@ -44,7 +44,7 @@ class Updater {
    * @param string $repo_root
    *   The root directory for this project.
    */
-  public function __construct($update_class = 'Acquia\Blt\Update\Updates', $repo_root) {
+  public function __construct($update_class, $repo_root) {
     $this->output = new ConsoleOutput();
     $this->output->setFormatter(new OutputFormatter(TRUE));
     AnnotationRegistry::registerFile(__DIR__ . '/../Annotations/Update.php');
