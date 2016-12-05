@@ -49,8 +49,7 @@ class UpdateCommand extends Command
     $ending_version = $input->getArgument('ending_version');
     $repo_root = $input->getArgument('repo_root');
 
-    $updater = new Updater();
-    $updater->setRepoRoot($repo_root);
+    $updater = new Updater('Acquia\Blt\Update\Updates', $repo_root);
     $updates = $updater->getUpdates($starting_version, $ending_version);
     if ($updates) {
       $output->writeln("<comment>The following BLT updates are outstanding:</comment>");

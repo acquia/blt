@@ -67,6 +67,17 @@ import: ~
 
 # An array of modules to be enabled or uninstalled automatically in local, ci, and deploy contexts.
 modules:
+  local:
+    enable:
+      - dblog
+      - devel
+      - field_ui
+      - seckit
+      - views_ui
+    uninstall:
+      - acsf
+      - acquia_connector
+      - shield
   ci:
     enable: []
     uninstall:
@@ -93,14 +104,3 @@ modules:
       - devel
       - field_ui
       - views_ui
-  local:
-    enable:
-      - dblog
-      - devel
-      - field_ui
-      - seckit
-      - views_ui
-    uninstall:
-      - acsf
-      - acquia_connector
-      - shield
