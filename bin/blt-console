@@ -4,7 +4,6 @@
 use Acquia\Blt\Console\Command\ComposerMungeCommand;
 use Acquia\Blt\Console\Command\YamlMungeCommand;
 use Acquia\Blt\Console\Command\UpdateCommand;
-use Symfony\Bridge\Twig\Command\LintCommand;
 use Symfony\Component\Console\Application;
 
 set_time_limit(0);
@@ -26,7 +25,6 @@ else {
 $application = new Application();
 $application->add(new ComposerMungeCommand());
 $application->add(new YamlMungeCommand());
-$application->add(new \Acquia\Blt\Console\Command\TwigLintCommand);
 $application->add(new UpdateCommand());
 
 $application->run();
