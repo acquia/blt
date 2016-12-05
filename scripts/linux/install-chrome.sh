@@ -17,4 +17,5 @@ if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
   unzip chromedriver_linux64.zip
   chmod +x chromedriver
   mv -f chromedriver $BIN_DIR
+  rm chromedriver_linux64.zip
 fi
