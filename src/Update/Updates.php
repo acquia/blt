@@ -64,7 +64,7 @@ class Updates {
     }
 
     // Update .travis.yml.
-    $this->updater->replaceLineInFile(
+    $this->updater->replaceInFile(
       '.travis.yml',
       "  - drupal yaml:update:value project.yml project.local.hostname '127.0.0.1:8888'",
       "  - drupal yaml:update:value blt/project.yml project.local.hostname '127.0.0.1:8888'"

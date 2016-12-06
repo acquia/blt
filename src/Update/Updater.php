@@ -376,14 +376,17 @@ class Updater {
    * Performs a find and replace in a text file.
    *
    * @param string $source
+   *   The source filepath, relative to the repository root.
    * @param string $original
+   *   The original string to find.
    * @param string $replacement
+   *   The string with which to replace the original.
    */
-  public function replaceLineInFile($source, $original, $replacement) {
+  public function replaceInFile($source, $original, $replacement) {
     $source_path = $this->getRepoRoot() . '/' . $source;
     if ($this->getFileSystem()->exists($source)) {
       $contents = file_get_contents($source_path);
-      $new_contents = _str_replace($original, $replacement, $contents);
+      $new_contents = str_replace($original, $replacement, $contents);
       file_put_contents($source_path, $new_contents);
     }
   }
