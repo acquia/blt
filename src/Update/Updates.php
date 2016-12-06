@@ -63,12 +63,7 @@ class Updates {
       unset($project_config['modules']['deploy']);
     }
 
-    // Update .travis.yml.
-    $this->updater->replaceInFile(
-      '.travis.yml',
-      "  - drupal yaml:update:value project.yml project.local.hostname '127.0.0.1:8888'",
-      "  - drupal yaml:update:value blt/project.yml project.local.hostname '127.0.0.1:8888'"
-    );
+    $this->updater->getOutput()->writeln("<comment>You MUST remove .travis.yml and re-initialize Travis CI support with `blt ci:travis:init`.</comment>");
   }
 
 }
