@@ -383,7 +383,7 @@ class Updater {
     $source_path = $this->getRepoRoot() . '/' . $source;
     if ($this->getFileSystem()->exists($source)) {
       $contents = file_get_contents($source_path);
-      $new_contents = _str_replace($original, $replacement, $contents);
+      $new_contents = str_replace($original, $replacement, $contents);
       file_put_contents($source_path, $new_contents);
     }
   }

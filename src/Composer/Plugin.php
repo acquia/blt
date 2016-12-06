@@ -133,7 +133,10 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
 
       // Rsyncs, updates composer.json, project.yml, executes scripted updates for version delta.
       $pre_composer_json = md5_file($this->getRepoRoot() . DIRECTORY_SEPARATOR . 'composer.json');
-      $this->executeCommand('blt update');
+      $success = $this->executeCommand('blt update');
+      if (!$success) {
+        $this->io->write("<error>BLT update script failed! Run `blt update -verbose` to retry.</error>");
+      }
       $post_composer_json = md5_file($this->getRepoRoot() . DIRECTORY_SEPARATOR . 'composer.json');
 
       if ($pre_composer_json != $post_composer_json) {
