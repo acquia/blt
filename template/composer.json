@@ -46,8 +46,10 @@
         "drupal-scaffold": {
             "initial": {
                 "sites/default/default.services.yml": "sites/default/services.yml",
-                "sites/default/default.settings.php": "sites/default/settings.php",
-                "sites/development.services.php": "sites/development.services.yml"
+                "sites/default/default.settings.php": "sites/default/settings.php"
+            },
+            "excludes": {
+                "sites/development.services.yml": "sites/development.services.yml"
             }
         },
         "enable-patching": true,
