@@ -373,6 +373,22 @@ class Updater {
   }
 
   /**
+   * Performs a find and replace in a text file.
+   *
+   * @param string $source
+   * @param string $original
+   * @param string $replacement
+   */
+  public function replaceLineInFile($source, $original, $replacement) {
+    $source_path = $this->getRepoRoot() . '/' . $source;
+    if ($this->getFileSystem()->exists($source)) {
+      $contents = file_get_contents($source_path);
+      $new_contents = _str_replace($original, $replacement, $contents);
+      file_put_contents($source_path, $new_contents);
+    }
+  }
+
+  /**
    * @param $filepath
    */
   public function deleteFile($filepath) {

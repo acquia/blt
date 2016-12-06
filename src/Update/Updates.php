@@ -14,7 +14,7 @@ use Acquia\Blt\Annotations\Update;
 class Updates {
 
   /**
-   * @var Updater*/
+   * @var \Acquia\Blt\Update\Updater*/
   protected $updater;
 
   /**
@@ -62,6 +62,13 @@ class Updates {
       $project_config['modules']['prod'] = $project_config['modules']['deploy'];
       unset($project_config['modules']['deploy']);
     }
+
+    // Update .travis.yml.
+    $this->updater->replaceLineInFile(
+      '.travis.yml',
+      "  - drupal yaml:update:value project.yml project.local.hostname '127.0.0.1:8888'",
+      "  - drupal yaml:update:value blt/project.yml project.local.hostname '127.0.0.1:8888'"
+    );
   }
 
 }
