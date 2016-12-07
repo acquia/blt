@@ -276,7 +276,7 @@
 
   <target name="setup:toggle-modules" description="Enables and uninstalls specified modules.">
     <if>
-      <isset property="${environment}"/>
+      <isset property="environment"/>
       <then>
         <drush command="pm-enable" assume="yes">
           <param>${modules.${environment}.enable}</param>
