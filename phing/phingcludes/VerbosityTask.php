@@ -4,17 +4,17 @@
  * A phing task to loop through properties.
  */
 require_once 'phing/Task.php';
-use Symfony\Component\Yaml\Yaml;
 
 class VerbosityTask extends Task {
 
-  /**
-   * Path the Drush executable.
-   */
-  public function setLevel($str) {
-    $this->level = $str;
-  }
+  protected $return_property = null;
 
+  /**
+   * The name of a Phing property to assign the Drush command's output to.
+   */
+  public function setReturnProperty($str) {
+    $this->return_property = $str;
+  }
 
   /**
    * The main entry point method.
@@ -24,6 +24,11 @@ class VerbosityTask extends Task {
    */
   public function main() {
 
+    // Set value of the return property.
+    if (empty($this->return_property)) {
+      throw new \Exception('You must set a return property for the Verbosity task.');
+    }
+
     $map = [
       'debug' => Project::MSG_DEBUG,
       'verbose' =>  Project::MSG_VERBOSE,
@@ -32,21 +37,24 @@ class VerbosityTask extends Task {
       'error' =>  Project::MSG_ERR,
     ];
 
-    if (is_numeric($this->level)) {
-      $this->setLoggerLevel($this->level);
+    // If -verbose flag is used, ignore the rest.
+    global $argv;
+    foreach ($argv as $argument) {
+      switch ($argv) {
+        case '-debug':
+        case '-verbose':
+        case '-quiet':
+        case '-silent':
+          $level = substr($argument, 1, strlen($argument));
+          $this->getProject()->setProperty($this->return_property, $level);
+          return TRUE;
+
+        break;
+      }
     }
-    elseif (array_key_exists($this->level, $map)) {
-      $this->setLoggerLevel($map[$this->level]);
-    }
-    else {
-      $this->log("blt.level '{$this->level}' is invalid. Acceptable values are " . implode(', ', array_keys($map)), Project::MSG_ERR);
-    }
-  }
-  public function setLoggerLevel($level) {
-    $listeners = $this->getProject()->getBuildListeners();
-    foreach ($listeners as $listener) {
-      $listener->setMessageOutputLevel($level);
-    }
+
+    // Set default level to info.
+    $this->getProject()->setProperty($this->return_property, 'info');
   }
 
 }

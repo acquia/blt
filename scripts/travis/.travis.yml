@@ -73,7 +73,7 @@ before_script:
   - drupal yaml:update:value blt/project.yml project.local.hostname '127.0.0.1:8888'
 
 script:
-  - blt -Dbehat.run-server=true -Dcreate_alias=false -Dbehat.launch-phantom=true ci:build:validate:test
+  - blt -Dbehat.run-server=true -Dcreate_alias=false -Dbehat.launch-phantom=true ci:build:validate:test -Dblt.verbose=true
 
 deploy:
    - provider: script
