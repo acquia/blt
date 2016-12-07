@@ -9,7 +9,7 @@
 
   <target name="setup:behat" description="Generates tests/behat/local.yml file for executing Behat tests locally.">
     <mkdir dir="${reports.localDir}/behat"/>
-    <echo level="${blt.level}">Attempting to generate tests/behat/local.yml.</echo>
+    <echo level="verbose">Attempting to generate tests/behat/local.yml.</echo>
     <copy file="${repo.root}/tests/behat/example.local.yml" tofile="${repo.root}/tests/behat/local.yml" verbose="true">
       <filterchain>
         <expandproperties level="verbose" />
@@ -276,16 +276,37 @@
 
   <target name="setup:toggle-modules" description="Enables and uninstalls specified modules.">
     <if>
-      <isset property="${environment}"/>
+      <isset property="environment"/>
       <then>
-        <drush command="pm-enable" assume="yes">
-          <param>${modules.${environment}.enable}</param>
-          <option name="skip"></option>
-        </drush>
-        <drush command="pm-uninstall" assume="yes">
-          <param>${modules.${environment}.uninstall}</param>
-        </drush>
+
+        <if>
+          <isset property="modules.${environment}.enable"/>
+          <then>
+            <drush command="pm-enable" assume="yes">
+              <param>${modules.${environment}.enable}</param>
+              <option name="skip"></option>
+            </drush>
+          </then>
+          <else>
+            <echo>modules.${environment}.enable is not set.</echo>
+          </else>
+        </if>
+
+        <if>
+          <isset property="modules.${environment}.uninstall"/>
+          <then>
+            <drush command="pm-uninstall" assume="yes">
+              <param>${modules.${environment}.uninstall}</param>
+            </drush>
+          </then>
+          <else>
+            <echo>modules.${environment}.uninstall is not set.</echo>
+          </else>
+        </if>
       </then>
+      <else>
+        <echo>environment property is not set.</echo>
+      </else>
     </if>
   </target>
 
