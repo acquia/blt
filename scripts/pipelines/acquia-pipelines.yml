@@ -9,8 +9,7 @@ events:
             script:
               - git config --global user.name "Acquia Cloud"
               - git config --global user.email "noreply@acquia.com"
-              - sudo /etc/init.d/mysql start
-              - mysql -u root -proot -e "CREATE DATABASE drupal" -v
+              - mysql -u root -proot -e "CREATE DATABASE IF NOT EXISTS drupal"
 
         # Install project level packages and set project level configuration.
         - setup-project:
@@ -25,16 +24,10 @@ events:
             type: script
             script:
               - export PATH=$PATH:$BUILD_DIR/vendor/bin
-              # Install chromedriver.
-              # - ./vendor/acquia/blt/scripts/linux/chromedriver.sh $BUILD_DIR/vendor/bin
-              # Initialize xvfb (see https://docs.travis-ci.com/user/gui-and-headless-browsers)
-              # - sudo apt-get install xvfb
-              # - export DISPLAY=:99.0
-              # - sh -e /etc/init.d/xvfb start
               #  The local.hostname must be set to 127.0.0.1:8888 because we are using drush runserver to test the site.
               - drupal init
               - drupal yaml:update:value blt/project.yml project.local.hostname '127.0.0.1:8888'
-              - blt -Dbehat.run-server=true -Dcreate_alias=false -Dbehat.launch-selenium=false -Dbehat.tags='~javascript&&experimental' ci:build:validate:test
+              - blt -Dbehat.run-server=true -Dcreate_alias=false -Dbehat.launch-selenium=false -Dbehat.tags='~javascript&&~experimental' ci:build:validate:test
 
         # Generate
         - prepare-artifact:
