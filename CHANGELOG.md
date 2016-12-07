@@ -1,5 +1,19 @@
 # Change Log
 
+## [8.6.0](https://github.com/acquia/blt/tree/8.6.0) (2016-12-07)
+[Full Changelog](https://github.com/acquia/blt/compare/8.6.0-beta2...8.6.0)
+
+**Implemented enhancements:**
+
+- Removing search modules. These should be in separate feature project. [\#769](https://github.com/acquia/blt/pull/769) ([grasmash](https://github.com/grasmash))
+- Making CI builds more verbose. [\#767](https://github.com/acquia/blt/pull/767) ([grasmash](https://github.com/grasmash))
+- Updating acquia-pipelines.yml to create db only if not exists. [\#766](https://github.com/acquia/blt/pull/766) ([grasmash](https://github.com/grasmash))
+
+**Fixed bugs:**
+
+- Fixing bug that prevents modules from being toggled. [\#768](https://github.com/acquia/blt/pull/768) ([grasmash](https://github.com/grasmash))
+- Preserving development.services.yml. [\#758](https://github.com/acquia/blt/pull/758) ([grasmash](https://github.com/grasmash))
+
 ## [8.6.0-beta2](https://github.com/acquia/blt/tree/8.6.0-beta2) (2016-12-06)
 [Full Changelog](https://github.com/acquia/blt/compare/8.6.0-beta1...8.6.0-beta2)
 
