@@ -1,5 +1,13 @@
 # Change Log
 
+## [8.6.1](https://github.com/acquia/blt/tree/8.6.1) (2016-12-07)
+[Full Changelog](https://github.com/acquia/blt/compare/8.6.0...8.6.1)
+
+**Fixed bugs:**
+
+- Removing testProd PHPUnit test. [\#771](https://github.com/acquia/blt/pull/771) ([grasmash](https://github.com/grasmash))
+- Hotfix: strip special characters from version strings. [\#770](https://github.com/acquia/blt/pull/770) ([grasmash](https://github.com/grasmash))
+
 ## [8.6.0](https://github.com/acquia/blt/tree/8.6.0) (2016-12-07)
 [Full Changelog](https://github.com/acquia/blt/compare/8.6.0-beta2...8.6.0)
 
