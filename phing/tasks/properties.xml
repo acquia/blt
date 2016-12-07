@@ -36,20 +36,15 @@
   <!-- Send errors to /dev/null, for environments like ACE without composer. -->
   <exec dir="${repo.root}" command="composer info acquia/blt 2> /dev/null | grep versions | awk '{print $4}'" outputProperty="blt.version" logoutput="false" checkreturn="true" level="${blt.exec_level}" />
 
-  <!--verbosityTask is used to set the verbosity level of Phing via a property. It is necessary because the -verbose, -debug, -silent, and -quiet command line options are not available as properties and cannot be utilized in task conditionals. -->
-  <verbosityTask level="${blt.level}"/>
-  <!-- Think of blt.level as a maximum verbosity level. Anything above the default level of info (e.g., verbose and debug) are hidden unless the maximum verbosity is raised to the "verbose" or "debug" level. Raising blt.level increases the visibility of otherwise hidden output. -->
-  <!-- When blt.level is above "warn", then increase verbosity of common project tasks. -->
+  <!-- Set the ${verbosity} variable.  -->
+  <verbosityTask returnProperty="verbosity"/>
   <if>
     <or>
-      <equals arg1="${blt.level}" arg2="debug"/>
-      <equals arg1="${blt.level}" arg2="verbose"/>
-      <equals arg1="${blt.level}" arg2="info"/>
+      <equals arg1="${verbosity}" arg2="debug"/>
+      <equals arg1="${verbosity}" arg2="verbose"/>
     </or>
     <then>
-      <!--blt.exec_level is used for most <exec> tasks.-->
-      <property name="blt.exec_level" value="info"/>
-      <!--blt.verbose is used to toggle the verbosity on other tasks, such as Drush and Behat-->
+      <!-- blt.verbose is used to toggle the verbosity on other tasks, such as Drush and Behat. -->
       <property name="blt.verbose" value="true"/>
     </then>
   </if>

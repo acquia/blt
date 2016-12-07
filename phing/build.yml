@@ -20,15 +20,10 @@ behat:
 blt:
   update:
     ignore-existing-file: ${blt.root}/scripts/blt/ignore-existing.txt
-  # Default verbosity level for <exec> tasks.
+  # Default verbosity level for <exec> tasks. If Phing msg level is => than info, this will be set to info.
   exec_level: verbose
-  # If blt.level >= info, this will be changed to true. Affects verbosity of tasks like Drush, Behat.
+  # If Phing verbosity is flagged, this will be changed to true. Affects verbosity of tasks like Drush, Behat.
   verbose: false
-  # Control the maximum level of verbosity that will be printed to screen.
-  # From most to least verbose: debug, verbose, info, warn, error.
-  # Equivalent of using Phing arguments -debug, -verbose, [none], -quiet, -silent
-  # Note that this does not affect passthru output.
-  level: info
   config-files:
     project: ${repo.root}/blt/project.yml
     local: ${repo.root}/blt/project.local.yml
