@@ -2,17 +2,22 @@
 
 ## Updating a composer-managed version
 
-If you are already using BLT via Composer, you can update to the latest version of BLT by running the following commands from your project's root directory:
+If you are already using BLT via Composer, you can update to the latest version of BLT using composer.
 
-      composer update acquia/blt --with-dependencies
-      # Remove deprecated files.
-      blt cleanup
+1. Run the following commands:
 
-Check the [release information](https://github.com/acquia/blt/releases) to see if there are special update instructions for the new version. Review and commit changes to your project files.
+        # update blt and its dependencies
+        composer update acquia/blt --with-dependencies
+        # Remove deprecated files.
+        blt cleanup
+        # update all dependencies, in case BLT modified your composer.json during previous update.
+        composer update
+  
+   Rarely, the first command will fail with a version conflict. If this happens, run `composer update` first so that Composer can try to resolve a new set of interoperable dependencies.
 
-On occasion, updating BLT will result in changes to your project's composer.json file. This can happen when the upstream BLT project adds new dependencies or changes the pinned version of a dependency. In cases like this, BLT will print a message alerting you to run `composer update` an additional time so that you apply the changed dependencies locally.
-
-Rarely, you may need to refresh your local environment via `blt local:setup` to provision new upstream changes.
+1. Check the [release information](https://github.com/acquia/blt/releases) to see if there are special update instructions for the new version. 
+1. Review and commit changes to your project files.
+1. Rarely, you may need to refresh your local environment via `blt local:setup`. This will drop your local database and re-install Drupal.
 
 ### Modifying update behavior
 
