@@ -89,7 +89,7 @@
           <not><equals arg1="${behatPass}" arg2="0"/></not>
           <then>
             <phingcall target="tests:selenium:kill"/>
-            <fail message="One ore more Behat tests failed." />
+            <fail message="One or more Behat tests failed." />
           </then>
           <else>
             <echo>All Behat tests in ${behat.path} have passed.</echo>
