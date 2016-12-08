@@ -7,6 +7,7 @@ composer.lock
 README.md
 drush/site-aliases/aliases.drushrc.php
 docroot/sites/default/services.yml
+docroot/sites/default/settings/trusted_host.settings.php
 factory-hooks/pre-settings-php/includes.php
 tests/behat/behat.yml
 tests/behat/example.local.yml
