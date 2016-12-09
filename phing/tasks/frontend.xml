@@ -2,18 +2,37 @@
 
   <target name="frontend" description="Runs all frontend targets"
           depends="frontend:setup, frontend:build">
+    <echo>Running main frontend task.</echo>
   </target>
 
-  <target name="frontend:setup" description="Uses project.yml hooks to run custom defined commands to setup front end dependencies for frontend:build." hidden="true">
-    <phingcall target="target-hook:invoke">
-      <property name="hook-name" value="frontend-setup"/>
-    </phingcall>
+  <target name="frontend:setup" description="Uses project.yml hooks to run custom defined commands to setup front end dependencies for frontend:build.">
+    <if>
+      <available file='${target-hooks.frontend-setup.dir}' type='dir' />
+      <then>
+        <phingcall target="target-hook:invoke">
+          <property name="hook-name" value="frontend-setup"/>
+        </phingcall>
+        <echo>Front-end setup task run.</echo>
+      </then>
+      <else>
+        <echo>Subtheme not yet created.</echo>
+      </else>
+    </if>
   </target>
 
-  <target name="frontend:build" description="Uses project.yml hooks to run custom defined commands to build front end dependencies for custom themes." hidden="true">
-    <phingcall target="target-hook:invoke">
-      <property name="hook-name" value="frontend-build"/>
-    </phingcall>
+  <target name="frontend:build" description="Uses project.yml hooks to run custom defined commands to build front end dependencies for custom themes.">
+    <if>
+      <available file='${target-hooks.frontend-setup.dir}' type='dir' />
+      <then>
+        <phingcall target="target-hook:invoke">
+          <property name="hook-name" value="frontend-build"/>
+        </phingcall>
+        <echo>Front-end build task run.</echo>
+      </then>
+      <else>
+        <echo>Subtheme not yet created.</echo>
+      </else>
+    </if>
   </target>
 
 </project>
