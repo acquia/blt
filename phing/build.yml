@@ -74,7 +74,9 @@ git:
 
 multisite:
   # The docroot/sites/default directory is used by default.
-  name: default
+  name: 
+  - default
+  # - another_site
 
 reports:
   localDir: ${repo.root}/reports

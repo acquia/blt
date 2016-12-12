@@ -60,16 +60,16 @@
   <target name="setup:settings" depends="setup:drupal:settings, setup:drush:settings" description="Creates settings files for Drupal and drush.">
   </target>
 
-  <target name="setup:drupal:settings" description="Create local settings files using default settings files.">
-    <echo>Making ${docroot}/sites/default writable.</echo>
-    <chmod mode="0755" file="${docroot}/sites/default" failonerror="false" verbose="true" />
+  <target name="setup:drupal:settings:site" description="Create local settings files using default settings files for an individual site." hidden="true">
+    <echo>Making ${docroot}/sites/${multisite.name} writable.</echo>
+    <chmod mode="0755" file="${docroot}/sites/${multisite.name}" failonerror="false" verbose="true" />
 
     <!-- Ensure that settings.php exists and that it requires BLT settings files. -->
     <if>
-      <not><available file="${docroot}/sites/default/settings.php"/></not>
+      <not><available file="${docroot}/sites/${multisite.name}/settings.php"/></not>
       <then>
         <if>
-          <not><available file="${docroot}/sites/default/default.settings.php"/></not>
+          <not><available file="${docroot}/sites/${multisite.name}/default.settings.php"/></not>
           <then>
             <echo level="verbose">Downloading scaffold files so that default.settings.php is available...</echo>
             <exec dir="${repo.root}" command="composer drupal-scaffold" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true" />
@@ -77,14 +77,14 @@
         </if>
 
         <echo>Generating settings.php from default.settings.php...</echo>
-        <copy file="${docroot}/sites/default/default.settings.php" tofile="${docroot}/sites/default/settings.php" verbose="true"/>
+        <copy file="${docroot}/sites/${multisite.name}/default.settings.php" tofile="${docroot}/sites/${multisite.name}/settings.php" verbose="true"/>
       </then>
     </if>
-    <echo>Making ${docroot}/sites/default/settings.php writable...</echo>
-    <chmod mode="0644" failonerror="false" file="${docroot}/sites/default/settings.php"/>
+    <echo>Making ${docroot}/sites/${multisite.name}/settings.php writable...</echo>
+    <chmod mode="0644" failonerror="false" file="${docroot}/sites/${multisite.name}/settings.php"/>
     <echo>Ensuring that blt.settings.php is required by settings.php...</echo>
-    <exec dir="${docroot}/sites/default" command="grep vendor/acquia/blt/settings/blt.settings.php settings.php || echo 'require DRUPAL_ROOT . &quot;/../vendor/acquia/blt/settings/blt.settings.php&quot;;' >> settings.php" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
-    <exec dir="${docroot}/sites/default" command="grep trusted_host.settings.php settings.php || echo '// require DRUPAL_ROOT . &quot;/sites/default/settings/trusted_host.settings.php&quot;;' >> settings.php" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
+    <exec dir="${docroot}/sites/${multisite.name}" command="grep vendor/acquia/blt/settings/blt.settings.php settings.php || echo 'require DRUPAL_ROOT . &quot;/../vendor/acquia/blt/settings/blt.settings.php&quot;;' >> settings.php" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
+    <exec dir="${docroot}/sites/${multisite.name}" command="grep trusted_host.settings.php settings.php || echo '// require DRUPAL_ROOT . &quot;/sites/${multisite.name}/settings/trusted_host.settings.php&quot;;' >> settings.php" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
 
     <echo>Generating local settings files.</echo>
 
@@ -111,8 +111,13 @@
       </then>
     </if>
   </target>
+  
+  <!-- Run Drupal settings setup for each multisite. -->
+  <target name="setup:drupal:settings">
+    <foreach list="${multisite.name}" param="multisite.name" target="setup:drupal:settings:site"/>
+  </target>
 
-  <target name="setup:drush:settings" description="Create local drush settings files.">
+  <target name="setup:drush:settings:site" description="Create local drush settings files for an individual site." hidden="true">
     <if>
       <not><available file="${docroot}/sites/${multisite.name}/local.drushrc.php" type="file" /></not>
       <then>
@@ -139,6 +144,11 @@
     <!-- Re-extract value of $options['uri'] in case it was not yet set. -->
     <!-- @todo Add multisite support. -->
     <phpVariable file="${repo.root}/drush/drushrc.php" variable="options[uri]" outputProperty="local_url" />
+  </target>
+  
+  <!-- Run Drush settings setup for each multisite. -->
+  <target name="setup:drush:settings">
+    <foreach list="${multisite.name}" param="multisite.name" target="setup:drush:settings:site"/>
   </target>
 
   <target name="setup:drupal:install"
