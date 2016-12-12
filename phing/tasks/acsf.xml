@@ -1,11 +1,11 @@
 <project name="acsf" default="acsf:init">
 
   <!-- Set the acsf repo/branch-->
-  <property name="acsf.repo_branch" value="drupal/acsf:^8" override="false"/>
+  <property name="acsf.package" value="drupal/acsf:^8" override="false"/>
   <target name="acsf:init" description="Initializes ACSF support for project.">
     <echo>Adding acsf module as a dependency.</echo>
-    <echo>Using ${acsf.repo_branch} use -Dacsf.repo_branch= to change.</echo>
-    <exec dir="${repo.root}" command="composer require ${acsf.repo_branch}" logoutput="true" checkreturn="true" passthru="true" level="${blt.exec_level}"/>
+    <echo>In future, you may use pass a custom value for acsf.package to override default version. E.g., blt acsf:init -Dacsf.package='drupal/acsf:8.1.x-dev'</echo>
+    <exec dir="${repo.root}" command="composer require ${acsf.package}" logoutput="true" checkreturn="true" passthru="true" level="${blt.exec_level}"/>
     <!-- Run the acsf init commands. -->
     <phingcall target="acsf:init:drush"/>
   </target>
