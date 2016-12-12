@@ -12,7 +12,7 @@ deploy_updates() {
   export PATH=$repo_root/vendor/bin:$PATH
   cd $repo_root
 
-  blt deploy:update -Denvironment=$target_env -Dblt.verbose=true
+  blt deploy:update -Denvironment=$target_env
   if [ $? -ne 0 ]; then
       echo "Update errored."
       status=1;
