@@ -1,5 +1,14 @@
 <project name="properties" default="build">
 
+  <!-- Set the memory limit for php. -->
+  <if>
+    <isset property="php.mem_limit"/>
+    <then>
+      <echo>Setting memory allocation to ${php.mem_limit}</echo>
+      <php expression="ini_set('memory_limit', '${php.mem_limit}');"/>
+    </then>
+  </if>
+
   <!-- Define the repo root as a property, and resolve to an absolute file path. -->
   <!-- We assume that Phing is running in vendor/acquia/blt/phing of a parent project. -->
   <property name="repo.root.relative" value="${phing.dir}/../../../.." logoutput="false"/>
