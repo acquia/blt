@@ -64,7 +64,7 @@
     <copy file="${blt.root}/scripts/drupal-vm/Vagrantfile" todir="${repo.root}" verbose="true"/>
 
     <echo>Adding geerlingguy/drupal-vm to composer dev dependencies.</echo>
-    <exec dir="${repo.root}" command="composer require --dev geerlingguy/drupal-vm:~3.5" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec dir="${repo.root}" command="composer require --dev geerlingguy/drupal-vm:~4.0" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
 
     <echo></echo>
     <echo>A new "box" directory and a Vagrantfile have been added to ${repo.root}</echo>
