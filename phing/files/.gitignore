@@ -5,6 +5,7 @@ project.local.yml
 
 # Ignore paths that contain user-generated content.
 docroot/sites/*/files
+docroot/sites/*/files-private
 docroot/sites/*/private
 
 # Ignore build artifacts

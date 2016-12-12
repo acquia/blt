@@ -12,6 +12,7 @@
 /docroot/libraries/contrib
 /docroot/modules/contrib
 /docroot/sites/*/files
+/docroot/sites/*/files-private
 /docroot/sites/*/private
 /docroot/themes/contrib
 /drush/contrib
