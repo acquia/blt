@@ -46,7 +46,7 @@ target-hooks:
     # E.g., ${docroot}/sites/all/themes/custom/mytheme.
     dir: '${docroot}/themes/custom/${project.subtheme.machine_name}'
     # E.g., `npm install` or `bower install`.
-    command: 'npm install -g yarn; yarn install;'
+    command: 'npm install; yarn --version'
   # Executed when front end assets should be generated.
   frontend-build:
     # E.g., ${docroot}/sites/all/themes/custom/mytheme.
