@@ -93,7 +93,7 @@ script:
   - blt ci:travis:init
   - blt ci:pipelines:init
   # Disable Lightning tests on pull requests.
-  - 'if [[ "$TRAVIS_PULL_REQUEST" == "true" ]]; then printf "behat.paths: [ ${repo.root}/tests/behat ]" >> blt/project.yml; fi'
+  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then printf "behat.paths: [ \${repo.root}/tests/behat ]" >> blt/project.yml; fi'
   - cat blt/project.yml
   # Call targets in the new 'blt-project' project.
   - blt ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dbehat.launch-phantom=true -Dblt.verbose=true
