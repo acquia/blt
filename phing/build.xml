@@ -18,7 +18,9 @@
   </if>
 
   <!--Increase PHP memory limit. -->
-  <php expression="ini_set('memory_limit', '1G');" level="verbose" />
+  <property name="php.memory_limit" value="2G" override="false" />
+  <echo>Setting memory allocation to ${php.memory_limit}</echo>
+  <php expression="ini_set('memory_limit', '${php.memory_limit}');"/>
 
   <!--@todo Warn if Windows is being used.-->
 
