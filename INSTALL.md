@@ -32,6 +32,8 @@ If you'd like to create a VM with BLT, you will require the following additional
         brew install ansible
         brew cask install virtualbox vagrant
 
+The minimum required versions are VirtualBox 5.1.x and Vagrant 1.8.6. The local PHP environment should also have a memory limit of at least 2G for BLT to initialise.
+
 If you'd like to execute Behat tests from the host machine, you will need Java:
 
         brew cask install java
