@@ -2,10 +2,22 @@
 
   <target name="deploy" description="Builds separate artifact and pushes to git.remotes defined project.yml.">
 
+    <!-- Build some defaults -->
+    <exec command="git rev-parse --abbrev-ref HEAD" dir="${repo.root}" outputProperty="branch.current"/>
+    <exec command="git log --oneline -1" dir="${repo.root}" outputProperty="deploy.commitMsg.last"/>
+    <!-- Strip out the SHA-1 checksum -->
+    <propertyregex property="deploy.commitMsg.default" subject="${deploy.commitMsg.last}" pattern="^[a-f0-9]+\s(.*)$" replace="$1"/>
+
     <!-- Prompt for user input -->
     <echo>This will build a production-safe artifact, commit it to a branch, and  push it to your git.remotes.</echo>
-    <propertyprompt propertyName="deploy.commitMsg" useExistingValue="true" promptText="Enter a valid commit message" promptCharacter=":" />
-    <propertyprompt propertyName="deploy.branch" useExistingValue="true" promptText="Enter a deploy branch" promptCharacter=":" />
+    <propertyprompt propertyName="deploy.commitMsg" useExistingValue="true"
+                    promptText="Enter a valid commit message (defaults to last commit message)"
+                    promptCharacter=":"
+                    defaultValue="${deploy.commitMsg.default}"/>
+    <propertyprompt propertyName="deploy.branch" useExistingValue="true"
+                    promptText="Enter a deploy branch (defaults to [current branch]-build)"
+                    promptCharacter=":"
+                    defaultValue="${branch.current}-build"/>
 
     <!-- Check necessary runtime parameters. -->
     <if>
@@ -18,7 +30,6 @@
         <echo message="Command should match syntax:"/>
         <echo message="blt deploy -Ddeploy.commitMsg='BLT-123: The commit message.' -Ddeploy.branch='master-build'"/>
         <fail message="Missing required parameters."/>
-        <!-- @todo create default values for these params. E.g., the last commit msg from the source branch, and "[source-branch]-build". -->
       </then>
     </if>
 
