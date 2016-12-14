@@ -25,7 +25,7 @@
 /.gitignore
 .git
 example.*
-local.*
-*.local.*
+local.settings.php
+local.drushrc.php
 node_modules
 /vendor
