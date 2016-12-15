@@ -38,29 +38,32 @@ To set up this workflow, you must configure Acquia Cloud, GitHub, and Travis CI 
 
          blt ci:travis:init
 
-1. Generate an SSH key locally. E.g.,
+1. Generate an SSH key locally for Travis / Build use. (e.g.)
 
          cd ~/.ssh
          ssh-keygen -t rsa -b 4096
 
    Do not use a passphrase!
+   Name this key something different than your normal Acquia Cloud key (e.g. travis)
 
-1. Create a new Acquia Cloud account to be used exclusively as a container for the SSH keys that will grant Travis push access to Acquia Cloud. This can be done by inviting a new team member on the "Teams" tab in Acquia Cloud. You can use an email address like `<email>+travis@acquia.com`. The team member must have SSH push access.
-1. Login to the new Acquia Cloud account and add the public SSH key from the key pair that was generated in step 1 by visiting `https://accounts.acquia.com/account/[uid]/security`.
+1. Login to your Acquia Cloud account and add the public SSH key from the key pair that was generated in step 1 by visiting `https://accounts.acquia.com/account/[uid]/security`.
 1. Add the same public SSH key to the "Deployment Keys" section on your project's GitHub settings page, located at `https://github.com/acquia-pso/[project-name]/settings/keys`. **Note: You may not have direct access to these settings if you do not have administrative control over your repository.**
 1. Add the _private SSH key_ to your project's Travis CI settings located at `https://magnum.travis-ci.com/acquia-pso/[project-name]/settings`.
 1. Add your cloud git repository to the remotes section of your project.yml file:
 
         remotes:
            - example@svn-14671.prod.hosting.acquia.com:example.git`
+Note: if planning on executing any drush sql-syncs/rsyncs between the cloud and your environment, also add the test/stage server host here and ensure that your account has the senior developer or team lead role (or appropriate custom access in the Acquia Cloud).
 
 1. Add your cloud git repository's server host name to `ssh_known_hosts` in your .travis.yml file. Take care to remove the user name and file name (example.git) and use only the hostname.
 
         addons:
           ssh_known_hosts:
           - svn-14671.prod.hosting.acquia.com
+Note: if planning on executing any drush sql-syncs/rsyncs between the cloud and your environment, also add the test/stage server host here and ensure that your account has the senior developer or team lead role (or appropriate custom access in the Acquia Cloud).
 
 1. Commits or merges to the develop branch on GitHub should now trigger a fully built artifact to be deployed to your specified remotes.
+1. **If the build account is removed from the project, the Travis Builds for that project will begin to fail.**
 
 For information on manually deploying your project, read [deploy.md](deploy.md)
 
@@ -74,7 +77,7 @@ deploy:
      skip_cleanup: true
      on:
        branch: master
-       
+
    - provider: script
      script: blt deploy -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="${TRAVIS_BRANCH}-build"
      skip_cleanup: true
