@@ -232,7 +232,7 @@
           <param>features</param>
         </drush>
         <!-- Clear drush caches to register features drush commands. -->
-        <drush command="cc" assume="yes" alias="${drush.alias}">
+        <drush command="cr" alias="${drush.alias}">
           <param>drush</param>
         </drush>
         <!-- Revert all features. -->
