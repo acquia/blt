@@ -66,4 +66,18 @@ class Updates {
     $this->updater->getOutput()->writeln("<comment>You MUST remove .travis.yml and re-initialize Travis CI support with `blt ci:travis:init`.</comment>");
   }
 
+  /**
+   * @Update(
+   *   version = "8.6.2",
+   *   description = "Updates composer.json version constraints for Drupal.org."
+   * )
+   */
+  public function update_862() {
+    $composer_json = $this->updater->getComposerJson();
+    DoPackagistConverter::convertComposerJson($composer_json);
+    // This package is not compatible with D.O style version constraints.
+    unset($composer_json['require']['drupal-composer/drupal-security-advisories']);
+    $this->updater->writeComposerJson($composer_json);
+  }
+
 }
