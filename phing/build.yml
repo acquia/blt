@@ -73,10 +73,14 @@ git:
     commit-msg: ${blt.root}/scripts/git-hooks
 
 multisite:
-  # The docroot/sites/default directory is used by default.
-  name:
-    - default
-    # - another_site
+  - name: default
+    uri:
+      local: mysite.default.local
+      remote: mysite.com
+  - name: another
+    uri:
+      local: mysite.another.local
+      remote: another.com
 
 reports:
   localDir: ${repo.root}/reports
