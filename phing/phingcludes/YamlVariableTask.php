@@ -51,26 +51,34 @@ class YamlVariableTask extends Task {
     switch ($this->format) {
       case self::FORMAT_LIST:
         $list = array();
-        foreach ($parsed[$this->variable] as $item) {
+        foreach ($parsed[$this->variable] as $itemIndex => $item) {
           $nested = '';
-          $cur = &$item;
+          $current = &$item;
+          $index = 0;
+          $keys = explode('.', $this->variableProperty);
+
           // Drill down to the requested nested key, allowing
           // nested keys to be passed in separated in dot syntax.
-          foreach (explode('.', $this->variableProperty) as $key) {
+          foreach ($keys as $key) {
 
-            if (array_key_exists($key, $cur)) {
-              $cur = $cur[$key];
+            if (is_array($current) && array_key_exists($key, $current)) {
+              $current = $current[$key];
+              // If we're at the requested depth.
+              if ($index === count($keys) - 1) {
+                // Add all array values if this is an array,
+                // otherwise add the value.
+                $nested = is_array($current) ? implode(',', $current) : $current;
+              }
             }
             else {
-              throw new BuildException("The key '" . $key . "' could not be located in " . $this->variable);
+              throw new BuildException(
+                "The key '" . $key . "' could not be located in " .
+                $this->variable . "[" . $itemIndex . "]" .
+                "[" . implode('][', array_slice($keys, 0, $index)) . "]"
+              );
             }
 
-            // Continue drilling down until we're no longer
-            // operating on an array.
-            // @todo throw an error if this isn't the last iteration?
-            if (!is_array($cur)) {
-              $nested = $cur;
-            }
+            $index++;
           }
 
           // If there were not any nested properties,
