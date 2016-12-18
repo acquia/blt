@@ -77,10 +77,6 @@ multisite:
     uri:
       local: default.local
       remote: default.com
-  test:
-    uri:
-      local: test.local
-      remote: test.com
 
 reports:
   localDir: ${repo.root}/reports
