@@ -60,6 +60,7 @@ class YamlVariableTask extends Task {
           if (!empty($this->variableProperty)) {
             $propChain = $this->createPropertyChain($this->variableProperty);
             $nested = $this->extractNestedProperty($current, $propChain);
+            // @todo unified error handling.
             if ($nested === FALSE) {
               throw new BuildException(
                 "Could not locate " .
@@ -84,7 +85,13 @@ class YamlVariableTask extends Task {
         break;
 
       default:
+        // @todo unified error handling.
         $value = $parsed[$this->variable];
+        if($this->variableProperty){
+          $value = $this->extractNestedProperty(
+            $value, $this->createPropertyChain($this->variableProperty)
+          );
+        }
     }
 
     if (NULL !== $this->outputProperty) {

@@ -88,9 +88,6 @@
   </target>
 
   <target name="version" description="Display the currently installed version of BLT.">
-    <!--<echoproperties/>-->
-    <yamlVariable file="${phing.dir}/build.yml" format="list" variable="multisite" variableProperty="uri.local" outputProperty="uris" />
-    <echo msg="${uris}"/>
     <echo>BLT version is ${blt.version}</echo>
   </target>
 

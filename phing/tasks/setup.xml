@@ -158,7 +158,14 @@
     <phpVariable file="${repo.root}/drush/drushrc.php" variable="options[uri]" outputProperty="local_url" />
   </target>
 
+  <!-- Install Drupal for each multisite. -->
   <target name="setup:drupal:install"
+          description="Installs Drupal on each of the project's multisites.">
+    <yamlVariable file="${blt.config-files.project}" variable="multisite" format="list" outputProperty="multisite.names"/>
+    <foreach list="${multisite.names}" param="multisite.name" target="setup:drupal:install:site"/>
+  </target>
+
+  <target name="setup:drupal:install:site"
           description="Installs a specific Drupal site."
           depends="setup:drupal:settings, setup:drush:settings, setup:hash-salt">
 
@@ -170,8 +177,9 @@
       </then>
     </if>
 
-    <echo>Installing Drupal...</echo>
-    <drush command="site-install">
+    <yamlVariable file="${blt.config-files.project}" variable="multisite" variableProperty="${multisite.name}.uri.local" outputProperty="multisite.uri"/>
+    <echo>Installing Drupal on ${multisite.uri}...</echo>
+    <drush command="site-install" uri="${multisite.uri}">
       <option name="site-name">"${project.human_name}"</option>
       <option name="site-mail">"${drupal.account.mail}"</option>
       <option name="account-name">"${drupal.account.name}"</option>
