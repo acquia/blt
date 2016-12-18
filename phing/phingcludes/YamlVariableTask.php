@@ -11,6 +11,7 @@ use Symfony\Component\Yaml\Yaml;
 class YamlVariableTask extends Task {
 
   const FORMAT_LIST = 'list';
+  const PROP_DELIMITER = '.';
 
   /**
    * The YAML file from which to read the variable.
@@ -20,7 +21,7 @@ class YamlVariableTask extends Task {
 
 
   /**
-   * The YAML variable name. This may be a nested array or object.
+   * The YAML variable name. This may be a nested array.
    * @var string
    */
   protected $variable = NULL;
@@ -53,43 +54,30 @@ class YamlVariableTask extends Task {
     switch ($this->format) {
       case self::FORMAT_LIST:
         $list = array();
-        foreach ($parsed[$this->variable] as $itemIndex => $item) {
+        foreach ($parsed[$this->variable] as $itemKey => $item) {
           $nested = NULL;
           $current = &$item;
-          $index = 0;
-
-          // Drill down to the requested nested key, allowing
-          // nested keys to be passed in separated in dot syntax.
-          $keys = explode('.', $this->variableProperty);
-          foreach ($keys as $key) {
-
-            if (is_array($current) && array_key_exists($key, $current)) {
-              $current = $current[$key];
-              // If we're at the requested depth.
-              if ($index === count($keys) - 1) {
-                $nested = $current;
-              }
-              $index++;
-              continue;
+          if (!empty($this->variableProperty)) {
+            $propChain = $this->createPropertyChain($this->variableProperty);
+            $nested = $this->extractNestedProperty($current, $propChain);
+            if ($nested === FALSE) {
+              throw new BuildException(
+                "Could not locate " .
+                $this->variable . "[" . $itemKey . "]" .
+                "[" . implode('][', $propChain) . "]"
+              );
             }
-
-            throw new BuildException(
-              "The key '" . $key . "' could not be located in " .
-              $this->variable . "[" . $itemIndex . "]" .
-              "[" . implode('][', array_slice($keys, 0, $index)) . "]"
-            );
-
           }
 
-          // If there were not any nested properties,
-          // simply add item, otherwise add the nested item,
-          // adding all items in the array (if array).
           if (empty($nested)) {
-            $list[] = is_array($item) ? implode($this->listDelimiter, $item) : $item;
+            $append = $this->isAssociative($item) ? $itemKey : $item;
           }
           else {
-            $list[] = is_array($nested) ? implode($this->listDelimiter, $nested) : $nested;
+            $append = $nested;
           }
+
+          $list[] = is_array($append) ? implode($this->listDelimiter, $append) : $append;
+
         }
 
         $value = implode($this->listDelimiter, $list);
@@ -158,5 +146,36 @@ class YamlVariableTask extends Task {
    */
   public function setOutputProperty($prop) {
     $this->outputProperty = $prop;
+  }
+
+  private function isAssociative(array $arr) {
+    return !empty($arr) && array_keys($arr) !== range(0, count($arr) - 1);
+  }
+
+  private function extractNestedProperty(array $arr, array $propChain) {
+    $index = 0;
+    $current = $arr;
+    foreach ($propChain as $key) {
+      if (array_key_exists($key, $current)) {
+        $current = $current[$key];
+        // If we're at the requested depth.
+        if ($index === count($propChain) - 1) {
+          return is_array($current) && $this->isAssociative($current)
+            ? $key : $current;
+
+        }
+        $index++;
+        continue;
+      }
+      // Not a valid key.
+      break;
+
+    }
+
+    return FALSE;
+  }
+
+  private function createPropertyChain($propStr){
+    return explode(self::PROP_DELIMITER, $propStr);
   }
 }

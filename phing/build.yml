@@ -73,14 +73,14 @@ git:
     commit-msg: ${blt.root}/scripts/git-hooks
 
 multisite:
-  - name: default
+  default:
     uri:
-      local: mysite.default.local
-      remote: mysite.com
-  - name: another
+      local: default.local
+      remote: default.com
+  test:
     uri:
-      local: mysite.another.local
-      remote: another.com
+      local: test.local
+      remote: test.com
 
 reports:
   localDir: ${repo.root}/reports
