@@ -33,6 +33,8 @@ class YamlVariableTask extends Task {
 
   protected $format = NULL;
 
+  protected $listDelimiter = ',';
+
   protected $dummy = NULL;
 
   /**
@@ -52,42 +54,45 @@ class YamlVariableTask extends Task {
       case self::FORMAT_LIST:
         $list = array();
         foreach ($parsed[$this->variable] as $itemIndex => $item) {
-          $nested = '';
+          $nested = NULL;
           $current = &$item;
           $index = 0;
-          $keys = explode('.', $this->variableProperty);
 
           // Drill down to the requested nested key, allowing
           // nested keys to be passed in separated in dot syntax.
+          $keys = explode('.', $this->variableProperty);
           foreach ($keys as $key) {
 
             if (is_array($current) && array_key_exists($key, $current)) {
               $current = $current[$key];
               // If we're at the requested depth.
               if ($index === count($keys) - 1) {
-                // Add all array values if this is an array,
-                // otherwise add the value.
-                $nested = is_array($current) ? implode(',', $current) : $current;
+                $nested = $current;
               }
-            }
-            else {
-              throw new BuildException(
-                "The key '" . $key . "' could not be located in " .
-                $this->variable . "[" . $itemIndex . "]" .
-                "[" . implode('][', array_slice($keys, 0, $index)) . "]"
-              );
+              $index++;
+              continue;
             }
 
-            $index++;
+            throw new BuildException(
+              "The key '" . $key . "' could not be located in " .
+              $this->variable . "[" . $itemIndex . "]" .
+              "[" . implode('][', array_slice($keys, 0, $index)) . "]"
+            );
+
           }
 
           // If there were not any nested properties,
-          // simply add item's value, otherwise add the
-          // nested property.
-          $list[] = empty($nested) ? $item : $nested;
+          // simply add item, otherwise add the nested item,
+          // adding all items in the array (if array).
+          if (empty($nested)) {
+            $list[] = is_array($item) ? implode($this->listDelimiter, $item) : $item;
+          }
+          else {
+            $list[] = is_array($nested) ? implode($this->listDelimiter, $nested) : $nested;
+          }
         }
 
-        $value = implode(',', $list);
+        $value = implode($this->listDelimiter, $list);
         break;
 
       default:
@@ -122,6 +127,10 @@ class YamlVariableTask extends Task {
 
   public function setVariableProperty($property) {
     $this->variableProperty = $property;
+  }
+
+  public function setListDelimiter($listDelimiter) {
+    $this->listDelimiter = $listDelimiter;
   }
 
   /**
