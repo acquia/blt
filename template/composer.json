@@ -8,6 +8,7 @@
         }
     },
     "require": {
+        "acquia/lightning": "2.0.1",
         "cweagans/composer-patches": "^1.6.0",
         "drupal/acquia_connector": "^1.5.0",
         "drupal/acsf": "^1.32.0",
@@ -18,8 +19,7 @@
         "drupal/seckit": "^1.0.0-alpha2",
         "drupal/security_review": "*",
         "drupal/shield": "^1.0.0",
-        "drush/drush": "^9.0",
-        "acquia/lightning": "2.0.1"
+        "drush/drush": "^9.0"
     },
     "require-dev": {
         "behat/behat": "^3.1",

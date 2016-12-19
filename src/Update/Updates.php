@@ -74,7 +74,7 @@ class Updates {
    */
   public function update_862() {
     $composer_json = $this->updater->getComposerJson();
-    DoPackagistConverter::convertComposerJson($composer_json);
+    $composer_json = DoPackagistConverter::convertComposerJson($composer_json);
     // This package is not compatible with D.O style version constraints.
     unset($composer_json['require']['drupal-composer/drupal-security-advisories']);
     $this->updater->writeComposerJson($composer_json);
