@@ -19,7 +19,7 @@
         "drupal/security_review": "*",
         "drupal/shield": "^1.0.0",
         "drush/drush": "^9.0",
-        "acquia/lightning": "^2.0.0"
+        "acquia/lightning": "2.0.1"
     },
     "require-dev": {
         "behat/behat": "^3.1",
@@ -50,6 +50,11 @@
             }
         },
         "enable-patching": true,
+        "patches": {
+           "acquia/lightning": {
+               "New LightningExtension subcontexts do not autoload": "https://www.drupal.org/files/issues/2836258-3-lightning-extension-autoload.patch"
+           }
+        },
         "installer-paths": {
             "docroot/core": [
                 "type:drupal-core"
