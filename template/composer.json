@@ -15,7 +15,7 @@
         "drupal/cog": "^1.0.0",
         "drupal/core": "^8.0",
         "drupal/features": "^3.0.0",
-        "drupal/memcache": "^2.0.0-alpha2",
+        "drupal/memcache": "2.x-dev",
         "drupal/seckit": "^1.0.0-alpha2",
         "drupal/security_review": "*",
         "drupal/shield": "^1.0.0",
@@ -51,9 +51,9 @@
         },
         "enable-patching": true,
         "patches": {
-           "acquia/lightning": {
-               "New LightningExtension subcontexts do not autoload": "https://www.drupal.org/files/issues/2836258-3-lightning-extension-autoload.patch"
-           }
+            "acquia/lightning": {
+                "New LightningExtension subcontexts do not autoload": "https://www.drupal.org/files/issues/2836258-3-lightning-extension-autoload.patch"
+            }
         },
         "installer-paths": {
             "docroot/core": [
