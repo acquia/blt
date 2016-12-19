@@ -1,5 +1,21 @@
 # Change Log
 
+## [8.6.3](https://github.com/acquia/blt/tree/8.6.3) (2016-12-19)
+[Full Changelog](https://github.com/acquia/blt/compare/8.6.2...8.6.3)
+
+**Implemented enhancements:**
+
+- Change version constraint for drupal/core to ^8.0 [\#812](https://github.com/acquia/blt/pull/812) ([grasmash](https://github.com/grasmash))
+- Fixes \#809: Add mailhog to Drupal VM installed\_extras. [\#810](https://github.com/acquia/blt/pull/810) ([geerlingguy](https://github.com/geerlingguy))
+
+**Fixed bugs:**
+
+- Hotfix for 8.6.2: drupal/core version constraint. [\#808](https://github.com/acquia/blt/pull/808) ([grasmash](https://github.com/grasmash))
+
+**Closed issues:**
+
+- Mailhog required for some commands [\#809](https://github.com/acquia/blt/issues/809)
+
 ## [8.6.2](https://github.com/acquia/blt/tree/8.6.2) (2016-12-19)
 [Full Changelog](https://github.com/acquia/blt/compare/8.6.1...8.6.2)
 
