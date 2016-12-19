@@ -177,9 +177,8 @@
       </then>
     </if>
 
-    <yamlVariable file="${blt.config-files.project}" variable="multisite" variableProperty="${multisite.name}.uri.local" outputProperty="multisite.uri"/>
-    <echo>Installing Drupal on ${multisite.uri}...</echo>
-    <drush command="site-install" uri="${multisite.uri}">
+    <echo>Installing Drupal on ${multisite.${multisite.name}.uri.local}...</echo>
+    <drush command="site-install" uri="${multisite.${multisite.name}.uri.local}">
       <option name="site-name">"${project.human_name}"</option>
       <option name="site-mail">"${drupal.account.mail}"</option>
       <option name="account-name">"${drupal.account.name}"</option>
