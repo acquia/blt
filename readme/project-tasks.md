@@ -32,7 +32,7 @@ To execute PHP codesniffer and PHP lint against the project codebase, run:
 
 Ideally, you will be using a theme that uses SASS/SCSS, a styleguide, and other tools that require compilation. Like dependencies, the compiled assets should not be directly committed to the project repository. Instead, they should be built during the creation of a production-ready build artifact.
 
-BLT allows you to define a custom command that will be run to compile your project's frontend assets. You can specify the command in your project's `project.yml` file under the `target-hooks.frontend-build` key:
+BLT allows you to define a custom command that will be run to compile your project's frontend assets. You can specify the command in your project's `blt/project.yml` file under the `target-hooks.frontend-build` key:
 
 
     target-hooks:
@@ -55,7 +55,7 @@ This command will be executed when dependencies are built in a local or CI envir
 
 ## Updating your local environment
 
-The project is configured to update the local environment with a local drush alias and a remote alias as defined in `project.yml` or `project.local.yml`. Given that these aliases match, those in `drush/site-aliases/`, you can update the site with BLT. Please see [drush/README.md](../template/drush/README.md) for details on how to create these aliases.
+The project is configured to update the local environment with a local drush alias and a remote alias as defined in `blt/project.yml` or `blt/project.local.yml`. Given that these aliases match, those in `drush/site-aliases/`, you can update the site with BLT. Please see [drush/README.md](../template/drush/README.md) for details on how to create these aliases.
 
 ### Refresh: Rebuild the codebase, copy the database, and run updates
 
