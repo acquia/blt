@@ -45,6 +45,7 @@ nodejs_install_npm_user: "{{ drupalvm_user }}"
 npm_config_prefix: "/home/{{ drupalvm_user }}/.npm-global"
 installed_extras:
   - adminer
+  - drush
   - mailhog
   - nodejs
   - selenium
