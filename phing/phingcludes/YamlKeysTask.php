@@ -12,10 +12,10 @@ class YamlKeysTask extends Task {
 
 
   /**
-   * The property string delimiter.
+   * The keychain delimiter.
    * @var string
    */
-  const PROP_DELIMITER = '.';
+  const KEYCHAIN_DELIMITER = '.';
 
   /**
    * The YAML file from which to read the keys.
@@ -58,7 +58,7 @@ class YamlKeysTask extends Task {
     foreach ($parsed[$this->variable] as $key => $value) {
       $keys = array();
       if (!empty($this->property)) {
-        $keyChain = explode(self::PROP_DELIMITER, $this->property);
+        $keyChain = explode(self::KEYCHAIN_DELIMITER, $this->property);
         $keys = $this->extractNestedKeys($value, $keyChain);
       }
       else {
