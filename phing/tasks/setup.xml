@@ -131,6 +131,7 @@
   </target>
 
   <target name="setup:drush:settings:site" description="Create local drush settings files for an individual site." hidden="true">
+    <echo level="verbose">Executing commands against multisite "${multisite.name}"</echo>
     <if>
       <not><available file="${docroot}/sites/${multisite.name}/local.drushrc.php" type="file" /></not>
       <then>
