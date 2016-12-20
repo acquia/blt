@@ -159,9 +159,8 @@
   </target>
 
   <!-- Install Drupal for each multisite. -->
-  <target name="setup:drupal:install"
-          description="Installs Drupal on each of the project's multisites.">
-    <yamlVariable file="${blt.config-files.project}" variable="multisite" format="list" outputProperty="multisite.names"/>
+  <target name="setup:drupal:install" description="Installs Drupal on each of the project's multisites.">
+    <yamlKeys file="${blt.config-files.project}" variable="multisite" outputProperty="multisite.names"/>
     <foreach list="${multisite.names}" param="multisite.name" target="setup:drupal:install:site"/>
   </target>
 
