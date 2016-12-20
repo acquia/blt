@@ -125,6 +125,13 @@
 
   </target>
 
+  <target name="deploy:copy" description="Copy required files from each /docroot/sites to /deploy/docroot/sites." hidden="true">
+    <!-- Use our own .gitignore -->
+    <copy file="${deploy.gitignore_file}" tofile="${deploy.dir}/.gitignore" overwrite="true"/>
+    <!-- Perform settings copy for each multisite. -->
+    <foreach list="${multisite.names}" param="multisite.name" target="deploy:copy:site"/>
+  </target>
+
   <target name="deploy:copy:site" description="Copy required files from /docroot/sites to /deploy/docroot/sites." hidden="true">
     <!-- Make sites/${multisite.name} writable so that we can copy files. -->
     <chmod file="${docroot}/sites/${multisite.name}" mode="0777" />
@@ -133,13 +140,6 @@
 
     <!-- Set sites/${multisite.name} back to 755 permissions. -->
     <chmod file="${docroot}/sites/${multisite.name}" mode="0755" />
-  </target>
-
-  <target name="deploy:copy" description="Copy required files from each /docroot/sites to /deploy/docroot/sites." hidden="true">
-    <!-- Use our own .gitignore -->
-    <copy file="${deploy.gitignore_file}" tofile="${deploy.dir}/.gitignore" overwrite="true"/>
-    <!-- Perform settings copy for each multisite. -->
-    <foreach list="${multisite.name}" param="multisite.name" target="deploy:copy:site"/>
   </target>
 
   <target name="deploy:prepare-dir" description="Delete the existing deploy directory and re-initialize as an empty git repository." hidden="true">
@@ -173,7 +173,6 @@
   <target name="deploy:update" description="Update current database to reflect the state of the Drupal file system; uses local drush alias.">
     <phingcall target="setup:update">
       <param name="environment" value="deploy"/>
-      <property name="drush.alias" value="self"/>
       <!-- Most sites store their version-controlled configuration in /config/default. -->
       <!-- ACE internally sets the vcs configuration directory to /config/default, so we use that. -->
       <property name="cm.core.config-dir" value="vcs"/>

@@ -211,27 +211,34 @@
   </target>
 
   <target name="setup:config-import:site" description="Import configuration from a site's config directory.">
+    <if>
+      <!-- If no environment set, then assume we're working locally. -->
+      <not><isset property="environment"/></not>
+      <then>
+        <property name="environment" value="local"/>
+      </then>
+    </if>
+    <property name="multisite.alias" value="${multisite.${multisite.name}.aliases.${environment}}"/>
     <echo>Importing configuration for ${multisite.name}...</echo>
-    <property name="multisite.alias.local" value="${multisite.${multisite.name}.aliases.local}"/>
-    <drush command="pm-enable" assume="yes" alias="${multisite.alias.local}">
+    <drush command="pm-enable" assume="yes" alias="${multisite.alias}">
       <param>config</param>
     </drush>
 
     <!-- Rebuild caches in case service definitions have changed. -->
     <!-- @see https://www.drupal.org/node/2826466 -->
-    <drush command="cr" alias="${multisite.alias.local}"/>
+    <drush command="cr" alias="${multisite.alias}"/>
 
     <!-- Import configuration before executing updates, in case any db updates are dependent on new configs to be imported. -->
-    <drush command="config-import" assume="yes" alias="${multisite.alias.local}">
+    <drush command="config-import" assume="yes" alias="${multisite.alias}">
       <option name="partial"></option>
       <param>${cm.core.config-dir}</param>
     </drush>
     <!-- Execute db updates. -->
-    <drush command="updb" assume="yes" alias="${multisite.alias.local}">
+    <drush command="updb" assume="yes" alias="${multisite.alias}">
       <option name="entity-updates"></option>
     </drush>
     <!-- Import configuration. -->
-    <drush command="config-import" assume="yes" alias="${multisite.alias.local}">
+    <drush command="config-import" assume="yes" alias="${multisite.alias}">
       <option name="partial"></option>
       <param>${cm.core.config-dir}</param>
     </drush>
@@ -239,11 +246,11 @@
       <isset property="cm.features.bundle"/>
       <then>
         <!-- Enable features module. -->
-        <drush command="en" assume="yes" alias="${multisite.alias.local}">
+        <drush command="en" assume="yes" alias="${multisite.alias}">
           <param>features</param>
         </drush>
         <!-- Clear drush caches to register features drush commands. -->
-        <drush command="cr" alias="${multisite.alias.local}">
+        <drush command="cr" alias="${multisite.alias}">
           <param>drush</param>
         </drush>
         <!-- Revert all features. -->
@@ -251,7 +258,7 @@
       </then>
     </if>
     <!-- Rebuild caches. -->
-    <drush command="cr" alias="${multisite.alias.local}"/>
+    <drush command="cr" alias="${multisite.alias}"/>
   </target>
 
   <target name="setup:git-hooks" description="Installs git hooks to local .git/hooks directory from version controlled scripts/git-hooks directory.">
@@ -302,8 +309,15 @@
   </target>
 
   <target name="setup:update:features-import:site" description="Perform a features import for a site on the specified bundle.">
-    <property name="multisite.alias.local" value="${multisite.${multisite.name}.aliases.local}"/>
-    <drush command="fra" assume="yes" alias="${multisite.alias.local}">
+    <if>
+      <!-- If no environment set, then assume we're working locally. -->
+      <not><isset property="environment"/></not>
+      <then>
+        <property name="environment" value="local"/>
+      </then>
+    </if>
+    <property name="multisite.alias" value="${multisite.${multisite.name}.aliases.${environment}}"/>
+    <drush command="fra" assume="yes" alias="${multisite.alias}">
       <option name="bundle">${bundle}</option>
     </drush>
   </target>
@@ -315,15 +329,14 @@
 
   <target name="setup:toggle-modules:site" description="Enables and uninstalls specified modules.">
     <echo>Toggling modules on ${multisite.name}...</echo>
-    <property name="multisite.alias.local" value="${multisite.${multisite.name}.aliases.local}"/>
     <if>
       <isset property="environment"/>
       <then>
-
+        <property name="multisite.alias" value="${multisite.${multisite.name}.aliases.${environment}}"/>
         <if>
           <isset property="modules.${environment}.enable"/>
           <then>
-            <drush command="pm-enable" assume="yes" alias="${multisite.alias.local}">
+            <drush command="pm-enable" assume="yes" alias="${multisite.alias}">
               <param>${modules.${environment}.enable}</param>
               <option name="skip"></option>
             </drush>
@@ -336,7 +349,7 @@
         <if>
           <isset property="modules.${environment}.uninstall"/>
           <then>
-            <drush command="pm-uninstall" assume="yes" alias="${multisite.alias.local}">
+            <drush command="pm-uninstall" assume="yes" alias="${multisite.alias}">
               <param>${modules.${environment}.uninstall}</param>
             </drush>
           </then>
