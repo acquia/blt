@@ -79,5 +79,29 @@ class Updates {
     unset($composer_json['require']['drupal-composer/drupal-security-advisories']);
     $this->updater->writeComposerJson($composer_json);
   }
+  /**
+   * @Update(
+   *   version = "8.6.4",
+   *   description = "Removes deprecated packages from composer.json."
+   * )
+   */
+  public function update_864() {
+    $composer_json = $this->updater->getComposerJson();
+    $remove_packages = [
+      'drupal/coder',
+      'drupal-composer/drupal-security-advisories',
+      'phing/phing',
+      'jakoch/phantomjs-installer',
+      'phpunit/phpunit',
+      'behat/mink-extension',
+      'behat/mink-goutte-driver',
+      'behat/mink-browserkit-driver'
+    ];
+    foreach ($remove_packages as $package) {
+      unset($composer_json['require'][$package]);
+      unset($composer_json['require-dev'][$package]);
+    }
+    $this->updater->writeComposerJson($composer_json);
+  }
 
 }
