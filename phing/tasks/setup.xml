@@ -218,27 +218,27 @@
         <property name="environment" value="local"/>
       </then>
     </if>
-    <property name="multisite.alias" value="${multisite.${multisite.name}.aliases.${environment}}"/>
+    <property name="multisite.uri" value="${multisite.${multisite.name}.uri.${environment}}"/>
     <echo>Importing configuration for ${multisite.name}...</echo>
-    <drush command="pm-enable" assume="yes" alias="${multisite.alias}">
+    <drush command="pm-enable" assume="yes" uri="${multisite.uri}">
       <param>config</param>
     </drush>
 
     <!-- Rebuild caches in case service definitions have changed. -->
     <!-- @see https://www.drupal.org/node/2826466 -->
-    <drush command="cr" alias="${multisite.alias}"/>
+    <drush command="cr" uri="${multisite.uri}"/>
 
     <!-- Import configuration before executing updates, in case any db updates are dependent on new configs to be imported. -->
-    <drush command="config-import" assume="yes" alias="${multisite.alias}">
+    <drush command="config-import" assume="yes" uri="${multisite.uri}">
       <option name="partial"></option>
       <param>${cm.core.config-dir}</param>
     </drush>
     <!-- Execute db updates. -->
-    <drush command="updb" assume="yes" alias="${multisite.alias}">
+    <drush command="updb" assume="yes" uri="${multisite.uri}">
       <option name="entity-updates"></option>
     </drush>
     <!-- Import configuration. -->
-    <drush command="config-import" assume="yes" alias="${multisite.alias}">
+    <drush command="config-import" assume="yes" uri="${multisite.uri}">
       <option name="partial"></option>
       <param>${cm.core.config-dir}</param>
     </drush>
@@ -246,11 +246,11 @@
       <isset property="cm.features.bundle"/>
       <then>
         <!-- Enable features module. -->
-        <drush command="en" assume="yes" alias="${multisite.alias}">
+        <drush command="en" assume="yes" uri="${multisite.uri}">
           <param>features</param>
         </drush>
         <!-- Clear drush caches to register features drush commands. -->
-        <drush command="cr" alias="${multisite.alias}">
+        <drush command="cr" uri="${multisite.uri}">
           <param>drush</param>
         </drush>
         <!-- Revert all features. -->
@@ -258,7 +258,7 @@
       </then>
     </if>
     <!-- Rebuild caches. -->
-    <drush command="cr" alias="${multisite.alias}"/>
+    <drush command="cr" uri="${multisite.uri}"/>
   </target>
 
   <target name="setup:git-hooks" description="Installs git hooks to local .git/hooks directory from version controlled scripts/git-hooks directory.">
@@ -316,8 +316,8 @@
         <property name="environment" value="local"/>
       </then>
     </if>
-    <property name="multisite.alias" value="${multisite.${multisite.name}.aliases.${environment}}"/>
-    <drush command="fra" assume="yes" alias="${multisite.alias}">
+    <property name="multisite.uri" value="${multisite.${multisite.name}.uri.${environment}}"/>
+    <drush command="fra" assume="yes" uri="${multisite.uri}">
       <option name="bundle">${bundle}</option>
     </drush>
   </target>
@@ -332,11 +332,11 @@
     <if>
       <isset property="environment"/>
       <then>
-        <property name="multisite.alias" value="${multisite.${multisite.name}.aliases.${environment}}"/>
+        <property name="multisite.uri" value="${multisite.${multisite.name}.uri.${environment}}"/>
         <if>
           <isset property="modules.${environment}.enable"/>
           <then>
-            <drush command="pm-enable" assume="yes" alias="${multisite.alias}">
+            <drush command="pm-enable" assume="yes" uri="${multisite.uri}">
               <param>${modules.${environment}.enable}</param>
               <option name="skip"></option>
             </drush>
@@ -349,7 +349,7 @@
         <if>
           <isset property="modules.${environment}.uninstall"/>
           <then>
-            <drush command="pm-uninstall" assume="yes" alias="${multisite.alias}">
+            <drush command="pm-uninstall" assume="yes" uri="${multisite.uri}">
               <param>${modules.${environment}.uninstall}</param>
             </drush>
           </then>
