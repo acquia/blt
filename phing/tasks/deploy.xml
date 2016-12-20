@@ -133,6 +133,7 @@
   </target>
 
   <target name="deploy:copy:site" description="Copy required files from /docroot/sites to /deploy/docroot/sites." hidden="true">
+    <echo level="verbose">Executing commands against multisite "${multisite.name}"</echo>
     <!-- Make sites/${multisite.name} writable so that we can copy files. -->
     <chmod file="${docroot}/sites/${multisite.name}" mode="0777" />
 

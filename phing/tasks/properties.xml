@@ -49,8 +49,6 @@
     </then>
   </if>
 
-  <echo level="verbose">Executing commands against multisite "${multisite.name}"</echo>
-
   <!-- Default drush alias. -->
   <property name="drush.alias" value="${drush.default_alias}" override="false" logoutput="false"/>
   <if>

@@ -68,6 +68,7 @@
   </target>
 
   <target name="setup:drupal:settings:site" description="Create local settings files using default settings files for an individual site." hidden="true">
+    <echo level="verbose">Executing commands against multisite "${multisite.name}"</echo>
     <echo>Making ${docroot}/sites/${multisite.name} writable</echo>
     <chmod mode="0755" file="${docroot}/sites/${multisite.name}" failonerror="false"/>
 
@@ -165,7 +166,7 @@
   <target name="setup:drupal:install:site"
           description="Installs a specific Drupal site."
           depends="setup:drupal:settings, setup:drush:settings, setup:hash-salt">
-
+    <echo level="verbose">Executing commands against multisite "${multisite.name}"</echo>
     <if>
       <istrue value="${drush.verbose}"/>
       <then>
@@ -211,6 +212,7 @@
   </target>
 
   <target name="setup:config-import:site" description="Import configuration from a site's config directory.">
+    <echo level="verbose">Executing commands against multisite "${multisite.name}"</echo>
     <if>
       <!-- If no environment set, then assume we're working locally. -->
       <not><isset property="environment"/></not>
@@ -309,6 +311,7 @@
   </target>
 
   <target name="setup:update:features-import:site" description="Perform a features import for a site on the specified bundle.">
+    <echo level="verbose">Executing commands against multisite "${multisite.name}"</echo>
     <if>
       <!-- If no environment set, then assume we're working locally. -->
       <not><isset property="environment"/></not>
@@ -328,6 +331,7 @@
   </target>
 
   <target name="setup:toggle-modules:site" description="Enables and uninstalls specified modules.">
+    <echo level="verbose">Executing commands against multisite "${multisite.name}"</echo>
     <echo>Toggling modules on ${multisite.name}...</echo>
     <if>
       <isset property="environment"/>
