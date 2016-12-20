@@ -10,7 +10,6 @@ use Symfony\Component\Yaml\Yaml;
  */
 class YamlVariableTask extends Task {
 
-  const FORMAT_LIST = 'list';
   const PROP_DELIMITER = '.';
 
   /**
@@ -36,8 +35,6 @@ class YamlVariableTask extends Task {
 
   protected $listDelimiter = ',';
 
-  protected $dummy = NULL;
-
   /**
    * Property name to set with output value.
    * @var string
@@ -51,48 +48,28 @@ class YamlVariableTask extends Task {
 
     $parsed = Yaml::parse(file_get_contents($this->file));
 
-    switch ($this->format) {
-      case self::FORMAT_LIST:
-        $list = array();
-        foreach ($parsed[$this->variable] as $itemKey => $item) {
-          $nested = NULL;
-          $current = &$item;
-          if (!empty($this->variableProperty)) {
-            $propChain = $this->createPropertyChain($this->variableProperty);
-            $nested = $this->extractNestedProperty($current, $propChain);
-            // @todo unified error handling.
-            if ($nested === FALSE) {
-              throw new BuildException(
-                "Could not locate " .
-                $this->variable . "[" . $itemKey . "]" .
-                "[" . implode('][', $propChain) . "]"
-              );
-            }
-          }
+    $list = array();
+    $propChain = $this->createPropertyChain($this->variableProperty);
+    foreach ($parsed[$this->variable] as $key => $value) {
+      if (!empty($this->variableProperty)) {
+        $items = $this->extractNestedProperty($value, $propChain);
+      }
+      else {
+        $items = $this->parseProperty($key, $value);
+      }
 
-          if (empty($nested)) {
-            $append = $this->isAssociative($item) ? $itemKey : $item;
-          }
-          else {
-            $append = $nested;
-          }
+      if (empty($items)) {
+        throw new BuildException("Could not locate " .
+        $this->variable . "[" . $key . "]" .
+          (!empty($propChain) ? "[" . implode('][', $propChain) . "]" : '')
+        );
+      }
 
-          $list[] = is_array($append) ? implode($this->listDelimiter, $append) : $append;
-
-        }
-
-        $value = implode($this->listDelimiter, $list);
-        break;
-
-      default:
-        // @todo unified error handling.
-        $value = $parsed[$this->variable];
-        if($this->variableProperty){
-          $value = $this->extractNestedProperty(
-            $value, $this->createPropertyChain($this->variableProperty)
-          );
-        }
+      $list = array_merge($list, $items);
     }
+
+    $value = count($list) === 1 ? $list[0] : implode($this->listDelimiter, $list);
+
 
     if (NULL !== $this->outputProperty) {
       $this->project->setProperty($this->outputProperty, $value);
@@ -129,13 +106,6 @@ class YamlVariableTask extends Task {
   }
 
   /**
-   * @remove
-   */
-  public function setDummy($dummy) {
-    $this->dummy = $dummy;
-  }
-
-  /**
    * Sets $this->format property.
    *
    * @param string $format
@@ -159,30 +129,48 @@ class YamlVariableTask extends Task {
     return !empty($arr) && array_keys($arr) !== range(0, count($arr) - 1);
   }
 
-  private function extractNestedProperty(array $arr, array $propChain) {
-    $index = 0;
-    $current = $arr;
-    foreach ($propChain as $key) {
-      if (array_key_exists($key, $current)) {
-        $current = $current[$key];
-        // If we're at the requested depth.
-        if ($index === count($propChain) - 1) {
-          return is_array($current) && $this->isAssociative($current)
-            ? $key : $current;
-
-        }
-        $index++;
-        continue;
+  private function parseProperty($key, $value){
+    $values = array();
+    if (is_array($value)) {
+      // A property is being requested on an
+      // associative array, return the property's
+      // key.
+      if ($this->isAssociative($value)) {
+        $values[] = $key;
       }
-      // Not a valid key.
-      break;
-
+      // The property can be reduced to a list of values,
+      // simply return them.
+      else {
+        $values = $value;
+      }
+    }
+    // This is a singular value.
+    else{
+      $values[] = $value;
     }
 
-    return FALSE;
+    return $values;
   }
 
-  private function createPropertyChain($propStr){
+  private function extractNestedProperty(array $arr, array $propChain) {
+    $values = array();
+    $index = 0;
+    $curArrPos = $arr;
+    foreach ($propChain as $key) {
+      if (array_key_exists($key, $curArrPos)) {
+        $curArrPos = $curArrPos[$key];
+        // If we're at the requested depth.
+        if ($index === count($propChain) - 1) {
+          $values = $this->parseProperty($key, $curArrPos);
+        }
+      }
+      $index++;
+    }
+
+    return $values;
+  }
+
+  private function createPropertyChain($propStr) {
     return explode(self::PROP_DELIMITER, $propStr);
   }
 }
