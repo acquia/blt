@@ -1,5 +1,69 @@
 # Change Log
 
+## [8.6.3](https://github.com/acquia/blt/tree/8.6.3) (2016-12-19)
+[Full Changelog](https://github.com/acquia/blt/compare/8.6.2...8.6.3)
+
+**Implemented enhancements:**
+
+- Change version constraint for drupal/core to ^8.0 [\#812](https://github.com/acquia/blt/pull/812) ([grasmash](https://github.com/grasmash))
+- Fixes \#809: Add mailhog to Drupal VM installed\_extras. [\#810](https://github.com/acquia/blt/pull/810) ([geerlingguy](https://github.com/geerlingguy))
+
+**Fixed bugs:**
+
+- Hotfix for 8.6.2: drupal/core version constraint. [\#808](https://github.com/acquia/blt/pull/808) ([grasmash](https://github.com/grasmash))
+
+**Closed issues:**
+
+- Mailhog required for some commands [\#809](https://github.com/acquia/blt/issues/809)
+
+## [8.6.2](https://github.com/acquia/blt/tree/8.6.2) (2016-12-19)
+[Full Changelog](https://github.com/acquia/blt/compare/8.6.1...8.6.2)
+
+**Implemented enhancements:**
+
+- blt should have an acsf:init:drush command [\#779](https://github.com/acquia/blt/issues/779)
+- blt acsf:init should be able to pull from dev repo [\#778](https://github.com/acquia/blt/issues/778)
+- blt acsf:init should be able to increase its memory usage [\#777](https://github.com/acquia/blt/issues/777)
+- Switch to use acquia/lightning and Drupal packagist [\#759](https://github.com/acquia/blt/issues/759)
+- Ignoring new LightningExtension tests. [\#807](https://github.com/acquia/blt/pull/807) ([grasmash](https://github.com/grasmash))
+- Reducing verbosity of memory\_limit expression. [\#801](https://github.com/acquia/blt/pull/801) ([grasmash](https://github.com/grasmash))
+- Fixes \#796: Don't exclude local.\* files from build artifact. [\#797](https://github.com/acquia/blt/pull/797) ([geerlingguy](https://github.com/geerlingguy))
+- Add defaults for deployment branch and message [\#793](https://github.com/acquia/blt/pull/793) ([bobbygryzynger](https://github.com/bobbygryzynger))
+- Fixing bash conditionals. [\#792](https://github.com/acquia/blt/pull/792) ([grasmash](https://github.com/grasmash))
+- Changing implementation of php.memory\_limit param. [\#791](https://github.com/acquia/blt/pull/791) ([grasmash](https://github.com/grasmash))
+- Renaming acsf.repo\_branch to acsf.package. [\#789](https://github.com/acquia/blt/pull/789) ([grasmash](https://github.com/grasmash))
+- Cleaning up output of setup tasks. [\#788](https://github.com/acquia/blt/pull/788) ([grasmash](https://github.com/grasmash))
+- Reducing default verbosity of cloud hook tasks. [\#786](https://github.com/acquia/blt/pull/786) ([grasmash](https://github.com/grasmash))
+- Fixes \#784: Update to Drupal VM 4.0.x. [\#785](https://github.com/acquia/blt/pull/785) ([geerlingguy](https://github.com/geerlingguy))
+- Fixes \#779: Separate out composer from drush in acsf:init [\#782](https://github.com/acquia/blt/pull/782) ([nikgregory](https://github.com/nikgregory))
+- Fixes \#778: Make it more flexible to change and acsf repository [\#781](https://github.com/acquia/blt/pull/781) ([nikgregory](https://github.com/nikgregory))
+- issue-777 Make php memory limit settable [\#780](https://github.com/acquia/blt/pull/780) ([nikgregory](https://github.com/nikgregory))
+- Updating template/composer.json to use Drupal packagist constraints. [\#762](https://github.com/acquia/blt/pull/762) ([grasmash](https://github.com/grasmash))
+- Add multisite support during deploy and local setup tasks [\#736](https://github.com/acquia/blt/pull/736) ([bobbygryzynger](https://github.com/bobbygryzynger))
+- Change private files path. [\#732](https://github.com/acquia/blt/pull/732) ([dpagini](https://github.com/dpagini))
+
+**Fixed bugs:**
+
+- Fixes \#772: Preventing trusted\_host.settings.php from being overwritten. [\#773](https://github.com/acquia/blt/pull/773) ([grasmash](https://github.com/grasmash))
+
+**Closed issues:**
+
+- Incorrect Cache Clear Option in Setup.xml [\#802](https://github.com/acquia/blt/issues/802)
+- Don't exclude local.\* files from build artifact [\#796](https://github.com/acquia/blt/issues/796)
+- Acquia Cloud Account Creation + CI Instructions [\#794](https://github.com/acquia/blt/issues/794)
+- Update to Drupal VM 4.0.x [\#784](https://github.com/acquia/blt/issues/784)
+- Acquia cloud workflow log and deploy:update in cloud hooks [\#783](https://github.com/acquia/blt/issues/783)
+- BLT upgrade removed my customizations in trusted\_host.settings.php [\#772](https://github.com/acquia/blt/issues/772)
+
+**Misc merged pull requests**
+
+- Docs fix: Update path to project.yml. [\#804](https://github.com/acquia/blt/pull/804) ([geerlingguy](https://github.com/geerlingguy))
+- BLT-802: replacing cc with cr [\#803](https://github.com/acquia/blt/pull/803) ([mikemadison13](https://github.com/mikemadison13))
+- BLT-794: updating documentation to work around acquia cloud email san… [\#795](https://github.com/acquia/blt/pull/795) ([mikemadison13](https://github.com/mikemadison13))
+- Adds gotchas to the INSTALL documentation [\#790](https://github.com/acquia/blt/pull/790) ([typhonius](https://github.com/typhonius))
+- Fix 'ore' typo fix in Behat fail message. [\#776](https://github.com/acquia/blt/pull/776) ([geerlingguy](https://github.com/geerlingguy))
+- Expanding documentation on adding BLT to existing projects. [\#774](https://github.com/acquia/blt/pull/774) ([grasmash](https://github.com/grasmash))
+
 ## [8.6.1](https://github.com/acquia/blt/tree/8.6.1) (2016-12-07)
 [Full Changelog](https://github.com/acquia/blt/compare/8.6.0...8.6.1)
 

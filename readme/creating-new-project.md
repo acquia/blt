@@ -13,7 +13,7 @@
 
         composer blt-alias
 
-1. Customize `project.yml`.
+1. Customize `blt/project.yml`.
 
     By default, BLT will use the [`lightning`](https://github.com/acquia/lightning) profile, other valid values are `standard` or `minimal`.
 

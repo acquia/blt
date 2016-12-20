@@ -32,7 +32,7 @@ However, there are sometimes extenuating circumstances that require you to commi
         /drush/contrib
         /vendor
 
-* Set `deploy.build-dependencies` to `false` in your `project.yml` file:
+* Set `deploy.build-dependencies` to `false` in your `blt/project.yml` file:
 
         deploy:
           build-dependencies: false
