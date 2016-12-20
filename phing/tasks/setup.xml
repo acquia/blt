@@ -1,4 +1,6 @@
 <project name="setup" default="setup">
+  <!-- Get the mulitsite names outside any specific target so all setup targets wil have access. -->
+  <yamlKeys file="${blt.config-files.project}" variable="multisite" outputProperty="multisite.names"/>
 
   <target name="setup" description="Install dependencies, builds docroot, installs Drupal."
           depends="setup:build, setup:drupal:install, install-alias">
@@ -62,7 +64,7 @@
 
   <!-- Run Drupal settings setup for each multisite. -->
   <target name="setup:drupal:settings">
-    <foreach list="${multisite.name}" param="multisite.name" target="setup:drupal:settings:site"/>
+    <foreach list="${multisite.names}" param="multisite.name" target="setup:drupal:settings:site"/>
   </target>
 
   <target name="setup:drupal:settings:site" description="Create local settings files using default settings files for an individual site." hidden="true">
@@ -124,7 +126,7 @@
 
   <!-- Run Drush settings setup for each multisite. -->
   <target name="setup:drush:settings">
-    <foreach list="${multisite.name}" param="multisite.name" target="setup:drush:settings:site"/>
+    <foreach list="${multisite.names}" param="multisite.name" target="setup:drush:settings:site"/>
   </target>
 
   <target name="setup:drush:settings:site" description="Create local drush settings files for an individual site." hidden="true">
@@ -152,18 +154,14 @@
         <expandproperties level="verbose" />
       </filterchain>
     </reflexive>
-
-    <!-- Re-extract value of $options['uri'] in case it was not yet set. -->
-    <!-- @todo Add multisite support. -->
-    <phpVariable file="${repo.root}/drush/drushrc.php" variable="options[uri]" outputProperty="local_url" />
   </target>
 
   <!-- Install Drupal for each multisite. -->
   <target name="setup:drupal:install" description="Installs Drupal on each of the project's multisites.">
-    <yamlKeys file="${blt.config-files.project}" variable="multisite" outputProperty="multisite.names"/>
     <foreach list="${multisite.names}" param="multisite.name" target="setup:drupal:install:site"/>
   </target>
 
+  <!-- Install Drupal on a specific site. -->
   <target name="setup:drupal:install:site"
           description="Installs a specific Drupal site."
           depends="setup:drupal:settings, setup:drush:settings, setup:hash-salt">
@@ -176,9 +174,9 @@
       </then>
     </if>
 
-    <property name="multisite.uri" value="${multisite.${multisite.name}.uri.local}"/>
+    <property name="multisite.alias.local" value="${multisite.${multisite.name}.aliases.local}"/>
     <echo>Installing Drupal on ${multisite.uri}...</echo>
-    <drush command="site-install" uri="${multisite.uri}">
+    <drush command="site-install" alias="${multisite.alias.local}">
       <option name="site-name">"${project.human_name}"</option>
       <option name="site-mail">"${drupal.account.mail}"</option>
       <option name="account-name">"${drupal.account.name}"</option>
@@ -191,15 +189,15 @@
     <phingcall target="setup:update"/>
 
     <!-- Set sites directory file permissions. -->
-    <echo level="verbose">Making ${docroot}/sites/default writable...</echo>
+    <echo level="verbose">Making ${docroot}/sites/${multisite.name} writable...</echo>
     <chmod mode="0755" failonerror="false">
-      <fileset dir="${docroot}/sites/default">
+      <fileset dir="${docroot}/sites/${multisite.name}">
         <type type="dir" />
         <exclude name="files/**" />
       </fileset>
     </chmod>
     <chmod mode="0644" failonerror="false">
-      <fileset dir="${docroot}/sites/default">
+      <fileset dir="${docroot}/sites/${multisite.name}">
         <type type="file" />
         <exclude name="files/**" />
       </fileset>
@@ -207,27 +205,33 @@
 
   </target>
 
-  <target name="setup:config-import" description="Import configuration from the config directory.">
-    <echo>Importing configuration...</echo>
-    <drush command="pm-enable" assume="yes" alias="${drush.alias}">
+  <!-- Import configuration for each multisite. -->
+  <target name="setup:config-import">
+    <foreach list="${multisite.names}" param="multisite.name" target="setup:config-import:site"/>
+  </target>
+
+  <target name="setup:config-import:site" description="Import configuration from a site's config directory.">
+    <echo>Importing configuration for ${multisite.name}...</echo>
+    <property name="multisite.alias.local" value="${multisite.${multisite.name}.aliases.local}"/>
+    <drush command="pm-enable" assume="yes" alias="${multisite.alias.local}">
       <param>config</param>
     </drush>
 
     <!-- Rebuild caches in case service definitions have changed. -->
     <!-- @see https://www.drupal.org/node/2826466 -->
-    <drush command="cr" alias="${drush.alias}"/>
+    <drush command="cr" alias="${multisite.alias.local}"/>
 
     <!-- Import configuration before executing updates, in case any db updates are dependent on new configs to be imported. -->
-    <drush command="config-import" assume="yes" alias="${drush.alias}">
+    <drush command="config-import" assume="yes" alias="${multisite.alias.local}">
       <option name="partial"></option>
       <param>${cm.core.config-dir}</param>
     </drush>
     <!-- Execute db updates. -->
-    <drush command="updb" assume="yes" alias="${drush.alias}">
+    <drush command="updb" assume="yes" alias="${multisite.alias.local}">
       <option name="entity-updates"></option>
     </drush>
     <!-- Import configuration. -->
-    <drush command="config-import" assume="yes" alias="${drush.alias}">
+    <drush command="config-import" assume="yes" alias="${multisite.alias.local}">
       <option name="partial"></option>
       <param>${cm.core.config-dir}</param>
     </drush>
@@ -235,11 +239,11 @@
       <isset property="cm.features.bundle"/>
       <then>
         <!-- Enable features module. -->
-        <drush command="en" assume="yes" alias="${drush.alias}">
+        <drush command="en" assume="yes" alias="${multisite.alias.local}">
           <param>features</param>
         </drush>
         <!-- Clear drush caches to register features drush commands. -->
-        <drush command="cr" alias="${drush.alias}">
+        <drush command="cr" alias="${multisite.alias.local}">
           <param>drush</param>
         </drush>
         <!-- Revert all features. -->
@@ -247,7 +251,7 @@
       </then>
     </if>
     <!-- Rebuild caches. -->
-    <drush command="cr" alias="${drush.alias}"/>
+    <drush command="cr" alias="${multisite.alias.local}"/>
   </target>
 
   <target name="setup:git-hooks" description="Installs git hooks to local .git/hooks directory from version controlled scripts/git-hooks directory.">
@@ -292,13 +296,26 @@
     <phingcall target="setup:toggle-modules"/>
   </target>
 
-  <target name="setup:update:features-import" description="Perform a features import on the specified bundle.">
-    <drush command="fra" assume="yes" alias="${drush.alias}">
+  <!-- Perform features import for each multisite. -->
+  <target name="setup:update:features-import">
+    <foreach list="${multisite.names}" param="multisite.name" target="setup:update:features-import:site"/>
+  </target>
+
+  <target name="setup:update:features-import:site" description="Perform a features import for a site on the specified bundle.">
+    <property name="multisite.alias.local" value="${multisite.${multisite.name}.aliases.local}"/>
+    <drush command="fra" assume="yes" alias="${multisite.alias.local}">
       <option name="bundle">${bundle}</option>
     </drush>
   </target>
 
-  <target name="setup:toggle-modules" description="Enables and uninstalls specified modules.">
+  <!-- Toggle modules for each multisite. -->
+  <target name="setup:toggle-modules">
+    <foreach list="${multisite.names}" param="multisite.name" target="setup:toggle-modules:site"/>
+  </target>
+
+  <target name="setup:toggle-modules:site" description="Enables and uninstalls specified modules.">
+    <echo>Toggling modules on ${multisite.name}...</echo>
+    <property name="multisite.alias.local" value="${multisite.${multisite.name}.aliases.local}"/>
     <if>
       <isset property="environment"/>
       <then>
@@ -306,7 +323,7 @@
         <if>
           <isset property="modules.${environment}.enable"/>
           <then>
-            <drush command="pm-enable" assume="yes">
+            <drush command="pm-enable" assume="yes" alias="${multisite.alias.local}">
               <param>${modules.${environment}.enable}</param>
               <option name="skip"></option>
             </drush>
@@ -319,7 +336,7 @@
         <if>
           <isset property="modules.${environment}.uninstall"/>
           <then>
-            <drush command="pm-uninstall" assume="yes">
+            <drush command="pm-uninstall" assume="yes" alias="${multisite.alias.local}">
               <param>${modules.${environment}.uninstall}</param>
             </drush>
           </then>
