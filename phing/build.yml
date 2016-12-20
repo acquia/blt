@@ -72,11 +72,17 @@ git:
     pre-commit: ${blt.root}/scripts/git-hooks
     commit-msg: ${blt.root}/scripts/git-hooks
 
+# Site(s) definition.
 multisite:
   default:
+    aliases:
+      local: self
+      remote: ${project.machine_name}.test
     uri:
-      local: default.local
-      remote: default.com
+      local: ${project.machine_name}.local
+      dev: ${project.machine_name}.dev
+      test: ${project.machine_name}.test
+      prod: ${project.machine_name}.com
 
 reports:
   localDir: ${repo.root}/reports

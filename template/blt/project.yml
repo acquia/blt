@@ -23,14 +23,10 @@ git:
 drush:
   # You can set custom project aliases in drush/site-aliases/aliases.drushrc.php.
   aliases:
-    # The remote environment from which the database will be pulled.
-    remote: ${project.machine_name}.test
-    # The local environment against which all local drush commands are run.
-    local: self
     # The drush alias against which all ci commands are run.
     ci: self
     # The default drush alias to be used when no environment is specified.
-  default_alias: ${drush.aliases.local}
+  default_alias: ${multisite.default.aliases.local}
 
 # Custom tasks that are triggered at pre-defined times in the build process.
 # The tasks hook into BLT's existing Phing targets. Available hooks keys are:
@@ -64,6 +60,21 @@ target-hooks:
 
 # Define any custom Phing files that you'd like to import. E.g., ${repo.root}/blt/phing/build.xml
 import: ~
+
+# Multisite(s) definition. By default there is only the 'default' site.
+multisite:
+  default:
+    aliases:
+      # The local environment against which all local drush commands are run.
+      local: self
+      # The remote environment from which the database will be pulled.
+      remote: ${project.machine_name}.test
+    # The environment-specific uris against which drush commands are run.
+    uri:
+      local: ${project.machine_name}.local
+      dev: ${project.machine_name}.dev
+      test: ${project.machine_name}.test
+      prod: ${project.machine_name}.com
 
 # An array of modules to be enabled or uninstalled automatically in local, ci, and deploy contexts.
 modules:
