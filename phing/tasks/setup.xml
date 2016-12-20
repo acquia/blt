@@ -175,7 +175,7 @@
     </if>
 
     <property name="multisite.alias.local" value="${multisite.${multisite.name}.aliases.local}"/>
-    <echo>Installing Drupal on ${multisite.uri}...</echo>
+    <echo>Installing Drupal on ${multisite.name}...</echo>
     <drush command="site-install" alias="${multisite.alias.local}">
       <option name="site-name">"${project.human_name}"</option>
       <option name="site-mail">"${drupal.account.mail}"</option>
