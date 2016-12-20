@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "11a94ab6c9a39f0eeda5e4b40e0b1a4e",
-    "content-hash": "84419daae7cc7fd00039a01574ff0d10",
+    "hash": "a91907efb0be469b4e6b10858c52424e",
+    "content-hash": "ceea6deb50295c12b8d9dd71e79edf97",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -949,6 +949,53 @@
                 "orm"
             ],
             "time": "2016-10-03 21:25:17"
+        },
+        {
+            "name": "grasmash/drupal-security-warning",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/grasmash/drupal-security-warning.git",
+                "reference": "8c74ca0111433d1ae582f258f4e2d9abe0487dee"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/grasmash/drupal-security-warning/zipball/8c74ca0111433d1ae582f258f4e2d9abe0487dee",
+                "reference": "8c74ca0111433d1ae582f258f4e2d9abe0487dee",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.0",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "composer/composer": "~1.0",
+                "squizlabs/php_codesniffer": "^2.7"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "grasmash\\DrupalSecurityWarning\\Composer\\Plugin"
+            },
+            "autoload": {
+                "psr-4": {
+                    "grasmash\\DrupalSecurityWarning\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Matthew Grasmick"
+                }
+            ],
+            "description": "Warns users installing Drupal project versions not supported by Security Team.",
+            "keywords": [
+                "drupal",
+                "security"
+            ],
+            "time": "2016-12-16 00:45:43"
         },
         {
             "name": "guzzlehttp/guzzle",
