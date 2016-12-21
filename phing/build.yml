@@ -83,6 +83,7 @@ multisite:
       dev: ${project.machine_name}.dev
       test: ${project.machine_name}.test
       prod: ${project.machine_name}.com
+      ci: default
 
 reports:
   localDir: ${repo.root}/reports
