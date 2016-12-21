@@ -46,7 +46,7 @@ If you are using an older version of BLT that was not installed using Composer, 
 1. Remove any dependencies that may conflict with upstream acquia/blt. You may add these back later after the upgrade, if necessary.
 
         composer remove drush/drush drupal/console phing/phing phpunit/phpunit squizlabs/php_codesniffer symfony/yaml drupal/coder symfony/console --no-interaction --no-update
-        composer remove drush/drush drupal/console phing/phing phpunit/phpunit squizlabs/php_codesniffer symfony/yaml drupal/coder symfony/console --no-interaction --no-update
+        composer remove drush/drush drupal/console phing/phing phpunit/phpunit squizlabs/php_codesniffer symfony/yaml drupal/coder symfony/console --no-interaction --no-update --dev
         composer config minimum-stability dev
 
 1. (conditional) If you are using Lightning, verify that your version constraint allows it to be updated to the latest stable version:

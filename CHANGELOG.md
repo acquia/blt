@@ -1,5 +1,40 @@
 # Change Log
 
+## [8.6.5](https://github.com/acquia/blt/tree/8.6.5) (2016-12-20)
+[Full Changelog](https://github.com/acquia/blt/compare/8.6.4...8.6.5)
+
+**Implemented enhancements:**
+
+- Adding update hook to remove deprecated packages. [\#820](https://github.com/acquia/blt/pull/820) ([grasmash](https://github.com/grasmash))
+- Adding grasmash/drupal-security-warning package dependency. [\#818](https://github.com/acquia/blt/pull/818) ([grasmash](https://github.com/grasmash))
+- Ignoring @lightningextension tests in acquia-pipelines.yml. [\#816](https://github.com/acquia/blt/pull/816) ([grasmash](https://github.com/grasmash))
+- Added Drush to DrupalVM. [\#815](https://github.com/acquia/blt/pull/815) ([danepowell](https://github.com/danepowell))
+- Fixed memcache contamination. [\#814](https://github.com/acquia/blt/pull/814) ([danepowell](https://github.com/danepowell))
+
+**Fixed bugs:**
+
+- BLT not ignoring local Behat config file [\#822](https://github.com/acquia/blt/issues/822)
+- Fixes \#822: Ignore Behat local.yml file. [\#823](https://github.com/acquia/blt/pull/823) ([geerlingguy](https://github.com/geerlingguy))
+
+**Misc merged pull requests**
+
+- Updating CHANGELOG.md for 8.6.3. [\#817](https://github.com/acquia/blt/pull/817) ([grasmash](https://github.com/grasmash))uia/blt/pull/814) ([danepowell](https://github.com/danepowell))
+
+## [8.6.4](https://github.com/acquia/blt/tree/8.6.4) (2016-12-20)
+[Full Changelog](https://github.com/acquia/blt/compare/8.6.3...8.6.4)
+
+**Implemented enhancements:**
+
+- Adding update hook to remove deprecated packages. [\#820](https://github.com/acquia/blt/pull/820) ([grasmash](https://github.com/grasmash))
+- Adding grasmash/drupal-security-warning package dependency. [\#818](https://github.com/acquia/blt/pull/818) ([grasmash](https://github.com/grasmash))
+- Ignoring @lightningextension tests in acquia-pipelines.yml. [\#816](https://github.com/acquia/blt/pull/816) ([grasmash](https://github.com/grasmash))
+- Added Drush to DrupalVM. [\#815](https://github.com/acquia/blt/pull/815) ([danepowell](https://github.com/danepowell))
+
+**Misc merged pull requests**
+
+- Updating CHANGELOG.md for 8.6.3. [\#817](https://github.com/acquia/blt/pull/817) ([grasmash](https://github.com/grasmash))
+- Fixed memcache contamination. [\#814](https://github.com/acquia/blt/pull/814) ([danepowell](https://github.com/danepowell))
+
 ## [8.6.3](https://github.com/acquia/blt/tree/8.6.3) (2016-12-19)
 [Full Changelog](https://github.com/acquia/blt/compare/8.6.2...8.6.3)
 
