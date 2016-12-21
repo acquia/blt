@@ -70,8 +70,7 @@ class GitTasksTest extends BltProjectTestBase {
     // Commits must be executed inside of new project directory.
     chdir($this->projectDirectory);
     $prefix = $this->config['project']['prefix'];
-    // @todo Run this script without actual commit.
-    $command = "git commit --amend -m '$prefix-123: This is a good commit.' 2>&1";
+    $command = "./.git/hooks/pre-commit";
     $output = shell_exec($command);
     $this->assertNotContains('PHP Code Sniffer was not found', $output);
     $this->assertContains('Sniffing staged files via PHP Code Sniffer.', $output);
