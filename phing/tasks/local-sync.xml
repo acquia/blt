@@ -23,18 +23,20 @@
 
   <target name="local:sync:site" description="Synchronize local environment from remote (remote --> local)."
           depends="setup:drupal:settings">
-    <drush command="cc drush"/>
-    <drush command="sql-drop"/>
+    <property name="site.alias.local" value="${multisite.${multisite.name}.aliases.local}"/>
+    <property name="site.alias.remote" value="${multisite.${multisite.name}.aliases.remote}"/>
+    <drush command="cc drush" alias="${site.alias.local}"/>
+    <drush command="sql-drop" alias="${site.alias.local}"/>
     <drush command="sql-sync" alias="">
       <option name="structure-tables-key">lightweight</option>
       <option name="create-db"/>
-      <param>@${multisite.${multisite.name}.aliases.remote}</param>
-      <param>@${multisite.${multisite.name}.aliases.local}</param>
+      <param>@${site.alias.remote}</param>
+      <param>@${site.alias.local}</param>
     </drush>
-    <drush command="cache-clear">
+    <drush command="cache-clear" alias="${site.alias.local}">
       <param>drush</param>
     </drush>
-    <drush command="cache-rebuild"/>
+    <drush command="cache-rebuild" alias="${site.alias.local}"/>
   </target>
 
   <target name="local:update" description="Update current database to reflect the state of the Drupal file system; uses local drush alias.">
