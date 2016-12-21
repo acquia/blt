@@ -4,10 +4,10 @@ BLT provides automation commands that can be used in most OSX and Linux environm
 
 Two CI solutions are supported out-of-the-box:
 
-1. [Acquia Pipelines](https://docs.acquia.com/pipelines)
-2  [Travis CI](https://travis-ci.org/)
+1. [Acquia Pipelines](#acquia-pipelines)
+1. [Travis CI](#travis-ci)
 
-BLT provides one default instruction file (e.g., .travis.yml or acquia-pipelines.yml) for each these CI solutions, allowing you to have a working build out-of-the-box. To use the default instruction file you must run an initialization command (detailed below). This will copy the default instruction file to the required location, much in the way that Drupal requires you to copy default.settings.php to settings.php.
+BLT provides one default instruction file (e.g., .travis.yml or acquia-pipelines.yml) for each of these CI solutions, allowing you to have a working build out-of-the-box. To use the default instruction file you must run an initialization command (detailed below). This will copy the default instruction file to the required location, much in the way that Drupal requires you to copy default.settings.php to settings.php.
  
 The instruction files are intended to be customized. BLT will provide updates to the default instruction files, but it is your responsibility to merge those updates into your customized files.
 
@@ -23,12 +23,12 @@ The typical CI workflow is as follows:
     - Tests (PHPUnit, Behat, etc.) are run against the installed instance of Drupal
 1. The CI tool reports the status of the build (success or failure) back to GitHub.
 1. If the build was successful, a human merges the pull request.
-1. The CI tool generates an artifact that is suitable for deployment.
+1. The merge triggers yet another CI build. In addition to building and testing your application again, this build will generate an artifact that is suitable for deployment.
 1. The artifact is deployed. If this is done automatically, it is considered Continuous Deployment.
 
 ### Acquia Pipelines
 
-Acquia Pipelines is a Continuous Integration and Continuous Deployment solution build on Acquia Cloud infrastructure. For Acquia Cloud users, it provides the benefit of integrating directly with an Acquia Cloud subscription, allowing build artifacts to be easily deployed.
+[Acquia Pipelines](https://docs.acquia.com/pipelines) is a Continuous Integration and Continuous Deployment solution built on Acquia Cloud infrastructure. For Acquia Cloud users, it provides the benefit of integrating directly with an Acquia Cloud subscription. This allows build artifacts to be easily deployed.
 
 To initialize Pipelines support for your BLT project:
 
@@ -42,13 +42,23 @@ To initialize Pipelines support for your BLT project:
 
         blt ci:pipelines:init
    
-   This will generate an [acquia-pipelines.yml file](https://docs.acquia.com/pipelines/yaml) in your project root.
+   This will generate an [acquia-pipelines.yml file](https://docs.acquia.com/pipelines/yaml) in your project root based on [BLT's default acquia-pipelines.yml file](https://github.com/acquia/blt/blob/8.x/scripts/pipelines/acquia-pipelines.yml).
 
-1. Commit the new file and push it to your Acquia git remote.
-1. Initialize GitHub integration for your project. See `pipelines init-github --help` or review [help documentation](https://docs.acquia.com/pipelines/github) for instructions.
+1. Commit the new file and push it to your Acquia git remote. Example commands:
+
+        git add acquia-pipelines.yml
+        git commit -m 'Initializing Pipelines integration.'
+        git push origin
+
+1. Initialize GitHub integration for your project. See `pipelines init-github --help` or review [help documentation](https://docs.acquia.com/pipelines/github) for instructions. E.g.,
+
+        pipelines init-github REPO MY_TOKEN
+
 1. Submit a pull request to your GitHub repository.
 
-It is expected that your new pull request will trigger a Pipelines build to begin. The status should be reported on the pull request's web page. If merged, Pipelines will generate a new branch on your Acquia subscription named "pipelines-[source-branch]-build". 
+It is expected that your new pull request will trigger a Pipelines build to begin. The status should be reported on the pull request's web page. If merged, Pipelines will generate a new branch on your Acquia subscription named "pipelines-[source-branch]-build". The branch will contain a deployment artifact that can be deployed to an Acquia environment.
+
+#### Additional information
 
 You may [use the Pipelines client](https://docs.acquia.com/pipelines/client) to do things like check the status or logs for your build:
 
@@ -61,15 +71,19 @@ You may [use the Pipelines client](https://docs.acquia.com/pipelines/client) to 
     # Show logs for most recent build.
     pipelines log
 
-See the [Pipelines troubleshooting documentation](https://docs.acquia.com/pipelines/troubleshooting) for more information.
+##### Resources:
+
+* [Acquia Pipelines overview](https://docs.acquia.com/pipelines)
+* [Using the Acquia Pipelines client](https://docs.acquia.com/pipelines/client)
+* [Acquia Pipelines troubleshooting guide](https://docs.acquia.com/pipelines/troubleshooting)
 
 ### Travis CI
 
-Travis CI is a Continuous Integration and Continuous Deployment solution. It can be made to integrate with Acquia Cloud, but requires a bit more initial setup work than Acquia Pipelines.
+[Travis CI](https://travis-ci.org/) is a Continuous Integration and Continuous Deployment solution. It can be made to integrate with Acquia Cloud, but requires a bit more initial setup work than Acquia Pipelines.
 
 #### Setting Up Travis CI for automated deployments
 
-The set up the workflow (described earlier) you must configure Acquia Cloud, GitHub, and Travis CI to work together. Step-by-step instructions are provided below. _These instructions apply only to private GitHub repositories._
+To set up the [workflow described earlier](#workflow), you must configure Acquia Cloud, GitHub, and Travis CI to work together. Step-by-step instructions are provided below. _These instructions apply only to private GitHub repositories._
 
 1. Initialize Travis CI support for your project
 
