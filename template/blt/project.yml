@@ -75,6 +75,7 @@ multisite:
       dev: ${project.machine_name}.dev
       test: ${project.machine_name}.test
       prod: ${project.machine_name}.com
+      ci: default
 
 # An array of modules to be enabled or uninstalled automatically in local, ci, and deploy contexts.
 modules:
