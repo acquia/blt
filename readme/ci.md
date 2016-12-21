@@ -42,7 +42,7 @@ To initialize Pipelines support for your BLT project:
 
         blt ci:pipelines:init
    
-   This will generate an [acquia-pipelines.yml file](https://docs.acquia.com/pipelines/yaml) in your project root based on [BLT's default acquia-pipelines.yml file](https://github.com/acquia/blt/blob/8.x/scripts/pipelines/acquia-pipelines.yml).
+    This will generate an [acquia-pipelines.yml file](https://docs.acquia.com/pipelines/yaml) in your project root based on [BLT's default acquia-pipelines.yml file](https://github.com/acquia/blt/blob/8.x/scripts/pipelines/acquia-pipelines.yml).
 
 1. Commit the new file and push it to your Acquia git remote. Example commands:
 
@@ -94,8 +94,8 @@ To set up the [workflow described earlier](#workflow), you must configure Acquia
          cd ~/.ssh
          ssh-keygen -t rsa -b 4096
 
-   Do not use a passphrase!
-   Name this key something different than your normal Acquia Cloud key (e.g. travis)
+    Do not use a passphrase!
+    Name this key something different than your normal Acquia Cloud key (e.g. travis)
 
 1. Login to your Acquia Cloud account and add the public SSH key from the key pair that was generated in step 1 by visiting `https://accounts.acquia.com/account/[uid]/security`.
 1. Add the same public SSH key to the "Deployment Keys" section on your project's GitHub settings page, located at `https://github.com/acquia-pso/[project-name]/settings/keys`. **Note: You may not have direct access to these settings if you do not have administrative control over your repository.**
@@ -105,7 +105,7 @@ To set up the [workflow described earlier](#workflow), you must configure Acquia
         remotes:
            - example@svn-14671.prod.hosting.acquia.com:example.git`
 
-   Note: if planning on executing any drush sql-syncs/rsyncs between the cloud and your environment, also add the test/stage server host here and ensure that your account has the senior developer or team lead role (or appropriate custom access in the Acquia Cloud).
+    Note: if planning on executing any drush sql-syncs/rsyncs between the cloud and your environment, also add the test/stage server host here and ensure that your account has the senior developer or team lead role (or appropriate custom access in the Acquia Cloud).
 
 1. Add your cloud git repository's server host name to `ssh_known_hosts` in your .travis.yml file. Take care to remove the user name and file name (example.git) and use only the hostname.
 
@@ -113,7 +113,7 @@ To set up the [workflow described earlier](#workflow), you must configure Acquia
           ssh_known_hosts:
           - svn-14671.prod.hosting.acquia.com
    
-   Note: if planning on executing any drush sql-syncs/rsyncs between the cloud and your environment, also add the test/stage server host here and ensure that your account has the senior developer or team lead role (or appropriate custom access in the Acquia Cloud).
+    Note: if planning on executing any drush sql-syncs/rsyncs between the cloud and your environment, also add the test/stage server host here and ensure that your account has the senior developer or team lead role (or appropriate custom access in the Acquia Cloud).
 
 1. Commits or merges to the develop branch on GitHub should now trigger a fully built artifact to be deployed to your specified remotes.
 1. **If the build account is removed from the project, the Travis Builds for that project will begin to fail.**
