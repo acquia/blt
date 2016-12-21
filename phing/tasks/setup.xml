@@ -293,6 +293,18 @@
     <drush command="fra" assume="yes" alias="${drush.alias}">
       <option name="bundle">${bundle}</option>
     </drush>
+    <if>
+      <equals arg1="${cm.features.no-overrides}" arg2="true"/>
+      <then>
+        <exec command="${drush.bin} @${drush.alias} fl --bundle=${bundle} | grep -Ei '(changed|conflicts|added)( *)$'" outputProperty="features.overrides"/>
+        <if>
+          <istrue value="${features.overrides}"/>
+          <then>
+            <fail>A feature in the ${bundle} bundle is overridden. You must re-export this feature to incorporate the changes.</fail>
+          </then>
+        </if>
+      </then>
+    </if>
   </target>
 
   <target name="setup:toggle-modules" description="Enables and uninstalls specified modules.">
