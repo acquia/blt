@@ -96,7 +96,7 @@ script:
   - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then printf "behat.paths: [ \${repo.root}/tests/behat ]" >> blt/project.yml; fi'
   - cat blt/project.yml
   # Call targets in the new 'blt-project' project.
-  - blt ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dbehat.launch-phantom=true -Dblt.verbose=true
+  - blt ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dbehat.launch-phantom=true -Dblt.verbose=true -Denvironment=ci
   # Initialize ACSF config.
   - blt acsf:init -Denvironment=ci
   # Ensure that the doctor doesn't report any problems at this point.
