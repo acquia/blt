@@ -1,3 +1,4 @@
+@example
 Feature: Web drivers
   In order to verify that web drivers are working
   As a user
