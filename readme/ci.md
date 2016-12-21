@@ -36,6 +36,8 @@ To initialize Pipelines support for your BLT project:
 
         curl -o pipelines https://cloud.acquia.com/pipeline-client/download
         chmod a+x pipelines
+        # Move to a location specified in $PATH. E.g.,
+        mv pipelines /usr/local/bin
 
 1. [Configure the Pipelines client](https://docs.acquia.com/pipelines/install#authenticate) 
 1. Initialize Pipelines for your project

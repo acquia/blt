@@ -10,7 +10,7 @@ behat:
   # If true, Selenium standalone server will be launched with Behat.
   launch-selenium: true
   # If true, PhantomJS GhostDriver will be launched with Behat.
-  launch-phantom: true
+  launch-phantom: false
   # An array of paths with behat tests that should be executed.
   paths:
     # - ${docroot}/modules

@@ -154,6 +154,32 @@
           description="Launches a GhostDriver."
           hidden="true">
 
+    <exec dir="${repo.root}" command="grep 'jakoch/phantomjs-installer' composer.json" logoutput="false" level="${blt.exec_level}" passthru="false" returnProperty="phantom.required"/>
+    <if>
+      <isfailure code="${phantom.required}"/>
+      <then>
+        <echo level="Warning">behat.launch-phantom is true, but jakoch/phantomjs-installer is not required in composer.json. Attempting to install via composer... </echo>
+        <exec dir="${repo.root}" command="composer require jakoch/phantomjs-installer --dev" logoutput="true" level="${blt.exec_level}" passthru="true" />
+      </then>
+    </if>
+    <exec dir="${repo.root}" command="grep 'PhantomInstaller\\Installer::installPhantomJS' composer.json" logoutput="false" level="${blt.exec_level}" passthru="false" returnProperty="phantom.scripts"/>
+    <if>
+      <isfailure code="${phantom.scripts}"/>
+      <then>
+        <echo level="warning">behat.launch-phantom is true, but no corresponding scripts have been defined in composer.json. Updating composer config...</echo>
+        <exec command="${composer.bin}/blt-console configure:phantomjs ${repo.root}" logoutput="true" level="${blt.exec_level}" passthru="false" checkreturn="true"/>
+      </then>
+    </if>
+    <if>
+      <not><available file="${composer.bin}/phantomjs"/></not>
+      <then>
+        <exec dir="${repo.root}" command="composer install-phantom" checkreturn="true" logoutput="true" passthru="true" level="${blt.exec_level}"/>
+      </then>
+      <else>
+        <echo>Found PhantomJS at ${phantomjs.bin}</echo>
+      </else>
+    </if>
+
     <if>
       <equals arg1="${behat.launch-phantom}" arg2="true"/>
       <then>
