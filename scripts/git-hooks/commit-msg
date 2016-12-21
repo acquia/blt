@@ -4,16 +4,17 @@
 #
 # You may adapt the message length check. Currently checking it's longer than
 # 15 characters.
-
-
 ROOT_DIR="$(pwd)/"
 PREFIX=$($ROOT_DIR/vendor/bin/drupal yaml:get:value $ROOT_DIR/blt/project.yml project.prefix)
 regex="^${PREFIX}-[0-9]+(: )[^ ].{15,}\."
+RED='\033[0;31m'
+NO_COLOR='\033[0m'
 if ! grep -iqE "$regex" "$1"; then
-  echo "Invalid commit message. Commit messages must:"
+  printf "${RED}Error: invalid commit message!${NO_COLOR} Commit messages must:\n"
   echo "* Contain the project prefix followed by a hyphen"
   echo "* Contain a ticket number followed by a colon and a space"
   echo "* Be at least 15 characters long and end with a period."
   echo "Valid example: $PREFIX-135: Added the new picture field to the article feature."
   exit 1;
 fi
+
