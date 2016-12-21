@@ -214,13 +214,6 @@
 
   <target name="setup:config-import:site" description="Import configuration from a site's config directory.">
     <echo level="verbose">Executing commands against multisite "${multisite.name}"</echo>
-    <if>
-      <!-- If no environment set, then assume we're working locally. -->
-      <not><isset property="environment"/></not>
-      <then>
-        <property name="environment" value="local"/>
-      </then>
-    </if>
     <property name="multisite.uri" value="${multisite.${multisite.name}.uri.${environment}}"/>
     <echo>Importing configuration for ${multisite.name}...</echo>
     <drush command="pm-enable" assume="yes" alias="${drush.alias}" uri="${multisite.uri}">
@@ -313,13 +306,6 @@
 
   <target name="setup:update:features-import:site" description="Perform a features import for a site on the specified bundle.">
     <echo level="verbose">Executing commands against multisite "${multisite.name}"</echo>
-    <if>
-      <!-- If no environment set, then assume we're working locally. -->
-      <not><isset property="environment"/></not>
-      <then>
-        <property name="environment" value="local"/>
-      </then>
-    </if>
     <property name="multisite.uri" value="${multisite.${multisite.name}.uri.${environment}}"/>
     <drush command="fra" assume="yes" alias="${drush.alias}" uri="${multisite.uri}">
       <option name="bundle">${bundle}</option>
