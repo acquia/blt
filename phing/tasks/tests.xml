@@ -159,10 +159,16 @@
       <isfailure code="${phantom.required}"/>
       <then>
         <echo level="Warning">behat.launch-phantom is true, but jakoch/phantomjs-installer is not required in composer.json. Attempting to install via composer... </echo>
-        <exec dir="${repo.root}" command="composer require jakoch/phantomjs-installer --dev" logoutput="true" level="${blt.exec_level}" passthru="true" />
+        <propertyprompt promptText="Do you want to require jakoch/phantomjs-installer?" propertyName="phantom.do-require" defaultValue="y"/>
+        <if>
+          <equals arg1="${phantom.do-require}" arg2="y" casesensitive="false"/>
+          <then>
+            <exec dir="${repo.root}" command="composer require jakoch/phantomjs-installer --dev" logoutput="true" level="${blt.exec_level}" passthru="true" />
+          </then>
+        </if>
       </then>
     </if>
-    <exec dir="${repo.root}" command="grep 'PhantomInstaller\\Installer::installPhantomJS' composer.json" logoutput="false" level="${blt.exec_level}" passthru="false" returnProperty="phantom.scripts"/>
+    <exec dir="${repo.root}" command="grep installPhantomJS composer.json" logoutput="false" level="${blt.exec_level}" passthru="false" returnProperty="phantom.scripts"/>
     <if>
       <isfailure code="${phantom.scripts}"/>
       <then>
@@ -175,9 +181,6 @@
       <then>
         <exec dir="${repo.root}" command="composer install-phantom" checkreturn="true" logoutput="true" passthru="true" level="${blt.exec_level}"/>
       </then>
-      <else>
-        <echo>Found PhantomJS at ${phantomjs.bin}</echo>
-      </else>
     </if>
 
     <if>
@@ -190,9 +193,18 @@
               checkreturn="true"
               level="${blt.exec_level}"/>
         <echo message="Waiting 10 seconds for PhantomJS (http://127.0.0.1:4444) to become available."/>
-        <waitfor maxwait="10" maxwaitunit="second" checkevery="1" checkeveryunit="second">
-          <http url="http://127.0.0.1:4444"/>
+        <waitfor maxwait="15" maxwaitunit="second" checkevery="1" checkeveryunit="second" timeoutproperty="phantomjs.timedout">
+          <http url="http://127.0.0.1:4444/wd/hub"/>
         </waitfor>
+
+        <if>
+          <equals arg1="${phantomjs.timedout}" arg2="true"/>
+          <then>
+            <fail>
+              Unable to start PhantomJS on http://127.0.0.1:4444/wd/hub.
+            </fail>
+          </then>
+        </if>
       </then>
     </if>
   </target>

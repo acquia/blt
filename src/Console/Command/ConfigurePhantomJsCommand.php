@@ -27,18 +27,6 @@ class ConfigurePhantomJsCommand extends Command
   {
     $repo_root = $input->getArgument('repo-root');
     $composer_json = json_decode(file_get_contents($repo_root . '/composer.json'), TRUE);
-    $composer_json['scripts']['post-install-cmd'] = array_merge(
-      (array) $composer_json['scripts']['post-install-cmd'],
-      [
-        "PhantomInstaller\\Installer::installPhantomJS",
-      ]
-    );
-    $composer_json['scripts']['post-update-cmd'] = array_merge(
-      (array) $composer_json['scripts']['post-update-cmd'],
-      [
-        "PhantomInstaller\\Installer::installPhantomJS",
-      ]
-    );
     $composer_json['scripts']['install-phantomjs'] = [
       "rm -rf vendor/bin/phantomjs",
       "PhantomInstaller\\Installer::installPhantomJS",
