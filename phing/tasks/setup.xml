@@ -60,7 +60,7 @@
   <target name="setup:settings" depends="setup:drupal:settings, setup:drush:settings, setup:console:settings" description="Creates settings files for Drupal and drush.">
   </target>
 
-  <target name="setup:console:settings" depends="Initializes Drupal console config.">
+  <target name="setup:console:settings" description="Initializes Drupal console config.">
     <exec dir="${repo.root}" command="${composer.bin}/drupal init --quiet" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
   </target>
 
