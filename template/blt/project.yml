@@ -71,7 +71,6 @@ modules:
     enable:
       - dblog
       - devel
-      - field_ui
       - seckit
       - views_ui
     uninstall:
@@ -94,7 +93,6 @@ modules:
       - shield
     uninstall:
       - devel
-      - field_ui
       - views_ui
   prod:
     enable:
@@ -102,5 +100,4 @@ modules:
       - shield
     uninstall:
       - devel
-      - field_ui
       - views_ui
