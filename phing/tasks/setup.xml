@@ -1,6 +1,4 @@
 <project name="setup" default="setup">
-  <!-- Get the mulitsite names outside any specific target so all setup targets wil have access. -->
-  <yamlKeys file="${blt.config-files.project}" variable="multisite" outputProperty="multisite.names"/>
 
   <target name="setup" description="Install dependencies, builds docroot, installs Drupal."
           depends="setup:build, setup:drupal:install, install-alias">

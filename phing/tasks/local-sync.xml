@@ -6,7 +6,7 @@
     </phingcall>
   </target>
 
-  <target name="local:refresh" description="Refreshes local environment from upstream testing database." depends="setup:build, local:sync, local:update"/>
+  <target name="local:refresh" description="Refreshes local environment from upstream testing database." depends="setup:build, local:sync:site, local:update"/>
 
   <target name="local:setup" description="Install dependencies, builds docroot, installs Drupal; uses local drush alias.">
     <phingcall target="setup">
@@ -16,27 +16,25 @@
   </target>
 
   <!-- Sync each local multisite from remote aliases. -->
-  <target name="local:sync" description="Synchronize each local environment from remote (remote --> local).">
-    <yamlKeys file="${blt.config-files.project}" variable="multisite" outputProperty="multisite.names"/>
-    <foreach list="${multisite.names}" param="multisite.name" target="local:sync:site"/>
+  <target name="local:sync:all" description="Synchronize each local environment from remote (remote --> local).">
+    <foreach list="${multisite.names}" param="site.name" target="local:sync:site"/>
   </target>
 
   <target name="local:sync:site" description="Synchronize local environment from remote (remote --> local)."
           depends="setup:drupal:settings">
-    <property name="site.alias.local" value="${multisite.${multisite.name}.aliases.local}"/>
-    <property name="site.alias.remote" value="${multisite.${multisite.name}.aliases.remote}"/>
-    <drush command="cc drush" alias="${site.alias.local}"/>
-    <drush command="sql-drop" alias="${site.alias.local}"/>
-    <drush command="sql-sync" alias="">
+    <property file="${blt.config-dirs.sites}/${site.name}.yml" logoutput="false" />
+    <drush command="cc drush" alias="${site.aliases.local}" uri=""/>
+    <drush command="sql-drop" alias="${site.aliases.local}" uri=""/>
+    <drush command="sql-sync" alias="" uri="">
       <option name="structure-tables-key">lightweight</option>
       <option name="create-db"/>
-      <param>@${site.alias.remote}</param>
-      <param>@${site.alias.local}</param>
+      <param>@${site.aliases.remote}</param>
+      <param>@${site.aliases.local}</param>
     </drush>
-    <drush command="cache-clear" alias="${site.alias.local}">
+    <drush command="cache-clear" alias="${site.aliases.local}" uri="">
       <param>drush</param>
     </drush>
-    <drush command="cache-rebuild" alias="${site.alias.local}"/>
+    <drush command="cache-rebuild" alias="${site.aliases.local}" uri=""/>
   </target>
 
   <target name="local:update" description="Update current database to reflect the state of the Drupal file system; uses local drush alias.">

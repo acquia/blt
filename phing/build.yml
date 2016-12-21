@@ -29,6 +29,8 @@ blt:
     local: ${repo.root}/blt/project.local.yml
     example-local: ${repo.root}/blt/example.project.local.yml
     schema-version: ${repo.root}/blt/.schema_version
+  config-dirs:
+    sites: ${repo.root}/blt/sites
 
 composer:
   bin: ${repo.root}/vendor/bin
@@ -71,19 +73,6 @@ git:
   hooks:
     pre-commit: ${blt.root}/scripts/git-hooks
     commit-msg: ${blt.root}/scripts/git-hooks
-
-# Site(s) definition.
-multisite:
-  default:
-    aliases:
-      local: self
-      remote: ${project.machine_name}.test
-    uri:
-      local: ${project.machine_name}.local
-      dev: ${project.machine_name}.dev
-      test: ${project.machine_name}.test
-      prod: ${project.machine_name}.com
-      ci: default
 
 reports:
   localDir: ${repo.root}/reports

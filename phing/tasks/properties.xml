@@ -59,6 +59,12 @@
     </then>
   </if>
 
+  <!-- Build the site list. -->
+  <exec dir="${blt.config-dirs.sites}" command="ls | tr -d '\n' | sed s/\.yml/,/g | sed s/,$//g" outputProperty="multisite.names"/>
+
+  <!-- Set the default site to operate against. -->
+  <property name="site.name" value="default"/>
+
   <target name="echo-property" description="Echoes the value of a Phing property." hidden="true">
     <fail unless="property.name" message="property.name must be set!"/>
     <echo>${property.name}</echo>
