@@ -16,9 +16,21 @@ behat:
   server-url: http://127.0.0.1:8888
 
 multisite:
-  # This should correspond the directory name in docroot/sites. E.g.,
-  # docroot/sites/example-multisite.com.
-  name: example-multisite.com
+  # Top-level multisite keys should correspond to docroot/sites/[site-name].
+  default:
+    aliases:
+      # The local environment against which all local drush commands are run.
+      local: default.local
+      # The remote environment from which the site-specific database will be pulled.
+      remote: default.test
+    # Uris will be environment specific, one for your local environment and
+    # one for each of the dev, test and prod environments as configured in your
+    # Acquia Cloud domain configuration.
+    uri:
+      local: default.local
+      dev: defaultdev.prod.acquia-sites.com
+      test: defaultstg.prod.acquia-sites.com
+      prod: default.com
 
 project:
   profile:
