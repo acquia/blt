@@ -98,7 +98,7 @@ script:
   # Call targets in the new 'blt-project' project.
   - blt ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dbehat.launch-phantom=true -Dblt.verbose=true
   # Initialize ACSF config.
-  - blt acsf:init
+  - blt acsf:init -Denvironment=ci
   # Ensure that the doctor doesn't report any problems at this point.
   - composer global require "hirak/prestissimo:^0.3"
   - blt doctor

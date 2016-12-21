@@ -10,10 +10,18 @@
     <phingcall target="acsf:init:drush"/>
   </target>
 
+  <!-- Perform acsf:init for each multisite. -->
+  <target name="acsf:init:drush">
+    <!-- Get the mulitsite names. -->
+    <yamlKeys file="${blt.config-files.project}" variable="multisite" outputProperty="multisite.names"/>
+    <foreach list="${multisite.names}" param="multisite.name" target="acsf:init:site:drush"/>
+  </target>
+
   <!-- Run the acsf init commands to sync library files. -->
-  <target name="acsf:init:drush" description="Refreshes the acsf settings and hook files.">
-    <echo>Executing initialization command for acsf module.</echo>
-    <drush command="acsf-init">
+  <target name="acsf:init:site:drush" description="Refreshes the acsf settings and hook files.">
+    <echo>Executing initialization command for acsf module on ${multisite.name}.</echo>
+    <property name="multisite.uri" value="${multisite.${multisite.name}.uri.${environment}}"/>
+    <drush command="acsf-init" alias="${drush.alias}" uri="${multisite.uri}" >
       <option name="include">"${docroot}/modules/contrib/acsf/acsf_init"</option>
     </drush>
     <echo>Please add acsf_init as a dependency for your installation profile to ensure that it remains enabled.</echo>
