@@ -9,7 +9,6 @@
   <taskdef name="filterFileListByFileSet" classname="phingcludes.FilterFileListByFileSetTask"/>
   <taskdef name="verbosityTask" classname="phingcludes.VerbosityTask"/>
   <taskdef name="phpVariable" classname="phingcludes.PhpVariableTask"/>
-  <taskdef name="yamlKeys" classname="phingcludes.YamlKeysTask"/>
 
   <if>
     <available property="xdebug.enabled" extension="xdebug"/>
