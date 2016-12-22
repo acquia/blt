@@ -10,6 +10,9 @@
        error log, set 'xdebug.max_nesting_level=1000' in php.ini. -->
   <target name="tests:behat" depends="test:behat:check, tests:run-server" description="Executes Behat all behat tests in behat.paths.">
 
+    <phingcall target="tests:selenium:kill"/>
+    <phingcall target="tests:phantomjs:kill"/>
+
     <if>
     <equals arg1="${behat.launch-phantomjs}" arg2="true"/>
       <then>
@@ -145,9 +148,7 @@
         <if>
           <equals arg1="${selenium.timedout}" arg2="true"/>
           <then>
-            <fail>
-              Unable to start Selenium2 standalone server on http://127.0.0.1:4444/wd/hub.
-            </fail>
+            <fail>Unable to start Selenium2 standalone server on http://127.0.0.1:4444/wd/hub.</fail>
           </then>
         </if>
       </then>
@@ -198,29 +199,23 @@
     </if>
 
     <echo message="Launching PhantomJS GhostDriver." />
+    <phingcall target="tests:phantomjs:kill"/>
     <exec command="${composer.bin}/phantomjs --webdriver=4444"
           passthru="true"
           spawn="true"
           checkreturn="true"
           level="${blt.exec_level}"/>
     <echo message="Waiting 10 seconds for PhantomJS (http://127.0.0.1:4444) to become available."/>
-    <waitfor maxwait="15" maxwaitunit="second" checkevery="1" checkeveryunit="second" timeoutproperty="phantomjs.timedout">
+    <waitfor maxwait="10" maxwaitunit="second" checkevery="1" checkeveryunit="second">
       <http url="http://127.0.0.1:4444/wd/hub"/>
     </waitfor>
-
-    <if>
-      <equals arg1="${phantomjs.timedout}" arg2="true"/>
-      <then>
-        <fail>
-          Unable to start PhantomJS on http://127.0.0.1:4444/wd/hub.
-        </fail>
-      </then>
-    </if>
 
   </target>
 
   <target name="tests:phantomjs:kill"
           description="Launches a GhostDriver." hidden="true">
+    <echo>Killing any PhantomJS processes that are already running.</echo>
+    <exec command="lsof -ti tcp:4444 | xargs kill" logoutput="false" level="${blt.exec_level}" passthru="false" checkreturn="false" />
     <exec command="pgrep phantomjs | xargs kill" logoutput="true" level="${blt.exec_level}" passthru="true" />
   </target>
 
