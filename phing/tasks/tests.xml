@@ -173,13 +173,16 @@
     <if>
       <isfailure code="${phantom.required}"/>
       <then>
-        <echo level="Warning">behat.launch-phantom is true, but jakoch/phantomjs-installer is not required in composer.json. Attempting to install via composer... </echo>
-        <propertyprompt promptText="Do you want to require jakoch/phantomjs-installer?" propertyName="phantom.do-require" defaultValue="y"/>
+        <echo level="Warning">behat.launch-phantom is true, but jakoch/phantomjs-installer is not required in composer.json.</echo>
+        <propertyprompt promptText="Do you want to require jakoch/phantomjs-installer via Composer?" propertyName="phantom.do-require" defaultValue="y"/>
         <if>
           <equals arg1="${phantom.do-require}" arg2="y" casesensitive="false"/>
           <then>
             <exec dir="${repo.root}" command="composer require jakoch/phantomjs-installer --dev" logoutput="true" level="${blt.exec_level}" passthru="true" />
           </then>
+          <else>
+            <fail>Cannot launch PhantomJS it is not installed.</fail>
+          </else>
         </if>
       </then>
     </if>
@@ -187,8 +190,17 @@
     <if>
       <isfailure code="${phantom.scripts}"/>
       <then>
-        <echo level="warning">behat.launch-phantom is true, but no corresponding scripts have been defined in composer.json. Updating composer config...</echo>
-        <exec command="${composer.bin}/blt-console configure:phantomjs ${repo.root}" logoutput="true" level="${blt.exec_level}" passthru="false" checkreturn="true"/>
+        <echo level="warning">behat.launch-phantom is true, but the install-phantomjs script is not defined in composer.json.</echo>
+        <propertyprompt promptText="Do you want to add an 'install-phantomjs' script to your composer.json?" propertyName="phantom.do-add-script" defaultValue="y"/>
+        <if>
+          <equals arg1="${phantom.do-add-script}" arg2="y" casesensitive="false"/>
+          <then>
+            <exec command="${composer.bin}/blt-console configure:phantomjs ${repo.root}" logoutput="true" level="${blt.exec_level}" passthru="false" checkreturn="true"/>
+          </then>
+          <else>
+            <fail>Cannot launch PhantomJS because the install-phantomjs script is not present in composer.json. Add it, or use Selenium instead.</fail>
+          </else>
+        </if>
       </then>
     </if>
     <if>
