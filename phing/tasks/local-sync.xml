@@ -2,7 +2,8 @@
 
   <target name="local:drupal:install" description="Installs a specific Drupal site using local drush alias.">
     <phingcall target="setup:drupal:install">
-      <property name="drush.alias" value="${drush.aliases.local}" />
+      <property name="environment" value="local"/>
+      <property name="drush.alias" value="${site.aliases.${environemnt}}"/>
     </phingcall>
   </target>
 
@@ -10,8 +11,8 @@
 
   <target name="local:setup" description="Install dependencies, builds docroot, installs Drupal; uses local drush alias.">
     <phingcall target="setup">
-      <property name="drush.alias" value="${drush.aliases.local}" />
       <param name="environment" value="local"/>
+      <property name="drush.alias" value="${site.aliases.${environment}}"/>
     </phingcall>
   </target>
 
@@ -20,27 +21,34 @@
     <foreach list="${multisite.names}" param="site.name" target="local:sync:site"/>
   </target>
 
-  <target name="local:sync:site" description="Synchronize local environment from remote (remote --> local)."
-          depends="setup:drupal:settings">
-    <property file="${blt.config-dirs.sites}/${site.name}.yml" logoutput="false" />
-    <drush command="cc drush" alias="${site.aliases.local}" uri=""/>
-    <drush command="sql-drop" alias="${site.aliases.local}" uri=""/>
-    <drush command="sql-sync" alias="" uri="">
+  <target name="local:sync:site" description="Synchronize a local environment from remote (remote --> local).">
+    <fail unless="site.name" message="site.name MUST be defined."/>
+    <phingcall target="local:sync">
+      <property name="environment" value="local"/>
+      <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false"/>
+      <property name="drush.alias" value="${site.aliases.${environment}}"/>
+    </phingcall>
+  </target>
+
+  <target name="local:sync" description="Does the work of synchronizing local environment from remote (remote --> local)."
+    depends="setup:drupal:settings:site" hidden="true">
+    <drush command="cache-clear drush"/>
+    <drush command="sql-drop"/>
+    <drush command="sql-sync" alias="">
       <option name="structure-tables-key">lightweight</option>
       <option name="create-db"/>
       <param>@${site.aliases.remote}</param>
       <param>@${site.aliases.local}</param>
     </drush>
-    <drush command="cache-clear" alias="${site.aliases.local}" uri="">
-      <param>drush</param>
-    </drush>
-    <drush command="cache-rebuild" alias="${site.aliases.local}" uri=""/>
+    <drush command="cache-clear drush"/>
+    <drush command="cache-rebuild"/>
   </target>
 
   <target name="local:update" description="Update current database to reflect the state of the Drupal file system; uses local drush alias.">
     <phingcall target="setup:update">
-      <property name="drush.alias" value="${drush.aliases.local}"/>
       <property name="environment" value="local"/>
+      <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false"/>
+      <property name="drush.alias" value="${site.aliases.${environment}}"/>
     </phingcall>
   </target>
 

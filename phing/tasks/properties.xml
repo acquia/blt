@@ -49,8 +49,31 @@
     </then>
   </if>
 
-  <!-- Default drush alias. -->
-  <property name="drush.alias" value="${drush.default_alias}" override="false" logoutput="false"/>
+  <!-- Build the site list from *.yml files in the blt/sites directory. -->
+  <exec dir="${blt.config-dirs.sites}" command="ls *.yml | tr -d '\n' | sed s/\.yml/,/g" outputProperty="multisite.names"/>
+  <!-- Remove example if it exists and strip out trailing comma. -->
+  <propertyregex subject="${multisite.names}" pattern="example[,]?" replace="" property="multisite.names" override="true"/>
+  <propertyregex subject="${multisite.names}" pattern=",$" replace="" property="multisite.names" override="true"/>
+
+  <!-- Set the default site to operate against and load its properties. -->
+  <property name="site.name" value="${site.default}" override="false"/>
+  <if>
+    <not><available filepath="${blt.config-dirs.sites}" file="${site.name}.yml"/></not>
+    <then>
+      <fail message="You must provide blt/sites/${site.name}.yml."/>
+    </then>
+  </if>
+  <property file="${blt.config-dirs.sites}/${site.name}.yml" logoutput="false"/>
+
+  <!-- Setup default drush alias. If no environment is set, assume we're working locally. -->
+  <property name="drush.alias" value="${site.aliases.local}" override="false" logoutput="false"/>
+  <if>
+    <isset property="environment"/>
+    <then>
+      <property name="drush.alias" value="${site.aliases.${environment}}" override="true" logoutput="false"/>
+    </then>
+  </if>
+
   <if>
     <equals arg1="${env.USER}" arg2="vagrant"/>
     <then>
@@ -58,12 +81,6 @@
       <property name="drush.alias" value="self" override="true"/>
     </then>
   </if>
-
-  <!-- Build the site list. -->
-  <exec dir="${blt.config-dirs.sites}" command="ls | tr -d '\n' | sed s/\.yml/,/g | sed s/,$//g" outputProperty="multisite.names"/>
-
-  <!-- Set the default site to operate against. -->
-  <property name="site.name" value="default"/>
 
   <target name="echo-property" description="Echoes the value of a Phing property." hidden="true">
     <fail unless="property.name" message="property.name must be set!"/>

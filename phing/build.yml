@@ -58,9 +58,9 @@ drupal:
 
 drush:
   bin: ${composer.bin}/drush
-  cmd: ${drush.bin} @${drush.alias} -r ${docroot} -l ${multisite.name}
+  cmd: ${drush.bin} @${drush.alias} -r ${docroot} -l ${site.name}
   dir: ${docroot}
-  uri: ${multisite.name}
+  uri: ${site.uri.${environment}}
   assume: yes
   passthru: yes
   logoutput: yes
@@ -87,3 +87,6 @@ phpcs:
 project:
   local:
     uri: ${project.local.protocol}://${project.local.hostname}
+
+site:
+  default: default
