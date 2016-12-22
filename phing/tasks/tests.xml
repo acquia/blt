@@ -173,7 +173,7 @@
     <if>
       <isfailure code="${phantom.required}"/>
       <then>
-        <echo level="Warning">behat.launch-phantom is true, but jakoch/phantomjs-installer is not required in composer.json.</echo>
+        <echo level="Warning">behat.launch-phantomjs is true, but jakoch/phantomjs-installer is not required in composer.json.</echo>
         <propertyprompt promptText="Do you want to require jakoch/phantomjs-installer via Composer?" propertyName="phantom.do-require" defaultValue="y"/>
         <if>
           <equals arg1="${phantom.do-require}" arg2="y" casesensitive="false"/>
@@ -190,7 +190,7 @@
     <if>
       <isfailure code="${phantom.scripts}"/>
       <then>
-        <echo level="warning">behat.launch-phantom is true, but the install-phantomjs script is not defined in composer.json.</echo>
+        <echo level="warning">behat.launch-phantomjs is true, but the install-phantomjs script is not defined in composer.json.</echo>
         <propertyprompt promptText="Do you want to add an 'install-phantomjs' script to your composer.json?" propertyName="phantom.do-add-script" defaultValue="y"/>
         <if>
           <equals arg1="${phantom.do-add-script}" arg2="y" casesensitive="false"/>
