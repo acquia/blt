@@ -1,9 +1,10 @@
 #!/usr/bin/env php
 <?php
 
+use Acquia\Blt\Console\Command\ConfigurePhantomJsCommand;
 use Acquia\Blt\Console\Command\ComposerMungeCommand;
 use Acquia\Blt\Console\Command\YamlMungeCommand;
-use Symfony\Bridge\Twig\Command\LintCommand;
+use Acquia\Blt\Console\Command\UpdateCommand;
 use Symfony\Component\Console\Application;
 
 set_time_limit(0);
@@ -23,7 +24,9 @@ else {
 }
 
 $application = new Application();
+$application->add(new ConfigurePhantomJsCommand());
 $application->add(new ComposerMungeCommand());
 $application->add(new YamlMungeCommand());
-$application->add(new LintCommand());
+$application->add(new UpdateCommand());
+
 $application->run();

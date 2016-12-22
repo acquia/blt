@@ -7,6 +7,7 @@
     <include name="**/*.php"/>
     <include name="**/*.profile"/>
     <include name="**/*.test"/>
+    <include name="**/*.theme"/>
     <exclude name="**/vendor/**/*"/>
     <!-- Behat php files are ignored because method names and comments do not conform to Drupal coding standards by default. -->
     <exclude name="**/behat/**/*"/>
@@ -19,6 +20,9 @@
     <exclude name="**/vendor/**/*"/>
   </patternset>
 
+  <!--
+    PHP Files
+  -->
   <fileset dir="${repo.root}" id="files.php.all">
     <patternset refid="files.php"/>
   </fileset>
@@ -35,7 +39,12 @@
     <patternset refid="files.php"/>
   </fileset>
 
+  <!--
+    Frontend Files
+  -->
   <fileset dir="${docroot}/themes/custom" id="files.frontend.custom.themes" expandsymboliclinks="true">
     <patternset refid="files.frontend"/>
   </fileset>
+
+
 </project>

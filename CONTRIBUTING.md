@@ -8,7 +8,7 @@ If that isn't helpful, please post an issue on the [GitHub issue queue](https://
 
 - Your version of BLT, `composer info acquia/blt`
 - Your operating system
-- The full log output of your BLT command, wrapped in a [codeblock](https://help.github.com/articles/basic-writing-and-formatting-syntax/#quoting-code).
+- The **full** log output of your BLT command, wrapped in a [codeblock](https://help.github.com/articles/basic-writing-and-formatting-syntax/#quoting-code).
 
 In seeking help, please keep the following points in mind:
 

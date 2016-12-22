@@ -8,13 +8,15 @@ if [ ! -f $PHPCS_BIN ];
   then
     echo "PHP Code Sniffer was not found in this project's bin directory. Please run composer install. "
     exit 1
-  else
-    echo "Sniffing staged files via PHP Code Sniffer."
 fi
 
-${ROOT_DIR}/vendor/bin/blt validate:phpcs:files -Dfiles="$LIST" -q
+echo "Sniffing staged files via PHP Code Sniffer..."
+${ROOT_DIR}/vendor/bin/blt validate:phpcs:files -Dfiles="$LIST" -silent -emacs || exit 1;
+echo "Linting custom twig files..."
+${ROOT_DIR}/vendor/bin/blt validate:twig -silent -emacs || exit 1;
+echo "Validating composer.json..."
+composer validate --quiet --no-check-all || (echo 'composer.json is not valid. Run `composer validate` for more information.' && exit 1;)
+echo "Ok!"
 
-# Return the status of the phing task. Any target executed should throw a build exception to prevent
-# code from being committed during the precommit. The hooks can be skipped by adding `--no-verify` to
-# a commit.
+# Return the status of the last run command.
 exit $?

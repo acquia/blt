@@ -5,7 +5,7 @@
 
   <!-- Run all validation targets. -->
   <target name="validate:all" description="Runs all code validation targets."
-          depends="validate:composer, validate:lint, validate:phpcs"
+          depends="validate:composer, validate:lint, validate:phpcs, validate:twig"
           hidden="true" />
 
   <!-- Verify that composer json and lock files are in sync. -->
@@ -62,7 +62,7 @@
         showWarnings="true"
         haltonerror="true"
         haltonwarning="true"
-        verbosity="1"/>
+        verbosity="${blt.verbose}"/>
   </target>
 
   <!-- Run code sniffer against all custom code. -->
@@ -83,6 +83,12 @@
       <fileset refid="${fileset_refid}"/>
       <formatter type="full" usefile="false"/>
     </phpcodesniffer>
+  </target>
+
+  <target name="validate:twig" description="Validates twig syntax on custom twig files.">
+    <echo>Validating twig syntax for all custom modules and themes...</echo>
+    <exec dir="${repo.root}" command="${composer.bin}/twig-lint lint --only-print-errors ${docroot}/modules/custom" logoutput="true" checkreturn="true" passthru="true"  level="${blt.exec_level}" />
+    <exec dir="${repo.root}" command="${composer.bin}/twig-lint lint --only-print-errors ${docroot}/themes/custom" logoutput="true" checkreturn="true" passthru="true"  level="${blt.exec_level}" />
   </target>
 
 </project>

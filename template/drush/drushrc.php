@@ -67,6 +67,14 @@ if (getenv('TUGBOAT_URL')) {
   $options['uri'] = $_ENV['TUGBOAT_URL'];
 }
 
+// Include current directory. Will add policy.drush.inc.
+$options['include'][] = __DIR__;
+
+// If we are on Acquia Cloud, add Acquia specific commands.
+if (file_exists('/usr/local/drush8/commands')) {
+  $options['include'][] = '/usr/local/drush8/commands';
+}
+
 // Specify the base_url that should be used when generating links
 # $options['l'] = 'http://example.com/subdir';
 

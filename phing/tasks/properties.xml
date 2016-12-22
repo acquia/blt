@@ -12,31 +12,39 @@
   <property file="${phing.dir}/build.yml" override="true" logoutput="false"/>
 
   <!-- Load the root project.yml file for this project. -->
-  <property file="${repo.root}/project.yml" override="true" logoutput="false"/>
+  <property file="${blt.config-files.project}" override="true" logoutput="false"/>
 
   <!-- Load the local project.local.yml file for this project. -->
   <!--@todo Change this so that it is only loaded for local:* targets. -->
   <if>
-    <available file="${repo.root}/project.local.yml" type="file" property="local.properties"/>
+    <available file="${blt.config-files.local}" type="file" property="local.properties"/>
     <then>
-      <property file="${repo.root}/project.local.yml" override="true" logoutput="false"/>
+      <property file="${blt.config-files.local}" override="true" logoutput="${blt.verbose}"/>
     </then>
   </if>
 
-  <!--verbosityTask is used to set the verbosity level of Phing via a property. It is necessary because the -verbose, -debug, -silent, and -quiet command line options are not available as properties and cannot be utilized in task conditionals. -->
-  <verbosityTask level="${blt.level}"/>
-  <!-- Think of blt.level as a maximum verbosity level. Anything above the default level of info (e.g., verbose and debug) are hidden unless the maximum verbosity is raised to the "verbose" or "debug" level. Raising blt.level increases the visibility of otherwise hidden output. -->
-  <!-- When blt.level is above "warn", then increase verbosity of common project tasks. -->
+  <!--Get version information. -->
+  <if>
+    <not><available file="${blt.config-files.schema-version}"/></not>
+    <then>
+      <!-- If no schema version exists, assume 8.5.2, which is last release before this file was introduced. -->
+      <exec dir="${repo.root}" command="mkdir -p blt" checkreturn="true" logoutput="true" passthru="false" level="${blt.exec_level}"/>
+      <exec dir="${repo.root}" command="echo '8.5.2' >> ${blt.config-files.schema-version}" checkreturn="true" logoutput="true" passthru="false" level="${blt.exec_level}"/>
+    </then>
+  </if>
+  <exec dir="${repo.root}" command="cat ${blt.config-files.schema-version}" outputProperty="blt.schema-version" checkreturn="true" logoutput="false" level="${blt.exec_level}"/>
+  <!-- Send errors to /dev/null, for environments like ACE without composer. -->
+  <exec dir="${repo.root}" command="composer info acquia/blt --no-ansi 2> /dev/null | grep versions | awk '{print $4}'" outputProperty="blt.version" logoutput="false" checkreturn="true" level="${blt.exec_level}" />
+
+  <!-- Set the ${verbosity} variable.  -->
+  <verbosityTask returnProperty="verbosity"/>
   <if>
     <or>
-      <equals arg1="${blt.level}" arg2="debug"/>
-      <equals arg1="${blt.level}" arg2="verbose"/>
-      <equals arg1="${blt.level}" arg2="info"/>
+      <equals arg1="${verbosity}" arg2="debug"/>
+      <equals arg1="${verbosity}" arg2="verbose"/>
     </or>
     <then>
-      <!--blt.exec_level is used for most <exec> tasks.-->
-      <property name="blt.exec_level" value="info"/>
-      <!--blt.verbose is used to toggle the verbosity on other tasks, such as Drush and Behat-->
+      <!-- blt.verbose is used to toggle the verbosity on other tasks, such as Drush and Behat. -->
       <property name="blt.verbose" value="true"/>
     </then>
   </if>

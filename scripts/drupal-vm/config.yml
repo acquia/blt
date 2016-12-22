@@ -2,7 +2,7 @@
 vagrant_hostname: ${project.local.hostname}
 vagrant_machine_name: ${project.machine_name}
 
-# Use Ubuntu 14.04 LTS so PHP 5.6 can be installed.
+# Use Ubuntu 14.04 LTS to more closely match Acquia Cloud environment.
 vagrant_box: geerlingguy/ubuntu1404
 
 # Set drupal_site_name to the project's human-readable name.
@@ -37,7 +37,7 @@ install_site: false
 configure_drush_aliases: false
 
 # This is required for front-end building tools.
-nodejs_version: "0.12"
+nodejs_version: "4.x"
 nodejs_npm_global_packages:
   - name: bower
   - name: gulp-cli
@@ -45,45 +45,13 @@ nodejs_install_npm_user: "{{ drupalvm_user }}"
 npm_config_prefix: "/home/{{ drupalvm_user }}/.npm-global"
 installed_extras:
   - adminer
+  - drush
+  - mailhog
   - nodejs
   - selenium
 
-# Use PHP 5.6 and change package names to work with 5.6.
+# Use PHP 5.6.
 php_version: "5.6"
-php_install_recommends: no
-php_packages:
-  - php5.6
-  - php5.6-apcu
-  - php5.6-mcrypt
-  - php5.6-cli
-  - php5.6-common
-  - php5.6-curl
-  - php5.6-dev
-  - php5.6-fpm
-  - php5.6-gd
-  - php5.6-sqlite3
-  - php5.6-xml
-  - php5.6-mbstring
-  - php-pear
-  - libpcre3-dev
-php_conf_paths:
-  - /etc/php/5.6/fpm
-  - /etc/php/5.6/apache2
-  - /etc/php/5.6/cli
-php_extension_conf_paths:
-  - /etc/php/5.6/fpm/conf.d
-  - /etc/php/5.6/apache2/conf.d
-  - /etc/php/5.6/cli/conf.d
-php_fpm_daemon: php5.6-fpm
-php_fpm_conf_path: "/etc/php/5.6/fpm"
-php_fpm_pool_conf_path: "/etc/php/5.6/fpm/pool.d/www.conf"
-php_mysql_package: php5.6-mysql
-php_redis_package: php5.6-redis
-php_memcached_package: php5.6-memcached
-
-# Use PHP 5.6-compatible version of XHProf.
-xhprof_download_url: https://github.com/phacility/xhprof/archive/master.tar.gz
-xhprof_download_folder_name: xhprof-master
 
 post_provision_scripts:
   - "../../../acquia/blt/scripts/drupal-vm/post-provision.sh"

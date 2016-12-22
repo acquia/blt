@@ -1,0 +1,17 @@
+diff --git a/.htaccess b/.htaccess
+index 4716fa1..14014ce 100644
+--- a/.htaccess
++++ b/.htaccess
+@@ -122,6 +122,12 @@ AddEncoding gzip svgz
+   # uncomment the following line:
+   # RewriteBase /
+ 
++  # Redirect HTTP to HTTPS on cloud
++  RewriteCond %{ENV:AH_SITE_ENVIRONMENT} !^$
++  RewriteCond %{HTTPS} off
++  RewriteCond %{HTTP:X-Forwarded-Proto} !https
++  RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
++
+   # Redirect common PHP files to their new locations.
+   RewriteCond %{REQUEST_URI} ^(.*)?/(install.php) [OR]
+   RewriteCond %{REQUEST_URI} ^(.*)?/(rebuild.php)

@@ -47,11 +47,14 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
     }
 
     $this->drupalRoot = $this->projectDirectory . '/docroot';
-    if (file_exists("{$this->projectDirectory}/project.yml")) {
-      $this->config = Yaml::parse(file_get_contents("{$this->projectDirectory}/project.yml"));
+    if (file_exists("{$this->projectDirectory}/blt/project.yml")) {
+      $this->config = Yaml::parse(file_get_contents("{$this->projectDirectory}/blt/project.yml"));
     }
-    if (file_exists("{$this->projectDirectory}/project.local.yml")) {
-      $this->config = array_replace_recursive($this->config, Yaml::parse(file_get_contents("{$this->projectDirectory}/project.local.yml")));
+    else {
+      throw new \Exception("Could not find project.yml!");
+    }
+    if (file_exists("{$this->projectDirectory}/blt/project.local.yml")) {
+      $this->config = array_replace_recursive($this->config, (array) Yaml::parse(file_get_contents("{$this->projectDirectory}/blt/project.local.yml")));
     }
   }
 

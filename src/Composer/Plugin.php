@@ -7,6 +7,7 @@
 
 namespace Acquia\Blt\Composer;
 
+use Acquia\Blt\Update\Updater;
 use Composer\Composer;
 use Composer\DependencyResolver\Operation\InstallOperation;
 use Composer\DependencyResolver\Operation\UninstallOperation;
@@ -22,7 +23,7 @@ use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
 use Composer\Script\PackageEvent;
 use Composer\Util\ProcessExecutor;
-use Composer\Util\RemoteFilesystem;
+use Composer\Util\Filesystem;
 use Symfony\Component\Process\Process;
 
 class Plugin implements PluginInterface, EventSubscriberInterface {
@@ -48,6 +49,9 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    * @var \Composer\Package\PackageInterface
    */
   protected $bltPackage;
+
+  /** @var string */
+  protected $blt_prior_version;
 
   /**
    * Apply plugin modifications to composer
@@ -88,18 +92,20 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
   }
 
   /**
-   * Post install command event to execute the blt update.
+   * Execute blt update after update command has been executed, if applicable.
    *
    * @param \Composer\Script\Event $event
    */
   public function onPostCmdEvent(\Composer\Script\Event $event) {
     // Only install the template files if acquia/blt was installed.
     if (isset($this->bltPackage)) {
-      $this->executeBltUpdate();
+      $version = $this->bltPackage->getVersion();
+      $this->executeBltUpdate($version);
     }
   }
 
   /**
+   * Gets the acquia/blt package, if it is the package that is being operated on.
    * @param $operation
    * @return mixed
    */
@@ -116,16 +122,40 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     return NULL;
   }
 
-  protected function executeBltUpdate() {
+  /**
+   * Executes `blt update` and `blt-console blt:update` commands.
+   * @param $version
+   */
+  protected function executeBltUpdate($version) {
     $options = $this->getOptions();
     if ($options['blt']['update']) {
-      $this->io->write('<info>Updating BLT templated files</info>');
-      $this->executeCommand('blt update');
-      $this->io->write('<comment>This may have modified your composer.json and require a subsequent `composer update`</comment>');
+      $this->io->write('<info>Updating BLT templated files...</info>');
+
+      // Rsyncs, updates composer.json, project.yml, executes scripted updates for version delta.
+      $pre_composer_json = md5_file($this->getRepoRoot() . DIRECTORY_SEPARATOR . 'composer.json');
+      $success = $this->executeCommand('blt update', [], TRUE);
+      if (!$success) {
+        $this->io->write("<error>BLT update script failed! Run `blt update -verbose` to retry.</error>");
+      }
+      $post_composer_json = md5_file($this->getRepoRoot() . DIRECTORY_SEPARATOR . 'composer.json');
+
+      if ($pre_composer_json != $post_composer_json) {
+        $this->io->write('<error>Your composer.json file was modified, you MUST run "composer update" to update your composer.lock file.</error>');
+      }
     }
     else {
       $this->io->write('<comment>Skipping update of BLT templated files</comment>');
     }
+  }
+
+  /**
+   * Returns the repo root's filepath, assumed to be one dir above vendor dir.
+   *
+   * @return string
+   *   The file path of the repository root.
+   */
+  public function getRepoRoot() {
+    return dirname($this->getVendorPath());
   }
 
   /**
@@ -138,6 +168,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     $filesystem = new Filesystem();
     $filesystem->ensureDirectoryExists($config->get('vendor-dir'));
     $vendorPath = $filesystem->normalizePath(realpath($config->get('vendor-dir')));
+
     return $vendorPath;
   }
 
@@ -160,21 +191,27 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
   /**
    * Executes a shell command with escaping.
    *
+   * Example usage: $this->executeCommand("test command %s", [ $value ]).
+   *
    * @param string $cmd
+   * @param array $args
+   * @param bool $display_output
+   *   Optional. Defaults to FALSE. If TRUE, command output will be displayed
+   *   on screen.
    * @return bool
+   *   TRUE if command returns successfully with a 0 exit code.
    */
-  protected function executeCommand($cmd) {
-    // Shell-escape all arguments except the command.
-    $args = func_get_args();
+  protected function executeCommand($cmd, $args = [], $display_output = FALSE) {
+    // Shell-escape all arguments.
     foreach ($args as $index => $arg) {
-      if ($index !== 0) {
-        $args[$index] = escapeshellarg($arg);
-      }
+      $args[$index] = escapeshellarg($arg);
     }
+    // Add command as first arg.
+    array_unshift($args, $cmd);
     // And replace the arguments.
     $command = call_user_func_array('sprintf', $args);
     $output = '';
-    if ($this->io->isVerbose()) {
+    if ($this->io->isVerbose() || $display_output) {
       $this->io->write('<comment> > ' . $command . '</comment>');
       $io = $this->io;
       $output = function ($type, $buffer) use ($io) {

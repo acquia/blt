@@ -10,6 +10,6 @@ function blt() {
     $GIT_ROOT/vendor/bin/blt "$@"
   else
     echo "You must run this command from within a BLT-generated project repository."
-    exit 1
+    return 1
   fi
 }

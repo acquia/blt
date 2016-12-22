@@ -51,7 +51,7 @@ class YamlMungeCommand extends Command
 
     $munged_contents = array_replace_recursive((array) $file1_contents, (array) $file2_contents);
 
-    return Yaml::dump($munged_contents, 3);
+    return Yaml::dump($munged_contents, 3, 2);
   }
 
   protected function parseFile($file) {

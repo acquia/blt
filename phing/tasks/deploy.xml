@@ -2,10 +2,22 @@
 
   <target name="deploy" description="Builds separate artifact and pushes to git.remotes defined project.yml.">
 
+    <!-- Build some defaults -->
+    <exec command="git rev-parse --abbrev-ref HEAD" dir="${repo.root}" outputProperty="branch.current"/>
+    <exec command="git log --oneline -1" dir="${repo.root}" outputProperty="deploy.commitMsg.last"/>
+    <!-- Strip out the SHA-1 checksum -->
+    <propertyregex property="deploy.commitMsg.default" subject="${deploy.commitMsg.last}" pattern="^[a-f0-9]+\s(.*)$" replace="$1"/>
+
     <!-- Prompt for user input -->
     <echo>This will build a production-safe artifact, commit it to a branch, and  push it to your git.remotes.</echo>
-    <propertyprompt propertyName="deploy.commitMsg" useExistingValue="true" promptText="Enter a valid commit message" promptCharacter=":" />
-    <propertyprompt propertyName="deploy.branch" useExistingValue="true" promptText="Enter a deploy branch" promptCharacter=":" />
+    <propertyprompt propertyName="deploy.commitMsg" useExistingValue="true"
+                    promptText="Enter a valid commit message (defaults to last commit message)"
+                    promptCharacter=":"
+                    defaultValue="${deploy.commitMsg.default}"/>
+    <propertyprompt propertyName="deploy.branch" useExistingValue="true"
+                    promptText="Enter a deploy branch (defaults to [current branch]-build)"
+                    promptCharacter=":"
+                    defaultValue="${branch.current}-build"/>
 
     <!-- Check necessary runtime parameters. -->
     <if>
@@ -18,7 +30,6 @@
         <echo message="Command should match syntax:"/>
         <echo message="blt deploy -Ddeploy.commitMsg='BLT-123: The commit message.' -Ddeploy.branch='master-build'"/>
         <fail message="Missing required parameters."/>
-        <!-- @todo create default values for these params. E.g., the last commit msg from the source branch, and "[source-branch]-build". -->
       </then>
     </if>
 
@@ -104,7 +115,7 @@
             <include name="composer.lock"/>
           </fileset>
         </copy>
-        <exec dir="${deploy.dir}" command="export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --no-dev --prefer-dist --no-interaction --optimize-autoloader" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+        <exec dir="${deploy.dir}" command="export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --no-dev --no-interaction --optimize-autoloader" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
       </then>
       <else>
         <echo>Dependencies will not be built because deploy.build-dependencies is not enabled.</echo>
@@ -114,19 +125,21 @@
 
   </target>
 
-  <target name="deploy:copy" description="Copy required files from /docroot/sites to /deploy/docroot/sites." hidden="true">
-    <!-- Make sites/default writable so that we can copy files. -->
-    <!-- @todo Support multisite. -->
-    <chmod file="${docroot}/sites/default" mode="0777" />
+  <target name="deploy:copy:site" description="Copy required files from /docroot/sites to /deploy/docroot/sites." hidden="true">
+    <!-- Make sites/${multisite.name} writable so that we can copy files. -->
+    <chmod file="${docroot}/sites/${multisite.name}" mode="0777" />
 
     <exec dir="${repo.root}" command="rsync -a --no-g --delete --delete-excluded --exclude-from=${deploy.exclude_file} ${repo.root}/ ${deploy.dir}/ --filter 'protect /.git/'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
 
+    <!-- Set sites/${multisite.name} back to 755 permissions. -->
+    <chmod file="${docroot}/sites/${multisite.name}" mode="0755" />
+  </target>
+
+  <target name="deploy:copy" description="Copy required files from each /docroot/sites to /deploy/docroot/sites." hidden="true">
     <!-- Use our own .gitignore -->
     <copy file="${deploy.gitignore_file}" tofile="${deploy.dir}/.gitignore" overwrite="true"/>
-
-    <!-- Set sites/default back to 755 permissions. -->
-    <!-- @todo Support multisite. -->
-    <chmod file="${docroot}/sites/default" mode="0755" />
+    <!-- Perform settings copy for each multisite. -->
+    <foreach list="${multisite.name}" param="multisite.name" target="deploy:copy:site"/>
   </target>
 
   <target name="deploy:prepare-dir" description="Delete the existing deploy directory and re-initialize as an empty git repository." hidden="true">
@@ -155,5 +168,15 @@
         <include name="**/CHANGELOG.txt"/>
       </fileset>
     </delete>
+  </target>
+
+  <target name="deploy:update" description="Update current database to reflect the state of the Drupal file system; uses local drush alias.">
+    <phingcall target="setup:update">
+      <param name="environment" value="deploy"/>
+      <property name="drush.alias" value="self"/>
+      <!-- Most sites store their version-controlled configuration in /config/default. -->
+      <!-- ACE internally sets the vcs configuration directory to /config/default, so we use that. -->
+      <property name="cm.core.config-dir" value="vcs"/>
+    </phingcall>
   </target>
 </project>

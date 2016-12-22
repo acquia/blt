@@ -1,8 +1,17 @@
 <project name="acsf" default="acsf:init">
 
+  <!-- Set the acsf repo/branch-->
+  <property name="acsf.package" value="drupal/acsf:^1.33.0" override="false"/>
   <target name="acsf:init" description="Initializes ACSF support for project.">
     <echo>Adding acsf module as a dependency.</echo>
-    <exec dir="${repo.root}" command="composer require drupal/acsf:^8" logoutput="true" checkreturn="true" passthru="true" level="${blt.exec_level}"/>
+    <echo>In future, you may use pass a custom value for acsf.package to override default version. E.g., blt acsf:init -Dacsf.package='drupal/acsf:8.1.x-dev'</echo>
+    <exec dir="${repo.root}" command="composer require ${acsf.package}" logoutput="true" checkreturn="true" passthru="true" level="${blt.exec_level}"/>
+    <!-- Run the acsf init commands. -->
+    <phingcall target="acsf:init:drush"/>
+  </target>
+
+  <!-- Run the acsf init commands to sync library files. -->
+  <target name="acsf:init:drush" description="Refreshes the acsf settings and hook files.">
     <echo>Executing initialization command for acsf module.</echo>
     <drush command="acsf-init">
       <option name="include">"${docroot}/modules/contrib/acsf/acsf_init"</option>

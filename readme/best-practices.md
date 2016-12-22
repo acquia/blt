@@ -13,36 +13,13 @@ All work must conform to established best practices and coding standards. Code q
 * All code must be reviewed by a peer or established integrator before being merged into the master branch.
 * All new features must covered by an automated test that mirrors the ticket acceptance criteria.
 
-Please peruse the [examples](examples) directory for examples of various coding best practices.
-
 ## Exporting configuration
 
-All site functionality should be represented in version-controlled code. This includes all configuration. Drupal configuration is typically exported via [Features](https://www.drupal.org/project/features). 
+All site functionality should be represented in version-controlled code. This includes all configuration. Drupal configuration is typically exported via [Features](https://www.drupal.org/project/features).
 
 ### Features
 
-Features should generally follow the [KIT Feature specifications](https://www.drupal.org/project/kit).
-
-Notable principles from this specification include:
-
-- A feature should provides a collection of Drupal entities which taken together satisfy a certain use case. Example:a gallery feature provides a gallery view, a photo content type, and several blocks allowing a user to add new photos and browse those submitted by others.
-- A feature must, to the best of the creator's knowledge, use a unique code namespace.
-
-Additional guidelines include:
-
-* Each feature should be as discrete and independent as possible. Feature dependencies should be carefully considered! All dependencies should be one-way. Circular dependencies should never exist.
-
-Exceptions:
-
-* Distribution compliance guidelines are only applicable for distributions
-* Sites will often need to contain a single "sitewide" feature that defines global configuration and is required by all other features. This can be viewed as a "core" feature but should not be abused as a dumping ground for miscellany.
-
-Common mistakes:
-
-* Creation of large features that encompass many un-related components. E.g., multiple un-related content types, views, roles, permissions are all bundled into a single feature.
-* Poor design of dependencies, e.g., creation of circular dependencies.
-* Each feature has too many dependencies, so no one feature can be used in isolation, or a single feature becomes impossible to disable. E.g., the "Workflow" feature depends on the "Press Room" feature because it requires field_body which is provided by "Press Room."
-* Features are too granular. E.g., there is a separate feature for each role, a feature contains only a single view, etc.
+Please see [Configuration Management](features-workflow.md) for Features best practices.
 
 ## Configuration updates
 
@@ -55,9 +32,9 @@ Common mistakes:
 
 ## Caching
 
-Without caching, Drupal is slow. As a general rule of thumb, _try to cache everything that you can_ and _try to invalidate that cache only when it is likely to be stale_. 
+Without caching, Drupal is slow. As a general rule of thumb, _try to cache everything that you can_ and _try to invalidate that cache only when it is likely to be stale_.
 
-Caching is complex. Because caching is so complex, it's difficult to provide general guidelines for caching strategies. Here are the factors the should be considered when making caching decisions: 
+Caching is complex. Because caching is so complex, it's difficult to provide general guidelines for caching strategies. Here are the factors the should be considered when making caching decisions:
 
 * What is serving the cache? E.g., CDN, Varnish, Memcache, DB, APC, etc.
 * What is being cached? An entire page, one component of a page, bytecode, etc.

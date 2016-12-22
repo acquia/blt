@@ -3,6 +3,12 @@
     <exec dir="${repo.root}" command="git init" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <echo>Updating composer dependencies, this make take a while...</echo>
     <exec dir="${repo.root}" command="export COMPOSER_PROCESS_TIMEOUT=600; composer update --no-interaction" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <copy file="${repo.root}/docroot/profiles/contrib/lightning/lightning.extend.yml" tofile="${repo.root}/docroot/sites/default/lightning.extend.yml"/>
+
+    <!--Write project.machine_name to project.yml.-->
+    <exec dir="${repo.root}" command="result=${PWD##*/}; printf '%s\n' &quot;${PWD##*/}&quot;" logoutput="false" checkreturn="true" level="${blt.exec_level}" passthru="false" outputProperty="dirname"/>
+    <exec dir="${repo.root}" command="${composer.bin}/drupal yaml:update:value ${blt.config-files.project} project.machine_name '${dirname}'" logoutput="true" checkreturn="false" level="${blt.exec_level}" passthru="true"/>
+
     <exec dir="${repo.root}" command="git add -A" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <exec dir="${repo.root}" command="git commit -m 'Initial commit.'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <exec dir="${repo.root}" command="cat ${blt.root}/scripts/blt/ascii-art.txt" logoutput="true" passthru="true" checkreturn="false"/>
@@ -28,31 +34,37 @@
   </target>
 
   <target name="blt:rsync-template" hidden="true">
-    <echo>Copying files from BLT's template into your project.</echo>
-    <!-- @todo Do not overwrite structured or executable files. Instead, update them intelligently settings.php, drush.wrapper etc. -->
+    <echo>Copying files from BLT's template into your project...</echo>
     <exec dir="${repo.root}" command="rsync -a --no-g ${blt.root}/template/ ${repo.root}/ --exclude-from=${blt.update.ignore-existing-file}" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
 
     <!--Rsync files without overwriting existing-->
     <exec dir="${repo.root}" command="rsync -a --no-g ${blt.root}/template/ ${repo.root}/ --include-from=${blt.update.ignore-existing-file} --ignore-existing" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
   </target>
 
-  <target name="update" depends="blt:rsync-template, blt:update-composer, blt:update-yml, setup:drupal:settings" hidden="true">
+  <target name="update" depends="blt:rsync-template, blt:update-composer, blt:update-yml, blt:update-delta, cleanup" hidden="true">
+
     <phingcall target="install-alias">
       <property name="create_alias" value="true"/>
     </phingcall>
 
-    <echo>Some of your customized files may have been modified.</echo>
-    <echo>Please review changes with "git diff".</echo>
-    <echo>If your composer.json was modified, you need to run "composer update".</echo>
-    <echo>Commit changes, or use "git add -p [filename]" to select which changes should be committed to each file.</echo>
-    <echo></echo>
-    <echo>To remove deprecated BLT files, run "blt cleanup".</echo>
+    <echo>Some of your customized files may have been modified.
+            Please review changes with "git diff".
+            Commit changes, or use "git add -p [filename]" to select which changes should be committed to each file.
+
+            To remove deprecated BLT files, run "blt cleanup".</echo>
+  </target>
+
+  <target name="blt:update-delta" description="Performs scripted updates for a specific BLT version delta." hidden="true">
+    <echo>Executing scripted updates for version delta ${blt.schema-version} -> ${blt.version}...</echo>
+    <exec dir="${repo.root}" command="${repo.root}/vendor/bin/blt-console blt:update ${blt.schema-version} ${blt.version} ${repo.root} --yes" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+
+    <exec dir="${repo.root}" command="echo ${blt.version} > ${blt.config-files.schema-version}" checkreturn="true" logoutput="true" passthru="false" level="${blt.exec_level}"/>
   </target>
 
   <target name="blt:update-composer" description="Updates project composer.json with a subset of new key value pairs from upstream. This WILL overwrite existing values." hidden="true">
     <!--@todo Output different message if composer.json does not exist.-->
-    <echo>Merging BLT's composer.json template with your project's composer.json.</echo>
-    <echo>This MAY overwrite some existing values.</echo>
+    <echo level="verbose">Merging BLT's composer.json template with your project's composer.json.</echo>
+    <echo level="verbose">This MAY overwrite some existing values.</echo>
     <exec dir="${repo.root}" command="${repo.root}/vendor/bin/blt-console composer:munge ${repo.root}/composer.json ${blt.root}/template/composer.json > ${repo.root}/composer.json.tmp" logoutput="true" checkreturn="true" level="${blt.exec_level}" returnProperty="composer.munge.return"/>
     <if>
       <equals arg1="${composer.munge.return}" arg2="0"/>
@@ -61,18 +73,17 @@
         <exec dir="${repo.root}" command="mv ${repo.root}/composer.json.tmp ${repo.root}/composer.json" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
       </then>
     </if>
-    <echo>If your composer.json was modified, you need to run "composer update".</echo>
   </target>
 
   <target name="blt:update-yml" description="Updates project BLT .yml files with new key value pairs from upstream. This WILL NOT overwrite existing values." hidden="true">
     <!--@todo Output different message if project.yml does not exist-->
-    <echo>Merging BLT's project.yml template with your project's project.yml.</echo>
-    <echo>This WILL NOT overwrite existing values.</echo>
+    <echo level="verbose">Merging BLT's project.yml template with your project's project.yml.</echo>
+    <echo level="verbose">This WILL NOT overwrite existing values.</echo>
     <!--Values in the project's existing project.yml file will be preserved and not overridden.-->
-    <exec dir="${repo.root}" command="${repo.root}/vendor/bin/blt-console yaml:munge ${blt.root}/template/project.yml ${repo.root}/project.yml > ${repo.root}/project.yml.tmp" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
+    <exec dir="${repo.root}" command="${repo.root}/vendor/bin/blt-console yaml:munge ${blt.root}/template/blt/project.yml ${blt.config-files.project} > ${blt.config-files.project}.tmp" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
     <!--@todo Find out why can't we just redirect output directly back to project.yml. -->
-    <exec dir="${repo.root}" command="mv ${repo.root}/project.yml.tmp ${repo.root}/project.yml" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
-    <echo>project.yml has been modified.</echo>
+    <exec dir="${repo.root}" command="mv ${blt.config-files.project}.tmp ${blt.config-files.project}" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <echo>${blt.config-files.project} was modified.</echo>
   </target>
 
   <target name="cleanup" description="Removes deprecated BLT files and directories.">
@@ -80,7 +91,7 @@
   </target>
 
   <target name="version" description="Display the currently installed version of BLT.">
-    <exec dir="${repo.root}" command="echo 'BLT version:' $(composer info acquia/blt | grep ^versions | awk '{print $4}')" logoutput="true" checkreturn="true" level="${blt.exec_level}" />
+    <echo>BLT version is ${blt.version}</echo>
   </target>
 
   <target name="install-alias" description="Installs the BLT alias for command line usage." hidden="true">

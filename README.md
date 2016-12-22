@@ -17,6 +17,11 @@ See [INSTALL.md](INSTALL.md) to:
 * [Add BLT to an existing project](https://github.com/acquia/blt/blob/8.x/INSTALL.md#adding-blt-to-an-existing-project)
 * [Update BLT](https://github.com/acquia/blt/blob/8.x/INSTALL.md#updating-blt)
 
+## Videos
+
+* [BLT Project Creation](https://www.youtube.com/watch?v=KBwS0fsmXRs)
+* [Deploying to Acquia Cloud](https://www.youtube.com/watch?v=jjnPMvZ2x-c)
+
 ## Philosophy and Purpose
 
 BLT is designed to improve efficiency and collaboration across Drupal projects by providing a common set of tools and standardized structure. It was born out of the need to reduce re-work, project set up time, and developer onboarding time.
@@ -35,7 +40,7 @@ It scope is discretely defined. It is *not* intended to provide:
 
 ## Features
 
-* [Git Hooks](template/scripts/git-hooks)
+* [Git Hooks](scripts/git-hooks)
     * pre-commit: Checks for Drupal coding standards compliance
     * commit-msg: Check for proper formatting and syntax
 * [Testing Framework](template/tests).

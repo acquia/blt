@@ -113,16 +113,16 @@ class BltDoctor {
    * @return array|bool|mixed
    */
   protected function setProjectConfig() {
-    $filepath = $this->repoRoot . '/project.yml';
+    $filepath = $this->repoRoot . '/blt/project.yml';
     if (!file_exists($filepath)) {
-      $this->output->write("<error>project.yml is missing from the repository root directory!</error>");
+      $this->output->write("<error>project.yml is missing from the repository!</error>");
 
       return [];
     }
 
     $this->config = Yaml::parse(file_get_contents($filepath));
 
-    $filepath = $this->repoRoot . '/project.local.yml';
+    $filepath = $this->repoRoot . '/blt/project.local.yml';
     if (file_exists($filepath)) {
       $this->config = array_replace_recursive($this->config, Yaml::parse(file_get_contents($filepath)));
     }

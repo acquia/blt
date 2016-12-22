@@ -1,5 +1,7 @@
 # BLT installation
 
+*Please do not clone BLT as a means of using it. The only reason to clone BLT is to contribute outside the context of a particular Drupal site.*
+
 ## System requirements
 
 You must have the following tools on the command line of your *host operating system*:
@@ -20,6 +22,7 @@ Ensure that [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12) is 
 Then install the  minimum dependencies for BLT. The preferred method is via Homebrew, though you could install these yourself without a package manager.
 
         /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+        brew tap homebrew/dupes; brew tap homebrew/versions; brew tap homebrew/homebrew-php;
         brew install php56 git composer drush
         composer global require "hirak/prestissimo:^0.3"
 
@@ -28,6 +31,8 @@ If you'd like to create a VM with BLT, you will require the following additional
         brew tap caskroom/cask
         brew install ansible
         brew cask install virtualbox vagrant
+
+The minimum required versions are VirtualBox 5.1.x and Vagrant 1.8.6. The local PHP environment should also have a memory limit of at least 2G for BLT to initialise.
 
 If you'd like to execute Behat tests from the host machine, you will need Java:
 
@@ -52,7 +57,14 @@ Once complete follow the [BLT on Windows installation instructions](readme/windo
 
 If you are using a Linux machine, it is assumed that you will not be using Drupal VM and that you will be configuring your own LAMP stack. Disregard the `blt vm` command and `@[project.machine_name]` references in subsequent documentation.
 
+#### Ubuntu / Debian
+
         apt-get install git composer drush
+        composer global require "hirak/prestissimo:^0.3"
+
+#### Fedora
+
+        dnf install git composer drush
         composer global require "hirak/prestissimo:^0.3"
 
 # Installing BLT

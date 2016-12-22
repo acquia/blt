@@ -26,11 +26,6 @@ notifications:
 addons:
   ssh_known_hosts:
     - svn-5223.devcloud.hosting.acquia.com
-  apt:
-    packages:
-    - mysql-server-5.6
-    - mysql-client-core-5.6
-    - mysql-client-5.6
 
 before_install:
   # Decrypt private SSH key id_rsa_blt.enc, save as ~/.ssh/id_rsa_blt.
@@ -46,14 +41,14 @@ before_install:
   - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - git config --global user.name "Travis-CI"
   - git config --global user.email "noreply@travis-ci.org"
-  - mysql -u root -e 'CREATE DATABASE drupal;'
+  - mysql -u root -e "CREATE DATABASE drupal; CREATE USER 'drupal'@'localhost' IDENTIFIED BY 'drupal'; GRANT ALL ON drupal.* TO 'drupal'@'localhost';"
 
 install:
   # Load composer dependencies.
   - composer validate --no-check-all --ansi
   # Remove acquia packages from cache before running `composer install`.
   - rm -rf vendor/acquia
-  - composer install
+  - composer install -v
   - export PATH=$TRAVIS_BUILD_DIR/vendor/bin:$PATH
   # Install proper version of node for front end tasks.
   - nvm install 4.4.1
@@ -66,6 +61,8 @@ install:
   - sh -e /etc/init.d/xvfb start
   # Installs chromedriver to vendor/bin.
   - ./scripts/linux/install-chrome.sh $TRAVIS_BUILD_DIR/vendor/bin
+  # Use JDK 8.
+  - jdk_switcher use oraclejdk8
 
 before_script:
   # Clear drush release history cache, to pick up new releases.
@@ -87,16 +84,19 @@ script:
   - composer install -v
   - export PATH=$TRAVIS_BUILD_DIR/../blt-project/vendor/bin:$PATH
   # The local.hostname must be set to 127.0.0.1:8888 because we are using drush runserver to run the site on Travis CI.
-  - drupal yaml:update:value project.yml project.local.hostname '127.0.0.1:8888'
+  - drupal yaml:update:value blt/project.yml project.local.hostname '127.0.0.1:8888'
   # BLT added new dependencies for us, so we must update.
   - composer update
+  # Execute all updates with fake "dev" => "dev" version specs. This must be done manually since BLT was not installed prior to this.
+  - blt-console blt:update dev dev $(pwd) --yes
   # Create a .travis.yml, just to make sure it works. It won't be executed.
   - blt ci:travis:init
   - blt ci:pipelines:init
-  # On 8.x only, run tests in docroot/profiles directory.
-  - if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then echo $'behat:\n  paths:\n    - ${docroot}/profiles\n    - ${repo.root}/tests/behat' >> project.yml; fi
+  # Disable Lightning tests on pull requests.
+  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then printf "behat.paths: [ \${repo.root}/tests/behat ]" >> blt/project.yml; fi'
+  - cat blt/project.yml
   # Call targets in the new 'blt-project' project.
-  - blt ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dbehat.launch-phantom=true
+  - blt ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dbehat.launch-phantom=true -Dblt.verbose=true
   # Initialize ACSF config.
   - blt acsf:init
   # Ensure that the doctor doesn't report any problems at this point.

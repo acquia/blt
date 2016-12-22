@@ -9,29 +9,35 @@ behat:
   server-url: http://127.0.0.1:8888
   # If true, Selenium standalone server will be launched with Behat.
   launch-selenium: true
+  # If true, PhantomJS GhostDriver will be launched with Behat.
+  launch-phantomjs: false
   # An array of paths with behat tests that should be executed.
   paths:
     # - ${docroot}/modules
-    # - ${docroot}/profiles
+    - ${docroot}/profiles
     - ${repo.root}/tests/behat
-  tags: '~ajax&&~experimental&&~preview'
+  tags: '~ajax&&~experimental&&~lightningextension'
   verbose: ${blt.verbose}
 
 blt:
   update:
     ignore-existing-file: ${blt.root}/scripts/blt/ignore-existing.txt
-  # Default verbosity level for <exec> tasks.
+  # Default verbosity level for <exec> tasks. If Phing msg level is => than info, this will be set to info.
   exec_level: verbose
-  # If blt.level >= info, this will be changed to true. Affects verbosity of tasks like Drush, Behat.
+  # If Phing verbosity is flagged, this will be changed to true. Affects verbosity of tasks like Drush, Behat.
   verbose: false
-  # Control the maximum level of verbosity that will be printed to screen.
-  # From most to least verbose: debug, verbose, info, warn, error.
-  # Equivalent of using Phing arguments -debug, -verbose, [none], -quiet, -silent
-  # Note that this does not affect passthru output.
-  level: info
+  config-files:
+    project: ${repo.root}/blt/project.yml
+    local: ${repo.root}/blt/project.local.yml
+    example-local: ${repo.root}/blt/example.project.local.yml
+    schema-version: ${repo.root}/blt/.schema_version
 
 composer:
   bin: ${repo.root}/vendor/bin
+
+cm:
+  core:
+    config-dir: sync
 
 deploy:
   # If true, dependencies will be built during deploy. If false, you should commit dependencies directly.
@@ -60,9 +66,19 @@ drush:
   logoutput: yes
   verbose: ${blt.verbose}
 
+git:
+  # The value of a hook should be the file path to a directory containing an
+  # executable file named after the hook.
+  # Changing a hook value to 'false' will disable it.
+  hooks:
+    pre-commit: ${blt.root}/scripts/git-hooks
+    commit-msg: ${blt.root}/scripts/git-hooks
+
 multisite:
   # The docroot/sites/default directory is used by default.
-  name: default
+  name:
+    - default
+    # - another_site
 
 reports:
   localDir: ${repo.root}/reports
