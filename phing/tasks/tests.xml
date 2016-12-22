@@ -8,7 +8,21 @@
 
   <!-- If you experience 'Maximum function nesting level' errors in your PHP
        error log, set 'xdebug.max_nesting_level=1000' in php.ini. -->
-  <target name="tests:behat" depends="test:behat:check, tests:run-server, tests:selenium:launch, tests:phantomjs:launch" description="Executes Behat all behat tests in behat.paths.">
+  <target name="tests:behat" depends="test:behat:check, tests:run-server" description="Executes Behat all behat tests in behat.paths.">
+
+    <if>
+    <equals arg1="${behat.launch-phantomjs}" arg2="true"/>
+      <then>
+        <phingcall target="tests:phantomjs:launch"/>
+      </then>
+    </if>
+    <if>
+      <equals arg1="${behat.launch-selenium}" arg2="true"/>
+      <then>
+        <phingcall target="tests:selenium:launch"/>
+      </then>
+    </if>
+
     <mkdir dir="${reports.localDir}/behat"/>
     <foreach list="${behat.paths}" target="tests:behat:execute" param="behat.path"/>
     <phingcall target="tests:selenium:kill"/>
@@ -183,30 +197,26 @@
       </then>
     </if>
 
-    <if>
-      <equals arg1="${behat.launch-phantom}" arg2="true"/>
-      <then>
-        <echo message="Launching PhantomJS GhostDriver." />
-        <exec command="${composer.bin}/phantomjs --webdriver=4444"
-              passthru="true"
-              spawn="true"
-              checkreturn="true"
-              level="${blt.exec_level}"/>
-        <echo message="Waiting 10 seconds for PhantomJS (http://127.0.0.1:4444) to become available."/>
-        <waitfor maxwait="15" maxwaitunit="second" checkevery="1" checkeveryunit="second" timeoutproperty="phantomjs.timedout">
-          <http url="http://127.0.0.1:4444/wd/hub"/>
-        </waitfor>
+    <echo message="Launching PhantomJS GhostDriver." />
+    <exec command="${composer.bin}/phantomjs --webdriver=4444"
+          passthru="true"
+          spawn="true"
+          checkreturn="true"
+          level="${blt.exec_level}"/>
+    <echo message="Waiting 10 seconds for PhantomJS (http://127.0.0.1:4444) to become available."/>
+    <waitfor maxwait="15" maxwaitunit="second" checkevery="1" checkeveryunit="second" timeoutproperty="phantomjs.timedout">
+      <http url="http://127.0.0.1:4444/wd/hub"/>
+    </waitfor>
 
-        <if>
-          <equals arg1="${phantomjs.timedout}" arg2="true"/>
-          <then>
-            <fail>
-              Unable to start PhantomJS on http://127.0.0.1:4444/wd/hub.
-            </fail>
-          </then>
-        </if>
+    <if>
+      <equals arg1="${phantomjs.timedout}" arg2="true"/>
+      <then>
+        <fail>
+          Unable to start PhantomJS on http://127.0.0.1:4444/wd/hub.
+        </fail>
       </then>
     </if>
+
   </target>
 
   <target name="tests:phantomjs:kill"
