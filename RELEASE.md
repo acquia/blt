@@ -11,6 +11,11 @@ In order to use these testing instructions:
 * MySQL must use `mysql://drupal:drupal@localhost/drupal:3306`. If this is not the case, modify the instructions below for your credentials.
 * In order to test Drupal VM, you must install VirtualBox and Vagrant. See [Drupal VM](https://github.com/geerlingguy/drupal-vm#quick-start-guide) for more information.
 
+## Procedure
+
+1. Test "Create a new project without acquia/blt-project "from scratch", uses Drupal VM".
+1. Test "Update existing project Pipelines project".
+
 ## Create a new project via acquia/blt-project, uses local LAMP stack
 
 This test verifies that a new project can be created using `acquia/blt-project` via composer. This also tests the `blt update` process.
@@ -32,7 +37,7 @@ This test verifies that a new project can be created using `acquia/blt-project` 
     read -p "Press any key to continue"
     cd ../
 
-## Creates a new project without acquia/blt-project "from scratch", uses Drupal VM
+## Create a new project without acquia/blt-project "from scratch", uses Drupal VM
 
 This test verifies that a new project can be created from scratch using blt, without blt-project. It also tests Drupal VM integration.
 
@@ -53,7 +58,7 @@ This test verifies that a new project can be created from scratch using blt, wit
     cd ../
 
 
-## Updates existing project Pipelines project
+## Update existing project Pipelines project
 
     composer require acquia/blt:8.x-dev --no-update
     composer update
@@ -62,6 +67,9 @@ This test verifies that a new project can be created from scratch using blt, wit
     git push origin
     pipelines start
     pipelines log
+    # Replace with remote alias
+    drush @alias ssh blt setup:drupal:install
+    
 
 ## Generate CHANGELOG.md
 
