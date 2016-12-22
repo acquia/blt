@@ -14,8 +14,7 @@ In order to use these testing instructions:
 ## Procedure
 
 1. Test "Create a new project without acquia/blt-project "from scratch", uses Drupal VM".
-1. Test "Update existing project Pipelines project"
-1. Test "Deploy to cloud".
+1. Test "Update existing project Pipelines project".
 
 ## Create a new project via acquia/blt-project, uses local LAMP stack
 
@@ -68,6 +67,9 @@ This test verifies that a new project can be created from scratch using blt, wit
     git push origin
     pipelines start
     pipelines log
+    # Replace with remote alias
+    drush @alias ssh blt setup:drupal:install
+    
 
 ## Generate CHANGELOG.md
 
