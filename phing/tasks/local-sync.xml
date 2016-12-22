@@ -7,7 +7,12 @@
     </phingcall>
   </target>
 
-  <target name="local:refresh" description="Refreshes local environment from upstream testing database." depends="setup:build, local:sync:site, local:update"/>
+  <target name="local:refresh:all" description="Refreshes all local environment from upstream testing database.">
+    <foreach list="${multisite.names}" param="site.name" target="local:refresh:site"/>
+  </target>
+
+  <target name="local:refresh:site" description="Refreshes local environment from upstream testing database."
+          depends="local:sync:site, local:update"/>
 
   <target name="local:setup" description="Install dependencies, builds docroot, installs Drupal; uses local drush alias.">
     <phingcall target="setup">
@@ -31,7 +36,7 @@
   </target>
 
   <target name="local:sync" description="Does the work of synchronizing local environment from remote (remote --> local)."
-    depends="setup:drupal:settings:site" hidden="true">
+    depends="setup:build" hidden="true">
     <drush command="cache-clear drush"/>
     <drush command="sql-drop"/>
     <drush command="sql-sync" alias="">
@@ -45,9 +50,9 @@
   </target>
 
   <target name="local:update" description="Update current database to reflect the state of the Drupal file system; uses local drush alias.">
+    <fail unless="site.name" message="site.name MUST be defined."/>
     <phingcall target="setup:update">
       <property name="environment" value="local"/>
-      <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false"/>
       <property name="drush.alias" value="${site.aliases.${environment}}"/>
     </phingcall>
   </target>

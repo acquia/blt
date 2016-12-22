@@ -56,23 +56,20 @@
   <propertyregex subject="${multisite.names}" pattern=",$" replace="" property="multisite.names" override="true"/>
 
   <!-- Set the default site to operate against and load its properties. -->
-  <property name="site.name" value="${site.default}" override="false"/>
+  <property name="site.name" value="default" override="false"/>
   <if>
     <not><available filepath="${blt.config-dirs.sites}" file="${site.name}.yml"/></not>
     <then>
       <fail message="You must provide blt/sites/${site.name}.yml."/>
     </then>
   </if>
-  <property file="${blt.config-dirs.sites}/${site.name}.yml" logoutput="false"/>
+  <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false"/>
 
-  <!-- Setup default drush alias. If no environment is set, assume we're working locally. -->
-  <property name="drush.alias" value="${site.aliases.local}" override="false" logoutput="false"/>
-  <if>
-    <isset property="environment"/>
-    <then>
-      <property name="drush.alias" value="${site.aliases.${environment}}" override="true" logoutput="false"/>
-    </then>
-  </if>
+  <!-- If no environment is set, assume we're working locally. -->
+  <property name="environment" value="local" override="false" logoutput="false"/>
+
+  <!-- Setup default drush alias. -->
+  <property name="drush.alias" value="${drush.default_alias}" override="false" logoutput="false"/>
 
   <if>
     <equals arg1="${env.USER}" arg2="vagrant"/>

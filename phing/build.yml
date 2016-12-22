@@ -87,6 +87,3 @@ phpcs:
 project:
   local:
     uri: ${project.local.protocol}://${project.local.hostname}
-
-site:
-  default: default
