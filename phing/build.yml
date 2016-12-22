@@ -9,6 +9,8 @@ behat:
   server-url: http://127.0.0.1:8888
   # If true, Selenium standalone server will be launched with Behat.
   launch-selenium: true
+  # If true, PhantomJS GhostDriver will be launched with Behat.
+  launch-phantomjs: false
   # An array of paths with behat tests that should be executed.
   paths:
     # - ${docroot}/modules
