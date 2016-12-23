@@ -52,6 +52,8 @@ installed_extras:
 
 # Use PHP 5.6.
 php_version: "5.6"
-
+php_packages:
+  - php5.6-yaml
+  
 post_provision_scripts:
   - "../../../acquia/blt/scripts/drupal-vm/post-provision.sh"
