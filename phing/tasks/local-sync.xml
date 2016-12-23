@@ -3,7 +3,6 @@
   <target name="local:drupal:install" description="Installs a specific Drupal site using local drush alias.">
     <phingcall target="setup:drupal:install">
       <property name="environment" value="local"/>
-      <property name="drush.alias" value="${site.aliases.${environemnt}}"/>
     </phingcall>
   </target>
 
@@ -17,7 +16,6 @@
   <target name="local:setup" description="Install dependencies, builds docroot, installs Drupal; uses local drush alias.">
     <phingcall target="setup">
       <param name="environment" value="local"/>
-      <property name="drush.alias" value="${site.aliases.${environment}}"/>
     </phingcall>
   </target>
 
@@ -31,7 +29,6 @@
     <phingcall target="local:sync">
       <property name="environment" value="local"/>
       <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false"/>
-      <property name="drush.alias" value="${site.aliases.${environment}}"/>
     </phingcall>
   </target>
 
@@ -53,7 +50,6 @@
     <fail unless="site.name" message="site.name MUST be defined."/>
     <phingcall target="setup:update">
       <property name="environment" value="local"/>
-      <property name="drush.alias" value="${site.aliases.${environment}}"/>
     </phingcall>
   </target>
 
