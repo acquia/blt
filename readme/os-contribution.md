@@ -17,7 +17,7 @@
 
 ## Recommendation
 
-Individual user (e.g., TA or developer) releases to drupal.org.
+An individual user (e.g., architect or developer) releases to drupal.org.
 
 * Team should select who should own the module based on contribution to its 
   creation and abilty/interest in on-going ownership
