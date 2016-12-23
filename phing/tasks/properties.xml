@@ -64,6 +64,7 @@
     </then>
   </if>
   <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false"/>
+  <echo level="verbose">Executing commands against multisite "${site.name}"</echo>
 
   <!-- If no environment is set, assume we're working locally. -->
   <property name="environment" value="local" override="false" logoutput="false"/>
