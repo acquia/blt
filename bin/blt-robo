@@ -1,6 +1,9 @@
 #!/usr/bin/env php
 <?php
 
+use Acquia\Blt\Robo\Command\RoboFile;
+use Acquia\Blt\Robo\Command\Test;
+
 /**
  * If we're running from phar load the phar autoload file.
  */
@@ -16,11 +19,13 @@ if ($pharPath) {
     }
 }
 
-$commandClasses = [ \Acquia\Blt\Robo\Command\RoboFile::class ];
-$statusCode = \Acquia\Blt\Robo\BltRobo::run(
-    $_SERVER['argv'],
-    $commandClasses,
-    'BLT',
-    '0.0.0-alpha0'
+$commandClasses = [
+  Test::class,
+];
+$statusCode = \Robo\Robo::run(
+  $_SERVER['argv'],
+  $commandClasses,
+  'BLT',
+  '0.0.0-alpha0'
 );
 exit($statusCode);
