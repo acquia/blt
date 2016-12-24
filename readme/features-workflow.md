@@ -6,7 +6,7 @@ There are many ways to manage and deploy configuration in Drupal 8, one of which
 A note on capitalization and terminology: "Features" is the module on drupal.org, while "features" are the individual collections of configuration on your own project. This document will try (and probably fail) to use them consistently. Also, Features relies heavily on the core configuration management system as well as the contributed Configuration Update module. It's easier to refer to this system collectively as Features, but in fairness a lot of the the gotchas and brokenness are with the underlying modules.
 
 ## Overview of a Features-based workflow
-A good Features-based workflow should make it easy for developers to logically bundle configuration into portable version-controlled features that are easy to update. It should also make it easy for a TA to deploy these changes and verify that the active configuration on any given site matches what is stored in VCS.
+A good Features-based workflow should make it easy for developers to logically bundle configuration into portable version-controlled features that are easy to update. It should also make it easy for an architect to deploy these changes and verify that the active configuration on any given site matches what is stored in VCS.
 
 Generally speaking, a configuration change follows this lifecycle:
 
@@ -147,7 +147,7 @@ Using a feature module is the recommended approach.
 
 ### Other gotchas
 
-Features is a ground-up rewrite in Drupal 8 and is maturing quickly, but may still have some traps. Developers should keep a close eye on exported features, and TA need to carefully review features in PRs for the gotchas and best practices listed above.
+Features is a ground-up rewrite in Drupal 8 and is maturing quickly, but may still have some traps. Developers should keep a close eye on exported features, and architects need to carefully review features in PRs for the gotchas and best practices listed above.
 
 ## Getting set up on Acquia Cloud
 When setting up a project on Acquia Cloud, it's recommended to add Cloud Hooks for post-code-deploy, post-code-update, and post-db-copy that will automatically perform the following steps:

@@ -6,17 +6,17 @@ For information on how to deploy to production, see [release-process.md](release
 
 This document outlines the workflow to build a complete Drupal docroot (plus supporting features, such as Cloud Hooks) which can be deployed directly to Acquia Cloud. Collectively, this bundle of code is referred to as the "build artifact".
 
-The most important thing to remember about this workflow is that the Github and ACE repos are _not_ clones of one another. Github only stores the source code, and ACE only stores the production code (i.e. the build artifacts).
+The most important thing to remember about this workflow is that the Github and Acquia Cloud repos are _not_ clones of one another. Github only stores the source code, and Acquia Cloud only stores the production code (i.e. the build artifacts).
 
-Currently, this workflow can either be followed manually, or integrated into a CI solution such as Jenkins or Travis. Eventually, Build Steps will enable it to run directly on Acquia Cloud, obviating the need to maintain separate repositories for source code (Github) and production code (ACE).
+Currently, this workflow can either be followed manually, or integrated into a CI solution such as Jenkins or Travis. Eventually, Build Steps will enable it to run directly on Acquia Cloud, obviating the need to maintain separate repositories for source code (Github) and production code (Acquia Cloud).
 
 ## First time setup
 
-You should have your Github repository (where this document is stored) checked out locally. Your ACE repository should be empty, or nearly empty.
+You should have your Github repository (where this document is stored) checked out locally. Your Acquia Cloud repository should be empty, or nearly empty.
 
 Check out a new branch to match whatever branch you are working on in Github (typically `develop`).
 
-Ensure your ACE remote is listed in project.yml under git:remotes.
+Ensure your Acquia Cloud remote is listed in project.yml under git:remotes.
 
 ## Creating the build artifact
 
@@ -31,7 +31,7 @@ This task is analogous to `setup:build` but with a few critical differences:
 * (planned) CSS / JS are compiled in production mode (compressed / minified)
 * (planned) Sensitive files, such as CHANGELOG.txt, are removed.
 
-After the artifact is created, you can inspect it or even run it as a website locally. You may also manually commit and push it to ACE.
+After the artifact is created, you can inspect it or even run it as a website locally. You may also manually commit and push it to Acquia Cloud.
 
 ## Create and deploy the build artifact
 
@@ -72,7 +72,7 @@ For more information on configuring Travis CI, see "Setting Up Travis CI for aut
 
 ### Jenkins (Cloudbees)
 
-Jenkins is more expensive and time-consuming to set up, but offers much more flexibility. For instance, you can add a Slack slash command (such as `/deploy`) that allows your QA team to deploy specific branches to ACE on demand. See the forthcoming README on Jenkins integration for more information.
+Jenkins is more expensive and time-consuming to set up, but offers much more flexibility. For instance, you can add a Slack slash command (such as `/deploy`) that allows your QA team to deploy specific branches to Acquia Cloud on demand. See the forthcoming README on Jenkins integration for more information.
 
 Note, we previously used Engineering's Jenkins instance for CI (ci.acquia.com), but this should be avoided going forward. Instead, a starter account with Cloudbees is recommended. There's a two-week free trial, and after that the service is ~$60 per month, and must be paid for on a per-project basis.
 

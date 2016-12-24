@@ -60,6 +60,10 @@
   <target name="setup:settings" depends="setup:drupal:settings:all, setup:drush:settings:all" description="Creates settings files for Drupal and drush.">
   </target>
 
+  <target name="setup:console:settings" description="Initializes Drupal console config.">
+    <exec dir="${repo.root}" command="${composer.bin}/drupal init --quiet" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+  </target>
+
   <!-- Run Drupal settings setup for each multisite. -->
   <target name="setup:drupal:settings:all">
     <foreach list="${multisite.names}" param="site.name" target="setup:drupal:settings:site"/>
@@ -323,6 +327,18 @@
     <drush command="fra" assume="yes">
       <option name="bundle">${bundle}</option>
     </drush>
+    <if>
+      <equals arg1="${cm.features.no-overrides}" arg2="true"/>
+      <then>
+        <exec command="${drush.bin} @${drush.alias} fl --bundle=${bundle} | grep -Ei '(changed|conflicts|added)( *)$'" outputProperty="features.overrides"/>
+        <if>
+          <istrue value="${features.overrides}"/>
+          <then>
+            <fail>A feature in the ${bundle} bundle is overridden. You must re-export this feature to incorporate the changes.</fail>
+          </then>
+        </if>
+      </then>
+    </if>
   </target>
 
   <!-- Wrapper around setup:toggle-modules. -->
