@@ -19,7 +19,7 @@ Here are tasks that are typically performed at this stage:
 
 * Create and deploy an artifact. See [Deployment workflow](deploy.md).
 
-        # Ensure git.remotes is set in project.yml
+        # Ensure git.remotes is set in blt/project.yml
         blt deploy
 
 Other commonly used commands:
