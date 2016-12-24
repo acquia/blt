@@ -58,7 +58,7 @@ drupal:
 
 drush:
   bin: ${composer.bin}/drush
-  cmd: ${drush.bin} @${drush.alias} -r ${docroot} -l ${site.name}
+  cmd: ${drush.bin} @${drush.alias} -r ${docroot} -l ${site.uri.${environment}}
   dir: ${docroot}
   uri: ${site.uri.${environment}}
   assume: yes
