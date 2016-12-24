@@ -187,7 +187,7 @@
         <echo message="Running server at ${behat.server-url}"/>
         <exec command="pkill -f runserver" logoutput="true" level="${blt.exec_level}" passthru="true"/>
         <exec executable="${drush.bin}" dir="${docroot}" spawn="true" level="${blt.exec_level}">
-          <arg line="runserver ${behat.server-url} -l ${multisite.default.uri.${environment}}"/>
+          <arg line="runserver ${behat.server-url} -l ${site.uri.${environment}}"/>
         </exec>
         <echo message="Waiting 10 seconds for ${behat.server-url} to become available."/>
         <waitfor maxwait="10" maxwaitunit="second" checkevery="1" checkeveryunit="second">
