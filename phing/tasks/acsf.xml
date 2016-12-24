@@ -7,18 +7,26 @@
     <echo>In future, you may use pass a custom value for acsf.package to override default version. E.g., blt acsf:init -Dacsf.package='drupal/acsf:8.1.x-dev'</echo>
     <exec dir="${repo.root}" command="composer require ${acsf.package}" logoutput="true" checkreturn="true" passthru="true" level="${blt.exec_level}"/>
     <!-- Run the acsf init commands. -->
-    <phingcall target="acsf:init:drush"/>
+    <phingcall target="acsf:init:all"/>
   </target>
 
-  <!-- Perform acsf:init for each multisite. -->
-  <target name="acsf:init:drush">
-    <foreach list="${multisite.names}" param="multisite.name" target="acsf:init:site:drush"/>
+  <!-- Perform acsf:init:site for each multisite. -->
+  <target name="acsf:init:all" description="Refreshes the acsf settings and hook files for all acsf sites.">
+    <foreach list="${multisite.names}" param="site.name" target="acsf:init:site"/>
+  </target>
+
+  <!-- Wrapper around acsf:init:site:drush. -->
+  <target name="acsf:init:site" description="Refreshes the acsf settings and hook files for an acsf site.">
+    <fail unless="site.name" message="site.name MUST be defined."/>
+    <phingcall target="acsf:init:site:drush">
+      <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false"/>
+    </phingcall>
   </target>
 
   <!-- Run the acsf init commands to sync library files. -->
   <target name="acsf:init:site:drush" description="Refreshes the acsf settings and hook files.">
     <echo>Executing initialization command for acsf module on ${site.name}.</echo>
-    <drush command="acsf-init" alias="${drush.alias}" uri="${site.uri.${environment}}" >
+    <drush command="acsf-init">
       <option name="include">"${docroot}/modules/contrib/acsf/acsf_init"</option>
     </drush>
     <echo>Please add acsf_init as a dependency for your installation profile to ensure that it remains enabled.</echo>
