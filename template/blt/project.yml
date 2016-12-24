@@ -26,7 +26,7 @@ drush:
     # The drush alias against which all ci commands are run.
     ci: self
     # The default drush alias to be used when no environment is specified.
-  default_alias: ${multisite.default.aliases.local}
+  default_alias: ${site.aliases.local}
 
 # Custom tasks that are triggered at pre-defined times in the build process.
 # The tasks hook into BLT's existing Phing targets. Available hooks keys are:
