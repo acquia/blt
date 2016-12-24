@@ -342,7 +342,7 @@
         <if>
           <isset property="modules.${environment}.enable"/>
           <then>
-            <drush command="pm-enable" assume="yes" alias="${drush.alias}" uri="${site.aliases.${environment}}">
+            <drush command="pm-enable" assume="yes">
               <param>${modules.${environment}.enable}</param>
               <option name="skip"></option>
             </drush>
@@ -355,7 +355,7 @@
         <if>
           <isset property="modules.${environment}.uninstall"/>
           <then>
-            <drush command="pm-uninstall" assume="yes" alias="${drush.alias}" uri="${site.aliases.${environment}}">
+            <drush command="pm-uninstall" assume="yes">
               <param>${modules.${environment}.uninstall}</param>
             </drush>
           </then>
