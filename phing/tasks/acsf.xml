@@ -24,7 +24,8 @@
   </target>
 
   <!-- Run the acsf init commands to sync library files. -->
-  <target name="acsf:init:site:drush" description="Refreshes the acsf settings and hook files.">
+  <target name="acsf:init:site:drush" description="Does the work of refreshing the acsf settings and hook files."
+          hidden="true">
     <echo>Executing initialization command for acsf module on ${site.name}.</echo>
     <drush command="acsf-init">
       <option name="include">"${docroot}/modules/contrib/acsf/acsf_init"</option>
