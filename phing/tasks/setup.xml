@@ -161,6 +161,7 @@
 
   <!-- Wrapper around setup:drupal:install. -->
   <target name="setup:drupal:install:site" description="Installs Drupal on a specific local site.">
+    <fail unless="site.name" message="site.name MUST be defined."/>
     <phingcall target="setup:drupal:install">
       <property name="environment" value="local"/>
       <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false"/>
@@ -255,7 +256,7 @@
           <param>drush</param>
         </drush>
         <!-- Revert all features. -->
-        <foreach list="${cm.features.bundle}" param="bundle" target="setup:update:features-import" />
+        <foreach list="${cm.features.bundle}" param="bundle" target="setup:update:features-import:site" />
       </then>
     </if>
     <!-- Rebuild caches. -->
@@ -305,14 +306,21 @@
   </target>
 
   <!-- Perform features import for each multisite. -->
-  <target name="setup:update:features-import">
+  <target name="setup:update:features-import:all" description="Features import for each multisite on the specified bundle.">
     <foreach list="${multisite.names}" param="site.name" target="setup:update:features-import:site"/>
   </target>
 
-  <target name="setup:update:features-import:site" description="Perform a features import for a site on the specified bundle.">
-    <echo level="verbose">Executing commands against multisite "${site.name}"</echo>
-    <property name="multisite.uri" value="${multisite.${site.name}.uri.${environment}}"/>
-    <drush command="fra" assume="yes" alias="${drush.alias}" uri="${multisite.uri}">
+  <!-- Wrapper around setup:upate:features-import. -->
+  <target name="setup:update:features-import:site" description="Features import for a site on the specified bundle.">
+    <fail unless="site.name" message="site.name MUST be defined."/>
+    <phingcall target="setup:update:features-import">
+      <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false"/>
+    </phingcall>
+  </target>
+
+  <target name="setup:update:features-import" description="Does the work of a features import for a site on the specified bundle."
+          hidden="true">
+    <drush command="fra" assume="yes">
       <option name="bundle">${bundle}</option>
     </drush>
   </target>
