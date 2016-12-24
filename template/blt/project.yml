@@ -62,22 +62,6 @@ target-hooks:
 # Define any custom Phing files that you'd like to import. E.g., ${repo.root}/blt/phing/build.xml
 import: ~
 
-# Multisite(s) definition. By default there is only the 'default' site.
-multisite:
-  default:
-    aliases:
-      # The local environment against which all local drush commands are run.
-      local: self
-      # The remote environment from which the database will be pulled.
-      remote: ${project.machine_name}.test
-    # The environment-specific uris against which drush commands are run.
-    uri:
-      local: ${project.machine_name}.local
-      dev: ${project.machine_name}.dev
-      test: ${project.machine_name}.test
-      prod: ${project.machine_name}.com
-      ci: default
-
 # An array of modules to be enabled or uninstalled automatically in local, ci, and deploy contexts.
 modules:
   local:
