@@ -65,11 +65,20 @@
   </target>
 
   <!-- Run Drupal settings setup for each multisite. -->
-  <target name="setup:drupal:settings:all">
+  <target name="setup:drupal:settings:all" description="Creates local settings files using default settings files for each multisite.">
     <foreach list="${multisite.names}" param="site.name" target="setup:drupal:settings:site"/>
   </target>
 
-  <target name="setup:drupal:settings:site" description="Create local settings files using default settings files for an individual site.">
+  <!-- Wrapper around setup:drupal:settings. -->
+  <target name="setup:drupal:settings:site" description="Creates local settings files using default settings files for an individual site.">
+    <fail unless="site.name" message="site.name MUST be defined."/>
+    <phingcall target="setup:drupal:settings">
+      <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false"/>
+    </phingcall>
+  </target>
+
+  <target name="setup:drupal:settings" description="Does the work of creating local settings files using default settings files for an individual site."
+          hidden="true">
     <echo>Making ${docroot}/sites/${site.name} writable</echo>
     <chmod mode="0755" file="${docroot}/sites/${site.name}" failonerror="false"/>
 
@@ -127,11 +136,20 @@
   </target>
 
   <!-- Run Drush settings setup for each multisite. -->
-  <target name="setup:drush:settings:all">
+  <target name="setup:drush:settings:all" description="Creates local drush settings files for each multisite.">
     <foreach list="${multisite.names}" param="site.name" target="setup:drush:settings:site"/>
   </target>
 
-  <target name="setup:drush:settings:site" description="Create local drush settings files for an individual site.">
+  <!-- Wrapper around setup:drush:settings. -->
+  <target name="setup:drush:settings:site" description="Creates local drush settings files for an individual site.">
+    <fail unless="site.name" message="site.name MUST be defined."/>
+    <phingcall target="setup:drush:settings">
+      <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false"/>
+    </phingcall>
+  </target>
+
+  <target name="setup:drush:settings" description="Does the work of creating local drush settings files for an individual site."
+          hidden="true">
     <if>
       <not><available file="${docroot}/sites/${site.name}/local.drushrc.php" type="file" /></not>
       <then>
