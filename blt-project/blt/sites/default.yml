@@ -2,7 +2,8 @@
 # Site definition file for the default site.
 aliases:
   local: self
-  remote: remotedev.com
+  remote: default.dev
+  ci: self
 uri:
   local: default.local
   ci: 127.0.0.1:8888
