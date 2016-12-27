@@ -89,3 +89,5 @@ phpcs:
 project:
   local:
     uri: ${project.local.protocol}://${project.local.hostname}
+  ci:
+    uri: 127.0.0.1:8888
