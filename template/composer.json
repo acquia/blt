@@ -19,7 +19,7 @@
         "drupal/seckit": "^1.0.0-alpha2",
         "drupal/security_review": "*",
         "drupal/shield": "^1.0.0",
-        "drush/drush": "^9.0"
+        "drush/drush": "^8.1.8"
     },
     "require-dev": {
         "behat/behat": "^3.1",

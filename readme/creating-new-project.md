@@ -12,6 +12,7 @@
 1. Install the `blt` alias and follow on-screen instructions:
 
         composer blt-alias
+        source ~/.bash_profile
 
 1. Customize `blt/project.yml`.
 
