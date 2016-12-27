@@ -206,7 +206,7 @@
     </if>
 
     <echo>Installing Drupal on ${site.name}...</echo>
-    <drush command="site-install" alias="${site.aliases.local}">
+    <drush command="site-install" alias="${site.drush.aliases.local}">
       <option name="site-name">"${project.human_name}"</option>
       <option name="site-mail">"${drupal.account.mail}"</option>
       <option name="account-name">"${drupal.account.name}"</option>

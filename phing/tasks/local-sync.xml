@@ -39,8 +39,8 @@
     <drush command="sql-sync" alias="">
       <option name="structure-tables-key">lightweight</option>
       <option name="create-db"/>
-      <param>@${site.aliases.remote}</param>
-      <param>@${site.aliases.local}</param>
+      <param>@${site.drush.aliases.remote}</param>
+      <param>@${site.drush.aliases.local}</param>
     </drush>
     <drush command="cache-clear drush"/>
     <drush command="cache-rebuild"/>

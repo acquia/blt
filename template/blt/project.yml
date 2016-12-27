@@ -20,10 +20,19 @@ git:
     # Defining git remotes allows builds deployed via CI.
     - bolt8@svn-5223.devcloud.hosting.acquia.com:bolt8.git
 
+# Default drush aliases. IF necessary, you can override these
+# for each of your multisites. See blt/sites/example.yml.
 drush:
   # You can set custom project aliases in drush/site-aliases/aliases.drushrc.php.
-  # The default drush alias to be used when no environment is specified.
-  default_alias: ${site.aliases.local}
+  aliases:
+    # The remote environment from which the database will be pulled.
+    remote: ${project.machine_name}.test
+    # The local environment against which all local drush commands are run.
+    local: self
+    # The drush alias against which all ci commands are run.
+    ci: self
+    # The default drush alias to be used when no environment is specified.
+  default_alias: ${drush.aliases.local}
 
 # Custom tasks that are triggered at pre-defined times in the build process.
 # The tasks hook into BLT's existing Phing targets. Available hooks keys are:

@@ -1,9 +1,13 @@
 # @file default.yml
 # Site definition file for the default site.
-aliases:
-  local: self
-  remote: default.dev
-  ci: self
+#
+# Uncomment the aliases key below to override the values set in
+# project.yml for this multisite:
+# drush:
+#   aliases:
+#     local: self
+#     remote: default.dev
+#     ci: self
 uri:
   local: default.local
   ci: 127.0.0.1:8888

@@ -64,6 +64,10 @@
     </then>
   </if>
   <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false"/>
+  <!-- Set site aliases if not already set by ${site.name}.yml. -->
+  <property name="site.drush.aliases.local" value="${drush.aliases.local}" override="false"/>
+  <property name="site.drush.aliases.remote" value="${drush.aliases.remote}" override="false"/>
+  <property name="site.drush.aliases.ci" value="${drush.aliases.ci}" override="false"/>
   <echo level="verbose">Executing commands against multisite "${site.name}"</echo>
 
   <!-- If no environment is set, assume we're working locally. -->
