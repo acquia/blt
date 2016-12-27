@@ -8,7 +8,7 @@ This document outlines the workflow to build a complete Drupal docroot (plus sup
 
 The most important thing to remember about this workflow is that the Github and Acquia Cloud repos are _not_ clones of one another. Github only stores the source code, and Acquia Cloud only stores the production code (i.e. the build artifacts).
 
-Currently, this workflow can either be followed manually, or integrated into a CI solution such as Jenkins or Travis. Eventually, Build Steps will enable it to run directly on Acquia Cloud, obviating the need to maintain separate repositories for source code (Github) and production code (Acquia Cloud).
+Currently, this workflow can either be followed manually, or integrated into a CI solution such as Acquia Pipelines, Jenkins or Travis. Eventually, Build Steps will enable it to run directly on Acquia Cloud, obviating the need to maintain separate repositories for source code (Github) and production code (Acquia Cloud).
 
 ## First time setup
 
