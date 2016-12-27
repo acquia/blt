@@ -32,12 +32,20 @@ If you'd like to create a VM with BLT, you will require the following additional
         brew install ansible
         brew cask install virtualbox vagrant
 
-The minimum required versions are VirtualBox 5.1.x and Vagrant 1.8.6. The local PHP environment should also have a memory limit of at least 2G for BLT to initialise.
+The minimum required versions are VirtualBox 5.1.x and Vagrant 1.8.6. 
+
+The local PHP environment should also have a memory limit of at least 2G for BLT to initialize. You can modify your PHP CLI's memory limit by editing php.ini. You can use the following command to open the correct php.ini in TextEdit. Set `memory_limit = 2G`.
+
+        open -a TextEdit $(php -i | grep "Loaded Configuration File" | cut -d" " -f 5)
 
 If you'd like to execute Behat tests from the host machine, you will need Java:
 
         brew cask install java
         brew install chromedriver
+
+BLT ships with the [Cog Base Theme](https://github.com/acquia-pso/cog) by default. Cog uses [npm](https://www.npmjs.com/) to install front end tools. If you intend to use Cog, you should also install the following tools:
+
+        brew install npm nvm
 
 ### Windows
 
@@ -72,5 +80,6 @@ If you are using a Linux machine, it is assumed that you will not be using Drupa
 Choose your own adventure:
 
 * [Creating a new project with BLT](readme/creating-new-project.md)
+* [Cloning an existing BLT project](readme/onboarding.md)
 * [Adding BLT to an existing project](readme/adding-to-project.md)
 * [Upgrading BLT](readme/updating-blt.md)
