@@ -203,14 +203,11 @@
       <available filepath="${blt.config-dirs.sites}" file="${site.name}.yml" />
       <then>
         <phingcall target="setup:drupal:install">
-          <property name="environment" value="local"/>
           <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false" />
         </phingcall>
       </then>
       <else>
-        <phingcall target="setup:drupal:install">
-          <property name="environment" value="local"/>
-        </phingcall>
+        <phingcall target="setup:drupal:install" />
       </else>
     </if>
   </target>
@@ -228,8 +225,8 @@
       </then>
     </if>
 
-    <echo>Installing Drupal on ${site.name}...</echo>
-    <drush command="site-install" alias="${site.drush.aliases.local}">
+    <echo>Installing Drupal on ${site.name} on the ${environment} environment...</echo>
+    <drush command="site-install" alias="${site.drush.aliases.${environment}}">
       <option name="site-name">"${project.human_name}"</option>
       <option name="site-mail">"${drupal.account.mail}"</option>
       <option name="account-name">"${drupal.account.name}"</option>
