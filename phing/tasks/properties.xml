@@ -80,6 +80,7 @@
 
   <!-- Set set uris if not already set by ${site.name}.yml. -->
   <property name="site.uri.local" value="${project.local.uri}" override="false"/>
+  <property name="site.uri.ci" value="${project.ci.uri}" override="false"/>
 
   <echo level="verbose">Executing commands against multisite "${site.name}"</echo>
 
