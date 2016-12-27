@@ -21,7 +21,7 @@ git:
     - bolt8@svn-5223.devcloud.hosting.acquia.com:bolt8.git
 
 # Default drush aliases. If necessary, you can override these
-# for each of your multisites. See blt/sites/example.yml.
+# for each of your multisites. See phing/example.multisite.yml.
 drush:
   # You can set custom project aliases in drush/site-aliases/aliases.drushrc.php.
   aliases:
