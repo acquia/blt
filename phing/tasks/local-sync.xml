@@ -24,12 +24,22 @@
     <foreach list="${multisite.names}" param="site.name" target="local:sync:site"/>
   </target>
 
+  <!-- Wrapper around local:sync. -->
   <target name="local:sync:site" description="Synchronize a local environment from remote (remote --> local).">
-    <fail unless="site.name" message="site.name MUST be defined."/>
-    <phingcall target="local:sync">
-      <property name="environment" value="local"/>
-      <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false"/>
-    </phingcall>
+    <if>
+      <available filepath="${blt.config-dirs.sites}" file="${site.name}.yml" />
+      <then>
+        <phingcall target="local:sync">
+          <property name="environment" value="local"/>
+          <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false" />
+        </phingcall>
+      </then>
+      <else>
+        <phingcall target="local:sync">
+          <property name="environment" value="local"/>
+        </phingcall>
+      </else>
+    </if>
   </target>
 
   <target name="local:sync" description="Does the work of synchronizing local environment from remote (remote --> local)."

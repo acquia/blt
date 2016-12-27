@@ -71,10 +71,17 @@
 
   <!-- Wrapper around setup:drupal:settings. -->
   <target name="setup:drupal:settings:site" description="Creates local settings files using default settings files for an individual site.">
-    <fail unless="site.name" message="site.name MUST be defined."/>
-    <phingcall target="setup:drupal:settings">
-      <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false"/>
-    </phingcall>
+    <if>
+      <available filepath="${blt.config-dirs.sites}" file="${site.name}.yml" />
+      <then>
+        <phingcall target="setup:drupal:settings">
+          <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false" />
+        </phingcall>
+      </then>
+      <else>
+        <phingcall target="setup:drupal:settings" />
+      </else>
+    </if>
   </target>
 
   <target name="setup:drupal:settings" description="Does the work of creating local settings files using default settings files for an individual site."
@@ -142,10 +149,19 @@
 
   <!-- Wrapper around setup:drush:settings. -->
   <target name="setup:drush:settings:site" description="Creates local drush settings files for an individual site.">
-    <fail unless="site.name" message="site.name MUST be defined."/>
-    <phingcall target="setup:drush:settings">
-      <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false"/>
-    </phingcall>
+    <if>
+      <available filepath="${blt.config-dirs.sites}" file="${site.name}.yml" />
+      <then>
+        <phingcall target="setup:drush:settings">
+          <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false" />
+        </phingcall>
+      </then>
+      <else>
+        <phingcall target="setup:drush:settings">
+          <property name="environment" value="local"/>
+        </phingcall>
+      </else>
+    </if>
   </target>
 
   <target name="setup:drush:settings" description="Does the work of creating local drush settings files for an individual site."
@@ -183,11 +199,20 @@
 
   <!-- Wrapper around setup:drupal:install. -->
   <target name="setup:drupal:install:site" description="Installs Drupal on a specific local site.">
-    <fail unless="site.name" message="site.name MUST be defined."/>
-    <phingcall target="setup:drupal:install">
-      <property name="environment" value="local"/>
-      <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false"/>
-    </phingcall>
+    <if>
+      <available filepath="${blt.config-dirs.sites}" file="${site.name}.yml" />
+      <then>
+        <phingcall target="setup:drupal:install">
+          <property name="environment" value="local"/>
+          <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false" />
+        </phingcall>
+      </then>
+      <else>
+        <phingcall target="setup:drupal:install">
+          <property name="environment" value="local"/>
+        </phingcall>
+      </else>
+    </if>
   </target>
 
   <!-- Install Drupal on a specific site. -->
@@ -195,8 +220,6 @@
           description="Does the work of installing a specific Drupal site."
           depends="setup:drupal:settings:site, setup:drush:settings:site, setup:hash-salt"
           hidden="true">
-    <fail unless="site.name" message="site.name MUST be defined."/>
-    <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false"/>
     <if>
       <istrue value="${drush.verbose}"/>
       <then>
@@ -237,10 +260,17 @@
 
   <!-- Wrapper around setup:config-import. -->
   <target name="setup:config-import:site" description="Import configuration from a site's config directory.">
-    <fail unless="site.name" message="site.name MUST be defined."/>
-    <phingcall target="setup:config-import">
-      <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false"/>
-    </phingcall>
+    <if>
+      <available filepath="${blt.config-dirs.sites}" file="${site.name}.yml" />
+      <then>
+        <phingcall target="setup:config-import">
+          <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false" />
+        </phingcall>
+      </then>
+      <else>
+        <phingcall target="setup:config-import" />
+      </else>
+    </if>
   </target>
 
   <target name="setup:config-import" description="Does the work of importing configuration from a site's config directory." hidden="true">
@@ -332,12 +362,19 @@
     <foreach list="${multisite.names}" param="site.name" target="setup:update:features-import:site"/>
   </target>
 
-  <!-- Wrapper around setup:upate:features-import. -->
+  <!-- Wrapper around setup:update:features-import. -->
   <target name="setup:update:features-import:site" description="Features import for a site on the specified bundle.">
-    <fail unless="site.name" message="site.name MUST be defined."/>
-    <phingcall target="setup:update:features-import">
-      <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false"/>
-    </phingcall>
+    <if>
+      <available filepath="${blt.config-dirs.sites}" file="${site.name}.yml" />
+      <then>
+        <phingcall target="setup:update:features-import">
+          <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false" />
+        </phingcall>
+      </then>
+      <else>
+        <phingcall target="setup:update:features-import" />
+      </else>
+    </if>
   </target>
 
   <target name="setup:update:features-import" description="Does the work of a features import for a site on the specified bundle."
@@ -361,10 +398,17 @@
 
   <!-- Wrapper around setup:toggle-modules. -->
   <target name="setup:toggle-modules:site" description="Enables and uninstalls specified modules.">
-    <fail unless="site.name" message="site.name MUST be defined."/>
-    <phingcall target="setup:toggle-modules">
-      <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false"/>
-    </phingcall>
+    <if>
+      <available filepath="${blt.config-dirs.sites}" file="${site.name}.yml" />
+      <then>
+        <phingcall target="setup:toggle-modules">
+          <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false" />
+        </phingcall>
+      </then>
+      <else>
+        <phingcall target="setup:toggle-modules" />
+      </else>
+    </if>
   </target>
 
   <target name="setup:toggle-modules" description="Does the work of enabling and uninstalling specified modules."

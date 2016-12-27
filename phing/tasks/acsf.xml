@@ -7,7 +7,7 @@
     <echo>In future, you may use pass a custom value for acsf.package to override default version. E.g., blt acsf:init -Dacsf.package='drupal/acsf:8.1.x-dev'</echo>
     <exec dir="${repo.root}" command="composer require ${acsf.package}" logoutput="true" checkreturn="true" passthru="true" level="${blt.exec_level}"/>
     <!-- Run the acsf init commands. -->
-    <phingcall target="acsf:init:all"/>
+    <phingcall target="acsf:init:all" />
   </target>
 
   <!-- Perform acsf:init:site for each multisite. -->
@@ -17,10 +17,17 @@
 
   <!-- Wrapper around acsf:init:site:drush. -->
   <target name="acsf:init:site" description="Refreshes the acsf settings and hook files for an acsf site.">
-    <fail unless="site.name" message="site.name MUST be defined."/>
-    <phingcall target="acsf:init:site:drush">
-      <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false"/>
-    </phingcall>
+    <if>
+      <available filepath="${blt.config-dirs.sites}" file="${site.name}.yml" />
+      <then>
+        <phingcall target="acsf:init:site:drush">
+          <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false" />
+        </phingcall>
+      </then>
+      <else>
+        <phingcall target="acsf:init:site:drush" />
+      </else>
+    </if>
   </target>
 
   <!-- Run the acsf init commands to sync library files. -->
