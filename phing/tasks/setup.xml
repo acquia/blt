@@ -236,9 +236,11 @@
           <param>features</param>
         </drush>
         <!-- Clear drush caches to register features drush commands. -->
-        <drush command="cr" alias="${drush.alias}">
+        <drush command="cc" alias="${drush.alias}">
           <param>drush</param>
         </drush>
+        <!-- Rebuild caches. -->
+        <drush command="cr" alias="${drush.alias}"/>
         <!-- Revert all features. -->
         <foreach list="${cm.features.bundle}" param="bundle" target="setup:update:features-import" />
       </then>
