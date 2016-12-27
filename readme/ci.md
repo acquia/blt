@@ -52,11 +52,17 @@ To initialize Pipelines support for your BLT project:
         git commit -m 'Initializing Pipelines integration.'
         git push origin
 
-1. Initialize GitHub integration for your project. First, get the application id for the Acquia Cloud repo you want to integration with Github by running the list-applications command. Then run init-github. See `pipelines init-github --help` or review [help documentation](https://docs.acquia.com/pipelines/github) for instructions. Optionally set your Github repository as the default repository for your cloud subscription(with application id). E.g.,
+1. Get the application id of your Acquia Cloud repository. This will be used in subsequent steps.
 
         pipelines list-applications
-        pipelines init-github --application-id=[Application-id] [Github_Username/Github_Repo/] [Github_personal_access_token]
-        pipelines set-application-id --application-id=[Application-id]
+
+1. Initialize GitHub integration for your project. See `pipelines init-github --help` or review [help documentation](https://docs.acquia.com/pipelines/github) for further instructions.
+
+        pipelines init-github --application-id=[application-id] [github_username/github_repo/] [github_personal_access_token]
+
+1. Optionally, set the default application id for your local repository. This ensures that your local repo is always associated with the correct Acquia Cloud application.
+
+        pipelines set-application-id --application-id=[application-id]
 
 1. Submit a pull request to your GitHub repository.
 
