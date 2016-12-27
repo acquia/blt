@@ -225,7 +225,7 @@
       </then>
     </if>
 
-    <echo>Installing Drupal on ${site.name} on the ${environment} environment...</echo>
+    <echo>Installing Drupal on ${site.name} in the ${environment} environment...</echo>
     <drush command="site-install" alias="${site.drush.aliases.${environment}}">
       <option name="site-name">"${project.human_name}"</option>
       <option name="site-mail">"${drupal.account.mail}"</option>
