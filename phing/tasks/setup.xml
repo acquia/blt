@@ -210,6 +210,9 @@
       <param>config</param>
     </drush>
 
+    <!-- Make db site uuid match site uuid of exported config. -->
+    <exec dir="${repo.root}" command="cat ./config/default/system.site.yml | grep uuid | tail -c +7 | head -c 36 | ${drush.cmd} config-set -y system.site uuid -" logoutput="true" checkreturn="true" level="info"/>
+
     <!-- Rebuild caches in case service definitions have changed. -->
     <!-- @see https://www.drupal.org/node/2826466 -->
     <drush command="cr" alias="${drush.alias}"/>
