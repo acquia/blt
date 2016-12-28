@@ -167,13 +167,29 @@
 
   <target name="tests:phantomjs:launch"
           description="Launches a GhostDriver."
+          depends="tests:phantomjs:configure"
           hidden="true">
 
+    <echo message="Launching PhantomJS GhostDriver." />
+    <phingcall target="tests:phantomjs:kill"/>
+    <exec command="${composer.bin}/phantomjs --webdriver=4444"
+          passthru="true"
+          spawn="true"
+          checkreturn="true"
+          level="${blt.exec_level}"/>
+    <echo message="Waiting 10 seconds for PhantomJS (http://127.0.0.1:4444) to become available."/>
+    <waitfor maxwait="10" maxwaitunit="second" checkevery="1" checkeveryunit="second">
+      <http url="http://127.0.0.1:4444/wd/hub"/>
+    </waitfor>
+
+  </target>
+
+  <target name="tests:phantomjs:configure" description="Checks and corrects PhantomJS configuration">
     <exec dir="${repo.root}" command="grep 'jakoch/phantomjs-installer' composer.json" logoutput="false" level="${blt.exec_level}" passthru="false" returnProperty="phantom.required"/>
     <if>
       <isfailure code="${phantom.required}"/>
       <then>
-        <echo level="Warning">behat.launch-phantomjs is true, but jakoch/phantomjs-installer is not required in composer.json.</echo>
+        <echo level="Warning">jakoch/phantomjs-installer is not required in composer.json.</echo>
         <propertyprompt promptText="Do you want to require jakoch/phantomjs-installer via Composer?" propertyName="phantom.do-require" defaultValue="y"/>
         <if>
           <equals arg1="${phantom.do-require}" arg2="y" casesensitive="false"/>
@@ -209,19 +225,6 @@
         <exec dir="${repo.root}" command="composer install-phantom" checkreturn="true" logoutput="true" passthru="true" level="${blt.exec_level}"/>
       </then>
     </if>
-
-    <echo message="Launching PhantomJS GhostDriver." />
-    <phingcall target="tests:phantomjs:kill"/>
-    <exec command="${composer.bin}/phantomjs --webdriver=4444"
-          passthru="true"
-          spawn="true"
-          checkreturn="true"
-          level="${blt.exec_level}"/>
-    <echo message="Waiting 10 seconds for PhantomJS (http://127.0.0.1:4444) to become available."/>
-    <waitfor maxwait="10" maxwaitunit="second" checkevery="1" checkeveryunit="second">
-      <http url="http://127.0.0.1:4444/wd/hub"/>
-    </waitfor>
-
   </target>
 
   <target name="tests:phantomjs:kill"
