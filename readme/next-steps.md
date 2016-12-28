@@ -17,6 +17,12 @@ Here are tasks that are typically performed at this stage:
         git remote add origin [something]
         git push origin
 
+* Ensure that you have entered a value for `git.remotes` in `blt/project.yml`. E.g.,
+
+        git:
+          remotes:
+            - bolt8@svn-5223.devcloud.hosting.acquia.com:bolt8.git
+
 * Create and deploy an artifact. See [Deployment workflow](deploy.md).
 
         blt deploy
