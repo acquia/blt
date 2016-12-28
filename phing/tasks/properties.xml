@@ -78,7 +78,7 @@
   <property name="site.drush.aliases.remote" value="${drush.aliases.remote}" override="false"/>
   <property name="site.drush.aliases.ci" value="${drush.aliases.ci}" override="false"/>
 
-  <!-- Set set uris if not already set by ${site.name}.yml. -->
+  <!-- Set site uris if not already set by ${site.name}.yml. -->
   <property name="site.uri.local" value="${project.local.uri}" override="false"/>
   <property name="site.uri.ci" value="${project.ci.uri}" override="false"/>
 
