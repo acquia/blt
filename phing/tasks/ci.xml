@@ -20,6 +20,8 @@
 
   <target name="ci:pipelines:init" description="Initializes default Acquia Pipelines configuration for this project.">
     <copy file="${blt.root}/scripts/pipelines/acquia-pipelines.yml" tofile="${repo.root}/acquia-pipelines.yml"/>
+    <echo>Acquia Pipelines requires PhantomJS in order to run Javascript Behat tests.</echo>
+    <phingcall target="tests:phantomjs:configure"/>
   </target>
 
   <target name="ci:travis:init" description="Initializes default Travis CI configuration for this project.">
