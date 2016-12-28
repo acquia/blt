@@ -21,6 +21,7 @@ In order to use these testing instructions:
 This test verifies that a new project can be created using `acquia/blt-project` via composer. This also tests the `blt update` process.
 
     export COMPOSER_PROCESS_TIMEOUT=2000
+    rm -rf blted8
     composer create-project acquia/blt-project blted8 --no-interaction
     cd blted8
     # Overwrite MySQL creds for your local machine, if necessary.
