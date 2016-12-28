@@ -57,7 +57,6 @@
   </target>
 
   <target name="local:update" description="Update current database to reflect the state of the Drupal file system; uses local drush alias.">
-    <fail unless="site.name" message="site.name MUST be defined."/>
     <phingcall target="setup:update">
       <property name="environment" value="local"/>
     </phingcall>
