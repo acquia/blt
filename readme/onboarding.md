@@ -14,6 +14,10 @@ Please ask the project's engagement manager for access to the following SaaS ser
 
 Verify that your system meets [System requirements](../INSTALL.md)
 
+## Technology Knolwedge Requirements / Recommendations
+
+Verify that you have the necessary [skillset(s)](skills.md) to interact with BLT.
+
 ### Networking considerations
 
 Building project dependencies requires that your local machine make HTTP and HTTPS requests to various software providers on the internet. Please ensure that your local and network level security settings permit this to happen.
