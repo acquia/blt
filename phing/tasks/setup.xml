@@ -181,6 +181,8 @@
       <option name="account-name">"${drupal.account.name}"</option>
       <option name="account-pass">"${drupal.account.password}"</option>
       <option name="account-mail">"${drupal.account.mail}"</option>
+      <!-- Using ${cm.core.config-dir} does not seem to work here. Drush issue? -->
+      <option name="config-dir">${repo.root}/config/default</option>
       <param>"${project.profile.name}"</param>
       <param>"install_configure_form.update_status_module='array(FALSE,FALSE)'"</param>
     </drush>
@@ -209,9 +211,6 @@
     <drush command="pm-enable" assume="yes" alias="${drush.alias}">
       <param>config</param>
     </drush>
-
-    <!-- Make db site uuid match site uuid of exported config. -->
-    <exec dir="${repo.root}" command="cat ./config/default/system.site.yml | grep uuid | tail -c +7 | head -c 36 | ${drush.cmd} config-set -y system.site uuid -" logoutput="true" checkreturn="true" level="info"/>
 
     <!-- Rebuild caches in case service definitions have changed. -->
     <!-- @see https://www.drupal.org/node/2826466 -->

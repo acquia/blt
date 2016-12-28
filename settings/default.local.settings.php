@@ -27,6 +27,7 @@ $databases = array(
 
 // Configuration directories.
 $dir = dirname(DRUPAL_ROOT);
+// $site_dir is set in blt.settings.php and defaults to "default".
 $config_directories['sync'] = $dir . "/config/$site_dir";
 
 // Use development service parameters.
