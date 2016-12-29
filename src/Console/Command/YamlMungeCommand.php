@@ -60,7 +60,7 @@ class YamlMungeCommand extends BaseCommand {
     $file1_contents = (array) $this->parseFile($file1);
     $file2_contents = (array) $this->parseFile($file2);
 
-    $munged_contents = $this->arrayMergeRecursiveExceptLeaves($file1_contents, $file2_contents);
+    $munged_contents = $this->arrayMergeRecursiveExceptEmpty($file1_contents, $file2_contents);
 
     return Yaml::dump($munged_contents, 3, 2);
   }
@@ -88,7 +88,10 @@ class YamlMungeCommand extends BaseCommand {
   }
 
   /**
-   * Recursively merges arrays EXCEPT for leaves. Preserves data types.
+   * Recursively merges arrays UNLESS second array is empty.
+   *
+   * Preserves data types. If value in second array is empty, it will REPLACE
+   * the corresponding key in the first array, rather than being merged.
    *
    * @param array $array1
    *   The first array.
@@ -97,12 +100,12 @@ class YamlMungeCommand extends BaseCommand {
    *
    * @return array
    */
-  protected function arrayMergeRecursiveExceptLeaves(array &$array1, array &$array2) {
+  protected function arrayMergeRecursiveExceptEmpty(array &$array1, array &$array2) {
     $merged = $array1;
 
     foreach ($array2 as $key => &$value) {
       if (is_array($value) && isset($merged[$key]) && is_array($merged[$key]) && !empty($value)) {
-        $merged[$key] = $this->arrayMergeRecursiveExceptLeaves($merged[$key], $value);
+        $merged[$key] = $this->arrayMergeRecursiveExceptEmpty($merged[$key], $value);
       }
       else {
         $merged[$key] = $value;
