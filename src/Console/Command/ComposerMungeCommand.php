@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ComposerMungeCommand extends BaseCommand {
 
   /**
-   *
+   * ${inheritdoc}
    */
   protected function configure() {
     $this
@@ -31,7 +31,7 @@ class ComposerMungeCommand extends BaseCommand {
   }
 
   /**
-   *
+   * ${inheritdoc}
    */
   protected function execute(InputInterface $input, OutputInterface $output) {
     $file1 = $input->getArgument('file1');
@@ -44,8 +44,15 @@ class ComposerMungeCommand extends BaseCommand {
   protected $repoRoot = '';
 
   /**
-   * @param $file1
-   * @param $file2
+   * Selectively merges parts of two composer.json files.
+   *
+   * @param string $file1
+   *   The file path to the first composer.json file.
+   * @param string $file2
+   *   The file path to the second composer.json file.
+   *
+   * @return string
+   *   The new, merged composer.json contents.
    */
   protected function munge($file1, $file2) {
     $default_contents = [
@@ -137,8 +144,13 @@ class ComposerMungeCommand extends BaseCommand {
   /**
    * Merges the repositories array, which is unkeyed.
    *
-   * @param $file1_contents
-   * @param $file2_contents
+   * @param array $file1_repos
+   *   The repositories array from the first composer.json file.
+   * @param array $file2_repos
+   *   The repositories array from the first composer.json file.
+   *
+   * @return array
+   *   The merged repositories array.
    */
   protected function mergeRepositories($file1_repos, $file2_repos) {
     $repos = array_merge($file1_repos, $file2_repos);
