@@ -45,16 +45,9 @@
   </target>
 
   <target name="update" depends="blt:rsync-template, blt:update-composer, blt:update-yml, blt:update-delta, cleanup" hidden="true">
-
     <phingcall target="install-alias">
       <property name="create_alias" value="true"/>
     </phingcall>
-
-    <echo>Some of your customized files may have been modified.
-            Please review changes with "git diff".
-            Commit changes, or use "git add -p [filename]" to select which changes should be committed to each file.
-
-            To remove deprecated BLT files, run "blt cleanup".</echo>
   </target>
 
   <target name="blt:update-delta" description="Performs scripted updates for a specific BLT version delta." hidden="true">
