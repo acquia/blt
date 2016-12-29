@@ -164,3 +164,51 @@ Automated testing of live content is easy to set up with two simple steps:
          <!-- Override the core ci:build:validate:test target to include a local refresh-->
          <target name="ci:build:validate:test" description="Builds, validates, tests, and deploys an artifact."
            depends="validate:all, ci:setup, local:sync, local:update, tests:all" />
+
+#### Nightly Builds
+By default, BLT executes the same automated tests all the time.  BLT now supports nightly builds, PR builds, and deploy builds so that you don't have to run all your tests all the time.  
+
+You can customize which behat tests are executed during each build type by customizing the behat tags under `tags-by-build-type` in your `blt/project.yml`
+````
+behat:
+  tags-by-build-type:
+    pr: 'smoke&&~ajax&&~experimental&&~lightningextension'
+    deploy: 'smoke&&~ajax&&~experimental&&~lightningextension'
+    nightly: '~ajax&&~experimental&&~lightningextension'
+````
+
+As a standard convention we strongly recommend using a tag called `smoke` to denote tests that are supposed to be executed at all times.  This tag can then be used in your behat features.
+ 
+In order to execute the nightly builds you will need to enable a nightly cron job over at travis. ([see here](https://docs.travis-ci.com/user/cron-jobs/)).  
+
+#### Implementing Nightly Builds for other CI
+Nightly/PR/Deploy builds are currently only implemented for TravisCI.  However, implementing them elsewhere is really simple.  We have added a line to travis.yml 
+````  
+   - source ./vendor/acquia/blt/scripts/travis/build-type-check.sh
+````
+
+which executes a small bash script to tell BLT what kind of build is executing (see scripts/travis/build-type-check.sh) :
+```
+#!/usr/bin/env bash
+
+if [ "$TRAVIS_EVENT_TYPE" = "cron" ]; then
+    export BLT_BUILD_TYPE="nightly"
+
+elif [ "$TRAVIS_EVENT_TYPE" = "pull_request" ]; then
+    export BLT_BUILD_TYPE="pr"
+
+elif [ -n "$TRAVIS" ]; then
+    export BLT_BUILD_TYPE="deploy"
+
+else
+    # If you see local printed in travis-ci you have a problem.
+    export BLT_BUILD_TYPE="local"
+fi
+
+echo "Setting BLT_BUILD_TYPE to:" $BLT_BUILD_TYPE
+
+```
+
+The script sets an environment variable `BLT_BUILD_TYPE`.  BLT then reads `BLT_BUILD_TYPE` and chooses the behat tags corresponding to the build type.
+
+To implement this on your CI you will need to create a similar script and have your CI execute before BLT is invoked.  
