@@ -16,9 +16,9 @@
     "require": {
         "composer/installers":              "^1.2.0",
         "composer-plugin-api":              "^1.0.0",
-        "dflydev/dot-access-data":          "^1.0",
+        "dflydev/dot-access-data":          "dev-master",
         "drupal/coder":                     "^8.2.8",
-        "drupal/console":                   "1.0.0-beta5",
+        "drupal/console":                   "dev-master#e53c805fb8fe90b3c7317c3b14d86c563ed13a94",
         "phing/phing":                      "^2.15.0",
         "php":                              ">=5.6",
         "phpunit/phpunit":                  "^5.5.4",
@@ -49,6 +49,6 @@
     "suggest": {
         "hirak/prestissimo": "^0.3"
     },
-    "minimum-stability": "beta",
+    "minimum-stability": "dev",
     "prefer-stable": true
 }
