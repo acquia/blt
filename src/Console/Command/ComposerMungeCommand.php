@@ -122,6 +122,7 @@ class ComposerMungeCommand extends BaseCommand {
         elseif (is_array($excludes_value)) {
           foreach ($excludes_value as $exclude_package) {
             unset($file2_contents[$key][$exclude_package]);
+            unset($file2_contents['extra']['patches'][$exclude_package]);
           }
         }
       }
