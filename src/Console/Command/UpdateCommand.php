@@ -3,19 +3,21 @@
 namespace Acquia\Blt\Console\Command;
 
 use Acquia\Blt\Update\Updater;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\Yaml\Yaml;
-use Symfony\Component\Yaml\Exception\ParseException;
 
-class UpdateCommand extends Command
-{
-  protected function configure()
-  {
+/**
+ *
+ */
+class UpdateCommand extends BaseCommand {
+
+  /**
+   *
+   */
+  protected function configure() {
     $this
       ->setName('blt:update')
       ->setDescription('Performs BLT updates for specific version delta.')
@@ -39,12 +41,13 @@ class UpdateCommand extends Command
         'y',
         InputOption::VALUE_NONE,
         'Answers yes to all question prompts'
-      )
-    ;
+      );
   }
 
-  protected function execute(InputInterface $input, OutputInterface $output)
-  {
+  /**
+   *
+   */
+  protected function execute(InputInterface $input, OutputInterface $output) {
     $starting_version = $input->getArgument('starting_version');
     $ending_version = $input->getArgument('ending_version');
     $repo_root = $input->getArgument('repo_root');
@@ -58,7 +61,7 @@ class UpdateCommand extends Command
       if (!$input->getOption('yes')) {
         $question = new ConfirmationQuestion(
           '<question>Would you like to perform the listed updates?</question> ',
-          false
+          FALSE
         );
 
         $continue = $this->getHelper('question')->ask($input, $output, $question);
@@ -73,4 +76,5 @@ class UpdateCommand extends Command
       $output->writeln("<comment>There are no scripted updates available between BLT versions $starting_version and $ending_version.</comment>");
     }
   }
+
 }
