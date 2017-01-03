@@ -192,7 +192,6 @@
     <if>
       <isset property="deploy.tag"/>
       <then>
-        <exec command="echo ${deploy.remote} | openssl md5 | cut -d' ' -f 2" outputProperty="remoteName"/>
         <exec command="git push ${remoteName} ${deploy.tag}-build" dir="${deploy.dir}" outputProperty="deploy.push.output" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
         <exec command="export DEPLOY_UPTODATE=$(echo '${deploy.push.output}' | grep --quiet 'Everything up-to-date')" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
       </then>
