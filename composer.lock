@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b13441bc792e152bd0626b813d3a55fa",
+    "content-hash": "3c8f8b7c5c18360c8493a308f132af28",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -1223,16 +1223,16 @@
         },
         {
             "name": "grasmash/yaml-cli",
-            "version": "0.1",
+            "version": "0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/grasmash/yaml-cli.git",
-                "reference": "77fc4e72867fc5983bf1edbdbc09a04189540743"
+                "reference": "77b31a9acd9ac1718f6b07a6e6fea52ff2bb4166"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/grasmash/yaml-cli/zipball/77fc4e72867fc5983bf1edbdbc09a04189540743",
-                "reference": "77fc4e72867fc5983bf1edbdbc09a04189540743",
+                "url": "https://api.github.com/repos/grasmash/yaml-cli/zipball/77b31a9acd9ac1718f6b07a6e6fea52ff2bb4166",
+                "reference": "77b31a9acd9ac1718f6b07a6e6fea52ff2bb4166",
                 "shasum": ""
             },
             "require": {
@@ -1266,7 +1266,7 @@
                 }
             ],
             "description": "A command line tool for reading and manipulating yaml files.",
-            "time": "2017-01-03T18:41:15+00:00"
+            "time": "2017-01-03T19:00:00+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
