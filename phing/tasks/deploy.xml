@@ -18,10 +18,27 @@
                     promptText="Enter a deploy branch (defaults to [current branch]-build)"
                     promptCharacter=":"
                     defaultValue="${branch.current}-build"/>
-    <propertyprompt propertyName="deploy.tag" useExistingValue="true"
-                    promptText="Enter the name of the tag to create"
-                    promptCharacter=":"
-                    defaultValue=""/>
+
+    <if>
+      <isset property="deploy.tag"/>
+      <then>
+        <property name="deploy.tag.create" value="y" />
+      </then>
+    </if>
+
+    <propertyprompt promptText="Would you like to create a tag? [y/n]"
+                    useExistingValue="true"
+                    propertyName="deploy.tag.create"
+                    defaultValue="n"/>
+    <if>
+      <equals arg1="${deploy.tag.create}" arg2="y" casesensitive="false"/>
+      <then>
+        <propertyprompt propertyName="deploy.tag" useExistingValue="true"
+                        promptText="Enter the name of the tag to create"
+                        promptCharacter=":"
+                        defaultValue=""/>
+      </then>
+    </if>
 
     <!-- Check necessary runtime parameters. -->
     <if>
