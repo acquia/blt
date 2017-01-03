@@ -87,6 +87,13 @@
     </if>
 
     <if>
+      <isset property="env.BLT_BUILD_TYPE" />
+      <then>
+        <property name="behat.tags" override="true" value="${behat.tags-by-build-type.${env.BLT_BUILD_TYPE}}" />
+      </then>
+    </if>
+
+    <if>
       <istrue value="${behat.tests.found}"/>
       <then>
         <!-- Run behat. Any settings in behat.yml or local.yml will be used. -->

@@ -17,6 +17,10 @@ behat:
     - ${docroot}/profiles
     - ${repo.root}/tests/behat
   tags: '~ajax&&~experimental&&~lightningextension'
+  tags-by-build-type:
+    pr: '~ajax&&~experimental&&~lightningextension'
+    deploy: '~ajax&&~experimental&&~lightningextension'
+    nightly: '~ajax&&~experimental&&~lightningextension'
   verbose: ${blt.verbose}
 
 blt:
