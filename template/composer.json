@@ -16,6 +16,7 @@
         "drupal/core": "^8.0",
         "drupal/features": "^3.0.0",
         "drupal/memcache": "2.x-dev",
+        "drupal/metatag": "1.0.0-beta11",
         "drupal/seckit": "^1.0.0-alpha2",
         "drupal/security_review": "*",
         "drupal/shield": "^1.0.0",
@@ -54,6 +55,9 @@
         "patches": {
             "acquia/lightning": {
                 "New LightningExtension subcontexts do not autoload": "https://www.drupal.org/files/issues/2836258-3-lightning-extension-autoload.patch"
+            },
+            "drupal/metatag": {
+                "Update drupal console rc13 namespace changes.": "https://www.drupal.org/files/issues/update_drupal_console-2840222-2.patch"
             }
         },
         "installer-paths": {
