@@ -6,7 +6,7 @@
 # 15 characters.
 
 ROOT_DIR="$(pwd)"
-COMMAND="$ROOT_DIR/vendor/bin/drupal yaml:get:value $ROOT_DIR/blt/project.yml project.prefix"
+COMMAND="$ROOT_DIR/vendor/bin/yaml-cli get:value $ROOT_DIR/blt/project.yml project.prefix"
 ERROR=$($COMMAND 2>&1 > /dev/null)
 PREFIX=$($COMMAND)
 RED='\033[0;31m'
@@ -18,7 +18,6 @@ NO_COLOR='\033[0m'
 if [ -n "$ERROR" ]; then
   printf "${RED}Error: could not get project prefix!${NO_COLOR} Please check:\n"
   echo "* Project prefix is set properly in project.yml."
-  echo "* Drupal console is configured properly, to configure run \"drupal init\"."
   exit 1;
 fi
 
