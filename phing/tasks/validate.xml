@@ -34,7 +34,7 @@
 
   <!-- Run linter against all yaml files in repository. -->
   <target name="validate:yaml" description="Runs a PHP Lint against all code.">
-    <yamlLint executable="${composer.bin}/yaml-cli">
+    <yamlLint executable="${composer.bin}/yaml-cli" haltonerror="true">
       <fileset refid="files.yaml.cm"/>
       <fileset refid="files.yaml.custom"/>
     </yamlLint>

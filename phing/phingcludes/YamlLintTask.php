@@ -107,6 +107,7 @@ class YamlLintTask extends Task {
 
       if ($return) {
         // If this is non-zero, there was a failure.
+        $this->log("The file $file does not contain valid YAML.", Project::MSG_ERR);
         // Throw an exception if Behat fails.
         if ($this->haltonerror && $return != 0) {
           throw new BuildException("yaml-cli exited with code $return");
