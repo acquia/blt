@@ -19,6 +19,27 @@
                     promptCharacter=":"
                     defaultValue="${branch.current}-build"/>
 
+    <if>
+      <isset property="deploy.tag"/>
+      <then>
+        <property name="deploy.tag.create" value="y" />
+      </then>
+    </if>
+
+    <propertyprompt promptText="Would you like to create a tag? [y/n]"
+                    useExistingValue="true"
+                    propertyName="deploy.tag.create"
+                    defaultValue="n"/>
+    <if>
+      <equals arg1="${deploy.tag.create}" arg2="y" casesensitive="false"/>
+      <then>
+        <propertyprompt propertyName="deploy.tag" useExistingValue="true"
+                        promptText="Enter the name of the tag to create"
+                        promptCharacter=":"
+                        defaultValue=""/>
+      </then>
+    </if>
+
     <!-- Check necessary runtime parameters. -->
     <if>
       <or>
@@ -47,6 +68,14 @@
     <!--Commit artifact. -->
     <phingcall target="deploy:commit"/>
 
+    <!-- Commit tag if present -->
+    <if>
+      <isset property="deploy.tag"/>
+      <then>
+        <phingcall target="deploy:tag"/>
+      </then>
+    </if>
+
     <!-- Push up changes to remotes if this is not a dry run.-->
     <if>
       <not><isset property="deploy.dryRun"/></not>
@@ -54,6 +83,7 @@
         <phingcall target="deploy:push-all"/>
       </then>
     </if>
+
   </target>
 
   <target name="deploy:remote:add" description="Adds a git remote and checks out deploy branch from upstream." hidden="true">
@@ -157,6 +187,15 @@
     <exec command="echo ${deploy.remote} | openssl md5 | cut -d' ' -f 2" outputProperty="remoteName"/>
     <exec command="git push ${remoteName} ${deploy.branch}" dir="${deploy.dir}" outputProperty="deploy.push.output" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
     <exec command="export DEPLOY_UPTODATE=$(echo '${deploy.push.output}' | grep --quiet 'Everything up-to-date')" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+
+    <!-- Push tag if present -->
+    <if>
+      <isset property="deploy.tag"/>
+      <then>
+        <exec command="git push ${remoteName} ${deploy.tag}-build" dir="${deploy.dir}" outputProperty="deploy.push.output" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
+        <exec command="export DEPLOY_UPTODATE=$(echo '${deploy.push.output}' | grep --quiet 'Everything up-to-date')" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+      </then>
+    </if>
   </target>
 
   <target name="deploy:sanitize" description="Removes sensitive files from the deploy docroot." hidden="true">
@@ -178,5 +217,10 @@
       <!-- ACE internally sets the vcs configuration directory to /config/default, so we use that. -->
       <property name="cm.core.config-dir" value="vcs"/>
     </phingcall>
+  </target>
+
+  <target name="deploy:tag" description="Tag repository.">
+    <!-- Add -build to tag. -->
+    <exec command="git tag -a ${deploy.tag}-build -m '${deploy.commitMsg}'" dir="${deploy.dir}" logoutput="true" level="${blt.exec_level}" passthru="true"/>
   </target>
 </project>
