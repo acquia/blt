@@ -1,13 +1,17 @@
 #!/usr/bin/env bash
 
-if [ "`git rev-parse --show-cdup 2> /dev/null`" != "" ]; then
-  GIT_ROOT=$(git rev-parse --show-cdup)
-else
-  GIT_ROOT="."
-fi
+POSSIBLE_ROOTS=( $(pwd) $(git rev-parse --show-cdup 2> /dev/null) )
 
-if [ -f "$GIT_ROOT/vendor/acquia/blt/blt.sh" ]; then
-  $GIT_ROOT/vendor/acquia/blt/blt.sh "$@"
-else
+FOUND_ROOT=0
+for i in "${POSSIBLE_ROOTS[@]}"
+do
+   if [ -f "$i/vendor/acquia/blt/blt.sh" ]; then
+     $i/vendor/acquia/blt/blt.sh "$@"
+     FOUND_ROOT=1
+     break
+   fi
+done
+
+if [ $FOUND_ROOT == 0 ]; then
   echo "Error: You must run this command from within a BLT-generated project repository!"
 fi
