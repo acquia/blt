@@ -20,6 +20,12 @@
                     defaultValue="${branch.current}-build"/>
 
     <if>
+      <isset property="deploy.branch"/>
+      <then>
+        <property name="deploy.tag.create" value="n" />
+      </then>
+    </if>
+    <if>
       <isset property="deploy.tag"/>
       <then>
         <property name="deploy.tag.create" value="y" />
