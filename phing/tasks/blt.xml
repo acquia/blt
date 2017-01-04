@@ -8,7 +8,8 @@
         <include name="README.md"/>
       </fileset>
     </delete>
-    <exec dir="${repo.root}" command="blt update" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec dir="${repo.root}" command="blt blt:rsync-template" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec dir="${repo.root}" command="blt blt:update-composer" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <echo>Updating composer dependencies, this make take a while...</echo>
     <exec dir="${repo.root}" command="export COMPOSER_PROCESS_TIMEOUT=600; composer update --no-interaction" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <copy file="${repo.root}/docroot/profiles/contrib/lightning/lightning.extend.yml" tofile="${repo.root}/docroot/sites/default/lightning.extend.yml"/>
