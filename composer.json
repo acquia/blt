@@ -29,7 +29,7 @@
         "doctrine/common":                  "^2.5",
         "vierbergenlars/php-semver":        "^3.0",
         "grasmash/drupal-security-warning": "^1.0.0",
-        "grasmash/yaml-cli": "^0.2.2"
+        "grasmash/yaml-cli": "^0.3"
     },
     "autoload": {
         "psr-4": {
