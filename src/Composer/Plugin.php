@@ -128,7 +128,11 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    */
   protected function executeBltUpdate($version) {
     $options = $this->getOptions();
-    if ($options['blt']['update']) {
+
+    if ($this->isInitalInstall()) {
+      $success = $this->executeCommand('blt create-project', [], TRUE);
+    }
+    elseif ($options['blt']['update']) {
       $this->io->write('<info>Updating BLT templated files...</info>');
 
       // Rsyncs, updates composer.json, project.yml, executes scripted updates for version delta.
@@ -145,6 +149,21 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     }
     else {
       $this->io->write('<comment>Skipping update of BLT templated files</comment>');
+    }
+  }
+
+  /**
+   * Determine if BLT is being installed for the first time on this project.
+   *
+   * This would execute in the context of `composer create-proejct`.
+   *
+   * @return bool
+   *   TRUE if this is the initial install of BLT.
+   */
+  protected function isInitalInstall() {
+    if (!file_exists($this->getRepoRoot() . '/blt/project.yml'
+        && !file_exists($this->getRepoRoot() . '/.git'))) {
+      return TRUE;
     }
   }
 
