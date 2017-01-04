@@ -130,7 +130,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     $options = $this->getOptions();
 
     if ($this->isInitalInstall()) {
-      $this->io->write("<info>Created BLT templated files...</info>");
+      $this->io->write("<info>Creating BLT templated files...</info>");
       $success = $this->executeCommand('blt create-project', [], TRUE);
     }
     elseif ($options['blt']['update']) {
