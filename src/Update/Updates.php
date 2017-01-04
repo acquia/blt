@@ -79,6 +79,7 @@ class Updates {
     unset($composer_json['require']['drupal-composer/drupal-security-advisories']);
     $this->updater->writeComposerJson($composer_json);
   }
+
   /**
    * @Update(
    *   version = "8.6.4",
@@ -91,7 +92,6 @@ class Updates {
       'drupal/coder',
       'drupal-composer/drupal-security-advisories',
       'phing/phing',
-      'jakoch/phantomjs-installer',
       'phpunit/phpunit',
       'behat/mink-extension',
       'behat/mink-goutte-driver',
@@ -100,6 +100,32 @@ class Updates {
     foreach ($remove_packages as $package) {
       unset($composer_json['require'][$package]);
       unset($composer_json['require-dev'][$package]);
+    }
+    $this->updater->writeComposerJson($composer_json);
+  }
+
+  /**
+   * @Update(
+   *   version = "8.6.6",
+   *   description = "Removes drush/drush from require-dev."
+   * )
+   */
+  public function update_866() {
+    $composer_json = $this->updater->getComposerJson();
+    unset($composer_json['require-dev']['drush/drush']);
+    $this->updater->writeComposerJson($composer_json);
+  }
+
+  /**
+   * @Update(
+   *   version = "8.6.7",
+   *   description = "Changes drupal scaffold excludes from associative to indexed array."
+   * )
+   */
+  public function update_867() {
+    $composer_json = $this->updater->getComposerJson();
+    if (!empty($composer_json['extra']['drupal-scaffold']['excludes'])) {
+      $composer_json['extra']['drupal-scaffold']['excludes'] = array_unique(array_values($composer_json['extra']['drupal-scaffold']['excludes']));
     }
     $this->updater->writeComposerJson($composer_json);
   }
