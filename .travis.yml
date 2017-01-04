@@ -87,6 +87,7 @@ script:
   - yaml-cli update:value blt/project.yml project.local.hostname '127.0.0.1:8888'
   # Execute all updates with fake "dev" => "dev" version specs. This must be done manually since BLT was not installed prior to this.
   - blt-console blt:update dev dev $(pwd) --yes
+  - composer update
   # Create a .travis.yml, just to make sure it works. It won't be executed.
   - blt ci:travis:init
   - blt ci:pipelines:init
