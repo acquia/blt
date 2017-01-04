@@ -1,7 +1,7 @@
 <project name="blt" default="update">
   <target name="create-project" hidden="true">
     <exec dir="${repo.root}" command="git init" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
-    <delete>
+    <delete failonerror="false">
       <fileset dir="${repo.root}">
         <include name=".travis.yml"/>
         <include name="LICENSE.txt"/>
