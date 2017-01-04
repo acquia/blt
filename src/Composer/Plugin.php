@@ -130,8 +130,8 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     $options = $this->getOptions();
 
     if ($this->isInitalInstall()) {
-      $success = $this->executeCommand('blt create-project -q', [], TRUE);
-      $this->io->write('<info>Created BLT templated files...</info>');
+      $this->io->write("<info>Created BLT templated files...</info>");
+      $success = $this->executeCommand('blt create-project', [], TRUE);
     }
     elseif ($options['blt']['update']) {
       $this->io->write('<info>Updating BLT templated files...</info>');
@@ -156,7 +156,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
   /**
    * Determine if BLT is being installed for the first time on this project.
    *
-   * This would execute in the context of `composer create-proejct`.
+   * This would execute in the context of `composer create-project`.
    *
    * @return bool
    *   TRUE if this is the initial install of BLT.
