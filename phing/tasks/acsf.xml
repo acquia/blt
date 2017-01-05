@@ -5,7 +5,7 @@
   <target name="acsf:init" description="Initializes ACSF support for project.">
     <echo>Adding acsf module as a dependency.</echo>
     <echo>In future, you may use pass a custom value for acsf.package to override default version. E.g., blt acsf:init -Dacsf.package='drupal/acsf:8.1.x-dev'</echo>
-    <exec dir="${repo.root}" command="composer require ${acsf.package}" logoutput="true" checkreturn="true" passthru="true" level="${blt.exec_level}"/>
+    <exec dir="${repo.root}" command="composer require ${acsf.package}" logoutput="true" checkreturn="true" passthru="${blt.passthru}" level="${blt.exec_level}"/>
     <!-- Run the acsf init commands. -->
     <phingcall target="acsf:init:drush"/>
   </target>

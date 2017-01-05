@@ -10,7 +10,7 @@
 
   <!-- Verify that composer json and lock files are in sync. -->
   <target name="validate:composer" description="Validate composer files.">
-    <exec dir="${repo.root}" command="composer validate --no-check-all --ansi" logoutput="true" level="${blt.exec_level}" passthru="true" returnProperty="composer.invalid"/>
+    <exec dir="${repo.root}" command="composer validate --no-check-all --ansi" logoutput="true" level="${blt.exec_level}" passthru="${blt.passthru}" returnProperty="composer.invalid"/>
     <if>
       <istrue value="${composer.invalid}"/>
       <then>
@@ -95,8 +95,8 @@
 
   <target name="validate:twig" description="Validates twig syntax on custom twig files.">
     <echo>Validating twig syntax for all custom modules and themes...</echo>
-    <exec dir="${repo.root}" command="${composer.bin}/twig-lint lint --only-print-errors ${docroot}/modules/custom" logoutput="true" checkreturn="true" passthru="true"  level="${blt.exec_level}" />
-    <exec dir="${repo.root}" command="${composer.bin}/twig-lint lint --only-print-errors ${docroot}/themes/custom" logoutput="true" checkreturn="true" passthru="true"  level="${blt.exec_level}" />
+    <exec dir="${repo.root}" command="${composer.bin}/twig-lint lint --only-print-errors ${docroot}/modules/custom" logoutput="true" checkreturn="true" passthru="${blt.passthru}"  level="${blt.exec_level}" />
+    <exec dir="${repo.root}" command="${composer.bin}/twig-lint lint --only-print-errors ${docroot}/themes/custom" logoutput="true" checkreturn="true" passthru="${blt.passthru}"  level="${blt.exec_level}" />
   </target>
 
 </project>

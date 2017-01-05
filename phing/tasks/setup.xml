@@ -48,20 +48,27 @@
         <include name="vendor"/>
       </fileset>
     </delete>
-    <exec dir="${repo.root}" command="composer clear-cache" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec dir="${repo.root}" command="composer clear-cache" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="${blt.passthru}"/>
   </target>
 
   <target name="setup:composer:install" description="Installs project dependencies, including drupal core and contrib.">
     <!-- Prefer distributions locally so that the downloaded archives are cached. -->
-    <exec dir="${repo.root}" command="export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --ansi --no-interaction" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true" />
+    <exec dir="${repo.root}" command="export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --ansi --no-interaction" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="${blt.passthru}" />
   </target>
 
   <!-- We intentionally do not run setup:behat because we'd like to delay setting values in local.yml until just before they are run. -->
   <target name="setup:settings" depends="setup:drupal:settings, setup:drush:settings, setup:console:settings" description="Creates settings files for Drupal and drush.">
+    <if>
+      <not><available file="${blt.config-files.local}" type="file" /></not>
+      <then>
+        <echo>Generating ${blt.config-files.local}</echo>
+        <copy file="${blt.config-files.example-local}" tofile="${blt.config-files.local}" verbose="true" />
+      </then>
+    </if>
   </target>
 
   <target name="setup:console:settings" description="Initializes Drupal console config.">
-    <exec dir="${repo.root}" command="${composer.bin}/drupal init --quiet" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec dir="${repo.root}" command="${composer.bin}/drupal init --quiet" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="${blt.passthru}"/>
   </target>
 
   <!-- Run Drupal settings setup for each multisite. -->
@@ -81,7 +88,7 @@
           <not><available file="${docroot}/sites/${multisite.name}/default.settings.php"/></not>
           <then>
             <echo>Downloading scaffold files so that default.settings.php is available</echo>
-            <exec dir="${repo.root}" command="composer drupal-scaffold" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true" />
+            <exec dir="${repo.root}" command="composer drupal-scaffold" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="${blt.passthru}" />
           </then>
         </if>
 
@@ -97,14 +104,6 @@
     <exec dir="${docroot}/sites/${multisite.name}" command="grep trusted_host.settings.php settings.php || echo '// require DRUPAL_ROOT . &quot;/sites/${multisite.name}/settings/trusted_host.settings.php&quot;;' >> settings.php" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
 
     <echo>Generating local settings files</echo>
-
-    <if>
-      <not><available file="${blt.config-files.local}" type="file" /></not>
-      <then>
-        <echo>Generating ${blt.config-files.local}</echo>
-        <copy file="${blt.config-files.example-local}" tofile="${blt.config-files.local}" verbose="true" />
-      </then>
-    </if>
 
     <if>
       <not><available file="${docroot}/sites/${multisite.name}/settings/local.settings.php" type="file" /></not>
@@ -250,7 +249,7 @@
   </target>
 
   <target name="setup:git-hooks" description="Installs git hooks to local .git/hooks directory from version controlled scripts/git-hooks directory.">
-    <exec dir="${repo.root}/.git" command="mkdir -p hooks" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec dir="${repo.root}/.git" command="mkdir -p hooks" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="${blt.passthru}"/>
     <delete file="${repo.root}/.git/hooks/pre-commit" failonerror="false" quiet="true" verbose="${blt.verbose}"/>
     <delete file="${repo.root}/.git/hooks/commit-msg" failonerror="false" quiet="true" verbose="${blt.verbose}"/>
 
@@ -258,14 +257,14 @@
       <not><equals arg1="${git.hooks.pre-commit}" arg2="false"/></not>
       <then>
         <echo level="info">Symlinking ${repo.root}/.git/hooks/pre-commit to ${git.hooks.pre-commit}/pre-commit</echo>
-        <exec dir="${repo.root}/.git/hooks" command="ln -snv ${git.hooks.pre-commit}/pre-commit pre-commit" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+        <exec dir="${repo.root}/.git/hooks" command="ln -snv ${git.hooks.pre-commit}/pre-commit pre-commit" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="${blt.passthru}"/>
       </then>
     </if>
     <if>
       <not><equals arg1="${git.hooks.commit-msg}" arg2="false"/></not>
       <then>
         <echo level="verbose">Symlinking ${repo.root}/.git/hooks/commit-msg to ${git.hooks.pre-commit}/commit-msg</echo>
-        <exec dir="${repo.root}/.git/hooks" command="ln -snv ${git.hooks.commit-msg}/commit-msg commit-msg" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+        <exec dir="${repo.root}/.git/hooks" command="ln -snv ${git.hooks.commit-msg}/commit-msg commit-msg" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="${blt.passthru}"/>
       </then>
     </if>
 

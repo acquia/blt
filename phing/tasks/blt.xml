@@ -1,9 +1,9 @@
 <project name="blt" default="update">
   <target name="create-project" hidden="true">
-    <exec dir="${repo.root}" command="git init" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec dir="${repo.root}" command="git init" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="${blt.passthru}"/>
 
     <!-- Write BLT version to blt/.schema-version. -->
-    <exec dir="${repo.root}" command="echo ${blt.version} > ${blt.config-files.schema-version}" checkreturn="true" logoutput="true" passthru="false" level="${blt.exec_level}"/>
+    <exec dir="${repo.root}" command="echo ${blt.version} > ${blt.config-files.schema-version}" checkreturn="true" logoutput="true" passthru="${blt.passthru}" level="${blt.exec_level}"/>
 
     <!-- Remove files leftover from acquia/blt-project. -->
     <delete failonerror="false">
@@ -15,27 +15,27 @@
     </delete>
 
     <!-- Pull in initial template files. -->
-    <exec dir="${repo.root}" command="blt blt:rsync-template" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
-    <exec dir="${repo.root}" command="blt blt:update-composer" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec dir="${repo.root}" command="blt blt:rsync-template" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="${blt.passthru}"/>
+    <exec dir="${repo.root}" command="blt blt:update-composer" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="${blt.passthru}"/>
 
     <!--Write project.machine_name to project.yml, using name of working directory as value.. -->
-    <exec dir="${repo.root}" command="result=${PWD##*/}; printf '%s\n' &quot;${PWD##*/}&quot;" logoutput="false" checkreturn="true" level="${blt.exec_level}" passthru="false" outputProperty="dirname"/>
-    <exec dir="${repo.root}" command="${composer.bin}/yaml-cli update:value ${blt.config-files.project} project.machine_name '${dirname}'" logoutput="true" checkreturn="false" level="${blt.exec_level}" passthru="true"/>
+    <exec dir="${repo.root}" command="result=${PWD##*/}; printf '%s\n' &quot;${PWD##*/}&quot;" logoutput="false" checkreturn="true" level="${blt.exec_level}" passthru="${blt.passthru}" outputProperty="dirname"/>
+    <exec dir="${repo.root}" command="${composer.bin}/yaml-cli update:value ${blt.config-files.project} project.machine_name '${dirname}'" logoutput="true" checkreturn="false" level="${blt.exec_level}" passthru="${blt.passthru}"/>
 
     <!-- Remove default git remote -->
-    <exec dir="${repo.root}" command="${composer.bin}/yaml-cli update:value ${blt.config-files.project} git.remotes.0 ''"  logoutput="true" checkreturn="false" level="${blt.exec_level}" passthru="true"/>
+    <exec dir="${repo.root}" command="${composer.bin}/yaml-cli update:value ${blt.config-files.project} git.remotes.0 ''"  logoutput="true" checkreturn="false" level="${blt.exec_level}" passthru="${blt.passthru}"/>
 
     <echo>Updating composer dependencies, this make take a while...</echo>
-    <exec dir="${repo.root}" command="composer update --no-interaction" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec dir="${repo.root}" command="composer update --no-interaction" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="${blt.passthru}"/>
     <copy file="${repo.root}/docroot/profiles/contrib/lightning/lightning.extend.yml" tofile="${repo.root}/docroot/sites/default/lightning.extend.yml"/>
 
-    <exec dir="${repo.root}" command="git add -A" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
-    <exec dir="${repo.root}" command="git commit -m 'Initial commit.'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
-    <exec dir="${repo.root}" command="cat ${blt.root}/scripts/blt/ascii-art.txt" logoutput="true" passthru="true" checkreturn="false"/>
+    <exec dir="${repo.root}" command="git add -A" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="${blt.passthru}"/>
+    <exec dir="${repo.root}" command="git commit -m 'Initial commit.'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="${blt.passthru}"/>
+    <exec dir="${repo.root}" command="cat ${blt.root}/scripts/blt/ascii-art.txt" logoutput="true" passthru="${blt.passthru}" checkreturn="false"/>
   </target>
 
   <target name="doctor" description="Inspects your local blt configuration for possible issues.">
-    <drush command="status" returnProperty="drush.return" haltonerror="false" passthru="false" verbose="false" logoutput="false">
+    <drush command="status" returnProperty="drush.return" haltonerror="false" passthru="${blt.passthru}" verbose="false" logoutput="false">
       <option name="include">../vendor/acquia/blt/drush</option>
     </drush>
     <if>
@@ -55,10 +55,10 @@
 
   <target name="blt:rsync-template" hidden="true">
     <echo>Copying files from BLT's template into your project...</echo>
-    <exec dir="${repo.root}" command="rsync -a --no-g ${blt.root}/template/ ${repo.root}/ --exclude-from=${blt.update.ignore-existing-file}" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec dir="${repo.root}" command="rsync -a --no-g ${blt.root}/template/ ${repo.root}/ --exclude-from=${blt.update.ignore-existing-file}" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="${blt.passthru}"/>
 
     <!--Rsync files without overwriting existing-->
-    <exec dir="${repo.root}" command="rsync -a --no-g ${blt.root}/template/ ${repo.root}/ --include-from=${blt.update.ignore-existing-file} --ignore-existing" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec dir="${repo.root}" command="rsync -a --no-g ${blt.root}/template/ ${repo.root}/ --include-from=${blt.update.ignore-existing-file} --ignore-existing" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="${blt.passthru}"/>
   </target>
 
   <target name="update" depends="blt:rsync-template, blt:update-composer, blt:update-yml, blt:update-delta, cleanup" hidden="true">
@@ -69,9 +69,9 @@
 
   <target name="blt:update-delta" description="Performs scripted updates for a specific BLT version delta." hidden="true">
     <echo>Executing scripted updates for version delta ${blt.schema-version} -> ${blt.version}...</echo>
-    <exec dir="${repo.root}" command="${repo.root}/vendor/bin/blt-console blt:update ${blt.schema-version} ${blt.version} ${repo.root} --yes" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec dir="${repo.root}" command="${repo.root}/vendor/bin/blt-console blt:update ${blt.schema-version} ${blt.version} ${repo.root} --yes" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="${blt.passthru}"/>
 
-    <exec dir="${repo.root}" command="echo ${blt.version} > ${blt.config-files.schema-version}" checkreturn="true" logoutput="true" passthru="false" level="${blt.exec_level}"/>
+    <exec dir="${repo.root}" command="echo ${blt.version} > ${blt.config-files.schema-version}" checkreturn="true" logoutput="true" passthru="${blt.passthru}" level="${blt.exec_level}"/>
   </target>
 
   <target name="blt:update-composer" description="Updates project composer.json with a subset of new key value pairs from upstream. This WILL overwrite existing values." hidden="true">
@@ -82,7 +82,7 @@
       <equals arg1="${composer.munge.return}" arg2="0"/>
       <then>
         <!--@todo Find out why can't we just redirect output directly back to composer.json. -->
-        <exec dir="${repo.root}" command="mv ${repo.root}/composer.json.tmp ${repo.root}/composer.json" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+        <exec dir="${repo.root}" command="mv ${repo.root}/composer.json.tmp ${repo.root}/composer.json" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="${blt.passthru}"/>
       </then>
     </if>
   </target>
@@ -94,12 +94,12 @@
     <!--Values in the project's existing project.yml file will be preserved and not overridden.-->
     <exec dir="${repo.root}" command="${repo.root}/vendor/bin/blt-console yaml:munge ${blt.root}/template/blt/project.yml ${blt.config-files.project} > ${blt.config-files.project}.tmp" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
     <!--@todo Find out why can't we just redirect output directly back to project.yml. -->
-    <exec dir="${repo.root}" command="mv ${blt.config-files.project}.tmp ${blt.config-files.project}" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec dir="${repo.root}" command="mv ${blt.config-files.project}.tmp ${blt.config-files.project}" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="${blt.passthru}"/>
     <echo>${blt.config-files.project} was modified.</echo>
   </target>
 
   <target name="cleanup" description="Removes deprecated BLT files and directories.">
-    <exec dir="${repo.root}" command="${blt.root}/scripts/blt/remove-deprecated.sh" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true" />
+    <exec dir="${repo.root}" command="${blt.root}/scripts/blt/remove-deprecated.sh" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="${blt.passthru}" />
   </target>
 
   <target name="version" description="Display the currently installed version of BLT.">
@@ -113,10 +113,10 @@
         <if>
           <equals arg1="${create_alias}" arg2="true"/>
           <then>
-            <exec dir="${blt.root}/scripts/blt" command="./install-alias.sh -y" logoutput="true" level="${blt.exec_level}" passthru="true"/>
+            <exec dir="${blt.root}/scripts/blt" command="./install-alias.sh -y" logoutput="true" level="${blt.exec_level}" passthru="${blt.passthru}"/>
           </then>
           <else>
-            <exec dir="${blt.root}/scripts/blt" command="./install-alias.sh" logoutput="true" level="${blt.exec_level}" passthru="true"/>
+            <exec dir="${blt.root}/scripts/blt" command="./install-alias.sh" logoutput="true" level="${blt.exec_level}" passthru="${blt.passthru}"/>
           </else>
         </if>
       </then>

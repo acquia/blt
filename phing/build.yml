@@ -26,6 +26,7 @@ blt:
   exec_level: verbose
   # If Phing verbosity is flagged, this will be changed to true. Affects verbosity of tasks like Drush, Behat.
   verbose: false
+  passthru: false
   config-files:
     project: ${repo.root}/blt/project.yml
     local: ${repo.root}/blt/project.local.yml
@@ -62,7 +63,7 @@ drush:
   dir: ${docroot}
   uri: ${multisite.name}
   assume: yes
-  passthru: yes
+  passthru: no
   logoutput: yes
   verbose: ${blt.verbose}
 

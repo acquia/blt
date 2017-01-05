@@ -11,13 +11,6 @@
   <taskdef name="phpVariable" classname="phingcludes.PhpVariableTask"/>
   <taskdef name="yamlLint" classname="phingcludes.YamlLintTask"/>
 
-  <if>
-    <available property="xdebug.enabled" extension="xdebug"/>
-    <then>
-      <echo level="warning">You are running BLT with xdebug enabled. This has a major impact on runtime performance.</echo>
-    </then>
-  </if>
-
   <!--Increase PHP memory limit. -->
   <property name="php.memory_limit" value="2G" override="false" />
   <echo level="verbose">Setting memory allocation to ${php.memory_limit}</echo>
@@ -83,8 +76,8 @@
   <disabletargets file="${blt.config-files.project}" property="disable-targets"/>
 
   <target name="list" hidden="true">
-    <exec dir="${repo.root}" command="cat ${blt.root}/scripts/blt/ascii-art.txt" logoutput="true" passthru="true" checkreturn="false"/>
-    <exec dir="${blt.root}" command="${repo.root}/vendor/bin/phing -f ${phing.dir}/build.xml -q -l" passthru="true"/>
+    <exec dir="${repo.root}" command="cat ${blt.root}/scripts/blt/ascii-art.txt" logoutput="true" passthru="${blt.passthru}" checkreturn="false"/>
+    <exec dir="${blt.root}" command="${repo.root}/vendor/bin/phing -f ${phing.dir}/build.xml -q -l" passthru="${blt.passthru}"/>
   </target>
 
   <target name="target-hook:invoke" description="Executes a command defined in the target-hooks array." hidden="true">
@@ -96,7 +89,7 @@
           <available file="${target-hooks.${hook-name}.dir}" type="dir" property="dirExists" />
           <then>
             <echo>Executing command in ${target-hooks.${hook-name}.dir}:</echo>
-            <exec dir="${target-hooks.${hook-name}.dir}" command="${target-hooks.${hook-name}.command}" logoutput="true" checkreturn="true" level="info" passthru="true" />
+            <exec dir="${target-hooks.${hook-name}.dir}" command="${target-hooks.${hook-name}.command}" logoutput="true" checkreturn="true" level="info" passthru="${blt.passthru}" />
           </then>
           <else>
             <fail>The directory ${target-hooks.${hook-name}.dir} does not exist. Will not run command for ${hook-name}.</fail>

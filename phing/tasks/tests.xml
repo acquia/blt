@@ -134,7 +134,7 @@
         <property name="reports.selenium2" value="${reports.localDir}/selenium2.log"/>
         <exec command="${composer.bin}/selenium-server-standalone -port 4444 -log ${reports.selenium2}"
               dir="${repo.root}"
-              passthru="true"
+              passthru="${blt.passthru}"
               spawn="true"
               checkreturn="true"
               level="${blt.exec_level}"
@@ -161,8 +161,8 @@
   <target name="tests:selenium:kill"
           description="Kills Selenium standalone server process and any process running on port 4444." hidden="true">
     <echo>Killing any selenium processes that are already running.</echo>
-    <exec command="lsof -ti tcp:4444 | xargs kill" logoutput="false" level="${blt.exec_level}" passthru="false" checkreturn="false" />
-    <exec command="pgrep selenium | xargs kill" logoutput="false" level="${blt.exec_level}" passthru="false" checkreturn="false" />
+    <exec command="lsof -ti tcp:4444 | xargs kill" logoutput="false" level="${blt.exec_level}" passthru="${blt.passthru}" checkreturn="false" />
+    <exec command="pgrep selenium | xargs kill" logoutput="false" level="${blt.exec_level}" passthru="${blt.passthru}" checkreturn="false" />
   </target>
 
   <target name="tests:phantomjs:launch"
@@ -173,7 +173,7 @@
     <echo message="Launching PhantomJS GhostDriver." />
     <phingcall target="tests:phantomjs:kill"/>
     <exec command="${composer.bin}/phantomjs --webdriver=4444"
-          passthru="true"
+          passthru="${blt.passthru}"
           spawn="true"
           checkreturn="true"
           level="${blt.exec_level}"/>
@@ -185,7 +185,7 @@
   </target>
 
   <target name="tests:phantomjs:configure" description="Checks and corrects PhantomJS configuration">
-    <exec dir="${repo.root}" command="grep 'jakoch/phantomjs-installer' composer.json" logoutput="false" level="${blt.exec_level}" passthru="false" returnProperty="phantom.required"/>
+    <exec dir="${repo.root}" command="grep 'jakoch/phantomjs-installer' composer.json" logoutput="false" level="${blt.exec_level}" passthru="${blt.passthru}" returnProperty="phantom.required"/>
     <if>
       <isfailure code="${phantom.required}"/>
       <then>
@@ -194,7 +194,7 @@
         <if>
           <equals arg1="${phantom.do-require}" arg2="y" casesensitive="false"/>
           <then>
-            <exec dir="${repo.root}" command="composer require jakoch/phantomjs-installer --dev" logoutput="true" level="${blt.exec_level}" passthru="true" />
+            <exec dir="${repo.root}" command="composer require jakoch/phantomjs-installer --dev" logoutput="true" level="${blt.exec_level}" passthru="${blt.passthru}" />
           </then>
           <else>
             <fail>Cannot launch PhantomJS it is not installed.</fail>
@@ -202,7 +202,7 @@
         </if>
       </then>
     </if>
-    <exec dir="${repo.root}" command="grep installPhantomJS composer.json" logoutput="false" level="${blt.exec_level}" passthru="false" returnProperty="phantom.scripts"/>
+    <exec dir="${repo.root}" command="grep installPhantomJS composer.json" logoutput="false" level="${blt.exec_level}" passthru="${blt.passthru}" returnProperty="phantom.scripts"/>
     <if>
       <isfailure code="${phantom.scripts}"/>
       <then>
@@ -211,7 +211,7 @@
         <if>
           <equals arg1="${phantom.do-add-script}" arg2="y" casesensitive="false"/>
           <then>
-            <exec command="${composer.bin}/blt-console configure:phantomjs ${repo.root}" logoutput="true" level="${blt.exec_level}" passthru="false" checkreturn="true"/>
+            <exec command="${composer.bin}/blt-console configure:phantomjs ${repo.root}" logoutput="true" level="${blt.exec_level}" passthru="${blt.passthru}" checkreturn="true"/>
           </then>
           <else>
             <fail>Cannot launch PhantomJS because the install-phantomjs script is not present in composer.json. Add it, or use Selenium instead.</fail>
@@ -222,7 +222,7 @@
     <if>
       <not><available file="${composer.bin}/phantomjs"/></not>
       <then>
-        <exec dir="${repo.root}" command="composer install-phantom" checkreturn="true" logoutput="true" passthru="true" level="${blt.exec_level}"/>
+        <exec dir="${repo.root}" command="composer install-phantom" checkreturn="true" logoutput="true" passthru="${blt.passthru}" level="${blt.exec_level}"/>
       </then>
     </if>
   </target>
@@ -230,8 +230,8 @@
   <target name="tests:phantomjs:kill"
           description="Launches a GhostDriver." hidden="true">
     <echo>Killing any PhantomJS processes that are already running.</echo>
-    <exec command="lsof -ti tcp:4444 | xargs kill" logoutput="false" level="${blt.exec_level}" passthru="false" checkreturn="false" />
-    <exec command="pgrep phantomjs | xargs kill" logoutput="true" level="${blt.exec_level}" passthru="true" />
+    <exec command="lsof -ti tcp:4444 | xargs kill" logoutput="false" level="${blt.exec_level}" passthru="${blt.passthru}" checkreturn="false" />
+    <exec command="pgrep phantomjs | xargs kill" logoutput="true" level="${blt.exec_level}" passthru="${blt.passthru}" />
   </target>
 
   <!-- Execute PHPUnit tests. -->
@@ -271,7 +271,7 @@
       <then>
         <echo message="Using 'drush runserver' for tests." />
         <echo message="Running server at ${behat.server-url}"/>
-        <exec command="pkill -f runserver" logoutput="true" level="${blt.exec_level}" passthru="true"/>
+        <exec command="pkill -f runserver" logoutput="true" level="${blt.exec_level}" passthru="${blt.passthru}"/>
         <exec executable="${drush.bin}" dir="${docroot}" spawn="true" level="${blt.exec_level}">
           <arg line="runserver ${behat.server-url} -l ${multisite.name}"/>
         </exec>
@@ -294,7 +294,7 @@
           checkreturn="true" level="${blt.exec_level}"
           logoutput="true"
           returnProperty="securityPass"
-          passthru="true"/>
+          passthru="${blt.passthru}"/>
 
     <!-- Output message on failure. -->
     <if>
