@@ -30,8 +30,8 @@
   <target name="vm:local:init" depends="setup:drupal:settings" description="Initializes DrupalVM for this machine." hidden="true">
     <!-- Sadly this wipes out comments in the file. -->
     <echo>Updating ${blt.config-files.local}...</echo>
-    <exec dir="${repo.root}" command="${composer.bin}/yaml-cli update:value ${blt.config-files.local} drush.default_alias '${project.machine_name}.local'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="${blt.passthru}"/>
-    <exec dir="${repo.root}" command="${composer.bin}/yaml-cli update:value ${blt.config-files.local} drush.aliases.local '${project.machine_name}.local'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="${blt.passthru}"/>
+    <exec dir="${repo.root}" command="${composer.bin}/yaml-cli update:value ${blt.config-files.local} drush.default_alias '${project.machine_name}.local'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec dir="${repo.root}" command="${composer.bin}/yaml-cli update:value ${blt.config-files.local} drush.aliases.local '${project.machine_name}.local'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <!-- Load new values into Phing. -->
     <property file="${blt.config-files.local}" override="true" logoutput="false"/>
 
@@ -64,7 +64,7 @@
     <copy file="${blt.root}/scripts/drupal-vm/Vagrantfile" todir="${repo.root}" verbose="true"/>
 
     <echo>Adding geerlingguy/drupal-vm to composer dev dependencies.</echo>
-    <exec dir="${repo.root}" command="composer require --dev geerlingguy/drupal-vm:~4.1" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="${blt.passthru}"/>
+    <exec dir="${repo.root}" command="composer require --dev geerlingguy/drupal-vm:~4.1" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
 
     <echo></echo>
     <echo>A new "box" directory and a Vagrantfile have been added to ${repo.root}</echo>
@@ -115,7 +115,7 @@
   </target>
 
   <target name="vm:up" depends="vm:requirements" hidden="true" description="Boots DrupalVM.">
-    <exec dir="${repo.root}" command="vagrant up" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="${blt.passthru}" />
+    <exec dir="${repo.root}" command="vagrant up" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true" />
   </target>
 
 </project>

@@ -48,12 +48,12 @@
         <include name="vendor"/>
       </fileset>
     </delete>
-    <exec dir="${repo.root}" command="composer clear-cache" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="${blt.passthru}"/>
+    <exec dir="${repo.root}" command="composer clear-cache" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
   </target>
 
   <target name="setup:composer:install" description="Installs project dependencies, including drupal core and contrib.">
     <!-- Prefer distributions locally so that the downloaded archives are cached. -->
-    <exec dir="${repo.root}" command="export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --ansi --no-interaction" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="${blt.passthru}" />
+    <exec dir="${repo.root}" command="export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --ansi --no-interaction" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true" />
   </target>
 
   <!-- We intentionally do not run setup:behat because we'd like to delay setting values in local.yml until just before they are run. -->

@@ -3,7 +3,7 @@
     <exec dir="${repo.root}" command="git init" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="${blt.passthru}"/>
 
     <!-- Write BLT version to blt/.schema-version. -->
-    <exec dir="${repo.root}" command="echo ${blt.version} > ${blt.config-files.schema-version}" checkreturn="true" logoutput="true" passthru="true" level="${blt.exec_level}"/>
+    <exec dir="${repo.root}" command="echo ${blt.version} > ${blt.config-files.schema-version}" checkreturn="true" logoutput="true" passthru="false" level="${blt.exec_level}"/>
 
     <!-- Remove files leftover from acquia/blt-project. -->
     <delete failonerror="false">
@@ -19,7 +19,7 @@
     <exec dir="${repo.root}" command="blt blt:update-composer" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="${blt.passthru}"/>
 
     <!--Write project.machine_name to project.yml, using name of working directory as value.. -->
-    <exec dir="${repo.root}" command="result=${PWD##*/}; printf '%s\n' &quot;${PWD##*/}&quot;" logoutput="false" checkreturn="true" level="${blt.exec_level}" passthru="true" outputProperty="dirname"/>
+    <exec dir="${repo.root}" command="result=${PWD##*/}; printf '%s\n' &quot;${PWD##*/}&quot;" logoutput="false" checkreturn="true" level="${blt.exec_level}" passthru="false" outputProperty="dirname"/>
     <exec dir="${repo.root}" command="${composer.bin}/yaml-cli update:value ${blt.config-files.project} project.machine_name '${dirname}'" logoutput="true" checkreturn="false" level="${blt.exec_level}" passthru="true"/>
 
     <!-- Remove default git remote -->
@@ -41,12 +41,12 @@
     <if>
       <equals arg1="${drush.return}" arg2="0"/>
       <then>
-        <drush command="blt-doctor" verbose="false"  dir="${docroot}" uri="">
+        <drush command="blt-doctor" verbose="false"  dir="${docroot}" uri="" passthru="true">
           <option name="include">../vendor/acquia/blt/drush</option>
         </drush>
       </then>
       <else>
-        <drush command="blt-doctor" verbose="false" dir="${docroot}" alias="" uri="">
+        <drush command="blt-doctor" verbose="false" dir="${docroot}" alias="" uri="" passthru="true">
           <option name="include">../vendor/acquia/blt/drush</option>
         </drush>
       </else>
@@ -69,9 +69,9 @@
 
   <target name="blt:update-delta" description="Performs scripted updates for a specific BLT version delta." hidden="true">
     <echo>Executing scripted updates for version delta ${blt.schema-version} -> ${blt.version}...</echo>
-    <exec dir="${repo.root}" command="${repo.root}/vendor/bin/blt-console blt:update ${blt.schema-version} ${blt.version} ${repo.root} --yes" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="${blt.passthru}"/>
+    <exec dir="${repo.root}" command="${repo.root}/vendor/bin/blt-console blt:update ${blt.schema-version} ${blt.version} ${repo.root} --yes" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
 
-    <exec dir="${repo.root}" command="echo ${blt.version} > ${blt.config-files.schema-version}" checkreturn="true" logoutput="true" passthru="${blt.passthru}" level="${blt.exec_level}"/>
+    <exec dir="${repo.root}" command="echo ${blt.version} > ${blt.config-files.schema-version}" checkreturn="true" logoutput="true" passthru="false" level="${blt.exec_level}"/>
   </target>
 
   <target name="blt:update-composer" description="Updates project composer.json with a subset of new key value pairs from upstream. This WILL overwrite existing values." hidden="true">
@@ -113,10 +113,10 @@
         <if>
           <equals arg1="${create_alias}" arg2="true"/>
           <then>
-            <exec dir="${blt.root}/scripts/blt" command="./install-alias.sh -y" logoutput="true" level="${blt.exec_level}" passthru="${blt.passthru}"/>
+            <exec dir="${blt.root}/scripts/blt" command="./install-alias.sh -y" logoutput="true" level="${blt.exec_level}" passthru="true"/>
           </then>
           <else>
-            <exec dir="${blt.root}/scripts/blt" command="./install-alias.sh" logoutput="true" level="${blt.exec_level}" passthru="${blt.passthru}"/>
+            <exec dir="${blt.root}/scripts/blt" command="./install-alias.sh" logoutput="true" level="${blt.exec_level}" passthru="true"/>
           </else>
         </if>
       </then>

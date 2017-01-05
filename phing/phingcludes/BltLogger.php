@@ -65,6 +65,7 @@ class BltLogger extends AnsiColorLogger {
       && $event->getTarget()->getName() != ''
     ) {
       $showLongTargets = $event->getProject()->getProperty("phing.showlongtargets");
+
       $msg = $event->getProject()->getName() . ' > ' . $event->getTarget()->getName(
         ) . ($showLongTargets ? ' [' . $event->getTarget()->getDescription() . ']' : '') . ':';
       $this->printMessage($msg, $this->out, $event->getPriority());
