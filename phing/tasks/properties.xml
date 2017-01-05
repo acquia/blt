@@ -12,7 +12,7 @@
   <property file="${phing.dir}/build.yml" override="true" logoutput="false"/>
 
   <!-- Load the root project.yml file for this project. -->
-  <property file="${blt.config-files.project}" override="true" logoutput="false"/>
+  <property file="${blt.config-files.project}" override="true" logoutput="${blt.verbose}"/>
 
   <!-- Load the local project.local.yml file for this project. -->
   <!--@todo Change this so that it is only loaded for local:* targets. -->
