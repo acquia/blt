@@ -26,6 +26,9 @@
     <!-- Remove default git remote -->
     <exec dir="${repo.root}" command="${composer.bin}/yaml-cli update:value ${blt.config-files.project} git.remotes.0 ''"  logoutput="true" checkreturn="false" level="${blt.exec_level}" passthru="true"/>
 
+    <!-- Remove the README.md from blt-project, so that it can be overwritten in rsync-template target. -->
+    <exec dir="${repo.root}" command="rm -f README.md" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+
     <exec dir="${repo.root}" command="git add -A" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <exec dir="${repo.root}" command="git commit -m 'Initial commit.'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <exec dir="${repo.root}" command="cat ${blt.root}/scripts/blt/ascii-art.txt" logoutput="true" passthru="true" checkreturn="false"/>
