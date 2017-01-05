@@ -285,6 +285,8 @@
       <param>${cm.core.config-dir}</param>
     </drush>
     <!-- Execute db updates. -->
+    <!-- This must happen before features are imported or configuration is imported. -->
+    <!-- For instance, if you add a dependency on a new extension to an existing configuration file, you must enable that extension via an update hook before attempting to import the configuration. -->
     <drush command="updb" assume="yes">
       <option name="entity-updates"></option>
     </drush>
