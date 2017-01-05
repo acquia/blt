@@ -53,7 +53,9 @@
       <param>@${site.drush.aliases.remote}</param>
       <param>@${site.drush.aliases.local}</param>
     </drush>
-    <drush command="cache-clear drush"/>
+    <drush command="cache-clear">
+      <param>drush</param>
+    </drush>
     <drush command="cache-rebuild"/>
   </target>
 
