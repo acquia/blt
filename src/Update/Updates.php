@@ -62,8 +62,6 @@ class Updates {
       $project_config['modules']['prod'] = $project_config['modules']['deploy'];
       unset($project_config['modules']['deploy']);
     }
-
-    $this->updater->getOutput()->writeln("<comment>You MUST remove .travis.yml and re-initialize Travis CI support with `blt ci:travis:init`.</comment>");
   }
 
   /**
