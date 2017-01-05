@@ -49,6 +49,7 @@
     <drush command="sql-sync" alias="">
       <option name="structure-tables-key">lightweight</option>
       <option name="create-db"/>
+      <option name="sanitize"/>
       <param>@${site.drush.aliases.remote}</param>
       <param>@${site.drush.aliases.local}</param>
     </drush>
