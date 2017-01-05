@@ -164,8 +164,6 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
   protected function isInitialInstall() {
     if (!file_exists($this->getRepoRoot() . '/blt/project.yml')
       && !file_exists($this->getRepoRoot() . '/blt/.schema-version')
-      && file_exists($this->getRepoRoot() . '/.travis.yml')
-      && file_exists($this->getRepoRoot() . '/LICENSE.txt')
       && file_exists($this->getRepoRoot() . '/README.md')
       ) {
       return TRUE;
@@ -241,13 +239,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
       $this->io->write('<comment> > ' . $command . '</comment>');
       $io = $this->io;
       $output = function ($type, $buffer) use ($io) {
-        if ($type == Process::ERR) {
-          $io->write('<error>' . $buffer . '</error>');
-        }
-        else {
-          // @todo Figure out how to preserve color!
-          $io->write($buffer);
-        }
+        $io->write($buffer);
       };
     }
     return ($this->executor->execute($command, $output) == 0);
