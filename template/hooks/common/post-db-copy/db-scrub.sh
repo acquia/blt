@@ -12,5 +12,5 @@ db_name="$3"
 source_env="$4"
 
 echo "$site.$target_env: Scrubbing database $db_name"
-drush @$site.$target_env sql-sanitize --db=$db_name
-drush @$site.$target_env cache-rebuild --db=$db_name
+drush @$site.$target_env sql-sanitize
+drush @$site.$target_env cache-rebuild
