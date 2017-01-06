@@ -26,7 +26,17 @@
     <echo>Updating composer dependencies, this make take a while...</echo>
     <exec dir="${repo.root}" command="composer update --no-interaction" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <copy file="${repo.root}/docroot/profiles/contrib/lightning/lightning.extend.yml" tofile="${repo.root}/docroot/sites/default/lightning.extend.yml"/>
-    
+  </target>
+
+  <!-- This target is necessary because Composer will delete .git directory directly after the `composer create-project` -->
+  <!-- command is executed. We call this in `post-create-project-cmd` to re-create the .git dir. -->
+  <target name="create-project:init-repo" description="Initializes the project repo directly after creation.">
+    <exec dir="${repo.root}" command="git init" logoutput="true" checkreturn="true" level="$
+{blt.exec_level}" passthru="true"/>
+    <exec dir="${repo.root}" command="git add -A" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec dir="${repo.root}" command="git commit -m 'Initial commit.'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+
+    <!-- Display BLT art. -->
     <exec dir="${repo.root}" command="cat ${blt.root}/scripts/blt/ascii-art.txt" logoutput="true" passthru="true" checkreturn="false"/>
   </target>
 
@@ -47,15 +57,6 @@
         </drush>
       </else>
     </if>
-  </target>
-
-  <!-- This target is necessary because Composer will delete .git directory directly after the `composer create-project` -->
-  <!-- command is executed. We call this in `post-create-project-cmd` to re-create the .git dir. -->
-  <target name="create-project:init-repo" description="Initializes the project repo directly after creation.">
-    <exec dir="${repo.root}" command="git init" logoutput="true" checkreturn="true" level="$
-{blt.exec_level}" passthru="true"/>
-    <exec dir="${repo.root}" command="git add -A" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
-    <exec dir="${repo.root}" command="git commit -m 'Initial commit.'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
   </target>
 
   <target name="blt:rsync-template" hidden="true">
