@@ -108,7 +108,7 @@
       <istrue value="${vagrant.hostsupdater.missing}"/>
       <then>
         <echo>The vagrant-hostsupdater plugin is not installed! Attempting to install it...</echo>
-        <exec dir="${repo.root}" command="vagrant plugin install vagrant-hostsupdater" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+        <exec dir="${repo.root}" command="vagrant plugin install vagrant-hostsupdater" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="${blt.passthru}"/>
       </then>
     </if>
 

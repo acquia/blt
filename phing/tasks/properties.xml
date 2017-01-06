@@ -28,7 +28,7 @@
     <not><available file="${blt.config-files.schema-version}"/></not>
     <then>
       <!-- If no schema version exists, assume 8.5.2, which is last release before this file was introduced. -->
-      <exec dir="${repo.root}" command="mkdir -p blt" checkreturn="true" logoutput="true" passthru="false" level="${blt.exec_level}"/>
+      <exec dir="${repo.root}" command="mkdir -p blt" checkreturn="true" logoutput="true" passthru="${blt.passthru}" level="${blt.exec_level}"/>
       <exec dir="${repo.root}" command="echo '8.5.2' >> ${blt.config-files.schema-version}" checkreturn="true" logoutput="true" passthru="false" level="${blt.exec_level}"/>
     </then>
   </if>
