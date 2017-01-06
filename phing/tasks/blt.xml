@@ -26,6 +26,11 @@
     <echo>Updating composer dependencies, this make take a while...</echo>
     <exec dir="${repo.root}" command="composer update --no-interaction" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <copy file="${repo.root}/docroot/profiles/contrib/lightning/lightning.extend.yml" tofile="${repo.root}/docroot/sites/default/lightning.extend.yml"/>
+
+    <phingcall target="create-project:init-repo"/>
+
+    <!-- Display BLT art. -->
+    <exec dir="${repo.root}" command="cat ${blt.root}/scripts/blt/ascii-art.txt" logoutput="true" passthru="true" checkreturn="false"/>
   </target>
 
   <!-- This target is necessary because Composer will delete .git directory directly after the `composer create-project` -->
@@ -34,9 +39,6 @@
     <exec dir="${repo.root}" command="git init" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <exec dir="${repo.root}" command="git add -A" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <exec dir="${repo.root}" command="git commit -m 'Initial commit.'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
-
-    <!-- Display BLT art. -->
-    <exec dir="${repo.root}" command="cat ${blt.root}/scripts/blt/ascii-art.txt" logoutput="true" passthru="true" checkreturn="false"/>
   </target>
 
   <target name="doctor" description="Inspects your local blt configuration for possible issues.">
