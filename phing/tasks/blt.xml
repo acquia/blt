@@ -1,12 +1,10 @@
 <project name="blt" default="update">
   <target name="create-project" hidden="true">
-    <exec dir="${repo.root}" command="git init" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
-
     <!-- Write BLT version to blt/.schema-version. -->
     <exec dir="${repo.root}" command="echo ${blt.version} > ${blt.config-files.schema-version}" checkreturn="true" logoutput="true" passthru="false" level="${blt.exec_level}"/>
 
     <!-- Remove files leftover from acquia/blt-project. -->
-    <delete failonerror="false">
+    <delete failonerror="false" quiet="true">
       <fileset dir="${repo.root}">
         <include name=".travis.yml"/>
         <include name="LICENSE.txt"/>
@@ -15,8 +13,8 @@
     </delete>
 
     <!-- Pull in initial template files. -->
-    <exec dir="${repo.root}" command="blt blt:rsync-template" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
-    <exec dir="${repo.root}" command="blt blt:update-composer" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <phingcall target="blt:rsync-template"/>
+    <phingcall target="blt:update-composer"/>
 
     <!--Write project.machine_name to project.yml, using name of working directory as value.. -->
     <exec dir="${repo.root}" command="result=${PWD##*/}; printf '%s\n' &quot;${PWD##*/}&quot;" logoutput="false" checkreturn="true" level="${blt.exec_level}" passthru="false" outputProperty="dirname"/>
@@ -29,8 +27,8 @@
     <exec dir="${repo.root}" command="composer update --no-interaction" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <copy file="${repo.root}/docroot/profiles/contrib/lightning/lightning.extend.yml" tofile="${repo.root}/docroot/sites/default/lightning.extend.yml"/>
 
-    <exec dir="${repo.root}" command="git add -A" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
-    <exec dir="${repo.root}" command="git commit -m 'Initial commit.'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <phingcall target="create-project:init-repo"/>
+
     <exec dir="${repo.root}" command="cat ${blt.root}/scripts/blt/ascii-art.txt" logoutput="true" passthru="true" checkreturn="false"/>
   </target>
 
@@ -51,6 +49,15 @@
         </drush>
       </else>
     </if>
+  </target>
+
+  <!-- This target is necessary because Composer will delete .git directory directly after the `composer create-project` -->
+  <!-- command is executed. We call this in `post-create-project-cmd` to re-create the .git dir. -->
+  <target name="create-project:init-repo" description="Initializes the project repo directly after creation.">
+    <exec dir="${repo.root}" command="git init" logoutput="true" checkreturn="true" level="$
+{blt.exec_level}" passthru="true"/>
+    <exec dir="${repo.root}" command="git add -A" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec dir="${repo.root}" command="git commit -m 'Initial commit.'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
   </target>
 
   <target name="blt:rsync-template" hidden="true">
