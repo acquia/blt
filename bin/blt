@@ -7,7 +7,8 @@ else
 fi
 
 if [ -f "$GIT_ROOT/vendor/acquia/blt/blt.sh" ]; then
-  $GIT_ROOT/vendor/acquia/blt/blt.sh "$@"
+  cd $GIT_ROOT
+  ./vendor/acquia/blt/blt.sh "$@"
 else
   echo "Error: You must run this command from within a BLT-generated project repository!"
 fi
