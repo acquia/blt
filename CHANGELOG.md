@@ -1,5 +1,25 @@
 # Change Log
 
+## [8.6.9](https://github.com/acquia/blt/tree/8.6.9) (2017-01-06)
+[Full Changelog](https://github.com/acquia/blt/compare/8.6.8...8.6.9)
+
+**Implemented enhancements:**
+
+- Silently killing processes. [\#937](https://github.com/acquia/blt/pull/937) ([grasmash](https://github.com/grasmash))
+- Preventing warning about missing project.yml. [\#936](https://github.com/acquia/blt/pull/936) ([grasmash](https://github.com/grasmash))
+- Disabling passthru for various commands. [\#934](https://github.com/acquia/blt/pull/934) ([grasmash](https://github.com/grasmash))
+- Removing metatag req. [\#932](https://github.com/acquia/blt/pull/932) ([grasmash](https://github.com/grasmash))
+- Fixing deploy prompts. [\#931](https://github.com/acquia/blt/pull/931) ([grasmash](https://github.com/grasmash))
+
+**Fixed bugs:**
+
+- Fixing BLT executable. [\#933](https://github.com/acquia/blt/pull/933) ([grasmash](https://github.com/grasmash))
+
+## [8.6.8](https://github.com/acquia/blt/tree/8.6.8) (2017-01-06)
+[Full Changelog](https://github.com/acquia/blt/compare/8.6.7...8.6.8)
+
+Hotfix to project creation process [b013590](https://github.com/acquia/blt/commit/b013590e7f573044d9e9c174d8ba1edf5e5cac4f)
+
 ## [8.6.7](https://github.com/acquia/blt/tree/8.6.7) (2017-01-06)
 [Full Changelog](https://github.com/acquia/blt/compare/8.6.6...8.6.7)
 
