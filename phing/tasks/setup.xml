@@ -93,8 +93,6 @@
     <chmod mode="0644" failonerror="false" file="${docroot}/sites/${multisite.name}/settings.php"/>
     <echo>Ensuring that blt.settings.php is required by settings.php</echo>
     <exec dir="${docroot}/sites/${multisite.name}" command="grep vendor/acquia/blt/settings/blt.settings.php settings.php || echo 'require DRUPAL_ROOT . &quot;/../vendor/acquia/blt/settings/blt.settings.php&quot;;' >> settings.php" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
-    <echo>Ensuring that trusted_host.settings.php is required by settings.php</echo>
-    <exec dir="${docroot}/sites/${multisite.name}" command="grep trusted_host.settings.php settings.php || echo '// require DRUPAL_ROOT . &quot;/sites/${multisite.name}/settings/trusted_host.settings.php&quot;;' >> settings.php" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
 
     <echo>Generating local settings files</echo>
 
