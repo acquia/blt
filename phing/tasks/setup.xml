@@ -204,7 +204,7 @@
 
   <target name="setup:config-import" description="Import configuration from the config directory.">
     <echo>Importing configuration...</echo>
-    <drush command="pm-enable" assume="yes" alias="${drush.alias}">
+    <drush command="pm-enable" assume="yes" alias="${drush.alias}" passthru="false">
       <param>config</param>
     </drush>
 
@@ -213,18 +213,18 @@
     <drush command="cr" alias="${drush.alias}"/>
 
     <!-- Import configuration before executing updates, in case any db updates are dependent on new configs to be imported. -->
-    <drush command="config-import" assume="yes" alias="${drush.alias}">
+    <drush command="config-import" assume="yes" alias="${drush.alias}" passthru="false">
       <option name="partial"></option>
       <param>${cm.core.config-dir}</param>
     </drush>
     <!-- Execute db updates. -->
     <!-- This must happen before features are imported or configuration is imported. -->
     <!-- For instance, if you add a dependency on a new extension to an existing configuration file, you must enable that extension via an update hook before attempting to import the configuration. -->
-    <drush command="updb" assume="yes" alias="${drush.alias}">
+    <drush command="updb" assume="yes" alias="${drush.alias}" passthru="false">
       <option name="entity-updates"></option>
     </drush>
     <!-- Import configuration. -->
-    <drush command="config-import" assume="yes" alias="${drush.alias}">
+    <drush command="config-import" assume="yes" alias="${drush.alias}" passthru="false">
       <option name="partial"></option>
       <param>${cm.core.config-dir}</param>
     </drush>
@@ -232,11 +232,11 @@
       <isset property="cm.features.bundle"/>
       <then>
         <!-- Enable features module. -->
-        <drush command="en" assume="yes" alias="${drush.alias}">
+        <drush command="en" assume="yes" alias="${drush.alias}" passthru="false">
           <param>features</param>
         </drush>
         <!-- Clear drush caches to register features drush commands. -->
-        <drush command="cr" alias="${drush.alias}">
+        <drush command="cr" alias="${drush.alias}" passthru="false">
           <param>drush</param>
         </drush>
         <!-- Revert all features. -->
@@ -244,7 +244,7 @@
       </then>
     </if>
     <!-- Rebuild caches. -->
-    <drush command="cr" alias="${drush.alias}"/>
+    <drush command="cr" alias="${drush.alias}" passthru="false"/>
   </target>
 
   <target name="setup:git-hooks" description="Installs git hooks to local .git/hooks directory from version controlled scripts/git-hooks directory.">
@@ -256,14 +256,14 @@
       <not><equals arg1="${git.hooks.pre-commit}" arg2="false"/></not>
       <then>
         <echo level="info">Symlinking ${repo.root}/.git/hooks/pre-commit to ${git.hooks.pre-commit}/pre-commit</echo>
-        <exec dir="${repo.root}/.git/hooks" command="ln -snv ${git.hooks.pre-commit}/pre-commit pre-commit" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+        <exec dir="${repo.root}/.git/hooks" command="ln -snv ${git.hooks.pre-commit}/pre-commit pre-commit" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="false"/>
       </then>
     </if>
     <if>
       <not><equals arg1="${git.hooks.commit-msg}" arg2="false"/></not>
       <then>
         <echo level="verbose">Symlinking ${repo.root}/.git/hooks/commit-msg to ${git.hooks.pre-commit}/commit-msg</echo>
-        <exec dir="${repo.root}/.git/hooks" command="ln -snv ${git.hooks.commit-msg}/commit-msg commit-msg" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+        <exec dir="${repo.root}/.git/hooks" command="ln -snv ${git.hooks.commit-msg}/commit-msg commit-msg" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="false"/>
       </then>
     </if>
 
@@ -290,7 +290,7 @@
   </target>
 
   <target name="setup:update:features-import" description="Perform a features import on the specified bundle.">
-    <drush command="fra" assume="yes" alias="${drush.alias}">
+    <drush command="fra" assume="yes" alias="${drush.alias}" passthru="false">
       <option name="bundle">${bundle}</option>
     </drush>
     <if>
@@ -315,7 +315,7 @@
         <if>
           <isset property="modules.${environment}.enable"/>
           <then>
-            <drush command="pm-enable" assume="yes">
+            <drush command="pm-enable" assume="yes" passthru="false">
               <param>${modules.${environment}.enable}</param>
               <option name="skip"></option>
             </drush>
@@ -328,7 +328,7 @@
         <if>
           <isset property="modules.${environment}.uninstall"/>
           <then>
-            <drush command="pm-uninstall" assume="yes">
+            <drush command="pm-uninstall" assume="yes" passthru="false">
               <param>${modules.${environment}.uninstall}</param>
             </drush>
           </then>
