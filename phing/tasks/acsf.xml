@@ -2,7 +2,7 @@
 
   <!-- Set the acsf repo/branch-->
   <property name="acsf.package" value="drupal/acsf:^1.33.0" override="false"/>
-  <target name="acsf:init" description="Initializes ACSF support for project.">
+  <target name="acsf:init" depends="acsf:init:hooks" description="Initializes ACSF support for project.">
     <echo>Adding acsf module as a dependency.</echo>
     <echo>In future, you may use pass a custom value for acsf.package to override default version. E.g., blt acsf:init -Dacsf.package='drupal/acsf:8.1.x-dev'</echo>
     <exec dir="${repo.root}" command="composer require ${acsf.package}" logoutput="true" checkreturn="true" passthru="true" level="${blt.exec_level}"/>
@@ -20,4 +20,10 @@
     <echo>An example alias file for ACSF is located in /drush/site-aliases/example.acsf.aliases.drushrc.php.</echo>
   </target>
 
+  <target name="acsf:init:hooks" description="Creates the /factory-hooks folder in the repo root." hidden="true">
+    <copy todir="${repo.root}/factory-hooks" overwrite="false">
+      <fileset dir="${blt.root}/settings/acsf"/>
+    </copy>
+    <echo>New "factory-hooks/" directory created in repo root. Please commit this to your project.</echo>
+  </target>
 </project>
