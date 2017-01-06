@@ -240,7 +240,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
       $this->io->write('<comment> > ' . $command . '</comment>');
       $io = $this->io;
       $output = function ($type, $buffer) use ($io) {
-        $io->write($buffer);
+        $io->write($buffer, false);
       };
     }
     return ($this->executor->execute($command, $output) == 0);
