@@ -11,13 +11,6 @@
   <taskdef name="phpVariable" classname="phingcludes.PhpVariableTask"/>
   <taskdef name="yamlLint" classname="phingcludes.YamlLintTask"/>
 
-  <if>
-    <available property="xdebug.enabled" extension="xdebug"/>
-    <then>
-      <echo level="warning">You are running BLT with xdebug enabled. This has a major impact on runtime performance.</echo>
-    </then>
-  </if>
-
   <!--Increase PHP memory limit. -->
   <property name="php.memory_limit" value="2G" override="false" />
   <echo level="verbose">Setting memory allocation to ${php.memory_limit}</echo>
