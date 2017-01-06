@@ -55,9 +55,6 @@
         "patches": {
             "acquia/lightning": {
                 "New LightningExtension subcontexts do not autoload": "https://www.drupal.org/files/issues/2836258-3-lightning-extension-autoload.patch"
-            },
-            "drupal/metatag": {
-                "Update drupal console rc13 namespace changes.": "https://www.drupal.org/files/issues/update_drupal_console-2840222-2.patch"
             }
         },
         "installer-paths": {
