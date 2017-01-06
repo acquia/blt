@@ -131,7 +131,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
 
     if ($this->isInitialInstall()) {
       $this->io->write('<info>Creating BLT templated files...</info>');
-      $success = $this->executeCommand('blt create-project', [], TRUE);
+      $success = $this->executeCommand($this->getVendorPath() .'/acquia/blt/blt.sh create-project', [], TRUE);
     }
     elseif ($options['blt']['update']) {
       $this->io->write('<info>Updating BLT templated files...</info>');
