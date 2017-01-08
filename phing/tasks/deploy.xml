@@ -42,10 +42,15 @@
                             propertyName="deploy.tag.create"
                             defaultValue="n"/>
 
-            <propertyprompt propertyName="deploy.tag" useExistingValue="true"
-                            promptText="Enter the name of the tag to create. This will be automatically appended with '-build'"
-                            promptCharacter=":"
-                            defaultValue=""/>
+            <if>
+              <equals arg1="${deploy.tag.create}" arg2="y"/>
+              <then>
+                <propertyprompt propertyName="deploy.tag" useExistingValue="true"
+                                promptText="Enter the name of the tag to create. This will be automatically appended with '-build'"
+                                promptCharacter=":"
+                                defaultValue=""/>
+              </then>
+            </if>
           </then>
         </if>
 
