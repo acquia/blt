@@ -106,7 +106,7 @@ script:
   - rm composer.lock
   # Deploy build artifact.
   # - blt deploy:build
-  - ./scripts/blt/travis-deploy.sh
+  - ../blt/scripts/blt/travis-deploy.sh
   # Switch back to 'blt' directory.
   - cd ../blt
   # Run 'blt' phpunit tests, excluding deploy-push tests.

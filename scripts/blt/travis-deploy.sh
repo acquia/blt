@@ -5,7 +5,6 @@ set -x
 # This script performs a deployment for BLT itself via Travis CI.
 
 # Deploy to Acquia Cloud
-cd ../blt-project
 blt deploy -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="8.x-build"
 # Execute functional tests to assert that deployment artifact was created correctly.
 phpunit tests/phpunit --group=deploy
