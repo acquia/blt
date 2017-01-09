@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -x
+
 # This script performs a deployment for BLT itself via Travis CI.
 
 # Deploy to Acquia Cloud
