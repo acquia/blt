@@ -23,7 +23,7 @@
     <!-- Remove default git remote -->
     <exec dir="${repo.root}" command="${composer.bin}/yaml-cli update:value ${blt.config-files.project} git.remotes.0 ''"  logoutput="true" checkreturn="false" level="${blt.exec_level}" passthru="true"/>
 
-    <echo>Updating composer dependencies, this make take a while...</echo>
+    <echo>Installing new Composer dependencies provided by BLT. This make take a while...</echo>
     <exec dir="${repo.root}" command="composer update --no-interaction" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <copy file="${repo.root}/docroot/profiles/contrib/lightning/lightning.extend.yml" tofile="${repo.root}/docroot/sites/default/lightning.extend.yml"/>
 
@@ -31,6 +31,10 @@
 
     <!-- Display BLT art. -->
     <exec dir="${repo.root}" command="cat ${blt.root}/scripts/blt/ascii-art.txt" logoutput="true" passthru="true" checkreturn="false"/>
+
+    <echo level="warning">Your new BLT-based project has been created in ${repo.root}.</echo>
+    <echo>Please continue by following the "Creating a new project with BLT" instructions:</echo>
+    <echo>http://blt.readthedocs.io/en/8.x/readme/creating-new-project/</echo>
   </target>
 
   <!-- This target is necessary because Composer will delete .git directory directly after the `composer create-project` -->

@@ -210,7 +210,7 @@
 
     <!-- Rebuild caches in case service definitions have changed. -->
     <!-- @see https://www.drupal.org/node/2826466 -->
-    <drush command="cr" alias="${drush.alias}"/>
+    <drush command="cr" alias="${drush.alias}" passthru="false"/>
 
     <!-- Execute db updates. -->
     <!-- This must happen before features are imported or configuration is imported. -->
