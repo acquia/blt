@@ -1,5 +1,4 @@
 project=blt
 unreleased-only=true
-future-release=8.6.10
 pr-label=**Misc merged pull requests**
 output=temp-changelog.md
