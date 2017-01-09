@@ -167,7 +167,7 @@
     <if>
       <istrue value="${drush.verbose}"/>
       <then>
-        <echo level="verbose">Printing drush status</echo>
+        <echo>Printing drush status</echo>
         <drush command="status"/>
       </then>
     </if>

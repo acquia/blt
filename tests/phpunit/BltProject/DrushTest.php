@@ -33,11 +33,12 @@ class DrushTest extends BltProjectTestBase {
 
     foreach ($dirs as $dir) {
       chdir($dir);
-      print "Executing \"$command\" in $dir \n";
       $json_output = shell_exec($command);
       $drush_output = json_decode($json_output, TRUE);
       // Check for the path to drushrc.php that is included in the project.
-      $this->assertContains($this->projectDirectory . '/drush/drushrc.php', $drush_output['drush-conf']);
+      $config_file = $this->projectDirectory . '/drush/drushrc.php';
+      $message = "Failed asserting that the output of `$command` contains $config_file when executed from $dir.";
+      $this->assertContains($config_file, $drush_output['drush-conf'], $message);
     }
   }
 
