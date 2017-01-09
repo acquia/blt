@@ -1,0 +1,6 @@
+- name: Install Pipelines.
+  get_url:
+    url: https://cloud.acquia.com/pipeline-client/download
+    dest: /usr/local/bin/pipelines
+    mode: 0755
+
