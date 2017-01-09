@@ -1,5 +1,25 @@
 # Change Log
 
+## [8.6.10](https://github.com/acquia/blt/tree/8.6.10) (2017-01-09)
+[Full Changelog](https://github.com/acquia/blt/compare/8.6.9...8.6.10)
+
+**Implemented enhancements:**
+
+- Add Pipelines to DrupalVM [\#870](https://github.com/acquia/blt/issues/870)
+- Adding behat.extra property for arbitrary CLI args. [\#946](https://github.com/acquia/blt/pull/946) ([grasmash](https://github.com/grasmash))
+- Reducing output of default PHPUnit tests. [\#944](https://github.com/acquia/blt/pull/944) ([grasmash](https://github.com/grasmash))
+- Tweaking output to remove more passthru. [\#941](https://github.com/acquia/blt/pull/941) ([grasmash](https://github.com/grasmash))
+- DB updates should always be run before config imports. [\#930](https://github.com/acquia/blt/pull/930) ([danepowell](https://github.com/danepowell))
+- Fixes \#870: Add Pipelines binary to DrupalVM. [\#874](https://github.com/acquia/blt/pull/874) ([grasmash](https://github.com/grasmash))
+
+**Fixed bugs:**
+
+- Fixes \#940: Prevent tag prompt. [\#942](https://github.com/acquia/blt/pull/942) ([grasmash](https://github.com/grasmash))
+
+**Closed issues:**
+
+- When deploying, I'm always prompted to enter a tag name even if I chose not to create one [\#940](https://github.com/acquia/blt/issues/940)
+
 ## [8.6.9](https://github.com/acquia/blt/tree/8.6.9) (2017-01-06)
 [Full Changelog](https://github.com/acquia/blt/compare/8.6.8...8.6.9)
 
