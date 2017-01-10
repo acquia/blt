@@ -2,7 +2,7 @@ This document outlines the process for creating a new BLT release.
 
 To perform a release:
 
-1. [Run tests](#testing) locally..
+1. [Run tests](#testing) locally.
 1. [Generate and commit updated CHANGELOG.md](#generate-changelogmd).
 1. [Create a release](#create-a-release)
 

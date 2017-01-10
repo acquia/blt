@@ -35,6 +35,7 @@ class BltInternal extends Tasks
       return 1;
     }
 
+    // @todo Check to see if git branch is dirty.
     $this->yell("This will destroy any uncommitted work on the current branch. It will also hard reset 8.x and 8.x-release to match the upstream history.");
     $continue = $this->confirm("Continue?");
 
@@ -44,14 +45,17 @@ class BltInternal extends Tasks
       // Clean up all staged and unstaged files on current branch.
       $this->_exec('git clean -fd .');
       $this->_exec('git remote update');
+      // @todo Check to see if branch doesn't match, confirm with dialog.
       $this->_exec('git reset --hard');
 
       // Reset local 8.x to match upstream history of 8.x.
       $this->_exec('git checkout 8.x');
+      // @todo Check to see if branch doesn't match, confirm with dialog.
       $this->_exec('git reset --hard origin/8.x');
 
       // Reset local 8.x-release to match upstream history of 8.x-release.
       $this->_exec('git checkout 8.x-release');
+      // @todo Check to see if branch doesn't match, confirm with dialog.
       $this->_exec('git reset --hard origin/8.x-release');
 
       // Merge 8.x into 8.x-release and push.
@@ -77,6 +81,7 @@ class BltInternal extends Tasks
         'access_token' => $github_token,
       ],
     ]);
+    // @todo Check to see if release already exists, update if it does.
     $response = $client->request('POST', 'releases', [
       'json' => $request_payload,
     ]);
@@ -108,6 +113,7 @@ class BltInternal extends Tasks
       return 1;
     }
 
+    // @todo Check to see if git branch is dirty.
     $this->yell("You should execute this command on a clean, updated checkout of 8.x.");
     $continue = $this->confirm("Continue?");
 
@@ -128,7 +134,9 @@ class BltInternal extends Tasks
     $new_full_changelog = $trimmed_partial_changelog . $trimmed_full_changelog;
     file_put_contents($full_changelog_filename, $new_full_changelog);
 
-    $this->say("$full_changelog_filename has been updated. Please commit and PUSH the changes.");
+    $this->say("$full_changelog_filename has been updated and committed. Please push to origin.");
+    $this->_exec("git add $full_changelog_filename");
+    $this->_exec("git commit -m 'Updating $full_changelog_filename with $tag release notes.'");
 
     return 0;
   }
