@@ -2,6 +2,8 @@
 
 namespace Acquia\Blt\Robo\Command;
 
+use Acquia\Blt\Robo\Log\BltLogStyle;
+use Consolidation\Log\LogOutputStylerInterface;
 use Robo\Tasks;
 use GuzzleHttp\Client;
 
@@ -12,6 +14,19 @@ use GuzzleHttp\Client;
  */
 class BltInternal extends Tasks
 {
+
+  public function __construct()
+  {
+    \Robo\Robo::logger()->setLogOutputStyler(new BltLogStyle());
+  }
+
+  /**
+   * @param string $text
+   */
+  protected function say($text)
+  {
+    $this->output()->writeln("$text");
+  }
 
   /**
    * Generates release notes and cuts a new tag on GitHub.
