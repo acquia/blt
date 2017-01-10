@@ -42,9 +42,7 @@ pages:
           - Automated testing: 'readme/testing.md'
     - Technical Architect:
         - Deploying to cloud: 'readme/deploy.md'
-        - Releases:
-          - Release process: 'readme/release-process.md'
-          - Release notes: 'scripts/release-notes/README.md'
+        - Release process: 'readme/release-process.md'
         - Setting up continuous integration: 'readme/ci.md'
         - Setting up SSO with SimpleSAMLphp: 'readme/simplesamlphp-setup.md'
         - Open source contribution: 'readme/os-contribution.md'

@@ -101,6 +101,16 @@ if ($is_ah_env) {
 }
 
 /**
+ * Include optional site specific includes file.
+ *
+ * This is being included before the local file so all available settings are
+ * able to be overridden in the local.settings.php file below.
+ */
+if (file_exists(DRUPAL_ROOT . "/sites/$site_dir/settings/includes.settings.php")) {
+  require DRUPAL_ROOT . "/sites/$site_dir/settings/includes.settings.php";
+}
+
+/**
  * Load local development override configuration, if available.
  *
  * Use local.settings.php to override variables on secondary (staging,

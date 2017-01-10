@@ -80,12 +80,12 @@ script:
   # BLT is the only dependency at this point. Install it.
   - composer install -v
   - export PATH=$TRAVIS_BUILD_DIR/../blt-project/vendor/bin:$PATH
-  # BLT added new dependencies for us, so we must update.
-  - composer update
   # The local.hostname must be set to 127.0.0.1:8888 because we are using drush runserver to run the site on Travis CI.
   - yaml-cli update:value blt/project.yml project.local.hostname '127.0.0.1:8888'
   # Execute all updates with fake "dev" => "dev" version specs. This must be done manually since BLT was not installed prior to this.
   - blt-console blt:update dev dev $(pwd) --yes
+  # BLT added new dependencies for us, so we must update.
+  - composer update
   # Create a .travis.yml, just to make sure it works. It won't be executed.
   - blt ci:travis:init
   - blt ci:pipelines:init

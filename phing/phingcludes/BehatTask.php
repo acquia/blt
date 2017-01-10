@@ -116,6 +116,13 @@ class BehatTask extends Task
   protected $dryRun = false;
 
   /**
+   * Extra string to be appended to end of Behat command.
+   *
+   * @var string
+   */
+  protected $extra = '';
+
+  /**
    * Stop processing on first failed scenario.
    *
    * @var bool
@@ -317,6 +324,18 @@ class BehatTask extends Task
   }
 
   /**
+   * Sets an extra string to be appended to end of Behat command.
+   *
+   * @param string $extra The string to append.
+   *
+   * @return void
+   */
+  public function setExtra($extra)
+  {
+    $this->extra = $extra;
+  }
+
+  /**
    * Sets the flag if test execution should stop in the event of a failure.
    *
    * @param bool $stop If all tests should stop on failure.
@@ -498,6 +517,11 @@ class BehatTask extends Task
     foreach ($this->options as $name => $value) {
       $command[] = $this->createOption($name, $value);
     }
+
+    if ($this->extra) {
+      $command[] = $this->extra;
+    }
+
     $command = implode(' ', $command);
     if ($this->verbose) {
       $this->log("Running '$command'", Project::MSG_INFO);

@@ -128,7 +128,13 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    */
   protected function executeBltUpdate($version) {
     $options = $this->getOptions();
-    if ($options['blt']['update']) {
+
+    if ($this->isInitialInstall()) {
+      $this->io->write('<info>Creating BLT templated files...</info>');
+      // The BLT command will not work at this point because the .git dir doesn't exist yet.
+      $success = $this->executeCommand($this->getVendorPath() .'/acquia/blt/blt.sh create-project', [], TRUE);
+    }
+    elseif ($options['blt']['update']) {
       $this->io->write('<info>Updating BLT templated files...</info>');
 
       // Rsyncs, updates composer.json, project.yml, executes scripted updates for version delta.
@@ -146,6 +152,25 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     else {
       $this->io->write('<comment>Skipping update of BLT templated files</comment>');
     }
+  }
+
+  /**
+   * Determine if BLT is being installed for the first time on this project.
+   *
+   * This would execute in the context of `composer create-project`.
+   *
+   * @return bool
+   *   TRUE if this is the initial install of BLT.
+   */
+  protected function isInitialInstall() {
+    if (!file_exists($this->getRepoRoot() . '/blt/project.yml')
+      && !file_exists($this->getRepoRoot() . '/blt/.schema-version')
+      && file_exists($this->getRepoRoot() . '/README.md')
+      ) {
+      return TRUE;
+    }
+
+    return FALSE;
   }
 
   /**
@@ -215,13 +240,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
       $this->io->write('<comment> > ' . $command . '</comment>');
       $io = $this->io;
       $output = function ($type, $buffer) use ($io) {
-        if ($type == Process::ERR) {
-          $io->write('<error>' . $buffer . '</error>');
-        }
-        else {
-          // @todo Figure out how to preserve color!
-          $io->write($buffer);
-        }
+        $io->write($buffer, false);
       };
     }
     return ($this->executor->execute($command, $output) == 0);
