@@ -1,19 +1,24 @@
 function blt() {
+  # Save our current directory.
   local STORED_DIR=$(pwd)
+  # If we are in a git repository, go to the repo root.
   if [ "`git rev-parse --show-toplevel 2> /dev/null`" != "" ]; then
     GIT_ROOT=$(git rev-parse --show-toplevel)
     cd $GIT_ROOT
-    # If blt.sh exists relative to here, run it.
+    # If blt exists relative to here, run it.
     if [ -f "$GIT_ROOT/vendor/bin/blt" ]; then
       ./vendor/bin/blt "$@"
     else
-      # Go up one directory, which will either take us into a parent repo or out of any Git repo.
+      # Go up one directory, which will either take us
+      # into a parent repo or out of any Git repo.
       cd ../
-      # Recurse
+      # Recurse.
       blt "$@"
     fi
   else
+    # We are not in a recognizable git repo. 
     echo "Error: you are not in a BLT project. Exiting."
   fi
+  # Restore the saved directory.
   cd $STORED_DIR
 }

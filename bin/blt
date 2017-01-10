@@ -5,7 +5,7 @@ set -o pipefail
 # set -o xtrace
 
 function run_blt() {
-  # If we are in a git repository, find the repo root.
+  # If we are in a git repository, go to the repo root.
   if [ "`git rev-parse --show-toplevel 2> /dev/null`" != "" ]; then
     GIT_ROOT=$(git rev-parse --show-toplevel)
     cd $GIT_ROOT
@@ -14,8 +14,8 @@ function run_blt() {
       ./vendor/acquia/blt/blt.sh "$@"
       exit 0
     else
-      # Go up one directory, 
-      # which will either take us into a parent repo or out of any Git repo.
+      # Go up one directory, which will either take us
+      # into a parent repo or out of any Git repo.
       cd ../
       # Recurse.
       run_blt "$@"
@@ -27,5 +27,5 @@ function run_blt() {
   fi
 }
 
-# Invoke the function
+# Invoke the function.
 run_blt "$@"
