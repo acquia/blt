@@ -36,6 +36,9 @@ class BltInternal extends Tasks
     }
 
     // @todo Check to see if git branch is dirty.
+    $this->yell("<comment>Please run all release tests before executing this command!</comment>");
+    $this->say("<comment>./scripts/blt/test-blt.sh</comment>");
+    $this->output()->writeln('');
     $this->say("This will do the following:");
     $this->say("- <error>Destroy any uncommitted work on the current branch.</error>");
     $this->say("- <error>Hard reset 8.x and 8.x-release to match the upstream history.</error>");
@@ -58,6 +61,22 @@ class BltInternal extends Tasks
       // @todo Check to see if branch doesn't match, confirm with dialog.
       $this->_exec('git reset --hard origin/8.x');
 
+      if (!$tag_release_notes = $this->generateReleaseNotes($tag, $github_token)) {
+        $this->yell("Failed to generate release notes.");
+        return 1;
+      }
+
+      $this->updateChangelog($tag, $tag_release_notes);
+      $this->say("<comment>If you continue, this commit will be pushed upstream and a release will be created.</comment>");
+      $continue = $this->confirm("Continue?");
+      if (!$continue) {
+        $this->_exec("git reset --hard HEAD~1");
+        return 0;
+      }
+
+      // Push the change upstream.
+      $this->_exec("git push origin 8.x");
+
       // Reset local 8.x-release to match upstream history of 8.x-release.
       $this->_exec('git checkout 8.x-release');
       // @todo Check to see if branch doesn't match, confirm with dialog.
@@ -67,17 +86,29 @@ class BltInternal extends Tasks
       $this->_exec('git merge 8.x');
       $this->_exec('git push origin 8.x-release');
 
-      $partial_release_notes = $this->generateReleaseNotes($tag, $github_token);
-      $trimmed_release_notes = $this->trimStartingLines($partial_release_notes, 3);
+      $this->createGitHubRelease($tag, $github_token, $tag_release_notes);
 
-      $request_payload = [
-        'tag_name' => $tag,
-        'name' => $tag,
-        'target_commitish' => '8.x-release',
-        'body' => $trimmed_release_notes,
-        'draft' => true,
-        'prerelease' => true,
-      ];
+      return 0;
+  }
+
+  /**
+   * Create a new release on GitHub.
+   *
+   * @param string $tag The tag name. E.g, 8.6.10
+   * @param string $github_token A github access token
+   * @param string $tag_release_notes
+   *
+   *   The release notes for this specific tag.
+   */
+  protected function createGitHubRelease($tag, $github_token, $tag_release_notes) {
+    $request_payload = [
+      'tag_name' => $tag,
+      'name' => $tag,
+      'target_commitish' => '8.x-release',
+      'body' => $this->trimStartingLines($tag_release_notes, 3),
+      'draft' => true,
+      'prerelease' => true,
+    ];
 
     $client = new Client([
       // Base URI is used with relative requests
@@ -126,24 +157,33 @@ class BltInternal extends Tasks
       return 0;
     }
 
-    if (!$trimmed_partial_changelog = $this->generateReleaseNotes($tag, $github_token)) {
+    if (!$tag_release_notes = $this->generateReleaseNotes($tag, $github_token)) {
       $this->yell("Failed to generate release notes");
       return 1;
     }
 
+    $this->updateChangelog($tag, $tag_release_notes);
+
+    return 0;
+  }
+
+  /**
+   * @param $tag_release_notes
+   */
+  protected function updateChangelog($tag, $tag_release_notes) {
     // Remove first 4 lines from full changelog.
     $full_changelog_filename = 'CHANGELOG.md';
     $full_changelog = file_get_contents($full_changelog_filename);
     $trimmed_full_changelog = $this->trimStartingLines($full_changelog, 1);
 
-    $new_full_changelog = $trimmed_partial_changelog . $trimmed_full_changelog;
+    $new_full_changelog = $tag_release_notes . $trimmed_full_changelog;
     file_put_contents($full_changelog_filename, $new_full_changelog);
 
     $this->say("$full_changelog_filename has been updated and committed. Please push to origin.");
     $this->_exec("git add $full_changelog_filename");
     $this->_exec("git commit -m 'Updating $full_changelog_filename with $tag release notes.'");
-
-    return 0;
+    $this->yell("Release notes for $tag were added and committed to CHANGELOG.md. Please review the commit:");
+    $this->_exec("git show");
   }
 
   /**
