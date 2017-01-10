@@ -1,5 +1,4 @@
-1
-## [8.6.10](https://github.com/acquia/blt/tree/8.6.10) (2017-01-10)
+1## [8.6.10](https://github.com/acquia/blt/tree/8.6.10) (2017-01-10)
 [Full Changelog](https://github.com/acquia/blt/compare/8.6.9...8.6.10)
 
 **Implemented enhancements:**
