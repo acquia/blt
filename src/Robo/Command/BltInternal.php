@@ -29,6 +29,7 @@ class BltInternal extends Tasks
 
     $requirements_met = $this->checkCommandsExist([
       'git',
+      'github_changelog_generator',
     ]);
     if (!$requirements_met) {
       return 1;
@@ -84,7 +85,7 @@ class BltInternal extends Tasks
       $this->say($response->getBody());
     }
 
-    $response_body = json_decode($response->getBody());
+    $response_body = json_decode($response->getBody(), TRUE);
     $this->say("Release $tag has been created on GitHub: \n{$response_body['html_url']}");
   }
 
