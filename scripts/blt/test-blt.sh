@@ -37,8 +37,9 @@ vagrant destroy
 git co -b ${branch}
 git add -A
 git commit -m "BLT-000: Creating test branch for BLT release ${tag}"
-git remote add origin bolt8pipeline@svn-2420.devcloud.hosting.acquia.com:bolt8pipeline.git
-git push origin ${branch}
+git remote add acquia bolt8pipeline@svn-2420.devcloud.hosting.acquia.com:bolt8pipeline.git
+git push acquia ${branch}
+pipelines set-application-id
 pipelines start
 
 # @todo have pipelines deploy and install on ODE.
