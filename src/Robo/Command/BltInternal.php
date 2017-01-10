@@ -36,7 +36,12 @@ class BltInternal extends Tasks
     }
 
     // @todo Check to see if git branch is dirty.
-    $this->yell("This will destroy any uncommitted work on the current branch. It will also hard reset 8.x and 8.x-release to match the upstream history.");
+    $this->say("This will do the following:");
+    $this->say("- <error>Destroy any uncommitted work on the current branch.</error>");
+    $this->say("- <error>Hard reset 8.x and 8.x-release to match the upstream history.</error>");
+    $this->say("- Merge 8.x into 8.x-release");
+    $this->say("- Push 8.x-release to origin");
+    $this->say("- Create a $tag release in GitHub with release notes");
     $continue = $this->confirm("Continue?");
 
     if (!$continue) {
