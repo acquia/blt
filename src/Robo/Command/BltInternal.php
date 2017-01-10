@@ -58,16 +58,16 @@ class BltInternal extends Tasks
       $this->_exec('git push origin 8.x-release');
 
       $partial_release_notes = $this->generateReleaseNotes($tag, $github_token);
+      $trimmed_release_notes = $this->trimStartingLines($partial_release_notes, 3);
 
       $request_payload = [
         'tag_name' => $tag,
         'name' => $tag,
         'target_commitish' => '8.x-release',
-        'body' => $partial_release_notes,
+        'body' => $trimmed_release_notes,
         'draft' => true,
         'prerelease' => true,
       ];
-
 
     $client = new Client([
       // Base URI is used with relative requests
@@ -79,6 +79,13 @@ class BltInternal extends Tasks
     $response = $client->request('POST', 'releases', [
       'json' => $request_payload,
     ]);
+    if ($response->getStatusCode() != 201) {
+      $this->yell("Something went wrong when attempting to create release $tag.");
+      $this->say($response->getBody());
+    }
+
+    $response_body = json_decode($response->getBody());
+    $this->say("Release $tag has been created on GitHub: \n{$response_body['html_url']}");
   }
 
   /**
