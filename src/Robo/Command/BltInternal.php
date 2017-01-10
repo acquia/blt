@@ -20,11 +20,12 @@ class BltInternal extends Tasks
    *
    * @param string $tag The tag name. E.g, 8.6.10
    * @param string $github_token A github access token
+   * @option $update-changelog Update CHANGELOG.md. Defaults to true.
    *
    * @return int
    *   The CLI status code.
    */
-  public function bltRelease($tag, $github_token)
+  public function bltRelease($tag, $github_token, $opts = ['update-changelog' => true])
   {
 
     $requirements_met = $this->checkCommandsExist([
@@ -66,12 +67,14 @@ class BltInternal extends Tasks
         return 1;
       }
 
-      $this->updateChangelog($tag, $tag_release_notes);
-      $this->say("<comment>If you continue, this commit will be pushed upstream and a release will be created.</comment>");
-      $continue = $this->confirm("Continue?");
-      if (!$continue) {
-        $this->_exec("git reset --hard HEAD~1");
-        return 0;
+      if ($opts['update-changelog']) {
+        $this->updateChangelog($tag, $tag_release_notes);
+        $this->say("<comment>If you continue, this commit will be pushed upstream and a release will be created.</comment>");
+        $continue = $this->confirm("Continue?");
+        if (!$continue) {
+          $this->_exec("git reset --hard HEAD~1");
+          return 0;
+        }
       }
 
       // Push the change upstream.

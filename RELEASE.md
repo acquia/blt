@@ -21,7 +21,7 @@ In order to use these testing instructions:
 
     ./scripts/blt/test-blt.sh [tag]
  
-## Generate CHANGELOG.md
+## Update CHANGELOG.md
 
 ### Prerequisites
 
@@ -36,8 +36,17 @@ Then, generate your release notes via:
 
     ./bin/blt-robo blt:release-notes [tag] [token]
 
-This will update CHANGELOG.md. The information for the new release should be copied and pasted into the GitHub release draft.
+This will update CHANGELOG.md and create a commit locally.
 
 ## Create a release
 
+To both generate release notes and also create a new release on GitHub, execute:
+
     ./bin/blt-robo blt:release [tag] [token]
+
+This is a potentially destructive command. It will:
+ 
+ * Perform a hard reset on the 8.x and 8.x-release branches of your local repository
+ * Update CHANGELOG.md, commit, and __push upstream__
+ * Merge 8.x into 8.x-release and __push upstream__
+ * Create a draft release on GitHub, populated with release notes
