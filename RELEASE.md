@@ -1,8 +1,14 @@
 This document outlines the process for creating a new BLT release.
 
-# Testing
+To perform a release:
 
-## Prerequisites
+1. [Run tests](#testing) locally..
+1. [Generate and commit updated CHANGELOG.md](#generate-changelogmd).
+1. [Create a release](#create-a-release)
+
+## Testing
+
+### Prerequisites
 
 In order to use these testing instructions:
 
@@ -11,13 +17,9 @@ In order to use these testing instructions:
 * MySQL must use `mysql://drupal:drupal@localhost/drupal:3306`. If this is not the case, modify the instructions below for your credentials.
 * In order to test Drupal VM, you must install VirtualBox and Vagrant. See [Drupal VM](https://github.com/geerlingguy/drupal-vm#quick-start-guide) for more information.
 
-## Execute tests
+### Execute tests
 
     ./scripts/blt/test-blt.sh [tag]
-
-## Create release
-
-    ./scripts/blt/release-blt.sh [tag] [token]
  
 ## Generate CHANGELOG.md
 
@@ -28,9 +30,14 @@ In order to use these testing instructions:
 * Procure a [github api token](https://github.com/skywinder/github-changelog-generator#github-token).
 * Determine the version of your future release.
 
+### Execute command
+
 Then, generate your release notes via:
 
-    github_changelog_generator --token [token] --future-release=[version]
+    ./bin/blt-robo blt:release-notes [tag] [token]
 
 This will update CHANGELOG.md. The information for the new release should be copied and pasted into the GitHub release draft.
 
+## Create a release
+
+    ./bin/blt-robo blt:release [tag] [token]

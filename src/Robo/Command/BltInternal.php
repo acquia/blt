@@ -86,7 +86,8 @@ class BltInternal extends Tasks
     }
 
     $response_body = json_decode($response->getBody(), TRUE);
-    $this->say("Release $tag has been created on GitHub: \n{$response_body['html_url']}");
+    $this->say("Release $tag has been created on GitHub: \n");
+    $this->_exec("open {$response_body['html_url']}");
   }
 
   /**
