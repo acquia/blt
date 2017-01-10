@@ -46,13 +46,26 @@
     depends="setup:build" hidden="true">
     <drush command="cache-clear drush"/>
     <drush command="sql-drop"/>
-    <drush command="sql-sync" alias="">
-      <option name="structure-tables-key">lightweight</option>
-      <option name="create-db"/>
-      <option name="sanitize"/>
-      <param>@${site.drush.aliases.remote}</param>
-      <param>@${site.drush.aliases.local}</param>
-    </drush>
+    <if>
+      <equals arg1="${drush.sanitize}" arg2="true"/>
+      <then>
+        <drush command="sql-sync" alias="">
+          <option name="structure-tables-key">lightweight</option>
+          <option name="create-db"/>
+          <option name="sanitize"/>
+          <param>@${site.drush.aliases.remote}</param>
+          <param>@${site.drush.aliases.local}</param>
+        </drush>
+      </then>
+      <else>
+        <drush command="sql-sync" alias="">
+          <option name="structure-tables-key">lightweight</option>
+          <option name="create-db"/>
+          <param>@${site.drush.aliases.remote}</param>
+          <param>@${site.drush.aliases.local}</param>
+        </drush>
+      </else>
+    </if>
     <drush command="cache-clear">
       <param>drush</param>
     </drush>
