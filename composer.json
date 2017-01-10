@@ -53,6 +53,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require-dev": {
-        "consolidation/Robo": "^1.0"
+        "consolidation/Robo": "^1.0",
+        "guzzlehttp/guzzle": "^6.2"
     }
 }
