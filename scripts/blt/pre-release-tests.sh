@@ -42,3 +42,4 @@ git push origin ${branch}
 pipelines start
 
 # @todo have pipelines deploy and install on ODE.
+echo "When the Pipelines build complete, deploy ${branch} on an AC environment and re-install Drupal."
