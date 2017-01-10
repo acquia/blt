@@ -14,12 +14,12 @@ In order to use these testing instructions:
 
 * The `blt` alias must be installed.
 * Your LAMP stack must have host entry for `http://local.blted8.com` pointing to `./blted8/docroot`.
-* MySQL must use `mysql://drupal:drupal@localhost/drupal:3306`. If this is not the case, modify the instructions below for your credentials.
+* MySQL must use `mysql://drupal:drupal@localhost/drupal:3306`.
 * In order to test Drupal VM, you must install VirtualBox and Vagrant. See [Drupal VM](https://github.com/geerlingguy/drupal-vm#quick-start-guide) for more information.
 
 ### Execute tests
 
-    ./scripts/blt/test-blt.sh [tag]
+    ./scripts/blt/pre-release-tests.sh [tag]
  
 ## Update CHANGELOG.md
 

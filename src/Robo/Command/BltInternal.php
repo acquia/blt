@@ -38,7 +38,7 @@ class BltInternal extends Tasks
 
     // @todo Check to see if git branch is dirty.
     $this->yell("<comment>Please run all release tests before executing this command!</comment>");
-    $this->say("<comment>./scripts/blt/test-blt.sh</comment>");
+    $this->say("<comment>./scripts/blt/pre-release-tests.sh</comment>");
     $this->output()->writeln('');
     $this->say("This will do the following:");
     $this->say("- <error>Destroy any uncommitted work on the current branch.</error>");
