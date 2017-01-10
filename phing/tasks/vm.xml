@@ -18,8 +18,13 @@
       </then>
     </if>
 
+    <propertyprompt propertyName="vm.boot" useExistingValue="true"
+                    promptText="Would you like to boot your VM now?"
+                    promptCharacter=":"
+                    defaultValue="y"/>
+
     <if>
-      <not><equals arg1="${vm.boot}" arg2="false"/></not>
+      <equals arg1="${vm.boot}" arg2="y" casesensitive="false"/>
       <then>
         <phingcall target="vm:up"/>
       </then>
@@ -67,13 +72,17 @@
     <exec dir="${repo.root}" command="composer require --dev geerlingguy/drupal-vm:~4.1" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
 
     <echo></echo>
-    <echo>A new "box" directory and a Vagrantfile have been added to ${repo.root}</echo>
+    <echo>BLT has created default configuration for your Drupal VM.</echo>
+    <echo>The configuration file is ${repo.root}/box/config.yml.</echo>
     <echo></echo>
     <echo>To customize the VM, follow the Quick Start Guide in Drupal VM's README:</echo>
     <echo>https://github.com/geerlingguy/drupal-vm#quick-start-guide</echo>
     <echo></echo>
     <echo>To run drush commands against the VM, use the @${drush.aliases.local} alias.</echo>
     <echo>You may pin yourself to this alias using "drush use @${drush.aliases.local}"</echo>
+    <echo></echo>
+    <echo>To boot your machine, execute:</echo>
+    <echo>vagrant up</echo>
   </target>
 
   <target name="vm:requirements" description="Checks and conditionally installs DrupalVM requirements." hidden="true">
