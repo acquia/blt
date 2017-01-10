@@ -34,10 +34,13 @@ In order to use these testing instructions:
 
 Then, generate your release notes via:
 
+    git checkout 8.x
+    git reset --hard origin/8.x
     ./bin/blt-robo blt:release-notes [tag] [token]
-
-This will update CHANGELOG.md. The information for the new release should be copied and pasted into the GitHub release draft.
+    git push origin
 
 ## Create a release
+
+Execute the following command:
 
     ./bin/blt-robo blt:release [tag] [token]
