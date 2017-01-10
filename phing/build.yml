@@ -64,6 +64,7 @@ drush:
   assume: yes
   passthru: yes
   logoutput: yes
+  sanitize: true
   verbose: ${blt.verbose}
 
 git:
