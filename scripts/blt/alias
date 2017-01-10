@@ -1,15 +1,19 @@
-
 function blt() {
-  if [ "`git rev-parse --show-cdup 2> /dev/null`" != "" ]; then
-    GIT_ROOT=$(git rev-parse --show-cdup)
+  local STORED_DIR=$(pwd)
+  if [ "`git rev-parse --show-toplevel 2> /dev/null`" != "" ]; then
+    GIT_ROOT=$(git rev-parse --show-toplevel)
+    cd $GIT_ROOT
+    # If blt.sh exists relative to here, run it.
+    if [ -f "$GIT_ROOT/vendor/bin/blt" ]; then
+      ./vendor/bin/blt "$@"
+    else
+      # Go up one directory, which will either take us into a parent repo or out of any Git repo.
+      cd ../
+      # Recurse
+      blt "$@"
+    fi
   else
-    GIT_ROOT="."
+    echo "Error: you are not in a BLT project. Exiting."
   fi
-
-  if [ -f "$GIT_ROOT/vendor/bin/blt" ]; then
-    $GIT_ROOT/vendor/bin/blt "$@"
-  else
-    echo "You must run this command from within a BLT-generated project repository."
-    return 1
-  fi
+  cd $STORED_DIR
 }
