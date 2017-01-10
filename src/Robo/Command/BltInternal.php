@@ -71,7 +71,7 @@ class BltInternal extends Tasks
 
     $client = new Client([
       // Base URI is used with relative requests
-      'base_uri' => 'https://api.github.com/repos/acquia/blt',
+      'base_uri' => 'https://api.github.com/repos/acquia/blt/',
       'query' => [
         'access_token' => $github_token,
       ],
