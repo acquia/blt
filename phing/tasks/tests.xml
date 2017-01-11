@@ -95,6 +95,7 @@
                profile="${behat.profile}"
                verbose="${behat.verbose}"
                strict="${behat.strict}"
+               extra="${behat.extra}"
                haltonerror="${behat.haltonerror}"
                returnProperty="behatPass"
                out="std,${reports.localDir}"
