@@ -11,11 +11,9 @@ phpunit tests/phpunit --group=deploy
 
 # Execute Pipelines build.
 # N3_KEY and N3_SECRET are Travis CI environmental variables.
-echo ~/.acquia/pipelines/credentials << EOF
-n3_endpoint: 'https://cloud.acquia.com'
-n3_key: ${N3_KEY}
-n3_secret: ${N3_SECRET}
-EOF
+echo "n3_endpoint: 'https://cloud.acquia.com'" >> ~/.acquia/pipelines/credentials
+echo "n3_key: ${N3_KEY}" >> ~/.acquia/pipelines/credentials
+echo "n3_secret: ${N3_SECRET}" >> ~/.acquia/pipelines/credentials
 cd deploy
 curl -o pipelines https://cloud.acquia.com/pipeline-client/download
 chmod a+x pipelines
