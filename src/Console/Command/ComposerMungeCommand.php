@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ComposerMungeCommand extends BaseCommand {
 
   /**
-   * ${inheritdoc}
+   * ${inheritdoc}.
    */
   protected function configure() {
     $this
@@ -31,7 +31,7 @@ class ComposerMungeCommand extends BaseCommand {
   }
 
   /**
-   * ${inheritdoc}
+   * ${inheritdoc}.
    */
   protected function execute(InputInterface $input, OutputInterface $output) {
     $file1 = $input->getArgument('file1');

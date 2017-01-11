@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Update;
 
 /**
- * Class DoPackagistConverter
+ * Class DoPackagistConverter.
  */
 class DoPackagistConverter {
 
@@ -66,11 +66,11 @@ class DoPackagistConverter {
   protected static function convertVersionConstraint($version_constraint) {
 
     /*
-      * 8.2.x-dev => 2.x-dev
-      * 8.x-2.x-dev => 2.x-dev
-      * 8.2.x-dev#a1b2c3 => 2.x-dev#a1b2c3
-      * 8.x-2.x-dev#a1b2c3 => 2.x-dev#a1b2c3
-      */
+     * 8.2.x-dev => 2.x-dev
+     * 8.x-2.x-dev => 2.x-dev
+     * 8.2.x-dev#a1b2c3 => 2.x-dev#a1b2c3
+     * 8.x-2.x-dev#a1b2c3 => 2.x-dev#a1b2c3
+     */
     if (preg_match('/-dev(#[0-9a-f]+)?$/', $version_constraint)) {
       return preg_replace('/^8\.(x-)?/', NULL, $version_constraint);
     }

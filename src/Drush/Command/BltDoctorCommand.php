@@ -1,52 +1,63 @@
 <?php
 
-/**
- * @file
- * Defines class that powers `drush blt-doctor` command.
- */
-
 namespace Acquia\Blt\Drush\Command;
 
 use Dflydev\DotAccessData\Data;
 use Symfony\Component\Console\Formatter\OutputFormatter;
-use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Yaml\Yaml;
 use Drupal\Core\Installer\Exception\AlreadyInstalledException;
 
+/**
+ *
+ */
 class BltDoctor {
 
-  /** @var string */
+  /**
+   * @var string*/
   protected $localSettingsPath;
-  /** @var array */
+  /**
+   * @var array*/
   protected $statusTable = [];
-  /** @var bool */
+  /**
+   * @var bool*/
   protected $ciEnabled = FALSE;
-  /** @var array */
+  /**
+   * @var array*/
   protected $composerJson = [];
-  /** @var array */
+  /**
+   * @var array*/
   protected $composerLock = [];
-  /** @var bool */
+  /**
+   * @var bool*/
   protected $drupalVmEnabled = FALSE;
-  /** @var array */
+  /**
+   * @var array*/
   protected $drupalVmConfig = [];
-  /** @var bool */
+  /**
+   * @var bool*/
   protected $devDesktopEnabled = FALSE;
-  /** @var array */
+  /**
+   * @var array*/
   protected $config = [];
-  /** @var array */
+  /**
+   * @var array*/
   protected $drushAliases = [];
-  /** @var bool */
+  /**
+   * @var bool*/
   protected $passed = TRUE;
-  /** @var bool */
+  /**
+   * @var bool*/
   protected $SimpleSamlPhpEnabled = FALSE;
-  /** @var \Symfony\Component\Console\Output\ConsoleOutput  */
+  /**
+   * @var \Symfony\Component\Console\Output\ConsoleOutput*/
   protected $output;
-  /** @var string */
+  /**
+   * @var string*/
   protected $bltVersion;
-  /** @var array */
+  /**
+   * @var array*/
   protected $outputTable = [];
 
   /**
@@ -54,7 +65,7 @@ class BltDoctor {
    */
   public function __construct() {
     $this->output = new ConsoleOutput();
-    $this->output->setFormatter(new OutputFormatter(true));
+    $this->output->setFormatter(new OutputFormatter(TRUE));
 
     $this->setStatusTable();
 
@@ -97,6 +108,9 @@ class BltDoctor {
     return $status_table;
   }
 
+  /**
+   *
+   */
   protected function setBltVersion() {
     foreach ($this->composerLock['packages'] as $package) {
       if ($package['name'] == 'acquia/blt') {
@@ -146,6 +160,7 @@ class BltDoctor {
 
     return [];
   }
+
   /**
    * Sets $this->composerJson using root composer.lock file.
    *
@@ -267,6 +282,9 @@ class BltDoctor {
     // @todo check if deprecated files from blt cleanup exist
   }
 
+  /**
+   *
+   */
   protected function logOutcome($check, $outcome, $type) {
     $this->outputTable["<$type>$check</$type>"] = $outcome;
     if ($type == 'error') {
@@ -277,8 +295,7 @@ class BltDoctor {
   /**
    * @param $array
    */
-  protected function printArrayAsTable($array, $headers = array('Property', 'Value'))
-  {
+  protected function printArrayAsTable($array, $headers = array('Property', 'Value')) {
     $rowGenerator = function () use ($array) {
       $rows = [];
       $max_line_length = 80;
@@ -315,6 +332,9 @@ class BltDoctor {
       ->render();
   }
 
+  /**
+   *
+   */
   protected function docrootExists() {
     return !empty($this->statusTable['root']);
   }
@@ -455,7 +475,7 @@ class BltDoctor {
     if (strstr($this->statusTable['uri'], 'https')) {
       if (!drush_shell_exec('curl -cacert %s', $this->statusTable['uri'])) {
         $this->logOutcome(__FUNCTION__, [
-          "The SSL certificate for your local site appears to be invalid for {$this->statusTable['uri']}."
+          "The SSL certificate for your local site appears to be invalid for {$this->statusTable['uri']}.",
         ], 'error');
       }
       else {
@@ -776,7 +796,7 @@ class BltDoctor {
    * @return array|mixed
    */
   protected function setDrupalVmConfig() {
-    $this->drupalVmConfig  = Yaml::parse(file_get_contents($this->repoRoot . '/box/config.yml'));
+    $this->drupalVmConfig = Yaml::parse(file_get_contents($this->repoRoot . '/box/config.yml'));
 
     return $this->drupalVmConfig;
   }
@@ -797,7 +817,7 @@ class BltDoctor {
       $this->logOutcome(__FUNCTION__, [
         "drush alias file does not exist!",
         "",
-        "Create $file_path"
+        "Create $file_path",
       ], 'error');
     }
     else {
@@ -852,7 +872,6 @@ class BltDoctor {
     }
   }
 
-
   /**
    * Checks TravisCI configuration.
    */
@@ -891,7 +910,7 @@ class BltDoctor {
     }
     else {
       $this->logOutcome(__FUNCTION__ . ':require', [
-        "acquia/blt is in composer.json's require object."
+        "acquia/blt is in composer.json's require object.",
       ], 'info');
     }
 
@@ -905,11 +924,14 @@ class BltDoctor {
     }
     else {
       $this->logOutcome(__FUNCTION__ . ':plugins', [
-        "hirak/prestissimo plugin for composer is installed."
+        "hirak/prestissimo plugin for composer is installed.",
       ], 'info');
     }
   }
 
+  /**
+   *
+   */
   protected function checkAcsfConfig() {
     $file_path = $this->repoRoot . '/factory-hooks/pre-settings-php/includes.php';
     if (file_exists($file_path)) {
@@ -1015,7 +1037,7 @@ class BltDoctor {
         $this->logOutcome(__FUNCTION__, [
           "Simplesamlphp config directory is missing. $config_root",
           "",
-          "Run `blt simplesamlphp:config:init` to create a config directory."
+          "Run `blt simplesamlphp:config:init` to create a config directory.",
         ], 'error');
       }
 
@@ -1028,14 +1050,14 @@ class BltDoctor {
       }
 
       // Compare config files in $config_root and $lib_root.
-      if (file_exists($lib_root) && file_exists($config_root)){
+      if (file_exists($lib_root) && file_exists($config_root)) {
         $config_files = [
           '/config/config.php',
           '/config/authsources.php',
           '/metadata/saml20-idp-remote.php',
         ];
         foreach ($config_files as $config_file) {
-          if (file_exists($lib_root . $config_file) && file_exists($config_root . $config_file)){
+          if (file_exists($lib_root . $config_file) && file_exists($config_root . $config_file)) {
             $config_file_content = file_get_contents($config_root . $config_file);
             $lib_file_content = file_get_contents($lib_root . $config_file);
             if (strcmp($config_file_content, $lib_file_content) !== 0) {
@@ -1044,10 +1066,11 @@ class BltDoctor {
                 "  Run `blt simplesamlphp:build:config` to copy the files from the repo root to the library.",
               ], 'error');
             }
-          } else {
+          }
+          else {
             $lib_file_path = $lib_root . $config_file;
             $this->logOutcome(__FUNCTION__, [
-              "$lib_file_path is missing. Run `blt simplesamlphp:build:config`."
+              "$lib_file_path is missing. Run `blt simplesamlphp:build:config`.",
             ], 'error');
           }
         }
@@ -1088,4 +1111,5 @@ class BltDoctor {
       $this->logOutcome(__FUNCTION__, "PHP setting for date.timezone is correctly set", 'info');
     }
   }
+
 }

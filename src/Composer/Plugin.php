@@ -1,47 +1,40 @@
 <?php
 
-/**
- * @file
- * Provides a way to patch Composer packages after installation.
- */
-
 namespace Acquia\Blt\Composer;
 
-use Acquia\Blt\Update\Updater;
+use Composer\Script\Event;
+use Composer\Installer\PackageEvent;
 use Composer\Composer;
 use Composer\DependencyResolver\Operation\InstallOperation;
-use Composer\DependencyResolver\Operation\UninstallOperation;
 use Composer\DependencyResolver\Operation\UpdateOperation;
-use Composer\DependencyResolver\Operation\OperationInterface;
 use Composer\EventDispatcher\EventSubscriberInterface;
 use Composer\IO\IOInterface;
-use Composer\Package\AliasPackage;
 use Composer\Package\PackageInterface;
 use Composer\Plugin\PluginInterface;
 use Composer\Installer\PackageEvents;
-use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
-use Composer\Script\PackageEvent;
 use Composer\Util\ProcessExecutor;
 use Composer\Util\Filesystem;
-use Symfony\Component\Process\Process;
 
+/**
+ *
+ */
 class Plugin implements PluginInterface, EventSubscriberInterface {
 
   /**
-   * @var Composer $composer
+   * @var Composer
    */
   protected $composer;
   /**
-   * @var IOInterface $io
+   * @var IOInterface
    */
   protected $io;
   /**
-   * @var EventDispatcher $eventDispatcher
+   * @var EventDispatcher
    */
   protected $eventDispatcher;
   /**
-   * @var ProcessExecutor $executor
+   * @var ProcessExecutor
    */
   protected $executor;
 
@@ -50,13 +43,14 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    */
   protected $bltPackage;
 
-  /** @var string */
+  /**
+   * @var string*/
   protected $blt_prior_version;
 
   /**
-   * Apply plugin modifications to composer
+   * Apply plugin modifications to composer.
    *
-   * @param Composer    $composer
+   * @param Composer $composer
    * @param IOInterface $io
    */
   public function activate(Composer $composer, IOInterface $io) {
@@ -73,7 +67,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     return array(
       PackageEvents::POST_PACKAGE_INSTALL => "onPostPackageEvent",
       PackageEvents::POST_PACKAGE_UPDATE => "onPostPackageEvent",
-      ScriptEvents::POST_UPDATE_CMD => 'onPostCmdEvent'
+      ScriptEvents::POST_UPDATE_CMD => 'onPostCmdEvent',
     );
   }
 
@@ -82,7 +76,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    *
    * @param \Composer\Installer\PackageEvent $event
    */
-  public function onPostPackageEvent(\Composer\Installer\PackageEvent $event){
+  public function onPostPackageEvent(PackageEvent $event) {
     $package = $this->getBltPackage($event->getOperation());
     if ($package) {
       // By explicitly setting the blt package, the onPostCmdEvent() will
@@ -96,7 +90,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    *
    * @param \Composer\Script\Event $event
    */
-  public function onPostCmdEvent(\Composer\Script\Event $event) {
+  public function onPostCmdEvent(Event $event) {
     // Only install the template files if acquia/blt was installed.
     if (isset($this->bltPackage)) {
       $version = $this->bltPackage->getVersion();
@@ -106,7 +100,9 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
 
   /**
    * Gets the acquia/blt package, if it is the package that is being operated on.
+   *
    * @param $operation
+   *
    * @return mixed
    */
   protected function getBltPackage($operation) {
@@ -124,6 +120,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
 
   /**
    * Executes `blt update` and `blt-console blt:update` commands.
+   *
    * @param $version
    */
   protected function executeBltUpdate($version) {
@@ -132,7 +129,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     if ($this->isInitialInstall()) {
       $this->io->write('<info>Creating BLT templated files...</info>');
       // The BLT command will not work at this point because the .git dir doesn't exist yet.
-      $success = $this->executeCommand($this->getVendorPath() .'/acquia/blt/blt.sh create-project', [], TRUE);
+      $success = $this->executeCommand($this->getVendorPath() . '/acquia/blt/blt.sh create-project', [], TRUE);
     }
     elseif ($options['blt']['update']) {
       $this->io->write('<info>Updating BLT templated files...</info>');
@@ -223,6 +220,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    * @param bool $display_output
    *   Optional. Defaults to FALSE. If TRUE, command output will be displayed
    *   on screen.
+   *
    * @return bool
    *   TRUE if command returns successfully with a 0 exit code.
    */
@@ -240,7 +238,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
       $this->io->write('<comment> > ' . $command . '</comment>');
       $io = $this->io;
       $output = function ($type, $buffer) use ($io) {
-        $io->write($buffer, false);
+        $io->write($buffer, FALSE);
       };
     }
     return ($this->executor->execute($command, $output) == 0);

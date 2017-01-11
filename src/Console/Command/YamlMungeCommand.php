@@ -14,7 +14,7 @@ use Symfony\Component\Yaml\Exception\ParseException;
 class YamlMungeCommand extends BaseCommand {
 
   /**
-   * ${inheritdoc}
+   * ${inheritdoc}.
    */
   protected function configure() {
     $this
@@ -34,7 +34,7 @@ class YamlMungeCommand extends BaseCommand {
   }
 
   /**
-   * ${inheritdoc}
+   * ${inheritdoc}.
    */
   protected function execute(InputInterface $input, OutputInterface $output) {
     $file1 = $input->getArgument('file1');
@@ -60,7 +60,7 @@ class YamlMungeCommand extends BaseCommand {
     $file1_contents = (array) $this->parseFile($file1);
     $file2_contents = (array) $this->parseFile($file2);
 
-    $munged_contents = $this->arrayMergeRecursiveExceptEmpty($file1_contents, $file2_contents);
+    $munged_contents = self::arrayMergeRecursiveExceptEmpty($file1_contents, $file2_contents);
 
     return Yaml::dump($munged_contents, 3, 2);
   }
@@ -100,12 +100,12 @@ class YamlMungeCommand extends BaseCommand {
    *
    * @return array
    */
-  protected function arrayMergeRecursiveExceptEmpty(array &$array1, array &$array2) {
+  public static function arrayMergeRecursiveExceptEmpty(array &$array1, array &$array2) {
     $merged = $array1;
 
     foreach ($array2 as $key => &$value) {
       if (is_array($value) && isset($merged[$key]) && is_array($merged[$key]) && !empty($value)) {
-        $merged[$key] = $this->arrayMergeRecursiveExceptEmpty($merged[$key], $value);
+        $merged[$key] = self::arrayMergeRecursiveExceptEmpty($merged[$key], $value);
       }
       else {
         $merged[$key] = $value;

@@ -95,7 +95,7 @@ class Updates {
       'phpunit/phpunit',
       'behat/mink-extension',
       'behat/mink-goutte-driver',
-      'behat/mink-browserkit-driver'
+      'behat/mink-browserkit-driver',
     ];
     foreach ($remove_packages as $package) {
       unset($composer_json['require'][$package]);
