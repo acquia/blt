@@ -5,7 +5,7 @@ namespace Acquia\Blt\Tests\Blt;
 use Acquia\Blt\Console\Command\YamlMungeCommand;
 
 /**
- *
+ * Tests yaml:munge command in blt-console.
  */
 class YamlMungeCommandTest extends \PHPUnit_Framework_TestCase {
 
