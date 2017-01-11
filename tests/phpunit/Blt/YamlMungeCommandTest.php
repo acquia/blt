@@ -3,8 +3,10 @@
 namespace Acquia\Blt\Tests\Blt;
 
 use Acquia\Blt\Console\Command\YamlMungeCommand;
-use Acquia\Blt\Tests\BltTestBase;
 
+/**
+ *
+ */
 class YamlMungeCommandTest extends \PHPUnit_Framework_TestCase {
 
   /**
@@ -12,8 +14,13 @@ class YamlMungeCommandTest extends \PHPUnit_Framework_TestCase {
    *
    * @dataProvider getValueProvider
    */
-  public function testArrayMergeRecursiveExceptEmpty($array1, $array2, $expected_array) {
-    $this->assertEquals(YamlMungeCommand::arrayMergeRecursiveExceptEmpty($array1, $array2), $expected_array);
+  public function testArrayMergeRecursiveExceptEmpty(
+    $array1,
+    $array2,
+    $expected_array
+  ) {
+    $this->assertEquals(YamlMungeCommand::arrayMergeRecursiveExceptEmpty($array1,
+      $array2), $expected_array);
   }
 
   /**
@@ -22,18 +29,17 @@ class YamlMungeCommandTest extends \PHPUnit_Framework_TestCase {
    * @return array
    *   An array of values to test.
    */
-  public function getValueProvider()
-  {
+  public function getValueProvider() {
 
     return [
       [
         [
           'modules' => [
             'local' => [
-              'enable' => [ 'test' ]
+              'enable' => ['test'],
             ],
             'ci' => [
-              'uninstall' => [ 'shield' ]
+              'uninstall' => ['shield'],
             ],
           ],
           'behat' => [
@@ -44,31 +50,32 @@ class YamlMungeCommandTest extends \PHPUnit_Framework_TestCase {
         [
           'modules' => [
             'local' => [
-              'enable' => [ ]
+              'enable' => [],
             ],
             'ci' => [
-              'uninstall' => [ 'shield' ]
+              'uninstall' => ['shield'],
             ],
           ],
           'behat' => [
-            'tags' => 'nottest'
-          ]
+            'tags' => 'nottest',
+          ],
         ],
         [
           'modules' => [
             'local' => [
-              'enable' => [ ]
+              'enable' => [],
             ],
             'ci' => [
-              'uninstall' => [ 'shield' ]
+              'uninstall' => ['shield'],
             ],
           ],
           'behat' => [
             'tags' => 'nottest',
             'launch-selenium' => 'true',
-          ]
+          ],
         ],
       ],
     ];
   }
+
 }

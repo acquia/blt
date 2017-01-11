@@ -14,7 +14,7 @@ use Symfony\Component\Yaml\Exception\ParseException;
 class YamlMungeCommand extends BaseCommand {
 
   /**
-   * ${inheritdoc}
+   * ${inheritdoc}.
    */
   protected function configure() {
     $this
@@ -34,7 +34,7 @@ class YamlMungeCommand extends BaseCommand {
   }
 
   /**
-   * ${inheritdoc}
+   * ${inheritdoc}.
    */
   protected function execute(InputInterface $input, OutputInterface $output) {
     $file1 = $input->getArgument('file1');

@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ConfigurePhantomJsCommand extends BaseCommand {
 
   /**
-   * ${inheritdoc}
+   * ${inheritdoc}.
    */
   protected function configure() {
     $this
@@ -26,7 +26,7 @@ class ConfigurePhantomJsCommand extends BaseCommand {
   }
 
   /**
-   * ${inheritdoc}
+   * ${inheritdoc}.
    */
   protected function execute(InputInterface $input, OutputInterface $output) {
     $repo_root = $input->getArgument('repo-root');

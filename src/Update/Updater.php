@@ -2,7 +2,6 @@
 
 namespace Acquia\Blt\Update;
 
-use Acquia\Blt\Annotations\Update;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Annotations\IndexedReader;
@@ -257,7 +256,7 @@ class Updater {
   }
 
   /**
-   * Removes a repository from composer.json using the repository url[
+   * Removes a repository from composer.json using the repository url[.
    *
    * @param string $repo_url
    *   The url property of the repository to remove.
@@ -282,7 +281,7 @@ class Updater {
   }
 
   /**
-   * Removes a repository from composer.json using the repository url[
+   * Removes a repository from composer.json using the repository url[.
    *
    * @param string $script_key
    *   The key of the scripts to remove. E.g., post-create-project-cmd.
