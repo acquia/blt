@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -x
-
 # This script performs a deployment for BLT itself via Travis CI.
 
 # Deploy to Acquia Cloud
@@ -11,7 +9,7 @@ phpunit tests/phpunit --group=deploy
 
 # Execute Pipelines build.
 # N3_KEY and N3_SECRET are Travis CI environmental variables.
-mv $TRAVIS_BUILD_DIR/scripts/blt/acquia-credentials ~/.acquia/pipelines/credentials
+./pipelines configure --key=$N3_KEY --secret=$N3_SECRET
 cd deploy
 curl -o pipelines https://cloud.acquia.com/pipeline-client/download
 chmod a+x pipelines
