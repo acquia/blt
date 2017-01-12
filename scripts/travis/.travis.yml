@@ -25,9 +25,6 @@ cache:
 addons:
   ssh_known_hosts:
   # - svn-4786.devcloud.hosting.acquia.com
-  apt:
-    sources:
-    - xvfb
 
 # @see https://docs.travis-ci.com/user/notifications
 notifications:
