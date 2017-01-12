@@ -101,6 +101,7 @@
                format="pretty,junit"
                path="${behat.path}"
                tags="${behat.tags}"
+               extra="${behat.extra}"
         />
         <if>
           <!-- A non-zero returns status indicates failure. -->

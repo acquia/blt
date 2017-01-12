@@ -18,6 +18,7 @@ behat:
     - ${repo.root}/tests/behat
   tags: '~ajax&&~experimental&&~lightningextension'
   verbose: ${blt.verbose}
+  extra: ''
 
 blt:
   update:
