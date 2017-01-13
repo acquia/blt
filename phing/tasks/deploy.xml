@@ -46,7 +46,7 @@
               <equals arg1="${deploy.tag.create}" arg2="y"/>
               <then>
                 <propertyprompt propertyName="deploy.tag" useExistingValue="true"
-                                promptText="Enter the name of the tag to create. This will be automatically appended with '-build'"
+                                promptText="Enter the name of the tag to create."
                                 promptCharacter=":"
                                 defaultValue=""/>
               </then>
@@ -198,7 +198,7 @@
     <if>
       <isset property="deploy.tag"/>
       <then>
-        <exec command="git push ${remoteName} ${deploy.tag}-build" dir="${deploy.dir}" outputProperty="deploy.push.output" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
+        <exec command="git push ${remoteName} ${deploy.tag}" dir="${deploy.dir}" outputProperty="deploy.push.output" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
         <exec command="export DEPLOY_UPTODATE=$(echo '${deploy.push.output}' | grep --quiet 'Everything up-to-date')" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
       </then>
     </if>
@@ -226,7 +226,7 @@
   </target>
 
   <target name="deploy:tag" description="Tag repository.">
-    <!-- Tag build repo with [tag]-build. -->
-    <exec dir="${deploy.dir}" command="git tag -a ${deploy.tag}-build -m '${deploy.commitMsg}'" logoutput="true" level="${blt.exec_level}" passthru="true"/>
+    <!-- Tag build repo with [tag]. -->
+    <exec dir="${deploy.dir}" command="git tag -a ${deploy.tag} -m '${deploy.commitMsg}'" logoutput="true" level="${blt.exec_level}" passthru="true"/>
   </target>
 </project>
