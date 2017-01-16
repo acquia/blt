@@ -2,7 +2,7 @@
 
 namespace Acquia\Blt\Robo\Common;
 
-trait StringManipulator {
+class StringManipulator {
 
   /**
    * Trims the last $num_lines lines from end of a text string.

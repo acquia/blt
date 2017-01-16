@@ -2,43 +2,39 @@
 
 namespace Acquia\Blt\Robo;
 
-use Robo\Common\IO;
+use Acquia\Blt\Robo\Common\IO;
+use Acquia\Blt\Robo\Common\LocalEnvironment;
+use Acquia\Blt\Robo\Common\LocalEnvironmentValidator;
 use Robo\Tasks;
 
-class BltTasks extends Tasks
-{
+class BltTasks extends Tasks {
+
+  use IO;
+
+  /** @var \Acquia\Blt\Robo\Common\LocalEnvironment */
+  protected $localEnvironment;
+  protected $localEnvironmentValidator;
+
   /**
-   * @param string $text
+   * RoboFile constructor.
    */
-  protected function say($text)
-  {
-    $this->writeln($text);
+  public function __construct() {
+    $this->localEnvironment = new LocalEnvironment();
+    $this->localEnvironmentValidator = new LocalEnvironmentValidator($this->localEnvironment);
   }
 
   /**
-   *
-   *
-   * @param string $text
-   * @param int $length
-   * @param string $color
+   * @return \Acquia\Blt\Robo\Common\LocalEnvironment
    */
-  protected function yell($text, $length = 40, $color = 'green')
-  {
-    $format = "<fg=white;bg=$color;options=bold>%s</fg=white;bg=$color;options=bold>";
-    $this->formattedOutput($text, $length, $format);
-  }
-
-  protected function warn($text, $color = 'yellow') {
-    $this->yell($text, null,  $color);
+  public function getLocalEnvironment() {
+    return $this->localEnvironment;
   }
 
   /**
-   * @param string $message
-   *
-   * @return string
+   * @return \Acquia\Blt\Robo\Common\LocalEnvironmentValidator
    */
-  protected function formatQuestion($message)
-  {
-    return  "<question> $message</question> ";
+  public function getLocalEnvironmentValidator() {
+    return $this->localEnvironmentValidator;
   }
+
 }

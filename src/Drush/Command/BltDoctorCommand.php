@@ -2,6 +2,7 @@
 
 namespace Acquia\Blt\Drush\Command;
 
+use Acquia\Blt\Robo\Common\LocalEnvironmentValidator;
 use Dflydev\DotAccessData\Data;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Helper\Table;
@@ -13,6 +14,8 @@ use Drupal\Core\Installer\Exception\AlreadyInstalledException;
  *
  */
 class BltDoctor {
+
+  use LocalEnvironmentValidator;
 
   /**
    * @var string*/
@@ -255,7 +258,7 @@ class BltDoctor {
     $this->checkFileSystem();
     $this->checkDbConnection();
     $this->checkDrupalBootstrapped();
-    $this->checkDrupalInstalled();
+    $this->checkDrupalIsInstalled();
     $this->checkCaching();
     $this->checkNvmExists();
     $this->checkDevDesktop();
@@ -374,11 +377,10 @@ class BltDoctor {
    * Checks active settings.php file.
    */
   protected function checkSettingsFile() {
-    if (!file_exists($this->statusTable['drupal-settings-file'])) {
+    if ($this->drupalSettingsFileExists()) {
       $this->logOutcome(__FUNCTION__, "Could not find settings.php for this site.", 'error');
     }
     else {
-      $settings_file_path = $this->docroot . '/' . $this->statusTable['drupal-settings-file'];
       $this->logOutcome(__FUNCTION__, "Found settings file.", 'info');
 
       $settings_file_contents = file_get_contents($settings_file_path);
@@ -608,23 +610,16 @@ class BltDoctor {
   /**
    * Checks that Drupal is installed.
    */
-  protected function checkDrupalInstalled() {
-    require $this->docroot . '/core/includes/install.core.inc';
-    require $this->docroot . '/core/includes/install.inc';
-    require $this->docroot . '/core/modules/system/system.install';
-    try {
-      install_verify_database_ready();
+  protected function checkDrupalIsInstalled() {
+    if ($this->drupalIsInstalled()) {
+      $this->logOutcome(__FUNCTION__, "Drupal is installed.", 'info');
+    }
+    else {
       $this->logOutcome(__FUNCTION__, [
         "Drupal is not installed.",
         "",
         'Run `blt local:setup` to install Drupal locally.',
       ], 'error');
-    }
-    catch (AlreadyInstalledException $e) {
-      $this->logOutcome(__FUNCTION__, "Drupal is installed.", 'info');
-    }
-    catch (\Exception $e) {
-
     }
   }
 

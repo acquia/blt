@@ -29,7 +29,9 @@
         "doctrine/common":                  "^2.5",
         "vierbergenlars/php-semver":        "^3.0",
         "grasmash/drupal-security-warning": "^1.0.0",
-        "grasmash/yaml-cli": "^0.3"
+        "grasmash/yaml-cli": "^0.3",
+        "grasmash/yaml-expander": "^1.0.1",
+        "consolidation/Robo": "dev-master"
     },
     "autoload": {
         "psr-4": {
@@ -42,7 +44,8 @@
     },
     "bin": [
         "bin/blt",
-        "bin/blt-console"
+        "bin/blt-console",
+        "bin/blt-robo"
     ],
     "conflict": {
         "drupal/core": "7.*"
@@ -53,7 +56,6 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require-dev": {
-        "consolidation/Robo": "dev-master",
         "guzzlehttp/guzzle": "^6.2"
     }
 }

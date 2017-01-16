@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "2dfd4207db971d4eb6401b92bebca3ca",
+    "content-hash": "4519e19e340c06aa4a1d7846d73559a6",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -1266,6 +1266,49 @@
             ],
             "description": "A command line tool for reading and manipulating yaml files.",
             "time": "2017-01-10T15:51:29+00:00"
+        },
+        {
+            "name": "grasmash/yaml-expander",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/grasmash/yaml-expander.git",
+                "reference": "b504cc896722b2d8e8e3454aa41536b12a8c79d1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/grasmash/yaml-expander/zipball/b504cc896722b2d8e8e3454aa41536b12a8c79d1",
+                "reference": "b504cc896722b2d8e8e3454aa41536b12a8c79d1",
+                "shasum": ""
+            },
+            "require": {
+                "dflydev/dot-access-data": "dev-master",
+                "php": ">=5.6",
+                "symfony/console": "^2.8.11",
+                "symfony/yaml": "^2.8.11"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.5.4",
+                "satooshi/php-coveralls": "^1.0",
+                "squizlabs/php_codesniffer": "^2.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Grasmash\\YamlExpander\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Matthew Grasmick"
+                }
+            ],
+            "description": "Expands internal property references in a yaml file.",
+            "time": "2017-01-16T16:03:04+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -4535,7 +4578,7 @@
                 }
             ],
             "description": "Modern task runner",
-            "time": "2017-01-13T18:07:50+00:00"
+            "time": "2017-01-13 18:07:50"
         },
         {
             "name": "container-interop/container-interop",
