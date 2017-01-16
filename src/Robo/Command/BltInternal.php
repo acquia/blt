@@ -2,7 +2,9 @@
 
 namespace Acquia\Blt\Robo\Command;
 
-use Robo\Tasks;
+use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Common\BltIO;
+use Acquia\Blt\Robo\Common\LocalEnvironmentValidator;
 use GuzzleHttp\Client;
 
 /**
@@ -10,7 +12,9 @@ use GuzzleHttp\Client;
  *
  * @see http://robo.li/
  */
-class BltInternal extends Tasks {
+class BltInternal extends BltTasks {
+
+  use LocalEnvironmentValidator;
 
   /**
    * Generates release notes and cuts a new tag on GitHub.
@@ -28,7 +32,6 @@ class BltInternal extends Tasks {
    *   The CLI status code.
    */
   public function bltRelease($tag, $github_token, $opts = ['update-changelog' => TRUE]) {
-
     $requirements_met = $this->checkCommandsExist([
       'git',
       'github_changelog_generator',
@@ -38,12 +41,12 @@ class BltInternal extends Tasks {
     }
 
     // @todo Check to see if git branch is dirty.
-    $this->yell("<comment>Please run all release tests before executing this command!</comment>");
-    $this->say("<comment>./scripts/blt/pre-release-tests.sh</comment>");
+    $this->warn("Please run all release tests before executing this command!");
+    $this->say("To run release tests, execute ./scripts/blt/pre-release-tests.sh");
     $this->output()->writeln('');
-    $this->say("This will do the following:");
-    $this->say("- <error>Destroy any uncommitted work on the current branch.</error>");
-    $this->say("- <error>Hard reset 8.x and 8.x-release to match the upstream history.</error>");
+    $this->say("Continuing will do the following:");
+    $this->say("- <comment>Destroy any uncommitted work on the current branch.</comment>");
+    $this->say("- <comment>Hard reset 8.x and 8.x-release to match the upstream history.</comment>");
     $this->say("- Merge 8.x into 8.x-release");
     $this->say("- Push 8.x-release to origin");
     $this->say("- Create a $tag release in GitHub with release notes");
@@ -217,67 +220,6 @@ class BltInternal extends Tasks {
     unlink($partial_changelog_filename);
 
     return $trimmed_partial_changelog;
-  }
-
-  /**
-   * Trims the last $num_lines lines from end of a text string.
-   *
-   * @param string $text
-   *   A string of text.
-   * @param int $num_lines
-   *   The number of lines to trim from the end of the text.
-   *
-   * @return string
-   *   The trimmed text.
-   */
-  protected function trimEndingLines($text, $num_lines) {
-    return implode("\n", array_slice(explode("\n", $text), 0, sizeof($text) - $num_lines));
-  }
-
-  /**
-   * Trims the last $num_lines lines from beginning of a text string.
-   *
-   * @param string $text
-   *   A string of text.
-   * @param int $num_lines
-   *   The number of lines to trim from beginning of text.
-   *
-   * @return string
-   *   The trimmed text.
-   */
-  protected function trimStartingLines($text, $num_lines) {
-    return implode("\n", array_slice(explode("\n", $text), $num_lines));
-  }
-
-  /**
-   * Check if an array of commands exists on the system.
-   *
-   * @param $commands array An array of command binaries.
-   *
-   * @return bool
-   *   TRUE if all commands exist, otherwise FALSE.
-   */
-  protected function checkCommandsExist($commands) {
-    foreach ($commands as $command) {
-      if (!$this->commandExists($command)) {
-        $this->yell("Unable to find '$command' command!");
-        return FALSE;
-      }
-    }
-
-    return TRUE;
-  }
-
-  /**
-   * Checks if a given command exists on the system.
-   *
-   * @param $command string the command binary only. E.g., "drush" or "php".
-   *
-   * @return bool
-   *   TRUE if the command exists, otherwise FALSE.
-   */
-  protected function commandExists($command) {
-    return $this->taskExec("command -v $command >/dev/null 2>&1")->run()->wasSuccessful();
   }
 
 }
