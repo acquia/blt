@@ -105,9 +105,16 @@ script:
   - composer config repositories.blt.url '"../../blt"'
   - rm composer.lock
   # Deploy build artifact.
-  # - blt deploy:build
-  - ../blt/scripts/blt/travis-deploy.sh
+  - blt deploy:build
   # Switch back to 'blt' directory.
   - cd ../blt
   # Run 'blt' phpunit tests, excluding deploy-push tests.
   - phpunit tests/phpunit --group blt --exclude-group deploy-push
+
+deploy:
+  provider: script
+  script: ./scripts/blt/travis-deploy.sh pipelines-execute && phpunit tests/phpunit --group=deploy
+  skip_cleanup: true
+  on:
+    branch: pipelines-execute
+    php: 5.6
