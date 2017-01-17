@@ -19,15 +19,30 @@ foreach ($possible_bin_dirs as $possible_bin_dir) {
 if (!isset($autoload)) {
   print "Unable to find autoloader for blt-robo\n";
 }
+//
+//$commandClasses = [
+//  //\Acquia\Blt\Robo\Command\BltInternal::class,
+//  \Acquia\Blt\Robo\Command\Test::class,
+//];
+//$statusCode = \Robo\Robo::run(
+//  $_SERVER['argv'],
+//  $commandClasses,
+//  'BLT',
+//  '0.0.0-alpha0'
+//);
+//exit($statusCode);
 
-$commandClasses = [
-  \Acquia\Blt\Robo\Command\BltInternal::class,
-  \Acquia\Blt\Robo\Command\Test::class,
-];
-$statusCode = \Robo\Robo::run(
-  $_SERVER['argv'],
-  $commandClasses,
-  'BLT',
-  '0.0.0-alpha0'
-);
-exit($statusCode);
+use Acquia\Blt\Robo\Blt;
+use Acquia\Blt\Robo\Config\DefaultConfig;
+
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Output\ConsoleOutput;
+// Create the input and output objects for Terminus to run against.
+$input = new ArgvInput($_SERVER['argv']);
+$output = new ConsoleOutput();
+
+$config = new DefaultConfig();
+
+$blt = new Blt($config, $input, $output);
+$status_code = $blt->run($input, $output);
+exit($status_code);
