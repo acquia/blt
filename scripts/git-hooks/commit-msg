@@ -13,7 +13,7 @@ RED='\033[0;31m'
 NO_COLOR='\033[0m'
 
 # Make sure there are no errors while running drupal console command
-# todo: It would have be easy, just by discarding the std error, but for some
+# todo: It would have been easy, just by discarding the std error, but for some
 # reason the error message is repeated on std out - which messes up everything.
 if [ -n "$ERROR" ]; then
   printf "${RED}Error: could not get project prefix!${NO_COLOR} Please check:\n"
