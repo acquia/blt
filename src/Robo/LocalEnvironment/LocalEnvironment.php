@@ -52,6 +52,8 @@ class LocalEnvironment {
    * LocalEnvironment constructor.
    */
   public function __construct() {
+    // Move these to DefaultConfig and call $this->set();
+    // @see https://github.com/pantheon-systems/terminus/blob/master/src/Config/DefaultsConfig.php
     $this->setRepoRoot();
     $this->setBltRoot();
     $this->setDocroot();
