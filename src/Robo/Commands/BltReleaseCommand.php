@@ -1,6 +1,6 @@
 <?php
 
-namespace Acquia\Blt\Robo\Command;
+namespace Acquia\Blt\Robo\Commands;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\BltIO;
@@ -12,7 +12,7 @@ use GuzzleHttp\Client;
  *
  * @see http://robo.li/
  */
-class BltInternal extends BltTasks {
+class BltReleaseCommand extends BltTasks {
 
   /**
    * Generates release notes and cuts a new tag on GitHub.

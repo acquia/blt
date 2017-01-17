@@ -1,6 +1,6 @@
 <?php
 
-namespace Acquia\Blt\Robo\Command;
+namespace Acquia\Blt\Robo\Commands;
 
 use Acquia\Blt\Robo\BltTasks;
 
@@ -9,7 +9,7 @@ use Acquia\Blt\Robo\BltTasks;
  *
  * @see http://robo.li/
  */
-class Test extends BltTasks
+class TestCommand extends BltTasks
 {
 
   /**
@@ -35,26 +35,35 @@ class Test extends BltTasks
    * @command tests:behat
    */
   public function testsBehat() {
-    if (!$this->getLocalEnvironmentValidator()->performLocalEnvironmentChecks([
+    $local_environment = $this->getContainer()->get('local_environment');
+    $passed = $local_environment->performLocalEnvironmentChecks([
       'checkRepoRootExists',
       'checkDocrootExists',
       'checkDrupalInstalled',
-    ])) {
-      return 1;
+      'checkBehatIsConfigured',
+    ]);
+
+    if (!$passed) {
+      // @todo return. Make parent command return as well.
+      // @todo find out why failure is silent here.
+      // return 1;
     }
 
     $this->killByPort('4444');
     $this->killByName('selenium');
     $this->killByName('phantomjs');
 
-    if ($this->config['behat']['launch-phantomjs']) {
+    $config = $this->localEnvironment->getConfig();
+    if ($config['behat']['launch-phantomjs']) {
       $this->launchPhantomJs();
     }
 
-    $this->_mkdir("{$this->repoRoot}/{$this->config['reports']['localDir']})");
+    $this->_mkdir("{$this->localEnvironment->getRepoRoot()}/{$config['reports']['localDir']})");
 
-    foreach ($this->config['behat']['paths'] as $behat_path) {
-      $this->_exec("{$this->bin}/behat $behat_path -c {$this->config['behat']['config']} -p {$this->config['behat']['profile']}");
+    foreach ($config['behat']['paths'] as $behat_path) {
+      // Output errors.
+      // @todo break if fails.
+      $this->_exec("{$this->localEnvironment->getBin()}/behat $behat_path -c {$config['behat']['config']} -p {$config['behat']['profile']}");
     }
   }
 
