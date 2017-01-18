@@ -21,28 +21,28 @@ class LocalEnvironment implements ConfigAwareInterface, ExecutorAwareInterface {
   /**
    * @return bool
    */
-  public function repoRootExists() {
+  public function isRepoRootPresent() {
     return file_exists($this->getConfigValue('repo.root'));
   }
 
   /**
    * @return bool
    */
-  public function docrootExists() {
+  public function isDocrootPresent() {
     return file_exists($this->getConfigValue('docroot'));
   }
 
   /**
    * @return bool
    */
-  public function drupalSettingsFileExists() {
+  public function isDrupalSettingsFilePresent() {
      return file_exists($this->getConfigValue('drupal.settings_file'));
   }
 
   /**
    * @return bool
    */
-  public function drupalSettingsFileIsValid() {
+  public function isDrupalSettingsFileValid() {
     $settings_file_contents = file_get_contents($this->getConfigValue('drupal.settings_file'));
     if (!strstr($settings_file_contents,
       '/../vendor/acquia/blt/settings/blt.settings.php')
@@ -56,19 +56,39 @@ class LocalEnvironment implements ConfigAwareInterface, ExecutorAwareInterface {
   /**
    * Checks that Drupal is installed.
    */
-  public function drupalIsInstalled() {
+  public function isDrupalInstalled() {
     // This will only run once per command. If Drupal is installed mid-command,
     // this value needs to be changed.
     if (!$this->getConfigValue('state.drupal.installed')) {
-      $process = $this->getExecutor()->executeDrush("sqlq \"SHOW TABLES LIKE 'config'\"");
-      $output = trim($process->getOutput());
-      $installed = $process->isSuccessful() && $output == 'config';
-      $this->getConfig()->set('state.drupal.installed', $installed);
+      $installed = $this->getDrupalIntalled();
+      $this->setStateDrupalInstalled($installed);
 
       return $installed;
     }
 
     return $this->getConfigValue('state.drupal.installed');
+  }
+
+  /**
+   * @return bool
+   */
+  protected function getDrupalIntalled() {
+    $process = $this->getExecutor()->executeDrush("sqlq \"SHOW TABLES LIKE 'config'\"");
+    $output = trim($process->getOutput());
+    $installed = $process->isSuccessful() && $output == 'config';
+
+    return $installed;
+  }
+
+  /**
+   * @param $installed
+   *
+   * @return $this
+   */
+  protected function setStateDrupalInstalled($installed) {
+    $this->getConfig()->set('state.drupal.installed', $installed);
+
+    return $this;
   }
 
   /**
@@ -84,14 +104,14 @@ class LocalEnvironment implements ConfigAwareInterface, ExecutorAwareInterface {
     return $exit_code == 0;
   }
 
-  public function behatIsConfigured() {
+  public function isBehatConfigured() {
     return file_exists($this->getConfigValue('repo.root') . '/tests/behat/local.yml');
   }
 
   public function setDrushStatus() {
-    if (!$this->getConfigValue('drush.status')) {
+    if (!$this->getConfigValue('state.drush.status')) {
       $drush_status = json_decode($this->execDrush("status --format=json"), TRUE);
-      $this->getConfig()->set('drush.status', $drush_status);
+      $this->getConfig()->set('state.drush.status', $drush_status);
     }
 
     return $this;

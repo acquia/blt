@@ -31,7 +31,7 @@ class InteractHook extends Tasks implements IOAwareInterface, ConfigAwareInterfa
    * @hook interact @wizardInstallDrupal
    */
   public function wizardInstallDrupal(InputInterface $input, OutputInterface $output, AnnotationData $annotationData) {
-    if (!$this->localEnvironment->drupalIsInstalled()) {
+    if (!$this->localEnvironment->isDrupalInstalled()) {
       $confirm = $this->confirm("Do you want to install Drupal?");
       if ($confirm) {
         $bin = $this->getConfigValue('composer.bin');

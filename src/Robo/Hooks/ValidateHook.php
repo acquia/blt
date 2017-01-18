@@ -27,10 +27,10 @@ class ValidateHook implements LoggerAwareInterface, LocalEnvironmentInterface {
   }
 
   /**
-   * @hook validate @checkDocrootExists
+   * @hook validate @validateDocrootIsPresent
    */
-  public function checkDocrootExists(CommandData $commandData) {
-    if (!$this->getLocalEnvironment()->docrootExists()) {
+  public function validateDocrootIsPresent(CommandData $commandData) {
+    if (!$this->getLocalEnvironment()->isDocrootPresent()) {
       $this->logger->error("Unable to find docroot.");
 
       return FALSE;
@@ -40,20 +40,20 @@ class ValidateHook implements LoggerAwareInterface, LocalEnvironmentInterface {
   }
 
   /**
-   * @hook validate @checkRepoRootExists
+   * @hook validate @validateRepoRootIsPresent
    */
-  public function checkRepoRootExists(CommandData $commandData) {
-    if (empty($this->getLocalEnvironment()->repoRootExists())) {
+  public function validateRepoRootIsPresent(CommandData $commandData) {
+    if (empty($this->getLocalEnvironment()->isRepoRootPresent())) {
       throw new \Exception("Unable to find repository root.");
     }
   }
 
   /**
-   * @hook validate @checkDrupalInstalled
+   * @hook validate @validateDrupalIsInstalled
    */
-  public function checkDrupalInstalled(CommandData $commandData) {
+  public function validateDrupalIsInstalled(CommandData $commandData) {
     if (!$this->getLocalEnvironment()
-      ->drupalIsInstalled()
+      ->isDrupalInstalled()
     ) {
 
       throw new \Exception("Drupal is not installed");
@@ -63,17 +63,17 @@ class ValidateHook implements LoggerAwareInterface, LocalEnvironmentInterface {
   /**
    * Checks active settings.php file.
    *
-   * @hook validate @checkSettingsFile
+   * @hook validate @validateSettingsFileIsValid
    */
-  public function checkSettingsFile(CommandData $commandData) {
+  public function validateSettingsFileIsValid(CommandData $commandData) {
     if (!$this->getLocalEnvironment()
-      ->drupalSettingsFileExists()
+      ->isDrupalSettingsFilePresent()
     ) {
       throw new \Exception("Could not find settings.php for this site.");
     }
 
     if (!$this->getLocalEnvironment()
-      ->drupalSettingsFileIsValid($this->getLocalEnvironment()
+      ->isDrupalSettingsFileValid($this->getLocalEnvironment()
         ->getDrupalSettingsFile())
     ) {
       throw new \Exception("BLT settings are not included in settings file.");
@@ -81,10 +81,10 @@ class ValidateHook implements LoggerAwareInterface, LocalEnvironmentInterface {
   }
 
   /**
-   * @hook validate @checkBehatIsConfigured
+   * @hook validate @validateBehatIsConfigured
    */
-  public function checkBehatIsConfigured(CommandData $commandData) {
-    if (!$this->getLocalEnvironment()->behatIsConfigured()) {
+  public function validateBehatIsConfigured(CommandData $commandData) {
+    if (!$this->getLocalEnvironment()->isBehatConfigured()) {
       $this->logger->error("Behat is not properly configured.");
       return FALSE;
     }
