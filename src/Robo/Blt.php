@@ -2,6 +2,8 @@
 
 namespace Acquia\Blt\Robo;
 
+use Acquia\Blt\Robo\Common\Executor;
+use Acquia\Blt\Robo\Common\ExecutorAwareInterface;
 use Acquia\Blt\Robo\LocalEnvironment\LocalEnvironment;
 use Acquia\Blt\Robo\LocalEnvironment\LocalEnvironmentInterface;
 use Consolidation\AnnotatedCommand\CommandFileDiscovery;
@@ -93,7 +95,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
    * @param string[] $options Elements as follow
    *        string path      The full path to the directory to search for commands
    *        string namespace The full namespace associated with given the command directory
-   * @return TerminusCommand[] An array of TerminusCommand instances
+   * @return array An array of Hook classes
    */
   private function getHooks(array $options = ['path' => null, 'namespace' => null,])
   {
@@ -113,7 +115,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
   }
 
   /**
-   * Register the necessary classes for Terminus
+   * Register the necessary classes for BLT
    */
   private function configureContainer()
   {
@@ -123,6 +125,11 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     $container->share('local_environment', $local_environment);
     $container->inflector(LocalEnvironmentInterface::class)
       ->invokeMethod('setLocalEnvironment', ['local_environment']);
+
+    $executor = new Executor();
+    $container->share('executor', $executor);
+    $container->inflector(ExecutorAwareInterface::class)
+      ->invokeMethod('setExecutor', ['executor']);
 
     // Tell the command loader to only allow command functions that have a name/alias.
     $factory = $container->get('commandFactory');

@@ -2,6 +2,7 @@
 
 namespace Acquia\Blt\Robo\Hooks;
 
+use Acquia\Blt\Robo\Common\IO;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
 use Acquia\Blt\Robo\LocalEnvironment\LocalEnvironmentInterface;
 use Acquia\Blt\Robo\LocalEnvironment\LocalEnvironmentTrait;
@@ -16,6 +17,7 @@ class InteractHook extends Tasks implements IOAwareInterface, ConfigAwareInterfa
 
   use ConfigAwareTrait;
   use LocalEnvironmentTrait;
+  use IO;
 
   public function setInput(InputInterface $input) {
     $this->input = $input;

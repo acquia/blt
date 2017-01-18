@@ -9,6 +9,11 @@ trait ConfigAwareTrait {
   use RoboConfigAwareTrait;
 
   /**
+   * @var BltConfig
+   */
+  protected $config;
+
+  /**
    * @param string $key
    * @param mixed|null $default
    *

@@ -2,15 +2,19 @@
 
 namespace Acquia\Blt\Robo\Config;
 
+use Acquia\Blt\Robo\LocalEnvironment\LocalEnvironment;
+
 class DefaultConfig extends BltConfig {
 
   public function __construct() {
     parent::__construct();
 
-    $this->set('repo.root', $this->getRepoRoot());
-    $this->set('docroot', $this->getRepoRoot() . '/docroot');
+    $repo_root = $this->getRepoRoot();
+    $this->set('repo.root', $repo_root);
+    $this->set('docroot', $repo_root . '/docroot');
     $this->set('blt.root', $this->getBltRoot());
-    $this->set('composer.bin', $this->getRepoRoot() . '/vendor/bin');
+    $this->set('drupal.settings_file', $this->get('docroot') . '/sites/default/settings.php');
+    $this->set('composer.bin', $repo_root . '/vendor/bin');
   }
 
   /**
@@ -19,6 +23,7 @@ class DefaultConfig extends BltConfig {
   protected function getRepoRoot() {
     $possible_repo_roots = [
       $_SERVER['PWD'],
+      $_SERVER['PWD'] . '/..',
       getcwd(),
     ];
     foreach ($possible_repo_roots as $possible_repo_root) {
@@ -41,5 +46,6 @@ class DefaultConfig extends BltConfig {
       }
     }
   }
+
 }
 
