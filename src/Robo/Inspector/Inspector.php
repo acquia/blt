@@ -1,6 +1,6 @@
 <?php
 
-namespace Acquia\Blt\Robo\LocalEnvironment;
+namespace Acquia\Blt\Robo\Inspector;
 
 use Acquia\Blt\Robo\Common\ExecutorAwareInterface;
 use Acquia\Blt\Robo\Common\ExecutorAwareTrait;
@@ -9,11 +9,11 @@ use Acquia\Blt\Robo\Config\ConfigAwareTrait;
 use Robo\Contract\ConfigAwareInterface;
 
 /**
- * Class LocalEnvironment.
+ * Class Inspector.
  *
  * @package Acquia\Blt\Robo\Common
  */
-class LocalEnvironment implements ConfigAwareInterface, ExecutorAwareInterface {
+class Inspector implements ConfigAwareInterface, ExecutorAwareInterface {
 
   use IO;
   use ConfigAwareTrait;
