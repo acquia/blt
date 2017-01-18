@@ -35,8 +35,14 @@ class ArrayManipulator {
    * @return array
    */
   public static function reKeyDotNotatedKeys($array) {
-    $data = new Data($array);
+    $data = new Data();
+
+    // @todo Make this work at all levels of array.
+    foreach ($array as $key => $value) {
+       $data->set($key, $value);
+    }
 
     return $data->export();
   }
+
 }
