@@ -64,7 +64,9 @@ class TestCommand extends BltTasks {
    *
    */
   protected function launchPhantomJs() {
-    $this->verifyPhantomJsConfig();
+    if (!$this->getLocalEnvironment()->isPhantomJsConfigured()) {
+      $this->setupPhantomJs();
+    }
 
     $this->say("Launching PhantomJS GhostDriver.");
     $this->taskExec("{$this->getConfigValue('composer.bin')}/phantomjs")
@@ -76,35 +78,49 @@ class TestCommand extends BltTasks {
   }
 
   /**
-   * @throws \Exception
+   * @command setup:phantomjs
+   *
+   * @validatePhantomJsIsConfigured
    */
-  protected function verifyPhantomJsConfig() {
-    $result = $this->_exec("grep 'jakoch/phantomjs-installer' composer.json");
-    if (!$result->wasSuccessful()) {
-      $this->yell("behat.launch-phantomjs is true, but jakoch/phantomjs-installer is not required in composer.json.");
-      $answer = $this->confirm("Do you want to require jakoch/phantomjs-installer via Composer?");
-      if ($answer == 'y') {
+  public function setupPhantomJs() {
+      $this->interactRequirePhantomJs();
+      $this->interactConfigurePhantomJsScript();
+      $this->interactInstallPhantomJsBinary();
+  }
+
+  protected function interactRequirePhantomJs() {
+    if (!$this->getLocalEnvironment()->isPhantomJsRequired()) {
+      $this->logger->warning("PhantomJS is not required in composer.json");
+      $answer = $this->confirm("Do you want to require jakoch/phantomjs-installer as a dev dependency?");
+      if ($answer) {
         $this->_exec("composer require jakoch/phantomjs-installer --dev");
       }
       else {
         throw new \Exception("Cannot launch PhantomJS it is not installed.");
       }
     }
+  }
 
-    $result = $this->_exec("grep installPhantomJS composer.json");
-    if (!$result->wasSuccessful()) {
-      $this->yell("behat.launch-phantomjs is true, but the install-phantomjs script is not defined in composer.json.");
+  protected function interactConfigurePhantomJsScript() {
+    if (!$this->getLocalEnvironment()->isPhantomJsScriptConfigured()) {
+      $this->logger->warning("The install-phantomjs script is not defined in composer.json.");
       $answer = $this->confirm("Do you want to add an 'install-phantomjs' script to your composer.json?");
-      if ($answer == 'y') {
+      if ($answer) {
         $this->_exec("{$this->getConfigValue('composer.bin')}/blt-console configure:phantomjs {$this->getConfigValue('repo.root')}");
       }
       else {
         throw new \Exception("Cannot launch PhantomJS because the install-phantomjs script is not present in composer.json. Add it, or use Selenium instead.");
       }
     }
+  }
 
-    if (!file_exists("{$this->getConfigValue('composer.bin')}/phantomjs")) {
-      $this->_exec("composer install-phantom");
+  protected function interactInstallPhantomJsBinary() {
+    if (!$this->getLocalEnvironment()->isPhantomJsBinaryPresent()) {
+      $this->logger->warning("The PhantomJS binary is not present.");
+      $answer = $this->confirm("Do you want to install it?");
+      if ($answer) {
+        $this->_exec("composer install-phantom");
+      }
     }
   }
 
