@@ -25,7 +25,8 @@ class TestCommand extends BltTasks
   /**
    * @command tests:behat
    *
-   * @wizardInstallDrupal
+   * @interactInstallDrupal
+   * @interactConfigureBehat
    *
    * @validateDrupalIsInstalled
    * @validateBehatIsConfigured
@@ -39,6 +40,7 @@ class TestCommand extends BltTasks
       $this->launchPhantomJs();
     }
 
+    // @todo Figure out how to make this less noisy. Ugly escaped slashes in filepath output.
     $this->_mkdir("{$this->getConfigValue('repo.root')}/{$this->getConfigValue('reports.localDir')}");
 
     foreach ($this->getConfigValue('behat.paths') as $behat_path) {
@@ -110,8 +112,9 @@ class TestCommand extends BltTasks
    * @param $port
    */
   protected function killByPort($port) {
-    $this->say("Killing all processes on port $port");
+    $this->logger->info("Killing all processes on port $port");
     // This is allowed to fail.
+    // @todo Replace with standardized call to Symfony Process.
     exec("lsof -ti tcp:$port | xargs kill l 2>&1");
   }
 
@@ -119,8 +122,9 @@ class TestCommand extends BltTasks
    * @param $name
    */
   protected function killByName($name) {
-    $this->say("Killing all processing containing string '$name'");
+    $this->logger->info("Killing all processing containing string '$name'");
     // This is allowed to fail.
+    // @todo Replace with standardized call to Symfony Process.
     exec("pgrep $name | xargs kill l 2>&1");
   }
 
