@@ -27,9 +27,8 @@ class TestCommand extends BltTasks
    *
    * @wizardInstallDrupal
    *
-   * @checkDocrootExists
-   * @checkDrupalInstalled
-   * @checkBehatIsConfigured
+   * @validateDrupalIsInstalled
+   * @validateBehatIsConfigured
    */
   public function testsBehat() {
     $this->killByPort('4444');
