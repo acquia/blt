@@ -2,6 +2,9 @@
 
 namespace Acquia\Blt\Robo\Common;
 
+/**
+ *
+ */
 class StringManipulator {
 
   /**

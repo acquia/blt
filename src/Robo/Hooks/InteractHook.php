@@ -15,6 +15,9 @@ use Robo\Tasks;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ *
+ */
 class InteractHook extends Tasks implements IOAwareInterface, ConfigAwareInterface, LocalEnvironmentInterface, LoggerAwareInterface {
 
   use ConfigAwareTrait;
@@ -22,10 +25,16 @@ class InteractHook extends Tasks implements IOAwareInterface, ConfigAwareInterfa
   use LoggerAwareTrait;
   use IO;
 
+  /**
+   *
+   */
   public function setInput(InputInterface $input) {
     $this->input = $input;
   }
 
+  /**
+   *
+   */
   public function setOutput(OutputInterface $output) {
     $this->output = $output;
   }

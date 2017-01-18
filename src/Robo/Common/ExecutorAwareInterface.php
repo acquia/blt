@@ -2,6 +2,9 @@
 
 namespace Acquia\Blt\Robo\Common;
 
+/**
+ *
+ */
 interface ExecutorAwareInterface {
 
   /**
@@ -15,4 +18,5 @@ interface ExecutorAwareInterface {
    * @return \Acquia\Blt\Robo\Common\Executor
    */
   public function getExecutor();
+
 }

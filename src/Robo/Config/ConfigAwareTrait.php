@@ -4,6 +4,9 @@ namespace Acquia\Blt\Robo\Config;
 
 use Robo\Common\ConfigAwareTrait as RoboConfigAwareTrait;
 
+/**
+ *
+ */
 trait ConfigAwareTrait {
 
   use RoboConfigAwareTrait;
@@ -19,11 +22,11 @@ trait ConfigAwareTrait {
    *
    * @return mixed|null
    */
-  protected function getConfigValue($key, $default = null)
-  {
+  protected function getConfigValue($key, $default = NULL) {
     if (!$this->getConfig()) {
       return $default;
     }
     return $this->getConfig()->get($key, $default);
   }
+
 }

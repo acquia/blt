@@ -4,6 +4,9 @@ namespace Acquia\Blt\Robo\Common;
 
 use Dflydev\DotAccessData\Data;
 
+/**
+ *
+ */
 class ArrayManipulator {
 
   /**
@@ -18,12 +21,12 @@ class ArrayManipulator {
   ) {
     $merged = $array1;
     foreach ($array2 as $key => &$value) {
-      if (is_array($value) && isset ($merged [$key]) && is_array($merged [$key])) {
-        $merged [$key] = self::arrayMergeRecursiveDistinct($merged [$key],
+      if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {
+        $merged[$key] = self::arrayMergeRecursiveDistinct($merged[$key],
           $value);
       }
       else {
-        $merged [$key] = $value;
+        $merged[$key] = $value;
       }
     }
     return $merged;
@@ -39,7 +42,7 @@ class ArrayManipulator {
 
     // @todo Make this work at all levels of array.
     foreach ($array as $key => $value) {
-       $data->set($key, $value);
+      $data->set($key, $value);
     }
 
     return $data->export();

@@ -2,6 +2,9 @@
 
 namespace Acquia\Blt\Robo\Common;
 
+/**
+ *
+ */
 trait IO {
 
   use \Robo\Common\IO;
@@ -49,4 +52,5 @@ trait IO {
   protected function formatQuestion($message) {
     return "<question> $message</question> ";
   }
+
 }

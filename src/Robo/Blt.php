@@ -20,6 +20,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ *
+ */
 class Blt implements ContainerAwareInterface, LoggerAwareInterface {
 
   use ConfigAwareTrait;
@@ -36,14 +39,13 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
   private $commands = [];
 
   /**
-   * Object constructor
+   * Object constructor.
    *
    * @param \Robo\Config $config
    * @param \Symfony\Component\Console\Input\InputInterface $input
    * @param \Symfony\Component\Console\Output\OutputInterface $output
    */
-  public function __construct(Config $config, InputInterface $input = null, OutputInterface $output = null)
-  {
+  public function __construct(Config $config, InputInterface $input = NULL, OutputInterface $output = NULL) {
     $this->setConfig($config);
     $application = new Application('BLT', $config->get('version'));
     $container = Robo::createDefaultContainer($input, $output, $application, $config);
@@ -55,14 +57,13 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     $this->runner = new RoboRunner();
     $this->runner->setContainer($container);
     $this->setLogger($container->get('logger'));
-    // date_default_timezone_set($config->get('time_zone'));
+    // date_default_timezone_set($config->get('time_zone'));.
   }
 
   /**
-   * Add the commands and hooks which are shipped with core Terminus
+   * Add the commands and hooks which are shipped with core Terminus.
    */
-  private function addBuiltInCommandsAndHooks()
-  {
+  private function addBuiltInCommandsAndHooks() {
     $commands = $this->getCommands([
       'path' => __DIR__ . '/Commands',
       'namespace' => 'Acquia\Blt\Robo\Commands',
@@ -75,30 +76,32 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
   }
 
   /**
-   * Discovers command classes using CommandFileDiscovery
+   * Discovers command classes using CommandFileDiscovery.
    *
-   * @param string[] $options Elements as follow
+   * @param string[] $options
+   *   Elements as follow
    *        string path      The full path to the directory to search for commands
-   *        string namespace The full namespace associated with given the command directory
+   *        string namespace The full namespace associated with given the command directory.
+   *
    * @return TerminusCommand[] An array of TerminusCommand instances
    */
-  private function getCommands(array $options = ['path' => null, 'namespace' => null,])
-  {
+  private function getCommands(array $options = ['path' => NULL, 'namespace' => NULL]) {
     $discovery = new CommandFileDiscovery();
     $discovery->setSearchPattern('*Command.php')->setSearchLocations([]);
     return $discovery->discover($options['path'], $options['namespace']);
   }
 
   /**
-   * Discovers hooks using CommandFileDiscovery
+   * Discovers hooks using CommandFileDiscovery.
    *
-   * @param string[] $options Elements as follow
+   * @param string[] $options
+   *   Elements as follow
    *        string path      The full path to the directory to search for commands
-   *        string namespace The full namespace associated with given the command directory
+   *        string namespace The full namespace associated with given the command directory.
+   *
    * @return array An array of Hook classes
    */
-  private function getHooks(array $options = ['path' => null, 'namespace' => null,])
-  {
+  private function getHooks(array $options = ['path' => NULL, 'namespace' => NULL]) {
     $discovery = new CommandFileDiscovery();
     $discovery->setSearchPattern('*Hook.php')->setSearchLocations([]);
     return $discovery->discover($options['path'], $options['namespace']);
@@ -109,16 +112,14 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
    *
    * @param \Symfony\Component\Console\Application $app
    */
-  private function addDefaultArgumentsAndOptions(Application $app)
-  {
+  private function addDefaultArgumentsAndOptions(Application $app) {
     $app->getDefinition()->addOption(new InputOption('--yes', '-y', InputOption::VALUE_NONE, 'Answer all confirmations with "yes"'));
   }
 
   /**
-   * Register the necessary classes for BLT
+   * Register the necessary classes for BLT.
    */
-  private function configureContainer()
-  {
+  private function configureContainer() {
     $container = $this->getContainer();
 
     $local_environment = new LocalEnvironment();
@@ -133,20 +134,23 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
 
     // Tell the command loader to only allow command functions that have a name/alias.
     $factory = $container->get('commandFactory');
-    $factory->setIncludeAllPublicMethods(false);
+    $factory->setIncludeAllPublicMethods(FALSE);
   }
 
   /**
-   * Runs the instantiated Terminus application
+   * Runs the instantiated Terminus application.
    *
-   * @param InputInterface  $input  An input object to run the application with
-   * @param OutputInterface $output An output object to run the application with
+   * @param InputInterface $input
+   *   An input object to run the application with.
+   * @param OutputInterface $output
+   *   An output object to run the application with.
+   *
    * @return integer $status_code The exiting status code of the application
    */
-  public function run(InputInterface $input, OutputInterface $output)
-  {
-    $status_code = $this->runner->run($input, $output, null, $this->commands);
+  public function run(InputInterface $input, OutputInterface $output) {
+    $status_code = $this->runner->run($input, $output, NULL, $this->commands);
 
     return $status_code;
   }
+
 }

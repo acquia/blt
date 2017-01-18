@@ -6,6 +6,9 @@ use Acquia\Blt\Robo\Common\ArrayManipulator;
 use Dflydev\DotAccessData\Data;
 use Robo\Config;
 
+/**
+ *
+ */
 abstract class BltConfig extends Config {
 
   /**
@@ -23,20 +26,24 @@ abstract class BltConfig extends Config {
    */
   protected $source_name = 'Unknown';
 
+  /**
+   *
+   */
   public function __construct() {
     $this->data = new Data();
   }
 
   /**
-   * Fet a configuration value
+   * Fet a configuration value.
    *
-   * @param string $key Which config item to look up
-   * @param string|null $defaultOverride Override usual default value with a different default
+   * @param string $key
+   *   Which config item to look up.
+   * @param string|null $defaultOverride
+   *   Override usual default value with a different default.
    *
    * @return mixed
    */
-  public function get($key, $defaultOverride = null)
-  {
+  public function get($key, $defaultOverride = NULL) {
     if ($this->data->has($key)) {
       return $this->data->get($key);
     }
@@ -44,15 +51,14 @@ abstract class BltConfig extends Config {
   }
 
   /**
-   * Set a config value
+   * Set a config value.
    *
    * @param string $key
    * @param mixed $value
    *
    * @return $this
    */
-  public function set($key, $value)
-  {
+  public function set($key, $value) {
     $this->data->set($key, $value);
 
     return $this;
@@ -60,20 +66,19 @@ abstract class BltConfig extends Config {
 
   /**
    * Set add all the values in the array to this Config object.
+   *
    * @param array $array
    */
-  public function fromArray($array)
-  {
+  public function fromArray($array) {
     $this->data->import($array);
   }
 
   /**
-   * Override the values in this Config object with the given input Config
+   * Override the values in this Config object with the given input Config.
    *
    * @param BltConfig $in
    */
-  public function extend(BltConfig $in)
-  {
+  public function extend(BltConfig $in) {
     $this_config = $this->toArray();
     $that_config = $in->toArray();
     $merged_config = ArrayManipulator::arrayMergeRecursiveDistinct($this_config, $that_config);
@@ -81,11 +86,11 @@ abstract class BltConfig extends Config {
   }
 
   /**
-   * Return all of the keys in the Config
+   * Return all of the keys in the Config.
+   *
    * @return array
    */
-  public function keys()
-  {
+  public function keys() {
     return array_keys($this->data->export());
   }
 
@@ -93,48 +98,45 @@ abstract class BltConfig extends Config {
    * Get a description of where this configuration came from.
    *
    * @param $key
+   *
    * @return string
    */
-  public function getSource($key)
-  {
+  public function getSource($key) {
     return isset($this->sources[$key]) ? $this->sources[$key] : $this->getSourceName();
   }
+
   /**
    * Set the source for a given configuration item.
    *
    * @param $key
    * @param $source
    */
-  protected function setSource($key, $source)
-  {
+  protected function setSource($key, $source) {
     $this->sources[$key] = $source;
   }
-
 
   /**
    * Get the name of the source for this configuration object.
    *
    * @return string
    */
-  public function getSourceName()
-  {
+  public function getSourceName() {
     return $this->source_name;
   }
 
   /**
    * @param mixed $source_name
    */
-  public function setSourceName($source_name)
-  {
+  public function setSourceName($source_name) {
     $this->source_name = $source_name;
   }
 
   /**
    * Convert the config to an array.
+   *
    * @return array
    */
-  public function toArray()
-  {
+  public function toArray() {
     return $this->data->export();
   }
 
