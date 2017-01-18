@@ -98,4 +98,10 @@ class ValidateHook implements LoggerAwareInterface, LocalEnvironmentAwareInterfa
     return TRUE;
   }
 
+  public function validatePhantomJsIsConfigured(CommandData$commandData) {
+    if (!$this->getLocalEnvironment()->isPhantomJsConfigured()) {
+      $this->logger->info("Phantom JS is not configured.");
+    }
+  }
+
 }

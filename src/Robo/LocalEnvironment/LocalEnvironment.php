@@ -61,7 +61,7 @@ class LocalEnvironment implements ConfigAwareInterface, ExecutorAwareInterface {
     // This will only run once per command. If Drupal is installed mid-command,
     // this value needs to be changed.
     if (!$this->getConfigValue('state.drupal.installed')) {
-      $installed = $this->getDrupalIntalled();
+      $installed = $this->getDrupalInstalled();
       $this->setStateDrupalInstalled($installed);
 
       return $installed;
@@ -73,7 +73,7 @@ class LocalEnvironment implements ConfigAwareInterface, ExecutorAwareInterface {
   /**
    * @return bool
    */
-  protected function getDrupalIntalled() {
+  protected function getDrupalInstalled() {
     $process = $this->getExecutor()
       ->executeDrush("sqlq \"SHOW TABLES LIKE 'config'\"");
     $output = trim($process->getOutput());
@@ -126,4 +126,22 @@ class LocalEnvironment implements ConfigAwareInterface, ExecutorAwareInterface {
     return $this;
   }
 
+  public function isPhantomJsConfigured() {
+    return $this->isPhantomJsRequired() && $this->isPhantomJsScriptConfigured() && $this->isPhantomJsBinaryPresent();
+  }
+
+  public function isPhantomJsRequired() {
+    $process = $this->executor->executeCommand("grep 'jakoch/phantomjs-installer' composer.json", null, false, false, false);
+    return $process->isSuccessful();
+  }
+
+  public function isPhantomJsScriptConfigured() {
+    $process = $this->executor->executeCommand("grep installPhantomJS composer.json", null, false, false, false);
+
+    return $process->isSuccessful();
+  }
+
+  public function isPhantomJsBinaryPresent() {
+    return file_exists("{$this->getConfigValue('composer.bin')}/phantomjs");
+  }
 }

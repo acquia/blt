@@ -32,6 +32,7 @@ $output = new ConsoleOutput();
 $config = new DefaultConfig();
 $config->extend(new YamlConfig($config->get('blt.root') . '/phing/build.yml', $config->toArray()));
 $config->extend(new YamlConfig($config->get('repo.root') . '/blt/project.yml', $config->toArray()));
+$config->extend(new YamlConfig($config->get('repo.root') . '/blt/project.local.yml', $config->toArray()));
 
 $blt = new Blt($config, $input, $output);
 $status_code = $blt->run($input, $output);
