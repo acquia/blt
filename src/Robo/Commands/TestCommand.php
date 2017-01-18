@@ -15,55 +15,42 @@ class TestCommand extends BltTasks
   /**
    * Runs all tests, including Behat, PHPUnit, and Security Update check.
    *
-   * @command tests
+   * @command tests:all
+   *
+   * @calls tests:behat, tests:phpunit
    */
   public function tests() {
-    $this->testsAll();
-  }
-
-  /**
-   * Runs all tests, including Behat, PHPUnit, and Security Update check.
-   *
-   * @command tests:all
-   */
-  public function testsAll() {
-    $this->testsBehat();
-    $this->testsPhpUnit();
   }
 
   /**
    * @command tests:behat
+   *
+   * @wizardInstallDrupal
+   *
+   * @checkDocrootExists
+   * @checkDrupalInstalled
+   * @checkBehatIsConfigured
    */
   public function testsBehat() {
-    $local_environment = $this->getContainer()->get('local_environment');
-    $passed = $local_environment->performLocalEnvironmentChecks([
-      'checkRepoRootExists',
-      'checkDocrootExists',
-      'checkDrupalInstalled',
-      'checkBehatIsConfigured',
-    ]);
-
-    if (!$passed) {
-      // @todo return. Make parent command return as well.
-      // @todo find out why failure is silent here.
-      // return 1;
-    }
-
     $this->killByPort('4444');
     $this->killByName('selenium');
     $this->killByName('phantomjs');
 
-    $config = $this->localEnvironment->getConfig();
+    $config = $this->getLocalEnvironment()->getConfig();
     if ($config['behat']['launch-phantomjs']) {
       $this->launchPhantomJs();
     }
 
-    $this->_mkdir("{$this->localEnvironment->getRepoRoot()}/{$config['reports']['localDir']})");
+    $this->_mkdir("{$this->getLocalEnvironment()->getRepoRoot()}/{$config['reports']['localDir']})");
 
     foreach ($config['behat']['paths'] as $behat_path) {
-      // Output errors.
-      // @todo break if fails.
-      $this->_exec("{$this->localEnvironment->getBin()}/behat $behat_path -c {$config['behat']['config']} -p {$config['behat']['profile']}");
+       // Output errors.
+       // @todo break if fails.
+       $command = "{$this->getLocalEnvironment()->getBin()}/behat $behat_path -c {$config['behat']['config']} -p {$config['behat']['profile']}";
+       $this->taskExec($command)
+         ->interactive()
+         ->run()
+         ->stopOnFail();
     }
   }
 
