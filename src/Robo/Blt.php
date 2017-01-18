@@ -5,7 +5,7 @@ namespace Acquia\Blt\Robo;
 use Acquia\Blt\Robo\Common\Executor;
 use Acquia\Blt\Robo\Common\ExecutorAwareInterface;
 use Acquia\Blt\Robo\LocalEnvironment\LocalEnvironment;
-use Acquia\Blt\Robo\LocalEnvironment\LocalEnvironmentInterface;
+use Acquia\Blt\Robo\LocalEnvironment\LocalEnvironmentAwareInterface;
 use Consolidation\AnnotatedCommand\CommandFileDiscovery;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
@@ -45,10 +45,15 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
    * @param \Symfony\Component\Console\Input\InputInterface $input
    * @param \Symfony\Component\Console\Output\OutputInterface $output
    */
-  public function __construct(Config $config, InputInterface $input = NULL, OutputInterface $output = NULL) {
+  public function __construct(
+    Config $config,
+    InputInterface $input = NULL,
+    OutputInterface $output = NULL
+  ) {
     $this->setConfig($config);
     $application = new Application('BLT', $config->get('version'));
-    $container = Robo::createDefaultContainer($input, $output, $application, $config);
+    $container = Robo::createDefaultContainer($input, $output, $application,
+      $config);
     $this->setContainer($container);
     $this->addDefaultArgumentsAndOptions($application);
     $this->configureContainer();
@@ -61,7 +66,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
   }
 
   /**
-   * Add the commands and hooks which are shipped with core Terminus.
+   * Add the commands and hooks which are shipped with core BLT.
    */
   private function addBuiltInCommandsAndHooks() {
     $commands = $this->getCommands([
@@ -83,9 +88,11 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
    *        string path      The full path to the directory to search for commands
    *        string namespace The full namespace associated with given the command directory.
    *
-   * @return TerminusCommand[] An array of TerminusCommand instances
+   * @return array An array of Command classes
    */
-  private function getCommands(array $options = ['path' => NULL, 'namespace' => NULL]) {
+  private function getCommands(
+    array $options = ['path' => NULL, 'namespace' => NULL]
+  ) {
     $discovery = new CommandFileDiscovery();
     $discovery->setSearchPattern('*Command.php')->setSearchLocations([]);
     return $discovery->discover($options['path'], $options['namespace']);
@@ -101,7 +108,9 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
    *
    * @return array An array of Hook classes
    */
-  private function getHooks(array $options = ['path' => NULL, 'namespace' => NULL]) {
+  private function getHooks(
+    array $options = ['path' => NULL, 'namespace' => NULL]
+  ) {
     $discovery = new CommandFileDiscovery();
     $discovery->setSearchPattern('*Hook.php')->setSearchLocations([]);
     return $discovery->discover($options['path'], $options['namespace']);
@@ -113,7 +122,8 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
    * @param \Symfony\Component\Console\Application $app
    */
   private function addDefaultArgumentsAndOptions(Application $app) {
-    $app->getDefinition()->addOption(new InputOption('--yes', '-y', InputOption::VALUE_NONE, 'Answer all confirmations with "yes"'));
+    $app->getDefinition()->addOption(new InputOption('--yes', '-y',
+      InputOption::VALUE_NONE, 'Answer all confirmations with "yes"'));
   }
 
   /**
@@ -124,7 +134,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
 
     $local_environment = new LocalEnvironment();
     $container->share('local_environment', $local_environment);
-    $container->inflector(LocalEnvironmentInterface::class)
+    $container->inflector(LocalEnvironmentAwareInterface::class)
       ->invokeMethod('setLocalEnvironment', ['local_environment']);
 
     $executor = new Executor();
@@ -138,7 +148,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
   }
 
   /**
-   * Runs the instantiated Terminus application.
+   * Runs the instantiated BLT application.
    *
    * @param InputInterface $input
    *   An input object to run the application with.

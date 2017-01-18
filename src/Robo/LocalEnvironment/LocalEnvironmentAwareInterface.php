@@ -5,7 +5,7 @@ namespace Acquia\Blt\Robo\LocalEnvironment;
 /**
  *
  */
-interface LocalEnvironmentInterface {
+interface LocalEnvironmentAwareInterface {
 
   /**
    * @param \Acquia\Blt\Robo\LocalEnvironment\LocalEnvironment $local_environment
