@@ -2,6 +2,7 @@
 
 namespace Acquia\Blt\Robo\Config;
 
+use Acquia\Blt\Robo\Common\ArrayManipulator;
 use Dflydev\DotAccessData\Data;
 use Robo\Config;
 
@@ -73,13 +74,10 @@ abstract class BltConfig extends Config {
    */
   public function extend(BltConfig $in)
   {
-    // @todo Change this to a recursive merge rather than replacing top
-    // level keys.
-    foreach ($in->keys() as $key) {
-      $this->set($key, $in->get($key));
-      // Set the source of this variable to make tracking config easier.
-      $this->setSource($key, $in->getSource($key));
-    }
+    $this_config = $this->toArray();
+    $that_config = $in->toArray();
+    $merged_config = ArrayManipulator::arrayMergeRecursiveDistinct($this_config, $that_config);
+    $this->fromArray($merged_config);
   }
 
   /**

@@ -43,7 +43,7 @@ class ValidateHook implements LoggerAwareInterface, LocalEnvironmentInterface {
    * @hook validate @checkRepoRootExists
    */
   public function checkRepoRootExists(CommandData $commandData) {
-    if (empty($this->getLocalEnvironment()->getRepoRoot())) {
+    if (empty($this->getLocalEnvironment()->repoRootExists())) {
       throw new \Exception("Unable to find repository root.");
     }
   }
@@ -53,7 +53,7 @@ class ValidateHook implements LoggerAwareInterface, LocalEnvironmentInterface {
    */
   public function checkDrupalInstalled(CommandData $commandData) {
     if (!$this->getLocalEnvironment()
-      ->drupalIsInstalled($this->getLocalEnvironment()->getDocroot())
+      ->drupalIsInstalled()
     ) {
 
       throw new \Exception("Drupal is not installed");
@@ -67,8 +67,7 @@ class ValidateHook implements LoggerAwareInterface, LocalEnvironmentInterface {
    */
   public function checkSettingsFile(CommandData $commandData) {
     if (!$this->getLocalEnvironment()
-      ->drupalSettingsFileExists($this->getLocalEnvironment()
-        ->getDrupalSettingsFile())
+      ->drupalSettingsFileExists()
     ) {
       throw new \Exception("Could not find settings.php for this site.");
     }

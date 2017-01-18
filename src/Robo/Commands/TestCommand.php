@@ -36,17 +36,16 @@ class TestCommand extends BltTasks
     $this->killByName('selenium');
     $this->killByName('phantomjs');
 
-    $config = $this->getLocalEnvironment()->getConfig();
-    if ($config['behat']['launch-phantomjs']) {
+    if ($this->getConfigValue('behat.launch-phantomjs')) {
       $this->launchPhantomJs();
     }
 
-    $this->_mkdir("{$this->getLocalEnvironment()->getRepoRoot()}/{$config['reports']['localDir']})");
+    $this->_mkdir("{$this->getConfigValue('repo.root')}/{$this->getConfigValue('reports.localDir')}");
 
-    foreach ($config['behat']['paths'] as $behat_path) {
+    foreach ($this->getConfigValue('behat.paths') as $behat_path) {
        // Output errors.
        // @todo break if fails.
-       $command = "{$this->getLocalEnvironment()->getBin()}/behat $behat_path -c {$config['behat']['config']} -p {$config['behat']['profile']}";
+       $command = "{$this->getConfigValue('composer.bin')}/behat $behat_path -c {$this->getConfigValue('behat.config')} -p {$this->getConfigValue('behat.profile')}";
        $this->taskExec($command)
          ->interactive()
          ->run()
