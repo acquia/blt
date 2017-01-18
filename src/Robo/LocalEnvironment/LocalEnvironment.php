@@ -9,7 +9,8 @@ use Acquia\Blt\Robo\Config\ConfigAwareTrait;
 use Robo\Contract\ConfigAwareInterface;
 
 /**
- * Class LocalEnvironment
+ * Class LocalEnvironment.
+ *
  * @package Acquia\Blt\Robo\Common
  */
 class LocalEnvironment implements ConfigAwareInterface, ExecutorAwareInterface {
@@ -36,7 +37,7 @@ class LocalEnvironment implements ConfigAwareInterface, ExecutorAwareInterface {
    * @return bool
    */
   public function isDrupalSettingsFilePresent() {
-     return file_exists($this->getConfigValue('drupal.settings_file'));
+    return file_exists($this->getConfigValue('drupal.settings_file'));
   }
 
   /**
@@ -104,10 +105,16 @@ class LocalEnvironment implements ConfigAwareInterface, ExecutorAwareInterface {
     return $exit_code == 0;
   }
 
+  /**
+   *
+   */
   public function isBehatConfigured() {
     return file_exists($this->getConfigValue('repo.root') . '/tests/behat/local.yml');
   }
 
+  /**
+   *
+   */
   public function setDrushStatus() {
     if (!$this->getConfigValue('state.drush.status')) {
       $drush_status = json_decode($this->execDrush("status --format=json"), TRUE);
@@ -116,4 +123,5 @@ class LocalEnvironment implements ConfigAwareInterface, ExecutorAwareInterface {
 
     return $this;
   }
+
 }

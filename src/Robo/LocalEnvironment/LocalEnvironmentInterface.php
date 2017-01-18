@@ -2,8 +2,9 @@
 
 namespace Acquia\Blt\Robo\LocalEnvironment;
 
-use Acquia\Blt\Robo\LocalEnvironment\LocalEnvironment;
-
+/**
+ *
+ */
 interface LocalEnvironmentInterface {
 
   /**
@@ -12,4 +13,5 @@ interface LocalEnvironmentInterface {
    * @return mixed
    */
   public function setLocalEnvironment(LocalEnvironment $local_environment);
+
 }

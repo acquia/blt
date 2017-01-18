@@ -2,10 +2,14 @@
 
 namespace Acquia\Blt\Robo\Config;
 
-use Acquia\Blt\Robo\LocalEnvironment\LocalEnvironment;
-
+/**
+ *
+ */
 class DefaultConfig extends BltConfig {
 
+  /**
+   *
+   */
   public function __construct() {
     parent::__construct();
 
@@ -34,6 +38,9 @@ class DefaultConfig extends BltConfig {
     }
   }
 
+  /**
+   *
+   */
   protected function getBltRoot() {
     $possible_blt_roots = [
       dirname(dirname(dirname(dirname(__FILE__)))),
@@ -48,4 +55,3 @@ class DefaultConfig extends BltConfig {
   }
 
 }
-

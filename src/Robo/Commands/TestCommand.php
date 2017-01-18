@@ -9,8 +9,7 @@ use Acquia\Blt\Robo\BltTasks;
  *
  * @see http://robo.li/
  */
-class TestCommand extends BltTasks
-{
+class TestCommand extends BltTasks {
 
   /**
    * Runs all tests, including Behat, PHPUnit, and Security Update check.
@@ -44,13 +43,13 @@ class TestCommand extends BltTasks
     $this->_mkdir("{$this->getConfigValue('repo.root')}/{$this->getConfigValue('reports.localDir')}");
 
     foreach ($this->getConfigValue('behat.paths') as $behat_path) {
-       // Output errors.
-       // @todo break if fails.
-       $command = "{$this->getConfigValue('composer.bin')}/behat $behat_path -c {$this->getConfigValue('behat.config')} -p {$this->getConfigValue('behat.profile')}";
-       $this->taskExec($command)
-         ->interactive()
-         ->run()
-         ->stopOnFail();
+      // Output errors.
+      // @todo break if fails.
+      $command = "{$this->getConfigValue('composer.bin')}/behat $behat_path -c {$this->getConfigValue('behat.config')} -p {$this->getConfigValue('behat.profile')}";
+      $this->taskExec($command)
+        ->interactive()
+        ->run()
+        ->stopOnFail();
     }
   }
 
@@ -108,6 +107,7 @@ class TestCommand extends BltTasks
       $this->_exec("composer install-phantom");
     }
   }
+
   /**
    * @param $port
    */

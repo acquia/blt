@@ -9,12 +9,18 @@ use Consolidation\AnnotatedCommand\CommandData;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 
+/**
+ *
+ */
 class ValidateHook implements LoggerAwareInterface, LocalEnvironmentInterface {
 
   use LoggerAwareTrait;
   use LocalEnvironmentTrait;
   use IO;
 
+  /**
+   *
+   */
   public function checkCommandsExist(CommandData $commandData) {
     foreach ($commands as $command) {
       if (!$this->getLocalEnvironment()->commandExists($command)) {

@@ -2,6 +2,9 @@
 
 namespace Acquia\Blt\Robo\Common;
 
+/**
+ *
+ */
 trait ExecutorAwareTrait {
 
   /**
@@ -22,4 +25,5 @@ trait ExecutorAwareTrait {
   public function getExecutor() {
     return $this->executor;
   }
+
 }

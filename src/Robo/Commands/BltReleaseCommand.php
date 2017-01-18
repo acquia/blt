@@ -3,8 +3,6 @@
 namespace Acquia\Blt\Robo\Commands;
 
 use Acquia\Blt\Robo\BltTasks;
-use Acquia\Blt\Robo\Common\BltIO;
-use Acquia\Blt\Robo\Common\LocalEnvironmentValidator;
 use GuzzleHttp\Client;
 
 /**

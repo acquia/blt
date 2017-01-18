@@ -2,11 +2,17 @@
 
 namespace Acquia\Blt\Robo\LocalEnvironment;
 
+/**
+ *
+ */
 trait LocalEnvironmentTrait {
-  /** @var \Acquia\Blt\Robo\LocalEnvironment\LocalEnvironment */
+  /**
+   * @var \Acquia\Blt\Robo\LocalEnvironment\LocalEnvironment*/
   private $localEnvironment;
 
-
+  /**
+   *
+   */
   public function setLocalEnvironment(LocalEnvironment $local_environment) {
     $this->localEnvironment = $local_environment;
   }
@@ -17,4 +23,5 @@ trait LocalEnvironmentTrait {
   public function getLocalEnvironment() {
     return $this->localEnvironment;
   }
+
 }
