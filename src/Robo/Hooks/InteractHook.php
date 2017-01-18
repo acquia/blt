@@ -4,8 +4,8 @@ namespace Acquia\Blt\Robo\Hooks;
 
 use Acquia\Blt\Robo\Common\IO;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
-use Acquia\Blt\Robo\LocalEnvironment\LocalEnvironmentInterface;
-use Acquia\Blt\Robo\LocalEnvironment\LocalEnvironmentTrait;
+use Acquia\Blt\Robo\LocalEnvironment\LocalEnvironmentAwareInterface;
+use Acquia\Blt\Robo\LocalEnvironment\LocalEnvironmentAwareTrait;
 use Consolidation\AnnotatedCommand\AnnotationData;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -18,10 +18,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  *
  */
-class InteractHook extends Tasks implements IOAwareInterface, ConfigAwareInterface, LocalEnvironmentInterface, LoggerAwareInterface {
+class InteractHook extends Tasks implements IOAwareInterface, ConfigAwareInterface, LocalEnvironmentAwareInterface, LoggerAwareInterface {
 
   use ConfigAwareTrait;
-  use LocalEnvironmentTrait;
+  use LocalEnvironmentAwareTrait;
   use LoggerAwareTrait;
   use IO;
 
@@ -42,7 +42,11 @@ class InteractHook extends Tasks implements IOAwareInterface, ConfigAwareInterfa
   /**
    * @hook interact @interactInstallDrupal
    */
-  public function interactInstallDrupal(InputInterface $input, OutputInterface $output, AnnotationData $annotationData) {
+  public function interactInstallDrupal(
+    InputInterface $input,
+    OutputInterface $output,
+    AnnotationData $annotationData
+  ) {
     if (!$this->localEnvironment->isDrupalInstalled()) {
       $this->logger->warning('Drupal is not installed.');
       $confirm = $this->confirm("Do you want to install Drupal?");
@@ -58,7 +62,11 @@ class InteractHook extends Tasks implements IOAwareInterface, ConfigAwareInterfa
   /**
    * @hook interact @interactConfigureBehat
    */
-  public function interactConfigureBehat(InputInterface $input, OutputInterface $output, AnnotationData $annotationData) {
+  public function interactConfigureBehat(
+    InputInterface $input,
+    OutputInterface $output,
+    AnnotationData $annotationData
+  ) {
     if (!$this->localEnvironment->isBehatConfigured()) {
       $this->logger->warning('Behat is not configured.');
       $confirm = $this->confirm("Do you want configure Behat.");

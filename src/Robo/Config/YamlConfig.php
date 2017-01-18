@@ -21,7 +21,8 @@ class YamlConfig extends BltConfig {
 
     $this->setSourceName($yml_path);
     $reference_data = ArrayManipulator::reKeyDotNotatedKeys($reference_data);
-    $file_config = file_exists($yml_path) ? Expander::parse(file_get_contents($yml_path), $reference_data) : [];
+    $file_config = file_exists($yml_path) ? Expander::parse(file_get_contents($yml_path),
+      $reference_data) : [];
     $file_config = ArrayManipulator::reKeyDotNotatedKeys($file_config);
     $this->fromArray($file_config);
   }

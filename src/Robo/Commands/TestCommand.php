@@ -67,7 +67,7 @@ class TestCommand extends BltTasks {
     $this->verifyPhantomJsConfig();
 
     $this->say("Launching PhantomJS GhostDriver.");
-    $this->taskExec("{$this->bin}/phantomjs")
+    $this->taskExec("{$this->getConfigValue('composer.bin')}/phantomjs")
       ->option("webdriver", 4444)
       ->background()
       ->run();
@@ -96,14 +96,14 @@ class TestCommand extends BltTasks {
       $this->yell("behat.launch-phantomjs is true, but the install-phantomjs script is not defined in composer.json.");
       $answer = $this->confirm("Do you want to add an 'install-phantomjs' script to your composer.json?");
       if ($answer == 'y') {
-        $this->_exec("{$this->bin}/blt-console configure:phantomjs {$this->repoRoot}");
+        $this->_exec("{$this->getConfigValue('composer.bin')}/blt-console configure:phantomjs {$this->getConfigValue('repo.root')}");
       }
       else {
         throw new \Exception("Cannot launch PhantomJS because the install-phantomjs script is not present in composer.json. Add it, or use Selenium instead.");
       }
     }
 
-    if (!file_exists("{$this->bin}/phantomjs")) {
+    if (!file_exists("{$this->getConfigValue('composer.bin')}/phantomjs")) {
       $this->_exec("composer install-phantom");
     }
   }

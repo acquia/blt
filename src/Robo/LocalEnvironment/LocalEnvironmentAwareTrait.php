@@ -5,9 +5,10 @@ namespace Acquia\Blt\Robo\LocalEnvironment;
 /**
  *
  */
-trait LocalEnvironmentTrait {
+trait LocalEnvironmentAwareTrait {
   /**
-   * @var \Acquia\Blt\Robo\LocalEnvironment\LocalEnvironment*/
+   * @var \Acquia\Blt\Robo\LocalEnvironment\LocalEnvironment
+   */
   private $localEnvironment;
 
   /**

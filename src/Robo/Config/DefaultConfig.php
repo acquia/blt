@@ -17,7 +17,8 @@ class DefaultConfig extends BltConfig {
     $this->set('repo.root', $repo_root);
     $this->set('docroot', $repo_root . '/docroot');
     $this->set('blt.root', $this->getBltRoot());
-    $this->set('drupal.settings_file', $this->get('docroot') . '/sites/default/settings.php');
+    $this->set('drupal.settings_file',
+      $this->get('docroot') . '/sites/default/settings.php');
     $this->set('composer.bin', $repo_root . '/vendor/bin');
   }
 

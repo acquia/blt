@@ -81,7 +81,8 @@ abstract class BltConfig extends Config {
   public function extend(BltConfig $in) {
     $this_config = $this->toArray();
     $that_config = $in->toArray();
-    $merged_config = ArrayManipulator::arrayMergeRecursiveDistinct($this_config, $that_config);
+    $merged_config = ArrayManipulator::arrayMergeRecursiveDistinct($this_config,
+      $that_config);
     $this->fromArray($merged_config);
   }
 

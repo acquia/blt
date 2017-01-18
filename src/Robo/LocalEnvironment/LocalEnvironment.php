@@ -74,7 +74,8 @@ class LocalEnvironment implements ConfigAwareInterface, ExecutorAwareInterface {
    * @return bool
    */
   protected function getDrupalIntalled() {
-    $process = $this->getExecutor()->executeDrush("sqlq \"SHOW TABLES LIKE 'config'\"");
+    $process = $this->getExecutor()
+      ->executeDrush("sqlq \"SHOW TABLES LIKE 'config'\"");
     $output = trim($process->getOutput());
     $installed = $process->isSuccessful() && $output == 'config';
 
@@ -117,7 +118,8 @@ class LocalEnvironment implements ConfigAwareInterface, ExecutorAwareInterface {
    */
   public function setDrushStatus() {
     if (!$this->getConfigValue('state.drush.status')) {
-      $drush_status = json_decode($this->execDrush("status --format=json"), TRUE);
+      $drush_status = json_decode($this->execDrush("status --format=json"),
+        TRUE);
       $this->getConfig()->set('state.drush.status', $drush_status);
     }
 

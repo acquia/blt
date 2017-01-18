@@ -3,8 +3,8 @@
 namespace Acquia\Blt\Robo\Hooks;
 
 use Acquia\Blt\Robo\Common\IO;
-use Acquia\Blt\Robo\LocalEnvironment\LocalEnvironmentInterface;
-use Acquia\Blt\Robo\LocalEnvironment\LocalEnvironmentTrait;
+use Acquia\Blt\Robo\LocalEnvironment\LocalEnvironmentAwareInterface;
+use Acquia\Blt\Robo\LocalEnvironment\LocalEnvironmentAwareTrait;
 use Consolidation\AnnotatedCommand\CommandData;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -12,10 +12,10 @@ use Psr\Log\LoggerAwareTrait;
 /**
  *
  */
-class ValidateHook implements LoggerAwareInterface, LocalEnvironmentInterface {
+class ValidateHook implements LoggerAwareInterface, LocalEnvironmentAwareInterface {
 
   use LoggerAwareTrait;
-  use LocalEnvironmentTrait;
+  use LocalEnvironmentAwareTrait;
   use IO;
 
   /**
