@@ -64,7 +64,7 @@ class TestCommand extends BltTasks {
    *
    */
   protected function launchPhantomJs() {
-    if (!$this->getLocalEnvironment()->isPhantomJsConfigured()) {
+    if (!$this->getInspector()->isPhantomJsConfigured()) {
       $this->setupPhantomJs();
     }
 
@@ -89,7 +89,7 @@ class TestCommand extends BltTasks {
   }
 
   protected function interactRequirePhantomJs() {
-    if (!$this->getLocalEnvironment()->isPhantomJsRequired()) {
+    if (!$this->getInspector()->isPhantomJsRequired()) {
       $this->logger->warning("PhantomJS is not required in composer.json");
       $answer = $this->confirm("Do you want to require jakoch/phantomjs-installer as a dev dependency?");
       if ($answer) {
@@ -102,7 +102,7 @@ class TestCommand extends BltTasks {
   }
 
   protected function interactConfigurePhantomJsScript() {
-    if (!$this->getLocalEnvironment()->isPhantomJsScriptConfigured()) {
+    if (!$this->getInspector()->isPhantomJsScriptConfigured()) {
       $this->logger->warning("The install-phantomjs script is not defined in composer.json.");
       $answer = $this->confirm("Do you want to add an 'install-phantomjs' script to your composer.json?");
       if ($answer) {
@@ -115,7 +115,7 @@ class TestCommand extends BltTasks {
   }
 
   protected function interactInstallPhantomJsBinary() {
-    if (!$this->getLocalEnvironment()->isPhantomJsBinaryPresent()) {
+    if (!$this->getInspector()->isPhantomJsBinaryPresent()) {
       $this->logger->warning("The PhantomJS binary is not present.");
       $answer = $this->confirm("Do you want to install it?");
       if ($answer) {

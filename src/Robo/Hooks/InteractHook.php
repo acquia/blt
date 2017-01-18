@@ -4,8 +4,8 @@ namespace Acquia\Blt\Robo\Hooks;
 
 use Acquia\Blt\Robo\Common\IO;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
-use Acquia\Blt\Robo\LocalEnvironment\LocalEnvironmentAwareInterface;
-use Acquia\Blt\Robo\LocalEnvironment\LocalEnvironmentAwareTrait;
+use Acquia\Blt\Robo\Inspector\InspectorAwareInterface;
+use Acquia\Blt\Robo\Inspector\InspectorAwareTrait;
 use Consolidation\AnnotatedCommand\AnnotationData;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -18,10 +18,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  *
  */
-class InteractHook extends Tasks implements IOAwareInterface, ConfigAwareInterface, LocalEnvironmentAwareInterface, LoggerAwareInterface {
+class InteractHook extends Tasks implements IOAwareInterface, ConfigAwareInterface, InspectorAwareInterface, LoggerAwareInterface {
 
   use ConfigAwareTrait;
-  use LocalEnvironmentAwareTrait;
+  use InspectorAwareTrait;
   use LoggerAwareTrait;
   use IO;
 
@@ -47,7 +47,7 @@ class InteractHook extends Tasks implements IOAwareInterface, ConfigAwareInterfa
     OutputInterface $output,
     AnnotationData $annotationData
   ) {
-    if (!$this->localEnvironment->isDrupalInstalled()) {
+    if (!$this->Inspector->isDrupalInstalled()) {
       $this->logger->warning('Drupal is not installed.');
       $confirm = $this->confirm("Do you want to install Drupal?");
       if ($confirm) {
@@ -67,7 +67,7 @@ class InteractHook extends Tasks implements IOAwareInterface, ConfigAwareInterfa
     OutputInterface $output,
     AnnotationData $annotationData
   ) {
-    if (!$this->localEnvironment->isBehatConfigured()) {
+    if (!$this->Inspector->isBehatConfigured()) {
       $this->logger->warning('Behat is not configured.');
       $confirm = $this->confirm("Do you want configure Behat.");
       if ($confirm) {

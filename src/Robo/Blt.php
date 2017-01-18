@@ -4,8 +4,8 @@ namespace Acquia\Blt\Robo;
 
 use Acquia\Blt\Robo\Common\Executor;
 use Acquia\Blt\Robo\Common\ExecutorAwareInterface;
-use Acquia\Blt\Robo\LocalEnvironment\LocalEnvironment;
-use Acquia\Blt\Robo\LocalEnvironment\LocalEnvironmentAwareInterface;
+use Acquia\Blt\Robo\Inspector\Inspector;
+use Acquia\Blt\Robo\Inspector\InspectorAwareInterface;
 use Consolidation\AnnotatedCommand\CommandFileDiscovery;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
@@ -132,10 +132,10 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
   private function configureContainer() {
     $container = $this->getContainer();
 
-    $local_environment = new LocalEnvironment();
+    $local_environment = new Inspector();
     $container->share('local_environment', $local_environment);
-    $container->inflector(LocalEnvironmentAwareInterface::class)
-      ->invokeMethod('setLocalEnvironment', ['local_environment']);
+    $container->inflector(InspectorAwareInterface::class)
+      ->invokeMethod('setInspector', ['local_environment']);
 
     $executor = new Executor();
     $container->share('executor', $executor);

@@ -3,8 +3,8 @@
 namespace Acquia\Blt\Robo\Hooks;
 
 use Acquia\Blt\Robo\Common\IO;
-use Acquia\Blt\Robo\LocalEnvironment\LocalEnvironmentAwareInterface;
-use Acquia\Blt\Robo\LocalEnvironment\LocalEnvironmentAwareTrait;
+use Acquia\Blt\Robo\Inspector\InspectorAwareInterface;
+use Acquia\Blt\Robo\Inspector\InspectorAwareTrait;
 use Consolidation\AnnotatedCommand\CommandData;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -12,10 +12,10 @@ use Psr\Log\LoggerAwareTrait;
 /**
  *
  */
-class ValidateHook implements LoggerAwareInterface, LocalEnvironmentAwareInterface {
+class ValidateHook implements LoggerAwareInterface, InspectorAwareInterface {
 
   use LoggerAwareTrait;
-  use LocalEnvironmentAwareTrait;
+  use InspectorAwareTrait;
   use IO;
 
   /**
@@ -23,7 +23,7 @@ class ValidateHook implements LoggerAwareInterface, LocalEnvironmentAwareInterfa
    */
   public function checkCommandsExist(CommandData $commandData) {
     foreach ($commands as $command) {
-      if (!$this->getLocalEnvironment()->commandExists($command)) {
+      if (!$this->getInspector()->commandExists($command)) {
         $this->yell("Unable to find '$command' command!");
         return FALSE;
       }
@@ -36,7 +36,7 @@ class ValidateHook implements LoggerAwareInterface, LocalEnvironmentAwareInterfa
    * @hook validate @validateDocrootIsPresent
    */
   public function validateDocrootIsPresent(CommandData $commandData) {
-    if (!$this->getLocalEnvironment()->isDocrootPresent()) {
+    if (!$this->getInspector()->isDocrootPresent()) {
       $this->logger->error("Unable to find docroot.");
 
       return FALSE;
@@ -49,7 +49,7 @@ class ValidateHook implements LoggerAwareInterface, LocalEnvironmentAwareInterfa
    * @hook validate @validateRepoRootIsPresent
    */
   public function validateRepoRootIsPresent(CommandData $commandData) {
-    if (empty($this->getLocalEnvironment()->isRepoRootPresent())) {
+    if (empty($this->getInspector()->isRepoRootPresent())) {
       throw new \Exception("Unable to find repository root.");
     }
   }
@@ -58,7 +58,7 @@ class ValidateHook implements LoggerAwareInterface, LocalEnvironmentAwareInterfa
    * @hook validate @validateDrupalIsInstalled
    */
   public function validateDrupalIsInstalled(CommandData $commandData) {
-    if (!$this->getLocalEnvironment()
+    if (!$this->getInspector()
       ->isDrupalInstalled()
     ) {
 
@@ -72,14 +72,14 @@ class ValidateHook implements LoggerAwareInterface, LocalEnvironmentAwareInterfa
    * @hook validate @validateSettingsFileIsValid
    */
   public function validateSettingsFileIsValid(CommandData $commandData) {
-    if (!$this->getLocalEnvironment()
+    if (!$this->getInspector()
       ->isDrupalSettingsFilePresent()
     ) {
       throw new \Exception("Could not find settings.php for this site.");
     }
 
-    if (!$this->getLocalEnvironment()
-      ->isDrupalSettingsFileValid($this->getLocalEnvironment()
+    if (!$this->getInspector()
+      ->isDrupalSettingsFileValid($this->getInspector()
         ->getDrupalSettingsFile())
     ) {
       throw new \Exception("BLT settings are not included in settings file.");
@@ -90,7 +90,7 @@ class ValidateHook implements LoggerAwareInterface, LocalEnvironmentAwareInterfa
    * @hook validate @validateBehatIsConfigured
    */
   public function validateBehatIsConfigured(CommandData $commandData) {
-    if (!$this->getLocalEnvironment()->isBehatConfigured()) {
+    if (!$this->getInspector()->isBehatConfigured()) {
       $this->logger->error("Behat is not properly configured.");
       return FALSE;
     }
@@ -99,7 +99,7 @@ class ValidateHook implements LoggerAwareInterface, LocalEnvironmentAwareInterfa
   }
 
   public function validatePhantomJsIsConfigured(CommandData$commandData) {
-    if (!$this->getLocalEnvironment()->isPhantomJsConfigured()) {
+    if (!$this->getInspector()->isPhantomJsConfigured()) {
       $this->logger->info("Phantom JS is not configured.");
     }
   }
