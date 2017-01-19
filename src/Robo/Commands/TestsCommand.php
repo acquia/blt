@@ -3,13 +3,14 @@
 namespace Acquia\Blt\Robo\Commands;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Wizards\TestsWizard;
 
 /**
  * This is project's console commands configuration for Robo task runner.
  *
  * @see http://robo.li/
  */
-class TestCommand extends BltTasks {
+class TestsCommand extends BltTasks {
 
   /**
    * Runs all tests, including Behat, PHPUnit, and Security Update check.
@@ -83,45 +84,11 @@ class TestCommand extends BltTasks {
    * @validatePhantomJsIsConfigured
    */
   public function setupPhantomJs() {
-      $this->interactRequirePhantomJs();
-      $this->interactConfigurePhantomJsScript();
-      $this->interactInstallPhantomJsBinary();
-  }
-
-  protected function interactRequirePhantomJs() {
-    if (!$this->getInspector()->isPhantomJsRequired()) {
-      $this->logger->warning("PhantomJS is not required in composer.json");
-      $answer = $this->confirm("Do you want to require jakoch/phantomjs-installer as a dev dependency?");
-      if ($answer) {
-        $this->_exec("composer require jakoch/phantomjs-installer --dev");
-      }
-      else {
-        throw new \Exception("Cannot launch PhantomJS it is not installed.");
-      }
-    }
-  }
-
-  protected function interactConfigurePhantomJsScript() {
-    if (!$this->getInspector()->isPhantomJsScriptConfigured()) {
-      $this->logger->warning("The install-phantomjs script is not defined in composer.json.");
-      $answer = $this->confirm("Do you want to add an 'install-phantomjs' script to your composer.json?");
-      if ($answer) {
-        $this->_exec("{$this->getConfigValue('composer.bin')}/blt-console configure:phantomjs {$this->getConfigValue('repo.root')}");
-      }
-      else {
-        throw new \Exception("Cannot launch PhantomJS because the install-phantomjs script is not present in composer.json. Add it, or use Selenium instead.");
-      }
-    }
-  }
-
-  protected function interactInstallPhantomJsBinary() {
-    if (!$this->getInspector()->isPhantomJsBinaryPresent()) {
-      $this->logger->warning("The PhantomJS binary is not present.");
-      $answer = $this->confirm("Do you want to install it?");
-      if ($answer) {
-        $this->_exec("composer install-phantom");
-      }
-    }
+    /** @var TestsWizard $tests_wizard */
+    $tests_wizard = $this->getContainer()->get(TestsWizard::class);
+    $tests_wizard->wizardRequirePhantomJs();
+    $tests_wizard->wizardConfigurePhantomJsScript();
+    $tests_wizard->wizardInstallPhantomJsBinary();
   }
 
   /**

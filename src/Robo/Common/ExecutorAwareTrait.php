@@ -10,7 +10,7 @@ trait ExecutorAwareTrait {
   /**
    * @var Executor
    */
-  protected $executor;
+  private $executor;
 
   /**
    * @param \Acquia\Blt\Robo\Common\Executor $executor
