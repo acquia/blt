@@ -134,10 +134,10 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
   private function configureContainer() {
     $container = $this->getContainer();
 
-    $local_environment = new Inspector();
-    $container->share('local_environment', $local_environment);
+    $inspector = new Inspector();
+    $container->share('inspector', $inspector);
     $container->inflector(InspectorAwareInterface::class)
-      ->invokeMethod('setInspector', ['local_environment']);
+      ->invokeMethod('setInspector', ['inspector']);
 
     $executor = new Executor();
     $container->add('executor', $executor);

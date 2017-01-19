@@ -14,8 +14,8 @@ trait InspectorAwareTrait {
   /**
    *
    */
-  public function setInspector(Inspector $local_environment) {
-    $this->inspector = $local_environment;
+  public function setInspector(Inspector $inspector) {
+    $this->inspector = $inspector;
   }
 
   /**

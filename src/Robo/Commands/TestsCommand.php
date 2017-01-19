@@ -6,9 +6,7 @@ use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Wizards\TestsWizard;
 
 /**
- * This is project's console commands configuration for Robo task runner.
- *
- * @see http://robo.li/
+ * Defines commands in the "tests" namespace.
  */
 class TestsCommand extends BltTasks {
 
@@ -23,7 +21,16 @@ class TestsCommand extends BltTasks {
   }
 
   /**
+   * Executes all behat tests.
+   *
    * @command tests:behat
+   * @description Executes all behat tests. This optionally launch PhantomJS or Selenium prior to execution.
+   * @usage
+   *   Executes all configured tests.
+   * @usage -Dbehat.paths=${PWD}/tests/behat/features/Examples.feature
+   *   Executes scenarios in the Examples.feature file.
+   * @usage -Dbehat.paths=${PWD}/tests/behat/features/Examples.feature:4
+   *   Executes only the scenario on line 4 of Examples.feature.
    *
    * @interactInstallDrupal
    * @interactConfigureBehat
@@ -40,7 +47,7 @@ class TestsCommand extends BltTasks {
       $this->launchPhantomJs();
     }
 
-    // @todo Figure out how to make this less noisy. Ugly escaped slashes in filepath output.
+    // @todo Figure out how to make this less noisy. Ugly escaped slashes in file path output.
     $this->_mkdir("{$this->getConfigValue('repo.root')}/{$this->getConfigValue('reports.localDir')}");
 
     foreach ($this->getConfigValue('behat.paths') as $behat_path) {
@@ -55,7 +62,10 @@ class TestsCommand extends BltTasks {
   }
 
   /**
+   * Executes all PHPUnit tests.
+   *
    * @command tests:phpunit
+   * @description Executes all PHPUnit tests.
    */
   public function testsPhpUnit() {
 

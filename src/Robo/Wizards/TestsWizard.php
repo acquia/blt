@@ -53,4 +53,18 @@ class TestsWizard extends Wizard {
     }
   }
 
+  /**
+   *
+   */
+  public function wizardConfigureBehat() {
+    if (!$this->getInspector()->isBehatConfigured()) {
+      $this->logger->warning('Behat is not configured.');
+      $confirm = $this->confirm("Do you want configure Behat.");
+      if ($confirm) {
+        $bin = $this->getConfigValue('composer.bin');
+        $this->getExecutor()->executeCommand("$bin/blt setup:behat", $this->getConfigValue('repo.root'));
+      }
+    }
+  }
+
 }

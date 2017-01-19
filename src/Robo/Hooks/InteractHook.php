@@ -61,16 +61,7 @@ class InteractHook extends Tasks implements IOAwareInterface, ConfigAwareInterfa
     OutputInterface $output,
     AnnotationData $annotationData
   ) {
-    if (!$this->inspector->isBehatConfigured()) {
-      $this->logger->warning('Behat is not configured.');
-      $confirm = $this->confirm("Do you want configure Behat.");
-      if ($confirm) {
-        $bin = $this->getConfigValue('composer.bin');
-        $this->taskExec("$bin/blt setup:behat")
-          ->dir($this->getConfigValue('repo.root'))
-          ->run();
-      }
-    }
+
   }
 
 }
