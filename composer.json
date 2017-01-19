@@ -21,7 +21,7 @@
         "drupal/console":                   "^1.0.0-rc13",
         "phing/phing":                      "^2.15.0",
         "php":                              ">=5.6",
-        "phpunit/phpunit":                  "^5.5.4",
+        "phpunit/phpunit":                  "^4.8",
         "squizlabs/php_codesniffer":        "^2.7",
         "symfony/yaml":                     "^2.8.11",
         "symfony/console":                  "^2.8.11",
