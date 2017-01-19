@@ -29,22 +29,6 @@ trait IO {
   }
 
   /**
-   * @param $text
-   * @param string $color
-   */
-  protected function warn($text, $color = 'yellow') {
-    $this->yell($text, NULL, $color);
-  }
-
-  /**
-   * @param $text
-   * @param string $color
-   */
-  protected function error($text, $color = 'red') {
-    $this->yell($text, NULL, $color);
-  }
-
-  /**
    * @param string $message
    *
    * @return string
