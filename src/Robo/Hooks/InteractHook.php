@@ -6,6 +6,7 @@ use Acquia\Blt\Robo\Common\IO;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
 use Acquia\Blt\Robo\Inspector\InspectorAwareInterface;
 use Acquia\Blt\Robo\Inspector\InspectorAwareTrait;
+use Acquia\Blt\Robo\Wizards\SetupWizard;
 use Consolidation\AnnotatedCommand\AnnotationData;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -47,16 +48,9 @@ class InteractHook extends Tasks implements IOAwareInterface, ConfigAwareInterfa
     OutputInterface $output,
     AnnotationData $annotationData
   ) {
-    if (!$this->Inspector->isDrupalInstalled()) {
-      $this->logger->warning('Drupal is not installed.');
-      $confirm = $this->confirm("Do you want to install Drupal?");
-      if ($confirm) {
-        $bin = $this->getConfigValue('composer.bin');
-        $this->taskExec("$bin/blt setup:drupal:install")
-          ->dir($this->getConfigValue('repo.root'))
-          ->run();
-      }
-    }
+    /** @var SetupWizard $setup_wizard */
+    $setup_wizard = $this->getContainer()->get(SetupWizard::class);
+    $setup_wizard->wizardInstallDrupal();
   }
 
   /**
@@ -67,7 +61,7 @@ class InteractHook extends Tasks implements IOAwareInterface, ConfigAwareInterfa
     OutputInterface $output,
     AnnotationData $annotationData
   ) {
-    if (!$this->Inspector->isBehatConfigured()) {
+    if (!$this->inspector->isBehatConfigured()) {
       $this->logger->warning('Behat is not configured.');
       $confirm = $this->confirm("Do you want configure Behat.");
       if ($confirm) {

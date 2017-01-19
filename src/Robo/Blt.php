@@ -6,6 +6,8 @@ use Acquia\Blt\Robo\Common\Executor;
 use Acquia\Blt\Robo\Common\ExecutorAwareInterface;
 use Acquia\Blt\Robo\Inspector\Inspector;
 use Acquia\Blt\Robo\Inspector\InspectorAwareInterface;
+use Acquia\Blt\Robo\Wizards\SetupWizard;
+use Acquia\Blt\Robo\Wizards\TestsWizard;
 use Consolidation\AnnotatedCommand\CommandFileDiscovery;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
@@ -138,9 +140,12 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
       ->invokeMethod('setInspector', ['local_environment']);
 
     $executor = new Executor();
-    $container->share('executor', $executor);
+    $container->add('executor', $executor);
     $container->inflector(ExecutorAwareInterface::class)
       ->invokeMethod('setExecutor', ['executor']);
+
+    $container->add(SetupWizard::class);
+    $container->add(TestsWizard::class);
 
     // Tell the command loader to only allow command functions that have a name/alias.
     $factory = $container->get('commandFactory');

@@ -3,6 +3,8 @@
 namespace Acquia\Blt\Robo\Common;
 
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 use Symfony\Component\Console\Output\OutputInterface;
 use Robo\Contract\ConfigAwareInterface;
 use Robo\Contract\IOAwareInterface;
@@ -11,10 +13,11 @@ use Symfony\Component\Process\Process;
 /**
  *
  */
-class Executor implements ConfigAwareInterface, IOAwareInterface {
+class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInterface {
 
   use ConfigAwareTrait;
   use IO;
+  use LoggerAwareTrait;
 
   /**
    * @param $command
@@ -40,8 +43,7 @@ class Executor implements ConfigAwareInterface, IOAwareInterface {
     $mustRun = TRUE
   ) {
     if ($this->output()->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
-      $this->output()
-        ->writeln("<comment>Executing command: $command</comment>");
+      $this->logger->debug("Executing command: <comment>$command</comment>");
     }
 
     $timeout = 10800;
