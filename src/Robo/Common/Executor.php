@@ -5,6 +5,7 @@ namespace Acquia\Blt\Robo\Common;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
+use Robo\Collection\CollectionBuilder;
 use Symfony\Component\Console\Output\OutputInterface;
 use Robo\Contract\ConfigAwareInterface;
 use Robo\Contract\IOAwareInterface;
@@ -18,6 +19,18 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
   use ConfigAwareTrait;
   use IO;
   use LoggerAwareTrait;
+
+  /** @var CollectionBuilder */
+  protected $builder;
+
+  /**
+   * Executor constructor.
+   *
+   * @param \Robo\Collection\CollectionBuilder $builder
+   */
+  public function __construct(CollectionBuilder $builder) {
+    $this->builder = $builder;
+  }
 
   /**
    * @param $command

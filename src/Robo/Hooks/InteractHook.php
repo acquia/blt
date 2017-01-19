@@ -7,6 +7,7 @@ use Acquia\Blt\Robo\Config\ConfigAwareTrait;
 use Acquia\Blt\Robo\Inspector\InspectorAwareInterface;
 use Acquia\Blt\Robo\Inspector\InspectorAwareTrait;
 use Acquia\Blt\Robo\Wizards\SetupWizard;
+use Acquia\Blt\Robo\Wizards\TestsWizard;
 use Consolidation\AnnotatedCommand\AnnotationData;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -61,7 +62,9 @@ class InteractHook extends Tasks implements IOAwareInterface, ConfigAwareInterfa
     OutputInterface $output,
     AnnotationData $annotationData
   ) {
-
+    /** @var TestsWizard $tests_wizard */
+    $tests_wizard = $this->getContainer()->get(TestsWizard::class);
+    $tests_wizard->wizardConfigureBehat();
   }
 
 }

@@ -2,10 +2,12 @@
 
 namespace Acquia\Blt\Robo\Inspector;
 
-use Acquia\Blt\Robo\Common\ExecutorAwareInterface;
-use Acquia\Blt\Robo\Common\ExecutorAwareTrait;
+use Acquia\Blt\Robo\Common\Executor;
 use Acquia\Blt\Robo\Common\IO;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
+use Acquia\Blt\Robo\Tasks\BltTasks;
+use Robo\Common\BuilderAwareTrait;
+use Robo\Contract\BuilderAwareInterface;
 use Robo\Contract\ConfigAwareInterface;
 
 /**
@@ -13,11 +15,23 @@ use Robo\Contract\ConfigAwareInterface;
  *
  * @package Acquia\Blt\Robo\Common
  */
-class Inspector implements ConfigAwareInterface, ExecutorAwareInterface {
+class Inspector implements BuilderAwareInterface, ConfigAwareInterface {
 
-  use IO;
+  use BuilderAwareTrait;
   use ConfigAwareTrait;
-  use ExecutorAwareTrait;
+  use IO;
+
+  /** @var Executor */
+  protected $executor;
+
+  /**
+   * Inspector constructor.
+   *
+   * @param \Acquia\Blt\Robo\Common\Executor $executor
+   */
+  public function __construct(Executor $executor) {
+    $this->executor = $executor;
+  }
 
   /**
    * @return bool
@@ -74,8 +88,7 @@ class Inspector implements ConfigAwareInterface, ExecutorAwareInterface {
    * @return bool
    */
   protected function getDrupalInstalled() {
-    $process = $this->getExecutor()
-      ->executeDrush("sqlq \"SHOW TABLES LIKE 'config'\"");
+    $process = $this->executor->executeDrush("sqlq \"SHOW TABLES LIKE 'config'\"");
     $output = trim($process->getOutput());
     $installed = $process->isSuccessful() && $output == 'config';
 

@@ -17,8 +17,8 @@ use Robo\Tasks;
 class BltTasks extends Tasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerAwareInterface {
 
   use ConfigAwareTrait;
-  use IO;
   use InspectorAwareTrait;
+  use IO;
   use LoggerAwareTrait;
 
 }

@@ -18,7 +18,7 @@ class SetupWizard extends Wizard {
       if ($confirm) {
         $bin = $this->getConfigValue('composer.bin');
 
-        $this->getExecutor()
+        $this->executor
           ->executeCommand("$bin/blt setup:drupal:install",
             $this->getConfigValue('repo.root'));
       }

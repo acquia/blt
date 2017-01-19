@@ -3,7 +3,6 @@
 namespace Acquia\Blt\Robo;
 
 use Acquia\Blt\Robo\Common\Executor;
-use Acquia\Blt\Robo\Common\ExecutorAwareInterface;
 use Acquia\Blt\Robo\Inspector\Inspector;
 use Acquia\Blt\Robo\Inspector\InspectorAwareInterface;
 use Acquia\Blt\Robo\Wizards\SetupWizard;
@@ -13,8 +12,10 @@ use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
+use Robo\Collection\CollectionBuilder;
 use Robo\Common\ConfigAwareTrait;
 use Robo\Config;
+use Robo\Contract\BuilderAwareInterface;
 use Robo\Robo;
 use Robo\Runner as RoboRunner;
 use Symfony\Component\Console\Application;
@@ -134,18 +135,27 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
   private function configureContainer() {
     $container = $this->getContainer();
 
-    $inspector = new Inspector();
-    $container->share('inspector', $inspector);
+    // We create our own builder so that non-command classes are able to
+    // implement task methods, like taskExec(). Yes, there are now two builders
+    // in the container. "collectionBuilder" used for the actual command that
+    // was executed, and "builder" to be used with non-command classes.
+    $blt_tasks = new BltTasks();
+    $builder = new CollectionBuilder($blt_tasks);
+    $blt_tasks->setBuilder($builder);
+    $container->add('builder', $builder);
+    $container->add('executor', Executor::class)
+      ->withArgument('builder');
+
+    $container->add('inspector', Inspector::class)
+      ->withArgument('executor');
+
     $container->inflector(InspectorAwareInterface::class)
       ->invokeMethod('setInspector', ['inspector']);
 
-    $executor = new Executor();
-    $container->add('executor', $executor);
-    $container->inflector(ExecutorAwareInterface::class)
-      ->invokeMethod('setExecutor', ['executor']);
-
-    $container->add(SetupWizard::class);
-    $container->add(TestsWizard::class);
+    $container->add(SetupWizard::class)
+      ->withArgument('executor');
+    $container->add(TestsWizard::class)
+      ->withArgument('executor');
 
     // Tell the command loader to only allow command functions that have a name/alias.
     $factory = $container->get('commandFactory');

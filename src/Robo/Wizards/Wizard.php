@@ -2,8 +2,7 @@
 
 namespace Acquia\Blt\Robo\Wizards;
 
-use Acquia\Blt\Robo\Common\ExecutorAwareInterface;
-use Acquia\Blt\Robo\Common\ExecutorAwareTrait;
+use Acquia\Blt\Robo\Common\Executor;
 use Acquia\Blt\Robo\Common\IO;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
 use Acquia\Blt\Robo\Inspector\InspectorAwareInterface;
@@ -17,9 +16,21 @@ use Robo\Contract\IOAwareInterface;
  * Class Wizard
  * @package Acquia\Blt\Robo\Wizards
  */
-abstract class Wizard implements ConfigAwareInterface, ExecutorAwareInterface, InspectorAwareInterface, IOAwareInterface, LoggerAwareInterface {
+abstract class Wizard implements ConfigAwareInterface, InspectorAwareInterface, IOAwareInterface, LoggerAwareInterface {
+
+  /** @var Executor */
+  protected $executor;
+
+  /**
+   * Inspector constructor.
+   *
+   * @param \Acquia\Blt\Robo\Common\Executor $executor
+   */
+  public function __construct(Executor $executor) {
+    $this->executor = $executor;
+  }
+
   use ConfigAwareTrait;
-  use ExecutorAwareTrait;
   use InspectorAwareTrait;
   use IO;
   use LoggerAwareTrait;
