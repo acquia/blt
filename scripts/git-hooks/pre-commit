@@ -6,8 +6,8 @@ PHPCS_BIN=vendor/bin/phpcs
 
 if [ ! -f $PHPCS_BIN ];
   then
-    echo "WARNING: PHP Code Sniffer was not found where we thought it should be. This commit may contain coding violations. "
-    exit 0
+    echo "PHP Code Sniffer was not found in this project's bin directory. Please run composer install. "
+    exit 1
 fi
 
 echo "Sniffing staged files via PHP Code Sniffer..."
