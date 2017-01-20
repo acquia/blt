@@ -34,7 +34,7 @@ blt:
     schema-version: ${repo.root}/blt/.schema_version
 
 composer:
-  bin: ${repo.root}/vendor/bin
+  bin: ${repo.root}/${bin.path}
 
 cm:
   core:

@@ -8,6 +8,8 @@
   <property name="blt.root.relative" value="${phing.dir}/.." logoutput="false"/>
   <resolvepath propertyName="blt.root" file="${blt.root.relative}"/>
 
+  <property name="bin.path" value="vendor/bin" logoutput="false"/>
+
   <!-- Load file directory and binary locations. -->
   <property file="${phing.dir}/build.yml" override="true" logoutput="false"/>
 
