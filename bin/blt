@@ -1,14 +1,31 @@
 #!/usr/bin/env bash
+set -o errexit
+set -o nounset
+set -o pipefail
+# set -o xtrace
 
-if [ "`git rev-parse --show-cdup 2> /dev/null`" != "" ]; then
-  GIT_ROOT=$(git rev-parse --show-cdup)
-else
-  GIT_ROOT="."
-fi
+function run_blt() {
+  # If we are in a git repository, go to the repo root.
+  if [ "`git rev-parse --show-toplevel 2> /dev/null`" != "" ]; then
+    GIT_ROOT=$(git rev-parse --show-toplevel)
+    cd $GIT_ROOT
+    # If blt.sh exists relative to here, run it.
+    if [ -f "$GIT_ROOT/vendor/acquia/blt/blt.sh" ]; then
+      ./vendor/acquia/blt/blt.sh "$@"
+      exit 0
+    else
+      # Go up one directory, which will either take us
+      # into a parent repo or out of any Git repo.
+      cd ../
+      # Recurse.
+      run_blt "$@"
+    fi
+  else
+    # We are not in a recognizable git repo. 
+    echo "Error: you are not in a BLT project. Exiting."
+    exit 1
+  fi
+}
 
-if [ -f "$GIT_ROOT/vendor/acquia/blt/blt.sh" ]; then
-  cd $GIT_ROOT
-  ./vendor/acquia/blt/blt.sh "$@"
-else
-  echo "Error: You must run this command from within a BLT-generated project repository!"
-fi
+# Invoke the function.
+run_blt "$@"
