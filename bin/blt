@@ -6,9 +6,9 @@ else
   GIT_ROOT="."
 fi
 
-if [ -f "$GIT_ROOT/vendor/acquia/blt/blt.sh" ]; then
+if [ -f "$GIT_ROOT/vendor/acquia/blt/bin/blt" ]; then
   cd $GIT_ROOT
-  ./vendor/acquia/blt/blt.sh "$@"
+  ./vendor/phing/phing/bin/phing -f "./vendor/acquia/blt/phing/build.xml" -logger vendor.acquia.blt.phing.phingcludes.BltLogger "$@"
 else
   echo "Error: You must run this command from within a BLT-generated project repository!"
 fi
