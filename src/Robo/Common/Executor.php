@@ -2,6 +2,7 @@
 
 namespace Acquia\Blt\Robo\Common;
 
+use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -20,7 +21,7 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
   use IO;
   use LoggerAwareTrait;
 
-  /** @var CollectionBuilder */
+  /** @var BltTasks */
   protected $builder;
 
   /**
@@ -35,47 +36,38 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
   /**
    * @param $command
    *
-   * @return \Symfony\Component\Process\Process
+   * @return \Robo\Task\Base\Exec
    */
-  public function executeDrush($command) {
-    $bin = $this->getConfigValue('composer.bin');
-    return $this->executeCommand("$bin/drush $command",
-      $this->getConfigValue('docroot'), FALSE);
+  public function taskExec($command) {
+    return $this->builder->taskExec($command);
   }
 
   /**
-   * @param string $command
+   * @param $command
    *
-   * @return Process
+   * @return \Robo\Result
    */
-  public function executeCommand(
-    $command,
-    $cwd = NULL,
-    $display_output = TRUE,
-    $interactive = FALSE,
-    $mustRun = TRUE
-  ) {
-    if ($this->output()->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
-      $this->logger->debug("Executing command: <comment>$command</comment>");
-    }
+  public function drush($command) {
+    // @todo Set to silent if verbosity is less than very verbose.
+    $bin = $this->getConfigValue('composer.bin');
+    $result = $this->builder->taskExec("$bin/drush $command")
+      ->dir($this->getConfigValue('docroot'))
+      ->printed(false)
+      ->run();
 
-    $timeout = 10800;
-    $env = [
-        'COMPOSER_PROCESS_TIMEOUT' => $timeout,
-      ] + $_ENV;
-    $process = new Process($command, $cwd, $env, NULL, $timeout);
-    $process->setTty($interactive);
-    $method = $mustRun ? 'mustRun' : 'run';
-    if ($display_output) {
-      $process->$method(function ($type, $buffer) {
-        print $buffer;
-      });
-    }
-    else {
-      $process->$method();
-    }
+    return $result;
+  }
 
-    return $process;
+  /**
+   * @param $command
+   *
+   * @return \Robo\Result
+   */
+  public function executeCommand($command) {
+    return $this->builder->taskExec($command)
+      ->dir($this->getConfigValue('repo.root'))
+      ->printed(false)
+      ->run();
   }
 
 }

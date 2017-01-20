@@ -39,6 +39,7 @@ class TestsCommand extends BltTasks {
    * @validateBehatIsConfigured
    */
   public function testsBehat() {
+    $this->logConfig($this->getConfigValue('behat'), 'behat');
     $this->killByPort('4444');
     $this->killByName('selenium');
     $this->killByName('phantomjs');

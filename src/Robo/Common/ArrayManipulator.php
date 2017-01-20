@@ -48,4 +48,53 @@ class ArrayManipulator {
     return $data->export();
   }
 
+  /**
+   * @param $array
+   *
+   * @return array
+   */
+  public static function convertArrayFlatTextArray($array) {
+    $rows = [];
+    $max_line_length = 80;
+    foreach ($array as $key => $value) {
+      if (is_array($value)) {
+
+        if (is_numeric(key($value))) {
+          $row_contents = implode("\n", $value);
+          $rows[] = [
+            $key,
+            wordwrap($row_contents, $max_line_length, "\n", TRUE)
+          ];
+        }
+        else {
+          $rows[] = [$key, ''];
+          foreach ($value as $sub_key => $sub_value) {
+            $rows[] = [
+              ' - ' . $sub_key,
+              wordwrap($sub_value, $max_line_length, "\n", TRUE)
+            ];
+          }
+        }
+
+        if (count($value) > 1) {
+          // $rows[] = new TableSeparator();
+        }
+      }
+      else {
+        if ($value === TRUE) {
+          $contents = 'true';
+        }
+        elseif ($value === FALSE) {
+          $contents = 'false';
+        }
+        else {
+          $contents = wordwrap($value, $max_line_length, "\n", TRUE);
+        }
+        $rows[] = [$key, $contents];
+      }
+    }
+
+    return $rows;
+  }
+
 }

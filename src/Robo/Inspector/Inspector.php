@@ -88,9 +88,9 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface {
    * @return bool
    */
   protected function getDrupalInstalled() {
-    $process = $this->executor->executeDrush("sqlq \"SHOW TABLES LIKE 'config'\"");
-    $output = trim($process->getOutput());
-    $installed = $process->isSuccessful() && $output == 'config';
+    $result = $this->executor->drush("sqlq \"SHOW TABLES LIKE 'config'\"");
+    $output = trim($result->getOutputData());
+    $installed = $result->wasSuccessful() && $output == 'config';
 
     return $installed;
   }
@@ -144,14 +144,14 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface {
   }
 
   public function isPhantomJsRequired() {
-    $process = $this->executor->executeCommand("grep 'jakoch/phantomjs-installer' composer.json", null, false, false, false);
-    return $process->isSuccessful();
+    $result = $this->executor->executeCommand("grep 'jakoch/phantomjs-installer' composer.json");
+    return $result->wasSuccessful();
   }
 
   public function isPhantomJsScriptConfigured() {
-    $process = $this->executor->executeCommand("grep installPhantomJS composer.json", null, false, false, false);
+    $result = $this->executor->executeCommand("grep installPhantomJS composer.json");
 
-    return $process->isSuccessful();
+    return $result->wasSuccessful();
   }
 
   public function isPhantomJsBinaryPresent() {
