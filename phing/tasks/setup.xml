@@ -226,7 +226,7 @@
 
   <target name="setup:config-import" description="Does the work of importing configuration from a site's config directory." hidden="true">
     <echo>Importing configuration for ${site.name}...</echo>
-    <drush command="pm-enable" assume="yes">
+    <drush command="pm-enable" assume="yes" passthru="false">
       <param>config</param>
     </drush>
 
@@ -242,7 +242,7 @@
       <option name="entity-updates"></option>
     </drush>
     <!-- Import configuration. -->
-    <drush command="config-import" assume="yes">
+    <drush command="config-import" assume="yes" passthru="false">
       <option name="partial"></option>
       <param>${cm.core.config-dir}</param>
     </drush>
@@ -383,5 +383,4 @@
       </else>
     </if>
   </target>
-    
 </project>
