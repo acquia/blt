@@ -1,17 +1,49 @@
 <project name="blt" default="update">
   <target name="create-project" hidden="true">
-    <exec dir="${repo.root}" command="git init" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
-    <echo>Updating composer dependencies, this make take a while...</echo>
-    <exec dir="${repo.root}" command="export COMPOSER_PROCESS_TIMEOUT=600; composer update --no-interaction" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <!-- Write BLT version to blt/.schema-version. -->
+    <exec dir="${repo.root}" command="echo ${blt.version} > ${blt.config-files.schema-version}" checkreturn="true" logoutput="true" passthru="false" level="${blt.exec_level}"/>
+
+    <!-- Remove files leftover from acquia/blt-project. -->
+    <delete failonerror="false" quiet="true">
+      <fileset dir="${repo.root}">
+        <include name=".travis.yml"/>
+        <include name="LICENSE.txt"/>
+        <include name="README.md"/>
+      </fileset>
+    </delete>
+
+    <!-- Pull in initial template files. -->
+    <phingcall target="blt:rsync-template"/>
+    <phingcall target="blt:update-composer"/>
+
+    <!--Write project.machine_name to project.yml, using name of working directory as value.. -->
+    <exec dir="${repo.root}" command="result=${PWD##*/}; printf '%s\n' &quot;${PWD##*/}&quot;" logoutput="false" checkreturn="true" level="${blt.exec_level}" passthru="false" outputProperty="dirname"/>
+    <exec dir="${repo.root}" command="${composer.bin}/yaml-cli update:value ${blt.config-files.project} project.machine_name '${dirname}'" logoutput="true" checkreturn="false" level="${blt.exec_level}" passthru="true"/>
+
+    <!-- Remove default git remote -->
+    <exec dir="${repo.root}" command="${composer.bin}/yaml-cli update:value ${blt.config-files.project} git.remotes.0 ''"  logoutput="true" checkreturn="false" level="${blt.exec_level}" passthru="true"/>
+    <exec dir="${repo.root}" command="${composer.bin}/yaml-cli unset:key ${blt.config-files.project} git.remotes.1"  logoutput="true" checkreturn="false" level="${blt.exec_level}" passthru="true"/>
+
+    <echo>Installing new Composer dependencies provided by BLT. This make take a while...</echo>
+    <exec dir="${repo.root}" command="composer update --no-interaction" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <copy file="${repo.root}/docroot/profiles/contrib/lightning/lightning.extend.yml" tofile="${repo.root}/docroot/sites/default/lightning.extend.yml"/>
 
-    <!--Write project.machine_name to project.yml.-->
-    <exec dir="${repo.root}" command="result=${PWD##*/}; printf '%s\n' &quot;${PWD##*/}&quot;" logoutput="false" checkreturn="true" level="${blt.exec_level}" passthru="false" outputProperty="dirname"/>
-    <exec dir="${repo.root}" command="${composer.bin}/drupal yaml:update:value ${blt.config-files.project} project.machine_name '${dirname}'" logoutput="true" checkreturn="false" level="${blt.exec_level}" passthru="true"/>
+    <phingcall target="create-project:init-repo"/>
 
+    <!-- Display BLT art. -->
+    <exec dir="${repo.root}" command="cat ${blt.root}/scripts/blt/ascii-art.txt" logoutput="true" passthru="true" checkreturn="false"/>
+
+    <echo level="warning">Your new BLT-based project has been created in ${repo.root}.</echo>
+    <echo>Please continue by following the "Creating a new project with BLT" instructions:</echo>
+    <echo>http://blt.readthedocs.io/en/8.x/readme/creating-new-project/</echo>
+  </target>
+
+  <!-- This target is necessary because Composer will delete .git directory directly after the `composer create-project` -->
+  <!-- command is executed. We call this in `post-create-project-cmd` to re-create the .git dir. -->
+  <target name="create-project:init-repo" description="Initializes the project repo directly after creation.">
+    <exec dir="${repo.root}" command="git init" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <exec dir="${repo.root}" command="git add -A" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <exec dir="${repo.root}" command="git commit -m 'Initial commit.'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
-    <exec dir="${repo.root}" command="cat ${blt.root}/scripts/blt/ascii-art.txt" logoutput="true" passthru="true" checkreturn="false"/>
   </target>
 
   <target name="doctor" description="Inspects your local blt configuration for possible issues.">
@@ -42,30 +74,22 @@
   </target>
 
   <target name="update" depends="blt:rsync-template, blt:update-composer, blt:update-yml, blt:update-delta, cleanup" hidden="true">
-
     <phingcall target="install-alias">
       <property name="create_alias" value="true"/>
     </phingcall>
-
-    <echo>Some of your customized files may have been modified.
-            Please review changes with "git diff".
-            Commit changes, or use "git add -p [filename]" to select which changes should be committed to each file.
-
-            To remove deprecated BLT files, run "blt cleanup".</echo>
   </target>
 
   <target name="blt:update-delta" description="Performs scripted updates for a specific BLT version delta." hidden="true">
     <echo>Executing scripted updates for version delta ${blt.schema-version} -> ${blt.version}...</echo>
-    <exec dir="${repo.root}" command="${repo.root}/vendor/bin/blt-console blt:update ${blt.schema-version} ${blt.version} ${repo.root} --yes" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec dir="${repo.root}" command="${repo.root}/${bin.path}/blt-console blt:update ${blt.schema-version} ${blt.version} ${repo.root} --yes" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
 
     <exec dir="${repo.root}" command="echo ${blt.version} > ${blt.config-files.schema-version}" checkreturn="true" logoutput="true" passthru="false" level="${blt.exec_level}"/>
   </target>
 
   <target name="blt:update-composer" description="Updates project composer.json with a subset of new key value pairs from upstream. This WILL overwrite existing values." hidden="true">
-    <!--@todo Output different message if composer.json does not exist.-->
     <echo level="verbose">Merging BLT's composer.json template with your project's composer.json.</echo>
     <echo level="verbose">This MAY overwrite some existing values.</echo>
-    <exec dir="${repo.root}" command="${repo.root}/vendor/bin/blt-console composer:munge ${repo.root}/composer.json ${blt.root}/template/composer.json > ${repo.root}/composer.json.tmp" logoutput="true" checkreturn="true" level="${blt.exec_level}" returnProperty="composer.munge.return"/>
+    <exec dir="${repo.root}" command="${repo.root}/${bin.path}/blt-console composer:munge ${repo.root}/composer.json ${blt.root}/template/composer.json > ${repo.root}/composer.json.tmp" logoutput="true" checkreturn="true" level="${blt.exec_level}" returnProperty="composer.munge.return"/>
     <if>
       <equals arg1="${composer.munge.return}" arg2="0"/>
       <then>
@@ -80,7 +104,7 @@
     <echo level="verbose">Merging BLT's project.yml template with your project's project.yml.</echo>
     <echo level="verbose">This WILL NOT overwrite existing values.</echo>
     <!--Values in the project's existing project.yml file will be preserved and not overridden.-->
-    <exec dir="${repo.root}" command="${repo.root}/vendor/bin/blt-console yaml:munge ${blt.root}/template/blt/project.yml ${blt.config-files.project} > ${blt.config-files.project}.tmp" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
+    <exec dir="${repo.root}" command="${repo.root}/${bin.path}/blt-console yaml:munge ${blt.root}/template/blt/project.yml ${blt.config-files.project} > ${blt.config-files.project}.tmp" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
     <!--@todo Find out why can't we just redirect output directly back to project.yml. -->
     <exec dir="${repo.root}" command="mv ${blt.config-files.project}.tmp ${blt.config-files.project}" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <echo>${blt.config-files.project} was modified.</echo>

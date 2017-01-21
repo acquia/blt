@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+# On OSX, create ~/.bash_profile if it does not exist.
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  touch $HOME/.bash_profile;
+fi
+
 if [ "`basename "/$SHELL"`" = "zsh" ]; then
   DETECTED_PROFILE="$HOME/.zshrc"
 elif [ -f "$HOME/.bash_profile" ]; then

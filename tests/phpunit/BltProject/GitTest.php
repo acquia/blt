@@ -92,7 +92,6 @@ class GitTasksTest extends BltProjectTestBase {
 
     // "2>&1" redirects standard error output to standard output.
     $command = "mkdir -p {$this->projectDirectory}/tmp && echo '$commit_message' > {$this->projectDirectory}/tmp/blt_commit_msg && {$this->projectDirectory}/.git/hooks/commit-msg {$this->projectDirectory}/tmp/blt_commit_msg 2>&1";
-    print "Executing \"$command\" \n";
 
     exec($command, $output, $return);
     $this->assertNotSame($is_valid, (bool) $return, $message);

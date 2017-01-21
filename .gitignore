@@ -61,8 +61,27 @@ local.properties
 auto-save-list
 tramp
 .\#*
-temp*
 
+template/docroot/.csslintrc
+template/docroot/.editorconfig
+template/docroot/.eslintignore
+template/docroot/.eslintrc
+template/docroot/.eslintrc.json
+template/docroot/.gitattributes
+template/docroot/.htaccess
+template/docroot/index.php
+template/docroot/robots.txt
+template/docroot/sites/default/default.settings.php
+template/docroot/sites/default/services.yml
+template/docroot/sites/default/settings.php
+template/docroot/sites/default/default.services.yml
+template/docroot/sites/development.services.yml
+template/docroot/sites/example.settings.local.php
+template/docroot/sites/example.sites.php
+template/docroot/update.php
+template/docroot/web.config
+
+# PHPStorm
 .idea
 
 #XHProf
@@ -89,3 +108,5 @@ nbproject/*
 # generates, so they must be specified here rather than in template/.gitignore.
 template/.idea/.name
 template/composer.lock
+
+CHANGELOG.partial

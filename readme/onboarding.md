@@ -22,6 +22,7 @@ If you need to make requests via a proxy server, please [configure git to use a 
 
 ## Initial Setup
 
+1. Verify that your system meets the [system requirements for BLT](../INSTALL.md)
 1. [Fork](https://help.github.com/articles/fork-a-repo) the primary GitHub repository
 1. Clone your fork to your local machine:
 

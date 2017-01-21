@@ -49,11 +49,24 @@ installed_extras:
   - mailhog
   - nodejs
   - selenium
+  - xdebug
 
 # Use PHP 5.6.
 php_version: "5.6"
-php_packages:
-  - php5.6-yaml
-  
+
+# XDebug configuration.
+# Change this value to 1 in order to enable xdebug by default.
+php_xdebug_default_enable: 0
+php_xdebug_coverage_enable: 0
+# Change this value to 1 in order to enable xdebug on the cli.
+php_xdebug_cli_enable: 0
+php_xdebug_remote_enable: 1
+php_xdebug_remote_connect_back: 1
+# Use PHPSTORM for PHPStorm, sublime.xdebug for Sublime Text.
+php_xdebug_idekey: PHPSTORM
+php_xdebug_max_nesting_level: 256
+php_xdebug_remote_port: "9000"
+
+post_provision_tasks_dir: "../../../acquia/blt/scripts/drupal-vm/post-provision.yml"
 post_provision_scripts:
   - "../../../acquia/blt/scripts/drupal-vm/post-provision.sh"

@@ -1,6 +1,6 @@
 # BLT
 
-[![Build Status](https://travis-ci.org/acquia/blt.svg?branch=8.x)](https://travis-ci.org/acquia/blt) [![Documentation Status](https://readthedocs.org/projects/blt/badge/?version=8.x)](http://blt.readthedocs.io/en/8.x/?badge=8.x) [![Packagist](https://img.shields.io/packagist/v/acquia/blt.svg)](https://packagist.org/packages/acquia/blt)
+[![Build Status](https://travis-ci.org/acquia/blt.svg?branch=8.x)](https://travis-ci.org/acquia/blt) [![Documentation Status](https://readthedocs.org/projects/blt/badge/?version=8.x)](http://blt.readthedocs.io/en/8.x/?badge=8.x) [![Packagist](https://img.shields.io/packagist/v/acquia/blt.svg)](https://packagist.org/packages/acquia/blt) [![Stories in Ready](https://badge.waffle.io/acquia/blt.png?label=ready&title=Ready)](http://waffle.io/acquia/blt)
 
 BLT (Build and Launch Tool) is a tool that generates new Drupal projects using a standardized template derived from Acquia Professional Services' best practices.
 
@@ -11,11 +11,7 @@ You can find all BLT documentation on [Read the Docs](http://blt.readthedocs.io)
 
 ## Getting started
 
-See [INSTALL.md](INSTALL.md) to:
-
-* [Create a new project with BLT](https://github.com/acquia/blt/blob/8.x/INSTALL.md#creating-a-new-project-with-blt)
-* [Add BLT to an existing project](https://github.com/acquia/blt/blob/8.x/INSTALL.md#adding-blt-to-an-existing-project)
-* [Update BLT](https://github.com/acquia/blt/blob/8.x/INSTALL.md#updating-blt)
+See [INSTALL.md](INSTALL.md) for a list of prequisites and links to instructions for [creating new projects](https://github.com/acquia/blt/blob/8.x/readme/creating-new-project.md), [adding BLT to existing projects](https://github.com/acquia/blt/blob/8.x/readme/adding-to-project.md), and [updating BLT](https://github.com/acquia/blt/blob/8.x/readme/updating-blt.md). 
 
 ## Videos
 

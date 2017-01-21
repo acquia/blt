@@ -52,9 +52,17 @@ To initialize Pipelines support for your BLT project:
         git commit -m 'Initializing Pipelines integration.'
         git push origin
 
-1. Initialize GitHub integration for your project. See `pipelines init-github --help` or review [help documentation](https://docs.acquia.com/pipelines/github) for instructions. E.g.,
+1. Get the application id of your Acquia Cloud repository. This will be used in subsequent steps.
 
-        pipelines init-github REPO MY_TOKEN
+        pipelines list-applications
+
+1. Initialize GitHub integration for your project. See `pipelines init-github --help` or review [help documentation](https://docs.acquia.com/pipelines/github) for further instructions.
+
+        pipelines init-github --application-id=[application-id] [github_username/github_repo/] [github_personal_access_token]
+
+1. Optionally, set the default application id for your local repository. This ensures that your local repo is always associated with the correct Acquia Cloud application.
+
+        pipelines set-application-id --application-id=[application-id]
 
 1. Submit a pull request to your GitHub repository.
 
@@ -64,14 +72,12 @@ It is expected that your new pull request will trigger a Pipelines build to begi
 
 You may [use the Pipelines client](https://docs.acquia.com/pipelines/client) to do things like check the status or logs for your build:
 
-    # List all pipelines applications.
-    pipelines list-applications
-    # Set the default application id for your repo locally, so you don't need to type it for every subsequent command.
-    pipelines set-application-id --application-id=[application ID]
     # Show status of all builds.
     pipelines status
-    # Show logs for most recent build.
-    pipelines log
+    # Find the job-id for to get your Github integrated build logs
+    pipelines list-jobs --application-id=[Application-id] 
+    # Show logs for most recent Github integrated build.
+    pipelines logs --job-ib=[Job-id]
 
 ##### Resources:
 

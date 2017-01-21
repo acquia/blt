@@ -1,5 +1,167 @@
 # Change Log
 
+## [8.6.10](https://github.com/acquia/blt/tree/8.6.10) (2017-01-10)
+[Full Changelog](https://github.com/acquia/blt/compare/8.6.9...8.6.10)
+
+**Implemented enhancements:**
+
+- YAML validation is too verbose [\#950](https://github.com/acquia/blt/issues/950)
+- Add Pipelines to DrupalVM [\#870](https://github.com/acquia/blt/issues/870)
+- Removing contexts from behat.yml. [\#949](https://github.com/acquia/blt/pull/949) ([grasmash](https://github.com/grasmash))
+- Scripting releases. [\#948](https://github.com/acquia/blt/pull/948) ([grasmash](https://github.com/grasmash))
+- Adding behat.extra property for arbitrary CLI args. [\#946](https://github.com/acquia/blt/pull/946) ([grasmash](https://github.com/grasmash))
+- Reducing output of default PHPUnit tests. [\#944](https://github.com/acquia/blt/pull/944) ([grasmash](https://github.com/grasmash))
+- Tweaking output to remove more passthru. [\#941](https://github.com/acquia/blt/pull/941) ([grasmash](https://github.com/grasmash))
+- DB updates should always be run before config imports. [\#930](https://github.com/acquia/blt/pull/930) ([danepowell](https://github.com/danepowell))
+- Fixes \#870: Add Pipelines binary to DrupalVM. [\#874](https://github.com/acquia/blt/pull/874) ([grasmash](https://github.com/grasmash))
+
+**Fixed bugs:**
+
+- Fixes \#940: Prevent tag prompt. [\#942](https://github.com/acquia/blt/pull/942) ([grasmash](https://github.com/grasmash))
+
+**Closed issues:**
+
+- When deploying, I'm always prompted to enter a tag name even if I chose not to create one [\#940](https://github.com/acquia/blt/issues/940)
+
+
+## [8.6.9](https://github.com/acquia/blt/tree/8.6.9) (2017-01-06)
+[Full Changelog](https://github.com/acquia/blt/compare/8.6.8...8.6.9)
+
+**Implemented enhancements:**
+
+- Silently killing processes. [\#937](https://github.com/acquia/blt/pull/937) ([grasmash](https://github.com/grasmash))
+- Preventing warning about missing project.yml. [\#936](https://github.com/acquia/blt/pull/936) ([grasmash](https://github.com/grasmash))
+- Disabling passthru for various commands. [\#934](https://github.com/acquia/blt/pull/934) ([grasmash](https://github.com/grasmash))
+- Removing metatag req. [\#932](https://github.com/acquia/blt/pull/932) ([grasmash](https://github.com/grasmash))
+- Fixing deploy prompts. [\#931](https://github.com/acquia/blt/pull/931) ([grasmash](https://github.com/grasmash))
+
+**Fixed bugs:**
+
+- Fixing BLT executable. [\#933](https://github.com/acquia/blt/pull/933) ([grasmash](https://github.com/grasmash))
+
+## [8.6.8](https://github.com/acquia/blt/tree/8.6.8) (2017-01-06)
+[Full Changelog](https://github.com/acquia/blt/compare/8.6.7...8.6.8)
+
+Hotfix to project creation process [b013590](https://github.com/acquia/blt/commit/b013590e7f573044d9e9c174d8ba1edf5e5cac4f)
+
+## [8.6.7](https://github.com/acquia/blt/tree/8.6.7) (2017-01-06)
+[Full Changelog](https://github.com/acquia/blt/compare/8.6.6...8.6.7)
+
+**Implemented enhancements:**
+
+- Investigate Parallelizing Behat tests [\#900](https://github.com/acquia/blt/issues/900)
+- Upgrade to Drupal VM 4.1.0 [\#898](https://github.com/acquia/blt/issues/898)
+- Add YAML validation [\#857](https://github.com/acquia/blt/issues/857)
+- Tagging integration with Travis CI / Pipelines? [\#830](https://github.com/acquia/blt/issues/830)
+- Remove `factory-hooks` from default template [\#599](https://github.com/acquia/blt/issues/599)
+- Upgrade Drupal Console to latest RC [\#513](https://github.com/acquia/blt/issues/513)
+- Investigate replacing custom commands with drupal/console commands [\#251](https://github.com/acquia/blt/issues/251)
+- Adding create-project:init-repo target. [\#928](https://github.com/acquia/blt/pull/928) ([grasmash](https://github.com/grasmash))
+- Add inclusion of optional site settings file. [\#927](https://github.com/acquia/blt/pull/927) ([dpagini](https://github.com/dpagini))
+- Remove factory-hooks from default template. [\#923](https://github.com/acquia/blt/pull/923) ([dpagini](https://github.com/dpagini))
+- Adding custom BltLogger for Phing. [\#922](https://github.com/acquia/blt/pull/922) ([grasmash](https://github.com/grasmash))
+- Delete trusted\_host.settings.php [\#921](https://github.com/acquia/blt/pull/921) ([danepowell](https://github.com/danepowell))
+- Ignore private files. [\#920](https://github.com/acquia/blt/pull/920) ([danepowell](https://github.com/danepowell))
+- Executing create-project on initial install using Composer plugin. [\#913](https://github.com/acquia/blt/pull/913) ([grasmash](https://github.com/grasmash))
+- Updating BLT templated files. [\#912](https://github.com/acquia/blt/pull/912) ([grasmash](https://github.com/grasmash))
+- Fixes \#857: Adding YAML linting target. [\#904](https://github.com/acquia/blt/pull/904) ([grasmash](https://github.com/grasmash))
+- Add tagging of remote repo. [\#903](https://github.com/acquia/blt/pull/903) ([arknoll](https://github.com/arknoll))
+- Fixes \#898: Upgrade to Drupal VM 4.1.0. [\#899](https://github.com/acquia/blt/pull/899) ([geerlingguy](https://github.com/geerlingguy))
+- Reducing update output. [\#894](https://github.com/acquia/blt/pull/894) ([grasmash](https://github.com/grasmash))
+- Adding update script to correct drupal scaffold excludes. [\#892](https://github.com/acquia/blt/pull/892) ([grasmash](https://github.com/grasmash))
+- Fixes \#513: Updating Console to dev-master. [\#887](https://github.com/acquia/blt/pull/887) ([grasmash](https://github.com/grasmash))
+
+**Fixed bugs:**
+
+- project.yml modules.enable/disable empty sets overridden on BLT upgrade [\#916](https://github.com/acquia/blt/issues/916)
+- Get "Query failed." during drush sql-sync in blt local:refresh [\#914](https://github.com/acquia/blt/issues/914)
+- Schema updates get run on new installs [\#909](https://github.com/acquia/blt/issues/909)
+- Drupal console exception [\#896](https://github.com/acquia/blt/issues/896)
+- BLT Upgrades keep adding back modules to project.yml [\#888](https://github.com/acquia/blt/issues/888)
+- Git commit messages are not being validated. [\#840](https://github.com/acquia/blt/issues/840)
+- After Blt Update to 8.6.4 - array merge issue inside blt/project.yml file [\#821](https://github.com/acquia/blt/issues/821)
+- Freshly-built project doesn't get a README.md file in project root [\#702](https://github.com/acquia/blt/issues/702)
+- Fixes \#924: Remove nonexistent --db option from db-scrub script. [\#925](https://github.com/acquia/blt/pull/925) ([geerlingguy](https://github.com/geerlingguy))
+- Ignore local.aliases.drush.php [\#910](https://github.com/acquia/blt/pull/910) ([timcosgrove](https://github.com/timcosgrove))
+- Disabling deploy.tag prompt whenndeploy.branch is set. [\#908](https://github.com/acquia/blt/pull/908) ([grasmash](https://github.com/grasmash))
+- Ignore local.services.yml [\#905](https://github.com/acquia/blt/pull/905) ([danepowell](https://github.com/danepowell))
+- Fixes \#840: Git commit messages are not being validated. [\#901](https://github.com/acquia/blt/pull/901) ([shahinam](https://github.com/shahinam))
+- Fixes \#893: Exclude patches of excluded packages. [\#895](https://github.com/acquia/blt/pull/895) ([grasmash](https://github.com/grasmash))
+- Fixes \#888: BLT Upgrades keep adding back modules to project.yml. [\#891](https://github.com/acquia/blt/pull/891) ([grasmash](https://github.com/grasmash))
+
+**Closed issues:**
+
+- BLT custom settings include file [\#926](https://github.com/acquia/blt/issues/926)
+- Cloud deployments fail during DB sanitization with 'Unknown option: --db' [\#924](https://github.com/acquia/blt/issues/924)
+- blt \> vm:local:init - Error occurred while installing json \(2.0.2\) [\#917](https://github.com/acquia/blt/issues/917)
+- Documentation: Onboarding docs for the whole BLT stack. [\#850](https://github.com/acquia/blt/issues/850)
+
+**Misc merged pull requests**
+
+- Update README.md [\#918](https://github.com/acquia/blt/pull/918) ([danepowell](https://github.com/danepowell))
+- Documented setup:update task. [\#911](https://github.com/acquia/blt/pull/911) ([danepowell](https://github.com/danepowell))
+- Containerize travis builds. [\#897](https://github.com/acquia/blt/pull/897) ([aweingarten](https://github.com/aweingarten))
+- Fixes \#850: Adding documentation for entire toolset. [\#878](https://github.com/acquia/blt/pull/878) ([grasmash](https://github.com/grasmash))
+
+## [8.6.6](https://github.com/acquia/blt/tree/8.6.6) (2016-12-28)
+[Full Changelog](https://github.com/acquia/blt/compare/8.6.5...8.6.6)
+
+**Implemented enhancements:**
+
+- Modify composer blt-alias script so that it creates ~/.bash\_profile if it does not exist. [\#872](https://github.com/acquia/blt/issues/872)
+- Remove default git.remotes url from project.yml on project create. [\#866](https://github.com/acquia/blt/issues/866)
+- Improve Git commit hooks [\#825](https://github.com/acquia/blt/issues/825)
+- Replace simplesaml gist [\#824](https://github.com/acquia/blt/issues/824)
+- Re-introduce PhantomJS along side Selenium [\#787](https://github.com/acquia/blt/issues/787)
+- Warn users using beta/alpha versions of modules [\#703](https://github.com/acquia/blt/issues/703)
+- Add cloudhooks for scrubbing database [\#659](https://github.com/acquia/blt/issues/659)
+- Automatically populate machine name for new projects [\#624](https://github.com/acquia/blt/issues/624)
+- Automated testing for conflicting and overridden features [\#38](https://github.com/acquia/blt/issues/38)
+- Bolt should allow deployment of tags not just branches [\#17](https://github.com/acquia/blt/issues/17)
+- Fixes \#866: Remove default git.remotes url from project.yml on project create. [\#877](https://github.com/acquia/blt/pull/877) ([shahinam](https://github.com/shahinam))
+- Fixes \#872: Modify composer blt-alias script so that it creates ~/.bash\_profile if it does not exist. [\#873](https://github.com/acquia/blt/pull/873) ([grasmash](https://github.com/grasmash))
+- Fixes \#753: Add xdebug to Drupal VM by default. [\#868](https://github.com/acquia/blt/pull/868) ([grasmash](https://github.com/grasmash))
+- Add php5.6-yaml package [\#848](https://github.com/acquia/blt/pull/848) ([bobbygryzynger](https://github.com/bobbygryzynger))
+- Issue \#38: Test for features overrides. [\#841](https://github.com/acquia/blt/pull/841) ([danepowell](https://github.com/danepowell))
+- Fixes \#787: Re-introduce PhantomJS along side Selenium. [\#839](https://github.com/acquia/blt/pull/839) ([grasmash](https://github.com/grasmash))
+- Fixes \#824: Replace simplesaml gist. [\#838](https://github.com/acquia/blt/pull/838) ([grasmash](https://github.com/grasmash))
+- Fixes \#624: Automatically populate machine name for new projects. [\#837](https://github.com/acquia/blt/pull/837) ([grasmash](https://github.com/grasmash))
+- Fixes \#819: Making GitTest idempotent. [\#836](https://github.com/acquia/blt/pull/836) ([grasmash](https://github.com/grasmash))
+- Initializing Drupal console during setup. [\#834](https://github.com/acquia/blt/pull/834) ([grasmash](https://github.com/grasmash))
+- Adding @example tag to example Behat tests. [\#833](https://github.com/acquia/blt/pull/833) ([grasmash](https://github.com/grasmash))
+- Fixes \#825: Adding color to commit msg error. [\#832](https://github.com/acquia/blt/pull/832) ([grasmash](https://github.com/grasmash))
+- Removing field\_ui from default uninstall arrays. [\#826](https://github.com/acquia/blt/pull/826) ([grasmash](https://github.com/grasmash))
+- Switching Pipelines to use MySQL service. [\#800](https://github.com/acquia/blt/pull/800) ([grasmash](https://github.com/grasmash))
+- Downgrading to Drush 8. [\#728](https://github.com/acquia/blt/pull/728) ([grasmash](https://github.com/grasmash))
+- Fixes \#659: Adding cloudhooks for basic database scrubbing. [\#697](https://github.com/acquia/blt/pull/697) ([grasmash](https://github.com/grasmash))
+
+**Fixed bugs:**
+
+- Drush commands error with "env: drush9: No such file or directory" [\#856](https://github.com/acquia/blt/issues/856)
+- GitTasksTest::testGitPreCommitHook\(\) is destructive [\#819](https://github.com/acquia/blt/issues/819)
+- Module schemas are not installed when enabling a module via config when running blt deploy [\#718](https://github.com/acquia/blt/issues/718)
+- Fixes \#856: Drush commands error with "env: drush9: No such file or directory. [\#867](https://github.com/acquia/blt/pull/867) ([grasmash](https://github.com/grasmash))
+
+**Closed issues:**
+
+- Improve the Mac installation instructions so that it will be easier to onboard new users [\#865](https://github.com/acquia/blt/issues/865)
+- Deployment workflow can be read like just for ACE [\#843](https://github.com/acquia/blt/issues/843)
+- Add Pipelines documentation [\#829](https://github.com/acquia/blt/issues/829)
+- Document that Acquia Connector should never have its configuration exported to code on Cloud [\#242](https://github.com/acquia/blt/issues/242)
+
+**Misc merged pull requests**
+
+- Fixes \#865: Improve the Mac installation instructions. [\#871](https://github.com/acquia/blt/pull/871) ([grasmash](https://github.com/grasmash))
+- Improve instructions for Pipelines integration [\#869](https://github.com/acquia/blt/pull/869) ([kieranacquia](https://github.com/kieranacquia))
+- More explicity replace default repo [\#864](https://github.com/acquia/blt/pull/864) ([kieranacquia](https://github.com/kieranacquia))
+- Explain role of Pipelines [\#863](https://github.com/acquia/blt/pull/863) ([kieranacquia](https://github.com/kieranacquia))
+- Update bash console with new blt command [\#860](https://github.com/acquia/blt/pull/860) ([kieranacquia](https://github.com/kieranacquia))
+- Don't use undefined acronym "TA" in documentation [\#855](https://github.com/acquia/blt/pull/855) ([TravisCarden](https://github.com/TravisCarden))
+- Update deploy.md [\#845](https://github.com/acquia/blt/pull/845) ([snize](https://github.com/snize))
+- Fixing markdown spacing for readthedocs. [\#835](https://github.com/acquia/blt/pull/835) ([grasmash](https://github.com/grasmash))
+- Adding Pipelines documentation. [\#828](https://github.com/acquia/blt/pull/828) ([grasmash](https://github.com/grasmash))
+- Update RELEASE.md [\#763](https://github.com/acquia/blt/pull/763) ([grasmash](https://github.com/grasmash))
+
 ## [8.6.5](https://github.com/acquia/blt/tree/8.6.5) (2016-12-20)
 [Full Changelog](https://github.com/acquia/blt/compare/8.6.4...8.6.5)
 

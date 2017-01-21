@@ -5,7 +5,7 @@
 
   <!-- Run all validation targets. -->
   <target name="validate:all" description="Runs all code validation targets."
-          depends="validate:composer, validate:lint, validate:phpcs, validate:twig"
+          depends="validate:composer, validate:lint, validate:phpcs, validate:twig, validate:yaml"
           hidden="true" />
 
   <!-- Verify that composer json and lock files are in sync. -->
@@ -30,6 +30,14 @@
       <fileset refid="files.php.custom.themes"/>
       <fileset refid="files.php.tests"/>
     </phplint>
+  </target>
+
+  <!-- Run linter against all yaml files in repository. -->
+  <target name="validate:yaml" description="Runs a PHP Lint against all code.">
+    <yamlLint executable="${composer.bin}/yaml-cli" haltonerror="true">
+      <fileset refid="files.yaml.cm"/>
+      <fileset refid="files.yaml.custom"/>
+    </yamlLint>
   </target>
 
   <!-- Run code sniffer against specific files. -->

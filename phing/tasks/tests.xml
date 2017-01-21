@@ -101,6 +101,7 @@
                format="pretty,junit"
                path="${behat.path}"
                tags="${behat.tags}"
+               extra="${behat.extra}"
         />
         <if>
           <!-- A non-zero returns status indicates failure. -->
@@ -161,19 +162,35 @@
   <target name="tests:selenium:kill"
           description="Kills Selenium standalone server process and any process running on port 4444." hidden="true">
     <echo>Killing any selenium processes that are already running.</echo>
-    <exec command="lsof -ti tcp:4444 | xargs kill" logoutput="false" level="${blt.exec_level}" passthru="false" checkreturn="false" />
-    <exec command="pgrep selenium | xargs kill" logoutput="false" level="${blt.exec_level}" passthru="false" checkreturn="false" />
+    <exec command="lsof -ti tcp:4444 | xargs kill 2>/dev/null" logoutput="false" level="${blt.exec_level}" passthru="false" checkreturn="false" />
+    <exec command="pgrep selenium | xargs kill 2>/dev/null" logoutput="false" level="${blt.exec_level}" passthru="false" checkreturn="false" />
   </target>
 
   <target name="tests:phantomjs:launch"
           description="Launches a GhostDriver."
+          depends="tests:phantomjs:configure"
           hidden="true">
 
+    <echo message="Launching PhantomJS GhostDriver." />
+    <phingcall target="tests:phantomjs:kill"/>
+    <exec command="${composer.bin}/phantomjs --webdriver=4444"
+          passthru="true"
+          spawn="true"
+          checkreturn="true"
+          level="${blt.exec_level}"/>
+    <echo message="Waiting 10 seconds for PhantomJS (http://127.0.0.1:4444) to become available."/>
+    <waitfor maxwait="10" maxwaitunit="second" checkevery="1" checkeveryunit="second">
+      <http url="http://127.0.0.1:4444/wd/hub"/>
+    </waitfor>
+
+  </target>
+
+  <target name="tests:phantomjs:configure" description="Checks and corrects PhantomJS configuration">
     <exec dir="${repo.root}" command="grep 'jakoch/phantomjs-installer' composer.json" logoutput="false" level="${blt.exec_level}" passthru="false" returnProperty="phantom.required"/>
     <if>
       <isfailure code="${phantom.required}"/>
       <then>
-        <echo level="Warning">behat.launch-phantomjs is true, but jakoch/phantomjs-installer is not required in composer.json.</echo>
+        <echo level="Warning">jakoch/phantomjs-installer is not required in composer.json.</echo>
         <propertyprompt promptText="Do you want to require jakoch/phantomjs-installer via Composer?" propertyName="phantom.do-require" defaultValue="y"/>
         <if>
           <equals arg1="${phantom.do-require}" arg2="y" casesensitive="false"/>
@@ -209,26 +226,13 @@
         <exec dir="${repo.root}" command="composer install-phantom" checkreturn="true" logoutput="true" passthru="true" level="${blt.exec_level}"/>
       </then>
     </if>
-
-    <echo message="Launching PhantomJS GhostDriver." />
-    <phingcall target="tests:phantomjs:kill"/>
-    <exec command="${composer.bin}/phantomjs --webdriver=4444"
-          passthru="true"
-          spawn="true"
-          checkreturn="true"
-          level="${blt.exec_level}"/>
-    <echo message="Waiting 10 seconds for PhantomJS (http://127.0.0.1:4444) to become available."/>
-    <waitfor maxwait="10" maxwaitunit="second" checkevery="1" checkeveryunit="second">
-      <http url="http://127.0.0.1:4444/wd/hub"/>
-    </waitfor>
-
   </target>
 
   <target name="tests:phantomjs:kill"
           description="Launches a GhostDriver." hidden="true">
     <echo>Killing any PhantomJS processes that are already running.</echo>
-    <exec command="lsof -ti tcp:4444 | xargs kill" logoutput="false" level="${blt.exec_level}" passthru="false" checkreturn="false" />
-    <exec command="pgrep phantomjs | xargs kill" logoutput="true" level="${blt.exec_level}" passthru="true" />
+    <exec command="lsof -ti tcp:4444 | xargs kill 2>/dev/null" logoutput="false" level="${blt.exec_level}" passthru="false" checkreturn="false" />
+    <exec command="pgrep phantomjs | xargs kill 2>/dev/null" logoutput="true" level="${blt.exec_level}" passthru="true" />
   </target>
 
   <!-- Execute PHPUnit tests. -->
@@ -243,7 +247,6 @@
         <fileset dir="${repo.root}/tests/phpunit">
           <include name="**/*Test*.php"/>
         </fileset>
-        <fileset dir="${blt.root}/tests/phpunit/BltProject"/>
       </batchtest>
     </phpunit>
     <phpunitreport infile="${reports.localDir}/phpunit/testsuites.xml" format="noframes" todir="${reports.localDir}/phpunit" />

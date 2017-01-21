@@ -20,8 +20,13 @@
     <exclude name="**/vendor/**/*"/>
   </patternset>
 
+  <patternset id="files.yaml">
+    <include name="**/*.yaml"/>
+    <include name="**/*.yml"/>
+  </patternset>
+
   <!--
-    PHP Files
+    PHP files
   -->
   <fileset dir="${repo.root}" id="files.php.all">
     <patternset refid="files.php"/>
@@ -40,10 +45,21 @@
   </fileset>
 
   <!--
-    Frontend Files
+    Frontend files
   -->
   <fileset dir="${docroot}/themes/custom" id="files.frontend.custom.themes" expandsymboliclinks="true">
     <patternset refid="files.frontend"/>
+  </fileset>
+
+  <!--
+  Other files
+  -->
+  <fileset dir="${repo.root}/config" id="files.yaml.cm">
+    <patternset refid="files.yaml"/>
+  </fileset>
+
+  <fileset dir="${docroot}/modules/custom" id="files.yaml.custom">
+    <patternset refid="files.yaml"/>
   </fileset>
 
 

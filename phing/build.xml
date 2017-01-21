@@ -9,13 +9,7 @@
   <taskdef name="filterFileListByFileSet" classname="phingcludes.FilterFileListByFileSetTask"/>
   <taskdef name="verbosityTask" classname="phingcludes.VerbosityTask"/>
   <taskdef name="phpVariable" classname="phingcludes.PhpVariableTask"/>
-
-  <if>
-    <available property="xdebug.enabled" extension="xdebug"/>
-    <then>
-      <echo level="warning">You are running BLT with xdebug enabled. This has a major impact on runtime performance.</echo>
-    </then>
-  </if>
+  <taskdef name="yamlLint" classname="phingcludes.YamlLintTask"/>
 
   <!--Increase PHP memory limit. -->
   <property name="php.memory_limit" value="2G" override="false" />

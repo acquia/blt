@@ -5,7 +5,6 @@ dist: trusty
 
 php:
   - 5.6
-  - 7
 
 matrix:
   fast_finish: true
@@ -53,8 +52,6 @@ install:
   # Install proper version of node for front end tasks.
   - nvm install 4.4.1
   - nvm use 4.4.1
-  # Initialize drupal console default configuration.
-  - drupal init
   # Initialize xvfb (see https://docs.travis-ci.com/user/gui-and-headless-browsers)
   - sudo apt-get install xvfb
   - export DISPLAY=:99.0
@@ -84,11 +81,11 @@ script:
   - composer install -v
   - export PATH=$TRAVIS_BUILD_DIR/../blt-project/vendor/bin:$PATH
   # The local.hostname must be set to 127.0.0.1:8888 because we are using drush runserver to run the site on Travis CI.
-  - drupal yaml:update:value blt/project.yml project.local.hostname '127.0.0.1:8888'
-  # BLT added new dependencies for us, so we must update.
-  - composer update
+  - yaml-cli update:value blt/project.yml project.local.hostname '127.0.0.1:8888'
   # Execute all updates with fake "dev" => "dev" version specs. This must be done manually since BLT was not installed prior to this.
   - blt-console blt:update dev dev $(pwd) --yes
+  # BLT added new dependencies for us, so we must update.
+  - composer update
   # Create a .travis.yml, just to make sure it works. It won't be executed.
   - blt ci:travis:init
   - blt ci:pipelines:init
@@ -97,6 +94,8 @@ script:
   - cat blt/project.yml
   # Call targets in the new 'blt-project' project.
   - blt ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dbehat.launch-phantom=true -Dblt.verbose=true
+  # Run 'blt-project' tests.
+  - phpunit tests/phpunit --group blt-project
   # Initialize ACSF config.
   - blt acsf:init
   # Ensure that the doctor doesn't report any problems at this point.

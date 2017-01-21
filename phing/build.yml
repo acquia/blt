@@ -18,6 +18,7 @@ behat:
     - ${repo.root}/tests/behat
   tags: '~ajax&&~experimental&&~lightningextension'
   verbose: ${blt.verbose}
+  extra: ''
 
 blt:
   update:
@@ -35,7 +36,7 @@ blt:
     sites: ${repo.root}/blt/sites
 
 composer:
-  bin: ${repo.root}/vendor/bin
+  bin: ${repo.root}/${bin.path}
 
 cm:
   core:
@@ -66,6 +67,7 @@ drush:
   assume: yes
   passthru: yes
   logoutput: yes
+  sanitize: true
   verbose: ${blt.verbose}
 
 git:
