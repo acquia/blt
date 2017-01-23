@@ -20,7 +20,7 @@
 
   <!-- setup:composer:install must run prior to setup:drupal:settings to ensure that scaffold files are present. -->
   <target name="setup:build" description="Generates all required files for a full build. E.g., (re)builds docroot, etc."
-          depends="setup:git-hooks, setup:composer:install, setup:drupal:settings, setup:behat, frontend">
+          depends="setup:git-hooks, setup:composer:install, setup:drupal:settings:site, setup:behat, frontend">
 
     <if>
       <equals arg1="${simplesamlphp}" arg2="true"/>
@@ -57,7 +57,7 @@
   </target>
 
   <!-- We intentionally do not run setup:behat because we'd like to delay setting values in local.yml until just before they are run. -->
-  <target name="setup:settings" depends="setup:drupal:settings, setup:drush:settings, setup:console:settings" description="Creates settings files for Drupal and drush.">
+  <target name="setup:settings" depends="setup:drupal:settings:all, setup:drush:settings:all" description="Creates settings files for Drupal and drush.">
   </target>
 
   <target name="setup:console:settings" description="Initializes Drupal console config.">
@@ -65,20 +65,36 @@
   </target>
 
   <!-- Run Drupal settings setup for each multisite. -->
-  <target name="setup:drupal:settings">
-    <foreach list="${multisite.name}" param="multisite.name" target="setup:drupal:settings:site"/>
+  <target name="setup:drupal:settings:all" description="Creates local settings files using default settings files for each multisite.">
+    <foreach list="${multisite.names}" param="site.name" target="setup:drupal:settings:site"/>
   </target>
 
-  <target name="setup:drupal:settings:site" description="Create local settings files using default settings files for an individual site." hidden="true">
-    <echo>Making ${docroot}/sites/${multisite.name} writable</echo>
-    <chmod mode="0755" file="${docroot}/sites/${multisite.name}" failonerror="false"/>
+  <!-- Wrapper around setup:drupal:settings. -->
+  <target name="setup:drupal:settings:site" description="Creates local settings files using default settings files for an individual site.">
+    <if>
+      <available filepath="${blt.config-dirs.sites}" file="${site.name}.yml" />
+      <then>
+        <phingcall target="setup:drupal:settings">
+          <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false" />
+        </phingcall>
+      </then>
+      <else>
+        <phingcall target="setup:drupal:settings" />
+      </else>
+    </if>
+  </target>
+
+  <target name="setup:drupal:settings" description="Does the work of creating local settings files using default settings files for an individual site."
+          hidden="true">
+    <echo>Making ${docroot}/sites/${site.name} writable</echo>
+    <chmod mode="0755" file="${docroot}/sites/${site.name}" failonerror="false"/>
 
     <!-- Ensure that settings.php exists and that it requires BLT settings files. -->
     <if>
-      <not><available file="${docroot}/sites/${multisite.name}/settings.php"/></not>
+      <not><available file="${docroot}/sites/${site.name}/settings.php"/></not>
       <then>
         <if>
-          <not><available file="${docroot}/sites/${multisite.name}/default.settings.php"/></not>
+          <not><available file="${docroot}/sites/${site.name}/default.settings.php"/></not>
           <then>
             <echo>Downloading scaffold files so that default.settings.php is available</echo>
             <exec dir="${repo.root}" command="composer drupal-scaffold" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true" />
@@ -86,13 +102,13 @@
         </if>
 
         <echo>Generating settings.php from default.settings.php</echo>
-        <copy file="${docroot}/sites/${multisite.name}/default.settings.php" tofile="${docroot}/sites/${multisite.name}/settings.php"/>
+        <copy file="${docroot}/sites/${site.name}/default.settings.php" tofile="${docroot}/sites/${site.name}/settings.php"/>
       </then>
     </if>
-    <echo>Making ${docroot}/sites/${multisite.name}/settings.php writable</echo>
-    <chmod mode="0644" failonerror="false" file="${docroot}/sites/${multisite.name}/settings.php"/>
+    <echo>Making ${docroot}/sites/${site.name}/settings.php writable</echo>
+    <chmod mode="0644" failonerror="false" file="${docroot}/sites/${site.name}/settings.php"/>
     <echo>Ensuring that blt.settings.php is required by settings.php</echo>
-    <exec dir="${docroot}/sites/${multisite.name}" command="grep vendor/acquia/blt/settings/blt.settings.php settings.php || echo 'require DRUPAL_ROOT . &quot;/../vendor/acquia/blt/settings/blt.settings.php&quot;;' >> settings.php" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
+    <exec dir="${docroot}/sites/${site.name}" command="grep vendor/acquia/blt/settings/blt.settings.php settings.php || echo 'require DRUPAL_ROOT . &quot;/../vendor/acquia/blt/settings/blt.settings.php&quot;;' >> settings.php" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
 
     <echo>Generating local settings files</echo>
 
@@ -105,65 +121,100 @@
     </if>
 
     <if>
-      <not><available file="${docroot}/sites/${multisite.name}/settings/local.settings.php" type="file" /></not>
+      <not><available file="${docroot}/sites/${site.name}/settings/local.settings.php" type="file" /></not>
       <then>
         <if>
           <not>
-            <available file="${docroot}/sites/${multisite.name}/settings/default.local.settings.php" type="file" />
+            <available file="${docroot}/sites/${site.name}/settings/default.local.settings.php" type="file" />
           </not>
           <then>
-            <echo>Generating ${docroot}/sites/${multisite.name}/settings/default.local.settings.php</echo>
-            <copy file="${blt.root}/settings/default.local.settings.php" tofile="${docroot}/sites/${multisite.name}/settings/default.local.settings.php" verbose="true"/>
+            <echo>Generating ${docroot}/sites/${site.name}/settings/default.local.settings.php</echo>
+            <copy file="${blt.root}/settings/default.local.settings.php" tofile="${docroot}/sites/${site.name}/settings/default.local.settings.php" verbose="true"/>
           </then>
         </if>
 
-        <echo>Generating ${docroot}/sites/${multisite.name}/settings/local.settings.php</echo>
-        <copy file="${docroot}/sites/${multisite.name}/settings/default.local.settings.php" tofile="${docroot}/sites/${multisite.name}/settings/local.settings.php"/>
+        <echo>Generating ${docroot}/sites/${site.name}/settings/local.settings.php</echo>
+        <copy file="${docroot}/sites/${site.name}/settings/default.local.settings.php" tofile="${docroot}/sites/${site.name}/settings/local.settings.php"/>
 
       </then>
     </if>
   </target>
 
   <!-- Run Drush settings setup for each multisite. -->
-  <target name="setup:drush:settings">
-    <foreach list="${multisite.name}" param="multisite.name" target="setup:drush:settings:site"/>
+  <target name="setup:drush:settings:all" description="Creates local drush settings files for each multisite.">
+    <foreach list="${multisite.names}" param="site.name" target="setup:drush:settings:site"/>
   </target>
 
-  <target name="setup:drush:settings:site" description="Create local drush settings files for an individual site." hidden="true">
+  <!-- Wrapper around setup:drush:settings. -->
+  <target name="setup:drush:settings:site" description="Creates local drush settings files for an individual site.">
     <if>
-      <not><available file="${docroot}/sites/${multisite.name}/local.drushrc.php" type="file" /></not>
+      <available filepath="${blt.config-dirs.sites}" file="${site.name}.yml" />
+      <then>
+        <phingcall target="setup:drush:settings">
+          <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false" />
+        </phingcall>
+      </then>
+      <else>
+        <phingcall target="setup:drush:settings">
+          <property name="environment" value="local"/>
+        </phingcall>
+      </else>
+    </if>
+  </target>
+
+  <target name="setup:drush:settings" description="Does the work of creating local drush settings files for an individual site."
+          hidden="true">
+    <if>
+      <not><available file="${docroot}/sites/${site.name}/local.drushrc.php" type="file" /></not>
       <then>
         <if>
           <not>
-            <available file="${docroot}/sites/${multisite.name}/default.local.drushrc.php" type="file" />
+            <available file="${docroot}/sites/${site.name}/default.local.drushrc.php" type="file" />
           </not>
           <then>
-            <echo>Generating ${docroot}/sites/${multisite.name}/default.local.drushrc.php</echo>
-            <copy file="${blt.root}/settings/default.local.drushrc.php" tofile="${docroot}/sites/${multisite.name}/default.local.drushrc.php"/>
+            <echo>Generating ${docroot}/sites/${site.name}/default.local.drushrc.php</echo>
+            <copy file="${blt.root}/settings/default.local.drushrc.php" tofile="${docroot}/sites/${site.name}/default.local.drushrc.php"/>
           </then>
         </if>
 
-        <echo>Generating ${docroot}/sites/${multisite.name}/local.drushrc.php</echo>
-        <copy file="${docroot}/sites/${multisite.name}/default.local.drushrc.php" tofile="${docroot}/sites/${multisite.name}/local.drushrc.php"/>
+        <echo>Generating ${docroot}/sites/${site.name}/local.drushrc.php</echo>
+        <copy file="${docroot}/sites/${site.name}/default.local.drushrc.php" tofile="${docroot}/sites/${site.name}/local.drushrc.php"/>
       </then>
     </if>
 
-    <echo level="verbose">Expanding Phing variables in ${docroot}/sites/${multisite.name}/local.drushrc.php</echo>
-    <reflexive file="${docroot}/sites/${multisite.name}/local.drushrc.php">
+    <echo level="verbose">Expanding Phing variables in ${docroot}/sites/${site.name}/local.drushrc.php</echo>
+    <reflexive file="${docroot}/sites/${site.name}/local.drushrc.php">
       <filterchain>
         <expandproperties level="verbose" />
       </filterchain>
     </reflexive>
-
-    <!-- Re-extract value of $options['uri'] in case it was not yet set. -->
-    <!-- @todo Add multisite support. -->
-    <phpVariable file="${repo.root}/drush/drushrc.php" variable="options[uri]" outputProperty="local_url" />
   </target>
 
-  <target name="setup:drupal:install"
-          description="Installs a specific Drupal site."
-          depends="setup:drupal:settings, setup:drush:settings, setup:hash-salt">
+  <!-- Installs Drupal for each multisite. -->
+  <target name="setup:drupal:install:all" description="Installs Drupal on each of the project's multisites.">
+    <foreach list="${multisite.names}" param="site.name" target="setup:drupal:install:site"/>
+  </target>
 
+  <!-- Wrapper around setup:drupal:install. -->
+  <target name="setup:drupal:install:site" description="Installs Drupal on a specific local site.">
+    <if>
+      <available filepath="${blt.config-dirs.sites}" file="${site.name}.yml" />
+      <then>
+        <phingcall target="setup:drupal:install">
+          <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false" />
+        </phingcall>
+      </then>
+      <else>
+        <phingcall target="setup:drupal:install" />
+      </else>
+    </if>
+  </target>
+
+  <!-- Install Drupal on a specific site. -->
+  <target name="setup:drupal:install"
+          description="Does the work of installing a specific Drupal site."
+          depends="setup:drupal:settings:site, setup:drush:settings:site, setup:hash-salt"
+          hidden="true">
     <if>
       <istrue value="${drush.verbose}"/>
       <then>
@@ -172,8 +223,8 @@
       </then>
     </if>
 
-    <echo>Installing Drupal...</echo>
-    <drush command="site-install">
+    <echo>Installing Drupal on ${site.name} in the ${environment} environment...</echo>
+    <drush command="site-install" alias="${site.drush.aliases.${environment}}">
       <option name="site-name">"${project.human_name}"</option>
       <option name="site-mail">"${drupal.account.mail}"</option>
       <option name="account-name">"${drupal.account.name}"</option>
@@ -186,15 +237,15 @@
     <phingcall target="setup:update"/>
 
     <!-- Set sites directory file permissions. -->
-    <echo level="verbose">Making ${docroot}/sites/default writable...</echo>
+    <echo level="verbose">Making ${docroot}/sites/${site.name} writable...</echo>
     <chmod mode="0755" failonerror="false">
-      <fileset dir="${docroot}/sites/default">
+      <fileset dir="${docroot}/sites/${site.name}">
         <type type="dir" />
         <exclude name="files/**" />
       </fileset>
     </chmod>
     <chmod mode="0644" failonerror="false">
-      <fileset dir="${docroot}/sites/default">
+      <fileset dir="${docroot}/sites/${site.name}">
         <type type="file" />
         <exclude name="files/**" />
       </fileset>
@@ -202,25 +253,39 @@
 
   </target>
 
-  <target name="setup:config-import" description="Import configuration from the config directory.">
-    <echo>Importing configuration...</echo>
-    <drush command="pm-enable" assume="yes" alias="${drush.alias}" passthru="false">
+  <target name="setup:config-import:site" description="Import configuration from a site's config directory.">
+    <if>
+      <available filepath="${blt.config-dirs.sites}" file="${site.name}.yml" />
+      <then>
+        <phingcall target="setup:config-import">
+          <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false" />
+        </phingcall>
+      </then>
+      <else>
+        <phingcall target="setup:config-import" />
+      </else>
+    </if>
+  </target>
+
+  <target name="setup:config-import" description="Does the work of importing configuration from a site's config directory." hidden="true">
+    <echo>Importing configuration for ${site.name}...</echo>
+    <drush command="pm-enable" assume="yes" passthru="false">
       <param>config</param>
     </drush>
 
     <!-- Rebuild caches in case service definitions have changed. -->
     <!-- @see https://www.drupal.org/node/2826466 -->
-    <drush command="cr" alias="${drush.alias}" passthru="false"/>
+    <drush command="cr" passthru="false"/>
 
     <!-- Execute db updates. -->
     <!-- This must happen before features are imported or configuration is imported. -->
     <!-- For instance, if you add a dependency on a new extension to an existing configuration file, you must enable that extension via an update hook before attempting to import the configuration. -->
     <!-- If a db update relies on updated configuration, you should import the necessary configuration file(s) as part of the db update. -->
-    <drush command="updb" assume="yes" alias="${drush.alias}" passthru="false">
+    <drush command="updb" assume="yes" passthru="false">
       <option name="entity-updates"></option>
     </drush>
     <!-- Import configuration. -->
-    <drush command="config-import" assume="yes" alias="${drush.alias}" passthru="false">
+    <drush command="config-import" assume="yes" passthru="false">
       <option name="partial"></option>
       <param>${cm.core.config-dir}</param>
     </drush>
@@ -228,19 +293,19 @@
       <isset property="cm.features.bundle"/>
       <then>
         <!-- Enable features module. -->
-        <drush command="en" assume="yes" alias="${drush.alias}" passthru="false">
+        <drush command="en" assume="yes" passthru="false">
           <param>features</param>
         </drush>
         <!-- Clear drush caches to register features drush commands. -->
-        <drush command="cr" alias="${drush.alias}" passthru="false">
+        <drush command="cr" passthru="false">
           <param>drush</param>
         </drush>
         <!-- Revert all features. -->
-        <foreach list="${cm.features.bundle}" param="bundle" target="setup:update:features-import" />
+        <foreach list="${cm.features.bundle}" param="bundle" target="setup:update:features-import:site" />
       </then>
     </if>
     <!-- Rebuild caches. -->
-    <drush command="cr" alias="${drush.alias}" passthru="false"/>
+    <drush command="cr" passthru="false"/>
   </target>
 
   <target name="setup:git-hooks" description="Installs git hooks to local .git/hooks directory from version controlled scripts/git-hooks directory.">
@@ -281,12 +346,32 @@
     </if>
   </target>
 
-  <target name="setup:update" description="Update current database to reflect the state of the Drupal file system." depends="setup:config-import">
-    <phingcall target="setup:toggle-modules"/>
+  <target name="setup:update" description="Update current database to reflect the state of the Drupal file system." depends="setup:config-import:site">
+    <phingcall target="setup:toggle-modules:site"/>
   </target>
 
-  <target name="setup:update:features-import" description="Perform a features import on the specified bundle.">
-    <drush command="fra" assume="yes" alias="${drush.alias}" passthru="false">
+  <!-- Perform features import for each multisite. -->
+  <target name="setup:update:features-import:all" description="Features import for each multisite on the specified bundle.">
+    <foreach list="${multisite.names}" param="site.name" target="setup:update:features-import:site"/>
+  </target>
+
+  <target name="setup:update:features-import:site" description="Features import for a site on the specified bundle.">
+    <if>
+      <available filepath="${blt.config-dirs.sites}" file="${site.name}.yml" />
+      <then>
+        <phingcall target="setup:update:features-import">
+          <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false" />
+        </phingcall>
+      </then>
+      <else>
+        <phingcall target="setup:update:features-import" />
+      </else>
+    </if>
+  </target>
+
+  <target name="setup:update:features-import" description="Does the work of a features import for a site on the specified bundle."
+          hidden="true">
+    <drush command="fra" assume="yes" passthru="false">
       <option name="bundle">${bundle}</option>
     </drush>
     <if>
@@ -303,11 +388,27 @@
     </if>
   </target>
 
-  <target name="setup:toggle-modules" description="Enables and uninstalls specified modules.">
+  <!-- Wrapper around setup:toggle-modules. -->
+  <target name="setup:toggle-modules:site" description="Enables and uninstalls specified modules.">
+    <if>
+      <available filepath="${blt.config-dirs.sites}" file="${site.name}.yml" />
+      <then>
+        <phingcall target="setup:toggle-modules">
+          <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false" />
+        </phingcall>
+      </then>
+      <else>
+        <phingcall target="setup:toggle-modules" />
+      </else>
+    </if>
+  </target>
+
+  <target name="setup:toggle-modules" description="Does the work of enabling and uninstalling specified modules."
+          hidden="true">
+    <echo>Toggling modules on ${site.name}...</echo>
     <if>
       <isset property="environment"/>
       <then>
-
         <if>
           <isset property="modules.${environment}.enable"/>
           <then>

@@ -32,6 +32,8 @@ blt:
     local: ${repo.root}/blt/project.local.yml
     example-local: ${repo.root}/blt/example.project.local.yml
     schema-version: ${repo.root}/blt/.schema_version
+  config-dirs:
+    sites: ${repo.root}/blt/sites
 
 composer:
   bin: ${repo.root}/${bin.path}
@@ -59,9 +61,9 @@ drupal:
 
 drush:
   bin: ${composer.bin}/drush
-  cmd: ${drush.bin} @${drush.alias} -r ${docroot} -l ${multisite.name}
+  cmd: ${drush.bin} @${drush.alias} -r ${docroot} -l ${site.uri.${environment}}
   dir: ${docroot}
-  uri: ${multisite.name}
+  uri: ${site.uri.${environment}}
   assume: yes
   passthru: yes
   logoutput: yes
@@ -76,12 +78,6 @@ git:
     pre-commit: ${blt.root}/scripts/git-hooks
     commit-msg: ${blt.root}/scripts/git-hooks
 
-multisite:
-  # The docroot/sites/default directory is used by default.
-  name:
-    - default
-    # - another_site
-
 reports:
   localDir: ${repo.root}/reports
   remoteDir: reports
@@ -95,3 +91,5 @@ phpcs:
 project:
   local:
     uri: ${project.local.protocol}://${project.local.hostname}
+  ci:
+    uri: 127.0.0.1:8888

@@ -161,21 +161,22 @@
 
   </target>
 
-  <target name="deploy:copy:site" description="Copy required files from /docroot/sites to /deploy/docroot/sites." hidden="true">
-    <!-- Make sites/${multisite.name} writable so that we can copy files. -->
-    <chmod file="${docroot}/sites/${multisite.name}" mode="0777" />
-
-    <exec dir="${repo.root}" command="rsync -a --no-g --delete --delete-excluded --exclude-from=${deploy.exclude_file} ${repo.root}/ ${deploy.dir}/ --filter 'protect /.git/'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
-
-    <!-- Set sites/${multisite.name} back to 755 permissions. -->
-    <chmod file="${docroot}/sites/${multisite.name}" mode="0755" />
-  </target>
-
   <target name="deploy:copy" description="Copy required files from each /docroot/sites to /deploy/docroot/sites." hidden="true">
     <!-- Use our own .gitignore -->
     <copy file="${deploy.gitignore_file}" tofile="${deploy.dir}/.gitignore" overwrite="true"/>
     <!-- Perform settings copy for each multisite. -->
-    <foreach list="${multisite.name}" param="multisite.name" target="deploy:copy:site"/>
+    <foreach list="${multisite.names}" param="site.name" target="deploy:copy:site"/>
+  </target>
+
+  <target name="deploy:copy:site" description="Copy required files from /docroot/sites to /deploy/docroot/sites." hidden="true">
+    <echo level="verbose">Executing commands against multisite "${site.name}"</echo>
+    <!-- Make sites/${site.name} writable so that we can copy files. -->
+    <chmod file="${docroot}/sites/${site.name}" mode="0777" />
+
+    <exec dir="${repo.root}" command="rsync -a --no-g --delete --delete-excluded --exclude-from=${deploy.exclude_file} ${repo.root}/ ${deploy.dir}/ --filter 'protect /.git/'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+
+    <!-- Set sites/${site.name} back to 755 permissions. -->
+    <chmod file="${docroot}/sites/${site.name}" mode="0755" />
   </target>
 
   <target name="deploy:prepare-dir" description="Delete the existing deploy directory and re-initialize as an empty git repository." hidden="true">

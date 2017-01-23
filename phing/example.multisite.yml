@@ -1,6 +1,17 @@
+# @file
+# example.multisite.yml
+#
+# Example site definition file for remote and local environment information for a
+# site within a multisite installation.
+#
 # Values in this file may override default values set elsewhere. You can pass
 # configuration from this file to Phing. E.g.,
 # blt tests:behat -propertyfile build/custom/phing/example.multisite.yml
+#
+# This file may also be placed in blt/sites, where its filename should correspond to
+# docroot/sites/[site-name] (E.g., default.yml for docroot/sites/default). You should
+# create one file in the blt/sites directory for each site running against your
+# codebase when taking this approach.
 
 behat:
   # @see http://docs.behat.org/en/v2.5/guides/6.cli.html#gherkin-filters
@@ -15,10 +26,24 @@ behat:
   # tests/behat/example.local.yml.
   server-url: http://127.0.0.1:8888
 
-multisite:
-  # This should correspond the directory name in docroot/sites. E.g.,
-  # docroot/sites/example-multisite.com.
-  name: example-multisite.com
+# Drush aliases for this site. The aliases set here will override the aliases set in
+# your project.yml file.
+drush:
+  aliases:
+    # The local environment against which all local drush commands are run.
+    local: default.local
+    # The remote environment from which the site-specific database will be pulled.
+    remote: default.test
+# Uris will be environment specific. There will be one uri for your local environment,
+# one for your continuous integration environment and one for each of your dev, test
+# and prod environments as configured in your Acquia Cloud domain configuration. Uris set
+# here will override uris specified in drushrc.php.
+uri:
+  local: default.local
+  ci: 127.0.0.1:8888
+  dev: defaultdev.prod.acquia-sites.com
+  test: defaultstg.prod.acquia-sites.com
+  prod: default.com
 
 project:
   profile:

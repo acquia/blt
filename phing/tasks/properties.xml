@@ -56,10 +56,47 @@
     </then>
   </if>
 
-  <echo level="verbose">Executing commands against multisite "${multisite.name}"</echo>
+  <!-- Set the default site to operate against. -->
+  <property name="site.name" value="default" override="false"/>
 
-  <!-- Default drush alias. -->
+  <!-- Load multisite-specific overrides. -->
+  <if>
+    <available file="${blt.config-dirs.sites}"/>
+    <then>
+      <!-- Build the site list from *.yml files in the blt/sites directory. -->
+      <exec dir="${blt.config-dirs.sites}" command="ls *.yml | tr -d '\n' | sed s/\.yml/,/g" outputProperty="multisite.names"/>
+      <!-- Strip out the trailing comma. -->
+      <propertyregex subject="${multisite.names}" pattern=",$" replace="" property="multisite.names" override="true"/>
+      <!-- Load default site properties if overrides are specified. -->
+      <if>
+        <available filepath="${blt.config-dirs.sites}" file="${site.name}.yml" />
+        <then>
+          <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false"/>
+        </then>
+      </if>
+    </then>
+  </if>
+
+  <!-- Ensure at least the default site is listed in the list of sites when no site(s) specific config is provided. -->
+  <property name="multisite.names" value="${site.name}" override="false"/>
+
+  <!-- Set site aliases if not already set by ${site.name}.yml. -->
+  <property name="site.drush.aliases.local" value="${drush.aliases.local}" override="false"/>
+  <property name="site.drush.aliases.remote" value="${drush.aliases.remote}" override="false"/>
+  <property name="site.drush.aliases.ci" value="${drush.aliases.ci}" override="false"/>
+
+  <!-- Set site uris if not already set by ${site.name}.yml. -->
+  <property name="site.uri.local" value="${project.local.uri}" override="false"/>
+  <property name="site.uri.ci" value="${project.ci.uri}" override="false"/>
+
+  <echo level="verbose">Executing commands against multisite "${site.name}"</echo>
+
+  <!-- If no environment is set, assume we're working locally. -->
+  <property name="environment" value="local" override="false" logoutput="false"/>
+
+  <!-- Setup default drush alias. -->
   <property name="drush.alias" value="${drush.default_alias}" override="false" logoutput="false"/>
+
   <if>
     <equals arg1="${env.USER}" arg2="vagrant"/>
     <then>

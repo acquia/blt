@@ -12,7 +12,6 @@
 
   <target name="ci:setup" description="Install dependencies, builds docroot, installs Drupal; uses ci drush alias." hidden="true">
     <phingcall target="setup">
-      <property name="drush.alias" value="${drush.aliases.ci}"/>
       <property name="create_alias" value="n"/>
       <property name="environment" value="ci"/>
     </phingcall>
@@ -39,7 +38,6 @@
 
   <target name="ci:update" description="Update current database to reflect the state of the Drupal file system; uses ci drush alias." hidden="true">
     <phingcall target="setup:update">
-      <property name="drush.alias" value="${drush.aliases.ci}"/>
       <property name="environment" value="ci"/>
     </phingcall>
   </target>
