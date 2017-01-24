@@ -77,11 +77,9 @@ script:
   - mkdir sites
   # Create initial keys.
   - echo "aliases:" >> sites/project.site.yml
-  - echo "uri:" >> sites/project.site.yml
   - yaml-cli update:value sites/project.site.yml aliases.ci '@self'
+  - echo "uri:" >> sites/project.site.yml
   - yaml-cli update:value sites/project.site.yml uri.ci '127.0.0.1:8888'
-  # @todo remove
-  - cat sites/project.site.yml
   - git init
   - git add -A
   # Commit so that subsequent git commit tests have something to amend.
