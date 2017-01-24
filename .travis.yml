@@ -73,9 +73,16 @@ script:
   # Generate a new 'blt-project' project.
   - cp -R blt-project ../
   - cd ../blt-project
+  # Create a site-specific settings file and give it some values.
+  - mkdir sites
+  - touch project.site.yml
+  - yaml-cli update:value sites/project.site.yml aliases.ci '@self'
+  - yaml-cli update:value sites/project.site.yml uri.ci '127.0.0.1:8888'
+  # @todo remove
+  - cat sites/project.site.yml
   - git init
   - git add -A
-  # Commit so that susbsequent git commit tests have something to ammend.
+  # Commit so that subsequent git commit tests have something to amend.
   - git commit -m 'Initial commit.'
   # BLT is the only dependency at this point. Install it.
   - composer install -v
