@@ -1,0 +1,61 @@
+<project name="fix" default="fix">
+
+  <target name="fix" description="Runs all fix targets."
+          depends="fix:all"/>
+
+  <!-- Run all fix targets. -->
+  <target name="fix:all" description="Runs all fix targets."
+          depends="fix:phpcbf"
+          hidden="true" />
+
+  <!-- Run PHP Code Beautifier against all custom code. -->
+  <target name="fix:phpcbf" description="Runs PHP Code Beautifier utility against custom code.">
+    <property name="phpcbf.ruleset" value="${repo.root}/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml"/>
+    <foreach list="${phpcbf.filesets}" target="fix:phpcbf:fileset" param="fileset_refid"/>
+  </target>
+
+  <!-- Run PHP Code Beautifier against defined filesets. -->
+  <target name="fix:phpcbf:fileset" description="Return list of files with phpcs violations." hidden="true">
+    <property name="phpcbf.ruleset" value="${repo.root}/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml"/>
+
+    <!-- Generate a file to list files that need to be fixed. -->
+    <phpcodesniffer
+            standard="${phpcbf.ruleset}"
+            showSniffs="false"
+            showSources="false"
+            showWarnings="true"
+            haltonerror="false"
+            haltonwarning="false"
+            verbosity="0">
+      <fileset refid="${fileset_refid}"/>
+      <formatter type="csv" usefile="true" outfile="${reports.localDir}/${fileset_refid}-out.txt" />
+    </phpcodesniffer>
+
+    <!-- Convert PHPCS output into a usable listFile. -->
+    <echo>Generating Code Sniffer report: ${reports.localDir}/${fileset_refid}-out.txt</echo>
+    <exec dir="${repo.root}" command="${blt.root}/scripts/blt/phpcbf-file-list.sh ${reports.localDir}/${fileset_refid}-out.txt" logoutput="true"/>
+
+    <!-- Fix each listed file. -->
+    <foreach param="file" target="fix:phpcbf:file">
+      <filelist dir="${repo.root}" listfile="${reports.localDir}/${fileset_refid}-out.txt" />
+    </foreach>
+
+    <!-- Clean up. -->
+    <delete file="${reports.localDir}/${fileset_refid}-out.txt" />
+  </target>
+
+  <!-- Run PHP Code Beautifier on an comma-separated list of files. -->
+  <target name="fix:phpcbf:files" description="Run PHP Code Beautifier on an arbitrary list of files." hidden="true">
+    <fail unless="files" message="Missing files parameter."/>
+    <property name="phpcbf.ruleset" value="${repo.root}/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml"/>
+    <foreach list="${files}" target="fix:phpcbf:file" param="file"/>
+  </target>
+
+  <!-- Run PHP Code Beautifier on a specific file. -->
+  <target name="fix:phpcbf:file" description="Run PHP Code Beautifier on a specific file." hidden="true">
+    <fail unless="file" message="Missing file parameter."/>
+    <property name="phpcbf.ruleset" value="${repo.root}/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml"/>
+    <exec dir="${repo.root}" command="${repo.root}/vendor/bin/phpcbf phpcbf --standard=${phpcbf.ruleset} ${file}" logoutput="true" />
+  </target>
+
+</project>

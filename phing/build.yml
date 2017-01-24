@@ -106,6 +106,13 @@ phpcs:
   haltonerror: true
   haltonwarning: true
 
+phpcbf:
+  filesets:
+    - files.php.custom.modules
+    - files.php.tests
+    - files.php.custom.themes
+    - files.frontend.custom.themes
+
 project:
   local:
     uri: ${project.local.protocol}://${project.local.hostname}
