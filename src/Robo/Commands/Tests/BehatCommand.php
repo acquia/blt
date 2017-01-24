@@ -1,6 +1,6 @@
 <?php
 
-namespace Acquia\Blt\Robo\Commands;
+namespace Acquia\Blt\Robo\Commands\Tests;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Wizards\TestsWizard;
@@ -12,17 +12,7 @@ use Wikimedia\WaitConditionLoop;
 /**
  * Defines commands in the "tests" namespace.
  */
-class TestsCommand extends BltTasks {
-
-  /**
-   * Runs all tests, including Behat, PHPUnit, and Security Update check.
-   *
-   * @command tests:all
-   *
-   * @calls tests:behat, tests:phpunit
-   */
-  public function tests() {
-  }
+class BehatCommand extends BltTasks {
 
   /**
    * Executes all behat tests.
@@ -43,7 +33,7 @@ class TestsCommand extends BltTasks {
    * @validateDrupalIsInstalled
    * @validateBehatIsConfigured
    */
-  public function testsBehat() {
+  public function behat() {
     $this->logConfig($this->getConfigValue('behat'), 'behat');
     $this->logConfig($this->getInspector()->getLocalBehatConfig()->toArray());
 
@@ -73,41 +63,6 @@ class TestsCommand extends BltTasks {
         ->interactive(TRUE)
         ->run()
         ->stopOnFail();
-    }
-  }
-
-  /**
-   * Executes all PHPUnit tests.
-   *
-   * @command tests:phpunit
-   * @description Executes all PHPUnit tests.
-   */
-  public function testsPhpUnit() {
-    $reports_dir = $this->getConfigValue('reports.localDir') . '/phpunit';
-    $report_file = $reports_dir . '/results.xml';
-    $this->_mkdir($reports_dir);
-    $this->_touch($report_file);
-    $tests_dir = $this->getConfigValue('repo.root') . '/tests/phpunit';
-
-    $this->taskPHPUnit()
-      ->dir($tests_dir)
-      ->xml($report_file)
-      ->arg('.')
-      ->printOutput(true)
-      ->run();
-  }
-
-  /**
-   * Check local Drupal installation for security updates.
-   *
-   * @command tests:security-updates
-   * @description Check local Drupal installation for security updates.
-   */
-  public function testsSecurityUpdates() {
-    $passed = $this->taskExec("! drush -n ups --check-disabled --security-only 2>/dev/null | grep 'SECURITY UPDATE'")
-      ->run()->wasSuccessful();
-    if ($passed) {
-      $this->logger->error("One or more of your dependency has an outstanding security update. Please apply update(s) immediately.");
     }
   }
 

@@ -155,7 +155,6 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
   public function isBehatConfigured() {
     $local_behat_config = $this->getLocalBehatConfig();
     if ($this->getConfigValue('project.local.uri') != $local_behat_config->get('local.extensions.Behat\MinkExtension.base_url')) {
-      $this->logger->warning('Your Drupal base URL is mis-configured.');
       $this->logger->warning('project.local.uri in project.yml does not match local.extensions.Behat\MinkExtension.base_url in local.yml.');
       $this->logger->warning('project.local.uri = ' . $this->getConfigValue('project.local.uri'));
       $this->logger->warning('local.extensions.Behat\MinkExtension.base_url = ' . $local_behat_config->get('local.extensions.Behat\MinkExtension.base_url'));
@@ -163,8 +162,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
     }
 
     if ($this->getConfigValue('behat.run-server')) {
-      if (!$this->getConfigValue('behat.server-url') != $this->getConfigValue('project.local.uri')) {
-        $this->logger->warning('Your Drupal base URL is mis-configured.');
+      if ($this->getConfigValue('behat.server-url') != $this->getConfigValue('project.local.uri')) {
         $this->logger->warning("behat.run-server is enabled, but the server URL does not match Drupal's base URL.");
         $this->logger->warning('project.local.uri = ' . $this->getConfigValue('project.local.uri'));
         $this->logger->warning('behat.server-url = ' . $this->getConfigValue('behat.server-url'));

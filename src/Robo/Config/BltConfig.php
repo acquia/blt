@@ -10,7 +10,7 @@ use Robo\Config;
 /**
  *
  */
-abstract class BltConfig extends Config {
+class BltConfig extends Config {
 
   /**
    * @var Data
