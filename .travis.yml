@@ -71,6 +71,9 @@ before_deploy:
   - git add -A
   - git commit -m "Automated commit for BLT repo by Travis CI for Build ${TRAVIS_BUILD_ID}" -n
 
+after_success:
+  - ./vendor/bin/coveralls -vvv
+
 deploy:
   - provider: script
     # Deploys build artifact for generated `blt-project` to acquia-pso/blted8 on GitHub and also to bolt8 sub on ACF.

@@ -6,6 +6,8 @@ blt-project/vendor
 /project.yml
 local.*
 
+build
+
 # OS X
 .DS_Store
 .AppleDouble

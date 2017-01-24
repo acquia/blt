@@ -1,0 +1,16 @@
+<!-- phpunit.xml.dist -->
+<phpunit>
+  <testsuites>
+    <testsuite name="BLT Test Suite">
+      <directory>tests/phpunit/Robo</directory>
+    </testsuite>
+  </testsuites>
+  <logging>
+    <log type="coverage-clover" target="build/logs/clover.xml"/>
+  </logging>
+  <filter>
+    <whitelist processUncoveredFilesFromWhitelist="true">
+      <directory suffix=".php">src/Robo</directory>
+    </whitelist>
+  </filter>
+</phpunit>
