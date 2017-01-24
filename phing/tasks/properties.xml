@@ -63,8 +63,8 @@
   <if>
     <available file="${blt.config-dirs.sites}"/>
     <then>
-      <!-- Build the site list from *.yml files in the blt/sites directory. -->
-      <exec dir="${blt.config-dirs.sites}" command="ls *.yml | tr -d '\n' | sed s/\.yml/,/g" outputProperty="multisite.names"/>
+      <!-- Build the site list from project.[site-name].yml files in the blt/sites directory. -->
+      <exec dir="${blt.config-dirs.sites}" command="ls project.*.yml | sed -e s/project.//g -e s/.yml//g | tr '\n' ','" outputProperty="multisite.names"/>
       <!-- Strip out the trailing comma. -->
       <propertyregex subject="${multisite.names}" pattern=",$" replace="" property="multisite.names" override="true"/>
       <!-- Load default site properties if overrides are specified. -->
