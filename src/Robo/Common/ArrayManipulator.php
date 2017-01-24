@@ -10,10 +10,14 @@ use Dflydev\DotAccessData\Data;
 class ArrayManipulator {
 
   /**
+   * Merges arrays recursively while preserving.
+   *
    * @param array $array1
    * @param array $array2
    *
    * @return array
+   *
+   * @see http://php.net/manual/en/function.array-merge-recursive.php#92195
    */
   public static function arrayMergeRecursiveDistinct(
     array &$array1,
@@ -33,11 +37,13 @@ class ArrayManipulator {
   }
 
   /**
+   * Converts dot-notated keys to proper associative nested keys.
+   *
    * @param $array
    *
    * @return array
    */
-  public static function reKeyDotNotatedKeys($array) {
+  public static function expandFromDotNotatedKeys($array) {
     $data = new Data();
 
     // @todo Make this work at all levels of array.
@@ -53,12 +59,36 @@ class ArrayManipulator {
    *
    * @return array
    */
+  public static function flattenToDotNotatedKeys($array) {
+    $iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($array));
+    $result = array();
+    foreach ($iterator as $leafValue) {
+      $keys = array();
+      foreach (range(0, $iterator->getDepth()) as $depth) {
+        $keys[] = $iterator->getSubIterator($depth)->key();
+      }
+      $result[join('.', $keys)] = $leafValue;
+    }
+
+    return $result;
+  }
+
+
+  /**
+   * Converts a multi-dimensional array to a human-readable flat array.
+   *
+   * Used primarily for rendering tables via Symfony Console commands.
+   *
+   * @param $array
+   *
+   * @return array
+   */
   public static function convertArrayToFlatTextArray($array) {
     $rows = [];
     $max_line_length = 80;
     foreach ($array as $key => $value) {
       if (is_array($value)) {
-        $flattened_array = self::flattenArrayToDotNotation($value);
+        $flattened_array = self::flattenToDotNotatedKeys($value);
         foreach ($flattened_array as $sub_key => $sub_value) {
           $rows[] = [
             "$key.$sub_key",
@@ -82,24 +112,4 @@ class ArrayManipulator {
 
     return $rows;
   }
-
-  /**
-   * @param $array
-   *
-   * @return array
-   */
-  public static function flattenArrayToDotNotation($array) {
-    $iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($array));
-    $result = array();
-    foreach ($iterator as $leafValue) {
-      $keys = array();
-      foreach (range(0, $iterator->getDepth()) as $depth) {
-        $keys[] = $iterator->getSubIterator($depth)->key();
-      }
-      $result[join('.', $keys)] = $leafValue;
-    }
-
-    return $result;
-  }
-
 }
