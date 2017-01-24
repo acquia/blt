@@ -86,6 +86,13 @@
 
   <target name="setup:drupal:settings" description="Does the work of creating local settings files using default settings files for an individual site."
           hidden="true">
+    <if>
+      <not><available file="${docroot}/sites/${site.name}"/></not>
+      <then>
+        <echo>Creating missing site directory: ${site.name}</echo>
+        <mkdir dir="${docroot}/sites/${site.name}"/>
+      </then>
+    </if>
     <echo>Making ${docroot}/sites/${site.name} writable</echo>
     <chmod mode="0755" file="${docroot}/sites/${site.name}" failonerror="false"/>
 
@@ -94,10 +101,21 @@
       <not><available file="${docroot}/sites/${site.name}/settings.php"/></not>
       <then>
         <if>
-          <not><available file="${docroot}/sites/${site.name}/default.settings.php"/></not>
+          <and>
+            <not><available file="${docroot}/sites/${site.name}/default.settings.php"/></not>
+            <not><available file="${docroot}/sites/default/default.settings.php"/></not>
+          </and>
           <then>
             <echo>Downloading scaffold files so that default.settings.php is available</echo>
             <exec dir="${repo.root}" command="composer drupal-scaffold" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true" />
+          </then>
+        </if>
+
+        <if>
+          <not><available file="${docroot}/sites/${site.name}/default.settings.php"/></not>
+          <then>
+            <echo>Creating default.settings.php file for ${site.name}</echo>
+            <copy file="${docroot}/sites/default/default.settings.php" tofile="${docroot}/sites/${site.name}/default.settings.php"/>
           </then>
         </if>
 
