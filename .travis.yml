@@ -75,7 +75,8 @@ script:
   - cd ../blt-project
   # Create a site-specific settings file and give it some values.
   - mkdir sites
-  - touch project.site.yml
+  # Create initial keys.
+  - echo "aliases:\nuri:\n" > sites/project.site.yml
   - yaml-cli update:value sites/project.site.yml aliases.ci '@self'
   - yaml-cli update:value sites/project.site.yml uri.ci '127.0.0.1:8888'
   # @todo remove
