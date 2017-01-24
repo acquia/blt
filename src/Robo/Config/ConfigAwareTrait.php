@@ -29,4 +29,6 @@ trait ConfigAwareTrait {
     return $this->getConfig()->get($key, $default);
   }
 
+  //@todo add hasConfigValue().
+
 }

@@ -16,7 +16,7 @@ class TestsWizard extends Wizard {
       $this->logger->warning("PhantomJS is not required in composer.json");
       $answer = $this->confirm("Do you want to require jakoch/phantomjs-installer as a dev dependency?");
       if ($answer) {
-        $this->executor->executeCommand("composer require jakoch/phantomjs-installer --dev", $this->getConfigValue('repo.root'));
+        $this->executor->executeCommand("composer require jakoch/phantomjs-installer --dev");
       }
       else {
         throw new \Exception("Cannot launch PhantomJS it is not installed.");
@@ -58,11 +58,15 @@ class TestsWizard extends Wizard {
    */
   public function wizardConfigureBehat() {
     if (!$this->getInspector()->isBehatConfigured()) {
-      $this->logger->warning('Behat is not configured.');
-      $confirm = $this->confirm("Do you want configure Behat.");
+      $this->logger->warning('Behat is not configured properly.');
+      $confirm = $this->confirm("Do you want re-generate local Behat config at tests/behat/local.yml?");
       if ($confirm) {
         $bin = $this->getConfigValue('composer.bin');
-        $this->executor->executeCommand("$bin/blt setup:behat", $this->getConfigValue('repo.root'));
+        $behat_local_config_file = $this->getConfigValue('repo.root') . "/tests/behat/local.yml";
+        if (file_exists($behat_local_config_file)) {
+          $this->fs->remove($behat_local_config_file);
+        }
+        $this->executor->executeCommand("$bin/blt setup:behat");
       }
     }
   }

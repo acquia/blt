@@ -18,7 +18,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
+ * This class defines hooks that provide user interaction.
  *
+ * These hooks typically use a Wizard to evaluate the validity of config or
+ * state and guide the user toward resolving issues.
  */
 class InteractHook extends Tasks implements IOAwareInterface, ConfigAwareInterface, InspectorAwareInterface, LoggerAwareInterface {
 
@@ -65,6 +68,27 @@ class InteractHook extends Tasks implements IOAwareInterface, ConfigAwareInterfa
     /** @var TestsWizard $tests_wizard */
     $tests_wizard = $this->getContainer()->get(TestsWizard::class);
     $tests_wizard->wizardConfigureBehat();
+  }
+
+  /**
+   * @hook interact @interactLaunchPhpWebServer
+   */
+  public function interactLaunchPhpWebServer() {
+    if ($this->getConfigValue('behat.run-server')) {
+      $this->logger->info("Using 'drush runserver' for tests.");
+      $server_url = $this->getConfigValue('behat.server-url');
+      // $this->getConfig()->set('project.local.uri', $server_url);
+      $this->logger->info("Running server at $server_url");
+      $this->getContainer()->get('executor')->killProcessByName('runserver');
+      $this->getContainer()->get('executor')->killProcessByPort(8888);
+      $composer_bin = $this->getConfigValue('composer.bin');
+      $this->taskExec("$composer_bin/drush runserver $server_url > /dev/null")
+        ->dir($this->getConfigValue('docroot'))
+        ->background(true)
+        ->printOutput(false)
+        ->run();
+      $this->getContainer()->get('executor')->waitForUrlAvailable($server_url);
+    }
   }
 
 }

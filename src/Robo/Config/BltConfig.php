@@ -4,6 +4,7 @@ namespace Acquia\Blt\Robo\Config;
 
 use Acquia\Blt\Robo\Common\ArrayManipulator;
 use Dflydev\DotAccessData\Data;
+use Grasmash\YamlExpander\Expander;
 use Robo\Config;
 
 /**
@@ -79,10 +80,18 @@ abstract class BltConfig extends Config {
    * @param BltConfig $in
    */
   public function extend(BltConfig $in) {
-    $this_config = $this->toArray();
-    $that_config = $in->toArray();
-    $merged_config = ArrayManipulator::arrayMergeRecursiveDistinct($this_config,
-      $that_config);
+    $base_config = $this->toArray();
+
+    $new_config = $in->toArray();
+    $merged_config = ArrayManipulator::arrayMergeRecursiveDistinct($base_config,
+      $new_config);
+
+    // When the new config was created, it was expanded using base config as
+    // a reference. But, the base config may have had unexpanded placeholders
+    // whose values were present in the new config. So, we self-expand
+    // the newly merged config to resolve all placeholders.
+    $merged_config = Expander::expandArrayProperties($merged_config);
+
     $this->fromArray($merged_config);
   }
 

@@ -47,7 +47,7 @@ class BltTasks extends Tasks implements ConfigAwareInterface, InspectorAwareInte
   ) {
     $table = new Table($this->output);
     $table->setHeaders($headers)
-      ->setRows(ArrayManipulator::convertArrayFlatTextArray($array))
+      ->setRows(ArrayManipulator::convertArrayToFlatTextArray($array))
       ->render();
   }
 

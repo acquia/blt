@@ -4,8 +4,10 @@ namespace Acquia\Blt\Robo\Common;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
+use GuzzleHttp\Client;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LogLevel;
 use Robo\Collection\CollectionBuilder;
 use Symfony\Component\Console\Output\OutputInterface;
 use Robo\Contract\ConfigAwareInterface;
@@ -34,6 +36,13 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
   }
 
   /**
+   * @return \Acquia\Blt\Robo\BltTasks
+   */
+  public function getBuilder() {
+    return $this->builder;
+  }
+
+  /**
    * @param $command
    *
    * @return \Robo\Task\Base\Exec
@@ -52,7 +61,10 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
     $bin = $this->getConfigValue('composer.bin');
     $result = $this->builder->taskExec("$bin/drush $command")
       ->dir($this->getConfigValue('docroot'))
-      ->printed(false)
+      ->interactive(false)
+      ->printOutput(true)
+      ->printMetadata(true)
+      //->setLogLevel(LogLevel::INFO)
       ->run();
 
     return $result;
@@ -66,8 +78,87 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
   public function executeCommand($command) {
     return $this->builder->taskExec($command)
       ->dir($this->getConfigValue('repo.root'))
-      ->printed(false)
+      ->interactive(false)
+      ->printOutput(true)
+      ->printMetadata(true)
+      //->setLogLevel(LogLevel::INFO)
       ->run();
+  }
+
+  /**
+   * @param $port
+   */
+  public function killProcessByPort($port) {
+    $this->logger->info("Killing all processes on port $port");
+    // This is allowed to fail.
+    // @todo Replace with standardized call to Symfony Process.
+    exec("lsof -ti tcp:$port | xargs kill l 2>&1");
+  }
+
+  /**
+   * @param $name
+   */
+  public function killProcessByName($name) {
+    $this->logger->info("Killing all processing containing string '$name'");
+    // This is allowed to fail.
+    // @todo Replace with standardized call to Symfony Process.
+    exec("ps aux | grep -i $name | grep -v grep | awk '{print $2}' | xargs kill -9 2>&1");
+    //exec("ps aux | awk '/$name/ {print $2}' 2>&1 | xargs kill -9");
+  }
+
+  /**
+   * @param $url
+   *
+   * @return bool
+   */
+  public function waitForUrlAvailable($url) {
+    $this->wait([$this, 'checkUrl'], [$url], "Waiting for response from $url...");
+  }
+
+  /**
+   * @param callable $callable
+   * @param $args
+   *
+   * @return bool
+   * @throws \Exception
+   */
+  public function wait($callable, $args, $message = '') {
+    $maxWait = 15 * 1000;
+    $checkEvery = 1 * 1000;
+    $start = microtime(true) * 1000;
+    $end = $start + $maxWait;
+
+    if (!$message) {
+      $method_name = is_array($callable) ? $callable[1] : $callable;
+      $message = "Waiting for $method_name() to return true.";
+    }
+
+    // For some reason we can't reuse $start here.
+    while (microtime(true) * 1000 < $end) {
+      $this->logger->info($message);
+      try {
+        if (call_user_func_array($callable, $args)) {
+          return TRUE;
+        }
+      }
+      catch (\Exception $e) {
+        $this->logger->debug($e->getMessage());
+      }
+      usleep($checkEvery * 1000);
+    }
+
+    throw new \Exception("Timed out");
+  }
+
+  /**
+   * @param $url
+   *
+   * @return int
+   */
+  public function checkUrl($url) {
+    $client = new Client();
+    $res = $client->request('GET', $url, []);
+    return $res->getStatusCode() == 200;
   }
 
 }

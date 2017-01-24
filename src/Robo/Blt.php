@@ -5,6 +5,7 @@ namespace Acquia\Blt\Robo;
 use Acquia\Blt\Robo\Common\Executor;
 use Acquia\Blt\Robo\Inspector\Inspector;
 use Acquia\Blt\Robo\Inspector\InspectorAwareInterface;
+use Acquia\Blt\Robo\Log\BltLogStyle;
 use Acquia\Blt\Robo\Wizards\SetupWizard;
 use Acquia\Blt\Robo\Wizards\TestsWizard;
 use Consolidation\AnnotatedCommand\CommandFileDiscovery;
@@ -12,6 +13,7 @@ use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
 use Robo\Collection\CollectionBuilder;
 use Robo\Common\ConfigAwareTrait;
 use Robo\Config;
@@ -63,6 +65,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     // $this->addPluginsCommandsAndHooks();
     $this->runner = new RoboRunner();
     $this->runner->setContainer($container);
+
     $this->setLogger($container->get('logger'));
     // date_default_timezone_set($config->get('time_zone'));.
   }
@@ -133,6 +136,8 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
    */
   private function configureContainer() {
     $container = $this->getContainer();
+
+    $container->share('logStyler', BltLogStyle::class);
 
     // We create our own builder so that non-command classes are able to
     // implement task methods, like taskExec(). Yes, there are now two builders

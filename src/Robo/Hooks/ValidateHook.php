@@ -10,7 +10,17 @@ use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 
 /**
+ * This class provides hooks that validate configuration or state.
  *
+ * These hooks should not directly provide user interaction. They should throw
+ * and exception if a required condition is not met.
+ *
+ * Typically, each validation hook has an accompanying interact hook (which
+ * runs prior to the validation hook). The interact hooks provide an
+ * opportunity to the user to resolve the invalid configuration prior to an
+ * exception being thrown.
+ *
+ * @see https://github.com/consolidation/annotated-command#validate-hook
  */
 class ValidateHook implements LoggerAwareInterface, InspectorAwareInterface {
 
@@ -91,11 +101,8 @@ class ValidateHook implements LoggerAwareInterface, InspectorAwareInterface {
    */
   public function validateBehatIsConfigured(CommandData $commandData) {
     if (!$this->getInspector()->isBehatConfigured()) {
-      $this->logger->error("Behat is not properly configured.");
-      return FALSE;
+      throw new \Exception("Behat is not properly configured properly.");
     }
-
-    return TRUE;
   }
 
   public function validatePhantomJsIsConfigured(CommandData$commandData) {

@@ -53,31 +53,17 @@ class ArrayManipulator {
    *
    * @return array
    */
-  public static function convertArrayFlatTextArray($array) {
+  public static function convertArrayToFlatTextArray($array) {
     $rows = [];
     $max_line_length = 80;
     foreach ($array as $key => $value) {
       if (is_array($value)) {
-
-        if (is_numeric(key($value))) {
-          $row_contents = implode("\n", $value);
+        $flattened_array = self::flattenArrayToDotNotation($value);
+        foreach ($flattened_array as $sub_key => $sub_value) {
           $rows[] = [
-            $key,
-            wordwrap($row_contents, $max_line_length, "\n", TRUE)
+            "$key.$sub_key",
+            wordwrap($sub_value, $max_line_length, "\n", TRUE)
           ];
-        }
-        else {
-          $rows[] = [$key, ''];
-          foreach ($value as $sub_key => $sub_value) {
-            $rows[] = [
-              ' - ' . $sub_key,
-              wordwrap($sub_value, $max_line_length, "\n", TRUE)
-            ];
-          }
-        }
-
-        if (count($value) > 1) {
-          // $rows[] = new TableSeparator();
         }
       }
       else {
@@ -95,6 +81,25 @@ class ArrayManipulator {
     }
 
     return $rows;
+  }
+
+  /**
+   * @param $array
+   *
+   * @return array
+   */
+  public static function flattenArrayToDotNotation($array) {
+    $iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($array));
+    $result = array();
+    foreach ($iterator as $leafValue) {
+      $keys = array();
+      foreach (range(0, $iterator->getDepth()) as $depth) {
+        $keys[] = $iterator->getSubIterator($depth)->key();
+      }
+      $result[join('.', $keys)] = $leafValue;
+    }
+
+    return $result;
   }
 
 }

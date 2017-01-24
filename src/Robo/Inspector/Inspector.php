@@ -5,7 +5,10 @@ namespace Acquia\Blt\Robo\Inspector;
 use Acquia\Blt\Robo\Common\Executor;
 use Acquia\Blt\Robo\Common\IO;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
+use Acquia\Blt\Robo\Config\YamlConfig;
 use Acquia\Blt\Robo\Tasks\BltTasks;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 use Robo\Common\BuilderAwareTrait;
 use Robo\Contract\BuilderAwareInterface;
 use Robo\Contract\ConfigAwareInterface;
@@ -15,10 +18,11 @@ use Robo\Contract\ConfigAwareInterface;
  *
  * @package Acquia\Blt\Robo\Common
  */
-class Inspector implements BuilderAwareInterface, ConfigAwareInterface {
+class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAwareInterface {
 
   use BuilderAwareTrait;
   use ConfigAwareTrait;
+  use LoggerAwareTrait;
   use IO;
 
   /** @var Executor */
@@ -74,11 +78,9 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface {
   public function isDrupalInstalled() {
     // This will only run once per command. If Drupal is installed mid-command,
     // this value needs to be changed.
-    if (!$this->getConfigValue('state.drupal.installed')) {
+    if (is_null($this->getConfigValue('state.drupal.installed'))) {
       $installed = $this->getDrupalInstalled();
       $this->setStateDrupalInstalled($installed);
-
-      return $installed;
     }
 
     return $this->getConfigValue('state.drupal.installed');
@@ -119,11 +121,68 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface {
     return $exit_code == 0;
   }
 
+  public function getLocalBehatConfig() {
+    $behat_local_config_file = $this->getConfigValue('repo.root') . '/tests/behat/local.yml';
+    $behat_local_config = new YamlConfig($behat_local_config_file, $this->getConfig()->toArray());
+
+    return $behat_local_config;
+  }
+
+  public function getBehatConfigFiles() {
+    $behat_local_config = $this->getLocalBehatConfig();
+
+    return [
+      $behat_local_config->get('local.extensions.Drupal\DrupalExtension.drupal.drupal_root'),
+      $behat_local_config->get('local.suites.default.paths.features'),
+      $behat_local_config->get('local.suites.default.paths.bootstrap'),
+    ];
+  }
+
+  public function filesExist($files) {
+    foreach ($files as $file) {
+      if (!file_exists($file)) {
+        $this->logger->warning("Required file $file does not exist.");
+        return FALSE;
+      }
+    }
+
+    return TRUE;
+  }
+
   /**
    *
    */
   public function isBehatConfigured() {
-    return file_exists($this->getConfigValue('repo.root') . '/tests/behat/local.yml');
+    $local_behat_config = $this->getLocalBehatConfig();
+    if ($this->getConfigValue('project.local.uri') != $local_behat_config->get('local.extensions.Behat\MinkExtension.base_url')) {
+      $this->logger->warning('Your Drupal base URL is mis-configured.');
+      $this->logger->warning('project.local.uri in project.yml does not match local.extensions.Behat\MinkExtension.base_url in local.yml.');
+      $this->logger->warning('project.local.uri = ' . $this->getConfigValue('project.local.uri'));
+      $this->logger->warning('local.extensions.Behat\MinkExtension.base_url = ' . $local_behat_config->get('local.extensions.Behat\MinkExtension.base_url'));
+      return FALSE;
+    }
+
+    if ($this->getConfigValue('behat.run-server')) {
+      if (!$this->getConfigValue('behat.server-url') != $this->getConfigValue('project.local.uri')) {
+        $this->logger->warning('Your Drupal base URL is mis-configured.');
+        $this->logger->warning("behat.run-server is enabled, but the server URL does not match Drupal's base URL.");
+        $this->logger->warning('project.local.uri = ' . $this->getConfigValue('project.local.uri'));
+        $this->logger->warning('behat.server-url = ' . $this->getConfigValue('behat.server-url'));
+        $this->logger->warning('local.extensions.Behat\MinkExtension.base_url = ' . $local_behat_config->get('local.extensions.Behat\MinkExtension.base_url'));
+
+        return FALSE;
+      }
+    }
+
+    if (!$this->areBehatConfigFilesPresent()) {
+      return FALSE;
+    }
+
+    return TRUE;
+  }
+
+  public function areBehatConfigFilesPresent() {
+    return $this->filesExist($this->getBehatConfigFiles());
   }
 
   /**
