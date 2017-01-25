@@ -35,7 +35,7 @@ class PropertiesTest extends BltProjectTestBase {
                 'uri.phpunit' => 'site.ci.com',
             );
 
-            $file = sys_get_temp_dir() . uniqid('blt-') . '.yml';
+            $file = sys_get_temp_dir() . '/' . uniqid('blt-') . '.yml';
             file_put_contents($file, Yaml::dump($data));
 
         }
