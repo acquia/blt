@@ -71,9 +71,9 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
       }
     }
 
-    // Ensure there is at least a default site,
-    // which requires no specific configuration file.
-    if (empty($sites)) {
+    // Ensure the default site is in the list of sites.
+    // The default site requires no specific configuration file.
+    if (!is_array('default')) {
       $sites[] = 'default';
     }
 
