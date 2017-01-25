@@ -78,6 +78,7 @@ script:
   # Create initial keys.
   - echo "aliases:" >> blt/sites/project.site.yml
   - echo "uri:" >> blt/sites/project.site.yml
+  # Update values.
   - yaml-cli update:value blt/sites/project.site.yml aliases.ci '@self'
   - yaml-cli update:value blt/sites/project.site.yml uri.ci '127.0.0.1:8888'
   - git init
