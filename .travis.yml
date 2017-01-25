@@ -83,7 +83,7 @@ script:
   - yaml-cli update:value blt/sites/project.site.yml uri.ci '127.0.0.1:8888'
   - git init
   - git add -A
-  # Commit so that subsequent git commit tests have something to amend.
+  # Commit so that susbsequent git commit tests have something to ammend.
   - git commit -m 'Initial commit.'
   # BLT is the only dependency at this point. Install it.
   - composer install -v
