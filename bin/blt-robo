@@ -1,39 +1,5 @@
 #!/usr/bin/env php
 <?php
 
-$blt_root = realpath(__DIR__ . '/../');
-
-$possible_bin_dirs = [
-  $_SERVER['PWD'] . '/vendor/autoload.php',
-  $blt_root . '/vendor/autoload.php',
-  __DIR__ . '/../../autoload.php',
-];
-
-foreach ($possible_bin_dirs as $possible_bin_dir) {
-  if (file_exists($possible_bin_dir)) {
-    $autoload = require_once $possible_bin_dir;
-    break;
-  }
-}
-
-if (!isset($autoload)) {
-  print "Unable to find autoloader for blt-robo\n";
-}
-
-use Acquia\Blt\Robo\Blt;
-use Acquia\Blt\Robo\Config\DefaultConfig;
-use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Output\ConsoleOutput;
-use Acquia\Blt\Robo\Config\YamlConfig;
-
-$input = new ArgvInput($_SERVER['argv']);
-$output = new ConsoleOutput();
-
-$config = new DefaultConfig();
-$config->extend(new YamlConfig($config->get('blt.root') . '/phing/build.yml', $config->toArray()));
-$config->extend(new YamlConfig($config->get('repo.root') . '/blt/project.yml', $config->toArray()));
-$config->extend(new YamlConfig($config->get('repo.root') . '/blt/project.local.yml', $config->toArray()));
-
-$blt = new Blt($config, $input, $output);
-$status_code = $blt->run($input, $output);
-exit($status_code);
+// Shell wrapper for BLT robo app.
+require_once __DIR__ . '/blt-robo-run.php';

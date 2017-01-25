@@ -1,14 +1,101 @@
-#!/usr/bin/env bash
+#!/usr/bin/env php
+<?php
 
-if [ "`git rev-parse --show-cdup 2> /dev/null`" != "" ]; then
-  GIT_ROOT=$(git rev-parse --show-cdup)
-else
-  GIT_ROOT="."
-fi
+$repo_root = find_repo_root();
+$autoload = require_once $repo_root . '/vendor/autoload.php';
+if (!isset($autoload)) {
+  print "Unable to find autoloader for BLT\n";
+  exit(1);
+}
 
-if [ -f "$GIT_ROOT/vendor/acquia/blt/bin/blt" ]; then
-  cd $GIT_ROOT
-  ./vendor/phing/phing/bin/phing -f "./vendor/acquia/blt/phing/build.xml" -logger vendor.acquia.blt.phing.phingcludes.BltLogger "$@"
-else
-  echo "Error: You must run this command from within a BLT-generated project repository!"
-fi
+$robo_commands = [
+  'tests:behat',
+];
+
+// Execute command via Robo.
+$params_string = implode(' ', array_slice($argv, 1));
+if (!empty($argv[1]) && in_array($argv[1], $robo_commands)) {
+  $command = $argv[1];
+  require_once __DIR__. '/blt-robo-run.php';
+}
+// Execute target via Phing.
+else {
+  chdir($repo_root);
+  $phing = $repo_root . '/vendor/phing/phing/bin/phing';
+  array_splice($argv, 1, 0, array('-logger', 'vendor.acquia.blt.phing.phingcludes.BltLogger'));
+  array_splice($argv, 1, 0, array('-f', './vendor/acquia/blt/phing/build.xml'));
+
+  // @see vendor/bin/phing
+  ini_set('html_errors', 'off');
+  putenv("PHING_HOME=" . realpath(dirname($phing) . '/../'));
+
+  $phing_include = dirname($phing) . '/phing.php';
+  require_once $phing_include;
+}
+
+/**
+ * Finds the root directory for the repository.
+ *
+ * @return bool|string
+ */
+function find_repo_root() {
+  $possible_repo_roots = [
+    $_SERVER['PWD'],
+    getcwd(),
+    realpath(__DIR__ . '/../'),
+    realpath(__DIR__ . '/../../../'),
+  ];
+  foreach ($possible_repo_roots as $possible_repo_root) {
+    if ($repo_root = find_directory_containing_files($possible_repo_root, ['vendor/bin/blt', 'vendor/autoload.php'])) {
+      return $repo_root;
+    }
+  }
+}
+
+/**
+ * Traverses file system upwards in search of a given file.
+ *
+ * Begins searching for $file in $working_directory and climbs up directories
+ * $max_height times, repeating search.
+ *
+ * @param string $working_directory
+ * @param array $files
+ * @param int $max_height
+ *
+ * @return bool|string
+ *   FALSE if file was not found. Otherwise, the directory path containing the
+ *   file.
+ */
+function find_directory_containing_files($working_directory, $files, $max_height = 10) {
+  // Find the root directory of the git repository containing BLT.
+  // We traverse the file tree upwards $max_height times until we find
+  // vendor/bin/blt.
+  $file_path = $working_directory;
+  for ($i = 0; $i <= $max_height; $i++) {
+    if (files_exist($file_path, $files)) {
+      return $file_path;
+    }
+    else {
+      $file_path = realpath($file_path . '/..');
+    }
+  }
+
+  return FALSE;
+}
+
+/**
+ * Determines if an array of files exist in a particular directory.
+ *
+ * @param string $dir
+ * @param array $files
+ *
+ * @return bool
+ */
+function files_exist($dir, $files) {
+  foreach ($files as $file) {
+    if (!file_exists($dir . '/' . $file)) {
+      return FALSE;
+    }
+  }
+  return TRUE;
+}

@@ -20,6 +20,8 @@ behat:
   verbose: ${blt.verbose}
   extra: ''
 
+bin.path: vendor/bin
+
 blt:
   update:
     ignore-existing-file: ${blt.root}/scripts/blt/ignore-existing.txt
