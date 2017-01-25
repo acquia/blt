@@ -77,10 +77,9 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
       $sites[] = 'default';
     }
 
+    echo $this->projectDirectory . PHP_EOL;
+
     $this->sites = $sites;
-    foreach ($this->sites as $site) {
-      echo $site . PHP_EOL;
-    }
   }
 
 }
