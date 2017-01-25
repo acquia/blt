@@ -73,16 +73,13 @@ script:
   # Generate a new 'blt-project' project.
   - cp -R blt-project ../
   - cd ../blt-project
-  - ls
   # Create a site-specific settings file and give it some values.
-  - mkdir sites
-  - ls
+  - mkdir -p blt/sites
   # Create initial keys.
-  - echo "aliases:" >> sites/project.site.yml
-  - yaml-cli update:value sites/project.site.yml aliases.ci '@self'
-  - echo "uri:" >> sites/project.site.yml
-  - yaml-cli update:value sites/project.site.yml uri.ci '127.0.0.1:8888'
-  - ls sites
+  - echo "aliases:" >> blt/sites/project.site.yml
+  - echo "uri:" >> blt/sites/project.site.yml
+  - yaml-cli update:value blt/sites/project.site.yml aliases.ci '@self'
+  - yaml-cli update:value blt/sites/project.site.yml uri.ci '127.0.0.1:8888'
   - git init
   - git add -A
   # Commit so that subsequent git commit tests have something to amend.
