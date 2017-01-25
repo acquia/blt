@@ -19,7 +19,7 @@ class DrupalSettingsTest extends BltProjectTestBase {
    * @group blt-project
    */
   public function testSetupDefaultLocalSettings() {
-    foreach($this->sites as $site){
+    foreach ($this->sites as $site) {
       $this->assertFileExists("$this->projectDirectory/docroot/sites/$site/settings/default.local.settings.php");
     }
   }
@@ -32,7 +32,7 @@ class DrupalSettingsTest extends BltProjectTestBase {
    * @group blt-project
    */
   public function testSetupLocalSettings() {
-    foreach($this->sites as $site){
+    foreach ($this->sites as $site) {
       $this->assertFileExists("$this->projectDirectory/docroot/sites/$site/settings/local.settings.php");
     }
   }
@@ -57,7 +57,7 @@ class DrupalSettingsTest extends BltProjectTestBase {
    * @group blt-project
    */
   public function testSetupBltSettings() {
-    foreach($this->sites as $site){
+    foreach ($this->sites as $site) {
       $this->assertContains(
         'require DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php"',
         file_get_contents("$this->projectDirectory/docroot/sites/$site/settings.php")

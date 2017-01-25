@@ -19,7 +19,7 @@ class DrushSettingsTest extends BltProjectTestBase {
    * @group blt-project
    */
   public function testSetupLocalSettings() {
-    foreach($this->sites as $site){
+    foreach ($this->sites as $site) {
       $this->assertFileExists("$this->projectDirectory/docroot/sites/$site/local.drushrc.php");
     }
   }
@@ -32,7 +32,7 @@ class DrushSettingsTest extends BltProjectTestBase {
    * @group blt-project
    */
   public function testSetupDefaultSettings() {
-    foreach($this->sites as $site){
+    foreach ($this->sites as $site) {
       $this->assertFileExists("$this->projectDirectory/docroot/sites/$site/default.local.drushrc.php");
     }
   }
