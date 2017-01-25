@@ -58,9 +58,11 @@ class DrupalSettingsTest extends BltProjectTestBase {
    */
   public function testSetupBltSettings() {
     foreach ($this->sites as $site) {
+      $file = "$this->projectDirectory/docroot/sites/$site/settings.php";
+      $this->assertFileExists($file);
       $this->assertContains(
         'require DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php"',
-        file_get_contents("$this->projectDirectory/docroot/sites/$site/settings.php")
+        file_get_contents($file)
       );
     }
   }
