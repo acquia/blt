@@ -78,6 +78,7 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
     }
 
     $this->sites = $sites;
+    echo $this->sites . PHP_EOL;
   }
 
 }
