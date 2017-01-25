@@ -59,7 +59,7 @@ drupal:
 
 drush:
   bin: ${composer.bin}/drush
-  cmd: ${drush.bin} @${drush.alias} -r ${docroot} -l ${multisite.name}
+  cmd: ${drush.bin} @${drush.alias} -l ${multisite.name}
   dir: ${docroot}
   uri: ${multisite.name}
   assume: yes

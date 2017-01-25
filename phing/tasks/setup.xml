@@ -292,7 +292,8 @@
     <if>
       <equals arg1="${cm.features.no-overrides}" arg2="true"/>
       <then>
-        <exec command="${drush.bin} @${drush.alias} fl --bundle=${bundle} | grep -Ei '(changed|conflicts|added)( *)$'" outputProperty="features.overrides"/>
+        <echo>Checking for features overrides...</echo>
+        <exec dir="${docroot}" command="${drush.cmd} fl --bundle=${bundle} | grep -Ei '(changed|conflicts|added)( *)$'" outputProperty="features.overrides"/>
         <if>
           <istrue value="${features.overrides}"/>
           <then>
