@@ -72,10 +72,10 @@
   <!-- Wrapper around setup:drupal:settings. -->
   <target name="setup:drupal:settings:site" description="Creates local settings files using default settings files for an individual site.">
     <if>
-      <available filepath="${blt.config-dirs.sites}" file="${site.name}.yml" />
+      <available filepath="${blt.config-dirs.sites}" file="project.${site.name}.yml" />
       <then>
         <phingcall target="setup:drupal:settings">
-          <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false" />
+          <property file="${blt.config-dirs.sites}/project.${site.name}.yml" prefix="site" logoutput="false" />
         </phingcall>
       </then>
       <else>
@@ -167,10 +167,10 @@
   <!-- Wrapper around setup:drush:settings. -->
   <target name="setup:drush:settings:site" description="Creates local drush settings files for an individual site.">
     <if>
-      <available filepath="${blt.config-dirs.sites}" file="${site.name}.yml" />
+      <available filepath="${blt.config-dirs.sites}" file="project.${site.name}.yml" />
       <then>
         <phingcall target="setup:drush:settings">
-          <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false" />
+          <property file="${blt.config-dirs.sites}/project.${site.name}.yml" prefix="site" logoutput="false" />
         </phingcall>
       </then>
       <else>
@@ -217,10 +217,10 @@
   <!-- Wrapper around setup:drupal:install. -->
   <target name="setup:drupal:install:site" description="Installs Drupal on a specific local site.">
     <if>
-      <available filepath="${blt.config-dirs.sites}" file="${site.name}.yml" />
+      <available filepath="${blt.config-dirs.sites}" file="project.${site.name}.yml" />
       <then>
         <phingcall target="setup:drupal:install">
-          <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false" />
+          <property file="${blt.config-dirs.sites}/project.${site.name}.yml" prefix="site" logoutput="false" />
         </phingcall>
       </then>
       <else>
@@ -275,10 +275,10 @@
   <!-- Wrapper around setup:config-import. -->
   <target name="setup:config-import:site" description="Import configuration from a site's config directory.">
     <if>
-      <available filepath="${blt.config-dirs.sites}" file="${site.name}.yml" />
+      <available filepath="${blt.config-dirs.sites}" file="project.${site.name}.yml" />
       <then>
         <phingcall target="setup:config-import">
-          <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false" />
+          <property file="${blt.config-dirs.sites}/project.${site.name}.yml" prefix="site" logoutput="false" />
         </phingcall>
       </then>
       <else>
@@ -378,10 +378,10 @@
   <!-- Wrapper around setup:upate:features-import. -->
   <target name="setup:update:features-import:site" description="Features import for a site on the specified bundle.">
     <if>
-      <available filepath="${blt.config-dirs.sites}" file="${site.name}.yml" />
+      <available filepath="${blt.config-dirs.sites}" file="project.${site.name}.yml" />
       <then>
         <phingcall target="setup:update:features-import">
-          <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false" />
+          <property file="${blt.config-dirs.sites}/project.${site.name}.yml" prefix="site" logoutput="false" />
         </phingcall>
       </then>
       <else>
@@ -412,10 +412,10 @@
   <!-- Wrapper around setup:toggle-modules. -->
   <target name="setup:toggle-modules:site" description="Enables and uninstalls specified modules.">
     <if>
-      <available filepath="${blt.config-dirs.sites}" file="${site.name}.yml" />
+      <available filepath="${blt.config-dirs.sites}" file="project.${site.name}.yml" />
       <then>
         <phingcall target="setup:toggle-modules">
-          <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false" />
+          <property file="${blt.config-dirs.sites}/project.${site.name}.yml" prefix="site" logoutput="false" />
         </phingcall>
       </then>
       <else>

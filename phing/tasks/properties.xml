@@ -69,9 +69,9 @@
       <propertyregex subject="${multisite.names}" pattern=",$" replace="" property="multisite.names" override="true"/>
       <!-- Load default site properties if overrides are specified. -->
       <if>
-        <available filepath="${blt.config-dirs.sites}" file="${site.name}.yml" />
+        <available filepath="${blt.config-dirs.sites}" file="project.${site.name}.yml" />
         <then>
-          <property file="${blt.config-dirs.sites}/${site.name}.yml" prefix="site" logoutput="false"/>
+          <property file="${blt.config-dirs.sites}/project.${site.name}.yml" prefix="site" logoutput="false"/>
         </then>
       </if>
     </then>
