@@ -1,7 +1,7 @@
 <project name="setup" default="setup">
 
   <target name="setup" description="Install dependencies, builds docroot, installs Drupal."
-          depends="setup:build, setup:drupal:install, install-alias">
+          depends="setup:build, setup:settings, setup:drupal:install, install-alias">
     <echo>For a full list of available Phing targets, run:</echo>
     <echo>blt -l</echo>
     <echo></echo>
