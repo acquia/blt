@@ -69,3 +69,9 @@ Instead of performing these deployments manually, you can enlist the help of a C
 On Acquia Cloud, [Cloud Hooks](https://docs.acquia.com/cloud/manage/cloud-hooks) are the preferred method to run database updates and configuration imports on each deploy. BLT provides a post-code-deploy hook that will conveniently run these updates automatically and fail the deployment task in Insight if anything goes wrong.
 
 For consistency and reliability, you should run the same updates on deployment as you would run locally or in CI testing. BLT provides aliases for the `setup:update` task to support this, such as `local:update` and `deploy:update`. These aliases all run the same updates, but with the appropriate aliases and configuration directories for each environment.
+
+If your team uses Slack, you can also be notified of each successful or failed deployment. Simply set up an incoming webhook in your Slack team to receive the notification (see the API documentation at https://api.slack.com/), and then store the webhook URL in a `$HOME/slack_settings` file on your Acquia Cloud servers:
+
+    SLACK_WEBHOOK_URL=https://hooks.slack.com/services/xxx/yyy/zzz
+
+For more information, see the [Acquia Cloud Hooks Slack example](https://github.com/acquia/cloud-hooks/tree/master/samples/slack).
