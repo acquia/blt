@@ -52,7 +52,7 @@ class PropertiesTest extends BltProjectTestBase {
     exec(
     // Run the echo property task (optionally providing a site name)
     // and parse its output.
-      "vendor/bin/blt echo-property -Dproperty.name=\"$property\" " . (!empty($site) ? "-Dsite.name=$site" : "") .
+      "vendor/bin/blt echo-property -Dproperty.name=$property " . (!empty($site) ? "-Dsite.name=$site" : "") .
       // Run command with minimal console styling.
       " -emacs -logger phing.listener.DefaultLogger", $output
     );
