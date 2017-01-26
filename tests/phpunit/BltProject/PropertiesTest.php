@@ -69,6 +69,7 @@ class PropertiesTest extends BltProjectTestBase {
    * @return string The site name or an empty string.
    */
   private function parseSiteNameArg() {
+
     global $argv;
     $re_site_name = '/site\.name=("?\w*"?)/';
     $site_name = preg_grep($re_site_name, $argv);
