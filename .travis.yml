@@ -104,6 +104,8 @@ script:
   - blt ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dbehat.launch-phantom=true -Dblt.verbose=true
   # Run 'blt-project' tests.
   - phpunit ../blt/tests/phpunit --group blt-project
+  # Run 'blt-multisite' tests, ensuring we are able use the properties in project.site.yml (created above).
+  - phpunit ../blt/tests/phpunit --group blt-multisite site.name=site site.aliases.ci=@self site.uri.ci=127.0.0.1:8888
   # Initialize ACSF config.
   - blt acsf:init
   # Ensure that the doctor doesn't report any problems at this point.

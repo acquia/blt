@@ -4,7 +4,6 @@ namespace Acquia\Blt\Tests\BltProject;
 
 
 use Acquia\Blt\Tests\BltProjectTestBase;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class DrushTest.
@@ -13,40 +12,56 @@ use Symfony\Component\Yaml\Yaml;
  */
 class PropertiesTest extends BltProjectTestBase {
 
-    /**
-     * Tests that Phing parses property files as expected.
-     *
-     * @group blt-project
-     */
-    public function testparseProperties($file = '', $expected = array()) {
+  /**
+   * Tests site properties are parsed as expected.
+   *
+   * @group blt-project
+   * @group blt-multisite
+   */
+  public function testSiteProperties() {
 
-        if(!empty($file)){
-            // @todo allow an arbitrary file to be provided.
-        }
-        else {
-            // Create a file to test against.
-            $data = array(
-                'aliases' => array('phpunit' => '127.0.0.1:8888'),
-                'uri'  => array('phpunit' => 'site.ci.com'),
-            );
+    global $argv;
+    $site = $this->parseSiteNameArg();
 
-            $expected = array(
-                'aliases.phpunit' => '127.0.0.1:8888',
-                'uri.phpunit' => 'site.ci.com',
-            );
+    // Assume default site if no site argument can be parsed.
+    $site = empty($site) ? 'default' : $site;
 
-            $file = sys_get_temp_dir() . '/' . uniqid('blt-') . '.yml';
-            file_put_contents($file, Yaml::dump($data));
-
-        }
-
-        foreach($expected as $key => $value) {
-            $output = [];
-            // Run command with minimal console styling.
-            exec("vendor/bin/blt echo-property -Dproperty.name=\"$key\" -propertyfile $file -e -logger phing.listener.DefaultLogger", $output);
-            $this->assertEquals($value, $output[5], "Expected value at $key to equal $value");
-        }
+    foreach (preg_grep('/site\..*=/', $argv) as $prop) {
+      $matches = [];
+      if (preg_match('/(site\.[\w.?]*)=("?.*"?)/', $prop, $matches)) {
+        $property = $matches[1];
+        $expected = $matches[2];
+        $this->assertPropertyEquals($property, $expected, $site);
+      }
+      else {
+        $this->fail("Unable to parse property string: $prop");
+      }
 
     }
 
+  }
+
+  private function assertPropertyEquals($property, $expected, $site = '') {
+    $output = [];
+    exec(
+        // Run the echo property task (optionally providing a site name)
+        // and parse its output.
+        "vendor/bin/blt echo-property -Dproperty.name=\"$property\" " . (!empty($site) ? "-Dsite.name=$site" : "") .
+        // Run command with minimal console styling.
+        " -emacs -logger phing.listener.DefaultLogger", $output
+    );
+    // Property value will be output to the 6th line.
+    $this->assertEquals($expected, $output[5], "Expected value at $property to equal $expected");
+  }
+
+  private function parseSiteNameArg() {
+    global $argv;
+    $re_site_name = '/site\.name=("?\w*"?)/';
+    $site_name = preg_grep($re_site_name, $argv);
+
+    foreach($site_name as $name) {
+      $matches = [];
+      return preg_match($re_site_name, $name, $matches) ? $matches[1] : '';
+    }
+  }
 }
