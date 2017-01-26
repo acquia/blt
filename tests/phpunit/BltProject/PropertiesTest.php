@@ -44,7 +44,7 @@ class PropertiesTest extends BltProjectTestBase {
    * Asserts that a given property has an expected value.
    *
    * @param string $property The property to check.
-   * @param $expected $property's expected value.
+   * @param string $expected $property's expected value.
    * @param string $site An optional site name.
    */
   private function assertPropertyEquals($property, $expected, $site = '') {
