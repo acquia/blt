@@ -12,12 +12,25 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 class PropertiesTest extends BltProjectTestBase {
 
   /**
-   * Tests site properties are parsed as expected.
+   * Tests whether site-specific properties are parsed as expected.
    *
    * @group blt-project
    * @group blt-multisite
    */
   public function testSiteProperties() {
+    $this->assertArgumentsEqualProperties('site\.[\w.]+');
+  }
+
+  /**
+   * Tests multisite properties are parsed as expected.
+   *
+   * @group blt-multisite
+   */
+  public function testMultisiteProperties() {
+    $this->assertArgumentsEqualProperties('multisite\.[\w.]+');
+  }
+
+  protected function assertArgumentsEqualProperties($arg_key_expression) {
 
     global $argv;
     $site = $this->parseSiteNameArg();
@@ -25,9 +38,10 @@ class PropertiesTest extends BltProjectTestBase {
     // Assume default site if no site argument can be parsed.
     $site = empty($site) ? 'default' : $site;
 
-    foreach (preg_grep('/site\.[\w.]+=/', $argv) as $prop) {
+    $arg_matches = preg_grep('/^' . $arg_key_expression . '=/', $argv);
+    foreach ($arg_matches as $prop) {
       $matches = [];
-      if (preg_match('/(site\.[\w.]*)="?([\w.:\/@,]+)"?/', $prop, $matches)) {
+      if (preg_match('/^(' . $arg_key_expression . ')="?([\w.:\/@,]+)"?/', $prop, $matches)) {
         $property = $matches[1];
         $expected = $matches[2];
         $this->assertPropertyEquals($property, $expected, $site);
@@ -35,7 +49,6 @@ class PropertiesTest extends BltProjectTestBase {
       else {
         $this->fail("Unable to parse property string: $prop");
       }
-
     }
 
   }
