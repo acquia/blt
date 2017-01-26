@@ -89,7 +89,7 @@
     <if>
       <not><available file="${docroot}/sites/${site.name}"/></not>
       <then>
-        <echo>Creating missing site directory: ${site.name}</echo>
+        <echo>Creating missing sites directory: ${site.name}</echo>
         <mkdir dir="${docroot}/sites/${site.name}"/>
       </then>
     </if>
