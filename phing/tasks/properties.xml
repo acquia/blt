@@ -65,7 +65,8 @@
     <available file="${blt.config-dirs.sites}"/>
     <then>
       <!-- Build the site list from project.[site-name].yml files in the blt/sites directory. -->
-      <exec dir="${blt.config-dirs.sites}" command="ls -1 | grep 'project\.\w*\.yml' | sed -E s/project.\|.yml//g | tr '\n' ','" outputProperty="multisite.names"/>
+      <exec dir="${blt.config-dirs.sites}" command="ls -1 | grep -E 'project\.\w+\.yml' | sed -E s/project.\|.yml//g | tr '\n' ','"
+            outputProperty="multisite.names"/>
       <!-- Load default site properties if overrides are specified. -->
       <if>
         <available filepath="${blt.config-dirs.sites}" file="project.${site.name}.yml" />

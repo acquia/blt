@@ -25,9 +25,9 @@ class PropertiesTest extends BltProjectTestBase {
     // Assume default site if no site argument can be parsed.
     $site = empty($site) ? 'default' : $site;
 
-    foreach (preg_grep('/site\.[\w.]*=/', $argv) as $prop) {
+    foreach (preg_grep('/site\.[\w.]+=/', $argv) as $prop) {
       $matches = [];
-      if (preg_match('/(site\.[\w.]*)="?([\w.:\/@,]*)"?/', $prop, $matches)) {
+      if (preg_match('/(site\.[\w.]*)="?([\w.:\/@,]+)"?/', $prop, $matches)) {
         $property = $matches[1];
         $expected = $matches[2];
         $this->assertPropertyEquals($property, $expected, $site);
@@ -75,7 +75,7 @@ class PropertiesTest extends BltProjectTestBase {
   private function parseSiteNameArg() {
 
     global $argv;
-    $re_site_name = '/site\.name="?([\w.]*)"?/';
+    $re_site_name = '/site\.name="?([\w.]+)"?/';
     $site_name = preg_grep($re_site_name, $argv);
 
     foreach ($site_name as $name) {
