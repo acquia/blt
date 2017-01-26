@@ -79,13 +79,19 @@
 
   <!-- Ensure the default site appears in the list of sites. -->
   <if>
-    <not><contains string="${multisite.names}" substring="${multisite.default}"/></not>
+    <and>
+      <isset property="multisite.names"/>
+      <not><contains string="${multisite.names}" substring="${multisite.default}"/></not>
+    </and>
     <then>
       <property name="multisite.names" value="${multisite.default},${multisite.names}" override="true"/>
+      <!-- Strip out the trailing comma from site list. -->
+      <propertyregex subject="${multisite.names}" pattern=",$" replace="" property="multisite.names" override="true"/>
     </then>
+    <else>
+      <property name="multisite.names" value="${multisite.default}"/>
+    </else>
   </if>
-  <!-- Strip out the trailing comma from site list. -->
-  <propertyregex subject="${multisite.names}" pattern=",$" replace="" property="multisite.names" override="true"/>
 
   <!-- Set site aliases if not already set by project.${site.name}.yml. -->
   <property name="site.drush.aliases.local" value="${drush.aliases.local}" override="false"/>
