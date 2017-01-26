@@ -30,18 +30,20 @@ class PropertiesTest extends BltProjectTestBase {
     $this->assertArgumentsEqualProperties('multisite\.[\w.]+');
   }
 
-    /**
-     * Asserts that arguments matching a regular expression pattern equal their expected values.
-     *
-     * Usage:
-     * phpunit test/path key.property=value
-     * assertArgumentsEqualProperties(key\.[\w.]+)
-     * to parse all arguments under 'key.'
-     *
-     * @param string $expression
-     *    A regular expression string to parse arguments according to.
-     */
-    protected function assertArgumentsEqualProperties($expression) {
+  /**
+   * Asserts that arguments equal their expected values.
+   *
+   * Parses command line arguments and assets they equal their expected
+   * values.
+   * Usage:
+   * phpunit test/path key.property=value
+   * assertArgumentsEqualProperties(key\.[\w.]+)
+   * to parse all arguments under 'key.'
+   *
+   * @param string $expression
+   *    A regular expression string to parse arguments according to.
+   */
+  protected function assertArgumentsEqualProperties($expression) {
 
     global $argv;
     $site = $this->parseSiteNameArg();
@@ -61,7 +63,6 @@ class PropertiesTest extends BltProjectTestBase {
         $this->fail("Unable to parse property string: $prop");
       }
     }
-
   }
 
   /**
