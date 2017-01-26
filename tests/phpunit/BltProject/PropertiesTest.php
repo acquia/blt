@@ -40,6 +40,13 @@ class PropertiesTest extends BltProjectTestBase {
 
   }
 
+  /**
+   * Asserts that a given property has an expected value.
+   *
+   * @param string $property The property to check.
+   * @param $expected $property's expected value.
+   * @param string $site An optional site name.
+   */
   private function assertPropertyEquals($property, $expected, $site = '') {
     $output = [];
     exec(
@@ -53,6 +60,14 @@ class PropertiesTest extends BltProjectTestBase {
     $this->assertEquals($expected, $output[5], "Expected value at $property to equal $expected");
   }
 
+  /**
+   * Parses the site.name argument.
+   *
+   * This function will not parse multiple site.name arguments. The first
+   * site.name argument found in $argv will be returned.
+   *
+   * @return string The site name or an empty string.
+   */
   private function parseSiteNameArg() {
     global $argv;
     $re_site_name = '/site\.name=("?\w*"?)/';
@@ -63,4 +78,5 @@ class PropertiesTest extends BltProjectTestBase {
       return preg_match($re_site_name, $name, $matches) ? $matches[1] : '';
     }
   }
+
 }
