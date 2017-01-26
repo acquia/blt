@@ -5,7 +5,7 @@ namespace Acquia\Blt\Tests\BltProject;
 use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
- * Class DrushTest.
+ * Class PropertiesTest.
  *
  * Verifies that Phing properties are being parsed as expected.
  */
@@ -43,9 +43,12 @@ class PropertiesTest extends BltProjectTestBase {
   /**
    * Asserts that a given property has an expected value.
    *
-   * @param string $property The property to check.
-   * @param string $expected $property's expected value.
-   * @param string $site An optional site name.
+   * @param string $property
+   *    The property to check.
+   * @param string $expected
+   *    The expected value of $property.
+   * @param string $site
+   *    An optional site name.
    */
   private function assertPropertyEquals($property, $expected, $site = '') {
     $output = [];
@@ -66,7 +69,8 @@ class PropertiesTest extends BltProjectTestBase {
    * This function will not parse multiple site.name arguments. The first
    * site.name argument found in $argv will be returned.
    *
-   * @return string The site name or an empty string.
+   * @return string
+   *    The site name or an empty string.
    */
   private function parseSiteNameArg() {
 
