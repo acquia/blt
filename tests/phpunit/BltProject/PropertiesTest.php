@@ -25,7 +25,7 @@ class PropertiesTest extends BltProjectTestBase {
     // Assume default site if no site argument can be parsed.
     $site = empty($site) ? 'default' : $site;
 
-    foreach (preg_grep('/site\..*=/', $argv) as $prop) {
+    foreach (preg_grep('/site\.[\w.]*=/', $argv) as $prop) {
       $matches = [];
       if (preg_match('/(site\.[\w.]*)=("?.*"?)/', $prop, $matches)) {
         $property = $matches[1];
