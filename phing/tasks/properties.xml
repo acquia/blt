@@ -77,21 +77,24 @@
     </then>
   </if>
 
-  <!-- Ensure the default site appears in the list of sites. -->
+  <!-- Ensure the site list has, at minimum, the default site. -->
   <if>
-    <and>
-      <isset property="multisite.names"/>
-      <not><contains string="${multisite.names}" substring="${multisite.default}"/></not>
-    </and>
+    <not><isset property="multisite.names"/></not>
     <then>
-      <property name="multisite.names" value="${multisite.default},${multisite.names}" override="true"/>
+      <property name="multisite.names" value="${multisite.default}"/>
     </then>
     <else>
-      <property name="multisite.names" value="${multisite.default}"/>
+      <!-- There are sites in the list, ensure the default site appears as well. -->
+      <if>
+        <not><contains string="${multisite.names}" substring="${multisite.default}"/></not>
+        <then>
+          <property name="multisite.names" value="${multisite.default},${multisite.names}" override="true"/>
+        </then>
+      </if>
+      <!-- Strip out the trailing comma from site list. -->
+      <propertyregex subject="${multisite.names}" pattern=",$" replace="" property="multisite.names" override="true"/>
     </else>
   </if>
-  <!-- Strip out the trailing comma from site list. -->
-  <propertyregex subject="${multisite.names}" pattern=",$" replace="" property="multisite.names" override="true"/>
 
   <!-- Set site aliases if not already set by project.${site.name}.yml. -->
   <property name="site.drush.aliases.local" value="${drush.aliases.local}" override="false"/>
