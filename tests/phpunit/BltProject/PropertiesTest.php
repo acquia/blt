@@ -50,7 +50,7 @@ class PropertiesTest extends BltProjectTestBase {
    * @param string $site
    *    An optional site name.
    */
-  private function assertPropertyEquals($property, $expected, $site = '') {
+  protected function assertPropertyEquals($property, $expected, $site = '') {
     $output = [];
     exec(
     // Run the echo property task (optionally providing a site name)
