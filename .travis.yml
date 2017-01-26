@@ -75,7 +75,7 @@ script:
   - cd ../blt-project
   - git init
   - git add -A
-  # Commit so that susbsequent git commit tests have something to ammend.
+  # Commit so that subsequent git commit tests have something to amend.
   - git commit -m 'Initial commit.'
   # BLT is the only dependency at this point. Install it.
   - composer install -v
