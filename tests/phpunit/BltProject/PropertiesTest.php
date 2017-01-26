@@ -27,7 +27,7 @@ class PropertiesTest extends BltProjectTestBase {
 
     foreach (preg_grep('/site\..*=/', $argv) as $prop) {
       $matches = [];
-      if (preg_match('/(site\.[\w.?]*)=("?.*"?)/', $prop, $matches)) {
+      if (preg_match('/(site\.[\w.]*)=("?.*"?)/', $prop, $matches)) {
         $property = $matches[1];
         $expected = $matches[2];
         $this->assertPropertyEquals($property, $expected, $site);
