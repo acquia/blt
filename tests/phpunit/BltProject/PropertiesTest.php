@@ -44,11 +44,11 @@ class PropertiesTest extends BltProjectTestBase {
   private function assertPropertyEquals($property, $expected, $site = '') {
     $output = [];
     exec(
-        // Run the echo property task (optionally providing a site name)
-        // and parse its output.
-        "vendor/bin/blt echo-property -Dproperty.name=\"$property\" " . (!empty($site) ? "-Dsite.name=$site" : "") .
-        // Run command with minimal console styling.
-        " -emacs -logger phing.listener.DefaultLogger", $output
+    // Run the echo property task (optionally providing a site name)
+    // and parse its output.
+      "vendor/bin/blt echo-property -Dproperty.name=\"$property\" " . (!empty($site) ? "-Dsite.name=$site" : "") .
+      // Run command with minimal console styling.
+      " -emacs -logger phing.listener.DefaultLogger", $output
     );
     // Property value will be output to the 6th line.
     $this->assertEquals($expected, $output[5], "Expected value at $property to equal $expected");
@@ -59,7 +59,7 @@ class PropertiesTest extends BltProjectTestBase {
     $re_site_name = '/site\.name=("?\w*"?)/';
     $site_name = preg_grep($re_site_name, $argv);
 
-    foreach($site_name as $name) {
+    foreach ($site_name as $name) {
       $matches = [];
       return preg_match($re_site_name, $name, $matches) ? $matches[1] : '';
     }
