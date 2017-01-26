@@ -60,20 +60,13 @@
   <property name="multisite.default" value="default" override="false" />
   <property name="site.name" value="${multisite.default}" override="false" />
 
-  <!-- Load multisite-specific overrides. -->
+  <!-- Build the site list from project.[site-name].yml files in the blt/sites directory. -->
   <if>
     <available file="${blt.config-dirs.sites}"/>
     <then>
-      <!-- Build the site list from project.[site-name].yml files in the blt/sites directory. -->
-      <exec dir="${blt.config-dirs.sites}" command="ls -1 | grep -E 'project\.\w+\.yml' | sed -E s/project.\|.yml//g | tr '\n' ','"
+      <exec dir="${blt.config-dirs.sites}"
+            command="ls -1 | grep -E 'project\.\w+\.yml' | sed -E s/project.\|.yml//g | tr '\n' ','"
             outputProperty="multisite.names"/>
-      <!-- Load default site properties if overrides are specified. -->
-      <if>
-        <available filepath="${blt.config-dirs.sites}" file="project.${site.name}.yml" />
-        <then>
-          <property file="${blt.config-dirs.sites}/project.${site.name}.yml" prefix="site" logoutput="false"/>
-        </then>
-      </if>
     </then>
   </if>
 
@@ -94,6 +87,14 @@
       <!-- Strip out the trailing comma from site list. -->
       <propertyregex subject="${multisite.names}" pattern=",$" replace="" property="multisite.names" override="true"/>
     </else>
+  </if>
+
+  <!-- Load default site properties if overrides are provided. -->
+  <if>
+    <available filepath="${blt.config-dirs.sites}" file="project.${site.name}.yml" />
+    <then>
+      <property file="${blt.config-dirs.sites}/project.${site.name}.yml" prefix="site" logoutput="false"/>
+    </then>
   </if>
 
   <!-- Set site aliases if not already set by project.${site.name}.yml. -->
