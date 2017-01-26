@@ -16,7 +16,7 @@
   </target>
 
   <target name="local:sync" description="Synchronize local environment from remote (remote --> local)."
-          depends="setup:drupal:settings:all">
+          depends="setup:settings">
     <drush command="cc drush"/>
     <drush command="sql-drop"/>
     <if>
