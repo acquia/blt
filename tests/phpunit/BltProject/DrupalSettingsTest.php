@@ -52,6 +52,19 @@ class DrupalSettingsTest extends BltProjectTestBase {
   /**
    * Tests Phing setup:drupal:settings target.
    *
+   * Ensures each site has a settings.php file.
+   *
+   * @group blt-project
+   */
+  public function testSetupSettings() {
+    foreach ($this->sites as $site) {
+      $this->assertFileExists("$this->projectDirectory/docroot/sites/$site/settings.php");
+    }
+  }
+
+  /**
+   * Tests Phing setup:drupal:settings target.
+   *
    * Ensures BLT's settings are included in each site's settings.php file.
    *
    * @group blt-project
@@ -59,11 +72,12 @@ class DrupalSettingsTest extends BltProjectTestBase {
   public function testSetupBltSettings() {
     foreach ($this->sites as $site) {
       $file = "$this->projectDirectory/docroot/sites/$site/settings.php";
-      $this->assertFileExists($file);
-      $this->assertContains(
-        'require DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php"',
-        file_get_contents($file)
-      );
+      if (file_exists($file)) {
+        $this->assertContains(
+          'require DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php"',
+          file_get_contents($file)
+        );
+      }
     }
   }
 
