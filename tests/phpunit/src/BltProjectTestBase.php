@@ -60,7 +60,7 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
 
     // Build sites list.
     $sites = [];
-    $re_site_config = '/project\.(.*)\.yml/';
+    $re_site_config = '/project\.(\w+)\.yml/';
     $sites_config_dir = "$this->projectDirectory/blt/sites";
     if (is_dir($sites_config_dir)) {
       foreach (scandir($sites_config_dir) as $config) {
