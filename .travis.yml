@@ -96,6 +96,8 @@ script:
   - blt ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dbehat.launch-phantom=true -Dblt.verbose=true
   # Run 'blt-project' tests.
   - phpunit ../blt/tests/phpunit --group blt-project
+  # Run 'blt-multisite' tests against the single site.
+  - phpunit ../blt/tests/phpunit --group blt-multisite site.drush.aliases.ci="self" site.uri.ci="127.0.0.1:8888" multisite.names="default"
   # Create a site-specific settings file and give it some values.
   - mkdir -p blt/sites
   # Create initial keys.
