@@ -104,7 +104,7 @@ script:
   - echo "aliases:" >> blt/sites/project.subsite.yml
   - echo "uri:" >> blt/sites/project.subsite.yml
   # Update values.
-  - yaml-cli update:value blt/sites/project.subsite.yml aliases.ci 'subsite.ci.local'
+  - yaml-cli update:value blt/sites/project.subsite.yml drush.aliases.ci 'subsite.ci.local'
   - yaml-cli update:value blt/sites/project.subsite.yml uri.ci '127.0.0.1:3000'
   # Run settings setup with the new file in place.
   - blt setup:settings
