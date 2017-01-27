@@ -14,7 +14,6 @@ class PropertiesTest extends BltProjectTestBase {
   /**
    * Tests whether site-specific properties are parsed as expected.
    *
-   * @group blt-project
    * @group blt-multisite
    */
   public function testSiteProperties() {
