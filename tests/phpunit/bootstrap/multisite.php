@@ -5,8 +5,8 @@
  * Properties file for multisite tests.
  */
 
-$site = 'subsite';
-$properties = [
+$_blt_site = 'subsite';
+$_blt_properties = [
   'site.name' => 'subsite',
   'site.uri.ci' => '127.0.0.1:8888',
   'site.drush.aliases.ci' => 'subsite.ci.local',

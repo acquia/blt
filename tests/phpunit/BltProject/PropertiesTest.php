@@ -17,13 +17,13 @@ class PropertiesTest extends BltProjectTestBase {
    * @group blt-multisite
    */
   public function testSiteProperties() {
-    global $site, $properties;
-    if(!isset($properties)){
+    global $_blt_site, $_blt_properties;
+    if (!isset($_blt_properties)) {
       $this->fail('No properties are defined.');
     }
     // Assume default site if no site name provided.
-    $site_name = !isset($site) ? 'default' : $site;
-    foreach ($properties as $property => $value) {
+    $site_name = !isset($_blt_site) ? 'default' : $_blt_site;
+    foreach ($_blt_properties as $property => $value) {
       $this->assertPropertyEquals($property, $value, $site_name);
     }
   }

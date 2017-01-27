@@ -5,7 +5,7 @@
  * Properties file for multisite-related tests.
  */
 
-$properties = [
+$_blt_properties = [
   'site.name' => 'default',
   'site.drush.aliases.ci' => 'self',
   'site.uri.ci' => '127.0.0.1:8888',
