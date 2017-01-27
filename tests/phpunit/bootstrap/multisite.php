@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Properties file for multisite tests.

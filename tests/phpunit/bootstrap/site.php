@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Properties file for multisite-related tests.
@@ -10,4 +11,3 @@ $properties = [
   'site.uri.ci' => '127.0.0.1:8888',
   'multisite.names' => 'default',
 ];
-
