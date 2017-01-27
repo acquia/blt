@@ -31,14 +31,20 @@ class PropertiesTest extends BltProjectTestBase {
   }
 
   /**
-   * Asserts that arguments equal their expected values.
+   * Asserts that arguments equal expected phing property values.
    *
-   * Parses command line arguments and assets they equal their expected
-   * values.
-   * Usage:
-   * phpunit test/path key.property=value
-   * assertArgumentsEqualProperties(key\.[\w.]+)
-   * to parse all arguments under 'key.'
+   * Parses command line arguments and asserts they equal the values
+   * provided on the command line.
+   *
+   * CLI usage: phpunit test/path key.property=value
+   * Function usage: assertArgumentsEqualProperties(key\.[\w.]+)
+   *
+   * This will parse all arguments under 'key.' and assert they
+   * equal the values provided on the command line (E.g., the phing
+   * property 'key.property' equals 'value').
+   *
+   * You may also use the site.name=name argument to run the assertions
+   * against a particular site.
    *
    * @param string $expression
    *    A regular expression string to parse arguments according to.
@@ -77,10 +83,11 @@ class PropertiesTest extends BltProjectTestBase {
    */
   protected function assertPropertyEquals($property, $expected, $site = '') {
     $output = [];
+    $blt_bin = $this->projectDirectory . '/vendor/bin/blt';
     exec(
     // Run the echo property task (optionally providing a site name)
     // and parse its output.
-      "vendor/bin/blt echo-property -Dproperty.name=$property " . (!empty($site) ? "-Dsite.name=$site" : "") .
+      "$blt_bin echo-property -Dproperty.name=$property " . (!empty($site) ? "-Dsite.name=$site" : "") .
       // Run command with minimal console styling.
       " -emacs -logger phing.listener.DefaultLogger", $output
     );
