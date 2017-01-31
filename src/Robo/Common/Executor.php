@@ -9,6 +9,8 @@ use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LogLevel;
 use Robo\Collection\CollectionBuilder;
+use Robo\Common\ProcessExecutor;
+use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Console\Output\OutputInterface;
 use Robo\Contract\ConfigAwareInterface;
 use Robo\Contract\IOAwareInterface;
@@ -54,35 +56,29 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
   /**
    * @param $command
    *
-   * @return \Robo\Result
+   * @return ProcessExecutor
    */
   public function drush($command) {
     // @todo Set to silent if verbosity is less than very verbose.
     $bin = $this->getConfigValue('composer.bin');
-    $result = $this->builder->taskExec("$bin/drush $command")
-      ->dir($this->getConfigValue('docroot'))
+    $process_executor = new ProcessExecutor(new Process("$bin/drush $command"));
+    return $process_executor->dir($this->getConfigValue('docroot'))
       ->interactive(false)
-      ->printOutput(true)
-      ->printMetadata(true)
-      //->setLogLevel(LogLevel::INFO)
-      ->run();
-
-    return $result;
+      ->printOutput(false)
+      ->printMetadata(false);
   }
 
   /**
    * @param $command
    *
-   * @return \Robo\Result
+   * @return ProcessExecutor
    */
-  public function executeCommand($command) {
-    return $this->builder->taskExec($command)
-      ->dir($this->getConfigValue('repo.root'))
+  public function execute($command) {
+    $process_executor = new ProcessExecutor(new Process($command));
+    return $process_executor->dir($this->getConfigValue('repo.root'))
       ->interactive(false)
-      ->printOutput(true)
-      ->printMetadata(true)
-      //->setLogLevel(LogLevel::INFO)
-      ->run();
+      ->printOutput(false)
+      ->printMetadata(false);
   }
 
   /**

@@ -2,6 +2,7 @@
 
 namespace Acquia\Blt\Robo\Hooks;
 
+use Acquia\Blt\Robo\Common\Executor;
 use Acquia\Blt\Robo\Common\IO;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
 use Acquia\Blt\Robo\Inspector\InspectorAwareInterface;
@@ -75,19 +76,19 @@ class InteractHook extends Tasks implements IOAwareInterface, ConfigAwareInterfa
    */
   public function interactLaunchPhpWebServer() {
     if ($this->getConfigValue('behat.run-server')) {
-      $this->logger->info("Using 'drush runserver' for tests.");
+      /** @var Executor $executor */
+      $executor = $this->getContainer()->get('executor');
+      if (!$this->getInspector()->isMySqlAvailable()) {
+        throw new \Exception("MySql is not available.");
+      }
       $server_url = $this->getConfigValue('behat.server-url');
       // $this->getConfig()->set('project.local.uri', $server_url);
+      $executor->killProcessByName('runserver');
+      $executor->killProcessByPort(8888);
+      $this->say("Launching PHP's internal web server via drush.");
       $this->logger->info("Running server at $server_url");
-      $this->getContainer()->get('executor')->killProcessByName('runserver');
-      $this->getContainer()->get('executor')->killProcessByPort(8888);
-      $composer_bin = $this->getConfigValue('composer.bin');
-      $this->taskExec("$composer_bin/drush runserver $server_url > /dev/null")
-        ->dir($this->getConfigValue('docroot'))
-        ->background(true)
-        ->printOutput(false)
-        ->run();
-      $this->getContainer()->get('executor')->waitForUrlAvailable($server_url);
+      $executor->drush("runserver $server_url > /dev/null")->background(true)->run();
+      $executor->waitForUrlAvailable($server_url);
     }
   }
 

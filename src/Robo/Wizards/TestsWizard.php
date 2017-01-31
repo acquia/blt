@@ -16,7 +16,7 @@ class TestsWizard extends Wizard {
       $this->logger->warning("PhantomJS is not required in composer.json");
       $answer = $this->confirm("Do you want to require jakoch/phantomjs-installer as a dev dependency?");
       if ($answer) {
-        $this->executor->executeCommand("composer require jakoch/phantomjs-installer --dev");
+        $this->executor->execute("composer require jakoch/phantomjs-installer --dev");
       }
       else {
         throw new \Exception("Cannot launch PhantomJS it is not installed.");
@@ -32,7 +32,7 @@ class TestsWizard extends Wizard {
       $this->logger->warning("The install-phantomjs script is not defined in composer.json.");
       $answer = $this->confirm("Do you want to add an 'install-phantomjs' script to your composer.json?");
       if ($answer) {
-        $this->executor->executeCommand("{$this->getConfigValue('composer.bin')}/blt-console configure:phantomjs {$this->getConfigValue('repo.root')}");
+        $this->executor->execute("{$this->getConfigValue('composer.bin')}/blt-console configure:phantomjs {$this->getConfigValue('repo.root')}");
       }
       else {
         throw new \Exception("Cannot launch PhantomJS because the install-phantomjs script is not present in composer.json. Add it, or use Selenium instead.");
@@ -48,7 +48,7 @@ class TestsWizard extends Wizard {
       $this->logger->warning("The PhantomJS binary is not present.");
       $answer = $this->confirm("Do you want to install it?");
       if ($answer) {
-        $this->executor->executeCommand("composer install-phantom");
+        $this->executor->execute("composer install-phantom");
       }
     }
   }
@@ -66,7 +66,7 @@ class TestsWizard extends Wizard {
         if (file_exists($behat_local_config_file)) {
           $this->fs->remove($behat_local_config_file);
         }
-        $this->executor->executeCommand("$bin/blt setup:behat");
+        $this->executor->execute("$bin/blt setup:behat");
       }
     }
   }

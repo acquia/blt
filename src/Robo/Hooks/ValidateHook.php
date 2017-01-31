@@ -111,4 +111,13 @@ class ValidateHook implements LoggerAwareInterface, InspectorAwareInterface {
     }
   }
 
+  /**
+   * @hook validate @validateMySqlAvailable
+   */
+  public function validateMySqlAvailable() {
+    if (!$this->getInspector()->isMySqlAvailable()) {
+      throw new \Exception("MySql is not available.");
+    }
+  }
+
 }

@@ -37,11 +37,6 @@ class BehatCommand extends BltTasks {
     $this->logConfig($this->getConfigValue('behat'), 'behat');
     $this->logConfig($this->getInspector()->getLocalBehatConfig()->toArray());
 
-    // Kill these processes, regardless of what config is enabled.
-    $this->getContainer()->get('executor')->killProcessByPort('4444');
-    $this->getContainer()->get('executor')->killProcessByName('selenium');
-    $this->getContainer()->get('executor')->killProcessByName('phantomjs');
-
     if ($this->getConfigValue('behat.launch-phantomjs')) {
       $this->launchPhantomJs();
     }
@@ -49,8 +44,10 @@ class BehatCommand extends BltTasks {
       $this->launchSelenium();
     }
 
+    $logs_dir = $this->getConfigValue('reports.localDir');
+    $this->logger->info("Creating Behat log files at $logs_dir");
     $this->taskFilesystemStack()
-      ->mkdir($this->getConfigValue('reports.localDir'))
+      ->mkdir($logs_dir)
       //->setLogLevel(LogLevel::DEBUG)
       ->run();
 
@@ -70,19 +67,19 @@ class BehatCommand extends BltTasks {
    *
    */
   protected function launchSelenium() {
-    $this->say("Launching Selenium standalone server.");
     $log_file = $this->getConfigValue('reports.localDir') . "/selenium2.log";
-    // @todo set log level to debug.
+    $this->logger->info("Creating Selenium2 log file at $log_file");
     $this->_touch($log_file);
-    $this->taskExec("{$this->getConfigValue('composer.bin')}/selenium-server-standalone -port 4444 -log $log_file  > /dev/null 2>&1")
+    $this->getContainer()->get('executor')->killProcessByPort('4444');
+    $this->getContainer()->get('executor')->killProcessByName('selenium');
+    $this->say("Launching Selenium standalone server.");
+    $this->getContainer()->get('executor')->execute($this->getConfigValue('composer.bin') . "/selenium-server-standalone -port 4444 -log $log_file  > /dev/null 2>&1")
       ->background(true)
       ->printOutput(true)
       //->setLogLevel(LogLevel::DEBUG)
       ->dir($this->getConfigValue('repo.root'))
       ->run();
-    $this->logger->info("Selenium2 logs are being written to $log_file");
     $url = "http://127.0.0.1:4444/wd/hub";
-    $this->say("Waiting for Selenium standalone server ($url) to become available.");
     $this->getContainer()->get('executor')->waitForUrlAvailable($url);
   }
 
@@ -94,6 +91,8 @@ class BehatCommand extends BltTasks {
       $this->setupPhantomJs();
     }
 
+    $this->getContainer()->get('executor')->killProcessByPort('4444');
+    $this->getContainer()->get('executor')->killProcessByName('phantomjs');
     $this->say("Launching PhantomJS GhostDriver.");
     $this->taskExec("{$this->getConfigValue('composer.bin')}/phantomjs")
       ->option("webdriver", 4444)

@@ -86,11 +86,19 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
     return $this->getConfigValue('state.drupal.installed');
   }
 
+  public function isMySqlAvailable() {
+    $result = $this->executor->drush("sqlq \"SHOW DATABASES\"")->run();
+    if (!$result->wasSuccessful()) {
+      $this->logger->info("MySQL is not available.");
+    }
+    return $result->wasSuccessful();
+  }
+
   /**
    * @return bool
    */
   protected function getDrupalInstalled() {
-    $result = $this->executor->drush("sqlq \"SHOW TABLES LIKE 'config'\"");
+    $result = $this->executor->drush("sqlq \"SHOW TABLES LIKE 'config'\"")->run();
     $output = trim($result->getOutputData());
     $installed = $result->wasSuccessful() && $output == 'config';
 
@@ -201,12 +209,12 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
   }
 
   public function isPhantomJsRequired() {
-    $result = $this->executor->executeCommand("grep 'jakoch/phantomjs-installer' composer.json");
+    $result = $this->executor->execute("grep 'jakoch/phantomjs-installer' composer.json");
     return $result->wasSuccessful();
   }
 
   public function isPhantomJsScriptConfigured() {
-    $result = $this->executor->executeCommand("grep installPhantomJS composer.json");
+    $result = $this->executor->execute("grep installPhantomJS composer.json");
 
     return $result->wasSuccessful();
   }
