@@ -16,10 +16,7 @@ project:
 # Configuration settings for new git repository.
 git:
   default_branch: master
-  remotes:
-    # Defining git remotes allows builds deployed via CI.
-    - bolt8@svn-5223.devcloud.hosting.acquia.com:bolt8.git
-    - https://github.com/acquia-pso/blted8.git
+  remotes: []
 
 drush:
   # You can set custom project aliases in drush/site-aliases/aliases.drushrc.php.
