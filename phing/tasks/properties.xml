@@ -56,7 +56,60 @@
     </then>
   </if>
 
-  <echo level="verbose">Executing commands against multisite "${multisite.name}"</echo>
+  <!-- Set the default site to operate against. -->
+  <property name="multisite.default" value="default" override="false" />
+  <property name="site.name" value="${multisite.default}" override="false" />
+
+  <!-- Build the site list from project.[site-name].yml files in the blt/sites directory. -->
+  <if>
+    <available file="${blt.config-dirs.sites}"/>
+    <then>
+      <exec dir="${blt.config-dirs.sites}"
+            command="ls -1 | grep -E 'project\.\w+\.yml' | sed -E s/project.\|.yml//g | tr '\n' ','"
+            outputProperty="multisite.names"/>
+    </then>
+  </if>
+
+  <!-- Ensure the site list has, at minimum, the default site. -->
+  <if>
+    <not><isset property="multisite.names"/></not>
+    <then>
+      <property name="multisite.names" value="${multisite.default}"/>
+    </then>
+    <else>
+      <!-- There are sites in the list, ensure the default site appears as well. -->
+      <if>
+        <not><contains string="${multisite.names}" substring="${multisite.default}"/></not>
+        <then>
+          <property name="multisite.names" value="${multisite.default},${multisite.names}" override="true"/>
+        </then>
+      </if>
+      <!-- Strip out the trailing comma from site list. -->
+      <propertyregex subject="${multisite.names}" pattern=",$" replace="" property="multisite.names" override="true"/>
+    </else>
+  </if>
+
+  <!-- Load default site properties if overrides are provided. -->
+  <if>
+    <available filepath="${blt.config-dirs.sites}" file="project.${site.name}.yml" />
+    <then>
+      <property file="${blt.config-dirs.sites}/project.${site.name}.yml" prefix="site" logoutput="false"/>
+    </then>
+  </if>
+
+  <!-- Set site aliases if not already set by project.${site.name}.yml. -->
+  <property name="site.drush.aliases.local" value="${drush.aliases.local}" override="false"/>
+  <property name="site.drush.aliases.remote" value="${drush.aliases.remote}" override="false"/>
+  <property name="site.drush.aliases.ci" value="${drush.aliases.ci}" override="false"/>
+
+  <!-- Set site uris if not already set by project.${site.name}.yml. -->
+  <property name="site.uri.local" value="${project.local.uri}" override="false"/>
+  <property name="site.uri.ci" value="${project.ci.uri}" override="false"/>
+
+  <echo level="verbose">Executing commands against multisite "${site.name}"</echo>
+
+  <!-- If no environment is set, assume we're working locally. -->
+  <property name="environment" value="local" override="false" logoutput="false"/>
 
   <!-- Default drush alias. -->
   <property name="drush.alias" value="${drush.default_alias}" override="false" logoutput="false"/>

@@ -13,6 +13,7 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
 
   protected $projectDirectory;
   protected $drupalRoot;
+  protected $sites = [];
   protected $config = [];
 
   /**
@@ -56,6 +57,27 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
     if (file_exists("{$this->projectDirectory}/blt/project.local.yml")) {
       $this->config = array_replace_recursive($this->config, (array) Yaml::parse(file_get_contents("{$this->projectDirectory}/blt/project.local.yml")));
     }
+
+    // Build sites list.
+    $sites = [];
+    $re_site_config = '/project\.(\w+)\.yml/';
+    $sites_config_dir = "$this->projectDirectory/blt/sites";
+    if (is_dir($sites_config_dir)) {
+      foreach (scandir($sites_config_dir) as $config) {
+        $match = [];
+        if (preg_match($re_site_config, $config, $match)) {
+          $sites[] = $match[1];
+        }
+      }
+    }
+
+    // Ensure the default site is in the list of sites.
+    // The default site requires no specific configuration file.
+    if (!is_array('default')) {
+      $sites[] = 'default';
+    }
+
+    $this->sites = $sites;
   }
 
 }

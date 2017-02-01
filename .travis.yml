@@ -96,6 +96,24 @@ script:
   - blt ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dbehat.launch-phantom=true -Dblt.verbose=true
   # Run 'blt-project' tests.
   - phpunit ../blt/tests/phpunit --group blt-project
+  # Run 'blt-multisite' tests against the single site.
+  - phpunit ../blt/tests/phpunit --group blt-multisite --bootstrap ../blt/tests/phpunit/bootstrap/site.php
+  # Create a site-specific settings file and give it some values.
+  - mkdir -p blt/sites
+  # Create initial keys.
+  - echo "drush:" >> blt/sites/project.subsite.yml
+  - echo "uri:" >> blt/sites/project.subsite.yml
+  # Update values.
+  - yaml-cli update:value blt/sites/project.subsite.yml drush.aliases.ci 'subsite.ci.local'
+  - yaml-cli update:value blt/sites/project.subsite.yml uri.ci '127.0.0.1:3000'
+  - cat blt/sites/project.subsite.yml
+  # Run settings setup with the new file in place.
+  - blt setup:settings
+  # Run 'blt-project' tests again with new file in place.
+  - phpunit ../blt/tests/phpunit --group blt-project
+  # Run 'blt-multisite' tests,
+  # ensuring we are able use the properties in blt/sites/project.subsite.yml (created above).
+  - phpunit ../blt/tests/phpunit --group blt-multisite --bootstrap ../blt/tests/phpunit/bootstrap/multisite.php
   # Initialize ACSF config.
   - blt acsf:init
   # Ensure that the doctor doesn't report any problems at this point.
