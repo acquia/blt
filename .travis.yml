@@ -108,7 +108,7 @@ script:
   - rm composer.lock
   # Define BLT's deployment endpoints.
   - yaml-cli update:value blt/project.yml git.remotes.0 bolt8@svn-5223.devcloud.hosting.acquia.com:bolt8.git
-  - yaml-cli update:value blt/project.yml git.remotes.1 https://github.com/acquia-pso/blted8.git
+  - yaml-cli update:value blt/project.yml git.remotes.1 git@github.com:acquia-pso/blted8.git
   # Deploy build artifact.
   - blt deploy:build
   # Switch back to 'blt' directory.
