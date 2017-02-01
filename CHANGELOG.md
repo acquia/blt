@@ -1,5 +1,65 @@
 # Change Log
 
+## [8.6.11](https://github.com/acquia/blt/tree/8.6.11) (2017-02-01)
+[Full Changelog](https://github.com/acquia/blt/compare/8.6.10...8.6.11)
+
+**Implemented enhancements:**
+
+- Example BLT sandbox project that is kept up to date [\#847](https://github.com/acquia/blt/issues/847)
+- blt function \(alias\) for fish [\#662](https://github.com/acquia/blt/issues/662)
+- Disabling Lightning's Behat tests by default. [\#1022](https://github.com/acquia/blt/pull/1022) ([grasmash](https://github.com/grasmash))
+- Fixes \#1017: Running BLT commands in Drupal VM requires bz2; update to Drupal VM 4.2.x. [\#1018](https://github.com/acquia/blt/pull/1018) ([geerlingguy](https://github.com/geerlingguy))
+- Allow bin directory to be configurable [\#1001](https://github.com/acquia/blt/pull/1001) ([balsama](https://github.com/balsama))
+- Slack notifications for deployments [\#1000](https://github.com/acquia/blt/pull/1000) ([danepowell](https://github.com/danepowell))
+- Fixes \#885: Local & CI Tests Fail with Git Hooks Disabled. [\#998](https://github.com/acquia/blt/pull/998) ([shahinam](https://github.com/shahinam))
+- Downgrade PHPUnit to version used by Drupal core \(~4.8\) [\#996](https://github.com/acquia/blt/pull/996) ([TravisCarden](https://github.com/TravisCarden))
+- Fixes \#847: Pushing to GitHub blted8 sandbox after successful 8.x builds. [\#993](https://github.com/acquia/blt/pull/993) ([grasmash](https://github.com/grasmash))
+- Customizing Robo output. [\#988](https://github.com/acquia/blt/pull/988) ([grasmash](https://github.com/grasmash))
+- Tag names should behave like branches. [\#979](https://github.com/acquia/blt/pull/979) ([danepowell](https://github.com/danepowell))
+- Ignore compiled theme CSS and other artifacts [\#978](https://github.com/acquia/blt/pull/978) ([danepowell](https://github.com/danepowell))
+- Fixes \#963: behat.extra is not actually used. [\#970](https://github.com/acquia/blt/pull/970) ([grasmash](https://github.com/grasmash))
+- Fixes \#888: Adding unit test for YamlMungeCommand. [\#961](https://github.com/acquia/blt/pull/961) ([grasmash](https://github.com/grasmash))
+- Allow access to update.php locally. [\#958](https://github.com/acquia/blt/pull/958) ([danepowell](https://github.com/danepowell))
+- Adding more interaction to blt:release. [\#956](https://github.com/acquia/blt/pull/956) ([grasmash](https://github.com/grasmash))
+- Fixes \#953: Allow local database sanitization to be disabled. [\#954](https://github.com/acquia/blt/pull/954) ([grasmash](https://github.com/grasmash))
+- Set PHP memory limit for Travis. [\#947](https://github.com/acquia/blt/pull/947) ([danepowell](https://github.com/danepowell))
+- Adding prompt for booting VM. [\#945](https://github.com/acquia/blt/pull/945) ([grasmash](https://github.com/grasmash))
+
+**Fixed bugs:**
+
+- New behat.extra option is not actually passed along. [\#963](https://github.com/acquia/blt/issues/963)
+- BLT \(\> 8.6.6\) only runnable from repo root [\#952](https://github.com/acquia/blt/issues/952)
+- Local & CI Tests Fail with Git Hooks Disabled [\#885](https://github.com/acquia/blt/issues/885)
+- Fixing build errors in BLT CI. [\#1021](https://github.com/acquia/blt/pull/1021) ([grasmash](https://github.com/grasmash))
+- Fixes \#1011: provide correct path to phpunit tests [\#1012](https://github.com/acquia/blt/pull/1012) ([bobbygryzynger](https://github.com/bobbygryzynger))
+- Fixed features override test. [\#1010](https://github.com/acquia/blt/pull/1010) ([danepowell](https://github.com/danepowell))
+- Fixes \#983: Exclude project.local.yml from deploy builds. [\#984](https://github.com/acquia/blt/pull/984) ([swichers](https://github.com/swichers))
+- Fixes \#980: Issue on SimpleSAMLphp init [\#981](https://github.com/acquia/blt/pull/981) ([dooleymatt](https://github.com/dooleymatt))
+- Fixes \#967: Travis and xvfb. [\#971](https://github.com/acquia/blt/pull/971) ([grasmash](https://github.com/grasmash))
+- Fixes \#968: Tag-based Travis deploys don't work. [\#969](https://github.com/acquia/blt/pull/969) ([grasmash](https://github.com/grasmash))
+
+**Closed issues:**
+
+- arknoll.selenium issue while running blt vm [\#1020](https://github.com/acquia/blt/issues/1020)
+- Running BLT commands within Drupal VM requires bz2 extension [\#1017](https://github.com/acquia/blt/issues/1017)
+- phpunit tests not executed during build [\#1011](https://github.com/acquia/blt/issues/1011)
+- Add box/local.config.yml to gitignore \(for Drupal VM local overrides\) [\#997](https://github.com/acquia/blt/issues/997)
+- Travis CI Drupal site install failing after 8.6.10 upgrade [\#990](https://github.com/acquia/blt/issues/990)
+- deploy-exclude.txt is missing project.local.yml from listed excludes. [\#983](https://github.com/acquia/blt/issues/983)
+- Issue on SimpleSAMLphp init [\#980](https://github.com/acquia/blt/issues/980)
+- Tag-based Travis deploys don't work [\#968](https://github.com/acquia/blt/issues/968)
+- Travis and xvfb [\#967](https://github.com/acquia/blt/issues/967)
+- Allow local database sanitization to be disabled [\#953](https://github.com/acquia/blt/issues/953)
+- Documentation: More comprehensive CM docs [\#846](https://github.com/acquia/blt/issues/846)
+
+**Misc merged pull requests**
+
+- Fixes .travis.yml typos [\#1015](https://github.com/acquia/blt/pull/1015) ([bobbygryzynger](https://github.com/bobbygryzynger))
+- Update Acquia Cloud URL to new domain [\#1008](https://github.com/acquia/blt/pull/1008) ([christopher-hopper](https://github.com/christopher-hopper))
+- Cleaned up features docs [\#1003](https://github.com/acquia/blt/pull/1003) ([danepowell](https://github.com/danepowell))
+- Fixes grammar in code comment [\#994](https://github.com/acquia/blt/pull/994) ([jeffymahoney](https://github.com/jeffymahoney))
+
+
 ## [8.6.10](https://github.com/acquia/blt/tree/8.6.10) (2017-01-10)
 [Full Changelog](https://github.com/acquia/blt/compare/8.6.9...8.6.10)
 
