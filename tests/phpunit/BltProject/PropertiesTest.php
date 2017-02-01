@@ -16,7 +16,7 @@ class PropertiesTest extends BltProjectTestBase {
    *
    * @group blt-multisite
    */
-  public function testSiteProperties() {
+  public function testSitePropertiesEqual() {
     global $_blt_site, $_blt_properties;
     if (!isset($_blt_properties)) {
       $this->fail('No properties are defined.');
@@ -25,6 +25,21 @@ class PropertiesTest extends BltProjectTestBase {
     $site_name = !isset($_blt_site) ? 'default' : $_blt_site;
     foreach ($_blt_properties as $property => $value) {
       $this->assertPropertyEquals($property, $value, $site_name);
+    }
+  }
+
+  /**
+   * Tests whether site-specific properties are not set (as expected).
+   *
+   * @group blt-multisite
+   */
+  public function testSitePropertiesNotSet() {
+    global $_blt_site;
+    // Assume default site if no site name provided.
+    $site_name = !isset($_blt_site) ? 'default' : $_blt_site;
+    // Create some dummy properties and assert they can't be found.
+    foreach (range(0, 10) as $num) {
+      $this->assertPropertyEmpty(uniqid(), $site_name);
     }
   }
 
@@ -39,6 +54,37 @@ class PropertiesTest extends BltProjectTestBase {
    *    An optional site name.
    */
   protected function assertPropertyEquals($property, $expected, $site = '') {
+    $value = $this->getProperty($property, $site);
+    $this->assertEquals($expected, $value,
+      "Expected value at $property to equal $expected. Instead, $property equals $value.");
+  }
+
+  /**
+   * Asserts that a given property is empty.
+   *
+   * @param string $property
+   *    The property to check.
+   * @param string $site
+   *    An optional site name.
+   */
+  protected function assertPropertyEmpty($property, $site = '') {
+    $value = $this->getProperty($property, $site);
+    $this->assertEmpty($value,
+      "Expected value at $property to be empty. Instead, $property equals $value.");
+  }
+
+  /**
+   * Gets the value a given property (optionally specifying a site).
+   *
+   * @param string $property
+   *    The property to check.
+   * @param string $site
+   *    An optional site name.
+   *
+   * @return string
+   *    The value of $property.
+   */
+  private function getProperty($property, $site = '') {
     $output = [];
     $blt_bin = $this->projectDirectory . '/vendor/bin/blt';
     exec(
@@ -49,7 +95,7 @@ class PropertiesTest extends BltProjectTestBase {
       " -emacs -logger phing.listener.DefaultLogger", $output
     );
     // Property value will be output to the 6th line.
-    $this->assertEquals($expected, $output[5], "Expected value at $property to equal $expected");
+    return $output[5];
   }
 
 }
