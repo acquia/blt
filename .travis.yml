@@ -118,8 +118,8 @@ script:
 
 deploy:
   provider: script
-  script: cd ../blt-project && blt deploy -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="8.x-build" && phpunit tests/phpunit --group=deploy
+  script: ./scripts/blt/travis-deploy.sh pipelines-execute && phpunit tests/phpunit --group=deploy
   skip_cleanup: true
   on:
-    branch: 8.x
+    branch: pipelines-execute
     php: 5.6
