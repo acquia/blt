@@ -118,7 +118,7 @@ script:
 
 deploy:
   provider: script
-  script: cd ../blt-project && blt deploy -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="8.x-build" && phpunit tests/phpunit --group=deploy
+  script: cd ../blt-project && blt deploy -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="8.x-build" && cd ../blt && phpunit tests/phpunit --group=deploy
   skip_cleanup: true
   on:
     branch: 8.x
