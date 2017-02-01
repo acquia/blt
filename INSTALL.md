@@ -31,6 +31,7 @@ Then install the  minimum dependencies for BLT. The preferred method is via Home
 If you'd like to create a VM with BLT, you will require the following additional libraries. If you'd like to use a LAMP stack other than Drupal VM, see [Local Development](readme/local-development.md).
 
         brew tap caskroom/cask
+        brew install cask
         brew install ansible
         brew cask install virtualbox vagrant
 
