@@ -11,11 +11,11 @@ Start by following the [Acquia Cloud multisite instructions](https://docs.acquia
 3. Creating a sites.php file to direct incoming HTTP requests to the appropriate site. Note that if you name your sites according to their domain names, and use a canonical approach to subdomains (local.example.com, dev.example.com, example.com), you don't need to modify sites.php at all--but the file does need to exist, even if it's empty.
 4. Adding the site-specific settings include to each site's settings.php file. In the `settings.php` for your multisite, add the `require` statement for your multisite database credentials *before* the `require` statement for `blt.settings.php`. E.g.,
 
-    if (file_exists('/var/www/site-php')) {
-      require '/var/www/site-php/mysite/multisitename-settings.inc';
-    }
-    
-    require DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php";
+        if (file_exists('/var/www/site-php')) {
+          require '/var/www/site-php/mysite/multisitename-settings.inc';
+        }
+        
+        require DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php";
 
 ## BLT setup
 
