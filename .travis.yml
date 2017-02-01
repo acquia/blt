@@ -100,15 +100,15 @@ script:
   - blt acsf:init
   # Ensure that the doctor doesn't report any problems at this point.
   - composer global require "hirak/prestissimo:^0.3"
+  # Define BLT's deployment endpoints.
+  - yaml-cli update:value blt/project.yml git.remotes.0 bolt8@svn-5223.devcloud.hosting.acquia.com:bolt8.git
+  - yaml-cli update:value blt/project.yml git.remotes.1 git@github.com:acquia-pso/blted8.git
   - blt doctor
   # Add Drupal VM config to repo.
   - blt vm -Dvm.boot='false'
   # Update blt symlink prior to deploy.
   - composer config repositories.blt.url '"../../blt"'
   - rm composer.lock
-  # Define BLT's deployment endpoints.
-  - yaml-cli update:value blt/project.yml git.remotes.0 bolt8@svn-5223.devcloud.hosting.acquia.com:bolt8.git
-  - yaml-cli update:value blt/project.yml git.remotes.1 git@github.com:acquia-pso/blted8.git
   # Deploy build artifact.
   - blt deploy:build
   # Switch back to 'blt' directory.
