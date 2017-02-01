@@ -110,16 +110,9 @@ script:
   - composer config repositories.blt.url '"../../blt"'
   - rm composer.lock
   # Deploy build artifact.
-  - blt deploy:build
+  # - blt deploy:build
+  - ../blt/scripts/blt/travis-deploy.sh
   # Switch back to 'blt' directory.
   - cd ../blt
   # Run 'blt' phpunit tests, excluding deploy-push tests.
   - phpunit tests/phpunit --group blt --exclude-group deploy-push
-
-deploy:
-  provider: script
-  script: cd ../blt-project && blt deploy -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="8.x-build" && phpunit tests/phpunit --group=deploy
-  skip_cleanup: true
-  on:
-    branch: 8.x
-    php: 5.6
