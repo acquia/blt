@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-# Enable aliases for non-interactive shell.
-shopt -s expand_aliases
 composer selfupdate
 # Disable xdebug.
 phpenv config-rm xdebug.ini

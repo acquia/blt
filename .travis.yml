@@ -11,6 +11,8 @@ matrix:
 
 env:
 - DEPLOY_SOURCE_BRANCH=8.x
+- COMPOSER_BIN=$TRAVIS_BUILD_DIR/vendor/bin
+- BLT_DIR=$TRAVIS_BUILD_DIR
 
 cache:
   bundler: true
@@ -22,9 +24,6 @@ cache:
   - "$HOME/.nvm"
   - "vendor"
 
-notifications:
-  # slack: acquia:KKfgpOkDhcO26Erv5uoZMfdP
-
 addons:
   ssh_known_hosts:
     - svn-5223.devcloud.hosting.acquia.com
@@ -32,43 +31,13 @@ addons:
 before_install:
   # Decrypt private SSH key id_rsa_blt.enc, save as ~/.ssh/id_rsa_blt.
   - if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then openssl aes-256-cbc -K $encrypted_c0b166e924da_key -iv $encrypted_c0b166e924da_iv -in id_rsa_blt.enc -out ~/.ssh/id_rsa -d; chmod 600 ~/.ssh/id_rsa; ls -lash ~/.ssh; eval "$(ssh-agent -s)"; ssh-add ~/.ssh/id_rsa; fi
-  - composer selfupdate
-  # Disable xdebug.
-  - phpenv config-rm xdebug.ini
-  # Enable $_ENV variables in PHP.
-  - echo 'variables_order = "EGPCS"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-  # Ensure that always_populate_raw_post_data PHP setting: Not set to -1 does not happen.
-  - echo "always_populate_raw_post_data = -1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  # Set PHP memory limit to something more realistic.
-  - echo "memory_limit=256M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-  - git config --global user.name "Travis-CI"
-  - git config --global user.email "noreply@travis-ci.org"
-  - mysql -u root -e "CREATE DATABASE drupal; CREATE USER 'drupal'@'localhost' IDENTIFIED BY 'drupal'; GRANT ALL ON drupal.* TO 'drupal'@'localhost';"
+  - $BLT_DIR/scripts/travis/before_install
 
 install:
-  # Load composer dependencies.
-  - composer validate --no-check-all --ansi
-  # Remove acquia packages from cache before running `composer install`.
-  - rm -rf vendor/acquia
-  - composer install -v
-  - export PATH=$TRAVIS_BUILD_DIR/vendor/bin:$PATH
-  # Install proper version of node for front end tasks.
-  - nvm install 4.4.1
-  - nvm use 4.4.1
-  # Initialize xvfb (see https://docs.travis-ci.com/user/gui-and-headless-browsers)
-  - sudo apt-get install xvfb
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-  # Installs chromedriver to vendor/bin.
-  - ./scripts/linux/install-chrome.sh $TRAVIS_BUILD_DIR/vendor/bin
-  # Use JDK 8.
-  - jdk_switcher use oraclejdk8
+  - $BLT_DIR/scripts/travis/install
 
 before_script:
-  # Clear drush release history cache, to pick up new releases.
-  - rm -f ~/.drush/cache/download/*---updates.drupal.org-release-history-*
-  # Verify that no git diffs (caused by line ending variation) exist.
-  - git diff --exit-code
+  - $BLT_DIR/scripts/travis/before_script
 
 script:
   # Ensure code quality of 'blt' itself.
@@ -115,11 +84,11 @@ script:
   # Deploy build artifact.
   - blt deploy:build
   # Run 'blt' phpunit tests, excluding deploy-push tests.
-  - phpunit ../blt/tests/phpunit --group blt --exclude-group deploy-push
+  - phpunit $BLT_DIR/tests/phpunit --group blt --exclude-group deploy-push
 
 deploy:
   - provider: script
-    script: blt deploy -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="${DEPLOY_SOURCE_BRANCH}-build" && phpunit ../blt/tests/phpunit --group=deploy
+    script: $BLT_DIR/scripts/travis/deploy_branch && phpunit $BLT_DIR/tests/phpunit --group=deploy
     skip_cleanup: true
     on:
       branch: $DEPLOY_SOURCE_BRANCH

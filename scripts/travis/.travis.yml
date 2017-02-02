@@ -9,6 +9,11 @@ php:
 matrix:
   fast_finish: true
 
+env:
+- DEPLOY_SOURCE_BRANCH=8.x
+- COMPOSER_BIN=$TRAVIS_BUILD_DIR/vendor/bin
+- BLT_DIR=$TRAVIS_BUILD_DIR/vendor/acquia/blt
+
 cache:
   bundler: true
   apt: true
@@ -32,32 +37,32 @@ notifications:
 # - slack: '<account>:<token>#[channel]'
 
 before_install:
-  - ./vendor/acquia/blt/scripts/travis/before_install
+  - $BLT_DIR/scripts/travis/before_install
 
 install:
-  - ./vendor/acquia/blt/scripts/travis/install
+  - $BLT_DIR/scripts/travis/install
 
 before_script:
-  - ./vendor/acquia/blt/scripts/travis/before_script
+  - $BLT_DIR/scripts/travis/before_script
 
 script:
-  - ./vendor/acquia/blt/scripts/travis/script
+  - $BLT_DIR/scripts/travis/script
 
 deploy:
    - provider: script
-     script: ./vendor/acquia/blt/scripts/travis/deploy_branch
+     script: $BLT_DIR/scripts/travis/deploy_branch
      skip_cleanup: true
      on:
        branch: develop
        php: 5.6
   - provider: script
-     script: ./vendor/acquia/blt/scripts/travis/deploy_branch
+     script: $BLT_DIR/scripts/travis/deploy_branch
      skip_cleanup: true
      on:
        branch: master
        php: 5.6
    - provider: script
-     script: ./vendor/acquia/blt/scripts/travis/deploy_tag
+     script: $BLT_DIR/scripts/travis/deploy_tag
      skip_cleanup: true
      on:
        tags: true
