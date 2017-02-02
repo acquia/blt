@@ -6,3 +6,5 @@ set -ev
 rm -f ~/.drush/cache/download/*---updates.drupal.org-release-history-*
 # Verify that no git diffs (caused by line ending variation) exist.
 # - git diff --exit-code
+
+set +v

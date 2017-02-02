@@ -14,3 +14,5 @@ echo "memory_limit=256M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d
 git config --global user.name "Travis-CI"
 git config --global user.email "noreply@travis-ci.org"
 mysql -u root -e "CREATE DATABASE drupal; CREATE USER 'drupal'@'localhost' IDENTIFIED BY 'drupal'; GRANT ALL ON drupal.* TO 'drupal'@'localhost';"
+
+set +v
