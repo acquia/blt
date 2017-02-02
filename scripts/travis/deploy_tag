@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+blt deploy -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_TAG}" -Ddeploy.tag="${TRAVIS_TAG}-build" -Ddeploy.branch="${TRAVIS_BRANCH}-build"
