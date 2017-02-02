@@ -14,5 +14,3 @@ export DISPLAY=:99.0
 sh -e /etc/init.d/xvfb start
 # Installs chromedriver to vendor/bin.
 $BLT_DIR/scripts/linux/install-chrome.sh $COMPOSER_BIN
-# Use JDK 8.
-jdk_switcher use oraclejdk8
