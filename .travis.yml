@@ -10,9 +10,11 @@ matrix:
   fast_finish: true
 
 env:
-- DEPLOY_SOURCE_BRANCH=8.x
-- COMPOSER_BIN=$TRAVIS_BUILD_DIR/vendor/bin
-- BLT_DIR=$TRAVIS_BUILD_DIR
+  global:
+    - DEPLOY_SOURCE_BRANCH=8.x
+    - COMPOSER_BIN=$TRAVIS_BUILD_DIR/vendor/bin
+    - BLT_DIR=$TRAVIS_BUILD_DIR
+
 
 cache:
   bundler: true
