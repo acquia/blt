@@ -8,7 +8,6 @@ composer install
 export PATH=$COMPOSER_BIN:$PATH
 
 # Install proper version of node for front end tasks.
-source $NVM_DIR/nvm.sh
 nvm install 4.4.1
 nvm use 4.4.1
 
