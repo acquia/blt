@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -ev
+
+git config --global user.name "Acquia Cloud"
+git config --global user.email "noreply@acquia.com"
+mysql -u root -proot -e "CREATE DATABASE IF NOT EXISTS drupal"
+
+set +v
