@@ -36,6 +36,8 @@ before_install:
   - $BLT_DIR/scripts/travis/before_install
 
 install:
+  - which jdk_switcher
+  - type jdk_switcher
   - $BLT_DIR/scripts/travis/install
 
 before_script:
