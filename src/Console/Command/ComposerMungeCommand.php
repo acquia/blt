@@ -36,6 +36,14 @@ class ComposerMungeCommand extends BaseCommand {
   protected function execute(InputInterface $input, OutputInterface $output) {
     $file1 = $input->getArgument('file1');
     $file2 = $input->getArgument('file2');
+
+    if (!file_exists($file1)) {
+      throw new \Exception("The file $file1 does not exist");
+    }
+    if (!file_exists($file2)) {
+      throw new \Exception("The file $file2 does not exist");
+    }
+
     $munged_json = $this->munge($file1, $file2);
 
     $output->writeln($munged_json);
