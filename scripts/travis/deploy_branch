@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
+set -ev
+
 blt deploy -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="${TRAVIS_BRANCH}-build"
