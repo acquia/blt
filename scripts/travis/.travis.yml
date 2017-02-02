@@ -9,6 +9,12 @@ php:
 matrix:
   fast_finish: true
 
+env:
+  global:
+    - DEPLOY_SOURCE_BRANCH=8.x
+    - COMPOSER_BIN=$TRAVIS_BUILD_DIR/vendor/bin
+    - BLT_DIR=$TRAVIS_BUILD_DIR/vendor/acquia/blt
+
 cache:
   bundler: true
   apt: true
@@ -32,57 +38,32 @@ notifications:
 # - slack: '<account>:<token>#[channel]'
 
 before_install:
-  # Enable aliases for non-interactive shell.
-  - shopt -s expand_aliases
-  - composer selfupdate
-  # Disable xdebug.
-  - phpenv config-rm xdebug.ini
-  # Enable $_ENV variables in PHP.
-  - echo 'variables_order = "EGPCS"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-  # Ensure that always_populate_raw_post_data PHP setting: Not set to -1 does not happen.
-  - echo "always_populate_raw_post_data = -1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  # Set PHP memory limit to something more realistic.
-  - echo "memory_limit=256M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-  - git config --global user.name "Travis-CI"
-  - git config --global user.email "noreply@travis-ci.org"
-  - mysql -u root -e "CREATE DATABASE drupal; CREATE USER 'drupal'@'localhost' IDENTIFIED BY 'drupal'; GRANT ALL ON drupal.* TO 'drupal'@'localhost';"
+  - source $BLT_DIR/scripts/travis/before_install
 
 install:
-  # Load composer dependencies.
-  - composer validate --no-check-all --ansi
-  - composer install
-  - export PATH=$TRAVIS_BUILD_DIR/vendor/bin:$PATH
-  # Install proper version of node for front end tasks.
-  - nvm install 4.4.1
-  - nvm use 4.4.1
-  # Initialize xvfb (see https://docs.travis-ci.com/user/gui-and-headless-browsers)
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-  # Installs chromedriver to vendor/bin.
-  - ./vendor/acquia/blt/scripts/linux/install-chrome.sh $TRAVIS_BUILD_DIR/vendor/bin
-  # Use JDK 8.
-  - jdk_switcher use oraclejdk8
+  - source $BLT_DIR/scripts/travis/install
 
 before_script:
-  # Clear drush release history cache, to pick up new releases.
-  - rm -f ~/.drush/cache/download/*---updates.drupal.org-release-history-*
-  # Verify that no git diffs (caused by line ending variation) exist.
-  # - git diff --exit-code
-  # The local.hostname must be set to 127.0.0.1:8888 because we are using drush runserver to run the site on Travis CI.
-  - yaml-cli update:value blt/project.yml project.local.hostname '127.0.0.1:8888'
+  - source $BLT_DIR/scripts/travis/before_script
 
 script:
-  - blt -Dbehat.run-server=true -Dcreate_alias=false -Dbehat.launch-phantom=true ci:build:validate:test -Dblt.verbose=true
+  - source $BLT_DIR/scripts/travis/script
 
 deploy:
    - provider: script
-     script: blt deploy -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="${TRAVIS_BRANCH}-build"
+     script: source $BLT_DIR/scripts/travis/deploy_branch
+     skip_cleanup: true
+     on:
+       branch: develop
+       php: 5.6
+  - provider: script
+     script: source $BLT_DIR/scripts/travis/deploy_branch
      skip_cleanup: true
      on:
        branch: master
        php: 5.6
    - provider: script
-     script: blt deploy -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_TAG}" -Ddeploy.tag="${TRAVIS_TAG}-build" -Ddeploy.branch="${TRAVIS_BRANCH}-build"
+     script: source $BLT_DIR/scripts/travis/deploy_tag
      skip_cleanup: true
      on:
        tags: true
