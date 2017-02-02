@@ -41,6 +41,8 @@ install:
   - set -x
   - $BLT_DIR/scripts/travis/install
   - export PATH=$COMPOSER_BIN:$PATH
+  - ls -lash $COMPOSER_BIN
+  - echo $PATH
 
 before_script:
   - $BLT_DIR/scripts/travis/before_script
