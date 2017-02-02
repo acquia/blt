@@ -15,9 +15,6 @@ env:
     - COMPOSER_BIN=$TRAVIS_BUILD_DIR/vendor/bin
     - BLT_DIR=$TRAVIS_BUILD_DIR
 
-jdk:
-  - oraclejdk8
-
 cache:
   bundler: true
   apt: true
@@ -39,8 +36,6 @@ before_install:
 
 install:
   - source $BLT_DIR/scripts/travis/install
-  - ls -lash $COMPOSER_BIN
-  - echo $PATH
 
 before_script:
   - source $BLT_DIR/scripts/travis/before_script

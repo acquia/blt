@@ -19,3 +19,6 @@ sh -e /etc/init.d/xvfb start
 
 # Installs chromedriver to vendor/bin.
 $BLT_DIR/scripts/linux/install-chrome.sh $COMPOSER_BIN
+
+# Set java version for selenium.
+jdk_switcher use oraclejdk8
