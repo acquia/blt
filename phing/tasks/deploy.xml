@@ -219,9 +219,6 @@
     <phingcall target="setup:update">
       <param name="environment" value="deploy"/>
       <property name="drush.alias" value="self"/>
-      <!-- Most sites store their version-controlled configuration in /config/default. -->
-      <!-- ACE internally sets the vcs configuration directory to /config/default, so we use that. -->
-      <property name="cm.core.config-dir" value="vcs"/>
     </phingcall>
   </target>
 
