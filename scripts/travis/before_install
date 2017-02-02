@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -x
-
 composer selfupdate
 # Disable xdebug.
 phpenv config-rm xdebug.ini

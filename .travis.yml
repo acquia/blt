@@ -38,6 +38,7 @@ before_install:
   - $BLT_DIR/scripts/travis/before_install
 
 install:
+  - set -x
   - $BLT_DIR/scripts/travis/install
   - export PATH=$COMPOSER_BIN:$PATH
 
