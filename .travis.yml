@@ -9,6 +9,9 @@ php:
 matrix:
   fast_finish: true
 
+env:
+- DEPLOY_SOURCE_BRANCH=8.x
+
 cache:
   bundler: true
   apt: true
@@ -106,18 +109,18 @@ script:
   - blt doctor
   # Add Drupal VM config to repo.
   - blt vm -Dvm.boot='false'
-  # Update blt symlink prior to deploy.
-  - composer config repositories.blt.url '"../../blt"'
-  - rm composer.lock
+  # Update blt symlink prior to deploy. Changing from ../blt to ../../blt.
+  - sed -i 's/\.\.\/blt/\.\.\/\.\.\/blt/g' composer.json
+  - sed -i 's/\.\.\/blt/\.\.\/\.\.\/blt/g' composer.lock
   # Deploy build artifact.
   - blt deploy:build
   # Run 'blt' phpunit tests, excluding deploy-push tests.
   - phpunit ../blt/tests/phpunit --group blt --exclude-group deploy-push
 
 deploy:
-  provider: script
-  script: blt deploy -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="8.x-build" && phpunit ../blt/tests/phpunit --group=deploy
-  skip_cleanup: true
-  on:
-    branch: 8.x
-    php: 5.6
+  - provider: script
+    script: blt deploy -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="${DEPLOY_SOURCE_BRANCH}-build" && phpunit ../blt/tests/phpunit --group=deploy
+    skip_cleanup: true
+    on:
+      branch: $DEPLOY_SOURCE_BRANCH
+      php: 5.6
