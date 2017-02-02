@@ -38,14 +38,9 @@ before_install:
   - $BLT_DIR/scripts/travis/before_install
 
 install:
-  - $BLT_DIR/scripts/travis/install
-  - export PATH=$COMPOSER_BIN:$PATH
+  - source $BLT_DIR/scripts/travis/install
   - ls -lash $COMPOSER_BIN
   - echo $PATH
-  # Initialize xvfb (see https://docs.travis-ci.com/user/gui-and-headless-browsers)
-  # sudo apt-get install xvfb
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
 
 before_script:
   - $BLT_DIR/scripts/travis/before_script
