@@ -38,33 +38,32 @@ notifications:
 # - slack: '<account>:<token>#[channel]'
 
 before_install:
-  - $BLT_DIR/scripts/travis/before_install
+  - source $BLT_DIR/scripts/travis/before_install
 
 install:
-  - $BLT_DIR/scripts/travis/install
-  - export PATH=$COMPOSER_BIN:$PATH
+  - source $BLT_DIR/scripts/travis/install
 
 before_script:
-  - $BLT_DIR/scripts/travis/before_script
+  - source $BLT_DIR/scripts/travis/before_script
 
 script:
-  - $BLT_DIR/scripts/travis/script
+  - source $BLT_DIR/scripts/travis/script
 
 deploy:
    - provider: script
-     script: $BLT_DIR/scripts/travis/deploy_branch
+     script: source $BLT_DIR/scripts/travis/deploy_branch
      skip_cleanup: true
      on:
        branch: develop
        php: 5.6
   - provider: script
-     script: $BLT_DIR/scripts/travis/deploy_branch
+     script: source $BLT_DIR/scripts/travis/deploy_branch
      skip_cleanup: true
      on:
        branch: master
        php: 5.6
    - provider: script
-     script: $BLT_DIR/scripts/travis/deploy_tag
+     script: source $BLT_DIR/scripts/travis/deploy_tag
      skip_cleanup: true
      on:
        tags: true
