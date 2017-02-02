@@ -124,3 +124,9 @@ deploy:
     on:
       branch: $DEPLOY_SOURCE_BRANCH
       php: 5.6
+- provider: script
+    script: git remote add github bolt8@svn-5223.devcloud.hosting.acquia.com:bolt8.git && git add -A && git commit -m "Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -n && git push github $DEPLOY_SOURCE_BRANCH
+    skip_cleanup: true
+    on:
+      branch: $DEPLOY_SOURCE_BRANCH
+      php: 5.6
