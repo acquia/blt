@@ -49,7 +49,7 @@ script:
   - source ${BLT_DIR}/scripts/blt/blt_ci_prepare_artifact.sh
   # Deploy build artifact.
   - blt deploy:build
-  - source ${BLT_DIR}/scripts/blt/test_artifact.sh
+  - source ${BLT_DIR}/scripts/blt/blt_ci_test_artifact.sh
 
 deploy:
   - provider: script
