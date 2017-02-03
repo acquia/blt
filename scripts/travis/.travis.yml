@@ -40,13 +40,10 @@ before_install:
   - source ${BLT_DIR}/scripts/travis/setup_environment
 
 install:
-  - source $BLT_DIR/scripts/travis/install
-
-before_script:
-  - source $BLT_DIR/scripts/travis/before_script
+  - source $BLT_DIR/scripts/travis/setup_project
 
 script:
-  - source $BLT_DIR/scripts/travis/script
+  - source $BLT_DIR/scripts/travis/run_tests
 
 deploy:
    - provider: script
