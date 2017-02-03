@@ -88,7 +88,7 @@ $settings['hash_salt'] = file_get_contents(DRUPAL_ROOT . '/../salt.txt');
  * Acquia Cloud settings.
  */
 if ($is_ah_env) {
-  if (!$is_acsf && file_exists('/var/www/site-php')) {
+  if (!$is_acsf && file_exists('/var/www/site-php') && $site_dir == 'default') {
     require "/var/www/site-php/{$_ENV['AH_SITE_GROUP']}/{$_ENV['AH_SITE_GROUP']}-settings.inc";
   }
 
