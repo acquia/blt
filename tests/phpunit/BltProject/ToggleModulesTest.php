@@ -87,7 +87,7 @@ class ToggleModulesTest extends BltProjectTestBase {
    * @param string $alias
    *    An optional Drush alias string.
    *
-   * @throws \PHPUnit_Framework_MockObject_Stub_Exception
+   * @throws \Exception
    *    If a module's status string cannot be parsed.
    *
    * @return bool
@@ -114,7 +114,7 @@ class ToggleModulesTest extends BltProjectTestBase {
       $enabled = FALSE;
     }
     else {
-      $this->throwException(new \Exception("Unable to parse $module's status: $status'"));
+      throw new \Exception("Unable to parse $module's status: $status'");
     }
 
     // Return the module's true/false enabled status.
