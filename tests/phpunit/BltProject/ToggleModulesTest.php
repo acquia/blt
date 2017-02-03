@@ -96,7 +96,6 @@ class ToggleModulesTest extends BltProjectTestBase {
    */
   private function getModuleEnabledStatus($module, $alias = '') {
     $output = [];
-    $enabled = FALSE;
     $drush_bin = $this->projectDirectory . '/vendor/bin/drush';
 
     // Use the project's default alias if no other alias is provided.
