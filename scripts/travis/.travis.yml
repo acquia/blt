@@ -37,7 +37,7 @@ notifications:
 # - slack: '<account>:<token>#[channel]'
 
 before_install:
-  - source $BLT_DIR/scripts/travis/before_install
+  - source ${BLT_DIR}/scripts/travis/setup_environment
 
 install:
   - source $BLT_DIR/scripts/travis/install
