@@ -39,17 +39,17 @@ install:
   - source ${BLT_DIR}/scripts/travis/setup_project
 
 script:
-  - source ${BLT_DIR}/scripts/blt/blt_ci_smoke_tests.sh
-  - source ${BLT_DIR}/scripts/blt/blt_ci_create_blt_project.sh
+  - source ${BLT_DIR}/scripts/blt/ci/smoke_tests.sh
+  - source ${BLT_DIR}/scripts/blt/ci/create_blt_project.sh
   # Call targets in the new 'blt-project' project.
   - blt ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dbehat.launch-phantom=true -Dblt.verbose=true
   # Run 'blt-project' tests.
   - phpunit ${BLT_DIR}/tests/phpunit --group blt-project
-  - source ${BLT_DIR}/scripts/blt/blt_ci_doctor.sh
-  - source ${BLT_DIR}/scripts/blt/blt_ci_prepare_artifact.sh
+  - source ${BLT_DIR}/scripts/blt/ci/doctor.sh
+  - source ${BLT_DIR}/scripts/blt/ci/prepare_artifact.sh
   # Deploy build artifact.
   - blt deploy:build
-  - source ${BLT_DIR}/scripts/blt/blt_ci_test_artifact.sh
+  - source ${BLT_DIR}/scripts/blt/ci/test_artifact.sh
 
 deploy:
   - provider: script
