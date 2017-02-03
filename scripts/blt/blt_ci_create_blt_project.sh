@@ -6,8 +6,8 @@
 
 set -ev
 
-# Ensure code quality of 'blt' itself.
-phpcs --standard=${BLT_DIR}/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml tests
+export PATH=${COMPOSER_BIN}:$PATH
+
 # Generate a new 'blt-project' project.
 cp -R blt-project ../
 cd ../blt-project
