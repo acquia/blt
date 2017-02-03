@@ -10,6 +10,7 @@ variables:
     COMPOSER_BIN: $BUILD_DIR/vendor/bin
     BLT_DIR: $BUILD_DIR
     IS_PULL_REQUEST: true
+    PATH: $COMPOSER_BIN:$PATH
 
 events:
   build:
