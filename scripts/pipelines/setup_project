@@ -4,6 +4,6 @@ set -ev
 
 # Load composer dependencies.
 composer install
-export PATH=$COMPOSER_BIN:$PATH
+export PATH=${COMPOSER_BIN}:$PATH
 
 set +v

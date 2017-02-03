@@ -2,7 +2,8 @@
 
 set -ev
 
-export PATH=$PATH:$BUILD_DIR/vendor/bin
+export PATH=${COMPOSER_BIN}:$PATH
+
 # Generate artifact in a separate directory.
 export NEW_BUILD_DIR=/tmp/artifact
 blt deploy:build -Ddeploy.dir=$NEW_BUILD_DIR
