@@ -14,6 +14,7 @@ env:
     - DEPLOY_SOURCE_BRANCH=8.x
     - COMPOSER_BIN=$TRAVIS_BUILD_DIR/vendor/bin
     - BLT_DIR=$TRAVIS_BUILD_DIR
+    - IS_PULL_REQUEST=$TRAVIS_PULL_REQUEST
 
 cache:
   bundler: true
@@ -35,58 +36,24 @@ before_install:
   - source ${BLT_DIR}/scripts/travis/setup_environment
 
 install:
-  - source $BLT_DIR/scripts/travis/setup_project
+  - source ${BLT_DIR}/scripts/travis/setup_project
 
 script:
-  # Ensure code quality of 'blt' itself.
-  - phpcs --standard=./vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml tests
-  # Generate a new 'blt-project' project.
-  - cp -R blt-project ../
-  - cd ../blt-project
-  - git init
-  - git add -A
-  # Commit so that subsequent git commit tests have something to amend.
-  - git commit -m 'Initial commit.'
-  # BLT is the only dependency at this point. Install it.
-  - composer install -v
-  - export PATH=$TRAVIS_BUILD_DIR/../blt-project/vendor/bin:$PATH
-  # The local.hostname must be set to 127.0.0.1:8888 because we are using drush runserver to run the site on Travis CI.
-  - yaml-cli update:value blt/project.yml project.local.hostname '127.0.0.1:8888'
-  # Execute all updates with fake "dev" => "dev" version specs. This must be done manually since BLT was not installed prior to this.
-  - blt-console blt:update dev dev $(pwd) --yes
-  # BLT added new dependencies for us, so we must update.
-  - composer update
-  # Create a .travis.yml, just to make sure it works. It won't be executed.
-  - blt ci:travis:init
-  - blt ci:pipelines:init
-  # Disable Lightning tests on pull requests.
-  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then printf "behat.paths: [ \${repo.root}/tests/behat ]" >> blt/project.yml; fi'
-  - cat blt/project.yml
+  - source ${BLT_DIR}/scripts/blt/blt_ci_create_blt_project.sh
   # Call targets in the new 'blt-project' project.
   - blt ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dbehat.launch-phantom=true -Dblt.verbose=true
   # Run 'blt-project' tests.
-  - phpunit ../blt/tests/phpunit --group blt-project
-  # Initialize ACSF config.
-  - blt acsf:init
-  # Ensure that the doctor doesn't report any problems at this point.
-  - composer global require "hirak/prestissimo:^0.3"
-  # Define BLT's deployment endpoints.
-  - yaml-cli update:value blt/project.yml git.remotes.0 bolt8@svn-5223.devcloud.hosting.acquia.com:bolt8.git
-  - yaml-cli update:value blt/project.yml git.remotes.1 git@github.com:acquia-pso/blted8.git
-  - blt doctor
-  # Add Drupal VM config to repo.
-  - blt vm -Dvm.boot='false'
-  # Update blt symlink prior to deploy. Changing from ../blt to ../../blt.
-  - sed -i 's/\.\.\/blt/\.\.\/\.\.\/blt/g' composer.json
-  - sed -i 's/\.\.\/blt/\.\.\/\.\.\/blt/g' composer.lock
+  - phpunit ${BLT_DIR}/tests/phpunit --group blt-project
+  - source ${BLT_DIR}/scripts/blt/blt_ci_doctor.sh
+  - source ${BLT_DIR}/scripts/blt/blt_ci_prepare_artifact.sh
   # Deploy build artifact.
   - blt deploy:build
-  # Run 'blt' phpunit tests, excluding deploy-push tests.
-  - phpunit $BLT_DIR/tests/phpunit --group blt --exclude-group deploy-push
+  - source ${BLT_DIR}/scripts/blt/test_artifact.sh
 
 deploy:
   - provider: script
-    script: $BLT_DIR/scripts/travis/deploy_branch && phpunit $BLT_DIR/tests/phpunit --group=deploy
+    # Deploys build artifact to acquia-pso/blted8 on GitHub.
+    script: ${BLT_DIR}/scripts/travis/deploy_branch && phpunit $BLT_DIR/tests/phpunit --group=deploy
     skip_cleanup: true
     on:
       branch: $DEPLOY_SOURCE_BRANCH
