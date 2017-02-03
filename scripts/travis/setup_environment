@@ -3,6 +3,7 @@
 set -ev
 
 composer selfupdate
+
 # Disable xdebug.
 phpenv config-rm xdebug.ini
 # Enable $_ENV variables in PHP.
@@ -11,8 +12,32 @@ echo 'variables_order = "EGPCS"' >> ~/.phpenv/versions/$(phpenv version-name)/et
 echo "always_populate_raw_post_data = -1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 # Set PHP memory limit to something more realistic.
 echo "memory_limit=256M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+
+# Set git info.
 git config --global user.name "Travis-CI"
 git config --global user.email "noreply@travis-ci.org"
+
+# Create MySQL DB.
 mysql -u root -e "CREATE DATABASE drupal; CREATE USER 'drupal'@'localhost' IDENTIFIED BY 'drupal'; GRANT ALL ON drupal.* TO 'drupal'@'localhost';"
+
+# Clear drush release history cache, to pick up new releases.
+rm -f ~/.drush/cache/download/*---updates.drupal.org-release-history-*
+# Verify that no git diffs (caused by line ending variation) exist.
+# - git diff --exit-code
+
+# Install proper version of node for front end tasks.
+nvm install 4.4.1
+nvm use 4.4.1
+
+# Initialize xvfb (see https://docs.travis-ci.com/user/gui-and-headless-browsers)
+# sudo apt-get install xvfb
+export DISPLAY=:99.0
+sh -e /etc/init.d/xvfb start
+
+# Installs chromedriver to vendor/bin.
+$BLT_DIR/scripts/linux/install-chrome.sh $COMPOSER_BIN
+
+# Set java version for selenium.
+jdk_switcher use oraclejdk8
 
 set +v
