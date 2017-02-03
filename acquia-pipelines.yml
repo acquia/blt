@@ -8,7 +8,7 @@ services:
 variables:
   global:
     COMPOSER_BIN: $BUILD_DIR/vendor/bin
-    BLT_DIR: $BUILD_DIR/vendor/acquia/blt
+    BLT_DIR: $BUILD_DIR
     IS_PULL_REQUEST: true
 
 events:
