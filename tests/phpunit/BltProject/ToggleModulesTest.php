@@ -100,6 +100,10 @@ class ToggleModulesTest extends BltProjectTestBase {
 
     // Use the project's default alias if no other alias is provided.
     $alias = !empty($alias) ? $alias : $this->config['drush']['default_alias'];
+    global $_blt_env;
+    echo $alias . PHP_EOL;
+    echo $_blt_env . PHP_EOL;
+    print_r($this->config);
 
     // Get module status, it will be on the first line of output.
     exec("$drush_bin @$alias pmi $module --fields=status", $output);
