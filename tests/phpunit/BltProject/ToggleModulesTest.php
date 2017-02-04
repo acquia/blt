@@ -19,11 +19,15 @@ class ToggleModulesTest extends BltProjectTestBase {
    * @group blt-project
    */
   public function testModulesEnabled() {
-    global $_blt_env, $_blt_alias;
+    global $_blt_env, $_blt_alias, $_blt_uri;
     if (isset($_blt_env)) {
       $modules = $this->config['modules'][$_blt_env]['enable'];
       foreach ($modules as $module) {
-        $this->assertModuleEnabled($module, isset($_blt_alias) ? $_blt_alias : '');
+        $this->assertModuleEnabled(
+          $module,
+          isset($_blt_alias) ? $_blt_alias : '',
+          isset($_blt_uri) ? $_blt_uri : ''
+        );
       }
     }
     else {
@@ -39,11 +43,15 @@ class ToggleModulesTest extends BltProjectTestBase {
    * @group blt-project
    */
   public function testModulesNotEnabled() {
-    global $_blt_env, $_blt_alias;
+    global $_blt_env, $_blt_alias, $_blt_uri;
     if (isset($_blt_env)) {
       $modules = $this->config['modules'][$_blt_env]['uninstall'];
       foreach ($modules as $module) {
-        $this->assertModuleNotEnabled($module, isset($_blt_alias) ? $_blt_alias : '');
+        $this->assertModuleNotEnabled(
+          $module,
+          isset($_blt_alias) ? $_blt_alias : '',
+          isset($_blt_uri) ? $_blt_uri : ''
+        );
       }
     }
     else {
@@ -58,9 +66,11 @@ class ToggleModulesTest extends BltProjectTestBase {
    *    The module to test.
    * @param string $alias
    *    An optional Drush alias string.
+   * @param string $uri
+   *    An optional uri to run the Drush command against.
    */
-  protected function assertModuleNotEnabled($module, $alias = '') {
-    $enabled = $this->getModuleEnabledStatus($module, $alias);
+  protected function assertModuleNotEnabled($module, $alias = '', $uri = '') {
+    $enabled = $this->getModuleEnabledStatus($module, $alias, $uri);
     $this->assertFalse($enabled,
       "Expected $module to be either 'disabled,' 'not installed' or 'not found.'"
     );
@@ -73,9 +83,11 @@ class ToggleModulesTest extends BltProjectTestBase {
    *    The module to test.
    * @param string $alias
    *    An optional Drush alias string.
+   * @param string $uri
+   *    An optional uri to run the Drush command against.
    */
-  protected function assertModuleEnabled($module, $alias = '') {
-    $enabled = $this->getModuleEnabledStatus($module, $alias);
+  protected function assertModuleEnabled($module, $alias = '', $uri = '') {
+    $enabled = $this->getModuleEnabledStatus($module, $alias, $uri);
     $this->assertTrue($enabled, "Expected $module to be enabled.");
   }
 
@@ -86,6 +98,8 @@ class ToggleModulesTest extends BltProjectTestBase {
    *    The module to test.
    * @param string $alias
    *    An optional Drush alias string.
+   * @param string $uri
+   *    An optional uri to run the Drush command against.
    *
    * @throws \Exception
    *    If a module's status string cannot be parsed.
@@ -94,15 +108,18 @@ class ToggleModulesTest extends BltProjectTestBase {
    *    TRUE if $module is enabled, FALSE if a module is either 'disabled,'
    *    'not installed' or 'not found.'
    */
-  private function getModuleEnabledStatus($module, $alias = '') {
+  private function getModuleEnabledStatus($module, $alias = '', $uri = '') {
     $output = [];
     $drush_bin = $this->projectDirectory . '/vendor/bin/drush';
 
     // Use the project's default alias if no other alias is provided.
     $alias = !empty($alias) ? $alias : $this->config['drush']['default_alias'];
 
+    // Use the project's local hostname if no uri is provided.
+    $uri = !empty($alias) ? $uri : $this->config['project']['local']['hostname'];
+
     // Get module status, it will be on the first line of output.
-    exec("$drush_bin @$alias pmi $module --fields=status", $output);
+    exec("$drush_bin @$alias pmi $module --fields=status --uri=$uri", $output);
     $status = $output[0];
 
     // Parse status strings, throw if parsing fails.
