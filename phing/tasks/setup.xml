@@ -179,6 +179,7 @@
       <option name="account-name">"${drupal.account.name}"</option>
       <option name="account-pass">"${drupal.account.password}"</option>
       <option name="account-mail">"${drupal.account.mail}"</option>
+      <option name="locale">"${project.locale}"</option>
       <param>"${project.profile.name}"</param>
       <param>"install_configure_form.update_status_module='array(FALSE,FALSE)'"</param>
     </drush>
