@@ -130,7 +130,7 @@ class ToggleModulesTest extends BltProjectTestBase {
       $enabled = FALSE;
     }
     else {
-      throw new \Exception("Unable to parse $module's status: $status'");
+      throw new \Exception("Unable to parse $module's status: $status");
     }
 
     // Return the module's true/false enabled status.
