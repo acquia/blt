@@ -10,3 +10,6 @@
 
 // The environment key.
 $_blt_env = 'ci';
+
+// The alias string.
+$_blt_alias = 'self';

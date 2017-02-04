@@ -19,11 +19,11 @@ class ToggleModulesTest extends BltProjectTestBase {
    * @group blt-project
    */
   public function testModulesEnabled() {
-    global $_blt_env;
+    global $_blt_env, $_blt_alias;
     if (isset($_blt_env)) {
       $modules = $this->config['modules'][$_blt_env]['enable'];
       foreach ($modules as $module) {
-        $this->assertModuleEnabled($module);
+        $this->assertModuleEnabled($module, isset($_blt_alias) ? $_blt_alias : '');
       }
     }
     else {
@@ -39,11 +39,11 @@ class ToggleModulesTest extends BltProjectTestBase {
    * @group blt-project
    */
   public function testModulesNotEnabled() {
-    global $_blt_env;
+    global $_blt_env, $_blt_alias;
     if (isset($_blt_env)) {
       $modules = $this->config['modules'][$_blt_env]['uninstall'];
       foreach ($modules as $module) {
-        $this->assertModuleNotEnabled($module);
+        $this->assertModuleNotEnabled($module, isset($_blt_alias) ? $_blt_alias : '');
       }
     }
     else {
@@ -100,10 +100,6 @@ class ToggleModulesTest extends BltProjectTestBase {
 
     // Use the project's default alias if no other alias is provided.
     $alias = !empty($alias) ? $alias : $this->config['drush']['default_alias'];
-    global $_blt_env;
-    echo $alias . PHP_EOL;
-    echo $_blt_env . PHP_EOL;
-    print_r($this->config);
 
     // Get module status, it will be on the first line of output.
     exec("$drush_bin @$alias pmi $module --fields=status", $output);
