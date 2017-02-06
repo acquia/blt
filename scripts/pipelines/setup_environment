@@ -2,6 +2,9 @@
 
 set -ev
 
+# Get the latest version of composer.
+composer self-update
+
 # Set git info.
 git config --global user.name "Acquia Cloud"
 git config --global user.email "noreply@acquia.com"
