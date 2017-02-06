@@ -2,8 +2,7 @@
 
 set -ev
 
-# Get the latest version of composer.
-composer self-update
+source $BLT_DIR/scripts/blt/ci/setup_environment
 
 # Set git info.
 git config --global user.name "Acquia Cloud"

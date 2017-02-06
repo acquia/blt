@@ -2,7 +2,7 @@
 
 set -ev
 
-composer selfupdate
+source $BLT_DIR/scripts/blt/ci/setup_environment
 
 # Disable xdebug.
 phpenv config-rm xdebug.ini
