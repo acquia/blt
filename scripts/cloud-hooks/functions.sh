@@ -21,5 +21,20 @@ deploy_updates() {
   echo "Finished updates for environment: $target_env"
 }
 
-# TODO: Add a deploy_install command for projects early in development that want
-# to reinstall on every deploy.
+deploy_install() {
+
+  echo "Installing site for environment: $target_env"
+
+  # Prep for BLT commands.
+  repo_root="/var/www/html/$site.$target_env"
+  export PATH=$repo_root/vendor/bin:$PATH
+  cd $repo_root
+
+  blt deploy:drupal:install -Denvironment=$target_env
+  if [ $? -ne 0 ]; then
+      echo "Install errored."
+      status=1;
+  fi
+
+  echo "Finished installing for environment: $target_env"
+}
