@@ -48,7 +48,7 @@ class TestsWizard extends Wizard {
       $this->logger->warning("The PhantomJS binary is not present.");
       $answer = $this->confirm("Do you want to install it?");
       if ($answer) {
-        $this->executor->execute("composer install-phantom");
+        $this->executor->execute("composer install-phantom")->run();
       }
     }
   }
@@ -66,7 +66,7 @@ class TestsWizard extends Wizard {
         if (file_exists($behat_local_config_file)) {
           $this->fs->remove($behat_local_config_file);
         }
-        $this->executor->execute("$bin/blt setup:behat");
+        $this->executor->execute("$bin/blt setup:behat")->run();
       }
     }
   }
