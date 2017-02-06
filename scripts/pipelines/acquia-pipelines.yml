@@ -26,6 +26,7 @@ events:
         - run-tests:
             type: script
             script:
+              - composer require drupal/acsf:^1.33.0
               - ${BLT_DIR}/scripts/pipelines/run_tests
 
         # Generate artifact.
