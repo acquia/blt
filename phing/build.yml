@@ -56,6 +56,7 @@ drupal:
   account.name: admin
   account.password: admin
   account.mail: no-reply@acquia.com
+  locale: en
 
 drush:
   bin: ${composer.bin}/drush

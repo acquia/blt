@@ -5,8 +5,6 @@ project:
   # Used for enforcing correct git commit msg syntax.
   prefix: 'BLT'
   human_name: 'BLTed 8'
-  # You can set default site language. 
-  locale: en
   profile:
     # You can generate a custom profile by running '../vendor/bin/drupal generate:profile' from the docroot.
     name: 'lightning'
