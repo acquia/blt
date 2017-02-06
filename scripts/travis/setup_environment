@@ -4,7 +4,8 @@ set -ev
 
 # Allow MySQL to finish starting.
 sleep 3
-composer selfupdate
+
+source $BLT_DIR/scripts/blt/ci/setup_environment
 
 # Disable xdebug.
 phpenv config-rm xdebug.ini
