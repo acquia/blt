@@ -32,9 +32,10 @@ If you'd like to create a VM with BLT, you will require the following additional
 
         brew tap caskroom/cask
         brew install ansible
+        brew upgrade ansible
         brew cask install virtualbox vagrant
 
-The minimum required versions are VirtualBox 5.1.x and Vagrant 1.8.6. 
+The minimum required versions are VirtualBox 5.1.x, Vagrant 1.8.6 and Ansible 2.2.x. 
 
 The local PHP environment should also have a memory limit of at least 2G for BLT to initialize. You can modify your PHP CLI's memory limit by editing php.ini. You can use the following command to open the correct php.ini in TextEdit. Set `memory_limit = 2G`.
 
