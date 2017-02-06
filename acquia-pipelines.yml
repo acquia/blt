@@ -19,6 +19,7 @@ events:
         - setup-environment:
             type: script
             script:
+              - cat phing/build.yml
               - source $BLT_DIR/scripts/pipelines/setup_environment
 
         # Install project level packages and set project level configuration.
