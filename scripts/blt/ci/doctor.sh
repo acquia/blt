@@ -2,8 +2,11 @@
 
 set -ev
 
+# Require ACSF directly to prevent memory exhaustion error. We do this rather than calling acsf:init.
+composer require drupal/acsf:^1.33.0
 # Initialize ACSF config.
-blt acsf:init
+blt acsf:init:hooks
+blt acsf:init:drush
 # Ensure that the doctor doesn't report any problems at this point.
 composer global require "hirak/prestissimo:^0.3"
 # Define BLT's deployment endpoints.
