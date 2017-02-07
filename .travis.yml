@@ -41,7 +41,7 @@ install:
 script:
   - source ${BLT_DIR}/scripts/blt/ci/smoke_tests.sh
   - source ${BLT_DIR}/scripts/blt/ci/create_blt_project.sh
-  - source ${BLT_DIR}/scripts/travis/run_tests.sh
+  - source ${BLT_DIR}/scripts/travis/run_tests
   - source ${BLT_DIR}/scripts/blt/ci/doctor.sh
   - phpunit ${BLT_DIR}/tests/phpunit --group blt-project
   # Deploy build artifact.
