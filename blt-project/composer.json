@@ -13,7 +13,7 @@
             "type": "path",
             "url": "../blt",
             "options": {
-                "symlink": true
+                "symlink": false
             }
         }
     },
