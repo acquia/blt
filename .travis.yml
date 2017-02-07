@@ -46,7 +46,6 @@ script:
   # Run 'blt-project' tests.
   - phpunit ${BLT_DIR}/tests/phpunit --group blt-project
   - source ${BLT_DIR}/scripts/blt/ci/doctor.sh
-  - source ${BLT_DIR}/scripts/blt/ci/prepare_artifact.sh
   # Deploy build artifact.
   - blt deploy:build
   - source ${BLT_DIR}/scripts/blt/ci/test_artifact.sh

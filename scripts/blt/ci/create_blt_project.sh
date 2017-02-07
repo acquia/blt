@@ -6,7 +6,7 @@
 
 set -ev
 
-export PATH=${COMPOSER_BIN}:$PATH
+export PATH=${COMPOSER_BIN}:${PATH}
 
 # Generate a new 'blt-project' project.
 cp -R blt-project ../

@@ -2,7 +2,7 @@
 
 set -ev
 
-export PATH=${COMPOSER_BIN}:$PATH
+export PATH=${COMPOSER_BIN}:${PATH}
 
 # Validate composer.json file.
 composer validate --no-check-all --ansi

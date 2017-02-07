@@ -39,8 +39,6 @@ events:
               - source ${BLT_DIR}/scripts/pipelines/run_tests
               # Make BLT doctor happy.
               - source ${BLT_DIR}/scripts/blt/ci/doctor.sh
-              # Modify sample project such that an artifact can be generated from it.
-              - source ${BLT_DIR}/scripts/blt/ci/prepare_artifact.sh
 
 
         # Generate artifact.
