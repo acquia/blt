@@ -17,7 +17,7 @@ git add -A
 git commit -m 'Initial commit.'
 # BLT is the only dependency at this point. Install it.
 composer config --list
-composer install -v
+composer install -vvv
 export PATH=${BLT_DIR}/../blt-project/vendor/bin:$PATH
 # The local.hostname must be set to 127.0.0.1:8888 because we are using drush runserver to run the site on Travis CI.
 yaml-cli update:value blt/project.yml project.local.hostname '127.0.0.1:8888'
