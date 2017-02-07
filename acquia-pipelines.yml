@@ -25,13 +25,13 @@ events:
         - setup-project:
             type: script
             script:
-              - echo "THIS IS UPDATED"
               - source $BLT_DIR/scripts/pipelines/setup_project
 
         # Execute all testing and validation tasks.
         - run-tests:
             type: script
             script:
+              - echo "RUNNING TESTS HELLO DAVE"
               # Create a sample, BLT-generated project against which to test.
               - source ${BLT_DIR}/scripts/blt/ci/smoke_tests.sh
               # Create a sample, BLT-generated project against which to test.
