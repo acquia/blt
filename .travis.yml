@@ -39,14 +39,14 @@ install:
   - source ${BLT_DIR}/scripts/travis/setup_project
 
 script:
-  - source ${BLT_DIR}/scripts/blt/ci/smoke_tests.sh
-  - source ${BLT_DIR}/scripts/blt/ci/create_blt_project.sh
+  - source ${BLT_DIR}/scripts/blt/ci/internal/smoke_tests.sh
+  - source ${BLT_DIR}/scripts/blt/ci/internal/create_blt_project.sh
   - source ${BLT_DIR}/scripts/travis/run_tests
-  - source ${BLT_DIR}/scripts/blt/ci/doctor.sh
+  - source ${BLT_DIR}/scripts/blt/ci/internal/doctor.sh
   - phpunit ${BLT_DIR}/tests/phpunit --group blt-project
   # Deploy build artifact.
   - blt deploy:build
-  - source ${BLT_DIR}/scripts/blt/ci/test_artifact.sh
+  - source ${BLT_DIR}/scripts/blt/ci/internal/test_artifact.sh
 
 deploy:
   - provider: script

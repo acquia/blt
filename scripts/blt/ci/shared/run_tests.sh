@@ -2,8 +2,6 @@
 
 set -ev
 
-${COMPOSER_BIN}/phpunit ${BLT_DIR}/tests/phpunit --group blt-project
-
 # Validate composer.json file.
 composer validate --no-check-all --ansi
 
