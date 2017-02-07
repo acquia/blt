@@ -33,6 +33,5 @@ git add -A
 git commit -m 'Initializing Travis CI and Acquia Pipelines.' -n
 # Disable Lightning tests on pull requests.
 # 'if [ "$PULL_REQUEST" != "false" ]; then printf "behat.paths: [ \${repo.root}/tests/behat ]" >> blt/project.yml; fi'
-cat blt/project.yml
 
 set +v
