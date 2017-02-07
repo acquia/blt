@@ -25,6 +25,7 @@ events:
         - setup-project:
             type: script
             script:
+              - echo "THIS IS UPDATED"
               - source $BLT_DIR/scripts/pipelines/setup_project
 
         # Execute all testing and validation tasks.
