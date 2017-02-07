@@ -17,6 +17,7 @@ git add -A
 git commit -m 'Initial commit.'
 # BLT is the only dependency at this point. Install it.
 composer clear-cache
+cat vendor/acquia/blt/phing/tasks/blt.xml
 composer install -v
 export PATH=${BLT_DIR}/../blt-project/vendor/bin:$PATH
 # The local.hostname must be set to 127.0.0.1:8888 because we are using drush runserver to run the site on Travis CI.

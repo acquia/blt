@@ -31,7 +31,6 @@ events:
         - run-tests:
             type: script
             script:
-              - cat phing/tasks/blt.xml
               # Create a sample, BLT-generated project against which to test.
               - source ${BLT_DIR}/scripts/blt/ci/smoke_tests.sh
               # Create a sample, BLT-generated project against which to test.
