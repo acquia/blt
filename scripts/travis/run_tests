@@ -2,11 +2,8 @@
 
 set -ev
 
-# Validate composer.json file.
-composer validate --no-check-all --ansi
+source ${BLT_DIR}/scripts/blt/ci/run_tests.sh
 
-# The local.hostname must be set to 127.0.0.1:8888 because we are using drush runserver to run the site on Travis CI.
-yaml-cli update:value blt/project.yml project.local.hostname '127.0.0.1:8888'
-blt -Dbehat.run-server=true -Dcreate_alias=false -Dbehat.tags='~experimental' -Dblt.verbose=true ci:build:validate:test
+blt ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dblt.verbose=true
 
 set +v
