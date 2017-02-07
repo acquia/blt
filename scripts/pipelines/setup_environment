@@ -2,7 +2,7 @@
 
 set -ev
 
-source $BLT_DIR/scripts/blt/ci/setup_environment.sh
+source ${BLT_DIR}/scripts/blt/ci/setup_environment.sh
 
 # Set git info.
 git config --global user.name "Acquia Cloud"

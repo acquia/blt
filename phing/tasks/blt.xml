@@ -20,8 +20,7 @@
     <exec dir="${repo.root}" command="result=${PWD##*/}; printf '%s\n' &quot;${PWD##*/}&quot;" logoutput="false" checkreturn="true" level="${blt.exec_level}" passthru="false" outputProperty="dirname"/>
     <exec dir="${repo.root}" command="${composer.bin}/yaml-cli update:value ${blt.config-files.project} project.machine_name '${dirname}'" logoutput="true" checkreturn="false" level="${blt.exec_level}" passthru="true"/>
 
-    <echo>Installing new Composer dependencies provided by BLT. This make take a while... DAVE</echo>
-    <echo>TESTING</echo>
+    <echo>Installing new Composer dependencies provided by BLT. This make take a while</echo>
     <exec dir="${repo.root}" command="cat ${blt.root}/phing/build.yml" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <exec dir="${repo.root}" command="rm -rf ${repo.root}/vendor composer.lock" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <exec dir="${repo.root}" command="composer install --no-interaction --prefer-dist" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
