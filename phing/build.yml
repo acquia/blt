@@ -14,7 +14,7 @@ behat:
   # An array of paths with behat tests that should be executed.
   paths:
     # - ${docroot}/modules
-    - ${docroot}/profiles
+    # - ${docroot}/profiles
     - ${repo.root}/tests/behat
   tags: '~ajax&&~experimental&&~lightningextension'
   verbose: ${blt.verbose}
@@ -58,6 +58,7 @@ drupal:
   account.name: admin
   account.password: admin
   account.mail: no-reply@acquia.com
+  locale: en
 
 drush:
   bin: ${composer.bin}/drush

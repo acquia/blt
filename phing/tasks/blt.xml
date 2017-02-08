@@ -20,10 +20,6 @@
     <exec dir="${repo.root}" command="result=${PWD##*/}; printf '%s\n' &quot;${PWD##*/}&quot;" logoutput="false" checkreturn="true" level="${blt.exec_level}" passthru="false" outputProperty="dirname"/>
     <exec dir="${repo.root}" command="${composer.bin}/yaml-cli update:value ${blt.config-files.project} project.machine_name '${dirname}'" logoutput="true" checkreturn="false" level="${blt.exec_level}" passthru="true"/>
 
-    <!-- Remove default git remote -->
-    <exec dir="${repo.root}" command="${composer.bin}/yaml-cli update:value ${blt.config-files.project} git.remotes.0 ''"  logoutput="true" checkreturn="false" level="${blt.exec_level}" passthru="true"/>
-    <exec dir="${repo.root}" command="${composer.bin}/yaml-cli unset:key ${blt.config-files.project} git.remotes.1"  logoutput="true" checkreturn="false" level="${blt.exec_level}" passthru="true"/>
-
     <echo>Installing new Composer dependencies provided by BLT. This make take a while...</echo>
     <exec dir="${repo.root}" command="composer update --no-interaction" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <copy file="${repo.root}/docroot/profiles/contrib/lightning/lightning.extend.yml" tofile="${repo.root}/docroot/sites/default/lightning.extend.yml"/>

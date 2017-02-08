@@ -69,7 +69,7 @@
     <copy file="${blt.root}/scripts/drupal-vm/Vagrantfile" todir="${repo.root}" verbose="true"/>
 
     <echo>Adding geerlingguy/drupal-vm to composer dev dependencies.</echo>
-    <exec dir="${repo.root}" command="composer require --dev geerlingguy/drupal-vm:~4.1" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec dir="${repo.root}" command="composer require --dev geerlingguy/drupal-vm:~4.2" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
 
     <echo></echo>
     <echo>BLT has created default configuration for your Drupal VM.</echo>

@@ -53,6 +53,8 @@ installed_extras:
 
 # Use PHP 5.6.
 php_version: "5.6"
+php_packages_extra:
+  - "php{{ php_version }}-bz2"
 
 # XDebug configuration.
 # Change this value to 1 in order to enable xdebug by default.

@@ -26,7 +26,7 @@ cd ..
 ./vendor/bin/blt validate
 ./vendor/bin/blt tests
 read -p "Press any key to continue. This will create a VM and re-run tests there."
-./vendor/bin/blt vm
+./vendor/bin/blt vm -Dvm.boot=y
 ./vendor/bin/blt local:setup
 drush @blted8.local ssh blt tests:behat
 read -p "Press any key to continue. This will destroy the VM and attempt to perform a Pipelines build."

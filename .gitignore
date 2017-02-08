@@ -110,3 +110,4 @@ template/.idea/.name
 template/composer.lock
 
 CHANGELOG.partial
+build
