@@ -27,4 +27,10 @@ Ensure that your new project has `$settings['install_profile']` set, or Drupal c
 
 At this point you should have a functional multisite codebase that can be installed on Acquia Cloud.
 
+## Drush aliases
+
+The default Drush site aliases provided by [Acquia Cloud](https://docs.acquia.com/acquia-cloud/drush/aliases) and [Club](https://github.com/acquia/club#usage) are not currently multisite-aware. They will connect to the first ("default") site / database on the subscription by default. You will need to create your own Drush aliases for each site.
+
+It's recommended to copy the aliases file provided by Acquia Cloud or Club to create a separate aliases file for each site. Simply modify the `uri` and `parent` keys for the aliases within each file to match the correct database / site.
+
 TODO: Add instructions for integration with BLT development workflows and DrupalVM.
