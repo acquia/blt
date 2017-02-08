@@ -2,7 +2,7 @@
 
 set -ev
 
-# Allow MySQL to finish starting
+# Allow MySQL to finish starting.
 sleep 3
 composer selfupdate
 # Disable xdebug.
