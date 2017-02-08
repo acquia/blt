@@ -2,6 +2,8 @@
 
 set -ev
 
+# Allow MySQL to finish starting
+sleep 3
 composer selfupdate
 # Disable xdebug.
 phpenv config-rm xdebug.ini
