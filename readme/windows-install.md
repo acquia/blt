@@ -38,7 +38,7 @@ Your environment is now ready to [create a new](creating-new-project.md) BLT pro
 
 The Windows Subsystem for Linux isn't a full-fledged Linux operating system, rather an environment for running Linux apps that would normally run on Ubuntu 14.04. Therefore, [VirtualBox can't be installed in the WSL](http://askubuntu.com/a/816350/88829), and it's [unlikely Vagrant usage will be supported](https://github.com/mitchellh/vagrant/issues/7731)—though you _can_ install Vagrant in the WSL, using `dpkg -i` to install the [latest Vagrant `.deb` package download](https://releases.hashicorp.com/vagrant/).
 
-Therefore, if you wish to use the prepackaged Drupal VM instance created by BLT through `vm init`, you should follow Drupal VM's Quick Start Guide to install VirtualBox and Vagrant, then you have two options for managing the VM:
+Therefore, to use the prepackaged Drupal VM instance created by BLT through `vm init`, you should follow Drupal VM's Quick Start Guide to install VirtualBox and Vagrant, then you have two options for managing the VM:
 
   1. Use a separate PowerShell or other command line environment to manage the VM via `vagrant` commands.
   2. [Install cbwin](https://github.com/xilun/cbwin#installation) and use it to 'wrap' `vagrant` commands (e.g. `wrun vagrant up` to build the VM from inside Bash).
