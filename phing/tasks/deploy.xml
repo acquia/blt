@@ -161,21 +161,23 @@
 
   </target>
 
-  <target name="deploy:copy:site" description="Copy required files from /docroot/sites to /deploy/docroot/sites." hidden="true">
+  <target name="deploy:copy:site:perms-writable" description="Make each multisite dir writable." hidden="true">
     <!-- Make sites/${multisite.name} writable so that we can copy files. -->
     <chmod file="${docroot}/sites/${multisite.name}" mode="0777" />
+  </target>
 
-    <exec dir="${repo.root}" command="rsync -a --no-g --delete --delete-excluded --exclude-from=${deploy.exclude_file} ${repo.root}/ ${deploy.dir}/ --filter 'protect /.git/'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
-
+  <target name="deploy:copy:site:perms-unwritable" description="Make each multisite dir unwritable." hidden="true">
     <!-- Set sites/${multisite.name} back to 755 permissions. -->
     <chmod file="${docroot}/sites/${multisite.name}" mode="0755" />
   </target>
 
   <target name="deploy:copy" description="Copy required files from each /docroot/sites to /deploy/docroot/sites." hidden="true">
+    <foreach list="${multisite.name}" param="multisite.name" target="deploy:copy:site:perms-writable"/>
+    <exec dir="${repo.root}" command="rsync -a --no-g --delete --delete-excluded --exclude-from=${deploy.exclude_file} ${repo.root}/ ${deploy.dir}/ --filter 'protect /.git/'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <foreach list="${multisite.name}" param="multisite.name" target="deploy:copy:site:perms-unwritable"/>
+
     <!-- Use our own .gitignore -->
     <copy file="${deploy.gitignore_file}" tofile="${deploy.dir}/.gitignore" overwrite="true"/>
-    <!-- Perform settings copy for each multisite. -->
-    <foreach list="${multisite.name}" param="multisite.name" target="deploy:copy:site"/>
   </target>
 
   <target name="deploy:prepare-dir" description="Delete the existing deploy directory and re-initialize as an empty git repository." hidden="true">
