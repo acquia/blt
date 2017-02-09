@@ -67,6 +67,7 @@ script:
   # Create ci alias.
   - echo "<?php $aliases['blt.ci'] = array('uri' => '127.0.0.1:8888');" > drush/site-aliases/blt.aliases.php
   - cat drush/site-aliases/blt.aliases.php
+  - find .
   # Use alias.
   - yaml-cli update:value blt/project.yml drush.aliases.ci 'blt.ci'
   - cat blt/project.yml
