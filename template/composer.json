@@ -60,7 +60,7 @@
                 "type:drupal-module"
             ],
             "docroot/modules/custom/{$name}": [
-                "drupal-module-custom"
+                "drupal-custom-module"
             ],
             "docroot/profiles/contrib/{$name}": [
                 "type:drupal-profile"
@@ -73,6 +73,9 @@
             ],
             "docroot/themes/custom/{$name}": [
                 "type:drupal-custom-theme"
+            ],
+            "docroot/libraries": [
+                "type:drupal-library"
             ],
             "drush/contrib/{$name}": [
                 "type:drupal-drush"
