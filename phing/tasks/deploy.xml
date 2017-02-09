@@ -49,6 +49,12 @@
                                 promptText="Enter the name of the tag to create."
                                 promptCharacter=":"
                                 defaultValue=""/>
+                <if>
+                  <equals arg1="${deploy.tag}" arg2=""/>
+                  <then>
+                    <fail message="You must enter a tag name."/>
+                  </then>
+                </if>
               </then>
             </if>
           </then>
