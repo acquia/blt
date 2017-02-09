@@ -136,7 +136,10 @@
   <target name="deploy:commit" hidden="true">
     <!-- We make these commands quiet because they can cause the output to be so long that Travis CI stops logging. -->
     <exec command="git add -A" dir="${deploy.dir}" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
-    <exec command="git commit --quiet -m" dir="${deploy.dir}" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true" escape="true">
+    <exec executable="git" dir="${deploy.dir}" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true" escape="true">
+      <arg value="commit"/>
+      <arg value="--quiet"/>
+      <arg value="-m"/>
       <arg value="${deploy.commitMsg}"/>
     </exec>
   </target>
