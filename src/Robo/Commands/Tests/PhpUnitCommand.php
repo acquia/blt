@@ -14,6 +14,25 @@ use Wikimedia\WaitConditionLoop;
  */
 class PhpUnitCommand extends BltTasks {
 
+
+  /** @var string  */
+  protected $reportsDir;
+  /** @var string  */
+  protected $reportFile;
+  /** @var string  */
+  protected $testsDir;
+
+  /**
+   * This hook will fire for all commands in this command file.
+   *
+   * @hook init
+   */
+  public function initialize() {
+    $this->reportsDir = $this->getConfigValue('reports.localDir') . '/phpunit';
+    $this->reportFile = $this->reportsDir . '/results.xml';
+    $this->testsDir = $this->getConfigValue('repo.root') . '/tests/phpunit';
+  }
+
   /**
    * Executes all PHPUnit tests.
    *
@@ -21,18 +40,21 @@ class PhpUnitCommand extends BltTasks {
    * @description Executes all PHPUnit tests.
    */
   public function testsPhpUnit() {
-    $reports_dir = $this->getConfigValue('reports.localDir') . '/phpunit';
-    $report_file = $reports_dir . '/results.xml';
-    $this->_mkdir($reports_dir);
-    $this->_touch($report_file);
-    $tests_dir = $this->getConfigValue('repo.root') . '/tests/phpunit';
-
+    $this->createLogs();
     $this->taskPHPUnit()
-      ->dir($tests_dir)
-      ->xml($report_file)
+      ->dir($this->testsDir)
+      ->xml($this->reportFile)
       ->arg('.')
       ->printOutput(true)
       ->run();
+  }
+
+  /**
+   * Creates empty log directory and log file for PHPUnit tests.
+   */
+  protected function createLogs() {
+    $this->_mkdir($this->reportsDir);
+    $this->_touch($this->reportFile);
   }
 
 }

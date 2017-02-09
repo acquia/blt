@@ -9,6 +9,8 @@ namespace Acquia\Blt\Robo\Wizards;
 class TestsWizard extends Wizard {
 
   /**
+   * Prompts user to require PhantomJS via Composer.
+   *
    * @throws \Exception
    */
   public function wizardRequirePhantomJs() {
@@ -25,6 +27,8 @@ class TestsWizard extends Wizard {
   }
 
   /**
+   * Prompts user to configure PhantomJS scripts in composer.json.
+   *
    * @throws \Exception
    */
   public function wizardConfigurePhantomJsScript() {
@@ -41,7 +45,7 @@ class TestsWizard extends Wizard {
   }
 
   /**
-   *
+   * Prompts user to download/install PhantomJS.
    */
   public function wizardInstallPhantomJsBinary() {
     if (!$this->getInspector()->isPhantomJsBinaryPresent()) {
@@ -54,7 +58,7 @@ class TestsWizard extends Wizard {
   }
 
   /**
-   *
+   * Prompts user to generate valid Behat configuration file.
    */
   public function wizardConfigureBehat() {
     if (!$this->getInspector()->isBehatConfigured()) {

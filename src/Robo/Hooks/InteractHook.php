@@ -75,6 +75,7 @@ class InteractHook extends Tasks implements IOAwareInterface, ConfigAwareInterfa
    * @hook interact @interactLaunchPhpWebServer
    */
   public function interactLaunchPhpWebServer() {
+    /** @var Executor $executor */
     if ($this->getConfigValue('behat.run-server')) {
       /** @var Executor $executor */
       $executor = $this->getContainer()->get('executor');

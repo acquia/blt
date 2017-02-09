@@ -7,12 +7,29 @@ use Acquia\Blt\Robo\Wizards\TestsWizard;
 use Drupal\Core\Database\Log;
 use GuzzleHttp\Client;
 use Psr\Log\LogLevel;
+use Robo\Contract\VerbosityThresholdInterface;
 use Wikimedia\WaitConditionLoop;
 
 /**
  * Defines commands in the "tests" namespace.
  */
 class BehatCommand extends BltTasks {
+
+  /** @var string  */
+  protected $seleniumLogFile;
+
+  /** @var string */
+  protected $seleniumUrl;
+
+  /**
+   * This hook will fire for all commands in this command file.
+   *
+   * @hook init
+   */
+  public function initialize() {
+    $this->seleniumLogFile = $this->getConfigValue('reports.localDir') . "/selenium2.log";
+    $this->seleniumUrl = "http://127.0.0.1:4444/wd/hub";
+  }
 
   /**
    * Executes all behat tests.
@@ -34,22 +51,24 @@ class BehatCommand extends BltTasks {
    * @validateBehatIsConfigured
    */
   public function behat() {
+    // Log config for debugging purposes.
     $this->logConfig($this->getConfigValue('behat'), 'behat');
     $this->logConfig($this->getInspector()->getLocalBehatConfig()->toArray());
 
+    // Create reports dir.
+    $logs_dir = $this->getConfigValue('reports.localDir');
+    $this->taskFilesystemStack()
+      ->mkdir($logs_dir)
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->run();
+
+    // Launch the appropriate web driver.
     if ($this->getConfigValue('behat.launch-phantomjs')) {
       $this->launchPhantomJs();
     }
     elseif ($this->getConfigValue('behat.launch-selenium')) {
       $this->launchSelenium();
     }
-
-    $logs_dir = $this->getConfigValue('reports.localDir');
-    $this->logger->info("Creating Behat log files at $logs_dir");
-    $this->taskFilesystemStack()
-      ->mkdir($logs_dir)
-      //->setLogLevel(LogLevel::DEBUG)
-      ->run();
 
     foreach ($this->getConfigValue('behat.paths') as $behat_path) {
       // Output errors.
@@ -64,27 +83,37 @@ class BehatCommand extends BltTasks {
   }
 
   /**
-   *
+   * Launches selenium server.
    */
   protected function launchSelenium() {
-    $log_file = $this->getConfigValue('reports.localDir') . "/selenium2.log";
-    $this->logger->info("Creating Selenium2 log file at $log_file");
-    $this->_touch($log_file);
+    $this->createSeleniumLogs();
     $this->getContainer()->get('executor')->killProcessByPort('4444');
     $this->getContainer()->get('executor')->killProcessByName('selenium');
     $this->say("Launching Selenium standalone server.");
-    $this->getContainer()->get('executor')->execute($this->getConfigValue('composer.bin') . "/selenium-server-standalone -port 4444 -log $log_file  > /dev/null 2>&1")
+    $this->getContainer()
+      ->get('executor')
+      ->execute($this->getConfigValue('composer.bin') . "/selenium-server-standalone -port 4444 -log {$this->seleniumLogFile}  > /dev/null 2>&1")
       ->background(true)
       ->printOutput(true)
-      //->setLogLevel(LogLevel::DEBUG)
       ->dir($this->getConfigValue('repo.root'))
       ->run();
-    $url = "http://127.0.0.1:4444/wd/hub";
-    $this->getContainer()->get('executor')->waitForUrlAvailable($url);
+    $this->getContainer()->get('executor')->waitForUrlAvailable($this->seleniumUrl);
   }
 
   /**
-   *
+   * Creates selenium log file.
+   */
+  protected function createSeleniumLogs() {
+    $this->seleniumLogFile;
+    $this->logger->info("Creating Selenium2 log file at {$this->seleniumLogFile}");
+    $this->taskFilesystemStack()
+      ->touch($this->seleniumLogFile)
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->run();
+  }
+
+  /**
+   * Launches selenium web driver.
    */
   protected function launchPhantomJs() {
     if (!$this->getInspector()->isPhantomJsConfigured()) {
@@ -96,7 +125,7 @@ class BehatCommand extends BltTasks {
     $this->say("Launching PhantomJS GhostDriver.");
     $this->taskExec("{$this->getConfigValue('composer.bin')}/phantomjs")
       ->option("webdriver", 4444)
-      //->setLogLevel(LogLevel::INFO)
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->background()
       ->run();
   }

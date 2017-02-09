@@ -10,6 +10,7 @@ use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LogLevel;
 use Robo\Collection\CollectionBuilder;
 use Robo\Common\ProcessExecutor;
+use Robo\Robo;
 use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Console\Output\OutputInterface;
 use Robo\Contract\ConfigAwareInterface;
@@ -61,7 +62,7 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
   public function drush($command) {
     // @todo Set to silent if verbosity is less than very verbose.
     $bin = $this->getConfigValue('composer.bin');
-    $process_executor = new ProcessExecutor(new Process("$bin/drush $command"));
+    $process_executor = Robo::process(new Process("$bin/drush $command"));
     return $process_executor->dir($this->getConfigValue('docroot'))
       ->interactive(false)
       ->printOutput(false)
@@ -74,7 +75,8 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
    * @return ProcessExecutor
    */
   public function execute($command) {
-    $process_executor = new ProcessExecutor(new Process($command));
+
+    $process_executor = Robo::process(new Process($command));
     return $process_executor->dir($this->getConfigValue('repo.root'))
       ->interactive(false)
       ->printOutput(false)
