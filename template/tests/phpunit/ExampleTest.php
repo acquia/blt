@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains example PHPUnit tests.
- */
-
 namespace My\Example\Project\Tests;
 
 /**
