@@ -127,16 +127,16 @@
     <exec dir="${repo.root}" command="vagrant up" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true" />
   </target>
 
-  <target name="vm:nuke" description="Destroys a Drupal VM and all of its associated configuration.">
+  <target name="vm:nuke" description="Destroys local Drupal VM instance and it's associated configuration.">
     <propertyprompt propertyName="vm.nuke" useExistingValue="true"
-                    promptText="This will destroy your VM and all of its configuration!!! Continue?"
+                    promptText="This will destroy your VM, and delete all associated configuration. Continue?"
                     promptCharacter=":"
                     defaultValue="y"/>
     <if>
       <equals arg1="${vm.nuke}" arg2="y" casesensitive="false"/>
       <then>
         <exec dir="${repo.root}" command="vagrant destroy" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
-        <exec dir="${repo.root}" command="rm -rf Vagrantfile box blt/project.local.yml drush/site-aliases/aliases.drushrc.php" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+        <exec dir="${repo.root}" command="rm -rf Vagrantfile box/config.yml blt/project.local.yml drush/site-aliases/aliases.drushrc.php" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
         <echo>Your Drupal VM intance has been obliterated.</echo>
         <echo>Please run `blt vm` to create a new one.</echo>
       </then>
