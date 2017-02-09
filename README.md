@@ -28,7 +28,7 @@ Its explicit goals are to:
 * Provide tools that automate much of the setup and maintenance work for projects
 * Document and enforce Drupal standards and best practices via default configuration, automated testing, and continuous integration
 
-It scope is discretely defined. It is *not* intended to provide:
+Its scope is discretely defined. It is *not* intended to provide:
 
 * Drupal application features (e.g., workflow, media, layout, pre-fabbed content types, etc.)
 * A local hosting environment
@@ -59,7 +59,7 @@ It scope is discretely defined. It is *not* intended to provide:
 
 # Support and contribution
 
-BLT is provided as an open source tool in the hope that it will enabled developers to easily generate new Drupal projects that conform to Acquia Professional Services' best practices.
+BLT is provided as an open source tool in the hope that it will enable developers to easily generate new Drupal projects that conform to Acquia Professional Services' best practices.
 
 Please feel free to contribute to the project or file issues via the GitHub issue queue. See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines and instructions.
 
