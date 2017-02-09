@@ -59,11 +59,20 @@
             "docroot/modules/contrib/{$name}": [
                 "type:drupal-module"
             ],
+            "docroot/modules/custom/{$name}/": [
+                "drupal-module-custom"
+            ],
             "docroot/profiles/contrib/{$name}": [
                 "type:drupal-profile"
             ],
+            "docroot/profiles/custom/{$name}": [
+                "type:drupal-custom-profile"
+            ],
             "docroot/themes/contrib/{$name}": [
                 "type:drupal-theme"
+            ],
+            "docroot/themes/custom/{$name}": [
+                "type:drupal-custom-theme"
             ],
             "drush/contrib/{$name}": [
                 "type:drupal-drush"
