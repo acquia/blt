@@ -64,6 +64,11 @@ script:
   - blt ci:pipelines:init
   # Disable Lightning tests on pull requests.
   - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then printf "behat.paths: [ \${repo.root}/tests/behat ]" >> blt/project.yml; fi'
+  # Create ci alias.
+  - echo "<?php $aliases['blt.ci'] = array('uri' => '127.0.0.1:8888');" > drush/site-aliases/blt.aliases.php
+  - cat drush/site-aliases/blt.aliases.php
+  # Use alias.
+  - yaml-cli update:value blt/project.yml drush.default_alias 'blt.ci'
   - cat blt/project.yml
   # Call targets in the new 'blt-project' project.
   - blt ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dbehat.launch-phantom=true -Dblt.verbose=true
