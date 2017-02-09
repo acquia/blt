@@ -89,23 +89,6 @@
     </else>
   </if>
 
-  <!-- Load default site properties if overrides are provided. -->
-  <if>
-    <available filepath="${blt.config-dirs.sites}" file="project.${site.name}.yml" />
-    <then>
-      <property file="${blt.config-dirs.sites}/project.${site.name}.yml" prefix="site" logoutput="false"/>
-    </then>
-  </if>
-
-  <!-- Set site aliases if not already set by project.${site.name}.yml. -->
-  <property name="site.drush.aliases.local" value="${drush.aliases.local}" override="false"/>
-  <property name="site.drush.aliases.remote" value="${drush.aliases.remote}" override="false"/>
-  <property name="site.drush.aliases.ci" value="${drush.aliases.ci}" override="false"/>
-
-  <!-- Set site uris if not already set by project.${site.name}.yml. -->
-  <property name="site.uri.local" value="${project.local.uri}" override="false"/>
-  <property name="site.uri.ci" value="${project.ci.uri}" override="false"/>
-
   <echo level="verbose">Executing commands against multisite "${site.name}"</echo>
 
   <!-- If no environment is set, assume we're working locally. -->

@@ -71,17 +71,7 @@
 
   <!-- Wrapper around setup:drupal:settings. -->
   <target name="setup:drupal:settings:site" description="Creates local settings files using default settings files for an individual site.">
-    <if>
-      <available filepath="${blt.config-dirs.sites}" file="project.${site.name}.yml" />
-      <then>
-        <phingcall target="setup:drupal:settings">
-          <property file="${blt.config-dirs.sites}/project.${site.name}.yml" prefix="site" logoutput="false" />
-        </phingcall>
-      </then>
-      <else>
-        <phingcall target="setup:drupal:settings" />
-      </else>
-    </if>
+    <fail unless="site.name" message="site.name must be specified."/>
   </target>
 
   <target name="setup:drupal:settings" description="Does the work of creating local settings files using default settings files for an individual site."
@@ -166,19 +156,7 @@
 
   <!-- Wrapper around setup:drush:settings. -->
   <target name="setup:drush:settings:site" description="Creates local drush settings files for an individual site.">
-    <if>
-      <available filepath="${blt.config-dirs.sites}" file="project.${site.name}.yml" />
-      <then>
-        <phingcall target="setup:drush:settings">
-          <property file="${blt.config-dirs.sites}/project.${site.name}.yml" prefix="site" logoutput="false" />
-        </phingcall>
-      </then>
-      <else>
-        <phingcall target="setup:drush:settings">
-          <property name="environment" value="local"/>
-        </phingcall>
-      </else>
-    </if>
+    <fail unless="site.name" message="site.name must be specified."/>
   </target>
 
   <target name="setup:drush:settings" description="Does the work of creating local drush settings files for an individual site."
@@ -216,11 +194,14 @@
 
   <!-- Wrapper around setup:drupal:install. -->
   <target name="setup:drupal:install:site" description="Installs Drupal on a specific local site.">
+    <fail unless="site.name" message="site.name must be specified."/>
     <if>
       <available filepath="${blt.config-dirs.sites}" file="project.${site.name}.yml" />
       <then>
         <phingcall target="setup:drupal:install">
           <property file="${blt.config-dirs.sites}/project.${site.name}.yml" prefix="site" logoutput="false" />
+          <property name="drush.alias" value="${site.drush.aliases.${environment}}"
+                    override="true" fallback="${drush.alias}" logoutput="false"/>
         </phingcall>
       </then>
       <else>
@@ -243,7 +224,7 @@
     </if>
 
     <echo>Installing Drupal on ${site.name} in the ${environment} environment...</echo>
-    <drush command="site-install" alias="${site.drush.aliases.${environment}}">
+    <drush command="site-install">
       <option name="site-name">"${project.human_name}"</option>
       <option name="site-mail">"${drupal.account.mail}"</option>
       <option name="account-name">"${drupal.account.name}"</option>
@@ -275,11 +256,14 @@
   
   <!-- Wrapper around setup:config-import. -->
   <target name="setup:config-import:site" description="Import configuration from a site's config directory.">
+    <fail unless="site.name" message="site.name must be specified."/>
     <if>
       <available filepath="${blt.config-dirs.sites}" file="project.${site.name}.yml" />
       <then>
         <phingcall target="setup:config-import">
           <property file="${blt.config-dirs.sites}/project.${site.name}.yml" prefix="site" logoutput="false" />
+          <property name="drush.alias" value="${site.drush.aliases.${environment}}"
+                    override="true" fallback="${drush.alias}" logoutput="false"/>
         </phingcall>
       </then>
       <else>
@@ -378,11 +362,14 @@
 
   <!-- Wrapper around setup:upate:features-import. -->
   <target name="setup:update:features-import:site" description="Features import for a site on the specified bundle.">
+    <fail unless="site.name" message="site.name must be specified."/>
     <if>
       <available filepath="${blt.config-dirs.sites}" file="project.${site.name}.yml" />
       <then>
         <phingcall target="setup:update:features-import">
           <property file="${blt.config-dirs.sites}/project.${site.name}.yml" prefix="site" logoutput="false" />
+          <property name="drush.alias" value="${site.drush.aliases.${environment}}"
+                    override="true" fallback="${drush.alias}" logoutput="false"/>
         </phingcall>
       </then>
       <else>
@@ -413,11 +400,14 @@
 
   <!-- Wrapper around setup:toggle-modules. -->
   <target name="setup:toggle-modules:site" description="Enables and uninstalls specified modules.">
+    <fail unless="site.name" message="site.name must be specified."/>
     <if>
       <available filepath="${blt.config-dirs.sites}" file="project.${site.name}.yml" />
       <then>
         <phingcall target="setup:toggle-modules">
           <property file="${blt.config-dirs.sites}/project.${site.name}.yml" prefix="site" logoutput="false" />
+          <property name="drush.alias" value="${site.drush.aliases.${environment}}"
+                    override="true" fallback="${drush.alias}" logoutput="false"/>
         </phingcall>
       </then>
       <else>

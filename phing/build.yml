@@ -62,9 +62,8 @@ drupal:
 
 drush:
   bin: ${composer.bin}/drush
-  cmd: ${drush.bin} @${drush.alias} -r ${docroot} -l ${site.uri.${environment}}
+  cmd: ${drush.bin} @${drush.alias}
   dir: ${docroot}
-  uri: ${site.uri.${environment}}
   assume: yes
   passthru: yes
   logoutput: yes
@@ -98,5 +97,3 @@ phpcs:
 project:
   local:
     uri: ${project.local.protocol}://${project.local.hostname}
-  ci:
-    uri: 127.0.0.1:8888
