@@ -39,6 +39,7 @@ class DeployTest extends BltTestBase {
     $this->assertFileExists($this->deploy_dir . '/docroot/index.php');
     $this->assertFileExists($this->deploy_dir . '/docroot/autoload.php');
     $this->assertFileExists($this->deploy_dir . '/composer.lock');
+    $this->assertFileExists($this->deploy_dir . '/.gitignore');
     $this->assertFileExists($this->deploy_dir . '/docroot/sites/default/settings.php');
     $this->assertFileNotExists($this->deploy_dir . '/docroot/sites/default/settings/local.settings.php');
 
