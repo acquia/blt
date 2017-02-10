@@ -59,7 +59,25 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
     }
 
     // Build sites list.
-    $this->sites = !empty($this->config['multisite']['name']) ? $this->config['multisite']['name'] : ['default'];
+    $sites = [];
+    $re_site_config = '/project\.(\w+)\.yml/';
+    $sites_config_dir = "$this->projectDirectory/blt/sites";
+    if (is_dir($sites_config_dir)) {
+      foreach (scandir($sites_config_dir) as $config) {
+        $match = [];
+        if (preg_match($re_site_config, $config, $match)) {
+          $sites[] = $match[1];
+        }
+      }
+    }
+
+    // Ensure the default site is in the list of sites.
+    // The default site requires no specific configuration file.
+    if (!is_array('default')) {
+      $sites[] = 'default';
+    }
+
+    $this->sites = $sites;
   }
 
 }

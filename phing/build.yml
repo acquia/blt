@@ -32,6 +32,8 @@ blt:
     local: ${repo.root}/blt/project.local.yml
     example-local: ${repo.root}/blt/example.project.local.yml
     schema-version: ${repo.root}/blt/.schema_version
+  config-dirs:
+    sites: ${repo.root}/blt/sites
 
 composer:
   bin: ${repo.root}/${bin.path}
@@ -60,9 +62,8 @@ drupal:
 
 drush:
   bin: ${composer.bin}/drush
-  cmd: ${drush.bin} @${drush.alias} -l ${multisite.name}
+  cmd: ${drush.bin} @${drush.alias}
   dir: ${docroot}
-  uri: ${multisite.name}
   assume: yes
   passthru: yes
   logoutput: yes

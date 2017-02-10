@@ -32,7 +32,7 @@
   </target>
 
 
-  <target name="vm:local:init" depends="setup:drupal:settings" description="Initializes DrupalVM for this machine." hidden="true">
+  <target name="vm:local:init" depends="setup:drupal:settings:all" description="Initializes DrupalVM for this machine." hidden="true">
     <!-- Sadly this wipes out comments in the file. -->
     <echo>Updating ${blt.config-files.local}...</echo>
     <exec dir="${repo.root}" command="${composer.bin}/yaml-cli update:value ${blt.config-files.local} drush.default_alias '${project.machine_name}.local'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>

@@ -64,11 +64,35 @@ script:
   - blt ci:pipelines:init
   # Disable Lightning tests on pull requests.
   - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then printf "behat.paths: [ \${repo.root}/tests/behat ]" >> blt/project.yml; fi'
+  # Create ci alias.
+  - echo "<?php \$aliases['blt.ci'] = array('uri' => '127.0.0.1:8888');" > drush/site-aliases/blt.aliases.php
+  - cat drush/site-aliases/blt.aliases.php
+  - vendor/bin/drush cc drush
+  - vendor/bin/drush status
+  - vendor/bin/drush sa
+  # Use alias.
+  - yaml-cli update:value blt/project.yml drush.aliases.ci 'blt.ci'
   - cat blt/project.yml
   # Call targets in the new 'blt-project' project.
   - blt ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dbehat.launch-phantom=true -Dblt.verbose=true
   # Run 'blt-project' tests.
   - phpunit ../blt/tests/phpunit --group blt-project
+  # Run 'blt-multisite' tests against the single site.
+  - phpunit ../blt/tests/phpunit --group blt-multisite --bootstrap ../blt/tests/phpunit/bootstrap/site.php
+  # Create a site-specific settings file and give it some values.
+  - mkdir -p blt/sites
+  # Create initial key.
+  - echo "drush:" >> blt/sites/project.subsite.yml
+  # Update value.
+  - yaml-cli update:value blt/sites/project.subsite.yml drush.aliases.ci 'subsite.ci.local'
+  - cat blt/sites/project.subsite.yml
+  # Run settings setup with the new file in place.
+  - blt setup:settings
+  # Run 'blt-project' tests again with new file in place.
+  - phpunit ../blt/tests/phpunit --group blt-project
+  # Run 'blt-multisite' tests,
+  # ensuring we are able use the properties in blt/sites/project.subsite.yml (created above).
+  - phpunit ../blt/tests/phpunit --group blt-multisite --bootstrap ../blt/tests/phpunit/bootstrap/multisite.php
   # Initialize ACSF config.
   - blt acsf:init
   # Ensure that the doctor doesn't report any problems at this point.

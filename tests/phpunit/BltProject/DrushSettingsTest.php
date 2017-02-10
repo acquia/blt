@@ -17,6 +17,7 @@ class DrushSettingsTest extends BltProjectTestBase {
    * Ensures each site has a local.drushrc.php file.
    *
    * @group blt-project
+   * @group blt-multisite
    */
   public function testSetupLocalSettings() {
     foreach ($this->sites as $site) {
@@ -30,6 +31,7 @@ class DrushSettingsTest extends BltProjectTestBase {
    * Ensures each site has a default.local.drushrc.php.
    *
    * @group blt-project
+   * @group blt-multisite
    */
   public function testSetupDefaultSettings() {
     foreach ($this->sites as $site) {
