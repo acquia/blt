@@ -1,5 +1,54 @@
 # Change Log
 
+## [8.6.12](https://github.com/acquia/blt/tree/8.6.12) (2017-02-09)
+[Full Changelog](https://github.com/acquia/blt/compare/8.6.11...8.6.12)
+
+**Implemented enhancements:**
+
+- Allow skipping of BLT's own PHPUnit tests [\#982](https://github.com/acquia/blt/issues/982)
+- Make default acquia-pipelines.yml configuration distributable [\#976](https://github.com/acquia/blt/issues/976)
+- Adding composer-installers-extender. [\#1064](https://github.com/acquia/blt/pull/1064) ([grasmash](https://github.com/grasmash))
+- Adding installer paths for custom modules, themes, and profiles. [\#1063](https://github.com/acquia/blt/pull/1063) ([grasmash](https://github.com/grasmash))
+- Update lightning to 2.0.3 [\#1054](https://github.com/acquia/blt/pull/1054) ([balsama](https://github.com/balsama))
+- TravisCI MySQL errors [\#1053](https://github.com/acquia/blt/pull/1053) ([danepowell](https://github.com/danepowell))
+- Renaming locale to drupal.locale. [\#1045](https://github.com/acquia/blt/pull/1045) ([grasmash](https://github.com/grasmash))
+- Add locale option for site-install task. [\#1043](https://github.com/acquia/blt/pull/1043) ([snize](https://github.com/snize))
+- Connects to \#1032: Delete SettingsTest.php [\#1037](https://github.com/acquia/blt/pull/1037) ([bobbygryzynger](https://github.com/bobbygryzynger))
+- Splitting Travis instructions into separate bash files. [\#1035](https://github.com/acquia/blt/pull/1035) ([grasmash](https://github.com/grasmash))
+- Connects to  \#1028: Add drush and drupal settings tests [\#1032](https://github.com/acquia/blt/pull/1032) ([bobbygryzynger](https://github.com/bobbygryzynger))
+- Moving drupal/console requirement to template composer.json. [\#1031](https://github.com/acquia/blt/pull/1031) ([grasmash](https://github.com/grasmash))
+- Adding file\_exists\(\) check to composer munge command. [\#1030](https://github.com/acquia/blt/pull/1030) ([grasmash](https://github.com/grasmash))
+- Fixes \#985: Implement deploy\_install\(\) to rebuild projects on deploy. [\#986](https://github.com/acquia/blt/pull/986) ([swichers](https://github.com/swichers))
+
+**Fixed bugs:**
+
+- Tags can be blank which results in no tag being deployed. [\#1065](https://github.com/acquia/blt/issues/1065)
+- db\_scrub script should not fire on ACSF [\#1059](https://github.com/acquia/blt/issues/1059)
+- Build artifact .gitignore is blown away right after it's copied over [\#1007](https://github.com/acquia/blt/issues/1007)
+- Commit message needs to be escaped? [\#1006](https://github.com/acquia/blt/issues/1006)
+- Fixes \#1065: Tags can be blank which results in no tag being deployed. [\#1067](https://github.com/acquia/blt/pull/1067) ([grasmash](https://github.com/grasmash))
+- Fixes \#1006: Commit message needs to be escaped. [\#1062](https://github.com/acquia/blt/pull/1062) ([grasmash](https://github.com/grasmash))
+- Fixes \#1007: Build artifact .gitignore is blown away right after it's copied over [\#1061](https://github.com/acquia/blt/pull/1061) ([grasmash](https://github.com/grasmash))
+- Fixes \#1059: db-scrub script should not fire on ACSF. [\#1060](https://github.com/acquia/blt/pull/1060) ([grasmash](https://github.com/grasmash))
+- Fixed multisite settings on ACE. [\#1042](https://github.com/acquia/blt/pull/1042) ([danepowell](https://github.com/danepowell))
+
+**Closed issues:**
+
+- Unprocessed replacement in default.local.drushrc.php [\#1057](https://github.com/acquia/blt/issues/1057)
+- Travis MySQL errors [\#1036](https://github.com/acquia/blt/issues/1036)
+-  jakoch/phantomjs-installer 2.1.1-p08 requires ext-bz2 \* -\> the requested PHP extension bz2 is missing from your system. [\#1033](https://github.com/acquia/blt/issues/1033)
+- Add a deploy\_install command to reinstall projects on every deploy. [\#985](https://github.com/acquia/blt/issues/985)
+- Ansible needs to be at least 2.2 [\#889](https://github.com/acquia/blt/issues/889)
+
+**Misc merged pull requests**
+
+- Fixes \#1057: Unprocessed replacement in default.local.drushrc.php [\#1058](https://github.com/acquia/blt/pull/1058) ([grasmash](https://github.com/grasmash))
+- Trivial Windows documentation change [\#1056](https://github.com/acquia/blt/pull/1056) ([ashabed](https://github.com/ashabed))
+- Update README.md [\#1055](https://github.com/acquia/blt/pull/1055) ([ajitdev](https://github.com/ajitdev))
+- More multisite documentation [\#1049](https://github.com/acquia/blt/pull/1049) ([danepowell](https://github.com/danepowell))
+- Document multisite setup process [\#1027](https://github.com/acquia/blt/pull/1027) ([danepowell](https://github.com/danepowell))
+
+
 ## [8.6.11](https://github.com/acquia/blt/tree/8.6.11) (2017-02-01)
 [Full Changelog](https://github.com/acquia/blt/compare/8.6.10...8.6.11)
 

@@ -49,6 +49,12 @@
                                 promptText="Enter the name of the tag to create."
                                 promptCharacter=":"
                                 defaultValue=""/>
+                <if>
+                  <equals arg1="${deploy.tag}" arg2=""/>
+                  <then>
+                    <fail message="You must enter a tag name."/>
+                  </then>
+                </if>
               </then>
             </if>
           </then>
@@ -136,7 +142,12 @@
   <target name="deploy:commit" hidden="true">
     <!-- We make these commands quiet because they can cause the output to be so long that Travis CI stops logging. -->
     <exec command="git add -A" dir="${deploy.dir}" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
-    <exec command="git commit -m '${deploy.commitMsg}' --quiet" dir="${deploy.dir}" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec executable="git" dir="${deploy.dir}" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true" escape="true">
+      <arg value="commit"/>
+      <arg value="--quiet"/>
+      <arg value="-m"/>
+      <arg value="${deploy.commitMsg}"/>
+    </exec>
   </target>
 
   <target name="deploy:composer:install" description="Downloads core and contrib to deploy folder." hidden="true">
@@ -161,21 +172,23 @@
 
   </target>
 
-  <target name="deploy:copy:site" description="Copy required files from /docroot/sites to /deploy/docroot/sites." hidden="true">
+  <target name="deploy:copy:site:perms-writable" description="Make each multisite dir writable." hidden="true">
     <!-- Make sites/${multisite.name} writable so that we can copy files. -->
     <chmod file="${docroot}/sites/${multisite.name}" mode="0777" />
+  </target>
 
-    <exec dir="${repo.root}" command="rsync -a --no-g --delete --delete-excluded --exclude-from=${deploy.exclude_file} ${repo.root}/ ${deploy.dir}/ --filter 'protect /.git/'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
-
+  <target name="deploy:copy:site:perms-unwritable" description="Make each multisite dir unwritable." hidden="true">
     <!-- Set sites/${multisite.name} back to 755 permissions. -->
     <chmod file="${docroot}/sites/${multisite.name}" mode="0755" />
   </target>
 
   <target name="deploy:copy" description="Copy required files from each /docroot/sites to /deploy/docroot/sites." hidden="true">
+    <foreach list="${multisite.name}" param="multisite.name" target="deploy:copy:site:perms-writable"/>
+    <exec dir="${repo.root}" command="rsync -a --no-g --delete --delete-excluded --exclude-from=${deploy.exclude_file} ${repo.root}/ ${deploy.dir}/ --filter 'protect /.git/'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <foreach list="${multisite.name}" param="multisite.name" target="deploy:copy:site:perms-unwritable"/>
+
     <!-- Use our own .gitignore -->
     <copy file="${deploy.gitignore_file}" tofile="${deploy.dir}/.gitignore" overwrite="true"/>
-    <!-- Perform settings copy for each multisite. -->
-    <foreach list="${multisite.name}" param="multisite.name" target="deploy:copy:site"/>
   </target>
 
   <target name="deploy:prepare-dir" description="Delete the existing deploy directory and re-initialize as an empty git repository." hidden="true">

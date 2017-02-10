@@ -8,8 +8,7 @@
         }
     },
     "require": {
-        "acquia/lightning": "2.0.1",
-        "cweagans/composer-patches": "^1.6.0",
+        "acquia/lightning": "2.0.3",
         "drupal/acquia_connector": "^1.5.0",
         "drupal/acsf": "^1.32.0",
         "drupal/cog": "^1.0.0",
@@ -52,11 +51,6 @@
             ]
         },
         "enable-patching": true,
-        "patches": {
-            "acquia/lightning": {
-                "New LightningExtension subcontexts do not autoload": "https://www.drupal.org/files/issues/2836258-3-lightning-extension-autoload.patch"
-            }
-        },
         "installer-paths": {
             "docroot/core": [
                 "type:drupal-core"
@@ -64,11 +58,23 @@
             "docroot/modules/contrib/{$name}": [
                 "type:drupal-module"
             ],
+            "docroot/modules/custom/{$name}": [
+                "drupal-custom-module"
+            ],
             "docroot/profiles/contrib/{$name}": [
                 "type:drupal-profile"
             ],
+            "docroot/profiles/custom/{$name}": [
+                "type:drupal-custom-profile"
+            ],
             "docroot/themes/contrib/{$name}": [
                 "type:drupal-theme"
+            ],
+            "docroot/themes/custom/{$name}": [
+                "type:drupal-custom-theme"
+            ],
+            "docroot/libraries": [
+                "type:drupal-library"
             ],
             "drush/contrib/{$name}": [
                 "type:drupal-drush"
