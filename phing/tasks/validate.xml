@@ -86,8 +86,8 @@
       standard="${phpcs.ruleset}"
       showSniffs="false"
       showWarnings="true"
-      haltonerror="true"
-      haltonwarning="true">
+      haltonerror="${phpcs.haltonerror}"
+      haltonwarning="${phpcs.haltonwarning}">
       <fileset refid="${fileset_refid}"/>
       <formatter type="full" usefile="false"/>
     </phpcodesniffer>
