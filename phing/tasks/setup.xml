@@ -238,6 +238,16 @@
         </drush>
         <!-- Revert all features. -->
         <foreach list="${cm.features.bundle}" param="bundle" target="setup:update:features-import" />
+        <!-- Revert all features again! -->
+        <!-- @see https://www.drupal.org/node/2851532 -->
+        <foreach list="${cm.features.bundle}" param="bundle" target="setup:update:features-import" />
+        <if>
+          <equals arg1="${cm.features.no-overrides}" arg2="true"/>
+          <then>
+            <echo>Checking for features overrides...</echo>
+            <foreach list="${cm.features.bundle}" param="bundle" target="setup:update:features-override-check" />
+          </then>
+        </if>
       </then>
     </if>
     <!-- Rebuild caches. -->
@@ -290,17 +300,14 @@
     <drush command="fra" assume="yes" alias="${drush.alias}" passthru="false">
       <option name="bundle">${bundle}</option>
     </drush>
+  </target>
+
+  <target name="setup:update:features-override-check" description="Checks if features are overridden.">
+    <exec dir="${docroot}" command="${drush.cmd} fl --bundle=${bundle} | grep -Ei '(changed|conflicts|added)( *)$'" outputProperty="features.overrides"/>
     <if>
-      <equals arg1="${cm.features.no-overrides}" arg2="true"/>
+      <istrue value="${features.overrides}"/>
       <then>
-        <echo>Checking for features overrides...</echo>
-        <exec dir="${docroot}" command="${drush.cmd} fl --bundle=${bundle} | grep -Ei '(changed|conflicts|added)( *)$'" outputProperty="features.overrides"/>
-        <if>
-          <istrue value="${features.overrides}"/>
-          <then>
-            <fail>A feature in the ${bundle} bundle is overridden. You must re-export this feature to incorporate the changes.</fail>
-          </then>
-        </if>
+        <fail>A feature in the ${bundle} bundle is overridden. You must re-export this feature to incorporate the changes.</fail>
       </then>
     </if>
   </target>
