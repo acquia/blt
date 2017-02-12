@@ -221,9 +221,7 @@
     <!-- This must happen before features are imported or configuration is imported. -->
     <!-- For instance, if you add a dependency on a new extension to an existing configuration file, you must enable that extension via an update hook before attempting to import the configuration. -->
     <!-- If a db update relies on updated configuration, you should import the necessary configuration file(s) as part of the db update. -->
-    <drush command="updb" assume="yes" alias="${drush.alias}" passthru="false">
-      <option name="entity-updates"></option>
-    </drush>
+    <drush command="updb" assume="yes" alias="${drush.alias}" passthru="false"/>
     <!-- Import configuration. -->
     <drush command="config-import" assume="yes" alias="${drush.alias}" passthru="false">
       <option name="partial"></option>
