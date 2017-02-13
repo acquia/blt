@@ -173,17 +173,34 @@
     </if>
 
     <echo>Installing Drupal...</echo>
-    <drush command="site-install">
-      <option name="site-name">"${project.human_name}"</option>
-      <option name="site-mail">"${drupal.account.mail}"</option>
-      <option name="account-name">"${drupal.account.name}"</option>
-      <option name="account-pass">"${drupal.account.password}"</option>
-      <option name="account-mail">"${drupal.account.mail}"</option>
-      <option name="locale">"${drupal.locale}"</option>
-      <param>"${project.profile.name}"</param>
-      <param>"install_configure_form.update_status_module='array(FALSE,FALSE)'"</param>
-    </drush>
-
+    <if>
+      <equals arg1="${cm.core.partial}" arg2="true"/>
+      <then>
+        <drush command="site-install">
+          <option name="site-name">"${project.human_name}"</option>
+          <option name="site-mail">"${drupal.account.mail}"</option>
+          <option name="account-name">"${drupal.account.name}"</option>
+          <option name="account-pass">"${drupal.account.password}"</option>
+          <option name="account-mail">"${drupal.account.mail}"</option>
+          <option name="locale">"${drupal.locale}"</option>
+          <param>"${project.profile.name}"</param>
+          <param>"install_configure_form.update_status_module='array(FALSE,FALSE)'"</param>
+        </drush>
+      </then>
+      <else>
+        <drush command="site-install">
+          <option name="site-name">"${project.human_name}"</option>
+          <option name="site-mail">"${drupal.account.mail}"</option>
+          <option name="account-name">"${drupal.account.name}"</option>
+          <option name="account-pass">"${drupal.account.password}"</option>
+          <option name="account-mail">"${drupal.account.mail}"</option>
+          <option name="locale">"${drupal.locale}"</option>
+          <option name="config-dir">${cm.core.config-dir.path}</option>
+          <param>"${project.profile.name}"</param>
+          <param>"install_configure_form.update_status_module='array(FALSE,FALSE)'"</param>
+        </drush>
+      </else>
+    </if>
     <phingcall target="setup:update"/>
 
     <!-- Set sites directory file permissions. -->
@@ -224,11 +241,23 @@
     <drush command="updb" assume="yes" alias="${drush.alias}" passthru="false">
       <option name="entity-updates"></option>
     </drush>
+
     <!-- Import configuration. -->
-    <drush command="config-import" assume="yes" alias="${drush.alias}" passthru="false">
-      <option name="partial"></option>
-      <param>${cm.core.config-dir}</param>
-    </drush>
+    <if>
+      <equals arg1="${cm.core.partial}" arg2="true"/>
+      <then>
+        <drush command="config-import" assume="yes" alias="${drush.alias}" passthru="false">
+          <option name="partial"></option>
+          <param>${cm.core.config-dir.key}</param>
+        </drush>
+      </then>
+      <else>
+        <drush command="config-import" assume="yes" alias="${drush.alias}" passthru="false">
+          <param>${cm.core.config-dir.key}</param>
+        </drush>
+      </else>
+    </if>
+
     <if>
       <isset property="cm.features.bundle"/>
       <then>
