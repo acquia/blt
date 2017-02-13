@@ -92,7 +92,7 @@ phpcs:
     - files.php.custom.modules
     - files.php.tests
     - files.php.custom.themes
-    - files.frontend.custom.theme
+    - files.frontend.custom.themes
   haltonerror: true
   haltonwarning: true
 
