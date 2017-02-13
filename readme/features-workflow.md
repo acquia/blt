@@ -123,7 +123,7 @@ The best way to handle this is to always follow these steps when updating contri
 1. Start from a clean local setup or refresh. If you are using Features, ensure that there are no overridden features. The `cm.features.no-overrides` flag in [project.yml](https://github.com/acquia/blt/blob/8.x/template/blt/project.yml#L62) can assist with this by halting builds with overridden features.
 2. Use `composer update` to download the new module version(s).
 3. Run `drush updb` to apply any pending updates locally.
-4. If any updates were applied, check if they modified any stored configuration. If you using Features, simply check for overridden features. If using core CM, re-export all configuration and check for any changes on disk.
+4. If any updates were applied, check if they modified any stored configuration. If using Features, simply check for overridden features. If using core CM, re-export all configuration and check for any changes on disk.
 5. Re-export and commit any changes you found in the previous step, along with the updated `composer.json` and `composer.lock`.
 
 We need to find a better way of preventing this than manually monitoring module updates. Find more information in [these](https://www.drupal.org/node/2745685) [issues](https://github.com/acquia/blt/issues/842).
