@@ -204,6 +204,10 @@
   </target>
 
   <target name="setup:config-import" description="Import configuration from the config directory.">
+    <!-- Sometimes drush forgets where to find its aliases. -->
+    <drush command="cc" assume="yes" passthru="false">
+      <param>drush</param>
+    </drush>
     <echo>Importing configuration...</echo>
     <drush command="pm-enable" assume="yes" alias="${drush.alias}" passthru="false">
       <param>config</param>
