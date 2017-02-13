@@ -239,7 +239,7 @@
       <property name="drush.alias" value="self"/>
       <!-- Most sites store their version-controlled configuration in /config/default. -->
       <!-- ACE internally sets the vcs configuration directory to /config/default, so we use that. -->
-      <property name="cm.core.config-dir" value="vcs"/>
+      <property name="cm.config-dir.key" value="${cm.config-dir.deploy-key}"/>
     </phingcall>
   </target>
 
