@@ -91,7 +91,7 @@ phpcs:
   filesets:
     - files.php.custom.modules
     - files.php.tests
-    - files.frontend.custom.themes
+    - files.php.custom.themes
   haltonerror: true
   haltonwarning: true
 
