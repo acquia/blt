@@ -37,9 +37,13 @@ notifications:
 # - slack: '<account>:<token>#[channel]'
 
 before_install:
-  - source ${BLT_DIR}/scripts/travis/setup_environment
+  # Disable xdebug.
+  - phpenv config-rm xdebug.ini
+  - composer self-update
+  - composer install
 
 install:
+  - source ${BLT_DIR}/scripts/travis/setup_environment
   - source $BLT_DIR/scripts/travis/setup_project
 
 script:

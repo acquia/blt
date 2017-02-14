@@ -11,15 +11,12 @@ events:
   build:
     steps:
         # Install global packages and set global configuration.
-        - setup-environment:
+        - setup:
             type: script
             script:
+              - composer self-update
+              - composer install
               - ${BLT_DIR}/scripts/pipelines/setup_environment
-
-        # Install project level packages and set project level configuration.
-        - setup-project:
-            type: script
-            script:
               - ${BLT_DIR}/scripts/pipelines/setup_project
 
         # Execute all testing and validation tasks.

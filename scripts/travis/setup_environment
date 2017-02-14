@@ -5,10 +5,8 @@ set -ev
 # Allow MySQL to finish starting.
 sleep 3
 
-source $BLT_DIR/scripts/blt/ci/setup_environment
+source ${BLT_DIR}/scripts/blt/ci/setup_environment
 
-# Disable xdebug.
-phpenv config-rm xdebug.ini
 # Enable $_ENV variables in PHP.
 echo 'variables_order = "EGPCS"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 # Ensure that always_populate_raw_post_data PHP setting: Not set to -1 does not happen.
@@ -27,10 +25,6 @@ mysql -u root -e "CREATE DATABASE drupal; CREATE USER 'drupal'@'localhost' IDENT
 rm -f ~/.drush/cache/download/*---updates.drupal.org-release-history-*
 # Verify that no git diffs (caused by line ending variation) exist.
 # - git diff --exit-code
-
-# Install proper version of node for front end tasks.
-nvm install 4.4.1
-nvm use 4.4.1
 
 # Initialize xvfb (see https://docs.travis-ci.com/user/gui-and-headless-browsers)
 # sudo apt-get install xvfb

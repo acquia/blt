@@ -11,8 +11,4 @@ git config --global user.email "noreply@acquia.com"
 # Create MySQL DB.
 mysql -u root -proot -e "CREATE DATABASE IF NOT EXISTS drupal"
 
-# Install proper version of node for front end tasks.
-nvm install 4.4.1
-nvm use 4.4.1
-
 set +v
