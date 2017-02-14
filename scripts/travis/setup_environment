@@ -5,7 +5,7 @@ set -ev
 # Allow MySQL to finish starting.
 sleep 3
 
-source ${BLT_DIR}/scripts/blt/ci/setup_environment
+source ${BLT_DIR}/scripts/blt/ci/shared/setup_environment
 
 # Enable $_ENV variables in PHP.
 echo 'variables_order = "EGPCS"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini

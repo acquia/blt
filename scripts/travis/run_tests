@@ -2,7 +2,7 @@
 
 set -ev
 
-source ${BLT_DIR}/scripts/blt/ci/shared/run_tests.sh
+source ${BLT_DIR}/scripts/blt/ci/shared/run_tests
 blt ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dblt.verbose=true
 
 set +v
