@@ -59,7 +59,7 @@
                 "type:drupal-module"
             ],
             "docroot/modules/custom/{$name}": [
-                "drupal-custom-module"
+                "type:drupal-custom-module"
             ],
             "docroot/profiles/contrib/{$name}": [
                 "type:drupal-profile"
