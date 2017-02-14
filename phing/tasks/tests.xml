@@ -30,6 +30,7 @@
     <foreach list="${behat.paths}" target="tests:behat:execute" param="behat.path"/>
     <phingcall target="tests:selenium:kill"/>
     <phingcall target="tests:phantomjs:kill"/>
+    <phingcall target="tests:run-server:kill"/>
   </target>
 
   <target name="test:behat:check" description="Checks Behat configuration" hidden="true" depends="setup:behat">
@@ -229,7 +230,7 @@
   </target>
 
   <target name="tests:phantomjs:kill"
-          description="Launches a GhostDriver." hidden="true">
+          description="Kills PhantomJS." hidden="true">
     <echo>Killing any PhantomJS processes that are already running.</echo>
     <exec command="lsof -ti tcp:4444 | xargs kill 2>/dev/null" logoutput="false" level="${blt.exec_level}" passthru="false" checkreturn="false" />
     <exec command="pgrep phantomjs | xargs kill 2>/dev/null" logoutput="true" level="${blt.exec_level}" passthru="true" />
@@ -271,7 +272,7 @@
       <then>
         <echo message="Using 'drush runserver' for tests." />
         <echo message="Running server at ${behat.server-url}"/>
-        <exec command="pkill -f runserver" logoutput="true" level="${blt.exec_level}" passthru="true"/>
+        <phingcall target="tests:run-server:kill"/>
         <exec executable="${drush.bin}" dir="${docroot}" spawn="true" level="${blt.exec_level}">
           <arg line="runserver ${behat.server-url}"/>
         </exec>
@@ -284,6 +285,12 @@
         <echo message="NOT using `drush runserver' for tests." />
       </else>
     </if>
+  </target>
+
+  <target name="tests:run-server:kill"
+          description="Kills drush runserver process."
+          hidden="true">
+    <exec command="pkill -f runserver" logoutput="true" level="${blt.exec_level}" passthru="true"/>
   </target>
 
   <!-- Ensure Drupal doesn't have any modules requiring security updates. -->

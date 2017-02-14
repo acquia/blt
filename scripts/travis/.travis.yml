@@ -11,7 +11,6 @@ matrix:
 
 env:
   global:
-    - DEPLOY_SOURCE_BRANCH=8.x
     - COMPOSER_BIN=$TRAVIS_BUILD_DIR/vendor/bin
     - BLT_DIR=$TRAVIS_BUILD_DIR/vendor/acquia/blt
 
@@ -38,16 +37,18 @@ notifications:
 # - slack: '<account>:<token>#[channel]'
 
 before_install:
-  - source $BLT_DIR/scripts/travis/before_install
+  # Disable xdebug.
+  - phpenv config-rm xdebug.ini
+  - composer self-update
+  - composer validate --no-check-all --ansi
+  - composer install
 
 install:
-  - source $BLT_DIR/scripts/travis/install
-
-before_script:
-  - source $BLT_DIR/scripts/travis/before_script
+  - source ${BLT_DIR}/scripts/travis/setup_environment
+  - source $BLT_DIR/scripts/travis/setup_project
 
 script:
-  - source $BLT_DIR/scripts/travis/script
+  - source $BLT_DIR/scripts/travis/run_tests
 
 deploy:
    - provider: script

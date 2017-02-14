@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -ev
+
+export PATH=${COMPOSER_BIN}:${PATH}
+
+# Generate artifact in a separate directory.
+export NEW_BUILD_DIR=/tmp/artifact
+blt deploy:build -Ddeploy.dir=${NEW_BUILD_DIR}
+# Move git history to artifact directory. Required for pipelines to commit and push.
+mv ${BUILD_DIR}/.git ${NEW_BUILD_DIR}/
+# Allow dotfiles (hidden) to be globbed (via *).
+shopt -s dotglob
+# Remove all files, including hidden files, from working directory.
+rm -rf ${BUILD_DIR}/*
+# Move all files, including hidden files, from build artifact into working directory.
+mv ${NEW_BUILD_DIR}/* ${BUILD_DIR}/
+
+set +v

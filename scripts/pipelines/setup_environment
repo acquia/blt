@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -ev
+
+source ${BLT_DIR}/scripts/blt/ci/shared/setup_environment
+
+# Set git info.
+git config --global user.name "Acquia Cloud"
+git config --global user.email "noreply@acquia.com"
+
+# Create MySQL DB.
+mysql -u root -proot -e "CREATE DATABASE IF NOT EXISTS drupal"
+
+set +v
