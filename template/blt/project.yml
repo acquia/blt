@@ -46,6 +46,10 @@ target-hooks:
     dir: ${docroot}
     # E.g., `npm run build`.
     command: echo 'No frontend-build configured.'
+  # Executed before configuration is imported.
+  pre-config-import:
+    dir: ${docroot}
+    command: echo 'No pre-config-import configured.'
   # Executed after deployment artifact is created.
   post-deploy-build:
     dir: ${docroot}

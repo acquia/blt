@@ -221,6 +221,9 @@
   </target>
 
   <target name="setup:config-import" description="Import configuration from the config directory.">
+    <phingcall target="target-hook:invoke">
+      <property name="hook-name" value="pre-config-import"/>
+    </phingcall>
     <!-- Sometimes drush forgets where to find its aliases. -->
     <drush command="cc" assume="yes" passthru="false">
       <param>drush</param>
