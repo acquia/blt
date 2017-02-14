@@ -15,6 +15,7 @@ events:
             type: script
             script:
               - composer self-update
+              - composer validate --no-check-all --ansi
               - composer install
               - ${BLT_DIR}/scripts/pipelines/setup_environment
               - ${BLT_DIR}/scripts/pipelines/setup_project

@@ -40,6 +40,7 @@ before_install:
   # Disable xdebug.
   - phpenv config-rm xdebug.ini
   - composer self-update
+  - composer validate --no-check-all --ansi
   - composer install
 
 install:
