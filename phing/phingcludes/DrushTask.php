@@ -69,6 +69,7 @@ class DrushTask extends Task {
   private $pipe = FALSE;
   private $options = array();
   private $params = array();
+  private $output_property = NULL;
   private $return_property = NULL;
   private $verbose = FALSE;
   private $haltonerror = TRUE;
@@ -155,10 +156,17 @@ class DrushTask extends Task {
   }
 
   /**
-   * The name of a Phing property to assign the Drush command's output to.
+   * The name of a Phing property to assign the Drush command's return value to.
    */
   public function setReturnProperty($str) {
     $this->return_property = $str;
+  }
+
+  /**
+   * The name of a Phing property to assign the Drush command's output to.
+   */
+  public function setOutputProperty($str) {
+    $this->output_property = $str;
   }
 
   /**
@@ -347,6 +355,10 @@ class DrushTask extends Task {
     // Set value of the return property.
     if (!empty($this->return_property)) {
       $this->getProject()->setProperty($this->return_property, $return);
+    }
+    // Set value of the output property.
+    if (!empty($this->output_property)) {
+      $this->getProject()->setProperty($this->output_property, $output);
     }
     // Build fail.
     if ($this->haltonerror && $return != 0) {
