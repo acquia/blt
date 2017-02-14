@@ -68,7 +68,7 @@ script:
   # Call targets in the new 'blt-project' project.
   - blt ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dbehat.launch-phantom=true -Dblt.verbose=true
   # Run 'blt-project' tests.
-  - phpunit ../blt/tests/phpunit --group blt-project
+  - phpunit ../blt/tests/phpunit --group blt-project -c ../blt/tests/phpunit/phpunit.xml
   # Initialize ACSF config.
   - blt acsf:init
   # Ensure that the doctor doesn't report any problems at this point.
