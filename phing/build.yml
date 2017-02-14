@@ -67,9 +67,9 @@ drupal:
 
 drush:
   bin: ${composer.bin}/drush
-  cmd: ${drush.bin} @${drush.alias} -l ${multisite.name}
+  cmd: ${drush.bin} @${drush.alias} -l default
   dir: ${docroot}
-  uri: ${multisite.name}
+  uri: default
   assume: yes
   passthru: yes
   logoutput: yes

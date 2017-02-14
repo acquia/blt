@@ -14,7 +14,7 @@ Start by following the [Acquia Cloud multisite instructions](https://docs.acquia
         if (file_exists('/var/www/site-php')) {
           require '/var/www/site-php/mysite/multisitename-settings.inc';
         }
-        
+
         require DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php";
 
 ## BLT setup
@@ -22,6 +22,13 @@ Start by following the [Acquia Cloud multisite instructions](https://docs.acquia
 Start by setting `$site_dir` in each site's settings.php, prior to the `blt.settings.php` include. This is necessary for BLT to set a number of configurations correctly, such as your public and private file paths:
 
     $site_dir = 'example.com';
+
+You will also need to define your multisites in `blt/project.yml` by creating a `multisite.name` variable. This allows BLT to run setup and deployment tasks for each site in the codebase.
+
+    multisite:
+      name:
+        - default
+        - example.com
 
 Ensure that your new project has `$settings['install_profile']` set, or Drupal core will attempt (unsuccessfully) to write it to disk!
 
