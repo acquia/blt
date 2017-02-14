@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+set -ev
+
+# Load composer dependencies.
+composer validate --no-check-all --ansi
+composer install
+export PATH=$COMPOSER_BIN:$PATH
+
+# Install proper version of node for front end tasks.
+nvm install 4.4.1
+nvm use 4.4.1
+
+# Initialize xvfb (see https://docs.travis-ci.com/user/gui-and-headless-browsers)
+# sudo apt-get install xvfb
+export DISPLAY=:99.0
+sh -e /etc/init.d/xvfb start
+
+# Installs chromedriver to vendor/bin.
+$BLT_DIR/scripts/linux/install-chrome.sh $COMPOSER_BIN
+
+# Set java version for selenium.
+jdk_switcher use oraclejdk8
+
+set +v

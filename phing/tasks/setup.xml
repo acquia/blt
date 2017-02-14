@@ -173,16 +173,34 @@
     </if>
 
     <echo>Installing Drupal...</echo>
-    <drush command="site-install">
-      <option name="site-name">"${project.human_name}"</option>
-      <option name="site-mail">"${drupal.account.mail}"</option>
-      <option name="account-name">"${drupal.account.name}"</option>
-      <option name="account-pass">"${drupal.account.password}"</option>
-      <option name="account-mail">"${drupal.account.mail}"</option>
-      <param>"${project.profile.name}"</param>
-      <param>"install_configure_form.update_status_module='array(FALSE,FALSE)'"</param>
-    </drush>
-
+    <if>
+      <equals arg1="${cm.core.partial}" arg2="true"/>
+      <then>
+        <drush command="site-install">
+          <option name="site-name">"${project.human_name}"</option>
+          <option name="site-mail">"${drupal.account.mail}"</option>
+          <option name="account-name">"${drupal.account.name}"</option>
+          <option name="account-pass">"${drupal.account.password}"</option>
+          <option name="account-mail">"${drupal.account.mail}"</option>
+          <option name="locale">"${drupal.locale}"</option>
+          <param>"${project.profile.name}"</param>
+          <param>"install_configure_form.update_status_module='array(FALSE,FALSE)'"</param>
+        </drush>
+      </then>
+      <else>
+        <drush command="site-install">
+          <option name="site-name">"${project.human_name}"</option>
+          <option name="site-mail">"${drupal.account.mail}"</option>
+          <option name="account-name">"${drupal.account.name}"</option>
+          <option name="account-pass">"${drupal.account.password}"</option>
+          <option name="account-mail">"${drupal.account.mail}"</option>
+          <option name="locale">"${drupal.locale}"</option>
+          <option name="config-dir">${cm.core.config-dir.path}</option>
+          <param>"${project.profile.name}"</param>
+          <param>"install_configure_form.update_status_module='array(FALSE,FALSE)'"</param>
+        </drush>
+      </else>
+    </if>
     <phingcall target="setup:update"/>
 
     <!-- Set sites directory file permissions. -->
@@ -209,6 +227,10 @@
   </target>
 
   <target name="setup:config-import" description="Import configuration from the config directory." depends="setup:pre-config-import">
+    <!-- Sometimes drush forgets where to find its aliases. -->
+    <drush command="cc" assume="yes" passthru="false">
+      <param>drush</param>
+    </drush>
     <echo>Importing configuration...</echo>
     <drush command="pm-enable" assume="yes" alias="${drush.alias}" passthru="false">
       <param>config</param>
@@ -225,11 +247,23 @@
     <drush command="updb" assume="yes" alias="${drush.alias}" passthru="false">
       <option name="entity-updates"></option>
     </drush>
+
     <!-- Import configuration. -->
-    <drush command="config-import" assume="yes" alias="${drush.alias}" passthru="false">
-      <option name="partial"></option>
-      <param>${cm.core.config-dir}</param>
-    </drush>
+    <if>
+      <equals arg1="${cm.core.partial}" arg2="true"/>
+      <then>
+        <drush command="config-import" assume="yes" alias="${drush.alias}" passthru="false">
+          <option name="partial"></option>
+          <param>${cm.core.config-dir.key}</param>
+        </drush>
+      </then>
+      <else>
+        <drush command="config-import" assume="yes" alias="${drush.alias}" passthru="false">
+          <param>${cm.core.config-dir.key}</param>
+        </drush>
+      </else>
+    </if>
+
     <if>
       <isset property="cm.features.bundle"/>
       <then>
@@ -243,6 +277,16 @@
         </drush>
         <!-- Revert all features. -->
         <foreach list="${cm.features.bundle}" param="bundle" target="setup:update:features-import" />
+        <!-- Revert all features again! -->
+        <!-- @see https://www.drupal.org/node/2851532 -->
+        <foreach list="${cm.features.bundle}" param="bundle" target="setup:update:features-import" />
+        <if>
+          <equals arg1="${cm.features.no-overrides}" arg2="true"/>
+          <then>
+            <echo>Checking for features overrides...</echo>
+            <foreach list="${cm.features.bundle}" param="bundle" target="setup:update:features-override-check" />
+          </then>
+        </if>
       </then>
     </if>
     <!-- Rebuild caches. -->
@@ -295,17 +339,14 @@
     <drush command="fra" assume="yes" alias="${drush.alias}" passthru="false">
       <option name="bundle">${bundle}</option>
     </drush>
+  </target>
+
+  <target name="setup:update:features-override-check" description="Checks if features are overridden.">
+    <exec dir="${docroot}" command="${drush.cmd} fl --bundle=${bundle} | grep -Ei '(changed|conflicts|added)( *)$'" outputProperty="features.overrides"/>
     <if>
-      <equals arg1="${cm.features.no-overrides}" arg2="true"/>
+      <istrue value="${features.overrides}"/>
       <then>
-        <echo>Checking for features overrides...</echo>
-        <exec dir="${docroot}" command="${drush.cmd} fl --bundle=${bundle} | grep -Ei '(changed|conflicts|added)( *)$'" outputProperty="features.overrides"/>
-        <if>
-          <istrue value="${features.overrides}"/>
-          <then>
-            <fail>A feature in the ${bundle} bundle is overridden. You must re-export this feature to incorporate the changes.</fail>
-          </then>
-        </if>
+        <fail>A feature in the ${bundle} bundle is overridden. You must re-export this feature to incorporate the changes.</fail>
       </then>
     </if>
   </target>

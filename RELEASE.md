@@ -25,6 +25,7 @@ In order to use these testing instructions:
 
 ### Prerequisites
 
+* BLT's dependencies must be installed by running `composer install` in the BLT directory.
 * Ruby 2.2.2+ must be installed. You may use [RVM](https://rvm.io/rvm/install) to use a directory specific version of Ruby. E.g., `rvm use 2.2.2`.
 * [skywinder/github-changelog-generator](https://github.com/skywinder/github-changelog-generator) must be installed. E.g., `gem install github_changelog_generator`.
 * Procure a [github api token](https://github.com/skywinder/github-changelog-generator#github-token).
@@ -42,7 +43,7 @@ This will update CHANGELOG.md and create a commit locally.
 
 To both generate release notes and also create a new release on GitHub, execute:
 
-    ./bin/blt-robo blt:release [tag] [token]
+    ./bin/blt-robo blt:release [tag] [token] --update-changelog
 
 This is a potentially destructive command. It will:
  

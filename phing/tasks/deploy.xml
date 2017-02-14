@@ -49,6 +49,12 @@
                                 promptText="Enter the name of the tag to create."
                                 promptCharacter=":"
                                 defaultValue=""/>
+                <if>
+                  <equals arg1="${deploy.tag}" arg2=""/>
+                  <then>
+                    <fail message="You must enter a tag name."/>
+                  </then>
+                </if>
               </then>
             </if>
           </then>
@@ -136,7 +142,12 @@
   <target name="deploy:commit" hidden="true">
     <!-- We make these commands quiet because they can cause the output to be so long that Travis CI stops logging. -->
     <exec command="git add -A" dir="${deploy.dir}" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
-    <exec command="git commit -m '${deploy.commitMsg}' --quiet" dir="${deploy.dir}" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec executable="git" dir="${deploy.dir}" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true" escape="true">
+      <arg value="commit"/>
+      <arg value="--quiet"/>
+      <arg value="-m"/>
+      <arg value="${deploy.commitMsg}"/>
+    </exec>
   </target>
 
   <target name="deploy:composer:install" description="Downloads core and contrib to deploy folder." hidden="true">
@@ -161,21 +172,23 @@
 
   </target>
 
-  <target name="deploy:copy:site" description="Copy required files from /docroot/sites to /deploy/docroot/sites." hidden="true">
+  <target name="deploy:copy:site:perms-writable" description="Make each multisite dir writable." hidden="true">
     <!-- Make sites/${multisite.name} writable so that we can copy files. -->
     <chmod file="${docroot}/sites/${multisite.name}" mode="0777" />
+  </target>
 
-    <exec dir="${repo.root}" command="rsync -a --no-g --delete --delete-excluded --exclude-from=${deploy.exclude_file} ${repo.root}/ ${deploy.dir}/ --filter 'protect /.git/'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
-
+  <target name="deploy:copy:site:perms-unwritable" description="Make each multisite dir unwritable." hidden="true">
     <!-- Set sites/${multisite.name} back to 755 permissions. -->
     <chmod file="${docroot}/sites/${multisite.name}" mode="0755" />
   </target>
 
   <target name="deploy:copy" description="Copy required files from each /docroot/sites to /deploy/docroot/sites." hidden="true">
+    <foreach list="${multisite.name}" param="multisite.name" target="deploy:copy:site:perms-writable"/>
+    <exec dir="${repo.root}" command="rsync -a --no-g --delete --delete-excluded --exclude-from=${deploy.exclude_file} ${repo.root}/ ${deploy.dir}/ --filter 'protect /.git/'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <foreach list="${multisite.name}" param="multisite.name" target="deploy:copy:site:perms-unwritable"/>
+
     <!-- Use our own .gitignore -->
     <copy file="${deploy.gitignore_file}" tofile="${deploy.dir}/.gitignore" overwrite="true"/>
-    <!-- Perform settings copy for each multisite. -->
-    <foreach list="${multisite.name}" param="multisite.name" target="deploy:copy:site"/>
   </target>
 
   <target name="deploy:prepare-dir" description="Delete the existing deploy directory and re-initialize as an empty git repository." hidden="true">
@@ -215,18 +228,50 @@
     </delete>
   </target>
 
+  <!-- Wrapper for setup:update that sets some environment-specific variables first. -->
   <target name="deploy:update" description="Update current database to reflect the state of the Drupal file system; uses local drush alias.">
     <phingcall target="setup:update">
+      <!-- Drush fails to include some files. @see https://github.com/drush-ops/drush/issues/2497#issuecomment-279049111 -->
+      <property name="drush.bin" value="${drush.bin} --include=../drush" override="true" />
+      <!-- Environment parameter is used to determine which modules to toggle. On ACE, will be overridden by one of dev/stage/prod. -->
       <param name="environment" value="deploy"/>
+      <!-- Drush alias should be set to self, but can be overridden for multisite. -->
       <property name="drush.alias" value="self"/>
       <!-- Most sites store their version-controlled configuration in /config/default. -->
       <!-- ACE internally sets the vcs configuration directory to /config/default, so we use that. -->
-      <property name="cm.core.config-dir" value="vcs"/>
+      <property name="cm.config-dir.key" value="${cm.config-dir.deploy-key}"/>
     </phingcall>
   </target>
 
   <target name="deploy:tag" description="Tag repository.">
     <!-- Tag build repo with [tag]. -->
     <exec dir="${deploy.dir}" command="git tag -a ${deploy.tag} -m '${deploy.commitMsg}'" logoutput="true" level="${blt.exec_level}" passthru="true"/>
+  </target>
+
+  <target name="deploy:drupal:install"
+          description="Installs a specific Drupal site."
+          depends="setup:hash-salt">
+
+      <if>
+        <istrue value="${drush.verbose}"/>
+        <then>
+          <echo>Printing drush status</echo>
+          <drush command="status"/>
+        </then>
+      </if>
+
+      <echo>Installing Drupal.</echo>
+      <drush command="site-install">
+          <option name="site-name">"${project.human_name}"</option>
+          <option name="site-mail">"${drupal.account.mail}"</option>
+          <option name="account-name">"${drupal.account.name}"</option>
+          <option name="account-pass">"${drupal.account.password}"</option>
+          <option name="account-mail">"${drupal.account.mail}"</option>
+          <param>"${project.profile.name}"</param>
+          <param>"install_configure_form.update_status_module='array(FALSE,FALSE)'"</param>
+      </drush>
+
+      <phingcall target="deploy:update"/>
+
   </target>
 </project>

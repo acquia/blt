@@ -129,5 +129,14 @@ class Updates {
     }
     $this->updater->writeComposerJson($composer_json);
   }
+  /**
+   * @Update(
+   *   version = "8.6.12",
+   *   description = "Removes lightning patch."
+   * )
+   */
+  public function update_8612() {
+    $this->updater->removeComposerPatch("acquia/lightning", "https://www.drupal.org/files/issues/2836258-3-lightning-extension-autoload.patch");
+  }
 
 }
