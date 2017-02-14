@@ -19,17 +19,9 @@ class ToggleModulesTest extends BltProjectTestBase {
    * @group blt-project
    */
   public function testModulesEnabled() {
-    if (defined('BLT_ENV')) {
-      $modules = $this->config['modules'][BLT_ENV]['enable'];
-      foreach ($modules as $module) {
-        $this->assertModuleEnabled(
-          $module,
-          defined('BLT_ALIAS') ? BLT_ALIAS : ''
-        );
-      }
-    }
-    else {
-      $this->markTestSkipped('No BLT environment provided.');
+    $modules = $this->config['modules'][BLT_ENV]['enable'];
+    foreach ($modules as $module) {
+      $this->assertModuleEnabled($module, BLT_ALIAS);
     }
   }
 
@@ -41,17 +33,9 @@ class ToggleModulesTest extends BltProjectTestBase {
    * @group blt-project
    */
   public function testModulesNotEnabled() {
-    if (defined('BLT_ENV')) {
-      $modules = $this->config['modules'][BLT_ENV]['uninstall'];
-      foreach ($modules as $module) {
-        $this->assertModuleNotEnabled(
-          $module,
-          defined('BLT_ALIAS') ? BLT_ALIAS : ''
-        );
-      }
-    }
-    else {
-      $this->markTestSkipped('No BLT environment provided.');
+    $modules = $this->config['modules'][BLT_ENV]['uninstall'];
+    foreach ($modules as $module) {
+      $this->assertModuleNotEnabled($module, BLT_ALIAS);
     }
   }
 
