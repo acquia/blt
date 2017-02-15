@@ -38,6 +38,8 @@ composer:
   bin: ${repo.root}/${bin.path}
 
 cm:
+  # Possible values: core-only, config_split, features.
+  strategy: features
   core:
     config-dir:
       # Corresponding values are defined in default.local.settings.php.
@@ -45,8 +47,6 @@ cm:
       path: ${repo.root}/config/default
       # A different config key is used by the deploy:update step, which is executed on Acquia Cloud.
       deploy-key: vcs
-    partial: true
-
 
 deploy:
   # If true, dependencies will be built during deploy. If false, you should commit dependencies directly.

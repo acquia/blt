@@ -16,7 +16,8 @@
   <echo level="verbose">Setting memory allocation to ${php.memory_limit}</echo>
   <php expression="ini_set('memory_limit', '${php.memory_limit}');" level="verbose"/>
 
-  <!--@todo Warn if Windows is being used.-->
+  <!-- Add environment variables to "env." namespace. -->
+  <property environment="env" />
 
   <!-- Include task partials -->
 
