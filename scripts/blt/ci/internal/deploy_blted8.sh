@@ -5,8 +5,7 @@ set -ev
 cd ${TRAVIS_BUILD_DIR}/../blt-project
 # Remove the symlink definition for BLT from composer.json.
 composer config --unset repo.blt
-# If a new commit has been made to 8.x in the course of this build, we won't get the same version!
-composer update acquia/blt
+composer require acquia/blt:8.x-dev#${TRAVIS_COMMIT}
 composer update
 git remote add github git@github.com:acquia-pso/blted8.git
 git add -A
