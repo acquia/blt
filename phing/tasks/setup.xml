@@ -259,7 +259,7 @@
 
   <target name="setup:config-import:core-only">
     <drush command="config-import" assume="yes" alias="${drush.alias}" passthru="false">
-      <param>${cm.core.config-dir.key}</param>
+      <param>${cm.core.key}</param>
     </drush>
   </target>
 
@@ -288,7 +288,7 @@
   <target name="setup:config-import:features">
     <drush command="config-import" assume="yes" alias="${drush.alias}" passthru="false">
       <option name="partial"></option>
-      <param>${cm.core.config-dir.key}</param>
+      <param>${cm.core.key}</param>
     </drush>
 
     <if>
