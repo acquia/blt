@@ -175,7 +175,7 @@
     <echo>Installing Drupal...</echo>
     <if>
       <!-- We do not define the config-dir option if features is being used. -->
-      <equals arg1="${cm.core.strategy}" arg2="features"/>
+      <equals arg1="${cm.strategy}" arg2="features"/>
       <then>
         <drush command="site-install">
           <option name="site-name">"${project.human_name}"</option>
@@ -265,7 +265,7 @@
 
   <target name="setup:config-import:config-split">
     <drush command="en" assume="yes" alias="${drush.alias}" passthru="false">
-      <param>config-split</param>
+      <param>config_split</param>
     </drush>
     <if>
       <isset property="env.AH_SITE_ENVIRONMENT"/>
