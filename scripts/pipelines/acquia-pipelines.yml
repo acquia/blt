@@ -17,17 +17,17 @@ events:
               - composer self-update
               - composer validate --no-check-all --ansi
               - composer install
-              - ${BLT_DIR}/scripts/pipelines/setup_environment
-              - ${BLT_DIR}/scripts/pipelines/setup_project
+              - source ${BLT_DIR}/scripts/pipelines/setup_environment
+              - source ${BLT_DIR}/scripts/pipelines/setup_project
 
         # Execute all testing and validation tasks.
         - run-tests:
             type: script
             script:
-              - ${BLT_DIR}/scripts/pipelines/run_tests
+              - source ${BLT_DIR}/scripts/pipelines/run_tests
 
         # Generate artifact.
         - build-artifact:
             type: script
             script:
-            - ${BLT_DIR}/scripts/pipelines/build_artifact
+              - source ${BLT_DIR}/scripts/pipelines/build_artifact
