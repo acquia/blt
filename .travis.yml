@@ -47,6 +47,7 @@ script:
   - source ${BLT_DIR}/scripts/blt/ci/internal/smoke_tests.sh
   - source ${BLT_DIR}/scripts/blt/ci/internal/create_blt_project.sh
   - source ${BLT_DIR}/scripts/travis/run_tests
+  - drush config-export
   - yaml-cli update:value blt/project.yml cm.strategy config-split
   - blt ci:setup
   - yaml-cli update:value blt/project.yml cm.strategy core-only
