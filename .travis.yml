@@ -43,7 +43,7 @@ script:
   - source ${BLT_DIR}/scripts/blt/ci/internal/create_blt_project.sh
   - source ${BLT_DIR}/scripts/travis/run_tests
   - source ${BLT_DIR}/scripts/blt/ci/internal/doctor.sh
-  - phpunit ${BLT_DIR}/tests/phpunit --group blt-project
+  - phpunit ${BLT_DIR}/tests/phpunit --group blt-project -c ${BLT_DIR}/tests/phpunit/phpunit.xml
   # Deploy build artifact.
   - blt deploy:build
   - source ${BLT_DIR}/scripts/blt/ci/internal/test_artifact.sh
