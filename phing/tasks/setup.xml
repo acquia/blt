@@ -196,7 +196,7 @@
           <option name="account-pass">"${drupal.account.password}"</option>
           <option name="account-mail">"${drupal.account.mail}"</option>
           <option name="locale">"${drupal.locale}"</option>
-          <option name="config-dir">${cm.core.config-dir.path}</option>
+          <option name="config-dir">${cm.core.dirs.${cm.core.key}.path}</option>
           <param>"${project.profile.name}"</param>
           <param>"install_configure_form.update_status_module='array(FALSE,FALSE)'"</param>
         </drush>
@@ -270,6 +270,7 @@
     <if>
       <isset property="env.AH_SITE_ENVIRONMENT"/>
       <then>
+        <mkdir dir="${cm.core.path}/${env.AH_SITE_ENVIRONMENT}"/>
         <drush command="config-split-import" assume="yes" alias="${drush.alias}">
           <!-- Cloud environments require vcs parameter. -->
           <param>vcs</param>
