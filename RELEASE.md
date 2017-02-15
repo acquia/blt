@@ -2,9 +2,16 @@ This document outlines the process for creating a new BLT release.
 
 To perform a release:
 
+1. [Check build statuses](#check-build-statuses)
 1. [Run tests](#testing) locally.
-1. [Generate and commit updated CHANGELOG.md](#generate-changelogmd).
+1. [Generate and commit updated CHANGELOG.md](#update-changelogmd).
 1. [Create a release](#create-a-release)
+
+## Check build statuses
+
+* [BLT 8.x](https://github.com/acquia/blt): [![Build Status](https://travis-ci.org/acquia/blt.svg?branch=8.x)](https://travis-ci.org/acquia/blt) 
+* [BLted 8.x](https://github.com/acquia-pso/blted8): [![Build Status](https://travis-ci.org/acquia-pso/blted8.svg?branch=master)](https://travis-ci.org/acquia-pso/blted8)
+* [![Documentation Status](https://readthedocs.org/projects/blt/badge/?version=8.x)](http://blt.readthedocs.io/en/8.x/?badge=8.x) 
 
 ## Testing
 
