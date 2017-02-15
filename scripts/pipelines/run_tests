@@ -5,6 +5,7 @@ set -ev
 export PATH=${COMPOSER_BIN}:${PATH}
 
 source ${BLT_DIR}/scripts/blt/ci/shared/run_tests
+sudo /etc/init.d/mysql start
 blt -Dbehat.run-server=true -Dcreate_alias=false -Dbehat.launch-selenium=false -Dbehat.launch-phantomjs=true -Dbehat.tags='~experimental' -Dblt.verbose=true ci:build:validate:test
 
 set +v
