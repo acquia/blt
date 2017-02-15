@@ -288,6 +288,9 @@
     </if>
     <!-- Rebuild caches. -->
     <drush command="cr" alias="${drush.alias}" passthru="false"/>
+    <phingcall target="target-hook:invoke">
+      <property name="hook-name" value="post-config-import"/>
+    </phingcall>
   </target>
 
   <target name="setup:git-hooks" description="Installs git hooks to local .git/hooks directory from version controlled scripts/git-hooks directory.">
