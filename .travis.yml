@@ -56,3 +56,10 @@ deploy:
     on:
       branch: $DEPLOY_SOURCE_BRANCH
       php: 5.6
+  - provider: script
+    # Deploys build artifact to acquia-pso/blted8 on GitHub.
+    script: ${BLT_DIR}/scripts/blt/ci/internal/deploy_blted8.sh
+    skip_cleanup: true
+    on:
+      branch: $DEPLOY_SOURCE_BRANCH
+      php: 5.6
