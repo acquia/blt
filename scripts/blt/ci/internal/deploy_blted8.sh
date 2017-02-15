@@ -6,7 +6,7 @@ cd ${TRAVIS_BUILD_DIR}/../blt-project
 # Remove the symlink definition for BLT from composer.json.
 composer config --unset repo.blt
 composer require acquia/blt:8.x-dev#${TRAVIS_COMMIT}
-composer update
+composer update --lock
 git remote add github git@github.com:acquia-pso/blted8.git
 git add -A
 git commit -m "Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -n
