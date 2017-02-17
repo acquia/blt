@@ -3,6 +3,8 @@
 namespace Acquia\Blt\Tests\Robo\Commands;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Config\DefaultConfig;
+use Acquia\Blt\Robo\Config\YamlConfig;
 use League\Container\Container;
 use Acquia\Blt\Robo\Config\BltConfig;
 use Psr\Log\NullLogger;
@@ -85,10 +87,13 @@ abstract class CommandTestCase extends \PHPUnit_Framework_TestCase
   /**
    * @inheritdoc
    */
-  protected function setUp()
+  public function setUp()
   {
     if (!$this->config) {
-      $this->config = new BltConfig();
+      $this->config = new DefaultConfig();
+      $this->config->extend(new YamlConfig($this->config->get('blt.root') . '/phing/build.yml', $this->config->toArray()));
+      $this->config->extend(new YamlConfig($this->config->get('blt.root')  . '/template/blt/project.yml', $this->config->toArray()));
+      $this->config->extend(new YamlConfig($this->config->get('blt.root')  . '/template/blt/project.local.yml', $this->config->toArray()));
     }
 
     if (!$this->container) {

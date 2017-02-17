@@ -3,6 +3,8 @@
 namespace Acquia\Blt\Tests\Robo\Commands\Tests;
 
 use Acquia\Blt\Robo\Commands\Tests\BehatCommand;
+use Acquia\Blt\Robo\Common\Executor;
+use Acquia\Blt\Robo\Inspector\Inspector;
 use Acquia\Blt\Tests\Robo\Commands\CommandTestCase;
 
 /**
@@ -10,7 +12,7 @@ use Acquia\Blt\Tests\Robo\Commands\CommandTestCase;
  * Test suite class for Pantheon\Terminus\Commands\Site\CreateCommand
  * @package Pantheon\Terminus\UnitTests\Commands\Site
  */
-class TestsBehatCommandTest extends CommandTestCase
+class BehatCommandTest extends CommandTestCase
 {
 
   /**
@@ -21,11 +23,13 @@ class TestsBehatCommandTest extends CommandTestCase
   /**
    * @inheritdoc
    */
-  protected function setUp()
+  public function setUp()
   {
     parent::setUp();
 
     $this->command = new BehatCommand();
+    $this->command->setConfig($this->config);
+    $this->command->setInspector(new Inspector(new Executor()));
   }
 
   /**
