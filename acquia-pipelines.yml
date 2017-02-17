@@ -19,12 +19,10 @@ events:
         - setup-environment:
             type: script
             script:
+              - composer self-update
+              - composer validate --no-check-all --ansi
+              - composer install
               - source $BLT_DIR/scripts/pipelines/setup_environment
-
-        # Install project level packages and set project level configuration.
-        - setup-project:
-            type: script
-            script:
               - source $BLT_DIR/scripts/pipelines/setup_project
 
         # Execute all testing and validation tasks.
