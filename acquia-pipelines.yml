@@ -32,13 +32,13 @@ events:
             type: script
             script:
               # Create a sample, BLT-generated project against which to test.
-              - source ${BLT_DIR}/scripts/blt/ci/smoke_tests.sh
+              - source ${BLT_DIR}/scripts/blt/ci/internal/smoke_tests.sh
               # Create a sample, BLT-generated project against which to test.
-              - source ${BLT_DIR}/scripts/blt/ci/create_blt_project.sh
+              - source ${BLT_DIR}/scripts/blt/ci/internal/create_blt_project.sh
               # Execute tests against sample project.
               - source ${BLT_DIR}/scripts/pipelines/run_tests
               # Make BLT doctor happy.
-              - source ${BLT_DIR}/scripts/blt/ci/doctor.sh
+              - source ${BLT_DIR}/scripts/blt/ci/internal/doctor.sh
               - phpunit ${BLT_DIR}/tests/phpunit --group blt-project
 
 
@@ -48,4 +48,4 @@ events:
             script:
               # Build the artifact.
               - source ${BLT_DIR}/scripts/pipelines/build_artifact
-              - source ${BLT_DIR}/scripts/blt/ci/test_artifact.sh
+              - source ${BLT_DIR}/scripts/blt/ci/internal/test_artifact.sh
