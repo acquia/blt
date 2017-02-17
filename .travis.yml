@@ -15,6 +15,7 @@ env:
     - COMPOSER_BIN=$TRAVIS_BUILD_DIR/vendor/bin
     - BLT_DIR=$TRAVIS_BUILD_DIR
     - IS_PULL_REQUEST=$TRAVIS_PULL_REQUEST
+    - BUILD_DIR=$TRAVIS_BUILD_DIR
 
 cache:
   bundler: true
