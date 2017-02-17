@@ -13,6 +13,7 @@ env:
   global:
     - COMPOSER_BIN=$TRAVIS_BUILD_DIR/vendor/bin
     - BLT_DIR=$TRAVIS_BUILD_DIR/vendor/acquia/blt
+    - BUILD_DIR=$TRAVIS_BUILD_DIR
 
 jdk:
   - oraclejdk8
