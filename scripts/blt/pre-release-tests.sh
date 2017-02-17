@@ -3,7 +3,8 @@
 # Usage ./scripts/blt/release-blt 8.6.11
 
 tag="$1"
-branch=$tag-build
+branch=${tag}-pre-build
+app_id=310109e8-34a7-41ed-86a5-e52f00f2158
 
 SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 clear
@@ -39,7 +40,12 @@ git add -A
 git commit -m "BLT-000: Creating test branch for BLT release ${tag}"
 git remote add origin bolt8pipeline@svn-2420.devcloud.hosting.acquia.com:bolt8pipeline.git
 git push origin ${branch}
-pipelines start
+job_id=$(pipelines start | grep "Job ID" | cut -d':' -f2 | awk '{$1=$1;print}')
+echo "To check the build status, run:"
+echo "pipelines logs --job-id=${job_id} --application-id=${app_id}"
 
+pipelines_branch=pipelines-build-${branch}
 # @todo have pipelines deploy and install on ODE.
-echo "When the Pipelines build complete, deploy ${branch} on an AC environment and re-install Drupal."
+echo "When the Pipelines build complete, deploy ${pipelines_branch} on an AC environment and re-install Drupal:"
+echo "drush @bolt8pipeline.dev ac-code-path-deploy ${pipelines_branch}"
+echo "drush @bolt8pipeline.dev si lightning -y"
