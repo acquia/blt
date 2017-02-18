@@ -17,26 +17,6 @@
 
   <target name="local:sync" description="Synchronize local environment from remote (remote --> local)."
           depends="setup:drupal:settings">
-    <if>
-      <!-- There is multisite config. Allow it to override values for local:sync:site. -->
-      <available file="${blt.config-files.multisite}" />
-      <then>
-        <phingcall target="local:sync:site">
-          <property file="${blt.config-files.multisite}" logoutput="false"/>
-          <!--
-            We need to override drush.uri, which defaults to 'default'
-            in order to run commands against ${multisite.name}.
-          -->
-          <property name="drush.uri" value="${multisite.name}"/>
-        </phingcall>
-      </then>
-      <else>
-        <phingcall target="local:sync:site"/>
-      </else>
-    </if>
-  </target>
-
-  <target name="local:sync:site" hidden="true">
     <drush command="cc drush"/>
     <drush command="sql-drop"/>
     <if>
@@ -67,27 +47,10 @@
   </target>
 
   <target name="local:update" description="Update current database to reflect the state of the Drupal file system; uses local drush alias.">
-    <if>
-      <!-- There is multisite config. -->
-      <available file="${blt.config-files.multisite}" />
-      <then>
-        <phingcall target="setup:update">
-          <property name="drush.alias" value="${drush.aliases.local}"/>
-          <property name="environment" value="local"/>
-          <!--
-            We need to override drush.uri, which defaults to 'default'
-            in order to run commands against ${multisite.name}.
-           -->
-          <property name="drush.uri" value="${multisite.name}" />
-        </phingcall>
-      </then>
-      <else>
-        <phingcall target="setup:update">
-          <property name="drush.alias" value="${drush.aliases.local}"/>
-          <property name="environment" value="local"/>
-        </phingcall>
-      </else>
-    </if>
+    <phingcall target="setup:update">
+      <property name="drush.alias" value="${drush.aliases.local}"/>
+      <property name="environment" value="local"/>
+    </phingcall>
   </target>
 
 </project>
