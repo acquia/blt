@@ -17,7 +17,7 @@ class PropertiesTest extends BltProjectTestBase {
    * @group blt-multisite
    */
   public function testMultisiteProperties() {
-    $this->assertPropertyEquals('multisite.name', 'default');
+    $this->assertPropertyEquals('multisite.name', BLT_MULTISITE_NAME);
   }
 
   /**
