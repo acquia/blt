@@ -1,5 +1,7 @@
 # Note that the example .travis.yml file for child projects lives in /install.
-sudo: false
+# Temporarily use legacy infrastructure until Travis resolves MySQL issues with their containerized infrastructure.
+# @see https://github.com/travis-ci/travis-ci/issues/6842
+sudo: required
 language: php
 dist: trusty
 
