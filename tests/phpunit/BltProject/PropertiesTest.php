@@ -58,7 +58,8 @@ class PropertiesTest extends BltProjectTestBase {
       " -emacs -silent", $output
     );
     // Property value will be output to the 1st line.
-    return $output[0];
+    // Return an empty string if $property does not exist.
+    return !empty($output[0]) ? $output[0] : '';
   }
 
 }
