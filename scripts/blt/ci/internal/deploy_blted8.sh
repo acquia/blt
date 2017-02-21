@@ -9,7 +9,7 @@ composer require acquia/blt:8.x-dev#${TRAVIS_COMMIT}
 composer update --lock
 git remote add github git@github.com:acquia-pso/blted8.git
 
-"[![Build Status](https://travis-ci.org/acquia-pso/blted8.svg?branch=master)](https://travis-ci.org/acquia-pso/blted8)" >> README.md
+echo "[![Build Status](https://travis-ci.org/acquia-pso/blted8.svg?branch=master)](https://travis-ci.org/acquia-pso/blted8)" >> README.md
 
 git add -A
 git commit -m "Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -n
