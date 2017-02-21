@@ -56,6 +56,18 @@
     </then>
   </if>
 
+  <if>
+    <not>
+      <isset property="multisite.name"/>
+    </not>
+    <!-- Build the sites list if not specified by the user. -->
+    <then>
+      <!-- Find directories in ${docroot}/sites/*/ and format into a comma-separated list. -->
+      <exec command="find ${docroot}/sites/* -maxdepth 0 -type d | sed -e 's%${docroot}/sites/%%g' -e '2,$s%^%,%' | tr -d '\n'"
+            outputProperty="multisite.name" logoutput="false" checkreturn="true"/>
+    </then>
+  </if>
+
   <echo level="verbose">Executing commands against multisite "${multisite.name}"</echo>
 
   <!-- Default drush alias. -->

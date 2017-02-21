@@ -84,11 +84,13 @@ git:
     pre-commit: ${blt.root}/scripts/git-hooks
     commit-msg: ${blt.root}/scripts/git-hooks
 
-multisite:
-  # The docroot/sites/default directory is used by default.
-  name:
-    - default
-    # - another_site
+# You may provide a list of sites for BLT to run commands against,
+# otherwise BLT will generate this sites list based on directories
+# in ${docroot}/sites/*/
+#
+# multisite:
+#  name:
+#    - default
 
 reports:
   localDir: ${repo.root}/reports
