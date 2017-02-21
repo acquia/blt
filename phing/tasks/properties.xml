@@ -62,9 +62,22 @@
     </not>
     <!-- Build the sites list if not specified by the user. -->
     <then>
-      <!-- Find directories in ${docroot}/sites/*/ and format into a comma-separated list. -->
-      <exec command="find ${docroot}/sites/* -maxdepth 0 -type d | sed -e 's%${docroot}/sites/%%g' -e '2,$s%^%,%' | tr -d '\n'"
-            outputProperty="multisite.name" logoutput="false" checkreturn="true"/>
+    <!-- Find directories in ${docroot}/sites/*/ and format into a comma-separated list. -->
+    <exec command="find ${docroot}/sites/* -maxdepth 0 -type d | sed -e 's%${docroot}/sites/%%g' -e '2,$s%^%,%' | tr -d '\n'"
+          outputProperty="multisite.name" logoutput="false" checkreturn="true"/>
+    </then>
+  </if>
+
+  <if>
+    <!-- There is multisite config. Allow it to override default values. -->
+    <available file="${blt.config-files.multisite}" />
+    <then>
+      <property file="${blt.config-files.multisite}" logoutput="false" override="true"/>
+      <!--
+        Here we override drush.uri explicitly (which defaults to 'default')
+        in order to run commands against multisite.name.
+      -->
+      <property name="drush.uri" value="${multisite.name}" override="true"/>
     </then>
   </if>
 
