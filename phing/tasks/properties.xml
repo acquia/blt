@@ -56,6 +56,19 @@
     </then>
   </if>
 
+  <if>
+    <!-- There is multisite config. Allow it to override default values. -->
+    <available file="${blt.config-files.multisite}" />
+    <then>
+      <property file="${blt.config-files.multisite}" logoutput="false" override="true"/>
+      <!--
+        Here we override drush.uri explicitly (which defaults to 'default')
+        in order to run commands against multisite.name.
+      -->
+      <property name="drush.uri" value="${multisite.name}" override="true"/>
+    </then>
+  </if>
+
   <echo level="verbose">Executing commands against multisite "${multisite.name}"</echo>
 
   <!-- Default drush alias. -->
