@@ -23,7 +23,7 @@ Start by setting `$site_dir` in each site's settings.php, prior to the `blt.sett
 
     $site_dir = 'example.com';
 
-You will also need to define your multisites in `blt/project.yml` by creating a `multisite.name` variable. This allows BLT to run setup and deployment tasks for each site in the codebase.
+You also have the option to define your multisites in `blt/project.yml` by creating a `multisite.name` variable. This allows BLT to run setup and deployment tasks for each site in the codebase. If you don't manually define this variable, BLT will automatically set it based on discovered multisite directories.
 
     multisite:
       name:
