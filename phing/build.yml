@@ -24,7 +24,7 @@ blt:
   update:
     ignore-existing-file: ${blt.root}/scripts/blt/ignore-existing.txt
   # Default verbosity level for <exec> tasks. If Phing msg level is => than info, this will be set to info.
-  exec_level: info
+  exec_level: verbose
   # If Phing verbosity is flagged, this will be changed to true. Affects verbosity of tasks like Drush, Behat.
   verbose: false
   config-files:
