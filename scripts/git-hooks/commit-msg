@@ -6,7 +6,7 @@
 # 15 characters.
 
 ROOT_DIR="$(pwd)"
-COMMAND="$ROOT_DIR/vendor/bin/yaml-cli get:value $ROOT_DIR/blt/project.yml project.prefix"
+COMMAND="$ROOT_DIR/vendor/bin/blt echo-property -Dproperty.name=project.prefix -silent -emacs"
 ERROR=$($COMMAND 2>&1 > /dev/null)
 PREFIX=$($COMMAND)
 RED='\033[0;31m'
