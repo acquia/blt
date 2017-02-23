@@ -44,11 +44,11 @@ The solution is to make sure that the referenced content exists before the featu
 
 ### Updating core and contributed modules
 
-Caution must be taken when updating core and contributed modules. If those updates make changes to a module’s configuration or schema, you must make sure to also update your exported features definitions. Otherwise, the next time you run features-import it will import a stale configuration schema and cause unexpected behavior.
+Caution must be taken when updating core and contributed modules. If those updates make changes to a module’s configuration or schema, you must make sure to also update your exported configurations. Otherwise, the next time you run updates it will import a stale configuration schema and cause unexpected behavior.
 
 The best way to handle this is to always follow these steps when updating contributed and core modules:
 
-1. Start from a clean local setup or refresh. If you are using Features, ensure that there are no overridden features. The `cm.features.no-overrides` flag in [project.yml](https://github.com/acquia/blt/blob/8.x/template/blt/project.yml#L62) can assist with this by halting builds with overridden features.
+1. Start from a clean local setup or refresh. If you are using Features, ensure that there are no overridden configuration. The `cm.features.no-overrides` flag in [project.yml](https://github.com/acquia/blt/blob/8.x/template/blt/project.yml#L62) can assist with this by halting builds with overridden features.
 2. Use `composer update` to download the new module version(s).
 3. Run `drush updb` to apply any pending updates locally.
 4. If any updates were applied, check if they modified any stored configuration. If using Features, simply check for overridden features. If using core CM, re-export all configuration and check for any changes on disk.
@@ -58,7 +58,7 @@ We need to find a better way of preventing this than manually monitoring module 
 
 ## Configuration Split workflow
 
-TODO: Copy or just link to Jeff's blog post. Make sure to explain advantages and limitations up front.
+TODO: Copy or just link to Jeff's blog post. Make sure to explain advantages and limitations up front. Also make sure to capture any pain points.
 
 ## Features-based workflow
 
