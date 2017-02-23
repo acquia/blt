@@ -13,24 +13,24 @@ This section describes aspects of BLT's development and deployment process that 
 
 TODO: Importance of using configuration management at all, and how Drupal 8 stores configuration as YML files and synchronizes them with DB via import/export.
 
-A good Features-based workflow makes it easy for developers to logically bundle configuration into portable version-controlled features that are easy to update. It also makes it easy to deploy these changes and verify that the active configuration on any given site matches what is stored in VCS.
+A good CM workflow should make it easy for developers to make and capture configuration changes, review and test these changes, and reliably deploy these changes to a remote environment.
 
 Generally speaking, a configuration change follows this lifecycle:
 
 1. A developer makes the change in her or his local environment.
-2. The developer uses the Features UI to export the configuration as a new or updated feature module.
-3. The developer commits the new or updated module to VCS and opens a pull request.
-4. Automated testing ensures that the feature can be installed from scratch on a new site as well as imported without conflicts on an existing site.
-5. After the feature is deployed, deployment hooks automatically import the new or updated configuration.
+2. The developer uses CM commands to export the configuration change to disk.
+3. The developer commits the new or updated configuration to VCS and opens a pull request.
+4. Automated testing ensures that the configuration can be installed from scratch on a new site as well as imported without conflicts on an existing site.
+5. After the change is deployed, deployment hooks automatically import the new or updated configuration.
 
 ### How BLT handles configuration updates
 
-BLT-based projects already support this workflow, including automatic imports of features during updates (see the `setup:update` BLT task). The task `local:update` can be run by developers to replicate these deployment commands locally.
+BLT-based projects already support this workflow, including automatic imports of configuration updates. BLT defines a generic `setup:update` task that applies any pending database and configuration updates. This same task can be re-used locally, in a CI environment, or remotely (via the `local:update`, `ci:update`, and `deploy:update` wrappers, respectively) to ensure that configuration changes and database updates behave identically in all environments.
 
-TODO: What happens when you run updates locally and on deploy (updb, config-import, features-revert-all, post-import hook). How does csex play into this?
+TODO: What specifically happens when you run updates locally and on deploy (updb, config-import, features-revert-all, post-import hook). How does csex play into this?
 
 ### Config vs content
-Drupal’s core config system (and by extension, the Features ecosystem) cannot be used to manage entities that Drupal considers to be content, such as nodes, taxonomy terms, and files. This can create conflicts when a configuration entity depends on a content entity, such as:
+Drupal’s config system cannot be used to manage entities that Drupal considers to be content, such as nodes, taxonomy terms, and files. This can create conflicts when a configuration entity depends on a content entity, such as:
 
 * You have a block type that includes a file upload field, and you want to place the block in a theme and export the block as a feature.
 * You have a view that is filtered by a static taxonomy term, and you want to export that view as a feature.
@@ -56,11 +56,17 @@ The best way to handle this is to always follow these steps when updating contri
 
 We need to find a better way of preventing this than manually monitoring module updates. Find more information in [these](https://www.drupal.org/node/2745685) [issues](https://github.com/acquia/blt/issues/842).
 
+## Configuration Split workflow
+
+TODO: Copy or just link to Jeff's blog post. Make sure to explain advantages and limitations up front.
+
 ## Features-based workflow
 
 Features allows you to bundle related configuration files (such as a content type and its fields) into individual feature modules. Drupal treats features just like normal modules, but Features and its dependencies add some special sauce that allow features to not only provide default configuration (like normal modules), but to also update (track and import) changes to this configuration.
 
-A note on capitalization and terminology: "Features" is the module on drupal.org, while "features" are the individual collections of configuration on your own project. Also, Features relies heavily on the core configuration management system as well as the contributed Configuration Update module. It's easier to refer to this system collectively as Features, but keep in mind that many bugs and issues may actually relate to the underlying modules.
+Because of this more modular architecture, Features can be a better solution for certain multisite applications where functionality needs to be customized on a per-site basis. For instance, if you have a number of content types exported as separate features, but a given site only needs a subset of those content types, you could disable the unused features to make for a cleaner content editing experience. This also has the advantage of logically grouping functionality and custom code alongside its corresponding configuration.
+
+However, the downside to this more granular approach is that Features cannot make some of the same assumptions as the core configuration system, and relies much more heavily on the developer to manage the architecture and handle configuration changes that it can't. This makes the overall system much more error-prone and more of a burden to maintain.
 
 ### Using bundles
 Features lets you define custom "bundles" that essentially let you train Features to support your project's individual workflow. At the most basic level, they are a way to namespace your features, so you'd want to choose a bundle name based on your project name (an "Acme" bundle would prefix all of your feature machine names with "acme_").
