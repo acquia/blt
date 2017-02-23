@@ -1,11 +1,18 @@
-# Feature-based configuration management
-## Workflow and best practices for developers and TAs
+# Configuration management with BLT
+## Overview
 
-There are many ways to manage and deploy configuration in Drupal 8, one of which is the Features module. Features allows you to bundle related configuration files (such as a content type and its fields) into individual feature modules. Drupal treats features just like normal modules, but Features and its dependencies add some special sauce that allow features to not only provide default configuration (like normal modules), but to also update (track and import) changes to this configuration.
+BLT supports several methods of configuration management (CM) in Drupal 8. All of these rely to varying degrees on Drupal core's configuration entities, which can be "imported" into a database or "exported" to disk as yml files.
 
-A note on capitalization and terminology: "Features" is the module on drupal.org, while "features" are the individual collections of configuration on your own project. Also, Features relies heavily on the core configuration management system as well as the contributed Configuration Update module. It's easier to refer to this system collectively as Features, but keep in mind that many bugs and issues may actually relate to the underlying modules.
+BLT _strongly recommends_ a CM workflow based on the [Configuration Split](https://www.drupal.org/project/config_split) module, as described below. For most projects, this strikes the best balance of flexibility, reliability, and ease of maintenance and development. This document will also describe a Features-based workflow (analogous to most CM workflows in Drupal 7) that can better accomodate certain multisite architectures, but generally has a much higher development and maintenance overhead.
 
-## Overview of a Features-based workflow
+## General principles
+
+This section describes aspects of BLT's development and deployment process that are common to all CM workflows.
+
+### Basics of configuration management
+
+TODO: Importance of using configuration management at all, and how Drupal 8 stores configuration as YML files and synchronizes them with DB via import/export.
+
 A good Features-based workflow makes it easy for developers to logically bundle configuration into portable version-controlled features that are easy to update. It also makes it easy to deploy these changes and verify that the active configuration on any given site matches what is stored in VCS.
 
 Generally speaking, a configuration change follows this lifecycle:
@@ -16,18 +23,11 @@ Generally speaking, a configuration change follows this lifecycle:
 4. Automated testing ensures that the feature can be installed from scratch on a new site as well as imported without conflicts on an existing site.
 5. After the feature is deployed, deployment hooks automatically import the new or updated configuration.
 
+### How BLT handles configuration updates
+
 BLT-based projects already support this workflow, including automatic imports of features during updates (see the `setup:update` BLT task). The task `local:update` can be run by developers to replicate these deployment commands locally.
 
-Be aware that reverting all features and config on every deploy creates a risk of discarding server-side changes. This risk should be controlled by carefully managing permissions, and must be balanced against the greater risk of allowing for divergent configuration between your DB and VCS.
-
-## Best practices
-
-### Using bundles
-Features lets you define custom "bundles" that essentially let you train Features to support your project's individual workflow. At the most basic level, they are a way to namespace your features, so you'd want to choose a bundle name based on your project name (an "Acme" bundle would prefix all of your feature machine names with "acme_").
-
-Bundles can also do a lot more to make your life easier. For instance, Features automatically suggests features based around content types and taxonomies. If you'd also like to automatically create features for, say, custom block types, you can configure that preference in your custom bundle. You can also choose to always exclude certain types of configuration (such as permissions--see below), or always group certain types of configuration (such as field storage) into a "core" bundle, which is helpful for breaking circular dependencies.
-
-Note that as of version 8.3.3, Features can manage user roles and permissions, but not in an independent fashion. Permissions can only be exported for an entire role at once, unlike in D7 where you could export roles and their associated permissions separately. For this reason, Features excludes roles and permissions by default. If you wish to export them, change the "alters" setting on your Features bundle. ([reference](https://www.drupal.org/node/2383439))
+TODO: What happens when you run updates locally and on deploy (updb, config-import, features-revert-all, post-import hook). How does csex play into this?
 
 ### Config vs content
 Drupal’s core config system (and by extension, the Features ecosystem) cannot be used to manage entities that Drupal considers to be content, such as nodes, taxonomy terms, and files. This can create conflicts when a configuration entity depends on a content entity, such as:
@@ -41,6 +41,33 @@ The solution is to make sure that the referenced content exists before the featu
 
 * Use the default_content module to export the referenced content as JSON files, and store these files with your feature or in a dependency.
 * Use Migrate and a custom module to create default content from any number of custom sources, such as JSON files stored with your feature.
+
+### Updating core and contributed modules
+
+Caution must be taken when updating core and contributed modules. If those updates make changes to a module’s configuration or schema, you must make sure to also update your exported features definitions. Otherwise, the next time you run features-import it will import a stale configuration schema and cause unexpected behavior.
+
+The best way to handle this is to always follow these steps when updating contributed and core modules:
+
+1. Start from a clean local setup or refresh. If you are using Features, ensure that there are no overridden features. The `cm.features.no-overrides` flag in [project.yml](https://github.com/acquia/blt/blob/8.x/template/blt/project.yml#L62) can assist with this by halting builds with overridden features.
+2. Use `composer update` to download the new module version(s).
+3. Run `drush updb` to apply any pending updates locally.
+4. If any updates were applied, check if they modified any stored configuration. If using Features, simply check for overridden features. If using core CM, re-export all configuration and check for any changes on disk.
+5. Re-export and commit any changes you found in the previous step, along with the updated `composer.json` and `composer.lock`.
+
+We need to find a better way of preventing this than manually monitoring module updates. Find more information in [these](https://www.drupal.org/node/2745685) [issues](https://github.com/acquia/blt/issues/842).
+
+## Features-based workflow
+
+Features allows you to bundle related configuration files (such as a content type and its fields) into individual feature modules. Drupal treats features just like normal modules, but Features and its dependencies add some special sauce that allow features to not only provide default configuration (like normal modules), but to also update (track and import) changes to this configuration.
+
+A note on capitalization and terminology: "Features" is the module on drupal.org, while "features" are the individual collections of configuration on your own project. Also, Features relies heavily on the core configuration management system as well as the contributed Configuration Update module. It's easier to refer to this system collectively as Features, but keep in mind that many bugs and issues may actually relate to the underlying modules.
+
+### Using bundles
+Features lets you define custom "bundles" that essentially let you train Features to support your project's individual workflow. At the most basic level, they are a way to namespace your features, so you'd want to choose a bundle name based on your project name (an "Acme" bundle would prefix all of your feature machine names with "acme_").
+
+Bundles can also do a lot more to make your life easier. For instance, Features automatically suggests features based around content types and taxonomies. If you'd also like to automatically create features for, say, custom block types, you can configure that preference in your custom bundle. You can also choose to always exclude certain types of configuration (such as permissions--see below), or always group certain types of configuration (such as field storage) into a "core" bundle, which is helpful for breaking circular dependencies.
+
+Note that as of version 8.3.3, Features can manage user roles and permissions, but not in an independent fashion. Permissions can only be exported for an entire role at once, unlike in D7 where you could export roles and their associated permissions separately. For this reason, Features excludes roles and permissions by default. If you wish to export them, change the "alters" setting on your Features bundle. ([reference](https://www.drupal.org/node/2383439))
 
 ### Testing features
 It’s important to ensure via automated testing that features can be installed on a new site as well as enabled on existing sites.
@@ -114,20 +141,6 @@ This depends on a helper function like this, which I suggest adding to your cust
       return $storage[$module]->read($id);
     }
 
-### Updating core and contributed modules
-
-Caution must be taken when updating core and contributed modules. If those updates make changes to a module’s configuration or schema, you must make sure to also update your exported features definitions. Otherwise, the next time you run features-import it will import a stale configuration schema and cause unexpected behavior.
-
-The best way to handle this is to always follow these steps when updating contributed and core modules:
-
-1. Start from a clean local setup or refresh. If you are using Features, ensure that there are no overridden features. The `cm.features.no-overrides` flag in [project.yml](https://github.com/acquia/blt/blob/8.x/template/blt/project.yml#L62) can assist with this by halting builds with overridden features.
-2. Use `composer update` to download the new module version(s).
-3. Run `drush updb` to apply any pending updates locally.
-4. If any updates were applied, check if they modified any stored configuration. If using Features, simply check for overridden features. If using core CM, re-export all configuration and check for any changes on disk.
-5. Re-export and commit any changes you found in the previous step, along with the updated `composer.json` and `composer.lock`.
-
-We need to find a better way of preventing this than manually monitoring module updates. Find more information in [these](https://www.drupal.org/node/2745685) [issues](https://github.com/acquia/blt/issues/842).
-
 ### Overriding configuration
 
 Drupal normally prevents modules from overriding configuration that already exists in the system, producing an exception like this:
@@ -142,5 +155,7 @@ If you need to override the default configuration provided by another project (o
 * Use the [config override system](https://www.drupal.org/docs/8/api/configuration-api/configuration-override-system) built into core. This has [some limitations](https://www.drupal.org/node/2614480#comment-10573274) of which you should be wary.
 
 ### Other gotchas
+
+Be aware that reverting all features and config on every deploy creates a risk of discarding server-side changes. This risk should be controlled by carefully managing permissions, and must be balanced against the greater risk of allowing for divergent configuration between your DB and VCS.
 
 Features is a ground-up rewrite in Drupal 8 and is maturing quickly, but may still have some traps. Developers should keep a close eye on exported features, and architects need to carefully review features in PRs for the gotchas and best practices listed above.
