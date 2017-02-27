@@ -10,7 +10,7 @@ if [ ! -f $PHPCBF_BIN ];
     exit 1
 fi
 
-if [ ! -f $FILENAME ];
+if [ -z $FILENAME ];
   then
     echo "Missing file list parameter."
     exit 1
