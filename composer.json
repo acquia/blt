@@ -30,7 +30,8 @@
         "squizlabs/php_codesniffer":        "^2.7",
         "symfony/yaml":                     "^2.8.11",
         "symfony/console":                  "^2.8.11",
-        "vierbergenlars/php-semver":        "^3.0"
+        "vierbergenlars/php-semver":        "^3.0",
+        "wikimedia/composer-merge-plugin":  "^1.3"
     },
     "autoload": {
         "psr-4": {
