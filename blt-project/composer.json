@@ -20,6 +20,15 @@
     "require": {
         "acquia/blt": "*@dev"
     },
+    "extra": {
+        "merge-plugin": {
+            "require": [
+                "vendor/acquia/blt/composer.include.json"
+            ],
+            "merge-extra": true,
+            "merge-extra-deep": true
+        }
+    },
     "minimum-stability": "dev",
     "prefer-stable": true
 }
