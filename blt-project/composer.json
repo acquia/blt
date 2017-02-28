@@ -20,6 +20,8 @@
     "require": {
         "acquia/blt": "*@dev"
     },
+    "require-dev": {},
+    "autoload-dev": {},
     "extra": {
         "merge-plugin": {
             "require": [
