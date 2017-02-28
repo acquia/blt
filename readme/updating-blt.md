@@ -21,39 +21,15 @@ If you are already using BLT via Composer, you can update to the latest version 
 
 ### Modifying update behavior
 
-By default BLT will modify your project's composer.json to conform with the [upstream composer.json template](https://github.com/acquia/blt/blob/8.x/template/composer.json). If you'd like to prevent a specific package or key in composer.json from being modified, use the `composer-exclude-merge` option:
+By default BLT will modify a handful of files in your project to conform to the [upstream template](https://github.com/acquia/blt/blob/8.x/template). If you'd like to prevent this, set `extra.blt.update` to `false` in `composer.json`:
 
       "extra": {
         "blt": {
-            "update": true,
-            "composer-exclude-merge": {
-                "require": [
-                    "drupal/acsf",
-                    "drupal/acquia_connector",
-                    "drupal/memcache",
-                    "drupal/search_api",
-                    "drupal/search_api_solr"
-                ],
-                "require-dev": "*"
-            }
+            "update": true
         }
       }
 
-This would prevent the merging of any upstream updates to the composer.json configuration for a handful of modules in `require` and all packages in `require-dev`.
-
-A few other examples of valid usage:
-
-      "extra": {
-        "blt": {
-            "update": false,
-        }
-      }
-      "extra": {
-        "blt": {
-            "update": true,
-            "composer-exclude-merge": "*"
-        }
-      }
+Please not that if you choose to do this, it is your responsibility to track upstream changes. This is very likely to cause issues when you upgrade BLT to a new version.
 
 ## Updating from a non-Composer-managed (very old) version
 
