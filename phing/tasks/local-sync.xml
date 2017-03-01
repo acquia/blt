@@ -46,6 +46,21 @@
     <drush command="cache-rebuild"/>
   </target>
 
+  <target name="local:sync:files" description="Synchronize local files from remote (remote --> local).">
+    <property name="site.name" value="${multisite.name}"/>
+    <if>
+      <!-- If ${multisite.name} is a list, assume we're syncing the default site's files. -->
+      <contains string="${site.name}" substring=","/>
+      <then>
+        <property name="site.name" value="default" override="true"/>
+      </then>
+    </if>
+    <drush command="rsync" alias="">
+      <param>@${drush.aliases.remote}:%files/</param>
+      <param>${docroot}/sites/${site.name}/files</param>
+    </drush>
+  </target>
+
   <target name="local:update" description="Update current database to reflect the state of the Drupal file system; uses local drush alias.">
     <phingcall target="setup:update">
       <property name="drush.alias" value="${drush.aliases.local}"/>
