@@ -11,7 +11,7 @@ use Acquia\Blt\Tests\BltProjectTestBase;
  */
 class FixTasksTest extends BltProjectTestBase {
 
-  private $return_var;
+  private $returnVar;
   private $output = [];
 
   /**
@@ -20,7 +20,7 @@ class FixTasksTest extends BltProjectTestBase {
   public function testFixPhpcbfExists() {
     $this->executePhpcbfFileListScript();
     $this->assertNotContains("PHP Code Beautifier was not found in this project's bin directory. Please run composer install.", $this->output);
-    $this->assertEquals(1, $this->return_var);
+    $this->assertEquals(1, $this->returnVar);
   }
 
   /**
@@ -29,7 +29,7 @@ class FixTasksTest extends BltProjectTestBase {
   public function testFixPhpcbfExitsWhenMissingArguments() {
     $this->executePhpcbfFileListScript();
     $this->assertContains("Missing file list parameter.", $this->output);
-    $this->assertEquals(1, $this->return_var);
+    $this->assertEquals(1, $this->returnVar);
   }
 
   /**
@@ -41,26 +41,23 @@ class FixTasksTest extends BltProjectTestBase {
     $this->assertNotContains("Missing file list parameter.", $this->output);
     $this->assertContains("Files that can be fixed by PHPCBF:", $this->output);
     $this->assertContains("{$this->drupalRoot}/foo.php", $this->output);
-    $this->assertEquals(0, $this->return_var);
+    $this->assertEquals(0, $this->returnVar);
   }
 
   /**
    * Helper method that xecutes the phpcbf-file-list.sh script.
    *
    * @param string $file
-   *  The full path to the file to be processed.
+   *   The full path to the file to be processed.
    */
   protected function executePhpcbfFileListScript($file = '') {
     chdir($this->projectDirectory);
     $command = "sh vendor/acquia/blt/scripts/blt/phpcbf-file-list.sh $file";
-    exec($command, $this->output, $this->return_var);
+    exec($command, $this->output, $this->returnVar);
   }
 
   /**
    * Helper method to create a temp file, formatted as a phpcs csv report.
-   *
-   * @param string $tmp_file
-   *  The full path to the file to be created.
    */
   protected function createTestReport() {
     $tmp_file = tempnam(sys_get_temp_dir(), '');
