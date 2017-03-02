@@ -9,6 +9,7 @@
     <include name="**/*.test"/>
     <include name="**/*.theme"/>
     <exclude name="**/vendor/**/*"/>
+    <exclude name="**/node_modules/**/*"/>
     <!-- Behat php files are ignored because method names and comments do not conform to Drupal coding standards by default. -->
     <exclude name="**/behat/**/*"/>
   </patternset>
