@@ -6,7 +6,7 @@ FILENAME=$1
 
 if [ ! -f $PHPCBF_BIN ];
   then
-    echo "PHP Code Beautifier was not found in this project's bin directory. Please run composer install. "
+    echo "PHP Code Beautifier was not found in this project's bin directory. Please run composer install."
     exit 1
 fi
 
