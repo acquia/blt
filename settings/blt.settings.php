@@ -80,6 +80,17 @@ if (file_exists(__DIR__ . '/simplesamlphp.settings.php')) {
  */
 $settings['hash_salt'] = file_get_contents(DRUPAL_ROOT . '/../salt.txt');
 
+/**
+ * Deployment identifier.
+ *
+ * Drupal's dependency injection container will be automatically invalidated and
+ * rebuilt when the Drupal core version changes. When updating contributed or
+ * custom code that changes the container, changing this identifier will also
+ * allow the container to be invalidated as soon as code is deployed.
+ */
+$deploy_id = file_get_contents(DRUPAL_ROOT . '/../deploy_id.txt');
+$settings['deployment_identifier'] = $deploy_id ? $deploy_id : \Drupal::VERSION;
+
 /*******************************************************************************
  * Environment-specific includes.
  ******************************************************************************/
