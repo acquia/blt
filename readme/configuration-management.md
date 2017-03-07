@@ -23,7 +23,7 @@ Generally speaking, a configuration change follows this lifecycle:
 4. Automated testing ensures that the configuration can be installed from scratch on a new site as well as imported without conflicts on an existing site.
 5. After the change is deployed, deployment hooks automatically import the new or updated configuration.
 
-The way that configuration is captured and deployed between environments in Drupal 8 is typically via YAML files. These YAML files, typically stored in a root `config` directory, or distributed with individual modules in `config/install` directories, represent individual configruation objects that can be synchronized with the active configuration in an environment's database via a variety of methods.
+The way that configuration is captured and deployed between environments in Drupal 8 is typically via YAML files. These YAML files, typically stored in a root `config` directory, or distributed with individual modules in `config/install` directories, represent individual configruation objects that can be synchronized with the active configuration in an environment's database via a variety of methods. See [documentation on core configuration management](https://www.drupal.org/docs/8/configuration-management). 
 
 This document address the challenge of capturing ("exporting") and deploying ("importing") configuration in a consistent way in order to support the workflow described above.
 
@@ -31,7 +31,13 @@ This document address the challenge of capturing ("exporting") and deploying ("i
 
 BLT-based projects already support this workflow, including automatic imports of configuration updates. BLT defines a generic `setup:update` task that applies any pending database and configuration updates. This same task can be re-used locally, in a CI environment, or remotely (via the `local:update`, `ci:update`, and `deploy:update` wrappers, respectively) to ensure that configuration changes and database updates behave identically in all environments.
 
-TODO: What specifically happens when you run updates locally and on deploy (updb, config-import, features-revert-all, post-import hook). How does csex play into this?
+When you run one of these update commands, they perform the following updates (see `setup:config-import`):
+
+- Database updates: the equivalent of running `drush updb` or hitting `update.php`, this applies any pending database updates.
+- Config import: runs the core configuration-import command to import any configuration stored in the root `config` directory. This is either a full or partial import, depending on how BLT is configured.
+- Features import: runs features-import-all, which imports any configuration stored in a feature module's `config/install` directory.
+
+There are also pre- and post-config import hooks that you can use to run custom commands.
 
 ### Config vs content
 Drupal’s config system cannot be used to manage entities that Drupal considers to be content, such as nodes, taxonomy terms, and files. This can create conflicts when a configuration entity depends on a content entity, such as:
