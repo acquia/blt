@@ -68,7 +68,13 @@ We need to find a better way of preventing this than manually monitoring module 
 
 ## Configuration Split workflow
 
-TODO: Copy or just link to Jeff's blog post. Make sure to explain advantages and limitations up front. Also make sure to capture any pain points.
+BLT recommends using the Config Split module to manage configuration on most projects. For a description of how to use Config Split, see this excellent [blog post by Jeff Geerling](https://www.jeffgeerling.com/blog/2017/adding-configuration-split-drupal-site-using-blt-and-acquia-cloud).
+
+Note that this workflow currently has two major limitations. The first is that individual configurations can't be entirely excluded from configuration management. For instance, if you want administrators to be able to set the site name (as above) or create new contact forms / webforms in production, this would be difficult given the current state of the module. However, this should theoretically be possible.
+
+TODO: Update once we figure out the graylist, and with additional information about how to integrate with BLT.
+
+The second limitation is that it's difficult to define configuration that varies between sites in a multisite installation. Multisite installations that require highly customized bundles of configuration per-site might be better suited by a Features-based workflow.
 
 ## Features-based workflow
 
