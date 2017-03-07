@@ -11,9 +11,9 @@ This section describes aspects of BLT's development and deployment process that 
 
 ### Basics of configuration management
 
-TODO: Importance of using configuration management at all, and how Drupal 8 stores configuration as YML files and synchronizes them with DB via import/export.
+The primary goal of configuration management is to ensure that all configuration changes can be reviewed, tested, and predictably deployed to production environments. Some simple changes, such as changing a site's name or slogan, might have limited, atomic, and predictable effects, and therefore not require strict change management. Other types of changes, such as modifying field storage schemas, _always_ need to go through a review process. Additionally, different projects might have different degrees of risk tolerance. For instance, some might prefer that configuration be strictly read-only in production, prohibiting even the simple site name change above.
 
-A good CM workflow should make it easy for developers to make and capture configuration changes, review and test these changes, and reliably deploy these changes to a remote environment.
+A good CM workflow should be flexible enought to accomodate either of these use cases, and make it easy for developers to make and capture configuration changes, review and test these changes, and reliably deploy these changes to a remote environment.
 
 Generally speaking, a configuration change follows this lifecycle:
 
@@ -22,6 +22,10 @@ Generally speaking, a configuration change follows this lifecycle:
 3. The developer commits the new or updated configuration to VCS and opens a pull request.
 4. Automated testing ensures that the configuration can be installed from scratch on a new site as well as imported without conflicts on an existing site.
 5. After the change is deployed, deployment hooks automatically import the new or updated configuration.
+
+The way that configuration is captured and deployed between environments in Drupal 8 is typically via YAML files. These YAML files, typically stored in a root `config` directory, or distributed with individual modules in `config/install` directories, represent individual configruation objects that can be synchronized with the active configuration in an environment's database via a variety of methods.
+
+This document address the challenge of capturing ("exporting") and deploying ("importing") configuration in a consistent way in order to support the workflow described above.
 
 ### How BLT handles configuration updates
 
