@@ -81,7 +81,7 @@
     <exec dir="${repo.root}" command="${composer.bin}/blt-console blt:update ${blt.schema-version} ${repo.root} --yes" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <exec dir="${repo.root}" command="${composer.bin}/blt-console blt:schema-version ${repo.root} --latest > ${blt.config-files.schema-version}" checkreturn="true" logoutput="true" passthru="true"/>
   </target>
-  
+
   <target name="blt:update-yml" description="Updates project BLT .yml files with new key value pairs from upstream. This WILL NOT overwrite existing values." hidden="true">
     <!--@todo Output different message if project.yml does not exist-->
     <echo level="verbose">Merging BLT's project.yml template with your project's project.yml.</echo>
