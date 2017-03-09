@@ -58,6 +58,8 @@ installed_extras:
 php_version: "5.6"
 php_packages_extra:
   - "php{{ php_version }}-bz2"
+  - "php{{ php_version }}-imagick"
+  - imagemagick
 
 # XDebug configuration.
 # Change this value to 1 in order to enable xdebug by default.
