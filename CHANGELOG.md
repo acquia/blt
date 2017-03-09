@@ -1,5 +1,52 @@
 # Change Log
 
+## [8.6.15](https://github.com/acquia/blt/tree/8.6.15) (2017-03-09)
+[Full Changelog](https://github.com/acquia/blt/compare/8.6.14...8.6.15)
+
+**Implemented enhancements:**
+
+- Add vagrant\_ip to Drupal VM config.yml when running 'blt vm' [\#1112](https://github.com/acquia/blt/issues/1112)
+- Auto-discovery of multisite.name [\#1087](https://github.com/acquia/blt/issues/1087)
+- Test for schema changes to stored config [\#842](https://github.com/acquia/blt/issues/842)
+- Automate / allow overrides of .htaccess for SSL and SAML [\#608](https://github.com/acquia/blt/issues/608)
+- Fixes \#1152: Allow for screenshots in Behat test runs. [\#1158](https://github.com/acquia/blt/pull/1158) ([geerlingguy](https://github.com/geerlingguy))
+- Fixes \#1141: Fixes deploy updates only applied to default site. [\#1146](https://github.com/acquia/blt/pull/1146) ([danepowell](https://github.com/danepowell))
+- Added node modules to the php linting excludes list. [\#1143](https://github.com/acquia/blt/pull/1143) ([aweingarten](https://github.com/aweingarten))
+- Removing nvm from blt CI scripts. [\#1142](https://github.com/acquia/blt/pull/1142) ([grasmash](https://github.com/grasmash))
+- Add local:sync:files task. [\#1136](https://github.com/acquia/blt/pull/1136) ([bobbygryzynger](https://github.com/bobbygryzynger))
+- Fixes \#1112: Add a default vagrant\_ip and comment in Drupal VM config.yml. Fixes \#1112. [\#1130](https://github.com/acquia/blt/pull/1130) ([geerlingguy](https://github.com/geerlingguy))
+- Connects to \#1113: Add multisite properties documentation. [\#1124](https://github.com/acquia/blt/pull/1124) ([bobbygryzynger](https://github.com/bobbygryzynger))
+- Fixes \#1087: Auto-discovery of multisite.name. [\#1119](https://github.com/acquia/blt/pull/1119) ([bobbygryzynger](https://github.com/bobbygryzynger))
+
+**Fixed bugs:**
+
+- BLT incorrectly sets file\_private\_path for Site Factory [\#1160](https://github.com/acquia/blt/issues/1160)
+- Drush aliases file not correctly generated on blt vm if nuked before [\#1155](https://github.com/acquia/blt/issues/1155)
+- Automated tag deployments on Travis CI fail with 'src refspec matches more than one` [\#1150](https://github.com/acquia/blt/issues/1150)
+- Deploy updates not applied to multisites [\#1141](https://github.com/acquia/blt/issues/1141)
+- PHP Notice:  Undefined index: gardens\_site\_settings [\#1038](https://github.com/acquia/blt/issues/1038)
+- Fixes bug multisite generation of local.drushrc.php. [\#1167](https://github.com/acquia/blt/pull/1167) ([grasmash](https://github.com/grasmash))
+- Fixes \#1150: Automated tag deployments on Travis CI fail with `src refspec matches more than one` [\#1166](https://github.com/acquia/blt/pull/1166) ([grasmash](https://github.com/grasmash))
+- Fixes \#1155: Drush aliases file not correctly generated on blt vm if nuked before. [\#1162](https://github.com/acquia/blt/pull/1162) ([grasmash](https://github.com/grasmash))
+- Fixes \#1160: BLT incorrectly sets file\_private\_path for Site Factory. [\#1161](https://github.com/acquia/blt/pull/1161) ([grasmash](https://github.com/grasmash))
+- Fixes \#1148: update cm keys in deploy.xml. [\#1149](https://github.com/acquia/blt/pull/1149) ([bobbygryzynger](https://github.com/bobbygryzynger))
+
+**Closed issues:**
+
+- Add ability to save screenshot and/or dump of html for failed behat tests. [\#1152](https://github.com/acquia/blt/issues/1152)
+- Configuration keys incorrectly set in deploy.xml [\#1148](https://github.com/acquia/blt/issues/1148)
+- Can't get tag to deploy via Travis CI [\#1137](https://github.com/acquia/blt/issues/1137)
+
+**Misc merged pull requests**
+
+- Issue \#1152 follow-up: Add docs for Behat ScreenshotExtension. [\#1164](https://github.com/acquia/blt/pull/1164) ([geerlingguy](https://github.com/geerlingguy))
+- Issue \#608: Improved patch documentation. [\#1157](https://github.com/acquia/blt/pull/1157) ([danepowell](https://github.com/danepowell))
+- Added additional Windows gotcha related to missing/hidden files. [\#1144](https://github.com/acquia/blt/pull/1144) ([ashabed](https://github.com/ashabed))
+- Fix misleading "Your composer.json file was modified by BLT" error message [\#1139](https://github.com/acquia/blt/pull/1139) ([TravisCarden](https://github.com/TravisCarden))
+- Update multisite.md [\#1129](https://github.com/acquia/blt/pull/1129) ([danepowell](https://github.com/danepowell))
+- Increasing timeout for Symfony processes created by Composer. [\#1115](https://github.com/acquia/blt/pull/1115) ([grasmash](https://github.com/grasmash))
+
+
 ## [8.6.12](https://github.com/acquia/blt/tree/8.6.12) (2017-02-13)
 [Full Changelog](https://github.com/acquia/blt/compare/8.6.11...8.6.12)
 
