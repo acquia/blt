@@ -46,6 +46,89 @@
 - Update multisite.md [\#1129](https://github.com/acquia/blt/pull/1129) ([danepowell](https://github.com/danepowell))
 - Increasing timeout for Symfony processes created by Composer. [\#1115](https://github.com/acquia/blt/pull/1115) ([grasmash](https://github.com/grasmash))
 
+## [8.6.13](https://github.com/acquia/blt/tree/8.6.13) (2017-02-17)
+[Full Changelog](https://github.com/acquia/blt/compare/8.6.11...8.6.13)
+
+**Notable Changes**
+- .travis.yml and acquia-pipelines.yml have been significantly refactored to reduce the maintenance effort moving forward. **You must re-initialize these files**. E.g.,
+  - `rm .travis.yml && blt ci:travis:init`
+  - `rm acquia-pipelines.yml && blt ci:pipelines:init`
+- BLT no longer runs its own PHPUnit tests on child projects. An example PHPUnit test has been added for child projects to verify that tests do still run.
+
+**Implemented enhancements:**
+- DrushTask needs outputProperty instead of just returnProperty [#1088](https://github.com/acquia/blt/issues/1088)
+- Make the cm.core.config-dir property configurable [#1013](https://github.com/acquia/blt/issues/1013)
+- Allow skipping of BLT's own PHPUnit tests [#982](https://github.com/acquia/blt/issues/982)
+- Make default acquia-pipelines.yml configuration distributable [#976](https://github.com/acquia/blt/issues/976)
+- Support for multiple CM approaches. [#854](https://github.com/acquia/blt/issues/854)
+- Improving internal testing of Pipelines [#1114](https://github.com/acquia/blt/pull/1114) ([grasmash](https://github.com/grasmash))
+- Re-starting MySQL in acquia-pipelines.yml. [#1107](https://github.com/acquia/blt/pull/1107) ([grasmash](https://github.com/grasmash))
+- Exclude acquia-pipelines.yml from artifact. [#1101](https://github.com/acquia/blt/pull/1101) ([grasmash](https://github.com/grasmash))
+- Defining JDK version directly in .travis.yml. [#1100](https://github.com/acquia/blt/pull/1100) ([grasmash](https://github.com/grasmash))
+- Pushing source 8.x branch to blted8 sandbox automatically. [#1099](https://github.com/acquia/blt/pull/1099) ([grasmash](https://github.com/grasmash))
+- Adding PHPUnit bootstrap. [#1098](https://github.com/acquia/blt/pull/1098) ([grasmash](https://github.com/grasmash))
+- Adapts #1024: Add pre-config-import hook [#1095](https://github.com/acquia/blt/pull/1095) ([bobbygryzynger](https://github.com/bobbygryzynger))
+- Support for multisite deploys [#1092](https://github.com/acquia/blt/pull/1092) ([danepowell](https://github.com/danepowell))
+- Fixes #1078, #1029, #1013, #966: Allow configuration directory and partial flag to be configurable. [#1080](https://github.com/acquia/blt/pull/1080) ([grasmash](https://github.com/grasmash))
+- Fixing PHPCS filset reference. [#1079](https://github.com/acquia/blt/pull/1079) ([dpagini](https://github.com/dpagini))
+- Fixes #1070: Adding variables for phpcs haltonerror and haltonwarning. [#1071](https://github.com/acquia/blt/pull/1071) ([grasmash](https://github.com/grasmash))
+- Adding vm:nuke command. [#1069](https://github.com/acquia/blt/pull/1069) ([grasmash](https://github.com/grasmash))
+- Creating example PHPUnit test. [#1068](https://github.com/acquia/blt/pull/1068) ([grasmash](https://github.com/grasmash))
+- Adding composer-installers-extender. [#1064](https://github.com/acquia/blt/pull/1064) ([grasmash](https://github.com/grasmash))
+- Adding installer paths for custom modules, themes, and profiles. [#1063](https://github.com/acquia/blt/pull/1063) ([grasmash](https://github.com/grasmash))
+- Update lightning to 2.0.3 [#1054](https://github.com/acquia/blt/pull/1054) ([balsama](https://github.com/balsama))
+- TravisCI MySQL errors [#1053](https://github.com/acquia/blt/pull/1053) ([danepowell](https://github.com/danepowell))
+- Renaming locale to drupal.locale. [#1045](https://github.com/acquia/blt/pull/1045) ([grasmash](https://github.com/grasmash))
+- Add locale option for site-install task. [#1043](https://github.com/acquia/blt/pull/1043) ([snize](https://github.com/snize))
+- Refactoring BLT's internal CI scripts for Pipelines usage. [#1040](https://github.com/acquia/blt/pull/1040) ([grasmash](https://github.com/grasmash))
+- Connects to #1032: Delete SettingsTest.php [#1037](https://github.com/acquia/blt/pull/1037) ([bobbygryzynger](https://github.com/bobbygryzynger))
+- Splitting Travis instructions into separate bash files. [#1035](https://github.com/acquia/blt/pull/1035) ([grasmash](https://github.com/grasmash))
+- Connects to  #1028: Add drush and drupal settings tests [#1032](https://github.com/acquia/blt/pull/1032) ([bobbygryzynger](https://github.com/bobbygryzynger))
+- Moving drupal/console requirement to template composer.json. [#1031](https://github.com/acquia/blt/pull/1031) ([grasmash](https://github.com/grasmash))
+- Adding file_exists() check to composer munge command. [#1030](https://github.com/acquia/blt/pull/1030) ([grasmash](https://github.com/grasmash))
+- Fixes #985: Implement deploy_install() to rebuild projects on deploy. [#986](https://github.com/acquia/blt/pull/986) ([swichers](https://github.com/swichers))
+- Add support for disabling targets from the local project override file. [#1077](https://github.com/acquia/blt/pull/1077) ([bkosborne](https://github.com/bkosborne))
+- Run Cloud aliases in Cloud environments. [#1076](https://github.com/acquia/blt/pull/1076) ([danepowell](https://github.com/danepowell))
+- Double-revert features [#1073](https://github.com/acquia/blt/pull/1073) ([danepowell](https://github.com/danepowell))
+
+**Fixed bugs:**
+- Behat tests failing on Pipelines in master/pulled 8.6.12 release [#1111](https://github.com/acquia/blt/issues/1111)
+- .travis.yml attempts to run scripts that are not yet installed via composer. [#1094](https://github.com/acquia/blt/issues/1094)
+- Pipelines jobs failing after upgrading to BLT 8.6.12 [#1093](https://github.com/acquia/blt/issues/1093)
+- Missing space in .travis.yml causes travis-ci validation error. [#1090](https://github.com/acquia/blt/issues/1090)
+- Tags can be blank which results in no tag being deployed. [#1065](https://github.com/acquia/blt/issues/1065)
+- db_scrub script should not fire on ACSF [#1059](https://github.com/acquia/blt/issues/1059)
+- It's not possible to disable targets via project.local.yml [#1052](https://github.com/acquia/blt/issues/1052)
+- Build artifact .gitignore is blown away right after it's copied over [#1007](https://github.com/acquia/blt/issues/1007)
+- Commit message needs to be escaped? [#1006](https://github.com/acquia/blt/issues/1006)
+- Add missing newline to end of aliases.drushrc.php [#1103](https://github.com/acquia/blt/pull/1103) ([TravisCarden](https://github.com/TravisCarden))
+- Adding source prefix to pipelines commands. [#1097](https://github.com/acquia/blt/pull/1097) ([grasmash](https://github.com/grasmash))
+- 1090: add space to .travis.yml so it validates [#1091](https://github.com/acquia/blt/pull/1091) ([mariagwyn](https://github.com/mariagwyn))
+- Fixes #1065: Tags can be blank which results in no tag being deployed. [#1067](https://github.com/acquia/blt/pull/1067) ([grasmash](https://github.com/grasmash))
+- Fixes #1006: Commit message needs to be escaped. [#1062](https://github.com/acquia/blt/pull/1062) ([grasmash](https://github.com/grasmash))
+- Fixes #1007: Build artifact .gitignore is blown away right after it's copied over [#1061](https://github.com/acquia/blt/pull/1061) ([grasmash](https://github.com/grasmash))
+- Fixes #1059: db-scrub script should not fire on ACSF. [#1060](https://github.com/acquia/blt/pull/1060) ([grasmash](https://github.com/grasmash))
+- Fixed multisite settings on ACE. [#1042](https://github.com/acquia/blt/pull/1042) ([danepowell](https://github.com/danepowell))
+
+**Closed issues:**
+- 'drupal-custom-module' in template needs to be prefixed with 'type:' [#1084](https://github.com/acquia/blt/issues/1084)
+- Unprocessed replacement in default.local.drushrc.php [#1057](https://github.com/acquia/blt/issues/1057)
+- Travis MySQL errors [#1036](https://github.com/acquia/blt/issues/1036)
+-  jakoch/phantomjs-installer 2.1.1-p08 requires ext-bz2 * -> the requested PHP extension bz2 is missing from your system. [#1033](https://github.com/acquia/blt/issues/1033)
+- Add a deploy_install command to reinstall projects on every deploy. [#985](https://github.com/acquia/blt/issues/985)
+- Ansible needs to be at least 2.2 [#889](https://github.com/acquia/blt/issues/889)
+- Issue 1084: add 'type:' to drupal-custom-module installer path. [#1085](https://github.com/acquia/blt/pull/1085) ([mariagwyn](https://github.com/mariagwyn))
+
+**Misc merged pull requests**
+- Updating RELEASE.md with status badges. [#1106](https://github.com/acquia/blt/pull/1106) ([grasmash](https://github.com/grasmash))
+- Update ci.md [#1082](https://github.com/acquia/blt/pull/1082) ([danepowell](https://github.com/danepowell))
+- Added notes on how to update modules with Features workflow [#1081](https://github.com/acquia/blt/pull/1081) ([danepowell](https://github.com/danepowell))
+- Fixes #1057: Unprocessed replacement in default.local.drushrc.php [#1058](https://github.com/acquia/blt/pull/1058) ([grasmash](https://github.com/grasmash))
+- Trivial Windows documentation change [#1056](https://github.com/acquia/blt/pull/1056) ([ashabed](https://github.com/ashabed))
+- Update README.md [#1055](https://github.com/acquia/blt/pull/1055) ([ajitdev](https://github.com/ajitdev))
+- More multisite documentation [#1049](https://github.com/acquia/blt/pull/1049) ([danepowell](https://github.com/danepowell))
+- Document multisite setup process [#1027](https://github.com/acquia/blt/pull/1027) ([danepowell](https://github.com/danepowell))
+
 
 ## [8.6.12](https://github.com/acquia/blt/tree/8.6.12) (2017-02-13)
 [Full Changelog](https://github.com/acquia/blt/compare/8.6.11...8.6.12)
