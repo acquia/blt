@@ -66,8 +66,8 @@
       <if>
         <available file="${docroot}/sites"/>
         <then>
-          <!-- Find directories in ${docroot}/sites/*/ and format into a comma-separated list. -->
-          <exec command="find ${docroot}/sites/* -maxdepth 0 -type d | sed -e 's%${docroot}/sites/%%g' -e '2,$s%^%,%' | tr -d '\n'"
+          <!-- Find directories in ${docroot}/sites/*/ and format into a comma-separated list. Exclude ${docroot}/sites/g. -->
+          <exec command="find ${docroot}/sites/* -maxdepth 0 -type d | grep -v -e '${docroot}/sites/g$' | sed -e 's%${docroot}/sites/%%g' -e '2,$s%^%,%' | tr -d '\n'"
                 outputProperty="multisite.name" logoutput="false" checkreturn="true"/>
         </then>
         <else>
