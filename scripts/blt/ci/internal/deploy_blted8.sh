@@ -7,6 +7,7 @@ cd ${TRAVIS_BUILD_DIR}/../blt-project
 # git.remotes already defined in create_blt_project.sh.
 yaml-cli update:value .travis.yml addons.ssh_known_hosts.0 svn-5223.devcloud.hosting.acquia.com
 yaml-cli update:value .travis.yml before_deploy.0 'openssl aes-256-cbc -K $encrypted_065fa5839cf8_key -iv $encrypted_065fa5839cf8_iv -in id_rsa_blted8.enc -out ~/.ssh/id_rsa -d; chmod 600 ~/.ssh/id_rsa; eval "$(ssh-agent -s)"; ssh-add ~/.ssh/id_rsa;'
+cp ${TRAVIS_BUILD_DIR}/id_rsa_blted8.enc .
 
 # Remove the symlink definition for BLT from composer.json.
 composer config --unset repo.blt
