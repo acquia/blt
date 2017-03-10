@@ -56,7 +56,7 @@ script:
 
 deploy:
   - provider: script
-    # Deploys build artifact to acquia-pso/blted8 on GitHub.
+    # Deploys build artifact to acquia-pso/blted8 on GitHub and also to bolt8 sub on ACF.
     script: ${BLT_DIR}/scripts/travis/deploy_branch && phpunit $BLT_DIR/tests/phpunit --group=deploy
     skip_cleanup: true
     on:
