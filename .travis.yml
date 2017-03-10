@@ -72,7 +72,7 @@ before_deploy:
 deploy:
   - provider: script
     # Deploys build artifact for generated `blt-project` to acquia-pso/blted8 on GitHub and also to bolt8 sub on ACF.
-    script: ${BLT_DIR}/scripts/travis/deploy_branch && phpunit $BLT_DIR/tests/phpunit --group=deploy
+    script: ${BLT_DIR}/scripts/travis/deploy_branch && $COMPOSER_BIN/phpunit $BLT_DIR/tests/phpunit --group=deploy
     skip_cleanup: true
     on:
       branch: $DEPLOY_SOURCE_BRANCH
