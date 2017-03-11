@@ -54,10 +54,25 @@ script:
   - blt deploy:build
   - source ${BLT_DIR}/scripts/blt/ci/internal/test_artifact.sh
 
+before_deploy:
+  - cd ${TRAVIS_BUILD_DIR}/../blt-project
+  # The BLTed8 project will need its ssh_known_hosts configured to push to ACF.
+  - yaml-cli update:value .travis.yml addons.ssh_known_hosts.0 svn-5223.devcloud.hosting.acquia.com
+  # Add encrypted SSH key to BLTed8 project.
+  - yaml-cli update:value .travis.yml before_deploy.0 'openssl aes-256-cbc -K $encrypted_065fa5839cf8_key -iv $encrypted_065fa5839cf8_iv -in id_rsa_blted8.enc -out ~/.ssh/id_rsa -d; chmod 600 ~/.ssh/id_rsa; eval "$(ssh-agent -s)"; ssh-add ~/.ssh/id_rsa;'
+  - cp ${TRAVIS_BUILD_DIR}/id_rsa_blted8.enc .
+  # Remove the symlink definition for BLT from composer.json and require this specific commit for BLT.
+  - composer config --unset repositories.blt
+  - composer require acquia/blt:8.x-dev#${TRAVIS_COMMIT}
+  - composer update --lock
+  - echo "[![Build Status](https://travis-ci.org/acquia-pso/blted8.svg?branch=8.x)](https://travis-ci.org/acquia-pso/blted8)" >> README.md
+  - git add -A
+  - git commit -m "Automated commit for BLT repo by Travis CI for Build ${TRAVIS_BUILD_ID}" -n
+
 deploy:
   - provider: script
-    # Deploys build artifact to acquia-pso/blted8 on GitHub.
-    script: ${BLT_DIR}/scripts/travis/deploy_branch && phpunit $BLT_DIR/tests/phpunit --group=deploy
+    # Deploys build artifact for generated `blt-project` to acquia-pso/blted8 on GitHub and also to bolt8 sub on ACF.
+    script: ${BLT_DIR}/scripts/travis/deploy_branch && $COMPOSER_BIN/phpunit $BLT_DIR/tests/phpunit --group=deploy
     skip_cleanup: true
     on:
       branch: $DEPLOY_SOURCE_BRANCH

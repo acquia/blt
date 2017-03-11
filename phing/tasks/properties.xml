@@ -62,9 +62,18 @@
     </not>
     <!-- Build the sites list if not specified by the user. -->
     <then>
-    <!-- Find directories in ${docroot}/sites/*/ and format into a comma-separated list. -->
-    <exec command="find ${docroot}/sites/* -maxdepth 0 -type d | sed -e 's%${docroot}/sites/%%g' -e '2,$s%^%,%' | tr -d '\n'"
-          outputProperty="multisite.name" logoutput="false" checkreturn="true"/>
+      <!-- If we are in the midst of project creation, docroot/sites will not exist yet. -->
+      <if>
+        <available file="${docroot}/sites"/>
+        <then>
+          <!-- Find directories in ${docroot}/sites/*/ and format into a comma-separated list. -->
+          <exec command="find ${docroot}/sites/* -maxdepth 0 -type d | sed -e 's%${docroot}/sites/%%g' -e '2,$s%^%,%' | tr -d '\n'"
+                outputProperty="multisite.name" logoutput="false" checkreturn="true"/>
+        </then>
+        <else>
+          <property name="multisite.name" value="default" override="true"/>
+        </else>
+      </if>
     </then>
   </if>
 

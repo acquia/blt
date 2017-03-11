@@ -71,6 +71,9 @@
   <!-- Contains Drupal SimpleSAMLphp tasks. -->
   <import file="${phing.dir}/tasks/simplesamlphp.xml"/>
 
+  <!-- Contains tasks that fix custom code. -->
+  <import file="${phing.dir}/tasks/fix.xml"/>
+
   <!-- Disable targets defined in the disable-targets array in project.yml or project.local.yml. -->
   <!-- This must be executed after all targets are defined. -->
   <disabletargets file="${blt.config-files.project}" property="disable-targets"/>

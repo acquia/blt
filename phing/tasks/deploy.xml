@@ -15,6 +15,7 @@
       <or>
         <isset property="deploy.branch"/>
         <isset property="deploy.commitMsg"/>
+        <isset property="deploy.tag"/>
       </or>
       <then>
         <property name="deploy.prompt" value="false" override="true" />
@@ -24,15 +25,10 @@
     <if>
       <istrue value="${deploy.prompt}"/>
       <then>
-
         <propertyprompt propertyName="deploy.commitMsg" useExistingValue="true"
                         promptText="Enter a valid commit message (defaults to last commit message)"
                         promptCharacter=":"
                         defaultValue="${deploy.commitMsg.default}"/>
-        <propertyprompt propertyName="deploy.branch" useExistingValue="true"
-                        promptText="Enter a deploy branch (defaults to [current branch]-build)"
-                        promptCharacter=":"
-                        defaultValue="${branch.current}-build"/>
 
         <if>
           <not><isset property="deploy.tag"/></not>
@@ -56,10 +52,24 @@
                   </then>
                 </if>
               </then>
+              <else>
+                <propertyprompt propertyName="deploy.branch" useExistingValue="true"
+                                promptText="Enter a deploy branch (defaults to [current branch]-build)"
+                                promptCharacter=":"
+                                defaultValue="${branch.current}-build"/>
+              </else>
             </if>
           </then>
         </if>
 
+      </then>
+    </if>
+    <if>
+      <isset property="deploy.tag"/>
+      <then>
+        <!-- If we are building a tag, then we assume that we will NOT be pushing the build branch from which the tag is created. -->
+        <!-- We give the temporary build branch a name of ${branch.current}-build-temp. -->
+        <property name="deploy.branch" value="${branch.current}-build-temp" />
       </then>
     </if>
 
@@ -204,17 +214,16 @@
 
   <target name="deploy:push-remote" description="Pushes to a git remote." hidden="true">
     <exec command="echo ${deploy.remote} | openssl md5 | cut -d' ' -f 2" outputProperty="remoteName"/>
-    <exec command="git push ${remoteName} ${deploy.branch}" dir="${deploy.dir}" outputProperty="deploy.push.output" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
-    <exec command="export DEPLOY_UPTODATE=$(echo '${deploy.push.output}' | grep --quiet 'Everything up-to-date')" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
-
-    <!-- Push tag if present -->
     <if>
       <isset property="deploy.tag"/>
       <then>
         <exec command="git push ${remoteName} ${deploy.tag}" dir="${deploy.dir}" outputProperty="deploy.push.output" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
-        <exec command="export DEPLOY_UPTODATE=$(echo '${deploy.push.output}' | grep --quiet 'Everything up-to-date')" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
       </then>
+      <else>
+        <exec command="git push ${remoteName} ${deploy.branch}" dir="${deploy.dir}" outputProperty="deploy.push.output" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
+      </else>
     </if>
+    <exec command="export DEPLOY_UPTODATE=$(echo '${deploy.push.output}' | grep --quiet 'Everything up-to-date')" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
   </target>
 
   <target name="deploy:sanitize" description="Removes sensitive files from the deploy docroot." hidden="true">
@@ -237,9 +246,11 @@
       <param name="environment" value="deploy"/>
       <!-- Drush alias should be set to sites to update all sites. -->
       <property name="drush.alias" value="sites"/>
+      <!-- Kill Drush uri, since we want to run updates against all sites. -->
+      <property name="drush.uri" value=""/>
       <!-- Most sites store their version-controlled configuration in /config/default. -->
       <!-- ACE internally sets the vcs configuration directory to /config/default, so we use that. -->
-      <property name="cm.config-dir.key" value="${cm.config-dir.deploy-key}"/>
+      <property name="cm.core.config-dir.key" value="${cm.core.config-dir.deploy-key}"/>
     </phingcall>
   </target>
 

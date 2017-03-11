@@ -95,8 +95,8 @@
 
   <target name="validate:twig" description="Validates twig syntax on custom twig files.">
     <echo>Validating twig syntax for all custom modules and themes...</echo>
-    <exec dir="${repo.root}" command="${composer.bin}/twig-lint lint --only-print-errors ${docroot}/modules/custom" logoutput="true" checkreturn="true" passthru="true"  level="${blt.exec_level}" />
-    <exec dir="${repo.root}" command="${composer.bin}/twig-lint lint --only-print-errors ${docroot}/themes/custom" logoutput="true" checkreturn="true" passthru="true"  level="${blt.exec_level}" />
+    <exec dir="${repo.root}" command="${composer.bin}/twig-lint lint --only-print-errors ${docroot}/modules/custom --exclude '(.+\/)?node_modules\/.*\.twig'" logoutput="true" checkreturn="true" passthru="true"  level="${blt.exec_level}" />
+    <exec dir="${repo.root}" command="${composer.bin}/twig-lint lint --only-print-errors ${docroot}/themes/custom --exclude '(.+\/)?node_modules\/.*\.twig'" logoutput="true" checkreturn="true" passthru="true"  level="${blt.exec_level}" />
   </target>
 
 </project>

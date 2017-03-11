@@ -19,10 +19,10 @@ vagrant_synced_folders:
     destination: /var/www/${project.machine_name}
     type: nfs
 
-build_composer_project: false
+drupal_build_composer_project: false
 # Toggling this to `true` would invoke `composer install` with the
 # projects own `composer.json` successfully.
-build_composer: false
+drupal_build_composer: false
 drupal_composer_path: false
 drupal_composer_install_dir: "/var/www/${project.machine_name}"
 drupal_core_path: "{{ drupal_composer_install_dir }}/docroot"
@@ -33,7 +33,7 @@ drupal_db_name: drupal
 
 # Set this to 'false' if you don't need to install drupal (using the drupal_*
 # settings below), but instead copy down a database (e.g. using drush sql-sync).
-install_site: false
+drupal_install_site: false
 
 # Drupal VM automatically creates a drush alias file in your ~/.drush folder if
 # this variable is 'true'.
@@ -58,6 +58,8 @@ installed_extras:
 php_version: "5.6"
 php_packages_extra:
   - "php{{ php_version }}-bz2"
+  - "php{{ php_version }}-imagick"
+  - imagemagick
 
 # XDebug configuration.
 # Change this value to 1 in order to enable xdebug by default.
