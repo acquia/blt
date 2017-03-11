@@ -18,5 +18,5 @@ if [ -f $FILE ]; then
     fi
   fi
 else
-  echo "File $FILE does not exist."
+  echo "Notice: Slack notifications disabled: file $FILE does not exist."
 fi
