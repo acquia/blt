@@ -65,7 +65,9 @@ This all in one command will make sure your local is in sync with the remote sit
 
 You may also sync your site's remote files by setting the `-Dsync.files` variable at the command line.
 
-    blt local:refresh -Dsync.files
+    blt local:refresh -Dsync.files=true
+
+By default, BLT sets `sync.files` to `false`. You may set `sync.files` to `true` in your `project.yml` file to perform a file sync during `local:sync` and `local:refresh` tasks by default within your project.
 
 ### Sync: Copy the database from the remote site
 
