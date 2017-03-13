@@ -2,28 +2,21 @@
     "license": "proprietary",
     "type": "project",
     "require": {
-        "wikimedia/composer-merge-plugin": "^1.3"
+        "wikimedia/composer-merge-plugin": "dev-master#1b37cd37fd11bd8b121772e21cab6e043d3f7f92"
     },
     "require-dev": {},
     "extra": {
+        "blt": {
+            "update": true
+        },
         "merge-plugin": {
             "require": [
                 "vendor/acquia/blt/composer.include.json"
-            ]
+            ],
+            "merge-extra": true,
+            "merge-extra-deep": true,
+            "merge-scripts": true
         }
-    },
-    "scripts": {
-        "blt-alias": "blt install-alias -Dcreate_alias=true",
-        "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
-        "nuke": [
-            "rm -rf vendor composer.lock",
-            "@composer clearcache",
-            "@composer install"
-        ],
-        "install-phantomjs": [
-            "rm -rf vendor/bin/phantomjs",
-            "PhantomInstaller\\Installer::installPhantomJS"
-        ]
     },
     "minimum-stability": "dev",
     "prefer-stable": true

@@ -37,9 +37,6 @@
     }
   },
   "extra": {
-    "blt": {
-      "update": true
-    },
     "drupal-scaffold": {
       "initial": {
         "sites/default/default.services.yml": "sites/default/services.yml",
@@ -86,5 +83,18 @@
     }
   },
   "minimum-stability": "dev",
-  "prefer-stable": true
+  "prefer-stable": true,
+  "scripts": {
+    "blt-alias": "blt install-alias -Dcreate_alias=true",
+    "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
+    "nuke": [
+      "rm -rf vendor composer.lock",
+      "@composer clearcache",
+      "@composer install"
+    ],
+    "install-phantomjs": [
+      "rm -rf vendor/bin/phantomjs",
+      "PhantomInstaller\\Installer::installPhantomJS"
+    ]
+  }
 }

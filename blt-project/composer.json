@@ -19,17 +19,21 @@
     },
     "require": {
         "acquia/blt": "*@dev",
-        "wikimedia/composer-merge-plugin": "^1.3"
+        "wikimedia/composer-merge-plugin": "dev-master#1b37cd37fd11bd8b121772e21cab6e043d3f7f92"
     },
     "require-dev": {},
     "autoload-dev": {},
     "extra": {
+        "blt": {
+            "update": true
+        },
         "merge-plugin": {
             "require": [
                 "vendor/acquia/blt/composer.include.json"
             ],
             "merge-extra": true,
-            "merge-extra-deep": true
+            "merge-extra-deep": true,
+            "merge-scripts": true
         }
     },
     "minimum-stability": "dev",

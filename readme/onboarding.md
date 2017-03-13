@@ -31,7 +31,7 @@ If you need to make requests via a proxy server, please [configure git to use a 
 
 1. If your project uses separate `master` and `develop` branches, checkout the `develop` branch: `git checkout develop`
 1. Run `composer install` (you must already have Composer installed).
-1. Install `blt` alias: `composer blt-alias`
+1. Install `blt` alias: `composer run-script blt-alias`
 
 If your project uses a virtual development environment such as DrupalVM:
 

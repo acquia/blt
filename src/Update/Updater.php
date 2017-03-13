@@ -368,7 +368,7 @@ class Updater {
    *   The contents of composer.json.
    */
   public function getComposerJson() {
-    $composer_json = json_decode(file_get_contents($this->composerJsonFilepath), TRUE);
+    $composer_json = json_decode(file_get_contents($this->composerJsonFilepath));
 
     return $composer_json;
   }
@@ -380,7 +380,7 @@ class Updater {
    *   The contents of composer.include.json.
    */
   public function getComposerIncludeJson() {
-    $composer_include_json = json_decode(file_get_contents($this->composerIncludeJsonFilepath), TRUE);
+    $composer_include_json = json_decode(file_get_contents($this->composerIncludeJsonFilepath));
 
     return $composer_include_json;
   }
