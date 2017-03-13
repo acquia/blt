@@ -144,7 +144,7 @@
       <isset property="deploy.tag"/>
       <then>
         <!-- Write tag name for the benefit of environments like ACE that can't access it. -->
-        <exec dir="${deploy.dir}" command="echo '${deploy.tag}' > deploy_id.txt" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
+        <exec dir="${deploy.dir}" command="echo '${deploy.tag}' > deployment_identifier" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
       </then>
     </if>
   </target>

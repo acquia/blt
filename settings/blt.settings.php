@@ -88,8 +88,11 @@ $settings['hash_salt'] = file_get_contents(DRUPAL_ROOT . '/../salt.txt');
  * custom code that changes the container, changing this identifier will also
  * allow the container to be invalidated as soon as code is deployed.
  */
-$deploy_id = file_get_contents(DRUPAL_ROOT . '/../deploy_id.txt');
-$settings['deployment_identifier'] = $deploy_id ? $deploy_id : \Drupal::VERSION;
+$settings['deployment_identifier'] = \Drupal::VERSION;
+$deploy_id_file = DRUPAL_ROOT . '/../deployment_identifier';
+if (file_exists($deploy_id_file)) {
+  $settings['deployment_identifier'] = file_get_contents($deploy_id_file);
+}
 
 /*******************************************************************************
  * Environment-specific includes.
