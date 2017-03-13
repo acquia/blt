@@ -4,9 +4,12 @@ BLT is a tool that reaches far beyond Drupal development, and because of this de
 See the [System Requirements](../INSTALL.md) for installing / using BLT. It is strongly urged that you use a Mac for local development, although certain versions of Linux and Windows 10 can also be used. Other operating systems ***should not*** be used for BLT development.
  
 ## Enterprise Web Development
-### Virtual Environment
+### Development Environment
+BLT can be operated on any "LAMP" stack that will run Drupal. Acquia provides several tools for this, but they are optional.
 #### [DrupalVM](https://www.drupalvm.com/)
 This project aims to make spinning up a simple local Drupal test/development environment incredibly quick and easy, and to introduce new developers to the wonderful world of Drupal development on local virtual machines (instead of crufty old MAMP/WAMP-based development).
+#### [DevDesktop](https://www.acquia.com/products-services/dev-desktop)
+Acquia Dev Desktop is a free app that allows you to run and develop Drupal sites locally on your computer and optionally host them using Acquia Cloud. Use Acquia Dev Desktop to evaluate Drupal, add and test other Drupal modules, and develop sites while on a plane or away from an internet connection.
 
 **Recommended Reading:**
 * [Drupal VM Quickstart Guide](https://github.com/geerlingguy/drupal-vm#quick-start-guide)
@@ -25,18 +28,6 @@ Composer is a tool for dependency management in PHP. It allows you to declare th
  * [composer update](https://getcomposer.org/doc/03-cli.md#update)
  * [composer require](https://getcomposer.org/doc/03-cli.md#require)
  
-####[NPM](https://www.npmjs.com/)
-npm is the package manager for JavaScript. Find, share, and reuse packages of code from hundreds of thousands of developers — and assemble them in powerful new ways.
-
-**Recommended Reading:**
- * [Getting Started with NPM](https://docs.npmjs.com/)
- * [BLT Front End Dependencies](http://blt.readthedocs.io/en/8.x/readme/dependency-management/#front-end-dependencies)
-
-**Common Commands:**
- * [npm install](https://docs.npmjs.com/getting-started/installing-npm-packages-locally)
- * [npm run install-tools]
- * [npm run build]
-
 ## Version Control
 ### [Git](https://git-scm.com)
 Git is a version control system (VCS) for tracking changes in computer files and coordinating work on those files among multiple people. It is primarily used for software development, but it can be used to keep track of changes in any files.
@@ -57,7 +48,16 @@ Git is a version control system (VCS) for tracking changes in computer files and
   * [git rebase](https://git-scm.com/docs/git-rebase)
   * [git rebase -i](https://git-scm.com/docs/git-rebase#git-rebase---interactive)
 
-### Github
+## Deployment Management
+### Continuous Integration / Deployment
+#### [Travis CI](https://travis-ci.org/)
+Travis CI is a hosted, distributed continuous integration service used to build and test software projects hosted at GitHub.
+
+**Recommended Reading:** 
+ * [BLT Travis CI](ci.md/#travis-ci)
+
+# Additional / Optional Skills
+## Github 
 GitHub is a web-based Git repository hosting service. It offers all of the distributed version control and source code management (SCM) functionality of Git as well as adding its own features. It provides access control and several collaboration features such as bug tracking, feature requests, task management, and wikis for every project.
 
 **Recommended Reading:**
@@ -67,15 +67,6 @@ GitHub is a web-based Git repository hosting service. It offers all of the distr
  * [Pull Requests](https://help.github.com/articles/about-pull-requests/)
  * [BLT Github Configuration](onboarding.md/#github-configuration)
 
-## Deployment Management
-### Continuous Integration / Deployment
-#### [Travis CI](https://travis-ci.org/)
-Travis CI is a hosted, distributed continuous integration service used to build and test software projects hosted at GitHub.
-
-**Recommended Reading:** 
- * [BLT Travis CI](ci.md/#travis-ci)
-
-# Additional Suggested Skills
 ## [Automated Testing](testing.md)
 ###[Behat](http://behat.org)
 Behat is an open source Behavior-Driven Development framework for PHP. It is a tool to support you in delivering software that matters through continous communication, deliberate discovery and test-automation.
@@ -109,6 +100,7 @@ We also strongly recommend an IDE for PHP Development Such as
  * [Netbeans](http://netbeans.org/features/php/)
 
 ##Front End Technologies
+These are technologies used by the [COG theme](https://www.drupal.org/project/cog) and while not directly part of BLT, they are often integrated directly into BLT commands. 
 ###[Gulp](http://gulpjs.com/)
 gulp is a toolkit for automating painful or time-consuming tasks in your development workflow, so you can stop messing around and build something.
 
@@ -123,4 +115,16 @@ gulp is a toolkit for automating painful or time-consuming tasks in your develop
 **Recommended Reading:**
  * [SASS Documentation](http://sass-lang.com/documentation/file.SASS_REFERENCE.html)
  * [BLT Front End Documentation](http://blt.readthedocs.io/en/8.x/readme/project-tasks/#build-front-end-assets)
+ 
+####[NPM](https://www.npmjs.com/)
+npm is the package manager for JavaScript. Find, share, and reuse packages of code from hundreds of thousands of developers — and assemble them in powerful new ways.
+
+**Recommended Reading:**
+ * [Getting Started with NPM](https://docs.npmjs.com/)
+ * [BLT Front End Dependencies](http://blt.readthedocs.io/en/8.x/readme/dependency-management/#front-end-dependencies)
+
+**Common Commands:**
+ * [npm install](https://docs.npmjs.com/getting-started/installing-npm-packages-locally)
+ * [npm run install-tools]
+ * [npm run build]
  
