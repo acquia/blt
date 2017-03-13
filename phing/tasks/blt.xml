@@ -1,7 +1,7 @@
 <project name="blt" default="update">
   <target name="create-project" hidden="true">
     <!-- Write BLT version to blt/.schema-version. -->
-    <exec dir="${repo.root}" command="echo ${blt.version} > ${blt.config-files.schema-version}" checkreturn="true" logoutput="true" passthru="false" level="${blt.exec_level}"/>
+    <exec dir="${repo.root}" command="${composer.bin}/blt-console blt:schema-version --latest > ${blt.config-files.schema-version}" checkreturn="true" logoutput="true" passthru="false" level="${blt.exec_level}"/>
 
     <!-- Remove files leftover from acquia/blt-project. -->
     <delete failonerror="false" quiet="true">
@@ -78,10 +78,8 @@
   </target>
 
   <target name="blt:update-delta" description="Performs scripted updates for a specific BLT version delta." hidden="true">
-    <echo>Executing scripted updates for version delta ${blt.schema-version} -> ${blt.version}...</echo>
-    <exec dir="${repo.root}" command="${repo.root}/${bin.path}/blt-console blt:update ${blt.schema-version} ${blt.version} ${repo.root} --yes" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
-
-    <exec dir="${repo.root}" command="echo ${blt.version} > ${blt.config-files.schema-version}" checkreturn="true" logoutput="true" passthru="false" level="${blt.exec_level}"/>
+    <echo>Executing scripted updates for version ${blt.schema-version}</echo>
+    <exec dir="${repo.root}" command="${repo.root}/${bin.path}/blt-console blt:update ${blt.schema-version} ${repo.root} --yes" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
   </target>
 
   <target name="blt:update-composer" description="Updates project composer.json with a subset of new key value pairs from upstream. This WILL overwrite existing values." hidden="true">

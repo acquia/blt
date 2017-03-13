@@ -15,7 +15,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 class UpdateCommand extends BaseCommand {
 
   /**
-   *
+   * Defines configuration for `blt:update` command.
    */
   protected function configure() {
     $this
@@ -25,11 +25,6 @@ class UpdateCommand extends BaseCommand {
         'starting_version',
         InputArgument::REQUIRED,
         'The starting version'
-      )
-      ->addArgument(
-        'ending_version',
-        InputArgument::REQUIRED,
-        'The ending version.'
       )
       ->addArgument(
         'repo_root',
@@ -45,15 +40,14 @@ class UpdateCommand extends BaseCommand {
   }
 
   /**
-   *
+   * Executes `blt:update` command.
    */
   protected function execute(InputInterface $input, OutputInterface $output) {
     $starting_version = $input->getArgument('starting_version');
-    $ending_version = $input->getArgument('ending_version');
     $repo_root = $input->getArgument('repo_root');
 
     $updater = new Updater('Acquia\Blt\Update\Updates', $repo_root);
-    $updates = $updater->getUpdates($starting_version, $ending_version);
+    $updates = $updater->getUpdates($starting_version);
     if ($updates) {
       $output->writeln("<comment>The following BLT updates are outstanding:</comment>");
       $updater->printUpdates($updates);
@@ -73,7 +67,7 @@ class UpdateCommand extends BaseCommand {
       $updater->executeUpdates($updates);
     }
     else {
-      $output->writeln("<comment>There are no scripted updates available between BLT versions $starting_version and $ending_version.</comment>");
+      $output->writeln("<comment>There are no scripted updates available between BLT versions $starting_version.</comment>");
     }
   }
 
