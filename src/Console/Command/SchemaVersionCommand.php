@@ -41,10 +41,7 @@ class SchemaVersionCommand extends BaseCommand {
     $repo_root = $input->getArgument('repo_root');
     if ($input->getOption('latest')) {
       $updater = new Updater('Acquia\Blt\Update\Updates', $repo_root);
-      return $updater->getLatestUpdateMethodVersion();
-    }
-    else {
-      return file_get_contents($repo_root . '/blt/schema_version');
+      $output->writeln($updater->getLatestUpdateMethodVersion());
     }
   }
 

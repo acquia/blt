@@ -201,7 +201,10 @@ class Updater {
       $methods_by_number[$update_method->version] = $update_method;
     }
 
-    return max(array_keys($update_methods));
+    $versions = array_keys($methods_by_number);
+    $latest_version = max($versions);
+
+    return $latest_version;
   }
 
   /**

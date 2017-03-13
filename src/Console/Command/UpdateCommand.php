@@ -58,6 +58,9 @@ class UpdateCommand extends BaseCommand {
       }
       $starting_version = implode('', $semver_array);
     }
+    if (strpos($starting_version, 'dev') !== FALSE) {
+      $starting_version = '0';
+    }
 
     $updater = new Updater('Acquia\Blt\Update\Updates', $repo_root);
     $updates = $updater->getUpdates($starting_version);
