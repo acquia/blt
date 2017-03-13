@@ -46,6 +46,19 @@ class UpdateCommand extends BaseCommand {
     $starting_version = $input->getArgument('starting_version');
     $repo_root = $input->getArgument('repo_root');
 
+    // Check to see if version is Semver (legacy format). Convert to expected
+    // syntax. Luckily, there are a finite number of known legacy versions.
+    // We check specifically for those.
+    if (strpos($starting_version, '.') !== FALSE) {
+      str_replace('-beta1', '', $starting_version);
+      $semver_array = explode('.', $starting_version);
+      // Ensure last portion of semver array is at least 2 digits.
+      if (strlen($semver_array[2]) == 1) {
+        $semver_array[2] = '0' . $semver_array[2];
+      }
+      $starting_version = implode('', $semver_array);
+    }
+
     $updater = new Updater('Acquia\Blt\Update\Updates', $repo_root);
     $updates = $updater->getUpdates($starting_version);
     if ($updates) {
