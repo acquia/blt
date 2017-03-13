@@ -18,7 +18,8 @@
         }
     },
     "require": {
-        "acquia/blt": "*@dev"
+        "acquia/blt": "*@dev",
+        "wikimedia/composer-merge-plugin": "^1.3"
     },
     "require-dev": {},
     "autoload-dev": {},
