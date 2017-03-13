@@ -135,7 +135,7 @@
   </target>
 
   <target name="deploy:build" description="Generates a deploy-ready build in deploy.dir."
-          depends="frontend, setup:hash-salt, deploy:copy, deploy:composer:install, deploy:sanitize">
+          depends="frontend, setup:hash-salt, deploy:copy, deploy:composer:install, deploy:id, deploy:sanitize">
     <!--Allow custom commands to be run before commit.-->
     <phingcall target="target-hook:invoke">
       <property name="hook-name" value="post-deploy-build"/>
@@ -146,6 +146,16 @@
         <then>
           <phingcall target="simplesamlphp:deploy:config"/>
         </then>
+    </if>
+  </target>
+
+  <target name="deploy:id" description="Writes deployment id information to artifact.">
+    <if>
+      <isset property="deploy.tag"/>
+      <then>
+        <!-- Write tag name for the benefit of environments like ACE that can't access it. -->
+        <exec dir="${deploy.dir}" command="echo '${deploy.tag}' > deployment_identifier" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
+      </then>
     </if>
   </target>
 
