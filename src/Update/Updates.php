@@ -216,20 +216,22 @@ class Updates {
       unset($composer_json['repositories']);
     }
 
-//    foreach ($composer_include_json['scripts'] as $script_name => $script) {
-//      if (array_key_exists($script_name, $composer_json['scripts'])) {
-//        unset($composer_json['scripts'][$script_name]);
-//      }
-//    }
-//    if (empty($composer_json['scripts'])) {
-//      unset($composer_json['scripts']);
-//    }
+    if (!empty($composer_json['scripts'])) {
+      foreach ($composer_include_json['scripts'] as $script_name => $script) {
+        if (array_key_exists($script_name, $composer_json['scripts'])) {
+          unset($composer_json['scripts'][$script_name]);
+        }
+      }
+      if (empty($composer_json['scripts'])) {
+        unset($composer_json['scripts']);
+      }
+    }
 
     $this->updater->writeComposerJson($composer_json);
 
     $messages = [
       'BLT will no longer modify your composer.json automatically!',
-      'Default composer.json values from BLT are now merged into your root composer.json via the wikimedia/composer-merge-plugin. You are now indefinitely responsible for maintaining any overrides to BLT\'s default composer.json settings. Please review your composer.json file carefully.',
+      'Default composer.json values from BLT are now merged into your root composer.json via the wikimedia/composer-merge-plugin. You may override any default value provided by BLT by setting the same key in your root composer.json. BLT will never revert your overrides, so you are responsible for maintaining them. Please review your composer.json file carefully.',
     ];
     $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice', TRUE);
     $this->updater->getOutput()->writeln($formattedBlock);
