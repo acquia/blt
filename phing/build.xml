@@ -1,5 +1,4 @@
 <project name="blt" default="list" phingVersion="2.8.2">
-
   <!-- Include custom task classes -->
   <includepath classpath="${phing.dir}" />
   <taskdef name="behat" classname="phingcludes.BehatTask"/>
@@ -67,6 +66,9 @@
 
   <!-- Contains Drupal VM tasks. -->
   <import file="${phing.dir}/tasks/vm.xml"/>
+
+  <!-- Contains local tasks. -->
+  <import file="${phing.dir}/tasks/local.xml"/>
 
   <!-- Contains Drupal SimpleSAMLphp tasks. -->
   <import file="${phing.dir}/tasks/simplesamlphp.xml"/>

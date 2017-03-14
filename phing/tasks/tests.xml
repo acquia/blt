@@ -206,12 +206,39 @@
   <target name="tests:phpunit" description="Executes PHPUnit tests against custom code.">
     <delete dir="${reports.localDir}/phpunit" quiet="true"/>
     <mkdir dir="${reports.localDir}/phpunit"/>
+    <foreach list="${phpunit.dirs}" param="dir" target="tests:phpunit:dir"/>
+  </target>
 
+  <target name="tests:phpunit:groups" description="Exceuts PHPUnit tests against given groups." hidden="true">
+    <fail unless="phpunit.groups" message="No groups have been defined." />
+
+    <if>
+      <isset property="phpunit.excludeGroups"/>
+      <then>
+        <!-- PHPUnit throws errors if exclude group option is included with an empty group set -->
+        <property name="phpunit.excludeGroups" value="--exclude-group ${phpunit.excludeGroups}"/>
+      </then>
+    </if>
+
+    <!--
+    PHPUnit task does not support all configuration values, we need to specify the the Drupal core configuration file
+    to so that we can use the group option.
+
+    @see https://www.phing.info/trac/ticket/1233
+     -->
+    <exec
+      command="${phpunit.phar} -c ${phpunit.conf} --log-junit ${reports.localDir}/phpunit/groups.xml --group ${phpunit.groups} ${phpunit.excludeGroups}"
+      logoutput="/dev/stdout"
+      checkreturn="true"
+    />
+  </target>
+
+  <target name="tests:phpunit:dir" description="Run phpunit against given directories." hidden="true">
     <phpunit printsummary="true" failureproperty="phpunit.failures" errorproperty="phpunit.errors">
       <formatter type="plain" usefile="false"/>
       <formatter type="xml" todir="${reports.localDir}/phpunit"/>
       <batchtest>
-        <fileset dir="${repo.root}/tests/phpunit">
+        <fileset dir="${dir}">
           <include name="**/*Test*.php"/>
         </fileset>
       </batchtest>
@@ -219,7 +246,6 @@
     <phpunitreport infile="${reports.localDir}/phpunit/testsuites.xml" format="noframes" todir="${reports.localDir}/phpunit" />
     <property name="reports.phpunit.file" value="${reports.localDir}/phpunit/phpunit-noframes.html"/>
     <echo>PHPUnit Report is available at ${reports.phpunit.file}</echo>
-
     <if>
       <or>
         <equals arg1="${phpunit.failures}" arg2="true"/>

@@ -18,6 +18,17 @@
     </phingcall>
   </target>
 
+  <target name="ci:tests:phpunit" description="Execute PHPUnit tests defined for CI" depends="tests:phpunit">
+    <fail message="No PHPUnit CI groups have been defined.">
+      <condition><equals arg1="${phpunit.local.groups}" arg2="false" /></condition>
+    </fail>
+
+    <phingcall target="tests:phpunit:groups">
+      <property name="phpunit.groups" value="${phpunit.ci.groups}" />
+      <property name="phpunit.excludeGroups" value="${phpunit.ci.excludeGroups}" />
+    </phingcall>
+  </target>
+
   <target name="ci:pipelines:init" description="Initializes default Acquia Pipelines configuration for this project.">
     <copy file="${blt.root}/scripts/pipelines/acquia-pipelines.yml" tofile="${repo.root}/acquia-pipelines.yml"/>
     <echo>Acquia Pipelines requires PhantomJS in order to run Javascript Behat tests.</echo>

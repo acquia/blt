@@ -116,3 +116,15 @@ phpcbf:
 project:
   local:
     uri: ${project.local.protocol}://${project.local.hostname}
+
+phpunit:
+  phar: ${repo.root}/vendor/bin/phpunit
+  conf: ${repo.root}/docroot/core/phpunit.xml.dist
+  dirs:
+    - ${repo.root}/tests/phpunit
+  local:
+    groups: false
+    excludeGroups: false
+  ci:
+    groups: false
+    excludeGroups: false
