@@ -11,7 +11,6 @@ use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Yaml\Yaml;
-use vierbergenlars\SemVer\version;
 
 /**
  *
@@ -136,25 +135,22 @@ class Updater {
    * Gets all applicable updates for a given version delta.
    *
    * @param string $starting_version
-   *   The starting version. E.g., 8.5.0.
+   *   The starting version. E.g., 8005000.
    *
    * @param string $ending_version
-   *   The ending version. E.g., 8.5.1.
+   *   The ending version. E.g., 8005001.
    *
    * @return array
    *   An array of applicable update methods, keyed by method name. Each row
    *   contains the metadata from the Update annotation.
    */
-  public function getUpdates($starting_version, $ending_version) {
+  public function getUpdates($starting_version, $ending_version = NULL) {
+    if (!$ending_version) {
+      $ending_version = $this->getLatestUpdateMethodVersion();
+    }
+
     $updates = [];
     $update_methods = $this->getAllUpdateMethods();
-    $include_all_updates = FALSE;
-
-    if (strpos($starting_version, 'dev') !== FALSE
-      || strpos($ending_version, 'dev') !== FALSE) {
-      $this->output->writeln("<comment>You are (or were) using a development branch of BLT. It is assumed that you require all scripted updates.</comment>");
-      $include_all_updates = TRUE;
-    }
 
     /**
      * @var string $method_name
@@ -163,8 +159,7 @@ class Updater {
     foreach ($update_methods as $method_name => $metadata) {
       $version = $metadata->version;
 
-      if ($include_all_updates
-        || (version::gt($version, $starting_version) && version::lte($version, $ending_version))) {
+      if (($version > $starting_version) && $version <= $ending_version) {
         $updates[$method_name] = $metadata;
       }
     }
@@ -179,7 +174,7 @@ class Updater {
    *
    * @see drupal_get_schema_versions()
    */
-  protected function getAllUpdateMethods() {
+  public function getAllUpdateMethods() {
     $update_methods = [];
     $methods = get_class_methods($this->updateClassName);
     foreach ($methods as $method_name) {
@@ -191,6 +186,25 @@ class Updater {
     }
 
     return $update_methods;
+  }
+
+  /**
+   * Gets the latest (highest numbered) update method.
+   *
+   * @return int mixed
+   *   Returns the schema version for the latest update method.
+   */
+  public function getLatestUpdateMethodVersion() {
+    $update_methods = $this->getAllUpdateMethods();
+    $methods_by_number = [];
+    foreach ($update_methods as $update_method) {
+      $methods_by_number[$update_method->version] = $update_method;
+    }
+
+    $versions = array_keys($methods_by_number);
+    $latest_version = max($versions);
+
+    return $latest_version;
   }
 
   /**

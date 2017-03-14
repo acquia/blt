@@ -43,9 +43,9 @@ class ToggleModulesTest extends BltProjectTestBase {
    * Asserts that a module is not enabled.
    *
    * @param string $module
-   *    The module to test.
+   *   The module to test.
    * @param string $alias
-   *    An optional Drush alias string.
+   *   An optional Drush alias string.
    */
   protected function assertModuleNotEnabled($module, $alias = '') {
     $enabled = $this->getModuleEnabledStatus($module, $alias);
@@ -58,9 +58,9 @@ class ToggleModulesTest extends BltProjectTestBase {
    * Asserts that a module is enabled.
    *
    * @param string $module
-   *    The module to test.
+   *   The module to test.
    * @param string $alias
-   *    An optional Drush alias string.
+   *   An optional Drush alias string.
    */
   protected function assertModuleEnabled($module, $alias = '') {
     $enabled = $this->getModuleEnabledStatus($module, $alias);
@@ -71,15 +71,15 @@ class ToggleModulesTest extends BltProjectTestBase {
    * Gets a module's enabled status.
    *
    * @param string $module
-   *    The module to test.
+   *   The module to test.
    * @param string $alias
-   *    An optional Drush alias string.
+   *   An optional Drush alias string.
    *
    * @throws \Exception
    *    If a module's status string cannot be parsed.
    *
    * @return bool
-   *    TRUE if $module is enabled, FALSE if a module is either 'disabled,'
+   *   TRUE if $module is enabled, FALSE if a module is either 'disabled,'
    *    'not installed' or 'not found.'
    */
   private function getModuleEnabledStatus($module, $alias = '') {
