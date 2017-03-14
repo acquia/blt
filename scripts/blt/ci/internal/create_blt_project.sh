@@ -27,8 +27,14 @@ yaml-cli update:value blt/project.yml project.local.hostname '127.0.0.1:8888'
 # Define BLT's deployment endpoints.
 yaml-cli update:value blt/project.yml git.remotes.0 bolt8@svn-5223.devcloud.hosting.acquia.com:bolt8.git
 yaml-cli update:value blt/project.yml git.remotes.1 git@github.com:acquia-pso/blted8.git
+
 # BLT added new dependencies for us, so we must update.
 composer update
+
+# Change cloud hooks to re-install Drupal on deployments.
+sed -i "s:deploy_updates:deploy_install:g" hooks/common/post-code-deploy/post-code-deploy.sh
+sed -i "s:deploy_updates:deploy_install:g" hooks/common/post-code-update/post-code-update.sh
+
 git add -A
 git commit -m 'Adding new dependencies from BLT update.' -n
 # Create a .travis.yml, just to make sure it works. It won't be executed.
