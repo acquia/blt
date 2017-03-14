@@ -28,23 +28,27 @@ class Updates {
   }
 
   /**
+   * 8.5.1.
+   *
    * @Update(
-   *   version = "8501",
+   *   version = "8005001",
    *   description = "Removes deprecated features patch."
    * )
    */
-  public function update_8501() {
+  public function update_8005001() {
     $this->updater->removeComposerPatch("drupal/features",
       "https://www.drupal.org/files/issues/features-2808303-2.patch");
   }
 
   /**
+   * 8.6.0.
+   *
    * @Update(
-   *   version = "8600",
+   *   version = "8006000",
    *   description = "Moves configuration files to blt subdirectory. Removes .git/hooks symlink."
    * )
    */
-  public function update_8600() {
+  public function update_8006000() {
     // Move files to blt subdir.
     $this->updater->moveFile('project.yml', 'blt/project.yml', TRUE);
     $this->updater->moveFile('project.local.yml', 'blt/project.local.yml',
@@ -73,12 +77,14 @@ class Updates {
   }
 
   /**
+   * 8.6.2.
+   *
    * @Update(
-   *   version = "8602",
+   *   version = "8006002",
    *   description = "Updates composer.json version constraints for Drupal.org."
    * )
    */
-  public function update_8602() {
+  public function update_8006002() {
     $composer_json = $this->updater->getComposerJson();
     $composer_json = DoPackagistConverter::convertComposerJson($composer_json);
     // This package is not compatible with D.O style version constraints.
@@ -87,12 +93,14 @@ class Updates {
   }
 
   /**
+   * 8.5.4.
+   *
    * @Update(
-   *   version = "8604",
+   *   version = "8006004",
    *   description = "Removes deprecated packages from composer.json."
    * )
    */
-  public function update_8604() {
+  public function update_8006004() {
     $composer_json = $this->updater->getComposerJson();
     $remove_packages = [
       'drupal/coder',
@@ -111,24 +119,28 @@ class Updates {
   }
 
   /**
+   * 8.6.6.
+   *
    * @Update(
-   *   version = "8606",
+   *   version = "8006006",
    *   description = "Removes drush/drush from require-dev."
    * )
    */
-  public function update_8606() {
+  public function update_8006006() {
     $composer_json = $this->updater->getComposerJson();
     unset($composer_json['require-dev']['drush/drush']);
     $this->updater->writeComposerJson($composer_json);
   }
 
   /**
+   * 8.6.7.
+   *
    * @Update(
-   *   version = "8607",
+   *   version = "8006007",
    *   description = "Changes drupal scaffold excludes from associative to indexed array."
    * )
    */
-  public function update_8607() {
+  public function update_8006007() {
     $composer_json = $this->updater->getComposerJson();
     if (!empty($composer_json['extra']['drupal-scaffold']['excludes'])) {
       $composer_json['extra']['drupal-scaffold']['excludes'] = array_unique(array_values($composer_json['extra']['drupal-scaffold']['excludes']));
@@ -137,12 +149,14 @@ class Updates {
   }
 
   /**
+   * 8.6.12.
+   *
    * @Update(
-   *   version = "8612",
+   *   version = "8006012",
    *   description = "Removes lightning patch."
    * )
    */
-  public function update_8612() {
+  public function update_8006012() {
     $this->updater->removeComposerPatch("acquia/lightning",
       "https://www.drupal.org/files/issues/2836258-3-lightning-extension-autoload.patch");
   }

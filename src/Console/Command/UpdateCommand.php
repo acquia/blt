@@ -46,22 +46,7 @@ class UpdateCommand extends BaseCommand {
     $starting_version = $input->getArgument('starting_version');
     $repo_root = $input->getArgument('repo_root');
 
-    // Check to see if version is Semver (legacy format). Convert to expected
-    // syntax. Luckily, there are a finite number of known legacy versions.
-    // We check specifically for those.
-    if (strpos($starting_version, '.') !== FALSE) {
-      str_replace('-beta1', '', $starting_version);
-      $semver_array = explode('.', $starting_version);
-      // Ensure last portion of semver array is at least 2 digits.
-      if (strlen($semver_array[2]) == 1) {
-        $semver_array[2] = '0' . $semver_array[2];
-      }
-      $starting_version = implode('', $semver_array);
-    }
-    if (strpos($starting_version, 'dev') !== FALSE) {
-      $starting_version = '0';
-    }
-
+    $starting_version = $this->convertLegacySchemaVersion($starting_version);
     $updater = new Updater('Acquia\Blt\Update\Updates', $repo_root);
     $updates = $updater->getUpdates($starting_version);
     if ($updates) {
@@ -85,6 +70,24 @@ class UpdateCommand extends BaseCommand {
     else {
       $output->writeln("<comment>There are no scripted updates available between BLT versions $starting_version.</comment>");
     }
+  }
+
+  protected function convertLegacySchemaVersion($version) {
+    // Check to see if version is Semver (legacy format). Convert to expected
+    // syntax. Luckily, there are a finite number of known legacy versions.
+    // We check specifically for those.
+    // E.g., 8.6.6 => 8006006
+    if (strpos($version, '.') !== FALSE) {
+      str_replace('-beta1', '', $version);
+      $semver_array = explode('.', $version);
+      $semver_array[1] = str_pad($semver_array[1], 3, "0", STR_PAD_LEFT);
+      $semver_array[2] = str_pad($semver_array[2], 3, "0", STR_PAD_LEFT);
+      $version = implode('', $semver_array);
+    }
+    if (strpos($version, 'dev') !== FALSE) {
+      $version = '0';
+    }
+    return $version;
   }
 
 }

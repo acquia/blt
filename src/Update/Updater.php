@@ -135,10 +135,10 @@ class Updater {
    * Gets all applicable updates for a given version delta.
    *
    * @param string $starting_version
-   *   The starting version. E.g., 8500.
+   *   The starting version. E.g., 8005000.
    *
    * @param string $ending_version
-   *   The ending version. E.g., 8501.
+   *   The ending version. E.g., 8005001.
    *
    * @return array
    *   An array of applicable update methods, keyed by method name. Each row

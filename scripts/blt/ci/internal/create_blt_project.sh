@@ -27,8 +27,6 @@ yaml-cli update:value blt/project.yml project.local.hostname '127.0.0.1:8888'
 # Define BLT's deployment endpoints.
 yaml-cli update:value blt/project.yml git.remotes.0 bolt8@svn-5223.devcloud.hosting.acquia.com:bolt8.git
 yaml-cli update:value blt/project.yml git.remotes.1 git@github.com:acquia-pso/blted8.git
-# Execute all updates with fake "dev" => "dev" version specs. This must be done manually since BLT was not installed prior to this.
-blt-console blt:update dev dev $(pwd) --yes
 # BLT added new dependencies for us, so we must update.
 composer update
 git add -A
