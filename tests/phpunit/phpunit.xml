@@ -5,7 +5,7 @@
     <php>
         <const name="BLT_ENV" value="ci"/>
         <const name="BLT_ALIAS" value="self"/>
-        <const name="BLT_MULTISITE_NAME" value="default,g"/>
+        <const name="BLT_MULTISITE_NAME" value="default"/>
     </php>
 
 </phpunit>
