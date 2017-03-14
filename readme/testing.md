@@ -117,8 +117,13 @@ Behat's own configuration is defined in the following files:
 * tests/behat/example.local.yml
 * tests/behat/local.yml
 
+#### Screenshots for failed steps
 
-### Best practices:
+BLT includes the Behat [ScreenshotExtension](https://github.com/elvetemedve/behat-screenshot), configured by default to store a screenshot of any failed step locally. You can configure the extension globally under the `Bex\Behat\ScreenshotExtension` key in `tests/behat/behat.yml`, or override locally inside `tests/behat.local.yml`.
+
+Read through the [ScreenshotExtension documentation](https://github.com/elvetemedve/behat-screenshot#configuration) to discover how to change where images are saved, disable the extension, or change the screenshot taking mode.
+
+### Best practices
 
 * Behat tests must be used behaviorally. I.E., they must use business domain language.
 * Each test should be isolated. E.g., it should not depend on conditions created by another test. In pratice, this means:
@@ -133,7 +138,7 @@ Behat's own configuration is defined in the following files:
 * Writing tests that are exhaustive of all scenarios rather than representative of a typical scenario.
 * Writing Behat tests when a unit test should be employed.
 
-### Resources:
+### Resources
 
 * [Cucumber - Where to start?](https://github.com/cucumber/cucumber/wiki/Cucumber-Backgrounder#where-to-start)
 Note that Cucumber is simply a Ruby based BDD library, whereas Behat is a

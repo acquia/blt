@@ -1,7 +1,7 @@
 <project name="blt" default="update">
   <target name="create-project" hidden="true">
     <!-- Write BLT version to blt/.schema-version. -->
-    <exec dir="${repo.root}" command="echo ${blt.version} > ${blt.config-files.schema-version}" checkreturn="true" logoutput="true" passthru="false" level="${blt.exec_level}"/>
+    <exec dir="${repo.root}" command="${composer.bin}/blt-console blt:schema-version ${repo.root} --latest > ${blt.config-files.schema-version}" checkreturn="true" logoutput="true" passthru="false" level="${blt.exec_level}"/>
 
     <!-- Remove files leftover from acquia/blt-project. -->
     <delete failonerror="false" quiet="true">
@@ -78,16 +78,15 @@
   </target>
 
   <target name="blt:update-delta" description="Performs scripted updates for a specific BLT version delta." hidden="true">
-    <echo>Executing scripted updates for version delta ${blt.schema-version} -> ${blt.version}...</echo>
-    <exec dir="${repo.root}" command="${repo.root}/${bin.path}/blt-console blt:update ${blt.schema-version} ${blt.version} ${repo.root} --yes" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
-
-    <exec dir="${repo.root}" command="echo ${blt.version} > ${blt.config-files.schema-version}" checkreturn="true" logoutput="true" passthru="false" level="${blt.exec_level}"/>
+    <echo>Executing scripted updates for version ${blt.schema-version}</echo>
+    <exec dir="${repo.root}" command="${composer.bin}/blt-console blt:update ${blt.schema-version} ${repo.root} --yes" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec dir="${repo.root}" command="${composer.bin}/blt-console blt:schema-version ${repo.root} --latest > ${blt.config-files.schema-version}" checkreturn="true" logoutput="true" passthru="true"/>
   </target>
 
   <target name="blt:update-composer" description="Updates project composer.json with a subset of new key value pairs from upstream. This WILL overwrite existing values." hidden="true">
     <echo level="verbose">Merging BLT's composer.json template with your project's composer.json.</echo>
     <echo level="verbose">This MAY overwrite some existing values.</echo>
-    <exec dir="${repo.root}" command="${repo.root}/${bin.path}/blt-console composer:munge ${repo.root}/composer.json ${blt.root}/template/composer.json > ${repo.root}/composer.json.tmp" logoutput="true" checkreturn="true" level="${blt.exec_level}" returnProperty="composer.munge.return"/>
+    <exec dir="${repo.root}" command="${composer.bin}/blt-console composer:munge ${repo.root}/composer.json ${blt.root}/template/composer.json > ${repo.root}/composer.json.tmp" logoutput="true" checkreturn="true" level="${blt.exec_level}" returnProperty="composer.munge.return"/>
     <if>
       <equals arg1="${composer.munge.return}" arg2="0"/>
       <then>
@@ -102,7 +101,7 @@
     <echo level="verbose">Merging BLT's project.yml template with your project's project.yml.</echo>
     <echo level="verbose">This WILL NOT overwrite existing values.</echo>
     <!--Values in the project's existing project.yml file will be preserved and not overridden.-->
-    <exec dir="${repo.root}" command="${repo.root}/${bin.path}/blt-console yaml:munge ${blt.root}/template/blt/project.yml ${blt.config-files.project} > ${blt.config-files.project}.tmp" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
+    <exec dir="${repo.root}" command="${composer.bin}/blt-console yaml:munge ${blt.root}/template/blt/project.yml ${blt.config-files.project} > ${blt.config-files.project}.tmp" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
     <!--@todo Find out why can't we just redirect output directly back to project.yml. -->
     <exec dir="${repo.root}" command="mv ${blt.config-files.project}.tmp ${blt.config-files.project}" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <echo>${blt.config-files.project} was modified.</echo>

@@ -57,6 +57,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     $this->composer = $composer;
     $this->io = $io;
     $this->eventDispatcher = $composer->getEventDispatcher();
+    ProcessExecutor::setTimeout(2000);
     $this->executor = new ProcessExecutor($this->io);
   }
 
@@ -143,7 +144,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
       $post_composer_json = md5_file($this->getRepoRoot() . DIRECTORY_SEPARATOR . 'composer.json');
 
       if ($pre_composer_json != $post_composer_json) {
-        $this->io->write('<error>Your composer.json file was modified by BLT, you MUST run "composer update" to update your composer.lock file.</error>');
+        $this->io->write('<error>Your composer.json file was modified by BLT, you MUST run "composer update" to re-process and update dependencies.</error>');
       }
     }
     else {

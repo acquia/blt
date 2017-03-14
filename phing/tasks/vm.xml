@@ -69,7 +69,7 @@
     <copy file="${blt.root}/scripts/drupal-vm/Vagrantfile" todir="${repo.root}" verbose="true"/>
 
     <echo>Adding geerlingguy/drupal-vm to composer dev dependencies.</echo>
-    <exec dir="${repo.root}" command="composer require --dev geerlingguy/drupal-vm:~4.2" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec dir="${repo.root}" command="composer require --dev geerlingguy/drupal-vm:~4.3" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
 
     <echo></echo>
     <echo>BLT has created default configuration for your Drupal VM.</echo>
@@ -136,7 +136,8 @@
       <equals arg1="${vm.nuke}" arg2="y" casesensitive="false"/>
       <then>
         <exec dir="${repo.root}" command="vagrant destroy" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
-        <exec dir="${repo.root}" command="rm -rf Vagrantfile box/config.yml blt/project.local.yml drush/site-aliases/aliases.drushrc.php" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+        <exec dir="${repo.root}" command="rm -rf Vagrantfile box/config.yml blt/project.local.yml" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+        <move file="${blt.root}/template/drush/site-aliases/aliases.drushrc.php" tofile="${repo.root}/drush/site-aliases/aliases.drushrc.php" overwrite="true"/>
         <echo>Your Drupal VM intance has been obliterated.</echo>
         <echo>Please run `blt vm` to create a new one.</echo>
       </then>
