@@ -9,8 +9,8 @@
     "acquia/lightning": "2.0.3",
     "drupal/acquia_connector": "^1.5.0",
     "drupal/acsf": "^1.32.0",
-    "drupal/cog": "^1.0.0",
     "drupal/core": "^8.0",
+    "drupal/cog": "^1.0.0",
     "drupal/features": "^3.0.0",
     "drupal/memcache": "2.x-dev",
     "drupal/seckit": "^1.0.0-alpha2",
@@ -51,39 +51,8 @@
       "drupal/core": {
         "Clear Twig caches on deploys": "https://www.drupal.org/files/issues/no_reliable_method-2752961-29.patch"
       }
-    },
-    "installer-paths": {
-      "docroot/core": [
-        "type:drupal-core"
-      ],
-      "docroot/modules/contrib/{$name}": [
-        "type:drupal-module"
-      ],
-      "docroot/modules/custom/{$name}": [
-        "type:drupal-custom-module"
-      ],
-      "docroot/profiles/contrib/{$name}": [
-        "type:drupal-profile"
-      ],
-      "docroot/profiles/custom/{$name}": [
-        "type:drupal-custom-profile"
-      ],
-      "docroot/themes/contrib/{$name}": [
-        "type:drupal-theme"
-      ],
-      "docroot/themes/custom/{$name}": [
-        "type:drupal-custom-theme"
-      ],
-      "docroot/libraries": [
-        "type:drupal-library"
-      ],
-      "drush/contrib/{$name}": [
-        "type:drupal-drush"
-      ]
     }
   },
-  "minimum-stability": "dev",
-  "prefer-stable": true,
   "scripts": {
     "blt-alias": "blt install-alias -Dcreate_alias=true",
     "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
