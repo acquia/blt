@@ -74,7 +74,7 @@
             "docroot/themes/custom/{$name}": [
                 "type:drupal-custom-theme"
             ],
-            "docroot/libraries": [
+            "docroot/libraries/{$name}": [
                 "type:drupal-library"
             ],
             "drush/contrib/{$name}": [
