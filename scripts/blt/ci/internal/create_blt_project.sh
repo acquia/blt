@@ -32,8 +32,8 @@ yaml-cli update:value blt/project.yml git.remotes.1 git@github.com:acquia-pso/bl
 composer update
 
 # Change cloud hooks to re-install Drupal on deployments.
-sed -i "s:deploy_updates:deploy_install:g" template/hooks/common/post-code-deploy/post-code-deploy.sh
-sed -i "s:deploy_updates:deploy_install:g" template/hooks/common/post-code-update/post-code-update.sh
+sed -i "s:deploy_updates:deploy_install:g" hooks/common/post-code-deploy/post-code-deploy.sh
+sed -i "s:deploy_updates:deploy_install:g" hooks/common/post-code-update/post-code-update.sh
 
 git add -A
 git commit -m 'Adding new dependencies from BLT update.' -n
