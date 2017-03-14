@@ -6,6 +6,8 @@ use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Annotations\IndexedReader;
 use Symfony\Component\Console\Formatter\OutputFormatter;
+use Symfony\Component\Console\Formatter\OutputFormatterStyle;
+use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 use Symfony\Component\Filesystem\Filesystem;
@@ -22,8 +24,18 @@ class Updater {
   protected $output;
 
   /**
+   * @var \Symfony\Component\Console\Helper\FormatterHelper
+   */
+  protected $formatter;
+
+  /**
    * @var string*/
   protected $repoRoot;
+
+  /**
+   * @var string
+   */
+  protected $bltRoot;
 
   /**
    * @var \Symfony\Component\Filesystem\Filesystem*/
@@ -33,6 +45,11 @@ class Updater {
    * @var string
    */
   protected $composerJsonFilepath;
+
+  /**
+   * @var string
+   */
+  protected $composerIncludeJsonFilepath;
 
   /**
    * Updater constructor.
@@ -50,8 +67,14 @@ class Updater {
     $this->updateClassName = $update_class;
     $this->fs = new Filesystem();
     $this->setRepoRoot($repo_root);
+    $this->setBltRoot($repo_root . '/vendor/acquia/blt');
     $this->composerJsonFilepath = $this->repoRoot . '/composer.json';
+    $this->composerIncludeJsonFilepath = $this->getBltRoot() . '/composer.include.json';
     $this->projectYmlFilepath = $this->repoRoot . '/blt/project.yml';
+    $this->formatter = new FormatterHelper();
+
+    // Create "ice" style.
+    $this->getOutput()->getFormatter()->setStyle('ice', new OutputFormatterStyle('white', 'blue'));
   }
 
   /**
@@ -82,10 +105,30 @@ class Updater {
   }
 
   /**
+   * Sets $this->bltRoot.
+   *
+   * @param string $blt_root
+   */
+  public function setBltRoot($blt_root) {
+    $this->bltRoot = $blt_root;
+  }
+
+  public function getBltRoot() {
+    return $this->bltRoot;
+  }
+
+  /**
    * @return ConsoleOutput
    */
   public function getOutput() {
     return $this->output;
+  }
+
+  /**
+   * @return \Symfony\Component\Console\Helper\FormatterHelper
+   */
+  public function getFormatter() {
+    return $this->formatter;
   }
 
   /**
@@ -331,12 +374,26 @@ class Updater {
   }
 
   /**
+   * Returns composer.include.json content.
+   *
+   * @return array
+   *   The contents of composer.include.json.
+   */
+  public function getComposerIncludeJson() {
+    $composer_include_json = json_decode(file_get_contents($this->composerIncludeJsonFilepath), TRUE);
+
+    return $composer_include_json;
+  }
+
+  /**
    * Writes an array to composer.json.
    *
    * @param array $contents
    *   The new contents of composer.json.
    */
   public function writeComposerJson($contents) {
+    $contents['require'] = (object) $contents['require'];
+    $contents['require-dev'] = (object) $contents['require-dev'];
     file_put_contents($this->composerJsonFilepath, json_encode($contents, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
   }
 

@@ -1,0 +1,69 @@
+{
+  "repositories": {
+    "drupal": {
+      "type": "composer",
+      "url": "https://packages.drupal.org/8"
+    }
+  },
+  "require": {
+    "acquia/lightning": "2.0.3",
+    "drupal/acquia_connector": "^1.5.0",
+    "drupal/acsf": "^1.32.0",
+    "drupal/core": "^8.0",
+    "drupal/cog": "^1.0.0",
+    "drupal/features": "^3.0.0",
+    "drupal/memcache": "2.x-dev",
+    "drupal/seckit": "^1.0.0-alpha2",
+    "drupal/security_review": "*",
+    "drupal/shield": "^1.0.0",
+    "drush/drush": "^8.1.8"
+  },
+  "require-dev": {
+    "behat/behat": "^3.1",
+    "behat/mink": "~1.7",
+    "behat/mink-selenium2-driver": "^1.3.1",
+    "bex/behat-screenshot": "^1.2",
+    "drupal/console": "^1.0.0-rc13",
+    "drupal/devel": "^1.0.0-alpha1",
+    "drupal/drupal-extension": "^3.2",
+    "drupal-composer/drupal-scaffold": "^2.1.0",
+    "jarnaiz/behat-junit-formatter": "^1.3.2",
+    "se/selenium-server-standalone": "^2.53",
+    "jakoch/phantomjs-installer":   "^2.1.1-p07"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Drupal\\Tests\\PHPUnit\\": "tests/phpunit/src/"
+    }
+  },
+  "extra": {
+    "drupal-scaffold": {
+      "initial": {
+        "sites/default/default.services.yml": "sites/default/services.yml",
+        "sites/default/default.settings.php": "sites/default/settings.php"
+      },
+      "excludes": [
+        "sites/development.services.yml"
+      ]
+    },
+    "enable-patching": true,
+    "patches": {
+      "drupal/core": {
+        "Clear Twig caches on deploys": "https://www.drupal.org/files/issues/no_reliable_method-2752961-29.patch"
+      }
+    }
+  },
+  "scripts": {
+    "blt-alias": "blt install-alias -Dcreate_alias=true",
+    "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
+    "nuke": [
+      "rm -rf vendor composer.lock",
+      "@composer clearcache",
+      "@composer install"
+    ],
+    "install-phantomjs": [
+      "rm -rf vendor/bin/phantomjs",
+      "PhantomInstaller\\Installer::installPhantomJS"
+    ]
+  }
+}

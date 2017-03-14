@@ -160,4 +160,80 @@ class Updates {
     $this->updater->removeComposerPatch("acquia/lightning",
       "https://www.drupal.org/files/issues/2836258-3-lightning-extension-autoload.patch");
   }
+
+  /**
+   * 8.6.15.
+   *
+   * @Update(
+   *   version = "8006015",
+   *   description = "Updating composer.json to use wikimedia composer-merge-plugin."
+   * )
+   */
+  public function update_8006015() {
+    $composer_include_json = $this->updater->getComposerIncludeJson();
+    $composer_json = $this->updater->getComposerJson();
+
+    // Remove deprecated config.
+    unset($composer_json['extra']['blt']['composer-exclude-merge']);
+
+    // Remove config that should only be defined in composer.include.json.
+    unset($composer_json['extra']['enable-patching']);
+    unset($composer_json['extra']['installer-paths']);
+
+    // Remove packages from root composer.json that are already defined in BLT's composer.include.json with matching version.
+    foreach ($composer_include_json['require'] as $package_name => $package_version) {
+      if (array_key_exists($package_name, $composer_json['require']) && $package_version == $composer_json['require'][$package_name]) {
+        unset($composer_json['require'][$package_name]);
+      }
+    }
+    foreach ($composer_include_json['require-dev'] as $package_name => $package_version) {
+      if (array_key_exists($package_name, $composer_json['require-dev']) && $package_version == $composer_json['require-dev'][$package_name]) {
+        unset($composer_json['require-dev'][$package_name]);
+      }
+    }
+
+    // Remove redundant config for drupal-scaffold.
+    if (!empty($composer_json['extra']['drupal-scaffold']) && !empty($composer_include_json['extra']['drupal-scaffold']) &&
+      $composer_json['extra']['drupal-scaffold'] == $composer_include_json['extra']['drupal-scaffold']) {
+      unset($composer_json['extra']['drupal-scaffold']);
+    }
+
+    // Remove redundant config for autoload-dev.
+    unset($composer_json['autoload-dev']['psr-4']['Drupal\\Tests\\PHPUnit\\']);
+    if (empty($composer_json['autoload-dev']['psr-4'])) {
+      unset($composer_json['autoload-dev']['psr-4']);
+    }
+    if (empty($composer_json['autoload-dev'])) {
+      unset($composer_json['autoload-dev']);
+    }
+
+    // Remove redundant config for repositories.
+    if (!empty($composer_json['repositories']['drupal']) &&
+      $composer_json['repositories']['drupal'] == $composer_include_json['repositories']['drupal']) {
+      unset($composer_json['repositories']['drupal']);
+    }
+    if (empty($composer_json['repositories'])) {
+      unset($composer_json['repositories']);
+    }
+
+    if (!empty($composer_json['scripts'])) {
+      foreach ($composer_include_json['scripts'] as $script_name => $script) {
+        if (array_key_exists($script_name, $composer_json['scripts'])) {
+          unset($composer_json['scripts'][$script_name]);
+        }
+      }
+      if (empty($composer_json['scripts'])) {
+        unset($composer_json['scripts']);
+      }
+    }
+
+    $this->updater->writeComposerJson($composer_json);
+
+    $messages = [
+      'BLT will no longer modify your composer.json automatically!',
+      'Default composer.json values from BLT are now merged into your root composer.json via the wikimedia/composer-merge-plugin. You may override any default value provided by BLT by setting the same key in your root composer.json. BLT will never revert your overrides, so you are responsible for maintaining them. Please review your composer.json file carefully.',
+    ];
+    $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice', TRUE);
+    $this->updater->getOutput()->writeln($formattedBlock);
+  }
 }

@@ -1,8 +1,6 @@
 #!/usr/bin/env php
 <?php
 
-use Acquia\Blt\Console\Command\ConfigurePhantomJsCommand;
-use Acquia\Blt\Console\Command\ComposerMungeCommand;
 use Acquia\Blt\Console\Command\SchemaVersionCommand;
 use Acquia\Blt\Console\Command\YamlMungeCommand;
 use Acquia\Blt\Console\Command\UpdateCommand;
@@ -25,8 +23,6 @@ else {
 }
 
 $application = new Application();
-$application->add(new ConfigurePhantomJsCommand());
-$application->add(new ComposerMungeCommand());
 $application->add(new YamlMungeCommand());
 $application->add(new SchemaVersionCommand());
 $application->add(new UpdateCommand());

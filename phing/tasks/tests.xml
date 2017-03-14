@@ -187,44 +187,10 @@
   </target>
 
   <target name="tests:phantomjs:configure" description="Checks and corrects PhantomJS configuration">
-    <exec dir="${repo.root}" command="grep 'jakoch/phantomjs-installer' composer.json" logoutput="false" level="${blt.exec_level}" passthru="false" returnProperty="phantom.required"/>
-    <if>
-      <isfailure code="${phantom.required}"/>
-      <then>
-        <echo level="Warning">jakoch/phantomjs-installer is not required in composer.json.</echo>
-        <propertyprompt promptText="Do you want to require jakoch/phantomjs-installer via Composer?" propertyName="phantom.do-require" defaultValue="y"/>
-        <if>
-          <equals arg1="${phantom.do-require}" arg2="y" casesensitive="false"/>
-          <then>
-            <exec dir="${repo.root}" command="composer require jakoch/phantomjs-installer --dev" logoutput="true" level="${blt.exec_level}" passthru="true" />
-          </then>
-          <else>
-            <fail>Cannot launch PhantomJS it is not installed.</fail>
-          </else>
-        </if>
-      </then>
-    </if>
-    <exec dir="${repo.root}" command="grep installPhantomJS composer.json" logoutput="false" level="${blt.exec_level}" passthru="false" returnProperty="phantom.scripts"/>
-    <if>
-      <isfailure code="${phantom.scripts}"/>
-      <then>
-        <echo level="warning">behat.launch-phantomjs is true, but the install-phantomjs script is not defined in composer.json.</echo>
-        <propertyprompt promptText="Do you want to add an 'install-phantomjs' script to your composer.json?" propertyName="phantom.do-add-script" defaultValue="y"/>
-        <if>
-          <equals arg1="${phantom.do-add-script}" arg2="y" casesensitive="false"/>
-          <then>
-            <exec command="${composer.bin}/blt-console configure:phantomjs ${repo.root}" logoutput="true" level="${blt.exec_level}" passthru="false" checkreturn="true"/>
-          </then>
-          <else>
-            <fail>Cannot launch PhantomJS because the install-phantomjs script is not present in composer.json. Add it, or use Selenium instead.</fail>
-          </else>
-        </if>
-      </then>
-    </if>
     <if>
       <not><available file="${composer.bin}/phantomjs"/></not>
       <then>
-        <exec dir="${repo.root}" command="composer install-phantom" checkreturn="true" logoutput="true" passthru="true" level="${blt.exec_level}"/>
+        <exec dir="${repo.root}" command="composer run-script install-phantomjs" checkreturn="true" logoutput="true" passthru="true" level="${blt.exec_level}"/>
       </then>
     </if>
   </target>

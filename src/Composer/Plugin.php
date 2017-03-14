@@ -134,18 +134,6 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     }
     elseif ($options['blt']['update']) {
       $this->io->write('<info>Updating BLT templated files...</info>');
-
-      // Rsyncs, updates composer.json, project.yml, executes scripted updates for version delta.
-      $pre_composer_json = md5_file($this->getRepoRoot() . DIRECTORY_SEPARATOR . 'composer.json');
-      $success = $this->executeCommand('blt update', [], TRUE);
-      if (!$success) {
-        $this->io->write("<error>BLT update script failed! Run `blt update -verbose` to retry.</error>");
-      }
-      $post_composer_json = md5_file($this->getRepoRoot() . DIRECTORY_SEPARATOR . 'composer.json');
-
-      if ($pre_composer_json != $post_composer_json) {
-        $this->io->write('<error>Your composer.json file was modified by BLT, you MUST run "composer update" to re-process and update dependencies.</error>');
-      }
     }
     else {
       $this->io->write('<comment>Skipping update of BLT templated files</comment>');

@@ -14,7 +14,6 @@
 
     <!-- Pull in initial template files. -->
     <phingcall target="blt:rsync-template"/>
-    <phingcall target="blt:update-composer"/>
 
     <!--Write project.machine_name to project.yml, using name of working directory as value.. -->
     <exec dir="${repo.root}" command="result=${PWD##*/}; printf '%s\n' &quot;${PWD##*/}&quot;" logoutput="false" checkreturn="true" level="${blt.exec_level}" passthru="false" outputProperty="dirname"/>
@@ -71,7 +70,7 @@
     <exec dir="${repo.root}" command="rsync -a --no-g ${blt.root}/template/ ${repo.root}/ --include-from=${blt.update.ignore-existing-file} --ignore-existing" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
   </target>
 
-  <target name="update" depends="blt:rsync-template, blt:update-composer, blt:update-yml, blt:update-delta, cleanup" hidden="true">
+  <target name="update" depends="blt:rsync-template, blt:update-yml, blt:update-delta, cleanup" hidden="true">
     <phingcall target="install-alias">
       <property name="create_alias" value="true"/>
     </phingcall>
@@ -81,19 +80,6 @@
     <echo>Executing scripted updates for version ${blt.schema-version}</echo>
     <exec dir="${repo.root}" command="${composer.bin}/blt-console blt:update ${blt.schema-version} ${repo.root} --yes" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <exec dir="${repo.root}" command="${composer.bin}/blt-console blt:schema-version ${repo.root} --latest > ${blt.config-files.schema-version}" checkreturn="true" logoutput="true" passthru="true"/>
-  </target>
-
-  <target name="blt:update-composer" description="Updates project composer.json with a subset of new key value pairs from upstream. This WILL overwrite existing values." hidden="true">
-    <echo level="verbose">Merging BLT's composer.json template with your project's composer.json.</echo>
-    <echo level="verbose">This MAY overwrite some existing values.</echo>
-    <exec dir="${repo.root}" command="${composer.bin}/blt-console composer:munge ${repo.root}/composer.json ${blt.root}/template/composer.json > ${repo.root}/composer.json.tmp" logoutput="true" checkreturn="true" level="${blt.exec_level}" returnProperty="composer.munge.return"/>
-    <if>
-      <equals arg1="${composer.munge.return}" arg2="0"/>
-      <then>
-        <!--@todo Find out why can't we just redirect output directly back to composer.json. -->
-        <exec dir="${repo.root}" command="mv ${repo.root}/composer.json.tmp ${repo.root}/composer.json" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
-      </then>
-    </if>
   </target>
 
   <target name="blt:update-yml" description="Updates project BLT .yml files with new key value pairs from upstream. This WILL NOT overwrite existing values." hidden="true">
