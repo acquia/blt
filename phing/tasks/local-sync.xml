@@ -15,7 +15,19 @@
     </phingcall>
   </target>
 
-  <target name="local:sync" description="Synchronize local environment from remote (remote --> local)."
+  <!-- Wrapper for local:sync:db and local:sync:files. -->
+  <target name="local:sync" description="Synchronize local environment from remote (remote --> local).">
+    <phingcall target="local:sync:db"/>
+    <if>
+      <!-- File sync is optional, and by default sync.files is false. -->
+      <istrue value="${sync.files}"/>
+      <then>
+        <phingcall target="local:sync:files"/>
+      </then>
+    </if>
+  </target>
+
+  <target name="local:sync:db" description="Synchronize local database from remote (remote --> local)."
           depends="setup:drupal:settings">
     <drush command="cc drush"/>
     <drush command="sql-drop"/>
