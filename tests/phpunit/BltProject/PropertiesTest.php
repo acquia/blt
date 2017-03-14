@@ -24,11 +24,11 @@ class PropertiesTest extends BltProjectTestBase {
    * Asserts that a given property has an expected value.
    *
    * @param string $property
-   *    The property to check.
+   *   The property to check.
    * @param string $expected
-   *    The expected value of $property.
+   *   The expected value of $property.
    * @param string $site
-   *    An optional site name.
+   *   An optional site name.
    */
   protected function assertPropertyEquals($property, $expected, $site = '') {
     $value = $this->getProperty($property, $site);
@@ -40,12 +40,12 @@ class PropertiesTest extends BltProjectTestBase {
    * Gets the value a given property (optionally specifying a site).
    *
    * @param string $property
-   *    The property to check.
+   *   The property to check.
    * @param string $site
-   *    An optional site name.
+   *   An optional site name.
    *
    * @return string
-   *    The value of $property.
+   *   The value of $property.
    */
   private function getProperty($property, $site = '') {
     $output = [];
