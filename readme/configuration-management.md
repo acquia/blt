@@ -35,7 +35,7 @@ When you run one of these update commands, they perform the following updates (s
 
 - Database updates: the equivalent of running `drush updb` or hitting `update.php`, this applies any pending database updates.
 - Config import: runs the core configuration-import command to import any configuration stored in the root `config` directory. This is either a full or partial import, depending on how BLT is configured.
-- Features import: runs features-import-all, which imports any configuration stored in a feature module's `config/install` directory.
+- Features import (optional): runs features-import-all, which imports any configuration stored in a feature module's `config/install` directory. Note that this only runs if you've configured the `cm.features.bundle` property in `blt/project.yml`.
 
 There are also pre- and post-config import hooks that you can use to run custom commands.
 
