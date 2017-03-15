@@ -161,6 +161,10 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     }
     elseif ($options['blt']['update']) {
       $this->io->write('<info>Updating BLT templated files...</info>');
+      $success = $this->executeCommand('blt update', [], TRUE);
+      if (!$success) {
+        $this->io->write("<error>BLT update script failed! Run `blt update -verbose` to retry.</error>");
+      }
     }
     else {
       $this->io->write('<comment>Skipping update of BLT templated files</comment>');
