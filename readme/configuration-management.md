@@ -42,14 +42,14 @@ There are also pre- and post-config import hooks that you can use to run custom 
 ### Config vs content
 Drupal’s config system cannot be used to manage entities that Drupal considers to be content, such as nodes, taxonomy terms, and files. This can create conflicts when a configuration entity depends on a content entity, such as:
 
-* You have a block type that includes a file upload field, and you want to place the block in a theme and export the block as a feature.
-* You have a view that is filtered by a static taxonomy term, and you want to export that view as a feature.
+* You have a block type that includes a file upload field, and you want to place the block in a theme and export the block configuration.
+* You have a view that is filtered by a static taxonomy term, and you want to export that view configuration.
 
-In these cases, the exported configuration file for the block or view will contain a defined dependency on a content object (referenced by UUID). If that content doesn’t exist when the feature is installed, the installation will fail.
+In these cases, the exported configuration file for the block or view will define a dependency on a content object (referenced by UUID). If that content doesn’t exist when the configuration is imported, the import will fail.
 
-The solution is to make sure that the referenced content exists before the feature is installed. There are currently two recommended methods for this:
+The solution is to make sure that the referenced content exists before configuration is imported. There are currently two recommended methods for this:
 
-* Use the default_content module to export the referenced content as JSON files, and store these files with your feature or in a dependency.
+* Use the default_content module to export the referenced content as JSON files, and store these files with a feature or other dedicated module.
 * Use Migrate and a custom module to create default content from any number of custom sources, such as JSON files stored with your feature.
 
 ### Updating core and contributed modules
