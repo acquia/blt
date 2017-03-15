@@ -58,13 +58,15 @@ Caution must be taken when updating core and contributed modules. If those updat
 
 The best way to handle this is to always follow these steps when updating contributed and core modules:
 
-1. Start from a clean local setup or refresh. If you are using Features, ensure that there are no overridden configuration. The `cm.features.no-overrides` flag in [project.yml](https://github.com/acquia/blt/blob/8.x/template/blt/project.yml#L62) can assist with this by halting builds with overridden features.
-2. Use `composer update` to download the new module version(s).
+1. Start from a clean `local:setup` or `local:refresh`. If you are using Features, ensure that there are no overridden configuration. The `cm.features.no-overrides` flag in [project.yml](https://github.com/acquia/blt/blob/8.x/template/blt/project.yml#L62) can assist with this by halting builds with overridden features.
+2. Use `composer update drupal/modulename --with-dependencies` to download the new module version(s).
 3. Run `drush updb` to apply any pending updates locally.
-4. If any updates were applied, check if they modified any stored configuration. If using Features, simply check for overridden features. If using core CM, re-export all configuration and check for any changes on disk.
-5. Re-export and commit any changes you found in the previous step, along with the updated `composer.json` and `composer.lock`.
+4. If any updates were applied, check if they modified any stored configuration. If using Features, check for overridden features. If using core CM, export all configuration and check for any changes on disk using `git status`.
+5. Export any changed Features (if using Features) and commit the changed configuration, along with the updated `composer.json` and `composer.lock`.
 
-We need to find a better way of preventing this than manually monitoring module updates. Find more information in [these](https://www.drupal.org/node/2745685) [issues](https://github.com/acquia/blt/issues/842).
+We need to find a better way of preventing this than manually monitoring module updates. Find more information in these issues:
+* [Features and contributed module updates](https://www.drupal.org/node/2745685)
+* [Testing for schema changes to stored config](https://github.com/acquia/blt/issues/842).
 
 ## Configuration Split workflow
 
@@ -72,7 +74,7 @@ BLT recommends using the Config Split module to manage configuration on most pro
 
 Note that this workflow currently has two major limitations. The first is that individual configurations can't be entirely excluded from configuration management. For instance, if you want administrators to be able to set the site name (as above) or create new contact forms / webforms in production, this would be difficult given the current state of the module. However, this should theoretically be possible.
 
-TODO: Update once we figure out the graylist, and with additional information about how to integrate with BLT.
+TODO: Update this documentation once Config Split's greylist functionality has been better documented and tested.
 
 The second limitation is that it's difficult to define configuration that varies between sites in a multisite installation. Multisite installations that require highly customized bundles of configuration per-site might be better suited by a Features-based workflow.
 
@@ -180,4 +182,6 @@ If you need to override the default configuration provided by another project (o
 
 Be aware that reverting all features and config on every deploy creates a risk of discarding server-side changes. This risk should be controlled by carefully managing permissions, and must be balanced against the greater risk of allowing for divergent configuration between your DB and VCS.
 
-Features is a ground-up rewrite in Drupal 8 and is maturing quickly, but may still have some traps. Developers should keep a close eye on exported features, and architects need to carefully review features in PRs for the gotchas and best practices listed above.
+Configuration Management in Drupal 8 is still being improved early in the Drupal 8 lifecycle, and you should continue to monitor Drupal Core's issue queue and Drupal Planet blog posts for refinements to the CM workflows explained here.
+
+Similarly, Features is a ground-up rewrite in Drupal 8 and is maturing quickly, but may still have some traps. Developers should keep a close eye on exported features, and architects need to carefully review features in PRs for the gotchas and best practices listed above.
