@@ -6,7 +6,8 @@
     "extra": {
         "merge-plugin": {
             "require": [
-                "vendor/acquia/blt/composer.include.json"
+                "vendor/acquia/blt/composer.required.json",
+                "vendor/acquia/blt/composer.suggested.json"
             ],
             "merge-extra": true,
             "merge-extra-deep": true,

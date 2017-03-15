@@ -49,7 +49,12 @@ class Updater {
   /**
    * @var string
    */
-  protected $composerIncludeJsonFilepath;
+  protected $composerRequiredJsonFilepath;
+
+  /**
+   * @var string
+   */
+  protected $composerSuggestedJsonFilepath;
 
   /**
    * Updater constructor.
@@ -69,7 +74,8 @@ class Updater {
     $this->setRepoRoot($repo_root);
     $this->setBltRoot($repo_root . '/vendor/acquia/blt');
     $this->composerJsonFilepath = $this->repoRoot . '/composer.json';
-    $this->composerIncludeJsonFilepath = $this->getBltRoot() . '/composer.include.json';
+    $this->composerRequiredJsonFilepath = $this->getBltRoot() . '/composer.required.json';
+    $this->composerSuggestedJsonFilepath = $this->getBltRoot() . '/composer.suggested.json';
     $this->templateComposerJsonFilepath = $this->getBltRoot() . '/template/composer.json';
     $this->projectYmlFilepath = $this->repoRoot . '/blt/project.yml';
     $this->formatter = new FormatterHelper();
@@ -375,15 +381,27 @@ class Updater {
   }
 
   /**
-   * Returns composer.include.json content.
+   * Returns composer.required.json content.
    *
    * @return array
-   *   The contents of composer.include.json.
+   *   The contents of composer.required.json.
    */
-  public function getComposerIncludeJson() {
-    $composer_include_json = json_decode(file_get_contents($this->composerIncludeJsonFilepath), TRUE);
+  public function getComposerRequiredJson() {
+    $composer_required_json = json_decode(file_get_contents($this->composerRequiredJsonFilepath), TRUE);
 
-    return $composer_include_json;
+    return $composer_required_json;
+  }
+
+  /**
+   * Returns composer.suggested.json content.
+   *
+   * @return array
+   *   The contents of composer.suggested.json.
+   */
+  public function getComposerSuggestedJson() {
+    $composer_suggested_json = json_decode(file_get_contents($this->composerSuggestedJsonFilepath), TRUE);
+
+    return $composer_suggested_json;
   }
 
   /**

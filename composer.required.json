@@ -6,16 +6,8 @@
     }
   },
   "require": {
-    "acquia/lightning": "2.0.3",
-    "drupal/acquia_connector": "^1.5.0",
-    "drupal/acsf": "^1.32.0",
     "drupal/core": "^8.0",
-    "drupal/cog": "^1.0.0",
     "drupal/features": "^3.0.0",
-    "drupal/memcache": "2.x-dev",
-    "drupal/seckit": "^1.0.0-alpha2",
-    "drupal/security_review": "*",
-    "drupal/shield": "^1.0.0",
     "drush/drush": "^8.1.8"
   },
   "require-dev": {

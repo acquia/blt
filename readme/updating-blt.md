@@ -8,12 +8,8 @@ If you are already using BLT via Composer, you can update to the latest version 
 
         # update blt and its dependencies
         composer update acquia/blt --with-dependencies
-        # Remove deprecated files.
-        blt cleanup
-        # update all dependencies, in case BLT modified your composer.json during previous update.
-        composer update
   
-   Rarely, the first command will fail with a version conflict. If this happens, run `composer update` first so that Composer can try to resolve a new set of interoperable dependencies.
+   Rarely, the first command will fail with a version conflict. If this happens, run `composer update` so that Composer can try to resolve a new set of interoperable dependencies.
 
 1. Check the [release information](https://github.com/acquia/blt/releases) to see if there are special update instructions for the new version. 
 1. Review and commit changes to your project files.
@@ -25,11 +21,29 @@ By default BLT will modify a handful of files in your project to conform to the 
 
       "extra": {
         "blt": {
-            "update": true
+            "update": false
         }
       }
 
 Please not that if you choose to do this, it is your responsibility to track upstream changes. This is very likely to cause issues when you upgrade BLT to a new version.
+
+### Modifying BLT's default Composer values
+
+BLT merges default values for composer.json using [wikimedia/composer-merge-plugin](https://github.com/wikimedia/composer-merge-plugin):
+
+        "merge-plugin": {
+            "require": [
+                "vendor/acquia/blt/composer.required.json",
+                "vendor/acquia/blt/composer.suggested.json"
+            ],
+            "merge-extra": true,
+            "merge-extra-deep": true,
+            "merge-scripts": true
+        },
+
+This merges `require`, `require-dev`, `autoload`, `autoload-dev`, `scripts`, and `extra` from BLT's own vendored files. These the merged includes are split into two groups: required and suggested. You may remove the suggested packages by deleting the `vendor/acquia/blt/composer.suggested.json` line from your composer.json.
+
+You may also override the value for any key by defining a different value for the same key in your root composer.json.
 
 ## Updating from a non-Composer-managed (very old) version
 
