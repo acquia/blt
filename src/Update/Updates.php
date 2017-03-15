@@ -170,31 +170,31 @@ class Updates {
    * )
    */
   public function update_8006015() {
-    $composer_include_json = $this->updater->getComposerIncludeJson();
+    $composer_required_json = $this->updater->getComposerRequiredJson();
     $composer_json = $this->updater->getComposerJson();
 
     // Remove deprecated config.
     unset($composer_json['extra']['blt']['composer-exclude-merge']);
 
-    // Remove config that should only be defined in composer.include.json.
+    // Remove config that should only be defined in composer.required.json.
     unset($composer_json['extra']['enable-patching']);
 
-    // Remove packages from root composer.json that are already defined in BLT's composer.include.json with matching version.
-    foreach ($composer_include_json['require'] as $package_name => $package_version) {
+    // Remove packages from root composer.json that are already defined in BLT's composer.required.json with matching version.
+    foreach ($composer_required_json['require'] as $package_name => $package_version) {
       if (array_key_exists($package_name, $composer_json['require']) && $package_version == $composer_json['require'][$package_name]) {
         unset($composer_json['require'][$package_name]);
       }
     }
     // Do the same for require-dev.
-    foreach ($composer_include_json['require-dev'] as $package_name => $package_version) {
+    foreach ($composer_required_json['require-dev'] as $package_name => $package_version) {
       if (array_key_exists($package_name, $composer_json['require-dev']) && $package_version == $composer_json['require-dev'][$package_name]) {
         unset($composer_json['require-dev'][$package_name]);
       }
     }
 
     // Remove redundant config for drupal-scaffold.
-    if (!empty($composer_json['extra']['drupal-scaffold']) && !empty($composer_include_json['extra']['drupal-scaffold']) &&
-      $composer_json['extra']['drupal-scaffold'] == $composer_include_json['extra']['drupal-scaffold']) {
+    if (!empty($composer_json['extra']['drupal-scaffold']) && !empty($composer_required_json['extra']['drupal-scaffold']) &&
+      $composer_json['extra']['drupal-scaffold'] == $composer_required_json['extra']['drupal-scaffold']) {
       unset($composer_json['extra']['drupal-scaffold']);
     }
 
@@ -209,7 +209,7 @@ class Updates {
 
     // Remove redundant config for repositories.
     if (!empty($composer_json['repositories']['drupal']) &&
-      $composer_json['repositories']['drupal'] == $composer_include_json['repositories']['drupal']) {
+      $composer_json['repositories']['drupal'] == $composer_required_json['repositories']['drupal']) {
       unset($composer_json['repositories']['drupal']);
     }
     if (empty($composer_json['repositories'])) {
@@ -217,7 +217,7 @@ class Updates {
     }
 
     if (!empty($composer_json['scripts'])) {
-      foreach ($composer_include_json['scripts'] as $script_name => $script) {
+      foreach ($composer_required_json['scripts'] as $script_name => $script) {
         if (array_key_exists($script_name, $composer_json['scripts'])) {
           unset($composer_json['scripts'][$script_name]);
         }
@@ -238,8 +238,9 @@ class Updates {
     $this->updater->writeComposerJson($composer_json);
 
     $messages = [
-      'After this, BLT will no longer modify your composer.json automatically!',
-      'Default composer.json values from BLT are now merged into your root composer.json via the wikimedia/composer-merge-plugin. You may override any default value provided by BLT by setting the same key in your root composer.json. BLT will never revert your overrides, so you are responsible for maintaining them. Please review your composer.json file carefully.',
+      'BLT will no longer directly modify your composer.json requirements!',
+      'Default composer.json values from BLT are now merged into your root composer.json via wikimedia/composer-merge-plugin. Please see the plugin documentation for information on overriding or opting-out of these includes:',
+      'https://github.com/wikimedia/composer-merge-plugin',
     ];
     $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice', TRUE);
     $this->updater->getOutput()->writeln($formattedBlock);
