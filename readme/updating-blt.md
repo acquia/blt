@@ -41,7 +41,9 @@ BLT merges default values for composer.json using [wikimedia/composer-merge-plug
             "merge-scripts": true
         },
 
-This merges `require`, `require-dev`, `autoload`, `autoload-dev`, `scripts`, and `extra` from BLT's own vendored files. These the merged includes are split into two group: required and suggested. You may remove the suggested packages by deleting the `vendor/acquia/blt/composer.suggested.json` line from your composer.json.
+This merges `require`, `require-dev`, `autoload`, `autoload-dev`, `scripts`, and `extra` from BLT's own vendored files. These the merged includes are split into two groups: required and suggested. You may remove the suggested packages by deleting the `vendor/acquia/blt/composer.suggested.json` line from your composer.json.
+
+You may also override the value for any key by defining a different value for the same key in your root composer.json.
 
 ## Updating from a non-Composer-managed (very old) version
 
