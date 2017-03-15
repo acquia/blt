@@ -68,7 +68,8 @@ class UpdateCommand extends BaseCommand {
       $updater->executeUpdates($updates);
     }
     else {
-      $output->writeln("<comment>There are no scripted updates available between BLT versions $starting_version.</comment>");
+      $latest_version = $updater->getLatestUpdateMethodVersion();
+      $output->writeln("<comment>There are no scripted updates available between BLT versions $starting_version and $latest_version.</comment>");
     }
   }
 

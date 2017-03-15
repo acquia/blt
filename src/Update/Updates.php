@@ -243,5 +243,6 @@ class Updates {
     ];
     $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice', TRUE);
     $this->updater->getOutput()->writeln($formattedBlock);
+    $this->updater->getOutput()->writeln("<comment>Please execute `composer update` in order to incorporate these final automated changes to composer.json.</comment>");
   }
 }
