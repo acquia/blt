@@ -178,7 +178,6 @@ class Updates {
 
     // Remove config that should only be defined in composer.include.json.
     unset($composer_json['extra']['enable-patching']);
-    unset($composer_json['extra']['installer-paths']);
 
     // Remove packages from root composer.json that are already defined in BLT's composer.include.json with matching version.
     foreach ($composer_include_json['require'] as $package_name => $package_version) {
@@ -186,6 +185,7 @@ class Updates {
         unset($composer_json['require'][$package_name]);
       }
     }
+    // Do the same for require-dev.
     foreach ($composer_include_json['require-dev'] as $package_name => $package_version) {
       if (array_key_exists($package_name, $composer_json['require-dev']) && $package_version == $composer_json['require-dev'][$package_name]) {
         unset($composer_json['require-dev'][$package_name]);
@@ -227,8 +227,11 @@ class Updates {
       }
     }
 
-    // Set wikimedia/composer-merge-plugin config.
     $template_composer_json = $this->updater->getTemplateComposerJson();
+    // Set installer-paths to match template.
+    $composer_json['extra']['installer-paths'] = $template_composer_json['extra']['installer-paths'];
+
+    // Set wikimedia/composer-merge-plugin config.
     $composer_json['extra']['merge-plugin'] = $template_composer_json['extra']['merge-plugin'];
 
     // Write to file.
