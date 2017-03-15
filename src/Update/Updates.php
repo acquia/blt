@@ -171,6 +171,7 @@ class Updates {
    */
   public function update_8006015() {
     $composer_required_json = $this->updater->getComposerRequiredJson();
+    $composer_suggested_json = $this->updater->getComposerSuggestedJson();
     $composer_json = $this->updater->getComposerJson();
 
     // Remove deprecated config.
@@ -187,6 +188,19 @@ class Updates {
     }
     // Do the same for require-dev.
     foreach ($composer_required_json['require-dev'] as $package_name => $package_version) {
+      if (array_key_exists($package_name, $composer_json['require-dev']) && $package_version == $composer_json['require-dev'][$package_name]) {
+        unset($composer_json['require-dev'][$package_name]);
+      }
+    }
+
+    // Remove packages from root composer.json that are already defined in BLT's composer.suggested.json with matching version.
+    foreach ($composer_suggested_json['require'] as $package_name => $package_version) {
+      if (array_key_exists($package_name, $composer_json['require']) && $package_version == $composer_json['require'][$package_name]) {
+        unset($composer_json['require'][$package_name]);
+      }
+    }
+    // Do the same for require-dev.
+    foreach ($composer_suggested_json['require-dev'] as $package_name => $package_version) {
       if (array_key_exists($package_name, $composer_json['require-dev']) && $package_version == $composer_json['require-dev'][$package_name]) {
         unset($composer_json['require-dev'][$package_name]);
       }
