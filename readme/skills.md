@@ -21,7 +21,7 @@ Acquia Dev Desktop is a free app that allows you to run and develop Drupal sites
 
 ### Dependency Management
 
-####[Composer](https://getcomposer.org/): 
+#### [Composer](https://getcomposer.org/)
 Composer is a tool for dependency management in PHP. It allows you to declare the libraries your project depends on and it will manage (install/update) them for you.
 
 **Recommended Reading**
