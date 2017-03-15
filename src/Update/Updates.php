@@ -191,7 +191,7 @@ class Updates {
     }
 
     // Do the same for require-dev.
-    if (!empty($composer_required_json['require-dev'])) {
+    if (!empty($composer_required_json['require-dev']) && !empty($composer_json['require-dev'])) {
       foreach ($composer_required_json['require-dev'] as $package_name => $package_version) {
         if (array_key_exists($package_name,
             $composer_json['require-dev']) && $package_version == $composer_json['require-dev'][$package_name]
@@ -269,12 +269,14 @@ class Updates {
 
     $messages = [
       'BLT will no longer directly modify your composer.json requirements!',
-      'Default composer.json values from BLT are now merged into your root composer.json via wikimedia/composer-merge-plugin. Please see the following documentation for more information',
-      'http://blt.readthedocs.io/en/8.x/readme/updating-blt/#modifying-blts-default-composer-values',
-      'https://github.com/wikimedia/composer-merge-plugin',
+      "Default composer.json values from BLT are now merged into your root composer.json via wikimedia/composer-merge-plugin. Please see the following documentation for more information:\n",
+      "  - http://blt.readthedocs.io/en/8.x/readme/updating-blt/#modifying-blts-default-composer-values\n   - https://github.com/wikimedia/composer-merge-plugin"
     ];
-    $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice', TRUE);
+    $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
+
+    $this->updater->getOutput()->writeln("");
     $this->updater->getOutput()->writeln($formattedBlock);
-    $this->updater->getOutput()->writeln("<comment>Please execute `composer update` in order to incorporate these final automated changes to composer.json.</comment>");
+    $this->updater->getOutput()->writeln("");
+    $this->updater->getOutput()->writeln("<comment>Please execute `composer update` to incorporate these final automated changes to composer.json.</comment>");
   }
 }
