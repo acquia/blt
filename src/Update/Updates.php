@@ -253,7 +253,8 @@ class Updates {
 
     $messages = [
       'BLT will no longer directly modify your composer.json requirements!',
-      'Default composer.json values from BLT are now merged into your root composer.json via wikimedia/composer-merge-plugin. Please see the plugin documentation for information on overriding or opting-out of these includes:',
+      'Default composer.json values from BLT are now merged into your root composer.json via wikimedia/composer-merge-plugin. Please see the following documentation for more information',
+      'http://blt.readthedocs.io/en/8.x/readme/updating-blt/#modifying-blts-default-composer-values',
       'https://github.com/wikimedia/composer-merge-plugin',
     ];
     $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice', TRUE);

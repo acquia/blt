@@ -23,7 +23,7 @@ pages:
     - Create a new project: 'readme/creating-new-project.md'
     - Add to existing project: 'readme/adding-to-project.md'
     - Next steps: 'readme/next-steps.md'
-    - Upgrade BLT: 'readme/updating-blt.md'
+    - Updating BLT: 'readme/updating-blt.md'
   - Project documentation:
     - Developer:
           - Onboarding: 'readme/onboarding.md'
