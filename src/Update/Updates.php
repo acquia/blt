@@ -176,33 +176,49 @@ class Updates {
 
     // Remove deprecated config.
     unset($composer_json['extra']['blt']['composer-exclude-merge']);
-
     // Remove config that should only be defined in composer.required.json.
     unset($composer_json['extra']['enable-patching']);
 
     // Remove packages from root composer.json that are already defined in BLT's composer.required.json with matching version.
-    foreach ($composer_required_json['require'] as $package_name => $package_version) {
-      if (array_key_exists($package_name, $composer_json['require']) && $package_version == $composer_json['require'][$package_name]) {
-        unset($composer_json['require'][$package_name]);
+    if (!empty($composer_required_json['require'])) {
+      foreach ($composer_required_json['require'] as $package_name => $package_version) {
+        if (array_key_exists($package_name,
+            $composer_json['require']) && $package_version == $composer_json['require'][$package_name]
+        ) {
+          unset($composer_json['require'][$package_name]);
+        }
       }
     }
+
     // Do the same for require-dev.
-    foreach ($composer_required_json['require-dev'] as $package_name => $package_version) {
-      if (array_key_exists($package_name, $composer_json['require-dev']) && $package_version == $composer_json['require-dev'][$package_name]) {
-        unset($composer_json['require-dev'][$package_name]);
+    if (!empty($composer_required_json['require-dev'])) {
+      foreach ($composer_required_json['require-dev'] as $package_name => $package_version) {
+        if (array_key_exists($package_name,
+            $composer_json['require-dev']) && $package_version == $composer_json['require-dev'][$package_name]
+        ) {
+          unset($composer_json['require-dev'][$package_name]);
+        }
       }
     }
 
     // Remove packages from root composer.json that are already defined in BLT's composer.suggested.json with matching version.
-    foreach ($composer_suggested_json['require'] as $package_name => $package_version) {
-      if (array_key_exists($package_name, $composer_json['require']) && $package_version == $composer_json['require'][$package_name]) {
-        unset($composer_json['require'][$package_name]);
+    if (!empty($composer_suggested_json['require'])) {
+      foreach ($composer_suggested_json['require'] as $package_name => $package_version) {
+        if (array_key_exists($package_name,
+            $composer_json['require']) && $package_version == $composer_json['require'][$package_name]
+        ) {
+          unset($composer_json['require'][$package_name]);
+        }
       }
     }
     // Do the same for require-dev.
-    foreach ($composer_suggested_json['require-dev'] as $package_name => $package_version) {
-      if (array_key_exists($package_name, $composer_json['require-dev']) && $package_version == $composer_json['require-dev'][$package_name]) {
-        unset($composer_json['require-dev'][$package_name]);
+    if (!empty($composer_suggested_json['require-dev'])) {
+      foreach ($composer_suggested_json['require-dev'] as $package_name => $package_version) {
+        if (array_key_exists($package_name,
+            $composer_json['require-dev']) && $package_version == $composer_json['require-dev'][$package_name]
+        ) {
+          unset($composer_json['require-dev'][$package_name]);
+        }
       }
     }
 
