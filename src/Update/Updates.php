@@ -227,10 +227,15 @@ class Updates {
       }
     }
 
+    // Set wikimedia/composer-merge-plugin config.
+    $template_composer_json = $this->updater->getTemplateComposerJson();
+    $composer_json['extra']['merge-plugin'] = $template_composer_json['extra']['merge-plugin'];
+
+    // Write to file.
     $this->updater->writeComposerJson($composer_json);
 
     $messages = [
-      'BLT will no longer modify your composer.json automatically!',
+      'After this, BLT will no longer modify your composer.json automatically!',
       'Default composer.json values from BLT are now merged into your root composer.json via the wikimedia/composer-merge-plugin. You may override any default value provided by BLT by setting the same key in your root composer.json. BLT will never revert your overrides, so you are responsible for maintaining them. Please review your composer.json file carefully.',
     ];
     $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice', TRUE);

@@ -70,6 +70,7 @@ class Updater {
     $this->setBltRoot($repo_root . '/vendor/acquia/blt');
     $this->composerJsonFilepath = $this->repoRoot . '/composer.json';
     $this->composerIncludeJsonFilepath = $this->getBltRoot() . '/composer.include.json';
+    $this->templateComposerJsonFilepath = $this->getBltRoot() . '/template/composer.json';
     $this->projectYmlFilepath = $this->repoRoot . '/blt/project.yml';
     $this->formatter = new FormatterHelper();
 
@@ -383,6 +384,18 @@ class Updater {
     $composer_include_json = json_decode(file_get_contents($this->composerIncludeJsonFilepath), TRUE);
 
     return $composer_include_json;
+  }
+
+  /**
+   * Returns template/composer.json content.
+   *
+   * @return array
+   *   The contents of template/composer.json.
+   */
+  public function getTemplateComposerJson() {
+    $template_composer_json = json_decode(file_get_contents($this->templateComposerJsonFilepath), TRUE);
+
+    return $template_composer_json;
   }
 
   /**
