@@ -61,13 +61,16 @@ class ComposerMungeCommand extends BaseCommand {
    *   The new, merged composer.json contents.
    */
   protected function munge($file1, $file2) {
-    $default_contents = [
-      'repositories' => [],
-    ];
+    $default_contents = [];
     $file1_contents = (array) json_decode(file_get_contents($file1), TRUE) + $default_contents;
     $file2_contents = (array) json_decode(file_get_contents($file2), TRUE) + $default_contents;
 
     $output = $this->mergeKeyed($file1_contents, $file2_contents);
+
+    // Ensure that require and require-dev are objects and not arrays.
+    $output['require'] = (object) $output['require'];
+    $output['require-dev'] = (object) $output['require-dev'];
+
     $output_json = json_encode($output, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 
     return $output_json;
