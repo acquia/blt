@@ -27,6 +27,7 @@ pages:
   - Project documentation:
     - Developer:
           - Onboarding: 'readme/onboarding.md'
+            - Skills: 'readme/skills.md'
           - Repository architecture: 'readme/repo-architecture.md'
           - Running project tasks:
             - Overview: 'readme/project-tasks.md'
