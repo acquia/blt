@@ -197,13 +197,14 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
   /**
    * Determine if this is a project being newly created.
    *
-   * This would execute in the context of `composer create-project`.
+   * This would execute in the context of `composer create-project acquia/blt-project`.
    *
    * @return bool
    *   TRUE if this is a newly create project.
    */
   protected function isNewProject() {
-    if (!file_exists($this->getRepoRoot() . '/.git')) {
+    $composer_json = json_decode(file_get_contents($this->getRepoRoot() . '/composer.json'), TRUE);
+    if (!empty($composer_json['name'] && $composer_json['name'] == 'acquia/blt-project')) {
       return TRUE;
     }
     return FALSE;
