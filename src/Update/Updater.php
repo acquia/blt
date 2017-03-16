@@ -423,10 +423,11 @@ class Updater {
    *   The new contents of composer.json.
    */
   public function writeComposerJson($contents) {
-    if (!empty($contents['require']) && is_array($contents['require'])) {
+    // Ensure that require and require-dev are objects and not arrays.
+    if (array_key_exists('require', $contents) && is_array($contents['require'])) {
       $contents['require'] = (object) $contents['require'];
     }
-    if (!empty($contents['require-dev']) && is_array($contents['require-dev'])) {
+    if (array_key_exists('require-dev', $contents)&& is_array($contents['require-dev'])) {
       $contents['require-dev'] = (object) $contents['require-dev'];
     }
     file_put_contents($this->composerJsonFilepath, json_encode($contents, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
