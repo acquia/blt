@@ -68,11 +68,11 @@ class ComposerMungeCommand extends BaseCommand {
     $output = $this->mergeKeyed($file1_contents, $file2_contents);
 
     // Ensure that require and require-dev are objects and not arrays.
-    if (!empty($contents['require']) && is_array($contents['require'])) {
-      $contents['require'] = (object) $contents['require'];
+    if (!empty($output['require']) && is_array($output['require'])) {
+      $output['require'] = (object) $output['require'];
     }
-    if (!empty($contents['require-dev']) && is_array($contents['require-dev'])) {
-      $contents['require-dev'] = (object) $contents['require-dev'];
+    if (!empty($output['require-dev']) && is_array($output['require-dev'])) {
+      $output['require-dev'] = (object) $output['require-dev'];
     }
 
     $output_json = json_encode($output, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
