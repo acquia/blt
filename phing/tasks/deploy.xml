@@ -249,15 +249,19 @@
 
   <!-- Wrapper for setup:update that sets some environment-specific variables first. -->
   <target name="deploy:update" description="Update current database to reflect the state of the Drupal file system; uses local drush alias.">
+    <foreach list="${multisite.name}" param="deploy.site.name" target="deploy:update:site"/>
+  </target>
+
+  <target name="deploy:update:site" description="Update current database to reflect the state of the Drupal file system; uses local drush alias.">
     <phingcall target="setup:update">
       <!-- Drush fails to include some files. @see https://github.com/drush-ops/drush/issues/2497#issuecomment-279049111 -->
       <property name="drush.bin" value="${drush.bin} --include=../drush" override="true" />
       <!-- Environment parameter is used to determine which modules to toggle. On ACE, will be overridden by one of dev/stage/prod. -->
       <param name="environment" value="deploy"/>
-      <!-- Drush alias should be set to sites to update all sites. -->
-      <property name="drush.alias" value="sites"/>
-      <!-- Kill Drush uri, since we want to run updates against all sites. -->
-      <property name="drush.uri" value=""/>
+      <!-- Disable alias since we are targeting specific uri. -->
+      <property name="drush.alias" value=""/>
+      <!-- Set uri to this specific multisite. -->
+      <property name="drush.uri" value="${deploy.site.name}"/>
       <!-- Most sites store their version-controlled configuration in /config/default. -->
       <!-- ACE internally sets the vcs configuration directory to /config/default, so we use that. -->
       <property name="cm.core.config-dir.key" value="${cm.core.config-dir.deploy-key}"/>
