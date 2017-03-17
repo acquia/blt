@@ -182,7 +182,7 @@
             <include name="composer.lock"/>
           </fileset>
         </copy>
-        <exec dir="${deploy.dir}" command="export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --no-dev --no-interaction --optimize-autoloader" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+        <exec dir="${deploy.dir}" command="composer install --no-dev --no-interaction --optimize-autoloader" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
       </then>
       <else>
         <echo>Dependencies will not be built because deploy.build-dependencies is not enabled.</echo>
