@@ -5,9 +5,12 @@ namespace Acquia\Blt\Tests\Robo\Commands;
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Config\DefaultConfig;
 use Acquia\Blt\Robo\Config\YamlConfig;
+use Acquia\Blt\Robo\Inspector\Inspector;
 use League\Container\Container;
 use Acquia\Blt\Robo\Config\BltConfig;
 use Psr\Log\NullLogger;
+use Robo\Collection\CollectionBuilder;
+use Robo\Config;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -36,7 +39,17 @@ abstract class CommandTestCase extends \PHPUnit_Framework_TestCase
   protected $output;
 
   /**
-   * @var BltTasks
+   * @var Inspector|\PHPUnit_Framework_MockObject_MockObject
+   */
+  protected $inspector;
+
+  /**
+   * @var CollectionBuilder
+   */
+  protected $builder;
+
+  /**
+   * @var BltTasks|\PHPUnit_Framework_MockObject_MockObject
    */
   protected $command;
 
@@ -94,15 +107,23 @@ abstract class CommandTestCase extends \PHPUnit_Framework_TestCase
       $this->config->extend(new YamlConfig($this->config->get('blt.root') . '/phing/build.yml', $this->config->toArray()));
       $this->config->extend(new YamlConfig($this->config->get('blt.root')  . '/template/blt/project.yml', $this->config->toArray()));
       $this->config->extend(new YamlConfig($this->config->get('blt.root')  . '/template/blt/project.local.yml', $this->config->toArray()));
+      $this->config->set(Config::SIMULATE, TRUE);
     }
 
     if (!$this->container) {
       $this->container = new Container();
     }
 
-    // builder
+    $this->bltTasks = $this->getMockBuilder(BltTasks::class)
+      ->getMock();
+    $this->inspector = $this->getMockBuilder(Inspector::class)
+      ->disableOriginalConstructor()
+      ->getMock();
+    $this->inspector->method('getLocalBehatConfig')->willReturn($this->config);
+    $this->builder = new CollectionBuilder($this->bltTasks);
+    $this->builder->setConfig($this->config);
+
     // executor
-    // inspector
     // wizards
 
     // Always say yes to confirmations

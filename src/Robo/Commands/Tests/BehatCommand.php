@@ -54,13 +54,7 @@ class BehatCommand extends BltTasks {
     // Log config for debugging purposes.
     $this->logConfig($this->getConfigValue('behat'), 'behat');
     $this->logConfig($this->getInspector()->getLocalBehatConfig()->toArray());
-
-    // Create reports dir.
-    $logs_dir = $this->getConfigValue('reports.localDir');
-    $this->taskFilesystemStack()
-      ->mkdir($logs_dir)
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->run();
+    $this->createReportsDir();
 
     // Launch the appropriate web driver.
     if ($this->getConfigValue('behat.launch-phantomjs')) {
@@ -80,6 +74,18 @@ class BehatCommand extends BltTasks {
         ->run()
         ->stopOnFail();
     }
+  }
+
+  /**
+   *
+   */
+  protected function createReportsDir() {
+    // Create reports dir.
+    $logs_dir = $this->getConfigValue('reports.localDir');
+    $this->taskFilesystemStack()
+      ->mkdir($logs_dir)
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->run();
   }
 
   /**

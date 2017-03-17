@@ -2,10 +2,13 @@
 
 namespace Acquia\Blt\Tests\Robo\Commands\Tests;
 
+use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Commands\Tests\BehatCommand;
 use Acquia\Blt\Robo\Common\Executor;
 use Acquia\Blt\Robo\Inspector\Inspector;
 use Acquia\Blt\Tests\Robo\Commands\CommandTestCase;
+use Robo\Collection\CollectionBuilder;
+use Robo\Config;
 
 /**
  * Class CreateCommandTest
@@ -29,7 +32,8 @@ class BehatCommandTest extends CommandTestCase
 
     $this->command = new BehatCommand();
     $this->command->setConfig($this->config);
-    $this->command->setInspector(new Inspector(new Executor()));
+    $this->command->setInspector($this->inspector);
+    $this->command->setBuilder($this->builder);
   }
 
   /**
@@ -37,6 +41,7 @@ class BehatCommandTest extends CommandTestCase
    */
   public function testBehat() {
     $this->command->behat();
+    $this->inspector->expects($this->once())->method('getLocalBehatConfig');
   }
 
   public function testLaunchSelenium() {}
