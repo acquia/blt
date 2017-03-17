@@ -46,6 +46,7 @@ pages:
         - Release process: 'readme/release-process.md'
         - Setting up continuous integration: 'readme/ci.md'
         - Setting up SSO with SimpleSAMLphp: 'readme/simplesamlphp-setup.md'
+        - Setting up multisite: 'readme/multisite.md'
         - Open source contribution: 'readme/os-contribution.md'
   - Extending / Overriding BLT: 'readme/extending-blt.md'
   - Support & Contribution: 'CONTRIBUTING.md'
