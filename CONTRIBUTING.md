@@ -49,7 +49,7 @@ The new `blt-project` directory will have a composer dependency on your local cl
 
 While Phing and the Symfony Console can both accomplish some of the same tasks, they are different tools with different intended purposes. When developing functionality for BLT we are careful to choose the right tool for the right job.
 
-Phing is intended to be a build tool. It is particularly good at stringing together multiple commands and tasks into a single target which can then be executed procedurally. We use Phing when are requirements are well suited to this strength.
+Phing is intended to be a build tool. It is particularly good at stringing together multiple commands and tasks into a single target which can then be executed procedurally. We use Phing when our requirements are well suited to this strength.
 
 The commands that Phing executes can, of course, be provided by anything. Some are native linux commands, some are provided by tools like Composer and NPM, while others may be provided by the Symfony Console component.
 
