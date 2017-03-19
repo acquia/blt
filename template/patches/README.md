@@ -48,7 +48,7 @@ In order to modify `.htaccess` and other unpatchable root files, simply modify t
 
 The downside here is that you will need to apply drupal core udpates to these excluded files on your own.
 
-Alternatively, you could leverage the `post-drupal-scaffold-cmd` script hook to apply patches after Drupal Scaffold is finished. See the following issue for more details: https://github.com/acquia/blt/issues/1135#issuecomment-285404408
+Alternatively, you could leverage the `post-drupal-scaffold-cmd` script hook to apply patches after Drupal Scaffold is finished. See [this cweagens/composer-patches issue](https://github.com/acquia/blt/issues/1135#issuecomment-285404408) for more details.
 
 
 
