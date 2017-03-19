@@ -34,7 +34,7 @@ Examples:
 
 ## Gotchas
 
-Note that Composer can only patch files that are distributed with Composer packages. This means that certain files (such as the Drupal core `.htaccess` and `robots.txt`) cannot be patched via Composer, since they are not included in the Drupal core Composer package (in fact Drupal Scaffold individually creates these files on updates).
+Note that Composer can only patch files that are distributed with Composer packages. This means that certain files (such as the Drupal core `.htaccess` and `robots.txt`) cannot be easily patched via Composer. These files are not included in the Drupal core Composer package (in fact Drupal Scaffold individually creates these files on updates).
 
 In order to modify `.htaccess` and other unpatchable root files, simply modify the file in place, commit it to Git, and make the following change in `composer.json`:
 
@@ -45,5 +45,11 @@ In order to modify `.htaccess` and other unpatchable root files, simply modify t
         ]
       }
     },
+
+The downside here is that you will need to apply drupal core udpates to these excluded files on your own.
+
+Alternatively, you could leverage the `post-drupal-scaffold-cmd` script hook to apply patches after Drupal Scaffold is finished. See the following issue for more details: https://github.com/acquia/blt/issues/1135#issuecomment-285404408
+
+
 
 Also note that there’s currently a quirk in the Drupal packaging system that makes it difficult to patch module and theme `.info.yml` files. If you have trouble applying a patch that modifies an info file, see this issue for a description and workaround: https://www.drupal.org/node/2858245
