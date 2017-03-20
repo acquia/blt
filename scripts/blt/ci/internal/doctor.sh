@@ -6,6 +6,7 @@ set -ev
 composer require drupal/acsf:^1.33.0
 # Initialize ACSF config.
 blt acsf:init:hooks
+blt setup:cloud-hooks
 blt acsf:init:drush
 blt doctor
 # Add Drupal VM config to repo.
