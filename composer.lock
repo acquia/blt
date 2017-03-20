@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "87166c5245427ef73e16707e26786cb8",
+    "content-hash": "eba2c4ce6e45fafd0ad9e17d18c098cb",
     "packages": [
         {
             "name": "asm89/twig-lint",
@@ -163,50 +163,6 @@
                 "zikula"
             ],
             "time": "2016-08-13T20:53:52+00:00"
-        },
-        {
-            "name": "cweagans/composer-patches",
-            "version": "1.6.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/cweagans/composer-patches.git",
-                "reference": "7cd5c6eb7e68b8f7436ce1a7b9fffa4418bf59c6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/cweagans/composer-patches/zipball/7cd5c6eb7e68b8f7436ce1a7b9fffa4418bf59c6",
-                "reference": "7cd5c6eb7e68b8f7436ce1a7b9fffa4418bf59c6",
-                "shasum": ""
-            },
-            "require": {
-                "composer-plugin-api": "^1.0",
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "composer/composer": "~1.0",
-                "phpunit/phpunit": "~4.6"
-            },
-            "type": "composer-plugin",
-            "extra": {
-                "class": "cweagans\\Composer\\Patches"
-            },
-            "autoload": {
-                "psr-4": {
-                    "cweagans\\Composer\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-2-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Cameron Eagans",
-                    "email": "me@cweagans.net"
-                }
-            ],
-            "description": "Provides a way to patch Composer packages.",
-            "time": "2016-12-01T01:19:32+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -3129,6 +3085,50 @@
             "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
             "homepage": "https://github.com/container-interop/container-interop",
             "time": "2017-02-14T19:40:03+00:00"
+        },
+        {
+            "name": "cweagans/composer-patches",
+            "version": "1.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cweagans/composer-patches.git",
+                "reference": "7cd5c6eb7e68b8f7436ce1a7b9fffa4418bf59c6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cweagans/composer-patches/zipball/7cd5c6eb7e68b8f7436ce1a7b9fffa4418bf59c6",
+                "reference": "7cd5c6eb7e68b8f7436ce1a7b9fffa4418bf59c6",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.0",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "composer/composer": "~1.0",
+                "phpunit/phpunit": "~4.6"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "cweagans\\Composer\\Patches"
+            },
+            "autoload": {
+                "psr-4": {
+                    "cweagans\\Composer\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Cameron Eagans",
+                    "email": "me@cweagans.net"
+                }
+            ],
+            "description": "Provides a way to patch Composer packages.",
+            "time": "2016-12-01T01:19:32+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
