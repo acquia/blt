@@ -268,19 +268,18 @@
       <param>config_split</param>
     </drush>
     <if>
-      <isset property="env.AH_SITE_ENVIRONMENT"/>
+      <and>
+        <isset property="env.AH_SITE_ENVIRONMENT"/>
+        <available file="${cm.core.path}/${env.AH_SITE_ENVIRONMENT}"/>
+      </and>
       <then>
-        <mkdir dir="${cm.core.path}/${env.AH_SITE_ENVIRONMENT}"/>
-        <drush command="config-split-import" assume="yes" alias="${drush.alias}">
+        <drush command="config-import" assume="yes" alias="${drush.alias}">
           <!-- Cloud environments require vcs parameter. -->
           <param>vcs</param>
-          <option name="split">${environment}</option>
         </drush>
       </then>
       <else>
-        <drush command="config-split-import" assume="yes" alias="${drush.alias}">
-          <option name="split">${environment}</option>
-        </drush>
+        <drush command="config-import" assume="yes" alias="${drush.alias}"></drush>
       </else>
     </if>
   </target>
