@@ -47,10 +47,13 @@ script:
   - source ${BLT_DIR}/scripts/blt/ci/internal/smoke_tests.sh
   - source ${BLT_DIR}/scripts/blt/ci/internal/create_blt_project.sh
   - source ${BLT_DIR}/scripts/travis/run_tests
+  # Test core cm.
   - drush config-export --root=docroot -y
-  - yaml-cli update:value blt/project.yml cm.strategy config-split
-  - blt ci:setup
   - yaml-cli update:value blt/project.yml cm.strategy core-only
+  - blt ci:setup
+  # Test config split.
+  - mv scripts/blt/ci/internal/config_split.config_split.ci.yml template/config/default/
+  - yaml-cli update:value blt/project.yml cm.strategy config-split
   - blt ci:setup
   - source ${BLT_DIR}/scripts/blt/ci/internal/doctor.sh
   - phpunit ${BLT_DIR}/tests/phpunit --group blt-project -c ${BLT_DIR}/tests/phpunit/phpunit.xml
