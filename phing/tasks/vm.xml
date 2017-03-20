@@ -137,7 +137,7 @@
       <then>
         <exec dir="${repo.root}" command="vagrant destroy" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
         <exec dir="${repo.root}" command="rm -rf Vagrantfile box/config.yml blt/project.local.yml" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
-        <move file="${blt.root}/template/drush/site-aliases/aliases.drushrc.php" tofile="${repo.root}/drush/site-aliases/aliases.drushrc.php" overwrite="true"/>
+        <copy file="${blt.root}/template/drush/site-aliases/aliases.drushrc.php" tofile="${repo.root}/drush/site-aliases/aliases.drushrc.php" overwrite="true"/>
         <echo>Your Drupal VM intance has been obliterated.</echo>
         <echo>Please run `blt vm` to create a new one.</echo>
       </then>
