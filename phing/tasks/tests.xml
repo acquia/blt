@@ -134,7 +134,7 @@
         <echo message="Launching Selenium standalone server." />
         <touch file="${repo.root}/reports/selenium2.log"/>
         <property name="reports.selenium2" value="${reports.localDir}/selenium2.log"/>
-        <exec command="${composer.bin}/selenium-server-standalone -port 4444 -log ${reports.selenium2}"
+        <exec command="${composer.bin}/selenium-server-standalone -port 4444 -log ${reports.selenium2} -Djava.security.egd=file:///dev/urandom"
               dir="${repo.root}"
               passthru="true"
               spawn="true"
