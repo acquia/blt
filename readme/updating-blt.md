@@ -27,24 +27,6 @@ By default BLT will modify a handful of files in your project to conform to the 
 
 Please not that if you choose to do this, it is your responsibility to track upstream changes. This is very likely to cause issues when you upgrade BLT to a new version.
 
-### Modifying BLT's default Composer values
-
-BLT merges default values for composer.json using [wikimedia/composer-merge-plugin](https://github.com/wikimedia/composer-merge-plugin):
-
-        "merge-plugin": {
-            "require": [
-                "vendor/acquia/blt/composer.required.json",
-                "vendor/acquia/blt/composer.suggested.json"
-            ],
-            "merge-extra": true,
-            "merge-extra-deep": true,
-            "merge-scripts": true
-        },
-
-This merges the `require`, `require-dev`, `autoload`, `autoload-dev`, `scripts`, and `extra` keys from BLT's own vendored files. The merged values are split into two groups: required and suggested. You may remove the suggested packages by deleting the `vendor/acquia/blt/composer.suggested.json` line from your composer.json.
-
-You may also override the value for any key by defining a different value for the same key in your root composer.json.
-
 ## Updating from a non-Composer-managed (very old) version
 
 If you are using an older version of BLT that was not installed using Composer, you may update to the Composer-managed version by running the following commands:

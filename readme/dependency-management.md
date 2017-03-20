@@ -69,21 +69,41 @@ Commit `composer.json` and `composer.lock` afterwards.
 
 Please see [patches/README.md](../template/patches/README.md) for information on patch naming, patch application, and patch contribution guidance.
 
+### Modifying BLT's default Composer values
+
+BLT merges default values for composer.json using [wikimedia/composer-merge-plugin](https://github.com/wikimedia/composer-merge-plugin):
+
+        "merge-plugin": {
+            "require": [
+                "vendor/acquia/blt/composer.required.json",
+                "vendor/acquia/blt/composer.suggested.json"
+            ],
+            "include": [
+                "blt/composer.overrides.json"
+            ],
+            "merge-extra": true,
+            "merge-extra-deep": true,
+            "merge-scripts": true,
+            "replace": true
+        },
+
+This merges the `require`, `require-dev`, `autoload`, `autoload-dev`, `scripts`, and `extra` keys from BLT's own vendored files. The merged values are split into three groups
+ 
+ 1. composer.require.json: These packages are required for BLT to function properly. You may change their versions via comopser.overrides.json, but you should not remove them.
+ 1. composer.suggested.json: You may remove the suggested packages by deleting the `vendor/acquia/blt/composer.suggested.json` line from your composer.json.
+ 1. composer.overrides.json: You may customize this file in order to override the version constraints that BLT defines in composer.required.json.
+
 ## Merging in additional composer.json files
 
-In situations where you have local projects, e.g. a custom module, that have their own composer.json files, you can merge them in by including the composer-merge-plugin.
-
-    composer require wikimedia/composer-merge-plugin
-
-Reference these additional composer.json files in the `extra` section of your root composer.json file.
-
-    "extra": {
-      "merge-plugin": {
-        "require": [
-          "docroot/modules/custom/example/composer.json"
-        ]
-      }
-    }
+In situations where you have local projects, e.g. a custom module, that have their own composer.json files, you can merge them in by including the composer-merge-plugin. Reference these additional composer.json files in the `extra` section of your root composer.json file.
+  
+        "extra": {
+          "merge-plugin": {
+            "require": [
+              "docroot/modules/custom/example/composer.json"
+            ]
+          }
+        }
 
 ## Front end dependencies
 
