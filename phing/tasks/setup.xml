@@ -130,6 +130,7 @@
   </target>
 
   <target name="setup:drush:settings:site" description="Create local drush settings files for an individual site." hidden="true">
+    <chmod mode="0755" file="${docroot}/sites/${multisite.name}" failonerror="false"/>
     <if>
       <not><available file="${docroot}/sites/${multisite.name}/local.drushrc.php" type="file" /></not>
       <then>
