@@ -7,11 +7,13 @@
         "merge-plugin": {
             "require": [
                 "vendor/acquia/blt/composer.required.json",
-                "vendor/acquia/blt/composer.suggested.json"
+                "vendor/acquia/blt/composer.suggested.json",
+                "blt/composer.overrides.json"
             ],
             "merge-extra": true,
             "merge-extra-deep": true,
-            "merge-scripts": true
+            "merge-scripts": true,
+            "replace": true
         },
         "installer-paths": {
             "docroot/core": ["type:drupal-core"],
