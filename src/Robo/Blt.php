@@ -60,7 +60,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
       $config);
     $this->setContainer($container);
     $this->addDefaultArgumentsAndOptions($application);
-    $this->configureContainer();
+    $this->configureContainer($container);
     $this->addBuiltInCommandsAndHooks();
     // $this->addPluginsCommandsAndHooks();
     $this->runner = new RoboRunner();
@@ -134,9 +134,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
   /**
    * Register the necessary classes for BLT.
    */
-  private function configureContainer() {
-    $container = $this->getContainer();
-
+  public static function configureContainer($container) {
     $container->share('logStyler', BltLogStyle::class);
 
     // We create our own builder so that non-command classes are able to

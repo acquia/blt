@@ -55,25 +55,8 @@ class BehatCommand extends BltTasks {
     $this->logConfig($this->getConfigValue('behat'), 'behat');
     $this->logConfig($this->getInspector()->getLocalBehatConfig()->toArray());
     $this->createReportsDir();
-
-    // Launch the appropriate web driver.
-    if ($this->getConfigValue('behat.launch-phantomjs')) {
-      $this->launchPhantomJs();
-    }
-    elseif ($this->getConfigValue('behat.launch-selenium')) {
-      $this->launchSelenium();
-    }
-
-    foreach ($this->getConfigValue('behat.paths') as $behat_path) {
-      // Output errors.
-      // @todo break if fails.
-      // @todo replace base_url in behat config when internal server is being used.
-      $command = "{$this->getConfigValue('composer.bin')}/behat --strict $behat_path -c {$this->getConfigValue('behat.config')} -p {$this->getConfigValue('behat.profile')}";
-      $this->taskExec($command)
-        ->interactive(TRUE)
-        ->run()
-        ->stopOnFail();
-    }
+    $this->launchWebDriver();
+    $this->executeBehatTests();
   }
 
   /**
@@ -89,12 +72,23 @@ class BehatCommand extends BltTasks {
   }
 
   /**
+   * Launch the appropriate web driver based on configuration.
+   */
+  protected function launchWebDriver() {
+    if ($this->getConfigValue('behat.launch-phantomjs')) {
+      $this->launchPhantomJs();
+    }
+    elseif ($this->getConfigValue('behat.launch-selenium')) {
+      $this->launchSelenium();
+    }
+  }
+
+  /**
    * Launches selenium server.
    */
   protected function launchSelenium() {
     $this->createSeleniumLogs();
-    $this->getContainer()->get('executor')->killProcessByPort('4444');
-    $this->getContainer()->get('executor')->killProcessByName('selenium');
+    $this->killSelenium();
     $this->say("Launching Selenium standalone server.");
     $this->getContainer()
       ->get('executor')
@@ -104,6 +98,14 @@ class BehatCommand extends BltTasks {
       ->dir($this->getConfigValue('repo.root'))
       ->run();
     $this->getContainer()->get('executor')->waitForUrlAvailable($this->seleniumUrl);
+  }
+
+  /**
+   *
+   */
+  protected function killSelenium() {
+    $this->getContainer()->get('executor')->killProcessByPort('4444');
+    $this->getContainer()->get('executor')->killProcessByName('selenium');
   }
 
   /**
@@ -125,15 +127,21 @@ class BehatCommand extends BltTasks {
     if (!$this->getInspector()->isPhantomJsConfigured()) {
       $this->setupPhantomJs();
     }
-
-    $this->getContainer()->get('executor')->killProcessByPort('4444');
-    $this->getContainer()->get('executor')->killProcessByName('phantomjs');
+    $this->killPhantomJs();
     $this->say("Launching PhantomJS GhostDriver.");
     $this->taskExec("{$this->getConfigValue('composer.bin')}/phantomjs")
       ->option("webdriver", 4444)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->background()
       ->run();
+  }
+
+  /**
+   *
+   */
+  protected function killPhantomJs() {
+    $this->getContainer()->get('executor')->killProcessByPort('4444');
+    $this->getContainer()->get('executor')->killProcessByName('phantomjs');
   }
 
   /**
@@ -147,6 +155,22 @@ class BehatCommand extends BltTasks {
     $tests_wizard->wizardRequirePhantomJs();
     $tests_wizard->wizardConfigurePhantomJsScript();
     $tests_wizard->wizardInstallPhantomJsBinary();
+  }
+
+  /**
+   * Executes all behat tests in behat.paths configuration array.
+   */
+  protected function executeBehatTests() {
+    foreach ($this->getConfigValue('behat.paths') as $behat_path) {
+      // Output errors.
+      // @todo break if fails.
+      // @todo replace base_url in behat config when internal server is being used.
+      $command = "{$this->getConfigValue('composer.bin')}/behat --strict $behat_path -c {$this->getConfigValue('behat.config')} -p {$this->getConfigValue('behat.profile')}";
+      $this->taskExec($command)
+        ->interactive(TRUE)
+        ->run()
+        ->stopOnFail();
+    }
   }
 
 }
