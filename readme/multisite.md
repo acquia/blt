@@ -19,11 +19,7 @@ Start by following the [Acquia Cloud multisite instructions](https://docs.acquia
 
 ## BLT setup
 
-Start by setting `$site_dir` in each site's settings.php, prior to the `blt.settings.php` include. This is necessary for BLT to set a number of configurations correctly, such as your public and private file paths:
-
-    $site_dir = 'example.com';
-
-You also have the option to define your multisites in `blt/project.yml` by creating a `multisite.name` variable. This allows BLT to run setup and deployment tasks for each site in the codebase. If you don't manually define this variable, BLT will automatically set it based on discovered multisite directories.
+You have the option to define your multisites in `blt/project.yml` by creating a `multisite.name` variable. This allows BLT to run setup and deployment tasks for each site in the codebase. If you don't manually define this variable, BLT will automatically set it based on discovered multisite directories.
 
     multisite:
       name:
