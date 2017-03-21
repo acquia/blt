@@ -52,7 +52,7 @@ script:
   - yaml-cli update:value blt/project.yml cm.strategy core-only
   - blt ci:setup -Dcreate_alias=false
   # Test config split.
-  - mv scripts/blt/ci/internal/config_split.config_split.ci.yml template/config/default/
+  - mv ${BLT_DIR}/scripts/blt/ci/internal/config_split.config_split.ci.yml config/default/
   - yaml-cli update:value blt/project.yml cm.strategy config-split
   - blt ci:setup -Dcreate_alias=false
   - source ${BLT_DIR}/scripts/blt/ci/internal/doctor.sh
