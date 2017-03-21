@@ -17,7 +17,6 @@
         "asm89/twig-lint":                  "^1.0.2",
         "composer/installers":              "^1.2.0",
         "composer-plugin-api":              "^1.0.0",
-        "cweagans/composer-patches":        "^1.6.0",
         "doctrine/common":                  "^2.5",
         "oomphinc/composer-installers-extender": "^1.1",
         "dflydev/dot-access-data":          "^1.1.0",
