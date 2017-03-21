@@ -7,5 +7,12 @@
     "drupal/seckit": "^1.0.0-alpha2",
     "drupal/security_review": "*",
     "drupal/shield": "^1.0.0"
+  },
+  "extra": {
+    "patches": {
+      "drupal/memcache": {
+        "SASL Support in Drupal 8 version": "https://www.drupal.org/files/issues/sasl_drupal_8-2862230-3.patch"
+      }
+    }
   }
 }
