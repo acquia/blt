@@ -347,6 +347,12 @@
 
   </target>
 
+  <target name="setup:cloud-hooks" description="Installs Acquia cloud hooks to hooks directory from version controlled scripts/cloud-hooks directory.">
+      <copy todir="${repo.root}/hooks" >
+          <fileset dir="${blt.root}/scripts/cloud-hooks/hooks"/>
+      </copy>
+  </target>
+
   <target name="setup:hash-salt" description="Generates and writes a hash salt to ${repo.root}/salt.txt if one does not exist.">
     <!-- If a hash salt does not exist, generate one. -->
     <echo>Checking for hash salt in ${repo.root}/salt.txt</echo>
