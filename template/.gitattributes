@@ -64,6 +64,7 @@
 *.OTF     -text diff
 *.eot     -text diff
 *.EOT     -text diff
+*.woff    -text diff
 *.woff2   -text diff
 *.WOFF2   -text diff
 *.swf     -text diff
