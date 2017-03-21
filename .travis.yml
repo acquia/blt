@@ -50,11 +50,11 @@ script:
   # Test core cm.
   - drush config-export --root=docroot -y
   - yaml-cli update:value blt/project.yml cm.strategy core-only
-  - blt ci:setup -Dcreate_alias=false
+  - blt setup:config-import
   # Test config split.
   - mv ${BLT_DIR}/scripts/blt/ci/internal/config_split.config_split.ci.yml config/default/
   - yaml-cli update:value blt/project.yml cm.strategy config-split
-  - blt ci:setup -Dcreate_alias=false
+  - blt setup:config-import
   - source ${BLT_DIR}/scripts/blt/ci/internal/doctor.sh
   - phpunit ${BLT_DIR}/tests/phpunit --group blt-project -c ${BLT_DIR}/tests/phpunit/phpunit.xml
   - phpunit ${BLT_DIR}/tests/phpunit --group blt-multisite -c ${BLT_DIR}/tests/phpunit/phpunit.xml
