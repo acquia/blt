@@ -38,7 +38,7 @@ composer:
   bin: ${repo.root}/${bin.path}
 
 cm:
-  # Possible values: core-only, config_split, features.
+  # Possible values: core-only, config-split, features.
   strategy: features
   core:
     # The parent directory for configuration directories.
