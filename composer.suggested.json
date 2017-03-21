@@ -1,6 +1,6 @@
 {
   "require": {
-    "acquia/lightning": "2.0.3",
+    "acquia/lightning": "^2.0.3",
     "drupal/acquia_connector": "^1.5.0",
     "drupal/cog": "^1.0.0",
     "drupal/memcache": "2.x-dev",
