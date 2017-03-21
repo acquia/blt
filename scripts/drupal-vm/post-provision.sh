@@ -7,3 +7,6 @@ cd ${REPO_ROOT}
 
 # Add blt alias to front of .bashrc so that it applies to non-interactive shells.
 grep -q -F 'blt' /home/vagrant/.bashrc || (cat ./vendor/acquia/blt/scripts/blt/alias /home/vagrant/.bashrc > temp && mv temp /home/vagrant/.bashrc)
+
+curl https://cloud.acquia.com/pipeline-client/download > /usr/local/bin/pipelines
+chmod 755 /usr/local/bin/pipelines

@@ -74,6 +74,5 @@ php_xdebug_idekey: PHPSTORM
 php_xdebug_max_nesting_level: 256
 php_xdebug_remote_port: "9000"
 
-post_provision_tasks_dir: "../../../acquia/blt/scripts/drupal-vm/post-provision.yml"
 post_provision_scripts:
   - "../../../acquia/blt/scripts/drupal-vm/post-provision.sh"
