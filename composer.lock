@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "4952a33fcefd7b6b21270acdb3438c25",
+    "content-hash": "f38e59a5bfa60721e24e7ff4422adff1",
     "packages": [
         {
             "name": "asm89/twig-lint",
@@ -1062,6 +1062,49 @@
             ],
             "description": "A command line tool for reading and manipulating yaml files.",
             "time": "2017-03-16T15:04:06+00:00"
+        },
+        {
+            "name": "grasmash/yaml-expander",
+            "version": "1.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/grasmash/yaml-expander.git",
+                "reference": "3a98cb8fbe13435fde5c8d14a1b4d5bb667c7dca"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/grasmash/yaml-expander/zipball/3a98cb8fbe13435fde5c8d14a1b4d5bb667c7dca",
+                "reference": "3a98cb8fbe13435fde5c8d14a1b4d5bb667c7dca",
+                "shasum": ""
+            },
+            "require": {
+                "dflydev/dot-access-data": "^1.1.0",
+                "php": ">=5.6",
+                "symfony/console": "^2.8.11",
+                "symfony/yaml": "^2.8.11"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.5.4",
+                "satooshi/php-coveralls": "^1.0",
+                "squizlabs/php_codesniffer": "^2.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Grasmash\\YamlExpander\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Matthew Grasmick"
+                }
+            ],
+            "description": "Expands internal property references in a yaml file.",
+            "time": "2017-03-21T19:02:32+00:00"
         },
         {
             "name": "guzzle/guzzle",

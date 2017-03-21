@@ -154,8 +154,11 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
    */
   public function checkUrl($url) {
     $client = new Client();
-    $res = $client->request('GET', $url, []);
-    return $res->getStatusCode() == 200;
+    $res = $client->request('GET', $url, [
+      'connection_timeout' => 2,
+      'timeout' => 2,
+    ]);
+    return $res->getStatusCode() !== 404;
   }
 
 }

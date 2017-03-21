@@ -89,7 +89,7 @@ class BehatCommand extends BltTasks {
   protected function launchSelenium() {
     $this->createSeleniumLogs();
     $this->killSelenium();
-    $this->say("Launching Selenium standalone server.");
+    $this->logger->info("Launching Selenium standalone server.");
     $this->getContainer()
       ->get('executor')
       ->execute($this->getConfigValue('composer.bin') . "/selenium-server-standalone -port 4444 -log {$this->seleniumLogFile}  > /dev/null 2>&1")
@@ -97,13 +97,14 @@ class BehatCommand extends BltTasks {
       ->printOutput(true)
       ->dir($this->getConfigValue('repo.root'))
       ->run();
-    $this->getContainer()->get('executor')->waitForUrlAvailable($this->seleniumUrl);
+    //$this->getContainer()->get('executor')->waitForUrlAvailable($this->seleniumUrl);
   }
 
   /**
    *
    */
   protected function killSelenium() {
+    $this->logger->info("Killing any running Selenium processes");
     $this->getContainer()->get('executor')->killProcessByPort('4444');
     $this->getContainer()->get('executor')->killProcessByName('selenium');
   }
@@ -168,6 +169,7 @@ class BehatCommand extends BltTasks {
       $command = "{$this->getConfigValue('composer.bin')}/behat --strict $behat_path -c {$this->getConfigValue('behat.config')} -p {$this->getConfigValue('behat.profile')}";
       $this->taskExec($command)
         ->interactive(TRUE)
+        ->printMetadata(false)
         ->run()
         ->stopOnFail();
     }

@@ -23,6 +23,7 @@
         "drupal/coder":                     "^8.2.8",
         "grasmash/drupal-security-warning": "^1.0.0",
         "grasmash/yaml-cli":                "^1.0.0",
+        "grasmash/yaml-expander":           "^1.0.5",
         "phing/phing":                      "^2.15.0",
         "php":                              ">=5.6",
         "phpunit/phpunit":                  "^4.8",
