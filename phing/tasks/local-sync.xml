@@ -27,6 +27,15 @@
     </if>
   </target>
 
+  <target name="local:sync:db:all" description="Iteratively synchronizes local database from remote for each multisite listed in multisite.name">
+    <foreach list="${multisite.name}" param="multisite.name" target="local:sync:db:multisite"/>
+  </target>
+
+  <target name="local:sync:db:multisite" hidden="true">
+    <phingcall target="properties:load:multisite"/>
+    <phingcall target="local:sync:db"/>
+  </target>
+
   <target name="local:sync:db" description="Synchronize local database from remote (remote --> local)."
           depends="setup:drupal:settings">
     <drush command="cc drush"/>
