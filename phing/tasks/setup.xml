@@ -175,7 +175,8 @@
 
     <echo>Installing Drupal...</echo>
     <if>
-      <equals arg1="${cm.core.partial}" arg2="true"/>
+      <!-- We do not define the config-dir option if features is being used. -->
+      <equals arg1="${cm.strategy}" arg2="features"/>
       <then>
         <drush command="site-install">
           <option name="site-name">"${project.human_name}"</option>
@@ -196,7 +197,7 @@
           <option name="account-pass">"${drupal.account.password}"</option>
           <option name="account-mail">"${drupal.account.mail}"</option>
           <option name="locale">"${drupal.locale}"</option>
-          <option name="config-dir">${cm.core.config-dir.path}</option>
+          <option name="config-dir">${cm.core.dirs.${cm.core.key}.path}</option>
           <param>"${project.profile.name}"</param>
           <param>"install_configure_form.update_status_module='array(FALSE,FALSE)'"</param>
         </drush>
@@ -246,21 +247,49 @@
       <option name="entity-updates"></option>
     </drush>
 
-    <!-- Import configuration. -->
+    <!-- This will call one of the following:
+      setup:config-import:features
+      setup:config-import:core-only
+      setup:config-import:config-split
+    -->
+    <phingcall target="setup:config-import:${cm.strategy}"/>
+
+    <!-- Rebuild caches. -->
+    <drush command="cr" alias="${drush.alias}" passthru="false"/>
+  </target>
+
+  <target name="setup:config-import:core-only">
+    <drush command="config-import" assume="yes" alias="${drush.alias}" passthru="false">
+      <param>${cm.core.key}</param>
+    </drush>
+  </target>
+
+  <target name="setup:config-import:config-split">
+    <drush command="en" assume="yes" alias="${drush.alias}" passthru="false">
+      <param>config_split</param>
+    </drush>
     <if>
-      <equals arg1="${cm.core.partial}" arg2="true"/>
+      <and>
+        <isset property="env.AH_SITE_ENVIRONMENT"/>
+        <available file="${cm.core.path}/${env.AH_SITE_ENVIRONMENT}"/>
+      </and>
       <then>
-        <drush command="config-import" assume="yes" alias="${drush.alias}" passthru="false">
-          <option name="partial"></option>
-          <param>${cm.core.config-dir.key}</param>
+        <drush command="config-import" assume="yes" alias="${drush.alias}">
+          <!-- Cloud environments require vcs parameter. -->
+          <param>vcs</param>
         </drush>
       </then>
       <else>
-        <drush command="config-import" assume="yes" alias="${drush.alias}" passthru="false">
-          <param>${cm.core.config-dir.key}</param>
-        </drush>
+        <drush command="config-import" assume="yes" alias="${drush.alias}"></drush>
       </else>
     </if>
+  </target>
+
+  <target name="setup:config-import:features">
+    <drush command="config-import" assume="yes" alias="${drush.alias}" passthru="false">
+      <option name="partial"></option>
+      <param>${cm.core.key}</param>
+    </drush>
 
     <if>
       <isset property="cm.features.bundle"/>
@@ -287,11 +316,13 @@
         </if>
       </then>
     </if>
+
     <!-- Rebuild caches. -->
     <drush command="cr" alias="${drush.alias}" passthru="false"/>
     <phingcall target="target-hook:invoke">
       <property name="hook-name" value="post-config-import"/>
     </phingcall>
+
   </target>
 
   <target name="setup:git-hooks" description="Installs git hooks to local .git/hooks directory from version controlled scripts/git-hooks directory.">

@@ -256,7 +256,7 @@
     <phingcall target="setup:update">
       <!-- Drush fails to include some files. @see https://github.com/drush-ops/drush/issues/2497#issuecomment-279049111 -->
       <property name="drush.bin" value="${drush.bin} --include=../drush" override="true" />
-      <!-- Environment parameter is used to determine which modules to toggle. On ACE, will be overridden by one of dev/stage/prod. -->
+      <!-- Environment parameter is used to determine which modules to toggle. On ACE, will be overridden by one of dev/stage/prod via cloud hooks. -->
       <param name="environment" value="deploy"/>
       <!-- Disable alias since we are targeting specific uri. -->
       <property name="drush.alias" value=""/>

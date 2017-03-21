@@ -38,15 +38,22 @@ composer:
   bin: ${repo.root}/${bin.path}
 
 cm:
+  # Possible values: core-only, config_split, features.
+  strategy: features
   core:
-    config-dir:
+    # The parent directory for configuration directories.
+    path: ${repo.root}/config
+    # The default config key to use for imports. This is the key used in Drupal's global $config_directories variable.
+    # E.g., $config_directories['sync']. It must have a corresponding key in cm.core.dirs. E.g., `cm.core.dirs.sync`.
+    key: sync
+    # A different config key is used by the deploy:update step, which is executed on Acquia Cloud.
+    deploy-key: vcs
+    dirs:
       # Corresponding values are defined in default.local.settings.php.
-      key: sync
-      path: ${repo.root}/config/default
-      # A different config key is used by the deploy:update step, which is executed on Acquia Cloud.
-      deploy-key: vcs
-    partial: true
-
+      sync:
+        path: ${cm.core.path}/default
+  features:
+    no-overrides: true
 
 deploy:
   # If true, dependencies will be built during deploy. If false, you should commit dependencies directly.

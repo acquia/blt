@@ -47,6 +47,9 @@ $is_local_env = !$is_ah_env;
 // Includes caching configuration.
 require __DIR__ . '/cache.settings.php';
 
+// Includes configuratoin management settings.
+require __DIR__ . '/config.settings.php';
+
 // Includes logging configuration.
 require __DIR__ . '/logging.settings.php';
 
