@@ -99,7 +99,7 @@ To capture and deploy configuration changes using Config Split:
 1. Ensure that your local environment is up to date and refreshed (e.g. `git pull` and `blt local:refresh`).
 2. Use the Drupal UI to make the necessary configuration changes in your local environment. For instance, go to http://local.example.com/admin/structure/types/add to add a new content type.
 3. Once you have completed local development, use `drush cex` (`config-export`) to export your configuration changes to the `config/default` directory. Remember to use an appropriate alias if you are using a VM (e.g. `drush @example.local cex`).
-4. Review the updated configuration in `config/default` using `git diff`, and if you are satisfied with the changes commit them and open a pull request.
+4. Review the updated configuration in `config/default` using `git diff`.  If you are satisfied with the changes, commit them and open a pull request.
 
 Note that when you run `drush cex`, if the project has been configured correctly, some configuration that's specific to the development environment should automatically be excluded. Similarly, some configuration that's intended to be "unlocked" in production might also be excluded (such as webforms). If you need to customize this behavior, you can modify the blacklists or greylists by following the steps in the section above.
 
