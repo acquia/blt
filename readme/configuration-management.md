@@ -111,6 +111,8 @@ Because of this more modular architecture, Features can be a better solution for
 
 However, the downside to this more granular approach is that Features cannot make some of the same assumptions as the core configuration system, and relies much more heavily on the developer to manage the architecture and handle configuration changes that it can't. This makes the overall system much more error-prone and more of a burden to maintain.
 
+To set up a Features-based workflow, you'll need to set `cm.strategy` to `features` in `blt/project.yml`.
+
 ### Using bundles
 Features lets you define custom "bundles" that essentially let you train Features to support your project's individual workflow. At the most basic level, they are a way to namespace your features, so you'd want to choose a bundle name based on your project name (an "Acme" bundle would prefix all of your feature machine names with "acme_").
 
