@@ -12,10 +12,16 @@ fi
 
 echo "Sniffing staged files via PHP Code Sniffer..."
 ${ROOT_DIR}/vendor/bin/blt validate:phpcs:files -Dfiles="$LIST" -silent -emacs || exit 1;
-echo "Linting custom twig files..."
-${ROOT_DIR}/vendor/bin/blt validate:twig -silent -emacs || exit 1;
-echo "Validating composer.json..."
-composer validate --quiet --no-check-all || (echo 'composer.json is not valid. Run `composer validate` for more information.' && exit 1;)
+if [[ $LIST == *".twig"* ]];
+  then
+    echo "Linting custom twig files..."
+    ${ROOT_DIR}/vendor/bin/blt validate:twig -silent -emacs || exit 1;
+fi
+if [[ $LIST == *"composer."* ]];
+  then
+    echo "Validating composer.json..."
+    composer validate --quiet --no-check-all || (echo 'composer.json is not valid. Run `composer validate` for more information.' && exit 1;)
+fi
 echo "Ok!"
 
 # Return the status of the last run command.
