@@ -84,8 +84,8 @@ The second limitation is that it's difficult to define configuration that varies
 
 This section will guide you through initially setting up a Config Split workflow on your BLT based project.
 
-1. Ensure that you are using Drush version 8.1.10 or higher.
-2. Add Config Split version 8.x-1.0-beta4 or higher to your codebase: `composer require drupal/config_split`
+1. Ensure that you are using Drush version 8.1.10 or higher and Config Split version 8.1.0-beta4 or higher (these are included by default in BLT 8.7.*)
+2. Ensure that `cm.strategy` is set to `config-split` in `blt/project.yml`.
 3. TODO: finish this section once the related functionality is stabilized in BLT core.
 
 ### Using Config Split to capture and deploy configuration
