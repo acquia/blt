@@ -4,8 +4,13 @@
  * Setup BLT utility variables.
  ******************************************************************************/
 
-// We assume that we are operating against the default site dir. You may alternatively set this variable before including blt.settings.php.
-$site_dir = !empty($site_dir) ? $site_dir : 'default';
+try {
+  $site_path = \Drupal\Core\DrupalKernel::findSitePath(\Symfony\Component\HttpFoundation\Request::createFromGlobals());
+}
+catch (\Symfony\Component\HttpKernel\Exception\BadRequestHttpException $e) {
+  $site_path = 'sites/default';
+}
+$site_dir = str_replace('sites/', '', $site_path);
 
 /**
  * Host detection.
