@@ -1,8 +1,15 @@
 <?php
 
+/**
+ * @file
+ * Execute BLT commands via Robo.
+ */
+
+use Robo\Robo;
+
 // If the BLT binary was used to call Robo, everything is already autoloaded.
-// @todo Remove this once Phing is compoletely removed from BLT.
-if (!class_exists(\Robo\Robo::class)) {
+// @todo Remove this once Phing is completely removed from BLT.
+if (!class_exists(Robo::class)) {
   $blt_root = realpath(__DIR__ . '/../');
 
   $possible_bin_dirs = [
