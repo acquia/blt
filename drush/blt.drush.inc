@@ -5,8 +5,8 @@
  * Custom drush commands provided by BLT.
  */
 
-require 'acsf_tools.drush.inc';
-require 'policy.drush.inc';
+require __DIR__ . '/acsf_tools.drush.inc';
+require __DIR__ . '/policy.drush.inc';
 
 /**
  * Implements hook_drush_command().
