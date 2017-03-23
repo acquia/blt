@@ -6,10 +6,6 @@ use Acquia\Blt\Annotations\Update;
 
 /**
  * Defines scripted updates for specific version deltas of BLT.
- *
- * Note that every update should be designed to execute against *any* version of
- * blt given that a dev version of BLT will execute all updates regardless of
- * recency.
  */
 class Updates {
 
@@ -66,7 +62,7 @@ class Updates {
 
     // Change 'deploy' module key to 'prod'.
     // @see https://github.com/acquia/blt/pull/700.
-    $project_config = $this->updater->getProjectConfig();
+    $project_config = $this->updater->getProjectYml();
     if (!empty($project_config['modules']['deploy'])) {
       $project_config['modules']['prod'] = $project_config['modules']['deploy'];
       unset($project_config['modules']['deploy']);
@@ -282,5 +278,11 @@ class Updates {
     // Sync updates to drushrc.php manually since it has been added to ignore-existing.txt.
     $drushrcFile = 'drush/drushrc.php';
     $this->updater->syncWithTemplate($drushrcFile, TRUE);
+
+    // Legacy versions will have defaulted to use features for config management.
+    // Must explicitly set formerly assumed value.
+    $project_yml = $this->updater->getProjectYml();
+    $project_yml['cm']['strategy'] = 'features';
+    $this->updater->writeProjectYml($project_yml);
   }
 }

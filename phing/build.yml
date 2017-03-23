@@ -39,7 +39,7 @@ composer:
 
 cm:
   # Possible values: core-only, config-split, features.
-  strategy: features
+  strategy: config-split
   core:
     # The parent directory for configuration directories.
     path: ${repo.root}/config
