@@ -4,6 +4,9 @@ namespace Acquia\Blt\Tests\Robo;
 
 use Acquia\Blt\Robo\Common\ArrayManipulator;
 
+/**
+ * Tests the ArrayManipulator class.
+ */
 class ArrayManipulatorTest extends \PHPUnit_Framework_TestCase {
 
   /**
@@ -99,6 +102,7 @@ class ArrayManipulatorTest extends \PHPUnit_Framework_TestCase {
    * Provider to ExpandFromDotNotatedKeys() & testFlattenToDotNotatedKeys().
    *
    * @return array
+   *   An array of test values to test.
    */
   public function providerDotNotatedKeys() {
     return [
@@ -113,7 +117,7 @@ class ArrayManipulatorTest extends \PHPUnit_Framework_TestCase {
     $array = [
       'first' => [
         'second' => [
-          'third' => 'fourth'
+          'third' => 'fourth',
         ],
         'fifth' => ['black', 'white'],
         'sixth' => TRUE,
@@ -135,11 +139,10 @@ class ArrayManipulatorTest extends \PHPUnit_Framework_TestCase {
       3 => [
         0 => 'first.sixth',
         1 => '1',
-      ]
+      ],
     ];
     $this->assertEquals($expected,
       ArrayManipulator::convertArrayToFlatTextArray($array));
   }
-
 
 }

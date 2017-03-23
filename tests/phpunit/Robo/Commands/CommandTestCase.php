@@ -2,115 +2,139 @@
 
 namespace Acquia\Blt\Tests\Robo\Commands;
 
-use Acquia\Blt\Robo\Blt;
-use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\Executor;
+use Acquia\Blt\Robo\Config\BltConfig;
 use Acquia\Blt\Robo\Config\DefaultConfig;
 use Acquia\Blt\Robo\Config\YamlConfig;
 use Acquia\Blt\Robo\Inspector\Inspector;
 use League\Container\Container;
-use Acquia\Blt\Robo\Config\BltConfig;
 use Psr\Log\NullLogger;
-use Robo\Collection\CollectionBuilder;
 use Robo\Common\ProcessExecutor;
 use Robo\Config;
 use Robo\Robo;
-use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\Input;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class CommandTestCase
+ * Class CommandTestCase.
+ *
  * @package Pantheon\Terminus\UnitTests\Commands
  */
-abstract class CommandTestCase extends \PHPUnit_Framework_TestCase
-{
+abstract class CommandTestCase extends \PHPUnit_Framework_TestCase {
   /**
-   * @var BltConfig
+   * The BLT configuration.
+   *
+   * @var \Acquia\Blt\Robo\BltConfig
    */
   protected $config;
   /**
-   * @var Container
+   * The container.
+   *
+   * @var \League\Container\Container
    */
   protected $container;
   /**
-   * @var ArrayInput
+   * The command input.
+   *
+   * @var \Symfony\Component\Console\Input\ArrayInput
    */
   protected $input;
   /**
-   * @var OutputInterface
+   * The command output.
+   *
+   * @var \Symfony\Component\Console\Output\OutputInterface
    */
   protected $output;
 
   /**
-   * @var Inspector|\PHPUnit_Framework_MockObject_MockObject
+   * The local environment inspector.
+   *
+   * @var \Acquia\Blt\Robo\Inspector\Inspector|\PHPUnit_Framework_MockObject_MockObject
    */
   protected $inspector;
 
   /**
-   * @var CollectionBuilder
+   * A copy of Robo's collection builder.
+   *
+   * @var \Robo\Collection\CollectionBuilder
    */
   protected $builder;
 
   /**
-   * @var BltTasks|\PHPUnit_Framework_MockObject_MockObject
+   * The Robo command class.
+   *
+   * @var \Acquia\Blt\Robo\BltTasks|\PHPUnit_Framework_MockObject_MockObject
    */
   protected $command;
 
   /**
-   * @var NullLogger|\PHPUnit_Framework_MockObject_MockObject
+   * The logger.
+   *
+   * @var \Psr\Log\NullLogger|\PHPUnit_Framework_MockObject_MockObject
    */
   protected $logger;
 
   /**
-   * @return BltConfig
+   * Gets $this->config.
+   *
+   * @return \Acquia\Blt\Robo\BltConfig
+   *   The BLT configuration.
    */
-  public function getConfig()
-  {
+  public function getConfig() {
     return $this->config;
   }
 
   /**
-   * @param BltConfig $config
+   * Sets $this->config.
+   *
+   * @param \Acquia\Blt\Robo\BltConfig $config
+   *   The BLT configuration.
+   *
    * @return CommandTestCase
+   *   Self.
    */
-  public function setConfig($config)
-  {
+  public function setConfig(BltConfig $config) {
     $this->config = $config;
     return $this;
   }
 
   /**
-   * @return mixed
+   * Gets $this->container.
+   *
+   * @return \League\Container\Container
+   *   The container.
    */
-  public function getContainer()
-  {
+  public function getContainer() {
     return $this->container;
   }
 
   /**
-   * @param mixed $container
+   * Sets $this->container.
+   *
+   * @param \League\Container\Container $container
+   *   The container.
+   *
    * @return CommandTestCase
+   *   Self.
    */
-  public function setContainer($container)
-  {
+  public function setContainer(Container $container) {
     $this->container = $container;
     return $this;
   }
 
   /**
+   * Gets $this->status_code.
+   *
    * @return int
+   *   The status code for the command after execution.
    */
-  public function getStatusCode()
-  {
+  public function getStatusCode() {
     return $this->status_code;
   }
 
   /**
-   * @inheritdoc
+   * Shared setup method for all commands.
    */
-  public function setUp()
-  {
+  public function setUp() {
     if (!$this->config) {
       $this->createDefaultConfig();
     }
@@ -126,7 +150,7 @@ abstract class CommandTestCase extends \PHPUnit_Framework_TestCase
   }
 
   /**
-   *
+   * Create a mock executor service.
    */
   public function setMockExecutor() {
     $mock_executor = $this->getMockBuilder(Executor::class)
@@ -145,7 +169,7 @@ abstract class CommandTestCase extends \PHPUnit_Framework_TestCase
   }
 
   /**
-   *
+   * Create default BLT configuration.
    */
   protected function createDefaultConfig() {
     $this->config = new DefaultConfig();
@@ -159,12 +183,12 @@ abstract class CommandTestCase extends \PHPUnit_Framework_TestCase
   }
 
   /**
-   *
+   * Create default container.
    */
   protected function createDefaultContainer() {
     $this->container = Robo::createDefaultContainer($this->input, NULL, NULL,
       $this->config);
-    //Blt::configureContainer($this->container);
+    // Blt::configureContainer($this->container);.
     $this->setMockExecutor();
 
     $inspector = $this->getMockBuilder(Inspector::class)
@@ -175,10 +199,10 @@ abstract class CommandTestCase extends \PHPUnit_Framework_TestCase
   }
 
   /**
-   *
+   * Create mock user input.
    */
   protected function createMockInput() {
-    // Always say yes to confirmations
+    // Always say yes to confirmations.
     $this->input = $this->getMockBuilder(Input::class)
       ->disableOriginalConstructor()
       ->getMock();
@@ -187,13 +211,15 @@ abstract class CommandTestCase extends \PHPUnit_Framework_TestCase
   }
 
   /**
-   *
+   * Create mock null logger.
    */
   protected function createMockLogger() {
     // A lot of commands output to a logger.
-    // To use this call `$command->setLogger($this->logger);` after you create your command to test.
+    // To use this call `$command->setLogger($this->logger);` after you create
+    // your command to test.
     $this->logger = $this->getMockBuilder(NullLogger::class)
       ->setMethods(array('log'))
       ->getMock();
   }
+
 }
