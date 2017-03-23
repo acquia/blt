@@ -72,7 +72,7 @@ before_deploy:
   - git commit -m "Automated commit for BLT repo by Travis CI for Build ${TRAVIS_BUILD_ID}" -n
 
 after_success:
-  - ./vendor/bin/coveralls -vvv
+  # - ./vendor/bin/coveralls -vvv
 
 deploy:
   - provider: script
