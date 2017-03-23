@@ -47,6 +47,8 @@ script:
   - source ${BLT_DIR}/scripts/blt/ci/internal/smoke_tests.sh
   - source ${BLT_DIR}/scripts/blt/ci/internal/create_blt_project.sh
   - source ${BLT_DIR}/scripts/travis/run_tests
+  # Add Drupal VM config to repo.
+  - blt vm -Dvm.boot='false'
   # Execute PHP Unit tests.
   - phpunit ${BLT_DIR}/tests/phpunit --group blt-project -c ${BLT_DIR}/tests/phpunit/phpunit.xml
   - phpunit ${BLT_DIR}/tests/phpunit --group blt-multisite -c ${BLT_DIR}/tests/phpunit/phpunit.xml

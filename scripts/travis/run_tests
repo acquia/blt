@@ -24,4 +24,7 @@ yaml-cli update:value blt/project.yml cm.strategy features
 drush config-export --root=docroot -y
 blt setup:config-import
 
+# Run the doctor.
+blt doctor
+
 set +v

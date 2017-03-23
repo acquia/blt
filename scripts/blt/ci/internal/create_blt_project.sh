@@ -52,8 +52,5 @@ sed -i "s:deploy_updates:deploy_install:g" hooks/common/post-code-deploy/post-co
 sed -i "s:deploy_updates:deploy_install:g" hooks/common/post-code-update/post-code-update.sh
 
 blt acsf:init:drush
-blt doctor
-# Add Drupal VM config to repo.
-blt vm -Dvm.boot='false'
 
 set +v
