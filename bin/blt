@@ -9,8 +9,10 @@ if (!isset($autoload)) {
 }
 
 $robo_commands = [
+  'tests:all',
   'tests:behat',
   'tests:phpunit',
+  'tests:security-updates'
 ];
 
 // Execute command via Robo.

@@ -31,7 +31,8 @@
         "symfony/yaml":                     "^2.8.11",
         "symfony/console":                  "^2.8.11",
         "wikimedia/composer-merge-plugin":  "^1.3",
-        "consolidation/Robo": "dev-master#5d806c2f5f62275b2a592b393874e207f2f61cbe"
+        "consolidation/Robo": "dev-master#5d806c2f5f62275b2a592b393874e207f2f61cbe",
+        "consolidation/annotated-command": "dev-master#d13e004de34e0ad992d9473384b1c87530dfa19e"
     },
     "autoload": {
         "psr-4": {

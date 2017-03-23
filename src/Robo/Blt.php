@@ -62,7 +62,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     $this->addDefaultArgumentsAndOptions($application);
     $this->configureContainer($container);
     $this->addBuiltInCommandsAndHooks();
-    // $this->addPluginsCommandsAndHooks();
+    $this->addPluginsCommandsAndHooks();
     $this->runner = new RoboRunner();
     $this->runner->setContainer($container);
 
@@ -83,6 +83,22 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
       'namespace' => 'Acquia\Blt\Robo\Hooks',
     ]);
     $this->commands = array_merge($commands, $hooks);
+  }
+
+  /**
+   *
+   */
+  private function addPluginsCommandsAndHooks() {
+    $commands = $this->getCommands([
+      'path' => $this->getConfig()->get('repo.root') . '/blt/src/Commands',
+      'namespace' => 'Acquia\Blt\Custom\Commands',
+    ]);
+    $hooks = $this->getHooks([
+      'path' => $this->getConfig()->get('repo.root') . '/blt/src/Hooks',
+      'namespace' => 'Acquia\Blt\Custom\Hooks',
+    ]);
+    $plugin_commands_hooks = array_merge($commands, $hooks);
+    $this->commands = array_merge($this->commands, $plugin_commands_hooks);
   }
 
   /**

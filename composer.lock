@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f38e59a5bfa60721e24e7ff4422adff1",
+    "content-hash": "f8bf32ce7f4c36edae1ae5fda974738d",
     "packages": [
         {
             "name": "asm89/twig-lint",
@@ -166,16 +166,16 @@
         },
         {
             "name": "consolidation/annotated-command",
-            "version": "2.4.7",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/annotated-command.git",
-                "reference": "37dad31682b8333c00a84243acd81ad7da5933aa"
+                "reference": "d13e004de34e0ad992d9473384b1c87530dfa19e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/annotated-command/zipball/37dad31682b8333c00a84243acd81ad7da5933aa",
-                "reference": "37dad31682b8333c00a84243acd81ad7da5933aa",
+                "url": "https://api.github.com/repos/consolidation/annotated-command/zipball/d13e004de34e0ad992d9473384b1c87530dfa19e",
+                "reference": "d13e004de34e0ad992d9473384b1c87530dfa19e",
                 "shasum": ""
             },
             "require": {
@@ -214,7 +214,7 @@
                 }
             ],
             "description": "Initialize Symfony Console commands from annotated command class methods.",
-            "time": "2017-03-18T00:43:15+00:00"
+            "time": "2017-03-22 20:06:02"
         },
         {
             "name": "consolidation/log",
@@ -332,7 +332,7 @@
                 "consolidation/output-formatters": "^3.1.5",
                 "league/container": "^2.2",
                 "php": ">=5.5.0",
-                "squizlabs/php_codesniffer": "2.7.0",
+                "squizlabs/php_codesniffer": "^2.8",
                 "symfony/console": "~2.8|~3.0",
                 "symfony/event-dispatcher": "~2.5|~3.0",
                 "symfony/filesystem": "~2.5|~3.0",
@@ -934,28 +934,28 @@
         },
         {
             "name": "drupal/coder",
-            "version": "8.2.10",
+            "version": "8.2.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/klausi/coder.git",
-                "reference": "c835ff5c1733676fe0d3f3b861e814d570baaa6f"
+                "reference": "984c54a7b1e8f27ff1c32348df69712afd86b17f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/klausi/coder/zipball/c835ff5c1733676fe0d3f3b861e814d570baaa6f",
-                "reference": "c835ff5c1733676fe0d3f3b861e814d570baaa6f",
+                "url": "https://api.github.com/repos/klausi/coder/zipball/984c54a7b1e8f27ff1c32348df69712afd86b17f",
+                "reference": "984c54a7b1e8f27ff1c32348df69712afd86b17f",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
                 "php": ">=5.4.0",
-                "squizlabs/php_codesniffer": ">=2.7.0 <3.0",
+                "squizlabs/php_codesniffer": ">=2.8.1 <3.0",
                 "symfony/yaml": ">=2.0.0"
             },
             "require-dev": {
-                "phpunit/phpunit": ">=3.7"
+                "phpunit/phpunit": ">=3.7 <6"
             },
-            "type": "library",
+            "type": "phpcodesniffer-standard",
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "GPL-2.0+"
@@ -967,7 +967,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2016-12-09T21:57:53+00:00"
+            "time": "2017-03-18T10:28:49+00:00"
         },
         {
             "name": "grasmash/drupal-security-warning",
@@ -2512,16 +2512,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "2.7.0",
+            "version": "2.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "571e27b6348e5b3a637b2abc82ac0d01e6d7bbed"
+                "reference": "d7cf0d894e8aa4c73712ee4a331cc1eaa37cdc7d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/571e27b6348e5b3a637b2abc82ac0d01e6d7bbed",
-                "reference": "571e27b6348e5b3a637b2abc82ac0d01e6d7bbed",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/d7cf0d894e8aa4c73712ee4a331cc1eaa37cdc7d",
+                "reference": "d7cf0d894e8aa4c73712ee4a331cc1eaa37cdc7d",
                 "shasum": ""
             },
             "require": {
@@ -2586,7 +2586,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2016-09-01T23:53:02+00:00"
+            "time": "2017-03-01T22:17:45+00:00"
         },
         {
             "name": "symfony/config",
@@ -3128,16 +3128,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.32.0",
+            "version": "v1.33.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "9935b662e24d6e634da88901ab534cc12e8c728f"
+                "reference": "05cf49921b13f6f01d3cfdf9018cfa7a8086fd5a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/9935b662e24d6e634da88901ab534cc12e8c728f",
-                "reference": "9935b662e24d6e634da88901ab534cc12e8c728f",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/05cf49921b13f6f01d3cfdf9018cfa7a8086fd5a",
+                "reference": "05cf49921b13f6f01d3cfdf9018cfa7a8086fd5a",
                 "shasum": ""
             },
             "require": {
@@ -3146,12 +3146,12 @@
             "require-dev": {
                 "psr/container": "^1.0",
                 "symfony/debug": "~2.7",
-                "symfony/phpunit-bridge": "~3.2"
+                "symfony/phpunit-bridge": "~3.3@dev"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.32-dev"
+                    "dev-master": "1.33-dev"
                 }
             },
             "autoload": {
@@ -3186,7 +3186,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2017-02-27T00:07:03+00:00"
+            "time": "2017-03-22T15:40:09+00:00"
         },
         {
             "name": "webmozart/assert",
@@ -3521,7 +3521,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "consolidation/robo": 20
+        "consolidation/robo": 20,
+        "consolidation/annotated-command": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

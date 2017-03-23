@@ -1,16 +1,30 @@
 # Extending / Overriding BLT
 
+__BLT is currently in the process of replacing Phing with Robo PHP. Consequently, the correct method for overriding a target will differ depending on whether that target has been moved to Robo.__
+
+The following targets are using Robo:
+
+* tests:all
+* tests:behat
+* tests:phpunit
+* tests:security-updates
+
+All other targets are currently using Phing.
+
+
 To add or override a Phing target, you may create a custom build file. You must specify the location of your custom build file using the `import` key to your project.yml file, e.g.:
 
     import: '${repo.root}/custom.xml'
 
-## Adding a custom target
+## Phing
+
+### Adding a custom Phing target
 
       <project name="custom" default="build">
         <!-- Add custom targets. -->
       </project>
 
-## Overriding an existing target
+### Overriding an existing Phing target
 
 To override an existing target, just give it the same name as the default target provided by BLT. E.g.,
 
@@ -21,6 +35,35 @@ To override an existing target, just give it the same name as the default target
           </phingcall>
         </target>
       </project>
+
+## Robo PHP
+
+### Adding a custom Robo Command
+
+__Custom Robo commands are not yet supported__.
+
+To create your own Robo PHP command:
+
+1. Create a new file in `blt/src/Commands` named using the pattern `*Command.php`. The file naming convention is required.
+1. You must use the namespace `Acquia\Blt\Custom\Commands` in your command file.
+1. Follow the [Robo PHP Getting Started guide](http://robo.li/getting-started/#commands) to write a custom command.
+
+For an example implementation, please see [ExampleCommand.php][../template/blt/src/Commands/ExampleCommand.php].
+
+### Adding a custom Robo Hook
+
+BLT uses the [Annotated Command](https://github.com/consolidation/annotated-command) library to enable you to hook into BLT commands. This allows you to execute custom code
+in response to various events, typically just before or just after a BLT command is executed.
+
+To create a hook, create a new file in `blt/src/Hooks` named using the pattern `*Hook.php`.
+
+For an example implementation, please see [ExampleHook.php][../template/blt/src/Commands/ExampleHook.php].
+
+For a list of all available hook types, see [Annotated Command's hook types](https://github.com/consolidation/annotated-command#hooks).
+
+### Replacing/Overriding a Robo Command
+
+
 
 ## Overriding a variable value:
 

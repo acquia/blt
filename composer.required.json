@@ -30,6 +30,11 @@
       "Drupal\\Tests\\PHPUnit\\": "tests/phpunit/src/"
     }
   },
+  "autoload": {
+    "psr-4": {
+      "Acquia\\Blt\\Custom\\": "blt/src/"
+    }
+  },
   "extra": {
     "composer-exit-on-patch-failure": true,
     "drupal-scaffold": {

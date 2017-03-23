@@ -60,6 +60,15 @@ class ArrayManipulator {
    * @return array
    */
   public static function flattenToDotNotatedKeys($array) {
+    return self::flattenMultidimensionalArray($array, '.');
+  }
+
+  /**
+   * @param $array
+   *
+   * @return array
+   */
+  public static function flattenMultidimensionalArray($array, $glue) {
     $iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($array));
     $result = array();
     foreach ($iterator as $leafValue) {
@@ -67,12 +76,11 @@ class ArrayManipulator {
       foreach (range(0, $iterator->getDepth()) as $depth) {
         $keys[] = $iterator->getSubIterator($depth)->key();
       }
-      $result[join('.', $keys)] = $leafValue;
+      $result[join($glue, $keys)] = $leafValue;
     }
 
     return $result;
   }
-
 
   /**
    * Converts a multi-dimensional array to a human-readable flat array.
