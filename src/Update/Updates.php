@@ -162,14 +162,14 @@ class Updates {
   }
 
   /**
-   * 8.6.15.
+   * 8.7.0.
    *
    * @Update(
-   *   version = "8006015",
+   *   version = "8007000",
    *   description = "Updating composer.json to use wikimedia composer-merge-plugin."
    * )
    */
-  public function update_8006015() {
+  public function update_8007000() {
     $composer_required_json = $this->updater->getComposerRequiredJson();
     $composer_suggested_json = $this->updater->getComposerSuggestedJson();
     $composer_json = $this->updater->getComposerJson();
