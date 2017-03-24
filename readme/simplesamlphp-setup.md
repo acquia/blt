@@ -67,11 +67,13 @@ Request the remote IdP metadata (XML) from the customer. Note that each environm
 
       1. Navigate to the "XML to SimpleSAMLphp metadata converter" (`/simplesaml/admin/metadata-converter.php`), which can be found on the "Federation" tab under "Tools".
 
-      1. Optionally remove the default metadata from `${project.root}/simplesamlphp/config/authsources.php`.
+      1. Optionally remove the default metadata from `${project.root}/simplesamlphp/config/saml20-idp-remote.php`.
 
-      1. For each metadata (XML) file from the customer, parse it using this tool and copy the converted `saml20-idp-remote` metadata into `${project.root}/simplesamlphp/config/authsources.php`.
+      1. For each metadata (XML) file from the customer, parse it using this tool and copy the converted `saml20-idp-remote` metadata into `${project.root}/simplesamlphp/config/saml20-idp-remote.php`.
 
-      1. Make any additional needed changes to `${project.root}/simplesamlphp/config/authsources.php` using [SimpleSAMLphp Service Provider QuickStart](https://simplesamlphp.org/docs/stable/simplesamlphp-sp) as a guide (except enabling a certificate for your service provider, which should be done according to the instructions below). Note especially the `name` option by which you can give each IdP a human-readable name (e.g., "Dev", "Prod") for use in the administrative UI.
+1. Configure authsources.php
+
+      1. Edit `${project.root}/simplesamlphp/config/authsources.php` using [SimpleSAMLphp Service Provider QuickStart](https://simplesamlphp.org/docs/stable/simplesamlphp-sp) as a guide (except enabling a certificate for your service provider, which should be done according to the instructions below). Note especially the `name` option by which you can give each IdP a human-readable name (e.g., "Dev", "Prod") for use in the administrative UI.
 
       1. If your Identity Provider/Federation requires that your Service Providers hold a certificate...
 
@@ -88,8 +90,6 @@ Request the remote IdP metadata (XML) from the customer. Note that each environm
                     'certificate' => 'saml.crt',
                     'signature.algorithm' => 'http://www.w3.org/2001/04/xmldsig-more#rsa-sha256',
                   ),
-
-1. Edit `${project.root}/simplesamlphp/metadata/saml20-idp-remote.php` as described in [IdP remote metadata reference](https://simplesamlphp.org/docs/stable/simplesamlphp-reference-idp-remote).
 
 1. Review `${project.root}/simplesamlphp/config/config.php` and set any values called for by your project requirements. 
 
