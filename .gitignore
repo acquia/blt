@@ -1,3 +1,7 @@
+# Ignore blt-project files
+blt-project/composer.lock
+blt-project/vendor
+
 # Ignore config files
 /project.yml
 local.*

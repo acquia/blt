@@ -1,6 +1,7 @@
 # These files from template dir will be included if they do not yet exist. They will not overwrite
 # existing files.
 .gitattributes
+.gitignore
 blt/composer.overrides.json
 blt/example.project.local.yml
 blt/project.yml
