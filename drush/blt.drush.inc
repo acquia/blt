@@ -2,8 +2,11 @@
 
 /**
  * @file
- * Custom drush commands provided by Bolt.
+ * Custom drush commands provided by BLT.
  */
+
+require __DIR__ . '/acsf_tools.drush.inc';
+require __DIR__ . '/policy.drush.inc';
 
 /**
  * Implements hook_drush_command().
