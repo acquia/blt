@@ -70,7 +70,7 @@
     <if>
       <equals arg1="${drush.return}" arg2="0"/>
       <then>
-        <drush command="blt-doctor" verbose="false"  dir="${docroot}" uri="">
+        <drush command="blt-doctor" verbose="false"  dir="${docroot}">
           <option name="include">../vendor/acquia/blt/drush</option>
         </drush>
       </then>
