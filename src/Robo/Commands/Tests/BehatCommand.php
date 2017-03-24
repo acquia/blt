@@ -47,6 +47,7 @@ class BehatCommand extends BltTasks {
    * @interactInstallDrupal
    * @interactConfigureBehat
    *
+   * @validateMySqlAvailable
    * @validateDrupalIsInstalled
    * @validateBehatIsConfigured
    */
@@ -97,7 +98,7 @@ class BehatCommand extends BltTasks {
       ->printOutput(true)
       ->dir($this->getConfigValue('repo.root'))
       ->run();
-    //$this->getContainer()->get('executor')->waitForUrlAvailable($this->seleniumUrl);
+    $this->getContainer()->get('executor')->waitForUrlAvailable($this->seleniumUrl);
   }
 
   /**
@@ -164,14 +165,29 @@ class BehatCommand extends BltTasks {
   protected function executeBehatTests() {
     foreach ($this->getConfigValue('behat.paths') as $behat_path) {
       // Output errors.
-      // @todo break if fails.
       // @todo replace base_url in behat config when internal server is being used.
-      $command = "{$this->getConfigValue('composer.bin')}/behat --strict $behat_path -c {$this->getConfigValue('behat.config')} -p {$this->getConfigValue('behat.profile')}";
-      $this->taskExec($command)
-        ->interactive(TRUE)
-        ->printMetadata(false)
-        ->run()
-        ->stopOnFail();
+      $task = $this->taskBehat($this->getConfigValue('composer.bin') . '/behat')
+        ->format('pretty')
+        ->arg($behat_path)
+        ->noInteraction()
+        ->printMetadata(FALSE)
+        ->stopOnFail()
+        ->option('strict')
+        ->option('config', $this->getConfigValue('behat.config'))
+        ->option('profile', $this->getConfigValue('behat.profile'))
+        ->option('tags', $this->getConfigValue('behat.tags'))
+        // @todo Make verbose if blt.verbose is true.
+        ->interactive(TRUE);
+
+      if ($this->getConfigValue('behat.extra')) {
+        $task->arg($this->getConfigValue('behat.extra'));
+      }
+
+      $result = $task->run();
+
+      if (!$result->wasSuccessful()) {
+        throw new \Exception("Behat tests failed");
+      }
     }
   }
 

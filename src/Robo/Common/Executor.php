@@ -62,6 +62,7 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
   public function drush($command) {
     // @todo Set to silent if verbosity is less than very verbose.
     $bin = $this->getConfigValue('composer.bin');
+    /** @var ProcessExecutor $process_executor */
     $process_executor = Robo::process(new Process("$bin/drush $command"));
     return $process_executor->dir($this->getConfigValue('docroot'))
       ->interactive(false)
@@ -153,12 +154,16 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
    * @return int
    */
   public function checkUrl($url) {
-    $client = new Client();
-    $res = $client->request('GET', $url, [
-      'connection_timeout' => 2,
-      'timeout' => 2,
-    ]);
-    return $res->getStatusCode() !== 404;
-  }
+    try {
+      $client = new Client();
+      $res = $client->request('GET', $url, [
+        'connection_timeout' => 2,
+        'timeout' => 2,
+      ]);
+      return $res->getStatusCode() == 200;
+    } catch (\Exception $e) {
 
+    }
+    return FALSE;
+  }
 }

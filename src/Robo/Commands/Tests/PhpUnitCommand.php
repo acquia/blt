@@ -7,6 +7,7 @@ use Acquia\Blt\Robo\Wizards\TestsWizard;
 use Drupal\Core\Database\Log;
 use GuzzleHttp\Client;
 use Psr\Log\LogLevel;
+use Robo\Contract\VerbosityThresholdInterface;
 use Wikimedia\WaitConditionLoop;
 
 /**
@@ -46,6 +47,7 @@ class PhpUnitCommand extends BltTasks {
       ->xml($this->reportFile)
       ->arg('.')
       ->printOutput(true)
+      ->printMetadata(false)
       ->run();
   }
 
@@ -53,8 +55,11 @@ class PhpUnitCommand extends BltTasks {
    * Creates empty log directory and log file for PHPUnit tests.
    */
   protected function createLogs() {
-    $this->_mkdir($this->reportsDir);
-    $this->_touch($this->reportFile);
+    $this->taskFilesystemStack()
+      ->mkdir($this->reportsDir)
+      ->touch($this->reportFile)
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->run();
   }
 
 }

@@ -80,18 +80,27 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
     // this value needs to be changed.
     if (is_null($this->getConfigValue('state.drupal.installed'))) {
       $installed = $this->getDrupalInstalled();
-      $this->setStateDrupalInstalled($installed);
+      $this->getConfig()->set('state.drupal.installed', $installed);
     }
 
     return $this->getConfigValue('state.drupal.installed');
   }
 
-  public function isMySqlAvailable() {
+  public function getMySqlAvailable() {
     $result = $this->executor->drush("sqlq \"SHOW DATABASES\"")->run();
     if (!$result->wasSuccessful()) {
       $this->logger->info("MySQL is not available.");
     }
     return $result->wasSuccessful();
+  }
+
+  public function isMySqlAvailable() {
+    if (is_null($this->getConfigValue('state.mysql.available'))) {
+      $mysql_available = $this->getMySqlAvailable();
+      $this->getConfig()->set('state.mysql.available', $mysql_available);
+    }
+
+    return $this->getConfigValue('state.mysql.available');
   }
 
   /**
@@ -103,17 +112,6 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
     $installed = $result->wasSuccessful() && $output == 'config';
 
     return $installed;
-  }
-
-  /**
-   * @param $installed
-   *
-   * @return $this
-   */
-  protected function setStateDrupalInstalled($installed) {
-    $this->getConfig()->set('state.drupal.installed', $installed);
-
-    return $this;
   }
 
   /**
