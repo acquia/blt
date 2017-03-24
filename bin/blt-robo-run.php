@@ -6,6 +6,7 @@
  */
 
 use Robo\Robo;
+use Acquia\Blt\Robo\Console\ConfigInput;
 
 // If the BLT binary was used to call Robo, everything is already autoloaded.
 // @todo Remove this once Phing is completely removed from BLT.
@@ -36,7 +37,7 @@ use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Acquia\Blt\Robo\Config\YamlConfig;
 
-$input = new ArgvInput($_SERVER['argv']);
+$input = new ConfigInput($_SERVER['argv']);
 $output = new ConsoleOutput();
 
 $config = new DefaultConfig();

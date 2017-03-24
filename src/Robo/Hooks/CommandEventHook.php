@@ -5,6 +5,7 @@ namespace Acquia\Blt\Robo\Hooks;
 use Acquia\Blt\Robo\Common\ArrayManipulator;
 use Acquia\Blt\Robo\Common\IO;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
+use Acquia\Blt\Robo\Console\ConfigInput;
 use Consolidation\AnnotatedCommand\AnnotationData;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -28,6 +29,8 @@ class CommandEventHook extends Tasks implements IOAwareInterface, ConfigAwareInt
   use IO;
 
   /**
+   * Disable any command listed in the `disable-target` config key.
+   *
    * @hook command-event *
    */
   public function skipDisabledCommands(ConsoleCommandEvent $event) {
@@ -41,4 +44,24 @@ class CommandEventHook extends Tasks implements IOAwareInterface, ConfigAwareInt
       }
     }
   }
+
+  /**
+   * Set configuration options passed on the CLI.
+   *
+   * These must take the form `--key=value`.
+   *
+   * @hook command-event *
+   */
+  public function setConfigFromParameters(ConsoleCommandEvent $event)
+  {
+    $config = $this->getConfig();
+    /** @var ConfigInput $input */
+    $input = $event->getInput();
+    $config_options = $input->parseConfigOptions();
+
+    foreach ($config_options as $option => $value) {
+      $config->set($option, $value);
+    }
+  }
+
 }
