@@ -1,0 +1,3 @@
+# Use common.deploy as these values won't change
+# within the 'prod' environment.
+. ${hook.expand.dir}/common.deploy

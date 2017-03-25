@@ -75,6 +75,9 @@
   <!-- Contains tasks that fix custom code. -->
   <import file="${phing.dir}/tasks/fix.xml"/>
 
+  <!-- Contains hook tasks. -->
+  <import file="${phing.dir}/tasks/hook.xml"/>
+
   <!-- Disable targets defined in the disable-targets array in project.yml or project.local.yml. -->
   <!-- This must be executed after all targets are defined. -->
   <disabletargets file="${blt.config-files.project}" property="disable-targets"/>
@@ -83,28 +86,6 @@
   <target name="list" hidden="true">
     <exec dir="${repo.root}" command="cat ${blt.root}/scripts/blt/ascii-art.txt" logoutput="true" passthru="true" checkreturn="false"/>
     <exec dir="${blt.root}" command="${repo.root}/vendor/bin/phing -f ${phing.dir}/build.xml -q -l" passthru="true"/>
-  </target>
-
-  <target name="target-hook:invoke" description="Executes a command defined in the target-hooks array." hidden="true">
-    <fail unless="hook-name"/>
-    <if>
-      <isset property="target-hooks.${hook-name}.command"/>
-      <then>
-        <if>
-          <available file="${target-hooks.${hook-name}.dir}" type="dir" property="dirExists" />
-          <then>
-            <echo>Executing command in ${target-hooks.${hook-name}.dir}:</echo>
-            <exec dir="${target-hooks.${hook-name}.dir}" command="${target-hooks.${hook-name}.command}" logoutput="true" checkreturn="true" level="info" passthru="true" />
-          </then>
-          <else>
-            <fail>The directory ${target-hooks.${hook-name}.dir} does not exist. Will not run command for ${hook-name}.</fail>
-          </else>
-        </if>
-      </then>
-      <else>
-        <echo>No commands are defined for ${hook-name}. Skipping.</echo>
-      </else>
-    </if>
   </target>
 
 </project>
