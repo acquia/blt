@@ -25,7 +25,7 @@ else
     PREFIX=$(${COMMAND_MASTER})
 fi
 
-# Make sure there were errors while running the yaml-cli command.
+# Make sure there were no errors while running the yaml-cli command.
 if [ $? -ne 0 ]; then
   printf "${RED}Error: could not get project prefix!${NO_COLOR} Please check:\n"
   echo "* Project prefix is set properly in project.yml."
