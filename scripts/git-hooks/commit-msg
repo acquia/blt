@@ -6,16 +6,27 @@
 # 15 characters.
 
 ROOT_DIR="$(pwd)"
-COMMAND="$ROOT_DIR/vendor/bin/yaml-cli get:value $ROOT_DIR/blt/project.yml project.prefix"
-ERROR=$($COMMAND 2>&1 > /dev/null)
-PREFIX=$($COMMAND)
 RED='\033[0;31m'
 NO_COLOR='\033[0m'
 
-# Make sure there are no errors while running drupal console command
-# todo: It would have been easy, just by discarding the std error, but for some
-# reason the error message is repeated on std out - which messes up everything.
-if [ -n "$ERROR" ]; then
+# yaml-cli commands.
+COMMAND_LOCAL="$ROOT_DIR/vendor/bin/yaml-cli get:value $ROOT_DIR/blt/project.local.yml project.prefix"
+COMMAND_MASTER="$ROOT_DIR/vendor/bin/yaml-cli get:value $ROOT_DIR/blt/project.yml project.prefix"
+
+# Attempt to load project.prefix from the local file. Run the command and check
+# its return value.
+COMMAND_RET=$(${COMMAND_LOCAL})
+if [ $? -eq 0 ]; then
+    # There were no errors, use the project.local.yml prefix value.
+    PREFIX=${COMMAND_RET}
+else
+    # Loading from local file returned an error. The file either does not exist
+    # or does not have a value for project.prefix, load from the master file.
+    PREFIX=$(${COMMAND_MASTER})
+fi
+
+# Make sure there were no errors while running the yaml-cli command.
+if [ $? -ne 0 ]; then
   printf "${RED}Error: could not get project prefix!${NO_COLOR} Please check:\n"
   echo "* Project prefix is set properly in project.yml."
   exit 1;
