@@ -3,12 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Tests;
 
 use Acquia\Blt\Robo\BltTasks;
-use Acquia\Blt\Robo\Wizards\TestsWizard;
-use Drupal\Core\Database\Log;
-use GuzzleHttp\Client;
-use Psr\Log\LogLevel;
 use Robo\Contract\VerbosityThresholdInterface;
-use Wikimedia\WaitConditionLoop;
 
 /**
  * Defines commands in the "tests" namespace.
@@ -16,11 +11,15 @@ use Wikimedia\WaitConditionLoop;
 class PhpUnitCommand extends BltTasks {
 
 
-  /** @var string  */
+  /**
+   *
+   * @var string*/
   protected $reportsDir;
-  /** @var string  */
+  /**
+   * @var string*/
   protected $reportFile;
-  /** @var string  */
+  /**
+   * @var string*/
   protected $testsDir;
 
   /**
@@ -46,8 +45,8 @@ class PhpUnitCommand extends BltTasks {
       ->dir($this->testsDir)
       ->xml($this->reportFile)
       ->arg('.')
-      ->printOutput(true)
-      ->printMetadata(false)
+      ->printOutput(TRUE)
+      ->printMetadata(FALSE)
       ->run();
   }
 

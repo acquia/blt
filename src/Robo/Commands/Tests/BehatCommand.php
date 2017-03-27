@@ -4,21 +4,23 @@ namespace Acquia\Blt\Robo\Commands\Tests;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Wizards\TestsWizard;
-use Drupal\Core\Database\Log;
-use GuzzleHttp\Client;
-use Psr\Log\LogLevel;
 use Robo\Contract\VerbosityThresholdInterface;
-use Wikimedia\WaitConditionLoop;
 
 /**
  * Defines commands in the "tests" namespace.
  */
-class BehatCommand extends BltTasks {
+class BehatCommand extends TestsCommandBase {
 
-  /** @var string  */
+  /**
+   * The filename of the selenium log file.
+   *
+   * @var string*/
   protected $seleniumLogFile;
 
-  /** @var string */
+  /**
+   * The URL at which Selenium server listens.
+   *
+   * @var string*/
   protected $seleniumUrl;
 
   /**
@@ -61,18 +63,6 @@ class BehatCommand extends BltTasks {
   }
 
   /**
-   *
-   */
-  protected function createReportsDir() {
-    // Create reports dir.
-    $logs_dir = $this->getConfigValue('reports.localDir');
-    $this->taskFilesystemStack()
-      ->mkdir($logs_dir)
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->run();
-  }
-
-  /**
    * Launch the appropriate web driver based on configuration.
    */
   protected function launchWebDriver() {
@@ -85,7 +75,7 @@ class BehatCommand extends BltTasks {
   }
 
   /**
-   * Launches selenium server.
+   * Launches selenium server and waits for it to become available.
    */
   protected function launchSelenium() {
     $this->createSeleniumLogs();
@@ -94,15 +84,15 @@ class BehatCommand extends BltTasks {
     $this->getContainer()
       ->get('executor')
       ->execute($this->getConfigValue('composer.bin') . "/selenium-server-standalone -port 4444 -log {$this->seleniumLogFile}  > /dev/null 2>&1")
-      ->background(true)
-      ->printOutput(true)
+      ->background(TRUE)
+      ->printOutput(TRUE)
       ->dir($this->getConfigValue('repo.root'))
       ->run();
     $this->getContainer()->get('executor')->waitForUrlAvailable($this->seleniumUrl);
   }
 
   /**
-   *
+   * Kills any Selenium processes already running.
    */
   protected function killSelenium() {
     $this->logger->info("Killing any running Selenium processes");
@@ -139,7 +129,7 @@ class BehatCommand extends BltTasks {
   }
 
   /**
-   *
+   * Kills any running PhantomJS processes.
    */
   protected function killPhantomJs() {
     $this->getContainer()->get('executor')->killProcessByPort('4444');
@@ -147,20 +137,25 @@ class BehatCommand extends BltTasks {
   }
 
   /**
+   * Ensures that the PhantomJS binary is present.
+   *
+   * Sometimes the download fails during `composer install`.
+   *
    * @command setup:phantomjs
    *
    * @validatePhantomJsIsConfigured
    */
   public function setupPhantomJs() {
-    /** @var TestsWizard $tests_wizard */
+    /** @var \Acquia\Blt\Robo\Wizards\TestsWizard $tests_wizard */
     $tests_wizard = $this->getContainer()->get(TestsWizard::class);
-    $tests_wizard->wizardRequirePhantomJs();
-    $tests_wizard->wizardConfigurePhantomJsScript();
     $tests_wizard->wizardInstallPhantomJsBinary();
   }
 
   /**
    * Executes all behat tests in behat.paths configuration array.
+   *
+   * @throws \Exception
+   *   Throws an exception if any Behat test fails.
    */
   protected function executeBehatTests() {
     foreach ($this->getConfigValue('behat.paths') as $behat_path) {

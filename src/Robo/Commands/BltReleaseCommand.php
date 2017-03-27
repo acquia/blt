@@ -187,7 +187,12 @@ class BltReleaseCommand extends BltTasks {
   }
 
   /**
-   * @param $tag_release_notes
+   * Updates changelog by prepending release notes for a given tag.
+   *
+   * @param string $tag
+   *   The tag. E.g., 8.6.15.
+   * @param string $tag_release_notes
+   *   The release notes to prepend to the changelog.
    */
   protected function updateChangelog($tag, $tag_release_notes) {
     // Remove first 4 lines from full changelog.
@@ -208,8 +213,10 @@ class BltReleaseCommand extends BltTasks {
   /**
    * Generate notes for new release.
    *
-   * @param $tag
-   * @param $github_token
+   * @param string $tag
+   *   The tag. E.g., 8.6.15.
+   * @param string $github_token
+   *   A github access token.
    *
    * @return int|string
    *   FALSE on failure, otherwise the release notes.

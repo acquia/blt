@@ -3,15 +3,6 @@
 namespace Acquia\Blt\Robo\Commands\Tests;
 
 use Acquia\Blt\Robo\BltTasks;
-use Acquia\Blt\Robo\Common\Executor;
-use Acquia\Blt\Robo\Wizards\TestsWizard;
-use Drupal\Core\Database\Log;
-use Drupal\views\Plugin\views\area\Result;
-use GuzzleHttp\Client;
-use Psr\Log\LogLevel;
-use Robo\Common\ProcessExecutor;
-use Robo\ResultData;
-use Wikimedia\WaitConditionLoop;
 
 /**
  * Defines commands in the "tests" namespace.
@@ -28,11 +19,11 @@ class SecurityUpdatesCommand extends BltTasks {
    * @validateDrupalIsInstalled
    */
   public function testsSecurityUpdates() {
-    /** @var Executor $executor */
+    /** @var \Acquia\Blt\Robo\Common\Executor $executor */
     $executor = $this->getContainer()->get('executor');
-    /** @var ResultData $result */
+    /** @var \Drupal\views\Plugin\views\area\ResultData $result */
     $result = $executor->drush("-n ups --check-disabled --security-only 2>/dev/null | grep 'SECURITY UPDATE'")->run();
-    $passed = ! $result->wasSuccessful();
+    $passed = !$result->wasSuccessful();
     $output = $result->getOutputData();
 
     if (!$passed) {
