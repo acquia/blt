@@ -9,6 +9,7 @@ composer.json
 composer.lock
 README.md
 drush/site-aliases/aliases.drushrc.php
+drush/drushrc.php
 docroot/sites/default/services.yml
 docroot/sites/default/settings/trusted_host.settings.php
 factory-hooks/pre-settings-php/includes.php
