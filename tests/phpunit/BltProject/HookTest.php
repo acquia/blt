@@ -17,7 +17,6 @@ class HookTest extends BltProjectTestBase {
    * @group blt-hooks
    */
   public function testHookVariables() {
-    $this->assertVariableEquals('environment', BLT_ENV);
     $this->assertVariableEquals('multisite_name', BLT_MULTISITE_NAME);
   }
 

@@ -1,3 +1,2 @@
 #!/usr/bin/env bash
 export multisite_name=${multisite.name}
-export environment=${environment}
