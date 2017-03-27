@@ -61,6 +61,7 @@ script:
   - source ${BLT_DIR}/scripts/blt/ci/internal/doctor.sh
   # Execute PHP Unit tests.
   - phpunit ${BLT_DIR}/tests/phpunit --group blt-project -c ${BLT_DIR}/tests/phpunit/phpunit.xml
+  - phpunit ${BLT_DIR}/tests/phpunit --group blt-hooks -c ${BLT_DIR}/tests/phpunit/phpunit.xml
   - phpunit ${BLT_DIR}/tests/phpunit --group blt-multisite -c ${BLT_DIR}/tests/phpunit/phpunit.xml
   # Deploy build artifact.
   - blt deploy:build

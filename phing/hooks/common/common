@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-export site_name=${multisite.name}
+export multisite_name=${multisite.name}
+export environment=${environment}

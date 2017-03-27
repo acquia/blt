@@ -1,1 +1,1 @@
-export site_name=${deploy.site.name}
+export multisite_name=${deploy.site.name}
