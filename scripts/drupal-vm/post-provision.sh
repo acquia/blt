@@ -1,12 +1,20 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # This command is run as sudo, '~' will expand to '/root'.
-VAGRANT_MACHINE_NAME=$(grep vagrant_machine_name: /vagrant/box/config.yml | cut -d' ' -f 2)
-REPO_ROOT=/var/www/${VAGRANT_MACHINE_NAME}
-cd ${REPO_ROOT}
+CONFIG_FILE="/vagrant/box/config.yml"
+if [ -f "$CONFIG_FILE" ]
+then
+    VAGRANT_MACHINE_NAME=$(grep vagrant_machine_name: "$CONFIG_FILE" | cut -d' ' -f 2)
+    REPO_ROOT=/var/www/${VAGRANT_MACHINE_NAME}
+    cd ${REPO_ROOT}
+fi
 
 # Add blt alias to front of .bashrc so that it applies to non-interactive shells.
-grep -q -F 'blt' /home/vagrant/.bashrc || (cat ./vendor/acquia/blt/scripts/blt/alias /home/vagrant/.bashrc > temp && mv temp /home/vagrant/.bashrc)
-
-curl https://cloud.acquia.com/pipeline-client/download > /usr/local/bin/pipelines
-chmod 755 /usr/local/bin/pipelines
+BLT_ALIAS_FILE="./vendor/acquia/blt/scripts/blt/alias"
+if [ -f "$BLT_ALIAS_FILE" ]
+then
+    grep -q -F 'blt' /home/vagrant/.bashrc || (cat "$BLT_ALIAS_FILE" /home/vagrant/.bashrc > temp && mv temp /home/vagrant/.bashrc)
+else
+    echo "Make sure you're in the project root and have run composer install."
+    exit 1
+fi
