@@ -36,3 +36,4 @@ rm -f readme/project-tasks.md
 rm -f readme/release-process.md
 rm -f readme/repo-architecture.md
 rm -f readme/views.md
+rm -f drush/policy.drush.inc
