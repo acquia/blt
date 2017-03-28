@@ -10,6 +10,7 @@ use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Filesystem\Exception\FileNotFoundException;
+use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Yaml\Yaml;
@@ -476,6 +477,27 @@ class Updater {
     }
 
     return FALSE;
+  }
+
+  /**
+   * Copies a file from the BLT template to the repository.
+   *
+   * @param string $source
+   *   The filepath, relative to the BLT template directory.
+   */
+  public function syncWithTemplate($filePath, $overwrite = FALSE) {
+    $sourcePath = $this->getBltRoot() . '/template/' . $filePath;
+    $targetPath = $this->getRepoRoot() . '/' . $filePath;
+
+    if ($this->getFileSystem()->exists($sourcePath)) {
+      try {
+        $this->getFileSystem()->copy($sourcePath, $targetPath, $overwrite);
+      }
+      catch (IOException $e) {
+        throw $e;
+      }
+    }
+
   }
 
   /**

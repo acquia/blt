@@ -278,5 +278,9 @@ class Updates {
     $this->updater->getOutput()->writeln($formattedBlock);
     $this->updater->getOutput()->writeln("");
     $this->updater->getOutput()->writeln("<comment>Please execute `composer update` to incorporate these final automated changes to composer.json.</comment>");
+
+    // Sync updates to drushrc.php manually since it has been added to ignore-existing.txt.
+    $drushrcFile = 'drush/drushrc.php';
+    $this->updater->syncWithTemplate($drushrcFile, TRUE);
   }
 }
