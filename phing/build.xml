@@ -72,6 +72,9 @@
   <!-- Contains Drupal SimpleSAMLphp tasks. -->
   <import file="${phing.dir}/tasks/simplesamlphp.xml"/>
 
+  <!-- Contains Drupal tasks. -->
+  <import file="${phing.dir}/tasks/drupal.xml"/>
+
   <!-- Contains tasks that fix custom code. -->
   <import file="${phing.dir}/tasks/fix.xml"/>
 

@@ -1,0 +1,47 @@
+<project name="drupal" default="drupal:install">
+
+  <target name="drupal:install"
+          description="Installs a specific Drupal site.">
+
+      <if>
+          <istrue value="${drush.verbose}"/>
+          <then>
+              <echo>Printing drush status</echo>
+              <drush command="status"/>
+          </then>
+      </if>
+
+      <echo>Installing Drupal...</echo>
+      <if>
+          <!-- We do not define the config-dir option if features is being used. -->
+          <equals arg1="${cm.strategy}" arg2="features"/>
+          <then>
+              <drush command="site-install">
+                  <option name="site-name">"${project.human_name}"</option>
+                  <option name="site-mail">"${drupal.account.mail}"</option>
+                  <option name="account-name">"${drupal.account.name}"</option>
+                  <option name="account-pass">"${drupal.account.password}"</option>
+                  <option name="account-mail">"${drupal.account.mail}"</option>
+                  <option name="locale">"${drupal.locale}"</option>
+                  <param>"${project.profile.name}"</param>
+                  <param>"install_configure_form.update_status_module='array(FALSE,FALSE)'"</param>
+              </drush>
+          </then>
+          <else>
+              <drush command="site-install">
+                  <option name="site-name">"${project.human_name}"</option>
+                  <option name="site-mail">"${drupal.account.mail}"</option>
+                  <option name="account-name">"${drupal.account.name}"</option>
+                  <option name="account-pass">"${drupal.account.password}"</option>
+                  <option name="account-mail">"${drupal.account.mail}"</option>
+                  <option name="locale">"${drupal.locale}"</option>
+                  <option name="config-dir">${cm.core.dirs.${cm.core.key}.path}</option>
+                  <param>"${project.profile.name}"</param>
+                  <param>"install_configure_form.update_status_module='array(FALSE,FALSE)'"</param>
+              </drush>
+          </else>
+      </if>
+
+  </target>
+
+</project>
