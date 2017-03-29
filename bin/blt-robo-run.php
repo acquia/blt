@@ -41,9 +41,14 @@ $input = new ConfigInput($_SERVER['argv']);
 $output = new ConsoleOutput();
 
 $config = new DefaultConfig();
-$config->extend(new YamlConfig($config->get('blt.root') . '/phing/build.yml', $config->toArray()));
-$config->extend(new YamlConfig($config->get('repo.root') . '/blt/project.yml', $config->toArray()));
-$config->extend(new YamlConfig($config->get('repo.root') . '/blt/project.local.yml', $config->toArray()));
+$loader = new \Robo\Config\YamlConfigLoader();
+$processor = new \Acquia\Blt\Robo\Config\YamlConfigProcessor();
+$processor->add($config->export(), 'default');
+$processor->extend($loader->load($config->get('blt.root') . '/phing/build.yml'));
+$processor->extend($loader->load($config->get('repo.root') . '/blt/project.yml'));
+$processor->extend($loader->load($config->get('repo.root') . '/blt/project.local.yml'));
+$config->import($processor->export());
+
 // @todo realpath() repo.root, docroot, composer.bin, etc.
 
 $blt = new Blt($config, $input, $output);

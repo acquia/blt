@@ -74,6 +74,8 @@ drupal:
   account.password: admin
   account.mail: no-reply@acquia.com
   locale: en
+  local_settings_file: ${docroot}/sites/default/local.settings.php
+  settings_file: ${docroot}/sites/default/settings.php
 
 drush:
   bin: ${composer.bin}/drush

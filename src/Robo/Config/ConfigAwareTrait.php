@@ -30,5 +30,4 @@ trait ConfigAwareTrait {
   }
 
   //@todo add hasConfigValue().
-
 }

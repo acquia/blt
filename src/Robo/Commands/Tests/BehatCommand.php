@@ -46,9 +46,9 @@ class BehatCommand extends TestsCommandBase {
    *   Executes only the scenario on line 4 of Examples.feature.
    *
    * @interactLaunchPhpWebServer
+   * @interactGenerateSettingsFiles
    * @interactInstallDrupal
    * @interactConfigureBehat
-   *
    * @validateMySqlAvailable
    * @validateDrupalIsInstalled
    * @validateBehatIsConfigured

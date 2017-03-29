@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "f8bf32ce7f4c36edae1ae5fda974738d",
+    "content-hash": "4dc20e7c2154254884e356c29102a784",
     "packages": [
         {
             "name": "asm89/twig-lint",
@@ -166,16 +166,16 @@
         },
         {
             "name": "consolidation/annotated-command",
-            "version": "dev-master",
+            "version": "2.4.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/annotated-command.git",
-                "reference": "d13e004de34e0ad992d9473384b1c87530dfa19e"
+                "reference": "37dad31682b8333c00a84243acd81ad7da5933aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/annotated-command/zipball/d13e004de34e0ad992d9473384b1c87530dfa19e",
-                "reference": "d13e004de34e0ad992d9473384b1c87530dfa19e",
+                "url": "https://api.github.com/repos/consolidation/annotated-command/zipball/37dad31682b8333c00a84243acd81ad7da5933aa",
+                "reference": "37dad31682b8333c00a84243acd81ad7da5933aa",
                 "shasum": ""
             },
             "require": {
@@ -214,7 +214,7 @@
                 }
             ],
             "description": "Initialize Symfony Console commands from annotated command class methods.",
-            "time": "2017-03-22 20:06:02"
+            "time": "2017-03-18T00:43:15+00:00"
         },
         {
             "name": "consolidation/log",
@@ -314,22 +314,24 @@
         },
         {
             "name": "consolidation/robo",
-            "version": "dev-master",
+            "version": "dev-inject-configuration",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/Robo.git",
-                "reference": "5d806c2f5f62275b2a592b393874e207f2f61cbe"
+                "reference": "0d1b189eb7b07c5e9566525b1124f23f02dde4a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/Robo/zipball/5d806c2f5f62275b2a592b393874e207f2f61cbe",
-                "reference": "5d806c2f5f62275b2a592b393874e207f2f61cbe",
+                "url": "https://api.github.com/repos/consolidation/Robo/zipball/0d1b189eb7b07c5e9566525b1124f23f02dde4a7",
+                "reference": "0d1b189eb7b07c5e9566525b1124f23f02dde4a7",
                 "shasum": ""
             },
             "require": {
                 "consolidation/annotated-command": "^2.2",
                 "consolidation/log": "~1",
                 "consolidation/output-formatters": "^3.1.5",
+                "dflydev/dot-access-data": "^1.1.0",
+                "grasmash/yaml-expander": "^1.1",
                 "league/container": "^2.2",
                 "php": ">=5.5.0",
                 "squizlabs/php_codesniffer": "^2.8",
@@ -387,7 +389,7 @@
                 }
             ],
             "description": "Modern task runner",
-            "time": "2017-03-16 15:55:22"
+            "time": "2017-03-29 03:33:35"
         },
         {
             "name": "container-interop/container-interop",
@@ -1065,30 +1067,35 @@
         },
         {
             "name": "grasmash/yaml-expander",
-            "version": "1.0.5",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/grasmash/yaml-expander.git",
-                "reference": "3a98cb8fbe13435fde5c8d14a1b4d5bb667c7dca"
+                "reference": "95f9c876ca31f31bf5bfd9c8e89cc1f065c45528"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/grasmash/yaml-expander/zipball/3a98cb8fbe13435fde5c8d14a1b4d5bb667c7dca",
-                "reference": "3a98cb8fbe13435fde5c8d14a1b4d5bb667c7dca",
+                "url": "https://api.github.com/repos/grasmash/yaml-expander/zipball/95f9c876ca31f31bf5bfd9c8e89cc1f065c45528",
+                "reference": "95f9c876ca31f31bf5bfd9c8e89cc1f065c45528",
                 "shasum": ""
             },
             "require": {
                 "dflydev/dot-access-data": "^1.1.0",
-                "php": ">=5.6",
-                "symfony/console": "^2.8.11",
-                "symfony/yaml": "^2.8.11"
+                "php": ">=5.4",
+                "symfony/console": "^2.8.11|^3",
+                "symfony/yaml": "^2.8.11|^3"
             },
             "require-dev": {
-                "phpunit/phpunit": "^5.5.4",
+                "phpunit/phpunit": "^4.8|^5.5.4",
                 "satooshi/php-coveralls": "^1.0",
                 "squizlabs/php_codesniffer": "^2.7"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Grasmash\\YamlExpander\\": "src/"
@@ -1104,7 +1111,7 @@
                 }
             ],
             "description": "Expands internal property references in a yaml file.",
-            "time": "2017-03-21T19:02:32+00:00"
+            "time": "2017-03-24T20:31:04+00:00"
         },
         {
             "name": "guzzle/guzzle",
@@ -3521,8 +3528,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "consolidation/robo": 20,
-        "consolidation/annotated-command": 20
+        "consolidation/robo": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

@@ -4,9 +4,11 @@ namespace Acquia\Blt\Robo\Inspector;
 
 use Acquia\Blt\Robo\Common\Executor;
 use Acquia\Blt\Robo\Common\IO;
+use Acquia\Blt\Robo\Config\BltConfig;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
 use Acquia\Blt\Robo\Config\YamlConfig;
 use Acquia\Blt\Robo\Tasks\BltTasks;
+use Grasmash\YamlExpander\Expander;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Robo\Common\BuilderAwareTrait;
@@ -57,6 +59,12 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
   public function isDrupalSettingsFilePresent() {
     return file_exists($this->getConfigValue('drupal.settings_file'));
   }
+  /**
+   * @return bool
+   */
+  public function isDrupalLocalSettingsFilePresent() {
+    return file_exists($this->getConfigValue('drupal.local_settings_file'));
+  }
 
   /**
    * @return bool
@@ -86,14 +94,25 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
     return $this->getConfigValue('state.drupal.installed');
   }
 
+  public function getDrushStatus() {
+    $status_info = json_decode($this->executor->drush('status --format=json --show-passwords')->run()->getOutputData(), TRUE);
+
+    return $status_info;
+  }
+
+  /**
+   *
+   * @return bool
+   */
   public function getMySqlAvailable() {
     $result = $this->executor->drush("sqlq \"SHOW DATABASES\"")->run();
-    if (!$result->wasSuccessful()) {
-      $this->logger->info("MySQL is not available.");
-    }
+
     return $result->wasSuccessful();
   }
 
+  /**
+   * @return mixed|null
+   */
   public function isMySqlAvailable() {
     if (is_null($this->getConfigValue('state.mysql.available'))) {
       $mysql_available = $this->getMySqlAvailable();
@@ -129,7 +148,12 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
 
   public function getLocalBehatConfig() {
     $behat_local_config_file = $this->getConfigValue('repo.root') . '/tests/behat/local.yml';
-    $behat_local_config = new YamlConfig($behat_local_config_file, $this->getConfig()->toArray());
+
+    $behat_local_config = new BltConfig();
+    $loader = new \Robo\Config\YamlConfigLoader();
+    $processor = new \Acquia\Blt\Robo\Config\YamlConfigProcessor();
+    $processor->extend($loader->load($behat_local_config_file));
+    $behat_local_config->import($processor->export());
 
     return $behat_local_config;
   }

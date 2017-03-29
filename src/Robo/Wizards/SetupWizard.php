@@ -11,6 +11,21 @@ class SetupWizard extends Wizard {
   /**
    *
    */
+  public function wizardGenerateSettingsFiles() {
+    if (!$this->getInspector()->isDrupalLocalSettingsFilePresent()) {
+      $this->logger->warning('The drupal local settings file is missing.');
+      $confirm = $this->confirm("Do you want to generate required settings files?");
+      if ($confirm) {
+        $bin = $this->getConfigValue('composer.bin');
+        $this->executor
+          ->execute("$bin/blt setup:settings")->printOutput(true)->run();
+      }
+    }
+  }
+
+  /**
+   *
+   */
   public function wizardInstallDrupal() {
     if (!$this->getInspector()->isMySqlAvailable()) {
       return FALSE;

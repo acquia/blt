@@ -3,11 +3,13 @@
 namespace Acquia\Blt\Robo\Hooks;
 
 use Acquia\Blt\Robo\Common\IO;
+use Acquia\Blt\Robo\Config\ConfigAwareTrait;
 use Acquia\Blt\Robo\Inspector\InspectorAwareInterface;
 use Acquia\Blt\Robo\Inspector\InspectorAwareTrait;
 use Consolidation\AnnotatedCommand\CommandData;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
+use Robo\Contract\ConfigAwareInterface;
 
 /**
  * This class provides hooks that validate configuration or state.
@@ -22,8 +24,9 @@ use Psr\Log\LoggerAwareTrait;
  *
  * @see https://github.com/consolidation/annotated-command#validate-hook
  */
-class ValidateHook implements LoggerAwareInterface, InspectorAwareInterface {
+class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, InspectorAwareInterface {
 
+  use ConfigAwareTrait;
   use LoggerAwareTrait;
   use InspectorAwareTrait;
   use IO;
@@ -88,10 +91,7 @@ class ValidateHook implements LoggerAwareInterface, InspectorAwareInterface {
       throw new \Exception("Could not find settings.php for this site.");
     }
 
-    if (!$this->getInspector()
-      ->isDrupalSettingsFileValid($this->getInspector()
-        ->getDrupalSettingsFile())
-    ) {
+    if (!$this->getInspector()->isDrupalSettingsFileValid()) {
       throw new \Exception("BLT settings are not included in settings file.");
     }
   }
@@ -101,10 +101,13 @@ class ValidateHook implements LoggerAwareInterface, InspectorAwareInterface {
    */
   public function validateBehatIsConfigured(CommandData $commandData) {
     if (!$this->getInspector()->isBehatConfigured()) {
-      throw new \Exception("Behat is not properly configured properly.");
+      throw new \Exception("Behat is not properly configured properly. Please run `blt doctor` to diagnose the issue.");
     }
   }
 
+  /**
+   * @param \Consolidation\AnnotatedCommand\CommandData $commandData
+   */
   public function validatePhantomJsIsConfigured(CommandData$commandData) {
     if (!$this->getInspector()->isPhantomJsConfigured()) {
       $this->logger->info("Phantom JS is not configured.");
@@ -116,7 +119,8 @@ class ValidateHook implements LoggerAwareInterface, InspectorAwareInterface {
    */
   public function validateMySqlAvailable() {
     if (!$this->getInspector()->isMySqlAvailable()) {
-      throw new \Exception("MySql is not available.");
+      // @todo Prompt to fix.
+      throw new \Exception("MySql is not available. Please run `blt doctor` to diagnose the issue.");
     }
   }
 

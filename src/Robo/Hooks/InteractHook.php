@@ -46,6 +46,19 @@ class InteractHook extends Tasks implements IOAwareInterface, ConfigAwareInterfa
   }
 
   /**
+   * @hook interact @interactGenerateSettingsFiles
+   */
+  public function interactGenerateSettingsFiles(
+    InputInterface $input,
+    OutputInterface $output,
+    AnnotationData $annotationData
+  ) {
+    /** @var SetupWizard $setup_wizard */
+    $setup_wizard = $this->getContainer()->get(SetupWizard::class);
+    $setup_wizard->wizardGenerateSettingsFiles();
+  }
+
+  /**
    * @hook interact @interactInstallDrupal
    */
   public function interactInstallDrupal(
