@@ -163,10 +163,7 @@
 
   <target name="setup:drupal:install"
           description="Installs a specific Drupal site."
-          depends="setup:drupal:settings, setup:drush:settings, setup:hash-salt">
-
-    <phingcall target="drupal:install"/>
-    <phingcall target="setup:update"/>
+          depends="setup:drupal:settings, setup:drush:settings, setup:hash-salt, drupal:install, setup:update">
 
     <!-- Set sites directory file permissions. -->
     <echo level="verbose">Making ${docroot}/sites/default writable...</echo>
