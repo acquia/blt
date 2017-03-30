@@ -240,6 +240,7 @@
         </drush>
       </then>
       <else>
+        <!-- @todo check to see if config split file exists prior to executing. -->
         <drush command="config-import" assume="yes" alias="${drush.alias}"></drush>
       </else>
     </if>
