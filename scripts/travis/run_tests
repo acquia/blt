@@ -9,12 +9,6 @@ yaml-cli update:value blt/project.yml cm.strategy none
 blt ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dblt.verbose=true
 drush config-export --root=docroot -y
 
-# Test config split.
-mv ${BLT_DIR}/scripts/blt/ci/internal/config_split.config_split.ci.yml config/default/
-yaml-cli update:value blt/project.yml cm.strategy config-split
-blt setup:config-import
-drush pm-uninstall config_split --root=docroot -y
-
 # Test core-only config management.
 yaml-cli update:value blt/project.yml cm.strategy core-only
 drush config-export --root=docroot -y
@@ -25,6 +19,13 @@ yaml-cli update:value blt/project.yml cm.strategy features
 rm -rf config/default/*
 drush config-export --root=docroot -y
 blt setup:config-import
+drush pm-uninstall features --root=docroot -y
+
+# Test config split.
+mv ${BLT_DIR}/scripts/blt/ci/internal/config_split.config_split.ci.yml config/default/
+yaml-cli update:value blt/project.yml cm.strategy config-split
+blt setup:config-import
+drush pm-uninstall config_split --root=docroot -y
 
 # Run the doctor.
 blt doctor
