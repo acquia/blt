@@ -437,7 +437,7 @@ class Updater {
   /**
    * @return mixed
    */
-  public function getProjectConfig() {
+  public function getProjectYml() {
     $project_yml = Yaml::parse(file_get_contents($this->projectYmlFilepath));
 
     return $project_yml;
@@ -446,7 +446,7 @@ class Updater {
   /**
    * @param $contents
    */
-  public function writeProjectConfig($contents) {
+  public function writeProjectYml($contents) {
     file_put_contents($this->projectYmlFilepath, Yaml::dump($contents, 3, 2));
   }
 
