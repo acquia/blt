@@ -13,7 +13,7 @@ fi
 BLT_ALIAS_FILE="./vendor/acquia/blt/scripts/blt/alias"
 if [ -f "$BLT_ALIAS_FILE" ]
 then
-    grep -q -F 'blt' /home/vagrant/.bashrc || (cat "$BLT_ALIAS_FILE" /home/vagrant/.bashrc > temp && mv temp /home/vagrant/.bashrc)
+    grep -q -F 'function blt' /home/vagrant/.bashrc || (cat "$BLT_ALIAS_FILE" /home/vagrant/.bashrc > temp && mv temp /home/vagrant/.bashrc)
 else
     echo "Make sure you're in the project root and have run composer install."
     exit 1
