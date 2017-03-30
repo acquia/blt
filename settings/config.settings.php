@@ -18,16 +18,16 @@ if ($is_local_env) {
     $_ENV['blt']['config_split']['key'] = 'local';
   }
 }
-elseif ($is_ah_dev_env) {
-  $config['config_split.config_split.dev']['status'] = TRUE;
-  $_ENV['blt']['config_split']['key'] = 'dev';
-}
-elseif ($is_ah_stage_env) {
-  $config['config_split.config_split.stage']['status'] = TRUE;
-  // @todo Use test or stage depending on context.
-  $_ENV['blt']['config_split']['key'] = 'stage';
-}
-elseif ($is_ah_prod_env) {
-  $config['config_split.config_split.prod']['status'] = TRUE;
-  $_ENV['blt']['config_split']['key'] = 'prod';
+else {
+  $_ENV['blt']['config_split']['key'] = $_ENV['AH_SITE_ENVIRONMENT'];
+
+  if ($is_ah_dev_env) {
+    $config['config_split.config_split.dev']['status'] = TRUE;
+  }
+  elseif ($is_ah_stage_env) {
+    $config['config_split.config_split.stage']['status'] = TRUE;
+  }
+  elseif ($is_ah_prod_env) {
+    $config['config_split.config_split.prod']['status'] = TRUE;
+  }
 }

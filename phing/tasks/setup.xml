@@ -228,21 +228,32 @@
     <drush command="en" assume="yes" alias="${drush.alias}" passthru="false">
       <param>config_split</param>
     </drush>
+
+    <!-- Only import config if it exists. -->
     <if>
       <and>
-        <!-- This variable is defined in config.settings.php. -->
         <isset property="env.blt.config_split.key"/>
+        <not><equals arg1="${env.blt.config_split.key}" arg2=""/></not>
         <available file="${cm.core.path}/${env.blt.config_split.key}"/>
       </and>
       <then>
-        <drush command="config-import" assume="yes" alias="${drush.alias}">
-          <!-- Cloud environments require vcs parameter. -->
-          <param>vcs</param>
-        </drush>
+
+        <if>
+          <isset property="env.AH_SITE_ENVIRONMENT"/>
+          <then>
+            <drush command="config-import" assume="yes" alias="${drush.alias}">
+              <!-- Cloud environments require vcs parameter. -->
+              <param>vcs</param>
+            </drush>
+          </then>
+          <else>
+            <drush command="config-import" assume="yes" alias="${drush.alias}"></drush>
+          </else>
+        </if>
+
       </then>
       <else>
-        <!-- @todo check to see if config split file exists prior to executing. -->
-        <drush command="config-import" assume="yes" alias="${drush.alias}"></drush>
+        <echo>No configuration exists in ${cm.core.path}/${env.blt.config_split.key}. Skipping config import.</echo>
       </else>
     </if>
   </target>
