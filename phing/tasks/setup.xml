@@ -249,7 +249,6 @@
         <drush command="en" assume="yes" alias="${drush.alias}" passthru="false">
           <param>config_split</param>
         </drush>
-        <drush command="cr" alias="${drush.alias}" passthru="false"/>
 
         <!-- Only import config if it exists. -->
         <if>
