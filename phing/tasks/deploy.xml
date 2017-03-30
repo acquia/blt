@@ -275,5 +275,5 @@
 
   <target name="deploy:drupal:install"
           description="Installs a specific Drupal site."
-          depends="setup:hash-salt, drupal:install, deploy:update" />
+          depends="drupal:install, deploy:update" />
 </project>
