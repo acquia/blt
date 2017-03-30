@@ -5,11 +5,13 @@ set -ev
 source ${BLT_DIR}/scripts/blt/ci/shared/run_tests
 
 # Build codebase, validate, install Drupal, run basic tests.
+yaml-cli update:value blt/project.yml cm.strategy none
 blt ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dblt.verbose=true
 drush config-export --root=docroot -y
 
 # Test config split.
 mv ${BLT_DIR}/scripts/blt/ci/internal/config_split.config_split.ci.yml config/default/
+yaml-cli update:value blt/project.yml cm.strategy config-split
 drush en config_split --root=docroot -y
 blt setup:config-import
 drush pm-uninstall config_split --root=docroot -y
