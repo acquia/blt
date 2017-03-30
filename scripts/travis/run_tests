@@ -12,7 +12,6 @@ drush config-export --root=docroot -y
 # Test config split.
 mv ${BLT_DIR}/scripts/blt/ci/internal/config_split.config_split.ci.yml config/default/
 yaml-cli update:value blt/project.yml cm.strategy config-split
-drush en config_split --root=docroot -y
 blt setup:config-import
 drush pm-uninstall config_split --root=docroot -y
 
