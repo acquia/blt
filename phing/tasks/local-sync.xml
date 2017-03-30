@@ -70,6 +70,7 @@
     <drush command="rsync" alias="">
       <param>@${drush.aliases.remote}:%files/</param>
       <param>${docroot}/sites/${site.name}/files</param>
+      <option name="exclude-paths">styles:css:js</option>
     </drush>
   </target>
 
