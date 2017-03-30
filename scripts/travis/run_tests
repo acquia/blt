@@ -21,6 +21,7 @@ blt setup:config-import
 
 # Test features config management.
 yaml-cli update:value blt/project.yml cm.strategy features
+rm -rf config/default/*
 drush config-export --root=docroot -y
 blt setup:config-import
 
