@@ -24,6 +24,8 @@
   <patternset id="files.yaml">
     <include name="**/*.yaml"/>
     <include name="**/*.yml"/>
+    <exclude name="**/node_modules/**/*"/>
+    <exclude name="**/bower_components/**/*"/>
   </patternset>
 
   <!--
