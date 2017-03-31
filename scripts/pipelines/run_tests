@@ -4,7 +4,7 @@ set -ev
 
 export PATH=${COMPOSER_BIN}:${PATH}
 
-source ${BLT_DIR}/scripts/blt/ci/shared/run_tests
+yaml-cli update:value blt/project.yml project.local.hostname '127.0.0.1:8888'
 sudo /etc/init.d/mysql start
 blt -Dbehat.run-server=true -Dcreate_alias=false -Dbehat.launch-selenium=false -Dbehat.launch-phantomjs=true -Dbehat.tags='~experimental' -Dblt.verbose=true ci:build:validate:test
 
