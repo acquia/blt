@@ -17,7 +17,6 @@ deploy_updates() {
     esac
 }
 
-
 acsf_deploy() {
   sites=()
   # Prep for BLT commands.
@@ -27,16 +26,16 @@ acsf_deploy() {
 
   echo "Running updates for environment: $target_env"
 
-  # Generate an array of all site URIs on the Factory from parsed output of Drush utility. 
-  while IFS=$'\n' read -r line; do 
+  # Generate an array of all site URIs on the Factory from parsed output of Drush utility.
+  while IFS=$'\n' read -r line; do
       sites[i++]="$line"
       done < <(drush @"${drush_alias}" --include=./drush acsf-tools-list | grep domains: -A 1 | grep 0: | sed -e 's/^[0: ]*//')
       unset IFS
 
   # Loop through each available site uri and run BLT deploy updates.
   for uri in "${sites[@]}"; do
-  #Override BLT default deploy uri. 
-  blt deploy:update  -Denvironment=$target_env -Ddrush.uri="$uri"
+  #Override BLT default deploy uri.
+  blt deploy:update  -Denvironment=$target_env -Ddrush.uri="$uri" -Dblt.verbose=true
   if [ $? -ne 0 ]; then
       echo "Update errored."
       status=1;
@@ -57,7 +56,7 @@ ace_deploy() {
   export PATH=$repo_root/vendor/bin:$PATH
   cd $repo_root
 
-  blt deploy:update -Denvironment=$target_env
+  blt deploy:update -Denvironment=$target_env -Dblt.verbose=true
   if [ $? -ne 0 ]; then
       echo "Update errored."
       status=1;
@@ -65,7 +64,7 @@ ace_deploy() {
 
   echo "Finished updates for environment: $target_env"
 }
-  
+
 deploy_install() {
 
   echo "Installing site for environment: $target_env"
@@ -75,7 +74,7 @@ deploy_install() {
   export PATH=$repo_root/vendor/bin:$PATH
   cd $repo_root
 
-  blt deploy:drupal:install -Denvironment=$target_env
+  blt deploy:drupal:install -Denvironment=$target_env -Dblt.verbose=true
   if [ $? -ne 0 ]; then
       echo "Install errored."
       status=1;

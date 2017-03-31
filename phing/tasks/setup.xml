@@ -24,9 +24,9 @@
 
     <if>
       <equals arg1="${simplesamlphp}" arg2="true"/>
-        <then>
-          <phingcall target="simplesamlphp:build:config"/>
-        </then>
+      <then>
+        <phingcall target="simplesamlphp:build:config"/>
+      </then>
     </if>
 
     <phingcall target="target-hook:invoke">
@@ -243,7 +243,9 @@
   <target name="setup:config-import:config-split">
 
     <if>
-      <available file="${cm.core.dirs.${cm.core.key}.path}/core.extension.yml"/>
+      <!-- We cannot use ${cm.core.dirs.${cm.core.key}.path} here because cm.core.key may be 'vcs', which does not have a path defined in BLT config. Perhaps this
+      should be refactored. -->
+      <available file="${cm.core.dirs.sync.path}/core.extension.yml"/>
       <then>
 
         <drush command="en" assume="yes" alias="${drush.alias}" passthru="false">
@@ -254,7 +256,6 @@
         <if>
           <and>
             <isset property="env.AH_SITE_ENVIRONMENT"/>
-            <available file="${cm.core.path}/${env.AH_SITE_ENVIRONMENT}"/>
           </and>
           <then>
             <drush command="config-import" assume="yes" alias="${drush.alias}">
@@ -335,9 +336,9 @@
   </target>
 
   <target name="setup:cloud-hooks" description="Installs Acquia cloud hooks to hooks directory from version controlled scripts/cloud-hooks directory.">
-      <copy todir="${repo.root}/hooks" >
-          <fileset dir="${blt.root}/scripts/cloud-hooks/hooks"/>
-      </copy>
+    <copy todir="${repo.root}/hooks" >
+      <fileset dir="${blt.root}/scripts/cloud-hooks/hooks"/>
+    </copy>
   </target>
 
   <target name="setup:hash-salt" description="Generates and writes a hash salt to ${repo.root}/salt.txt if one does not exist.">

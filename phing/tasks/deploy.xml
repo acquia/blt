@@ -1,7 +1,7 @@
 <project name="deploy" default="deploy">
 
   <target name="deploy" description="Builds separate artifact and pushes to git.remotes defined project.yml.">
-    
+
     <!-- Check working tree, fail if there are uncommitted changes in the project root. -->
     <exec dir="${repo.root}" command="status=$(git status --porcelain); echo ${#status};"
           outputProperty="git.status.length" checkreturn="true"/>
@@ -11,7 +11,7 @@
         <fail>There are uncommitted changes, commit or stash these changes before deploying.</fail>
       </then>
     </if>
-    
+
     <!-- Build some defaults -->
     <exec command="git rev-parse --abbrev-ref HEAD" dir="${repo.root}" outputProperty="branch.current"/>
     <exec command="git log --oneline -1" dir="${repo.root}" outputProperty="deploy.commitMsg.last"/>
@@ -153,9 +153,9 @@
 
     <if>
       <equals arg1="${simplesamlphp}" arg2="true"/>
-        <then>
-          <phingcall target="simplesamlphp:deploy:config"/>
-        </then>
+      <then>
+        <phingcall target="simplesamlphp:deploy:config"/>
+      </then>
     </if>
   </target>
 
@@ -275,7 +275,7 @@
       <property name="drush.uri" value="${deploy.site.name}"/>
       <!-- Most sites store their version-controlled configuration in /config/default. -->
       <!-- ACE internally sets the vcs configuration directory to /config/default, so we use that. -->
-      <property name="cm.core.config-dir.key" value="${cm.core.config-dir.deploy-key}"/>
+      <property name="cm.core.key" value="${cm.core.deploy-key}"/>
     </phingcall>
     <echo>Finished deploying updates to ${deploy.site.name}</echo>
   </target>
