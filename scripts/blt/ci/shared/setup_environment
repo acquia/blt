@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-set -ev
-
-# Get the latest version of composer.
-export PATH=${COMPOSER_BIN}:$PATH
-
-set +v
