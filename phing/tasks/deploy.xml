@@ -253,6 +253,7 @@
   </target>
 
   <target name="deploy:update:site" description="Update current database to reflect the state of the Drupal file system; uses local drush alias.">
+    <echo>Deploying updates to ${deploy.site.name}</echo>
     <phingcall target="setup:update">
       <!-- Drush fails to include some files. @see https://github.com/drush-ops/drush/issues/2497#issuecomment-279049111 -->
       <property name="drush.bin" value="${drush.bin} --include=../drush" override="true" />
@@ -266,6 +267,7 @@
       <!-- ACE internally sets the vcs configuration directory to /config/default, so we use that. -->
       <property name="cm.core.config-dir.key" value="${cm.core.config-dir.deploy-key}"/>
     </phingcall>
+    <echo>Finished deploying updates to ${deploy.site.name}</echo>
   </target>
 
   <target name="deploy:tag" description="Tag repository.">
