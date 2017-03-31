@@ -46,7 +46,7 @@ install:
 script:
   - source ${BLT_DIR}/scripts/blt/ci/internal/smoke_tests.sh
   - source ${BLT_DIR}/scripts/blt/ci/internal/create_blt_project.sh
-  - source ${BLT_DIR}/scripts/travis/run_tests
+  - source ${BLT_DIR}/scripts/blt/ci/internal/run_tests.sh
   # Add Drupal VM config to repo.
   - blt vm -Dvm.boot='false'
   # Execute PHP Unit tests.
