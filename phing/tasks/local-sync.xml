@@ -55,7 +55,7 @@
     <drush command="cache-clear">
       <param>drush</param>
     </drush>
-    <drush command="cache-rebuild"/>
+    <drush command="cache-rebuild" alias="${drush.aliases.local}" />
   </target>
 
   <target name="local:sync:files" description="Synchronize local files from remote (remote --> local).">
