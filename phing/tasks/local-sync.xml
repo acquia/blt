@@ -27,6 +27,26 @@
     </if>
   </target>
 
+  <target name="local:sync:db:all" description="Iteratively synchronizes local database from remote for each multisite listed in multisite.name">
+    <foreach list="${multisite.name}" param="multisite.name" target="local:sync:db:multisite"/>
+  </target>
+
+  <target name="local:sync:db:multisite" hidden="true">
+    <if>
+      <!-- There is multisite config. Allow it to override default values. -->
+      <available file="${blt.config-files.multisite}" />
+      <then>
+        <property file="${blt.config-files.multisite}" logoutput="false" override="true"/>
+        <!--
+          Here we override drush.uri explicitly (which defaults to 'default')
+          in order to run commands against multisite.name.
+        -->
+        <property name="drush.uri" value="${multisite.name}" override="true"/>
+      </then>
+    </if>
+    <phingcall target="local:sync:db"/>
+  </target>
+
   <target name="local:sync:db" description="Synchronize local database from remote (remote --> local)."
           depends="setup:drupal:settings">
     <drush command="cc drush"/>
