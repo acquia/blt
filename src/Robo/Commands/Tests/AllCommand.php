@@ -24,7 +24,10 @@ class AllCommand extends BltTasks {
   }
 
   /**
+   * Invokes an array of Symfony commands.
    *
+   * @return int
+   *   The exit code of the command.
    */
   public function invokeCommands($commands) {
     foreach ($commands as $command) {
@@ -37,7 +40,13 @@ class AllCommand extends BltTasks {
   }
 
   /**
+   * Invokes a single Symfony command.
    *
+   * @param string $command_name
+   *   The name of the command. E.g., 'tests:behat'.
+   *
+   * @return int
+   *   The exit code of the command.
    */
   public function invokeCommand($command_name) {
     /** @var \Robo\Application $application */

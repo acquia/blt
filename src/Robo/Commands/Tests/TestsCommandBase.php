@@ -9,6 +9,7 @@ use Robo\Contract\VerbosityThresholdInterface;
  * Defines commands in the "tests" namespace.
  */
 class TestsCommandBase extends BltTasks {
+
   /**
    * Creates the reports directory, if it does not exist.
    */
@@ -20,4 +21,5 @@ class TestsCommandBase extends BltTasks {
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
   }
+
 }
