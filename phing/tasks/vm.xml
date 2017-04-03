@@ -37,6 +37,10 @@
     <echo>Updating ${blt.config-files.local}...</echo>
     <exec dir="${repo.root}" command="${composer.bin}/yaml-cli update:value ${blt.config-files.local} drush.default_alias '${project.machine_name}.local'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <exec dir="${repo.root}" command="${composer.bin}/yaml-cli update:value ${blt.config-files.local} drush.aliases.local '${project.machine_name}.local'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec dir="${repo.root}" command="${composer.bin}/yaml-cli update:value ${blt.config-files.local} behat.launch-phantomjs 'true'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec dir="${repo.root}" command="${composer.bin}/yaml-cli update:value ${blt.config-files.local} behat.launch-selenium 'true'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <!-- Set BLT to use PhantomJS as web driver for javacript Behat tests. -->
+    <exec dir="${repo.root}" command="${composer.bin}/yaml-cli update:value ${blt.config-files.local} drush.aliases.local '${project.machine_name}.local'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <!-- Load new values into Phing. -->
     <property file="${blt.config-files.local}" override="true" logoutput="false"/>
 
