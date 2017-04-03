@@ -1,6 +1,12 @@
 {
     "license": "proprietary",
     "type": "project",
+    "repositories": {
+        "drupal": {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        }
+    },
     "require": {},
     "require-dev": {},
     "extra": {

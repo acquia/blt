@@ -233,15 +233,6 @@ class Updates {
       unset($composer_json['autoload-dev']);
     }
 
-    // Remove redundant config for repositories.
-    if (!empty($composer_json['repositories']['drupal']) &&
-      $composer_json['repositories']['drupal'] == $composer_required_json['repositories']['drupal']) {
-      unset($composer_json['repositories']['drupal']);
-    }
-    if (empty($composer_json['repositories'])) {
-      unset($composer_json['repositories']);
-    }
-
     if (!empty($composer_json['scripts'])) {
       foreach ($composer_required_json['scripts'] as $script_name => $script) {
         if (array_key_exists($script_name, $composer_json['scripts'])) {
