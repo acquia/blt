@@ -5,6 +5,8 @@
  * Execute BLT commands via Robo.
  */
 
+use Acquia\Blt\Robo\Config\YamlConfigProcessor;
+use Robo\Config\YamlConfigLoader;
 use Robo\Robo;
 use Acquia\Blt\Robo\Console\ConfigInput;
 
@@ -33,16 +35,14 @@ if (!class_exists(Robo::class)) {
 
 use Acquia\Blt\Robo\Blt;
 use Acquia\Blt\Robo\Config\DefaultConfig;
-use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
-use Acquia\Blt\Robo\Config\YamlConfig;
 
 $input = new ConfigInput($_SERVER['argv']);
 $output = new ConsoleOutput();
 
 $config = new DefaultConfig();
-$loader = new \Robo\Config\YamlConfigLoader();
-$processor = new \Acquia\Blt\Robo\Config\YamlConfigProcessor();
+$loader = new YamlConfigLoader();
+$processor = new YamlConfigProcessor();
 $processor->add($config->export(), 'default');
 $processor->extend($loader->load($config->get('blt.root') . '/phing/build.yml'));
 $processor->extend($loader->load($config->get('repo.root') . '/blt/project.yml'));
