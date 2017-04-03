@@ -125,8 +125,14 @@
     <exec command="echo ${deploy.remote} | openssl md5 | cut -d' ' -f 2" outputProperty="remoteName" checkreturn="true" level="${blt.exec_level}"/>
     <exec command="git remote add ${remoteName} ${deploy.remote}" dir="${deploy.dir}" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
 
-    <!-- @todo Only call this for the first remote. -->
-    <phingcall target="deploy:remote:pull" />
+    <!-- Pull from only the first git remote. -->
+    <exec dir="${deploy.dir}" command="git remote -v | wc -l | awk {'print $1'}" outputProperty="deploy.remotes.count" checkreturn="false" logoutput="false"/>
+    <if>
+      <equals arg1="${deploy.remotes.count}" arg2="0"/>
+      <then>
+        <phingcall target="deploy:remote:pull" />
+      </then>
+    </if>
   </target>
 
   <target name="deploy:remote:pull" description="Checks out deploy branch from upstream remote." hidden="true">
