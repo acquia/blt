@@ -1,0 +1,134 @@
+<project name="hook" default="target-hook:invoke">
+
+    <target name="target-hook:invoke" description="Executes a command defined in the target-hooks array." hidden="true">
+        <fail unless="hook-name" message="hook-name must be set."/>
+        <if>
+            <isset property="target-hooks.${hook-name}.command"/>
+            <then>
+
+                <!-- BLT's internal hooks directory where variable assignment templates are placed. -->
+                <property name="hook.template.dir" value="${phing.dir}/hooks"/>
+
+                <!-- Directory for variable templates common to all hooks. -->
+                <property name="hook.common.dir" value="${hook.template.dir}/common"/>
+
+                <!-- Directory for the variable templates for the current hook. -->
+                <property name="hook.current.dir" value="${hook.template.dir}/${hook-name}"/>
+
+                <!-- File names for common hook variables. -->
+                <property name="hook.file.common.base" value="common"/>
+                <property name="hook.file.common.env" value="${hook.file.common.base}.${environment}"/>
+
+                <!-- File names for the current hook. -->
+                <property name="hook.file.current.base" value="${hook-name}"/>
+                <property name="hook.file.current.env" value="${hook.file.current.base}.${environment}"/>
+
+                <!-- Create a random string to use as a random temporary directory. -->
+                <randomString propertyName="hook.dir.rand"/>
+                <php function="substr" returnProperty="hook.dir.rand" level="verbose">
+                    <param>${hook.dir.rand}</param>
+                    <param>-5</param>
+                </php>
+
+                <property name="hook.expand.base.dir" value="/tmp"/>
+                <!-- The absolute directory path that property expansions are output to. -->
+                <property name="hook.expand.dir" value="${hook.expand.base.dir}/blt_${hook.dir.rand}"/>
+
+                <echo>Sourcing variables for ${hook-name}</echo>
+                <mkdir dir="${hook.expand.dir}"/>
+
+                <!-- Expand common hook variable templates. -->
+                <copy todir="${hook.expand.dir}" verbose="false">
+                    <filterchain>
+                        <expandproperties/>
+                    </filterchain>
+                    <fileset dir="${hook.common.dir}">
+                        <include name="*"/>
+                    </fileset>
+                </copy>
+
+                <!-- Expand hook variable templates if they exist for the current hook invocation. -->
+                <if>
+                    <available file="${hook.current.dir}" type="dir" property="hookDirExists"/>
+                    <then>
+                        <copy todir="${hook.expand.dir}" verbose="false">
+                            <filterchain>
+                                <expandproperties/>
+                            </filterchain>
+                            <fileset dir="${hook.current.dir}">
+                                <include name="*"/>
+                            </fileset>
+                        </copy>
+                    </then>
+                </if>
+
+                <!-- Create the final file. We assume the common base file exists. -->
+                <!-- This will (potentially) be appended to below. -->
+                <property name="hook.source.file" value="${hook.expand.dir}/${hook-name}.sh"/>
+                <copy file="${hook.expand.dir}/${hook.file.common.base}" tofile="${hook.source.file}" verbose="false"/>
+
+                <!--
+                    Build the additional file list in the following order, allowing each to
+                    progressively overwrite values defined in any previous file:
+                        1. common environment-specific file
+                        2. hook-specific file
+                        3. hook and environment-specific file
+                    Any of these files are allowed to be absent, so first check their availability.
+                -->
+                <property name="hook.file.list" value=""/>
+                <if>
+                    <available file="${hook.expand.dir}/${hook.file.common.env}" type="file"
+                               property="commonEnvExists"/>
+                    <then>
+                        <property name="hook.file.list" value="${hook.file.list},${hook.file.common.env}"
+                                  override="true"/>
+                    </then>
+                </if>
+                <if>
+                    <available file="${hook.expand.dir}/${hook.file.current.base}" type="file"
+                               property="hookBaseExists"/>
+                    <then>
+                        <property name="hook.file.list" value="${hook.file.list},${hook.file.current.base}"
+                                  override="true"/>
+                    </then>
+                </if>
+                <if>
+                    <available file="${hook.expand.dir}/${hook.file.current.env}" type="file"
+                               property="hookEnvExists"/>
+                    <then>
+                        <property name="hook.file.list" value="${hook.file.list},${hook.file.current.env}"
+                                  override="true"/>
+                    </then>
+                </if>
+
+                <!-- Append to final file. -->
+                <append destFile="${hook.source.file}">
+                    <filelist dir="${hook.expand.dir}" files="${hook.file.list}"/>
+                </append>
+
+                <if>
+                    <available file="${target-hooks.${hook-name}.dir}" type="dir" property="dirExists"/>
+                    <then>
+                        <exec dir="${target-hooks.${hook-name}.dir}"
+                              command=". ${hook.source.file}; ${target-hooks.${hook-name}.command}"
+                              logoutput="true" checkreturn="true" level="info" passthru="true"/>
+                    </then>
+                    <else>
+                        <fail>The directory ${target-hooks.${hook-name}.dir} does not exist. Will not run command for
+                            ${hook-name}.
+                        </fail>
+                    </else>
+                </if>
+
+                <!--Clean up. -->
+                <delete dir="${hook.expand.dir}" quiet="true" verbose="false" includeemptydirs="true"/>
+
+            </then>
+            <else>
+                <echo>No commands are defined for ${hook-name}. Skipping.</echo>
+            </else>
+        </if>
+
+    </target>
+
+</project>
