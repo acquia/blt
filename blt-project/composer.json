@@ -15,6 +15,10 @@
             "options": {
                 "symlink": true
             }
+        },
+        "drupal": {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
         }
     },
     "require": {
