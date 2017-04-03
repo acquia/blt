@@ -250,21 +250,7 @@
           <param>config_split</param>
         </drush>
 
-        <!-- Only import config if it exists. -->
-        <if>
-          <and>
-            <isset property="env.AH_SITE_ENVIRONMENT"/>
-          </and>
-          <then>
-            <drush command="config-import" assume="yes" alias="${drush.alias}">
-              <!-- Cloud environments require vcs parameter. -->
-              <param>vcs</param>
-            </drush>
-          </then>
-          <else>
-            <drush command="config-import" assume="yes" alias="${drush.alias}"></drush>
-          </else>
-        </if>
+        <drush command="config-import" assume="yes" alias="${drush.alias}"></drush>
 
       </then>
     </if>
