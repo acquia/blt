@@ -32,7 +32,18 @@
   </target>
 
   <target name="local:sync:db:multisite" hidden="true">
-    <phingcall target="properties:load:multisite"/>
+    <if>
+      <!-- There is multisite config. Allow it to override default values. -->
+      <available file="${blt.config-files.multisite}" />
+      <then>
+        <property file="${blt.config-files.multisite}" logoutput="false" override="true"/>
+        <!--
+          Here we override drush.uri explicitly (which defaults to 'default')
+          in order to run commands against multisite.name.
+        -->
+        <property name="drush.uri" value="${multisite.name}" override="true"/>
+      </then>
+    </if>
     <phingcall target="local:sync:db"/>
   </target>
 
