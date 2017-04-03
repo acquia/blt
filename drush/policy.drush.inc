@@ -8,6 +8,7 @@
 function policy_drush_sitealias_alter(&$alias_record) {
   // Set Drush version correctly on Acquia Cloud.
   if (!empty($alias_record['uri'])
+    && !empty($alias_record['remote-host'])
     && strstr($alias_record['remote-host'], 'acquia') !== FALSE
     && !empty($alias_record['path-aliases']['%drush-script'])
     && $alias_record['path-aliases']['%drush-script'] == 'drush9') {
