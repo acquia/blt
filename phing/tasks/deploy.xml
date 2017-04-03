@@ -126,7 +126,7 @@
     <exec command="git remote add ${remoteName} ${deploy.remote}" dir="${deploy.dir}" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
 
     <!-- Pull from only the first git remote. -->
-    <exec dir="${deploy.dir}" command="git remote -v | wc -l" outputProperty="deploy.remotes.count" checkreturn="false" logoutput="false"/>
+    <exec dir="${deploy.dir}" command="git remote -v | wc -l | awk {'print $1'}" outputProperty="deploy.remotes.count" checkreturn="false" logoutput="false"/>
     <if>
       <equals arg1="${deploy.remotes.count}" arg2="0"/>
       <then>
