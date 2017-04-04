@@ -27,6 +27,7 @@ else {
   }
   elseif ($is_ah_stage_env) {
     $config['config_split.config_split.stage']['status'] = TRUE;
+    $config['config_split.config_split.test']['status'] = TRUE;
   }
   elseif ($is_ah_prod_env) {
     $config['config_split.config_split.prod']['status'] = TRUE;
