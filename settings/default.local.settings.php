@@ -25,10 +25,6 @@ $databases = array(
   ),
 );
 
-// Configuration directories.
-$dir = dirname(DRUPAL_ROOT);
-$config_directories['sync'] = $dir . "/config/$site_dir";
-
 // Use development service parameters.
 $settings['container_yamls'][] = $dir . '/docroot/sites/development.services.yml';
 

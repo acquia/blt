@@ -1,5 +1,9 @@
 <?php
 
+// Configuration directories.
+$dir = dirname(DRUPAL_ROOT);
+$config_directories['sync'] = $dir . "/config/$site_dir";
+
 // Ensure the appropriate config split is enabled.
 $config['config_split.config_split.local']['status'] = FALSE;
 $config['config_split.config_split.dev']['status'] = FALSE;
@@ -16,6 +20,8 @@ if ($is_local_env) {
   }
 }
 else {
+  $config_directories['vcs'] = $config_directories['sync'];
+
   if ($is_ah_dev_env) {
     $config['config_split.config_split.dev']['status'] = TRUE;
   }
