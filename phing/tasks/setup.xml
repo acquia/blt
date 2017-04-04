@@ -250,7 +250,9 @@
           <param>config_split</param>
         </drush>
 
-        <drush command="config-import" assume="yes" alias="${drush.alias}"></drush>
+        <drush command="config-import" assume="yes" alias="${drush.alias}">
+          <param>sync</param>
+        </drush>
 
       </then>
     </if>
