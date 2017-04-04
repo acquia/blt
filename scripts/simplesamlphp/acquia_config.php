@@ -21,8 +21,13 @@ $config['technicalcontact_email'] = "your_email@yourdomain.com";
 // Change these for your installation
 $config['secretsalt'] = 'y0h9d13pki9qdhfm3l5nws4jjn55j6hj';
 $config['auth.adminpassword'] = 'mysupersecret';
-// Prevent Varnish from interfering with SimpleSAMLphp.
-setcookie('NO_CACHE', '1');
+
+// Uncomment this line to allow users to be automatically logged in if they
+// signed in via the same SAML provider on another site.
+// Warning: This has performance implications for anonymous users.
+// Read more here: https://docs.acquia.com/articles/using-simplesamlphp-acquia-cloud-site
+// setcookie('NO_CACHE', '1');
+
 if (empty($_ENV['AH_SITE_ENVIRONMENT'])) {
   // add any local configuration here
 } else {
