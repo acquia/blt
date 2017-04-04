@@ -3,6 +3,8 @@
 // Configuration directories.
 $dir = dirname(DRUPAL_ROOT);
 $config_directories['sync'] = $dir . "/config/$site_dir";
+$split_filename_prefix = 'config_split.config_split';
+$split_filepath_prefix = $config_directories['sync']  . '/' . $split_filename_prefix;
 
 // Ensure the appropriate config split is enabled.
 $config['config_split.config_split.local']['status'] = FALSE;
@@ -12,24 +14,44 @@ $config['config_split.config_split.prod']['status'] = FALSE;
 $config['config_split.config_split.ci']['status'] = FALSE;
 
 if ($is_local_env) {
-  if (getenv('TRAVIS')) {
-    $config['config_split.config_split.ci']['status'] = TRUE;
+  if (getenv('TRAVIS') || getenv('PIPELINE_ENV')) {
+    $split = 'ci';
+    if (file_exists("$split_filepath_prefix.$split.yml")) {
+      $config["$split_filename_prefix.$split"]['status'] = TRUE;
+    }
   }
   else {
-    $config['config_split.config_split.local']['status'] = TRUE;
+    $split = 'local';
+    if (file_exists("$split_filepath_prefix.$split.yml")) {
+      $config["$split_filename_prefix.$split"]['status'] = TRUE;
+    }
   }
 }
 else {
   $config_directories['vcs'] = $config_directories['sync'];
 
   if ($is_ah_dev_env) {
-    $config['config_split.config_split.dev']['status'] = TRUE;
+    $split = 'dev';
+    if (file_exists("$split_filepath_prefix.$split.yml")) {
+      $config["$split_filename_prefix.$split"]['status'] = TRUE;
+    }
   }
   elseif ($is_ah_stage_env) {
-    $config['config_split.config_split.stage']['status'] = TRUE;
-    $config['config_split.config_split.test']['status'] = TRUE;
+    $split = 'test';
+    if (file_exists("$split_filepath_prefix.$split.yml")) {
+      $config["$split_filename_prefix.$split"]['status'] = TRUE;
+    }
+    else {
+      $split = 'stg';
+      if (file_exists("$split_filepath_prefix.$split.yml")) {
+        $config["$split_filename_prefix.$split"]['status'] = TRUE;
+      }
+    }
   }
   elseif ($is_ah_prod_env) {
-    $config['config_split.config_split.prod']['status'] = TRUE;
+    $split = 'prod';
+    if (file_exists("$split_filepath_prefix.$split.yml")) {
+      $config["$split_filename_prefix.$split"]['status'] = TRUE;
+    }
   }
 }

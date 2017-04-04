@@ -37,8 +37,8 @@ acsf_deploy() {
   #Override BLT default deploy uri.
   blt deploy:update  -Denvironment=$target_env -Ddrush.uri="$uri" -Dblt.verbose=true
   if [ $? -ne 0 ]; then
-      echo "Update errored."
-      status=1;
+      echo "Update errored for site $uri."
+      exit 1
   fi
 
   echo "Finished updates for site: $uri."
@@ -59,7 +59,7 @@ ace_deploy() {
   blt deploy:update -Denvironment=$target_env -Dblt.verbose=true
   if [ $? -ne 0 ]; then
       echo "Update errored."
-      status=1;
+      exit 1
   fi
 
   echo "Finished updates for environment: $target_env"
@@ -77,7 +77,7 @@ deploy_install() {
   blt deploy:drupal:install -Denvironment=$target_env -Dblt.verbose=true
   if [ $? -ne 0 ]; then
       echo "Install errored."
-      status=1;
+      exit 1
   fi
 
   echo "Finished installing for environment: $target_env"
