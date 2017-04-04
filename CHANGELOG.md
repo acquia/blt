@@ -5,6 +5,7 @@
 
 **Implemented enhancements:**
 
+- Standardizing config split stage name [\#1314](https://github.com/acquia/blt/pull/1314) ([grasmash](https://github.com/grasmash))
 - Fixing split import for CI. [\#1312](https://github.com/acquia/blt/pull/1312) ([grasmash](https://github.com/grasmash))
 - Changing include order of cloud settings files. [\#1310](https://github.com/acquia/blt/pull/1310) ([grasmash](https://github.com/grasmash))
 - BLT-1304: Fixes \#1304 default no cache setting for SAML. [\#1306](https://github.com/acquia/blt/pull/1306) ([kylebrowning](https://github.com/kylebrowning))
