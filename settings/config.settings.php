@@ -37,15 +37,9 @@ else {
     }
   }
   elseif ($is_ah_stage_env) {
-    $split = 'test';
+    $split = 'stage';
     if (file_exists("$split_filepath_prefix.$split.yml")) {
       $config["$split_filename_prefix.$split"]['status'] = TRUE;
-    }
-    else {
-      $split = 'stg';
-      if (file_exists("$split_filepath_prefix.$split.yml")) {
-        $config["$split_filename_prefix.$split"]['status'] = TRUE;
-      }
     }
   }
   elseif ($is_ah_prod_env) {
