@@ -1,5 +1,24 @@
 # Change Log
 
+## [8.7.0-beta4](https://github.com/acquia/blt/tree/8.7.0-beta4) (2017-04-04)
+[Full Changelog](https://github.com/acquia/blt/compare/8.7.0-beta3...8.7.0-beta4)
+
+**Implemented enhancements:**
+
+- Fixing split import for CI. [\#1312](https://github.com/acquia/blt/pull/1312) ([grasmash](https://github.com/grasmash))
+- Changing include order of cloud settings files. [\#1310](https://github.com/acquia/blt/pull/1310) ([grasmash](https://github.com/grasmash))
+- BLT-1304: Fixes \#1304 default no cache setting for SAML. [\#1306](https://github.com/acquia/blt/pull/1306) ([kylebrowning](https://github.com/kylebrowning))
+
+**Fixed bugs:**
+
+- $BLT\_DIR/scripts/travis/deploy\_branch running on TravisCI results in error [\#1308](https://github.com/acquia/blt/issues/1308)
+- Running blt deploy:drupal:install -Denvironment=$target\_env -Dblt.verbose=true on cloud results in error [\#1307](https://github.com/acquia/blt/issues/1307)
+- SimpleSAMLPHP defines NO\_CACHE by default. [\#1304](https://github.com/acquia/blt/issues/1304)
+- Final setup:config-import:config-split not being run on blt local:setup [\#1303](https://github.com/acquia/blt/issues/1303)
+- Fixes \#1307: Specify sync config directory for config import. [\#1309](https://github.com/acquia/blt/pull/1309) ([arknoll](https://github.com/arknoll))
+- Fixes \#1303: config split import test. [\#1305](https://github.com/acquia/blt/pull/1305) ([arknoll](https://github.com/arknoll))
+
+
 ## [8.7.0-beta3](https://github.com/acquia/blt/tree/8.7.0-beta3) (2017-04-03)
 [Full Changelog](https://github.com/acquia/blt/compare/8.7.0-beta2...8.7.0-beta3)
 
