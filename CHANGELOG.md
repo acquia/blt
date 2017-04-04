@@ -1,5 +1,42 @@
 # Change Log
 
+## [8.7.0-beta3](https://github.com/acquia/blt/tree/8.7.0-beta3) (2017-04-03)
+[Full Changelog](https://github.com/acquia/blt/compare/8.7.0-beta2...8.7.0-beta3)
+
+**Implemented enhancements:**
+
+- Loading databases for each multisite [\#1227](https://github.com/acquia/blt/issues/1227)
+- Don't run drush updb with the entity-updates flag during setup:config-import, it's dangerous [\#1014](https://github.com/acquia/blt/issues/1014)
+- Connects to \#678: Set config sync dir correctly, despite ACE defaults. [\#1299](https://github.com/acquia/blt/pull/1299) ([grasmash](https://github.com/grasmash))
+- Fixes \#1014: Don't run drush entity-updates during config-import. [\#1293](https://github.com/acquia/blt/pull/1293) ([grasmash](https://github.com/grasmash))
+- Temporarily pinning to search\_api 1.0-beta4. [\#1291](https://github.com/acquia/blt/pull/1291) ([grasmash](https://github.com/grasmash))
+- Fixes \#1273: Set web driver to Phantom js in vm:init. [\#1290](https://github.com/acquia/blt/pull/1290) ([grasmash](https://github.com/grasmash))
+- Fixes \#1286: Silence git output when it may output fatal errors. [\#1289](https://github.com/acquia/blt/pull/1289) ([grasmash](https://github.com/grasmash))
+- Fixes \#1227: Add target to sync all local multisite dbs. [\#1229](https://github.com/acquia/blt/pull/1229) ([grasmash](https://github.com/grasmash))
+
+**Fixed bugs:**
+
+- Travis deploy\_branch failing on 8.7.0-beta2 [\#1300](https://github.com/acquia/blt/issues/1300)
+- composer merge + composer patches not playing nicely [\#1292](https://github.com/acquia/blt/issues/1292)
+- Drupal install fails with error when using VM [\#1283](https://github.com/acquia/blt/issues/1283)
+- Fixes \#1300: Travis deploy\_branch failing on 8.7.0-beta2. [\#1301](https://github.com/acquia/blt/pull/1301) ([grasmash](https://github.com/grasmash))
+- Fix undefined index when running remote drush commands [\#1295](https://github.com/acquia/blt/pull/1295) ([danepowell](https://github.com/danepowell))
+- Fixes \#1292: composer merge + composer patches not playing nicely. [\#1294](https://github.com/acquia/blt/pull/1294) ([grasmash](https://github.com/grasmash))
+- Fixes \#1283: Drupal install fails with error when using VM [\#1288](https://github.com/acquia/blt/pull/1288) ([grasmash](https://github.com/grasmash))
+
+**Closed issues:**
+
+- Latest BLT causes local:refresh to fail [\#1284](https://github.com/acquia/blt/issues/1284)
+- Set web driver to Phantom js in vm:init [\#1273](https://github.com/acquia/blt/issues/1273)
+
+**Misc merged pull requests**
+
+- Revert "Fixes \#1286: Silence git output when it may output fatal errors." [\#1296](https://github.com/acquia/blt/pull/1296) ([grasmash](https://github.com/grasmash))
+- Moving composer repos to root composer.json. [\#1287](https://github.com/acquia/blt/pull/1287) ([grasmash](https://github.com/grasmash))
+- Fixes \#1284: Local refresh db sync target needs to account for Drush alias. [\#1285](https://github.com/acquia/blt/pull/1285) ([geerlingguy](https://github.com/geerlingguy))
+- Trying to fix BLT doctor for when Drupal is not installed. [\#1254](https://github.com/acquia/blt/pull/1254) ([grasmash](https://github.com/grasmash))
+
+
 ## [8.7.0-beta2](https://github.com/acquia/blt/tree/8.7.0-beta2) (2017-03-31)
 [Full Changelog](https://github.com/acquia/blt/compare/8.7.0-beta1...8.7.0-beta2)
 
