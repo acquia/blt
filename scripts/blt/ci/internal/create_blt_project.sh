@@ -29,6 +29,7 @@ yaml-cli update:value blt/project.yml git.remotes.0 bolt8@svn-5223.devcloud.host
 yaml-cli update:value blt/project.yml git.remotes.1 git@github.com:acquia-pso/blted8.git
 
 # BLT added new dependencies for us, so we must update.
+rm -rf vendor
 composer update
 
 git add -A
