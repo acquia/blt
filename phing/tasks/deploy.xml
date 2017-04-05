@@ -120,7 +120,8 @@
   </target>
 
   <target name="deploy:remote:pull" description="Checks out deploy branch from upstream remote." hidden="true">
-    <exec command="git fetch ${remoteName} ${deploy.branch}" dir="${deploy.dir}" logoutput="true" level="${blt.exec_level}" passthru="true"/>
+    <!-- Hide output in case branch does not exist on remote. Would emit misleading "fatal" error message. -->
+    <exec command="git fetch ${remoteName} ${deploy.branch}" dir="${deploy.dir}" logoutput="false" level="${blt.exec_level}" passthru="true"/>
 
     <!-- Create the new branch, "[source-branch-name]-build". -->
     <!-- We intentionally use checkreturn="false" in case the branch already exists. `git checkout -B` does not seem to work as advertised -->
