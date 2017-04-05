@@ -217,6 +217,17 @@
     <exec command="git init ${deploy.dir}" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="false"/>
     <exec dir="${deploy.dir}" command="git config --local core.excludesfile false" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     <echo>Global .gitignore file is being disabled for this repository to prevent unexpected behavior.</echo>
+    <!-- Add the git username and email if necessary. -->
+    <if>
+      <and>
+        <isset property="git.user.name"/>
+        <isset property="git.user.email"/>
+      </and>
+      <then>
+        <exec dir="${deploy.dir}" command="git config --local --add user.email ${git.user.email} user.name ${git.user.name}" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+      </then>
+    </if>
+
   </target>
 
   <target name="deploy:push-all" hidden="true">
