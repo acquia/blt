@@ -9,7 +9,6 @@
     "drupal/core": "^8.0",
     "drupal/features": "^3.0.0",
     "drupal/config_split": "^1.0.0-beta4",
-    "drush/drush": "^8.1.10",
     "drupal/devel": "^1.0.0-alpha1"
   },
   "require-dev": {
