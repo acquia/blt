@@ -1,4 +1,4 @@
-`ysql<?php
+<?php
 
 /**
  * @file
