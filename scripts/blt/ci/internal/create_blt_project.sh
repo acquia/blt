@@ -43,7 +43,7 @@ git commit -m 'Initializing Travis CI and Acquia Pipelines.' -n
 # 'if [ "$PULL_REQUEST" != "false" ]; then printf "behat.paths: [ \${repo.root}/tests/behat ]" >> blt/project.yml; fi'
 
 # Require ACSF directly to prevent memory exhaustion error. We do this rather than calling acsf:init.
-composer require drupal/acsf:^1.33.0
+composer require drupal/acsf:^1.33.0 --no-update && composer update
 # Initialize ACSF config.
 blt acsf:init:hooks
 # Initialize Acquia Cloud hooks.
