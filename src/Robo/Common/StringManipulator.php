@@ -2,7 +2,10 @@
 
 namespace Acquia\Blt\Robo\Common;
 
-trait StringManipulator {
+/**
+ *
+ */
+class StringManipulator {
 
   /**
    * Trims the last $num_lines lines from end of a text string.
@@ -16,7 +19,8 @@ trait StringManipulator {
    *   The trimmed text.
    */
   protected function trimEndingLines($text, $num_lines) {
-    return implode("\n", array_slice(explode("\n", $text), 0, sizeof($text) - $num_lines));
+    return implode("\n",
+      array_slice(explode("\n", $text), 0, sizeof($text) - $num_lines));
   }
 
   /**

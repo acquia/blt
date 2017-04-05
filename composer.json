@@ -17,24 +17,28 @@
         "asm89/twig-lint":                  "^1.0.2",
         "composer/installers":              "^1.2.0",
         "composer-plugin-api":              "^1.0.0",
-        "doctrine/common":                  "^2.5",
+        "doctrine/common":                  "2.5.*",
         "oomphinc/composer-installers-extender": "^1.1",
         "dflydev/dot-access-data":          "^1.1.0",
         "drupal/coder":                     "^8.2.8",
+        "drush/drush":                      "^8.1.10",
         "grasmash/drupal-security-warning": "^1.0.0",
         "grasmash/yaml-cli":                "^1.0.0",
+        "grasmash/yaml-expander":           "^1.0.5",
         "phing/phing":                      "^2.15.0",
         "php":                              ">=5.6",
         "phpunit/phpunit":                  "^4.8",
         "squizlabs/php_codesniffer":        "^2.7",
         "symfony/yaml":                     "^2.8.11",
         "symfony/console":                  "^2.8.11",
-        "wikimedia/composer-merge-plugin":  "^1.3"
+        "wikimedia/composer-merge-plugin":  "^1.3",
+        "consolidation/Robo":               "^1.0.6"
     },
     "autoload": {
         "psr-4": {
             "Acquia\\Blt\\": "src/",
-            "Acquia\\Blt\\Tests\\": "tests/phpunit/src/"
+            "Acquia\\Blt\\Tests\\": "tests/phpunit/src/",
+            "Acquia\\Blt\\Tests\\Robo\\": "tests/phpunit/Robo/"
         }
     },
     "extra": {
@@ -53,7 +57,6 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require-dev": {
-        "consolidation/Robo": "dev-master",
         "guzzlehttp/guzzle": "^6.2"
     }
 }

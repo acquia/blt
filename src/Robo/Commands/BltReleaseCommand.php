@@ -1,10 +1,8 @@
 <?php
 
-namespace Acquia\Blt\Robo\Command;
+namespace Acquia\Blt\Robo\Commands;
 
 use Acquia\Blt\Robo\BltTasks;
-use Acquia\Blt\Robo\Common\BltIO;
-use Acquia\Blt\Robo\Common\LocalEnvironmentValidator;
 use GuzzleHttp\Client;
 
 /**
@@ -12,9 +10,7 @@ use GuzzleHttp\Client;
  *
  * @see http://robo.li/
  */
-class BltInternal extends BltTasks {
-
-  use LocalEnvironmentValidator;
+class BltReleaseCommand extends BltTasks {
 
   /**
    * Generates release notes and cuts a new tag on GitHub.
@@ -31,7 +27,11 @@ class BltInternal extends BltTasks {
    * @return int
    *   The CLI status code.
    */
-  public function bltRelease($tag, $github_token, $opts = ['update-changelog' => TRUE]) {
+  public function bltRelease(
+    $tag,
+    $github_token,
+    $opts = ['update-changelog' => TRUE]
+  ) {
     $requirements_met = $this->checkCommandsExist([
       'git',
       'github_changelog_generator',
@@ -66,7 +66,9 @@ class BltInternal extends BltTasks {
     // @todo Check to see if branch doesn't match, confirm with dialog.
     $this->_exec('git reset --hard origin/8.x');
 
-    if (!$tag_release_notes = $this->generateReleaseNotes($tag, $github_token)) {
+    if (!$tag_release_notes = $this->generateReleaseNotes($tag,
+      $github_token)
+    ) {
       $this->yell("Failed to generate release notes.");
       return 1;
     }
@@ -109,7 +111,11 @@ class BltInternal extends BltTasks {
    *
    *   The release notes for this specific tag.
    */
-  protected function createGitHubRelease($tag, $github_token, $tag_release_notes) {
+  protected function createGitHubRelease(
+    $tag,
+    $github_token,
+    $tag_release_notes
+  ) {
     $request_payload = [
       'tag_name' => $tag,
       'name' => $tag,
@@ -168,7 +174,9 @@ class BltInternal extends BltTasks {
       return 0;
     }
 
-    if (!$tag_release_notes = $this->generateReleaseNotes($tag, $github_token)) {
+    if (!$tag_release_notes = $this->generateReleaseNotes($tag,
+      $github_token)
+    ) {
       $this->yell("Failed to generate release notes");
       return 1;
     }
@@ -179,7 +187,12 @@ class BltInternal extends BltTasks {
   }
 
   /**
-   * @param $tag_release_notes
+   * Updates changelog by prepending release notes for a given tag.
+   *
+   * @param string $tag
+   *   The tag. E.g., 8.6.15.
+   * @param string $tag_release_notes
+   *   The release notes to prepend to the changelog.
    */
   protected function updateChangelog($tag, $tag_release_notes) {
     // Remove first 4 lines from full changelog.
@@ -200,8 +213,10 @@ class BltInternal extends BltTasks {
   /**
    * Generate notes for new release.
    *
-   * @param $tag
-   * @param $github_token
+   * @param string $tag
+   *   The tag. E.g., 8.6.15.
+   * @param string $github_token
+   *   A github access token.
    *
    * @return int|string
    *   FALSE on failure, otherwise the release notes.
@@ -209,14 +224,18 @@ class BltInternal extends BltTasks {
   protected function generateReleaseNotes($tag, $github_token) {
     // Generate release notes.
     $partial_changelog_filename = 'CHANGELOG.partial';
-    if (!$this->taskExec("github_changelog_generator --token=$github_token --future-release=$tag --output=$partial_changelog_filename")->run()->wasSuccessful()) {
+    if (!$this->taskExec("github_changelog_generator --token=$github_token --future-release=$tag --output=$partial_changelog_filename")
+      ->run()
+      ->wasSuccessful()
+    ) {
       $this->yell("Unable to generate CHANGELOG using github_changelog_generator.");
       return 1;
     }
 
     // Remove last 3 lines from new, partial changelog.
     $partial_changelog_contents = file_get_contents($partial_changelog_filename);
-    $trimmed_partial_changelog = $this->trimEndingLines($partial_changelog_contents, 3);
+    $trimmed_partial_changelog = $this->trimEndingLines($partial_changelog_contents,
+      3);
     unlink($partial_changelog_filename);
 
     return $trimmed_partial_changelog;

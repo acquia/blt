@@ -1,28 +1,11 @@
 #!/usr/bin/env php
 <?php
-
 /**
- * If we're running from phar load the phar autoload file.
+ * This file is a simply shell wrapper for running BLT Robo commands.
+ *
+ * Having a wrapper permits other non-shell files to directly require
+ * blt-robo-run.php.
  */
-$pharPath = \Phar::running(true);
-$consoleRoot = __DIR__ . '/../';
-if ($pharPath) {
-    require_once "$pharPath/vendor/autoload.php";
-} else {
-    if (file_exists($consoleRoot.'/vendor/autoload.php')) {
-        require_once $consoleRoot.'/vendor/autoload.php';
-    } elseif (file_exists(__DIR__.'/../../autoload.php')) {
-        require_once __DIR__ . '/../../autoload.php';
-    }
-}
 
-$commandClasses = [
-  \Acquia\Blt\Robo\Command\BltInternal::class,
-];
-$statusCode = \Robo\Robo::run(
-  $_SERVER['argv'],
-  $commandClasses,
-  'BLT',
-  '0.0.0-alpha0'
-);
-exit($statusCode);
+// Shell wrapper for BLT robo app.
+require_once __DIR__ . '/blt-robo-run.php';
