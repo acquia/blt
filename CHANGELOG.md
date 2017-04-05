@@ -1,5 +1,11 @@
 # Change Log
 
+## [8.7.1](https://github.com/acquia/blt/tree/8.7.1) (2017-04-05)
+[Full Changelog](https://github.com/acquia/blt/compare/8.7.0...8.7.1)
+
+- Removed drupal/console from composer.required.json.
+
+
 ## [8.7.0](https://github.com/acquia/blt/tree/8.7.0) (2017-04-05)
 [Full Changelog](https://github.com/acquia/blt/compare/8.7.0-beta4...8.7.0)
 
