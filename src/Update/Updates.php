@@ -172,8 +172,6 @@ class Updates {
 
     // Remove deprecated config.
     unset($composer_json['extra']['blt']['composer-exclude-merge']);
-    // Remove config that should only be defined in composer.required.json.
-    unset($composer_json['extra']['enable-patching']);
 
     // Remove packages from root composer.json that are already defined in BLT's composer.required.json with matching version.
     if (!empty($composer_required_json['require'])) {
