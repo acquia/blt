@@ -86,11 +86,20 @@ This section will guide you through initially setting up a Config Split workflow
 
 1. Ensure that you are using Drush version 8.1.10 or higher and Config Split version 8.1.0-beta4 or higher (these are included by default in BLT 8.7.*)
 2. Ensure that `cm.strategy` is set to `config-split` in `blt/project.yml`.
-3. TODO: finish this section once the related functionality is stabilized in BLT core.
 
 ### Using Config Split to capture and deploy configuration
 
 BLT and Config Split together make it easy to capture configuration changes in code and deploy those changes to a remote environment.
+
+BLT automatically enables the following config splits in the following environments:
+
+| Split | Environment
+|-------|----------------------------------------------
+| local | any non-Acquia, non-Travis environment
+| ci    | Acquia Pipelines OR Travis CI
+| dev   | Acquia Dev
+| stage | Acquia Staging
+| prod  | Acquia Prod
 
 As a prerequisite, make sure your BLT-based project is set up to use Config Split (see section above).
 
