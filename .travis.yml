@@ -50,8 +50,8 @@ script:
   # Add Drupal VM config to repo.
   - blt vm -Dvm.boot='false'
   # Execute PHP Unit tests.
-  - phpunit ${BLT_DIR}/tests/phpunit --group blt-project -c ${BLT_DIR}/tests/phpunit/phpunit.xml
-  - phpunit ${BLT_DIR}/tests/phpunit --group blt-multisite -c ${BLT_DIR}/tests/phpunit/phpunit.xml
+  - ./vendor/bin/phpunit ${BLT_DIR}/tests/phpunit --group blt-project -c ${BLT_DIR}/tests/phpunit/phpunit.xml
+  - ./vendor/bin/phpunit ${BLT_DIR}/tests/phpunit --group blt-multisite -c ${BLT_DIR}/tests/phpunit/phpunit.xml
   # Deploy build artifact.
   - blt deploy:build
   - source ${BLT_DIR}/scripts/blt/ci/internal/test_artifact.sh
