@@ -3,10 +3,6 @@
 ## [8.7.0](https://github.com/acquia/blt/tree/8.7.0) (2017-04-05)
 [Full Changelog](https://github.com/acquia/blt/compare/8.7.0-beta4...8.7.0)
 
-**Implemented enhancements:**
-
-- Add beetbox support [\#1128](https://github.com/acquia/blt/issues/1128)
-
 **Fixed bugs:**
 
 - Ensuring that enable-patching remains in root composer.json. [\#1315](https://github.com/acquia/blt/pull/1315) ([grasmash](https://github.com/grasmash))
