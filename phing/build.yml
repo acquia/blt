@@ -62,6 +62,7 @@ deploy:
   build-dependencies: true
   dir: ${repo.root}/deploy
   exclude_file: ${blt.root}/phing/files/deploy-exclude.txt
+  exclude_additions_file: ${repo.root}/blt/deploy-exclude-additions.txt
   gitignore_file: ${blt.root}/phing/files/.gitignore
 
 # File and Directory locations.

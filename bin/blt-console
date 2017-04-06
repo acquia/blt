@@ -5,6 +5,7 @@ use Acquia\Blt\Console\Command\ComposerMungeCommand;
 use Acquia\Blt\Console\Command\SchemaVersionCommand;
 use Acquia\Blt\Console\Command\YamlMungeCommand;
 use Acquia\Blt\Console\Command\UpdateCommand;
+use Acquia\Blt\Console\Command\TextMungeCommand;
 use Symfony\Component\Console\Application;
 
 set_time_limit(0);
@@ -28,5 +29,6 @@ $application->add(new ComposerMungeCommand());
 $application->add(new SchemaVersionCommand());
 $application->add(new UpdateCommand());
 $application->add(new YamlMungeCommand());
+$application->add(new TextMungeCommand());
 
 $application->run();
