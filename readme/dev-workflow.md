@@ -2,18 +2,50 @@
 
 “How do I contribute code to this project?”
 
-First off, take a moment to review our [Best Practices](best-practices.md)before writing or submitting any code.
+First off, take a moment to review our [Best Practices](best-practices.md) before writing or submitting any code.
 
 ## Git Workflow
 
-No direct changes should be pushed to the Acquia repository. The process of syncing these repositories is managed transparently in the background.
+No direct changes should be pushed to the build-artifact repository. The process of syncing these repositories is managed transparently in the background.
 
-The recommended workflow resembles a [Gitflow Workflow](https://www.atlassian.com/git/workflows#!workflow-gitflow) with the follow specifics -
+There are a few recommended Git workflows to consider, with the size of the team being a large influencing factor as to which workflow you might go with.
 
-* All development is performed against a `develop` branch.
-* Completed features are merged into a `release` branch until a new release needs to be made. Additional QA testing should be made against this branch and fixed inline, if needed.
-* Each commit to the `master` branch is tagged with a release number, named either based on sprints (e.g. `24.0`) or date (e.g. `2014-08-19.0`).
-* Any hotfixes are merged directly into a `hotfix` branch, which can then be merged to `master`.
+### Feature Branch Workflow
+
+The [Feature Branch Workflow](https://www.atlassian.com/git/tutorials/comparing-workflows#feature-branch-workflow) encourages all feature development work to take place on a dedicated branch, instead of committing locally to the standard `master` branch. The specifics are as follows:
+
+* A developer creates a new branch based on an up-to-date `master` branch to start work on a new feature.
+* When the work is completed, the "feature branch" is pushed to `origin` (or whatever name the developer gave the remote of their forked repository).
+* A pull request is opened against the `master` branch, giving other team members the chance to review the work completed prior to merging into `master`.
+* Once the work is accepted, it is merged into the `master` branch.
+
+The above flow is best-suited for a small team. For a larger team, however, the Gitflow Workflow should be considered.
+
+### Gitflow Workflow
+
+The [Gitflow Workflow](https://www.atlassian.com/git/tutorials/comparing-workflows#gitflow-workflow) builds on the concept of the feature branch workflow. In addition to developers committing to feature branches instead of directly to `master`, they will additionally submit pull requests against a `develop` branch, that serves as an integration branch for new features. The specifics are as follows:
+
+* A developer creates a new branch based on an up-to-date `develop` branch to start work on a new feature.
+* When the work is completed, the "feature branch" is pushed to `origin`.
+* A pull request is opened against the `develop` branch, giving other team members the chance to review the work completed prior to merging into `develop`.
+* Once the desired set of features has been merged into the `develop` branch (or as the Atlassian docs mention, a predetermined release date has approached) a new `release` branch is created off of `develop`.
+* From then on, the `release` branch can be worked on by one team or the release master to add only what is necessary for the release, while the rest of the team is able to continue feature development against the `develop` branch.
+* The `release` branch is eventually merged into `master`, and `develop` rebased onto `master` upon merging.
+
+This flow allows a larger team to work off an integrated branch (`develop`), all while maintaining a stable `master` branch that remains in a good state.
+
+### Gitflow Workflow (abridged version)
+
+The [Gitflow Workflow](https://www.atlassian.com/git/workflows#!workflow-gitflow) builds on the concept of the feature branch workflow. In addition to developers committing to feature branches instead of directly to `master`, they will additionally submit pull requests against a `develop` branch, that serves as an integration branch for new features. The specifics are as follows:
+
+* A developer creates a new branch based on an up-to-date `develop` branch to start work on a new feature.
+* When the work is completed, the "feature branch" is pushed to `origin`.
+* A pull request is opened against the `develop` branch, giving other team members the chance to review the work completed prior to merging into `develop`.
+* Once the desired set of features has been merged into the `develop` branch and the branch is known to be in a good state, it is merged into the `master` branch.
+
+This flow still allow a team to work off an integrated branch (`develop`), all while maintaining a stable `master` branch, but removes the `release` branch portion of the flow.
+
+**Note:** In all flows above, hotfixes are merged directly into a `hotfix` branch, which can then be merged to `master`.
 
 ## Beginning work locally
 
@@ -24,6 +56,8 @@ The recommended workflow resembles a [Gitflow Workflow](https://www.atlassian.co
 1. Commit your changes. Each commit should be logically atomic, and your commit messages should follow the pattern: "ABC-123 A grammatically correct sentence ending within punctuation."
 
 ## Creating a Pull Request
+
+The steps below assume use of a Gitflow Workflow.
 
 For any work, pull requests must be created for individual tasks and submitted for review. Before submitting a pull request, be sure to [sync the local branch](https://help.github.com/articles/syncing-a-fork) with the upstream primary branch -
 
