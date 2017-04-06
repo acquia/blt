@@ -108,6 +108,7 @@ To modify the behavior of the `deploy:build` target, you may override BLT's `dep
          build-dependencies: true
          dir: ${repo.root}/deploy
          exclude_file: ${blt.root}/phing/files/deploy-exclude.txt
+         exclude_additions_file: ${repo.root}/blt/deploy-exclude-additions.txt
          gitignore_file: ${blt.root}/phing/files/.gitignore
 
 More specifically, you can modify the build artifact in the following key ways:
@@ -116,6 +117,11 @@ More specifically, you can modify the build artifact in the following key ways:
 
           deploy:
             exclude_file: ${repo.root}/blt/deploy/rsync-exclude.txt
+
+1. If you'd simply like to add onto the [upstream deploy-exclude.txt](https://github.com/acquia/blt/blob/8.x/phing/files/deploy-exclude.txt) instead of overriding it, you need not define your own `deploy.exclude_file`. Instead, simply leverage the `deploy-exclude-additions.txt` file found under the top-level `blt` directory by adding each file or directory you'd like to exclude on its own line. E.g.,
+
+          /directorytoexclude
+          excludeme.txt
 
 1. Change which files are gitignored in the artifact by providing your own `deploy.gitignore_file` value in project.yml. See [upstream .gitignore](https://github.com/acquia/blt/blob/8.x/phing/files/.gitignore) for example contents. E.g.,
 
