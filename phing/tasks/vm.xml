@@ -6,7 +6,7 @@
     <if>
       <not><available file="${repo.root}/Vagrantfile"/></not>
       <then>
-        <phingcall target="vm:project:init"/>
+        <phingcall target="vm:dvm:init"/>
       </then>
     </if>
 
@@ -49,7 +49,7 @@
     <echo>drush.aliases.local has been set to ${project.machine_name}.local</echo>
   </target>
 
-  <target name="vm:project:init" description="Initializes Drupal VM for this project." hidden="true">
+  <target name="vm:dvm:init" description="Initializes Drupal VM for this project." hidden="true">
     <echo>Creating a drush alias for the new VM.</echo>
     <exec dir="${repo.root}" command="cat ${blt.root}/scripts/drupal-vm/drupal-vm.aliases.drushrc.php >> ${repo.root}/drush/site-aliases/aliases.drushrc.php" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
     <reflexive>
@@ -87,6 +87,30 @@
     <echo></echo>
     <echo>To boot your machine, execute:</echo>
     <echo>vagrant up</echo>
+  </target>
+
+  <target name="vm:bb:init" description="Initializes beetbox for this project." hidden="true">
+    <echo>Creating a drush alias for the new VM.</echo>
+    <exec dir="${repo.root}" command="cat ${blt.root}/scripts/beetbox/beetbox.aliases.drushrc.php >> ${repo.root}/drush/site-aliases/aliases.drushrc.php" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
+    <reflexive>
+      <fileset dir="${repo.root}">
+        <include name="drush/site-aliases/aliases.drushrc.php" />
+      </fileset>
+      <filterchain>
+        <expandproperties />
+      </filterchain>
+    </reflexive>
+
+    <echo>Creating a config.yml file for beetbox.</echo>
+    <mkdir dir="${repo.root}/.beetbox" mode="755"/>
+    <copy file="${blt.root}/scripts/beetbox/config.yml" tofile="${repo.root}/.beetbox/config.yml" verbose="true">
+      <filterchain>
+        <expandproperties />
+      </filterchain>
+    </copy>
+
+    <echo>Adding beet/box to composer dev dependencies.</echo>
+    <exec dir="${repo.root}" command="composer require --dev beet/box:^0.4" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
   </target>
 
   <target name="vm:requirements" description="Checks and conditionally installs DrupalVM requirements." hidden="true">
