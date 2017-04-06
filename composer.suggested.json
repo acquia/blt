@@ -4,7 +4,6 @@
     "drupal/acquia_connector": "^1.5.0",
     "drupal/cog": "^1.0.0",
     "drupal/memcache": "2.x-dev",
-    "drupal/search_api": "1.0-beta4",
     "drupal/seckit": "^1.0.0-alpha2",
     "drupal/security_review": "*",
     "drupal/shield": "^1.0.0"
