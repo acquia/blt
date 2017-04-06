@@ -3,6 +3,7 @@
 .gitattributes
 .gitignore
 blt/composer.overrides.json
+blt/deploy-exclude-additions.txt
 blt/example.project.local.yml
 blt/project.yml
 composer.json
