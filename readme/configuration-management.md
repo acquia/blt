@@ -92,13 +92,14 @@ BLT and Config Split together make it easy to capture configuration changes in c
 
 BLT automatically enables the following config splits in the following environments:
 
-| Split | Environment
-|-------|----------------------------------------------
-| local | any non-Acquia, non-Travis environment
-| ci    | Acquia Pipelines OR Travis CI
-| dev   | Acquia Dev
-| stage | Acquia Staging
-| prod  | Acquia Prod
+| Split    | Environment
+|----------|----------------------------------------------
+| local    | any non-Acquia, non-Travis environment
+| ci       | Acquia Pipelines OR Travis CI
+| dev      | Acquia Dev
+| stage    | Acquia Staging
+| prod     | Acquia Prod
+| ah_other | any Acquia environment not listed above
 
 As a prerequisite, make sure your BLT-based project is set up to use Config Split (see section above).
 
