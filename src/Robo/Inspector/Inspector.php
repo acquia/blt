@@ -134,6 +134,21 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
   }
 
   /**
+   * @return bool
+   */
+  public function isDrupalVmConfigPresent() {
+    return file_exists($this->getConfigValue('repo.root') . '/Vagrantfile');
+  }
+
+  /**
+   * @return bool
+   */
+  public function isDrupalVmLocallyInitialized() {
+    // We assume that if the local drush alias is ${project.machine_name.local}, rather than self, then Drupal VM is being used locally.
+    return $this->getConfigValue('drush.aliases.local') == $this->getConfigValue('project.machine_name') . 'local';
+  }
+
+  /**
    * Checks if a given command exists on the system.
    *
    * @param $command string the command binary only. E.g., "drush" or "php".

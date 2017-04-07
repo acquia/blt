@@ -12,7 +12,9 @@ $robo_commands = [
   'tests:all',
   'tests:behat',
   'tests:phpunit',
-  'tests:security-updates'
+  'tests:security-updates',
+  'vm',
+  'vm:nuke',
 ];
 
 // Execute command via Robo.

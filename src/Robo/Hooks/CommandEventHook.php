@@ -44,24 +44,4 @@ class CommandEventHook extends Tasks implements IOAwareInterface, ConfigAwareInt
       }
     }
   }
-
-  /**
-   * Set configuration options passed on the CLI.
-   *
-   * These must take the form `--key=value`.
-   *
-   * @hook command-event *
-   */
-  public function setConfigFromParameters(ConsoleCommandEvent $event)
-  {
-    $config = $this->getConfig();
-    /** @var ConfigInput $input */
-    $input = $event->getInput();
-    $config_options = $input->parseConfigOptions();
-
-    foreach ($config_options as $option => $value) {
-      $config->set($option, $value);
-    }
-  }
-
 }

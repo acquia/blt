@@ -24,6 +24,18 @@ class BltTasks extends Tasks implements ConfigAwareInterface, InspectorAwareInte
   use IO;
   use LoggerAwareTrait;
 
+  /**
+   *
+   */
+  protected function initialize() {
+
+  }
+
+  /**
+   * @param $array
+   * @param string $prefix
+   * @param int $verbosity
+   */
   protected function logConfig($array, $prefix = '', $verbosity = OutputInterface::VERBOSITY_VERY_VERBOSE) {
     if ($this->output()->getVerbosity() >= $verbosity) {
       if ($prefix) {
