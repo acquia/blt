@@ -17,6 +17,10 @@ project:
 git:
   default_branch: master
   remotes: []
+  # Overrides git-config user.name and user.email respectively on deploy git repository.
+  #user:
+  #  name: 'John Doe'
+  #  email: 'john@example.com'
 
 drush:
   # You can set custom project aliases in drush/site-aliases/aliases.drushrc.php.
