@@ -3,7 +3,6 @@
 namespace Acquia\Blt\Robo\Commands\Vm;
 
 use Acquia\Blt\Robo\BltTasks;
-use Acquia\Blt\Robo\Config\BltConfig;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Yaml\Yaml;
 
@@ -96,17 +95,20 @@ class VmCommand extends BltTasks {
    */
   protected function install() {
     $this->requireDrupalVm();
-    $this->generateConfig();
+    $this->configure();
   }
 
   /**
    * Generates default configuration for Drupal VM.
+   *
+   * @command vm:config
    */
-  protected function generateConfig() {
+  public function config() {
 
     $this->say("Generating default configuration for Drupal VM");
 
     $this->logger->info("Adding a drush alias for the new VM");
+    // @todo Concat only if it has not already been done.
     $this->taskConcat([
       $this->projectDrushAliasesFile,
       $this->defaultDrupalVmDrushAliasesFile,
@@ -114,7 +116,7 @@ class VmCommand extends BltTasks {
       ->to($this->projectDrushAliasesFile)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
-    BltConfig::expandFileProperties($this->projectDrushAliasesFile);
+    $this->getConfig()->expandFileProperties($this->projectDrushAliasesFile);
 
     $this->logger->info("Creating configuration files for Drupal VM");
 
@@ -126,7 +128,7 @@ class VmCommand extends BltTasks {
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
-    BltConfig::expandFileProperties($this->projectDrupalVmConfigFile);
+    $this->getConfig()->expandFileProperties($this->projectDrupalVmConfigFile);
 
     $this->say("BLT has created default configuration for your Drupal VM");
     $this->say("The configuration file is {$this->projectDrupalVmConfigFile}");

@@ -16,10 +16,9 @@ class BltConfig extends Config {
   /**
    * @param string $filename
    */
-  static function expandFileProperties($filename) {
-    $expanded_config = Expander::parse(file_get_contents($filename));
-    $yaml = Yaml::dump($expanded_config, 3, 2);
-    file_put_contents($filename, $yaml);
+  public function expandFileProperties($filename) {
+    $expanded_contents = Expander::expandArrayProperties(file($filename), $this->export());
+    file_put_contents($filename, implode("", $expanded_contents));
   }
 
 }

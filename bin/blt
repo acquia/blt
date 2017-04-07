@@ -14,6 +14,7 @@ $robo_commands = [
   'tests:phpunit',
   'tests:security-updates',
   'vm',
+  'vm:config',
   'vm:nuke',
 ];
 
