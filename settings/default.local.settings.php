@@ -129,6 +129,6 @@ $settings['file_private_path'] = $dir . '/files-private';
  *
  * See full description in default.settings.php.
  */
-# $settings['trusted_host_patterns'] = array(
-#   '^example\.local$',
-# );
+$settings['trusted_host_patterns'] = array(
+  '^.+$',
+);
