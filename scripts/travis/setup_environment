@@ -8,10 +8,8 @@ sleep 3
 export PATH=${COMPOSER_BIN}:$PATH
 
 # Create fake mailer.
-echo 'max_execution_time = 120' >> drupal.php.ini;
-echo 'sendmail_path = /bin/true' >> drupal.php.ini;
-phpenv config-add drupal.php.ini
-phpenv rehash
+echo 'max_execution_time = 120' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+echo 'sendmail_path = /bin/true' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 
 # Enable $_ENV variables in PHP.
 echo 'variables_order = "EGPCS"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
