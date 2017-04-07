@@ -204,8 +204,25 @@
   </target>
 
   <target name="deploy:copy" description="Copy required files from each /docroot/sites to /deploy/docroot/sites." hidden="true">
+    <property name="deploy.exclusions" value="${deploy.exclude_file}"/>
+    <!-- Check for existence of the exclude_additions_file. -->
+    <if>
+      <available file="${deploy.exclude_additions_file}"/>
+      <then>
+        <echo>Combining exclusions from deploy-exclude-additions and deploy-exclude files...</echo>
+        <exec dir="${repo.root}" command="${composer.bin}/blt-console text:munge ${deploy.exclude_file} ${deploy.exclude_additions_file} > ${deploy.exclude_file}.tmp" logoutput="true" checkreturn="true" level="${blt.exec_level}"/>
+        <property name="deploy.exclusions" value="${deploy.exclude_file}.tmp" override="true"/>
+      </then>
+    </if>
     <foreach list="${multisite.name}" param="multisite.name" target="deploy:copy:site:perms-writable"/>
-    <exec dir="${repo.root}" command="rsync -a --no-g --delete --delete-excluded --exclude-from=${deploy.exclude_file} ${repo.root}/ ${deploy.dir}/ --filter 'protect /.git/'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <exec dir="${repo.root}" command="rsync -a --no-g --delete --delete-excluded --exclude-from=${deploy.exclusions} ${repo.root}/ ${deploy.dir}/ --filter 'protect /.git/'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    <if>
+      <available file="${deploy.exclude_file}.tmp"/>
+      <then>
+        <!-- Get rid of the temporary file we created. -->
+        <exec dir="${repo.root}" command="rm ${deploy.exclude_file}.tmp" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+      </then>
+    </if>
     <foreach list="${multisite.name}" param="multisite.name" target="deploy:copy:site:perms-unwritable"/>
 
     <!-- Use our own .gitignore -->
