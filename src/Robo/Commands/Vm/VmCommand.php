@@ -4,9 +4,7 @@ namespace Acquia\Blt\Robo\Commands\Vm;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Config\BltConfig;
-use Grasmash\YamlExpander\Expander;
 use Robo\Contract\VerbosityThresholdInterface;
-use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -54,6 +52,9 @@ class VmCommand extends BltTasks {
       if ($confirm) {
         $this->install();
       }
+      else {
+        return FALSE;
+      }
     }
 
     // @todo Check that VM is properly configured. E.g., all config files exist
@@ -76,7 +77,7 @@ class VmCommand extends BltTasks {
   public function nuke() {
     $confirm = $this->confirm("This will destroy your VM, and delete all associated configuration. Continue?");
     if ($confirm) {
-      $this->taskExec("vagrant destroy")->printOutput(true)->run();
+      $this->taskExec("vagrant destroy")->printOutput(TRUE)->run();
       $this->taskFilesystemStack()
         ->remove($this->projectDrupalVmConfigFile)
         ->remove($this->projectDrupalVmVagrantfile)
@@ -107,9 +108,9 @@ class VmCommand extends BltTasks {
 
     $this->logger->info("Adding a drush alias for the new VM");
     $this->taskConcat([
-        $this->projectDrushAliasesFile,
-        $this->defaultDrupalVmDrushAliasesFile
-      ])
+      $this->projectDrushAliasesFile,
+      $this->defaultDrupalVmDrushAliasesFile,
+    ])
       ->to($this->projectDrushAliasesFile)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
@@ -138,7 +139,7 @@ class VmCommand extends BltTasks {
   }
 
   /**
-   * Configures local machine to use Drupal VM as default environment for BLT commands.
+   * Configures local machine to use Drupal VM as default env for BLT commands.
    */
   protected function localInitialize() {
     $filename = $this->getConfigValue('blt.config-files.local');
@@ -147,8 +148,8 @@ class VmCommand extends BltTasks {
     $contents = Yaml::parse(file_get_contents($filename));
     $contents['drush']['default_alias'] = $this->getConfigValue('project.machine_name') . '.local';
     $contents['drush']['aliases']['local'] = $this->getConfigValue('project.machine_name') . '.local';
-    $contents['behat']['launch-selenium'] = false;
-    $contents['behat']['launch-phantomjs'] = true;
+    $contents['behat']['launch-selenium'] = FALSE;
+    $contents['behat']['launch-phantomjs'] = TRUE;
     $yaml = Yaml::dump($contents, 3, 2);
     file_put_contents($filename, $yaml);
 
@@ -162,7 +163,7 @@ class VmCommand extends BltTasks {
     $confirm = $this->confirm("Do you want to boot Drupal VM?");
     $this->say("In future, run `vagrant up` to boot the VM");
     if ($confirm) {
-      $this->taskExec("vagrant up")->printOutput(true)->run();
+      $this->taskExec("vagrant up")->printOutput(TRUE)->run();
     }
   }
 
