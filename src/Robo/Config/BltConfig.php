@@ -21,4 +21,25 @@ class BltConfig extends Config {
     file_put_contents($filename, implode("", $expanded_contents));
   }
 
+  /**
+   * Set a config value
+   *
+   * @param string $key
+   * @param mixed $value
+   *
+   * @return $this
+   */
+  public function set($key, $value)
+  {
+    if ($value === 'false') {
+      $value = false;
+    }
+    elseif ($value === 'true') {
+      $value = true;
+    }
+
+    return parent::set($key, $value);
+
+  }
+
 }
