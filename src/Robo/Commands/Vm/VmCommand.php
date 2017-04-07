@@ -37,7 +37,6 @@ class VmCommand extends BltTasks {
     $this->defaultDrupalVmConfigFile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/config.yml';
     $this->defaultDrupalVmVagrantfile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/Vagrantfile';
     $this->defaultDrushAliasesFile = $this->getConfigValue('blt.root') . '/template/drush/site-aliases/aliases.drushrc.php';
-
     $this->projectDrupalVmConfigFile = $this->getConfigValue('repo.root') . '/box/config.yml';
     $this->projectDrushAliasesFile = $this->getConfigValue('repo.root') . '/drush/site-aliases/aliases.drushrc.php';
     $this->projectDrupalVmVagrantfile = $this->getConfigValue('repo.root') . '/Vagrantfile';
@@ -51,8 +50,12 @@ class VmCommand extends BltTasks {
    */
   public function vm() {
     if (!$this->getInspector()->isDrupalVmConfigPresent()) {
-      $this->install();
+      $confirm = $this->confirm("Drupal VM is not currently installed. Install it now? ");
+      if ($confirm) {
+        $this->install();
+      }
     }
+
     // @todo Check that VM is properly configured. E.g., all config files exist
     // and geerlingguy/drupalvm is in composer.lock.
     if ($this->getInspector()->isDrupalVmLocallyInitialized()) {
@@ -77,7 +80,8 @@ class VmCommand extends BltTasks {
       $this->taskFilesystemStack()
         ->remove($this->projectDrupalVmConfigFile)
         ->remove($this->projectDrupalVmVagrantfile)
-        // @todo More surgically remove drush.default_alias and drush.aliases.local values from this file.
+        // @todo More surgically remove drush.default_alias and drush.aliases.local values from this file
+        // rather than overwriting it.
         ->remove($this->getConfigValue('repo.root') . '/blt/project.local.yml')
         ->copy($this->defaultDrushAliasesFile, $this->projectDrushAliasesFile)
         ->run();
@@ -87,7 +91,7 @@ class VmCommand extends BltTasks {
   }
 
   /**
-   *
+   * Installs and configures default Drupal VM instance.
    */
   protected function install() {
     $this->requireDrupalVm();
@@ -95,12 +99,11 @@ class VmCommand extends BltTasks {
   }
 
   /**
-   *
+   * Generates default configuration for Drupal VM.
    */
   protected function generateConfig() {
 
     $this->say("Generating default configuration for Drupal VM");
-
 
     $this->logger->info("Adding a drush alias for the new VM");
     $this->taskConcat([
@@ -135,7 +138,7 @@ class VmCommand extends BltTasks {
   }
 
   /**
-   *
+   * Configures local machine to use Drupal VM as default environment for BLT commands.
    */
   protected function localInitialize() {
     $filename = $this->getConfigValue('blt.config-files.local');
@@ -153,7 +156,7 @@ class VmCommand extends BltTasks {
   }
 
   /**
-   *
+   * Boots a Drupal VM.
    */
   protected function boot() {
     $confirm = $this->confirm("Do you want to boot Drupal VM?");
@@ -164,6 +167,8 @@ class VmCommand extends BltTasks {
   }
 
   /**
+   * Installs geerlingguy/drupalvm via Composer.
+   *
    * @throws \Exception
    */
   protected function requireDrupalVm() {
@@ -186,6 +191,25 @@ class VmCommand extends BltTasks {
       else {
         // @todo revert previous file chanages.
         throw new \Exception("Unable to install Drupal VM");
+      }
+    }
+  }
+
+  /**
+   * Checks local system for Drupal VM requirements.
+   */
+  protected function checkRequirements() {
+    if (!$this->getInspector()->commandExists("vagrant")) {
+      $this->logger->error("Vagrant is not installed");
+      $this->say("Please install all dependencies for Drupal VM by following the Quickstart Guide");
+      $this->say("https://github.com/geerlingguy/drupal-vm#quick-start-guide");
+      throw new \Exception("Drupal VM requirements are missing");
+    }
+    else {
+      $vagrant_hosts_plugin_installed = (bool) $this->taskExec("vagrant plugin list | grep vagrant-hostsupdater")->run()->getOutputData();
+      if ($vagrant_hosts_plugin_installed) {
+        $this->logger->warning("The vagrant-hostsupdater plugin is not installed! Attempting to install it");
+        $this->taskExec("vagrant plugin install vagrant-hostsupdater")->run();
       }
     }
   }

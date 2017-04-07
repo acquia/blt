@@ -156,7 +156,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
    * @return bool
    *   TRUE if the command exists, otherwise FALSE.
    */
-  public static function commandExists($command) {
+  public function commandExists($command) {
     exec("command -v $command >/dev/null 2>&1", $output, $exit_code);
     return $exit_code == 0;
   }
