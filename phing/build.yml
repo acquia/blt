@@ -11,6 +11,10 @@ behat:
   launch-selenium: true
   # If true, PhantomJS GhostDriver will be launched with Behat.
   launch-phantomjs: false
+  # The delay to wait for the Selenium server to start.
+  wait-selenium: 15
+  # The delay to wait for the PhantomJS GhostDriver to start.
+  wait-phantomjs: 10
   # An array of paths with behat tests that should be executed.
   paths:
     # - ${docroot}/modules
