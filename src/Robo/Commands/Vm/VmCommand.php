@@ -49,7 +49,7 @@ class VmCommand extends BltTasks {
    */
   public function vm($options = ['no-boot' => FALSE]) {
     if (!$this->getInspector()->isDrupalVmConfigPresent()) {
-      $confirm = $this->confirm("Drupal VM is not currently installed. Install it now? ");
+      $confirm = $this->confirm("Drupal VM is not currently installed. Install it now? ", TRUE);
       if ($confirm) {
         $this->install();
       }
