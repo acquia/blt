@@ -99,7 +99,7 @@ class VmCommand extends BltTasks {
    */
   protected function install() {
     $this->requireDrupalVm();
-    $this->configure();
+    $this->config();
   }
 
   /**
