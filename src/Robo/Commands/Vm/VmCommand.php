@@ -44,8 +44,10 @@ class VmCommand extends BltTasks {
    * Configures and boots a Drupal VM.
    *
    * @command vm
+   *
+   * @options no-boot
    */
-  public function vm() {
+  public function vm($options = ['no-boot' => FALSE]) {
     if (!$this->getInspector()->isDrupalVmConfigPresent()) {
       $confirm = $this->confirm("Drupal VM is not currently installed. Install it now? ");
       if ($confirm) {
@@ -65,7 +67,9 @@ class VmCommand extends BltTasks {
       $this->say("Drupal VM is already configured. In future, please use vagrant commands to interact directly with the VM");
     }
 
-    $this->boot();
+    if (!$options['no-boot']) {
+      $this->boot();
+    }
   }
 
   /**
@@ -162,14 +166,9 @@ class VmCommand extends BltTasks {
    * Boots a Drupal VM.
    */
   protected function boot() {
-    if ($this->getConfig()->has('vm.boot')) {
-      $confirm = $this->getConfigValue('vm.boot');
-    }
-    else {
-      $confirm = $this->confirm("Do you want to boot Drupal VM?");
-      $this->say("In future, run `vagrant up` to boot the VM");
-    }
+    $confirm = $this->confirm("Do you want to boot Drupal VM?", TRUE);
     if ($confirm) {
+      $this->say("In future, run `vagrant up` to boot the VM");
       $this->taskExec("vagrant up")->printOutput(TRUE)->run();
     }
   }
