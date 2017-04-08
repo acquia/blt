@@ -5,11 +5,6 @@
           depends="ci:setup, tests:all" hidden="true">
   </target>
 
-  <target name="ci:build:validate:test"
-          description="Builds, validates, tests, and deploys an artifact; uses ci drush alias."
-          depends="validate:all, ci:setup, tests:all" hidden="true">
-  </target>
-
   <target name="ci:setup" description="Install dependencies, builds docroot, installs Drupal; uses ci drush alias." hidden="true">
     <phingcall target="setup">
       <property name="drush.alias" value="${drush.aliases.ci}"/>

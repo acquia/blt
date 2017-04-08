@@ -6,7 +6,9 @@ yaml-cli update:value blt/project.yml project.local.hostname '127.0.0.1:8888'
 
 # Build codebase, validate, install Drupal, run basic tests.
 yaml-cli update:value blt/project.yml cm.strategy none
-blt ci:build:validate:test -Dcreate_alias=false -Dbehat.run-server=true -Dblt.verbose=true
+blt validate:all
+blt ci:setup -Dcreate_alias=false
+blt tests:all --define behat.run-server=true
 drush config-export --root=docroot -y
 
 # Test core-only config management.
