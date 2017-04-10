@@ -57,7 +57,7 @@ class BehatCommand extends TestsCommandBase {
   public function behat() {
     // Log config for debugging purposes.
     $this->logConfig($this->getConfigValue('behat'), 'behat');
-    $this->logConfig($this->getInspector()->getLocalBehatConfig()->toArray());
+    $this->logConfig($this->getInspector()->getLocalBehatConfig()->export());
     $this->createReportsDir();
     $this->launchWebDriver();
     $this->executeBehatTests();
