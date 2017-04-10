@@ -64,6 +64,9 @@ deploy:
   exclude_file: ${blt.root}/phing/files/deploy-exclude.txt
   exclude_additions_file: ${repo.root}/blt/deploy-exclude-additions.txt
   gitignore_file: ${blt.root}/phing/files/.gitignore
+  git:
+    # If true, deploys will fail if there are uncommitted changes.
+    failOnDirty: true
 
 # File and Directory locations.
 docroot.relative: ${repo.root.relative}/docroot
