@@ -149,12 +149,7 @@ class VmCommand extends BltTasks {
    */
   protected function localInitialize() {
     if (!$this->getInspector()->isBltLocalConfigFilePresent()) {
-      // @todo Abstract this to generateBltLocalConfigFiles.
-      $this->taskFilesystemStack()
-        ->copy($this->getConfigValue('repo.root') . '/blt/example.project.local.yml', $this->getConfigValue('repo.root') . '/blt/project.local.yml')
-        ->stopOnFail()
-        ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-        ->run();
+      $this->invokeCommands(['setup:settings']);
     }
 
     $filename = $this->getConfigValue('blt.config-files.local');
