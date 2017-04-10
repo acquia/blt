@@ -7,10 +7,14 @@ use Acquia\Blt\Robo\Common\IO;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
 use Acquia\Blt\Robo\Inspector\InspectorAwareInterface;
 use Acquia\Blt\Robo\Inspector\InspectorAwareTrait;
+use League\Container\ContainerAwareInterface;
+use League\Container\ContainerAwareTrait;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
+use Robo\Contract\BuilderAwareInterface;
 use Robo\Contract\ConfigAwareInterface;
-use Robo\Tasks;
+use Robo\Contract\IOAwareInterface;
+use Robo\LoadAllTasks;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -18,8 +22,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  *
  */
-class BltTasks extends Tasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerAwareInterface {
+class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerAwareInterface, BuilderAwareInterface, IOAwareInterface, ContainerAwareInterface {
 
+  use ContainerAwareTrait;
+  use LoadAllTasks;
   use ConfigAwareTrait;
   use InspectorAwareTrait;
   use IO;

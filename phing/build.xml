@@ -45,9 +45,6 @@
   <!-- Contains tasks relevant to validation. E.g., code metrics. -->
   <import file="${phing.dir}/tasks/validate.xml"/>
 
-  <!-- Contains targets relevant to the execution of tests. E.g., Behat, jMeter. -->
-  <import file="${phing.dir}/tasks/tests.xml"/>
-
   <!-- Contains targets used for setting up environment. E.g., installing Drupal. -->
   <import file="${phing.dir}/tasks/setup.xml"/>
 

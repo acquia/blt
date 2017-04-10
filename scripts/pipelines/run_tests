@@ -6,6 +6,9 @@ export PATH=${COMPOSER_BIN}:${PATH}
 
 yaml-cli update:value blt/project.yml project.local.hostname '127.0.0.1:8888'
 sudo /etc/init.d/mysql start
-blt -Dbehat.run-server=true -Dcreate_alias=false -Dbehat.launch-selenium=false -Dbehat.launch-phantomjs=true -Dbehat.tags='~experimental' -Dblt.verbose=true ci:build:validate:test
+
+blt validate:all
+blt ci:setup -Dcreate_alias=false
+blt tests:all -D behat.run-server=true -D behat.launch-selenium=false -D behat.launch-phantomjs=true -D behat.tags='~experimental' --yes
 
 set +v

@@ -47,6 +47,10 @@ trait IO {
    */
   protected function confirm($question, $default = FALSE)
   {
+    if ($this->input()->hasOption('yes') && $this->input()->getOption('yes')) {
+      return $default;
+    }
+
     return $this->doAsk(new ConfirmationQuestion($this->formatQuestion($question . ' (y/n)'), $default));
   }
 
