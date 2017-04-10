@@ -53,6 +53,14 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
     return file_exists($this->getConfigValue('docroot'));
   }
 
+  public function isBltConfigFilePresent() {
+    return file_exists($this->getConfigValue('blt.config-files.local'));
+  }
+
+  public function isBltLocalConfigFilePresent() {
+    return file_exists($this->getConfigValue('blt.config-files.local'));
+  }
+
   /**
    * @return bool
    */
@@ -145,7 +153,10 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
    */
   public function isDrupalVmLocallyInitialized() {
     // We assume that if the local drush alias is ${project.machine_name.local}, rather than self, then Drupal VM is being used locally.
-    return $this->getConfigValue('drush.aliases.local') == $this->getConfigValue('project.machine_name') . 'local';
+    $drush_local_alias = $this->getConfigValue('drush.aliases.local');
+    $expected_vm_alias = $this->getConfigValue('project.machine_name') . '.local';
+
+    return $drush_local_alias == $expected_vm_alias;
   }
 
   /**

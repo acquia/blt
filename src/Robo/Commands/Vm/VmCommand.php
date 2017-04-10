@@ -60,7 +60,7 @@ class VmCommand extends BltTasks {
 
     // @todo Check that VM is properly configured. E.g., all config files exist
     // and geerlingguy/drupalvm is in composer.lock.
-    if ($this->getInspector()->isDrupalVmLocallyInitialized()) {
+    if (!$this->getInspector()->isDrupalVmLocallyInitialized()) {
       $this->localInitialize();
     }
     else {
@@ -148,6 +148,15 @@ class VmCommand extends BltTasks {
    * Configures local machine to use Drupal VM as default env for BLT commands.
    */
   protected function localInitialize() {
+    if (!$this->getInspector()->isBltLocalConfigFilePresent()) {
+      // @todo Abstract this to generateBltLocalConfigFiles.
+      $this->taskFilesystemStack()
+        ->copy($this->getConfigValue('repo.root') . '/blt/example.project.local.yml', $this->getConfigValue('repo.root') . '/blt/project.local.yml')
+        ->stopOnFail()
+        ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+        ->run();
+    }
+
     $filename = $this->getConfigValue('blt.config-files.local');
     $this->logger->info("Updating $filename");
 
@@ -160,6 +169,7 @@ class VmCommand extends BltTasks {
     file_put_contents($filename, $yaml);
 
     $this->say("$filename was modified");
+    $this->say("BLT will now use @{$contents['drush']['default_alias']} as the default drush alias for all commands.");
   }
 
   /**
