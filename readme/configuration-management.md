@@ -74,11 +74,7 @@ We need to find a better way of preventing this than manually monitoring module 
 
 BLT recommends using the Config Split module to manage configuration on most projects. For an overview of how to use Config Split, see this excellent [blog post by Jeff Geerling](https://www.jeffgeerling.com/blog/2017/adding-configuration-split-drupal-site-using-blt-and-acquia-cloud).
 
-Note that this workflow currently has two major limitations. The first is that individual configurations can't be entirely excluded from configuration management. For instance, if you want administrators to be able to set the site name (as above) or create new contact forms / webforms in production, this would be difficult given the current state of the module. However, this should theoretically be possible.
-
-TODO: Update this documentation once Config Split's greylist functionality has been better documented and tested.
-
-The second limitation is that it's difficult to define configuration that varies between sites in a multisite installation. Multisite installations that require highly customized bundles of configuration per-site might be better suited by a Features-based workflow.
+The only limitation of Config Split is that it's difficult to define configuration that varies between sites in a multisite installation. Multisite installations that require highly customized bundles of configuration per-site might be better suited by a Features-based workflow.
 
 ### Setting up Config Split
 
@@ -110,7 +106,9 @@ To capture and deploy configuration changes using Config Split:
 3. Once you have completed local development, use `drush cex` (`config-export`) to export your configuration changes to the `config/default` directory. Remember to use an appropriate alias if you are using a VM (e.g. `drush @example.local cex`).
 4. Review the updated configuration in `config/default` using `git diff`.  If you are satisfied with the changes, commit them and open a pull request.
 
-Note that when you run `drush cex`, if the project has been configured correctly, some configuration that's specific to the development environment should automatically be excluded. Similarly, some configuration that's intended to be "unlocked" in production might also be excluded (such as webforms). If you need to customize this behavior, you can modify the blacklists or greylists by following the steps in the section above.
+Note that when you run `drush cex`, if the project has been configured correctly, some configuration that's specific to the development environment should automatically be excluded. If you need to customize this behavior, you can modify the blacklists by following the steps in the section above.
+
+Similarly, some configuration that's intended to be "unlocked" in production might also be excluded (such as webforms). If you need to customize this behavior, you can use the greylist functionality described in [this blog post](https://blog.liip.ch/archive/2017/04/07/advanced-drupal-8-cmi-workflows.html).
 
 ## Features-based workflow
 
