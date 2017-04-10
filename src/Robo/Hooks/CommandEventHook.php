@@ -44,4 +44,5 @@ class CommandEventHook extends Tasks implements IOAwareInterface, ConfigAwareInt
       }
     }
   }
+
 }
