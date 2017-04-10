@@ -2,6 +2,8 @@
 
 namespace Acquia\Blt\Robo\Config;
 
+use Symfony\Component\Finder\Finder;
+
 /**
  *
  */
@@ -18,6 +20,7 @@ class DefaultConfig extends BltConfig {
     $this->set('docroot', $repo_root . '/docroot');
     $this->set('blt.root', $this->getBltRoot());
     $this->set('composer.bin', $repo_root . '/vendor/bin');
+    $this->set('multisites', $this->getSiteDirs());
   }
 
   /**
@@ -59,6 +62,24 @@ class DefaultConfig extends BltConfig {
   public function populateHelperConfig() {
     $defaultAlias = $this->get('drush.default_alias');
     $this->set('drush.alias', $defaultAlias);
+  }
+
+  /**
+   * @return array
+   */
+  protected function getSiteDirs() {
+    $finder = new Finder();
+    $dirs = $finder
+      ->in($this->get('docroot') . '/sites')
+      ->directories()
+      ->depth('< 1')
+      ->exclude(['g']);
+    $sites = [];
+    foreach ($dirs->getIterator() as $dir) {
+      $sites[] = $dir->getRelativePathname();
+    }
+
+    return $sites;
   }
 
 }

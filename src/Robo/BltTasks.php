@@ -47,7 +47,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    * @return int
    *   The exit code of the command.
    */
-  public function invokeCommands(array $commands) {
+  protected function invokeCommands(array $commands) {
     foreach ($commands as $command) {
       $returnCode = $this->invokeCommand($command);
       // Return if this is non-zero exit code.
@@ -66,7 +66,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    * @return int
    *   The exit code of the command.
    */
-  public function invokeCommand($command_name) {
+  protected function invokeCommand($command_name) {
     /** @var \Robo\Application $application */
     $application = $this->getContainer()->get('application');
     $command = $application->find($command_name);
@@ -79,6 +79,21 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
     return $returnCode;
   }
 
+  /**
+   * @param $hook
+   */
+  protected function invokeHook($hook) {
+    if ($this->getConfig()->has("target-hooks.$hook.command")) {
+     $this->taskExec($this->getConfigValue("target-hooks.$hook.command"))
+       ->dir($this->getConfigValue("target-hooks.$hook.dir"))
+       ->interactive()
+       ->printOutput(TRUE)
+       ->run();
+    }
+    else {
+      $this->say("No commands are defined for $hook. Skipping.");
+    }
+  }
 
   /**
    * @param $array
