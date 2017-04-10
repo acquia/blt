@@ -19,6 +19,8 @@ behat:
   tags: '~ajax&&~experimental&&~lightningextension'
   verbose: ${blt.verbose}
   extra: ''
+  # The default Behat definitions output mode.
+  definitions: l
 
 bin.path: vendor/bin
 

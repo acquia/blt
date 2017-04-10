@@ -77,6 +77,24 @@
 
   </target>
 
+  <target name="tests:behat:definitions" depends="test:behat:check" description="Lists available Behat definitions.">
+
+    <echo>Printing all available step definitions:</echo>
+    <echo>Override output with -Dbehat.definitions=new value</echo>
+    <echo>- use l to just list definition expressions.</echo>
+    <echo>- use i to show definitions with extended info.</echo>
+    <echo>- use 'needle' to find specific definitions.</echo>
+
+    <behat executable="${composer.bin}/behat"
+           config="${behat.config}"
+           profile="${behat.profile}"
+           returnProperty="behatPass"
+           out="std,${reports.localDir}"
+           format="pretty,junit"
+           extra="--definitions ${behat.definitions} ${behat.extra}"
+    />
+  </target>
+
   <target name="tests:behat:execute" description="Executes behat tests against specific path." hidden="true">
     <!-- Check to see if any behat tests exist in this directory. If not,
          behat will throw fatal error. -->
