@@ -9,6 +9,6 @@ sudo /etc/init.d/mysql start
 
 blt validate:all
 blt ci:setup -Dcreate_alias=false
-blt tests:all -D behat.run-server=true -D behat.launch-selenium=false -D behat.launch-phantomjs=true -D behat.tags='~experimental'
+blt tests:all -D behat.run-server=true -D behat.launch-selenium=false -D behat.launch-phantomjs=true -D behat.tags='~experimental' --yes
 
 set +v

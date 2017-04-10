@@ -142,7 +142,7 @@ class BehatCommand extends TestsCommandBase {
    *
    * Sometimes the download fails during `composer install`.
    *
-   * @command setup:phantomjs
+   * @command tests:configure-phantomjs
    *
    * @validatePhantomJsIsConfigured
    */
