@@ -24,7 +24,7 @@
                   <option name="account-mail">"${drupal.account.mail}"</option>
                   <option name="locale">"${drupal.locale}"</option>
                   <param>"${project.profile.name}"</param>
-                  <param>"install_configure_form.update_status_module='array(FALSE,FALSE)'"</param>
+                  <param>"install_configure_form.update_status_module='array(FALSE,FALSE)';install_configure_form.enable_update_status_module=FALSE;install_configure_form.enable_update_status_emails=FALSE"</param>
               </drush>
           </then>
           <else>
@@ -37,7 +37,7 @@
                   <option name="locale">"${drupal.locale}"</option>
                   <option name="config-dir">${cm.core.dirs.${cm.core.key}.path}</option>
                   <param>"${project.profile.name}"</param>
-                  <param>"install_configure_form.update_status_module='array(FALSE,FALSE)'"</param>
+                  <param>"install_configure_form.update_status_module='array(FALSE,FALSE)';install_configure_form.enable_update_status_module=FALSE;install_configure_form.enable_update_status_emails=FALSE"</param>
               </drush>
           </else>
       </if>
