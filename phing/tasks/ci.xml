@@ -1,10 +1,5 @@
 <project name="ci" default="ci:setup">
 
-  <target name="ci:build:test"
-          description="Builds, tests, and deploys an artifact; uses ci drush alias."
-          depends="ci:setup, tests:all" hidden="true">
-  </target>
-
   <target name="ci:setup" description="Install dependencies, builds docroot, installs Drupal; uses ci drush alias." hidden="true">
     <phingcall target="setup">
       <property name="drush.alias" value="${drush.aliases.ci}"/>
@@ -16,8 +11,7 @@
   <target name="ci:pipelines:init" description="Initializes default Acquia Pipelines configuration for this project.">
     <copy file="${blt.root}/scripts/pipelines/acquia-pipelines.yml" tofile="${repo.root}/acquia-pipelines.yml"/>
     <echo>Acquia Pipelines requires PhantomJS in order to run Javascript Behat tests.</echo>
-    <!-- @todo replace this! -->
-    <phingcall target="tests:phantomjs:configure"/>
+    <exec dir="${repo.root}" command="blt setup:phantomjs" passthru="true"/>
   </target>
 
   <target name="ci:travis:init" description="Initializes default Travis CI configuration for this project.">
