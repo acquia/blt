@@ -29,7 +29,6 @@ class InteractHook extends Tasks implements IOAwareInterface, ConfigAwareInterfa
   use ConfigAwareTrait;
   use InspectorAwareTrait;
   use LoggerAwareTrait;
-  use IO;
 
   /**
    *

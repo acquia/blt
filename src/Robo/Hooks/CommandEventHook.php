@@ -26,7 +26,6 @@ class CommandEventHook extends Tasks implements IOAwareInterface, ConfigAwareInt
 
   use ConfigAwareTrait;
   use LoggerAwareTrait;
-  use IO;
 
   /**
    * Disable any command listed in the `disable-target` config key.
