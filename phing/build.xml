@@ -39,9 +39,6 @@
   <!-- Contains BLT tasks. -->
   <import file="${phing.dir}/tasks/blt.xml"/>
 
-  <!-- Contains Continuous Integration tasks. -->
-  <import file="${phing.dir}/tasks/ci.xml"/>
-
   <!-- Contains tasks relevant to validation. E.g., code metrics. -->
   <import file="${phing.dir}/tasks/validate.xml"/>
 

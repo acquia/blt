@@ -10,6 +10,8 @@ if (!isset($autoload)) {
 
 $robo_commands = [
   'tests',
+  'ci:pipelines:init',
+  'ci:travis:init',
   'tests:configure-phantomjs',
   'tests:all',
   'tests:behat',
