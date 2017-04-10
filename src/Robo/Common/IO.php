@@ -2,6 +2,8 @@
 
 namespace Acquia\Blt\Robo\Common;
 
+use Symfony\Component\Console\Question\ConfirmationQuestion;
+
 /**
  *
  */
@@ -35,6 +37,17 @@ trait IO {
    */
   protected function formatQuestion($message) {
     return "<question> $message</question> ";
+  }
+
+  /**
+   * @param string $question
+   * @param bool $default
+   *
+   * @return string
+   */
+  protected function confirm($question, $default = FALSE)
+  {
+    return $this->doAsk(new ConfirmationQuestion($this->formatQuestion($question . ' (y/n)'), $default));
   }
 
 }

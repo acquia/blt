@@ -48,7 +48,7 @@ script:
   - source ${BLT_DIR}/scripts/blt/ci/internal/create_blt_project.sh
   - source ${BLT_DIR}/scripts/blt/ci/internal/run_tests.sh
   # Add Drupal VM config to repo.
-  - blt vm -Dvm.boot='false'
+  - blt vm --no-boot --no-interaction --yes
   # Execute PHP Unit tests.
   - ./vendor/bin/phpunit ${BLT_DIR}/tests/phpunit --group blt-project -c ${BLT_DIR}/tests/phpunit/phpunit.xml
   - ./vendor/bin/phpunit ${BLT_DIR}/tests/phpunit --group blt-multisite -c ${BLT_DIR}/tests/phpunit/phpunit.xml

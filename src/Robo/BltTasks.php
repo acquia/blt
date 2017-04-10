@@ -12,6 +12,7 @@ use Psr\Log\LoggerAwareTrait;
 use Robo\Contract\ConfigAwareInterface;
 use Robo\Tasks;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -24,6 +25,60 @@ class BltTasks extends Tasks implements ConfigAwareInterface, InspectorAwareInte
   use IO;
   use LoggerAwareTrait;
 
+  /**
+   *
+   */
+  protected function initialize() {
+
+  }
+
+  /**
+   * Invokes an array of Symfony commands.
+   *
+   * @param array $commands
+   *   An array of Symfony commands to invoke. E.g., 'tests:behat'.
+   *
+   * @return int
+   *   The exit code of the command.
+   */
+  public function invokeCommands(array $commands) {
+    foreach ($commands as $command) {
+      $returnCode = $this->invokeCommand($command);
+      // Return if this is non-zero exit code.
+      if ($returnCode) {
+        return $returnCode;
+      }
+    }
+  }
+
+  /**
+   * Invokes a single Symfony command.
+   *
+   * @param string $command_name
+   *   The name of the command. E.g., 'tests:behat'.
+   *
+   * @return int
+   *   The exit code of the command.
+   */
+  public function invokeCommand($command_name) {
+    /** @var \Robo\Application $application */
+    $application = $this->getContainer()->get('application');
+    $command = $application->find($command_name);
+    $args = [];
+    $input = new ArrayInput($args);
+    $this->output->writeln("<comment>$command_name ></comment>");
+    $returnCode = $command->run($input, $this->output());
+    $this->output->writeln("");
+
+    return $returnCode;
+  }
+
+
+  /**
+   * @param $array
+   * @param string $prefix
+   * @param int $verbosity
+   */
   protected function logConfig($array, $prefix = '', $verbosity = OutputInterface::VERBOSITY_VERY_VERBOSE) {
     if ($this->output()->getVerbosity() >= $verbosity) {
       if ($prefix) {

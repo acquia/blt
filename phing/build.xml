@@ -66,9 +66,6 @@
   <!-- Contains acsf tasks. -->
   <import file="${phing.dir}/tasks/acsf.xml"/>
 
-  <!-- Contains Drupal VM tasks. -->
-  <import file="${phing.dir}/tasks/vm.xml"/>
-
   <!-- Contains Drupal SimpleSAMLphp tasks. -->
   <import file="${phing.dir}/tasks/simplesamlphp.xml"/>
 
