@@ -9,6 +9,7 @@ if (!isset($autoload)) {
 }
 
 $robo_commands = [
+  'tests',
   'tests:configure-phantomjs',
   'tests:all',
   'tests:behat',

@@ -25,7 +25,7 @@ cd blted8
 cd docroot
 cd ..
 ./vendor/bin/blt validate
-./vendor/bin/blt tests
+./vendor/bin/blt tests:all
 read -p "Press any key to continue. This will create a VM and re-run tests there."
 ./vendor/bin/blt vm -Dvm.boot=y
 ./vendor/bin/blt local:setup

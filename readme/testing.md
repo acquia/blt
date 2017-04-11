@@ -71,7 +71,7 @@ Before attempting to execute any tests, verify that composer dependencies are bu
 
 Each testing type can be either executed directly, or via a corresponding Phing target. Phing will execute the tests with default values defined in your project's yaml configuration files (project.yml). Examples:
 
-* `blt tests`
+* `blt tests:all`
 * `blt tests:behat`
 * `blt tests:phpunit`
 
