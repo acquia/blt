@@ -80,7 +80,10 @@ class VmCommand extends BltTasks {
   public function nuke() {
     $confirm = $this->confirm("This will destroy your VM, and delete all associated configuration. Continue?");
     if ($confirm) {
-      $this->taskExec("vagrant destroy")->printOutput(TRUE)->run();
+      $this->taskExec("vagrant destroy")
+        ->dir($this->getConfigValue('repo.root'))
+        ->printOutput(TRUE)
+        ->run();
       $this->taskFilesystemStack()
         ->remove($this->projectDrupalVmConfigFile)
         ->remove($this->projectDrupalVmVagrantfile)
@@ -174,7 +177,10 @@ class VmCommand extends BltTasks {
     $confirm = $this->confirm("Do you want to boot Drupal VM?", TRUE);
     if ($confirm) {
       $this->say("In future, run `vagrant up` to boot the VM");
-      $this->taskExec("vagrant up")->printOutput(TRUE)->run();
+      $this->taskExec("vagrant up")
+        ->dir($this->getConfigValue('repo.root'))
+        ->printOutput(TRUE)
+        ->run();
     }
   }
 
@@ -186,6 +192,7 @@ class VmCommand extends BltTasks {
   protected function requireDrupalVm() {
     $this->say("Adding geerlingguy/drupal-vm:{$this->drupalVmVersionConstraint} to composer.json's require-dev array.");
     $result = $this->taskExec("composer require --dev geerlingguy/drupal-vm:{$this->drupalVmVersionConstraint}")
+      ->dir($this->getConfigValue('repo.root'))
       ->interactive()
       ->printOutput(TRUE)
       ->run();
@@ -196,6 +203,7 @@ class VmCommand extends BltTasks {
       $confirm = $this->confirm("Should BLT attempt to update all of your Composer packages in order to find a compatible version?");
       if ($confirm) {
         $result = $this->taskExec("composer require --dev geerlingguy/drupal-vm:{$this->drupalVmVersionConstraint} --no-update && composer update")
+          ->dir($this->getConfigValue('repo.root'))
           ->interactive()
           ->printOutput(TRUE)
           ->run();
