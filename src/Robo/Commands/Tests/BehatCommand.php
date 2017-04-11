@@ -53,6 +53,7 @@ class BehatCommand extends TestsCommandBase {
    * @validateMySqlAvailable
    * @validateDrupalIsInstalled
    * @validateBehatIsConfigured
+   * @validateInsideVm
    */
   public function behat() {
     // Log config for debugging purposes.
