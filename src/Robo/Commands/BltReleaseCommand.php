@@ -121,7 +121,7 @@ class BltReleaseCommand extends BltTasks {
       'tag_name' => $tag,
       'name' => $tag,
       'target_commitish' => '8.x-release',
-      'body' => $this->trimStartingLines($tag_release_notes, 3),
+      'body' => StringManipulator::trimStartingLines($tag_release_notes, 3),
       'draft' => TRUE,
       'prerelease' => TRUE,
     ];
