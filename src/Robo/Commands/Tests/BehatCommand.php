@@ -41,9 +41,9 @@ class BehatCommand extends TestsCommandBase {
    * @description Executes all behat tests. This optionally launch PhantomJS or Selenium prior to execution.
    * @usage
    *   Executes all configured tests.
-   * @usage -Dbehat.paths=${PWD}/tests/behat/features/Examples.feature
+   * @usage -D behat.paths=${PWD}/tests/behat/features/Examples.feature
    *   Executes scenarios in the Examples.feature file.
-   * @usage -Dbehat.paths=${PWD}/tests/behat/features/Examples.feature:4
+   * @usage -D behat.paths=${PWD}/tests/behat/features/Examples.feature:4
    *   Executes only the scenario on line 4 of Examples.feature.
    *
    * @interactLaunchPhpWebServer
