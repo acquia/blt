@@ -1,5 +1,49 @@
 # Change Log
 
+## [8.8.0](https://github.com/acquia/blt/tree/8.8.0) (2017-04-11)
+[Full Changelog](https://github.com/acquia/blt/compare/8.7.1...8.8.0)
+
+**Implemented enhancements:**
+
+- Support CDEs for config splits [\#1311](https://github.com/acquia/blt/issues/1311)
+- Deploy can be run with uncommitted changes [\#1276](https://github.com/acquia/blt/issues/1276)
+- Let phing recognize git environment variables [\#1249](https://github.com/acquia/blt/issues/1249)
+- Allow deploy-exclude-additions.txt to be defined [\#1246](https://github.com/acquia/blt/issues/1246)
+- Force tests:behat to be executed inside VM, if DVM is used. [\#1359](https://github.com/acquia/blt/pull/1359) ([grasmash](https://github.com/grasmash))
+- Update notifications not disabled during Drupal 8.3.x installation [\#1353](https://github.com/acquia/blt/pull/1353) ([danepowell](https://github.com/danepowell))
+- Add QA Accounts module [\#1351](https://github.com/acquia/blt/pull/1351) ([danepowell](https://github.com/danepowell))
+- Fixes \#1276: Fail deploys with uncommitted changes. [\#1348](https://github.com/acquia/blt/pull/1348) ([bobbygryzynger](https://github.com/bobbygryzynger))
+- Running Robo tests during internal CI. [\#1347](https://github.com/acquia/blt/pull/1347) ([grasmash](https://github.com/grasmash))
+- Porting vm:\* commands to Robo. [\#1337](https://github.com/acquia/blt/pull/1337) ([grasmash](https://github.com/grasmash))
+- Fix local warnings about trusted host pattern [\#1335](https://github.com/acquia/blt/pull/1335) ([danepowell](https://github.com/danepowell))
+- Removing search\_api from suggested modules. [\#1334](https://github.com/acquia/blt/pull/1334) ([grasmash](https://github.com/grasmash))
+- Fixes \#1317: Change doctrine/common to ^2.5 after Drupal 8.3.\* released. [\#1333](https://github.com/acquia/blt/pull/1333) ([grasmash](https://github.com/grasmash))
+- Fixes \#1322: Examples.feature changes overwritten whenever BLT is updated. [\#1332](https://github.com/acquia/blt/pull/1332) ([grasmash](https://github.com/grasmash))
+- Fixes \#1324: Add ah\_other config split. [\#1331](https://github.com/acquia/blt/pull/1331) ([grasmash](https://github.com/grasmash))
+- Fixes \#1246: Allow deploy-exclude-additions.txt to be defined [\#1327](https://github.com/acquia/blt/pull/1327) ([malikkotob](https://github.com/malikkotob))
+
+**Fixed bugs:**
+
+- Travis email error starting with Drupal 8.3.0 and Lightning 2.1.0 [\#1336](https://github.com/acquia/blt/issues/1336)
+- manual build and deploy process fails if git user.useConfigOnly option is set [\#53](https://github.com/acquia/blt/issues/53)
+- Fix broken core-only config strategy [\#1358](https://github.com/acquia/blt/pull/1358) ([bkosborne](https://github.com/bkosborne))
+- Fixes \#1336: Travis email error starting with Drupal 8.3.0 and Lightning 2.1.0. [\#1338](https://github.com/acquia/blt/pull/1338) ([grasmash](https://github.com/grasmash))
+
+**Closed issues:**
+
+- What to do if using Config Split with the RA environment? [\#1324](https://github.com/acquia/blt/issues/1324)
+- Examples.feature changes overwritten whenever BLT is updated [\#1322](https://github.com/acquia/blt/issues/1322)
+- Change doctrine/common to ^2.5 after Drupal 8.3.\* released [\#1317](https://github.com/acquia/blt/issues/1317)
+- Complete Branching and Tagging documentation [\#1257](https://github.com/acquia/blt/issues/1257)
+
+**Misc merged pull requests**
+
+- Update configuration-management.md [\#1352](https://github.com/acquia/blt/pull/1352) ([danepowell](https://github.com/danepowell))
+- Issue \#53: Added support for custom git username and email [\#1323](https://github.com/acquia/blt/pull/1323) ([danepowell](https://github.com/danepowell))
+- Fixes \#1257 Complete branching and tagging documentation [\#1321](https://github.com/acquia/blt/pull/1321) ([malikkotob](https://github.com/malikkotob))
+- Minor cleanup of configuration-management.md [\#1319](https://github.com/acquia/blt/pull/1319) ([danepowell](https://github.com/danepowell))
+
+
 ## [8.7.1](https://github.com/acquia/blt/tree/8.7.1) (2017-04-05)
 [Full Changelog](https://github.com/acquia/blt/compare/8.7.0...8.7.1)
 
