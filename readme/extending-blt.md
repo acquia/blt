@@ -4,10 +4,15 @@ __BLT is currently in the process of replacing Phing with Robo PHP. Consequently
 
 The following targets are using Robo:
 
+* tests
+* tests:configure-phantomjs
 * tests:all
 * tests:behat
 * tests:phpunit
 * tests:security-updates
+* vm
+* vm:config
+* vm:nuke
 
 All other targets are currently using Phing.
 
@@ -48,7 +53,7 @@ To create your own Robo PHP command:
 1. You must use the namespace `Acquia\Blt\Custom\Commands` in your command file.
 1. Follow the [Robo PHP Getting Started guide](http://robo.li/getting-started/#commands) to write a custom command.
 
-For an example implementation, please see [ExampleCommand.php][../template/blt/src/Commands/ExampleCommand.php].
+For an example implementation, please see [ExampleCommand.php](../template/blt/src/Commands/ExampleCommand.php).
 
 ### Adding a custom Robo Hook
 
@@ -57,7 +62,7 @@ in response to various events, typically just before or just after a BLT command
 
 To create a hook, create a new file in `blt/src/Hooks` named using the pattern `*Hook.php`.
 
-For an example implementation, please see [ExampleHook.php][../template/blt/src/Commands/ExampleHook.php].
+For an example implementation, please see [ExampleHook.php](../template/blt/src/Hooks/ExampleHook.php).
 
 For a list of all available hook types, see [Annotated Command's hook types](https://github.com/consolidation/annotated-command#hooks).
 
