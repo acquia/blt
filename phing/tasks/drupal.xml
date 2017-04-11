@@ -26,7 +26,6 @@
                   <param>"${project.profile.name}"</param>
                   <param>"install_configure_form.update_status_module='array(FALSE,FALSE)'"</param>
                   <param>"install_configure_form.enable_update_status_module=NULL"</param>
-                  <param>"install_configure_form.enable_update_status_emails=NULL"</param>
               </drush>
           </then>
           <else>
@@ -41,7 +40,6 @@
                   <param>"${project.profile.name}"</param>
                   <param>"install_configure_form.update_status_module='array(FALSE,FALSE)'"</param>
                   <param>"install_configure_form.enable_update_status_module=NULL"</param>
-                  <param>"install_configure_form.enable_update_status_emails=NULL"</param>
               </drush>
           </else>
       </if>
