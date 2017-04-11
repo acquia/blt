@@ -41,16 +41,12 @@ git commit -m 'Initializing Travis CI and Acquia Pipelines.' -n
 # Disable Lightning tests on pull requests.
 # 'if [ "$PULL_REQUEST" != "false" ]; then printf "behat.paths: [ \${repo.root}/tests/behat ]" >> blt/project.yml; fi'
 
-# Require ACSF directly to prevent memory exhaustion error. We do this rather than calling acsf:init.
-composer require drupal/acsf:^1.33.0 --no-update && composer update
 # Initialize ACSF config.
-blt acsf:init:hooks
+blt acsf:init
 # Initialize Acquia Cloud hooks.
 blt setup:cloud-hooks
 # Change cloud hooks to re-install Drupal on deployments.
 sed -i "s:deploy_updates:deploy_install:g" hooks/common/post-code-deploy/post-code-deploy.sh
 sed -i "s:deploy_updates:deploy_install:g" hooks/common/post-code-update/post-code-update.sh
-
-blt acsf:init:drush
 
 set +v

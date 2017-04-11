@@ -9,6 +9,8 @@ if (!isset($autoload)) {
 }
 
 $robo_commands = [
+  'acsf:init',
+  'acsf:init:drush',
   'tests',
   'tests:configure-phantomjs',
   'tests:all',
