@@ -30,15 +30,4 @@ class ExampleHook extends BltTasks implements IOAwareInterface, ConfigAwareInter
     $this->say("preCommandMessage hook: The {$command->getName()} command is about to run!");
   }
 
-  /**
-   * This will be called before _any_ command.
-   *
-   * @hook status example:hello
-   */
-  public function postexampleHello(ConsoleCommandEvent $event) {
-    $command = $event->getCommand();
-    $this->say("The {$command->getName()} command ran!");
-  }
-
-
 }
