@@ -5,6 +5,7 @@
 
 **Implemented enhancements:**
 
+- Fixes #1355: Make Drush alias for 'local' work in VM guest or host by default. [\#1356](https://github.com/acquia/blt/pull/1356)
 - Support CDEs for config splits [\#1311](https://github.com/acquia/blt/issues/1311)
 - Deploy can be run with uncommitted changes [\#1276](https://github.com/acquia/blt/issues/1276)
 - Let phing recognize git environment variables [\#1249](https://github.com/acquia/blt/issues/1249)
