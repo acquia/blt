@@ -41,7 +41,7 @@ class BltReleaseCommand extends BltTasks {
     }
 
     // @todo Check to see if git branch is dirty.
-    $this->warn("Please run all release tests before executing this command!");
+    $this->logger->warning("Please run all release tests before executing this command!");
     $this->say("To run release tests, execute ./scripts/blt/pre-release-tests.sh");
     $this->output()->writeln('');
     $this->say("Continuing will do the following:");
@@ -239,6 +239,26 @@ class BltReleaseCommand extends BltTasks {
     unlink($partial_changelog_filename);
 
     return $trimmed_partial_changelog;
+  }
+
+
+  /**
+   * Ensures that commands exist on local system.
+   *
+   * @param array $commands
+   *   An array of commands. E.g., 'wget'.
+   *
+   * @return bool
+   */
+  public function checkCommandsExist($commands) {
+    foreach ($commands as $command) {
+      if (!$this->getInspector()->commandExists($command)) {
+        $this->yell("Unable to find '$command' command!");
+        return FALSE;
+      }
+    }
+
+    return TRUE;
   }
 
 }
