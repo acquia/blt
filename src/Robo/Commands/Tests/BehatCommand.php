@@ -62,6 +62,7 @@ class BehatCommand extends TestsCommandBase {
     $this->createReportsDir();
     $this->launchWebDriver();
     $this->executeBehatTests();
+    $this->killWebDriver();
   }
 
   /**
@@ -73,6 +74,18 @@ class BehatCommand extends TestsCommandBase {
     }
     elseif ($this->getConfigValue('behat.launch-selenium')) {
       $this->launchSelenium();
+    }
+  }
+
+  /**
+   * Kills the appropriate web driver based on configuration.
+   */
+  protected function killWebDriver() {
+    if ($this->getConfigValue('behat.launch-phantomjs')) {
+      $this->killPhantomJs();
+    }
+    elseif ($this->getConfigValue('behat.launch-selenium')) {
+      $this->killSelenium();
     }
   }
 
@@ -99,7 +112,7 @@ class BehatCommand extends TestsCommandBase {
   protected function killSelenium() {
     $this->logger->info("Killing any running Selenium processes");
     $this->getContainer()->get('executor')->killProcessByPort('4444');
-    $this->getContainer()->get('executor')->killProcessByName('selenium');
+    $this->getContainer()->get('executor')->killProcessByName('selenium-server-standalone');
   }
 
   /**
@@ -137,7 +150,7 @@ class BehatCommand extends TestsCommandBase {
    */
   protected function killPhantomJs() {
     $this->getContainer()->get('executor')->killProcessByPort('4444');
-    $this->getContainer()->get('executor')->killProcessByName('phantomjs');
+    $this->getContainer()->get('executor')->killProcessByName('bin/phantomjs');
   }
 
   /**
