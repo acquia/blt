@@ -1,7 +1,7 @@
 <project name="deploy" default="deploy">
 
   <target name="deploy" description="Builds separate artifact and pushes to git.remotes defined project.yml.">
-    
+
     <!-- Check working tree state. -->
     <exec dir="${repo.root}" command="status=$(git status --porcelain); echo ${#status};"
           outputProperty="git.status.length" checkreturn="true"/>
@@ -22,7 +22,7 @@
         </if>
       </then>
     </if>
-    
+
     <!-- Build some defaults -->
     <exec command="git rev-parse --abbrev-ref HEAD" dir="${repo.root}" outputProperty="branch.current"/>
     <exec command="git log --oneline -1" dir="${repo.root}" outputProperty="deploy.commitMsg.last"/>
@@ -270,6 +270,10 @@
 
   <target name="deploy:push-all" hidden="true">
     <foreach list="${git.remotes}" param="deploy.remote" target="deploy:push-remote"/>
+    <!--Allow custom commands to be run after deploy.-->
+    <phingcall target="target-hook:invoke">
+      <property name="hook-name" value="post-deploy"/>
+    </phingcall>
   </target>
 
   <target name="deploy:push-remote" description="Pushes to a git remote." hidden="true">
