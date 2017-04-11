@@ -1,5 +1,23 @@
 # Change Log
 
+## [8.8.1](https://github.com/acquia/blt/tree/8.8.1) (2017-04-11)
+[Full Changelog](https://github.com/acquia/blt/compare/8.8.0...8.8.1)
+
+**Implemented enhancements:**
+
+- Killing web driver more surgically. [\#1365](https://github.com/acquia/blt/pull/1365) ([grasmash](https://github.com/grasmash))
+- Fixes \#1363 - Currently not possibl to hook into post deploy [\#1364](https://github.com/acquia/blt/pull/1364) ([kylebrowning](https://github.com/kylebrowning))
+- Execute all VM commands from repo root. [\#1362](https://github.com/acquia/blt/pull/1362) ([grasmash](https://github.com/grasmash))
+
+**Fixed bugs:**
+
+- Disable update module at install time. [\#1360](https://github.com/acquia/blt/pull/1360) ([danepowell](https://github.com/danepowell))
+
+**Closed issues:**
+
+- Currently not possible to hook into post deploy [\#1363](https://github.com/acquia/blt/issues/1363)
+
+
 ## [8.8.0](https://github.com/acquia/blt/tree/8.8.0) (2017-04-11)
 [Full Changelog](https://github.com/acquia/blt/compare/8.7.1...8.8.0)
 
