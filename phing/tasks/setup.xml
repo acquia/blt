@@ -224,7 +224,7 @@
   <target name="setup:config-import:core-only">
 
     <if>
-      <available file="${cm.core.dirs.${cm.core.key}.path}/core.extension.yml"/>
+      <available file="${docroot}/${cm.core.dirs.${cm.core.key}.path}/core.extension.yml"/>
       <then>
         <drush command="config-import" assume="yes" alias="${drush.alias}" passthru="false">
           <param>${cm.core.key}</param>
