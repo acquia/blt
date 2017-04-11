@@ -15,15 +15,15 @@ class AcsfCommand extends BltTasks {
    *
    * @command acsf:init
    *
-   * @options acsf-package
+   * @options acsf-version
    */
-  public function acsfInitialize($options = ['acsf-package' => 'drupal/acsf:^1.33.0']) {
+  public function acsfInitialize($options = ['acsf-version' => '^1.33.0']) {
     $this->acsfHooksInitialize();
 
     $this->say('Adding acsf module as a dependency.');
-    $this->requireAcsf($options['acsf-package']);
+    $this->requireAcsf($options['acsf-version']);
 
-    $this->say("In the future, you may pass a custom value for acsf.package to override default version. E.g., blt acsf:init --acsf.package='drupal/acsf:8.1.x-dev'");
+    $this->say("In the future, you may pass in a custom value for acsf-version to override the default version. E.g., blt acsf:init --acsf-version='8.1.x-dev'");
 
     $this->acsfDrushInitialize();
   }
@@ -67,8 +67,8 @@ class AcsfCommand extends BltTasks {
    *
    * @throws \Exception
    */
-  protected function requireAcsf($acsfPackage) {
-    $result = $this->taskExec("composer require {$acsfPackage}")
+  protected function requireAcsf($acsfVersion) {
+    $result = $this->taskExec("composer require 'drupal/acsf:{$acsfVersion}'")
       ->interactive()
       ->printOutput(TRUE)
       ->dir($this->getConfigValue('repo.root'))
@@ -79,7 +79,7 @@ class AcsfCommand extends BltTasks {
       $this->say("This is likely due to an incompatibility with your existing packages.");
       $confirm = $this->confirm("Should BLT attempt to update all of your Composer packages in order to find a compatible version?");
       if ($confirm) {
-        $result = $this->taskExec("composer require {$acsfPackage} --no-update && composer update")
+        $result = $this->taskExec("composer require 'drupal/acsf:{$acsfVersion}' --no-update && composer update")
           ->interactive()
           ->printOutput(TRUE)
           ->dir($this->getConfigValue('repo.root'))
