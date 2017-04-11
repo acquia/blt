@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Common\StringManipulator;
 use GuzzleHttp\Client;
 
 /**
@@ -198,7 +199,7 @@ class BltReleaseCommand extends BltTasks {
     // Remove first 4 lines from full changelog.
     $full_changelog_filename = 'CHANGELOG.md';
     $full_changelog = file_get_contents($full_changelog_filename);
-    $trimmed_full_changelog = $this->trimStartingLines($full_changelog, 1);
+    $trimmed_full_changelog = StringManipulator::trimStartingLines($full_changelog, 1);
 
     $new_full_changelog = $tag_release_notes . $trimmed_full_changelog;
     file_put_contents($full_changelog_filename, $new_full_changelog);
@@ -234,7 +235,7 @@ class BltReleaseCommand extends BltTasks {
 
     // Remove last 3 lines from new, partial changelog.
     $partial_changelog_contents = file_get_contents($partial_changelog_filename);
-    $trimmed_partial_changelog = $this->trimEndingLines($partial_changelog_contents,
+    $trimmed_partial_changelog = StringManipulator::trimEndingLines($partial_changelog_contents,
       3);
     unlink($partial_changelog_filename);
 

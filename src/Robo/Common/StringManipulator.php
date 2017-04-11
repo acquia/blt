@@ -18,7 +18,7 @@ class StringManipulator {
    * @return string
    *   The trimmed text.
    */
-  protected function trimEndingLines($text, $num_lines) {
+  public static function trimEndingLines($text, $num_lines) {
     return implode("\n",
       array_slice(explode("\n", $text), 0, sizeof($text) - $num_lines));
   }
@@ -34,7 +34,7 @@ class StringManipulator {
    * @return string
    *   The trimmed text.
    */
-  protected function trimStartingLines($text, $num_lines) {
+  public static function trimStartingLines($text, $num_lines) {
     return implode("\n", array_slice(explode("\n", $text), $num_lines));
   }
 
