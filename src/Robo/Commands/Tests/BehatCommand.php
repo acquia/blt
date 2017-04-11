@@ -141,7 +141,7 @@ class BehatCommand extends TestsCommandBase {
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->background()
       ->timeout(6000)
-      ->silent(true)
+      ->silent(TRUE)
       ->run();
   }
 
