@@ -1,12 +1,12 @@
 <?php
 
-namespace Acquia\Blt\Robo\Commands\Vm;
+namespace Acquia\Blt\Robo\Commands\Ci;
 
 use Acquia\Blt\Robo\BltTasks;
 use Robo\Contract\VerbosityThresholdInterface;
 
 /**
- * Defines commands in the "setup:settings" namespace.
+ * Defines commands in the "ci:*" namespace.
  */
 class CiCommand extends BltTasks {
 
