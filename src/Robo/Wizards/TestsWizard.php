@@ -2,6 +2,8 @@
 
 namespace Acquia\Blt\Robo\Wizards;
 
+use Robo\Contract\VerbosityThresholdInterface;
+
 /**
  * Class TestsWizard
  * @package Acquia\Blt\Robo\Wizards
@@ -16,7 +18,10 @@ class TestsWizard extends Wizard {
       $this->logger->warning("The PhantomJS binary is not present.");
       $answer = $this->confirm("Do you want to install it?");
       if ($answer) {
-        $this->executor->execute("composer install-phantom")->run();
+        $this->executor->execute("composer run-script install-phantomjs")
+          ->printOutput(true)
+          ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+          ->run();
       }
     }
   }
@@ -27,7 +32,7 @@ class TestsWizard extends Wizard {
   public function wizardConfigureBehat() {
     if (!$this->getInspector()->isBehatConfigured()) {
       $this->logger->warning('Behat is not configured properly.');
-      $confirm = $this->confirm("Do you want re-generate local Behat config at tests/behat/local.yml?");
+      $confirm = $this->confirm("Do you want re-generate local Behat config at tests/behat/local.yml?", true);
       if ($confirm) {
         $bin = $this->getConfigValue('composer.bin');
         $behat_local_config_file = $this->getConfigValue('repo.root') . "/tests/behat/local.yml";

@@ -257,12 +257,12 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
   }
 
   public function isPhantomJsRequired() {
-    $result = $this->executor->execute("grep 'jakoch/phantomjs-installer' composer.json");
+    $result = $this->executor->execute("grep 'jakoch/phantomjs-installer' composer.json")->run();
     return $result->wasSuccessful();
   }
 
   public function isPhantomJsScriptConfigured() {
-    $result = $this->executor->execute("grep installPhantomJS composer.json");
+    $result = $this->executor->execute("grep installPhantomJS composer.json")->run();
 
     return $result->wasSuccessful();
   }

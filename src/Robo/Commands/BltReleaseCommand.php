@@ -242,7 +242,6 @@ class BltReleaseCommand extends BltTasks {
     return $trimmed_partial_changelog;
   }
 
-
   /**
    * Ensures that commands exist on local system.
    *
