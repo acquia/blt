@@ -61,7 +61,7 @@ target-hooks:
   # Executed after deploy:push-all is run.
   post-deploy:
     dir: ${docroot}
-    command: echo 'No post-setup build configured.'
+    command: echo 'No post-deploy build configured.'
 
 
 # Configuration management options, such as core CM or features.
