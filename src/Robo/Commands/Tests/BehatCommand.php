@@ -127,6 +127,8 @@ class BehatCommand extends TestsCommandBase {
       ->option("webdriver", 4444)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->background()
+      ->timeout(6000)
+      ->silent(true)
       ->run();
   }
 
