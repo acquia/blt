@@ -124,4 +124,13 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
     }
   }
 
+  /**
+   * @hook validate validateInsideVm
+   */
+  public function validateInsideVm() {
+    if ($this->getInspector()->isDrupalVmLocallyInitialized() && !$this->getInspector()->isVmCli()) {
+      throw new \Exception("You must run this command inside Drupal VM, or else do not use Drupal VM at all. Execute `vagrant ssh`, then try again.");
+    }
+  }
+
 }

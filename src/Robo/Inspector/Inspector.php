@@ -160,6 +160,13 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
   }
 
   /**
+   * @return bool
+   */
+  public function isVmCli() {
+    return $_SERVER['USER'] == 'vagrant';
+  }
+
+  /**
    * Checks if a given command exists on the system.
    *
    * @param $command string the command binary only. E.g., "drush" or "php".
