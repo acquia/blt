@@ -8,7 +8,7 @@ yaml-cli update:value blt/project.yml project.local.hostname '127.0.0.1:8888'
 sudo /etc/init.d/mysql start
 
 blt validate:all
-blt ci:setup -Dcreate_alias=false
+blt setup -Dcreate_alias=false -Denvironment=ci
 blt tests:all -D behat.run-server=true -D behat.launch-selenium=false -D behat.launch-phantomjs=true -D behat.tags='~experimental' --yes -v
 
 set +v
