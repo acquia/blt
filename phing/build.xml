@@ -57,9 +57,6 @@
   <!-- Contains local syncing tasks. -->
   <import file="${phing.dir}/tasks/local-sync.xml"/>
 
-  <!-- Contains acsf tasks. -->
-  <import file="${phing.dir}/tasks/acsf.xml"/>
-
   <!-- Contains Drupal SimpleSAMLphp tasks. -->
   <import file="${phing.dir}/tasks/simplesamlphp.xml"/>
 

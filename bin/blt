@@ -9,6 +9,8 @@ if (!isset($autoload)) {
 }
 
 $robo_commands = [
+  'acsf:init',
+  'acsf:init:drush',
   'tests',
   'ci:pipelines:init',
   'ci:travis:init',
