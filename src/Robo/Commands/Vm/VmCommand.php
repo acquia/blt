@@ -11,6 +11,7 @@ use Symfony\Component\Yaml\Yaml;
  */
 class VmCommand extends BltTasks {
 
+  protected $drupalVmAlias;
   protected $drupalVmVersionConstraint;
   protected $defaultDrupalVmDrushAliasesFile;
   protected $defaultDrupalVmConfigFile;
@@ -29,6 +30,7 @@ class VmCommand extends BltTasks {
   public function initialize() {
     parent::initialize();
 
+    $this->drupalVmAlias = $this->getConfigValue('project.machine_name') . '.local';
     $this->drupalVmVersionConstraint = '~4.3';
     $this->defaultDrupalVmDrushAliasesFile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/drupal-vm.aliases.drushrc.php';
     $this->defaultDrupalVmConfigFile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/config.yml';
@@ -143,7 +145,7 @@ class VmCommand extends BltTasks {
     $this->say("To customize the VM, follow the Quick Start Guide in Drupal VM's README");
     $this->say("https://github.com/geerlingguy/drupal-vm#quick-start-guide");
 
-    $this->say("To run drush commands against the VM, use the {$this->getConfigValue('drush.aliases.local')} alias.");
+    $this->say("To run drush commands against the VM, use the {$this->drupalVmAlias} alias.");
     $this->yell("From now on, please use vagrant commands to manage your virtual machine");
   }
 
@@ -159,8 +161,8 @@ class VmCommand extends BltTasks {
     $this->logger->info("Updating $filename");
 
     $contents = Yaml::parse(file_get_contents($filename));
-    $contents['drush']['default_alias'] = $this->getConfigValue('project.machine_name') . '.local';
-    $contents['drush']['aliases']['local'] = $this->getConfigValue('project.machine_name') . '.local';
+    $contents['drush']['default_alias'] = $this->drupalVmAlias;
+    $contents['drush']['aliases']['local'] = $this->drupalVmAlias;
     $contents['behat']['launch-selenium'] = FALSE;
     $contents['behat']['launch-phantomjs'] = TRUE;
     $yaml = Yaml::dump($contents, 3, 2);
