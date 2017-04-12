@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "eba2c4ce6e45fafd0ad9e17d18c098cb",
+    "content-hash": "97a507e2f4faab03c4dfdd61f38836c3",
     "packages": [
         {
             "name": "asm89/twig-lint",
@@ -2736,7 +2736,7 @@
                 }
             ],
             "description": "Modern task runner",
-            "time": "2017-04-12T01:25:04+00:00"
+            "time": "2017-04-12 01:25:04"
         },
         {
             "name": "container-interop/container-interop",
