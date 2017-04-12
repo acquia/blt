@@ -48,6 +48,7 @@ $processor->extend($loader->load($config->get('blt.root') . '/phing/build.yml'))
 $processor->extend($loader->load($config->get('repo.root') . '/blt/project.yml'));
 $processor->extend($loader->load($config->get('repo.root') . '/blt/project.local.yml'));
 $config->import($processor->export());
+$config->populateHelperConfig();
 
 // @todo realpath() repo.root, docroot, composer.bin, etc.
 

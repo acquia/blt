@@ -53,4 +53,12 @@ class DefaultConfig extends BltConfig {
     }
   }
 
+  /**
+   * Sets convenient configuration settings for use in commands.
+   */
+  public function populateHelperConfig() {
+    $defaultAlias = $this->get('drush.default_alias');
+    $this->set('drush.alias', $defaultAlias);
+  }
+
 }
