@@ -6,9 +6,9 @@
     </phingcall>
   </target>
 
-  <target name="local:refresh" description="Refreshes local environment from upstream testing database." depends="setup:build, local:sync, local:update"/>
+  <target name="local:refresh" description="Refreshes local environment from upstream testing database." depends="local:check-lamp, setup:build, local:sync, local:update"/>
 
-  <target name="local:setup" description="Install dependencies, builds docroot, installs Drupal; uses local drush alias.">
+  <target name="local:setup" description="Install dependencies, builds docroot, installs Drupal; uses local drush alias." depends="local:check-lamp">
     <phingcall target="setup">
       <property name="drush.alias" value="${drush.aliases.local}" />
       <param name="environment" value="local"/>
@@ -99,6 +99,17 @@
       <property name="drush.alias" value="${drush.aliases.local}"/>
       <property name="environment" value="local"/>
     </phingcall>
+  </target>
+
+  <target name="local:check-lamp" description="Ensures LAMP stack is available.">
+    <property name="output.IS_FILE_EXISTS" value="false" />
+    <exec command="if [ -f '${repo.root}/Vagrantfile' ]; then echo 'true'; else echo 'false'; fi;" outputProperty="output.IS_FILE_EXISTS" />
+    <if>
+      <equals arg1="${output.IS_FILE_EXISTS}" arg2="true" />
+      <then>
+        <phingcall target="vm"/>
+      </then>
+    </if>
   </target>
 
 </project>
