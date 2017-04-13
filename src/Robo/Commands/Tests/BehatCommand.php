@@ -4,6 +4,7 @@ namespace Acquia\Blt\Robo\Commands\Tests;
 
 use Acquia\Blt\Robo\Wizards\TestsWizard;
 use Robo\Contract\VerbosityThresholdInterface;
+use Robo\Result;
 
 /**
  * Defines commands in the "tests" namespace.
@@ -61,7 +62,8 @@ class BehatCommand extends TestsCommandBase {
     $this->logConfig($this->getInspector()->getLocalBehatConfig()->export());
     $this->createReportsDir();
     $this->launchWebDriver();
-    $this->executeBehatTests();
+    $this->executeBehatTests()
+      ->stopOnFail();
     $this->killWebDriver();
   }
 
@@ -198,8 +200,9 @@ class BehatCommand extends TestsCommandBase {
       $result = $task->run();
 
       if (!$result->wasSuccessful()) {
-        throw new \Exception("Behat tests failed");
+        return Result::error($task, "Behat tests failed");
       }
+      return Result::success($task, "Assets compiled");
     }
   }
 
