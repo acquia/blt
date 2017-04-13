@@ -52,7 +52,7 @@ target-hooks:
     command: echo 'No pre-config-import configured.'
   # Executed after deployment artifact is created.
   post-deploy-build:
-    dir: ${docroot}
+    dir: '${deploy.dir}/docroot'
     command: echo 'No post-deploy build configured.'
   # Executed after setup:build is run.
   post-setup-build:
