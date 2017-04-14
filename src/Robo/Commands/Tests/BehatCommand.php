@@ -66,6 +66,33 @@ class BehatCommand extends TestsCommandBase {
   }
 
   /**
+   * Lists available Behat step definitions.
+   *
+   * @command tests:behat:definitions
+   * @aliases tbd
+   *
+   * @option mode l (default), i, or needle. Use l to just list definition expressions, i to show definitions with extended info, or needle to find specific definitions.
+   */
+  public function behatDefinitions($options = ['mode' => 'l']) {
+    $task = $this->taskBehat($this->getConfigValue('composer.bin') . '/behat')
+      ->format('pretty')
+      ->noInteraction()
+      ->printMetadata(FALSE)
+      ->option('definitions', $options['mode'])
+      ->option('config', $this->getConfigValue('behat.config'))
+      ->option('profile', $this->getConfigValue('behat.profile'));
+    // @todo Make verbose if blt.verbose is true.
+    $task->detectInteractive();
+
+    if ($this->getConfigValue('behat.extra')) {
+      $task->arg($this->getConfigValue('behat.extra'));
+    }
+    $result = $task->run();
+
+    return $result;
+  }
+
+  /**
    * Launch the appropriate web driver based on configuration.
    */
   protected function launchWebDriver() {
