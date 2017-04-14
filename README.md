@@ -18,6 +18,20 @@ See [INSTALL.md](INSTALL.md) for a list of prequisites and links to instructions
 * [BLT Project Creation](https://www.youtube.com/watch?v=KBwS0fsmXRs)
 * [Deploying to Acquia Cloud](https://www.youtube.com/watch?v=jjnPMvZ2x-c)
 
+## Releases and versioning
+
+BLT does not use Semver. Instead, it uses `[drupal-major-version]-[blt-major-version]-[blt-minor-version]`. E.g., 8.8.1.
+
+Typically, the last two most major versions of BLT are supported actively. The newest major version will recieve both bug fixes and new features, while the penultimate major version will recieve bug fixes for at least two months. For example, if 8.8.1 is the most recent version of BLT:
+
+* As of the first cut tag for 8.8.x, 8.7.x will enter "LTS".
+    * 8.7.x will continue to receive bug fixes and minor features
+    * 8.7.x will not receive any major new features or backwards incompatible changes
+* Two months after the first cut tag for 8.8.x
+    * 8.7.x will no longer be supported
+    * 8.9.x will be created for major new features.
+* At some point later, 8.9.0 will be cut, and 8.8.x will enter "LTS".
+
 ## Philosophy and Purpose
 
 BLT is designed to improve efficiency and collaboration across Drupal projects by providing a common set of tools and standardized structure. It was born out of the need to reduce re-work, project set up time, and developer onboarding time.
