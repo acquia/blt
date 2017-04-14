@@ -244,7 +244,9 @@ class Updates {
 
     $template_composer_json = $this->updater->getTemplateComposerJson();
     // Set installer-paths to match template.
-    $composer_json['extra']['installer-paths'] = $template_composer_json['extra']['installer-paths'];
+    foreach ($template_composer_json['extra']['installer-paths'] as $key => $template_installer_path) {
+      $composer_json['extra']['installer-paths'][$key] = $template_installer_path;
+    }
 
     // Set wikimedia/composer-merge-plugin config.
     $composer_json['extra']['merge-plugin'] = $template_composer_json['extra']['merge-plugin'];
