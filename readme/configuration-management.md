@@ -106,9 +106,28 @@ To capture and deploy configuration changes using Config Split:
 3. Once you have completed local development, use `drush cex` (`config-export`) to export your configuration changes to the `config/default` directory. Remember to use an appropriate alias if you are using a VM (e.g. `drush @example.local cex`).
 4. Review the updated configuration in `config/default` using `git diff`.  If you are satisfied with the changes, commit them and open a pull request.
 
-Note that when you run `drush cex`, if the project has been configured correctly, some configuration that's specific to the development environment should automatically be excluded. If you need to customize this behavior, you can modify the blacklists by following the steps in the section above.
+### Blacklisting modules and configuration
 
-Similarly, some configuration that's intended to be "unlocked" in production might also be excluded (such as webforms). If you need to customize this behavior, you can use the greylist functionality described in [this blog post](https://blog.liip.ch/archive/2017/04/07/advanced-drupal-8-cmi-workflows.html).
+Note that when you run `drush cex`, if the project has been configured correctly, some configuration that's specific to the development environment should automatically be excluded. This functionality is known as "blacklisting". If you need to customize this behavior, you can modify the blacklists for the respective environment.
+
+For example, let's say you want to install and configure the Stage File Proxy module locally but not in remote environments. Follow these steps to add it to the local split:
+
+1. Add the module to `composer.json` and run `composer update drupal/stage_file_proxy`.
+2. Start from a clean installation: `blt local:setup` or `blt local:refresh`.
+3. Install the Stage File Proxy module.
+4. Configure the Stage File Proxy module as appropriate.
+5. Navigate to the local config split configuration page: `/admin/config/development/configuration/config-split/local/edit`
+6. Add _Stage File Proxy_ to the list of modules to filter (make sure to use ctrl-click or cmd-click to select multiple).
+7. Add `stage_file_proxy.settings` to the blacklist (again using ctrl-click or cmd-click).
+8. Save your changes.
+9. Export the modified local config split to disk: `drush csex local`
+10. Finally, export the default config split to disk: `drush cex`
+
+At this point, you should see a new file `config/local/stage_file_proxy.settings.yml` as well as a modified file `config/default/config_split.config_split.local.yml`. Commit these changes as well as your changes to `composer.json` and `composer.lock`.
+
+### Greylisting modules and configuration
+
+Some configuration that's intended to be "unlocked" in production might also be excluded (such as webforms). If you need to customize this behavior, you can use the greylist functionality described in [this blog post](https://blog.liip.ch/archive/2017/04/07/advanced-drupal-8-cmi-workflows.html).
 
 ## Features-based workflow
 
