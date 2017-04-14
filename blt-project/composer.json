@@ -22,7 +22,7 @@
         }
     },
     "require": {
-        "acquia/blt": "*@dev"
+        "acquia/blt": "8.7.x-dev"
     },
     "extra": {
         "enable-patching": true,
