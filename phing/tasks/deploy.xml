@@ -257,13 +257,14 @@
     <echo>Global .gitignore file is being disabled for this repository to prevent unexpected behavior.</echo>
     <!-- Add the git username and email if necessary. -->
     <if>
-      <and>
-        <isset property="git.user.name"/>
-        <isset property="git.user.email"/>
-      </and>
-      <then>
-        <exec dir="${deploy.dir}" command="git config --local --add user.email ${git.user.email} user.name ${git.user.name}" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
-      </then>
+      <isset property="git.user.name"/>
+    <then>
+      <exec dir="${deploy.dir}" command="git config --local --add user.name ${git.user.name}" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+    </if>
+    <if>
+      <isset property="git.user.email"/>
+    <then>
+      <exec dir="${deploy.dir}" command="git config --local --add user.email ${git.user.email}" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
     </if>
 
   </target>
