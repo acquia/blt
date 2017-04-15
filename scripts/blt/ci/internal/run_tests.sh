@@ -9,6 +9,7 @@ yaml-cli update:value blt/project.yml cm.strategy none
 blt validate:all
 blt setup -Dcreate_alias=false -Denvironment=ci
 blt tests:all --define behat.run-server=true --yes
+blt tests:behat:definitions
 drush config-export --root=docroot -y
 
 # Test core-only config management.

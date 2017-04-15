@@ -17,6 +17,7 @@ $robo_commands = [
   'tests:configure-phantomjs',
   'tests:all',
   'tests:behat',
+  'tests:behat:definitions',
   'tests:phpunit',
   'tests:security-updates',
   'vm',
