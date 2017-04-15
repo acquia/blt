@@ -32,6 +32,7 @@ If you'd like to create a VM with BLT, you will require the following additional
 
         brew tap caskroom/cask
         brew cask install virtualbox vagrant
+        vagrant plugin install vagrant-hostsupdater
 
 The minimum required versions are VirtualBox 5.1.x and Vagrant 1.8.6. 
 
