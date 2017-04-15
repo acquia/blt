@@ -39,7 +39,7 @@
       <exec dir="${repo.root}" command="echo '0' >> ${blt.config-files.schema-version}" checkreturn="true" logoutput="true" passthru="false" level="${blt.exec_level}"/>
     </then>
   </if>
-  <exec dir="${repo.root}" command="cat ${blt.config-files.schema-version}" outputProperty="blt.schema-version" checkreturn="true" logoutput="false" level="${blt.exec_level}"/>
+  <exec dir="${repo.root}" command="cat '${blt.config-files.schema-version}'" outputProperty="blt.schema-version" checkreturn="true" logoutput="false" level="${blt.exec_level}"/>
   <!-- Send errors to /dev/null, for environments like ACE without composer. -->
   <exec dir="${repo.root}" command="composer info acquia/blt --no-ansi 2> /dev/null | grep versions | awk '{print $4}'" outputProperty="blt.version" logoutput="false" checkreturn="true" level="${blt.exec_level}" />
 
@@ -67,7 +67,7 @@
         <available file="${docroot}/sites"/>
         <then>
           <!-- Find directories in ${docroot}/sites/*/ and format into a comma-separated list. Exclude ${docroot}/sites/g. -->
-          <exec command="find ${docroot}/sites/* -maxdepth 0 -type d | grep -v -e '${docroot}/sites/g$' | sed -e 's%${docroot}/sites/%%g' -e '2,$s%^%,%' | tr -d '\n'"
+          <exec command="find '${docroot}/sites' -depth 1 -type d | grep -v -e '${docroot}/sites/g$' | sed -e 's%${docroot}/sites/%%g' -e '2,$s%^%,%' | tr -d '\n'"
                 outputProperty="multisite.name" logoutput="false" checkreturn="true"/>
         </then>
         <else>
