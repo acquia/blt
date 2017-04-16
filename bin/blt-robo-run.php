@@ -52,5 +52,5 @@ $config->import($processor->export());
 // @todo realpath() repo.root, docroot, composer.bin, etc.
 
 $blt = new Blt($config, $input, $output);
-$status_code = $blt->run($input, $output);
+$status_code = (int) $blt->run($input, $output);
 exit($status_code);

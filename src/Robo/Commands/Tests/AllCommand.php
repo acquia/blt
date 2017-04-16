@@ -15,11 +15,13 @@ class AllCommand extends BltTasks {
    * @command tests:all
    */
   public function tests() {
-    $this->invokeCommands([
+    $status_code = $this->invokeCommands([
       'tests:behat',
       'tests:phpunit',
       'tests:security-updates',
     ]);
+
+    return $status_code;
   }
 
 }
