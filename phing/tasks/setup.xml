@@ -81,7 +81,7 @@
           <not><available file="${docroot}/sites/${multisite.name}/default.settings.php"/></not>
           <then>
             <echo>Downloading scaffold files so that default.settings.php is available</echo>
-            <exec dir="${repo.root}" command="composer drupal-scaffold" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true" />
+            <exec dir="${repo.root}" command="composer run-script drupal-scaffold" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true" />
           </then>
         </if>
 
