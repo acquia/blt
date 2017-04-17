@@ -3,22 +3,12 @@
 namespace Acquia\Blt\Custom\Hooks;
 
 use Acquia\Blt\Robo\BltTasks;
-use Acquia\Blt\Robo\Common\IO;
-use Acquia\Blt\Robo\Config\ConfigAwareTrait;
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerAwareTrait;
-use Robo\Contract\ConfigAwareInterface;
-use Robo\Contract\IOAwareInterface;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 
 /**
  * This class defines example hooks.
  */
-class ExampleHook extends BltTasks implements IOAwareInterface, ConfigAwareInterface, LoggerAwareInterface {
-
-  use ConfigAwareTrait;
-  use LoggerAwareTrait;
-  use IO;
+class ExampleHook extends BltTasks {
 
   /**
    * This will be called before the `custom:hello` command is executed.
