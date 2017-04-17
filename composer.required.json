@@ -30,7 +30,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Acquia\\Blt\\Custom\\": "blt/src/"
+      "Acquia\\Blt\\Custom\\": "../../../blt/src/"
     }
   },
   "extra": {

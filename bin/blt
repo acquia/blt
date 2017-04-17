@@ -9,8 +9,6 @@ if (!isset($autoload)) {
 }
 
 $robo_namespaces = [
-  'acsf',
-  'ci',
   'custom',
   'tests',
   'vm',
