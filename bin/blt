@@ -8,30 +8,32 @@ if (!isset($autoload)) {
   exit(1);
 }
 
-$robo_commands = [
-  'acsf:init',
-  'acsf:init:drush',
+$robo_namespaces = [
+  'acsf',
+  'ci',
+  'custom',
   'tests',
-  'ci:pipelines:init',
-  'ci:travis:init',
-  'tests:configure-phantomjs',
-  'tests:all',
-  'tests:behat',
-  'tests:behat:definitions',
-  'tests:phpunit',
-  'tests:security-updates',
   'vm',
-  'vm:config',
-  'vm:nuke',
+];
+$robo_commands = [
 ];
 
-// Execute command via Robo.
 $params_string = implode(' ', array_slice($argv, 1));
+
+// If command begins with string in $robo_namespaces, execute command via Robo.
+if (!empty($argv[1])) {
+  foreach ($robo_namespaces as $namespace) {
+    if (strpos($argv[1], $namespace) === 0) {
+      require_once __DIR__. '/blt-robo-run.php';
+    }
+  }
+}
+// If command is in $robo_commands, execute command via Robo.
 if (!empty($argv[1]) && in_array($argv[1], $robo_commands)) {
   $command = $argv[1];
   require_once __DIR__. '/blt-robo-run.php';
 }
-// Execute target via Phing.
+// Otherwise, execute target via Phing.
 else {
   chdir($repo_root);
   $phing = $repo_root . '/vendor/phing/phing/bin/phing';
