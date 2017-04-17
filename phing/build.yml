@@ -38,6 +38,7 @@ blt:
 
 composer:
   bin: ${repo.root}/${bin.path}
+  extra: ''
 
 cm:
   # Possible values: core-only, config-split, features, none.
