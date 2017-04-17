@@ -5,14 +5,14 @@ namespace Acquia\Blt\Custom\Commands;
 use Acquia\Blt\Robo\BltTasks;
 
 /**
- * Defines commands in the "example" namespace.
+ * Defines commands in the "custom" namespace.
  */
 class ExampleCommand extends BltTasks {
 
   /**
    * Check local Drupal installation for security updates.
    *
-   * @command example:hello
+   * @command custom:hello
    * @description This is an example command.
    */
   public function hello() {
