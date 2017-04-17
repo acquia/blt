@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Update;
 
 use Acquia\Blt\Annotations\Update;
+use Acquia\Blt\Robo\Common\ArrayManipulator;
 
 /**
  * Defines scripted updates for specific version deltas of BLT.
@@ -249,7 +250,12 @@ class Updates {
     }
 
     // Set wikimedia/composer-merge-plugin config.
-    $composer_json['extra']['merge-plugin'] = $template_composer_json['extra']['merge-plugin'];
+    if (!empty($composer_json['extra']['merge-plugin'])) {
+      $composer_json['extra']['merge-plugin'] = ArrayManipulator::arrayMergeRecursiveDistinct($composer_json['extra']['merge-plugin'], $template_composer_json['extra']['merge-plugin']);
+    }
+    else {
+      $composer_json['extra']['merge-plugin'] = $template_composer_json['extra']['merge-plugin'];
+    }
 
     // Write to file.
     $this->updater->writeComposerJson($composer_json);
