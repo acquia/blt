@@ -233,6 +233,10 @@
         <drush command="config-import" assume="yes" alias="${drush.alias}" passthru="false">
           <param>${cm.core.key}</param>
         </drush>
+        <!-- Sometimes config-import has to be run twice to catch everything. Can be removed once the core configuration system is more stable. -->
+        <drush command="config-import" assume="yes" alias="${drush.alias}" passthru="false">
+          <param>${cm.core.key}</param>
+        </drush>
       </then>
     </if>
 
@@ -250,6 +254,11 @@
           <param>config_split</param>
         </drush>
 
+        <drush command="config-import" assume="yes" alias="${drush.alias}">
+          <param>sync</param>
+        </drush>
+
+        <!-- Sometimes config-import has to be run twice to catch everything. Can be removed once the core configuration system is more stable. -->
         <drush command="config-import" assume="yes" alias="${drush.alias}">
           <param>sync</param>
         </drush>
