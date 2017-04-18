@@ -5,7 +5,6 @@ set -ev
 export PATH=${COMPOSER_BIN}:${PATH}
 
 yaml-cli update:value blt/project.yml project.local.hostname '127.0.0.1:8888'
-sudo /etc/init.d/mysql start
 
 blt validate:all
 blt ci:setup -Dcreate_alias=false
