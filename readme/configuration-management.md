@@ -23,7 +23,7 @@ Generally speaking, a configuration change follows this lifecycle:
 4. Automated testing ensures that the configuration can be installed from scratch on a new site as well as imported without conflicts on an existing site.
 5. After the change is deployed, deployment hooks automatically import the new or updated configuration.
 
-The way that configuration is captured and deployed between environments in Drupal 8 is typically via YAML files. These YAML files, typically stored in a root `config` directory, or distributed with individual modules in `config/install` directories, represent individual configruation objects that can be synchronized with the active configuration in an environment's database via a variety of methods. See [documentation on core configuration management](https://www.drupal.org/docs/8/configuration-management). 
+The way that configuration is captured and deployed between environments in Drupal 8 is typically via YAML files. These YAML files, typically stored in a root `config` directory, or distributed with individual modules in `config/install` directories, represent individual configuration objects that can be synchronized with the active configuration in an environment's database via a variety of methods. See [documentation on core configuration management](https://www.drupal.org/docs/8/configuration-management). 
 
 This document address the challenge of capturing ("exporting") and deploying ("importing") configuration in a consistent way in order to support the workflow described above.
 
