@@ -9,7 +9,6 @@ git config --global user.name "Acquia Cloud"
 git config --global user.email "noreply@acquia.com"
 
 # Create MySQL DB.
-sudo /etc/init.d/mysql start
 mysql -u root -proot -e "CREATE DATABASE IF NOT EXISTS drupal"
 
 set +v
