@@ -20,6 +20,7 @@ The following is an overview of the purpose of each top level directory in the p
 
     root
       ├── blt      - Contains custom build config files for CI solutions. E.g., Phing configuration.
+      ├── box      - Contains DrupalVM Configuration (optional).
       ├── drush    - Contain drush configuration that is not site or environment specific.
       ├── docroot  - The drupal docroot.
       ├── hooks    - Contains Acquia Cloud hooks.
