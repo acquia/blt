@@ -262,7 +262,8 @@
         <isset property="git.user.email"/>
       </and>
       <then>
-        <exec dir="${deploy.dir}" command="git config --local --add user.email ${git.user.email} user.name ${git.user.name}" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+        <exec dir="${deploy.dir}" command="git config --local --add user.email '${git.user.email}'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
+        <exec dir="${deploy.dir}" command="git config --local --add user.name '${git.user.name}'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
       </then>
     </if>
 
