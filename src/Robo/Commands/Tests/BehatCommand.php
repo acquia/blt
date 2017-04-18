@@ -23,6 +23,8 @@ class BehatCommand extends TestsCommandBase {
   protected $seleniumUrl;
 
   /**
+   * The directory containing Behat logs.
+   *
    * @var string
    */
   protected $behatLogDir;

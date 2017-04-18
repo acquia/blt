@@ -11,6 +11,8 @@ use Acquia\Blt\Robo\Common\RandomString;
 class DrupalCommand extends BltTasks {
 
   /**
+   * Installs Drupal.
+   *
    * @command drupal:install
    *
    * @validateMySqlAvailable
@@ -40,7 +42,7 @@ class DrupalCommand extends BltTasks {
   }
 
   /**
-   * Generates and writes a hash salt to ${repo.root}/salt.txt if one does not exist.
+   * Writes a hash salt to ${repo.root}/salt.txt if one does not exist.
    *
    * @return int
    *   A CLI exit code.

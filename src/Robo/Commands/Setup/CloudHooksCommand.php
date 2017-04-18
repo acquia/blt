@@ -19,4 +19,5 @@ class CloudHooksCommand extends BltTasks {
       ->copy($this->getConfigValue('blt.root') . '/scripts/cloud-hooks/hooks', $this->getConfigValue('repo.root') . '/hooks')
       ->run();
   }
+
 }

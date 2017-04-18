@@ -249,8 +249,9 @@ class BltReleaseCommand extends BltTasks {
    *   An array of commands. E.g., 'wget'.
    *
    * @return bool
+   *   TRUE if the command exists, otherwise FALSE.
    */
-  public function checkCommandsExist($commands) {
+  public function checkCommandsExist(array $commands) {
     foreach ($commands as $command) {
       if (!$this->getInspector()->commandExists($command)) {
         $this->yell("Unable to find '$command' command!");

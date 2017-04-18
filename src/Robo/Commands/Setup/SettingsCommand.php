@@ -24,6 +24,8 @@ class SettingsCommand extends BltTasks {
   }
 
   /**
+   * Generates default settings files for Drupal and drush.
+   *
    * @command setup:settings
    */
   public function generateSiteConfigFiles() {
@@ -66,7 +68,7 @@ class SettingsCommand extends BltTasks {
 
       $this->taskWriteToFile($project_settings_file)
         ->appendUnlessMatches('#vendor/acquia/blt/settings/blt.settings.php#', 'require DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php";')
-        ->append(true)
+        ->append(TRUE)
         ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
         ->run();
 
@@ -79,6 +81,8 @@ class SettingsCommand extends BltTasks {
   }
 
   /**
+   * Generates tests/behat/local.yml file for executing Behat tests locally.
+   *
    * @command setup:behat
    */
   public function behat() {
@@ -92,6 +96,8 @@ class SettingsCommand extends BltTasks {
   }
 
   /**
+   * Installs git hooks to local .git/hooks directory.
+   *
    * @command setup:git-hooks
    */
   public function gitHooks() {
@@ -101,7 +107,12 @@ class SettingsCommand extends BltTasks {
   }
 
   /**
+   * Installs a given git hook.
+   *
+   * This symlinks the hook into the project's .git/hooks directory.
+   *
    * @param string $hook
+   *   The git hook to install. E.g., 'pre-commit'.
    */
   protected function installGitHook($hook) {
     if ($this->getConfigValue('git.hooks.' . $hook)) {

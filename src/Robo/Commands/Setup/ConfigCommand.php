@@ -3,8 +3,6 @@
 namespace Acquia\Blt\Robo\Commands\Setup;
 
 use Acquia\Blt\Robo\BltTasks;
-use Robo\Contract\VerbosityThresholdInterface;
-use Symfony\Component\Finder\Finder;
 
 /**
  * Defines commands in the "setup:config*" namespace.
@@ -41,12 +39,12 @@ class ConfigCommand extends BltTasks {
         // @see https://www.drupal.org/node/2826466
         ->exec("drush @$drush_alias cache-rebuild")
         // Execute db updates.
-        // This must happen before features are imported or configuration is imported.
-        // For instance, if you add a dependency on a new extension to an
-        // existing configuration file, you must enable that extension via an
+        // This must happen before features are imported or configuration is
+        // imported. For instance, if you add a dependency on a new extension to
+        // an existing configuration file, you must enable that extension via an
         // update hook before attempting to import the configuration.
         // If a db update relies on updated configuration, you should import the
-        //necessary configuration file(s) as part of the db update.
+        // necessary configuration file(s) as part of the db update.
         ->exec("drush @$drush_alias updb --yes");
 
       switch ($strategy) {
@@ -85,7 +83,8 @@ class ConfigCommand extends BltTasks {
             foreach ($this->getConfigValue('cm.features.bundle') as $bundle) {
               $features_overriden = $task->exec("drush fl --bundle=${bundle} | grep -Ei '(changed|conflicts|added)( *)$");
               // @todo emit:
-              // A feature in the ${bundle} bundle is overridden. You must re-export this feature to incorporate the changes.
+              // A feature in the ${bundle} bundle is overridden. You must
+              // re-export this feature to incorporate the changes.
             }
           }
           break;

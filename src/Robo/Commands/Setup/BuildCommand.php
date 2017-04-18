@@ -29,6 +29,8 @@ class BuildCommand extends BltTasks {
   }
 
   /**
+   * Installs Drupal and sets correct file/directory permissions.
+   *
    * @command setup:drupal:install
    *
    * @validateMySqlAvailable
@@ -79,11 +81,12 @@ class BuildCommand extends BltTasks {
   public function build() {
     $this->invokeCommands([
       'setup:behat',
-      // setup:composer:install must run prior to setup:settings to ensure that scaffold files are present.
+      // setup:composer:install must run prior to setup:settings to ensure that
+      // scaffold files are present.
       'setup:composer:install',
       'setup:git-hooks',
       'setup:settings',
-      //'frontend'
+      // 'frontend'.
     ]);
 
     if ($this->getConfig()->has('simplesamlphp') && $this->getConfigValue('simplesamlphp')) {
@@ -97,6 +100,8 @@ class BuildCommand extends BltTasks {
   }
 
   /**
+   * Installs composer dependencies.
+   *
    * @command setup:composer:install
    */
   public function composerInstall() {
@@ -108,6 +113,8 @@ class BuildCommand extends BltTasks {
   }
 
   /**
+   * Installs the 'blt' alias.
+   *
    * @command install-alias
    */
   public function installAlias() {
