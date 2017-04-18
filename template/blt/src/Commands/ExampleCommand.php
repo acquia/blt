@@ -10,7 +10,7 @@ use Acquia\Blt\Robo\BltTasks;
 class ExampleCommand extends BltTasks {
 
   /**
-   * Check local Drupal installation for security updates.
+   * Print "Hello world!" to the console.
    *
    * @command custom:hello
    * @description This is an example command.
