@@ -19,8 +19,6 @@ class SettingsCommand extends BltTasks {
    * @hook init
    */
   public function initialize() {
-    parent::initialize();
-
     $this->defaultBehatLocalConfigFile = $this->getConfigValue('repo.root') . '/tests/behat/example.local.yml';
     $this->projectBehatLocalConfigFile = $this->getConfigValue('repo.root') . '/tests/behat/local.yml';
   }
@@ -55,6 +53,7 @@ class SettingsCommand extends BltTasks {
       $this->taskFilesystemStack()
         ->chmod($multisite_dir, 0777)
         ->copy($project_default_settings_file, $project_settings_file)
+        ->copy($project_settings_file, 0777)
         ->copy($blt_local_settings_file, $default_local_settings_file)
         ->copy($default_local_settings_file, $project_local_settings_file)
         ->copy($blt_local_drush_file, $default_local_drush_file)
@@ -83,6 +82,7 @@ class SettingsCommand extends BltTasks {
    * @command setup:behat
    */
   public function behat() {
+    $this->say("Generating Behat configuration files");
     $this->taskFilesystemStack()
       ->copy($this->defaultBehatLocalConfigFile, $this->projectBehatLocalConfigFile)
       ->stopOnFail()

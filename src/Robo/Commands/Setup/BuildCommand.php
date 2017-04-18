@@ -12,40 +12,42 @@ use Symfony\Component\Finder\Finder;
 class BuildCommand extends BltTasks {
 
   /**
-   * This hook will fire for all commands in this command file.
-   *
-   * @hook init
-   */
-  public function initialize() {
-    parent::initialize();
-  }
-
-  /**
    * Install dependencies, builds docroot, installs Drupal.
    *
    * @command setup
+   *
+   * @validateMySqlAvailable
    */
   public function setup() {
-    $this->invokeCommands([
+    $this->say("Setting up local environment");
+    $status_code = $this->invokeCommands([
       'setup:build',
       'setup:drupal:install',
       'install-alias',
     ]);
+    return $status_code;
   }
 
   /**
    * @command setup:drupal:install
+   *
+   * @validateMySqlAvailable
    */
   public function drupalInstall() {
-    $this->invokeCommands(['drupal:install']);
+    $status_code = $this->invokeCommands(['drupal:install']);
+    if ($status_code) {
+      return $status_code;
+    }
     $this->setSitePermissions();
+
+    return $status_code;
   }
 
   /**
-   *
+   * Set correct permissions for files and folders in docroot/sites/*.
    */
   protected function setSitePermissions() {
-    $task = $this->taskFilesystemStack();
+    $taskFilesystemStack = $this->taskFilesystemStack();
     $multisite_dir = $this->getConfigValue('docroot') . '/sites/' . $this->getConfigValue('multisite.name');
     $finder = new Finder();
     $dirs = $finder
@@ -54,7 +56,7 @@ class BuildCommand extends BltTasks {
       ->depth('< 1')
       ->exclude('files');
     foreach ($dirs->getIterator() as $dir) {
-      $task->chmod($dir->getRealPath(), 0755);
+      $taskFilesystemStack->chmod($dir->getRealPath(), 0755);
     }
     $files = $finder
       ->in($multisite_dir)
@@ -62,9 +64,11 @@ class BuildCommand extends BltTasks {
       ->depth('< 1')
       ->exclude('files');
     foreach ($files->getIterator() as $dir) {
-      $task->chmod($dir->getRealPath(), 0644);
+      $taskFilesystemStack->chmod($dir->getRealPath(), 0644);
     }
-    $task->run();
+
+    $taskFilesystemStack->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE);
+    $taskFilesystemStack->run();
   }
 
   /**
@@ -97,16 +101,18 @@ class BuildCommand extends BltTasks {
    */
   public function composerInstall() {
     $this->taskExec("export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --ansi --no-interaction")
+      ->dir($this->getConfigValue('repo.root'))
       ->interactive()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
   }
 
   /**
-   * @command setup:install-alias
+   * @command install-alias
    */
   public function installAlias() {
-    $this->taskExec("composer run-script install-alias")
+    $this->taskExec("composer run-script blt-alias")
+      ->dir($this->getConfigValue('repo.root'))
       ->interactive()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();

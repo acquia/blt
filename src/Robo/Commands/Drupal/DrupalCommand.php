@@ -34,20 +34,29 @@ class DrupalCommand extends BltTasks {
       $task->option('config-dir', $this->getConfigValue("cm.core.dirs.$cm_core_key.path"));
     }
 
-    $task->interactive()->run();
+    $status_code = $task->interactive()->run();
+
+    return $status_code;
   }
 
   /**
+   * Generates and writes a hash salt to ${repo.root}/salt.txt if one does not exist.
    *
+   * @return int
+   *   A CLI exit code.
    */
   protected function hashSalt() {
     $hash_salt_file = $this->getConfigValue('repo.root') . '/salt.txt';
     if (!file_exists($hash_salt_file)) {
       $this->say("Writing hash salt to $hash_salt_file");
-      $this->taskWriteToFile($hash_salt_file)
+      $status_code = $this->taskWriteToFile($hash_salt_file)
         ->line(RandomString::string(55))
         ->run();
+
+      return $status_code;
     }
+
+    return 0;
   }
 
 }

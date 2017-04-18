@@ -28,8 +28,6 @@ class VmCommand extends BltTasks {
    * @hook init
    */
   public function initialize() {
-    parent::initialize();
-
     $this->drupalVmAlias = $this->getConfigValue('project.machine_name') . '.local';
     $this->drupalVmVersionConstraint = '~4.3';
     $this->defaultDrupalVmDrushAliasesFile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/drupal-vm.aliases.drushrc.php';

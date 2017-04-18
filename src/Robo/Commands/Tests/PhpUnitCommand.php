@@ -35,8 +35,6 @@ class PhpUnitCommand extends BltTasks {
    * @hook init
    */
   public function initialize() {
-    parent::initialize();
-
     $this->reportsDir = $this->getConfigValue('reports.localDir') . '/phpunit';
     $this->reportFile = $this->reportsDir . '/results.xml';
     $this->testsDir = $this->getConfigValue('repo.root') . '/tests/phpunit';

@@ -33,8 +33,6 @@ class BehatCommand extends TestsCommandBase {
    * @hook init
    */
   public function initialize() {
-    parent::initialize();
-
     $this->seleniumLogFile = $this->getConfigValue('reports.localDir') . "/selenium2.log";
     $this->behatLogDir = $this->getConfigValue('reports.localDir') . "/behat";
     $this->seleniumUrl = "http://127.0.0.1:4444/wd/hub";

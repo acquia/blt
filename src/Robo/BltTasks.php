@@ -32,11 +32,9 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
   use LoggerAwareTrait;
 
   /**
-   *
+   * @var int
    */
-  protected function initialize() {
-
-  }
+  protected $invokeDepth = 0;
 
   /**
    * Invokes an array of Symfony commands.
@@ -48,6 +46,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    *   The exit code of the command.
    */
   protected function invokeCommands(array $commands) {
+    $this->invokeDepth++;
     foreach ($commands as $command) {
       $returnCode = $this->invokeCommand($command);
       // Return if this is non-zero exit code.
@@ -55,6 +54,8 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
         return $returnCode;
       }
     }
+    $this->invokeDepth--;
+    return $returnCode;
   }
 
   /**
@@ -72,9 +73,10 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
     $command = $application->find($command_name);
     $args = [];
     $input = new ArrayInput($args);
-    $this->output->writeln("<comment>$command_name ></comment>");
+    $prefix = str_repeat(">", $this->invokeDepth);
+    $this->output->writeln("<comment>$prefix $command_name</comment>");
     $returnCode = $command->run($input, $this->output());
-    $this->output->writeln("");
+    //$this->output->writeln("");
 
     return $returnCode;
   }
@@ -88,6 +90,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
        ->dir($this->getConfigValue("target-hooks.$hook.dir"))
        ->interactive()
        ->printOutput(TRUE)
+       ->printMetadata(FALSE)
        ->run();
     }
     else {
