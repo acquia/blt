@@ -102,4 +102,14 @@ class BuildCommand extends BltTasks {
       ->run();
   }
 
+  /**
+   * @command setup:install-alias
+   */
+  public function installAlias() {
+    $this->taskExec("composer run-script install-alias")
+      ->interactive()
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->run();
+  }
+
 }

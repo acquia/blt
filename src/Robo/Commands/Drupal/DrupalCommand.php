@@ -12,6 +12,8 @@ class DrupalCommand extends BltTasks {
 
   /**
    * @command drupal:install
+   *
+   * @validateMySqlAvailable
    */
   public function install() {
     $this->hashSalt();
