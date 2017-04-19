@@ -68,7 +68,6 @@ class AcsfCommand extends BltTasks {
    */
   protected function requireAcsf($acsfVersion) {
     $result = $this->taskExec("composer require 'drupal/acsf:{$acsfVersion}'")
-      ->interactive()
       ->printOutput(TRUE)
       ->dir($this->getConfigValue('repo.root'))
       ->run();
@@ -79,7 +78,6 @@ class AcsfCommand extends BltTasks {
       $confirm = $this->confirm("Should BLT attempt to update all of your Composer packages in order to find a compatible version?");
       if ($confirm) {
         $result = $this->taskExec("composer require 'drupal/acsf:{$acsfVersion}' --no-update && composer update")
-          ->interactive()
           ->printOutput(TRUE)
           ->dir($this->getConfigValue('repo.root'))
           ->run();
