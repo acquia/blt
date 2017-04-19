@@ -3,7 +3,8 @@
 namespace Acquia\Blt\Robo\Wizards;
 
 /**
- * Class SetupWizard
+ * Class SetupWizard.
+ *
  * @package Acquia\Blt\Robo\Wizards
  */
 class SetupWizard extends Wizard {
@@ -18,7 +19,7 @@ class SetupWizard extends Wizard {
       if ($confirm) {
         $bin = $this->getConfigValue('composer.bin');
         $this->executor
-          ->execute("$bin/blt setup:settings")->printOutput(true)->run();
+          ->execute("$bin/blt setup:settings")->printOutput(TRUE)->run();
       }
     }
   }
@@ -37,8 +38,9 @@ class SetupWizard extends Wizard {
         $bin = $this->getConfigValue('composer.bin');
 
         $this->executor
-          ->execute("$bin/blt setup:drupal:install")->printOutput(true)->run();
+          ->execute("$bin/blt setup:drupal:install")->printOutput(TRUE)->run();
       }
     }
   }
+
 }

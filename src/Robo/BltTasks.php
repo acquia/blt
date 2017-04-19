@@ -76,8 +76,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
     $prefix = str_repeat(">", $this->invokeDepth);
     $this->output->writeln("<comment>$prefix $command_name</comment>");
     $returnCode = $command->run($input, $this->output());
-    //$this->output->writeln("");
-
+    // $this->output->writeln("");.
     return $returnCode;
   }
 
@@ -86,12 +85,12 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    */
   protected function invokeHook($hook) {
     if ($this->getConfig()->has("target-hooks.$hook.command")) {
-     $this->taskExec($this->getConfigValue("target-hooks.$hook.command"))
-       ->dir($this->getConfigValue("target-hooks.$hook.dir"))
-       ->interactive()
-       ->printOutput(TRUE)
-       ->printMetadata(FALSE)
-       ->run();
+      $this->taskExec($this->getConfigValue("target-hooks.$hook.command"))
+        ->dir($this->getConfigValue("target-hooks.$hook.dir"))
+        ->interactive()
+        ->printOutput(TRUE)
+        ->printMetadata(FALSE)
+        ->run();
     }
     else {
       $this->say("No commands are defined for $hook. Skipping.");

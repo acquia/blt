@@ -2,11 +2,8 @@
 
 namespace Acquia\Blt\Robo\Config;
 
-use Acquia\Blt\Robo\Common\ArrayManipulator;
-use Dflydev\DotAccessData\Data;
 use Grasmash\YamlExpander\Expander;
 use Robo\Config\Config;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  *
@@ -22,20 +19,19 @@ class BltConfig extends Config {
   }
 
   /**
-   * Set a config value
+   * Set a config value.
    *
    * @param string $key
    * @param mixed $value
    *
    * @return $this
    */
-  public function set($key, $value)
-  {
+  public function set($key, $value) {
     if ($value === 'false') {
-      $value = false;
+      $value = FALSE;
     }
     elseif ($value === 'true') {
-      $value = true;
+      $value = TRUE;
     }
 
     return parent::set($key, $value);

@@ -2,13 +2,12 @@
 
 namespace Acquia\Blt\Robo\Inspector;
 
+use Acquia\Blt\Robo\Config\YamlConfigProcessor;
+use Robo\Config\YamlConfigLoader;
 use Acquia\Blt\Robo\Common\Executor;
 use Acquia\Blt\Robo\Common\IO;
 use Acquia\Blt\Robo\Config\BltConfig;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
-use Acquia\Blt\Robo\Config\YamlConfig;
-use Acquia\Blt\Robo\Tasks\BltTasks;
-use Grasmash\YamlExpander\Expander;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Robo\Common\BuilderAwareTrait;
@@ -27,7 +26,8 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
   use LoggerAwareTrait;
   use IO;
 
-  /** @var Executor */
+  /**
+   * @var \Acquia\Blt\Robo\Common\Executor*/
   protected $executor;
 
   /**
@@ -53,10 +53,16 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
     return file_exists($this->getConfigValue('docroot'));
   }
 
+  /**
+   *
+   */
   public function isBltConfigFilePresent() {
     return file_exists($this->getConfigValue('blt.config-files.local'));
   }
 
+  /**
+   *
+   */
   public function isBltLocalConfigFilePresent() {
     return file_exists($this->getConfigValue('blt.config-files.local'));
   }
@@ -67,6 +73,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
   public function isDrupalSettingsFilePresent() {
     return file_exists($this->getConfigValue('drupal.settings_file'));
   }
+
   /**
    * @return bool
    */
@@ -102,6 +109,9 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
     return $this->getConfigValue('state.drupal.installed');
   }
 
+  /**
+   *
+   */
   public function getDrushStatus() {
     $status_info = json_decode($this->executor->drush('status --format=json --show-passwords')->run()->getOutputData(), TRUE);
 
@@ -169,7 +179,8 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
   /**
    * Checks if a given command exists on the system.
    *
-   * @param $command string the command binary only. E.g., "drush" or "php".
+   * @param $command
+   *   string the command binary only. E.g., "drush" or "php".
    *
    * @return bool
    *   TRUE if the command exists, otherwise FALSE.
@@ -179,18 +190,24 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
     return $exit_code == 0;
   }
 
+  /**
+   *
+   */
   public function getLocalBehatConfig() {
     $behat_local_config_file = $this->getConfigValue('repo.root') . '/tests/behat/local.yml';
 
     $behat_local_config = new BltConfig();
-    $loader = new \Robo\Config\YamlConfigLoader();
-    $processor = new \Acquia\Blt\Robo\Config\YamlConfigProcessor();
+    $loader = new YamlConfigLoader();
+    $processor = new YamlConfigProcessor();
     $processor->extend($loader->load($behat_local_config_file));
     $behat_local_config->import($processor->export());
 
     return $behat_local_config;
   }
 
+  /**
+   *
+   */
   public function getBehatConfigFiles() {
     $behat_local_config = $this->getLocalBehatConfig();
 
@@ -201,6 +218,9 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
     ];
   }
 
+  /**
+   *
+   */
   public function filesExist($files) {
     foreach ($files as $file) {
       if (!file_exists($file)) {
@@ -242,6 +262,9 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
     return TRUE;
   }
 
+  /**
+   *
+   */
   public function areBehatConfigFilesPresent() {
     return $this->filesExist($this->getBehatConfigFiles());
   }
@@ -259,22 +282,35 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
     return $this;
   }
 
+  /**
+   *
+   */
   public function isPhantomJsConfigured() {
     return $this->isPhantomJsRequired() && $this->isPhantomJsScriptConfigured() && $this->isPhantomJsBinaryPresent();
   }
 
+  /**
+   *
+   */
   public function isPhantomJsRequired() {
     $result = $this->executor->execute("grep 'jakoch/phantomjs-installer' composer.json")->run();
     return $result->wasSuccessful();
   }
 
+  /**
+   *
+   */
   public function isPhantomJsScriptConfigured() {
     $result = $this->executor->execute("grep installPhantomJS composer.json")->run();
 
     return $result->wasSuccessful();
   }
 
+  /**
+   *
+   */
   public function isPhantomJsBinaryPresent() {
     return file_exists("{$this->getConfigValue('composer.bin')}/phantomjs");
   }
+
 }

@@ -108,7 +108,7 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
   /**
    * @param \Consolidation\AnnotatedCommand\CommandData $commandData
    */
-  public function validatePhantomJsIsConfigured(CommandData$commandData) {
+  public function validatePhantomJsIsConfigured(CommandData $commandData) {
     if (!$this->getInspector()->isPhantomJsConfigured()) {
       $this->logger->info("Phantom JS is not configured.");
     }

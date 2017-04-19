@@ -45,8 +45,7 @@ trait IO {
    *
    * @return string
    */
-  protected function confirm($question, $default = FALSE)
-  {
+  protected function confirm($question, $default = FALSE) {
     if ($this->input()->hasOption('yes') && $this->input()->getOption('yes')) {
       return TRUE;
     }

@@ -100,7 +100,7 @@ class ArrayManipulator {
         foreach ($flattened_array as $sub_key => $sub_value) {
           $rows[] = [
             "$key.$sub_key",
-            wordwrap($sub_value, $max_line_length, "\n", TRUE)
+            wordwrap($sub_value, $max_line_length, "\n", TRUE),
           ];
         }
       }
@@ -120,4 +120,5 @@ class ArrayManipulator {
 
     return $rows;
   }
+
 }

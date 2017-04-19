@@ -2,8 +2,10 @@
 
 namespace Acquia\Blt\Robo\Common;
 
-class RandomString
-{
+/**
+ *
+ */
+class RandomString {
 
   /**
    * The maximum number of times name() and string() can loop.
@@ -69,4 +71,5 @@ class RandomString
 
     return $str;
   }
+
 }

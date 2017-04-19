@@ -2,17 +2,12 @@
 
 namespace Acquia\Blt\Robo\Common;
 
-use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
 use GuzzleHttp\Client;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
-use Psr\Log\LogLevel;
 use Robo\Collection\CollectionBuilder;
-use Robo\Common\ProcessExecutor;
 use Robo\Robo;
-use Symfony\Component\Console\Helper\ProcessHelper;
-use Symfony\Component\Console\Output\OutputInterface;
 use Robo\Contract\ConfigAwareInterface;
 use Robo\Contract\IOAwareInterface;
 use Symfony\Component\Process\Process;
@@ -26,7 +21,8 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
   use IO;
   use LoggerAwareTrait;
 
-  /** @var BltTasks */
+  /**
+   * @var \Acquia\Blt\Robo\BltTasks*/
   protected $builder;
 
   /**
@@ -57,28 +53,28 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
   /**
    * @param $command
    *
-   * @return ProcessExecutor
+   * @return \Robo\Common\ProcessExecutor
    */
   public function drush($command) {
     // @todo Set to silent if verbosity is less than very verbose.
     $bin = $this->getConfigValue('composer.bin');
-    /** @var ProcessExecutor $process_executor */
+    /** @var \Robo\Common\ProcessExecutor $process_executor */
     $process_executor = Robo::process(new Process("$bin/drush $command"));
     return $process_executor->dir($this->getConfigValue('docroot'))
-      ->printOutput(false)
-      ->printMetadata(false);
+      ->printOutput(FALSE)
+      ->printMetadata(FALSE);
   }
 
   /**
    * @param $command
    *
-   * @return ProcessExecutor
+   * @return \Robo\Common\ProcessExecutor
    */
   public function execute($command) {
     $process_executor = Robo::process(new Process($command));
     return $process_executor->dir($this->getConfigValue('repo.root'))
-      ->printOutput(false)
-      ->printMetadata(false);
+      ->printOutput(FALSE)
+      ->printMetadata(FALSE);
   }
 
   /**
@@ -99,7 +95,7 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
     // This is allowed to fail.
     // @todo Replace with standardized call to Symfony Process.
     exec("ps aux | grep -i $name | grep -v grep | awk '{print $2}' | xargs kill -9 2>&1");
-    //exec("ps aux | awk '/$name/ {print $2}' 2>&1 | xargs kill -9");
+    // exec("ps aux | awk '/$name/ {print $2}' 2>&1 | xargs kill -9");.
   }
 
   /**
@@ -121,7 +117,7 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
   public function wait($callable, $args, $message = '') {
     $maxWait = 15 * 1000;
     $checkEvery = 1 * 1000;
-    $start = microtime(true) * 1000;
+    $start = microtime(TRUE) * 1000;
     $end = $start + $maxWait;
 
     if (!$message) {
@@ -130,7 +126,7 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
     }
 
     // For some reason we can't reuse $start here.
-    while (microtime(true) * 1000 < $end) {
+    while (microtime(TRUE) * 1000 < $end) {
       $this->logger->info($message);
       try {
         if (call_user_func_array($callable, $args)) {
@@ -159,9 +155,11 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
         'timeout' => 2,
       ]);
       return $res->getStatusCode() == 200;
-    } catch (\Exception $e) {
+    }
+    catch (\Exception $e) {
 
     }
     return FALSE;
   }
+
 }

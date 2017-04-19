@@ -187,9 +187,9 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
   /**
    * Runs the instantiated BLT application.
    *
-   * @param InputInterface $input
+   * @param \Symfony\Component\Console\Input\InputInterface $input
    *   An input object to run the application with.
-   * @param OutputInterface $output
+   * @param \Symfony\Component\Console\Output\OutputInterface $output
    *   An output object to run the application with.
    *
    * @return integer $status_code The exiting status code of the application

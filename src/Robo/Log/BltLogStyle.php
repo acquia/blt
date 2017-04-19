@@ -4,7 +4,11 @@ namespace Acquia\Blt\Robo\Log;
 
 use Robo\Log\RoboLogStyle;
 
+/**
+ *
+ */
 class BltLogStyle extends RoboLogStyle {
+
   /**
    * Log style customization for Robo: add the time indicator to the
    * end of the log message if it exists in the context.
@@ -17,11 +21,11 @@ class BltLogStyle extends RoboLogStyle {
    *
    * @return string
    */
-  protected function formatMessage($label, $message, $context, $taskNameStyle, $messageStyle = '')
-  {
+  protected function formatMessage($label, $message, $context, $taskNameStyle, $messageStyle = '') {
     $message = parent::formatMessage($label, $message, $context, $taskNameStyle, $messageStyle);
     $message = trim($message);
 
     return $message;
   }
+
 }
