@@ -28,7 +28,7 @@ class BltLogStyle extends RoboLogStyle {
    * @return string
    *   The formatted message.
    */
-  protected function formatMessage($label, $message, array $context, $taskNameStyle, $messageStyle = '') {
+  protected function formatMessage($label, $message, $context, $taskNameStyle, $messageStyle = '') {
     $message = parent::formatMessage($label, $message, $context, $taskNameStyle, $messageStyle);
     $message = trim($message);
 
