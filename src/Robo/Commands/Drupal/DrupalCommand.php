@@ -3,7 +3,6 @@
 namespace Acquia\Blt\Robo\Commands\Drupal;
 
 use Acquia\Blt\Robo\BltTasks;
-use Acquia\Blt\Robo\Common\RandomString;
 
 /**
  * Defines commands in the "drupal:*" namespace.

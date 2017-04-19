@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Setup;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Common\RandomString;
 use Robo\Contract\VerbosityThresholdInterface;
 
 /**
