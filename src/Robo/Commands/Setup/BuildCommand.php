@@ -15,8 +15,6 @@ class BuildCommand extends BltTasks {
    * Install dependencies, builds docroot, installs Drupal.
    *
    * @command setup
-   *
-   * @validateMySqlAvailable
    */
   public function setup() {
     $this->say("Setting up local environment");
@@ -33,7 +31,12 @@ class BuildCommand extends BltTasks {
    *
    * @command setup:drupal:install
    *
+   * @interactGenerateSettingsFiles
+   *
    * @validateMySqlAvailable
+   * @validateDocrootIsPresent
+   *
+   * @todo Add a @validateSettingsFilesArePresent
    */
   public function drupalInstall() {
     $status_code = $this->invokeCommands(['drupal:install']);
