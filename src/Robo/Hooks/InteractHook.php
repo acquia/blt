@@ -29,20 +29,22 @@ class InteractHook extends Tasks implements IOAwareInterface, ConfigAwareInterfa
   use LoggerAwareTrait;
 
   /**
-   *
+   * Sets $this->input.
    */
   public function setInput(InputInterface $input) {
     $this->input = $input;
   }
 
   /**
-   *
+   * Sets $this->output.
    */
   public function setOutput(OutputInterface $output) {
     $this->output = $output;
   }
 
   /**
+   * Runs wizard for generating settings files.
+   *
    * @hook interact @interactGenerateSettingsFiles
    */
   public function interactGenerateSettingsFiles(
@@ -56,6 +58,8 @@ class InteractHook extends Tasks implements IOAwareInterface, ConfigAwareInterfa
   }
 
   /**
+   * Runs wizard for installing Drupal.
+   *
    * @hook interact @interactInstallDrupal
    */
   public function interactInstallDrupal(
@@ -69,6 +73,8 @@ class InteractHook extends Tasks implements IOAwareInterface, ConfigAwareInterfa
   }
 
   /**
+   * Runs wizard for configuring Behat.
+   *
    * @hook interact @interactConfigureBehat
    */
   public function interactConfigureBehat(
@@ -82,6 +88,8 @@ class InteractHook extends Tasks implements IOAwareInterface, ConfigAwareInterfa
   }
 
   /**
+   * Runs wizard for launching internal PHP web server.
+   *
    * @hook interact @interactLaunchPhpWebServer
    */
   public function interactLaunchPhpWebServer() {

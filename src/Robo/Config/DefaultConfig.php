@@ -5,12 +5,12 @@ namespace Acquia\Blt\Robo\Config;
 use Symfony\Component\Finder\Finder;
 
 /**
- *
+ * Default configuration for BLT.
  */
 class DefaultConfig extends BltConfig {
 
   /**
-   *
+   * Constructor.
    */
   public function __construct() {
     parent::__construct();
@@ -25,6 +25,11 @@ class DefaultConfig extends BltConfig {
 
   /**
    * Gets the repository root.
+   *
+   * @return string
+   *   The filepath for the repository root.
+   *
+   * @throws \Exception
    */
   protected function getRepoRoot() {
     $possible_repo_roots = [
@@ -35,13 +40,19 @@ class DefaultConfig extends BltConfig {
     foreach ($possible_repo_roots as $possible_repo_root) {
       if (file_exists("$possible_repo_root/blt/project.yml")) {
         return $possible_repo_root;
-        break;
       }
     }
+
+    throw new \Exception('Could not find repository root directory');
   }
 
   /**
+   * Gets the BLT root directory. E.g., /vendor/acquia/blt.
    *
+   * @return string
+   *   THe filepath for the Drupal docroot.
+   *
+   * @throws \Exception
    */
   protected function getBltRoot() {
     $possible_blt_roots = [
@@ -51,13 +62,14 @@ class DefaultConfig extends BltConfig {
     foreach ($possible_blt_roots as $possible_blt_root) {
       if (file_exists("$possible_blt_root/template")) {
         return $possible_blt_root;
-        break;
       }
     }
+
+    throw new \Exception('Could not find the Drupal docroot directory');
   }
 
   /**
-   * Sets convenient configuration settings for use in commands.
+   * Populates configuration settings not available during construction.
    */
   public function populateHelperConfig() {
     $defaultAlias = $this->get('drush.default_alias');
@@ -65,7 +77,12 @@ class DefaultConfig extends BltConfig {
   }
 
   /**
+   * Gets an array of sites for the Drupal application.
+   *
+   * I.e., sites under docroot/sites, not including acsf 'g' pseudo-site.
+   *
    * @return array
+   *   An array of sites.
    */
   protected function getSiteDirs() {
     $finder = new Finder();

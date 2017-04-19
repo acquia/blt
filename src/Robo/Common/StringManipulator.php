@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Robo\Common;
 
 /**
- *
+ * RoboConfigAwareTrait.
  */
 class StringManipulator {
 
@@ -20,7 +20,7 @@ class StringManipulator {
    */
   public static function trimEndingLines($text, $num_lines) {
     return implode("\n",
-      array_slice(explode("\n", $text), 0, sizeof($text) - $num_lines));
+      array_slice(explode("\n", $text), 0, count($text) - $num_lines));
   }
 
   /**

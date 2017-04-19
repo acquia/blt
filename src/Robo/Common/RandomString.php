@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Robo\Common;
 
 /**
- *
+ * Utility class for generating random strings.
  */
 class RandomString {
 
@@ -37,7 +37,7 @@ class RandomString {
    *
    * @see \Drupal\Component\Utility\Random::name()
    */
-  public static function string($length = 8, $unique = FALSE, $validator = NULL) {
+  public static function string($length = 8, $unique = FALSE, callable $validator = NULL) {
     $counter = 0;
     $strings = [];
 

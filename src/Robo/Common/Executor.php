@@ -13,7 +13,9 @@ use Robo\Contract\IOAwareInterface;
 use Symfony\Component\Process\Process;
 
 /**
+ * A class for executing commands.
  *
+ * This allows non-Robo-command classes to execute commands easily.
  */
 class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInterface {
 
@@ -22,6 +24,8 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
   use LoggerAwareTrait;
 
   /**
+   * A copy of the Robo builder.
+   *
    * @var \Acquia\Blt\Robo\BltTasks*/
   protected $builder;
 
@@ -29,31 +33,44 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
    * Executor constructor.
    *
    * @param \Robo\Collection\CollectionBuilder $builder
+   *   This is a copy of the collection builder, required for calling various
+   *   Robo tasks from non-command files.
    */
   public function __construct(CollectionBuilder $builder) {
     $this->builder = $builder;
   }
 
   /**
+   * Returns $this->builder.
+   *
    * @return \Acquia\Blt\Robo\BltTasks
+   *   The builder.
    */
   public function getBuilder() {
     return $this->builder;
   }
 
   /**
-   * @param $command
+   * Wrapper for taskExec().
+   *
+   * @param string $command
+   *   The command to execute.
    *
    * @return \Robo\Task\Base\Exec
+   *   The task. You must call run() on this to execute it!
    */
   public function taskExec($command) {
     return $this->builder->taskExec($command);
   }
 
   /**
-   * @param $command
+   * Executes a drush command.
+   *
+   * @param string $command
+   *   The command to execute, without "drush" prefix.
    *
    * @return \Robo\Common\ProcessExecutor
+   *   The unexecuted process.
    */
   public function drush($command) {
     // @todo Set to silent if verbosity is less than very verbose.
@@ -66,9 +83,13 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
   }
 
   /**
-   * @param $command
+   * Executes a command.
+   *
+   * @param string $command
+   *   The command.
    *
    * @return \Robo\Common\ProcessExecutor
+   *   The unexecuted command.
    */
   public function execute($command) {
     $process_executor = Robo::process(new Process($command));
@@ -78,7 +99,10 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
   }
 
   /**
-   * @param $port
+   * Kills all system processes that are using a particular port.
+   *
+   * @param string $port
+   *   The port number.
    */
   public function killProcessByPort($port) {
     $this->logger->info("Killing all processes on port $port");
@@ -88,7 +112,10 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
   }
 
   /**
-   * @param $name
+   * Kills all system processes containing a particular string.
+   *
+   * @param string $name
+   *   The name of the process.
    */
   public function killProcessByName($name) {
     $this->logger->info("Killing all processing containing string '$name'");
@@ -99,22 +126,35 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
   }
 
   /**
-   * @param $url
+   * Waits until a given URL responds with a 200.
    *
-   * @return bool
+   * This does have a maximum timeout, defined in wait().
+   *
+   * @param string $url
+   *   The URL to wait for.
    */
   public function waitForUrlAvailable($url) {
     $this->wait([$this, 'checkUrl'], [$url], "Waiting for response from $url...");
   }
 
   /**
+   * Waits until a given callable returns TRUE.
+   *
+   * This does have a maximum timeout.
+   *
    * @param callable $callable
-   * @param $args
+   *   The method/function to wait for a TRUE response from.
+   * @param array $args
+   *   Arguments to pass to $callable.
+   * @param string $message
+   *   The message to display when this function is called.
    *
    * @return bool
+   *   TRUE if callable returns TRUE.
+   *
    * @throws \Exception
    */
-  public function wait($callable, $args, $message = '') {
+  public function wait(callable $callable, array $args, $message = '') {
     $maxWait = 15 * 1000;
     $checkEvery = 1 * 1000;
     $start = microtime(TRUE) * 1000;
@@ -143,9 +183,13 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
   }
 
   /**
-   * @param $url
+   * Checks a URL for a 200 response.
    *
-   * @return int
+   * @param string $url
+   *   The URL to check.
+   *
+   * @return bool
+   *   TRUE if URL responded with a 200.
    */
   public function checkUrl($url) {
     try {

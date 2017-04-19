@@ -10,7 +10,9 @@ namespace Acquia\Blt\Robo\Wizards;
 class SetupWizard extends Wizard {
 
   /**
+   * Wizard for generating setup files.
    *
+   * Executes blt setup:settings command.
    */
   public function wizardGenerateSettingsFiles() {
     if (!$this->getInspector()->isDrupalLocalSettingsFilePresent()) {
@@ -25,7 +27,9 @@ class SetupWizard extends Wizard {
   }
 
   /**
+   * Wizard for installing Drupal.
    *
+   * Executes blt setup:drupal:install.
    */
   public function wizardInstallDrupal() {
     if (!$this->getInspector()->isMySqlAvailable()) {

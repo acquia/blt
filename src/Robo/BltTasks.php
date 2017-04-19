@@ -20,7 +20,7 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- *
+ * Base class for BLT Robo commands.
  */
 class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerAwareInterface, BuilderAwareInterface, IOAwareInterface, ContainerAwareInterface {
 
@@ -32,6 +32,11 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
   use LoggerAwareTrait;
 
   /**
+   * The depth of command invokations, used by invokeCommands().
+   *
+   * E.g., this would be 1 if invokeCommands() called a method that itself
+   * called invokeCommands().
+   *
    * @var int
    */
   protected $invokeDepth = 0;
@@ -81,7 +86,10 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
   }
 
   /**
-   * @param $hook
+   * Invokes a given 'target-hooks' hook, typically defined in project.yml.
+   *
+   * @param string $hook
+   *   The hook name.
    */
   protected function invokeHook($hook) {
     if ($this->getConfig()->has("target-hooks.$hook.command")) {
@@ -98,11 +106,16 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
   }
 
   /**
-   * @param $array
+   * Writes a particular configuration key's value to the log.
+   *
+   * @param array $array
+   *   The configuration.
    * @param string $prefix
+   *   A prefix to add to each row in the configuration.
    * @param int $verbosity
+   *   The verbosity level at which to display the logged message.
    */
-  protected function logConfig($array, $prefix = '', $verbosity = OutputInterface::VERBOSITY_VERY_VERBOSE) {
+  protected function logConfig(array $array, $prefix = '', $verbosity = OutputInterface::VERBOSITY_VERY_VERBOSE) {
     if ($this->output()->getVerbosity() >= $verbosity) {
       if ($prefix) {
         $this->output()->writeln("<comment>Configuration for $prefix:</comment>");
@@ -116,12 +129,16 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
   }
 
   /**
-   * @param $array
+   * Writes an array to the screen as a formatted table.
+   *
+   * @param array $array
+   *   The unformatted array.
    * @param array $headers
+   *   The headers for the array. Defaults to ['Property','Value'].
    */
   protected function printArrayAsTable(
-    $array,
-    $headers = array('Property', 'Value')
+    array $array,
+    array $headers = ['Property', 'Value']
   ) {
     $table = new Table($this->output);
     $table->setHeaders($headers)

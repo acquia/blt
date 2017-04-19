@@ -27,27 +27,34 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 abstract class Wizard implements ConfigAwareInterface, InspectorAwareInterface, IOAwareInterface, LoggerAwareInterface {
 
+  use ConfigAwareTrait;
+  use InspectorAwareTrait;
+  use IO;
+  use LoggerAwareTrait;
+
   /**
-   * @var \Acquia\Blt\Robo\Common\Executor*/
+   * Process Executor.
+   *
+   * @var \Acquia\Blt\Robo\Common\Executor
+   */
   protected $executor;
 
   /**
-   * @var \Symfony\Component\Filesystem\Filesystem*/
+   * File system component.
+   *
+   * @var \Symfony\Component\Filesystem\Filesystem
+   */
   protected $fs;
 
   /**
    * Inspector constructor.
    *
    * @param \Acquia\Blt\Robo\Common\Executor $executor
+   *   Process executor.
    */
   public function __construct(Executor $executor) {
     $this->executor = $executor;
     $this->fs = new Filesystem();
   }
-
-  use ConfigAwareTrait;
-  use InspectorAwareTrait;
-  use IO;
-  use LoggerAwareTrait;
 
 }

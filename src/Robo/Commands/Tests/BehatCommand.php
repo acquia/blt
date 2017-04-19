@@ -164,7 +164,7 @@ class BehatCommand extends TestsCommandBase {
    * Launches selenium web driver.
    */
   protected function launchPhantomJs() {
-    if (!$this->getInspector()->isPhantomJsConfigured()) {
+    if (!$this->getInspector()->isPhantomJsBinaryPresent()) {
       $this->setupPhantomJs();
     }
     $this->killPhantomJs();
@@ -192,8 +192,6 @@ class BehatCommand extends TestsCommandBase {
    * Sometimes the download fails during `composer install`.
    *
    * @command tests:configure-phantomjs
-   *
-   * @validatePhantomJsIsConfigured
    */
   public function setupPhantomJs() {
     /** @var \Acquia\Blt\Robo\Wizards\TestsWizard $tests_wizard */

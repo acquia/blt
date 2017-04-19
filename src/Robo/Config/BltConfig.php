@@ -6,12 +6,15 @@ use Grasmash\YamlExpander\Expander;
 use Robo\Config\Config;
 
 /**
- *
+ * BLT configuration base class.
  */
 class BltConfig extends Config {
 
   /**
+   * Expands YAML placeholders in a given file, using config object.
+   *
    * @param string $filename
+   *   The file in which placeholders should be expanded.
    */
   public function expandFileProperties($filename) {
     $expanded_contents = Expander::expandArrayProperties(file($filename), $this->export());
@@ -22,7 +25,9 @@ class BltConfig extends Config {
    * Set a config value.
    *
    * @param string $key
+   *   The config key.
    * @param mixed $value
+   *   The config value.
    *
    * @return $this
    */

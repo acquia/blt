@@ -3,14 +3,18 @@
 namespace Acquia\Blt\Robo\Inspector;
 
 /**
- *
+ * Requires setter for inspector.
  */
 interface InspectorAwareInterface {
 
   /**
-   * @param \Acquia\Blt\Robo\Inspector\Inspector $inspector
+   * Sets $this->inspector.
    *
-   * @return mixed
+   * @param \Acquia\Blt\Robo\Inspector\Inspector $inspector
+   *   The inspector.
+   *
+   * @return $this
+   *   The object.
    */
   public function setInspector(Inspector $inspector);
 
