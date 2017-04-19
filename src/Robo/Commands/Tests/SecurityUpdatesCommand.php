@@ -32,7 +32,7 @@ class SecurityUpdatesCommand extends BltTasks {
       $this->logger->notice('To disable security checks, set `disable-targets.tests.security-updates` to `false` in project.yml.');
     }
     else {
-      $this->writeln("<success>There are no outstanding security updates.</success>");
+      $this->writeln("<info>There are no outstanding security updates.</info>");
     }
   }
 

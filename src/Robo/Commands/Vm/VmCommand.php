@@ -195,7 +195,6 @@ class VmCommand extends BltTasks {
     $this->say("Adding geerlingguy/drupal-vm:{$this->drupalVmVersionConstraint} to composer.json's require-dev array.");
     $result = $this->taskExec("composer require --dev geerlingguy/drupal-vm:{$this->drupalVmVersionConstraint}")
       ->dir($this->getConfigValue('repo.root'))
-      ->interactive()
       ->printOutput(TRUE)
       ->run();
 
@@ -206,7 +205,6 @@ class VmCommand extends BltTasks {
       if ($confirm) {
         $result = $this->taskExec("composer require --dev geerlingguy/drupal-vm:{$this->drupalVmVersionConstraint} --no-update && composer update")
           ->dir($this->getConfigValue('repo.root'))
-          ->interactive()
           ->printOutput(TRUE)
           ->run();
       }
