@@ -38,7 +38,7 @@ class AcsfCommand extends BltTasks {
 
     $this->say('Executing initialization command for acsf module.');
 
-    $this->taskExec("{$drushBin} acsf-init --include={$this->getConfigValue('docroot')}/modules/contrib/acsf/acsf_init")
+    $this->taskExec("{$drushBin} acsf-init --include={$this->getConfigValue('docroot')}/modules/contrib/acsf/acsf_init --yes")
       ->printOutput(TRUE)
       ->dir($this->getConfigValue('docroot'))
       ->run();
