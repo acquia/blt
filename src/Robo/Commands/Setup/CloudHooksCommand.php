@@ -15,9 +15,11 @@ class CloudHooksCommand extends BltTasks {
    * @command setup:cloud-hooks
    */
   public function copy() {
-    $this->taskFilesystemStack()
-      ->copy($this->getConfigValue('blt.root') . '/scripts/cloud-hooks/hooks', $this->getConfigValue('repo.root') . '/hooks')
-      ->run();
+    $this->taskCopyDir([
+      $this->getConfigValue('blt.root') . '/scripts/cloud-hooks/hooks',
+      $this->getConfigValue('repo.root') . '/hooks'
+    ])
+    ->run();
   }
 
 }
