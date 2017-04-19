@@ -41,24 +41,4 @@ class DrupalCommand extends BltTasks {
     return $status_code;
   }
 
-  /**
-   * Writes a hash salt to ${repo.root}/salt.txt if one does not exist.
-   *
-   * @return int
-   *   A CLI exit code.
-   */
-  protected function hashSalt() {
-    $hash_salt_file = $this->getConfigValue('repo.root') . '/salt.txt';
-    if (!file_exists($hash_salt_file)) {
-      $this->say("Writing hash salt to $hash_salt_file");
-      $status_code = $this->taskWriteToFile($hash_salt_file)
-        ->line(RandomString::string(55))
-        ->run();
-
-      return $status_code;
-    }
-
-    return 0;
-  }
-
 }

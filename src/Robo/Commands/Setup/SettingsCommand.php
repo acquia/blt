@@ -133,4 +133,26 @@ class SettingsCommand extends BltTasks {
     }
   }
 
+  /**
+   * Writes a hash salt to ${repo.root}/salt.txt if one does not exist.
+   *
+   * @command setup:hash-salt
+   *
+   * @return int
+   *   A CLI exit code.
+   */
+  public function hashSalt() {
+    $hash_salt_file = $this->getConfigValue('repo.root') . '/salt.txt';
+    if (!file_exists($hash_salt_file)) {
+      $this->say("Writing hash salt to $hash_salt_file");
+      $result = $this->taskWriteToFile($hash_salt_file)
+        ->line(RandomString::string(55))
+        ->run();
+
+      return $result->wasSuccessful();
+    }
+
+    return TRUE;
+  }
+
 }
