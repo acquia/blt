@@ -83,7 +83,7 @@ class BuildCommand extends BltTasks {
    * @command setup:build
    */
   public function build() {
-    $this->invokeCommands([
+    $status_code = $this->invokeCommands([
       'setup:behat',
       // setup:composer:install must run prior to setup:settings to ensure that
       // scaffold files are present.
@@ -92,6 +92,9 @@ class BuildCommand extends BltTasks {
       'setup:settings',
       // 'frontend'.
     ]);
+    if ($status_code) {
+      return $status_code;
+    }
 
     if ($this->getConfig()->has('simplesamlphp') && $this->getConfigValue('simplesamlphp')) {
       $this->taskExec("blt simplesamlphp:build:config")

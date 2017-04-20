@@ -86,9 +86,9 @@ class BehatCommand extends TestsCommandBase {
       ->printMetadata(FALSE)
       ->option('definitions', $options['mode'])
       ->option('config', $this->getConfigValue('behat.config'))
-      ->option('profile', $this->getConfigValue('behat.profile'));
+      ->option('profile', $this->getConfigValue('behat.profile'))
+      ->detectInteractive();
     // @todo Make verbose if blt.verbose is true.
-    $task->detectInteractive();
 
     if ($this->getConfigValue('behat.extra')) {
       $task->arg($this->getConfigValue('behat.extra'));

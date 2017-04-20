@@ -15,7 +15,9 @@ class ConfigCommand extends BltTasks {
    * @command setup:update
    */
   public function update() {
-    $this->invokeCommands(['setup:config-import']);
+    $status_code = $this->invokeCommands(['setup:config-import']);
+
+    return $status_code;
   }
 
   /**
@@ -32,6 +34,7 @@ class ConfigCommand extends BltTasks {
       $drush_alias = $this->getConfigValue('drush.alias');
 
       $task = $this->taskExecStack()
+        ->dir($this->getConfigValue('repo.root'))
         // Sometimes drush forgets where to find its aliases.
         ->exec("drush cc drush --yes")
         ->exec("drush @$drush_alias pm-enable config --yes")
@@ -80,11 +83,14 @@ class ConfigCommand extends BltTasks {
           }
           if ($this->getConfigValue('cm.features.no-overrides')) {
             $this->say("Checking for features overrides...");
-            foreach ($this->getConfigValue('cm.features.bundle') as $bundle) {
-              $features_overriden = $task->exec("drush fl --bundle=${bundle} | grep -Ei '(changed|conflicts|added)( *)$");
-              // @todo emit:
-              // A feature in the ${bundle} bundle is overridden. You must
-              // re-export this feature to incorporate the changes.
+            if ($this->getConfig()->has('cm.features.bundle')) {
+              foreach ($this->getConfigValue('cm.features.bundle') as $bundle) {
+                $features_overriden = $task->exec("drush fl --bundle=${bundle} | grep -Ei '(changed|conflicts|added)( *)$");
+                // @todo emit:
+                // A feature in the ${bundle} bundle is overridden. You must
+                // re-export this feature to incorporate the changes.
+                // @todo throw Exception.
+              }
             }
           }
           break;
