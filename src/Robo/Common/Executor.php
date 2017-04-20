@@ -78,6 +78,7 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
     /** @var \Robo\Common\ProcessExecutor $process_executor */
     $process_executor = Robo::process(new Process("$bin/drush $command"));
     return $process_executor->dir($this->getConfigValue('docroot'))
+      ->interactive(FALSE)
       ->printOutput(FALSE)
       ->printMetadata(FALSE);
   }
@@ -94,6 +95,7 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
   public function execute($command) {
     $process_executor = Robo::process(new Process($command));
     return $process_executor->dir($this->getConfigValue('repo.root'))
+      ->interactive(FALSE)
       ->printOutput(FALSE)
       ->printMetadata(FALSE);
   }
