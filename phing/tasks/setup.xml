@@ -234,6 +234,14 @@
           <param>${cm.core.key}</param>
         </drush>
       </then>
+      <if>
+        <not><equals arg1="${cm.allow-overrides}" arg2="true"/></not>
+        <then>
+          <phingcall target="setup:update:config-override-check">
+            <property name="cm.dir" value="${cm.core.key}"/>
+          </phingcall>
+        </then>
+      </if>
     </if>
 
   </target>
@@ -258,6 +266,15 @@
         <drush command="config-import" assume="yes" alias="${drush.alias}">
           <param>sync</param>
         </drush>
+
+        <if>
+          <not><equals arg1="${cm.allow-overrides}" arg2="true"/></not>
+          <then>
+            <phingcall target="setup:update:config-override-check">
+              <property name="cm.dir" value="sync"/>
+            </phingcall>
+          </then>
+        </if>
 
       </then>
     </if>
@@ -364,6 +381,17 @@
       <istrue value="${features.overrides}"/>
       <then>
         <fail>A feature in the ${bundle} bundle is overridden. You must re-export this feature to incorporate the changes.</fail>
+      </then>
+    </if>
+  </target>
+
+  <target name="setup:update:config-override-check" description="Checks if core configuration is overridden.">
+    <echo>Checking for config overrides...</echo>
+    <exec dir="${docroot}" command="${drush.cmd} cex ${cm.dir} -n | grep 'Differences of the active config'" outputProperty="config.overrides"/>
+    <if>
+      <istrue value="${config.overrides}"/>
+      <then>
+        <fail>Configuration in the database does not match configuration on disk. You must re-export configuration to capture the changes. This could also indicate a problem with the import process, such as changed field storage for a field with existing content.</fail>
       </then>
     </if>
   </target>
