@@ -15,6 +15,8 @@ class DrupalCommand extends BltTasks {
    * @command drupal:install
    *
    * @validateMySqlAvailable
+   *
+   * @return \Robo\Result
    */
   public function install() {
 
@@ -35,9 +37,12 @@ class DrupalCommand extends BltTasks {
       $task->option('config-dir', $this->getConfigValue("cm.core.dirs.$cm_core_key.path"));
     }
 
-    $status_code = $task->interactive()->run();
+    $result = $task->interactive()->run();
+    if ($result->wasSuccessful()) {
+      $this->getConfig()->set('state.drupal.installed', TRUE);
+    }
 
-    return $status_code;
+    return $result;
   }
 
 }
