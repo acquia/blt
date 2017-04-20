@@ -192,7 +192,9 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
    *   TRUE if MySQL is available.
    */
   public function getMySqlAvailable() {
-    $result = $this->executor->drush("sqlq \"SHOW DATABASES\"")->run();
+    $result = $this->executor->drush("sqlq \"SHOW DATABASES\"")
+      ->interactive(false)
+      ->run();
 
     return $result->wasSuccessful();
   }
