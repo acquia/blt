@@ -25,7 +25,7 @@ class Drush extends CommandStack
    *
    * @var string
    */
-  private $alias;
+  protected $alias;
 
   /**
    * Directory to execute the command from.
@@ -34,21 +34,21 @@ class Drush extends CommandStack
    *
    * @see ExecTrait::$workingDirectory
    */
-  private $dir;
+  protected $dir;
 
   /**
    * Site uri to append uri option to each command.
    *
    * @var string
    */
-  private $uri;
+  protected $uri;
 
   /**
    * Assume 'yes' or 'no' to all prompts.
    *
    * @var string|bool
    */
-  private $assume;
+  protected $assume;
 
   /**
    * Attach tty to process for interactive input.
@@ -57,7 +57,7 @@ class Drush extends CommandStack
    *
    * @see ExecTrait::$interactive
    */
-  private $passthru;
+  protected $passthru;
 
   /**
    * Indicates if command output should be printed.
@@ -66,21 +66,28 @@ class Drush extends CommandStack
    *
    * @see ExecTrait::isPrinted
    */
-  private $logOutput;
+  protected $logOutput;
 
   /**
    * Indicates if the command output should be verbose.
    *
    * @var bool
    */
-  private $verbose;
+  protected $verbose;
 
   /**
    * @todo Figure out how to fetch config from constructor to avoid this.
    *
    * @var bool
    */
-  private $defaultsInitialized;
+  protected $defaultsInitialized;
+
+  /**
+   * Additional directory paths to search for drush commands.
+   *
+   * @var string
+   */
+  protected $include;
 
   /**
    * Runs the given drush command.
@@ -114,6 +121,10 @@ class Drush extends CommandStack
 
     if ($this->verbose) {
       $this->option('-v');
+    }
+
+    if ($this->include) {
+      $this->option("--include={$this->include}");
     }
 
     // Add in arguments set via option method and clear for next invocation.
@@ -234,6 +245,18 @@ class Drush extends CommandStack
     } else {
       $this->verbose = !!$verbose;
     }
+    return $this;
+  }
+
+  /**
+   * Include additional directory paths to search for drush commands.
+   *
+   * @param string $include
+   *
+   * @return $this
+   */
+  public function includePath($path) {
+    $this->include = $path;
     return $this;
   }
 
