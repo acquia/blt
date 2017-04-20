@@ -51,24 +51,6 @@ class Drush extends CommandStack
   protected $assume;
 
   /**
-   * Attach tty to process for interactive input.
-   *
-   * @var bool
-   *
-   * @see ExecTrait::$interactive
-   */
-  protected $passthru;
-
-  /**
-   * Indicates if command output should be printed.
-   *
-   * @var bool
-   *
-   * @see ExecTrait::isPrinted
-   */
-  protected $logOutput;
-
-  /**
    * Indicates if the command output should be verbose.
    *
    * @var bool
@@ -107,12 +89,12 @@ class Drush extends CommandStack
     }
 
     if (!empty($this->uri)) {
-      $this->option('-l', $this->uri);
+      $this->option("uri={$this->uri}");
     }
 
     if (isset($this->assume) && is_bool($this->assume)) {
       $assumption = $this->assume ? 'yes' : 'no';
-      $this->option("--{$assumption}");
+      $this->option($assumption);
     }
 
     if ($this->verbosityThreshold() >= VerbosityThresholdInterface::VERBOSITY_VERBOSE) {
@@ -120,11 +102,11 @@ class Drush extends CommandStack
     }
 
     if ($this->verbose) {
-      $this->option('-v');
+      $this->option('verbose');
     }
 
     if ($this->include) {
-      $this->option("--include={$this->include}");
+      $this->option("include={$this->include}");
     }
 
     // Add in arguments set via option method and clear for next invocation.
@@ -132,10 +114,7 @@ class Drush extends CommandStack
     $this->arguments = '';
 
     return $this->exec($command)
-      ->dir($this->dir)
-      ->interactive($this->passthru)
-      ->printOutput($this->logOutput)
-      ->printMetadata(false);
+      ->dir($this->dir);
   }
 
   /**
@@ -186,48 +165,10 @@ class Drush extends CommandStack
    */
   public function assume($assume) {
     if ($assume === "") {
-      $this->assume = '';
+      $this->assume = $assume;
     }
-    elseif (is_string($assume)) {
-      $this->assume = ($assume === 'yes' || $assume === 'true');
-    } else {
-      $this->assume = !!$assume;
-    }
-    return $this;
-  }
-
-  /**
-   * Attach tty to process for interactive input.
-   *
-   * @param string|bool $passthru
-   *
-   * @return $this
-   *
-   * @see ExecTrait::$interactive
-   */
-  public function passThru($passthru) {
-    if (is_string($passthru)) {
-      $this->passthru = ($passthru === 'yes' || $passthru === 'true');
-    } else {
-      $this->passthru = !!$passthru;
-    }
-    return $this;
-  }
-
-  /**
-   * Indicates if command output should be printed.
-   *
-   * @param string|bool $logOutput
-   *
-   * @return $this
-   *
-   * @see ExecTrait::$isPrinted
-   */
-  public function logOutput($logOutput) {
-    if (is_string($logOutput)) {
-      $this->logOutput = ($logOutput === 'yes' || $logOutput === 'true');
-    } else {
-      $this->logOutput = !!$logOutput;
+    else {
+      $this->assume = $this->mixedToBool($assume);
     }
     return $this;
   }
@@ -240,11 +181,7 @@ class Drush extends CommandStack
    * @return $this
    */
   public function verbose($verbose) {
-    if (is_string($verbose)) {
-      $this->verbose = ($verbose === 'yes' || $verbose === 'true');
-    } else {
-      $this->verbose = !!$verbose;
-    }
+    $this->verbose = $this->mixedToBool($verbose);
     return $this;
   }
 
@@ -274,11 +211,13 @@ class Drush extends CommandStack
     if (!isset($this->assume)) {
       $this->assume($this->getConfig()->get('drush.assume'));
     }
-    if (!isset($this->passthru)) {
-      $this->passThru($this->getConfig()->get('drush.passthru'));
+    if (!isset($this->interactive)) {
+      $interactive = $this->mixedToBool($this->getConfig()->get('drush.passthru'));
+      $this->interactive($interactive);
     }
-    if (!isset($this->logOutput)) {
-      $this->logOutput($this->getConfig()->get('drush.logoutput'));
+    if (!isset($this->isPrinted)) {
+      $isPrinted = $this->mixedToBool($this->getConfig()->get('drush.logoutput'));
+      $this->printOutput($isPrinted);
     }
     if (!isset($this->verbose)) {
       $this->verbose($this->getConfig()->get('drush.verbose'));
@@ -287,4 +226,20 @@ class Drush extends CommandStack
     $this->defaultsInitialized = TRUE;
   }
 
+  /**
+   * Helper function to get the boolean equivalent of a variable.
+   *
+   * @param mixed $mixedVar
+   *
+   * @return bool
+   *   TRUE if $mixedVar equals yes or true, FALSE otherwise.
+   */
+  protected function mixedToBool($mixedVar) {
+    if (is_string($mixedVar)) {
+      $boolVar = ($mixedVar === 'yes' || $mixedVar === 'true');
+    } else {
+      $boolVar = !!$mixedVar;
+    }
+    return $boolVar;
+  }
 }
