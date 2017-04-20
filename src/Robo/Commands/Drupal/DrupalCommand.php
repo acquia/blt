@@ -17,7 +17,7 @@ class DrupalCommand extends BltTasks {
    * @validateMySqlAvailable
    */
   public function install() {
-    $this->hashSalt();
+
     $task = $this->taskExec('drush site-install')
       ->dir($this->getConfigValue('docroot'))
       ->arg($this->getConfigValue('project.profile.name'))

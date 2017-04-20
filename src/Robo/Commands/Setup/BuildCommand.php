@@ -20,6 +20,7 @@ class BuildCommand extends BltTasks {
     $this->say("Setting up local environment");
     $status_code = $this->invokeCommands([
       'setup:build',
+      'setup:hash-salt',
       'setup:drupal:install',
       'install-alias',
     ]);
