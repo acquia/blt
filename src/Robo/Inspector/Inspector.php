@@ -147,7 +147,9 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
    *   TRUE if Drupal is installed.
    */
   protected function getDrupalInstalled() {
-    $result = $this->executor->drush("sqlq \"SHOW TABLES LIKE 'config'\"")->run();
+    $result = $this->executor->drush("sqlq \"SHOW TABLES LIKE 'config'\"")
+      ->interactive(false)
+      ->run();
     $output = trim($result->getOutputData());
     $installed = $result->wasSuccessful() && $output == 'config';
 
@@ -161,7 +163,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
    *   The result of `drush status`.
    */
   public function getDrushStatus() {
-    $status_info = json_decode($this->executor->drush('status --format=json --show-passwords')->run()->getOutputData(), TRUE);
+    $status_info = json_decode($this->executor->drush('status --format=json --show-passwords')->interactive(false)->run()->getOutputData(), TRUE);
 
     return $status_info;
   }
