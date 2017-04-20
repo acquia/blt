@@ -34,7 +34,7 @@ class ConfigCommand extends BltTasks {
       $drush_alias = $this->getConfigValue('drush.alias');
 
       $task = $this->taskExecStack()
-        ->dir($this->getConfigValue('repo.root'))
+        ->dir($this->getConfigValue('docroot'))
         // Sometimes drush forgets where to find its aliases.
         ->exec("drush cc drush --yes")
         ->exec("drush @$drush_alias pm-enable config --yes")
