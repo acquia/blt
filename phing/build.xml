@@ -42,9 +42,6 @@
   <!-- Contains tasks relevant to validation. E.g., code metrics. -->
   <import file="${phing.dir}/tasks/validate.xml"/>
 
-  <!-- Contains targets used for setting up environment. E.g., installing Drupal. -->
-  <import file="${phing.dir}/tasks/setup.xml"/>
-
   <!-- Contains fileset definitions. E.g., patterns defining contrib locations, theming files, etc. -->
   <import file="${phing.dir}/tasks/filesets.xml"/>
 
@@ -59,9 +56,6 @@
 
   <!-- Contains Drupal SimpleSAMLphp tasks. -->
   <import file="${phing.dir}/tasks/simplesamlphp.xml"/>
-
-  <!-- Contains Drupal tasks. -->
-  <import file="${phing.dir}/tasks/drupal.xml"/>
 
   <!-- Contains tasks that fix custom code. -->
   <import file="${phing.dir}/tasks/fix.xml"/>

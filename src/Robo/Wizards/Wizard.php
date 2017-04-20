@@ -14,7 +14,8 @@ use Robo\Contract\IOAwareInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * Class Wizard
+ * Class Wizard.
+ *
  * @package Acquia\Blt\Robo\Wizards
  *
  * This class should be used as the super class for all Wizards.
@@ -26,24 +27,34 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 abstract class Wizard implements ConfigAwareInterface, InspectorAwareInterface, IOAwareInterface, LoggerAwareInterface {
 
-  /** @var Executor */
+  use ConfigAwareTrait;
+  use InspectorAwareTrait;
+  use IO;
+  use LoggerAwareTrait;
+
+  /**
+   * Process Executor.
+   *
+   * @var \Acquia\Blt\Robo\Common\Executor
+   */
   protected $executor;
 
-  /** @var \Symfony\Component\Filesystem\Filesystem  */
+  /**
+   * File system component.
+   *
+   * @var \Symfony\Component\Filesystem\Filesystem
+   */
   protected $fs;
 
   /**
    * Inspector constructor.
    *
    * @param \Acquia\Blt\Robo\Common\Executor $executor
+   *   Process executor.
    */
   public function __construct(Executor $executor) {
     $this->executor = $executor;
     $this->fs = new Filesystem();
   }
 
-  use ConfigAwareTrait;
-  use InspectorAwareTrait;
-  use IO;
-  use LoggerAwareTrait;
 }

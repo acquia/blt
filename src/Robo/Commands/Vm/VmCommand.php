@@ -28,8 +28,6 @@ class VmCommand extends BltTasks {
    * @hook init
    */
   public function initialize() {
-    parent::initialize();
-
     $this->drupalVmAlias = $this->getConfigValue('project.machine_name') . '.local';
     $this->drupalVmVersionConstraint = '~4.3';
     $this->defaultDrupalVmDrushAliasesFile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/drupal-vm.aliases.drushrc.php';
@@ -66,7 +64,7 @@ class VmCommand extends BltTasks {
       $this->localInitialize();
     }
     else {
-      $this->say("Drupal VM is already configured. In future, please use vagrant commands to interact directly with the VM");
+      $this->say("Drupal VM is already configured. In future, please use vagrant commands to interact directly with the VM.");
     }
 
     if (!$options['no-boot']) {
@@ -116,7 +114,7 @@ class VmCommand extends BltTasks {
 
     $this->say("Generating default configuration for Drupal VM");
 
-    $this->logger->info("Adding a drush alias for the new VM");
+    $this->logger->info("Adding a drush alias for the new VM...");
     // @todo Concat only if it has not already been done.
     $this->taskConcat([
       $this->projectDrushAliasesFile,
@@ -127,7 +125,7 @@ class VmCommand extends BltTasks {
       ->run();
     $this->getConfig()->expandFileProperties($this->projectDrushAliasesFile);
 
-    $this->logger->info("Creating configuration files for Drupal VM");
+    $this->logger->info("Creating configuration files for Drupal VM...");
 
     $this->taskFilesystemStack()
       ->mkdir($this->vmDir)
@@ -139,14 +137,14 @@ class VmCommand extends BltTasks {
 
     $this->getConfig()->expandFileProperties($this->projectDrupalVmConfigFile);
 
-    $this->say("BLT has created default configuration for your Drupal VM");
-    $this->say("The configuration file is {$this->projectDrupalVmConfigFile}");
+    $this->say("<info>BLT has created default configuration for your Drupal VM</info>");
+    $this->say("The configuration file is {$this->projectDrupalVmConfigFile}.");
 
-    $this->say("To customize the VM, follow the Quick Start Guide in Drupal VM's README");
+    $this->say("To customize the VM, follow the Quick Start Guide in Drupal VM's README.");
     $this->say("https://github.com/geerlingguy/drupal-vm#quick-start-guide");
 
     $this->say("To run drush commands against the VM, use the {$this->drupalVmAlias} alias.");
-    $this->yell("From now on, please use vagrant commands to manage your virtual machine");
+    $this->yell("From now on, please use vagrant commands to manage your virtual machine.");
   }
 
   /**
@@ -210,7 +208,7 @@ class VmCommand extends BltTasks {
       }
       else {
         // @todo revert previous file chanages.
-        throw new \Exception("Unable to install Drupal VM");
+        throw new \Exception("Unable to install Drupal VM.");
       }
     }
   }
@@ -220,15 +218,15 @@ class VmCommand extends BltTasks {
    */
   protected function checkRequirements() {
     if (!$this->getInspector()->commandExists("vagrant")) {
-      $this->logger->error("Vagrant is not installed");
-      $this->say("Please install all dependencies for Drupal VM by following the Quickstart Guide");
+      $this->logger->error("Vagrant is not installed.");
+      $this->say("Please install all dependencies for Drupal VM by following the Quickstart Guide:");
       $this->say("https://github.com/geerlingguy/drupal-vm#quick-start-guide");
-      throw new \Exception("Drupal VM requirements are missing");
+      throw new \Exception("Drupal VM requirements are missing.");
     }
     else {
       $vagrant_hosts_plugin_installed = (bool) $this->taskExec("vagrant plugin list | grep vagrant-hostsupdater")->run()->getOutputData();
       if ($vagrant_hosts_plugin_installed) {
-        $this->logger->warning("The vagrant-hostsupdater plugin is not installed! Attempting to install it");
+        $this->logger->warning("The vagrant-hostsupdater plugin is not installed! Attempting to install it...");
         $this->taskExec("vagrant plugin install vagrant-hostsupdater")->run();
       }
     }

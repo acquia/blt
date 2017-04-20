@@ -20,7 +20,7 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- *
+ * Base class for BLT Robo commands.
  */
 class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerAwareInterface, BuilderAwareInterface, IOAwareInterface, ContainerAwareInterface {
 
@@ -32,11 +32,14 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
   use LoggerAwareTrait;
 
   /**
+   * The depth of command invokations, used by invokeCommands().
    *
+   * E.g., this would be 1 if invokeCommands() called a method that itself
+   * called invokeCommands().
+   *
+   * @var int
    */
-  protected function initialize() {
-
-  }
+  protected $invokeDepth = 0;
 
   /**
    * Invokes an array of Symfony commands.
@@ -47,7 +50,8 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    * @return int
    *   The exit code of the command.
    */
-  public function invokeCommands(array $commands) {
+  protected function invokeCommands(array $commands) {
+    $this->invokeDepth++;
     foreach ($commands as $command) {
       $returnCode = $this->invokeCommand($command);
       // Return if this is non-zero exit code.
@@ -55,6 +59,8 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
         return $returnCode;
       }
     }
+    $this->invokeDepth--;
+    return $returnCode;
   }
 
   /**
@@ -66,26 +72,50 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    * @return int
    *   The exit code of the command.
    */
-  public function invokeCommand($command_name) {
+  protected function invokeCommand($command_name) {
     /** @var \Robo\Application $application */
     $application = $this->getContainer()->get('application');
     $command = $application->find($command_name);
     $args = [];
     $input = new ArrayInput($args);
-    $this->output->writeln("<comment>$command_name ></comment>");
+    $prefix = str_repeat(">", $this->invokeDepth);
+    $this->output->writeln("<comment>$prefix $command_name</comment>");
     $returnCode = $command->run($input, $this->output());
-    $this->output->writeln("");
-
+    // $this->output->writeln("");.
     return $returnCode;
   }
 
+  /**
+   * Invokes a given 'target-hooks' hook, typically defined in project.yml.
+   *
+   * @param string $hook
+   *   The hook name.
+   */
+  protected function invokeHook($hook) {
+    if ($this->getConfig()->has("target-hooks.$hook.command")) {
+      $this->taskExec($this->getConfigValue("target-hooks.$hook.command"))
+        ->dir($this->getConfigValue("target-hooks.$hook.dir"))
+        ->interactive()
+        ->printOutput(TRUE)
+        ->printMetadata(FALSE)
+        ->run();
+    }
+    else {
+      $this->say("No commands are defined for $hook. Skipping.");
+    }
+  }
 
   /**
-   * @param $array
+   * Writes a particular configuration key's value to the log.
+   *
+   * @param array $array
+   *   The configuration.
    * @param string $prefix
+   *   A prefix to add to each row in the configuration.
    * @param int $verbosity
+   *   The verbosity level at which to display the logged message.
    */
-  protected function logConfig($array, $prefix = '', $verbosity = OutputInterface::VERBOSITY_VERY_VERBOSE) {
+  protected function logConfig(array $array, $prefix = '', $verbosity = OutputInterface::VERBOSITY_VERY_VERBOSE) {
     if ($this->output()->getVerbosity() >= $verbosity) {
       if ($prefix) {
         $this->output()->writeln("<comment>Configuration for $prefix:</comment>");
@@ -99,12 +129,16 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
   }
 
   /**
-   * @param $array
+   * Writes an array to the screen as a formatted table.
+   *
+   * @param array $array
+   *   The unformatted array.
    * @param array $headers
+   *   The headers for the array. Defaults to ['Property','Value'].
    */
   protected function printArrayAsTable(
-    $array,
-    $headers = array('Property', 'Value')
+    array $array,
+    array $headers = ['Property', 'Value']
   ) {
     $table = new Table($this->output);
     $table->setHeaders($headers)

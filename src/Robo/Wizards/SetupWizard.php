@@ -3,13 +3,16 @@
 namespace Acquia\Blt\Robo\Wizards;
 
 /**
- * Class SetupWizard
+ * Class SetupWizard.
+ *
  * @package Acquia\Blt\Robo\Wizards
  */
 class SetupWizard extends Wizard {
 
   /**
+   * Wizard for generating setup files.
    *
+   * Executes blt setup:settings command.
    */
   public function wizardGenerateSettingsFiles() {
     if (!$this->getInspector()->isDrupalLocalSettingsFilePresent()) {
@@ -18,13 +21,15 @@ class SetupWizard extends Wizard {
       if ($confirm) {
         $bin = $this->getConfigValue('composer.bin');
         $this->executor
-          ->execute("$bin/blt setup:settings")->printOutput(true)->run();
+          ->execute("$bin/blt setup:settings")->printOutput(TRUE)->run();
       }
     }
   }
 
   /**
+   * Wizard for installing Drupal.
    *
+   * Executes blt setup:drupal:install.
    */
   public function wizardInstallDrupal() {
     if (!$this->getInspector()->isMySqlAvailable()) {
@@ -37,8 +42,9 @@ class SetupWizard extends Wizard {
         $bin = $this->getConfigValue('composer.bin');
 
         $this->executor
-          ->execute("$bin/blt setup:drupal:install")->printOutput(true)->run();
+          ->execute("$bin/blt setup:drupal:install")->printOutput(TRUE)->run();
       }
     }
   }
+
 }

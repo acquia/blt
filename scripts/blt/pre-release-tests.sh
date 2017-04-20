@@ -27,8 +27,6 @@ cd blted8
 # echo '$databases["default"]["default"]["username"] = "drupal";' >> docroot/sites/default/settings/local.settings.php
 # echo '$databases["default"]["default"]["password"] = "drupal";' >> docroot/sites/default/settings/local.settings.php
 ./vendor/bin/blt local:setup
-cd docroot
-cd ..
 ./vendor/bin/blt validate
 ./vendor/bin/blt tests:all
 read -p "Press any key to continue. This will create a VM and re-run tests there. SHUT DOWN MAMP."

@@ -2,23 +2,20 @@
 
 namespace Acquia\Blt\Robo\Common;
 
-use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
 use GuzzleHttp\Client;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
-use Psr\Log\LogLevel;
 use Robo\Collection\CollectionBuilder;
-use Robo\Common\ProcessExecutor;
 use Robo\Robo;
-use Symfony\Component\Console\Helper\ProcessHelper;
-use Symfony\Component\Console\Output\OutputInterface;
 use Robo\Contract\ConfigAwareInterface;
 use Robo\Contract\IOAwareInterface;
 use Symfony\Component\Process\Process;
 
 /**
+ * A class for executing commands.
  *
+ * This allows non-Robo-command classes to execute commands easily.
  */
 class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInterface {
 
@@ -26,63 +23,88 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
   use IO;
   use LoggerAwareTrait;
 
-  /** @var BltTasks */
+  /**
+   * A copy of the Robo builder.
+   *
+   * @var \Acquia\Blt\Robo\BltTasks*/
   protected $builder;
 
   /**
    * Executor constructor.
    *
    * @param \Robo\Collection\CollectionBuilder $builder
+   *   This is a copy of the collection builder, required for calling various
+   *   Robo tasks from non-command files.
    */
   public function __construct(CollectionBuilder $builder) {
     $this->builder = $builder;
   }
 
   /**
+   * Returns $this->builder.
+   *
    * @return \Acquia\Blt\Robo\BltTasks
+   *   The builder.
    */
   public function getBuilder() {
     return $this->builder;
   }
 
   /**
-   * @param $command
+   * Wrapper for taskExec().
+   *
+   * @param string $command
+   *   The command to execute.
    *
    * @return \Robo\Task\Base\Exec
+   *   The task. You must call run() on this to execute it!
    */
   public function taskExec($command) {
     return $this->builder->taskExec($command);
   }
 
   /**
-   * @param $command
+   * Executes a drush command.
    *
-   * @return ProcessExecutor
+   * @param string $command
+   *   The command to execute, without "drush" prefix.
+   *
+   * @return \Robo\Common\ProcessExecutor
+   *   The unexecuted process.
    */
   public function drush($command) {
     // @todo Set to silent if verbosity is less than very verbose.
     $bin = $this->getConfigValue('composer.bin');
-    /** @var ProcessExecutor $process_executor */
+    /** @var \Robo\Common\ProcessExecutor $process_executor */
     $process_executor = Robo::process(new Process("$bin/drush $command"));
     return $process_executor->dir($this->getConfigValue('docroot'))
-      ->printOutput(false)
-      ->printMetadata(false);
+      ->interactive(FALSE)
+      ->printOutput(FALSE)
+      ->printMetadata(FALSE);
   }
 
   /**
-   * @param $command
+   * Executes a command.
    *
-   * @return ProcessExecutor
+   * @param string $command
+   *   The command.
+   *
+   * @return \Robo\Common\ProcessExecutor
+   *   The unexecuted command.
    */
   public function execute($command) {
     $process_executor = Robo::process(new Process($command));
     return $process_executor->dir($this->getConfigValue('repo.root'))
-      ->printOutput(false)
-      ->printMetadata(false);
+      ->interactive(FALSE)
+      ->printOutput(FALSE)
+      ->printMetadata(FALSE);
   }
 
   /**
-   * @param $port
+   * Kills all system processes that are using a particular port.
+   *
+   * @param string $port
+   *   The port number.
    */
   public function killProcessByPort($port) {
     $this->logger->info("Killing all processes on port $port");
@@ -92,36 +114,52 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
   }
 
   /**
-   * @param $name
+   * Kills all system processes containing a particular string.
+   *
+   * @param string $name
+   *   The name of the process.
    */
   public function killProcessByName($name) {
     $this->logger->info("Killing all processing containing string '$name'");
     // This is allowed to fail.
     // @todo Replace with standardized call to Symfony Process.
     exec("ps aux | grep -i $name | grep -v grep | awk '{print $2}' | xargs kill -9 2>&1");
-    //exec("ps aux | awk '/$name/ {print $2}' 2>&1 | xargs kill -9");
+    // exec("ps aux | awk '/$name/ {print $2}' 2>&1 | xargs kill -9");.
   }
 
   /**
-   * @param $url
+   * Waits until a given URL responds with a 200.
    *
-   * @return bool
+   * This does have a maximum timeout, defined in wait().
+   *
+   * @param string $url
+   *   The URL to wait for.
    */
   public function waitForUrlAvailable($url) {
     $this->wait([$this, 'checkUrl'], [$url], "Waiting for response from $url...");
   }
 
   /**
+   * Waits until a given callable returns TRUE.
+   *
+   * This does have a maximum timeout.
+   *
    * @param callable $callable
-   * @param $args
+   *   The method/function to wait for a TRUE response from.
+   * @param array $args
+   *   Arguments to pass to $callable.
+   * @param string $message
+   *   The message to display when this function is called.
    *
    * @return bool
+   *   TRUE if callable returns TRUE.
+   *
    * @throws \Exception
    */
-  public function wait($callable, $args, $message = '') {
+  public function wait(callable $callable, array $args, $message = '') {
     $maxWait = 15 * 1000;
     $checkEvery = 1 * 1000;
-    $start = microtime(true) * 1000;
+    $start = microtime(TRUE) * 1000;
     $end = $start + $maxWait;
 
     if (!$message) {
@@ -130,7 +168,7 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
     }
 
     // For some reason we can't reuse $start here.
-    while (microtime(true) * 1000 < $end) {
+    while (microtime(TRUE) * 1000 < $end) {
       $this->logger->info($message);
       try {
         if (call_user_func_array($callable, $args)) {
@@ -147,9 +185,13 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
   }
 
   /**
-   * @param $url
+   * Checks a URL for a 200 response.
    *
-   * @return int
+   * @param string $url
+   *   The URL to check.
+   *
+   * @return bool
+   *   TRUE if URL responded with a 200.
    */
   public function checkUrl($url) {
     try {
@@ -159,9 +201,11 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
         'timeout' => 2,
       ]);
       return $res->getStatusCode() == 200;
-    } catch (\Exception $e) {
+    }
+    catch (\Exception $e) {
 
     }
     return FALSE;
   }
+
 }

@@ -3,18 +3,13 @@
 namespace Acquia\Blt\Robo\Hooks;
 
 use Acquia\Blt\Robo\Common\ArrayManipulator;
-use Acquia\Blt\Robo\Common\IO;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
-use Acquia\Blt\Robo\Console\ConfigInput;
-use Consolidation\AnnotatedCommand\AnnotationData;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Robo\Contract\ConfigAwareInterface;
 use Robo\Contract\IOAwareInterface;
 use Robo\Tasks;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * This class defines hooks that provide user interaction.

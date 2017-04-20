@@ -32,33 +32,19 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
   use IO;
 
   /**
+   * Validates that the Drupal docroot exists.
    *
-   */
-  public function checkCommandsExist(CommandData $commandData) {
-    foreach ($commands as $command) {
-      if (!$this->getInspector()->commandExists($command)) {
-        $this->yell("Unable to find '$command' command!");
-        return FALSE;
-      }
-    }
-
-    return TRUE;
-  }
-
-  /**
    * @hook validate @validateDocrootIsPresent
    */
   public function validateDocrootIsPresent(CommandData $commandData) {
     if (!$this->getInspector()->isDocrootPresent()) {
-      $this->logger->error("Unable to find docroot.");
-
-      return FALSE;
+      throw new \Exception("Unable to find Drupal docroot.");
     }
-
-    return TRUE;
   }
 
   /**
+   * Validates that the repository root exists.
+   *
    * @hook validate @validateRepoRootIsPresent
    */
   public function validateRepoRootIsPresent(CommandData $commandData) {
@@ -68,6 +54,8 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
   }
 
   /**
+   * Validates that Drupal is installed.
+   *
    * @hook validate @validateDrupalIsInstalled
    */
   public function validateDrupalIsInstalled(CommandData $commandData) {
@@ -97,6 +85,8 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
   }
 
   /**
+   * Validates that Behat is properly configured on the local machine.
+   *
    * @hook validate @validateBehatIsConfigured
    */
   public function validateBehatIsConfigured(CommandData $commandData) {
@@ -106,15 +96,8 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
   }
 
   /**
-   * @param \Consolidation\AnnotatedCommand\CommandData $commandData
-   */
-  public function validatePhantomJsIsConfigured(CommandData$commandData) {
-    if (!$this->getInspector()->isPhantomJsConfigured()) {
-      $this->logger->info("Phantom JS is not configured.");
-    }
-  }
-
-  /**
+   * Validates that MySQL is available.
+   *
    * @hook validate @validateMySqlAvailable
    */
   public function validateMySqlAvailable() {
@@ -125,6 +108,8 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
   }
 
   /**
+   * Validates that current PHP process is being executed inside of the VM.
+   *
    * @hook validate validateInsideVm
    */
   public function validateInsideVm() {

@@ -23,14 +23,20 @@ class BehatCommand extends TestsCommandBase {
   protected $seleniumUrl;
 
   /**
+   * The directory containing Behat logs.
+   *
+   * @var string
+   */
+  protected $behatLogDir;
+
+  /**
    * This hook will fire for all commands in this command file.
    *
    * @hook init
    */
   public function initialize() {
-    parent::initialize();
-
     $this->seleniumLogFile = $this->getConfigValue('reports.localDir') . "/selenium2.log";
+    $this->behatLogDir = $this->getConfigValue('reports.localDir') . "/behat";
     $this->seleniumUrl = "http://127.0.0.1:4444/wd/hub";
   }
 
@@ -80,9 +86,9 @@ class BehatCommand extends TestsCommandBase {
       ->printMetadata(FALSE)
       ->option('definitions', $options['mode'])
       ->option('config', $this->getConfigValue('behat.config'))
-      ->option('profile', $this->getConfigValue('behat.profile'));
+      ->option('profile', $this->getConfigValue('behat.profile'))
+      ->detectInteractive();
     // @todo Make verbose if blt.verbose is true.
-    $task->detectInteractive();
 
     if ($this->getConfigValue('behat.extra')) {
       $task->arg($this->getConfigValue('behat.extra'));
@@ -158,7 +164,7 @@ class BehatCommand extends TestsCommandBase {
    * Launches selenium web driver.
    */
   protected function launchPhantomJs() {
-    if (!$this->getInspector()->isPhantomJsConfigured()) {
+    if (!$this->getInspector()->isPhantomJsBinaryPresent()) {
       $this->setupPhantomJs();
     }
     $this->killPhantomJs();
@@ -186,8 +192,6 @@ class BehatCommand extends TestsCommandBase {
    * Sometimes the download fails during `composer install`.
    *
    * @command tests:configure-phantomjs
-   *
-   * @validatePhantomJsIsConfigured
    */
   public function setupPhantomJs() {
     /** @var \Acquia\Blt\Robo\Wizards\TestsWizard $tests_wizard */

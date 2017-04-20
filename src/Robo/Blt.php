@@ -24,7 +24,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- *
+ * The BLT Robo application.
  */
 class Blt implements ContainerAwareInterface, LoggerAwareInterface {
 
@@ -33,10 +33,15 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
   use LoggerAwareTrait;
 
   /**
+   * The Robo task runner.
+   *
    * @var \Robo\Runner
    */
   private $runner;
+
   /**
+   * An array of Robo commands available to the application.
+   *
    * @var string[]
    */
   private $commands = [];
@@ -44,9 +49,12 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
   /**
    * Object constructor.
    *
-   * @param \Robo\Config $config
+   * @param \Robo\Config\Config $config
+   *   The BLT configuration.
    * @param \Symfony\Component\Console\Input\InputInterface $input
+   *   The input.
    * @param \Symfony\Component\Console\Output\OutputInterface $output
+   *   The output.
    */
   public function __construct(
     Config $config,
@@ -86,7 +94,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
   }
 
   /**
-   *
+   * Registers custom commands and hooks defined project.
    */
   private function addPluginsCommandsAndHooks() {
     $commands = $this->getCommands([
@@ -106,10 +114,11 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
    *
    * @param string[] $options
    *   Elements as follow
-   *        string path      The full path to the directory to search for commands
-   *        string namespace The full namespace associated with given the command directory.
+   *    string path      The full path to the directory to search for commands
+   *    string namespace The full namespace for the command directory.
    *
-   * @return array An array of Command classes
+   * @return array
+   *   An array of Command classes
    */
   private function getCommands(
     array $options = ['path' => NULL, 'namespace' => NULL]
@@ -124,10 +133,11 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
    *
    * @param string[] $options
    *   Elements as follow
-   *        string path      The full path to the directory to search for commands
-   *        string namespace The full namespace associated with given the command directory.
+   *    string path      The full path to the directory to search for commands
+   *    string namespace The full namespace for the command directory.
    *
-   * @return array An array of Hook classes
+   * @return array
+   *   An array of Hook classes
    */
   private function getHooks(
     array $options = ['path' => NULL, 'namespace' => NULL]
@@ -141,6 +151,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
    * Add any global arguments or options that apply to all commands.
    *
    * @param \Symfony\Component\Console\Application $app
+   *   The Symfony application.
    */
   private function addDefaultArgumentsAndOptions(Application $app) {
     $app->getDefinition()->addOption(new InputOption('--yes', '-y',
@@ -179,7 +190,8 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     $container->add(TestsWizard::class)
       ->withArgument('executor');
 
-    // Tell the command loader to only allow command functions that have a name/alias.
+    // Tell the command loader to only allow command functions that have a
+    // name/alias.
     $factory = $container->get('commandFactory');
     $factory->setIncludeAllPublicMethods(FALSE);
   }
@@ -187,12 +199,13 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
   /**
    * Runs the instantiated BLT application.
    *
-   * @param InputInterface $input
+   * @param \Symfony\Component\Console\Input\InputInterface $input
    *   An input object to run the application with.
-   * @param OutputInterface $output
+   * @param \Symfony\Component\Console\Output\OutputInterface $output
    *   An output object to run the application with.
    *
-   * @return integer $status_code The exiting status code of the application
+   * @return int
+   *   The exiting status code of the application
    */
   public function run(InputInterface $input, OutputInterface $output) {
     $status_code = $this->runner->run($input, $output, NULL, $this->commands);

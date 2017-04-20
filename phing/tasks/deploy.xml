@@ -156,8 +156,15 @@
     <foreach list="${git.remotes}" param="deploy.remote" target="deploy:remote:add"/>
   </target>
 
-  <target name="deploy:build" description="Generates a deploy-ready build in deploy.dir."
-          depends="frontend, setup:hash-salt, deploy:copy, deploy:composer:install, deploy:id, deploy:sanitize">
+  <target name="deploy:build" description="Generates a deploy-ready build in deploy.dir.">
+
+    <phingcall target="frontend"/>
+    <exec dir="${repo.root}" command="blt setup:hash-salt" logoutput="true" checkreturn="true"/>
+    <phingcall target="deploy:copy"/>
+    <phingcall target="deploy:composer:install"/>
+    <phingcall target="deploy:id"/>
+    <phingcall target="deploy:sanitize"/>
+
     <!--Allow custom commands to be run before commit.-->
     <phingcall target="target-hook:invoke">
       <property name="hook-name" value="post-deploy-build"/>
@@ -331,6 +338,8 @@
   </target>
 
   <target name="deploy:drupal:install"
-          description="Installs a specific Drupal site."
-          depends="drupal:install, deploy:update" />
+          description="Installs a specific Drupal site.">
+    <exec dir="${repo.root}" command="blt drupal:install" logoutput="true" checkreturn="true" passthru="true" />
+    <phingcall target="drupal:update"/>
+  </target>
 </project>

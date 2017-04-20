@@ -2,13 +2,12 @@
 
 namespace Acquia\Blt\Robo\Inspector;
 
+use Acquia\Blt\Robo\Config\YamlConfigProcessor;
+use Robo\Config\YamlConfigLoader;
 use Acquia\Blt\Robo\Common\Executor;
 use Acquia\Blt\Robo\Common\IO;
 use Acquia\Blt\Robo\Config\BltConfig;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
-use Acquia\Blt\Robo\Config\YamlConfig;
-use Acquia\Blt\Robo\Tasks\BltTasks;
-use Grasmash\YamlExpander\Expander;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Robo\Common\BuilderAwareTrait;
@@ -27,55 +26,87 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
   use LoggerAwareTrait;
   use IO;
 
-  /** @var Executor */
+  /**
+   * Process executor.
+   *
+   * @var \Acquia\Blt\Robo\Common\Executor*/
   protected $executor;
 
   /**
-   * Inspector constructor.
+   * The constructor.
    *
    * @param \Acquia\Blt\Robo\Common\Executor $executor
+   *   Process executor.
    */
   public function __construct(Executor $executor) {
     $this->executor = $executor;
   }
 
   /**
+   * Determines if the repository root directory exists.
+   *
    * @return bool
+   *   TRUE if file exists.
    */
   public function isRepoRootPresent() {
     return file_exists($this->getConfigValue('repo.root'));
   }
 
   /**
+   * Determines if the Drupal docroot directory exists.
+   *
    * @return bool
+   *   TRUE if file exists.
    */
   public function isDocrootPresent() {
     return file_exists($this->getConfigValue('docroot'));
   }
 
+  /**
+   * Determines if BLT configuration file exists, typically project.yml.
+   *
+   * @return bool
+   *   TRUE if file exists.
+   */
   public function isBltConfigFilePresent() {
-    return file_exists($this->getConfigValue('blt.config-files.local'));
+    return file_exists($this->getConfigValue('blt.config-files.project'));
   }
 
+  /**
+   * Determines if BLT configuration file exists, typically project.local.yml.
+   *
+   * @return bool
+   *   TRUE if file exists.
+   */
   public function isBltLocalConfigFilePresent() {
     return file_exists($this->getConfigValue('blt.config-files.local'));
   }
 
   /**
+   * Determines if Drupal settings.php file exists.
+   *
    * @return bool
+   *   TRUE if file exists.
    */
   public function isDrupalSettingsFilePresent() {
     return file_exists($this->getConfigValue('drupal.settings_file'));
   }
+
   /**
+   * Determines if Drupal local.settings.php file exists.
+   *
    * @return bool
+   *   TRUE if file exists.
    */
   public function isDrupalLocalSettingsFilePresent() {
     return file_exists($this->getConfigValue('drupal.local_settings_file'));
   }
 
   /**
+   * Determines if Drupal settings.php contains required BLT includes.
+   *
    * @return bool
+   *   TRUE if settings.php is valid for BLT usage.
    */
   public function isDrupalSettingsFileValid() {
     $settings_file_contents = file_get_contents($this->getConfigValue('drupal.settings_file'));
@@ -89,7 +120,12 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
   }
 
   /**
-   * Checks that Drupal is installed.
+   * Checks that Drupal is installed, caches result.
+   *
+   * This method caches its result in state.drupal.installed value.
+   *
+   * @return bool
+   *   TRUE if Drupal is installed.
    */
   public function isDrupalInstalled() {
     // This will only run once per command. If Drupal is installed mid-command,
@@ -102,6 +138,28 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
     return $this->getConfigValue('state.drupal.installed');
   }
 
+  /**
+   * Determines if Drupal is installed.
+   *
+   * This method does not cache its result.
+   *
+   * @return bool
+   *   TRUE if Drupal is installed.
+   */
+  protected function getDrupalInstalled() {
+    $result = $this->executor->drush("sqlq \"SHOW TABLES LIKE 'config'\"")->run();
+    $output = trim($result->getOutputData());
+    $installed = $result->wasSuccessful() && $output == 'config';
+
+    return $installed;
+  }
+
+  /**
+   * Gets the result of `drush status`.
+   *
+   * @return array
+   *   The result of `drush status`.
+   */
   public function getDrushStatus() {
     $status_info = json_decode($this->executor->drush('status --format=json --show-passwords')->run()->getOutputData(), TRUE);
 
@@ -109,17 +167,12 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
   }
 
   /**
+   * Determines if MySQL is available, caches result.
+   *
+   * This method caches its result in state.mysql.available config.
    *
    * @return bool
-   */
-  public function getMySqlAvailable() {
-    $result = $this->executor->drush("sqlq \"SHOW DATABASES\"")->run();
-
-    return $result->wasSuccessful();
-  }
-
-  /**
-   * @return mixed|null
+   *   TRUE if MySQL is available.
    */
   public function isMySqlAvailable() {
     if (is_null($this->getConfigValue('state.mysql.available'))) {
@@ -131,28 +184,40 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
   }
 
   /**
+   * Determines if MySQL is available. Uses MySQL credentials from Drush.
+   *
+   * This method does not cache its result.
+   *
    * @return bool
+   *   TRUE if MySQL is available.
    */
-  protected function getDrupalInstalled() {
-    $result = $this->executor->drush("sqlq \"SHOW TABLES LIKE 'config'\"")->run();
-    $output = trim($result->getOutputData());
-    $installed = $result->wasSuccessful() && $output == 'config';
+  public function getMySqlAvailable() {
+    $result = $this->executor->drush("sqlq \"SHOW DATABASES\"")->run();
 
-    return $installed;
+    return $result->wasSuccessful();
   }
 
   /**
+   * Determines if Drupal VM configuration exists in the project.
+   *
    * @return bool
+   *   TRUE if Drupal VM configuration exists.
    */
   public function isDrupalVmConfigPresent() {
     return file_exists($this->getConfigValue('repo.root') . '/Vagrantfile');
   }
 
   /**
+   * Determines if Drupal VM is initialized for the local machine.
+   *
+   * I.E., whether Drupal VM is the default LAMP stack for BLT on local machine.
+   *
    * @return bool
+   *   TRUE if Drupal VM is initialized for the local machine.
    */
   public function isDrupalVmLocallyInitialized() {
-    // We assume that if the local drush alias is ${project.machine_name.local}, rather than self, then Drupal VM is being used locally.
+    // We assume that if the local drush alias is ${project.machine_name.local},
+    // rather than self, then Drupal VM is being used locally.
     $drush_local_alias = $this->getConfigValue('drush.aliases.local');
     $expected_vm_alias = $this->getConfigValue('project.machine_name') . '.local';
 
@@ -160,7 +225,10 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
   }
 
   /**
+   * Determines if the current PHP process is being executed inside VM.
+   *
    * @return bool
+   *   TRUE if current PHP process is being executed inside of VM.
    */
   public function isVmCli() {
     return $_SERVER['USER'] == 'vagrant';
@@ -169,7 +237,8 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
   /**
    * Checks if a given command exists on the system.
    *
-   * @param $command string the command binary only. E.g., "drush" or "php".
+   * @param string $command
+   *   The command binary only. E.g., "drush" or "php".
    *
    * @return bool
    *   TRUE if the command exists, otherwise FALSE.
@@ -179,18 +248,34 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
     return $exit_code == 0;
   }
 
+  /**
+   * Gets the local behat configuration defined in local.yml.
+   *
+   * @return \Acquia\Blt\Robo\Config\BltConfig
+   *   The local Behat configuration.
+   */
   public function getLocalBehatConfig() {
     $behat_local_config_file = $this->getConfigValue('repo.root') . '/tests/behat/local.yml';
 
     $behat_local_config = new BltConfig();
-    $loader = new \Robo\Config\YamlConfigLoader();
-    $processor = new \Acquia\Blt\Robo\Config\YamlConfigProcessor();
+    $loader = new YamlConfigLoader();
+    $processor = new YamlConfigProcessor();
     $processor->extend($loader->load($behat_local_config_file));
     $behat_local_config->import($processor->export());
 
     return $behat_local_config;
   }
 
+  /**
+   * Returns an array of required Behat files, as defined by Behat config.
+   *
+   * For instance, this will return the Drupal root dir, Behat features dir,
+   * and bootstrap dir on the local file system. All of these files are
+   * required for behat to function properly.
+   *
+   * @return array
+   *   An array of required Behat configuration files.
+   */
   public function getBehatConfigFiles() {
     $behat_local_config = $this->getLocalBehatConfig();
 
@@ -201,6 +286,22 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
     ];
   }
 
+  /**
+   * Determines if required Behat files exist.
+   *
+   * @return bool
+   *   TRUE if all required Behat files exist.
+   */
+  public function areBehatConfigFilesPresent() {
+    return $this->filesExist($this->getBehatConfigFiles());
+  }
+
+  /**
+   * Determines if all file in a given array exist.
+   *
+   * @return bool
+   *   TRUE if all files exist.
+   */
   public function filesExist($files) {
     foreach ($files as $file) {
       if (!file_exists($file)) {
@@ -213,9 +314,17 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
   }
 
   /**
+   * Determines if Behat is properly configured on the local machine.
    *
+   * This will ensure that required Behat file exists, and that require
+   * configuration values are properly defined.
+   *
+   * @return bool
+   *   TRUE is Behat is properly configured on the local machine.
    */
   public function isBehatConfigured() {
+
+    // Verify that URIs required for Drupal and Behat are configured correctly.
     $local_behat_config = $this->getLocalBehatConfig();
     if ($this->getConfigValue('project.local.uri') != $local_behat_config->get('local.extensions.Behat\MinkExtension.base_url')) {
       $this->logger->warning('project.local.uri in project.yml does not match local.extensions.Behat\MinkExtension.base_url in local.yml.');
@@ -224,6 +333,8 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
       return FALSE;
     }
 
+    // Verify that URIs required for an ad-hoc PHP internal server are
+    // configured correctly.
     if ($this->getConfigValue('behat.run-server')) {
       if ($this->getConfigValue('behat.server-url') != $this->getConfigValue('project.local.uri')) {
         $this->logger->warning("behat.run-server is enabled, but the server URL does not match Drupal's base URL.");
@@ -235,6 +346,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
       }
     }
 
+    // Verify that required Behat files are present.
     if (!$this->areBehatConfigFilesPresent()) {
       return FALSE;
     }
@@ -242,39 +354,14 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
     return TRUE;
   }
 
-  public function areBehatConfigFilesPresent() {
-    return $this->filesExist($this->getBehatConfigFiles());
-  }
-
   /**
+   * Determines if the PhantomJS binary is present.
    *
+   * @return bool
+   *   TRUE if the PhantomJS binary is present.
    */
-  public function setDrushStatus() {
-    if (!$this->getConfigValue('state.drush.status')) {
-      $drush_status = json_decode($this->execDrush("status --format=json"),
-        TRUE);
-      $this->getConfig()->set('state.drush.status', $drush_status);
-    }
-
-    return $this;
-  }
-
-  public function isPhantomJsConfigured() {
-    return $this->isPhantomJsRequired() && $this->isPhantomJsScriptConfigured() && $this->isPhantomJsBinaryPresent();
-  }
-
-  public function isPhantomJsRequired() {
-    $result = $this->executor->execute("grep 'jakoch/phantomjs-installer' composer.json")->run();
-    return $result->wasSuccessful();
-  }
-
-  public function isPhantomJsScriptConfigured() {
-    $result = $this->executor->execute("grep installPhantomJS composer.json")->run();
-
-    return $result->wasSuccessful();
-  }
-
   public function isPhantomJsBinaryPresent() {
     return file_exists("{$this->getConfigValue('composer.bin')}/phantomjs");
   }
+
 }
