@@ -23,7 +23,7 @@ Generally speaking, a configuration change follows this lifecycle:
 4. Automated testing ensures that the configuration can be installed from scratch on a new site as well as imported without conflicts on an existing site.
 5. After the change is deployed, deployment hooks automatically import the new or updated configuration.
 
-The way that configuration is captured and deployed between environments in Drupal 8 is typically via YAML files. These YAML files, typically stored in a root `config` directory, or distributed with individual modules in `config/install` directories, represent individual configuration objects that can be synchronized with the active configuration in an environment's database via a variety of methods. See [documentation on core configuration management](https://www.drupal.org/docs/8/configuration-management). 
+The way that configuration is captured and deployed between environments in Drupal 8 is typically via YAML files. These YAML files, typically stored in a root `config` directory, or distributed with individual modules in `config/install` directories, represent individual configuration objects that can be synchronized with the active configuration in an environment's database via a variety of methods. See [documentation on core configuration management](https://www.drupal.org/docs/8/configuration-management).
 
 This document address the challenge of capturing ("exporting") and deploying ("importing") configuration in a consistent way in order to support the workflow described above.
 
@@ -67,6 +67,16 @@ The best way to handle this is to always follow these steps when updating contri
 We need to find a better way of preventing this than manually monitoring module updates. Find more information in these issues:
 * [Features and contributed module updates](https://www.drupal.org/node/2745685)
 * [Testing for schema changes to stored config](https://github.com/acquia/blt/issues/842).
+
+### Ensuring integrity of stored configuration
+
+Configuration stored on disk, whether via the core configuration system or features, is essentially a flat-file database and must be treated as such. For instance, all changes to configuration should be made via the UI or an appopriate API and then exported to disk. You should never make changes to individual config files by hand, just as you would never write a raw SQL query to add a Drupal content type. Even seemingly small changes to one part of the configuration can have sweeping and unanticipated changes. For instance, enabling the Panelizer or Workbench modules will modify the configuration of every content type on the site.
+
+BLT has a built-in test that will help protect against some of these mistakes. After configuration is imported (i.e. during `local:update` or `deploy:update`), it will check if any configuration remains overridden. If so, the build will fail, alerting you to the fact that there are uncaptured configuration changes or possibly a corrupt configuration export. This test acts as a canary and should not be disabled, but if you need to temporarily disable it in an emergency (i.e. if deploys to a cloud environment are failing), you can do so by settings `cm.allow-overrides` to `true`.
+
+Finally, you should enable protected branches in Github to ensure that pull requests can only be merged if they are up to date with the target branch. This protects against a scenario where, for instance, one PR adds a new content type, while another PR enables Workbench (which would modify that content type). Individually, each of these PRs is perfectly valid, but once they are both merged they produce a corrupt configuration (where the new content type is lacking Workbench configuration). When used with BLT’s built-in test for configuration overrides, protected branches can quite effectively prevent some forms of configuration corruption.
+
+For an ongoing discussion of how to ensure configuration integrity, see https://www.drupal.org/node/2869910
 
 ## Configuration Split workflow
 
