@@ -1,20 +1,17 @@
 <project name="local" default="local:setup">
 
   <target name="local:drupal:install" description="Installs a specific Drupal site using local drush alias.">
-    <exec dir="${repo.root}" command="blt setup:drupal:install -D drush.alias='${drush.aliases.local}'" logoutput="true" checkreturn="true"/>
+    <exec dir="${repo.root}" command="${composer.bin}/blt setup:drupal:install -D drush.alias='${drush.aliases.local}'" logoutput="true" checkreturn="true"/>
   </target>
 
   <target name="local:refresh" description="Refreshes local environment from upstream testing database.">
-    <exec dir="${repo.root}" command="blt setup:build" logoutput="true" checkreturn="true"/>
+    <exec dir="${repo.root}" command="${composer.bin}/blt setup:build" logoutput="true" checkreturn="true"/>
     <phingcall target="local:sync"/>
     <phingcall target="local:update"/>
   </target>
 
   <target name="local:setup" description="Install dependencies, builds docroot, installs Drupal; uses local drush alias.">
-    <phingcall target="setup">
-      <property name="drush.alias" value="${drush.aliases.local}" />
-      <param name="environment" value="local"/>
-    </phingcall>
+    <exec dir="${repo.root}" command="${composer.bin}/blt setup -D drush.alias=local -D environment=local" logoutput="true" checkreturn="true"/>
   </target>
 
   <!-- Wrapper for local:sync:db and local:sync:files. -->
@@ -50,7 +47,7 @@
   </target>
 
   <target name="local:sync:db" description="Synchronize local database from remote (remote --> local).">
-    <exec dir="${repo.root}" command="blt setup:drupal:settings" logoutput="true" checkreturn="true" />
+    <exec dir="${repo.root}" command="${composer.bin}/blt setup:drupal:settings" logoutput="true" checkreturn="true" />
     <drush command="cc drush"/>
     <drush command="sql-drop"/>
     <if>
@@ -97,7 +94,7 @@
   </target>
 
   <target name="local:update" description="Update current database to reflect the state of the Drupal file system; uses local drush alias.">
-    <exec dir="${repo.root}" command="blt setup:update -D drush.alias='${drush.aliases.local}' -D environment=local" logoutput="true" checkreturn="true"/>
+    <exec dir="${repo.root}" command="${composer.bin}/blt setup:update -D drush.alias='${drush.aliases.local}' -D environment=local" logoutput="true" checkreturn="true"/>
   </target>
 
 </project>

@@ -159,7 +159,7 @@
   <target name="deploy:build" description="Generates a deploy-ready build in deploy.dir.">
 
     <phingcall target="frontend"/>
-    <exec dir="${repo.root}" command="blt setup:hash-salt" logoutput="true" checkreturn="true"/>
+    <exec dir="${repo.root}" command="${composer.bin}/blt setup:hash-salt" logoutput="true" checkreturn="true"/>
     <phingcall target="deploy:copy"/>
     <phingcall target="deploy:composer:install"/>
     <phingcall target="deploy:id"/>
@@ -339,7 +339,7 @@
 
   <target name="deploy:drupal:install"
           description="Installs a specific Drupal site.">
-    <exec dir="${repo.root}" command="blt drupal:install" logoutput="true" checkreturn="true" passthru="true" />
+    <exec dir="${repo.root}" command="${composer.bin}/blt drupal:install" logoutput="true" checkreturn="true" passthru="true" />
     <phingcall target="drupal:update"/>
   </target>
 </project>
