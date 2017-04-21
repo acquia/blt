@@ -66,6 +66,13 @@ class ConfigCommand extends BltTasks {
             $task->exec("drush @$drush_alias pm-enable config_split --yes");
             $task->exec("drush @$drush_alias config-import sync --yes");
           }
+          if (!$this->getConfigValue('cm.allow-overrides')) {
+            $this->say("Checking for config overrides...");
+            $config_overrides = $task->exec("drush @$drush_alias cex sync -n | grep 'Differences of the active config'");
+            if ($config_overrides) {
+              throw new \Exception("Configuration in the database does not match configuration on disk. You must re-export configuration to capture the changes. This could also indicate a problem with the import process, such as changed field storage for a field with existing content.");
+            }
+          }
           break;
 
         case 'features':
