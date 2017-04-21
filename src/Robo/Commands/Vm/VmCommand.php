@@ -140,12 +140,12 @@ class VmCommand extends BltTasks {
     $this->getConfig()->expandFileProperties($this->projectDrupalVmConfigFile);
 
     $this->say("<info>BLT has created default configuration for your Drupal VM.</info>");
-    $this->say("The configuration file is {$this->projectDrupalVmConfigFile}.");
+    $this->say("The configuration file is <comment>{$this->projectDrupalVmConfigFile}</comment>.");
 
     $this->say("To customize the VM, follow the Quick Start Guide in Drupal VM's README:");
-    $this->say("https://github.com/geerlingguy/drupal-vm#quick-start-guide");
+    $this->say("<comment>https://github.com/geerlingguy/drupal-vm#quick-start-guide</comment>");
 
-    $this->say("To run drush commands against the VM, use the {$this->drupalVmAlias} alias.");
+    $this->say("To run drush commands against the VM, use the <comment>@{$this->drupalVmAlias}</comment> alias.");
     $this->yell("From now on, please use vagrant commands to manage your virtual machine.");
   }
 
