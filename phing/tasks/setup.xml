@@ -226,22 +226,26 @@
     <if>
       <available file="${docroot}/${cm.core.dirs.${cm.core.key}.path}/core.extension.yml"/>
       <then>
+
         <drush command="config-import" assume="yes" alias="${drush.alias}" passthru="false">
           <param>${cm.core.key}</param>
         </drush>
+
         <!-- Sometimes config-import has to be run twice to catch everything. Can be removed once the core configuration system is more stable. -->
         <drush command="config-import" assume="yes" alias="${drush.alias}" passthru="false">
           <param>${cm.core.key}</param>
         </drush>
+
+        <if>
+          <not><equals arg1="${cm.allow-overrides}" arg2="true"/></not>
+          <then>
+            <phingcall target="setup:update:config-override-check">
+              <property name="cm.dir" value="${cm.core.key}"/>
+            </phingcall>
+          </then>
+        </if>
+
       </then>
-      <if>
-        <not><equals arg1="${cm.allow-overrides}" arg2="true"/></not>
-        <then>
-          <phingcall target="setup:update:config-override-check">
-            <property name="cm.dir" value="${cm.core.key}"/>
-          </phingcall>
-        </then>
-      </if>
     </if>
 
   </target>
