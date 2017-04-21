@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Drupal;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Common\RandomString;
 
 /**
  * Defines commands in the "drupal:*" namespace.
@@ -20,14 +21,16 @@ class DrupalCommand extends BltTasks {
    */
   public function install() {
 
+    $account_name = 'super-user-' . RandomString::string(10);
     $task = $this->taskExec('drush site-install')
+      ->detectInteractive()
+      ->printOutput(TRUE)
       ->dir($this->getConfigValue('docroot'))
       ->arg($this->getConfigValue('project.profile.name'))
       ->rawArg("install_configure_form.update_status_module='array(FALSE,FALSE)'")
       ->option('site-name', $this->getConfigValue('project.human_name'), '=')
       ->option('site-mail', $this->getConfigValue('drupal.account.mail'), '=')
-      ->option('account-name', $this->getConfigValue('drupal.account.name'), '=')
-      ->option('account-pass', $this->getConfigValue('drupal.account.pass'), '=')
+      ->option('account-name', $account_name, '=')
       ->option('account-mail', $this->getConfigValue('drupal.account.mail'), '=')
       ->option('locale', $this->getConfigValue('drupal.locale'), '=')
       ->option('yes');
