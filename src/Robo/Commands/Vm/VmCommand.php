@@ -244,6 +244,11 @@ class VmCommand extends BltTasks {
         $this->logger->warning("The vagrant-hostsupdater plugin is not installed! Attempting to install it...");
         $this->taskExec("vagrant plugin install vagrant-hostsupdater")->run();
       }
+      $vagrant_exec_plugin_installed = (bool) $this->taskExec("vagrant plugin list | grep vagrant-exec")->run()->getOutputData();
+      if ($vagrant_exec_plugin_installed) {
+        $this->logger->warning("The vagrant-exec plugin is not installed! Attempting to install it...");
+        $this->taskExec("vagrant plugin install vagrant-exec")->run();
+      }
     }
   }
 
