@@ -10,7 +10,7 @@ use Acquia\Blt\Robo\BltTasks;
 class CloudHooksCommand extends BltTasks {
 
   /**
-   * Installs Acquia cloud hooks to hooks.
+   * Installs Acquia cloud hooks.
    *
    * @command setup:cloud-hooks
    */

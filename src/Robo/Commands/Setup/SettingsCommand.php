@@ -87,7 +87,7 @@ class SettingsCommand extends BltTasks {
    * @command setup:behat
    */
   public function behat() {
-    $this->say("Generating Behat configuration files");
+    $this->say("Generating Behat configuration files...");
     $this->taskFilesystemStack()
       ->copy($this->defaultBehatLocalConfigFile, $this->projectBehatLocalConfigFile)
       ->stopOnFail()
@@ -97,7 +97,7 @@ class SettingsCommand extends BltTasks {
   }
 
   /**
-   * Installs git hooks to local .git/hooks directory.
+   * Installs BLT git hooks to local .git/hooks directory.
    *
    * @command setup:git-hooks
    */
@@ -117,7 +117,7 @@ class SettingsCommand extends BltTasks {
    */
   protected function installGitHook($hook) {
     if ($this->getConfigValue('git.hooks.' . $hook)) {
-      $this->say("Installing $hook git hook");
+      $this->say("Installing $hook git hook...");
       $source = $this->getConfigValue('git.hooks.' . $hook) . "/$hook";
       $dest = $this->getConfigValue('repo.root') . "/.git/hooks/$hook";
 
