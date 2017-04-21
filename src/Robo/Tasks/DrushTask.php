@@ -7,7 +7,8 @@ use Robo\Contract\VerbosityThresholdInterface;
 use Robo\Common\CommandArguments;
 
 /**
- * Runs Drush commands in stack. You can use `stopOnFail()` to point that stack should be terminated on first fail.
+ * Runs Drush commands in stack. You can use `stopOnFail()` to point that stack
+ * should be terminated on first fail.
  *
  * ``` php
  * $this->taskDrush()
@@ -16,8 +17,7 @@ use Robo\Common\CommandArguments;
  *     ->run();
  * ```
  */
-class Drush extends CommandStack
-{
+class DrushTask extends CommandStack {
   use CommandArguments;
 
   /**
@@ -58,9 +58,9 @@ class Drush extends CommandStack
   protected $verbose;
 
   /**
-   * @todo Figure out how to fetch config from constructor to avoid this.
-   *
    * @var bool
+   *
+   * @todo Figure out how to fetch config from constructor to avoid this.
    */
   protected $defaultsInitialized;
 
@@ -232,14 +232,17 @@ class Drush extends CommandStack
    * @param mixed $mixedVar
    *
    * @return bool
-   *   TRUE if $mixedVar equals yes or true, FALSE otherwise.
+   *   TRUE/FALSE as per PHP's cast to boolean ruleset, with the exception that
+   *   a string value not equal to 'yes' or 'true' will evaluate to FALSE.
    */
   protected function mixedToBool($mixedVar) {
     if (is_string($mixedVar)) {
       $boolVar = ($mixedVar === 'yes' || $mixedVar === 'true');
-    } else {
-      $boolVar = !!$mixedVar;
+    }
+    else {
+      $boolVar = (bool) $mixedVar;
     }
     return $boolVar;
   }
+
 }

@@ -2,13 +2,16 @@
 
 namespace Acquia\Blt\Robo\Tasks;
 
-trait LoadTasks
-{
+/**
+ * Load BLT's custom Robo tasks.
+ */
+trait LoadTasks {
+
   /**
-   * @return Drush
+   * @return DrushTask
    */
-  protected function taskDrush()
-  {
-    return $this->task(Drush::class);
+  protected function taskDrush() {
+    return $this->task(DrushTask::class);
   }
+
 }
