@@ -3,7 +3,6 @@
 namespace Acquia\Blt\Robo\Commands\Blt;
 
 use Acquia\Blt\Robo\BltTasks;
-use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Yaml\Yaml;
 
 /**
