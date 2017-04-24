@@ -25,6 +25,8 @@ class BltReleaseCommand extends BltTasks {
    *
    * @option $update-changelog Update CHANGELOG.md. Defaults to true.
    *
+   * @hidden
+   *
    * @return int
    *   The CLI status code.
    */

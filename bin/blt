@@ -18,6 +18,7 @@ $robo_namespaces = [
   'vm',
 ];
 $robo_commands = [
+  'doctor'
 ];
 
 $params_string = implode(' ', array_slice($argv, 1));

@@ -63,25 +63,6 @@
     <exec dir="${repo.root}" command="git commit -m 'Initial commit.'" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
   </target>
 
-  <target name="doctor" description="Inspects your local blt configuration for possible issues.">
-    <drush command="status" returnProperty="drush.return" haltonerror="false" passthru="false" verbose="false" logoutput="false">
-      <option name="include">../vendor/acquia/blt/drush</option>
-    </drush>
-    <if>
-      <equals arg1="${drush.return}" arg2="0"/>
-      <then>
-        <drush command="blt-doctor" verbose="false"  dir="${docroot}">
-          <option name="include">../vendor/acquia/blt/drush</option>
-        </drush>
-      </then>
-      <else>
-        <drush command="blt-doctor" verbose="false" dir="${docroot}" alias="" uri="">
-          <option name="include">../vendor/acquia/blt/drush</option>
-        </drush>
-      </else>
-    </if>
-  </target>
-
   <target name="blt:rsync-template" hidden="true">
     <echo>Copying files from BLT's template into your project...</echo>
     <exec dir="${repo.root}" command="rsync -a --no-g ${blt.root}/template/ ${repo.root}/ --exclude-from=${blt.update.ignore-existing-file}" logoutput="true" checkreturn="true" level="${blt.exec_level}" passthru="true"/>
