@@ -18,13 +18,14 @@ class DrupalCommand extends BltTasks {
    * @validateMySqlAvailable
    *
    * @return \Robo\Result
+   *   The `drush site-install` command result.
    */
   public function install() {
 
     // Generate a random, valid username.
     // @see \Drupal\user\Plugin\Validation\Constraint\UserNameConstraintValidator
     $username = RandomString::string(10, FALSE,
-      function ($string){
+      function ($string) {
         return !preg_match('/[^\x{80}-\x{F7} a-z0-9@+_.\'-]/i', $string);
       }
     );
