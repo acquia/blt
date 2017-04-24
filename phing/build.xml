@@ -67,7 +67,10 @@
 
   <target name="list" hidden="true">
     <exec dir="${repo.root}" command="cat ${blt.root}/scripts/blt/ascii-art.txt" logoutput="true" passthru="true" checkreturn="false"/>
-    <exec dir="${blt.root}" command="${repo.root}/vendor/bin/phing -f ${phing.dir}/build.xml -q -l" passthru="true"/>
+    <echo>The following commands are provided by Phing:</echo>
+    <exec dir="${repo.root}" command="${repo.root}/vendor/bin/phing -f ${phing.dir}/build.xml -q -l" passthru="true"/>
+    <echo>The following commands are provided by Robo:</echo>
+    <exec dir="${repo.root}" command="${blt.root}/bin/blt-robo list" logoutput="true" passthru="true"/>
   </target>
 
   <target name="target-hook:invoke" description="Executes a command defined in the target-hooks array." hidden="true">
