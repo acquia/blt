@@ -257,7 +257,6 @@ class BltDoctor {
     $this->checkDrupalBootstrapped();
     $this->checkDrupalInstalled();
     $this->checkCaching();
-    $this->checkNvmExists();
     $this->checkDevDesktop();
     $this->checkCiConfig();
     $this->checkComposer();
@@ -537,28 +536,6 @@ class BltDoctor {
     ]);
 
     $this->logOutcome(__FUNCTION__, $outcome, 'error');
-  }
-
-  /**
-   * Checks that NVM exists.
-   *
-   * Note that this does not check if `nvm use` has been invoked for the correct
-   * node version.
-   */
-  protected function checkNvmExists() {
-    $home = getenv("HOME");
-    if (!file_exists("$home/.nvm")) {
-      $this->logOutcome(__FUNCTION__, [
-        'NVM does not exist.',
-        '',
-        'It is recommended that you use NVM to manage multiple versions of NodeJS on one machine.',
-        'Instructions for installing NVM can be found at:',
-        '  https://github.com/creationix/nvm#installation',
-      ], 'error');
-    }
-    else {
-      $this->logOutcome(__FUNCTION__, "NVM exists.", 'info');
-    }
   }
 
   /**
