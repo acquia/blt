@@ -21,7 +21,14 @@ class DrupalCommand extends BltTasks {
    */
   public function install() {
 
-    $account_name = 'super-user-' . RandomString::string(10);
+    // Generate a random, valid username.
+    // @see \Drupal\user\Plugin\Validation\Constraint\UserNameConstraintValidator
+    $username = RandomString::string(10, FALSE,
+      function ($string){
+        return !preg_match('/[^\x{80}-\x{F7} a-z0-9@+_.\'-]/i', $string);
+      }
+    );
+
     $task = $this->taskExec('drush site-install')
       ->detectInteractive()
       ->printOutput(TRUE)
@@ -30,7 +37,7 @@ class DrupalCommand extends BltTasks {
       ->rawArg("install_configure_form.update_status_module='array(FALSE,FALSE)'")
       ->option('site-name', $this->getConfigValue('project.human_name'), '=')
       ->option('site-mail', $this->getConfigValue('drupal.account.mail'), '=')
-      ->option('account-name', $account_name, '=')
+      ->option('account-name', $username, '=')
       ->option('account-mail', $this->getConfigValue('drupal.account.mail'), '=')
       ->option('locale', $this->getConfigValue('drupal.locale'), '=')
       ->option('yes');
