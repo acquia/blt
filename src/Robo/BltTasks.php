@@ -7,6 +7,7 @@ use Acquia\Blt\Robo\Common\IO;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
 use Acquia\Blt\Robo\Inspector\InspectorAwareInterface;
 use Acquia\Blt\Robo\Inspector\InspectorAwareTrait;
+use Acquia\Blt\Robo\Tasks\LoadTasks;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 use Psr\Log\LoggerAwareInterface;
@@ -30,6 +31,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
   use InspectorAwareTrait;
   use IO;
   use LoggerAwareTrait;
+  use LoadTasks;
 
   /**
    * The depth of command invokations, used by invokeCommands().
