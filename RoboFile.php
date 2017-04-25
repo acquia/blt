@@ -252,13 +252,27 @@ class RoboFile extends Tasks {
    */
   protected function checkCommandsExist(array $commands) {
     foreach ($commands as $command) {
-      if (!$this->getInspector()->commandExists($command)) {
+      if (!$this->commandExists($command)) {
         $this->yell("Unable to find '$command' command!");
         return FALSE;
       }
     }
 
     return TRUE;
+  }
+
+  /**
+   * Checks if a given command exists on the system.
+   *
+   * @param string $command
+   *   The command binary only. E.g., "drush" or "php".
+   *
+   * @return bool
+   *   TRUE if the command exists, otherwise FALSE.
+   */
+  protected function commandExists($command) {
+    exec("command -v $command >/dev/null 2>&1", $output, $exit_code);
+    return $exit_code == 0;
   }
 
 }
