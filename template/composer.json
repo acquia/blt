@@ -33,7 +33,8 @@
             "merge-extra": true,
             "merge-extra-deep": true,
             "merge-scripts": true,
-            "replace": true
+            "replace": false,
+            "ignore-duplicates": true
         }
     },
     "minimum-stability": "dev",
