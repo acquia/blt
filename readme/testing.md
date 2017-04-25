@@ -173,13 +173,12 @@ Project level, functional PHPUnit tests are included in `tests/phpunit`. Any PHP
 
 ### Configuration
 
-PHPunit's behavior(s) can be further customized via the project.yml file to provide additional levels of control on a per project basis. See [Extending BLT](extending-blt.md) for more information.
- 
- The each index in the  phpunit array in project.yml should contain a path (to a phpunit test or directory that  contains at least one test) and a config path (if custom configuration or boostrapping of Drupal is required):
+You can customize the `tests:phpunit` command by [customize the configuration values](extending-blt.md#modifying-blt-configuration) for the `phpunit` key.
+
+Each row under the `phpunit` key should contain a `path` and a `config` key. The `path` key indicates a directory containing PHPUnit tests. The optional `config` key can be used to specify a PHP configuration file.
  
  * config: path to either the Core phpunit configuration file (docroot/core/phpunit.xml.dist) or a custom one. If left blank, no configuration will be loaded with the unit test.
  * path: the path to the custom phpunit test
-
 
 ## Frontend Testing
 

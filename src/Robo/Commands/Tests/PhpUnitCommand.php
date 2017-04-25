@@ -10,7 +10,6 @@ use Robo\Contract\VerbosityThresholdInterface;
  */
 class PhpUnitCommand extends BltTasks {
 
-
   /**
    * Directory in which test logs and reports are generated.
    *
@@ -24,10 +23,11 @@ class PhpUnitCommand extends BltTasks {
   protected $reportFile;
 
   /**
-   * The directory path containing PHPUnit tests.
+   * An array that contains configuration to override /
+   * customize phpunit commands.
    *
-   * @var string*/
-  protected $testsDir;
+   * @var array*/
+  protected $phpunitConfig;
 
   /**
    * This hook will fire for all commands in this command file.
@@ -37,12 +37,8 @@ class PhpUnitCommand extends BltTasks {
   public function initialize() {
     $this->reportsDir = $this->getConfigValue('reports.localDir') . '/phpunit';
     $this->reportFile = $this->reportsDir . '/results.xml';
-    if (is_array($this->getConfigValue('phpunit.paths'))) {
-      $this->testsDir = $this->getConfigValue('phpunit.paths');
-    }
-    else {
-      $this->testsDir[] = $this->getConfigValue('repo.root') . '/tests/phpunit';
-    }
+    $this->testsDir = $this->getConfigValue('repo.root') . '/tests/phpunit';
+    $this->phpunitConfig = $this->getConfigValue('phpunit');
   }
 
   /**
@@ -53,13 +49,18 @@ class PhpUnitCommand extends BltTasks {
    */
   public function testsPhpUnit() {
     $this->createLogs();
-    foreach ($this->testsDir as $dir) {
+    foreach ($this->phpunitConfig as $test) {
       $task = $this->taskPHPUnit()
-        ->dir($dir)
         ->xml($this->reportFile)
         ->arg('.')
         ->printOutput(TRUE)
         ->printMetadata(FALSE);
+      if (isset($test['path'])) {
+        $task->dir($test['path']);
+      }
+      if (isset($test['config'])) {
+        $task->option('--configuration', $test['config']);
+      }
       $task->run();
     }
   }
