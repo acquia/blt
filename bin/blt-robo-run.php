@@ -43,14 +43,12 @@ $output = new ConsoleOutput();
 $config = new DefaultConfig();
 $loader = new YamlConfigLoader();
 $processor = new YamlConfigProcessor();
-$processor->add($config->export(), 'default');
+$processor->add($config->export());
 $processor->extend($loader->load($config->get('blt.root') . '/phing/build.yml'));
 $processor->extend($loader->load($config->get('repo.root') . '/blt/project.yml'));
 $processor->extend($loader->load($config->get('repo.root') . '/blt/project.local.yml'));
 $config->import($processor->export());
 $config->populateHelperConfig();
-
-// @todo realpath() repo.root, docroot, composer.bin, etc.
 
 $blt = new Blt($config, $input, $output);
 $status_code = (int) $blt->run($input, $output);
