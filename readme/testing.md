@@ -171,6 +171,16 @@ Project level, functional PHPUnit tests are included in `tests/phpunit`. Any PHP
 * [Unit testing: Why bother?](http://soundsoftware.ac.uk/unit-testing-why-bother/)
 
 
+### Configuration
+
+PHPunit's behavior(s) can be further customized via the project.yml file to provide additional levels of control on a per project basis. See [Extending BLT](extending-blt.md) for more information.
+ 
+ The each index in the  phpunit array in project.yml should contain a path (to a phpunit test or directory that  contains at least one test) and a config path (if custom configuration or boostrapping of Drupal is required):
+ 
+ * config: path to either the Core phpunit configuration file (docroot/core/phpunit.xml.dist) or a custom one. If left blank, no configuration will be loaded with the unit test.
+ * path: the path to the custom phpunit test
+
+
 ## Frontend Testing
 
 BLT supports a `frontend-test` target that can be used to execute a variety of testing frameworks. Examples may include Jest, Jasmine, Mocha, Chai, etc.
