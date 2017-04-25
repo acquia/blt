@@ -30,6 +30,18 @@ class PhpUnitCommand extends BltTasks {
   protected $testsDir;
 
   /**
+   * Wether or not to include the Drupal config file for PHPUnit.
+   *
+   * @var bool*/
+  protected $configStatus;
+
+  /**
+   * The path to Drupal's configuration file for PHPUnit.
+   *
+   * @var string*/
+  protected $configFile;
+
+  /**
    * This hook will fire for all commands in this command file.
    *
    * @hook init
@@ -38,6 +50,8 @@ class PhpUnitCommand extends BltTasks {
     $this->reportsDir = $this->getConfigValue('reports.localDir') . '/phpunit';
     $this->reportFile = $this->reportsDir . '/results.xml';
     $this->testsDir = $this->getConfigValue('repo.root') . '/tests/phpunit';
+    $this->configStatus = $this->getConfigValue('phpunit.config');
+    $this->configFile = $this->getConfigValue('repo.root') . '/docroot/core/phpunit.xml.dist';
   }
 
   /**
@@ -48,13 +62,16 @@ class PhpUnitCommand extends BltTasks {
    */
   public function testsPhpUnit() {
     $this->createLogs();
-    $this->taskPHPUnit()
+    $task = $this->taskPHPUnit()
       ->dir($this->testsDir)
       ->xml($this->reportFile)
       ->arg('.')
       ->printOutput(TRUE)
-      ->printMetadata(FALSE)
-      ->run();
+      ->printMetadata(FALSE);
+    if ($this->configStatus == TRUE) {
+      $task->option('-c', $this->configFile);
+    }
+    $task->run();
   }
 
   /**
