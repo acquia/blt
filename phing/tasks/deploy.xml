@@ -158,7 +158,7 @@
 
   <target name="deploy:build" description="Generates a deploy-ready build in deploy.dir.">
 
-    <phingcall target="frontend"/>
+    <exec dir="${repo.root}" command="${composer.bin}/blt frontend" logoutput="true" checkreturn="true" passthru="true" />
     <exec dir="${repo.root}" command="${composer.bin}/blt setup:hash-salt" logoutput="true" checkreturn="true"/>
     <phingcall target="deploy:copy"/>
     <phingcall target="deploy:composer:install"/>
