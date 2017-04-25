@@ -1,22 +1,19 @@
 <?php
 
-namespace Acquia\Blt\Robo\Commands;
-
-use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\StringManipulator;
 use GuzzleHttp\Client;
+use Robo\Tasks;
 
 /**
  * This is project's console commands configuration for Robo task runner.
  *
  * @see http://robo.li/
  */
-class BltReleaseCommand extends BltTasks {
-
+class RoboFile extends Tasks {
   /**
    * Generates release notes and cuts a new tag on GitHub.
    *
-   * @command blt:release
+   * @command release
    *
    * @param string $tag
    *   The tag name. E.g, 8.6.10.
@@ -160,7 +157,7 @@ class BltReleaseCommand extends BltTasks {
    * @return int
    *   The CLI status code.
    */
-  public function bltReleaseNotes($tag, $github_token) {
+  public function releaseNotes($tag, $github_token) {
 
     $requirements_met = $this->checkCommandsExist([
       'github_changelog_generator',
@@ -253,15 +250,29 @@ class BltReleaseCommand extends BltTasks {
    * @return bool
    *   TRUE if the command exists, otherwise FALSE.
    */
-  public function checkCommandsExist(array $commands) {
+  protected function checkCommandsExist(array $commands) {
     foreach ($commands as $command) {
-      if (!$this->getInspector()->commandExists($command)) {
+      if (!$this->commandExists($command)) {
         $this->yell("Unable to find '$command' command!");
         return FALSE;
       }
     }
 
     return TRUE;
+  }
+
+  /**
+   * Checks if a given command exists on the system.
+   *
+   * @param string $command
+   *   The command binary only. E.g., "drush" or "php".
+   *
+   * @return bool
+   *   TRUE if the command exists, otherwise FALSE.
+   */
+  protected function commandExists($command) {
+    exec("command -v $command >/dev/null 2>&1", $output, $exit_code);
+    return $exit_code == 0;
   }
 
 }
