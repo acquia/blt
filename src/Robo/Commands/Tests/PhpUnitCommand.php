@@ -37,7 +37,12 @@ class PhpUnitCommand extends BltTasks {
   public function initialize() {
     $this->reportsDir = $this->getConfigValue('reports.localDir') . '/phpunit';
     $this->reportFile = $this->reportsDir . '/results.xml';
-    $this->testsDir = $this->getConfigValue('repo.root') . '/tests/phpunit';
+    if (is_array($this->getConfigValue('phpunit.paths'))) {
+      $this->testsDir = $this->getConfigValue('phpunit.paths');
+    }
+    else {
+      $this->testsDir[] = $this->getConfigValue('repo.root') . '/tests/phpunit';
+    }
   }
 
   /**
@@ -48,13 +53,15 @@ class PhpUnitCommand extends BltTasks {
    */
   public function testsPhpUnit() {
     $this->createLogs();
-    $this->taskPHPUnit()
-      ->dir($this->testsDir)
-      ->xml($this->reportFile)
-      ->arg('.')
-      ->printOutput(TRUE)
-      ->printMetadata(FALSE)
-      ->run();
+    foreach ($this->testsDir as $dir) {
+      $task = $this->taskPHPUnit()
+        ->dir($dir)
+        ->xml($this->reportFile)
+        ->arg('.')
+        ->printOutput(TRUE)
+        ->printMetadata(FALSE);
+      $task->run();
+    }
   }
 
   /**
