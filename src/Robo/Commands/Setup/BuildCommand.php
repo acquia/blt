@@ -134,4 +134,45 @@ class BuildCommand extends BltTasks {
       ->run();
   }
 
+  /**
+   * Checks the repo is there is modified files
+   */
+  public function checkCleanRepo() {
+    $clean = $this->taskExec("git status --porcelain")
+      ->dir($this->getConfigValue('repo.root'))
+      ->interactive()
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->run();
+    return $clean;
+  }
+
+  /**
+   * Adds a project dependency and ensures configuration management is in sync.
+   *
+   * @command add-dependency
+   */
+  public function addDependency($dependency) {
+    $modified = $this->checkCleanRepo();
+    if (!empty($modified)) {
+      $this->output()->writeln("<comment>Please note the following files need to be commited or reverted:</comment>");
+      $this->output()->writeln("<comment>$modified</comment>");
+    } else {
+      $this->taskExec("composer update $dependency --with-dependencies")
+        ->dir($this->getConfigValue('repo.root'))
+        ->interactive()
+        ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+        ->run();
+      $alias = $this->getConfigValue('drush.alias');
+      $this->taskExec("drush @$alias updb")
+        ->run();
+      $this->taskExec("drush @$alias cex")
+        ->run();
+      $modified = $this->checkCleanRepo();
+      if (!empty($modified)) {
+        $this->output()->writeln("<comment>The following files have configuration changes after add the $dependency</comment>");
+        $this->output()->writeln("<comment>$modified</comment>");
+      }
+    }
+  }
+
 }
