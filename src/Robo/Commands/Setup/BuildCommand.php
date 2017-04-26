@@ -156,7 +156,8 @@ class BuildCommand extends BltTasks {
     if (!empty($modified)) {
       $this->output()->writeln("<comment>Please note the following files need to be commited or reverted:</comment>");
       $this->output()->writeln("<comment>$modified</comment>");
-    } else {
+    }
+    else {
       $this->taskExec("composer update $dependency --with-dependencies")
         ->dir($this->getConfigValue('repo.root'))
         ->interactive()
@@ -169,7 +170,7 @@ class BuildCommand extends BltTasks {
         ->run();
       $modified = $this->checkCleanRepo();
       if (!empty($modified)) {
-        $this->output()->writeln("<comment>The following files have configuration changes after add the $dependency</comment>");
+        $this->output()->writeln("<comment>The following files have configuration changes after adding $dependency</comment>");
         $this->output()->writeln("<comment>$modified</comment>");
       }
     }
