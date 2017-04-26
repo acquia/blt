@@ -48,9 +48,6 @@
   <!-- E.g., commit build artifacts, push to remote. -->
   <import file="${phing.dir}/tasks/deploy.xml"/>
 
-  <!-- Contains frontend tasks. -->
-  <import file="${phing.dir}/tasks/frontend.xml"/>
-
   <!-- Contains local syncing tasks. -->
   <import file="${phing.dir}/tasks/local-sync.xml"/>
 
