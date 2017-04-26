@@ -135,7 +135,7 @@ class BuildCommand extends BltTasks {
   }
 
   /**
-   * Checks the repo is there is modified files
+   * Checks the repo if there is modified files.
    */
   public function checkCleanRepo() {
     $clean = $this->taskExec("git status --porcelain")
