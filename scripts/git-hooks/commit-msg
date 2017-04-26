@@ -1,44 +1,17 @@
-#!/usr/bin/env bash
-#
-# To enable this hook, developers should place it in .git/hooks/.
-#
-# You may adapt the message length check. Currently checking it's longer than
-# 15 characters.
+#!/usr/bin/env php
 
-ROOT_DIR="$(pwd)"
-RED='\033[0;31m'
-NO_COLOR='\033[0m'
+<?php
 
-# yaml-cli commands.
-COMMAND_LOCAL="$ROOT_DIR/vendor/bin/yaml-cli get:value $ROOT_DIR/blt/project.local.yml project.prefix"
-COMMAND_MASTER="$ROOT_DIR/vendor/bin/yaml-cli get:value $ROOT_DIR/blt/project.yml project.prefix"
+$repo_root = getcwd();
 
-# Attempt to load project.prefix from the local file. Run the command and check
-# its return value.
-COMMAND_RET=$(${COMMAND_LOCAL})
-if [ $? -eq 0 ]; then
-    # There were no errors, use the project.local.yml prefix value.
-    PREFIX=${COMMAND_RET}
-else
-    # Loading from local file returned an error. The file either does not exist
-    # or does not have a value for project.prefix, load from the master file.
-    PREFIX=$(${COMMAND_MASTER})
-fi
+$original_argv = $_SERVER['argv'];
+$commit_msg = rtrim(file_get_contents($original_argv[1]), "\n");
 
-# Make sure there were no errors while running the yaml-cli command.
-if [ $? -ne 0 ]; then
-  printf "${RED}Error: could not get project prefix!${NO_COLOR} Please check:\n"
-  echo "* Project prefix is set properly in project.yml."
-  exit 1;
-fi
+// Construct pseudo `blt commit-msg $commit_msg` call.
+$_SERVER['argv'] = [
+  $repo_root . '/bin/blt-robo',
+  'git:commit-msg',
+  $commit_msg,
+];
 
-# Validate the commit message.
-regex="^${PREFIX}-[0-9]+(: )[^ ].{15,}\."
-if ! grep -iqE "$regex" "$1"; then
-  printf "${RED}Error: invalid commit message!${NO_COLOR} Commit messages must:\n"
-  echo "* Contain the project prefix followed by a hyphen"
-  echo "* Contain a ticket number followed by a colon and a space"
-  echo "* Be at least 15 characters long and end with a period."
-  echo "Valid example: $PREFIX-135: Added the new picture field to the article feature."
-  exit 1;
-fi
+require __DIR__ . '/../../bin/blt-robo-run.php';
