@@ -2,27 +2,6 @@
 
   <target name="deploy" description="Builds separate artifact and pushes to git.remotes defined project.yml.">
 
-    <!-- Check working tree state. -->
-    <exec dir="${repo.root}" command="status=$(git status --porcelain); echo ${#status};"
-          outputProperty="git.status.length" checkreturn="true"/>
-    <if>
-      <!-- Length will be a non-zero value if there are uncommitted changes. -->
-      <not><equals arg1="${git.status.length}" arg2="0"/></not>
-      <then>
-        <if>
-          <!-- Warn that there are uncommitted changes in this deploy. -->
-          <isfalse value="${deploy.git.failOnDirty}"/>
-          <then>
-            <echo level="warning">Deploy is being run with uncommitted changes.</echo>
-          </then>
-          <!-- Fail the deploy, the working tree must be clean. -->
-          <else>
-            <fail>There are uncommitted changes, commit or stash these changes before deploying.</fail>
-          </else>
-        </if>
-      </then>
-    </if>
-
     <!-- Build some defaults -->
     <exec command="git rev-parse --abbrev-ref HEAD" dir="${repo.root}" outputProperty="branch.current"/>
     <exec command="git log --oneline -1" dir="${repo.root}" outputProperty="deploy.commitMsg.last"/>
