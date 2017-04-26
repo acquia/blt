@@ -140,7 +140,7 @@ class BuildCommand extends BltTasks {
    * @return string|null
    *   List of modified files.
    */
-  protected $invokeDepth function checkCleanRepo() {
+  protected function checkCleanRepo() {
     $clean = $this->taskExec("git status --porcelain")
       ->dir($this->getConfigValue('repo.root'))
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
