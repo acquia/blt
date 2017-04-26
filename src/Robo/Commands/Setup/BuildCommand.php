@@ -136,11 +136,13 @@ class BuildCommand extends BltTasks {
 
   /**
    * Checks the repo if there is modified files.
+   *
+   * @return string|null
+   *   List of modified files.
    */
-  public function checkCleanRepo() {
+  protected $invokeDepth function checkCleanRepo() {
     $clean = $this->taskExec("git status --porcelain")
       ->dir($this->getConfigValue('repo.root'))
-      ->interactive()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
     return $clean;
@@ -149,18 +151,20 @@ class BuildCommand extends BltTasks {
   /**
    * Adds a project dependency and ensures configuration management is in sync.
    *
+   * @param string $dependency
+   *   The composer dependency to be added to composer.json.
+   *
    * @command add-dependency
    */
   public function addDependency($dependency) {
     $modified = $this->checkCleanRepo();
     if (!empty($modified)) {
-      $this->output()->writeln("<comment>Please note the following files need to be commited or reverted:</comment>");
+      $this->output()->writeln("<comment>Please note the following files need to be committed or reverted:</comment>");
       $this->output()->writeln("<comment>$modified</comment>");
     }
     else {
       $this->taskExec("composer update $dependency --with-dependencies")
         ->dir($this->getConfigValue('repo.root'))
-        ->interactive()
         ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
         ->run();
       $alias = $this->getConfigValue('drush.alias');
