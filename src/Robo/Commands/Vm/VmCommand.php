@@ -176,6 +176,7 @@ class VmCommand extends BltTasks {
    * Boots a Drupal VM.
    */
   protected function boot() {
+    $this->checkRequirements();
     $confirm = $this->confirm("Do you want to boot Drupal VM?", TRUE);
     if ($confirm) {
       $this->say("In future, run <comment>vagrant up</comment> to boot the VM");
