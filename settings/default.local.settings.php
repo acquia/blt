@@ -25,6 +25,8 @@ $databases = array(
   ),
 );
 
+$dir = dirname(DRUPAL_ROOT);
+
 // Use development service parameters.
 $settings['container_yamls'][] = $dir . '/docroot/sites/development.services.yml';
 

@@ -42,7 +42,8 @@ In order to use these testing instructions:
 
 Then, generate your release notes via:
 
-   ./vendor/bin/robo release-notes [tag] [token]
+    ./vendor/bin/robo release-notes [tag] [token]
+
 
 This will update CHANGELOG.md and create a commit locally.
 
