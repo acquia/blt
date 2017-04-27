@@ -70,7 +70,7 @@ class ConfigCommand extends BltTasks {
       // Check for configuration overrides.
       if (!$this->getConfigValue('cm.allow-overrides')) {
         $this->say("Checking for config overrides...");
-        $config_overrides = $this->taskExec("drush @$drush_alias cex sync -n | grep 'active configuration is identical'");
+        $config_overrides = $this->taskExec("drush @$drush_alias cex sync -n");
         $config_overrides->dir($this->getConfigValue('docroot'));
         if (!$config_overrides->run()->wasSuccessful()) {
           throw new \Exception("Configuration in the database does not match configuration on disk. You must re-export configuration to capture the changes. This could also indicate a problem with the import process, such as changed field storage for a field with existing content.");
