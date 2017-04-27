@@ -30,7 +30,8 @@ class DrupalCommand extends BltTasks {
       }
     );
 
-    $task = $this->taskExec('drush site-install')
+    $drush_alias = $this->getConfigValue('drush.alias');
+    $task = $this->taskExec("drush @$drush_alias site-install")
       ->detectInteractive()
       ->printOutput(TRUE)
       ->dir($this->getConfigValue('docroot'))
