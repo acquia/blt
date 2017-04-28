@@ -55,8 +55,9 @@ class SettingsCommand extends BltTasks {
 
       $this->taskFilesystemStack()
         ->chmod($multisite_dir, 0777)
+        // @todo Might need to check that this file exists before chmoding it.
+        ->chmod($project_settings_file, 0777)
         ->copy($project_default_settings_file, $project_settings_file)
-        ->copy($project_settings_file, 0777)
         ->copy($blt_local_settings_file, $default_local_settings_file)
         ->copy($default_local_settings_file, $project_local_settings_file)
         ->copy($blt_local_drush_file, $default_local_drush_file)
@@ -87,7 +88,7 @@ class SettingsCommand extends BltTasks {
    * @command setup:behat
    */
   public function behat() {
-    $this->say("Generating Behat configuration files");
+    $this->say("Generating Behat configuration files...");
     $this->taskFilesystemStack()
       ->copy($this->defaultBehatLocalConfigFile, $this->projectBehatLocalConfigFile)
       ->stopOnFail()
@@ -97,7 +98,7 @@ class SettingsCommand extends BltTasks {
   }
 
   /**
-   * Installs git hooks to local .git/hooks directory.
+   * Installs BLT git hooks to local .git/hooks directory.
    *
    * @command setup:git-hooks
    */
@@ -117,7 +118,7 @@ class SettingsCommand extends BltTasks {
    */
   protected function installGitHook($hook) {
     if ($this->getConfigValue('git.hooks.' . $hook)) {
-      $this->say("Installing $hook git hook");
+      $this->say("Installing $hook git hook...");
       $source = $this->getConfigValue('git.hooks.' . $hook) . "/$hook";
       $dest = $this->getConfigValue('repo.root') . "/.git/hooks/$hook";
 

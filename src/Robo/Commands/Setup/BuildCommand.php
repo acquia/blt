@@ -15,9 +15,11 @@ class BuildCommand extends BltTasks {
    * Install dependencies, builds docroot, installs Drupal.
    *
    * @command setup
+   *
+   * @aliases setup:all
    */
   public function setup() {
-    $this->say("Setting up local environment");
+    $this->say("Setting up local environment...");
     $status_code = $this->invokeCommands([
       'setup:build',
       'setup:hash-salt',
@@ -107,7 +109,7 @@ class BuildCommand extends BltTasks {
   }
 
   /**
-   * Installs composer dependencies.
+   * Installs Composer dependencies.
    *
    * @command setup:composer:install
    */

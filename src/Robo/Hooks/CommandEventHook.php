@@ -32,7 +32,7 @@ class CommandEventHook extends Tasks implements IOAwareInterface, ConfigAwareInt
     $disabled_commands_config = $this->getConfigValue('disable-targets');
     if ($disabled_commands_config) {
       $disabled_commands = ArrayManipulator::flattenMultidimensionalArray($disabled_commands_config, ':');
-      if (in_array($command->getName(), $disabled_commands) && $disabled_commands[$command->getName()]) {
+      if (!empty($disabled_commands[$command->getName()]) && $disabled_commands[$command->getName()]) {
         $event->disableCommand();
         $this->output()->writeln("The {$command->getName()} command has been disabled. Skipping execution.");
       }

@@ -169,3 +169,21 @@ Project level, functional PHPUnit tests are included in `tests/phpunit`. Any PHP
 * [Test Driven Development: By Example (book)](http://www.amazon.com/dp/0321146530)
 * [xUnit Test Patterns: Refactoring Test Code (book for the really serious)](http://amazon.com/dp/0131495054)
 * [Unit testing: Why bother?](http://soundsoftware.ac.uk/unit-testing-why-bother/)
+
+
+### Configuration
+
+You can customize the `tests:phpunit` command by [customize the configuration values](extending-blt.md#modifying-blt-configuration) for the `phpunit` key.
+
+Each row under the `phpunit` key should contain a `path` and a `config` key. The `path` key indicates a directory containing PHPUnit tests. The optional `config` key can be used to specify a PHP configuration file.
+ 
+ * config: path to either the Core phpunit configuration file (docroot/core/phpunit.xml.dist) or a custom one. If left blank, no configuration will be loaded with the unit test.
+ * path: the path to the custom phpunit test
+
+## Frontend Testing
+
+BLT supports a `frontend-test` target that can be used to execute a variety of testing frameworks. Examples may include Jest, Jasmine, Mocha, Chai, etc.
+
+### Configuration
+
+You can [customize the configuration values](extending-blt.md#modifying-blt-configuration) for the `frontend-test` key to enable this capability of BLT.

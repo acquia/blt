@@ -13,11 +13,14 @@ $robo_namespaces = [
   'ci',
   'custom',
   'drupal',
+  'frontend',
+  'git',
   'setup',
   'tests',
   'vm',
 ];
 $robo_commands = [
+  'doctor'
 ];
 
 $params_string = implode(' ', array_slice($argv, 1));

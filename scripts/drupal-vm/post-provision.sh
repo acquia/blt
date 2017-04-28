@@ -7,6 +7,8 @@ then
     VAGRANT_MACHINE_NAME=$(grep vagrant_machine_name: "$CONFIG_FILE" | cut -d' ' -f 2)
     REPO_ROOT=/var/www/${VAGRANT_MACHINE_NAME}
     cd ${REPO_ROOT}
+else
+  echo "Could not find repo root!"
 fi
 
 # Add blt alias to front of .bashrc so that it applies to non-interactive shells.

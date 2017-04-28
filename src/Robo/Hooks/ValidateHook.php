@@ -91,7 +91,7 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
    */
   public function validateBehatIsConfigured(CommandData $commandData) {
     if (!$this->getInspector()->isBehatConfigured()) {
-      throw new \Exception("Behat is not properly configured properly. Please run `blt doctor` to diagnose the issue.");
+      throw new \Exception("Behat is not configured properly. Please run `blt doctor` to diagnose the issue.");
     }
   }
 
@@ -114,7 +114,7 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
    */
   public function validateInsideVm() {
     if ($this->getInspector()->isDrupalVmLocallyInitialized() && !$this->getInspector()->isVmCli()) {
-      throw new \Exception("You must run this command inside Drupal VM, or else do not use Drupal VM at all. Execute `vagrant ssh`, then try again.");
+      throw new \Exception("You must run this command inside Drupal VM, or else do not use Drupal VM at all. Execute `vagrant ssh` and then execute the command, or else change drush.aliases.local in blt/project.local.yml.");
     }
   }
 

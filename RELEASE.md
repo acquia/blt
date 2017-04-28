@@ -42,7 +42,8 @@ In order to use these testing instructions:
 
 Then, generate your release notes via:
 
-    ./bin/blt-robo blt:release-notes [tag] [token]
+    ./vendor/bin/robo release-notes [tag] [token]
+
 
 This will update CHANGELOG.md and create a commit locally.
 
@@ -50,7 +51,7 @@ This will update CHANGELOG.md and create a commit locally.
 
 To both generate release notes and also create a new release on GitHub, execute:
 
-    ./bin/blt-robo blt:release [tag] [token] --update-changelog
+    ./vendor/bin/robo release --update-changelog [tag] [token]
 
 This is a potentially destructive command. It will:
  

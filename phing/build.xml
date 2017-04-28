@@ -48,9 +48,6 @@
   <!-- E.g., commit build artifacts, push to remote. -->
   <import file="${phing.dir}/tasks/deploy.xml"/>
 
-  <!-- Contains frontend tasks. -->
-  <import file="${phing.dir}/tasks/frontend.xml"/>
-
   <!-- Contains local syncing tasks. -->
   <import file="${phing.dir}/tasks/local-sync.xml"/>
 
@@ -67,7 +64,10 @@
 
   <target name="list" hidden="true">
     <exec dir="${repo.root}" command="cat ${blt.root}/scripts/blt/ascii-art.txt" logoutput="true" passthru="true" checkreturn="false"/>
-    <exec dir="${blt.root}" command="${repo.root}/vendor/bin/phing -f ${phing.dir}/build.xml -q -l" passthru="true"/>
+    <echo>The following commands are provided by Phing:</echo>
+    <exec dir="${repo.root}" command="${repo.root}/vendor/bin/phing -f ${phing.dir}/build.xml -q -l" passthru="true"/>
+    <echo>The following commands are provided by Robo:</echo>
+    <exec dir="${repo.root}" command="${blt.root}/bin/blt-robo list" logoutput="true" passthru="true"/>
   </target>
 
   <target name="target-hook:invoke" description="Executes a command defined in the target-hooks array." hidden="true">

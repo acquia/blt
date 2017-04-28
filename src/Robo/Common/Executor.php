@@ -76,7 +76,8 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
     // @todo Set to silent if verbosity is less than very verbose.
     $bin = $this->getConfigValue('composer.bin');
     /** @var \Robo\Common\ProcessExecutor $process_executor */
-    $process_executor = Robo::process(new Process("$bin/drush $command"));
+    $drush_alias = $this->getConfigValue('drush.alias');
+    $process_executor = Robo::process(new Process("$bin/drush @$drush_alias $command"));
     return $process_executor->dir($this->getConfigValue('docroot'))
       ->interactive(FALSE)
       ->printOutput(FALSE)

@@ -46,6 +46,11 @@ target-hooks:
     dir: ${docroot}
     # E.g., `npm run build`.
     command: echo 'No frontend-build configured.'
+  frontend-test:
+      # E.g., ${docroot}/sites/all/themes/custom/mytheme.
+      dir: ${docroot}
+      # E.g., `npm test`.
+      command: echo 'No frontend-tests configured.'
   # Executed before configuration is imported.
   pre-config-import:
     dir: ${docroot}
