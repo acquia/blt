@@ -47,7 +47,7 @@
   </target>
 
   <target name="local:sync:db" description="Synchronize local database from remote (remote --> local).">
-    <exec dir="${repo.root}" command="${composer.bin}/blt setup:drupal:settings" logoutput="true" checkreturn="true" />
+    <exec dir="${repo.root}" command="${composer.bin}/blt setup:settings" logoutput="true" checkreturn="true" />
     <drush command="cc drush"/>
     <drush command="sql-drop"/>
     <if>
