@@ -148,8 +148,9 @@ class ConfigCommand extends BltTasks {
       if ($this->getConfig()->has('cm.features.bundle')) {
         $task = $this->taskExec()
           ->dir($this->getConfigValue('docroot'));
+        $drush_alias = $this->getConfigValue('drush.alias');
         foreach ($this->getConfigValue('cm.features.bundle') as $bundle) {
-          $task->exec("drush fl --bundle=$bundle --format=json");
+          $task->exec("drush @$drush_alias fl --bundle=$bundle --format=json");
           $result = $task->printOutput(TRUE)->run();
           $output = $result->getOutputData();
           $features_overriden = preg_match('/(changed|conflicts|added)( *)$/', $output);
