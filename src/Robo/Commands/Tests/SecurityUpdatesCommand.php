@@ -19,7 +19,6 @@ class SecurityUpdatesCommand extends BltTasks {
    * @validateDrupalIsInstalled
    */
   public function testsSecurityUpdates() {
-    /** @var \Robo\ResultData $result */
     $result = $this->taskDrush()
       ->assume('')
       ->uri('')
@@ -27,6 +26,7 @@ class SecurityUpdatesCommand extends BltTasks {
       ->printOutput(FALSE)
       ->printMetadata(FALSE)
       ->run();
+
     $passed = !$result->wasSuccessful();
     $output = $result->getOutputData();
 
