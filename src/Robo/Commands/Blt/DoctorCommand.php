@@ -80,6 +80,7 @@ class DoctorCommand extends BltTasks {
     $include_dir = $this->getConfigValue('blt.root') . '/drush';
     $result = $this->taskDrush()
       ->alias($alias)
+      ->uri("")
       ->includePath($include_dir)
       ->drush("blt-doctor")
       ->run();

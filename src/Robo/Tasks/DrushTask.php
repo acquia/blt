@@ -88,7 +88,7 @@ class DrushTask extends CommandStack {
       $command = "@{$this->alias} {$command}";
     }
 
-    if (!empty($this->uri)) {
+    if (!isset($this->uri)) {
       $this->option("uri={$this->uri}");
     }
 
