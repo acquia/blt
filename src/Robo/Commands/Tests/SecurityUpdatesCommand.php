@@ -22,7 +22,9 @@ class SecurityUpdatesCommand extends BltTasks {
     /** @var \Acquia\Blt\Robo\Common\Executor $executor */
     $executor = $this->getContainer()->get('executor');
     /** @var \Drupal\views\Plugin\views\area\ResultData $result */
-    $result = $executor->drush("-n ups --check-disabled --security-only 2>/dev/null | grep 'SECURITY UPDATE'")->run();
+    $result = $this->taskDrush()
+      ->drush("-n ups --check-disabled --security-only 2>/dev/null | grep 'SECURITY UPDATE'")
+      ->run();
     $passed = !$result->wasSuccessful();
     $output = $result->getOutputData();
 
