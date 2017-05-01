@@ -182,7 +182,7 @@
     <if>
       <equals arg1="${deploy.build-dependencies}" arg2="true"/>
       <then>
-        <echo>Rebuilding composer dependencies without require-dev.</echo>
+          <echo>Rebuilding composer dependencies without require-dev.</echo>
         <delete dir="${deploy.dir}/vendor" quiet="true"/>
         <copy todir="${deploy.dir}" overwrite="true">
           <fileset dir="${repo.root}">
