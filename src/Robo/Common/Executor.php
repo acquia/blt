@@ -69,19 +69,15 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
    * @param string $command
    *   The command to execute, without "drush" prefix.
    *
-   * @return \Robo\Common\ProcessExecutor
+   * @return \Acquia\Blt\Robo\Tasks\DrushTask
    *   The unexecuted process.
    */
   public function drush($command) {
-    // @todo Set to silent if verbosity is less than very verbose.
-    $bin = $this->getConfigValue('composer.bin');
-    /** @var \Robo\Common\ProcessExecutor $process_executor */
-    $drush_alias = $this->getConfigValue('drush.alias');
-    $process_executor = Robo::process(new Process("$bin/drush @$drush_alias $command"));
-    return $process_executor->dir($this->getConfigValue('docroot'))
+    return $this->builder->taskDrush()
       ->interactive(FALSE)
       ->printOutput(FALSE)
-      ->printMetadata(FALSE);
+      ->printMetadata(FALSE)
+      ->drush($command);
   }
 
   /**
