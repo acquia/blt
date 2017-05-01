@@ -61,8 +61,6 @@ class DrushTask extends CommandStack {
 
   /**
    * @var bool
-   *
-   * @todo Figure out how to fetch config from constructor to avoid this.
    */
   protected $defaultsInitialized;
 
@@ -77,11 +75,11 @@ class DrushTask extends CommandStack {
    * Runs the given drush command.
    *
    * @param string $command
+   *   The drush command to execute. Do NOT include "drush" prefix.
    *
    * @return $this
    */
   public function drush($command) {
-    // @todo Figure out how to fetch config from constructor to avoid this.
     if (!$this->defaultsInitialized) {
       $this->init();
     }
@@ -123,6 +121,7 @@ class DrushTask extends CommandStack {
    * Sets the site alias to be used for each command.
    *
    * @param string $alias
+   *   The drush alias to use. Do NOT include "@" prefix.
    *
    * @return $this
    */
@@ -135,11 +134,13 @@ class DrushTask extends CommandStack {
    * Sets the site uri to be used for each command.
    *
    * @param string $uri
+   *   The URI to pass to drush's --uri option.
    *
    * @return $this
    */
   public function uri($uri) {
     $this->uri = $uri;
+
     return $this;
   }
 
@@ -155,6 +156,7 @@ class DrushTask extends CommandStack {
   public function dir($dir) {
     $this->dir = $dir;
     parent::dir($dir);
+
     return $this;
   }
 
@@ -190,7 +192,8 @@ class DrushTask extends CommandStack {
   /**
    * Include additional directory paths to search for drush commands.
    *
-   * @param string $include
+   * @param string $path
+   *   The filepath for the --include option.
    *
    * @return $this
    */
@@ -243,7 +246,7 @@ class DrushTask extends CommandStack {
   }
 
   /**
-   * Overriding parent run() method to remove printTaskInfo() calls.
+   * Overriding parent::run() method to remove printTaskInfo() calls.
    */
   public function run() {
     if (empty($this->exec)) {
