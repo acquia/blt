@@ -213,14 +213,6 @@ class DrushTask extends CommandStack {
     if (!isset($this->assume)) {
       $this->assume($this->getConfig()->get('drush.assume'));
     }
-    if (!isset($this->interactive)) {
-      $interactive = $this->mixedToBool($this->getConfig()->get('drush.passthru'));
-      $this->interactive($interactive);
-    }
-    if (!isset($this->isPrinted)) {
-      $isPrinted = $this->mixedToBool($this->getConfig()->get('drush.logoutput'));
-      $this->printOutput($isPrinted);
-    }
     if (!isset($this->verbose)) {
       $this->verbose($this->getConfig()->get('drush.verbose'));
     }
