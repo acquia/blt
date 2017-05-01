@@ -67,6 +67,8 @@ class ConfigCommand extends BltTasks {
       $task->exec("drush @$drush_alias cache-rebuild");
       $task->run();
 
+      $this->checkFeaturesOverrides();
+
       // Check for configuration overrides.
       if (!$this->getConfigValue('cm.allow-overrides')) {
         $this->say("Checking for config overrides...");
@@ -131,15 +133,30 @@ class ConfigCommand extends BltTasks {
         $task->exec("drush @$drush_alias features-revert-all --bundle=$bundle --yes");
       }
     }
+  }
+
+  /**
+   * Checks whether features are overridden.
+   *
+   * @throws \Exception
+   *   If cm.features.no-overrides is true, and there are features overrides
+   *   an exception will be thrown.
+   */
+  protected function checkFeaturesOverrides() {
     if ($this->getConfigValue('cm.features.no-overrides')) {
       $this->say("Checking for features overrides...");
       if ($this->getConfig()->has('cm.features.bundle')) {
+        $task = $this->taskExec()
+          ->dir($this->getConfigValue('docroot'));
+        $drush_alias = $this->getConfigValue('drush.alias');
         foreach ($this->getConfigValue('cm.features.bundle') as $bundle) {
-          $features_overriden = $task->exec("drush fl --bundle=${bundle} | grep -Ei '(changed|conflicts|added)( *)$");
-          // @todo emit:
-          // A feature in the ${bundle} bundle is overridden. You must
-          // re-export this feature to incorporate the changes.
-          // @todo throw Exception.
+          $task->exec("drush @$drush_alias fl --bundle=$bundle --format=json");
+          $result = $task->printOutput(TRUE)->run();
+          $output = $result->getOutputData();
+          $features_overriden = preg_match('/(changed|conflicts|added)( *)$/', $output);
+          if ($features_overriden) {
+            throw new \Exception("A feature in the $bundle bundle is overridden. You must re-export this feature to incorporate the changes.");
+          }
         }
       }
     }
