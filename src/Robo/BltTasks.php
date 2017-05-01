@@ -95,6 +95,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    */
   protected function invokeHook($hook) {
     if ($this->getConfig()->has("target-hooks.$hook.command")) {
+      $this->say("Executing $hook target hook...");
       $this->taskExec($this->getConfigValue("target-hooks.$hook.command"))
         ->dir($this->getConfigValue("target-hooks.$hook.dir"))
         ->interactive()
@@ -103,7 +104,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
         ->run();
     }
     else {
-      $this->say("No commands are defined for $hook. Skipping.");
+      $this->say("Skipped $hook target hook. No hook is defined.");
     }
   }
 

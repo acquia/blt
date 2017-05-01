@@ -112,6 +112,7 @@ class ConfigCommand extends BltTasks {
 
   /**
    * Import configuration using features module.
+   *
    * @param \Acquia\Blt\Robo\Tasks\DrushTask $task
    * @param $cm_core_key
    */

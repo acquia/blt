@@ -19,9 +19,7 @@ class SecurityUpdatesCommand extends BltTasks {
    * @validateDrupalIsInstalled
    */
   public function testsSecurityUpdates() {
-    /** @var \Acquia\Blt\Robo\Common\Executor $executor */
-    $executor = $this->getContainer()->get('executor');
-    /** @var \Drupal\views\Plugin\views\area\ResultData $result */
+    /** @var \Robo\ResultData $result */
     $result = $this->taskDrush()
       ->drush("-n ups --check-disabled --security-only 2>/dev/null | grep 'SECURITY UPDATE'")
       ->run();
@@ -34,7 +32,7 @@ class SecurityUpdatesCommand extends BltTasks {
       $this->logger->notice('To disable security checks, set `disable-targets.tests.security-updates` to `false` in project.yml.');
     }
     else {
-      $this->writeln("<info>There are no outstanding security updates.</info>");
+      $this->writeln("<info>There are no outstanding security updates for Drupal projects.</info>");
     }
   }
 

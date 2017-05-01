@@ -2,6 +2,8 @@
 
 namespace Acquia\Blt\Robo\Tasks;
 
+use Robo\Exception\TaskException;
+use Robo\Result;
 use Robo\Task\CommandStack;
 use Robo\Contract\VerbosityThresholdInterface;
 use Robo\Common\CommandArguments;
@@ -243,6 +245,27 @@ class DrushTask extends CommandStack {
       $boolVar = (bool) $mixedVar;
     }
     return $boolVar;
+  }
+
+  /**
+   * Overriding parent run() method to remove printTaskInfo() calls.
+   */
+  public function run() {
+    if (empty($this->exec)) {
+      throw new TaskException($this, 'You must add at least one command');
+    }
+    if (!$this->stopOnFail) {
+      return $this->executeCommand($this->getCommand());
+    }
+
+    foreach ($this->exec as $command) {
+      $result = $this->executeCommand($command);
+      if (!$result->wasSuccessful()) {
+        return $result;
+      }
+    }
+
+    return Result::success($this);
   }
 
 }

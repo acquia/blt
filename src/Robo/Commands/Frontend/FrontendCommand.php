@@ -10,7 +10,7 @@ use Acquia\Blt\Robo\BltTasks;
 class FrontendCommand extends BltTasks {
 
   /**
-   * Runs all frontend targets
+   * Runs all frontend targets.
    *
    * @command frontend
    */
@@ -45,7 +45,7 @@ class FrontendCommand extends BltTasks {
   }
 
   /**
-   * Uses project.yml hooks to run tests for the frontend as
+   * Uses project.yml hooks to run tests for the frontend as.
    *
    * @command frontend:test
    */
