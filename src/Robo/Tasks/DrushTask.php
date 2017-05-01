@@ -216,6 +216,9 @@ class DrushTask extends CommandStack {
     if (!isset($this->verbose)) {
       $this->verbose($this->getConfig()->get('drush.verbose'));
     }
+    if (!isset($this->alias)) {
+      $this->alias($this->getConfig()->get('drush.alias'));
+    }
 
     $this->defaultsInitialized = TRUE;
   }
