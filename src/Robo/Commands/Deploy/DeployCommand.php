@@ -3,7 +3,6 @@
 namespace Acquia\Blt\Robo\Commands\Deploy;
 
 use Acquia\Blt\Robo\BltTasks;
-use Acquia\Blt\Robo\Common\RandomString;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Finder\Finder;
 
@@ -18,7 +17,6 @@ class DeployCommand extends BltTasks {
   protected $excludeFileTemp;
   protected $deployDir;
 
-
   /**
    * This hook will fire for all commands in this command file.
    *
@@ -30,7 +28,7 @@ class DeployCommand extends BltTasks {
   }
 
   /**
-   * Builds separate artifact and pushes to git.remotes defined project.yml
+   * Builds separate artifact and pushes to git.remotes defined project.yml.
    *
    * @command deploy
    */
@@ -45,12 +43,12 @@ class DeployCommand extends BltTasks {
     $this->commitMessage = $this->getCommitMessage();
 
     if ($create_tag) {
-      $this->createTag();
+      $this->deployToTag();
       $this->push($this->tagName);
       $this->tagSourceRepo();
     }
     else {
-      $this->createBranch();
+      $this->deployToBranch();
       $this->push($this->branchName);
     }
   }
@@ -96,7 +94,7 @@ class DeployCommand extends BltTasks {
   }
 
   /**
-   * Gets the branch name to which the deployment artifact will be comitted.
+   * Gets the branch name for the deployment artifact.
    *
    * Defaults to [current-branch]-build.
    *
@@ -109,6 +107,9 @@ class DeployCommand extends BltTasks {
     return $branch_name;
   }
 
+  /**
+   * Gets the default branch name for the deployment artifact.
+   */
   protected function getDefaultBranchName() {
     chdir($this->getConfigValue('repo.root'));
     $git_current_branch = shell_exec("git rev-parse --abbrev-ref HEAD");
@@ -118,9 +119,9 @@ class DeployCommand extends BltTasks {
   }
 
   /**
-   * Creates a deployment artifact and cuts a tag.
+   * Creates artifact, cuts new tag, and pushes.
    */
-  protected function createTag() {
+  protected function deployToTag() {
     $this->tagName = $this->ask('Enter the tag name for the deployment artifact');
     // If we are building a tag, then we assume that we will NOT be pushing the
     // build branch from which the tag is created. However, we must still have a
@@ -133,8 +134,10 @@ class DeployCommand extends BltTasks {
     $this->createDeployId();
   }
 
-  protected function createBranch() {
-    $branch_name = $this->getBranchName();
+  /**
+   * Creates artifact on branch and pushes.
+   */
+  protected function deployToBranch() {
     $this->prepareDir();
     $this->addGitRemotes();
 
@@ -153,7 +156,7 @@ class DeployCommand extends BltTasks {
    */
   protected function prepareDir() {
     $deploy_dir = $this->deployDir;
-    $this->taskDeleteDir()->run($deploy_dir);
+    $this->taskDeleteDir($deploy_dir)->run();
     $this->taskExecStack()
       ->dir($deploy_dir)
       ->exec("git init")
@@ -172,6 +175,9 @@ class DeployCommand extends BltTasks {
     }
   }
 
+  /**
+   * Adds remotes from git.remotes to /deploy repository.
+   */
   protected function addGitRemotes() {
     // Add remotes and fetch upstream refs.
     $git_remotes = $this->getConfigValue('git.remotes');
@@ -180,6 +186,9 @@ class DeployCommand extends BltTasks {
     }
   }
 
+  /**
+   * Adds a single remote to the /deploy repository.
+   */
   protected function addGitRemote($remote_url) {
     $this->say("Fetching from git remote $remote_url");
     // Generate an md5 sum of the remote URL to use as remote name.
@@ -189,6 +198,9 @@ class DeployCommand extends BltTasks {
       ->run();
   }
 
+  /**
+   * Checks out a new, local branch for artifact.
+   */
   protected function checkoutLocalDeployBranch() {
     $this->taskExecStack()
       ->dir($this->deployDir)
@@ -201,6 +213,9 @@ class DeployCommand extends BltTasks {
       ->run();
   }
 
+  /**
+   * Merges upstream changes into deploy branch.
+   */
   protected function mergeUpstreamChanges($remote_name) {
     $this->taskExecStack()
       ->dir($this->deployDir)
@@ -210,6 +225,11 @@ class DeployCommand extends BltTasks {
       ->run();
   }
 
+  /**
+   * Builds deployment artifact.
+   *
+   * @command deploy:build
+   */
   protected function build() {
     $exit_code = $this->invokeCommands([
       // Execute `blt frontend` to ensure that frontend artifact are generated
@@ -227,9 +247,11 @@ class DeployCommand extends BltTasks {
     $this->createDeployId();
     $this->invokeHook("post-deploy-build");
 
-
   }
 
+  /**
+   * Copies files from source repo into artifact.
+   */
   protected function buildCopy() {
 
     if ($this->getConfigValue('deploy.build-dependencies')) {
@@ -261,6 +283,9 @@ class DeployCommand extends BltTasks {
 
   }
 
+  /**
+   * Installs composer dependencies for artifact.
+   */
   protected function composerInstall() {
     $this->say("Rebuilding composer dependencies for production...");
     $this->taskDeleteDir([$this->deployDir . '/vendor'])->run();
@@ -273,6 +298,9 @@ class DeployCommand extends BltTasks {
       ->run();
   }
 
+  /**
+   * Creates deployment_identifier file.
+   */
   protected function createDeployId() {
     $this->taskExec("echo '{$this->tagName}' > deployment_identifier")
       ->dir($this->deployDir)
@@ -313,6 +341,9 @@ class DeployCommand extends BltTasks {
     $taskFilesystemStack->run();
   }
 
+  /**
+   * Gets the file that lists the excludes for the artifact.
+   */
   protected function getExcludeListFile() {
     $exclude_file = $this->getConfigValue('deploy.exclude_file');
     $exclude_additions = $this->getConfigValue('deploy.exclude_additions_file');
@@ -324,6 +355,14 @@ class DeployCommand extends BltTasks {
     return $exclude_file;
   }
 
+  /**
+   * Combines deploy.exclude_file with deploy.exclude_additions_file.
+   *
+   * Creates a temporary file containing the combination.
+   *
+   * @return string
+   *   The filepath to the temporary file containing the combined list.
+   */
   protected function mungeExcludeLists($file1, $file2) {
     $file1_contents = file($file1);
     $file2_contents = file($file2);
@@ -348,6 +387,9 @@ class DeployCommand extends BltTasks {
     $taskFilesystemStack->run();
   }
 
+  /**
+   * Creates a commit on the artifact.
+   */
   protected function commit() {
     $this->taskExecStack()
       ->dir($this->deployDir)
@@ -356,7 +398,9 @@ class DeployCommand extends BltTasks {
       ->run();
   }
 
-
+  /**
+   * Pushes the artifact to git.remotes.
+   */
   protected function push($identifier) {
     if ($this->getConfigValue('deploy.dryRun')) {
       $this->logger->warning("Skipping push of deployment artifact. deploy.dryRun is set to true.");
@@ -367,17 +411,23 @@ class DeployCommand extends BltTasks {
       ->dir($this->deployDir);
     foreach ($this->getConfigValue('git.remotes') as $remote) {
       $remote_name = md5($remote);
-        $task->exec("git push $remote_name $identifier");
+      $task->exec("git push $remote_name $identifier");
     }
     $task->run();
   }
 
+  /**
+   * Creates a tag on the source repository.
+   */
   protected function tagSourceRepo() {
     $this->taskExec("git tag -a {$this->tagName} -m '{$this->commitMessage}'")
       ->dir($this->deployDir)
       ->run();
   }
 
+  /**
+   * Executes simplesamlphp:deploy:config command.
+   */
   protected function deploySamlConfig() {
     if ($this->getConfigValue('simplesamlphp')) {
       $this->taskExec("blt simplesamlphp:deploy:config")
@@ -386,6 +436,11 @@ class DeployCommand extends BltTasks {
     }
   }
 
+  /**
+   * Update current database to reflect the state of the Drupal file system.
+   *
+   * @command deploy:update
+   */
   protected function updateSites() {
     foreach ($this->getConfigValue('multisites') as $multisite) {
       $this->say("Deploying updates to $multisite...");
@@ -393,11 +448,11 @@ class DeployCommand extends BltTasks {
       $status_code = $this->invokeCommand('setup:config-import', [
           // Most sites store their version-controlled configuration in /config/default.
           // ACE internally sets the vcs configuration directory to /config/default, so we use that.
-          '--define cm.core.key=' . $this->getConfigValue('cm.core.deploy-key'),
+        '--define cm.core.key=' . $this->getConfigValue('cm.core.deploy-key'),
           // Disable alias since we are targeting specific uri.
-          '--define drush.alias=""',
-          "--define drush.uri='$multisite'",
-        ]
+        '--define drush.alias=""',
+        "--define drush.uri='$multisite'",
+      ]
       );
       if (!$status_code) {
         return $status_code;
@@ -411,6 +466,11 @@ class DeployCommand extends BltTasks {
     }
   }
 
+  /**
+   * Installs a specific Drupal site.
+   *
+   * @command deploy:drupal:install
+   */
   protected function installDrupal() {
     $status_code = $this->invokeCommands([
       'drupal:install',
@@ -422,4 +482,5 @@ class DeployCommand extends BltTasks {
 
     $this->updateSites();
   }
+
 }

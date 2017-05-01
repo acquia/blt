@@ -71,7 +71,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    * @param string $command_name
    *   The name of the command. E.g., 'tests:behat'.
    * @param array $args
-   *  An array of arguments to pass to the command.
+   *   An array of arguments to pass to the command.
    *
    * @return int
    *   The exit code of the command.
