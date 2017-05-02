@@ -146,11 +146,13 @@ class DeployCommand extends BltTasks {
    * Creates artifact on branch and pushes.
    */
   protected function deployToBranch() {
+    $this->branchName = $this->getBranchName();
     $this->prepareDir();
     $this->addGitRemotes();
     $this->checkoutLocalDeployBranch();
     $this->build();
-    $first_git_remote = reset($this->getConfigValue('git.remote'));
+    $git_remotes = $this->getConfigValue('git.remotes');
+    $first_git_remote = reset($git_remotes);
     $this->mergeUpstreamChanges($first_git_remote);
   }
 
@@ -162,6 +164,11 @@ class DeployCommand extends BltTasks {
     $deploy_dir = $this->deployDir;
     $this->taskDeleteDir($deploy_dir)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->run();
+    $this->taskFilesystemStack()
+      ->mkdir($this->deployDir)
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->stopOnFail()
       ->run();
     $this->taskExecStack()
       ->dir($deploy_dir)
