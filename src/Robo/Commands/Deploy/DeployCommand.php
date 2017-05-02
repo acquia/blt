@@ -49,7 +49,7 @@ class DeployCommand extends BltTasks {
     }
     $this->commitMessage = $this->getCommitMessage($options);
 
-    if ($this->createTag) {
+    if ($options['tag'] || $this->createTag) {
       $this->deployToTag($options);
     }
     else {
@@ -130,7 +130,10 @@ class DeployCommand extends BltTasks {
    * @throws \Exception
    */
   protected function getTagName($options) {
-    if (!$options['tag']) {
+    if ($options['tag']) {
+      $tag_name = $options['tag'];
+    }
+    else {
       $tag_name = $this->ask('Enter the tag name for the deployment artifact. E.g., 1.0.0-build');
     }
 
@@ -488,7 +491,6 @@ class DeployCommand extends BltTasks {
       ->stopOnFail()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
-    $this->say("The artifact was committed to <comment>{$this->branchName}</comment>.");
   }
 
   /**
