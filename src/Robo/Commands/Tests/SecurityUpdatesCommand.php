@@ -22,6 +22,7 @@ class SecurityUpdatesCommand extends BltTasks {
     /** @var \Robo\ResultData $result */
     $result = $this->taskDrush()
       ->drush("-n ups --check-disabled --security-only 2>/dev/null | grep 'SECURITY UPDATE'")
+      ->assume(FALSE)
       ->run();
     $passed = !$result->wasSuccessful();
     $output = $result->getOutputData();

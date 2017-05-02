@@ -93,8 +93,7 @@ class DrushTask extends CommandStack {
     }
 
     if (isset($this->assume) && is_bool($this->assume)) {
-      $assumption = $this->assume ? 'yes' : 'no';
-      $this->option($assumption);
+      $this->option('yes');
     }
 
     if ($this->verbosityThreshold() >= VerbosityThresholdInterface::VERBOSITY_VERBOSE) {

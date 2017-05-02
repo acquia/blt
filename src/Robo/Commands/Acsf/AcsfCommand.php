@@ -39,6 +39,7 @@ class AcsfCommand extends BltTasks {
     $this->taskDrush()
       ->includePath("{$this->getConfigValue('docroot')}/modules/contrib/acsf/acsf_init")
       ->drush('acsf-init')
+      ->alias("")
       ->run();
 
     $this->say('Please add acsf_init as a dependency for your installation profile to ensure that it remains enabled.');
