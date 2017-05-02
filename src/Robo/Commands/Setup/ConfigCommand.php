@@ -129,10 +129,10 @@ class ConfigCommand extends BltTasks {
       // Clear drush caches to register features drush commands.
       $task->drush("cc")->arg('drush');
       foreach ($this->getConfigValue('cm.features.bundle') as $bundle) {
-        $task->drush("features-revert-all")->option('bundle', $bundle, '=');
+        $task->drush("features-revert-all")->option('bundle', $bundle);
         // Revert all features again!
         // @see https://www.drupal.org/node/2851532
-        $task->drush("features-revert-all")->option('bundle', $bundle, '=');
+        $task->drush("features-revert-all")->option('bundle', $bundle);
       }
     }
   }
@@ -151,8 +151,8 @@ class ConfigCommand extends BltTasks {
         $task = $this->taskDrush()->stopOnFail();
         foreach ($this->getConfigValue('cm.features.bundle') as $bundle) {
           $task->drush("fl")
-            ->option('bundle', $bundle, '=')
-            ->option('format', 'json', '=');
+            ->option('bundle', $bundle)
+            ->option('format', 'json');
           $result = $task->printOutput(TRUE)->run();
           $output = $result->getOutputData();
           $features_overridden = preg_match('/(changed|conflicts|added)( *)$/', $output);
