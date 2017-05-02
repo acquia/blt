@@ -29,12 +29,14 @@ class SecurityUpdatesCommand extends BltTasks {
     if (!$passed) {
       $this->logger->error("One or more of your dependencies has an outstanding security update. Please apply update(s) immediately.");
       $this->logger->notice('To disable security checks, set disable-targets.tests.security-updates to false in project.yml.');
+
+      return 1;
     }
     else {
       $this->writeln("<info>There are no outstanding security updates for Drupal projects.</info>");
-    }
 
-    return $result;
+      return 0;
+    }
   }
 
 }
