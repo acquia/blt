@@ -29,7 +29,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
   /**
    * Process executor.
    *
-   * @var \Acquia\Blt\Robo\Common\Executor*/
+   * @var \Acquia\Blt\Robo\Common\Executor */
   protected $executor;
 
   /**
@@ -192,7 +192,9 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
    *   TRUE if MySQL is available.
    */
   public function getMySqlAvailable() {
-    $result = $this->executor->drush("sqlq \"SHOW DATABASES\"")->run();
+    /** @var \Robo\Result $result */
+    $result = $this->executor->drush("sqlq \"SHOW DATABASES\"")
+      ->run();
 
     return $result->wasSuccessful();
   }
