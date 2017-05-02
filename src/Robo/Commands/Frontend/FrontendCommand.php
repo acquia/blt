@@ -31,7 +31,7 @@ class FrontendCommand extends BltTasks {
    * @command frontend:build
    */
   public function build() {
-    $this->invokeHook('frontend-build');
+    return $this->invokeHook('frontend-build');
   }
 
   /**
@@ -41,7 +41,7 @@ class FrontendCommand extends BltTasks {
    * @command frontend:setup
    */
   public function setup() {
-    $this->invokeHook('frontend-setup');
+    return $this->invokeHook('frontend-setup');
   }
 
   /**
@@ -50,7 +50,7 @@ class FrontendCommand extends BltTasks {
    * @command frontend:test
    */
   public function test() {
-    $this->invokeHook('frontend-test');
+    return $this->invokeHook('frontend-test');
   }
 
 }

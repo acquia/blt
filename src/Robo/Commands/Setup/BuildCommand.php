@@ -76,7 +76,9 @@ class BuildCommand extends BltTasks {
     }
 
     $taskFilesystemStack->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE);
-    $taskFilesystemStack->run();
+    $result = $taskFilesystemStack->run();
+
+    return $result;
   }
 
   /**
@@ -99,13 +101,13 @@ class BuildCommand extends BltTasks {
     }
 
     if ($this->getConfig()->has('simplesamlphp') && $this->getConfigValue('simplesamlphp')) {
-      $this->taskExec("blt simplesamlphp:build:config")
+      $result = $this->taskExec("blt simplesamlphp:build:config")
         ->interactive()
         ->dir($this->getConfigValue('repo.root'))
         ->run();
     }
 
-    $this->invokeHook("post-setup-build");
+    $result = $this->invokeHook("post-setup-build");
   }
 
   /**
@@ -114,11 +116,13 @@ class BuildCommand extends BltTasks {
    * @command setup:composer:install
    */
   public function composerInstall() {
-    $this->taskExec("export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --ansi --no-interaction")
+    $result = $this->taskExec("export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --ansi --no-interaction")
       ->dir($this->getConfigValue('repo.root'))
       ->interactive()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
+
+    return $result;
   }
 
   /**
@@ -127,11 +131,13 @@ class BuildCommand extends BltTasks {
    * @command install-alias
    */
   public function installAlias() {
-    $this->taskExec("composer run-script blt-alias")
+    $result = $this->taskExec("composer run-script blt-alias")
       ->dir($this->getConfigValue('repo.root'))
       ->interactive()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
+
+    return $result;
   }
 
 }

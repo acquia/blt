@@ -35,6 +35,8 @@ class SecurityUpdatesCommand extends BltTasks {
     else {
       $this->writeln("<info>There are no outstanding security updates for Drupal projects.</info>");
     }
+
+    return $result;
   }
 
 }
