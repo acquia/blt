@@ -20,7 +20,9 @@ use Robo\Common\CommandArguments;
  * ```
  */
 class DrushTask extends CommandStack {
-  use CommandArguments;
+  use CommandArguments {
+    option as traitOption;
+  }
 
   /**
    * Site alias to prepend to each command.
@@ -254,7 +256,7 @@ class DrushTask extends CommandStack {
    */
   protected function setGlobalOptions() {
     if (isset($this->uri) && !empty($this->uri)) {
-      $this->option('uri', $this->uri, '=');
+      $this->option('uri', $this->uri);
     }
 
     if (isset($this->assume) && is_bool($this->assume)) {
@@ -271,8 +273,15 @@ class DrushTask extends CommandStack {
     }
 
     if ($this->include) {
-      $this->option('include', $this->include, '=');
+      $this->option('include', $this->include);
     }
+  }
+
+  /**
+   * Overriding CommandArguments::option to default option separator to '='.
+   */
+  public function option($option, $value = NULL, $separator = '=') {
+    $this->traitOption($option, $value, $separator);
   }
 
   /**
