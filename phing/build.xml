@@ -45,9 +45,6 @@
   <!-- Contains fileset definitions. E.g., patterns defining contrib locations, theming files, etc. -->
   <import file="${phing.dir}/tasks/filesets.xml"/>
 
-  <!-- E.g., commit build artifacts, push to remote. -->
-  <import file="${phing.dir}/tasks/deploy.xml"/>
-
   <!-- Contains local syncing tasks. -->
   <import file="${phing.dir}/tasks/local-sync.xml"/>
 
