@@ -72,7 +72,21 @@ class DrushTask extends CommandStack {
   protected $include;
 
   /**
-   * Runs the given drush command.
+   * Drush commands to execute when task is run.
+   *
+   * @var array
+   */
+  protected $commands;
+
+  /**
+   * Options for each drush command.
+   *
+   * @var array
+   */
+  protected $options;
+
+  /**
+   * Adds the given drush command to a stack.
    *
    * @param string $command
    *   The drush command to execute. Do NOT include "drush" prefix.
@@ -80,40 +94,19 @@ class DrushTask extends CommandStack {
    * @return $this
    */
   public function drush($command) {
+    // Clear out options associated with previous drush command.
+    $this->setOptionsForLastCommand();
+
     if (!$this->defaultsInitialized) {
       $this->init();
     }
 
-    if ($this->alias) {
-      $command = "@{$this->alias} {$command}";
+    if (is_array($command)) {
+      $command = implode(' ', array_filter($command));
     }
 
-    if (!isset($this->uri)) {
-      $this->option("uri={$this->uri}");
-    }
-
-    if (isset($this->assume) && is_bool($this->assume) && $this->assume) {
-      $this->option('yes');
-    }
-
-    if ($this->verbosityThreshold() >= VerbosityThresholdInterface::VERBOSITY_VERBOSE) {
-      $this->verbose(TRUE);
-    }
-
-    if ($this->verbose) {
-      $this->option('verbose');
-    }
-
-    if ($this->include) {
-      $this->option("include={$this->include}");
-    }
-
-    // Add in arguments set via option method and clear for next invocation.
-    $command = $command . $this->arguments;
-    $this->arguments = '';
-
-    return $this->exec($command)
-      ->dir($this->dir);
+    $this->commands[] = trim($command);
+    return $this;
   }
 
   /**
@@ -206,10 +199,10 @@ class DrushTask extends CommandStack {
    */
   protected function init() {
     $this->executable = $this->getConfig()->get('drush.bin') ?: 'drush';
-    if (!$this->dir) {
+    if (!isset($this->dir)) {
       $this->dir($this->getConfig()->get('drush.dir'));
     }
-    if (!$this->uri) {
+    if (!isset($this->uri)) {
       $this->uri = $this->getConfig()->get('drush.uri');
     }
     if (!isset($this->assume)) {
@@ -245,9 +238,49 @@ class DrushTask extends CommandStack {
   }
 
   /**
+   * Associates arguments with their corresponding drush command.
+   */
+  protected function setOptionsForLastCommand() {
+    if (isset($this->commands)) {
+      $numberOfCommands = count($this->commands);
+      $correspondingCommand = $numberOfCommands - 1;
+      $this->options[$correspondingCommand] = $this->arguments;
+      $this->arguments = '';
+    }
+  }
+
+  /**
+   * Set the options to be used for each drush command in the stack.
+   */
+  protected function setGlobalOptions() {
+    if (isset($this->uri) && !empty($this->uri)) {
+      $this->option('uri', $this->uri, '=');
+    }
+
+    if (isset($this->assume) && is_bool($this->assume)) {
+      $assumption = $this->assume ? 'yes' : 'no';
+      $this->option($assumption);
+    }
+
+    if ($this->verbosityThreshold() >= VerbosityThresholdInterface::VERBOSITY_VERBOSE) {
+      $this->verbose(TRUE);
+    }
+
+    if ($this->verbose) {
+      $this->option('verbose');
+    }
+
+    if ($this->include) {
+      $this->option('include', $this->include, '=');
+    }
+  }
+
+  /**
    * Overriding parent::run() method to remove printTaskInfo() calls.
    */
   public function run() {
+    $this->setupExecution();
+
     if (empty($this->exec)) {
       throw new TaskException($this, 'You must add at least one command');
     }
@@ -263,6 +296,30 @@ class DrushTask extends CommandStack {
     }
 
     return Result::success($this);
+  }
+
+  /**
+   * Adds drush comands with their corresponding options to stack.
+   */
+  protected function setupExecution() {
+    $this->setOptionsForLastCommand();
+    $this->setGlobalOptions();
+
+    $globalOptions = $this->arguments;
+
+    foreach ($this->commands as $commandNumber => $command) {
+      if ($this->alias) {
+        $command = "@{$this->alias} {$command}";
+      }
+
+      $options = isset($this->options[$commandNumber]) ? $this->options[$commandNumber] : '';
+
+      // Add in global options, as well as those set via option method.
+      $command = $command . $options . $globalOptions;
+
+      $this->exec($command)
+        ->dir($this->dir);
+    }
   }
 
 }
