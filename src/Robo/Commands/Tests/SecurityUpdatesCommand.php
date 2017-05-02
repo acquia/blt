@@ -20,11 +20,12 @@ class SecurityUpdatesCommand extends BltTasks {
    */
   public function testsSecurityUpdates() {
     $result = $this->taskDrush()
-      ->assume('')
+      ->assume(FALSE)
       ->uri('')
       ->drush("-n ups --check-disabled --security-only 2>/dev/null | grep 'SECURITY UPDATE'")
       ->printOutput(FALSE)
       ->printMetadata(FALSE)
+      ->interactive(FALSE)
       ->run();
 
     $passed = !$result->wasSuccessful();

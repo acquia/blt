@@ -61,10 +61,12 @@ class DeployCommand extends BltTasks {
    *   changes.
    */
   protected function checkDirty() {
-    $dirty = (bool) $this->taskExec('git status --porcelain')
+    $result = $this->taskExec('git status --porcelain')
       ->printMetadata(FALSE)
       ->printOutput(TRUE)
+      ->interactive(FALSE)
       ->run();
+    $dirty = (bool) $result->getOutputData();
     if ($dirty) {
       if ($this->getConfigValue('deploy.git.failOnDirty')) {
         throw new \Exception("There are uncommitted changes, commit or stash these changes before deploying.");
@@ -86,7 +88,9 @@ class DeployCommand extends BltTasks {
   protected function getCommitMessage() {
     if (empty($this->getConfigValue('deploy.commitMsg'))) {
       chdir($this->getConfigValue('repo.root'));
-      $git_last_commit_message = explode(' ', shell_exec("git log --oneline -1"), 2);
+      $log = explode(' ', shell_exec("git log --oneline -1"), 2);
+      $git_last_commit_message = trim($log[1]);
+
       return $this->askDefault('Enter a valid commit message', $git_last_commit_message);
     }
 
@@ -122,7 +126,12 @@ class DeployCommand extends BltTasks {
    * Creates artifact, cuts new tag, and pushes.
    */
   protected function deployToTag() {
-    $this->tagName = $this->ask('Enter the tag name for the deployment artifact');
+    $this->tagName = $this->ask('Enter the tag name for the deployment artifact. E.g., 1.0.0.');
+    if (empty($this->tagName)) {
+      // @todo Validate tag name is valid. E.g., no spaces or special characters.
+      throw new \Exception("You must enter a tag name.");
+    }
+
     // If we are building a tag, then we assume that we will NOT be pushing the
     // build branch from which the tag is created. However, we must still have a
     // local branch from which to cut the tag, so we create a temporary one.
@@ -131,7 +140,7 @@ class DeployCommand extends BltTasks {
     $this->addGitRemotes();
     $this->checkoutLocalDeployBranch();
     $this->build();
-    $this->createDeployId();
+    $this->createDeployId($this->tagName);
   }
 
   /**
@@ -150,10 +159,14 @@ class DeployCommand extends BltTasks {
    * Deletes the existing deploy directory and initializes git repo.
    */
   protected function prepareDir() {
+    $this->say("Preparing artifact directory...");
     $deploy_dir = $this->deployDir;
-    $this->taskDeleteDir($deploy_dir)->run();
+    $this->taskDeleteDir($deploy_dir)
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->run();
     $this->taskExecStack()
       ->dir($deploy_dir)
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->exec("git init")
       ->exec("git config --local core.excludesfile false")
       ->run();
@@ -166,6 +179,7 @@ class DeployCommand extends BltTasks {
         ->dir($this->deployDir)
         ->exec("git config --local --add user.name '$git_user'")
         ->exec("git config --local --add user.email '$git_email'")
+        ->stopOnFail()
         ->run();
     }
   }
@@ -176,6 +190,9 @@ class DeployCommand extends BltTasks {
   protected function addGitRemotes() {
     // Add remotes and fetch upstream refs.
     $git_remotes = $this->getConfigValue('git.remotes');
+    if (empty($git_remotes)) {
+      throw new \Exception("git.remotes is empty. Please define at least one value for git.remotes in blt/project.yml.");
+    }
     foreach ($git_remotes as $remote_url) {
       $this->addGitRemote($remote_url);
     }
@@ -225,7 +242,9 @@ class DeployCommand extends BltTasks {
    *
    * @command deploy:build
    */
-  protected function build() {
+  public function build() {
+    $this->say("Generating build artifact...");
+    $this->say("For more detailed output, use the -v flag.");
     $exit_code = $this->invokeCommands([
       // Execute `blt frontend` to ensure that frontend artifact are generated
       // in source repo.
@@ -239,9 +258,11 @@ class DeployCommand extends BltTasks {
     }
 
     $this->buildCopy();
-    $this->createDeployId();
+    $this->composerInstall();
+    $this->sanitize();
+    $this->deploySamlConfig();
     $this->invokeHook("post-deploy-build");
-
+    $this->writeln("<info>The deployment artifact was generated at {$this->deployDir}.</info>");
   }
 
   /**
@@ -249,7 +270,7 @@ class DeployCommand extends BltTasks {
    */
   protected function buildCopy() {
 
-    if ($this->getConfigValue('deploy.build-dependencies')) {
+    if (!$this->getConfigValue('deploy.build-dependencies')) {
       $this->logger->warning("Dependencies will not be built because deploy.build-dependencies is not enabled");
       $this->logger->warning("You should define a custom deploy.exclude_file to ensure that dependencies are copied from the root repository.");
 
@@ -261,20 +282,22 @@ class DeployCommand extends BltTasks {
     $dest = $this->deployDir;
 
     $this->setMultisiteFilePermissions(0777);
+    $this->say("Rsyncing files from source repo into the build artifact...");
     $this->taskExec("rsync -a --no-g --delete --delete-excluded --exclude-from='$exclude_list_file' '$source/' '$dest/' --filter 'protect /.git/'")
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->dir($this->getConfigValue('repo.root'))
       ->run();
     $this->setMultisiteFilePermissions(0755);
 
     // Remove temporary file that may have been created by
     // $this->getExcludeListFile().
-    $this->_remove($this->excludeFileTemp);
-
     $this->taskFilesystemStack()
+      ->remove($this->excludeFileTemp)
       ->copy(
         $this->getConfigValue('deploy.gitignore_file'),
         $this->deployDir . '/.gitignore', TRUE
       )
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
   }
@@ -284,10 +307,13 @@ class DeployCommand extends BltTasks {
    */
   protected function composerInstall() {
     $this->say("Rebuilding composer dependencies for production...");
-    $this->taskDeleteDir([$this->deployDir . '/vendor'])->run();
+    $this->taskDeleteDir([$this->deployDir . '/vendor'])
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->run();
     $this->taskFilesystemStack()
       ->copy($this->getConfigValue('repo.root') . '/composer.json', $this->deployDir . '/composer.json')
       ->copy($this->getConfigValue('repo.root') . '/composer.lock', $this->deployDir . '/composer.lock')
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
     $this->taskExec("composer install --no-dev --no-interaction --optimize-autoloader")
       ->dir($this->deployDir)
@@ -297,8 +323,8 @@ class DeployCommand extends BltTasks {
   /**
    * Creates deployment_identifier file.
    */
-  protected function createDeployId() {
-    $this->taskExec("echo '{$this->tagName}' > deployment_identifier")
+  protected function createDeployId($id) {
+    $this->taskExec("echo '$id' > deployment_identifier")
       ->dir($this->deployDir)
       ->run();
   }
@@ -307,12 +333,17 @@ class DeployCommand extends BltTasks {
    * Removes sensitive files from the deploy dir.
    */
   protected function sanitize() {
+    $this->say("Sanitizing artifact...");
+
+    $this->logger->info("Removing .git subdirectories...");
     $this->taskExecStack()
       ->exec("find '{$this->deployDir}/vendor' -type d | grep '\.git' | xargs rm -rf")
       ->exec("find '{$this->deployDir}/docroot' -type d | grep '\.git' | xargs rm -rf")
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
-    $taskFilesystemStack = $this->taskFilesystemStack();
+    $taskFilesystemStack = $this->taskFilesystemStack()
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE);
 
     $finder = new Finder();
     $files = $finder
@@ -326,7 +357,7 @@ class DeployCommand extends BltTasks {
 
     $finder = new Finder();
     $files = $finder
-      ->in($this->deployDir . '/core')
+      ->in($this->deployDir . '/docroot/core')
       ->files()
       ->name('*.txt');
 
@@ -334,6 +365,7 @@ class DeployCommand extends BltTasks {
       $taskFilesystemStack->remove($item->getRealPath());
     }
 
+    $this->logger->info("Removing .txt files...");
     $taskFilesystemStack->run();
   }
 
@@ -402,6 +434,9 @@ class DeployCommand extends BltTasks {
       $this->logger->warning("Skipping push of deployment artifact. deploy.dryRun is set to true.");
       return TRUE;
     }
+    else {
+      $this->say("Pushing artifact to git.remotes...");
+    }
 
     $task = $this->taskExecStack()
       ->dir($this->deployDir);
@@ -437,7 +472,7 @@ class DeployCommand extends BltTasks {
    *
    * @command deploy:update
    */
-  protected function updateSites() {
+  public function updateSites() {
     foreach ($this->getConfigValue('multisites') as $multisite) {
       $this->say("Deploying updates to $multisite...");
 
@@ -468,7 +503,7 @@ class DeployCommand extends BltTasks {
    *
    * @command deploy:drupal:install
    */
-  protected function installDrupal() {
+  public function installDrupal() {
     $status_code = $this->invokeCommands([
       'drupal:install',
       'drupal:update',
