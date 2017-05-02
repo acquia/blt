@@ -173,10 +173,7 @@ class DeployCommand extends BltTasks {
     $this->build();
     $this->commit();
     $this->cutTag();
-
-    if (!$options['dry-run']) {
-      $this->push($this->tagName);
-    }
+    $this->push($this->tagName, $options);
   }
 
   /**
@@ -190,11 +187,7 @@ class DeployCommand extends BltTasks {
     $this->mergeUpstreamChanges();
     $this->build();
     $this->commit();
-    $this->writeln("The artifact was committed to branch <comment>{$this->branchName}</comment>.");
-
-    if (!$options['dry-run']) {
-      $this->push($this->branchName);
-    }
+    $this->push($this->branchName, $options);
   }
 
   /**
@@ -487,6 +480,7 @@ class DeployCommand extends BltTasks {
    * Creates a commit on the artifact.
    */
   protected function commit() {
+    $this->say("Committing artifact to <comment>{$this->branchName}</comment>...");
     $this->taskExecStack()
       ->dir($this->deployDir)
       ->exec("git add -A")
@@ -494,15 +488,16 @@ class DeployCommand extends BltTasks {
       ->stopOnFail()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
+    $this->say("The artifact was committed to <comment>{$this->branchName}</comment>.");
   }
 
   /**
    * Pushes the artifact to git.remotes.
    */
-  protected function push($identifier) {
-    if ($this->getConfigValue('deploy.dryRun')) {
+  protected function push($identifier, $options) {
+    if ($options['dry-run']) {
       $this->logger->warning("Skipping push of deployment artifact. deploy.dryRun is set to true.");
-      return TRUE;
+      return FALSE;
     }
     else {
       $this->say("Pushing artifact to git.remotes...");
