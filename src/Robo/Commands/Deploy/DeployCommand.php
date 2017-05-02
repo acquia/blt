@@ -187,10 +187,8 @@ class DeployCommand extends BltTasks {
     $this->prepareDir();
     $this->addGitRemotes();
     $this->checkoutLocalDeployBranch();
+    $this->mergeUpstreamChanges();
     $this->build();
-    $git_remotes = $this->getConfigValue('git.remotes');
-    $first_git_remote = reset($git_remotes);
-    $this->mergeUpstreamChanges($first_git_remote);
     $this->commit();
     $this->writeln("The artifact was committed to branch <comment>{$this->branchName}</comment>.");
 
@@ -283,7 +281,11 @@ class DeployCommand extends BltTasks {
   /**
    * Merges upstream changes into deploy branch.
    */
-  protected function mergeUpstreamChanges($remote_name) {
+  protected function mergeUpstreamChanges() {
+    $git_remotes = $this->getConfigValue('git.remotes');
+    $remote_name = reset($git_remotes);
+
+    $this->say("Merging upstream changes into local artifact...");
     $this->taskExecStack()
       ->dir($this->deployDir)
       // This branch may not exist upstream, so we do not fail the build if a
