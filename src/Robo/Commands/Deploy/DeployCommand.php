@@ -271,7 +271,8 @@ class DeployCommand extends BltTasks {
       ->run();
     $this->setMultisiteFilePermissions(0755);
 
-    // Remove temporary file that may have been created by $this->getExcludeListFile().
+    // Remove temporary file that may have been created by
+    // $this->getExcludeListFile().
     $this->_remove($this->excludeFileTemp);
 
     $this->taskFilesystemStack()
@@ -446,8 +447,9 @@ class DeployCommand extends BltTasks {
       $this->say("Deploying updates to $multisite...");
 
       $status_code = $this->invokeCommand('setup:config-import', [
-          // Most sites store their version-controlled configuration in /config/default.
-          // ACE internally sets the vcs configuration directory to /config/default, so we use that.
+          // Most sites store their version-controlled configuration in
+          // /config/default. ACE internally sets the vcs configuration
+          // directory to /config/default, so we use that.
         '--define cm.core.key=' . $this->getConfigValue('cm.core.deploy-key'),
           // Disable alias since we are targeting specific uri.
         '--define drush.alias=""',
