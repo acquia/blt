@@ -33,6 +33,7 @@ class ConfigCommand extends BltTasks {
       $this->invokeHook('pre-config-import');
 
       $task = $this->taskDrush()
+        ->stopOnFail()
         // Sometimes drush forgets where to find its aliases.
         ->drush("cc drush --yes")
         ->drush("pm-enable config --yes")
@@ -76,8 +77,9 @@ class ConfigCommand extends BltTasks {
         }
       }
 
-      $this->invokeHook('post-config-import');
+      $result = $this->invokeHook('post-config-import');
 
+      return $result;
     }
   }
 
@@ -142,7 +144,7 @@ class ConfigCommand extends BltTasks {
     if ($this->getConfigValue('cm.features.no-overrides')) {
       $this->say("Checking for features overrides...");
       if ($this->getConfig()->has('cm.features.bundle')) {
-        $task = $this->taskDrush();
+        $task = $this->taskDrush()->stopOnFail();
         foreach ($this->getConfigValue('cm.features.bundle') as $bundle) {
           $task->drush("fl --bundle='$bundle' --format=json");
           $result = $task->printOutput(TRUE)->run();
