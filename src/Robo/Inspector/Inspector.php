@@ -29,7 +29,8 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
   /**
    * Process executor.
    *
-   * @var \Acquia\Blt\Robo\Common\Executor */
+   * @var \Acquia\Blt\Robo\Common\Executor
+   */
   protected $executor;
 
   /**
