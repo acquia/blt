@@ -4,6 +4,7 @@ namespace Acquia\Blt\Robo\Commands\Deploy;
 
 use Acquia\Blt\Robo\BltTasks;
 use Robo\Contract\VerbosityThresholdInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -11,6 +12,7 @@ use Symfony\Component\Finder\Finder;
  */
 class DeployCommand extends BltTasks {
 
+  protected $createTag = FALSE;
   protected $tagName = NULL;
   protected $branchName;
   protected $commitMessage;
@@ -32,24 +34,26 @@ class DeployCommand extends BltTasks {
    *
    * @command deploy
    */
-  public function deploy() {
-    $this->checkDirty();
+  public function deploy($options = [
+    'branch' => InputOption::VALUE_REQUIRED,
+    'tag' => InputOption::VALUE_REQUIRED,
+    'commit-msg' => InputOption::VALUE_REQUIRED,
+    'ignore-dirty' => FALSE,
+    'dry-run' => FALSE,
+  ]) {
+    $this->checkDirty($options);
 
-    $create_tag = FALSE;
-    if (empty($this->getConfigValue('deploy.tag'))) {
+    if (!$options['tag'] && !$options['branch']) {
       $this->say("Typically, you would only create a tag if you currently have a tag checked out on your source repository.");
-      $create_tag = $this->confirm("Would you like to create a tag?", $create_tag);
+      $this->createTag = $this->confirm("Would you like to create a tag?", $this->createTag);
     }
-    $this->commitMessage = $this->getCommitMessage();
+    $this->commitMessage = $this->getCommitMessage($options);
 
-    if ($create_tag) {
-      $this->deployToTag();
-      $this->push($this->tagName);
-      $this->cutTag();
+    if ($this->createTag) {
+      $this->deployToTag($options);
     }
     else {
-      $this->deployToBranch();
-      $this->push($this->branchName);
+      $this->deployToBranch($options);
     }
   }
 
@@ -60,19 +64,19 @@ class DeployCommand extends BltTasks {
    *   Thrown if deploy.git.failOnDirty is TRUE and there are uncommitted
    *   changes.
    */
-  protected function checkDirty() {
+  protected function checkDirty($options) {
     $result = $this->taskExec('git status --porcelain')
       ->printMetadata(FALSE)
-      ->printOutput(TRUE)
+      ->printOutput(FALSE)
       ->interactive(FALSE)
       ->run();
     $dirty = (bool) $result->getOutputData();
     if ($dirty) {
-      if ($this->getConfigValue('deploy.git.failOnDirty')) {
-        throw new \Exception("There are uncommitted changes, commit or stash these changes before deploying.");
+      if ($options['ignore-dirty']) {
+        $this->logger->warning("There are uncommitted changes on the source repository.");
       }
       else {
-        $this->logger->warning("Deploy is being run with uncommitted changes.");
+        throw new \Exception("There are uncommitted changes, commit or stash these changes before deploying.");
       }
     }
   }
@@ -85,16 +89,18 @@ class DeployCommand extends BltTasks {
    * @return string
    *   The commit message.
    */
-  protected function getCommitMessage() {
-    if (empty($this->getConfigValue('deploy.commitMsg'))) {
+  protected function getCommitMessage($options) {
+    if (!$options['commit-msg']) {
       chdir($this->getConfigValue('repo.root'));
       $log = explode(' ', shell_exec("git log --oneline -1"), 2);
       $git_last_commit_message = trim($log[1]);
 
       return $this->askDefault('Enter a valid commit message', $git_last_commit_message);
     }
-
-    return $this->getConfigValue('deploy.commitMsg');
+    else {
+      $this->say("Commit message is set to <comment>{$options['commit-msg']}</comment>.");
+      return $options['commit-msg'];
+    }
   }
 
   /**
@@ -105,10 +111,39 @@ class DeployCommand extends BltTasks {
    * @return string
    *   The branch name.
    */
-  protected function getBranchName() {
-    $branch_name = $this->askDefault('Enter the branch name for the deployment artifact', $this->getDefaultBranchName());
+  protected function getBranchName($options) {
+    if ($options['branch']) {
+      $this->say("Branch is set to <comment>{$options['branch']}</comment>.");
+      return $options['branch'];
+    }
+    else {
+      return $this->askDefault('Enter the branch name for the deployment artifact', $this->getDefaultBranchName());
+    }
+  }
 
-    return $branch_name;
+  /**
+   * Gets the name of the tag to cut.
+   *
+   * @param $options
+   *
+   * @return string
+   * @throws \Exception
+   */
+  protected function getTagName($options) {
+    if (!$options['tag']) {
+      $tag_name = $this->ask('Enter the tag name for the deployment artifact. E.g., 1.0.0-build');
+    }
+
+    if (empty($tag_name)) {
+      // @todo Validate tag name is valid. E.g., no spaces or special characters.
+      throw new \Exception("You must enter a valid tag name.");
+    }
+    else {
+      $tag_name = $options['tag'];
+      $this->say("Tag is set to <comment>{$options['tag']}</comment>.");
+    }
+
+    return $tag_name;
   }
 
   /**
@@ -125,12 +160,8 @@ class DeployCommand extends BltTasks {
   /**
    * Creates artifact, cuts new tag, and pushes.
    */
-  protected function deployToTag() {
-    $this->tagName = $this->ask('Enter the tag name for the deployment artifact. E.g., 1.0.0-build');
-    if (empty($this->tagName)) {
-      // @todo Validate tag name is valid. E.g., no spaces or special characters.
-      throw new \Exception("You must enter a tag name.");
-    }
+  protected function deployToTag($options) {
+    $this->tagName = $this->getTagName($options);
 
     // If we are building a tag, then we assume that we will NOT be pushing the
     // build branch from which the tag is created. However, we must still have a
@@ -140,13 +171,19 @@ class DeployCommand extends BltTasks {
     $this->addGitRemotes();
     $this->checkoutLocalDeployBranch();
     $this->build();
+    $this->commit();
+    $this->cutTag();
+
+    if (!$options['dry-run']) {
+      $this->push($this->tagName);
+    }
   }
 
   /**
    * Creates artifact on branch and pushes.
    */
-  protected function deployToBranch() {
-    $this->branchName = $this->getBranchName();
+  protected function deployToBranch($options) {
+    $this->branchName = $this->getBranchName($options);
     $this->prepareDir();
     $this->addGitRemotes();
     $this->checkoutLocalDeployBranch();
@@ -154,6 +191,12 @@ class DeployCommand extends BltTasks {
     $git_remotes = $this->getConfigValue('git.remotes');
     $first_git_remote = reset($git_remotes);
     $this->mergeUpstreamChanges($first_git_remote);
+    $this->commit();
+    $this->writeln("The artifact was committed to branch <comment>{$this->branchName}</comment>.");
+
+    if (!$options['dry-run']) {
+      $this->push($this->branchName);
+    }
   }
 
   /**

@@ -2,6 +2,6 @@
 
 set -ev
 
-blt deploy -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="${TRAVIS_BRANCH}-build" -Ddeploy.git.failOnDirty=false
+blt deploy --commit-msg "Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" --branch "${TRAVIS_BRANCH}-build" -D --ignore-dirty --no-interaction -v
 
 set +v
