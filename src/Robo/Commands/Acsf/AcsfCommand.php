@@ -36,13 +36,16 @@ class AcsfCommand extends BltTasks {
   public function acsfDrushInitialize() {
     $this->say('Executing initialization command for acsf module.');
 
-    $this->taskDrush()
+    $result = $this->taskDrush()
       ->includePath("{$this->getConfigValue('docroot')}/modules/contrib/acsf/acsf_init")
+      ->alias("")
       ->drush('acsf-init')
       ->run();
 
     $this->say('Please add acsf_init as a dependency for your installation profile to ensure that it remains enabled.');
     $this->say('An example alias file for ACSF is located in /drush/site-aliases/example.acsf.aliases.drushrc.php.');
+
+    return $result;
   }
 
   /**
@@ -52,11 +55,13 @@ class AcsfCommand extends BltTasks {
     $defaultAcsfHooks = $this->getConfigValue('blt.root') . '/settings/acsf';
     $projectAcsfHooks = $this->getConfigValue('repo.root') . '/factory-hooks';
 
-    $this->taskCopyDir([$defaultAcsfHooks => $projectAcsfHooks])
+    $result = $this->taskCopyDir([$defaultAcsfHooks => $projectAcsfHooks])
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
     $this->say('New "factory-hooks/" directory created in repo root. Please commit this to your project.');
+
+    return $result;
   }
 
   /**
@@ -82,9 +87,11 @@ class AcsfCommand extends BltTasks {
       }
       else {
         // @todo revert previous file chanages.
-        throw new \Exception("Unable to install acsf");
+        throw new \Exception("Unable to install drupal/acsf package.");
       }
     }
+
+    return $result;
   }
 
 }

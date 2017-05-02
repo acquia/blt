@@ -34,7 +34,7 @@ class DefaultConfig extends BltConfig {
   protected function getRepoRoot() {
     $possible_repo_roots = [
       $_SERVER['PWD'],
-      $_SERVER['PWD'] . '/..',
+      realpath($_SERVER['PWD'] . '/..'),
       getcwd(),
     ];
     foreach ($possible_repo_roots as $possible_repo_root) {

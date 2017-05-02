@@ -10,7 +10,7 @@ use Acquia\Blt\Robo\BltTasks;
 class FrontendCommand extends BltTasks {
 
   /**
-   * Runs all frontend targets
+   * Runs all frontend targets.
    *
    * @command frontend
    */
@@ -31,7 +31,7 @@ class FrontendCommand extends BltTasks {
    * @command frontend:build
    */
   public function build() {
-    $this->invokeHook('frontend-build');
+    return $this->invokeHook('frontend-build');
   }
 
   /**
@@ -41,16 +41,16 @@ class FrontendCommand extends BltTasks {
    * @command frontend:setup
    */
   public function setup() {
-    $this->invokeHook('frontend-setup');
+    return $this->invokeHook('frontend-setup');
   }
 
   /**
-   * Uses project.yml hooks to run tests for the frontend as
+   * Uses project.yml hooks to run tests for the frontend as.
    *
    * @command frontend:test
    */
   public function test() {
-    $this->invokeHook('frontend-test');
+    return $this->invokeHook('frontend-test');
   }
 
 }

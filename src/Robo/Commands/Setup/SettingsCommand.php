@@ -146,7 +146,7 @@ class SettingsCommand extends BltTasks {
   public function hashSalt() {
     $hash_salt_file = $this->getConfigValue('repo.root') . '/salt.txt';
     if (!file_exists($hash_salt_file)) {
-      $this->say("Writing hash salt to $hash_salt_file");
+      $this->say("Generating hash salt...");
       $result = $this->taskWriteToFile($hash_salt_file)
         ->line(RandomString::string(55))
         ->run();

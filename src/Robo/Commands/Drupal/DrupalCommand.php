@@ -30,11 +30,8 @@ class DrupalCommand extends BltTasks {
       }
     );
 
-    $drush_alias = $this->getConfigValue('drush.alias');
-    $task = $this->taskExec("drush @$drush_alias site-install")
-      ->detectInteractive()
-      ->printOutput(TRUE)
-      ->dir($this->getConfigValue('docroot'))
+    $task = $this->taskDrush()
+      ->drush("site-install")
       ->arg($this->getConfigValue('project.profile.name'))
       ->rawArg("install_configure_form.update_status_module='array(FALSE,FALSE)'")
       ->option('site-name', $this->getConfigValue('project.human_name'), '=')
@@ -42,7 +39,8 @@ class DrupalCommand extends BltTasks {
       ->option('account-name', $username, '=')
       ->option('account-mail', $this->getConfigValue('drupal.account.mail'), '=')
       ->option('locale', $this->getConfigValue('drupal.locale'), '=')
-      ->option('yes');
+      ->option('yes')
+      ->printOutput(TRUE);
 
     if (!$this->getConfigValue('cm.strategy') == 'features') {
       $cm_core_key = $this->getConfigValue('cm.core.key');

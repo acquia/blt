@@ -77,11 +77,12 @@ class DoctorCommand extends BltTasks {
    *   The command result.
    */
   protected function executeDoctorOnHost($alias) {
-    $drush_bin = $this->getConfigValue('composer.bin') . '/drush';
     $include_dir = $this->getConfigValue('blt.root') . '/drush';
-    $result = $this->taskExec("$drush_bin @$alias --include=$include_dir blt-doctor")
-      ->dir($this->getConfigValue('docroot'))
-      ->detectInteractive()
+    $result = $this->taskDrush()
+      ->alias($alias)
+      ->uri("")
+      ->includePath($include_dir)
+      ->drush("blt-doctor")
       ->run();
 
     return $result;
