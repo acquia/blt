@@ -34,9 +34,10 @@ class ConfigCommand extends BltTasks {
 
       $task = $this->taskDrush()
         ->stopOnFail()
+        ->assume(TRUE)
         // Sometimes drush forgets where to find its aliases.
-        ->drush("cc drush --yes")
-        ->drush("pm-enable config --yes")
+        ->drush("cc")->arg('drush')
+        ->drush("pm-enable")->arg('config')
         // Rebuild caches in case service definitions have changed.
         // @see https://www.drupal.org/node/2826466
         ->drush("cache-rebuild")
@@ -47,7 +48,7 @@ class ConfigCommand extends BltTasks {
         // update hook before attempting to import the configuration.
         // If a db update relies on updated configuration, you should import the
         // necessary configuration file(s) as part of the db update.
-        ->drush("updb --yes");
+        ->drush("updb");
 
       switch ($strategy) {
         case 'core-only':
@@ -71,7 +72,10 @@ class ConfigCommand extends BltTasks {
       // Check for configuration overrides.
       if (!$this->getConfigValue('cm.allow-overrides')) {
         $this->say("Checking for config overrides...");
-        $config_overrides = $this->taskDrush()->drush("cex sync -n");
+        $config_overrides = $this->taskDrush()
+          ->assume(FALSE)
+          ->drush("cex")
+          ->arg('sync');
         if (!$config_overrides->run()->wasSuccessful()) {
           throw new \Exception("Configuration in the database does not match configuration on disk. You must re-export configuration to capture the changes. This could also indicate a problem with the import process, such as changed field storage for a field with existing content.");
         }
@@ -91,7 +95,7 @@ class ConfigCommand extends BltTasks {
    */
   protected function importCoreOnly($task, $cm_core_key) {
     if (file_exists($this->getConfigValue("cm.core.dirs.$cm_core_key.path") . '/core.extension.yml')) {
-      $task->drush("config-import $cm_core_key --yes");
+      $task->drush("config-import")->arg($cm_core_key);
     }
   }
 
@@ -107,8 +111,8 @@ class ConfigCommand extends BltTasks {
     // BLT config. Perhaps this should be refactored.
     $core_config_file = $this->getConfigValue('docroot') . '/' . $this->getConfigValue('cm.core.dirs.sync.path') . '/core.extension.yml';
     if (file_exists($core_config_file)) {
-      $task->drush("pm-enable config_split --yes");
-      $task->drush("config-import sync --yes");
+      $task->drush("pm-enable")->arg('config_split');
+      $task->drush("config-import")->arg('sync');
     }
   }
 
@@ -119,16 +123,16 @@ class ConfigCommand extends BltTasks {
    * @param $cm_core_key
    */
   protected function importFeatures($task, $cm_core_key) {
-    $task->drush("config-import $cm_core_key --partial --yes");
+    $task->drush("config-import")->arg($cm_core_key)->option('partial');
     if ($this->getConfig()->has('cm.features.bundle"')) {
-      $task->drush("pm-enable features --yes");
+      $task->drush("pm-enable")->arg('features');
       // Clear drush caches to register features drush commands.
-      $task->drush("drush cc drush --yes");
+      $task->drush("cc")->arg('drush');
       foreach ($this->getConfigValue('cm.features.bundle') as $bundle) {
-        $task->drush("features-revert-all --bundle=$bundle --yes");
+        $task->drush("features-revert-all")->option('bundle', $bundle, '=');
         // Revert all features again!
         // @see https://www.drupal.org/node/2851532
-        $task->drush("features-revert-all --bundle=$bundle --yes");
+        $task->drush("features-revert-all")->option('bundle', $bundle, '=');
       }
     }
   }
@@ -146,7 +150,9 @@ class ConfigCommand extends BltTasks {
       if ($this->getConfig()->has('cm.features.bundle')) {
         $task = $this->taskDrush()->stopOnFail();
         foreach ($this->getConfigValue('cm.features.bundle') as $bundle) {
-          $task->drush("fl --bundle='$bundle' --format=json");
+          $task->drush("fl")
+            ->option('bundle', $bundle, '=')
+            ->option('format', 'json', '=');
           $result = $task->printOutput(TRUE)->run();
           $output = $result->getOutputData();
           $features_overridden = preg_match('/(changed|conflicts|added)( *)$/', $output);
