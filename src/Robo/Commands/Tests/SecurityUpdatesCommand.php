@@ -23,11 +23,15 @@ class SecurityUpdatesCommand extends BltTasks {
     $result = $this->taskDrush()
       ->assume(FALSE)
       ->drush("-n ups --check-disabled --security-only 2>/dev/null | grep 'SECURITY UPDATE'")
+      ->printOutput(FALSE)
+      ->printMetadata(FALSE)
       ->run();
     $passed = !$result->wasSuccessful();
+    $output = $result->getOutputData();
 
     if (!$passed) {
       $this->logger->error("One or more of your dependencies has an outstanding security update. Please apply update(s) immediately.");
+      $this->say($output);
       $this->logger->notice('To disable security checks, set disable-targets.tests.security-updates to false in project.yml.');
 
       return 1;
