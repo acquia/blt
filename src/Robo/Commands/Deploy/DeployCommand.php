@@ -45,7 +45,7 @@ class DeployCommand extends BltTasks {
     if ($create_tag) {
       $this->deployToTag();
       $this->push($this->tagName);
-      $this->tagSourceRepo();
+      $this->cutTag();
     }
     else {
       $this->deployToBranch();
@@ -126,7 +126,7 @@ class DeployCommand extends BltTasks {
    * Creates artifact, cuts new tag, and pushes.
    */
   protected function deployToTag() {
-    $this->tagName = $this->ask('Enter the tag name for the deployment artifact. E.g., 1.0.0.');
+    $this->tagName = $this->ask('Enter the tag name for the deployment artifact. E.g., 1.0.0-build');
     if (empty($this->tagName)) {
       // @todo Validate tag name is valid. E.g., no spaces or special characters.
       throw new \Exception("You must enter a tag name.");
@@ -469,14 +469,14 @@ class DeployCommand extends BltTasks {
   /**
    * Creates a tag on the source repository.
    */
-  protected function tagSourceRepo() {
+  protected function cutTag() {
     $this->taskExecStack()
       ->exec("git tag -a {$this->tagName} -m '{$this->commitMessage}'")
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->stopOnFail()
       ->dir($this->deployDir)
       ->run();
-    $this->say("The tag {$this->tagName} was created, but not pushed, on the source repo.");
+    $this->say("The tag {$this->tagName} was created for the build artifact.");
   }
 
   /**
