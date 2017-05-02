@@ -140,15 +140,10 @@ class DeployCommand extends BltTasks {
   protected function deployToBranch() {
     $this->prepareDir();
     $this->addGitRemotes();
-
     $this->checkoutLocalDeployBranch();
+    $this->build();
     $first_git_remote = reset($this->getConfigValue('git.remote'));
     $this->mergeUpstreamChanges($first_git_remote);
-
-    $this->taskExecStack()
-      ->dir($this->deployDir)
-      ->exec("git tag -a {$this->tagName} -m '{$this->commitMessage}'")
-      ->run();
   }
 
   /**
