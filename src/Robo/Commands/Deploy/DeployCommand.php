@@ -11,7 +11,7 @@ use Symfony\Component\Finder\Finder;
  */
 class DeployCommand extends BltTasks {
 
-  protected $tagName;
+  protected $tagName = NULL;
   protected $branchName;
   protected $commitMessage;
   protected $excludeFileTemp;
@@ -116,7 +116,7 @@ class DeployCommand extends BltTasks {
    */
   protected function getDefaultBranchName() {
     chdir($this->getConfigValue('repo.root'));
-    $git_current_branch = shell_exec("git rev-parse --abbrev-ref HEAD");
+    $git_current_branch = trim(shell_exec("git rev-parse --abbrev-ref HEAD"));
     $default_branch = $git_current_branch . '-build';
 
     return $default_branch;
@@ -140,7 +140,6 @@ class DeployCommand extends BltTasks {
     $this->addGitRemotes();
     $this->checkoutLocalDeployBranch();
     $this->build();
-    $this->createDeployId($this->tagName);
   }
 
   /**
@@ -167,6 +166,7 @@ class DeployCommand extends BltTasks {
     $this->taskExecStack()
       ->dir($deploy_dir)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->stopOnFail()
       ->exec("git init")
       ->exec("git config --local core.excludesfile false")
       ->run();
@@ -176,10 +176,11 @@ class DeployCommand extends BltTasks {
       $git_user = $this->getConfigValue("git.user.name");
       $git_email = $this->getConfigValue("git.user.email");
       $this->taskExecStack()
+        ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+        ->stopOnFail()
         ->dir($this->deployDir)
         ->exec("git config --local --add user.name '$git_user'")
         ->exec("git config --local --add user.email '$git_email'")
-        ->stopOnFail()
         ->run();
     }
   }
@@ -205,8 +206,11 @@ class DeployCommand extends BltTasks {
     $this->say("Fetching from git remote $remote_url");
     // Generate an md5 sum of the remote URL to use as remote name.
     $remote_name = md5($remote_url);
-    $this->taskExec("git remote add $remote_name $remote_url")
+    $this->taskExecStack()
+      ->stopOnFail()
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->dir($this->deployDir)
+      ->exec("git remote add $remote_name $remote_url")
       ->run();
   }
 
@@ -221,6 +225,7 @@ class DeployCommand extends BltTasks {
       // as advertised.
       // @todo perform this in a way that avoid errors completely.
       ->stopOnFail(FALSE)
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->exec("git checkout -b {$this->branchName}")
       ->run();
   }
@@ -231,9 +236,12 @@ class DeployCommand extends BltTasks {
   protected function mergeUpstreamChanges($remote_name) {
     $this->taskExecStack()
       ->dir($this->deployDir)
+      // This branch may not exist upstream, so we do not fail the build if a
+      // merge fails.
       ->stopOnFail(FALSE)
       ->exec("git fetch $remote_name {$this->branchName}")
       ->exec("git merge $remote_name/{$this->branchName}")
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
   }
 
@@ -261,6 +269,9 @@ class DeployCommand extends BltTasks {
     $this->composerInstall();
     $this->sanitize();
     $this->deploySamlConfig();
+    if (!empty($this->tagName)) {
+      $this->createDeployId($this->tagName);
+    }
     $this->invokeHook("post-deploy-build");
     $this->writeln("<info>The deployment artifact was generated at {$this->deployDir}.</info>");
   }
@@ -283,8 +294,9 @@ class DeployCommand extends BltTasks {
 
     $this->setMultisiteFilePermissions(0777);
     $this->say("Rsyncing files from source repo into the build artifact...");
-    $this->taskExec("rsync -a --no-g --delete --delete-excluded --exclude-from='$exclude_list_file' '$source/' '$dest/' --filter 'protect /.git/'")
+    $this->taskExecStack()->exec("rsync -a --no-g --delete --delete-excluded --exclude-from='$exclude_list_file' '$source/' '$dest/' --filter 'protect /.git/'")
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->stopOnFail()
       ->dir($this->getConfigValue('repo.root'))
       ->run();
     $this->setMultisiteFilePermissions(0755);
@@ -315,7 +327,8 @@ class DeployCommand extends BltTasks {
       ->copy($this->getConfigValue('repo.root') . '/composer.lock', $this->deployDir . '/composer.lock')
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
-    $this->taskExec("composer install --no-dev --no-interaction --optimize-autoloader")
+    $this->taskExecStack()->exec("composer install --no-dev --no-interaction --optimize-autoloader")
+      ->stopOnFail()
       ->dir($this->deployDir)
       ->run();
   }
@@ -324,8 +337,10 @@ class DeployCommand extends BltTasks {
    * Creates deployment_identifier file.
    */
   protected function createDeployId($id) {
-    $this->taskExec("echo '$id' > deployment_identifier")
+    $this->taskExecStack()->exec("echo '$id' > deployment_identifier")
       ->dir($this->deployDir)
+      ->stopOnFail()
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
   }
 
@@ -339,6 +354,7 @@ class DeployCommand extends BltTasks {
     $this->taskExecStack()
       ->exec("find '{$this->deployDir}/vendor' -type d | grep '\.git' | xargs rm -rf")
       ->exec("find '{$this->deployDir}/docroot' -type d | grep '\.git' | xargs rm -rf")
+      ->stopOnFail()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
@@ -423,6 +439,8 @@ class DeployCommand extends BltTasks {
       ->dir($this->deployDir)
       ->exec("git add -A")
       ->exec("git commit --quiet -m '{$this->commitMessage}'")
+      ->stopOnFail()
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
   }
 
@@ -439,7 +457,8 @@ class DeployCommand extends BltTasks {
     }
 
     $task = $this->taskExecStack()
-      ->dir($this->deployDir);
+      ->dir($this->deployDir)
+      ->stopOnFail();
     foreach ($this->getConfigValue('git.remotes') as $remote) {
       $remote_name = md5($remote);
       $task->exec("git push $remote_name $identifier");
@@ -451,9 +470,13 @@ class DeployCommand extends BltTasks {
    * Creates a tag on the source repository.
    */
   protected function tagSourceRepo() {
-    $this->taskExec("git tag -a {$this->tagName} -m '{$this->commitMessage}'")
+    $this->taskExecStack()
+      ->exec("git tag -a {$this->tagName} -m '{$this->commitMessage}'")
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->stopOnFail()
       ->dir($this->deployDir)
       ->run();
+    $this->say("The tag {$this->tagName} was created, but not pushed, on the source repo.");
   }
 
   /**
@@ -461,8 +484,12 @@ class DeployCommand extends BltTasks {
    */
   protected function deploySamlConfig() {
     if ($this->getConfigValue('simplesamlphp')) {
-      $this->taskExec("blt simplesamlphp:deploy:config")
+      $this->say("Generating simplesamlphp configuration...");
+      $this->taskExecStack()
+        ->exec("blt simplesamlphp:deploy:config")
         ->dir($this->getConfigValue('repo.root'))
+        ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+        ->stopOnFail()
         ->run();
     }
   }
