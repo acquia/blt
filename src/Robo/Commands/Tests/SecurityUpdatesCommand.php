@@ -19,14 +19,15 @@ class SecurityUpdatesCommand extends BltTasks {
    * @validateDrupalIsInstalled
    */
   public function testsSecurityUpdates() {
-    /** @var \Robo\ResultData $result */
     $result = $this->taskDrush()
-      ->assume('')
+      ->assume(FALSE)
       ->uri('')
       ->drush("-n ups --check-disabled --security-only 2>/dev/null | grep 'SECURITY UPDATE'")
       ->printOutput(FALSE)
       ->printMetadata(FALSE)
+      ->interactive(FALSE)
       ->run();
+
     $passed = !$result->wasSuccessful();
     $output = $result->getOutputData();
 

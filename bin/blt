@@ -12,6 +12,7 @@ $robo_namespaces = [
   'acsf',
   'ci',
   'custom',
+  'deploy',
   'drupal',
   'frontend',
   'git',

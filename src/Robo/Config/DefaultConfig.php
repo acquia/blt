@@ -73,7 +73,8 @@ class DefaultConfig extends BltConfig {
    */
   public function populateHelperConfig() {
     $defaultAlias = $this->get('drush.default_alias');
-    $this->set('drush.alias', $defaultAlias);
+    $alias = $defaultAlias == 'self' ? '' : $defaultAlias;
+    $this->set('drush.alias', $alias);
   }
 
   /**

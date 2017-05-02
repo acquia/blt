@@ -153,6 +153,9 @@ class SettingsCommand extends BltTasks {
 
       return $result->wasSuccessful();
     }
+    else {
+      $this->say("Hash salt already exists.");
+    }
 
     return TRUE;
   }

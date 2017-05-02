@@ -70,20 +70,21 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    *
    * @param string $command_name
    *   The name of the command. E.g., 'tests:behat'.
+   * @param array $args
+   *   An array of arguments to pass to the command.
    *
    * @return int
    *   The exit code of the command.
    */
-  protected function invokeCommand($command_name) {
+  protected function invokeCommand($command_name, array $args = []) {
     /** @var \Robo\Application $application */
     $application = $this->getContainer()->get('application');
     $command = $application->find($command_name);
-    $args = [];
     $input = new ArrayInput($args);
     $prefix = str_repeat(">", $this->invokeDepth);
     $this->output->writeln("<comment>$prefix $command_name</comment>");
     $returnCode = $command->run($input, $this->output());
-    // $this->output->writeln("");.
+
     return $returnCode;
   }
 

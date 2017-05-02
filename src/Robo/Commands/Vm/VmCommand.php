@@ -137,6 +137,7 @@ class VmCommand extends BltTasks {
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
+    // @todo Ensure that hostname does not contain underscores.
     $this->getConfig()->expandFileProperties($this->projectDrupalVmConfigFile);
 
     $this->say("<info>BLT has created default configuration for your Drupal VM.</info>");
