@@ -92,7 +92,7 @@ class DrushTask extends CommandStack {
       $this->option("uri={$this->uri}");
     }
 
-    if (isset($this->assume) && is_bool($this->assume)) {
+    if (isset($this->assume) && is_bool($this->assume) && $this->assume) {
       $this->option('yes');
     }
 
