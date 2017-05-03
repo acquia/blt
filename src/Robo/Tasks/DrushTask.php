@@ -281,7 +281,7 @@ class DrushTask extends CommandStack {
    * Overriding CommandArguments::option to default option separator to '='.
    */
   public function option($option, $value = NULL, $separator = '=') {
-    $this->traitOption($option, $value, $separator);
+    return $this->traitOption($option, $value, $separator);
   }
 
   /**
