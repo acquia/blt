@@ -169,7 +169,7 @@ class BehatCommand extends TestsCommandBase {
     }
     $this->killPhantomJs();
     $this->say("Launching PhantomJS GhostDriver.");
-    $this->taskExec("{$this->getConfigValue('composer.bin')}/phantomjs")
+    $this->taskExec("'{$this->getConfigValue('composer.bin')}/phantomjs'")
       ->option("webdriver", 4444)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->background()
