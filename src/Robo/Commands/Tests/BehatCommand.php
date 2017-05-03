@@ -78,6 +78,8 @@ class BehatCommand extends TestsCommandBase {
    * @aliases tbd
    *
    * @option mode l (default), i, or needle. Use l to just list definition expressions, i to show definitions with extended info, or needle to find specific definitions.
+   *
+   * @validateMySqlAvailable
    */
   public function behatDefinitions($options = ['mode' => 'l']) {
     $task = $this->taskBehat($this->getConfigValue('composer.bin') . '/behat')
