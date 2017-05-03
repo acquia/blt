@@ -234,6 +234,10 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
    *   TRUE if Drupal VM is booted.
    */
   public function isDrupalVmBooted() {
+    if (!$this->commandExists('vagrant')) {
+      return FALSE;
+    }
+
     $result = $this->executor->execute("vagrant status")
       ->printOutput(FALSE)
       ->printMetadata(FALSE)
