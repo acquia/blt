@@ -31,15 +31,19 @@ class RandomString {
    *   Defaults to FALSE.
    * @param callable $validator
    *   (optional) A callable to validate the string. Defaults to NULL.
+   * @param string $characters
+   *   (optional) A string containing all possible characters that may be used
+   *   to generate the random string.
    *
    * @return string
    *   Randomly generated string.
    *
    * @see \Drupal\Component\Utility\Random::name()
    */
-  public static function string($length = 8, $unique = FALSE, callable $validator = NULL) {
+  public static function string($length = 8, $unique = FALSE, callable $validator = NULL, $characters = '') {
     $counter = 0;
     $strings = [];
+    $characters_array = str_split($characters);
 
     // Continue to loop if $unique is TRUE and the generated string is not
     // unique or if $validator is a callable that returns FALSE. To generate a
@@ -50,7 +54,13 @@ class RandomString {
       }
       $str = '';
       for ($i = 0; $i < $length; $i++) {
-        $str .= chr(mt_rand(32, 126));
+        if ($characters_array) {
+          $position = mt_rand(0, count($characters_array));
+          $str .= $characters_array[$position];
+        }
+        else {
+          $str .= chr(mt_rand(32, 126));
+        }
       }
       $counter++;
 
