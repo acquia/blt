@@ -249,6 +249,9 @@ class DrushTask extends CommandStack {
       $this->options[$correspondingCommand] = $this->arguments;
       $this->arguments = '';
     }
+    elseif (isset($this->arguments) && !empty($this->arguments)) {
+      throw new TaskException($this, "A drush command must be added to the stack before setting arguments: {$this->arguments}");
+    }
   }
 
   /**
