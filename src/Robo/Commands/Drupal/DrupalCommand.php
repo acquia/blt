@@ -27,7 +27,8 @@ class DrupalCommand extends BltTasks {
     $username = RandomString::string(10, FALSE,
       function ($string) {
         return !preg_match('/[^\x{80}-\x{F7} a-z0-9@+_.\'-]/i', $string);
-      }
+      },
+      'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!#%^&*()_-?/.,+=><'
     );
 
     $task = $this->taskDrush()
