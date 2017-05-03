@@ -99,11 +99,13 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
   protected function invokeHook($hook) {
     if ($this->getConfig()->has("target-hooks.$hook.command")) {
       $this->say("Executing $hook target hook...");
-      $result = $this->taskExec($this->getConfigValue("target-hooks.$hook.command"))
+      $result = $this->taskExecStack()
+        ->exec($this->getConfigValue("target-hooks.$hook.command"))
         ->dir($this->getConfigValue("target-hooks.$hook.dir"))
         ->interactive()
         ->printOutput(TRUE)
         ->printMetadata(FALSE)
+        ->stopOnFail()
         ->run();
 
       return $result;
@@ -113,6 +115,24 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
 
       return 0;
     }
+  }
+
+  /**
+   * Executes a command inside of Drupal VM.
+   *
+   * @param string $command
+   *   The command to execute.
+   *
+   * @return \Robo\Result
+   *   The command result.
+   */
+  protected function executeCommandInDrupalVm($command) {
+    $result = $this->taskExec("vagrant exec '$command'")
+      ->dir($this->getConfigValue('repo.root'))
+      ->detectInteractive()
+      ->run();
+
+    return $result;
   }
 
   /**
