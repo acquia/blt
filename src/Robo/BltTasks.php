@@ -99,11 +99,13 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
   protected function invokeHook($hook) {
     if ($this->getConfig()->has("target-hooks.$hook.command")) {
       $this->say("Executing $hook target hook...");
-      $result = $this->taskExec($this->getConfigValue("target-hooks.$hook.command"))
+      $result = $this->taskExecStack()
+        ->exec($this->getConfigValue("target-hooks.$hook.command"))
         ->dir($this->getConfigValue("target-hooks.$hook.dir"))
         ->interactive()
         ->printOutput(TRUE)
         ->printMetadata(FALSE)
+        ->stopOnFail()
         ->run();
 
       return $result;
@@ -113,6 +115,38 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
 
       return 0;
     }
+  }
+
+  /**
+   * Installs a vagrant plugin if it is not already installed.
+   *
+   * @param string $plugin
+   *   The vagrant plugin name.
+   */
+  protected function installVagrantPlugin($plugin) {
+    if (!$this->getInspector()->isVagrantPluginInstalled($plugin)) {
+      $this->logger->warning("The $plugin plugin is not installed! Attempting to install it...");
+      $this->taskExec("vagrant plugin install $plugin")->run();
+    }
+  }
+
+  /**
+   * Executes a command inside of Drupal VM.
+   *
+   * @param string $command
+   *   The command to execute.
+   *
+   * @return \Robo\Result
+   *   The command result.
+   */
+  protected function executeCommandInDrupalVm($command) {
+    $this->installVagrantPlugin('vagrant-exec');
+    $result = $this->taskExec("vagrant exec '$command'")
+      ->dir($this->getConfigValue('repo.root'))
+      ->detectInteractive()
+      ->run();
+
+    return $result;
   }
 
   /**

@@ -17,7 +17,10 @@ class DoctorCommand extends BltTasks {
    */
   public function doctor() {
 
-    if ($this->getInspector()->isDrupalVmLocallyInitialized() && $this->getInspector()->isDrupalVmBooted()) {
+    // Attempt to run BLT doctor inside of a VM.
+    if ($this->getInspector()->isDrupalVmLocallyInitialized()
+      && $this->getInspector()->isDrupalVmBooted()
+      && !$this->getInspector()->isVmCli()) {
       $result = $this->executeDoctorInsideVm();
       if ($result->wasSuccessful()) {
         return $result;
@@ -32,6 +35,12 @@ class DoctorCommand extends BltTasks {
     if (!$result->wasSuccessful() && $alias != 'self') {
       $this->logger->warning("Unable to run the doctor using @$alias. Trying with @self...");
       $this->executeDoctorOnHost('self');
+    }
+
+    // If @self fails, try without any alias.
+    if (!$result->wasSuccessful() && $alias != '') {
+      $this->logger->warning("Unable to run the doctor using @self. Trying without alias...");
+      $this->executeDoctorOnHost('');
     }
 
     return $result;
@@ -50,24 +59,6 @@ class DoctorCommand extends BltTasks {
     $command = "cd $repo_root && $repo_root/vendor/bin/drush cc drush && $repo_root/vendor/bin/drush --include=$repo_root/vendor/acquia/blt/drush blt-doctor -r $repo_root/docroot";
 
     return $this->executeCommandInDrupalVm($command);
-  }
-
-  /**
-   * Executes a command inside of Drupal VM.
-   *
-   * @param string $command
-   *   The command to execute.
-   *
-   * @return \Robo\Result
-   *   The command result.
-   */
-  protected function executeCommandInDrupalVm($command) {
-    $result = $this->taskExec("vagrant exec '$command'")
-      ->dir($this->getConfigValue('repo.root'))
-      ->detectInteractive()
-      ->run();
-
-    return $result;
   }
 
   /**

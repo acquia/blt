@@ -15,7 +15,6 @@ class FrontendCommand extends BltTasks {
    * @command frontend
    */
   public function frontend() {
-    $this->say("Running frontend tasks...");
     $status_code = $this->invokeCommands([
       'frontend:build',
       'frontend:setup',
@@ -25,32 +24,64 @@ class FrontendCommand extends BltTasks {
   }
 
   /**
-   * Uses project.yml hooks to run custom defined commands to
-   * build front end dependencies for custom themes.
+   * Indicates whether a frontend hook should be invoked inside of Drupal VM.
+   *
+   * @return bool
+   *   TRUE if it should be invoked inside of  Drupal VM.
+   */
+  protected function shouldExecuteInDrupalVm() {
+    return $this->getInspector()->isDrupalVmLocallyInitialized()
+      && $this->getInspector()->isDrupalVmBooted()
+      && !$this->getInspector()->isVmCli();
+  }
+
+  /**
+   * Invokes a frontend hook.
+   *
+   * The hook will be invoked in Drupal VM if is initialized and booted.
+   * Otherwise, it will be invoked on the host machine.
+   *
+   * @param string $hook
+   *   The hook to invoke. E.g., "build" would invoke "frontend-build" hook.
+   *
+   * @return int|\Robo\Result
+   *   The status code or result object.
+   */
+  protected function invokeFrontendHook($hook) {
+    if ($this->shouldExecuteInDrupalVm()) {
+      $this->say("Executing $hook target hook inside of Drupal VM...");
+      return $this->executeCommandInDrupalVm("blt frontend:$hook");
+    }
+    else {
+      return $this->invokeHook("frontend-$hook");
+    }
+  }
+
+  /**
+   * Executes frontend-build target hook.
    *
    * @command frontend:build
    */
   public function build() {
-    return $this->invokeHook('frontend-build');
+    return $this->invokeFrontendHook('build');
   }
 
   /**
-   * Uses project.yml hooks to run custom defined commands to
-   * setup front end dependencies for frontend:build.
+   * Executes frontend-setup target hook.
    *
    * @command frontend:setup
    */
   public function setup() {
-    return $this->invokeHook('frontend-setup');
+    return $this->invokeFrontendHook('setup');
   }
 
   /**
-   * Uses project.yml hooks to run tests for the frontend as.
+   * Executes frontend-test target hook.
    *
    * @command frontend:test
    */
   public function test() {
-    return $this->invokeHook('frontend-test');
+    return $this->invokeFrontendHook('test');
   }
 
 }

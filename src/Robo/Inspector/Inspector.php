@@ -234,6 +234,10 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
    *   TRUE if Drupal VM is booted.
    */
   public function isDrupalVmBooted() {
+    if (!$this->commandExists('vagrant')) {
+      return FALSE;
+    }
+
     $result = $this->executor->execute("vagrant status")
       ->printOutput(FALSE)
       ->printMetadata(FALSE)
@@ -252,6 +256,27 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
    */
   public function isVmCli() {
     return $_SERVER['USER'] == 'vagrant';
+  }
+
+  /**
+   * Checks to see if a given vagrant plugin is installed.
+   *
+   * You can check to see if vagrant is installed with commandExists('vagrant').
+   *
+   * @param string $plugin
+   *   The plugin name.
+   *
+   * @return bool
+   *   TRUE if the plugin is installed.
+   */
+  public function isVagrantPluginInstalled($plugin) {
+    $installed = (bool) $this->executor->execute("vagrant plugin list | grep '$plugin'")
+      ->interactive(FALSE)
+      ->silent(TRUE)
+      ->run()
+      ->getOutputData();
+
+    return $installed;
   }
 
   /**
