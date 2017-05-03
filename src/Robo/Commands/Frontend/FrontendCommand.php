@@ -29,7 +29,7 @@ class FrontendCommand extends BltTasks {
    * @return bool
    *   TRUE if it should be invoked inside of  Drupal VM.
    */
-  protected function shouldExecuteInDrupalVM() {
+  protected function shouldExecuteInDrupalVm() {
     return $this->getInspector()->isDrupalVmLocallyInitialized()
       && $this->getInspector()->isDrupalVmBooted()
       && !$this->getInspector()->isVmCli();
@@ -48,7 +48,7 @@ class FrontendCommand extends BltTasks {
    *   The status code or result object.
    */
   protected function invokeFrontendHook($hook) {
-    if ($this->shouldExecuteInDrupalVM()) {
+    if ($this->shouldExecuteInDrupalVm()) {
       return $this->executeCommandInDrupalVm("blt frontend:$hook");
     }
     else {
