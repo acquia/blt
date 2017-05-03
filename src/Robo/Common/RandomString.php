@@ -43,7 +43,7 @@ class RandomString {
   public static function string($length = 8, $unique = FALSE, callable $validator = NULL, $characters = '') {
     $counter = 0;
     $strings = [];
-    $characters_array = str_split($characters);
+    $characters_array = $characters ? str_split($characters) : [];
 
     // Continue to loop if $unique is TRUE and the generated string is not
     // unique or if $validator is a callable that returns FALSE. To generate a
@@ -55,7 +55,7 @@ class RandomString {
       $str = '';
       for ($i = 0; $i < $length; $i++) {
         if ($characters_array) {
-          $position = mt_rand(0, count($characters_array));
+          $position = mt_rand(0, count($characters_array) - 1);
           $str .= $characters_array[$position];
         }
         else {
