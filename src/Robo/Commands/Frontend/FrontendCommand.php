@@ -49,6 +49,7 @@ class FrontendCommand extends BltTasks {
    */
   protected function invokeFrontendHook($hook) {
     if ($this->shouldExecuteInDrupalVm()) {
+      $this->say("Executing $hook target hook inside of Drupal VM...");
       return $this->executeCommandInDrupalVm("blt frontend:$hook");
     }
     else {
