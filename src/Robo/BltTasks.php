@@ -77,6 +77,12 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    *   The exit code of the command.
    */
   protected function invokeCommand($command_name, array $args = []) {
+
+    // Skip invocation of disabled commands.
+    if ($this->isCommandDisabled($command_name)) {
+      return 0;
+    }
+
     /** @var \Robo\Application $application */
     $application = $this->getContainer()->get('application');
     $command = $application->find($command_name);
@@ -86,6 +92,40 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
     $returnCode = $command->run($input, $this->output());
 
     return $returnCode;
+  }
+
+  /**
+   * Gets an array of commands that have been configured to be disabled.
+   *
+   * @return array
+   *   A flat array of disabled commands.
+   */
+  protected function getDisabledCommands() {
+    $disabled_commands_config = $this->getConfigValue('disable-targets');
+    if ($disabled_commands_config) {
+      $disabled_commands = ArrayManipulator::flattenMultidimensionalArray($disabled_commands_config, ':');
+      return $disabled_commands;
+    }
+    return [];
+  }
+
+  /**
+   * Determines if a command has been disabled via disable-targets.
+   *
+   * @param string $command
+   *   The command name.
+   *
+   * @return bool
+   *   TRUE if the command is disabled.
+   */
+  protected function isCommandDisabled($command) {
+    $disabled_commands = $this->getDisabledCommands();
+    if (is_array($disabled_commands) && array_key_exists($command, $disabled_commands) && $disabled_commands[$command]) {
+      $this->output()->writeln("The $command command is disabled.");
+      return TRUE;
+    }
+
+    return FALSE;
   }
 
   /**
