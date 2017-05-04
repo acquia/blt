@@ -34,7 +34,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
   use LoadTasks;
 
   /**
-   * The depth of command invokations, used by invokeCommands().
+   * The depth of command invocations, used by invokeCommands().
    *
    * E.g., this would be 1 if invokeCommands() called a method that itself
    * called invokeCommands().

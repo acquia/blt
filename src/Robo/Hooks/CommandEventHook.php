@@ -32,4 +32,5 @@ class CommandEventHook extends BltTasks implements IOAwareInterface, ConfigAware
       $event->disableCommand();
     }
   }
+
 }
