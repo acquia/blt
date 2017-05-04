@@ -80,7 +80,7 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
     if (!empty($drush_alias)) {
       $drush_alias = "@$drush_alias";
     }
-    $process_executor = Robo::process(new Process("$bin/drush $drush_alias $command"));
+    $process_executor = Robo::process(new Process("'$bin/drush' $drush_alias $command"));
     return $process_executor->dir($this->getConfigValue('docroot'))
       ->interactive(FALSE)
       ->printOutput(FALSE)

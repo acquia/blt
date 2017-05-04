@@ -200,7 +200,13 @@ class DrushTask extends CommandStack {
    * Sets up drush defaults using config.
    */
   protected function init() {
-    $this->executable = $this->getConfig()->get('drush.bin') ?: 'drush';
+    if ($this->getConfig()->get('drush.bin')) {
+      $this->executable = str_replace(' ', '\\ ', $this->getConfig()->get('drush.bin'));
+    }
+    else {
+      $this->executable = 'drush';
+    }
+
     if (!isset($this->dir)) {
       $this->dir($this->getConfig()->get('drush.dir'));
     }
