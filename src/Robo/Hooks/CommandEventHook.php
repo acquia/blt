@@ -16,10 +16,7 @@ use Symfony\Component\Console\Event\ConsoleCommandEvent;
  * These hooks typically use a Wizard to evaluate the validity of config or
  * state and guide the user toward resolving issues.
  */
-class CommandEventHook extends BltTasks implements IOAwareInterface, ConfigAwareInterface, LoggerAwareInterface {
-
-  use ConfigAwareTrait;
-  use LoggerAwareTrait;
+class CommandEventHook extends BltTasks {
 
   /**
    * Disable any command listed in the `disable-target` config key.
@@ -36,14 +33,21 @@ class CommandEventHook extends BltTasks implements IOAwareInterface, ConfigAware
   /**
    * Execute a command inside of Drupal VM.
    *
-   * @hook command-event @executeInDrupalVm
+   * @hook command-event *
    */
   public function executeInDrupalVm(ConsoleCommandEvent $event) {
-    if ($this->shouldExecuteInDrupalVm()) {
-      $event->disableCommand();
-      return $this->executeCommandInDrupalVm($event->getCommand()->getName());
+    $command = $event->getCommand();
+    if (method_exists($command, 'getAnnotationData')) {
+      /** @var \Consolidation\AnnotatedCommand\AnnotationData */
+      $annotation_data = $event->getCommand()->getAnnotationData();
+      if ($annotation_data->has('executeInDrupalVm') && $this->shouldExecuteInDrupalVm()) {
+        $event->disableCommand();
+        return $this->executeCommandInDrupalVm("blt " . $event->getCommand()->getName());
+      }
     }
   }
+
+
 
   /**
    * Indicates whether a frontend hook should be invoked inside of Drupal VM.

@@ -40,9 +40,10 @@ class SetupWizard extends Wizard {
       $confirm = $this->confirm("Do you want to install Drupal?");
       if ($confirm) {
         $bin = $this->getConfigValue('composer.bin');
-
         $this->executor
-          ->execute("$bin/blt setup:drupal:install")->printOutput(TRUE)->run();
+          ->execute("$bin/blt setup")
+          ->interactive(TRUE)
+          ->run();
       }
     }
   }
