@@ -26,19 +26,6 @@ class FrontendCommand extends BltTasks {
   }
 
   /**
-   * Invokes a frontend hook.
-   *
-   * @param string $hook
-   *   The hook to invoke. E.g., "build" would invoke "frontend-build" hook.
-   *
-   * @return int|\Robo\Result
-   *   The status code or result object.
-   */
-  protected function invokeFrontendHook($hook) {
-    return $this->invokeHook("frontend-$hook");
-  }
-
-  /**
    * Executes frontend-build target hook.
    *
    * @command frontend:build
@@ -46,7 +33,7 @@ class FrontendCommand extends BltTasks {
    * @executeInDrupalVm
    */
   public function build() {
-    return $this->invokeFrontendHook('build');
+    return $this->invokeHook('frontend-build');
   }
 
   /**
@@ -57,7 +44,7 @@ class FrontendCommand extends BltTasks {
    * @executeInDrupalVm
    */
   public function setup() {
-    return $this->invokeFrontendHook('setup');
+    return $this->invokeHook('frontend-setup');
   }
 
   /**
@@ -68,7 +55,7 @@ class FrontendCommand extends BltTasks {
    * @executeInDrupalVm
    */
   public function test() {
-    return $this->invokeFrontendHook('test');
+    return $this->invokeHook('frontend-test');
   }
 
 }

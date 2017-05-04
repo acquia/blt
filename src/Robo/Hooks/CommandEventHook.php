@@ -56,4 +56,5 @@ class CommandEventHook extends BltTasks implements IOAwareInterface, ConfigAware
       && $this->getInspector()->isDrupalVmBooted()
       && !$this->getInspector()->isVmCli();
   }
+
 }
