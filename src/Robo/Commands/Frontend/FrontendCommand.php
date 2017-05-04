@@ -13,6 +13,8 @@ class FrontendCommand extends BltTasks {
    * Runs all frontend targets.
    *
    * @command frontend
+   *
+   * @executeInDrupalVm
    */
   public function frontend() {
     $status_code = $this->invokeCommands([
@@ -24,22 +26,7 @@ class FrontendCommand extends BltTasks {
   }
 
   /**
-   * Indicates whether a frontend hook should be invoked inside of Drupal VM.
-   *
-   * @return bool
-   *   TRUE if it should be invoked inside of  Drupal VM.
-   */
-  protected function shouldExecuteInDrupalVm() {
-    return $this->getInspector()->isDrupalVmLocallyInitialized()
-      && $this->getInspector()->isDrupalVmBooted()
-      && !$this->getInspector()->isVmCli();
-  }
-
-  /**
    * Invokes a frontend hook.
-   *
-   * The hook will be invoked in Drupal VM if is initialized and booted.
-   * Otherwise, it will be invoked on the host machine.
    *
    * @param string $hook
    *   The hook to invoke. E.g., "build" would invoke "frontend-build" hook.
@@ -48,19 +35,15 @@ class FrontendCommand extends BltTasks {
    *   The status code or result object.
    */
   protected function invokeFrontendHook($hook) {
-    if ($this->shouldExecuteInDrupalVm()) {
-      $this->say("Executing $hook target hook inside of Drupal VM...");
-      return $this->executeCommandInDrupalVm("blt frontend:$hook");
-    }
-    else {
-      return $this->invokeHook("frontend-$hook");
-    }
+    return $this->invokeHook("frontend-$hook");
   }
 
   /**
    * Executes frontend-build target hook.
    *
    * @command frontend:build
+   *
+   * @executeInDrupalVm
    */
   public function build() {
     return $this->invokeFrontendHook('build');
@@ -70,6 +53,8 @@ class FrontendCommand extends BltTasks {
    * Executes frontend-setup target hook.
    *
    * @command frontend:setup
+   *
+   * @executeInDrupalVm
    */
   public function setup() {
     return $this->invokeFrontendHook('setup');
@@ -79,6 +64,8 @@ class FrontendCommand extends BltTasks {
    * Executes frontend-test target hook.
    *
    * @command frontend:test
+   *
+   * @executeInDrupalVm
    */
   public function test() {
     return $this->invokeFrontendHook('test');

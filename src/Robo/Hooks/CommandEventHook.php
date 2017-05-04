@@ -33,4 +33,27 @@ class CommandEventHook extends BltTasks implements IOAwareInterface, ConfigAware
     }
   }
 
+  /**
+   * Execute a command inside of Drupal VM.
+   *
+   * @hook command-event @executeInDrupalVm
+   */
+  public function executeInDrupalVm(ConsoleCommandEvent $event) {
+    if ($this->shouldExecuteInDrupalVm()) {
+      $event->disableCommand();
+      return $this->executeCommandInDrupalVm($event->getCommand()->getName());
+    }
+  }
+
+  /**
+   * Indicates whether a frontend hook should be invoked inside of Drupal VM.
+   *
+   * @return bool
+   *   TRUE if it should be invoked inside of  Drupal VM.
+   */
+  protected function shouldExecuteInDrupalVm() {
+    return $this->getInspector()->isDrupalVmLocallyInitialized()
+      && $this->getInspector()->isDrupalVmBooted()
+      && !$this->getInspector()->isVmCli();
+  }
 }
