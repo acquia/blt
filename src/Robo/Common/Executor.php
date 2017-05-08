@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Robo\Collection\CollectionBuilder;
+use Robo\Contract\VerbosityThresholdInterface;
 use Robo\Robo;
 use Robo\Contract\ConfigAwareInterface;
 use Robo\Contract\IOAwareInterface;
@@ -83,8 +84,9 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
     $process_executor = Robo::process(new Process("'$bin/drush' $drush_alias $command"));
     return $process_executor->dir($this->getConfigValue('docroot'))
       ->interactive(FALSE)
-      ->printOutput(FALSE)
-      ->printMetadata(FALSE);
+      ->printOutput(TRUE)
+      ->printMetadata(FALSE)
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERY_VERBOSE);
   }
 
   /**

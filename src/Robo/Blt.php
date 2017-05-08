@@ -76,6 +76,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
 
     $this->setLogger($container->get('logger'));
     // date_default_timezone_set($config->get('time_zone'));.
+    // @todo Emit warning if xdebug is enabled.
   }
 
   /**
