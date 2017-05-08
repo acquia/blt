@@ -42,7 +42,9 @@ class BuildCommand extends BltTasks {
    * @todo Add a @validateSettingsFilesArePresent
    */
   public function drupalInstall() {
-    $status_code = $this->invokeCommands(['drupal:install']);
+    $status_code = $this->invokeCommands([
+      'drupal:install',
+    ]);
     if ($status_code) {
       return $status_code;
     }

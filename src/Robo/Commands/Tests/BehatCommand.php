@@ -60,6 +60,7 @@ class BehatCommand extends TestsCommandBase {
    * @validateDrupalIsInstalled
    * @validateBehatIsConfigured
    * @validateInsideVm
+   * @executeInDrupalVm
    */
   public function behat() {
     // Log config for debugging purposes.

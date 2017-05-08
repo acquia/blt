@@ -15,6 +15,7 @@ use Psr\Log\LoggerAwareTrait;
 use Robo\Contract\BuilderAwareInterface;
 use Robo\Contract\ConfigAwareInterface;
 use Robo\Contract\IOAwareInterface;
+use Robo\Contract\VerbosityThresholdInterface;
 use Robo\LoadAllTasks;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -180,10 +181,13 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    *   The command result.
    */
   protected function executeCommandInDrupalVm($command) {
+    $this->say("Executing command <comment>$command</comment> inside of Drupal VM...");
     $this->installVagrantPlugin('vagrant-exec');
-    $result = $this->taskExec("vagrant exec '$command'")
+    $result = $this->taskExecStack()
+      ->exec("vagrant exec --tty '$command'")
       ->dir($this->getConfigValue('repo.root'))
-      ->detectInteractive()
+      ->interactive(TRUE)
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
     return $result;
