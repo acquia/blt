@@ -43,9 +43,14 @@ class DrupalCommand extends BltTasks {
       ->assume(TRUE)
       ->printOutput(TRUE);
 
-    if (!$this->getConfigValue('cm.strategy') == 'features') {
+    $config_strategy = $this->getConfigValue('cm.strategy');
+
+    if (!$config_strategy != 'none') {
       $cm_core_key = $this->getConfigValue('cm.core.key');
       $task->option('config-dir', $this->getConfigValue("cm.core.dirs.$cm_core_key.path"));
+      if ($config_strategy == 'features') {
+        $task->option('partial');
+      }
     }
 
     $result = $task->interactive()->run();
