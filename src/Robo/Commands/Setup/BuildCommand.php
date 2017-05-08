@@ -43,8 +43,8 @@ class BuildCommand extends BltTasks {
    */
   public function drupalInstall() {
     $status_code = $this->invokeCommands([
-      'drupal:install'
-      ]);
+      'drupal:install',
+    ]);
     if ($status_code) {
       return $status_code;
     }
