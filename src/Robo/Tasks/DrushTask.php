@@ -273,7 +273,8 @@ class DrushTask extends CommandStack {
       $this->option($assumption);
     }
 
-    if ($this->verbosityThreshold() >= VerbosityThresholdInterface::VERBOSITY_VERBOSE) {
+    if ($this->verbosityThreshold() >= VerbosityThresholdInterface::VERBOSITY_VERBOSE
+      && $this->verbose !== FALSE) {
       $this->verbose(TRUE);
     }
 
@@ -295,6 +296,9 @@ class DrushTask extends CommandStack {
 
   /**
    * Overriding parent::run() method to remove printTaskInfo() calls.
+   *
+   * Make note that if stopOnFail() is TRUE, then result data isn't returned!
+   * Maybe this should be changed.
    */
   public function run() {
     $this->setupExecution();
