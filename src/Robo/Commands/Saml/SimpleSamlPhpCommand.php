@@ -72,7 +72,7 @@ class SimpleSamlPhpCommand extends BltTasks {
   }
 
   /**
-   * Copies the configuration templates from the library to a simplesamlphp directory located in the project root.
+   * Copies the configuration templates from the library to the project root.
    *
    * @return \Robo\Result
    *
@@ -126,7 +126,7 @@ class SimpleSamlPhpCommand extends BltTasks {
   }
 
   /**
-   * Sets a value in project.yml to let other targets know simplesamlphp is installed.
+   * Sets value in project.yml to let targets know simplesamlphp is installed.
    *
    * @return \Robo\Result
    */
@@ -226,4 +226,5 @@ class SimpleSamlPhpCommand extends BltTasks {
 
     ");
   }
+
 }
