@@ -282,4 +282,24 @@ class Updates {
     $project_yml['cm']['strategy'] = 'features';
     $this->updater->writeProjectYml($project_yml);
   }
+
+  /**
+   * 8.7.2.
+   *
+   * @Update(
+   *   version = "8007002",
+   *   description = "Updating composer.json to require composer.overrides.json."
+   * )
+   */
+  public function update_8007002() {
+    $composer_json = $this->updater->getComposerJson();
+
+    if (!empty($composer_json['extra']['merge-plugin']['include']) &&
+      $composer_json['extra']['merge-plugin']['include'] == 'blt/composer.overrides.json') {
+      unset($composer_json['extra']['merge-plugin']['include']);
+      $composer_json['extra']['merge-plugin']['require'][] = 'blt/composer.overrides.json';
+    }
+
+    $this->updater->writeComposerJson($composer_json);
+  }
 }

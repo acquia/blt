@@ -35,8 +35,6 @@ cd blted8
 git init
 composer install
 ./vendor/bin/blt install-alias
-rm -rf vendor
-composer update
 git add -A
 git commit -m 'Initial commit.'
 ```
