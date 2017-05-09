@@ -85,7 +85,7 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
     return $process_executor->dir($this->getConfigValue('docroot'))
       ->interactive(FALSE)
       ->printOutput(TRUE)
-      ->printMetadata(FALSE)
+      ->printMetadata(TRUE)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERY_VERBOSE);
   }
 

@@ -37,9 +37,34 @@ class CommandEventHook extends BltTasks {
       $annotation_data = $event->getCommand()->getAnnotationData();
       if ($annotation_data->has('executeInDrupalVm') && $this->shouldExecuteInDrupalVm()) {
         $event->disableCommand();
-        return $this->executeCommandInDrupalVm("blt " . $event->getCommand()->getName());
+        $args = array_slice($_SERVER['argv'], 2);
+        $args = array_map([$this, 'escapeShellArg'], $args);
+        $args = implode(' ', $args);
+        $command_name = $event->getCommand()->getName();
+        $result = $this->executeCommandInDrupalVm("blt $command_name $args --define drush.alias=self");
+
+        return $result;
       }
     }
+  }
+
+  /**
+   * Escapes the value for CLI arguments in form key=value.
+   *
+   * @param string $arg
+   *  The argument to be escaped.
+   *
+   * @return string
+   *   The escaped argument.
+   */
+  protected function escapeShellArg($arg) {
+    if (strpos($arg, '-') !== 0
+      && strstr($arg, '=') !== FALSE) {
+      $arg_parts = explode('=', $arg);
+      $arg = $arg_parts[0] . '="' . $arg_parts[1] . '"';
+    }
+
+    return $arg;
   }
 
   /**
