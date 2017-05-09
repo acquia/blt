@@ -37,7 +37,6 @@ class ConfigCommand extends BltTasks {
         ->assume(TRUE)
         // Sometimes drush forgets where to find its aliases.
         ->drush("cc")->arg('drush')
-        ->drush("pm-enable")->arg('config')
         // Rebuild caches in case service definitions have changed.
         // @see https://www.drupal.org/node/2826466
         ->drush("cache-rebuild")
