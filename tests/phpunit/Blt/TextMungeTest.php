@@ -4,7 +4,6 @@ namespace Acquia\Blt\Tests\Blt;
 
 use Acquia\Blt\Robo\Common\TextMunge;
 
-
 /**
  * Tests text:munge command in blt-console.
  */

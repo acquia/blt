@@ -67,7 +67,7 @@ class CommandEventHook extends BltTasks {
    * Escapes the value for CLI arguments in form key=value.
    *
    * @param string $arg
-   *  The argument to be escaped.
+   *   The argument to be escaped.
    *
    * @return string
    *   The escaped argument.

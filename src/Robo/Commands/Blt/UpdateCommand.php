@@ -199,8 +199,8 @@ class UpdateCommand extends BltTasks {
     $this->say("Installing new Composer dependencies provided by BLT. This make take a while...");
     $result = $this->taskFilesystemStack()
       ->remove([
-        $this->getConfigValue('repo.root') .'/composer.lock',
-        $this->getConfigValue('repo.root') .'/vendor',
+        $this->getConfigValue('repo.root') . '/composer.lock',
+        $this->getConfigValue('repo.root') . '/vendor',
       ])
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
@@ -231,7 +231,7 @@ class UpdateCommand extends BltTasks {
    * Updates blt/.schema_version with latest schema version.
    */
   protected function updateSchemaVersionFile() {
-    //  Write BLT version to blt/.schema-version.
+    // Write BLT version to blt/.schema-version.
     $latest_update_method_version = $this->updater->getLatestUpdateMethodVersion();
     $schema_file_name = $this->getConfigValue('blt.config-files.schema-version');
     $bytes = file_put_contents($schema_file_name, $latest_update_method_version);
@@ -275,7 +275,7 @@ class UpdateCommand extends BltTasks {
     // Check to see if version is Semver (legacy format). Convert to expected
     // syntax. Luckily, there are a finite number of known legacy versions.
     // We check specifically for those.
-    // E.g., 8.6.6 => 8006006
+    // E.g., 8.6.6 => 8006006.
     if (strpos($version, '.') !== FALSE) {
       str_replace('-beta1', '', $version);
       $semver_array = explode('.', $version);
@@ -341,4 +341,5 @@ class UpdateCommand extends BltTasks {
       ->run();
     return $result;
   }
+
 }

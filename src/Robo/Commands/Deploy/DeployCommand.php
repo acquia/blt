@@ -127,6 +127,7 @@ class DeployCommand extends BltTasks {
    * @param $options
    *
    * @return string
+   *
    * @throws \Exception
    */
   protected function getTagName($options) {

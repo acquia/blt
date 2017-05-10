@@ -36,6 +36,7 @@ class SimpleSamlPhpCommand extends BltTasks {
    * @command simplesamlphp:init
    *
    * @return \Robo\Result
+   *
    * @throws \Exception
    */
   public function initializeSimpleSamlPhp() {
@@ -59,6 +60,7 @@ class SimpleSamlPhpCommand extends BltTasks {
    * Adds simplesamlphp_auth as a dependency.
    *
    * @return \Robo\Result
+   *
    * @throws \Exception
    */
   protected function requireModule() {

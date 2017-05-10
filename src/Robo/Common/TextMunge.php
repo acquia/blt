@@ -2,15 +2,10 @@
 
 namespace Acquia\Blt\Robo\Common;
 
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-
 /**
  * Munges two text files.
  */
 class TextMunge {
-
 
   /**
    * Merges the arrays in two text files.
