@@ -41,10 +41,10 @@ class UpdateCommand extends BltTasks {
    * @command create-project
    */
   public function createProject() {
-    $result = $this->cleanUpBltProject();
-    $result = $this->prepareRepository();
+    $result = $this->cleanUpProjectTemplate();
+    $result = $this->reInstallComposerPackages();
     $result = $this->setProjectName();
-    $result = $this->initRepo();
+    $result = $this->initAndCommitRepo();
     $this->displayArt();
 
     $this->yell("Your new BLT-based project has been created in {$this->getConfigValue('repo.root')}.");
@@ -64,7 +64,7 @@ class UpdateCommand extends BltTasks {
     $this->mungeProjectYml();
     $this->executeSchemaUpdates($this->currentSchemaVersion);
     $this->cleanup();
-    $this->installAlias();
+    $this->installBltAlias();
   }
 
   /**
@@ -75,7 +75,7 @@ class UpdateCommand extends BltTasks {
    * @return \Robo\Result
    */
   public function addToProject() {
-    $result = $this->prepareRepository();
+    $result = $this->reInstallComposerPackages();
     $this->displayArt();
     $this->yell("BLT has been added to your project.");
     $this->say("It has added and modified various project files. Please inspect your repository.");
@@ -88,7 +88,7 @@ class UpdateCommand extends BltTasks {
    *
    * @command install-alias
    */
-  public function installAlias() {
+  public function installBltAlias() {
     $this->say("BLT can automatically create a Bash alias to make it easier to run BLT tasks.");
     $this->say("This alias may be created in <comment>.bash_profile</comment> or <comment>.bashrc</comment> depending on your system architecture.");
     $create = $this->confirm("Install alias?");
@@ -151,9 +151,9 @@ class UpdateCommand extends BltTasks {
   }
 
   /**
-   * Initializes the project repo directly after creation.
+   * Initializes the project repo and performs initial commit.
    */
-  protected function initRepo() {
+  protected function initAndCommitRepo() {
     $result = $this->taskExecStack()
       ->dir("repo.root")
       ->exec("git init")
@@ -178,7 +178,7 @@ class UpdateCommand extends BltTasks {
    *
    * @return \Robo\Result
    */
-  protected function cleanUpBltProject() {
+  protected function cleanUpProjectTemplate() {
     // Remove files leftover from acquia/blt-project.
     $result = $this->taskFilesystemStack()
       ->dir($this->getConfigValue('repo.root'))
@@ -196,8 +196,8 @@ class UpdateCommand extends BltTasks {
    *
    * @return \Robo\Result
    */
-  protected function prepareRepository() {
-    $this->updateProjectFiles();
+  protected function reInstallComposerPackages() {
+    $this->updateRootProjectFiles();
     $this->say("Installing new Composer dependencies provided by BLT. This make take a while...");
     $result = $this->taskFilesystemStack()
       ->remove([
@@ -220,7 +220,7 @@ class UpdateCommand extends BltTasks {
    *
    * @return \Robo\Result
    */
-  protected function updateProjectFiles() {
+  protected function updateRootProjectFiles() {
     $this->updateSchemaVersionFile();
     $result = $this->rsyncTemplate();
     $result = $this->mungeComposerJson();
