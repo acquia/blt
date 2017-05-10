@@ -4,6 +4,8 @@ namespace Acquia\Blt\Robo\Commands\Saml;
 
 use Acquia\Blt\Robo\BltTasks;
 use Robo\Contract\VerbosityThresholdInterface;
+use Robo\Result;
+use Symfony\Component\Console\Helper\FormatterHelper;
 
 /**
  * Defines commands in the "simplesamlphp:*" namespace.
@@ -12,6 +14,10 @@ class SimpleSamlPhpCommand extends BltTasks {
 
   protected $bltRoot;
   protected $repoRoot;
+  /**
+   * @var \Symfony\Component\Console\Helper\FormatterHelper
+   */
+  protected $formatter;
 
   /**
    * This hook will fire for all commands in this command file.
@@ -21,30 +27,32 @@ class SimpleSamlPhpCommand extends BltTasks {
   public function initialize() {
     $this->bltRoot = $this->getConfigValue('blt.root');
     $this->repoRoot = $this->getConfigValue('repo.root');
+    $this->formatter = new FormatterHelper();
   }
 
   /**
    * Initializes SimpleSAMLphp for project.
    *
+   * @command simplesamlphp:init
+   *
    * @return \Robo\Result
    * @throws \Exception
-   *
-   * @command simplesamlphp:init
    */
-  public function simpleSamlPhpInit() {
-    if (!$this->isSimpleSamlPhpInstalled()) {
-      $result = $this->simpleSamlPhpLibInit();
-      $result = $this->simpleSamlPhpConfigInit();
+  public function initializeSimpleSamlPhp() {
+    if (!$this->getInspector()->isSimpleSamlPhpInstalled()) {
+      $result = $this->requireModule();
+      $result = $this->initializeConfig();
       $result = $this->setSimpleSamlPhpInstalled();
       $result = $this->symlinkDocrootToLibDir();
     }
     else {
       $this->say('SimpleSAMLphp has already been initialized by BLT.');
     }
-    $this->simpleSamlPhpInitComplete();
+    $this->outputCompleteSetupInstructions();
     if (isset($result)) {
       return $result;
     }
+    return Result::EXITCODE_OK;
   }
 
   /**
@@ -53,8 +61,8 @@ class SimpleSamlPhpCommand extends BltTasks {
    * @return \Robo\Result
    * @throws \Exception
    */
-  protected function simpleSamlPhpLibInit() {
-    $this->say('Adding SimpleSAMLphp Auth module as a dependency.');
+  protected function requireModule() {
+    $this->say('Adding SimpleSAMLphp Auth module as a dependency...');
 
     $result = $this->taskExec("composer require")
       ->arg('drupal/simplesamlphp_auth:^3.0')
@@ -74,14 +82,14 @@ class SimpleSamlPhpCommand extends BltTasks {
   /**
    * Copies the configuration templates from the library to the project root.
    *
-   * @return \Robo\Result
-   *
    * @command simplesamlphp:config:init
+   *
+   * @return \Robo\Result
    */
-  public function simpleSamlPhpConfigInit() {
+  public function initializeConfig() {
     $destinationDirectory = "{$this->repoRoot}/simplesamlphp/config";
 
-    $this->say("Copying config files to ${destinationDirectory}.");
+    $this->say("Copying config files to ${destinationDirectory}...");
     $result = $this->taskFileSystemStack()
       ->copy("{$this->repoRoot}/vendor/simplesamlphp/simplesamlphp/config-templates/authsources.php", "${destinationDirectory}/authsources.php")
       ->copy("{$this->repoRoot}/vendor/simplesamlphp/simplesamlphp/config-templates/config.php", "${destinationDirectory}/config.php")
@@ -94,7 +102,7 @@ class SimpleSamlPhpCommand extends BltTasks {
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
-    $this->say("Copying config files to {$this->repoRoot}/simplesamlphp/metadata.");
+    $this->say("Copying config files to {$this->repoRoot}/simplesamlphp/metadata...");
     $result = $this->taskFileSystemStack()
       ->copy("{$this->repoRoot}/vendor/simplesamlphp/simplesamlphp/metadata-templates/saml20-idp-remote.php", "{$this->repoRoot}/simplesamlphp/metadata/saml20-idp-remote.php")
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
@@ -106,12 +114,12 @@ class SimpleSamlPhpCommand extends BltTasks {
   /**
    * Copies customized config files into the library on deployments.
    *
-   * @return \Robo\Result
-   *
    * @command simplesamlphp:deploy:config
+   *
+   * @return \Robo\Result
    */
   public function simpleSamlPhpDeployConfig() {
-    $this->say('Copying config files to the appropriate place in simplesamlphp library in the deploy artifact.');
+    $this->say('Copying config files to the appropriate place in simplesamlphp library in the deploy artifact...');
     $result = $this->taskCopyDir(["{$this->repoRoot}/simplesamlphp" => "{$this->repoRoot}/deploy/vendor/simplesamlphp/simplesamlphp"])
       ->overwrite(TRUE)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
@@ -134,6 +142,7 @@ class SimpleSamlPhpCommand extends BltTasks {
     $composerBin = $this->getConfigValue('composer.bin');
     $projectConfigFile = $this->getConfigValue('blt.config-files.project');
     $this->say("Updating ${projectConfigFile}...");
+
     $result = $this->taskExec("{$composerBin}/yaml-cli update:value")
       ->arg("${projectConfigFile}")
       ->arg('simplesamlphp')
@@ -148,15 +157,6 @@ class SimpleSamlPhpCommand extends BltTasks {
   }
 
   /**
-   * Checks if simplesamlphp has already been setup by BLT.
-   *
-   * @return bool
-   */
-  public function isSimpleSamlPhpInstalled() {
-    return $this->getConfig()->has('simplesamlphp') && $this->getConfigValue('simplesamlphp');
-  }
-
-  /**
    * Creates a symlink from the docroot to the web accessible library dir.
    *
    * @return \Robo\Result
@@ -164,7 +164,7 @@ class SimpleSamlPhpCommand extends BltTasks {
   protected function symlinkDocrootToLibDir() {
     $docroot = $this->getConfigValue('docroot');
 
-    $this->say("Creating a symbolic link from ${docroot}/simplesaml to web accessible directory in the simplesamlphp library");
+    $this->say("Creating a symbolic link from ${docroot}/simplesaml to web accessible directory in the simplesamlphp library...");
     $result = $this->taskFileSystemStack()
       ->symlink("../vendor/simplesamlphp/simplesamlphp/www", "${docroot}/simplesaml")
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
@@ -176,12 +176,12 @@ class SimpleSamlPhpCommand extends BltTasks {
   /**
    * Copies customized config files into the library on builds.
    *
-   * @return \Robo\Result
-   *
    * @command simplesamlphp:build:config
+   *
+   * @return \Robo\Result
    */
   public function simpleSamlPhpBuildConfig() {
-    $this->say('Copying config files to the appropriate place in simplesamlphp library.');
+    $this->say('Copying config files to the appropriate place in simplesamlphp library...');
     $result = $this->taskCopyDir(["{$this->repoRoot}/simplesamlphp" => "{$this->repoRoot}/vendor/simplesamlphp/simplesamlphp"])
       ->overwrite(TRUE)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
@@ -196,35 +196,27 @@ class SimpleSamlPhpCommand extends BltTasks {
 
   /**
    * Outputs a message to edit the new config files.
+   *
+   * @command simplesamlphp:complete
    */
-  protected function simpleSamlPhpInitComplete() {
+  public function outputCompleteSetupInstructions() {
     $docroot = $this->getConfigValue('docroot');
-    $this->say("
-
-
-    ============================================================================
-      To complete the setup you must manually modify several files.
-    ============================================================================
-
-      * ${docroot}/.htaccess
-      * {$this->repoRoot}/simplesamlphp/config/acquia_config.php
-      * {$this->repoRoot}/simplesamlphp/config/authsources.php
-      * {$this->repoRoot}/simplesamlphp/metadata/saml20-idp-remote.php
-
-
-      After editing these files execute the following command to copy the
-      modified files to the correct location in the SimpleSAMLphp library
-
-      'blt simplesamlphp:build:config'
-
-    ============================================================================
-      See http://blt.readthedocs.io/en/latest/readme/simplesamlphp-setup/
-      for details on how to modify the files.
-    ============================================================================
-
-
-
-    ");
+    $instructions = [
+      'To complete the setup you must manually modify several files:',
+      '',
+      "* ${docroot}/.htaccess",
+      "* {$this->repoRoot}/simplesamlphp/config/acquia_config.php",
+      "* {$this->repoRoot}/simplesamlphp/config/authsources.php",
+      "* {$this->repoRoot}/simplesamlphp/metadata/saml20-idp-remote.php",
+      '',
+      'After editing these files execute the following command to copy the modified files to the correct location in the SimpleSAMLphp library:',
+      '',
+      "'blt simplesamlphp:build:config'",
+      '',
+      "See http://blt.readthedocs.io/en/latest/readme/simplesamlphp-setup/ for details on how to modify the files.",
+    ];
+    $formattedBlock = $this->formatter->formatBlock($instructions, 'comment', TRUE);
+    $this->writeln($formattedBlock);
   }
 
 }

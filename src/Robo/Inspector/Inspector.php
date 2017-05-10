@@ -409,4 +409,14 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
     return file_exists("{$this->getConfigValue('composer.bin')}/phantomjs");
   }
 
+  /**
+   * Checks if simplesamlphp has already been setup by BLT.
+   *
+   * @return bool
+   *   TRUE if the simplesamlphp config key exists and is true.
+   */
+  public function isSimpleSamlPhpInstalled() {
+    return $this->getConfig()->has('simplesamlphp') && $this->getConfigValue('simplesamlphp');
+  }
+
 }
