@@ -181,10 +181,9 @@ class UpdateCommand extends BltTasks {
   protected function cleanUpProjectTemplate() {
     // Remove files leftover from acquia/blt-project.
     $result = $this->taskFilesystemStack()
-      ->dir($this->getConfigValue('repo.root'))
-      ->remove('.travis.yml')
-      ->remove('LICENSE.txt')
-      ->remove('README.md')
+      ->remove($this->getConfigValue('repo.root') . '/.travis.yml')
+      ->remove($this->getConfigValue('repo.root') . '/LICENSE.txt')
+      ->remove($this->getConfigValue('repo.root') . '/README.md')
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
