@@ -34,7 +34,9 @@ class UpdateCommand extends BltTasks {
   }
 
   /**
-   * This target is executed when a new project is created via `composer create-project acquia/blt-project`.
+   * Generates all necessary files for a brand new BLTed repo.
+   *
+   * Called during `composer create-project acquia/blt-project`.
    *
    * @command create-project
    */
@@ -66,7 +68,7 @@ class UpdateCommand extends BltTasks {
   }
 
   /**
-   * This target is executed the first time that BLT is added to an existing project.
+   * Prepares a repo that is adding BLT for the first time.
    *
    * @command add-to-project
    *
@@ -312,7 +314,8 @@ class UpdateCommand extends BltTasks {
    * Munges BLT's templated composer.json with project's composer.json.
    */
   protected function mungeComposerJson() {
-    // Merge in the extras configuration. This pulls in wikimedia/composer-merge-plugin and composer/installers settings.
+    // Merge in the extras configuration. This pulls in
+    // wikimedia/composer-merge-plugin and composer/installers settings.
     $this->say("Merging default configuration into composer.json...");
     $project_composer_json = $this->getConfigValue('repo.root') . '/composer.json';
     $template_composer_json = $this->getConfigValue('blt.root') . '/template/composer.json';
@@ -321,11 +324,14 @@ class UpdateCommand extends BltTasks {
   }
 
   /**
-   * Updates project BLT .yml files with new key value pairs from upstream. This WILL NOT overwrite existing values.
+   * Updates project BLT .yml files with new key value pairs from upstream.
+   *
+   * This WILL NOT overwrite existing values.
    */
   protected function mungeProjectYml() {
     $this->say("Merging BLT's <comment>project.yml</comment> template with your project's <comment>blt/project.yml</comment>...");
-    // Values in the project's existing project.yml file will be preserved and not overridden.
+    // Values in the project's existing project.yml file will be preserved and
+    // not overridden.
     $munged_yaml = YamlMunge::munge($this->getConfigValue('blt.root') . '/template/blt/project.yml', $this->getConfigValue('blt.config-files.project'));
     file_put_contents($this->getConfigValue('blt.config-files.project'), $munged_yaml);
   }
