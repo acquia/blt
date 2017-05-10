@@ -44,7 +44,7 @@ class DefaultConfig extends BltConfig {
       }
     }
 
-    throw new \Exception('Could not find repository root directory');
+    throw new \Exception('Could not find repository root directory!');
   }
 
   /**

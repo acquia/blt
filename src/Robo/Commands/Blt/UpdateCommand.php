@@ -30,7 +30,7 @@ class UpdateCommand extends BltTasks {
    */
   public function initialize() {
     $this->updater = new Updater('Acquia\Blt\Update\Updates', $this->getConfigValue('repo.root'));
-    $this->currentSchemaVersion = file_get_contents($this->getConfigValue('blt.config-files.schema-version'));
+    $this->currentSchemaVersion = $this->getCurrentSchemaVersion();
   }
 
   /**
@@ -227,6 +227,23 @@ class UpdateCommand extends BltTasks {
     $result = $this->mungeProjectYml();
 
     return $result;
+  }
+
+  /**
+   * Gets the current schema version of the root project.
+   *
+   * @return string
+   *   The current schema version.
+   */
+  protected function getCurrentSchemaVersion() {
+    if (file_exists($this->getConfigValue('blt.config-files.schema-version'))) {
+      $version = file_get_contents($this->getConfigValue('blt.config-files.schema-version'));
+    }
+    else {
+      $version = $this->updater->getLatestUpdateMethodVersion();
+    }
+
+    return $version;
   }
 
   /**
