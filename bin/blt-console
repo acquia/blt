@@ -25,10 +25,6 @@ else {
 }
 
 $application = new Application();
-$application->add(new ComposerMungeCommand());
 $application->add(new SchemaVersionCommand());
-$application->add(new UpdateCommand());
-$application->add(new YamlMungeCommand());
-$application->add(new TextMungeCommand());
 
 $application->run();

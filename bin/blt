@@ -10,6 +10,7 @@ if (!isset($autoload)) {
 
 $robo_namespaces = [
   'acsf',
+  'blt',
   'ci',
   'custom',
   'deploy',

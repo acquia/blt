@@ -28,39 +28,17 @@ if [ ! -z "$DETECTED_PROFILE" ]; then
     exit
   fi
 
-  while getopts ":y" arg; do
-  case $arg in
-    y)
-      REPLY=y
-      ;;
-    esac
-  done
+  DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-  echo ""
-  echo "BLT can automatically create a Bash alias to make it easier to run BLT tasks."
-  echo "This alias may be created in .bash_profile or .bashrc depending on your system architecture."
-  echo ""
-  sleep 1
-
-  if [ -z $REPLY ]; then
-    read -p "Install alias? (y/n)" -n 1 -r
+  if cat $DIR/alias >> $DETECTED_PROFILE; then
+    echo "Added alias for blt to $DETECTED_PROFILE"
+    echo "You may now use the 'blt' command from anywhere within a BLT-generated repository."
     echo ""
-  fi
-
-  if [[ $REPLY =~ ^[Yy]$ ]]; then
-    DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-
-    if cat $DIR/alias >> $DETECTED_PROFILE; then
-      echo "Added alias for blt to $DETECTED_PROFILE"
-      echo "You may now use the 'blt' command from anywhere within a BLT-generated repository."
-      echo ""
-      echo "Restart your terminal session or run 'source $DETECTED_PROFILE' to use the new command."
-      exit
-    else
-      echo "Error: Could not modify $DETECTED_PROFILE."
-      exit 1
-    fi
-
+    echo "Restart your terminal session or run 'source $DETECTED_PROFILE' to use the new command."
+    exit
+  else
+    echo "Error: Could not modify $DETECTED_PROFILE."
+    exit 1
   fi
 
 else
