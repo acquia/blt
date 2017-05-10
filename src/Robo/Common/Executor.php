@@ -7,6 +7,7 @@ use GuzzleHttp\Client;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Robo\Collection\CollectionBuilder;
+use Robo\Contract\VerbosityThresholdInterface;
 use Robo\Robo;
 use Robo\Contract\ConfigAwareInterface;
 use Robo\Contract\IOAwareInterface;
@@ -77,11 +78,15 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
     $bin = $this->getConfigValue('composer.bin');
     /** @var \Robo\Common\ProcessExecutor $process_executor */
     $drush_alias = $this->getConfigValue('drush.alias');
-    $process_executor = Robo::process(new Process("$bin/drush @$drush_alias $command"));
+    if (!empty($drush_alias)) {
+      $drush_alias = "@$drush_alias";
+    }
+    $process_executor = Robo::process(new Process("'$bin/drush' $drush_alias $command"));
     return $process_executor->dir($this->getConfigValue('docroot'))
       ->interactive(FALSE)
-      ->printOutput(FALSE)
-      ->printMetadata(FALSE);
+      ->printOutput(TRUE)
+      ->printMetadata(TRUE)
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERY_VERBOSE);
   }
 
   /**
@@ -94,11 +99,12 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
    *   The unexecuted command.
    */
   public function execute($command) {
+    /** @var \Robo\Common\ProcessExecutor $process_executor */
     $process_executor = Robo::process(new Process($command));
     return $process_executor->dir($this->getConfigValue('repo.root'))
-      ->interactive(FALSE)
       ->printOutput(FALSE)
-      ->printMetadata(FALSE);
+      ->printMetadata(FALSE)
+      ->interactive(FALSE);
   }
 
   /**

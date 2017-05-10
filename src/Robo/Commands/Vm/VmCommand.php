@@ -70,7 +70,7 @@ class VmCommand extends BltTasks {
     }
 
     if (!$options['no-boot']) {
-      $this->boot();
+      return $this->boot();
     }
   }
 
@@ -82,9 +82,11 @@ class VmCommand extends BltTasks {
   public function nuke() {
     $confirm = $this->confirm("This will destroy your VM, and delete all associated configuration. Continue?");
     if ($confirm) {
-      $this->taskExec("vagrant destroy")
+      $this->taskExecStack()
+        ->exec("vagrant destroy")
         ->dir($this->getConfigValue('repo.root'))
         ->printOutput(TRUE)
+        ->stopOnFail()
         ->run();
       $this->taskFilesystemStack()
         ->remove($this->projectDrupalVmConfigFile)
@@ -94,7 +96,7 @@ class VmCommand extends BltTasks {
         ->remove($this->getConfigValue('repo.root') . '/blt/project.local.yml')
         ->copy($this->defaultDrushAliasesFile, $this->projectDrushAliasesFile)
         ->run();
-      $this->say("Your Drupal VM intance has been obliterated.");
+      $this->say("Your Drupal VM instance has been obliterated.");
       $this->say("Please run `blt vm` to create a new one.");
     }
   }
@@ -137,6 +139,7 @@ class VmCommand extends BltTasks {
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
+    // @todo Ensure that hostname does not contain underscores.
     $this->getConfig()->expandFileProperties($this->projectDrupalVmConfigFile);
 
     $this->say("<info>BLT has created default configuration for your Drupal VM.</info>");
@@ -176,6 +179,7 @@ class VmCommand extends BltTasks {
    * Boots a Drupal VM.
    */
   protected function boot() {
+    $this->checkRequirements();
     $confirm = $this->confirm("Do you want to boot Drupal VM?", TRUE);
     if ($confirm) {
       $this->say("In future, run <comment>vagrant up</comment> to boot the VM");
@@ -196,6 +200,7 @@ class VmCommand extends BltTasks {
       else {
         $this->yell("Drupal VM booted successfully. Please use vagrant commands to interact with your VM from now on.");
       }
+      return $result;
     }
   }
 
@@ -226,10 +231,14 @@ class VmCommand extends BltTasks {
         throw new \Exception("Unable to install Drupal VM.");
       }
     }
+
+    return $result;
   }
 
   /**
    * Checks local system for Drupal VM requirements.
+   *
+   * Verifies that vagrant and its required plugins are installed.
    */
   protected function checkRequirements() {
     if (!$this->getInspector()->commandExists("vagrant")) {
@@ -239,16 +248,8 @@ class VmCommand extends BltTasks {
       throw new \Exception("Drupal VM requirements are missing.");
     }
     else {
-      $vagrant_hosts_plugin_installed = (bool) $this->taskExec("vagrant plugin list | grep vagrant-hostsupdater")->run()->getOutputData();
-      if ($vagrant_hosts_plugin_installed) {
-        $this->logger->warning("The vagrant-hostsupdater plugin is not installed! Attempting to install it...");
-        $this->taskExec("vagrant plugin install vagrant-hostsupdater")->run();
-      }
-      $vagrant_exec_plugin_installed = (bool) $this->taskExec("vagrant plugin list | grep vagrant-exec")->run()->getOutputData();
-      if ($vagrant_exec_plugin_installed) {
-        $this->logger->warning("The vagrant-exec plugin is not installed! Attempting to install it...");
-        $this->taskExec("vagrant plugin install vagrant-exec")->run();
-      }
+      $this->installVagrantPlugin('vagrant-hostsupdater');
+      $this->installVagrantPlugin('vagrant-exec');
     }
   }
 

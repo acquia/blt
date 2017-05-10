@@ -29,7 +29,8 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
   /**
    * Process executor.
    *
-   * @var \Acquia\Blt\Robo\Common\Executor*/
+   * @var \Acquia\Blt\Robo\Common\Executor
+   */
   protected $executor;
 
   /**
@@ -192,7 +193,9 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
    *   TRUE if MySQL is available.
    */
   public function getMySqlAvailable() {
-    $result = $this->executor->drush("sqlq \"SHOW DATABASES\"")->run();
+    /** @var \Robo\Result $result */
+    $result = $this->executor->drush("sqlq \"SHOW DATABASES\"")
+      ->run();
 
     return $result->wasSuccessful();
   }
@@ -231,6 +234,10 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
    *   TRUE if Drupal VM is booted.
    */
   public function isDrupalVmBooted() {
+    if (!$this->commandExists('vagrant')) {
+      return FALSE;
+    }
+
     $result = $this->executor->execute("vagrant status")
       ->printOutput(FALSE)
       ->printMetadata(FALSE)
@@ -249,6 +256,27 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
    */
   public function isVmCli() {
     return $_SERVER['USER'] == 'vagrant';
+  }
+
+  /**
+   * Checks to see if a given vagrant plugin is installed.
+   *
+   * You can check to see if vagrant is installed with commandExists('vagrant').
+   *
+   * @param string $plugin
+   *   The plugin name.
+   *
+   * @return bool
+   *   TRUE if the plugin is installed.
+   */
+  public function isVagrantPluginInstalled($plugin) {
+    $installed = (bool) $this->executor->execute("vagrant plugin list | grep '$plugin'")
+      ->interactive(FALSE)
+      ->silent(TRUE)
+      ->run()
+      ->getOutputData();
+
+    return $installed;
   }
 
   /**
@@ -379,6 +407,16 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
    */
   public function isPhantomJsBinaryPresent() {
     return file_exists("{$this->getConfigValue('composer.bin')}/phantomjs");
+  }
+
+  /**
+   * Checks if simplesamlphp has already been setup by BLT.
+   *
+   * @return bool
+   *   TRUE if the simplesamlphp config key exists and is true.
+   */
+  public function isSimpleSamlPhpInstalled() {
+    return $this->getConfig()->has('simplesamlphp') && $this->getConfigValue('simplesamlphp');
   }
 
 }

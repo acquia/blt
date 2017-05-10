@@ -12,10 +12,12 @@ $robo_namespaces = [
   'acsf',
   'ci',
   'custom',
+  'deploy',
   'drupal',
   'frontend',
   'git',
   'setup',
+  'simplesamlphp',
   'tests',
   'vm',
 ];

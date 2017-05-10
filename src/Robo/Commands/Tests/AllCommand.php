@@ -13,6 +13,8 @@ class AllCommand extends BltTasks {
    * Runs all tests, including Behat, PHPUnit, and Security Update check.
    *
    * @command tests:all
+   *
+   * @executeInDrupalVm
    */
   public function tests() {
     $status_code = $this->invokeCommands([

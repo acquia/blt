@@ -17,7 +17,10 @@ class DoctorCommand extends BltTasks {
    */
   public function doctor() {
 
-    if ($this->getInspector()->isDrupalVmLocallyInitialized() && $this->getInspector()->isDrupalVmBooted()) {
+    // Attempt to run BLT doctor inside of a VM.
+    if ($this->getInspector()->isDrupalVmLocallyInitialized()
+      && $this->getInspector()->isDrupalVmBooted()
+      && !$this->getInspector()->isVmCli()) {
       $result = $this->executeDoctorInsideVm();
       if ($result->wasSuccessful()) {
         return $result;
@@ -32,6 +35,12 @@ class DoctorCommand extends BltTasks {
     if (!$result->wasSuccessful() && $alias != 'self') {
       $this->logger->warning("Unable to run the doctor using @$alias. Trying with @self...");
       $this->executeDoctorOnHost('self');
+    }
+
+    // If @self fails, try without any alias.
+    if (!$result->wasSuccessful() && $alias != '') {
+      $this->logger->warning("Unable to run the doctor using @self. Trying without alias...");
+      $this->executeDoctorOnHost('');
     }
 
     return $result;
@@ -53,35 +62,17 @@ class DoctorCommand extends BltTasks {
   }
 
   /**
-   * Executes a command inside of Drupal VM.
-   *
-   * @param string $command
-   *   The command to execute.
-   *
-   * @return \Robo\Result
-   *   The command result.
-   */
-  protected function executeCommandInDrupalVm($command) {
-    $result = $this->taskExec("vagrant exec '$command'")
-      ->dir($this->getConfigValue('repo.root'))
-      ->detectInteractive()
-      ->run();
-
-    return $result;
-  }
-
-  /**
    * Executes `blt doctor` on host machine.
    *
    * @return \Robo\Result
    *   The command result.
    */
   protected function executeDoctorOnHost($alias) {
-    $drush_bin = $this->getConfigValue('composer.bin') . '/drush';
-    $include_dir = $this->getConfigValue('blt.root') . '/drush';
-    $result = $this->taskExec("$drush_bin @$alias --include=$include_dir blt-doctor")
-      ->dir($this->getConfigValue('docroot'))
-      ->detectInteractive()
+    $result = $this->taskDrush()
+      ->drush("blt-doctor")
+      ->alias($alias)
+      ->uri("")
+      ->includePath($this->getConfigValue('blt.root') . '/drush')
       ->run();
 
     return $result;

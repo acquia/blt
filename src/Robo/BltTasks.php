@@ -15,6 +15,7 @@ use Psr\Log\LoggerAwareTrait;
 use Robo\Contract\BuilderAwareInterface;
 use Robo\Contract\ConfigAwareInterface;
 use Robo\Contract\IOAwareInterface;
+use Robo\Contract\VerbosityThresholdInterface;
 use Robo\LoadAllTasks;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -34,7 +35,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
   use LoadTasks;
 
   /**
-   * The depth of command invokations, used by invokeCommands().
+   * The depth of command invocations, used by invokeCommands().
    *
    * E.g., this would be 1 if invokeCommands() called a method that itself
    * called invokeCommands().
@@ -70,21 +71,62 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    *
    * @param string $command_name
    *   The name of the command. E.g., 'tests:behat'.
+   * @param array $args
+   *   An array of arguments to pass to the command.
    *
    * @return int
    *   The exit code of the command.
    */
-  protected function invokeCommand($command_name) {
+  protected function invokeCommand($command_name, array $args = []) {
+
+    // Skip invocation of disabled commands.
+    if ($this->isCommandDisabled($command_name)) {
+      return 0;
+    }
+
     /** @var \Robo\Application $application */
     $application = $this->getContainer()->get('application');
     $command = $application->find($command_name);
-    $args = [];
     $input = new ArrayInput($args);
     $prefix = str_repeat(">", $this->invokeDepth);
     $this->output->writeln("<comment>$prefix $command_name</comment>");
     $returnCode = $command->run($input, $this->output());
-    // $this->output->writeln("");.
+
     return $returnCode;
+  }
+
+  /**
+   * Gets an array of commands that have been configured to be disabled.
+   *
+   * @return array
+   *   A flat array of disabled commands.
+   */
+  protected function getDisabledCommands() {
+    $disabled_commands_config = $this->getConfigValue('disable-targets');
+    if ($disabled_commands_config) {
+      $disabled_commands = ArrayManipulator::flattenMultidimensionalArray($disabled_commands_config, ':');
+      return $disabled_commands;
+    }
+    return [];
+  }
+
+  /**
+   * Determines if a command has been disabled via disable-targets.
+   *
+   * @param string $command
+   *   The command name.
+   *
+   * @return bool
+   *   TRUE if the command is disabled.
+   */
+  protected function isCommandDisabled($command) {
+    $disabled_commands = $this->getDisabledCommands();
+    if (is_array($disabled_commands) && array_key_exists($command, $disabled_commands) && $disabled_commands[$command]) {
+      $this->output()->writeln("The $command command is disabled.");
+      return TRUE;
+    }
+
+    return FALSE;
   }
 
   /**
@@ -92,19 +134,63 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    *
    * @param string $hook
    *   The hook name.
+   *
+   * @return \Robo\Result|int
    */
   protected function invokeHook($hook) {
     if ($this->getConfig()->has("target-hooks.$hook.command")) {
-      $this->taskExec($this->getConfigValue("target-hooks.$hook.command"))
+      $this->say("Executing $hook target hook...");
+      $result = $this->taskExecStack()
+        ->exec($this->getConfigValue("target-hooks.$hook.command"))
         ->dir($this->getConfigValue("target-hooks.$hook.dir"))
         ->interactive()
         ->printOutput(TRUE)
         ->printMetadata(FALSE)
+        ->stopOnFail()
         ->run();
+
+      return $result;
     }
     else {
-      $this->say("No commands are defined for $hook. Skipping.");
+      $this->say("Skipped $hook target hook. No hook is defined.");
+
+      return 0;
     }
+  }
+
+  /**
+   * Installs a vagrant plugin if it is not already installed.
+   *
+   * @param string $plugin
+   *   The vagrant plugin name.
+   */
+  protected function installVagrantPlugin($plugin) {
+    if (!$this->getInspector()->isVagrantPluginInstalled($plugin)) {
+      $this->logger->warning("The $plugin plugin is not installed! Attempting to install it...");
+      $this->taskExec("vagrant plugin install $plugin")->run();
+    }
+  }
+
+  /**
+   * Executes a command inside of Drupal VM.
+   *
+   * @param string $command
+   *   The command to execute.
+   *
+   * @return \Robo\Result
+   *   The command result.
+   */
+  protected function executeCommandInDrupalVm($command) {
+    $this->say("Executing command <comment>$command</comment> inside of Drupal VM...");
+    $this->installVagrantPlugin('vagrant-exec');
+    $result = $this->taskExecStack()
+      ->exec("vagrant exec --tty '$command'")
+      ->dir($this->getConfigValue('repo.root'))
+      ->interactive(TRUE)
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->run();
+
+    return $result;
   }
 
   /**

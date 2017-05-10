@@ -27,23 +27,25 @@ class DrupalCommand extends BltTasks {
     $username = RandomString::string(10, FALSE,
       function ($string) {
         return !preg_match('/[^\x{80}-\x{F7} a-z0-9@+_.\'-]/i', $string);
-      }
+      },
+      'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!#%^&*()_?/.,+=><'
     );
 
-    $task = $this->taskExec('drush site-install')
-      ->detectInteractive()
-      ->printOutput(TRUE)
-      ->dir($this->getConfigValue('docroot'))
+    $task = $this->taskDrush()
+      ->drush("site-install")
       ->arg($this->getConfigValue('project.profile.name'))
       ->rawArg("install_configure_form.update_status_module='array(FALSE,FALSE)'")
-      ->option('site-name', $this->getConfigValue('project.human_name'), '=')
-      ->option('site-mail', $this->getConfigValue('drupal.account.mail'), '=')
+      ->option('site-name', $this->getConfigValue('project.human_name'))
+      ->option('site-mail', $this->getConfigValue('drupal.account.mail'))
       ->option('account-name', $username, '=')
-      ->option('account-mail', $this->getConfigValue('drupal.account.mail'), '=')
-      ->option('locale', $this->getConfigValue('drupal.locale'), '=')
-      ->option('yes');
+      ->option('account-mail', $this->getConfigValue('drupal.account.mail'))
+      ->option('locale', $this->getConfigValue('drupal.locale'))
+      ->assume(TRUE)
+      ->printOutput(TRUE);
 
-    if (!$this->getConfigValue('cm.strategy') == 'features') {
+    $config_strategy = $this->getConfigValue('cm.strategy');
+
+    if (!$config_strategy != 'none') {
       $cm_core_key = $this->getConfigValue('cm.core.key');
       $task->option('config-dir', $this->getConfigValue("cm.core.dirs.$cm_core_key.path"));
     }

@@ -10,12 +10,13 @@ use Acquia\Blt\Robo\BltTasks;
 class FrontendCommand extends BltTasks {
 
   /**
-   * Runs all frontend targets
+   * Runs all frontend targets.
    *
    * @command frontend
+   *
+   * @executeInDrupalVm
    */
   public function frontend() {
-    $this->say("Running frontend tasks...");
     $status_code = $this->invokeCommands([
       'frontend:build',
       'frontend:setup',
@@ -25,32 +26,36 @@ class FrontendCommand extends BltTasks {
   }
 
   /**
-   * Uses project.yml hooks to run custom defined commands to
-   * build front end dependencies for custom themes.
+   * Executes frontend-build target hook.
    *
    * @command frontend:build
+   *
+   * @executeInDrupalVm
    */
   public function build() {
-    $this->invokeHook('frontend-build');
+    return $this->invokeHook('frontend-build');
   }
 
   /**
-   * Uses project.yml hooks to run custom defined commands to
-   * setup front end dependencies for frontend:build.
+   * Executes frontend-setup target hook.
    *
    * @command frontend:setup
+   *
+   * @executeInDrupalVm
    */
   public function setup() {
-    $this->invokeHook('frontend-setup');
+    return $this->invokeHook('frontend-setup');
   }
 
   /**
-   * Uses project.yml hooks to run tests for the frontend as
+   * Executes frontend-test target hook.
    *
    * @command frontend:test
+   *
+   * @executeInDrupalVm
    */
   public function test() {
-    $this->invokeHook('frontend-test');
+    return $this->invokeHook('frontend-test');
   }
 
 }

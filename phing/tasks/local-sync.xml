@@ -11,7 +11,7 @@
   </target>
 
   <target name="local:setup" description="Install dependencies, builds docroot, installs Drupal; uses local drush alias.">
-    <exec dir="${repo.root}" command="${composer.bin}/blt setup -D drush.alias=local -D environment=local" logoutput="true" checkreturn="true"/>
+    <exec dir="${repo.root}" command="${composer.bin}/blt setup -D drush.alias=${drush.aliases.local} -D environment=local" logoutput="true" checkreturn="true"/>
   </target>
 
   <!-- Wrapper for local:sync:db and local:sync:files. -->
@@ -47,7 +47,7 @@
   </target>
 
   <target name="local:sync:db" description="Synchronize local database from remote (remote --> local).">
-    <exec dir="${repo.root}" command="${composer.bin}/blt setup:drupal:settings" logoutput="true" checkreturn="true" />
+    <exec dir="${repo.root}" command="${composer.bin}/blt setup:settings" logoutput="true" checkreturn="true" />
     <drush command="cc drush"/>
     <drush command="sql-drop"/>
     <if>

@@ -2,13 +2,7 @@
 
 namespace Acquia\Blt\Robo\Hooks;
 
-use Acquia\Blt\Robo\Common\ArrayManipulator;
-use Acquia\Blt\Robo\Config\ConfigAwareTrait;
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerAwareTrait;
-use Robo\Contract\ConfigAwareInterface;
-use Robo\Contract\IOAwareInterface;
-use Robo\Tasks;
+use Acquia\Blt\Robo\BltTasks;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 
 /**
@@ -17,10 +11,7 @@ use Symfony\Component\Console\Event\ConsoleCommandEvent;
  * These hooks typically use a Wizard to evaluate the validity of config or
  * state and guide the user toward resolving issues.
  */
-class CommandEventHook extends Tasks implements IOAwareInterface, ConfigAwareInterface, LoggerAwareInterface {
-
-  use ConfigAwareTrait;
-  use LoggerAwareTrait;
+class CommandEventHook extends BltTasks {
 
   /**
    * Disable any command listed in the `disable-target` config key.
@@ -29,14 +20,63 @@ class CommandEventHook extends Tasks implements IOAwareInterface, ConfigAwareInt
    */
   public function skipDisabledCommands(ConsoleCommandEvent $event) {
     $command = $event->getCommand();
-    $disabled_commands_config = $this->getConfigValue('disable-targets');
-    if ($disabled_commands_config) {
-      $disabled_commands = ArrayManipulator::flattenMultidimensionalArray($disabled_commands_config, ':');
-      if (!empty($disabled_commands[$command->getName()]) && $disabled_commands[$command->getName()]) {
+    if ($this->isCommandDisabled($command->getName())) {
+      $event->disableCommand();
+    }
+  }
+
+  /**
+   * Execute a command inside of Drupal VM.
+   *
+   * @hook command-event *
+   */
+  public function executeInDrupalVm(ConsoleCommandEvent $event) {
+    $command = $event->getCommand();
+    if (method_exists($command, 'getAnnotationData')) {
+      /* @var \Consolidation\AnnotatedCommand\AnnotationData */
+      $annotation_data = $event->getCommand()->getAnnotationData();
+      if ($annotation_data->has('executeInDrupalVm') && $this->shouldExecuteInDrupalVm()) {
         $event->disableCommand();
-        $this->output()->writeln("The {$command->getName()} command has been disabled. Skipping execution.");
+        $args = array_slice($_SERVER['argv'], 2);
+        $args = array_map([$this, 'escapeShellArg'], $args);
+        $args = implode(' ', $args);
+        $command_name = $event->getCommand()->getName();
+        $result = $this->executeCommandInDrupalVm("blt $command_name $args --define drush.alias=self");
+
+        return $result;
       }
     }
+  }
+
+  /**
+   * Escapes the value for CLI arguments in form key=value.
+   *
+   * @param string $arg
+   *  The argument to be escaped.
+   *
+   * @return string
+   *   The escaped argument.
+   */
+  protected function escapeShellArg($arg) {
+    if (strpos($arg, '-') !== 0
+      && strstr($arg, '=') !== FALSE) {
+      $arg_parts = explode('=', $arg);
+      $arg = $arg_parts[0] . '="' . $arg_parts[1] . '"';
+    }
+
+    return $arg;
+  }
+
+  /**
+   * Indicates whether a frontend hook should be invoked inside of Drupal VM.
+   *
+   * @return bool
+   *   TRUE if it should be invoked inside of  Drupal VM.
+   */
+  protected function shouldExecuteInDrupalVm() {
+    return $this->getInspector()->isDrupalVmLocallyInitialized()
+      && $this->getInspector()->isDrupalVmBooted()
+      && !$this->getInspector()->isVmCli();
   }
 
 }

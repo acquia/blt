@@ -60,6 +60,7 @@ class BehatCommand extends TestsCommandBase {
    * @validateDrupalIsInstalled
    * @validateBehatIsConfigured
    * @validateInsideVm
+   * @executeInDrupalVm
    */
   public function behat() {
     // Log config for debugging purposes.
@@ -78,6 +79,8 @@ class BehatCommand extends TestsCommandBase {
    * @aliases tbd
    *
    * @option mode l (default), i, or needle. Use l to just list definition expressions, i to show definitions with extended info, or needle to find specific definitions.
+   *
+   * @validateMySqlAvailable
    */
   public function behatDefinitions($options = ['mode' => 'l']) {
     $task = $this->taskBehat($this->getConfigValue('composer.bin') . '/behat')
@@ -169,7 +172,7 @@ class BehatCommand extends TestsCommandBase {
     }
     $this->killPhantomJs();
     $this->say("Launching PhantomJS GhostDriver.");
-    $this->taskExec("{$this->getConfigValue('composer.bin')}/phantomjs")
+    $this->taskExec("'{$this->getConfigValue('composer.bin')}/phantomjs'")
       ->option("webdriver", 4444)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->background()
