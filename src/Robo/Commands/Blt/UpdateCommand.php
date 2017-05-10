@@ -6,6 +6,7 @@ use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\ComposerMunge;
 use Acquia\Blt\Robo\Common\YamlMunge;
 use Acquia\Blt\Update\Updater;
+use Robo\Contract\VerbosityThresholdInterface;
 
 /**
  * Defines commands for installing and updating BLT..
@@ -40,9 +41,7 @@ class UpdateCommand extends BltTasks {
   public function createProject() {
     $result = $this->cleanUpBltProject();
     $result = $this->prepareRepository();
-    $result = $this->taskExecStack()
-      ->exec("{$this->getConfigValue('composer.bin')}/yaml-cli update:value {$this->getConfigValue('blt.config-files.project')} project.machine_name '{$this->getConfigValue('repo.root')}'")
-      ->run();
+    $result = $this->setProjectName();
     $result = $this->initRepo();
     $this->displayArt();
 
@@ -89,10 +88,14 @@ class UpdateCommand extends BltTasks {
    */
   public function installAlias() {
     $this->say("BLT can automatically create a Bash alias to make it easier to run BLT tasks.");
-    $this->say("This alias may be created in .bash_profile or .bashrc depending on your system architecture.");
+    $this->say("This alias may be created in <comment>.bash_profile</comment> or <comment>.bashrc</comment> depending on your system architecture.");
     $create = $this->confirm("Install alias?");
     if ($create) {
+      $this->say("Installing <comment>blt</comment> alias...");
       exec($this->getConfigValue('blt.root') . '/scripts/blt/install-alias.sh -y');
+    }
+    else {
+      $this->say("The <comment>blt</comment> alias was not installed.");
     }
   }
 
@@ -102,6 +105,7 @@ class UpdateCommand extends BltTasks {
    * @command cleanup
    */
   public function cleanup() {
+    $this->say("Removing deprecated files and directories...");
     $this->taskFilesystemStack()
       ->remove([
         "build",
@@ -140,6 +144,7 @@ class UpdateCommand extends BltTasks {
         "readme/views.md",
         "drush/policy.drush.inc",
       ])
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
   }
 
@@ -152,6 +157,7 @@ class UpdateCommand extends BltTasks {
       ->exec("git init")
       ->exec('git add -A')
       ->exec("git commit -m 'Initial commit.'")
+      ->detectInteractive()
       ->run();
 
     return $result;
@@ -177,6 +183,7 @@ class UpdateCommand extends BltTasks {
       ->remove('.travis.yml')
       ->remove('LICENSE.txt')
       ->remove('README.md')
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
     return $result;
@@ -195,6 +202,7 @@ class UpdateCommand extends BltTasks {
         $this->getConfigValue('repo.root') .'/composer.lock',
         $this->getConfigValue('repo.root') .'/vendor',
       ])
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
     $result = $this->taskExecStack()
       ->dir($this->getConfigValue('repo.root'))
@@ -214,7 +222,7 @@ class UpdateCommand extends BltTasks {
     $this->updateSchemaVersionFile();
     $result = $this->rsyncTemplate();
     $result = $this->mungeComposerJson();
-    $resul = $this->mungeProjectYml();
+    $result = $this->mungeProjectYml();
 
     return $result;
   }
@@ -225,7 +233,14 @@ class UpdateCommand extends BltTasks {
   protected function updateSchemaVersionFile() {
     //  Write BLT version to blt/.schema-version.
     $latest_update_method_version = $this->updater->getLatestUpdateMethodVersion();
-    file_put_contents($this->getConfigValue('blt.config-files.schema-version'), $latest_update_method_version);
+    $schema_file_name = $this->getConfigValue('blt.config-files.schema-version');
+    $bytes = file_put_contents($schema_file_name, $latest_update_method_version);
+
+    if ($bytes === FALSE) {
+      throw new \Exception("Failed to write to $schema_file_name");
+    }
+
+    return TRUE;
   }
 
   /**
@@ -238,7 +253,7 @@ class UpdateCommand extends BltTasks {
     $updater = new Updater('Acquia\Blt\Update\Updates', $this->getConfigValue('repo.root'));
     $updates = $updater->getUpdates($starting_version);
     if ($updates) {
-      $this->output()->writeln("<comment>The following BLT updates are outstanding:</comment>");
+      $this->say("<comment>The following BLT updates are outstanding:</comment>");
       $updater->printUpdates($updates);
       $confirm = $this->confirm('Would you like to perform the listed updates?');
       if ($confirm) {
@@ -254,6 +269,7 @@ class UpdateCommand extends BltTasks {
    *   The legacy version.
    *
    * @return string
+   *   The version in correct syntax.
    */
   protected function convertLegacySchemaVersion($version) {
     // Check to see if version is Semver (legacy format). Convert to expected
@@ -275,6 +291,8 @@ class UpdateCommand extends BltTasks {
 
   /**
    * Rsyncs files from BLT's template dir into project root dir.
+   *
+   * @return \Robo\Result
    */
   protected function rsyncTemplate() {
     $source = $this->getConfigValue('blt.root') . '/template';
@@ -284,7 +302,9 @@ class UpdateCommand extends BltTasks {
     $result = $this->taskExecStack()
       ->exec("rsync -a --no-g '$source/' '$destination/' --exclude-from='$exclude_from'")
       ->exec("rsync -a --no-g '$source/' '$destination/' --include-from='$exclude_from' --ignore-existing")
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
+
     return $result;
   }
 
@@ -304,10 +324,21 @@ class UpdateCommand extends BltTasks {
    * Updates project BLT .yml files with new key value pairs from upstream. This WILL NOT overwrite existing values.
    */
   protected function mungeProjectYml() {
-    $this->say("Merging BLT's project.yml template with your project's project.yml...");
-    $this->say("This WILL NOT overwrite existing values");
+    $this->say("Merging BLT's <comment>project.yml</comment> template with your project's <comment>blt/project.yml</comment>...");
     // Values in the project's existing project.yml file will be preserved and not overridden.
     $munged_yaml = YamlMunge::munge($this->getConfigValue('blt.root') . '/template/blt/project.yml', $this->getConfigValue('blt.config-files.project'));
     file_put_contents($this->getConfigValue('blt.config-files.project'), $munged_yaml);
+  }
+
+  /**
+   * @return \Robo\Result
+   */
+  protected function setProjectName() {
+    $project_name = dirname($this->getConfigValue('repo.root'));
+    $result = $this->taskExecStack()
+      ->exec("{$this->getConfigValue('composer.bin')}/yaml-cli update:value {$this->getConfigValue('blt.config-files.project')} project.machine_name '$project_name'")
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->run();
+    return $result;
   }
 }

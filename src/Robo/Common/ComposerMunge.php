@@ -51,7 +51,7 @@ class ComposerMunge {
    *
    * @return mixed
    */
-  protected function mergeKeyed($file1_contents, $file2_contents, $exclude_keys = []) {
+  protected static function mergeKeyed($file1_contents, $file2_contents, $exclude_keys = []) {
     // Merge keyed arrays objects.
     $merge_keys = [
       'extra',
@@ -67,7 +67,7 @@ class ComposerMunge {
       }
 
       // Merge!
-      $output[$key] = $this->arrayMergeRecursiveDistinct($file1_contents[$key], $file2_contents[$key]);
+      $output[$key] = ArrayManipulator::arrayMergeRecursiveDistinct($file1_contents[$key], $file2_contents[$key]);
     }
 
     return $output;

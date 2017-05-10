@@ -127,19 +127,4 @@ class BuildCommand extends BltTasks {
     return $result;
   }
 
-  /**
-   * Installs the 'blt' alias.
-   *
-   * @command install-alias
-   */
-  public function installAlias() {
-    $result = $this->taskExec("composer run-script blt-alias")
-      ->dir($this->getConfigValue('repo.root'))
-      ->interactive()
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->run();
-
-    return $result;
-  }
-
 }
