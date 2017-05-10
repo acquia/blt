@@ -17,6 +17,7 @@ $robo_namespaces = [
   'frontend',
   'git',
   'setup',
+  'simplesamlphp',
   'tests',
   'vm',
 ];
