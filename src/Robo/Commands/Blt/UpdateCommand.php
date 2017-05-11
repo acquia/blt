@@ -7,6 +7,7 @@ use Acquia\Blt\Robo\Common\ComposerMunge;
 use Acquia\Blt\Robo\Common\YamlMunge;
 use Acquia\Blt\Update\Updater;
 use Robo\Contract\VerbosityThresholdInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Defines commands for installing and updating BLT..
@@ -252,13 +253,9 @@ class UpdateCommand extends BltTasks {
     // Write BLT version to blt/.schema-version.
     $latest_update_method_version = $this->updater->getLatestUpdateMethodVersion();
     $schema_file_name = $this->getConfigValue('blt.config-files.schema-version');
-    $bytes = file_put_contents($schema_file_name, $latest_update_method_version);
 
-    if ($bytes === FALSE) {
-      throw new \Exception("Failed to write to $schema_file_name");
-    }
-
-    return TRUE;
+    $fs = new Filesystem();
+    $fs->dumpFile($latest_update_method_version, $schema_file_name);
   }
 
   /**
