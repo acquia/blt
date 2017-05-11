@@ -38,12 +38,13 @@ class DefaultConfig extends BltConfig {
       getcwd(),
     ];
     foreach ($possible_repo_roots as $possible_repo_root) {
-      if (file_exists("$possible_repo_root/blt/project.yml")) {
+      if (file_exists("$possible_repo_root/vendor/acquia/blt")
+        ||file_exists("$possible_repo_root/blt/project.yml")) {
         return $possible_repo_root;
       }
     }
 
-    throw new \Exception('Could not find repository root directory');
+    throw new \Exception('Could not find repository root directory!');
   }
 
   /**

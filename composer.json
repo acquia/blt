@@ -57,6 +57,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require-dev": {
-        "guzzlehttp/guzzle": "^6.2"
+        "guzzlehttp/guzzle": "^6.2",
+        "composer/composer": "dev-master"
     }
 }

@@ -10,6 +10,7 @@ if (!isset($autoload)) {
 
 $robo_namespaces = [
   'acsf',
+  'blt',
   'ci',
   'custom',
   'deploy',
@@ -22,7 +23,12 @@ $robo_namespaces = [
   'vm',
 ];
 $robo_commands = [
-  'doctor'
+  'doctor',
+  'update',
+  'cleanup',
+  'create-project',
+  'add-to-project',
+  'install-alias',
 ];
 
 $params_string = implode(' ', array_slice($argv, 1));

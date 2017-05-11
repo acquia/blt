@@ -2,12 +2,12 @@
 
 namespace Acquia\Blt\Tests\Blt;
 
-use Acquia\Blt\Console\Command\YamlMungeCommand;
+use Acquia\Blt\Robo\Common\YamlMunge;
 
 /**
  * Tests yaml:munge command in blt-console.
  */
-class YamlMungeCommandTest extends \PHPUnit_Framework_TestCase {
+class YamlMungeTest extends \PHPUnit_Framework_TestCase {
 
   /**
    * Tests arrayMergeRecursiveExceptEmpty().
@@ -19,7 +19,7 @@ class YamlMungeCommandTest extends \PHPUnit_Framework_TestCase {
     $array2,
     $expected_array
   ) {
-    $this->assertEquals(YamlMungeCommand::arrayMergeRecursiveExceptEmpty($array1,
+    $this->assertEquals(YamlMunge::arrayMergeRecursiveExceptEmpty($array1,
       $array2), $expected_array);
   }
 

@@ -2,12 +2,12 @@
 
 namespace Acquia\Blt\Tests\Blt;
 
-use Acquia\Blt\Console\Command\TextMungeCommand;
+use Acquia\Blt\Robo\Common\TextMunge;
 
 /**
  * Tests text:munge command in blt-console.
  */
-class TextMungeCommandTest extends \PHPUnit_Framework_TestCase {
+class TextMungeTest extends \PHPUnit_Framework_TestCase {
 
   /**
    * Tests arrayMergeNoDuplicates().
@@ -19,7 +19,7 @@ class TextMungeCommandTest extends \PHPUnit_Framework_TestCase {
     $array2,
     $expected_array
   ) {
-    $this->assertEquals(TextMungeCommand::arrayMergeNoDuplicates($array1,
+    $this->assertEquals(TextMunge::arrayMergeNoDuplicates($array1,
       $array2), $expected_array);
   }
 
