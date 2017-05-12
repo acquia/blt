@@ -51,4 +51,5 @@ class LintCommand extends BltTasks {
 
     return $result;
   }
+
 }

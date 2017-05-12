@@ -2,12 +2,12 @@
 
 namespace Acquia\Blt\Robo\Filesets;
 
+use Acquia\Blt\Custom\Filesets;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Annotations\IndexedReader;
 use Robo\Contract\ConfigAwareInterface;
-use Symfony\Component\Finder\Finder;
 
 /**
  * Manages BLT filesets.
@@ -46,8 +46,8 @@ class FilesetManager implements ConfigAwareInterface {
    */
   public function registerFilesets() {
     $classes = [
-      \Acquia\Blt\Robo\Filesets\Filesets::class,
-      \Acquia\Blt\Custom\Filesets::class
+      Filesets::class,
+      Filesets::class,
     ];
     $fileset_annotations = $this->getAllFilesetAnnotations($classes);
     $filesets = $this->getFilesetsFromAnnotations($fileset_annotations);
@@ -123,7 +123,7 @@ class FilesetManager implements ConfigAwareInterface {
    * @param string $id
    *   The fileset id.
    *
-   * @return \Symfony\Component\Finder\Finder|NULL
+   * @return \Symfony\Component\Finder\Finder|null
    *   The fileset.
    */
   public function getFileset($id) {

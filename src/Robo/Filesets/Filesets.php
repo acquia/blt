@@ -3,11 +3,16 @@
 namespace Acquia\Blt\Robo\Filesets;
 
 // Do not remove this, even though it appears to be unused.
+// @codingStandardsIgnoreStart
 use Acquia\Blt\Annotations\Fileset;
+// @codingStandardsIgnoreEnd
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
 use Robo\Contract\ConfigAwareInterface;
 use Symfony\Component\Finder\Finder;
 
+/**
+ *
+ */
 class Filesets implements ConfigAwareInterface {
 
   use ConfigAwareTrait;
@@ -67,7 +72,7 @@ class Filesets implements ConfigAwareInterface {
     $finder = $this->getYamlFilesetFinder();
     $finder->in([
       $this->getConfigValue('repo.root') . '/config',
-      $this->getConfigValue('docroot') . '/modules/custom'
+      $this->getConfigValue('docroot') . '/modules/custom',
     ]);
 
     return $finder;
@@ -76,7 +81,7 @@ class Filesets implements ConfigAwareInterface {
   /**
    * Adds Drupalistic PHP patterns to a Symfony finder object.
    *
-   * @return \Symfony\Component\Finder\Finder $finder
+   * @return \Symfony\Component\Finder\Finder
    *   The finder object.
    */
   protected function getPhpFilesetFinder() {
@@ -102,7 +107,7 @@ class Filesets implements ConfigAwareInterface {
   /**
    * Adds Drupalistic JS patterns to a Symfony finder object.
    *
-   * @return \Symfony\Component\Finder\Finder $finder
+   * @return \Symfony\Component\Finder\Finder
    *   The finder object.
    */
   protected function getFrontendFilesetFinder() {
@@ -117,10 +122,11 @@ class Filesets implements ConfigAwareInterface {
 
     return $finder;
   }
+
   /**
    * Adds Drupalistic YAML patterns to a Symfony finder object.
    *
-   * @return \Symfony\Component\Finder\Finder $finder
+   * @return \Symfony\Component\Finder\Finder
    *   The finder object.
    */
   protected function getYamlFilesetFinder() {
@@ -135,6 +141,5 @@ class Filesets implements ConfigAwareInterface {
 
     return $finder;
   }
-
 
 }
