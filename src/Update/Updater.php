@@ -21,6 +21,11 @@ use Symfony\Component\Yaml\Yaml;
 class Updater {
 
   /**
+   * @var \Doctrine\Common\Annotations\IndexedReader
+   */
+  protected $annotationsReader;
+
+  /**
    * @var \Symfony\Component\Console\Output\ConsoleOutput*/
   protected $output;
 

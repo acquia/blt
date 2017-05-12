@@ -23,15 +23,6 @@
     </if>
   </target>
 
-  <!-- Run linter against all php files in repository. -->
-  <target name="validate:lint" description="Runs a PHP Lint against all code.">
-    <phplint>
-      <fileset refid="files.php.custom.modules"/>
-      <fileset refid="files.php.custom.themes"/>
-      <fileset refid="files.php.tests"/>
-    </phplint>
-  </target>
-
   <!-- Run linter against all yaml files in repository. -->
   <target name="validate:yaml" description="Runs a PHP Lint against all code.">
     <yamlLint executable="${composer.bin}/yaml-cli" haltonerror="true">

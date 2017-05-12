@@ -23,12 +23,13 @@ $robo_namespaces = [
   'vm',
 ];
 $robo_commands = [
+  'add-to-project',
   'doctor',
-  'update',
   'cleanup',
   'create-project',
-  'add-to-project',
   'install-alias',
+  'validate:lint',
+  'update',
 ];
 
 $params_string = implode(' ', array_slice($argv, 1));
