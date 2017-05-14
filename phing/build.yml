@@ -45,7 +45,7 @@ cm:
   strategy: config-split
   core:
     # The parent directory for configuration directories, relative to the docroot.
-    path: ../config
+    path: ${repo.root}/config
     # The default config key to use for imports. This is the key used in Drupal's global $config_directories variable.
     # E.g., $config_directories['sync']. It must have a corresponding key in cm.core.dirs. E.g., `cm.core.dirs.sync`.
     key: sync
