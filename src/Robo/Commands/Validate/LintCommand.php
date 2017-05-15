@@ -11,20 +11,6 @@ use Robo\Contract\VerbosityThresholdInterface;
 class LintCommand extends BltTasks {
 
   /**
-   * @var \Acquia\Blt\Robo\Filesets\FilesetManager
-   */
-  protected $filesetManager;
-
-  /**
-   * This hook will fire for all commands in this command file.
-   *
-   * @hook init
-   */
-  public function initialize() {
-    $this->filesetManager = $this->container->get('filesetManager');
-  }
-
-  /**
    * Runs a PHP Lint against all code.
    *
    * @command validate:lint
@@ -43,8 +29,9 @@ class LintCommand extends BltTasks {
       'files.php.custom.themes',
       'files.php.tests',
     ];
+    $fileset_manager = $this->getContainer()->get('filesetManager');
     foreach ($filesets as $key) {
-      $fileset = $this->filesetManager->getFileset($key);
+      $fileset = $fileset_manager->getFileset($key);
       foreach ($fileset as $file) {
         $task->process("php -l '{$file->getRealPath()}'");
       }

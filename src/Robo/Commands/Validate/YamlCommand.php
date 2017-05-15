@@ -10,21 +10,6 @@ use Robo\Contract\VerbosityThresholdInterface;
  */
 class YamlCommand extends BltTasks {
 
-
-  /**
-   * @var \Acquia\Blt\Robo\Filesets\FilesetManager
-   */
-  protected $filesetManager;
-
-  /**
-   * This hook will fire for all commands in this command file.
-   *
-   * @hook init
-   */
-  public function initialize() {
-    $this->filesetManager = $this->container->get('filesetManager');
-  }
-
   /**
    * @command validate:yaml
    */

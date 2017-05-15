@@ -45,20 +45,6 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
   protected $invokeDepth = 0;
 
   /**
-   * @var \Acquia\Blt\Robo\Filesets\FilesetManager
-   */
-  protected $filesetManager;
-
-  /**
-   * This hook will fire for all commands in this command file.
-   *
-   * @hook init
-   */
-  public function initialize() {
-    $this->filesetManager = $this->container->get('filesetManager');
-  }
-
-  /**
    * Invokes an array of Symfony commands.
    *
    * @param array $commands
@@ -221,7 +207,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
   protected function executeCommandAgainstFilesets(array $filesets, $command) {
     $result = 0;
     foreach ($filesets as $fileset_id) {
-      $fileset = $this->filesetManager->getFileset($fileset_id);
+      $fileset = $this->getContainer()->get('filesetManager')->getFileset($fileset_id);
       if (!is_null($fileset) && iterator_count($fileset)) {
         $this->say("Iterating over fileset $fileset_id...");
         $result = $this->executeCommandAgainstFileset($fileset, $command);
@@ -251,7 +237,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    */
   protected function executeCommandAgainstFileset($fileset, $command) {
     $task = $this->taskExecStack()
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE);
+      ->printMetadata(FALSE);
 
     foreach ($fileset as $file) {
       $full_command = sprintf($command, $file);

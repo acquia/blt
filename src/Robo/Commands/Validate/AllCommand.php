@@ -9,7 +9,6 @@ use Acquia\Blt\Robo\BltTasks;
  */
 class AllCommand extends BltTasks {
 
-
   /**
    * Runs all code validation commands.
    *

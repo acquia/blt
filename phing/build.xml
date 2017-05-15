@@ -36,9 +36,6 @@
     </else>
   </if>
 
-  <!-- Contains tasks relevant to validation. E.g., code metrics. -->
-  <import file="${phing.dir}/tasks/validate.xml"/>
-
   <!-- Contains fileset definitions. E.g., patterns defining contrib locations, theming files, etc. -->
   <import file="${phing.dir}/tasks/filesets.xml"/>
 
