@@ -195,7 +195,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     $container->add(TestsWizard::class)
       ->withArgument('executor');
 
-    $container->add('filesetManager', FilesetManager::class);
+    $container->share('filesetManager', FilesetManager::class);
 
     // Tell the command loader to only allow command functions that have a
     // name/alias.
