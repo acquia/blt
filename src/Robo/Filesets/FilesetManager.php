@@ -2,11 +2,12 @@
 
 namespace Acquia\Blt\Robo\Filesets;
 
-use Acquia\Blt\Custom\Filesets;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Annotations\IndexedReader;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 use Robo\Contract\ConfigAwareInterface;
 
 /**
@@ -16,9 +17,10 @@ use Robo\Contract\ConfigAwareInterface;
  *
  * @package Acquia\Blt\Robo\Common
  */
-class FilesetManager implements ConfigAwareInterface {
+class FilesetManager implements ConfigAwareInterface, LoggerAwareInterface {
 
   use ConfigAwareTrait;
+  use LoggerAwareTrait;
 
   /**
    * @var \Symfony\Component\Finder\Finder[]
@@ -46,8 +48,8 @@ class FilesetManager implements ConfigAwareInterface {
    */
   public function registerFilesets() {
     $classes = [
-      Filesets::class,
-      Filesets::class,
+      \Acquia\Blt\Robo\Filesets\Filesets::class,
+      \Acquia\Blt\Custom\Filesets::class,
     ];
     $fileset_annotations = $this->getAllFilesetAnnotations($classes);
     $filesets = $this->getFilesetsFromAnnotations($fileset_annotations);
@@ -131,6 +133,7 @@ class FilesetManager implements ConfigAwareInterface {
     if (isset($filesets[$id])) {
       return $filesets[$id];
     }
+    $this->logger->warning("Fileset $id not found");
 
     return NULL;
   }
@@ -156,5 +159,4 @@ class FilesetManager implements ConfigAwareInterface {
     }
     return $filesets;
   }
-
 }

@@ -20,6 +20,7 @@ $robo_namespaces = [
   'setup',
   'simplesamlphp',
   'tests',
+  'validate',
   'vm',
 ];
 $robo_commands = [
@@ -28,7 +29,6 @@ $robo_commands = [
   'cleanup',
   'create-project',
   'install-alias',
-  'validate:lint',
   'update',
 ];
 

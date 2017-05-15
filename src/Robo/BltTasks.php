@@ -45,6 +45,20 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
   protected $invokeDepth = 0;
 
   /**
+   * @var \Acquia\Blt\Robo\Filesets\FilesetManager
+   */
+  protected $filesetManager;
+
+  /**
+   * This hook will fire for all commands in this command file.
+   *
+   * @hook init
+   */
+  public function initialize() {
+    $this->filesetManager = $this->container->get('filesetManager');
+  }
+
+  /**
    * Invokes an array of Symfony commands.
    *
    * @param array $commands
@@ -192,6 +206,63 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
 
     return $result;
   }
+
+  /**
+   * Executes a given command against multiple filesets.
+   *
+   * @param \Symfony\Component\Finder\Finder[] $filesets
+   *
+   * @param string $command
+   *   The command to execute. The command should contain '%s', which will be
+   *   replaced with the file path of each file in the filesets.
+   *
+   * @return int
+   */
+  protected function executeCommandAgainstFilesets(array $filesets, $command) {
+    $result = 0;
+    foreach ($filesets as $fileset_id) {
+      $fileset = $this->filesetManager->getFileset($fileset_id);
+      if (!is_null($fileset) && iterator_count($fileset)) {
+        $this->say("Iterating over fileset $fileset_id...");
+        $result = $this->executeCommandAgainstFileset($fileset, $command);
+        if (!$result->wasSuccessful()) {
+          return $result->getExitCode();
+        }
+      }
+      else {
+        $this->say("No files were found in fileset $fileset_id. Skipped.");
+      }
+    }
+
+    return $result;
+  }
+
+  /**
+   * Executes a given command against a single fileset.
+   *
+   * @param \Symfony\Component\Finder\Finder[] $fileset
+   *
+   * @param string $command
+   *   The command to execute. The command should contain '%s', which will be
+   *   replaced with the file path of each file in the fileset.
+   *
+   * @return \Robo\Result
+   *   The result of the command execution.
+   */
+  protected function executeCommandAgainstFileset($fileset, $command) {
+    $task = $this->taskExecStack()
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE);
+
+    foreach ($fileset as $file) {
+      $full_command = sprintf($command, $file);
+      $task->exec($full_command);
+    }
+
+    $result = $task->run();
+
+    return $result;
+  }
+
 
   /**
    * Writes a particular configuration key's value to the log.

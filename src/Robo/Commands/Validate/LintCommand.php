@@ -33,6 +33,8 @@ class LintCommand extends BltTasks {
    */
   public function lint() {
     $this->say("Linting PHP files...");
+    // @todo Compare performance of taskParallelExec() to using non-parallel
+    // execution, and other alternatives. Can we limit concurrency?
     $task = $this->taskParallelExec()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE);
 
@@ -44,7 +46,7 @@ class LintCommand extends BltTasks {
     foreach ($filesets as $key) {
       $fileset = $this->filesetManager->getFileset($key);
       foreach ($fileset as $file) {
-        $task->process("php -l {$file->getRealPath()}");
+        $task->process("php -l '{$file->getRealPath()}'");
       }
     }
     $result = $task->run();

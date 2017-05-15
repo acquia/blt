@@ -1,3 +1,4 @@
+# @todo Move to subkey of tests.
 behat:
   config: ${repo.root}/tests/behat/local.yml
   haltonerror: true
@@ -107,10 +108,12 @@ git:
 #  name:
 #    - default
 
+# @todo Move to subkey of tests.
 reports:
   localDir: ${repo.root}/reports
   remoteDir: reports
 
+# @todo Move to subkey of validate.
 phpcs:
   filesets:
     - files.php.custom.modules
@@ -127,6 +130,7 @@ phpcbf:
     - files.php.custom.themes
     - files.frontend.custom.themes
 
+# @todo Move to subkey of tests.
 phpunit:
   - path: '${repo.root}/tests/phpunit'
     config: null
@@ -134,12 +138,22 @@ phpunit:
   # and if the core (or custom) config file should be included as a -c parameter.
   # - path: '${docroot}/custom/modules/<your_module>/tests'
   #   config: '${docroot}/core/phpunit.xml.dist'
+
 project:
   local:
     uri: ${project.local.protocol}://${project.local.hostname}
 
+# @todo Move to subkey of setup.
 sync:
   # By default, files are not synced during local:sync.
   # Set this value to 'true' or pass -Dsync.files=true
   # to override this behavior.
   files: false
+
+validate:
+  twig:
+    filesets:
+      - files.twig
+  yaml:
+    filesets:
+      - files.yaml

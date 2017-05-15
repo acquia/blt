@@ -54,7 +54,7 @@ class Filesets implements ConfigAwareInterface {
   }
 
   /**
-   * @fileset(id="file.frontend")
+   * @fileset(id="files.frontend")
    *
    * @return \Symfony\Component\Finder\Finder
    */
@@ -64,8 +64,22 @@ class Filesets implements ConfigAwareInterface {
 
     return $finder;
   }
+  /**
+   * @fileset(id="files.twig")
+   *
+   * @return \Symfony\Component\Finder\Finder
+   */
+  public function getFilesetTwig() {
+    $finder = $this->getTwigFilesetFinder();
+    $finder->in([$this->getConfigValue('docroot') . '/themes/custom']);
+    $finder->in([$this->getConfigValue('docroot') . '/modules/custom']);
+
+    return $finder;
+  }
 
   /**
+   * @fileset(id="files.yaml")
+   *
    * @return \Symfony\Component\Finder\Finder
    */
   public function getFilesetYaml() {
@@ -135,6 +149,23 @@ class Filesets implements ConfigAwareInterface {
       ->files()
       ->name("*.yml")
       ->name("*.yaml")
+      ->notPath('bower_components')
+      ->notPath('node_modules')
+      ->notPath('vendor');
+
+    return $finder;
+  }
+  /**
+   * Adds Drupalistic Twig patterns to a Symfony finder object.
+   *
+   * @return \Symfony\Component\Finder\Finder
+   *   The finder object.
+   */
+  protected function getTwigFilesetFinder() {
+    $finder = new Finder();
+    $finder
+      ->files()
+      ->name("*.twig")
       ->notPath('bower_components')
       ->notPath('node_modules')
       ->notPath('vendor');
