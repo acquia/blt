@@ -58,9 +58,9 @@ class PhpcsCommand extends BltTasks {
     $this->say("Sniffing files...");
 
     $result = 0;
+    $files = explode("\n", $file_list);
     /** @var \Acquia\Blt\Robo\Filesets\FilesetManager $fileset_manager */
     $fileset_manager = $this->getContainer()->get('filesetManager');
-    $files = explode("\n", $file_list);
     $filesets_ids = $this->getConfigValue('phpcs.filesets');
 
     foreach ($filesets_ids as $fileset_id) {

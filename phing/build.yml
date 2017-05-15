@@ -151,6 +151,11 @@ sync:
   files: false
 
 validate:
+  lint:
+    filesets:
+      - files.php.custom.modules
+      - files.php.custom.themes
+      - files.php.tests
   twig:
     filesets:
       - files.twig

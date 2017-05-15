@@ -247,6 +247,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    *   The result of the command execution.
    */
   protected function executeCommandAgainstFiles($files, $command) {
+    // @todo Add option to permit parallel execution.
     $task = $this->taskExecStack()
       ->printMetadata(FALSE);
 

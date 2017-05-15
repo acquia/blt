@@ -15,28 +15,18 @@ class LintCommand extends BltTasks {
    *
    * @command validate:lint
    *
-   * @return \Robo\Result
+   * @return int
    */
   public function lint() {
     $this->say("Linting PHP files...");
-    // @todo Compare performance of taskParallelExec() to using non-parallel
-    // execution, and other alternatives. Can we limit concurrency?
-    $task = $this->taskParallelExec()
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE);
 
-    $filesets = [
-      'files.php.custom.modules',
-      'files.php.custom.themes',
-      'files.php.tests',
-    ];
+    /** @var \Acquia\Blt\Robo\Filesets\FilesetManager $fileset_manager */
     $fileset_manager = $this->getContainer()->get('filesetManager');
-    foreach ($filesets as $key) {
-      $fileset = $fileset_manager->getFileset($key);
-      foreach ($fileset as $file) {
-        $task->process("php -l '{$file->getRealPath()}'");
-      }
-    }
-    $result = $task->run();
+    $fileset_ids = $this->getConfigValue('validate.lint.filesets');
+    $filesets = $fileset_manager->getFilesets($fileset_ids);
+
+    $command = "php -l '%s'";
+    $result = $this->executeCommandAgainstFilesets($filesets, $command);
 
     return $result;
   }
