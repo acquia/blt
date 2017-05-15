@@ -14,7 +14,7 @@ class YamlCommand extends BltTasks {
    *
    * @command validate:yaml
    */
-  public function lint() {
+  public function lintFileSets() {
     $this->say("Validating yaml syntax for all custom modules and exported config...");
 
     /** @var \Acquia\Blt\Robo\Filesets\FilesetManager $fileset_manager */
@@ -36,7 +36,7 @@ class YamlCommand extends BltTasks {
    * @param string $file_list
    *   A list of files to scan, separated by \n.
    */
-  public function lintFiles($file_list) {
+  public function lintFileList($file_list) {
     $this->say("Linting YAML files...");
 
     $files = explode("\n", $file_list);

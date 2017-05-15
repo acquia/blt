@@ -27,7 +27,7 @@ class PhpcsCommand extends BltTasks {
    *
    * @command validate:phpcs
    */
-  public function phpcs() {
+  public function sniffFileSets() {
     $fileset_ids = $this->getConfigValue('phpcs.filesets');
     $filesets = $this->getContainer()->get('filesetManager')->getFilesets($fileset_ids);
     $bin = $this->getConfigValue('composer.bin');
@@ -54,7 +54,7 @@ class PhpcsCommand extends BltTasks {
    *
    * @return int
    */
-  public function phpcsFiles($file_list) {
+  public function sniffFileList($file_list) {
     $this->say("Sniffing files...");
 
     $result = 0;
@@ -69,7 +69,7 @@ class PhpcsCommand extends BltTasks {
         $filtered_fileset = $fileset_manager->filterFilesByFileset($files, $fileset);
         $filtered_fileset = iterator_to_array($filtered_fileset);
         $files_in_fileset = array_keys($filtered_fileset);
-        $result = $this->phpcsFileList($files_in_fileset);
+        $result = $this->doSniffFileList($files_in_fileset);
         if ($result) {
           return $result;
         }
@@ -80,9 +80,14 @@ class PhpcsCommand extends BltTasks {
   }
 
   /**
+   * Executes PHP Code Sniffer against an array of files.
    *
+   * @param array $file_list
+   *   A flat array of absolute file paths.
+   *
+   * @return int
    */
-  protected function phpcsFileList($file_list) {
+  protected function doSniffFileList($file_list) {
     if ($file_list) {
       $temp_path = $this->getConfigValue('repo.root') . '/tmp/phpcs-fileset';
       $this->taskWriteToFile($temp_path)
@@ -92,6 +97,7 @@ class PhpcsCommand extends BltTasks {
       $bin = $this->getConfigValue('composer.bin') . '/phpcs';
       $result = $this->taskExecStack()
         ->exec("'$bin' --file-list='$temp_path' --standard='{$this->standard}'")
+        ->printMetadata(FALSE)
         ->run();
 
       unlink($temp_path);

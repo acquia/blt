@@ -18,7 +18,7 @@ class TwigCommand extends BltTasks {
    *   The exit code of the last executed command in
    *   $this->executeCommandAgainstFilesets().
    */
-  public function lintFilesets() {
+  public function lintFileSets() {
     $this->say("Validating twig syntax for all custom modules and themes...");
 
     /** @var \Acquia\Blt\Robo\Filesets\FilesetManager $fileset_manager */
@@ -40,7 +40,7 @@ class TwigCommand extends BltTasks {
    * @param string $file_list
    *   A list of files to scan, separated by \n.
    */
-  public function lintFiles($file_list) {
+  public function lintFileList($file_list) {
     $this->say("Linting twig files...");
 
     $files = explode("\n", $file_list);

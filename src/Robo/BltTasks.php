@@ -226,7 +226,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
         }
       }
       else {
-        $this->say("No files were found in fileset $fileset_id. Skipped.");
+        $this->logger->info("No files were found in fileset $fileset_id. Skipped.");
       }
     }
 
@@ -234,7 +234,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
   }
 
   /**
-   * Executes a given command against a single fileset.
+   * Executes a given command against an array of files.
    *
    * @param array $files
    *   A flat array of absolute file paths.
@@ -255,6 +255,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
       $task->exec($full_command);
     }
 
+    $task->printMetadata(FALSE);
     $result = $task->run();
 
     return $result;

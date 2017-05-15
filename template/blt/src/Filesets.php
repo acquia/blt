@@ -4,6 +4,8 @@ namespace Acquia\Blt\Custom;
 
 // Do not remove this, even though it appears to be unused.
 use Acquia\Blt\Annotations\Fileset;
+use Acquia\Blt\Robo\Config\ConfigAwareTrait;
+use Robo\Contract\ConfigAwareInterface;
 
 /**
  * Class Filesets
@@ -14,6 +16,6 @@ use Acquia\Blt\Annotations\Fileset;
  * @package Acquia\Blt\Custom
  * @see \Acquia\Blt\Robo\Filesets\Filesets
  */
-class Filesets {
-
+class Filesets implements ConfigAwareInterface {
+  use ConfigAwareTrait;
 }
