@@ -3,7 +3,6 @@
 namespace Acquia\Blt\Robo\Commands\Validate;
 
 use Acquia\Blt\Robo\BltTasks;
-use Robo\Contract\VerbosityThresholdInterface;
 
 /**
  * Defines commands in the "validate:*" namespace.
