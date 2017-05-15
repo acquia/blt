@@ -9,13 +9,13 @@ use Acquia\Blt\Robo\BltTasks;
  */
 class ComposerCommand extends BltTasks {
 
-
   /**
-   * @command validate:composer
+   * Validates root composer.json and composer.lock files.
    *
-   * @aliases validate
+   * @command validate:composer
    */
   public function validate() {
+    $this->say("Validating composer.json and composer.lock...");
     $result = $this->taskExecStack()
       ->dir($this->getConfigValue('repo.root'))
       ->exec('composer validate --no-check-all --ansi')

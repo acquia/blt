@@ -2,6 +2,7 @@
 
 namespace Acquia\Blt\Robo\Filesets;
 
+use Acquia\Blt\Custom\Filesets;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
@@ -47,9 +48,13 @@ class FilesetManager implements ConfigAwareInterface, LoggerAwareInterface {
    * annotations.
    */
   public function registerFilesets() {
+    // @todo Assert that filesets from \Acquia\Blt\Custom\Filesets override
+    // those from \Acquia\Blt\Custom\Filesets.
     $classes = [
+      // @codingStandardsIgnoreStart
       \Acquia\Blt\Robo\Filesets\Filesets::class,
       \Acquia\Blt\Custom\Filesets::class,
+      // @codingStandardsIgnoreEnd
     ];
     $fileset_annotations = $this->getAllFilesetAnnotations($classes);
     $filesets = $this->getFilesetsFromAnnotations($fileset_annotations);
@@ -111,9 +116,13 @@ class FilesetManager implements ConfigAwareInterface, LoggerAwareInterface {
    * @return \Symfony\Component\Finder\Finder[]
    *   An array of instantiated filesets.
    */
-  public function getFilesets() {
+  public function getFilesets($fileset_ids = []) {
     if (!$this->filesets) {
       $this->registerFilesets();
+    }
+
+    if ($fileset_ids) {
+      return array_intersect_key($this->filesets, array_flip($fileset_ids));
     }
 
     return $this->filesets;
@@ -159,4 +168,48 @@ class FilesetManager implements ConfigAwareInterface, LoggerAwareInterface {
     }
     return $filesets;
   }
+
+
+  /**
+   * Returns the intersection of $files and a given fileset.
+   *
+   * @param array $files
+   *   An array of absolute file paths.
+   * @param \Symfony\Component\Finder\Finder $fileset
+   *   The ID for a given fileset.
+   *
+   * @return \Symfony\Component\Finder\Finder
+   *   The intersection of $files and the fileset.
+   */
+  public function filterFilesByFileset($files, $fileset) {
+    $absolute_files = array_map(array($this, 'prependRepoRoot'), $files);
+
+    // @todo Compare performance of this vs. using
+    // array_intersect($files, array_keys(iterator_to_array($fileset)));
+    $filter = function (\SplFileInfo $file) use ($absolute_files) {
+      if (!in_array($file->getRealPath(), $absolute_files)) {
+        return FALSE;
+      }
+    };
+    $fileset->filter($filter);
+
+
+    return $fileset;
+  }
+
+  /**
+   * Prepends the repo.root variable to a given filepath.
+   *
+   * @param string $relative_path
+   *   A file path relative to repo.root.
+   *
+   * @return string
+   *   The absolute file path.
+   */
+  protected function prependRepoRoot($relative_path) {
+    $absolute_path = $this->getConfigValue('repo.root') . '/' . $relative_path;
+
+    return $absolute_path;
+  }
+
 }

@@ -54,15 +54,22 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    *   The exit code of the command.
    */
   protected function invokeCommands(array $commands) {
-    $this->invokeDepth++;
-    foreach ($commands as $command) {
-      $returnCode = $this->invokeCommand($command);
+    $returnCode = 0;
+    foreach ($commands as $key => $value) {
+      if (is_numeric($key)) {
+        $command = $value;
+        $args = [];
+      }
+      else {
+        $command = $key;
+        $args = $value;
+      }
+      $returnCode = $this->invokeCommand($command, $args);
       // Return if this is non-zero exit code.
       if ($returnCode) {
         return $returnCode;
       }
     }
-    $this->invokeDepth--;
     return $returnCode;
   }
 
@@ -78,6 +85,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    *   The exit code of the command.
    */
   protected function invokeCommand($command_name, array $args = []) {
+    $this->invokeDepth++;
 
     // Skip invocation of disabled commands.
     if ($this->isCommandDisabled($command_name)) {
@@ -91,6 +99,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
     $prefix = str_repeat(">", $this->invokeDepth);
     $this->output->writeln("<comment>$prefix $command_name</comment>");
     $returnCode = $command->run($input, $this->output());
+    $this->invokeDepth--;
 
     return $returnCode;
   }
@@ -203,14 +212,15 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    *   replaced with the file path of each file in the filesets.
    *
    * @return int
+   *   The exit code of the last executed command.
    */
   protected function executeCommandAgainstFilesets(array $filesets, $command) {
     $result = 0;
-    foreach ($filesets as $fileset_id) {
-      $fileset = $this->getContainer()->get('filesetManager')->getFileset($fileset_id);
+    foreach ($filesets as $fileset_id => $fileset) {
       if (!is_null($fileset) && iterator_count($fileset)) {
         $this->say("Iterating over fileset $fileset_id...");
-        $result = $this->executeCommandAgainstFileset($fileset, $command);
+        $files = iterator_to_array($fileset);
+        $result = $this->executeCommandAgainstFiles($files, $command);
         if (!$result->wasSuccessful()) {
           return $result->getExitCode();
         }
@@ -226,7 +236,8 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
   /**
    * Executes a given command against a single fileset.
    *
-   * @param \Symfony\Component\Finder\Finder[] $fileset
+   * @param array $files
+   *   A flat array of absolute file paths.
    *
    * @param string $command
    *   The command to execute. The command should contain '%s', which will be
@@ -235,11 +246,11 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    * @return \Robo\Result
    *   The result of the command execution.
    */
-  protected function executeCommandAgainstFileset($fileset, $command) {
+  protected function executeCommandAgainstFiles($files, $command) {
     $task = $this->taskExecStack()
       ->printMetadata(FALSE);
 
-    foreach ($fileset as $file) {
+    foreach ($files as $file) {
       $full_command = sprintf($command, $file);
       $task->exec($full_command);
     }
@@ -248,7 +259,6 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
 
     return $result;
   }
-
 
   /**
    * Writes a particular configuration key's value to the log.

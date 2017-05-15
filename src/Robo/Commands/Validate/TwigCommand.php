@@ -3,7 +3,6 @@
 namespace Acquia\Blt\Robo\Commands\Validate;
 
 use Acquia\Blt\Robo\BltTasks;
-use Robo\Contract\VerbosityThresholdInterface;
 
 /**
  * Defines commands in the "validate:twig*" namespace.
@@ -11,19 +10,52 @@ use Robo\Contract\VerbosityThresholdInterface;
 class TwigCommand extends BltTasks {
 
   /**
+   * Runs a PHP Lint against custom modules, themes, and tests.
+   *
    * @command validate:twig
+   *
+   * @return int
+   *   The exit code of the last executed command in
+   *   $this->executeCommandAgainstFilesets().
    */
-  public function lint() {
+  public function lintFilesets() {
     $this->say("Validating twig syntax for all custom modules and themes...");
 
-    $filesets_to_lint = $this->getConfigValue('validate.twig.filesets');
+    /** @var \Acquia\Blt\Robo\Filesets\FilesetManager $fileset_manager */
+    $fileset_manager = $this->getContainer()->get('filesetManager');
+    $fileset_ids = $this->getConfigValue('validate.twig.filesets');
+    $filesets = $fileset_manager->getFilesets($fileset_ids);
     $bin = $this->getConfigValue('composer.bin');
     $command = "'$bin/twig-lint' lint --only-print-errors '%s'";
-    $result = $this->executeCommandAgainstFilesets($filesets_to_lint, $command);
+    $result = $this->executeCommandAgainstFilesets($filesets, $command);
 
     return $result;
   }
 
+  /**
+   * Executes Twig validator against a list of files, if in twig.filesets.
+   *
+   * @command validate:twig:files
+   *
+   * @param string $file_list
+   *   A list of files to scan, separated by \n.
+   */
+  public function lintFiles($file_list) {
+    $this->say("Linting twig files...");
 
+    $files = explode("\n", $file_list);
 
+    /** @var \Acquia\Blt\Robo\Filesets\FilesetManager $fileset_manager */
+    $fileset_manager = $this->getContainer()->get('filesetManager');
+    $fileset_ids = $this->getConfigValue('validate.twig.filesets');
+    $filesets = $fileset_manager->getFilesets($fileset_ids);
+
+    $bin = $this->getConfigValue('composer.bin');
+    $command = "'$bin/twig-lint' lint --only-print-errors '%s'";
+    foreach ($filesets as $fileset_id => $fileset) {
+      $filesets[$fileset_id] = $fileset_manager->filterFilesByFileset($files, $fileset);
+    }
+
+    $this->executeCommandAgainstFilesets($filesets, $command);
+  }
 }

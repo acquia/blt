@@ -54,7 +54,7 @@ class Filesets implements ConfigAwareInterface {
   }
 
   /**
-   * @fileset(id="files.frontend")
+   * @fileset(id="files.frontend.custom.themes")
    *
    * @return \Symfony\Component\Finder\Finder
    */
@@ -64,6 +64,7 @@ class Filesets implements ConfigAwareInterface {
 
     return $finder;
   }
+
   /**
    * @fileset(id="files.twig")
    *
@@ -155,6 +156,7 @@ class Filesets implements ConfigAwareInterface {
 
     return $finder;
   }
+
   /**
    * Adds Drupalistic Twig patterns to a Symfony finder object.
    *

@@ -3,8 +3,6 @@
 namespace Acquia\Blt\Robo\Commands\Validate;
 
 use Acquia\Blt\Robo\BltTasks;
-use Robo\Contract\VerbosityThresholdInterface;
-use Symfony\Component\Finder\Finder;
 
 /**
  * Defines commands in the "validate:phpcs*" namespace.
@@ -30,14 +28,15 @@ class PhpcsCommand extends BltTasks {
    * @command validate:phpcs
    */
   public function phpcs() {
-    $filesets_to_sniff = $this->getConfigValue('phpcs.filesets');
+    $fileset_ids = $this->getConfigValue('phpcs.filesets');
+    $filesets = $this->getContainer()->get('filesetManager')->getFilesets($fileset_ids);
     $bin = $this->getConfigValue('composer.bin');
     $command = "'$bin/phpcs' --standard='{$this->standard}' '%s'";
 
     // @todo Compare the performance of this vs. dumping $files to a temp file
     // and executing phpcs --file-set=[tmp-file]. Also, compare vs. using
     // parallel processes.
-    $result = $this->executeCommandAgainstFilesets($filesets_to_sniff, $command);
+    $result = $this->executeCommandAgainstFilesets($filesets, $command);
 
     return $result;
   }
@@ -50,77 +49,54 @@ class PhpcsCommand extends BltTasks {
    *
    * @command validate:phpcs:files
    *
-   * @param string $file_list A list of files to scan, separated by \n.
+   * @param string $file_list
+   *   A list of files to scan, separated by \n.
    *
-   * @return \Robo\Result
-   *   The result of the PHPCS execution.
+   * @return int
    */
   public function phpcsFiles($file_list) {
+    $this->say("Sniffing files...");
+
+    $result = 0;
+    /** @var \Acquia\Blt\Robo\Filesets\FilesetManager $fileset_manager */
+    $fileset_manager = $this->getContainer()->get('filesetManager');
     $files = explode("\n", $file_list);
-    $filesets_to_sniff = $this->getConfigValue('phpcs.filesets');
-    // @todo do this for all filesets.
-    $files_in_fileset = $this->filterFilesByFileset($files, $filesets_to_sniff[1]);
-    $temp_path = $this->getConfigValue('repo.root') . '/tmp/phpcs-fileset';
-    $this->taskWriteToFile($temp_path)
-      ->lines($files_in_fileset)
-      ->run();
+    $filesets_ids = $this->getConfigValue('phpcs.filesets');
 
-    $bin = $this->getConfigValue('composer.bin') . '/phpcs';
-    $result = $this->taskExecStack()
-      ->exec("'$bin' --file-list='$temp_path' --standard='{$this->standard}'")
-      ->run();
-
-    unlink($temp_path);
+    foreach ($filesets_ids as $fileset_id) {
+      $fileset = $fileset_manager->getFileset($fileset_id);
+      if (!is_null($fileset)) {
+        $filtered_fileset = $fileset_manager->filterFilesByFileset($files, $fileset);
+        $filtered_fileset = iterator_to_array($filtered_fileset);
+        $files_in_fileset = array_keys($filtered_fileset);
+        $result = $this->phpcsFileList($files_in_fileset);
+        if ($result) {
+          return $result;
+        }
+      }
+    }
 
     return $result;
   }
 
-  /**
-   * Returns the intersection of $files and a given fileset.
-   *
-   * @param array $files
-   *   An array of absolute file paths.
-   * @param string $fileset_id
-   *   The ID for a given fileset.
-   *
-   * @return array
-   *   The intersection of $files and the fileset.
-   */
-  protected function filterFilesByFileset($files, $fileset_id) {
-    $absolute_files = array_map(array($this, 'prependRepoRoot'), $files);
+  protected function phpcsFileList($file_list) {
+    if ($file_list) {
+      $temp_path = $this->getConfigValue('repo.root') . '/tmp/phpcs-fileset';
+      $this->taskWriteToFile($temp_path)
+        ->lines($file_list)
+        ->run();
 
-    /** @var \Acquia\Blt\Robo\Filesets\FilesetManager $filesetManager */
-    $filesetManager = $this->container->get('filesetManager');
-    $fileset = $filesetManager->getFileset($fileset_id);
+      $bin = $this->getConfigValue('composer.bin') . '/phpcs';
+      $result = $this->taskExecStack()
+        ->exec("'$bin' --file-list='$temp_path' --standard='{$this->standard}'")
+        ->run();
 
-    // @todo Compare performance of this vs. using
-    // array_intersect($files, array_keys(iterator_to_array($fileset)));
-    $filter = function (\SplFileInfo $file) use ($absolute_files) {
-      if (!in_array($file->getRealPath(), $absolute_files)) {
-        return FALSE;
-      }
-    };
-    $fileset->filter($filter);
+      unlink($temp_path);
 
-    $files = iterator_to_array($fileset);
-    $file_paths = array_keys($files);
+      return $result->getExitCode();
+    }
 
-    return $file_paths;
-  }
-
-  /**
-   * Prepends the repo.root variable to a given filepath.
-   *
-   * @param string $relative_path
-   *   A file path relative to repo.root.
-   *
-   * @return string
-   *   The absolute file path.
-   */
-  protected function prependRepoRoot($relative_path) {
-    $absolute_path = $this->getConfigValue('repo.root') . '/' . $relative_path;
-
-    return $absolute_path;
+    return 0;
   }
 
 }

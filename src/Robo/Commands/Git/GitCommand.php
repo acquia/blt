@@ -13,8 +13,11 @@ class GitCommand extends BltTasks {
    * Validates a git commit message.
    *
    * @command git:commit-msg
+   *
+   * @return int
    */
   public function commitMsgHook($message) {
+    $this->say('Validating commit message syntax...');
     $prefix = $this->getConfigValue('project.prefix');
     if (!preg_match("/^$prefix-[0-9]+(: )[^ ].{15,}\\./", $message)) {
       $this->logger->error("Invalid commit message!");
@@ -29,28 +32,31 @@ class GitCommand extends BltTasks {
   }
 
   /**
+   * Validates staged files.
+   *
    * @command git:pre-commit
    *
-   * @param $changed_files
+   * @param string $changed_files
+   *  A list of staged files, separated by \n.
+   *
+   * @return int
    */
   public function preCommitHook($changed_files) {
+    $exit_code = $this->invokeCommands([
+      'validate:phpcs:files' => ['file_list' => $changed_files],
+      'validate:twig:files' => ['file_list' => $changed_files],
+      'validate:yaml:files' => ['file_list' => $changed_files],
+    ]);
+    if ($exit_code) {
+      return $exit_code;
+    }
 
+    $changed_files_list = explode("\n", $changed_files);
+    if (in_array(['composer.json', 'composer.lock'], $changed_files_list)) {
+      $exit_code = $this->invokeCommand('validate:composer',  ['file_list' => $changed_files]);
+    }
 
-    // @todo See if $changed_files contains files in phpcs.filesets. Scan only those.
-    // @todo Run this still right in PHPCS command, not here. pass string to it.
-    $this->say("Sniffing staged files via PHP Code Sniffer...");
-    $result = $this->invokeCommand('validate:phpcs:files', ['file_list' => $changed_files]);
-
-//    // @todo See if $changed files contains twig files. Scan only those.
-//    $this->say("Linting custom twig files...");
-//    $result = $this->invokeCommand('validate:twig', $changed_files);
-//
-//    // @todo See if $changed_files contains yaml files. Scan only those.
-//    $result = $this->invokeCommand('validate:yaml', $changed_files);
-//
-//    $this->say("Validating composer.json...");
-//    // @todo See if $changed_files contains composer.* files. Scan only those.
-//    $result = $this->invokeCommand('validate:composer', $changed_files);
+    return $exit_code;
   }
 
 }
