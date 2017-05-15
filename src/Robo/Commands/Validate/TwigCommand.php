@@ -58,4 +58,5 @@ class TwigCommand extends BltTasks {
 
     $this->executeCommandAgainstFilesets($filesets, $command);
   }
+
 }

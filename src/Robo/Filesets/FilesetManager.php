@@ -169,7 +169,6 @@ class FilesetManager implements ConfigAwareInterface, LoggerAwareInterface {
     return $filesets;
   }
 
-
   /**
    * Returns the intersection of $files and a given fileset.
    *
@@ -192,7 +191,6 @@ class FilesetManager implements ConfigAwareInterface, LoggerAwareInterface {
       }
     };
     $fileset->filter($filter);
-
 
     return $fileset;
   }

@@ -79,6 +79,9 @@ class PhpcsCommand extends BltTasks {
     return $result;
   }
 
+  /**
+   *
+   */
   protected function phpcsFileList($file_list) {
     if ($file_list) {
       $temp_path = $this->getConfigValue('repo.root') . '/tmp/phpcs-fileset';

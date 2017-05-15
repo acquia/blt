@@ -37,7 +37,7 @@ class GitCommand extends BltTasks {
    * @command git:pre-commit
    *
    * @param string $changed_files
-   *  A list of staged files, separated by \n.
+   *   A list of staged files, separated by \n.
    *
    * @return int
    */
@@ -53,7 +53,7 @@ class GitCommand extends BltTasks {
 
     $changed_files_list = explode("\n", $changed_files);
     if (in_array(['composer.json', 'composer.lock'], $changed_files_list)) {
-      $exit_code = $this->invokeCommand('validate:composer',  ['file_list' => $changed_files]);
+      $exit_code = $this->invokeCommand('validate:composer', ['file_list' => $changed_files]);
     }
 
     return $exit_code;
