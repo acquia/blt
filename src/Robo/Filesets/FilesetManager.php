@@ -163,7 +163,11 @@ class FilesetManager implements ConfigAwareInterface, LoggerAwareInterface {
       $fileset_class = new $class();
       $fileset_class->setConfig($this->config);
       foreach ($fileset as $id => $method_name) {
-        $filesets[$id] = call_user_func_array([$fileset_class, $method_name], []);
+        $this->logger->debug("Calling $method_name on $class object");
+        if (method_exists($fileset_class, $method_name)) {
+          $filesets[$id] = call_user_func_array([$fileset_class, $method_name],
+            []);
+        }
       }
     }
     return $filesets;
