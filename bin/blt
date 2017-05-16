@@ -15,6 +15,7 @@ $robo_namespaces = [
   'custom',
   'deploy',
   'drupal',
+  'fix',
   'frontend',
   'git',
   'setup',

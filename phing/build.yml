@@ -123,6 +123,7 @@ phpcs:
   haltonerror: true
   haltonwarning: true
 
+#$ @todo Move to subkey of fix.
 phpcbf:
   filesets:
     - files.php.custom.modules
