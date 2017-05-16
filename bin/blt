@@ -8,60 +8,8 @@ if (!isset($autoload)) {
   exit(1);
 }
 
-$robo_namespaces = [
-  'acsf',
-  'blt',
-  'ci',
-  'custom',
-  'deploy',
-  'drupal',
-  'fix',
-  'frontend',
-  'git',
-  'setup',
-  'simplesamlphp',
-  'tests',
-  'validate',
-  'vm',
-];
-$robo_commands = [
-  'add-to-project',
-  'doctor',
-  'cleanup',
-  'create-project',
-  'install-alias',
-  'update',
-];
-
-$params_string = implode(' ', array_slice($argv, 1));
-
-// If command begins with string in $robo_namespaces, execute command via Robo.
-if (!empty($argv[1])) {
-  foreach ($robo_namespaces as $namespace) {
-    if (strpos($argv[1], $namespace) === 0) {
-      require_once __DIR__. '/blt-robo-run.php';
-    }
-  }
-}
-// If command is in $robo_commands, execute command via Robo.
-if (!empty($argv[1]) && in_array($argv[1], $robo_commands)) {
-  $command = $argv[1];
-  require_once __DIR__. '/blt-robo-run.php';
-}
-// Otherwise, execute target via Phing.
-else {
-  chdir($repo_root);
-  $phing = $repo_root . '/vendor/phing/phing/bin/phing';
-  array_splice($argv, 1, 0, array('-logger', 'vendor.acquia.blt.phing.phingcludes.BltLogger'));
-  array_splice($argv, 1, 0, array('-f', './vendor/acquia/blt/phing/build.xml'));
-
-  // @see vendor/bin/phing
-  ini_set('html_errors', 'off');
-  putenv("PHING_HOME=" . realpath(dirname($phing) . '/../'));
-
-  $phing_include = dirname($phing) . '/phing.php';
-  require_once $phing_include;
-}
+$command = $argv[1];
+require_once __DIR__. '/blt-robo-run.php';
 
 /**
  * Finds the root directory for the repository.

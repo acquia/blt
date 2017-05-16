@@ -31,8 +31,7 @@ drush:
   default_alias: ${drush.aliases.local}
 
 # Custom tasks that are triggered at pre-defined times in the build process.
-# The tasks hook into BLT's existing Phing targets. Available hooks keys are:
-# frontend-build, post-deploy-build, and post-setup-build.
+# The tasks hook into BLT's existing commands.
 target-hooks:
   # Executed when front end dependencies should be installed.
   frontend-setup:
@@ -74,9 +73,6 @@ target-hooks:
 #   features:
 #     bundle: blted8
 #     no-overrides: 'true'
-
-# Define any custom Phing files that you'd like to import. E.g., ${repo.root}/blt/phing/build.xml
-import: ~
 
 # An array of modules to be enabled or uninstalled automatically in local, ci, and deploy contexts.
 modules:

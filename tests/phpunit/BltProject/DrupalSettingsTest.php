@@ -12,7 +12,7 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 class DrupalSettingsTest extends BltProjectTestBase {
 
   /**
-   * Tests Phing setup:drupal:settings target.
+   * Tests setup:drupal:settings command.
    *
    * Ensures each site has a default.local.settings.php file.
    *
@@ -25,7 +25,7 @@ class DrupalSettingsTest extends BltProjectTestBase {
   }
 
   /**
-   * Tests Phing setup:drupal:settings target.
+   * Tests setup:drupal:settings command.
    *
    * Ensures each site has a local.settings.php file.
    *
@@ -38,7 +38,7 @@ class DrupalSettingsTest extends BltProjectTestBase {
   }
 
   /**
-   * Tests Phing setup:drupal:settings target.
+   * Tests setup:drupal:settings command.
    *
    * Ensures the default site has a default.settings.php file, which is used
    * as the basis for new settings.php files.
@@ -50,7 +50,7 @@ class DrupalSettingsTest extends BltProjectTestBase {
   }
 
   /**
-   * Tests Phing setup:drupal:settings target.
+   * Tests setup:drupal:settings command.
    *
    * Ensures each site has a settings.php file.
    *
@@ -63,7 +63,7 @@ class DrupalSettingsTest extends BltProjectTestBase {
   }
 
   /**
-   * Tests Phing setup:drupal:settings target.
+   * Tests setup:drupal:settings command.
    *
    * Ensures BLT's settings are included in each site's settings.php file.
    *

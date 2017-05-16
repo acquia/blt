@@ -12,7 +12,7 @@ use Acquia\Blt\Tests\BltTestBase;
 class AcsfTest extends BltTestBase {
 
   /**
-   * Tests Phing acsf:init target.
+   * Tests acsf:init command.
    */
   public function testAcsfInit() {
     $this->assertFileExists($this->new_project_dir . '/docroot/modules/contrib/acsf');

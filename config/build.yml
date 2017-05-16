@@ -26,10 +26,6 @@ bin.path: vendor/bin
 blt:
   update:
     ignore-existing-file: ${blt.root}/scripts/blt/ignore-existing.txt
-  # Default verbosity level for <exec> tasks. If Phing msg level is => than info, this will be set to info.
-  exec_level: verbose
-  # If Phing verbosity is flagged, this will be changed to true. Affects verbosity of tasks like Drush, Behat.
-  verbose: false
   config-files:
     project: ${repo.root}/blt/project.yml
     local: ${repo.root}/blt/project.local.yml
@@ -63,9 +59,9 @@ deploy:
   # If true, dependencies will be built during deploy. If false, you should commit dependencies directly.
   build-dependencies: true
   dir: ${repo.root}/deploy
-  exclude_file: ${blt.root}/phing/files/deploy-exclude.txt
+  exclude_file: ${blt.root}/scripts/blt/scripts/deploy/deploy-exclude.txt
   exclude_additions_file: ${repo.root}/blt/deploy-exclude-additions.txt
-  gitignore_file: ${blt.root}/phing/files/.gitignore
+  gitignore_file: ${blt.root}/blt/scripts/deploy/.gitignore
   git:
     # If true, deploys will fail if there are uncommitted changes.
     failOnDirty: true

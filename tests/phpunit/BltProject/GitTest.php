@@ -12,7 +12,7 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 class GitTasksTest extends BltProjectTestBase {
 
   /**
-   * Tests Phing setup:git-hooks target.
+   * Tests  setup:git-hooks command.
    *
    * @group blt-project
    */

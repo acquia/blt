@@ -12,7 +12,7 @@ use Acquia\Blt\Tests\BltTestBase;
 class DrupalVmTest extends BltTestBase {
 
   /**
-   * Tests Phing vm:init target.
+   * Tests vm:init command.
    *
    * @group blt
    */

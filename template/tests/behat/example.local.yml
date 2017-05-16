@@ -8,8 +8,7 @@ local:
     default:
       paths:
         # Set features to repo root so that .feature files belonging to contrib
-        # modules, themes, and profiles can be discovered. Enable these
-        # additional paths in build/phing/build.yml.
+        # modules, themes, and profiles can be discovered.
         features: ${repo.root}
         bootstrap: ${repo.root}/tests/behat/features/bootstrap
       contexts:

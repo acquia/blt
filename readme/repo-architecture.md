@@ -12,14 +12,14 @@ Consequently, there are a few aspects of this project’s architecture and workf
 
 * Drupal core, contrib modules, themes, and third parties libraries are not committed to the repository. Contrib directories .gitignored and populated during [build artifact](deploy.md) generation.
 * The repository is never pushed directly to the cloud. Instead, changes to the repository on GitHub trigger tests to be run via [Continuous Integration](ci.md). Changes that pass testing will automatically cause a [build artifact](deploy.md) to be created and deployed to the cloud.
-* [Common project tasks](project-tasks.md) are executed via a build tool (Phing) so that they can be executed exactly the same in all circumstances.
+* [Common project tasks](project-tasks.md) are executed via a build tool (Robo) so that they can be executed exactly the same in all circumstances.
 
 ## Directory structure
 
 The following is an overview of the purpose of each top level directory in the project template:
 
     root
-      ├── blt      - Contains custom build config files for CI solutions. E.g., Phing configuration.
+      ├── blt      - Contains custom build config files for CI solutions.
       ├── box      - Contains DrupalVM Configuration (optional).
       ├── drush    - Contain drush configuration that is not site or environment specific.
       ├── docroot  - The drupal docroot.

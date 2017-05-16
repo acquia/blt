@@ -12,7 +12,7 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 class DrushSettingsTest extends BltProjectTestBase {
 
   /**
-   * Tests Phing setup:drush:settings target.
+   * Tests setup:drush:settings command.
    *
    * Ensures each site has a local.drushrc.php file.
    *
@@ -25,7 +25,7 @@ class DrushSettingsTest extends BltProjectTestBase {
   }
 
   /**
-   * Tests Phing setup:drush:settings target.
+   * Tests setup:drush:settings command.
    *
    * Ensures each site has a default.local.drushrc.php.
    *

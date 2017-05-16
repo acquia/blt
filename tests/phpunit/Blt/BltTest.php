@@ -13,7 +13,7 @@ use Acquia\Blt\Tests\BltTestBase;
 class BltTest extends BltTestBase {
 
   /**
-   * Tests Phing pt:create target.
+   * Tests BLT's project creation.
    *
    * @group blt
    */

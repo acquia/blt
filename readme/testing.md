@@ -30,27 +30,6 @@ To avoid these pitfalls, follow the best practices outlined in sections below.
 * [Realizing quality improvement through test driven development](http://research.microsoft.com/en-us/groups/ese/nagappan_tdd.pdf)
 * [Why Test Automation Costs Too Much](http://testobsessed.com/2010/07/why-test-automation-costs-too-much/).
 
-## Types of testing
-
-You should use the following types of automated tests:
-
-* [Code sniffing](https://www.drupal.org/project/coder)
-* Code linting
-* Functional tests
-* Unit tests
-
-## Functional testing
-
-Functional tests should be written with [Behat](http://docs.behat.org/en/v2.5/) using a [Behavior Driven Development](http://dannorth.net/introducing-bdd/) methodology.
-
-See [Behat section](#behat) below for more details.
-
-## Unit testing
-
-Unit testing is the practice of testing the components of a program automatically, using a test program to provide inputs to each component and check the outputs.  They are meant to be highly granular and completely independent. Running units tests should be a very fast process.
-
-PHPUnit should be used for unit testing. See [PHPUnit section](#phpunit) below for more details
-
 ## Test directory structure
 
 This directory contains all projects tests, grouped by testing technology. For all configuration related to builds that actually run these tests, please see the [build](/build) directory.
@@ -69,30 +48,15 @@ This directory contains all projects tests, grouped by testing technology. For a
 
 Before attempting to execute any tests, verify that composer dependencies are built by running `composer install` in the project root.
 
-Each testing type can be either executed directly, or via a corresponding Phing target. Phing will execute the tests with default values defined in your project's yaml configuration files (project.yml). Examples:
-
+The following testing commands are available:
 * `blt tests:all`
 * `blt tests:behat`
 * `blt tests:phpunit`
-
-To execute a single feature (with Phing):
-
-    blt tests:behat -Dbehat.paths=${PWD}/tests/behat/features/Examples.feature
-
-To execute a single scenario (with Phing):
-
-    blt tests:behat -Dbehat.paths=${PWD}/tests/behat/features/Examples.feature:4
-
-Where "4" is the line number of the scenario in the feature file.
-
-To execute the tests directly (without Phing) see the following examples:
-
-* `./vendor/bin/behat -c tests/behat/local.yml tests/behat/features/Examples.feature -p local`
-* `./vendor/bin/phpunit tests/phpunit/BLTTest.php`
+* `blt tests:security-updates`
 
 ### Modifying test targets
 
-See [Extending BLT](extending-blt.md#target-configuration) for more information on overriding Phing variables.
+See [Extending BLT](extending-blt.md#target-configuration) for more information on overriding default configuration values.
 
 For more information on the commands, run:
 
@@ -107,9 +71,25 @@ Consequently, proper Behat tests should be written using business domain languag
 
 See referenced materials for more information on BDD best practices.
 
+### Testing individual features or scenarios
+
+To execute a single feature:
+
+    blt tests:behat -D behat.paths=${PWD}/tests/behat/features/Examples.feature
+
+To execute a single scenario:
+
+    blt tests:behat -D behat.paths=${PWD}/tests/behat/features/Examples.feature:4
+
+Where "4" is the line number of the scenario in the feature file.
+
+To execute the tests directly (without BLT) see the following examples:
+
+* `./vendor/bin/behat -c tests/behat/local.yml tests/behat/features/Examples.feature -p local`
+
 ### Configuration
 
-Configuration for the BLT Behat commands is stored in the `behat` Phing variable. You can modify the behavior of the BLT `tests:behat` target by customizing this configuration. See [Extending BLT](extending-blt.md) for more information on overriding Phing variables.
+Configuration for the BLT Behat commands is stored in the `behat` configuration variable. You can modify the behavior of the BLT `tests:behat` target by customizing this configuration. See [Extending BLT](extending-blt.md) for more information on overriding configuration variables.
 
 Behat's own configuration is defined in the following files:
 
