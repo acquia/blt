@@ -57,7 +57,7 @@ class GitCommand extends BltTasks {
     }
 
     if ($exit_code === 0) {
-      $this->say("<success>Your local code has passed git pre-commit validation.</success>");
+      $this->say("<info>Your local code has passed git pre-commit validation.</info>");
     }
 
     return $exit_code;
