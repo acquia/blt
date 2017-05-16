@@ -54,15 +54,22 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    *   The exit code of the command.
    */
   protected function invokeCommands(array $commands) {
-    $this->invokeDepth++;
-    foreach ($commands as $command) {
-      $returnCode = $this->invokeCommand($command);
+    $returnCode = 0;
+    foreach ($commands as $key => $value) {
+      if (is_numeric($key)) {
+        $command = $value;
+        $args = [];
+      }
+      else {
+        $command = $key;
+        $args = $value;
+      }
+      $returnCode = $this->invokeCommand($command, $args);
       // Return if this is non-zero exit code.
       if ($returnCode) {
         return $returnCode;
       }
     }
-    $this->invokeDepth--;
     return $returnCode;
   }
 
@@ -78,6 +85,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    *   The exit code of the command.
    */
   protected function invokeCommand($command_name, array $args = []) {
+    $this->invokeDepth++;
 
     // Skip invocation of disabled commands.
     if ($this->isCommandDisabled($command_name)) {
@@ -91,6 +99,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
     $prefix = str_repeat(">", $this->invokeDepth);
     $this->output->writeln("<comment>$prefix $command_name</comment>");
     $returnCode = $command->run($input, $this->output());
+    $this->invokeDepth--;
 
     return $returnCode;
   }
@@ -189,6 +198,66 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
       ->interactive(TRUE)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
+
+    return $result;
+  }
+
+  /**
+   * Executes a given command against multiple filesets.
+   *
+   * @param \Symfony\Component\Finder\Finder[] $filesets
+   *
+   * @param string $command
+   *   The command to execute. The command should contain '%s', which will be
+   *   replaced with the file path of each file in the filesets.
+   *
+   * @return int
+   *   The exit code of the last executed command.
+   */
+  protected function executeCommandAgainstFilesets(array $filesets, $command) {
+    $result = 0;
+    foreach ($filesets as $fileset_id => $fileset) {
+      if (!is_null($fileset) && iterator_count($fileset)) {
+        $this->say("Iterating over fileset $fileset_id...");
+        $files = iterator_to_array($fileset);
+        $result = $this->executeCommandAgainstFiles($files, $command);
+        if (!$result->wasSuccessful()) {
+          return $result->getExitCode();
+        }
+      }
+      else {
+        $this->logger->info("No files were found in fileset $fileset_id. Skipped.");
+      }
+    }
+
+    return $result;
+  }
+
+  /**
+   * Executes a given command against an array of files.
+   *
+   * @param array $files
+   *   A flat array of absolute file paths.
+   *
+   * @param string $command
+   *   The command to execute. The command should contain '%s', which will be
+   *   replaced with the file path of each file in the fileset.
+   *
+   * @return \Robo\Result
+   *   The result of the command execution.
+   */
+  protected function executeCommandAgainstFiles($files, $command) {
+    // @todo Add option to permit parallel execution.
+    $task = $this->taskExecStack()
+      ->printMetadata(FALSE);
+
+    foreach ($files as $file) {
+      $full_command = sprintf($command, $file);
+      $task->exec($full_command);
+    }
+
+    $task->printMetadata(FALSE);
+    $result = $task->run();
 
     return $result;
   }

@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo;
 
 use Acquia\Blt\Robo\Common\Executor;
+use Acquia\Blt\Robo\Filesets\FilesetManager;
 use Acquia\Blt\Robo\Inspector\Inspector;
 use Acquia\Blt\Robo\Inspector\InspectorAwareInterface;
 use Acquia\Blt\Robo\Log\BltLogStyle;
@@ -193,6 +194,8 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
       ->withArgument('executor');
     $container->add(TestsWizard::class)
       ->withArgument('executor');
+
+    $container->share('filesetManager', FilesetManager::class);
 
     // Tell the command loader to only allow command functions that have a
     // name/alias.
