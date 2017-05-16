@@ -5,8 +5,6 @@ namespace Acquia\Blt\Robo\Commands\Setup;
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Config\YamlConfigProcessor;
 use Robo\Config\YamlConfigLoader;
-use Robo\Contract\VerbosityThresholdInterface;
-use Symfony\Component\Finder\Finder;
 
 /**
  * Defines commands in the "setup:sync*" namespace.
@@ -21,7 +19,7 @@ class SyncCommand extends BltTasks {
   public function refresh() {
     return $this->invokeCommands([
       'sync',
-      'setup:update'
+      'setup:update',
     ]);
   }
 
@@ -48,7 +46,7 @@ class SyncCommand extends BltTasks {
   }
 
   /**
-   * Iteratively synchronizes local database from remote for each multisite listed in multisite.name.
+   * Iteratively synchronizes local database from remote for each multisite.
    *
    * @command local:sync:db:all
    */
@@ -68,8 +66,8 @@ class SyncCommand extends BltTasks {
    * Calls local:sync:db for a specific multisite.
    *
    * @param string $multisite_name
-   *  The name of a multisite. E.g., if docroot/sites/example.com is the site,
-   *  $multisite_name would be example.com.
+   *   The name of a multisite. E.g., if docroot/sites/example.com is the site,
+   *   $multisite_name would be example.com.
    *
    * @return \Robo\Result
    */
@@ -109,10 +107,10 @@ class SyncCommand extends BltTasks {
       ->drush('cc drush"')
       ->drush('sql-drop')
       ->drush('sql-sync')
-        ->arg($remote_alias)
-        ->arg($local_alias)
-        ->option('structure-tables-key', 'lightweight')
-        ->option('create-dub');
+      ->arg($remote_alias)
+      ->arg($local_alias)
+      ->option('structure-tables-key', 'lightweight')
+      ->option('create-dub');
 
     if ($this->getConfigValue('drush.sanitize')) {
       $task->option('sanitize');
@@ -139,9 +137,9 @@ class SyncCommand extends BltTasks {
     $task = $this->taskDrush()
       ->alias(NULL)
       ->drush('rsync')
-        ->arg($remote_alias . ':%files')
-        ->arg($this->getConfigValue('docroot') . "sites/$site_dir/files")
-        ->option('exclude-paths', 'styles:css:js');
+      ->arg($remote_alias . ':%files')
+      ->arg($this->getConfigValue('docroot') . "sites/$site_dir/files")
+      ->option('exclude-paths', 'styles:css:js');
 
     $result = $task->run();
 
