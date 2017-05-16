@@ -92,6 +92,7 @@ class UpdateCommand extends BltTasks {
   public function installBltAlias() {
     $this->say("BLT can automatically create a Bash alias to make it easier to run BLT tasks.");
     $this->say("This alias may be created in <comment>.bash_profile</comment> or <comment>.bashrc</comment> depending on your system architecture.");
+    // @todo Prompt only if alias is not already installed.
     $create = $this->confirm("Install alias?");
     if ($create) {
       $this->say("Installing <comment>blt</comment> alias...");
