@@ -14,6 +14,40 @@ use Symfony\Component\Finder\Finder;
 class SyncCommand extends BltTasks {
 
   /**
+   * Refreshes local environment from upstream testing database.
+   *
+   * @command refresh
+   */
+  public function refresh() {
+    return $this->invokeCommands([
+      'sync',
+      'setup:update'
+    ]);
+  }
+
+  /**
+   * Synchronize local environment from remote (remote --> local).
+   *
+   * @command sync
+   */
+  public function sync($options = [
+    'sync-files' => FALSE,
+  ]) {
+
+    $commands = [
+      'local:sync:db',
+    ];
+
+    // @todo Read sync.files config.
+    if ($options['sync-files']) {
+      $commands[] = 'local:sync:files';
+    }
+
+    return $this->invokeCommands($commands);
+
+  }
+
+  /**
    * Iteratively synchronizes local database from remote for each multisite listed in multisite.name.
    *
    * @command local:sync:db:all
