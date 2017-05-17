@@ -87,9 +87,17 @@ class DefaultConfig extends BltConfig {
    *   An array of sites.
    */
   protected function getSiteDirs() {
+    $sites_dir = $this->get('docroot') . '/sites';
+
+    // If BLT's template has not yet been rsynced into the project root, it is
+    // possible that docroot/sites does not exist.
+    if (!file_exists($sites_dir)) {
+      return [];
+    }
+
     $finder = new Finder();
     $dirs = $finder
-      ->in($this->get('docroot') . '/sites')
+      ->in($sites_dir)
       ->directories()
       ->depth('< 1')
       ->exclude(['g']);
