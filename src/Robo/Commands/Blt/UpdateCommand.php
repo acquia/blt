@@ -166,10 +166,6 @@ class UpdateCommand extends BltTasks {
       ->interactive(FALSE)
       ->run();
 
-    if (!$result->wasSuccessful()) {
-      $this->writeln($result->getOutputData());
-    }
-
     return $result;
 
   }
