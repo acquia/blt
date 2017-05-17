@@ -59,9 +59,9 @@ deploy:
   # If true, dependencies will be built during deploy. If false, you should commit dependencies directly.
   build-dependencies: true
   dir: ${repo.root}/deploy
-  exclude_file: ${blt.root}/scripts/blt/scripts/deploy/deploy-exclude.txt
+  exclude_file: ${blt.root}/scripts/blt/deploy/deploy-exclude.txt
   exclude_additions_file: ${repo.root}/blt/deploy-exclude-additions.txt
-  gitignore_file: ${blt.root}/blt/scripts/deploy/.gitignore
+  gitignore_file: ${blt.root}/scripts/blt/deploy/.gitignore
   git:
     # If true, deploys will fail if there are uncommitted changes.
     failOnDirty: true
