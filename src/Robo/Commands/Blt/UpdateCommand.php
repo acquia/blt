@@ -54,7 +54,7 @@ class UpdateCommand extends BltTasks {
     $this->say("Please continue by following the \"Creating a new project with BLT\" instructions:");
     $this->say("<comment>http://blt.readthedocs.io/en/8.x/readme/creating-new-project/</comment>");
 
-    return $result;
+    return $result->getExitCode();
   }
 
   /**
