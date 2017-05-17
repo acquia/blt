@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo;
 
 use Acquia\Blt\Robo\Common\Executor;
+use Acquia\Blt\Robo\Datastore\FileStore;
 use Acquia\Blt\Robo\Filesets\FilesetManager;
 use Acquia\Blt\Robo\Inspector\Inspector;
 use Acquia\Blt\Robo\Inspector\InspectorAwareInterface;
@@ -170,7 +171,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
   /**
    * Register the necessary classes for BLT.
    */
-  public static function configureContainer($container) {
+  public function configureContainer($container) {
     $container->share('logStyler', BltLogStyle::class);
 
     // We create our own builder so that non-command classes are able to
@@ -197,10 +198,15 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
 
     $container->share('filesetManager', FilesetManager::class);
 
+    // Install our command cache into the command factory
+    $commandCacheDir = $this->getConfig()->get('blt.command-cache-dir');
+    $commandCacheDataStore = new FileStore($commandCacheDir);
+    /** @var \Consolidation\AnnotatedCommand\AnnotatedCommandFactory $factory */
+    $factory = $container->get('commandFactory');
     // Tell the command loader to only allow command functions that have a
     // name/alias.
-    $factory = $container->get('commandFactory');
     $factory->setIncludeAllPublicMethods(FALSE);
+    $factory->setDataStore($commandCacheDataStore);
   }
 
   /**

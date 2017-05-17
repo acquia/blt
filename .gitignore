@@ -117,3 +117,4 @@ template/composer.lock
 
 CHANGELOG.partial
 build
+cache/commands/*
