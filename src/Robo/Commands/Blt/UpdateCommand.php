@@ -43,9 +43,11 @@ class UpdateCommand extends BltTasks {
    */
   public function createProject() {
     $result = $this->cleanUpProjectTemplate();
-    // $result = $this->reInstallComposerPackages();
+    $result = $this->updateRootProjectFiles();
+    $result = $this->reInstallComposerPackages();
     $result = $this->setProjectName();
     $result = $this->initAndCommitRepo();
+    $this->installBltAlias();
     $this->displayArt();
 
     $this->yell("Your new BLT-based project has been created in {$this->getConfigValue('repo.root')}.");
@@ -201,7 +203,6 @@ class UpdateCommand extends BltTasks {
    * @return \Robo\Result
    */
   protected function reInstallComposerPackages() {
-    $this->updateRootProjectFiles();
     $this->say("Installing new Composer dependencies provided by BLT. This make take a while...");
     $result = $this->taskFilesystemStack()
       ->remove([
