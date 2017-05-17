@@ -13,5 +13,6 @@ $_SERVER['argv'] = [
   'git:commit-msg',
   $commit_msg,
 ];
+$_SERVER['argc'] = count($_SERVER['argv']);
 
-require __DIR__ . '/../../bin/blt-robo-run.php';
+require __DIR__ . '/../../bin/blt';

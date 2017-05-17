@@ -8,7 +8,6 @@ if (!isset($autoload)) {
   exit(1);
 }
 
-$command = $argv[1];
 require_once __DIR__. '/blt-robo-run.php';
 
 /**
