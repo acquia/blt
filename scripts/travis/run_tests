@@ -4,8 +4,9 @@ set -ev
 
 #  The local.hostname must be set to 127.0.0.1:8888 because we are using drush runserver to test the site.
 yaml-cli update:value blt/project.yml project.local.hostname '127.0.0.1:8888'
+
 blt validate:all
-blt setup -Dcreate_alias=false -Denvironment=ci
+blt setup -D drush.alias='${drush.aliases.ci}' --no-interaction
 blt tests:all --define behat.run-server=true --yes -v
 
 set +v
