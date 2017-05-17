@@ -8,7 +8,7 @@ Please see [System Requirements](../INSTALL.md/#system-requirements) for install
 
 | Tool                          | Required | Purpose                                  |
 |-------------------------------|----------|------------------------------------------|
-| [PHP](#php)                   | Yes      | Required by Composer, Drush, Phing, etc. |
+| [PHP](#php)                   | Yes      | Required by Composer, Drush, Robo, etc. |
 | [Composer](#composer)         | Yes      | Package management.                      |
 | [Git](#git)                   | Yes      | Version control.                         |
 | [Drush](#drush)               | Yes      | CLI integration with Drupal.             |
@@ -64,7 +64,7 @@ You can host a BLT project in _any_ Drupal-compatible hosting environment. Howev
 
 ### <a name="php">PHP</a>
 
-[PHP](http://php.net/manual/en/install.php) is required by various tools, including Composer, Drush, Phing, and Drupal itself. Please ensure that:
+[PHP](http://php.net/manual/en/install.php) is required by various tools, including Composer, Drush, Robo, and Drupal itself. Please ensure that:
 
 * You are using PHP 5.6+. You can check your existing version by executing `php -v`
 * You set the memory_limit for PHP to 2G or higher (for Composer). You can find the `php.ini` file for your PHP CLI by executing `php --ini` and looking for the "Loaded Configuration file".

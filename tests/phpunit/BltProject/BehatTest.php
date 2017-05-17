@@ -12,7 +12,7 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 class BehatTest extends BltProjectTestBase {
 
   /**
-   * Tests Phing setup:behat target.
+   * Tests setup:behat command.
    *
    * @group blt-project
    */

@@ -12,7 +12,7 @@ use Acquia\Blt\Tests\BltTestBase;
 class PipelinesTest extends BltTestBase {
 
   /**
-   * Tests Phing ci:travis:init target.
+   * Tests ci:travis:init command.
    */
   public function testTravisInit() {
     $this->assertFileExists($this->new_project_dir . '/acquia-pipelines.yml');

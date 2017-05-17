@@ -12,7 +12,7 @@ use Acquia\Blt\Tests\BltTestBase;
 class CloudHookTest extends BltTestBase {
 
   /**
-   * Tests Phing setup:cloud-hooks target.
+   * Tests setup:cloud-hooks command.
    */
   public function testSetupCloudHooks() {
     $this->assertFileExists($this->new_project_dir . '/hooks');

@@ -45,12 +45,12 @@ This command will commit the artifact to the `develop-build` branch with the spe
 
 The artifact is built by running the `deploy:build` target, which does the following:
 
-* Rsyncing files from the repository root
-* Re-building dependencies directly in the deploy directory. E.g., `composer install`
+* Rsyncs files from the repository root
+* Re-builds dependencies directly in the deploy directory. E.g., `composer install`
 
-The rsync and re-build processes can be configured using the `deploy` Phing variable.
+The rsync and re-build processes can be configured by modifying the values of variables under the top-level `deploy` key in your project.yml file.
 
-See [Extending BLT](extending-blt.md) for more information on overriding Phing variables.
+See [Extending BLT](extending-blt.md) for more information on overriding default configuration.
 
 ### Debugging deployment artifacts
 

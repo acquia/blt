@@ -76,5 +76,3 @@ By default, BLT sets `sync.files` to `false`. You may set `sync.files` to `true`
 ### Update: Run update tasks locally
 
     blt local:update
-
-These tasks can be seen in `build/core/phing/tasks/local-sync.xml`. An additional script can be added at `/hooks/dev/post-db-copy/dev-mode.sh` which would run at the end of this task.

@@ -29,6 +29,8 @@ class GitCommand extends BltTasks {
 
       return 1;
     }
+
+    return 0;
   }
 
   /**

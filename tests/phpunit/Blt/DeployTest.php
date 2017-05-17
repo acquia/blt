@@ -20,7 +20,7 @@ class DeployTest extends BltTestBase {
   }
 
   /**
-   * Tests Phing deploy:build:all target.
+   * Tests deploy:build command.
    *
    * @group deploy
    * @group blt
@@ -58,7 +58,7 @@ class DeployTest extends BltTestBase {
   }
 
   /**
-   * Tests Phing deploy:build:push target.
+   * Tests deploy:build:push command.
    *
    * @group deploy
    * @group deploy-push
