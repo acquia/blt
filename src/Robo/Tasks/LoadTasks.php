@@ -8,7 +8,7 @@ namespace Acquia\Blt\Robo\Tasks;
 trait LoadTasks {
 
   /**
-   * @return DrushTask
+   * @return \Acquia\Blt\Robo\Tasks\DrushTask
    */
   protected function taskDrush() {
     return $this->task(DrushTask::class);
