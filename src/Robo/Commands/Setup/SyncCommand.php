@@ -110,7 +110,7 @@ class SyncCommand extends BltTasks {
       ->arg($remote_alias)
       ->arg($local_alias)
       ->option('structure-tables-key', 'lightweight')
-      ->option('create-dub');
+      ->option('create-db');
 
     if ($this->getConfigValue('drush.sanitize')) {
       $task->option('sanitize');
