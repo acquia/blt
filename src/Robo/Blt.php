@@ -198,7 +198,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
 
     $container->share('filesetManager', FilesetManager::class);
 
-    // Install our command cache into the command factory
+    // Install our command cache into the command factory.
     $commandCacheDir = $this->getConfig()->get('blt.command-cache-dir');
     $commandCacheDataStore = new FileStore($commandCacheDir);
     /** @var \Consolidation\AnnotatedCommand\AnnotatedCommandFactory $factory */
