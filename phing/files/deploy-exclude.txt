@@ -17,6 +17,7 @@
 /docroot/sites/*/private
 /docroot/themes/contrib
 /drush/contrib
+/patches
 /README.md
 /readme
 /sites/development.services.yml
@@ -29,5 +30,6 @@ example.*
 local.settings.php
 local.drushrc.php
 node_modules
+/composer.*
 /vendor
 project.local.yml
