@@ -157,7 +157,7 @@ class UpdateCommand extends BltTasks {
    *
    * @command create-project:init-repo
    */
-  protected function initAndCommitRepo() {
+  public function initAndCommitRepo() {
     $result = $this->taskExecStack()
       ->dir("repo.root")
       ->exec("git init")
