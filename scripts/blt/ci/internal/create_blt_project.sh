@@ -28,9 +28,6 @@ yaml-cli update:value blt/project.yml project.local.hostname '127.0.0.1:8888'
 yaml-cli update:value blt/project.yml git.remotes.0 bolt8@svn-5223.devcloud.hosting.acquia.com:bolt8.git
 yaml-cli update:value blt/project.yml git.remotes.1 git@github.com:acquia-pso/blted8.git
 
-# BLT added new dependencies for us, so we must update.
-composer update
-
 git add -A
 git commit -m 'Adding new dependencies from BLT update.' -n
 # Create a .travis.yml, just to make sure it works. It won't be executed.
