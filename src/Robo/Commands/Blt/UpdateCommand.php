@@ -43,7 +43,7 @@ class UpdateCommand extends BltTasks {
    */
   public function createProject() {
     $result = $this->cleanUpProjectTemplate();
-    $result = $this->reInstallComposerPackages();
+    // $result = $this->reInstallComposerPackages();
     $result = $this->setProjectName();
     $result = $this->initAndCommitRepo();
     $this->displayArt();
