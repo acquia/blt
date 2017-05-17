@@ -164,6 +164,7 @@ class UpdateCommand extends BltTasks {
       ->exec('git add -A')
       ->exec("git commit -m 'Initial commit.'")
       ->interactive(FALSE)
+      ->printOutput(FALSE)
       ->run();
 
     return $result;
