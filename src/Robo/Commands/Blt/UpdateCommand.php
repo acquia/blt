@@ -154,6 +154,8 @@ class UpdateCommand extends BltTasks {
 
   /**
    * Initializes the project repo and performs initial commit.
+   *
+   * @command create-project:init-repo
    */
   protected function initAndCommitRepo() {
     $result = $this->taskExecStack()
