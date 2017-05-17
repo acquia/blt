@@ -43,16 +43,18 @@ class UpdateCommand extends BltTasks {
    */
   public function createProject() {
     $result = $this->cleanUpProjectTemplate();
+    $result = $this->updateRootProjectFiles();
     $result = $this->reInstallComposerPackages();
     $result = $this->setProjectName();
     $result = $this->initAndCommitRepo();
+    $this->installBltAlias();
     $this->displayArt();
 
     $this->yell("Your new BLT-based project has been created in {$this->getConfigValue('repo.root')}.");
     $this->say("Please continue by following the \"Creating a new project with BLT\" instructions:");
     $this->say("<comment>http://blt.readthedocs.io/en/8.x/readme/creating-new-project/</comment>");
 
-    return $result;
+    return $result->getExitCode();
   }
 
   /**
@@ -163,7 +165,8 @@ class UpdateCommand extends BltTasks {
       ->exec("git init")
       ->exec('git add -A')
       ->exec("git commit -m 'Initial commit.'")
-      ->detectInteractive()
+      ->interactive(FALSE)
+      ->printOutput(FALSE)
       ->run();
 
     return $result;
@@ -200,7 +203,6 @@ class UpdateCommand extends BltTasks {
    * @return \Robo\Result
    */
   protected function reInstallComposerPackages() {
-    $this->updateRootProjectFiles();
     $this->say("Installing new Composer dependencies provided by BLT. This make take a while...");
     $result = $this->taskFilesystemStack()
       ->remove([
