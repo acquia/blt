@@ -18,7 +18,6 @@ behat:
     # - ${docroot}/profiles
     - ${repo.root}/tests/behat
   tags: '~ajax&&~experimental&&~lightningextension'
-  verbose: ${blt.verbose}
   extra: ''
 
 bin.path: vendor/bin
@@ -86,7 +85,6 @@ drush:
   passthru: yes
   logoutput: yes
   sanitize: true
-  verbose: ${blt.verbose}
 
 git:
   # The value of a hook should be the file path to a directory containing an

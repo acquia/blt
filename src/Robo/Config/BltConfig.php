@@ -39,6 +39,14 @@ class BltConfig extends Config {
       $value = TRUE;
     }
 
+    // Expand properties in string. We do this here so that one can pass
+    // -D drush.alias=${drush.ci.aliases} at runtime and still expand
+    // properties.
+    if (is_string($value) && strstr($value, '$')) {
+      $expanded = Expander::expandArrayProperties([$value], $this->export());
+      $value = $expanded[0];
+    }
+
     return parent::set($key, $value);
 
   }

@@ -4,10 +4,11 @@ set -ev
 
 export PATH=${COMPOSER_BIN}:${PATH}
 
+#  The local.hostname must be set to 127.0.0.1:8888 because we are using drush runserver to test the site.
 yaml-cli update:value blt/project.yml project.local.hostname '127.0.0.1:8888'
 
 blt validate:all
-blt setup -Dcreate_alias=false -Denvironment=ci
+blt setup -D drush.alias='${drush.aliases.ci}' --no-interaction
 blt tests:all -D behat.run-server=true -D behat.launch-selenium=false -D behat.launch-phantomjs=true -D behat.tags='~experimental' --yes -v
 
 set +v
