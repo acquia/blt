@@ -163,8 +163,12 @@ class UpdateCommand extends BltTasks {
       ->exec("git init")
       ->exec('git add -A')
       ->exec("git commit -m 'Initial commit.'")
-      ->detectInteractive()
+      ->interactive(FALSE)
       ->run();
+
+    if (!$result->wasSuccessful()) {
+      $this->writeln($result->getOutputData());
+    }
 
     return $result;
 
