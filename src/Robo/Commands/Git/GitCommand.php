@@ -41,28 +41,38 @@ class GitCommand extends BltTasks {
    * @param string $changed_files
    *   A list of staged files, separated by \n.
    *
-   * @return int
+   * @return \Robo\Result
    */
   public function preCommitHook($changed_files) {
-    $exit_code = $this->invokeCommands([
-      'validate:phpcs:files' => ['file_list' => $changed_files],
-      'validate:twig:files' => ['file_list' => $changed_files],
-      'validate:yaml:files' => ['file_list' => $changed_files],
-    ]);
-    if ($exit_code) {
-      return $exit_code;
-    }
+    $collection = $this->collectionBuilder();
+    $collection->setProgressIndicator(NULL);
+    $collection->addCode(
+      function() use ($changed_files) {
+        return $this->invokeCommands([
+          'validate:phpcs:files' => ['file_list' => $changed_files],
+          'validate:twig:files' => ['file_list' => $changed_files],
+          'validate:yaml:files' => ['file_list' => $changed_files],
+        ]);
+      }
+    );
 
     $changed_files_list = explode("\n", $changed_files);
-    if (in_array(['composer.json', 'composer.lock'], $changed_files_list)) {
-      $exit_code = $this->invokeCommand('validate:composer', ['file_list' => $changed_files]);
+    if (in_array('composer.json', $changed_files_list)
+      || in_array( 'composer.lock', $changed_files_list)) {
+      $collection->addCode(
+        function() use ($changed_files) {
+          return $this->invokeCommand('validate:composer');
+        }
+      );
     }
 
-    if ($exit_code === 0) {
+    $result = $collection->run();
+
+    if ($result->wasSuccessful()) {
       $this->say("<info>Your local code has passed git pre-commit validation.</info>");
     }
 
-    return $exit_code;
+    return $result;
   }
 
 }
