@@ -104,7 +104,7 @@ class SyncCommand extends BltTasks {
 
     $task = $this->taskDrush()
       ->alias(NULL)
-      ->drush('cc drush"')
+      ->drush('cache-clear drush')
       ->drush('sql-drop')
       ->drush('sql-sync')
       ->arg($remote_alias)
