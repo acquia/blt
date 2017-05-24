@@ -73,6 +73,9 @@ target-hooks:
 #   features:
 #     bundle: blted8
 #     no-overrides: 'true'
+#   default-config:
+#     status: true
+#     directory: "../config/default"
 
 # An array of modules to be enabled or uninstalled automatically in local, ci, and deploy contexts.
 modules:

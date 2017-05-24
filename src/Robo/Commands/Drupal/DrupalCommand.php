@@ -49,6 +49,9 @@ class DrupalCommand extends BltTasks {
       $cm_core_key = $this->getConfigValue('cm.core.key');
       $task->option('config-dir', $this->getConfigValue("cm.core.dirs.$cm_core_key.path"));
     }
+    elseif ($this->getConfigValue('cm.default-config.status') == TRUE) {
+      $task->option('config-dir', $this->getConfigValue("cm.default-config.directory"));
+    }
 
     $result = $task->interactive()->run();
     if ($result->wasSuccessful()) {
