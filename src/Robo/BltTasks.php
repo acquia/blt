@@ -147,7 +147,8 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    * @return \Robo\Result|int
    */
   protected function invokeHook($hook) {
-    if ($this->getConfig()->has("target-hooks.$hook.command")) {
+    if ($this->getConfig()->has("target-hooks.$hook.command")
+      && $this->getConfigValue("target-hooks.$hook.command")) {
       $this->say("Executing $hook target hook...");
       $result = $this->taskExecStack()
         ->exec($this->getConfigValue("target-hooks.$hook.command"))

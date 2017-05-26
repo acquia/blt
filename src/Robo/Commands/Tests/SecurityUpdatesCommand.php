@@ -34,7 +34,7 @@ class SecurityUpdatesCommand extends BltTasks {
 
     $output = $result->getOutputData();
     $report = substr($output, strpos($output, '{'));
-    $updates = json_decode($report, TRUE);
+    $updates = (array) json_decode($report, TRUE);
     $security_updates = [];
     foreach ($updates as $name => $project) {
       if (!empty($project['security updates'])) {

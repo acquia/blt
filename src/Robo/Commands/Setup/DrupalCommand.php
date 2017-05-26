@@ -31,6 +31,7 @@ class DrupalCommand extends BltTasks {
       'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!#%^&*()_?/.,+=><'
     );
 
+    /** @var \Acquia\Blt\Robo\Tasks\DrushTask $task */
     $task = $this->taskDrush()
       ->drush("site-install")
       ->arg($this->getConfigValue('project.profile.name'))

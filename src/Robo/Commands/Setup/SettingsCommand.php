@@ -55,7 +55,6 @@ class SettingsCommand extends BltTasks {
 
       $this->taskFilesystemStack()
         ->chmod($multisite_dir, 0777)
-        // @todo Might need to check that this file exists before chmoding it.
         ->chmod($project_settings_file, 0777)
         ->copy($project_default_settings_file, $project_settings_file)
         ->copy($blt_local_settings_file, $default_local_settings_file)

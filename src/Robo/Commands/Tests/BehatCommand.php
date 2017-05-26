@@ -4,6 +4,7 @@ namespace Acquia\Blt\Robo\Commands\Tests;
 
 use Acquia\Blt\Robo\Wizards\TestsWizard;
 use Robo\Contract\VerbosityThresholdInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Defines commands in the "tests" namespace.
@@ -13,14 +14,21 @@ class BehatCommand extends TestsCommandBase {
   /**
    * The filename of the selenium log file.
    *
-   * @var string*/
+   * @var string
+   */
   protected $seleniumLogFile;
 
   /**
    * The URL at which Selenium server listens.
    *
-   * @var string*/
+   * @var string
+   */
   protected $seleniumUrl;
+
+  /**
+   * @var string
+   */
+  protected $serverUrl;
 
   /**
    * The directory containing Behat logs.
@@ -38,6 +46,7 @@ class BehatCommand extends TestsCommandBase {
     $this->seleniumLogFile = $this->getConfigValue('reports.localDir') . "/selenium2.log";
     $this->behatLogDir = $this->getConfigValue('reports.localDir') . "/behat";
     $this->seleniumUrl = "http://127.0.0.1:4444/wd/hub";
+    $this->serverUrl = $this->getConfigValue('behat.server-url');
   }
 
   /**
@@ -52,7 +61,6 @@ class BehatCommand extends TestsCommandBase {
    * @usage -D behat.paths=${PWD}/tests/behat/features/Examples.feature:4
    *   Executes only the scenario on line 4 of Examples.feature.
    *
-   * @interactLaunchPhpWebServer
    * @interactGenerateSettingsFiles
    * @interactInstallDrupal
    * @interactConfigureBehat
@@ -67,9 +75,11 @@ class BehatCommand extends TestsCommandBase {
     $this->logConfig($this->getConfigValue('behat'), 'behat');
     $this->logConfig($this->getInspector()->getLocalBehatConfig()->export());
     $this->createReportsDir();
+    $this->launchWebServer();
     $this->launchWebDriver();
     $this->executeBehatTests();
     $this->killWebDriver();
+    $this->killWebServer();
   }
 
   /**
@@ -91,7 +101,9 @@ class BehatCommand extends TestsCommandBase {
       ->option('config', $this->getConfigValue('behat.config'))
       ->option('profile', $this->getConfigValue('behat.profile'))
       ->detectInteractive();
-    // @todo Make verbose if blt.verbose is true.
+    if ($this->output()->getVerbosity() >= OutputInterface::VERBOSITY_NORMAL) {
+      $task->verbose();
+    }
 
     if ($this->getConfigValue('behat.extra')) {
       $task->arg($this->getConfigValue('behat.extra'));
@@ -99,6 +111,29 @@ class BehatCommand extends TestsCommandBase {
     $result = $task->run();
 
     return $result;
+  }
+
+  /**
+   * Launches PHP's internal web server via `drush run-server`.
+   */
+  protected function launchWebServer() {
+    if ($this->getConfigValue('behat.run-server')) {
+      $this->killWebServer();
+      $this->say("Launching PHP's internal web server via drush.");
+      $this->logger->info("Running server at $this->serverUrl");
+      $this->getContainer()->get('executor')->drush("runserver $this->serverUrl > /dev/null")->background(TRUE)->run();
+      $this->getContainer()->get('executor')->waitForUrlAvailable($this->serverUrl);
+    }
+  }
+
+  /**
+   * Kills PHP internal web server running on $this->serverUrl.
+   */
+  protected function killWebServer() {
+    $server_url_pieces = explode(':', $this->serverUrl);
+    $server_port = $server_url_pieces[1];
+    $this->getContainer()->get('executor')->killProcessByName('runserver');
+    $this->getContainer()->get('executor')->killProcessByPort($server_port);
   }
 
   /**
@@ -221,9 +256,12 @@ class BehatCommand extends TestsCommandBase {
         ->option('strict')
         ->option('config', $this->getConfigValue('behat.config'))
         ->option('profile', $this->getConfigValue('behat.profile'))
-        ->option('tags', $this->getConfigValue('behat.tags'));
-      // @todo Make verbose if blt.verbose is true.
-      $task->detectInteractive();
+        ->option('tags', $this->getConfigValue('behat.tags'))
+        ->detectInteractive();
+
+      if ($this->output()->getVerbosity() >= OutputInterface::VERBOSITY_NORMAL) {
+        $task->verbose();
+      }
 
       if ($this->getConfigValue('behat.extra')) {
         $task->arg($this->getConfigValue('behat.extra'));

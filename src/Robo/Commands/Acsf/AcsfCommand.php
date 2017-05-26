@@ -19,13 +19,11 @@ class AcsfCommand extends BltTasks {
    */
   public function acsfInitialize($options = ['acsf-version' => '^1.33.0']) {
     $this->acsfHooksInitialize();
-
-    $this->say('Adding acsf module as a dependency.');
+    $this->say('Adding acsf module as a dependency...');
     $this->requireAcsf($options['acsf-version']);
-
     $this->say("In the future, you may pass in a custom value for acsf-version to override the default version. E.g., blt acsf:init --acsf-version='8.1.x-dev'");
-
     $this->acsfDrushInitialize();
+    $this->say("<info>ACSF was successfully initialized.</info>");
   }
 
   /**
@@ -34,7 +32,7 @@ class AcsfCommand extends BltTasks {
    * @command acsf:init:drush
    */
   public function acsfDrushInitialize() {
-    $this->say('Executing initialization command for acsf module.');
+    $this->say('Executing initialization command provided acsf module...');
 
     $result = $this->taskDrush()
       ->drush('acsf-init')
@@ -42,8 +40,8 @@ class AcsfCommand extends BltTasks {
       ->includePath("{$this->getConfigValue('docroot')}/modules/contrib/acsf/acsf_init")
       ->run();
 
-    $this->say('Please add acsf_init as a dependency for your installation profile to ensure that it remains enabled.');
-    $this->say('An example alias file for ACSF is located in /drush/site-aliases/example.acsf.aliases.drushrc.php.');
+    $this->say('<comment>Please add acsf_init as a dependency for your installation profile to ensure that it remains enabled.</comment>');
+    $this->say('<comment>An example alias file for ACSF is located in /drush/site-aliases/example.acsf.aliases.drushrc.php.</comment>');
 
     return $result;
   }
