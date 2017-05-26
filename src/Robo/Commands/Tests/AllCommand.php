@@ -14,6 +14,8 @@ class AllCommand extends BltTasks {
    *
    * @command tests:all
    *
+   * @aliases tests
+   *
    * @executeInDrupalVm
    */
   public function tests() {

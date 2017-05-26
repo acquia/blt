@@ -30,44 +30,6 @@ drush:
     # The default drush alias to be used when no environment is specified.
   default_alias: ${drush.aliases.local}
 
-# Custom tasks that are triggered at pre-defined times in the build process.
-# The tasks hook into BLT's existing commands.
-target-hooks:
-  # Executed when front end dependencies should be installed.
-  frontend-setup:
-    # E.g., ${docroot}/sites/all/themes/custom/mytheme.
-    dir: ${docroot}
-    # E.g., `npm install` or `bower install`.
-    command: echo 'No frontend-setup configured.'
-  # Executed when front end assets should be generated.
-  frontend-build:
-    # E.g., ${docroot}/sites/all/themes/custom/mytheme.
-    dir: ${docroot}
-    # E.g., `npm run build`.
-    command: echo 'No frontend-build configured.'
-  frontend-test:
-      # E.g., ${docroot}/sites/all/themes/custom/mytheme.
-      dir: ${docroot}
-      # E.g., `npm test`.
-      command: echo 'No frontend-tests configured.'
-  # Executed before configuration is imported.
-  pre-config-import:
-    dir: ${docroot}
-    command: echo 'No pre-config-import configured.'
-  # Executed after deployment artifact is created.
-  post-deploy-build:
-    dir: '${deploy.dir}/docroot'
-    command: echo 'No post-deploy build configured.'
-  # Executed after setup:build is run.
-  post-setup-build:
-    dir: ${docroot}
-    command: echo 'No post-setup build configured.'
-  # Executed after deploy:push-all is run.
-  post-deploy:
-    dir: ${docroot}
-    command: echo 'No post-deploy build configured.'
-
-
 # Configuration management options, such as core CM or features.
 # cm:
 #   features:

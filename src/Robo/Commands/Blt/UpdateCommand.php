@@ -94,7 +94,7 @@ class UpdateCommand extends BltTasks {
   public function installBltAlias() {
     $this->say("BLT can automatically create a Bash alias to make it easier to run BLT tasks.");
     $this->say("This alias may be created in <comment>.bash_profile</comment> or <comment>.bashrc</comment> depending on your system architecture.");
-    // @todo Prompt only if alias is not already installed.
+
     $create = $this->confirm("Install alias?");
     if ($create) {
       $this->say("Installing <comment>blt</comment> alias...");
@@ -155,7 +155,7 @@ class UpdateCommand extends BltTasks {
   }
 
   /**
-   * Initializes the project repo and performs initial commit.
+   * (internal) Initializes the project repo and performs initial commit.
    *
    * @command create-project:init-repo
    */
@@ -260,7 +260,7 @@ class UpdateCommand extends BltTasks {
     $schema_file_name = $this->getConfigValue('blt.config-files.schema-version');
 
     $fs = new Filesystem();
-    $fs->dumpFile($latest_update_method_version, $schema_file_name);
+    $fs->dumpFile($schema_file_name, $latest_update_method_version);
   }
 
   /**
@@ -358,7 +358,7 @@ class UpdateCommand extends BltTasks {
    * @return \Robo\Result
    */
   protected function setProjectName() {
-    $project_name = dirname($this->getConfigValue('repo.root'));
+    $project_name = basename($this->getConfigValue('repo.root'));
     $result = $this->taskExecStack()
       ->exec("{$this->getConfigValue('composer.bin')}/yaml-cli update:value {$this->getConfigValue('blt.config-files.project')} project.machine_name '$project_name'")
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)

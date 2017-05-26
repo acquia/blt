@@ -82,13 +82,13 @@ class SimpleSamlPhpCommand extends BltTasks {
   }
 
   /**
-   * Copies the configuration templates from the library to the project root.
+   * Copies configuration templates from SimpleSamlPHP to the repo root.
    *
    * @command simplesamlphp:config:init
    *
    * @return \Robo\Result
    */
-  public function initializeConfig() {
+  protected function initializeConfig() {
     $destinationDirectory = "{$this->repoRoot}/simplesamlphp/config";
 
     $this->say("Copying config files to ${destinationDirectory}...");
@@ -114,7 +114,7 @@ class SimpleSamlPhpCommand extends BltTasks {
   }
 
   /**
-   * Copies customized config files into the library on deployments.
+   * Copies custom config files into SimpleSamlPHP in deploy artifact.
    *
    * @command simplesamlphp:deploy:config
    *
@@ -176,7 +176,7 @@ class SimpleSamlPhpCommand extends BltTasks {
   }
 
   /**
-   * Copies customized config files into the library on builds.
+   * Copies customized config files into vendored SimpleSamlPHP.
    *
    * @command simplesamlphp:build:config
    *
@@ -198,10 +198,8 @@ class SimpleSamlPhpCommand extends BltTasks {
 
   /**
    * Outputs a message to edit the new config files.
-   *
-   * @command simplesamlphp:complete
    */
-  public function outputCompleteSetupInstructions() {
+  protected function outputCompleteSetupInstructions() {
     $docroot = $this->getConfigValue('docroot');
     $instructions = [
       'To complete the setup you must manually modify several files:',

@@ -1,7 +1,5 @@
 #!/usr/bin/env php
-
 <?php
-
 $repo_root = getcwd();
 
 $original_argv = $_SERVER['argv'];

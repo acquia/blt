@@ -22,6 +22,8 @@ class CiCommand extends BltTasks {
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
+    $this->say("<info>A pre-configured acquia-pipelines.yml file was copied to your repository root.</info>");
+
     return $result;
   }
 
@@ -36,6 +38,8 @@ class CiCommand extends BltTasks {
       ->stopOnFail()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
+
+    $this->say("<info>A pre-configured .travis.yml file was copied to your repository root.</info>");
 
     return $result;
   }

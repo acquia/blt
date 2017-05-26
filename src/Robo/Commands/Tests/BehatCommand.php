@@ -4,6 +4,7 @@ namespace Acquia\Blt\Robo\Commands\Tests;
 
 use Acquia\Blt\Robo\Wizards\TestsWizard;
 use Robo\Contract\VerbosityThresholdInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Defines commands in the "tests" namespace.
@@ -13,14 +14,31 @@ class BehatCommand extends TestsCommandBase {
   /**
    * The filename of the selenium log file.
    *
-   * @var string*/
+   * @var string
+   */
   protected $seleniumLogFile;
 
   /**
    * The URL at which Selenium server listens.
    *
-   * @var string*/
+   * @var string
+   */
   protected $seleniumUrl;
+
+  /**
+   * @var int
+   */
+  protected $seleniumPort;
+
+  /**
+   * @var string
+   */
+  protected $serverUrl;
+
+  /**
+   * @var int
+   */
+  protected $serverPort;
 
   /**
    * The directory containing Behat logs.
@@ -37,7 +55,10 @@ class BehatCommand extends TestsCommandBase {
   public function initialize() {
     $this->seleniumLogFile = $this->getConfigValue('reports.localDir') . "/selenium2.log";
     $this->behatLogDir = $this->getConfigValue('reports.localDir') . "/behat";
-    $this->seleniumUrl = "http://127.0.0.1:4444/wd/hub";
+    $this->seleniumPort = $this->getConfigValue('behat.selenium.port');
+    $this->seleniumUrl = $this->getConfigValue('behat.selenium.url');
+    $this->serverPort = $this->getConfigValue('behat.server.port');
+    $this->serverUrl = $this->getConfigValue('behat.server.url');
   }
 
   /**
@@ -52,7 +73,6 @@ class BehatCommand extends TestsCommandBase {
    * @usage -D behat.paths=${PWD}/tests/behat/features/Examples.feature:4
    *   Executes only the scenario on line 4 of Examples.feature.
    *
-   * @interactLaunchPhpWebServer
    * @interactGenerateSettingsFiles
    * @interactInstallDrupal
    * @interactConfigureBehat
@@ -67,9 +87,11 @@ class BehatCommand extends TestsCommandBase {
     $this->logConfig($this->getConfigValue('behat'), 'behat');
     $this->logConfig($this->getInspector()->getLocalBehatConfig()->export());
     $this->createReportsDir();
+    $this->launchWebServer();
     $this->launchWebDriver();
     $this->executeBehatTests();
     $this->killWebDriver();
+    $this->killWebServer();
   }
 
   /**
@@ -91,7 +113,9 @@ class BehatCommand extends TestsCommandBase {
       ->option('config', $this->getConfigValue('behat.config'))
       ->option('profile', $this->getConfigValue('behat.profile'))
       ->detectInteractive();
-    // @todo Make verbose if blt.verbose is true.
+    if ($this->output()->getVerbosity() >= OutputInterface::VERBOSITY_NORMAL) {
+      $task->verbose();
+    }
 
     if ($this->getConfigValue('behat.extra')) {
       $task->arg($this->getConfigValue('behat.extra'));
@@ -99,6 +123,27 @@ class BehatCommand extends TestsCommandBase {
     $result = $task->run();
 
     return $result;
+  }
+
+  /**
+   * Launches PHP's internal web server via `drush run-server`.
+   */
+  protected function launchWebServer() {
+    if ($this->getConfigValue('behat.run-server')) {
+      $this->killWebServer();
+      $this->say("Launching PHP's internal web server via drush.");
+      $this->logger->info("Running server at $this->serverUrl");
+      $this->getContainer()->get('executor')->drush("runserver $this->serverUrl > /dev/null")->background(TRUE)->run();
+      $this->getContainer()->get('executor')->waitForUrlAvailable($this->serverUrl);
+    }
+  }
+
+  /**
+   * Kills PHP internal web server running on $this->serverUrl.
+   */
+  protected function killWebServer() {
+    $this->getContainer()->get('executor')->killProcessByName('runserver');
+    $this->getContainer()->get('executor')->killProcessByPort($this->serverPort);
   }
 
   /**
@@ -134,7 +179,7 @@ class BehatCommand extends TestsCommandBase {
     $this->logger->info("Launching Selenium standalone server.");
     $this->getContainer()
       ->get('executor')
-      ->execute($this->getConfigValue('composer.bin') . "/selenium-server-standalone -port 4444 -log {$this->seleniumLogFile}  > /dev/null 2>&1")
+      ->execute($this->getConfigValue('composer.bin') . "/selenium-server-standalone -port {$this->seleniumPort} -log {$this->seleniumLogFile}  > /dev/null 2>&1")
       ->background(TRUE)
       ->printOutput(TRUE)
       ->dir($this->getConfigValue('repo.root'))
@@ -147,7 +192,7 @@ class BehatCommand extends TestsCommandBase {
    */
   protected function killSelenium() {
     $this->logger->info("Killing any running Selenium processes");
-    $this->getContainer()->get('executor')->killProcessByPort('4444');
+    $this->getContainer()->get('executor')->killProcessByPort($this->seleniumPort);
     $this->getContainer()->get('executor')->killProcessByName('selenium-server-standalone');
   }
 
@@ -173,7 +218,7 @@ class BehatCommand extends TestsCommandBase {
     $this->killPhantomJs();
     $this->say("Launching PhantomJS GhostDriver.");
     $this->taskExec("'{$this->getConfigValue('composer.bin')}/phantomjs'")
-      ->option("webdriver", 4444)
+      ->option("webdriver", $this->seleniumPort)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->background()
       ->timeout(6000)
@@ -185,7 +230,7 @@ class BehatCommand extends TestsCommandBase {
    * Kills any running PhantomJS processes.
    */
   protected function killPhantomJs() {
-    $this->getContainer()->get('executor')->killProcessByPort('4444');
+    $this->getContainer()->get('executor')->killProcessByPort($this->seleniumPort);
     $this->getContainer()->get('executor')->killProcessByName('bin/phantomjs');
   }
 
@@ -221,9 +266,12 @@ class BehatCommand extends TestsCommandBase {
         ->option('strict')
         ->option('config', $this->getConfigValue('behat.config'))
         ->option('profile', $this->getConfigValue('behat.profile'))
-        ->option('tags', $this->getConfigValue('behat.tags'));
-      // @todo Make verbose if blt.verbose is true.
-      $task->detectInteractive();
+        ->option('tags', $this->getConfigValue('behat.tags'))
+        ->detectInteractive();
+
+      if ($this->output()->getVerbosity() >= OutputInterface::VERBOSITY_NORMAL) {
+        $task->verbose();
+      }
 
       if ($this->getConfigValue('behat.extra')) {
         $task->arg($this->getConfigValue('behat.extra'));

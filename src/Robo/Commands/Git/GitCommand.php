@@ -58,6 +58,8 @@ class GitCommand extends BltTasks {
       $exit_code = $this->invokeCommand('validate:composer', ['file_list' => $changed_files]);
     }
 
+    $exit_code = $this->invokeHook('pre-commit');
+
     if ($exit_code === 0) {
       $this->say("<info>Your local code has passed git pre-commit validation.</info>");
     }

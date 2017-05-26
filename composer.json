@@ -31,7 +31,8 @@
         "symfony/yaml":                     "^2.8.11",
         "symfony/console":                  "^2.8.11",
         "wikimedia/composer-merge-plugin":  "dev-master",
-        "consolidation/Robo":               "dev-master"
+        "consolidation/Robo":               "dev-master",
+        "tivie/php-os-detector": "^1.0"
     },
     "autoload": {
         "psr-4": {

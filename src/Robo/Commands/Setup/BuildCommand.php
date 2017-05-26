@@ -103,13 +103,15 @@ class BuildCommand extends BltTasks {
     }
 
     if ($this->getConfig()->has('simplesamlphp') && $this->getConfigValue('simplesamlphp')) {
-      $result = $this->taskExec("blt simplesamlphp:build:config")
+      $result = $this->taskExec($this->getConfigValue('composer.bin') . "blt simplesamlphp:build:config")
         ->interactive()
         ->dir($this->getConfigValue('repo.root'))
         ->run();
     }
 
     $result = $this->invokeHook("post-setup-build");
+
+    return $result;
   }
 
   /**

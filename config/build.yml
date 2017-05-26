@@ -6,8 +6,14 @@ behat:
   profile: local
   # If true, `drush runserver` will be used for executing tests.
   run-server: false
+  # The URL of selenium server. Must correspond with setting in behat's yaml config.
+  selenium:
+    port: 4444
+    url: http://127.0.0.1:${behat.selenium.port}/wd/hub
   # This is used for ad-hoc creation of a server via `drush runserver`.
-  server-url: http://127.0.0.1:8888
+  server:
+    port: 8888
+    url: http://127.0.0.1:${behat.server.port}
   # If true, Selenium standalone server will be launched with Behat.
   launch-selenium: true
   # If true, PhantomJS GhostDriver will be launched with Behat.
@@ -144,6 +150,48 @@ sync:
   # Set this value to 'true' or pass -Dsync.files=true
   # to override this behavior.
   files: false
+
+# Custom tasks that are triggered at pre-defined times in the build process.
+# The tasks hook into BLT's existing commands.
+target-hooks:
+  # Executed when front end dependencies should be installed.
+  frontend-setup:
+    # E.g., ${docroot}/sites/all/themes/custom/mytheme.
+    dir: ${docroot}
+    # E.g., `npm install` or `bower install`.
+    command: null
+  # Executed when front end assets should be generated.
+  frontend-build:
+    # E.g., ${docroot}/sites/all/themes/custom/mytheme.
+    dir: ${docroot}
+    # E.g., `npm run build`.
+    command: null
+  frontend-test:
+    # E.g., ${docroot}/sites/all/themes/custom/mytheme.
+    dir: ${docroot}
+    # E.g., `npm test`.
+    command: null
+  pre-commit:
+    # E.g., ${docroot}
+    dir: ${docroot}
+    # E.g., `php -l`.
+    command: null
+  # Executed before configuration is imported.
+  pre-config-import:
+    dir: ${docroot}
+    command: null
+  # Executed after deployment artifact is created.
+  post-deploy-build:
+    dir: '${deploy.dir}/docroot'
+    command: null
+  # Executed after setup:build is run.
+  post-setup-build:
+    dir: ${docroot}
+    command: null
+  # Executed after deploy:push-all is run.
+  post-deploy:
+    dir: ${docroot}
+    command: null
 
 validate:
   lint:

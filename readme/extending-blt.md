@@ -122,24 +122,34 @@ In this example, an executable file named `pre-commit` should exist in `${repo.r
 
 #### tests:behat
 
-To modify the behavior of the tests:behat target, you may override BLT's `behat` configuration:
+To modify the behavior of the tests:behat target, you may override BLT's `behat` configuration.
 
         behat:
           config: ${repo.root}/tests/behat/local.yml
+          haltonerror: true
+          strict: true
           profile: local
           # If true, `drush runserver` will be used for executing tests.
           run-server: false
+          # The URL of selenium server. Must correspond with setting in behat's yaml config.
+          selenium:
+            port: 4444
+            url: http://127.0.0.1:${behat.selenium.port}/wd/hub
           # This is used for ad-hoc creation of a server via `drush runserver`.
-          server-url: http://127.0.0.1:8888
+          server:
+            port: 8888
+            url: http://127.0.0.1:${behat.server.port}
+          # If true, Selenium standalone server will be launched with Behat.
+          launch-selenium: true
           # If true, PhantomJS GhostDriver will be launched with Behat.
-          launch-phantom: true
+          launch-phantomjs: false
           # An array of paths with behat tests that should be executed.
           paths:
-            - ${docroot}/modules
-            - ${docroot}/profiles
+            # - ${docroot}/modules
+            # - ${docroot}/profiles
             - ${repo.root}/tests/behat
-          tags: '~ajax'
-
+          tags: '~ajax&&~experimental&&~lightningextension'
+          extra: ''
 
 ### validate:*
 

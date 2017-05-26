@@ -322,7 +322,7 @@ class DeployCommand extends BltTasks {
       $this->createDeployId($this->tagName);
     }
     $this->invokeHook("post-deploy-build");
-    $this->writeln("<info>The deployment artifact was generated at {$this->deployDir}.</info>");
+    $this->say("<info>The deployment artifact was generated at {$this->deployDir}.</info>");
   }
 
   /**

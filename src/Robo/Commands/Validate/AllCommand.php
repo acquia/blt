@@ -12,9 +12,9 @@ class AllCommand extends BltTasks {
   /**
    * Runs all code validation commands.
    *
-   * @command validate:all
+   * @command validate
    *
-   * @aliases validate
+   * @aliases validate:all
    */
   public function all() {
     $status_code = $this->invokeCommands([
