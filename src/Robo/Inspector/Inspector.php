@@ -224,7 +224,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
     $drush_local_alias = $this->getConfigValue('drush.aliases.local');
     $expected_vm_alias = $this->getConfigValue('project.machine_name') . '.local';
 
-    return $drush_local_alias == $expected_vm_alias;
+    return $drush_local_alias == $expected_vm_alias && file_exists($this->getConfigValue('repo.root') . '/box/config.yml');
   }
 
   /**

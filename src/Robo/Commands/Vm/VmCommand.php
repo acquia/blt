@@ -69,7 +69,7 @@ class VmCommand extends BltTasks {
       $this->say("Drupal VM is already configured. In future, please use vagrant commands to interact directly with the VM.");
     }
 
-    if (!$options['no-boot']) {
+    if (!$options['no-boot'] && !$this->getInspector()->isDrupalVmBooted()) {
       return $this->boot();
     }
   }
@@ -116,7 +116,7 @@ class VmCommand extends BltTasks {
    */
   public function config() {
 
-    $this->say("Generating default configuration for Drupal VM");
+    $this->say("Generating default configuration for Drupal VM...");
 
     $this->logger->info("Adding a drush alias for the new VM...");
     // @todo Concat only if it has not already been done.
@@ -139,17 +139,20 @@ class VmCommand extends BltTasks {
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
-    // @todo Ensure that hostname does not contain underscores.
     $this->getConfig()->expandFileProperties($this->projectDrupalVmConfigFile);
+    $vm_config = Yaml::parse(file_get_contents($this->projectDrupalVmConfigFile));
+    $this->validateConfig($vm_config);
 
-    $this->say("<info>BLT has created default configuration for your Drupal VM.</info>");
-    $this->say("The configuration file is <comment>{$this->projectDrupalVmConfigFile}</comment>.");
+    $this->say("");
+    $this->say("<info>BLT has created default configuration for your Drupal VM!</info>");
+    $this->say(" * The configuration file is <comment>{$this->projectDrupalVmConfigFile}</comment>.");
 
-    $this->say("To customize the VM, follow the Quick Start Guide in Drupal VM's README:");
-    $this->say("<comment>https://github.com/geerlingguy/drupal-vm#quick-start-guide</comment>");
+    $this->say(" * To customize the VM, follow the Quick Start Guide in Drupal VM's README:");
+    $this->say("   <comment>https://github.com/geerlingguy/drupal-vm#quick-start-guide</comment>");
 
-    $this->say("To run drush commands against the VM, use the <comment>@{$this->drupalVmAlias}</comment> alias.");
-    $this->yell("From now on, please use vagrant commands to manage your virtual machine.");
+    $this->say(" * To run drush commands against the VM, use the <comment>@{$this->drupalVmAlias}</comment> alias.");
+    $this->say(" * From now on, please use vagrant commands to manage your virtual machine.");
+    $this->say("");
   }
 
   /**
@@ -250,6 +253,18 @@ class VmCommand extends BltTasks {
     else {
       $this->installVagrantPlugin('vagrant-hostsupdater');
       $this->installVagrantPlugin('vagrant-exec');
+    }
+  }
+
+  /**
+   * Validates Drupal VM Config.
+   *
+   * @param string $config
+   *   Drupal VM config from box/config.yml.
+   */
+  protected function validateConfig($config) {
+    if (strstr($config['machine_name'], '_')) {
+      $this->logger->warning("The machine name for your Drupal VM should not contain an underscore.");
     }
   }
 
