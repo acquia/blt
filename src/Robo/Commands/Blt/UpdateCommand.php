@@ -8,6 +8,8 @@ use Acquia\Blt\Robo\Common\YamlMunge;
 use Acquia\Blt\Update\Updater;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Tivie\OS\Detector;
+use const Tivie\OS\MACOSX;
 
 /**
  * Defines commands for installing and updating BLT..
@@ -92,17 +94,31 @@ class UpdateCommand extends BltTasks {
    * @command install-alias
    */
   public function installBltAlias() {
-    $this->say("BLT can automatically create a Bash alias to make it easier to run BLT tasks.");
-    $this->say("This alias may be created in <comment>.bash_profile</comment> or <comment>.bashrc</comment> depending on your system architecture.");
+    $os_detector = new Detector();
+    $os_type = $os_detector->getType();
+    if ($os_type == MACOSX) {
+      $user = posix_getpwuid(posix_getuid());
+      $home_dir = $user['dir'];
+      if (!file_exists($home_dir . '/.bash_profile')) {
+        $this->taskFilesystemStack()->touch($home_dir . '/.bash_profile')->run();
+      }
+    }
+    if (!$this->getInspector()->isBltAliasInstalled()) {
+      $this->say("BLT can automatically create a Bash alias to make it easier to run BLT tasks.");
+      $this->say("This alias may be created in <comment>.bash_profile</comment> or <comment>.bashrc</comment> depending on your system architecture.");
 
-    $create = $this->confirm("Install alias?");
-    if ($create) {
-      $this->say("Installing <comment>blt</comment> alias...");
-      exec($this->getConfigValue('blt.root') . '/scripts/blt/install-alias.sh -y');
+      $create = $this->confirm("Install alias?");
+      if ($create) {
+        $this->say("Installing <comment>blt</comment> alias...");
+        // @todo replace this with PHP logic.
+        exec($this->getConfigValue('blt.root') . '/scripts/blt/install-alias.sh -y');
+      }
+      else {
+        $this->say("The <comment>blt</comment> alias was not installed.");
+      }
     }
-    else {
-      $this->say("The <comment>blt</comment> alias was not installed.");
-    }
+    // @todo Compare BLT alias in .bash_profile with most current one.
+    // Prompt to update if outdated.
   }
 
   /**

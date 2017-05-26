@@ -280,6 +280,51 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
   }
 
   /**
+   * Checks to see if BLT alias is installed on CLI.
+   *
+   * @return bool
+   *   TRUE if BLT alias is installed.
+   */
+  public function isBltAliasInstalled() {
+    $cli_config_file = $this->getCliConfigFile();
+    if (!is_null($cli_config_file)) {
+      $contents = file_get_contents($cli_config_file);
+      if (strstr($contents, 'function blt')) {
+        return TRUE;
+      }
+    }
+
+    return FALSE;
+  }
+
+  /**
+   * Determines the CLI config file.
+   *
+   * @return null|string
+   *   Returns file path or NULL if none was found.
+   */
+  public function getCliConfigFile() {
+    $file = NULL;
+    $user = posix_getpwuid(posix_getuid());
+    $home_dir = $user['dir'];
+
+    if (!empty($_ENV['SHELL']) && strstr($_ENV['SHELL'], 'zsh')) {
+      $file = $home_dir . '/.zshrc';
+    }
+    elseif (file_exists($home_dir . '/.bash_profile')) {
+      $file = $home_dir . '/.bash_profile';
+    }
+    elseif (file_exists($home_dir . '/.bashrc')) {
+      $file = $home_dir . '/.bashrc';
+    }
+    elseif (file_exists($home_dir . '/.profile')) {
+      $file = $home_dir . '/.profile';
+    }
+
+    return $file;
+  }
+
+  /**
    * Checks if a given command exists on the system.
    *
    * @param string $command
