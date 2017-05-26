@@ -26,9 +26,19 @@ class BehatCommand extends TestsCommandBase {
   protected $seleniumUrl;
 
   /**
+   * @var int
+   */
+  protected $seleniumPort;
+
+  /**
    * @var string
    */
   protected $serverUrl;
+
+  /**
+   * @var int
+   */
+  protected $serverPort;
 
   /**
    * The directory containing Behat logs.
@@ -45,8 +55,10 @@ class BehatCommand extends TestsCommandBase {
   public function initialize() {
     $this->seleniumLogFile = $this->getConfigValue('reports.localDir') . "/selenium2.log";
     $this->behatLogDir = $this->getConfigValue('reports.localDir') . "/behat";
-    $this->seleniumUrl = "http://127.0.0.1:4444/wd/hub";
-    $this->serverUrl = $this->getConfigValue('behat.server-url');
+    $this->seleniumPort = $this->getConfigValue('behat.selenium.port');
+    $this->seleniumUrl = $this->getConfigValue('behat.selenium.url');
+    $this->serverPort = $this->getConfigValue('behat.server.port');
+    $this->serverUrl = $this->getConfigValue('behat.server.url');
   }
 
   /**
@@ -130,10 +142,8 @@ class BehatCommand extends TestsCommandBase {
    * Kills PHP internal web server running on $this->serverUrl.
    */
   protected function killWebServer() {
-    $server_url_pieces = explode(':', $this->serverUrl);
-    $server_port = $server_url_pieces[1];
     $this->getContainer()->get('executor')->killProcessByName('runserver');
-    $this->getContainer()->get('executor')->killProcessByPort($server_port);
+    $this->getContainer()->get('executor')->killProcessByPort($this->serverPort);
   }
 
   /**
@@ -169,7 +179,7 @@ class BehatCommand extends TestsCommandBase {
     $this->logger->info("Launching Selenium standalone server.");
     $this->getContainer()
       ->get('executor')
-      ->execute($this->getConfigValue('composer.bin') . "/selenium-server-standalone -port 4444 -log {$this->seleniumLogFile}  > /dev/null 2>&1")
+      ->execute($this->getConfigValue('composer.bin') . "/selenium-server-standalone -port {$this->seleniumPort} -log {$this->seleniumLogFile}  > /dev/null 2>&1")
       ->background(TRUE)
       ->printOutput(TRUE)
       ->dir($this->getConfigValue('repo.root'))
@@ -182,7 +192,7 @@ class BehatCommand extends TestsCommandBase {
    */
   protected function killSelenium() {
     $this->logger->info("Killing any running Selenium processes");
-    $this->getContainer()->get('executor')->killProcessByPort('4444');
+    $this->getContainer()->get('executor')->killProcessByPort($this->seleniumPort);
     $this->getContainer()->get('executor')->killProcessByName('selenium-server-standalone');
   }
 
@@ -208,7 +218,7 @@ class BehatCommand extends TestsCommandBase {
     $this->killPhantomJs();
     $this->say("Launching PhantomJS GhostDriver.");
     $this->taskExec("'{$this->getConfigValue('composer.bin')}/phantomjs'")
-      ->option("webdriver", 4444)
+      ->option("webdriver", $this->seleniumPort)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->background()
       ->timeout(6000)
@@ -220,7 +230,7 @@ class BehatCommand extends TestsCommandBase {
    * Kills any running PhantomJS processes.
    */
   protected function killPhantomJs() {
-    $this->getContainer()->get('executor')->killProcessByPort('4444');
+    $this->getContainer()->get('executor')->killProcessByPort($this->seleniumPort);
     $this->getContainer()->get('executor')->killProcessByName('bin/phantomjs');
   }
 

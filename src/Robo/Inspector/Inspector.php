@@ -381,10 +381,10 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
     // Verify that URIs required for an ad-hoc PHP internal server are
     // configured correctly.
     if ($this->getConfigValue('behat.run-server')) {
-      if ($this->getConfigValue('behat.server-url') != $this->getConfigValue('project.local.uri')) {
+      if ($this->getConfigValue('behat.server.url') != $this->getConfigValue('project.local.uri')) {
         $this->logger->warning("behat.run-server is enabled, but the server URL does not match Drupal's base URL.");
         $this->logger->warning('project.local.uri = ' . $this->getConfigValue('project.local.uri'));
-        $this->logger->warning('behat.server-url = ' . $this->getConfigValue('behat.server-url'));
+        $this->logger->warning('behat.server.url = ' . $this->getConfigValue('behat.server.url'));
         $this->logger->warning('local.extensions.Behat\MinkExtension.base_url = ' . $local_behat_config->get('local.extensions.Behat\MinkExtension.base_url'));
 
         return FALSE;
