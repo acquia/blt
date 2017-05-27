@@ -47,7 +47,7 @@ class UpdateCommand extends BltTasks {
     $result = $this->reInstallComposerPackages();
     $result = $this->setProjectName();
     $result = $this->initAndCommitRepo();
-    $this->installBltAlias();
+    $exit_code = $this->invokeCommand('install-alias');
     $this->displayArt();
 
     $this->yell("Your new BLT-based project has been created in {$this->getConfigValue('repo.root')}.");
@@ -67,7 +67,7 @@ class UpdateCommand extends BltTasks {
     $this->mungeProjectYml();
     $this->executeSchemaUpdates($this->currentSchemaVersion);
     $this->cleanup();
-    $this->installBltAlias();
+    $exit_code = $this->invokeCommand('install-alias');
   }
 
   /**
@@ -84,25 +84,6 @@ class UpdateCommand extends BltTasks {
     $this->say("It has added and modified various project files. Please inspect your repository.");
 
     return $result;
-  }
-
-  /**
-   * Installs the BLT alias for command line usage.
-   *
-   * @command install-alias
-   */
-  public function installBltAlias() {
-    $this->say("BLT can automatically create a Bash alias to make it easier to run BLT tasks.");
-    $this->say("This alias may be created in <comment>.bash_profile</comment> or <comment>.bashrc</comment> depending on your system architecture.");
-
-    $create = $this->confirm("Install alias?");
-    if ($create) {
-      $this->say("Installing <comment>blt</comment> alias...");
-      exec($this->getConfigValue('blt.root') . '/scripts/blt/install-alias.sh -y');
-    }
-    else {
-      $this->say("The <comment>blt</comment> alias was not installed.");
-    }
   }
 
   /**

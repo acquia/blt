@@ -51,7 +51,7 @@ class DrupalCommand extends BltTasks {
       $task->option('config-dir', $this->getConfigValue("cm.core.dirs.$cm_core_key.path"));
     }
 
-    $result = $task->interactive()->run();
+    $result = $task->detectInteractive()->run();
     if ($result->wasSuccessful()) {
       $this->getConfig()->set('state.drupal.installed', TRUE);
     }
