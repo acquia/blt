@@ -8,8 +8,6 @@ use Acquia\Blt\Robo\Common\YamlMunge;
 use Acquia\Blt\Update\Updater;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Filesystem\Filesystem;
-use Tivie\OS\Detector;
-use const Tivie\OS\MACOSX;
 
 /**
  * Defines commands for installing and updating BLT..

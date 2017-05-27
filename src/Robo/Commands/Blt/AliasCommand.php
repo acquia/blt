@@ -3,11 +3,6 @@
 namespace Acquia\Blt\Robo\Commands\Blt;
 
 use Acquia\Blt\Robo\BltTasks;
-use Acquia\Blt\Robo\Common\ComposerMunge;
-use Acquia\Blt\Robo\Common\YamlMunge;
-use Acquia\Blt\Update\Updater;
-use Robo\Contract\VerbosityThresholdInterface;
-use Symfony\Component\Filesystem\Filesystem;
 use Tivie\OS\Detector;
 use const Tivie\OS\MACOSX;
 
@@ -112,8 +107,7 @@ class AliasCommand extends BltTasks {
    * @param int $start_pos
    *   The position of the opening bracket in the string that should be matched.
    *
-   * @return int|NULL
-   *
+   * @return int|null
    */
   protected function getClosingBracketPosition($contents, $start_pos) {
     $brackets = ['{'];
