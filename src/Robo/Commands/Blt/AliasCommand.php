@@ -44,6 +44,9 @@ class AliasCommand extends BltTasks {
         $this->updateAlias();
       }
     }
+    else {
+      $this->say("The BLT alias is already installed and up to date.");
+    }
   }
 
   /**
@@ -53,10 +56,9 @@ class AliasCommand extends BltTasks {
    *   TRUE if the installed alias is up to date.
    */
   protected function isBltAliasUpToDate() {
-    $installed_alias = $this->getInstalledAlias();
-    $canonical_alias = file_get_contents($this->getConfigValue('repo.root') . '/scripts/blt/alias');
+    $alias_info = $this->getAliasInfo();
 
-    return $installed_alias['alias'] === $canonical_alias;
+    return trim($alias_info['alias']) === trim($alias_info['canonical_alias']);
   }
 
   /**
@@ -65,16 +67,18 @@ class AliasCommand extends BltTasks {
    * @return array
    *   An array of information about the installed BLT alias.
    */
-  protected function getInstalledAlias() {
+  protected function getAliasInfo() {
     $alias_length = NULL;
     $alias = NULL;
     $config_file = $this->getInspector()->getCliConfigFile();
     $contents = file_get_contents($config_file);
-    $begin_alias_pos = strpos($contents, 'function blt() {');
-    $end_alias_pos = $this->getClosingBracketPosition($contents, $begin_alias_pos);
+    $needle = 'function blt() {';
+    $begin_alias_pos = strpos($contents, $needle);
+    $end_alias_pos = $this->getClosingBracketPosition($contents, $begin_alias_pos + strlen($needle));
+    $canonical_alias = file_get_contents($this->getConfigValue('blt.root') . '/scripts/blt/alias');
 
     if (!is_null($end_alias_pos)) {
-      $alias_length = $end_alias_pos - $begin_alias_pos;
+      $alias_length = $end_alias_pos - $begin_alias_pos + 1;
       $alias = substr($contents, $begin_alias_pos, $alias_length);
     }
 
@@ -85,6 +89,7 @@ class AliasCommand extends BltTasks {
       'end_pos' => $end_alias_pos,
       'length' => $alias_length,
       'alias' => $alias,
+      'canonical_alias' => $canonical_alias,
     ];
   }
 
@@ -92,10 +97,11 @@ class AliasCommand extends BltTasks {
    * Replaces installed alias with up-to-date alias.
    */
   protected function updateAlias() {
-    $installed_alias = $this->getInstalledAlias();
-    $canonical_alias = file_get_contents($this->getConfigValue('repo.root') . '/scripts/blt/alias');
-    substr_replace($installed_alias['config_file'], $canonical_alias, $installed_alias['start_pos'],
-      $installed_alias['length']);
+    $alias_info = $this->getAliasInfo();
+    $new_contents = str_replace($alias_info['alias'], $alias_info['canonical_alias'], $alias_info['contents']);
+    file_put_contents($alias_info['config_file'], $new_contents);
+    $this->say("<info>The <comment>blt</comment> alias was updated in {$alias_info['config_file']}");
+    $this->say("Execute <comment>source {$alias_info['config_file']}</comment> to update your terminal session.");
   }
 
   /**
