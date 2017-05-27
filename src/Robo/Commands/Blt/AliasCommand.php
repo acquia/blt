@@ -21,26 +21,40 @@ class AliasCommand extends BltTasks {
     if (!$this->getInspector()->isBltAliasInstalled()) {
       $this->say("BLT can automatically create a Bash alias to make it easier to run BLT tasks.");
       $this->say("This alias may be created in <comment>.bash_profile</comment> or <comment>.bashrc</comment> depending on your system architecture.");
-
-      $create = $this->confirm("Install alias?");
-      if ($create) {
-        $this->say("Installing <comment>blt</comment> alias...");
-        // @todo replace this with PHP logic.
-        exec($this->getConfigValue('blt.root') . '/scripts/blt/install-alias.sh -y');
-      }
-      else {
-        $this->say("The <comment>blt</comment> alias was not installed.");
+      $confirm = $this->confirm("Install alias?");
+      if ($confirm) {
+        $this->createNewAlias();
       }
     }
     elseif (!$this->isBltAliasUpToDate()) {
-      $this->logger->warning("Your BLT alias is out of date. ");
+      $this->logger->warning("Your BLT alias is out of date.");
       $confirm = $this->confirm("Would you like to update it?");
       if ($confirm) {
         $this->updateAlias();
       }
     }
     else {
-      $this->say("The BLT alias is already installed and up to date.");
+      $this->say("<info>The BLT alias is already installed and up to date.</info>");
+    }
+  }
+
+  /**
+   * Creates a new BLT alias in appropriate CLI config file.
+   */
+  protected function createNewAlias() {
+    $this->say("Installing <comment>blt</comment> alias...");
+    $config_file = $this->getInspector()->getCliConfigFile();
+    if (is_null($config_file)) {
+      $this->logger->error("Could not install blt alias. No profile found. Tried ~/.zshrc, ~/.bashrc, ~/.bash_profile and ~/.profile.");
+    }
+    else {
+      $canonical_alias = file_get_contents($this->getConfigValue('blt.root') . '/scripts/blt/alias');
+      $result = $this->taskWriteToFile($config_file)
+        ->text($canonical_alias)
+        ->run();
+      $this->say("Added alias for blt to $config_file.");
+      $this->say("You may now use the 'blt' command from anywhere within a BLT-generated repository.");
+      $this->say("Restart your terminal session or run <comment>source $config_file</comment> to use the new command.");
     }
   }
 
