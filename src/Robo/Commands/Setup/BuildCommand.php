@@ -104,7 +104,7 @@ class BuildCommand extends BltTasks {
 
     if ($this->getConfig()->has('simplesamlphp') && $this->getConfigValue('simplesamlphp')) {
       $result = $this->taskExec($this->getConfigValue('composer.bin') . "blt simplesamlphp:build:config")
-        ->interactive()
+        ->detectInteractive()
         ->dir($this->getConfigValue('repo.root'))
         ->run();
     }
@@ -122,7 +122,7 @@ class BuildCommand extends BltTasks {
   public function composerInstall() {
     $result = $this->taskExec("export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --ansi --no-interaction")
       ->dir($this->getConfigValue('repo.root'))
-      ->interactive()
+      ->detectInteractive()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
