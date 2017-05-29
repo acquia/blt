@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Blt;
 
 use Acquia\Blt\Robo\BltTasks;
+use Robo\Contract\VerbosityThresholdInterface;
 use Tivie\OS\Detector;
 use const Tivie\OS\MACOSX;
 
@@ -19,8 +20,9 @@ class AliasCommand extends BltTasks {
   public function installBltAlias() {
     $this->createOsxBashProfile();
     if (!$this->getInspector()->isBltAliasInstalled()) {
+      $config_file = $this->getInspector()->getCliConfigFile();
       $this->say("BLT can automatically create a Bash alias to make it easier to run BLT tasks.");
-      $this->say("This alias may be created in <comment>.bash_profile</comment> or <comment>.bashrc</comment> depending on your system architecture.");
+      $this->say("This alias will be created in <comment>$config_file</comment>.");
       $confirm = $this->confirm("Install alias?");
       if ($confirm) {
         $this->createNewAlias();
@@ -51,9 +53,11 @@ class AliasCommand extends BltTasks {
       $canonical_alias = file_get_contents($this->getConfigValue('blt.root') . '/scripts/blt/alias');
       $result = $this->taskWriteToFile($config_file)
         ->text($canonical_alias)
+        ->append(TRUE)
+        ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
         ->run();
-      $this->say("Added alias for blt to $config_file.");
-      $this->say("You may now use the 'blt' command from anywhere within a BLT-generated repository.");
+      $this->say("<info>Added alias for blt to $config_file.</info>");
+      $this->say("You may now use the <comment>blt</comment> command from anywhere within a BLT-generated repository.");
       $this->say("Restart your terminal session or run <comment>source $config_file</comment> to use the new command.");
     }
   }
