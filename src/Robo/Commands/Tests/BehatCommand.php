@@ -132,7 +132,7 @@ class BehatCommand extends TestsCommandBase {
     if ($this->getConfigValue('behat.run-server')) {
       $this->killWebServer();
       $this->say("Launching PHP's internal web server via drush.");
-      $this->logger->info("Running server at $this->serverUrl");
+      $this->logger->info("Running server at $this->serverUrl...");
       $this->getContainer()->get('executor')->drush("runserver $this->serverUrl > /dev/null")->background(TRUE)->run();
       $this->getContainer()->get('executor')->waitForUrlAvailable($this->serverUrl);
     }
@@ -201,7 +201,7 @@ class BehatCommand extends TestsCommandBase {
    */
   protected function createSeleniumLogs() {
     $this->seleniumLogFile;
-    $this->logger->info("Creating Selenium2 log file at {$this->seleniumLogFile}");
+    $this->logger->info("Creating Selenium2 log file at {$this->seleniumLogFile}...");
     $this->taskFilesystemStack()
       ->touch($this->seleniumLogFile)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
@@ -216,7 +216,7 @@ class BehatCommand extends TestsCommandBase {
       $this->setupPhantomJs();
     }
     $this->killPhantomJs();
-    $this->say("Launching PhantomJS GhostDriver.");
+    $this->say("Launching PhantomJS GhostDriver...");
     $this->taskExec("'{$this->getConfigValue('composer.bin')}/phantomjs'")
       ->option("webdriver", $this->seleniumPort)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)

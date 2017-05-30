@@ -19,7 +19,7 @@ class BuildCommand extends BltTasks {
    * @aliases setup:all
    */
   public function setup() {
-    $this->say("Setting up local environment...");
+    $this->say("Setting up local environment for @{$this->getConfigValue('site')}...");
     $status_code = $this->invokeCommands([
       'setup:build',
       'setup:hash-salt',

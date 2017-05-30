@@ -53,6 +53,7 @@ class SyncCommand extends BltTasks {
   public function syncDbAll() {
     $multisites = $this->getConfigValue('multisites');
     foreach ($multisites as $multisite) {
+      $this->say("Syncing db for site <comment>$multisite</comment>...");
       $result = $this->syncDbMultisite($multisite);
       if (!$result->wasSuccessful()) {
         return $result;
@@ -75,7 +76,7 @@ class SyncCommand extends BltTasks {
     $this->config->set('site', $multisite_name);
     $this->config->set('drush.uri', $multisite_name);
 
-    // After having set multisite.name, this should now return the multisite
+    // After having set site, this should now return the multisite
     // specific config.
     $site_config_file = $this->getConfigValue('blt.config-files.multisite');
 
@@ -103,7 +104,8 @@ class SyncCommand extends BltTasks {
     $remote_alias = '@' . $this->getConfigValue('drush.aliases.remote');
 
     $task = $this->taskDrush()
-      ->alias(NULL)
+      ->alias('')
+      ->assume('')
       ->drush('cache-clear drush')
       ->drush('sql-drop')
       ->drush('sql-sync')
@@ -132,13 +134,15 @@ class SyncCommand extends BltTasks {
   public function syncFiles() {
     $local_alias = '@' . $this->getConfigValue('drush.aliases.local');
     $remote_alias = '@' . $this->getConfigValue('drush.aliases.remote');
-    $site_dir = $this->getConfigValue('multisite.name');
+    $site_dir = $this->getConfigValue('site');
 
     $task = $this->taskDrush()
-      ->alias(NULL)
+      ->alias('')
+      ->assume('')
+      ->uri('')
       ->drush('rsync')
       ->arg($remote_alias . ':%files')
-      ->arg($this->getConfigValue('docroot') . "sites/$site_dir/files")
+      ->arg($this->getConfigValue('docroot') . "/sites/$site_dir/files")
       ->option('exclude-paths', 'styles:css:js');
 
     $result = $task->run();

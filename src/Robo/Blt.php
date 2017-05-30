@@ -235,7 +235,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
   /**
    * Warns the user if the xDebug extension is loaded.
    */
-  protected function warnIfXDebugLoaded() {
+  protected function warnIfXdebugLoaded() {
     $xdebug_loaded = extension_loaded('xdebug');
     if ($xdebug_loaded) {
       $this->logger->warning("The xDebug extension is loaded. This will significantly decrease performance.");
