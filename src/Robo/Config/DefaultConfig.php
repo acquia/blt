@@ -20,7 +20,6 @@ class DefaultConfig extends BltConfig {
     $this->set('docroot', $repo_root . '/docroot');
     $this->set('blt.root', $this->getBltRoot());
     $this->set('composer.bin', $repo_root . '/vendor/bin');
-    $this->set('multisites', $this->getSiteDirs());
   }
 
   /**
@@ -76,6 +75,9 @@ class DefaultConfig extends BltConfig {
     $defaultAlias = $this->get('drush.default_alias');
     $alias = $defaultAlias == 'self' ? '' : $defaultAlias;
     $this->set('drush.alias', $alias);
+    if (!$this->get('multisites')) {
+      $this->set('multisites', $this->getSiteDirs());
+    }
   }
 
   /**

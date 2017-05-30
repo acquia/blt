@@ -58,7 +58,7 @@ class BuildCommand extends BltTasks {
    */
   protected function setSitePermissions() {
     $taskFilesystemStack = $this->taskFilesystemStack();
-    $multisite_dir = $this->getConfigValue('docroot') . '/sites/' . $this->getConfigValue('multisite.name');
+    $multisite_dir = $this->getConfigValue('docroot') . '/sites/' . $this->getConfigValue('site');
     $finder = new Finder();
     $dirs = $finder
       ->in($multisite_dir)
