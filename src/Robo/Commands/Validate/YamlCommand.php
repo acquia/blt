@@ -23,7 +23,7 @@ class YamlCommand extends BltTasks {
     $filesets = $fileset_manager->getFilesets($fileset_ids);
     $bin = $this->getConfigValue('composer.bin');
     $command = "'$bin/yaml-cli' lint '%s'";
-    $result = $this->executeCommandAgainstFilesets($filesets, $command);
+    $result = $this->executeCommandAgainstFilesets($filesets, $command, TRUE);
 
     return $result;
   }

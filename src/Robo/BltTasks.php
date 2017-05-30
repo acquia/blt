@@ -211,17 +211,20 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    * @param string $command
    *   The command to execute. The command should contain '%s', which will be
    *   replaced with the file path of each file in the filesets.
+   * @param bool $parallel
+   *   Indicates whether commands should be run in parallel or sequentially.
+   *   Defaults to FALSE.
    *
    * @return int
    *   The exit code of the last executed command.
    */
-  protected function executeCommandAgainstFilesets(array $filesets, $command) {
+  protected function executeCommandAgainstFilesets(array $filesets, $command, $parallel = FALSE) {
     $result = 0;
     foreach ($filesets as $fileset_id => $fileset) {
       if (!is_null($fileset) && iterator_count($fileset)) {
         $this->say("Iterating over fileset $fileset_id...");
         $files = iterator_to_array($fileset);
-        $result = $this->executeCommandAgainstFiles($files, $command);
+        $result = $this->executeCommandAgainstFiles($files, $command, $parallel);
         if (!$result->wasSuccessful()) {
           return $result->getExitCode();
         }
@@ -243,21 +246,31 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    * @param string $command
    *   The command to execute. The command should contain '%s', which will be
    *   replaced with the file path of each file in the fileset.
+   * @param bool $parallel
+   *   Indicates whether commands should be run in parallel or sequentially.
+   *   Defaults to FALSE.
    *
    * @return \Robo\Result
    *   The result of the command execution.
    */
-  protected function executeCommandAgainstFiles($files, $command) {
-    // @todo Add option to permit parallel execution.
-    $task = $this->taskExecStack()
-      ->printMetadata(FALSE);
+  protected function executeCommandAgainstFiles($files, $command, $parallel = FALSE) {
+    if ($parallel) {
+      $task = $this->taskParallelExec();
+      foreach ($files as $file) {
+        $full_command = sprintf($command, $file);
+        $task->process($full_command);
+      }
+    }
+    else {
+      $task = $this->taskExecStack()
+        ->printMetadata(FALSE);
 
-    foreach ($files as $file) {
-      $full_command = sprintf($command, $file);
-      $task->exec($full_command);
+      foreach ($files as $file) {
+        $full_command = sprintf($command, $file);
+        $task->exec($full_command);
+      }
     }
 
-    $task->printMetadata(FALSE);
     $result = $task->run();
 
     return $result;

@@ -27,7 +27,7 @@ class TwigCommand extends BltTasks {
     $filesets = $fileset_manager->getFilesets($fileset_ids);
     $bin = $this->getConfigValue('composer.bin');
     $command = "'$bin/twig-lint' lint --only-print-errors '%s'";
-    $result = $this->executeCommandAgainstFilesets($filesets, $command);
+    $result = $this->executeCommandAgainstFilesets($filesets, $command, TRUE);
 
     return $result;
   }

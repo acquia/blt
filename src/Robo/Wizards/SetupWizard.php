@@ -16,7 +16,7 @@ class SetupWizard extends Wizard {
    */
   public function wizardGenerateSettingsFiles() {
     if (!$this->getInspector()->isDrupalLocalSettingsFilePresent()) {
-      $this->logger->warning("The {$this->getConfigValue('drupal.local_settings_file')} file is missing.");
+      $this->logger->warning("<comment>{$this->getConfigValue('drupal.local_settings_file')}</comment> is missing.");
       $confirm = $this->confirm("Do you want to generate this required settings file?");
       if ($confirm) {
         $bin = $this->getConfigValue('composer.bin');

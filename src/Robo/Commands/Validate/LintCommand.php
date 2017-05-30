@@ -25,7 +25,7 @@ class LintCommand extends BltTasks {
     $filesets = $fileset_manager->getFilesets($fileset_ids);
 
     $command = "php -l '%s'";
-    $result = $this->executeCommandAgainstFilesets($filesets, $command);
+    $result = $this->executeCommandAgainstFilesets($filesets, $command, TRUE);
 
     return $result;
   }
