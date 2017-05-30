@@ -219,7 +219,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    *   The exit code of the last executed command.
    */
   protected function executeCommandAgainstFilesets(array $filesets, $command, $parallel = FALSE) {
-    $result = 0;
+    $exit_code = 0;
     foreach ($filesets as $fileset_id => $fileset) {
       if (!is_null($fileset) && iterator_count($fileset)) {
         $this->say("Iterating over fileset $fileset_id...");
@@ -234,7 +234,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
       }
     }
 
-    return $result->getExitCode();
+    return $exit_code;
   }
 
   /**
