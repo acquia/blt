@@ -12,9 +12,9 @@ class AllCommand extends BltTasks {
   /**
    * Runs all tests, including Behat, PHPUnit, and Security Update check.
    *
-   * @command tests:all
+   * @command tests
    *
-   * @aliases tests
+   * @aliases tests:all
    *
    * @executeInDrupalVm
    */

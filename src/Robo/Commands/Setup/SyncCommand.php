@@ -72,7 +72,7 @@ class SyncCommand extends BltTasks {
    * @return \Robo\Result
    */
   protected function syncDbMultisite($multisite_name) {
-    $this->config->set('multisite.name', $multisite_name);
+    $this->config->set('site', $multisite_name);
     $this->config->set('drush.uri', $multisite_name);
 
     // After having set multisite.name, this should now return the multisite
