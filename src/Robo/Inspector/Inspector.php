@@ -287,7 +287,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
    */
   public function isBltAliasInstalled() {
     $cli_config_file = $this->getCliConfigFile();
-    if (!is_null($cli_config_file)) {
+    if (!is_null($cli_config_file) && file_exists($cli_config_file)) {
       $contents = file_get_contents($cli_config_file);
       if (strstr($contents, 'function blt')) {
         return TRUE;
@@ -308,7 +308,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
     $user = posix_getpwuid(posix_getuid());
     $home_dir = $user['dir'];
 
-    if (!empty($_ENV['ZSH_VERSION'])) {
+    if (!empty($_ENV['SHELL']) && strstr($_ENV['SHELL'], 'zsh')) {
       $file = $home_dir . '/.zshrc';
     }
     elseif (file_exists($home_dir . '/.bash_profile')) {
