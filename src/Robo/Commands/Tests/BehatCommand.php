@@ -223,6 +223,7 @@ class BehatCommand extends TestsCommandBase {
       ->background()
       ->timeout(6000)
       ->silent(TRUE)
+      ->interactive(FALSE)
       ->run();
   }
 
@@ -260,6 +261,7 @@ class BehatCommand extends TestsCommandBase {
       $task = $this->taskBehat($this->getConfigValue('composer.bin') . '/behat')
         ->format('pretty')
         ->arg($behat_path)
+        ->option('colors')
         ->noInteraction()
         ->printMetadata(FALSE)
         ->stopOnFail()

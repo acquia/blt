@@ -231,7 +231,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
       }
     }
 
-    return $result;
+    return $result->getExitCode();
   }
 
   /**

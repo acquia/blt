@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -ev
+
+export PATH=${COMPOSER_BIN}:${PATH}
+
+blt tests:all -D behat.run-server=true -D behat.launch-selenium=false -D behat.launch-phantomjs=true -D behat.tags='~experimental' --yes -v --ansi
+
+set +v

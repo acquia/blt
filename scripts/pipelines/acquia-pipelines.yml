@@ -10,22 +10,24 @@ variables:
 events:
   build:
     steps:
-        # Install global packages and set global configuration.
-        - setup:
+        - setup-env:
             type: script
             script:
               - composer validate --no-check-all --ansi
-              - composer install
-              - source ${BLT_DIR}/scripts/pipelines/setup_environment
-              - source ${BLT_DIR}/scripts/pipelines/setup_project
-
-        # Execute all testing and validation tasks.
-        - run-tests:
+              - composer install --ansi
+              - source ${BLT_DIR}/scripts/pipelines/setup_env
+        - validate:
             type: script
             script:
-              - source ${BLT_DIR}/scripts/pipelines/run_tests
-
-        # Generate artifact.
+              - source ${BLT_DIR}/scripts/pipelines/validate
+        - setup-app:
+            type: script
+            script:
+              - source ${BLT_DIR}/scripts/pipelines/setup_app
+        - tests:
+            type: script
+            script:
+              - source ${BLT_DIR}/scripts/pipelines/tests
         - build-artifact:
             type: script
             script:

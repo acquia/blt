@@ -32,6 +32,7 @@ git add -A
 git commit -m 'Adding new dependencies from BLT update.' -n
 # Create a .travis.yml, just to make sure it works. It won't be executed.
 blt ci:travis:init
+
 blt ci:pipelines:init
 git add -A
 git commit -m 'Initializing Travis CI and Acquia Pipelines.' -n

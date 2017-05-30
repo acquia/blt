@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -ev
+
+export PATH=${COMPOSER_BIN}:${PATH}
+
+blt validate:all --ansi
+
+set +v
