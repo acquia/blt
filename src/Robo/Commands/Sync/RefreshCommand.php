@@ -12,7 +12,7 @@ class RefreshCommand extends BltTasks {
   /**
    * Refreshes local environment from upstream testing database.
    *
-   * @command refresh
+   * @command sync:refresh
    */
   public function refresh() {
     return $this->invokeCommands([

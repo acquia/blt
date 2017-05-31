@@ -206,6 +206,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     // name/alias.
     $factory->setIncludeAllPublicMethods(FALSE);
     $factory->setDataStore($commandCacheDataStore);
+    $factory->addCommandInfoAlterer(new BltCommandInfoAlterer());
   }
 
   /**

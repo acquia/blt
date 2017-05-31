@@ -98,7 +98,6 @@ class BehatCommand extends TestsCommandBase {
    * Lists available Behat step definitions.
    *
    * @command tests:behat:definitions
-   * @aliases tbd
    *
    * @option mode l (default), i, or needle. Use l to just list definition expressions, i to show definitions with extended info, or needle to find specific definitions.
    *

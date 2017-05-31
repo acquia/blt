@@ -58,7 +58,7 @@ class UpdateCommand extends BltTasks {
   }
 
   /**
-   * Updates a parent project when BLT itself is updated via composer.
+   * Updates files from BLT's template and executes scripted updates.
    *
    * @command update
    */
