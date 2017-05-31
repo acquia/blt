@@ -57,7 +57,8 @@ class BltConfig extends Config {
    * @param string $key
    *   Which config item to look up.
    * @param string|null $defaultOverride
-   *   Override usual default value with a different default. Deprecated; provide defaults to the config processor instead.
+   *   Override usual default value with a different default. Deprecated;
+   *   provide defaults to the config processor instead.
    *
    * @return mixed
    */
