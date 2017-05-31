@@ -51,4 +51,24 @@ class BltConfig extends Config {
 
   }
 
+  /**
+   * Fetch a configuration value
+   *
+   * @param string $key Which config item to look up
+   * @param string|null $defaultOverride Override usual default value with a different default. Deprecated; provide defaults to the config processor instead.
+   *
+   * @return mixed
+   */
+  public function get($key, $defaultOverride = NULL) {
+    $value = parent::get($key, $defaultOverride);
+
+    // Last ditch effort to expand properties that may not have been processed.
+    if (is_string($value) && strstr($value, '$')) {
+      $expanded = Expander::expandArrayProperties([$value], $this->export());
+      $value = $expanded[0];
+    }
+
+    return $value;
+  }
+
 }
