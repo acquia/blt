@@ -36,8 +36,6 @@ blt:
     schema-version: ${repo.root}/blt/.schema_version
     multisite: ${docroot}/sites/${site}/site.yml
   command-cache-dir: ${blt.root}/cache/commands
-  filesets:
-    - files.internal.src
 
 composer:
   bin: ${repo.root}/${bin.path}
