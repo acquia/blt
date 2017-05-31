@@ -341,6 +341,24 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
   }
 
   /**
+   * Verifies that installed minimum git version is met.
+   *
+   * @param string $minimum_version
+   *   The minimum git version that is required.
+   *
+   * @return bool
+   *   TRUE if minimum version is satisfied.
+   *
+   */
+  public function isGitMinimumVersionSatisfied($minimum_version) {
+    exec("git --version | cut -d' ' -f3", $output, $exit_code);
+    if (version_compare($output[0], $minimum_version, '>=')) {
+      return TRUE;
+    }
+    return FALSE;
+  }
+
+  /**
    * Gets the local behat configuration defined in local.yml.
    *
    * @return \Acquia\Blt\Robo\Config\BltConfig
