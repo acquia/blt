@@ -23,7 +23,7 @@ class BuildCommand extends BltTasks {
     $status_code = $this->invokeCommands([
       'setup:build',
       'setup:hash-salt',
-      'internal:drupal:install',
+      'setup:drupal:install',
       'install-alias',
     ]);
     return $status_code;
@@ -43,7 +43,7 @@ class BuildCommand extends BltTasks {
    */
   public function drupalInstall() {
     $status_code = $this->invokeCommands([
-      'drupal:install',
+      'internal:drupal:install',
     ]);
     if ($status_code) {
       return $status_code;
