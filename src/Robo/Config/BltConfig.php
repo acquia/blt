@@ -52,10 +52,12 @@ class BltConfig extends Config {
   }
 
   /**
-   * Fetch a configuration value
+   * Fetch a configuration value.
    *
-   * @param string $key Which config item to look up
-   * @param string|null $defaultOverride Override usual default value with a different default. Deprecated; provide defaults to the config processor instead.
+   * @param string $key
+   *   Which config item to look up.
+   * @param string|null $defaultOverride
+   *   Override usual default value with a different default. Deprecated; provide defaults to the config processor instead.
    *
    * @return mixed
    */

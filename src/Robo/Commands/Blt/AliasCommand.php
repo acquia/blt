@@ -125,8 +125,7 @@ class AliasCommand extends BltTasks {
    * @param int $start_pos
    *   The position of the opening bracket in the string that should be matched.
    *
-   * @return int|NULL
-   *
+   * @return int|null
    */
   protected function getClosingBracketPosition($contents, $start_pos) {
     $brackets = ['{'];

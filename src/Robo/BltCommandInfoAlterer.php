@@ -5,6 +5,9 @@ namespace Acquia\Blt\Robo;
 use Consolidation\AnnotatedCommand\CommandInfoAltererInterface;
 use Consolidation\AnnotatedCommand\Parser\CommandInfo;
 
+/**
+ * Class BltCommandInfoAlterer.
+ */
 class BltCommandInfoAlterer implements CommandInfoAltererInterface {
 
   /**
@@ -15,4 +18,5 @@ class BltCommandInfoAlterer implements CommandInfoAltererInterface {
    */
   public function alterCommandInfo(CommandInfo $commandInfo, $commandFileInstance) {
   }
+
 }
