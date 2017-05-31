@@ -23,7 +23,7 @@ elseif ($is_ah_env) {
   $config_directories['vcs'] = $config_directories['sync'];
 
   $split = 'ah_other';
-  if ($is_ah_dev_env) {
+  if ($is_ah_dev_env || $is_ah_ode_env) {
     $split = 'dev';
   }
   elseif ($is_ah_stage_env) {
