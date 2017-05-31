@@ -184,7 +184,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     $container->add('executor', Executor::class)
       ->withArgument('builder');
 
-    $container->add('inspector', Inspector::class)
+    $container->share('inspector', Inspector::class)
       ->withArgument('executor');
 
     $container->inflector(InspectorAwareInterface::class)

@@ -23,27 +23,28 @@ class DoctorCommand extends BltTasks {
       && !$this->getInspector()->isVmCli()) {
       $result = $this->executeDoctorInsideVm();
       if ($result->wasSuccessful()) {
-        return $result;
+        return $result->getExitCode();
       }
     }
 
     // Try BLT doctor with default alias. This might be a Drupal VM alias.
     $alias = $this->getConfigValue('drush.alias');
+    $this->say('Attempting to run doctor on host machine...');
     $result = $this->executeDoctorOnHost($alias);
 
     // If default alias failed, try again using @self alias.
     if (!$result->wasSuccessful() && $alias != 'self') {
-      $this->logger->warning("Unable to run the doctor using @$alias. Trying with @self...");
+      $this->logger->warning("Unable to run the doctor using alias '@$alias'. Trying with '@self'...");
       $this->executeDoctorOnHost('self');
     }
 
     // If @self fails, try without any alias.
     if (!$result->wasSuccessful() && $alias != '') {
-      $this->logger->warning("Unable to run the doctor using @self. Trying without alias...");
+      $this->logger->warning("Unable to run the doctor using alias '@self'. Trying without alias...");
       $this->executeDoctorOnHost('');
     }
 
-    return $result;
+    return $result->getExitCode();
   }
 
   /**
@@ -73,6 +74,8 @@ class DoctorCommand extends BltTasks {
       ->alias($alias)
       ->uri("")
       ->includePath($this->getConfigValue('blt.root') . '/drush')
+      ->printOutput(FALSE)
+      ->printMetadata(FALSE)
       ->run();
 
     return $result;
