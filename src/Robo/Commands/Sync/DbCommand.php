@@ -1,70 +1,37 @@
 <?php
 
-namespace Acquia\Blt\Robo\Commands\Setup;
+namespace Acquia\Blt\Robo\Commands\Sync;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Config\YamlConfigProcessor;
 use Robo\Config\YamlConfigLoader;
 
 /**
- * Defines commands in the "setup:sync*" namespace.
+ * Defines commands in the "setup:db*" namespace.
  */
-class SyncCommand extends BltTasks {
-
-  /**
-   * Refreshes local environment from upstream testing database.
-   *
-   * @command refresh
-   */
-  public function refresh() {
-    return $this->invokeCommands([
-      'sync',
-      'setup:update',
-    ]);
-  }
-
-  /**
-   * Synchronize local environment from remote (remote --> local).
-   *
-   * @command sync
-   */
-  public function sync($options = [
-    'sync-files' => FALSE,
-  ]) {
-
-    $commands = [
-      'local:sync:db',
-    ];
-
-    // @todo Read sync.files config.
-    if ($options['sync-files']) {
-      $commands[] = 'local:sync:files';
-    }
-
-    return $this->invokeCommands($commands);
-
-  }
+class DbCommand extends BltTasks {
 
   /**
    * Iteratively synchronizes local database from remote for each multisite.
    *
-   * @command local:sync:db:all
+   * @command sync:db:all
    */
   public function syncDbAll() {
+    $exit_code = 0;
     $multisites = $this->getConfigValue('multisites');
     foreach ($multisites as $multisite) {
       $this->say("Syncing db for site <comment>$multisite</comment>...");
       $result = $this->syncDbMultisite($multisite);
       if (!$result->wasSuccessful()) {
-        return $result;
+        return $result->getExitCode();
       }
     }
 
-    return $result;
+    return $exit_code;
   }
 
   /**
-   * Calls local:sync:db for a specific multisite.
+   * Calls sync:db for a specific multisite.
    *
    * @param string $multisite_name
    *   The name of a multisite. E.g., if docroot/sites/example.com is the site,
@@ -95,7 +62,7 @@ class SyncCommand extends BltTasks {
   /**
    * Synchronize local database from remote (remote --> local).
    *
-   * @command local:sync:db
+   * @command sync:db
    */
   public function syncDbDefault() {
     $this->invokeCommand('setup:settings');
@@ -120,30 +87,6 @@ class SyncCommand extends BltTasks {
 
     $task->drush('cache-clear drush');
     $task->drush("$local_alias cache-rebuild");
-
-    $result = $task->run();
-
-    return $result;
-  }
-
-  /**
-   * Synchronize local files from remote (remote --> local).
-   *
-   * @command local:sync:files
-   */
-  public function syncFiles() {
-    $local_alias = '@' . $this->getConfigValue('drush.aliases.local');
-    $remote_alias = '@' . $this->getConfigValue('drush.aliases.remote');
-    $site_dir = $this->getConfigValue('site');
-
-    $task = $this->taskDrush()
-      ->alias('')
-      ->assume('')
-      ->uri('')
-      ->drush('rsync')
-      ->arg($remote_alias . ':%files')
-      ->arg($this->getConfigValue('docroot') . "/sites/$site_dir/files")
-      ->option('exclude-paths', 'styles:css:js');
 
     $result = $task->run();
 
