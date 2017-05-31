@@ -45,8 +45,7 @@
         "class": "Acquia\\Blt\\Composer\\Plugin"
     },
     "bin": [
-        "bin/blt",
-        "bin/blt-console"
+        "bin/blt"
     ],
     "conflict": {
         "drupal/core": "7.*"
