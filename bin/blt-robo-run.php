@@ -20,9 +20,10 @@ $loader = new YamlConfigLoader();
 $processor = new YamlConfigProcessor();
 $processor->add($config->export());
 $processor->extend($loader->load($config->get('blt.root') . '/config/build.yml'));
-$processor->extend($loader->load($config->get('repo.root') . '/blt/project.yml'));
-$processor->extend($loader->load($config->get('repo.root') . '/blt/project.local.yml'));
-// @todo Load multisite-specific config if multisite is specified.
+$processor->extend($loader->load($config->get('blt.config-files.project')));
+$processor->extend($loader->load($config->get('blt.config-files.local')));
+$processor->extend($loader->load($config->get('blt.config-files.multisite')));
+
 $config->import($processor->export());
 $config->populateHelperConfig();
 
