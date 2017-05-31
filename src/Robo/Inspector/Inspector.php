@@ -34,6 +34,16 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
   protected $executor;
 
   /**
+   * @var null
+   */
+  protected $isDrupalInstalled = NULL;
+
+  /**
+   * @var null
+   */
+  protected $isMySqlAvailable = NULL;
+
+  /**
    * The constructor.
    *
    * @param \Acquia\Blt\Robo\Common\Executor $executor
@@ -41,6 +51,11 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
    */
   public function __construct(Executor $executor) {
     $this->executor = $executor;
+  }
+
+  public function clearState() {
+    $this->isDrupalInstalled = NULL;
+    $this->isMySqlAvailable = NULL;
   }
 
   /**
@@ -123,7 +138,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
   /**
    * Checks that Drupal is installed, caches result.
    *
-   * This method caches its result in state.drupal.installed value.
+   * This method caches its result in $this->drupalIsInstalled.
    *
    * @return bool
    *   TRUE if Drupal is installed.
@@ -131,12 +146,11 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
   public function isDrupalInstalled() {
     // This will only run once per command. If Drupal is installed mid-command,
     // this value needs to be changed.
-    if (is_null($this->getConfigValue('state.drupal.installed'))) {
-      $installed = $this->getDrupalInstalled();
-      $this->getConfig()->set('state.drupal.installed', $installed);
+    if (is_null($this->isDrupalInstalled)) {
+      $this->isDrupalInstalled = $this->getDrupalInstalled();
     }
 
-    return $this->getConfigValue('state.drupal.installed');
+    return $this->isDrupalInstalled;
   }
 
   /**
@@ -171,18 +185,17 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
   /**
    * Determines if MySQL is available, caches result.
    *
-   * This method caches its result in state.mysql.available config.
+   * This method caches its result in $this->mySqlAvailable.
    *
    * @return bool
    *   TRUE if MySQL is available.
    */
   public function isMySqlAvailable() {
-    if (is_null($this->getConfigValue('state.mysql.available'))) {
-      $mysql_available = $this->getMySqlAvailable();
-      $this->getConfig()->set('state.mysql.available', $mysql_available);
+    if (is_null($this->isMySqlAvailable)) {
+      $this->isMySqlAvailable = $this->getMySqlAvailable();
     }
 
-    return $this->getConfigValue('state.mysql.available');
+    return $this->isMySqlAvailable;
   }
 
   /**
