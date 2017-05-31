@@ -148,6 +148,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
    *   TRUE if Drupal is installed.
    */
   protected function getDrupalInstalled() {
+    $this->logger->debug("Verifying that Drupal is installed...");
     $result = $this->executor->drush("sqlq \"SHOW TABLES LIKE 'config'\"")->run();
     $output = trim($result->getOutputData());
     $installed = $result->wasSuccessful() && $output == 'config';
@@ -193,6 +194,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
    *   TRUE if MySQL is available.
    */
   public function getMySqlAvailable() {
+    $this->logger->debug("Verifying that MySQL is available...");
     /** @var \Robo\Result $result */
     $result = $this->executor->drush("sqlq \"SHOW DATABASES\"")
       ->run();
