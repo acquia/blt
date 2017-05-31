@@ -192,7 +192,7 @@ class RoboFile extends Tasks {
     }
 
     // @todo Check to see if git branch is dirty.
-    $this->yell("You should execute this command on a clean, updated checkout of 8.x.");
+    $this->yell("You should execute this command on a clean, updated checkout of your HEAD branch.");
     $continue = $this->confirm("Continue?");
 
     if (!$continue) {
