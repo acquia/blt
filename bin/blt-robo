@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 /**
- * This file is a simply shell wrapper for running BLT Robo commands.
+ * @file This file is a simply shell wrapper for running BLT Robo commands.
  *
  * Having a wrapper permits other non-shell files to directly require
  * blt-robo-run.php.

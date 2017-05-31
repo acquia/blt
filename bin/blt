@@ -1,5 +1,8 @@
 #!/usr/bin/env php
 <?php
+/**
+ * @file
+ */
 
 $repo_root = find_repo_root();
 $autoload = require_once $repo_root . '/vendor/autoload.php';
@@ -8,7 +11,7 @@ if (!isset($autoload)) {
   exit(1);
 }
 
-require_once __DIR__. '/blt-robo-run.php';
+require_once __DIR__ . '/blt-robo-run.php';
 
 /**
  * Finds the root directory for the repository.
