@@ -26,15 +26,15 @@ cd blted8
 # Overwrite MySQL creds for your local machine, if necessary.
 # echo '$databases["default"]["default"]["username"] = "drupal";' >> docroot/sites/default/settings/local.settings.php
 # echo '$databases["default"]["default"]["password"] = "drupal";' >> docroot/sites/default/settings/local.settings.php
-./vendor/bin/blt local:setup
+./vendor/bin/blt setup
 ./vendor/bin/blt validate
 ./vendor/bin/blt tests:all
 read -p "Press any key to continue. This will create a VM and re-run tests there. SHUT DOWN MAMP."
 ./vendor/bin/blt vm --yes
-./vendor/bin/blt local:setup
-drush @blted8.local --tty ssh blt tests:behat --yes
+./vendor/bin/blt setup
+blt tests:behat --yes
 read -p "Press any key to continue. This will destroy the VM and attempt to perform a Pipelines build."
-vagrant destroy
+blt vm:nuke
 
 ./vendor/bin/yaml-cli update:value blt/project.yml git.remotes.0 bolt8pipeline@svn-2420.devcloud.hosting.acquia.com:bolt8pipeline.git
 ./vendor/bin/blt ci:pipelines:init

@@ -68,6 +68,8 @@ class UpdateCommand extends BltTasks {
     $this->executeSchemaUpdates($this->currentSchemaVersion);
     $this->cleanup();
     $exit_code = $this->invokeCommand('install-alias');
+
+    return $exit_code;
   }
 
   /**
@@ -336,6 +338,8 @@ class UpdateCommand extends BltTasks {
   }
 
   /**
+   * Sets project.name using the directory name of repot.root.
+   *
    * @return \Robo\Result
    */
   protected function setProjectName() {

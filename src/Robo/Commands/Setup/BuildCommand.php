@@ -23,7 +23,7 @@ class BuildCommand extends BltTasks {
     $status_code = $this->invokeCommands([
       'setup:build',
       'setup:hash-salt',
-      'setup:drupal:install',
+      'internal:drupal:install',
       'install-alias',
     ]);
     return $status_code;

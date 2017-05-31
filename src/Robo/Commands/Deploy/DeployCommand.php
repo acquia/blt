@@ -582,7 +582,7 @@ class DeployCommand extends BltTasks {
    */
   public function installDrupal() {
     $status_code = $this->invokeCommands([
-      'drupal:install',
+      'internal:drupal:install',
       'drupal:update',
     ]);
     if ($status_code) {
