@@ -1,11 +1,8 @@
+#!/usr/bin/env php
 <?php
-
 /**
  * @file
  */
-?>
-#!/usr/bin/env php
-<?php
 
 $repo_root = find_repo_root();
 $autoload = require_once $repo_root . '/vendor/autoload.php';
