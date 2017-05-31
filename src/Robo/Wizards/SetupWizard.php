@@ -44,6 +44,7 @@ class SetupWizard extends Wizard {
           ->execute("$bin/blt setup")
           ->detectInteractive()
           ->run();
+        $this->getInspector()->clearState();
       }
     }
   }
