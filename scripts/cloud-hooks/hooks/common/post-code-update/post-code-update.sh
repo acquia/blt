@@ -13,6 +13,8 @@
 # post-code-update only runs if your site is using a Git repository. It does
 # not support SVN.
 
+set -ev
+
 site="$1"
 target_env="$2"
 source_branch="$3"
@@ -23,3 +25,5 @@ repo_type="$6"
   . /var/www/html/$site.$target_env/vendor/acquia/blt/scripts/cloud-hooks/functions.sh
   deploy_updates
   . `dirname $0`/../slack.sh
+
+set +v
