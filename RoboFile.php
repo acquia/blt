@@ -10,6 +10,31 @@ use Robo\Tasks;
  * @see http://robo.li/
  */
 class RoboFile extends Tasks {
+
+  protected $bltRoot;
+  protected $bin;
+  protected $drupalPhpcsStandard;
+  protected $phpcsPaths;
+
+  /**
+   * This hook will fire for all commands in this command file.
+   *
+   * @hook init
+   */
+  public function initialize() {
+    $this->bltRoot = __DIR__;
+    $this->bin = $this->bltRoot . '/vendor/bin';
+    $this->drupalPhpcsStandard = $this->bltRoot . '/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml';
+    $this->phpcsPaths = [
+      $this->bltRoot . '/bin/blt',
+      $this->bltRoot . '/bin/blt-robo',
+      $this->bltRoot . '/bin/blt-robo-run.php',
+      $this->bltRoot . '/RoboFile.php',
+      $this->bltRoot . '/src/Robo',
+      $this->bltRoot . '/tests',
+    ];
+  }
+
   /**
    * Generates release notes and cuts a new tag on GitHub.
    *
@@ -239,6 +264,40 @@ class RoboFile extends Tasks {
     unlink($partial_changelog_filename);
 
     return $trimmed_partial_changelog;
+  }
+
+  /**
+   * Fixes BLT internal code via PHPCBF.
+   *
+   * @command fix-code
+   */
+  public function fixCode() {
+    $command = "'{$this->bin}/phpcbf' --standard='{$this->drupalPhpcsStandard}' '%s'";
+    $task = $this->taskExecStack();
+    foreach ($this->phpcsPaths as $path) {
+      $full_command = sprintf($command, $path);
+      $task->exec($full_command);
+    }
+    $result = $task->run();
+
+    return $result->getExitCode();
+  }
+
+  /**
+   * Sniffs BLT internal code via PHPCS.
+   *
+   * @command sniff-code
+   */
+  public function sniffCode() {
+    $command = "'{$this->bin}/phpcs' --standard='{$this->drupalPhpcsStandard}' --exclude=Drupal.Commenting.FunctionComment,Drupal.Commenting.DocComment '%s'";
+    $task = $this->taskExecStack();
+    foreach ($this->phpcsPaths as $path) {
+      $full_command = sprintf($command, $path);
+      $task->exec($full_command);
+    }
+    $result = $task->run();
+
+    return $result->getExitCode();
   }
 
   /**
