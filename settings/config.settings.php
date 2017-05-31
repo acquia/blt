@@ -33,7 +33,7 @@ if ($is_local_env) {
 elseif ($is_ah_env) {
   $config_directories['vcs'] = $config_directories['sync'];
 
-  if ($is_ah_dev_env) {
+  if ($is_ah_dev_env || $is_ah_ode_env) {
     $split = 'dev';
     if (file_exists("$split_filepath_prefix.$split.yml")) {
       $config["$split_filename_prefix.$split"]['status'] = TRUE;
