@@ -10,7 +10,7 @@ use Acquia\Blt\Robo\BltTasks;
 class RefreshCommand extends BltTasks {
 
   /**
-   * Refreshes local environment from upstream testing database.
+   * Copies remote db to local db, re-imports config, and executes db updates.
    *
    * @command sync:refresh
    */
@@ -22,3 +22,4 @@ class RefreshCommand extends BltTasks {
   }
 
 }
+

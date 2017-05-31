@@ -10,7 +10,7 @@ use Acquia\Blt\Robo\BltTasks;
 class TwigCommand extends BltTasks {
 
   /**
-   * Runs a PHP Lint against custom modules, themes, and tests.
+   * Executes Twig validator against all validate.twig.filesets files.
    *
    * @command validate:twig
    *

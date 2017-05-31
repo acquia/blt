@@ -5,9 +5,9 @@ namespace Acquia\Blt\Robo\Commands\Fix;
 use Acquia\Blt\Robo\BltTasks;
 
 /**
- * Defines commands in the "fix:*" namespace.
+ * Defines commands in the "fix:phpcbf*" namespace.
  */
-class FixCommand extends BltTasks {
+class PhpCbfCommand extends BltTasks {
 
   protected $standard;
 
@@ -21,6 +21,8 @@ class FixCommand extends BltTasks {
   }
 
   /**
+   * Fixes and beautifies custom code according to Drupal Coding standards.
+   *
    * @command fix:phpcbf
    */
   public function phpcbfFileSet() {

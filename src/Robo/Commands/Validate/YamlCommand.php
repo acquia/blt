@@ -10,7 +10,7 @@ use Acquia\Blt\Robo\BltTasks;
 class YamlCommand extends BltTasks {
 
   /**
-   * Executes YAML validator against custom modules and exported config.
+   * Executes YAML validator against all validate.yaml.filesets files.
    *
    * @command validate:yaml
    */
@@ -29,7 +29,7 @@ class YamlCommand extends BltTasks {
   }
 
   /**
-   * Validates a list of YAML files, if files are in validate.yaml.filesets.
+   * Executes YAML validator against files, if in validate.yaml.filesets.
    *
    * @command validate:yaml:files
    *

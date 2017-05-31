@@ -10,7 +10,7 @@ use Acquia\Blt\Robo\BltTasks;
 class LintCommand extends BltTasks {
 
   /**
-   * Runs a PHP Lint against all code.
+   * Runs a PHP Lint against all validate.lint.filesets files.
    *
    * @command validate:lint
    *

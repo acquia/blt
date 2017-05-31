@@ -10,7 +10,7 @@ use Acquia\Blt\Robo\BltTasks;
 class SyncCommand extends BltTasks {
 
   /**
-   * Synchronize local environment from remote (remote --> local).
+   * Synchronize local env from remote (remote --> local).
    *
    * @command sync
    */

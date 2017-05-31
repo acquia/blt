@@ -545,7 +545,7 @@ class DeployCommand extends BltTasks {
   }
 
   /**
-   * Update current database to reflect the state of the Drupal file system.
+   * Update the database to reflect the state of the Drupal file system.
    *
    * @command deploy:update
    */
@@ -576,7 +576,7 @@ class DeployCommand extends BltTasks {
   }
 
   /**
-   * Installs a specific Drupal site.
+   * Installs Drupal, imports config, and executes updates.
    *
    * @command deploy:drupal:install
    */

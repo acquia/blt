@@ -10,7 +10,7 @@ use Acquia\Blt\Robo\BltTasks;
 class FilesCommand extends BltTasks {
 
   /**
-   * Synchronize local files from remote (remote --> local).
+   * Copies remote files to local machine.
    *
    * @command sync:files
    */

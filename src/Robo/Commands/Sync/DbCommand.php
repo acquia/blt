@@ -12,7 +12,7 @@ use Robo\Config\YamlConfigLoader;
 class DbCommand extends BltTasks {
 
   /**
-   * Iteratively synchronizes local database from remote for each multisite.
+   * Iteratively copies remote db to local db for each multisite.
    *
    * @command sync:db:all
    */
@@ -60,7 +60,7 @@ class DbCommand extends BltTasks {
   }
 
   /**
-   * Synchronize local database from remote (remote --> local).
+   * Copies remote db to local db for default site.
    *
    * @command sync:db
    */
