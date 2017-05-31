@@ -10,6 +10,8 @@
 # Usage: post-code-deploy site target-env source-branch deployed-tag repo-url
 #                         repo-type
 
+set -ev
+
 site="$1"
 target_env="$2"
 source_branch="$3"
@@ -22,3 +24,5 @@ repo_type="$6"
   deploy_updates
   # Send notifications to Slack, if configured. See readme/deploy.md for setup instructions.
   . `dirname $0`/../slack.sh
+
+set +v

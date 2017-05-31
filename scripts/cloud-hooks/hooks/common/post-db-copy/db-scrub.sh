@@ -6,6 +6,8 @@
 #
 # Usage: db-scrub.sh site target-env db-name source-env
 
+set -ev
+
 site="$1"
 target_env="$2"
 db_name="$3"
@@ -17,3 +19,5 @@ if [ ! -f $acsf_file ]; then
   drush @$site.$target_env sql-sanitize --yes
   drush @$site.$target_env cache-rebuild
 fi
+
+set +v
