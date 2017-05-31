@@ -41,6 +41,9 @@ class DeployCommand extends BltTasks {
     'ignore-dirty' => FALSE,
     'dry-run' => FALSE,
   ]) {
+    if (!$this->getInspector()->isGitMinimumVersionSatisfied('2.0')) {
+      $this->logger->error("Your system does not meet BLT's requirements. Please update git to 2.0 or newer.");
+    }
     $this->checkDirty($options);
 
     if (!$options['tag'] && !$options['branch']) {
