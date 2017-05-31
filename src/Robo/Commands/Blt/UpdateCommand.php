@@ -35,11 +35,11 @@ class UpdateCommand extends BltTasks {
   }
 
   /**
-   * Generates all necessary files for a brand new BLTed repo.
+   * (internal) Generates all necessary files for a brand new BLTed repo.
    *
    * Called during `composer create-project acquia/blt-project`.
    *
-   * @command create-project
+   * @command internal:create-project
    */
   public function createProject() {
     $result = $this->cleanUpProjectTemplate();
@@ -58,7 +58,7 @@ class UpdateCommand extends BltTasks {
   }
 
   /**
-   * Updates a parent project when BLT itself is updated via composer.
+   * Updates files from BLT's template and executes scripted updates.
    *
    * @command update
    */
@@ -71,9 +71,9 @@ class UpdateCommand extends BltTasks {
   }
 
   /**
-   * Prepares a repo that is adding BLT for the first time.
+   * (internal) Prepares a repo that is adding BLT for the first time.
    *
-   * @command add-to-project
+   * @command internal:add-to-project
    *
    * @return \Robo\Result
    */
@@ -138,7 +138,7 @@ class UpdateCommand extends BltTasks {
   /**
    * (internal) Initializes the project repo and performs initial commit.
    *
-   * @command create-project:init-repo
+   * @command internal:create-project:init-repo
    */
   public function initAndCommitRepo() {
     $result = $this->taskExecStack()

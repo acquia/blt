@@ -139,10 +139,6 @@ To modify the behavior of the tests:behat target, you may override BLT's `behat`
           server:
             port: 8888
             url: http://127.0.0.1:${behat.server.port}
-          # If true, Selenium standalone server will be launched with Behat.
-          launch-selenium: true
-          # If true, PhantomJS GhostDriver will be launched with Behat.
-          launch-phantomjs: false
           # An array of paths with behat tests that should be executed.
           paths:
             # - ${docroot}/modules
@@ -150,6 +146,8 @@ To modify the behavior of the tests:behat target, you may override BLT's `behat`
             - ${repo.root}/tests/behat
           tags: '~ajax&&~experimental&&~lightningextension'
           extra: ''
+          # May be selenium or phantomjs.
+          web-driver: selenium
 
 ### validate:*
 

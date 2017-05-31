@@ -1,3 +1,4 @@
+
 # Local Development
 
 Acquia currently recommends the use of either:
@@ -65,6 +66,7 @@ In order to use a custom version of Drush (required by BLT) with Dev Desktop, yo
         export PATH=/Applications/DevDesktop/php7_0/bin:$PATH
 
    The exact line will depend upon the version of PHP that you intend to use. You can check the effect of this value via `which php`.
+
 1. Enable the usage of environmental variables by adding the following line to `php.ini`, which you can locate with `php --ini`:
 
         variables_order = "EGPCS"

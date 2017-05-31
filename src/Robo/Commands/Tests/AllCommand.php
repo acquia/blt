@@ -10,11 +10,11 @@ use Acquia\Blt\Robo\BltTasks;
 class AllCommand extends BltTasks {
 
   /**
-   * Runs all tests, including Behat, PHPUnit, and Security Update check.
+   * Runs all tests, including Behat, PHPUnit, and security updates check.
    *
-   * @command tests:all
+   * @command tests
    *
-   * @aliases tests
+   * @aliases tests:all
    *
    * @executeInDrupalVm
    */

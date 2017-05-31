@@ -19,7 +19,7 @@ class BuildCommand extends BltTasks {
    * @aliases setup:all
    */
   public function setup() {
-    $this->say("Setting up local environment...");
+    $this->say("Setting up local environment for @{$this->getConfigValue('site')}...");
     $status_code = $this->invokeCommands([
       'setup:build',
       'setup:hash-salt',
@@ -58,7 +58,7 @@ class BuildCommand extends BltTasks {
    */
   protected function setSitePermissions() {
     $taskFilesystemStack = $this->taskFilesystemStack();
-    $multisite_dir = $this->getConfigValue('docroot') . '/sites/' . $this->getConfigValue('multisite.name');
+    $multisite_dir = $this->getConfigValue('docroot') . '/sites/' . $this->getConfigValue('site');
     $finder = new Finder();
     $dirs = $finder
       ->in($multisite_dir)

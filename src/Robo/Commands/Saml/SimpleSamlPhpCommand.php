@@ -114,7 +114,7 @@ class SimpleSamlPhpCommand extends BltTasks {
   }
 
   /**
-   * Copies custom config files into SimpleSamlPHP in deploy artifact.
+   * Copies custom config files to SimpleSamlPHP in deploy artifact.
    *
    * @command simplesamlphp:deploy:config
    *

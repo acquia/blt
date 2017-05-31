@@ -117,7 +117,7 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
     $this->logger->info("Killing all processes on port $port");
     // This is allowed to fail.
     // @todo Replace with standardized call to Symfony Process.
-    exec("lsof -ti tcp:$port | xargs kill l 2>&1");
+    exec("command -v lsof && lsof -ti tcp:$port | xargs kill l 2>&1");
     exec("pkill -f $port 2>&1");
   }
 

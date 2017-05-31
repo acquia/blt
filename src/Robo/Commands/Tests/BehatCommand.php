@@ -98,7 +98,6 @@ class BehatCommand extends TestsCommandBase {
    * Lists available Behat step definitions.
    *
    * @command tests:behat:definitions
-   * @aliases tbd
    *
    * @option mode l (default), i, or needle. Use l to just list definition expressions, i to show definitions with extended info, or needle to find specific definitions.
    *
@@ -132,7 +131,7 @@ class BehatCommand extends TestsCommandBase {
     if ($this->getConfigValue('behat.run-server')) {
       $this->killWebServer();
       $this->say("Launching PHP's internal web server via drush.");
-      $this->logger->info("Running server at $this->serverUrl");
+      $this->logger->info("Running server at $this->serverUrl...");
       $this->getContainer()->get('executor')->drush("runserver $this->serverUrl > /dev/null")->background(TRUE)->run();
       $this->getContainer()->get('executor')->waitForUrlAvailable($this->serverUrl);
     }
@@ -150,10 +149,10 @@ class BehatCommand extends TestsCommandBase {
    * Launch the appropriate web driver based on configuration.
    */
   protected function launchWebDriver() {
-    if ($this->getConfigValue('behat.launch-phantomjs')) {
+    if ($this->getConfigValue('behat.web-driver') == 'phantomjs') {
       $this->launchPhantomJs();
     }
-    elseif ($this->getConfigValue('behat.launch-selenium')) {
+    elseif ($this->getConfigValue('behat.web-driver') == 'selenium') {
       $this->launchSelenium();
     }
   }
@@ -162,10 +161,10 @@ class BehatCommand extends TestsCommandBase {
    * Kills the appropriate web driver based on configuration.
    */
   protected function killWebDriver() {
-    if ($this->getConfigValue('behat.launch-phantomjs')) {
+    if ($this->getConfigValue('behat.web-driver') == 'phantomjs') {
       $this->killPhantomJs();
     }
-    elseif ($this->getConfigValue('behat.launch-selenium')) {
+    elseif ($this->getConfigValue('behat.web-driver') == 'selenium') {
       $this->killSelenium();
     }
   }
@@ -201,7 +200,7 @@ class BehatCommand extends TestsCommandBase {
    */
   protected function createSeleniumLogs() {
     $this->seleniumLogFile;
-    $this->logger->info("Creating Selenium2 log file at {$this->seleniumLogFile}");
+    $this->logger->info("Creating Selenium2 log file at {$this->seleniumLogFile}...");
     $this->taskFilesystemStack()
       ->touch($this->seleniumLogFile)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
@@ -216,13 +215,14 @@ class BehatCommand extends TestsCommandBase {
       $this->setupPhantomJs();
     }
     $this->killPhantomJs();
-    $this->say("Launching PhantomJS GhostDriver.");
+    $this->say("Launching PhantomJS GhostDriver...");
     $this->taskExec("'{$this->getConfigValue('composer.bin')}/phantomjs'")
       ->option("webdriver", $this->seleniumPort)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->background()
       ->timeout(6000)
       ->silent(TRUE)
+      ->interactive(FALSE)
       ->run();
   }
 
@@ -260,6 +260,7 @@ class BehatCommand extends TestsCommandBase {
       $task = $this->taskBehat($this->getConfigValue('composer.bin') . '/behat')
         ->format('pretty')
         ->arg($behat_path)
+        ->option('colors')
         ->noInteraction()
         ->printMetadata(FALSE)
         ->stopOnFail()

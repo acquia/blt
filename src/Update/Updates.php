@@ -282,4 +282,22 @@ class Updates {
     $project_yml['cm']['strategy'] = 'features';
     $this->updater->writeProjectYml($project_yml);
   }
+
+  /**
+   * 8.9.0.
+   *
+   * @Update(
+   *   version = "8009000",
+   *   description = "Updating deprecated yaml keys."
+   * )
+   */
+  public function update_8009000() {
+    $project_yml = $this->updater->getProjectYml();
+    if ($project_yml['behat']['launch-phantomjs']) {
+      $project_yml['behat']['web-driver'] = 'phantomjs';
+    }
+    unset($project_yml['behat']['launch-selenium']);
+    unset($project_yml['behat']['launch-phantomjs']);
+    $this->updater->writeProjectYml($project_yml);
+  }
 }

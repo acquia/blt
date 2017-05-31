@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -ev
+
+export PATH=${COMPOSER_BIN}:$PATH
+
+blt setup -D drush.alias='${drush.aliases.ci}' --no-interaction --ansi
+
+set +v
+

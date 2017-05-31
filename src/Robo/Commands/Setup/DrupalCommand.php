@@ -11,9 +11,9 @@ use Acquia\Blt\Robo\Common\RandomString;
 class DrupalCommand extends BltTasks {
 
   /**
-   * Installs Drupal.
+   * Installs Drupal and imports configuration.
    *
-   * @command drupal:install
+   * @command internal:drupal:install
    *
    * @validateMySqlAvailable
    *
