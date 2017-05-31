@@ -150,10 +150,10 @@ class BehatCommand extends TestsCommandBase {
    * Launch the appropriate web driver based on configuration.
    */
   protected function launchWebDriver() {
-    if ($this->getConfigValue('behat.launch-phantomjs')) {
+    if ($this->getConfigValue('behat.web-driver') == 'phantomjs') {
       $this->launchPhantomJs();
     }
-    elseif ($this->getConfigValue('behat.launch-selenium')) {
+    elseif ($this->getConfigValue('behat.web-driver') == 'selenium') {
       $this->launchSelenium();
     }
   }
@@ -162,10 +162,10 @@ class BehatCommand extends TestsCommandBase {
    * Kills the appropriate web driver based on configuration.
    */
   protected function killWebDriver() {
-    if ($this->getConfigValue('behat.launch-phantomjs')) {
+    if ($this->getConfigValue('behat.web-driver') == 'phantomjs') {
       $this->killPhantomJs();
     }
-    elseif ($this->getConfigValue('behat.launch-selenium')) {
+    elseif ($this->getConfigValue('behat.web-driver') == 'selenium') {
       $this->killSelenium();
     }
   }
