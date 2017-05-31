@@ -174,7 +174,7 @@ class VmCommand extends BltTasks {
     $yaml = Yaml::dump($contents, 3, 2);
     file_put_contents($filename, $yaml);
 
-    $this->say("$filename was modified.");
+    $this->say("<comment>$filename</comment> was modified.");
     $this->say("BLT will now use <comment>@{$contents['drush']['default_alias']}</comment> as the default drush alias for all commands.");
   }
 
