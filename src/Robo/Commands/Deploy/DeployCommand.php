@@ -553,19 +553,18 @@ class DeployCommand extends BltTasks {
    * @command deploy:update
    */
   public function updateSites() {
+    // Most sites store their version-controlled configuration in
+    // /config/default. ACE internally sets the vcs configuration
+    // directory to /config/default, so we use that.
+    $this->config->set('cm.core.key', $this->getConfigValue('cm.core.deploy-key'));
+    // Disable alias since we are targeting specific uri.
+    $this->config->set('drush.alias', '');
+
     foreach ($this->getConfigValue('multisites') as $multisite) {
       $this->say("Deploying updates to $multisite...");
+      $this->config->set('drush.uri', $multisite);
 
-      $status_code = $this->invokeCommand('setup:config-import', [
-          // Most sites store their version-controlled configuration in
-          // /config/default. ACE internally sets the vcs configuration
-          // directory to /config/default, so we use that.
-        '--define cm.core.key=' . $this->getConfigValue('cm.core.deploy-key'),
-          // Disable alias since we are targeting specific uri.
-        '--define drush.alias=""',
-        "--define drush.uri='$multisite'",
-      ]
-      );
+      $status_code = $this->invokeCommand('setup:config-import');
       if (!$status_code) {
         return $status_code;
       }
