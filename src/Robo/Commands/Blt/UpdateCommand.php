@@ -65,7 +65,9 @@ class UpdateCommand extends BltTasks {
   public function update() {
     $this->rsyncTemplate();
     $this->mungeProjectYml();
-    $this->executeSchemaUpdates($this->currentSchemaVersion);
+    if ($this->executeSchemaUpdates($this->currentSchemaVersion)) {
+      $this->updateSchemaVersionFile();
+    }
     $this->cleanup();
     $exit_code = $this->invokeCommand('install-alias');
 
@@ -260,7 +262,13 @@ class UpdateCommand extends BltTasks {
       $updater->printUpdates($updates);
       $confirm = $this->confirm('Would you like to perform the listed updates?');
       if ($confirm) {
-        $updater->executeUpdates($updates);
+        try {
+          $updater->executeUpdates($updates);
+          return TRUE;
+        }
+        catch (\Exception $e) {
+          return FALSE;
+        }
       }
     }
   }
