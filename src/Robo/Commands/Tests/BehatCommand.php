@@ -126,6 +126,10 @@ class BehatCommand extends TestsCommandBase {
 
   /**
    * Launches PHP's internal web server via `drush run-server`.
+   *
+   * @command tests:run-server
+   * @validateInsideVm
+   * @executeInDrupalVm
    */
   protected function launchWebServer() {
     if ($this->getConfigValue('behat.run-server')) {
@@ -139,6 +143,10 @@ class BehatCommand extends TestsCommandBase {
 
   /**
    * Kills PHP internal web server running on $this->serverUrl.
+   *
+   * @command tests:kill-server
+   * @validateInsideVm
+   * @executeInDrupalVm
    */
   protected function killWebServer() {
     $this->getContainer()->get('executor')->killProcessByName('runserver');
