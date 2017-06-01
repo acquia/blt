@@ -174,7 +174,7 @@ class VmCommand extends BltTasks {
     file_put_contents($filename, $yaml);
 
     $this->say("<comment>$filename</comment> was modified.");
-    $this->say("BLT will now use <comment>@{$contents['drush']['default_alias']}</comment> as the default drush alias for all commands.");
+    $this->say("BLT will now use <comment>@{$contents['drush']['default_alias']}</comment> as the default drush alias for all commands on this machine.");
   }
 
   /**
@@ -184,7 +184,7 @@ class VmCommand extends BltTasks {
     $this->checkRequirements();
     $confirm = $this->confirm("Do you want to boot Drupal VM?", TRUE);
     if ($confirm) {
-      $this->say("In future, run <comment>vagrant up</comment> to boot the VM");
+      $this->say("In future, run <comment>vagrant up</comment> to boot the VM.");
       $result = $this->taskExec("vagrant up")
         ->dir($this->getConfigValue('repo.root'))
         ->printOutput(TRUE)

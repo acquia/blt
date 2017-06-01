@@ -33,6 +33,9 @@ mv ${BLT_DIR}/scripts/blt/ci/internal/config_split.config_split.ci.yml config/de
 blt setup:config-import
 drush pm-uninstall config_split --root=docroot -y
 
+# Test cloud hooks.
+
+
 # Test SimpleSAMLphp configuration.
 blt simplesamlphp:init
 

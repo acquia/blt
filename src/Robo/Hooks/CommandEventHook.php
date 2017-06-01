@@ -31,6 +31,7 @@ class CommandEventHook extends BltTasks {
    * @hook command-event *
    */
   public function executeInDrupalVm(ConsoleCommandEvent $event) {
+    // @todo Create global option to opt-out of this. E.g., --execute-on-host.
     $command = $event->getCommand();
     if (method_exists($command, 'getAnnotationData')) {
       /* @var \Consolidation\AnnotatedCommand\AnnotationData */
