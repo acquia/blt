@@ -44,7 +44,7 @@ class DoctorCommand extends BltTasks {
       $this->executeDoctorOnHost('');
     }
 
-    return $result->getExitCode();
+    return $result;
   }
 
   /**
