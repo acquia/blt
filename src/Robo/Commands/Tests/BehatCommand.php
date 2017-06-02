@@ -89,9 +89,11 @@ class BehatCommand extends TestsCommandBase {
     $this->createReportsDir();
     $this->launchWebServer();
     $this->launchWebDriver();
-    $this->executeBehatTests();
+    $behat_exit_code = $this->executeBehatTests();
     $this->killWebDriver();
     $this->killWebServer();
+
+    return $behat_exit_code;
   }
 
   /**
@@ -254,6 +256,8 @@ class BehatCommand extends TestsCommandBase {
    *   Throws an exception if any Behat test fails.
    */
   protected function executeBehatTests() {
+    $exit_code = 0;
+
     foreach ($this->getConfigValue('behat.paths') as $behat_path) {
       // Output errors.
       // @todo replace base_url in behat config when internal server is being used.
@@ -281,9 +285,11 @@ class BehatCommand extends TestsCommandBase {
       $result = $task->run();
 
       if (!$result->wasSuccessful()) {
-        throw new \Exception("Behat tests failed");
+        return $result->getExitCode();
       }
     }
+
+    return $exit_code;
   }
 
 }

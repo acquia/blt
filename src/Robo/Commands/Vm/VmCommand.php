@@ -212,7 +212,7 @@ class VmCommand extends BltTasks {
    * @throws \Exception
    */
   protected function requireDrupalVm() {
-    $this->say("Adding geerlingguy/drupal-vm:{$this->drupalVmVersionConstraint} to composer.json's require-dev array.");
+    $this->say("Adding geerlingguy/drupal-vm:{$this->drupalVmVersionConstraint} to composer.json's require-dev array...");
     $result = $this->taskExec("composer require --dev geerlingguy/drupal-vm:{$this->drupalVmVersionConstraint}")
       ->dir($this->getConfigValue('repo.root'))
       ->printOutput(TRUE)
@@ -262,8 +262,8 @@ class VmCommand extends BltTasks {
    *   Drupal VM config from box/config.yml.
    */
   protected function validateConfig($config) {
-    if (strstr($config['machine_name'], '_')) {
-      $this->logger->warning("The machine name for your Drupal VM should not contain an underscore.");
+    if (strstr($config['vagrant_machine_name'], '_')) {
+      $this->logger->warning("vagrant_machine_namefor should not contain an underscore.");
     }
   }
 
