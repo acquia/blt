@@ -565,15 +565,11 @@ class DeployCommand extends BltTasks {
       $this->config->set('drush.uri', $multisite);
 
       $status_code = $this->invokeCommand('setup:config-import');
-      if (!$status_code) {
-        return $status_code;
-      }
       $status_code = $this->invokeCommand('setup:toggle-modules');
-      if (!$status_code) {
-        return $status_code;
-      }
 
       $this->say("Finished deploying updates to $multisite.");
+
+      return $status_code;
     }
   }
 
