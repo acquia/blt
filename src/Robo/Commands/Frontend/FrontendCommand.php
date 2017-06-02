@@ -18,8 +18,8 @@ class FrontendCommand extends BltTasks {
    */
   public function frontend() {
     $status_code = $this->invokeCommands([
-      'frontend:build',
       'frontend:setup',
+      'frontend:build',
       'frontend:test',
     ]);
     return $status_code;
