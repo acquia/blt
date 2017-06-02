@@ -198,7 +198,7 @@ class UpdateCommand extends BltTasks {
       ->run();
     $result = $this->taskExecStack()
       ->dir($this->getConfigValue('repo.root'))
-      ->exec("composer install --no-interaction --prefer-dist")
+      ->exec("composer install --no-interaction --prefer-dist --ansi")
       ->detectInteractive()
       ->run();
 
