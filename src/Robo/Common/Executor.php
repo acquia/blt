@@ -207,6 +207,7 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
       $res = $client->request('GET', $url, [
         'connection_timeout' => 2,
         'timeout' => 2,
+        'exceptions' => FALSE,
       ]);
       return $res->getStatusCode() == 200;
     }
