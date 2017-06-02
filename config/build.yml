@@ -170,6 +170,11 @@ target-hooks:
     dir: ${docroot}
     # E.g., `npm test`.
     command: null
+  frontend-web-test:
+    # E.g., ${docroot}/sites/all/themes/custom/mytheme.
+    dir: ${docroot}
+    # E.g., `npm test`.
+    command: null
   pre-commit:
     # E.g., ${docroot}
     dir: ${docroot}

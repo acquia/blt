@@ -90,6 +90,7 @@ class BehatCommand extends TestsCommandBase {
     $this->launchWebServer();
     $this->launchWebDriver();
     $this->executeBehatTests();
+    $this->executeFrontEndWebTest();
     $this->killWebDriver();
     $this->killWebServer();
   }
@@ -284,6 +285,25 @@ class BehatCommand extends TestsCommandBase {
         throw new \Exception("Behat tests failed");
       }
     }
+  }
+
+  /**
+   * Executes frontend-webtest target hook.
+   *
+   * @command frontend:web-test
+   *
+   * @executeInDrupalVm
+   */
+  public function executeFrontEndWebTest() {
+    $result = $this->invokeHook('frontend-web-test');
+
+    if (!$result->wasSuccessful()) {
+      $this->killWebDriver();
+      $this->killWebServer();
+      throw new \Exception("Frontend web tests failed. Error code " . $result->getExitCode());
+    }
+
+    return $result;
   }
 
 }

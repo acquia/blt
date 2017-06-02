@@ -163,6 +163,8 @@ Each row under the `phpunit` key should contain a `path` and a `config` key. The
 ## Frontend Testing
 
 BLT supports a `frontend-test` target that can be used to execute a variety of testing frameworks. Examples may include Jest, Jasmine, Mocha, Chai, etc.
+BLT also supports a `frontend-web-test` target that can be used to execute a variety of testing frameworks on an active installed drupal site. This may be used for visual regression testing, performance and accessbility testing.
+
 
 ### Configuration
 
