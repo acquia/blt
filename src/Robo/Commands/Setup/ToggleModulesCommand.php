@@ -3,8 +3,6 @@
 namespace Acquia\Blt\Robo\Commands\Setup;
 
 use Acquia\Blt\Robo\BltTasks;
-use Robo\Contract\VerbosityThresholdInterface;
-use Symfony\Component\Finder\Finder;
 
 /**
  * Defines commands in the "setup:toggle-modules" namespace.
@@ -57,4 +55,5 @@ class ToggleModulesCommand extends BltTasks {
 
     return $exit_code;
   }
+
 }
