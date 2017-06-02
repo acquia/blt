@@ -5,6 +5,7 @@ namespace Acquia\Blt\Robo\Commands\Blt;
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\ComposerMunge;
 use Acquia\Blt\Robo\Common\YamlMunge;
+use Acquia\Blt\Robo\Exceptions\BltException;
 use Acquia\Blt\Update\Updater;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -42,19 +43,17 @@ class UpdateCommand extends BltTasks {
    * @command internal:create-project
    */
   public function createProject() {
-    $result = $this->cleanUpProjectTemplate();
-    $result = $this->updateRootProjectFiles();
-    $result = $this->reInstallComposerPackages();
-    $result = $this->setProjectName();
-    $result = $this->initAndCommitRepo();
+    $this->cleanUpProjectTemplate();
+    $this->updateRootProjectFiles();
+    $this->reInstallComposerPackages();
+    $this->setProjectName();
+    $this->initAndCommitRepo();
     $exit_code = $this->invokeCommand('install-alias');
     $this->displayArt();
 
     $this->yell("Your new BLT-based project has been created in {$this->getConfigValue('repo.root')}.");
     $this->say("Please continue by following the \"Creating a new project with BLT\" instructions:");
     $this->say("<comment>http://blt.readthedocs.io/en/8.x/readme/creating-new-project/</comment>");
-
-    return $result->getExitCode();
   }
 
   /**
@@ -82,12 +81,10 @@ class UpdateCommand extends BltTasks {
    * @return \Robo\Result
    */
   public function addToProject() {
-    $result = $this->reInstallComposerPackages();
+    $this->reInstallComposerPackages();
     $this->displayArt();
     $this->yell("BLT has been added to your project.");
     $this->say("It has added and modified various project files. Please inspect your repository.");
-
-    return $result;
   }
 
   /**
@@ -154,8 +151,9 @@ class UpdateCommand extends BltTasks {
       ->printOutput(FALSE)
       ->run();
 
-    return $result;
-
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Could not initialize new git repository.");
+    }
   }
 
   /**
@@ -179,7 +177,9 @@ class UpdateCommand extends BltTasks {
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
-    return $result;
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Could not remove deprecated files provided by acquia/blt-project.");
+    }
   }
 
   /**
@@ -196,13 +196,19 @@ class UpdateCommand extends BltTasks {
       ])
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Could not remove Composer files.");
+    }
+
     $result = $this->taskExecStack()
       ->dir($this->getConfigValue('repo.root'))
       ->exec("composer install --no-interaction --prefer-dist --ansi")
       ->detectInteractive()
       ->run();
 
-    return $result;
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Could not install Composer requirements.");
+    }
   }
 
   /**
@@ -212,11 +218,9 @@ class UpdateCommand extends BltTasks {
    */
   protected function updateRootProjectFiles() {
     $this->updateSchemaVersionFile();
-    $result = $this->rsyncTemplate();
-    $result = $this->mungeComposerJson();
-    $result = $this->mungeProjectYml();
-
-    return $result;
+    $this->rsyncTemplate();
+    $this->mungeComposerJson();
+    $this->mungeProjectYml();
   }
 
   /**
@@ -316,7 +320,9 @@ class UpdateCommand extends BltTasks {
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
-    return $result;
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Could not rsync files from BLT into your repository.");
+    }
   }
 
   /**
@@ -329,7 +335,10 @@ class UpdateCommand extends BltTasks {
     $project_composer_json = $this->getConfigValue('repo.root') . '/composer.json';
     $template_composer_json = $this->getConfigValue('blt.root') . '/template/composer.json';
     $munged_json = ComposerMunge::munge($project_composer_json, $template_composer_json);
-    file_put_contents($project_composer_json, $munged_json);
+    $bytes = file_put_contents($project_composer_json, $munged_json);
+    if (!$bytes) {
+      throw new BltException("Could not update $project_composer_json.");
+    }
   }
 
   /**
@@ -341,8 +350,12 @@ class UpdateCommand extends BltTasks {
     $this->say("Merging BLT's <comment>project.yml</comment> template with your project's <comment>blt/project.yml</comment>...");
     // Values in the project's existing project.yml file will be preserved and
     // not overridden.
-    $munged_yaml = YamlMunge::munge($this->getConfigValue('blt.root') . '/template/blt/project.yml', $this->getConfigValue('blt.config-files.project'));
-    file_put_contents($this->getConfigValue('blt.config-files.project'), $munged_yaml);
+    $repo_project_yml = $this->getConfigValue('blt.config-files.project');
+    $munged_yaml = YamlMunge::munge($this->getConfigValue('blt.root') . '/template/blt/project.yml', $repo_project_yml);
+    $bytes = file_put_contents($this->getConfigValue('blt.config-files.project'), $munged_yaml);
+    if (!$bytes) {
+      throw new BltException("Could not update $repo_project_yml.");
+    }
   }
 
   /**
@@ -356,7 +369,9 @@ class UpdateCommand extends BltTasks {
       ->exec("{$this->getConfigValue('composer.bin')}/yaml-cli update:value {$this->getConfigValue('blt.config-files.project')} project.machine_name '$project_name'")
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
-    return $result;
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Could not set value for project.machine_name in {$this->getConfigValue('blt.config-files.project')}.");
+    }
   }
 
 }
