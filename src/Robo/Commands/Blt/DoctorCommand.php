@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Blt;
 
 use Acquia\Blt\Robo\BltTasks;
+use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -16,6 +17,11 @@ class DoctorCommand extends BltTasks {
    * @command doctor
    */
   public function doctor() {
+
+    $this->taskDrush()
+      ->drush('cc drush')
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->run();
 
     // Attempt to run BLT doctor inside of a VM.
     if ($this->getInspector()->isDrupalVmLocallyInitialized()

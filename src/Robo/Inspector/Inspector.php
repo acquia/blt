@@ -238,8 +238,11 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
     // rather than self, then Drupal VM is being used locally.
     $drush_local_alias = $this->getConfigValue('drush.aliases.local');
     $expected_vm_alias = $this->getConfigValue('project.machine_name') . '.local';
+    $initialized = ($drush_local_alias == $expected_vm_alias) && file_exists($this->getConfigValue('repo.root') . '/box/config.yml');
+    $statement = $initialized ? "is" : "is not";
+    $this->logger->debug("Drupal VM $statement initialized.");
 
-    return $drush_local_alias == $expected_vm_alias && file_exists($this->getConfigValue('repo.root') . '/box/config.yml');
+    return $initialized;
   }
 
   /**
@@ -260,7 +263,11 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
       ->run();
     $output = $result->getOutputData();
 
-    return strstr($output, "running");
+    $booted = strstr($output, "running");
+    $statement = $booted ? "is" : "is not";
+    $this->logger->debug("Drupal VM $statement booted.");
+
+    return $booted;
   }
 
   /**
