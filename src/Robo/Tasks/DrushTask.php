@@ -3,7 +3,6 @@
 namespace Acquia\Blt\Robo\Tasks;
 
 use Robo\Exception\TaskException;
-use Robo\Result;
 use Robo\Task\CommandStack;
 use Robo\Contract\VerbosityThresholdInterface;
 use Robo\Common\CommandArguments;
@@ -302,22 +301,33 @@ class DrushTask extends CommandStack {
    */
   public function run() {
     $this->setupExecution();
-
     if (empty($this->exec)) {
       throw new TaskException($this, 'You must add at least one command');
     }
-    if (!$this->stopOnFail) {
+    // If 'stopOnFail' is not set, or if there is only one command to run,
+    // then execute the single command to run.
+    if (!$this->stopOnFail || (count($this->exec) == 1)) {
       return $this->executeCommand($this->getCommand());
     }
 
+    // When executing multiple commands in 'stopOnFail' mode, run them
+    // one at a time so that the result will have the exact command
+    // that failed available to the caller. This is at the expense of
+    // losing the output from all successful commands.
+    $data = [];
+    $message = '';
+    $result = NULL;
     foreach ($this->exec as $command) {
       $result = $this->executeCommand($command);
+      $result->accumulateExecutionTime($data);
+      $message = $result->accumulateMessage($message);
+      $data = $result->mergeData($data);
       if (!$result->wasSuccessful()) {
         return $result;
       }
     }
 
-    return Result::success($this);
+    return $result;
   }
 
   /**
