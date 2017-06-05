@@ -36,9 +36,7 @@ class PhpcsCommand extends BltTasks {
     // @todo Compare the performance of this vs. dumping $files to a temp file
     // and executing phpcs --file-set=[tmp-file]. Also, compare vs. using
     // parallel processes.
-    $result = $this->executeCommandAgainstFilesets($filesets, $command);
-
-    return $result;
+    $this->executeCommandAgainstFilesets($filesets, $command);
   }
 
   /**
