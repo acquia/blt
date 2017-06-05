@@ -32,7 +32,7 @@ class SecurityUpdatesCommand extends BltTasks {
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERY_VERBOSE)
       ->run();
 
-    $output = $result->getOutputData();
+    $output = $result->getMessage();
     $report = substr($output, strpos($output, '{'));
     $updates = (array) json_decode($report, TRUE);
     $security_updates = [];
