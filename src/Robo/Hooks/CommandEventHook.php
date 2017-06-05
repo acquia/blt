@@ -90,9 +90,9 @@ class CommandEventHook extends BltTasks {
    *   TRUE if it should be invoked inside of  Drupal VM.
    */
   protected function shouldExecuteInDrupalVm() {
-    return $this->getInspector()->isDrupalVmLocallyInitialized()
-      && $this->getInspector()->isDrupalVmBooted()
-      && !$this->getInspector()->isVmCli();
+    return !$this->getInspector()->isVmCli() &&
+      $this->getInspector()->isDrupalVmLocallyInitialized()
+      && $this->getInspector()->isDrupalVmBooted();
   }
 
 }

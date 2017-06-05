@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Blt;
 
 use Acquia\Blt\Robo\BltTasks;
+use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -16,6 +17,11 @@ class DoctorCommand extends BltTasks {
    * @command doctor
    */
   public function doctor() {
+
+    $this->taskDrush()
+      ->drush('cc drush')
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->run();
 
     // Attempt to run BLT doctor inside of a VM.
     if ($this->getInspector()->isDrupalVmLocallyInitialized()
@@ -52,10 +58,20 @@ class DoctorCommand extends BltTasks {
    *
    * @return \Robo\Result
    *   The command result.
+   *
+   * @throws \Exception
    */
   protected function executeDoctorInsideVm() {
-    $drupal_vm_config = Yaml::parse(file_get_contents($this->getConfigValue('repo.root') . '/box/config.yml'));
-    $repo_root = $drupal_vm_config['vagrant_synced_folders'][0]['destination'];
+    $drupal_vm_config_filepath = $this->getConfigValue('repo.root') . '/box/config.yml';
+    $drupal_vm_config = Yaml::parse(file_get_contents($drupal_vm_config_filepath));
+    $repo_root = $drupal_vm_config['drupal_core_path'] . '/..';
+    if (strstr($repo_root, '{{')) {
+      $this->logger->error("The value of drupal_core_path in $drupal_vm_config_filepath contains an unresolved Ansible variable.");
+      $this->logger->error("Do not use Ansible variable placeholders for drupal_core_path.");
+      $this->logger->error("drupal_core_path is currently $drupal_vm_config_filepath. Please correct it.");
+      throw new \Exception("Unparsable value in $drupal_vm_config_filepath.");
+    }
+
     $this->say("Drupal VM was detected. Running blt doctor inside of VM...");
     $command = "cd $repo_root && $repo_root/vendor/bin/drush cc drush && $repo_root/vendor/bin/drush --include=$repo_root/vendor/acquia/blt/drush blt-doctor -r $repo_root/docroot";
 
