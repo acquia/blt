@@ -139,7 +139,12 @@ class VmCommand extends BltTasks {
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
-    $this->getConfig()->expandFileProperties($this->projectDrupalVmConfigFile);
+    // Generate a Random IP address for the new VM.
+    $config = clone $this->getConfig();
+    $random_local_ip = "192.168." . rand(0, 255) . '.' . rand(0, 255);
+    $config->set('random.ip', $random_local_ip);
+
+    $config->expandFileProperties($this->projectDrupalVmConfigFile);
     $vm_config = Yaml::parse(file_get_contents($this->projectDrupalVmConfigFile));
     $this->validateConfig($vm_config);
 
