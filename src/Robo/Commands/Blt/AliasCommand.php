@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Blt;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
 use Tivie\OS\Detector;
 use const Tivie\OS\MACOSX;
@@ -112,7 +113,11 @@ class AliasCommand extends BltTasks {
   protected function updateAlias() {
     $alias_info = $this->getAliasInfo();
     $new_contents = str_replace($alias_info['alias'], $alias_info['canonical_alias'], $alias_info['contents']);
-    file_put_contents($alias_info['config_file'], $new_contents);
+    $bytes = file_put_contents($alias_info['config_file'], $new_contents);
+    if ($bytes) {
+      throw new BltException("Could not update BLT alias in {$alias_info['config_file']}.");
+    }
+
     $this->say("<info>The <comment>blt</comment> alias was updated in {$alias_info['config_file']}");
     $this->say("Execute <comment>source {$alias_info['config_file']}</comment> to update your terminal session.");
   }
@@ -154,10 +159,15 @@ class AliasCommand extends BltTasks {
     if ($os_type == MACOSX) {
       $user = posix_getpwuid(posix_getuid());
       $home_dir = $user['dir'];
-      if (!file_exists($home_dir . '/.bash_profile')) {
-        $this->taskFilesystemStack()
-          ->touch($home_dir . '/.bash_profile')
+      $bash_profile = $home_dir . '/.bash_profile';
+      if (!file_exists($bash_profile)) {
+        $result = $this->taskFilesystemStack()
+          ->touch($bash_profile)
           ->run();
+
+        if (!$result->wasSuccessful()) {
+          throw new BltException("Could not create $bash_profile.");
+        }
       }
     }
   }

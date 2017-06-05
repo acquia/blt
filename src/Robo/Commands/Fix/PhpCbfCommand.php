@@ -35,9 +35,7 @@ class PhpCbfCommand extends BltTasks {
 
     $bin = $this->getConfigValue('composer.bin');
     $command = "'$bin/phpcbf' --standard='{$this->standard}' '%s'";
-    $result = $this->executeCommandAgainstFilesets($filesets, $command);
-
-    return $result;
+    $this->executeCommandAgainstFilesets($filesets, $command);
   }
 
 }
