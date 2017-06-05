@@ -2,6 +2,7 @@
 
 namespace Acquia\Blt\Robo\Commands\Tests;
 
+use Acquia\Blt\Robo\Exceptions\BltException;
 use Acquia\Blt\Robo\Wizards\TestsWizard;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -87,13 +88,20 @@ class BehatCommand extends TestsCommandBase {
     $this->logConfig($this->getConfigValue('behat'), 'behat');
     $this->logConfig($this->getInspector()->getLocalBehatConfig()->export());
     $this->createReportsDir();
-    $this->launchWebServer();
-    $this->launchWebDriver();
-    $behat_exit_code = $this->executeBehatTests();
-    $this->killWebDriver();
-    $this->killWebServer();
 
-    return $behat_exit_code;
+    try {
+      $this->launchWebServer();
+      $this->launchWebDriver();
+      $this->executeBehatTests();
+      $this->killWebDriver();
+      $this->killWebServer();
+    }
+    catch (\Exception $e) {
+      // Kill web driver a server to prevent Pipelines from hanging after fail.
+      $this->killWebDriver();
+      $this->killWebServer();
+      throw $e;
+    }
   }
 
   /**
@@ -285,11 +293,9 @@ class BehatCommand extends TestsCommandBase {
       $result = $task->run();
 
       if (!$result->wasSuccessful()) {
-        return $result->getExitCode();
+        throw new BltException("Behat tests failed!");
       }
     }
-
-    return $exit_code;
   }
 
 }
