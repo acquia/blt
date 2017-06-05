@@ -3,7 +3,7 @@ vagrant_hostname: ${project.local.hostname}
 vagrant_machine_name: ${project.machine_name}
 
 # Set the IP address so it doesn't conflict with other Drupal VM instances.
-vagrant_ip: 192.168.25.8
+vagrant_ip: ${random.ip}
 
 # Use Ubuntu 14.04 LTS to more closely match Acquia Cloud environment.
 vagrant_box: geerlingguy/ubuntu1404
