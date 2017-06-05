@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Saml;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
 use Robo\Result;
 use Symfony\Component\Console\Helper\FormatterHelper;
@@ -41,10 +42,10 @@ class SimpleSamlPhpCommand extends BltTasks {
    */
   public function initializeSimpleSamlPhp() {
     if (!$this->getInspector()->isSimpleSamlPhpInstalled()) {
-      $result = $this->requireModule();
-      $result = $this->initializeConfig();
-      $result = $this->setSimpleSamlPhpInstalled();
-      $result = $this->symlinkDocrootToLibDir();
+      $this->requireModule();
+      $this->initializeConfig();
+      $this->setSimpleSamlPhpInstalled();
+      $this->symlinkDocrootToLibDir();
     }
     else {
       $this->say('SimpleSAMLphp has already been initialized by BLT.');
@@ -77,8 +78,6 @@ class SimpleSamlPhpCommand extends BltTasks {
     if (!$result->wasSuccessful()) {
       throw new \Exception("Unable to install drupal/simplesamlphp_auth package.");
     }
-
-    return $result;
   }
 
   /**
@@ -98,11 +97,14 @@ class SimpleSamlPhpCommand extends BltTasks {
       ->copy("{$this->bltRoot}/scripts/simplesamlphp/acquia_config.php", "${destinationDirectory}/acquia_config.php")
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
+    // @todo Check $result.
+
     $result = $this->taskWriteToFile("{$this->repoRoot}/simplesamlphp/config/config.php")
       ->text("include 'acquia_config.php';")
       ->append()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
+    // @todo Check $result.
 
     $this->say("Copying config files to {$this->repoRoot}/simplesamlphp/metadata...");
     $result = $this->taskFileSystemStack()
@@ -110,7 +112,9 @@ class SimpleSamlPhpCommand extends BltTasks {
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
-    return $result;
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Unable to initialize SimpleSamlPhp configuration.");
+    }
   }
 
   /**
