@@ -141,9 +141,6 @@ project:
   local:
     uri: ${project.local.protocol}://${project.local.hostname}
 
-
-site: ${multisites.0}
-
 sync:
   # By default, files are not synced during local:sync.
   # Set this value to 'true' or pass -Dsync.files=true

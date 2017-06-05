@@ -2,6 +2,7 @@
 
 namespace Acquia\Blt\Robo\Config;
 
+use Robo\Config\YamlConfigLoader;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -78,6 +79,37 @@ class DefaultConfig extends BltConfig {
     if (!$this->get('multisites')) {
       $this->set('multisites', $this->getSiteDirs());
     }
+  }
+
+  /**
+   * Sets multisite context by settings site-specific config values.
+   *
+   * @param string $site_name
+   *   The name of a multisite. E.g., if docroot/sites/example.com is the site,
+   *   $site_name would be example.com.
+   */
+  public function setSiteConfig($site_name) {
+    $this->config->set('site', $site_name);
+    $this->config->set('drush.uri', $site_name);
+
+    // After having set site, this should now return the multisite
+    // specific config.
+    $site_config_file = $this->get('blt.config-files.multisite');
+    $this->importYamlFile($site_config_file);
+  }
+
+  /**
+   * Sets multisite context by settings site-specific config values.
+   *
+   * @param string $file_path
+   *   The file path to the config yaml file.
+   */
+  public function importYamlFile($file_path) {
+    $loader = new YamlConfigLoader();
+    $processor = new YamlConfigProcessor();
+    $processor->add($this->config->export());
+    $processor->extend($loader->load($file_path));
+    $this->config->import($processor->export());
   }
 
   /**

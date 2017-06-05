@@ -2,12 +2,13 @@
 
 namespace Acquia\Blt\Robo\Commands\Sync;
 
+use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
 
 /**
  * Defines commands in the "setup:db*" namespace.
  */
-class DbCommand extends SyncBase {
+class DbCommand extends BltTasks {
 
   /**
    * Iteratively copies remote db to local db for each multisite.
@@ -38,7 +39,7 @@ class DbCommand extends SyncBase {
    * @return \Robo\Result
    */
   protected function syncDbMultisite($multisite_name) {
-    $this->loadMultisiteConfig($multisite_name);
+    $this->getConfig()->setSiteConfig($multisite_name);
     $result = $this->syncDbDefault();
 
     return $result;
