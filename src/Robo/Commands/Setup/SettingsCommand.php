@@ -36,6 +36,9 @@ class SettingsCommand extends BltTasks {
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
+    $default_multisite_dir = $this->getConfigValue('docroot') . "/sites/default";
+    $default_project_default_settings_file = "$default_multisite_dir/default.settings.php";
+
     $multisites = $this->getConfigValue('multisites');
     foreach ($multisites as $multisite) {
       // Generate settings.php.
@@ -56,6 +59,7 @@ class SettingsCommand extends BltTasks {
       $this->taskFilesystemStack()
         ->chmod($multisite_dir, 0777)
         ->chmod($project_settings_file, 0777)
+        ->copy($default_project_default_settings_file, $project_default_settings_file)
         ->copy($project_default_settings_file, $project_settings_file)
         ->copy($blt_local_settings_file, $default_local_settings_file)
         ->copy($default_local_settings_file, $project_local_settings_file)
