@@ -95,6 +95,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
     /** @var \Robo\Application $application */
     $application = $this->getContainer()->get('application');
     $command = $application->find($command_name);
+
     $input = new ArrayInput($args);
     $prefix = str_repeat(">", $this->invokeDepth);
     $this->output->writeln("<comment>$prefix $command_name</comment>");

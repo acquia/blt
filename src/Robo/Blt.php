@@ -224,7 +224,8 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
    *   The exiting status code of the application
    */
   public function run(InputInterface $input, OutputInterface $output) {
-    $status_code = $this->runner->run($input, $output, NULL, $this->commands);
+    $application = $this->getContainer()->get('application');
+    $status_code = $this->runner->run($input, $output, $application, $this->commands);
 
     return $status_code;
   }

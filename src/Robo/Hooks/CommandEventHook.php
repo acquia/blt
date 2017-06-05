@@ -36,6 +36,7 @@ class CommandEventHook extends BltTasks {
     if (method_exists($command, 'getAnnotationData')) {
       /* @var \Consolidation\AnnotatedCommand\AnnotationData */
       $annotation_data = $event->getCommand()->getAnnotationData();
+      $this->warnIfDrupalVmNotRunning();
       if ($annotation_data->has('executeInDrupalVm') && $this->shouldExecuteInDrupalVm()) {
         $event->disableCommand();
         $args = $this->getCliArgs();
@@ -93,6 +94,15 @@ class CommandEventHook extends BltTasks {
     return $this->getInspector()->isDrupalVmLocallyInitialized()
       && $this->getInspector()->isDrupalVmBooted()
       && !$this->getInspector()->isVmCli();
+  }
+
+  /**
+   * Emits a warning if Drupal VM is initialized but not running.
+   */
+  protected function warnIfDrupalVmNotRunning() {
+    if ($this->getInspector()->isDrupalVmLocallyInitialized() && !$this->getInspector()->isDrupalVmBooted()) {
+      $this->logger->warning("Drupal VM is locally initialized, but it not running.");
+    }
   }
 
 }
