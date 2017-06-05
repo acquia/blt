@@ -149,6 +149,7 @@ class UpdateCommand extends BltTasks {
       ->exec("git commit -m 'Initial commit.'")
       ->interactive(FALSE)
       ->printOutput(FALSE)
+      ->printMetadata(FALSE)
       ->run();
 
     if (!$result->wasSuccessful()) {
