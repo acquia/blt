@@ -44,11 +44,6 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
   protected $isMySqlAvailable = NULL;
 
   /**
-   * @var array
-   */
-  protected $drupalVmStatus = [];
-
-  /**
    * The constructor.
    *
    * @param \Acquia\Blt\Robo\Common\Executor $executor
@@ -61,7 +56,6 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
   public function clearState() {
     $this->isDrupalInstalled = NULL;
     $this->isMySqlAvailable = NULL;
-    $this->drupalVmStatus = [];
   }
 
   /**
@@ -240,10 +234,11 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
    *   TRUE if Drupal VM is initialized for the local machine.
    */
   public function isDrupalVmLocallyInitialized() {
-    $status = $this->getDrupalVmStatus();
-    $machine_name = $this->getConfigValue('project.machine_name');
-    $initialized = !empty($status[$machine_name])
-      && file_exists($this->getConfigValue('repo.root') . '/box/config.yml');
+    // We assume that if the local drush alias is ${project.machine_name.local},
+    // rather than self, then Drupal VM is being used locally.
+    $drush_local_alias = $this->getConfigValue('drush.aliases.local');
+    $expected_vm_alias = $this->getConfigValue('project.machine_name') . '.local';
+    $initialized = ($drush_local_alias == $expected_vm_alias) && file_exists($this->getConfigValue('repo.root') . '/box/config.yml');
     $statement = $initialized ? "is" : "is not";
     $this->logger->debug("Drupal VM $statement initialized.");
 
@@ -261,11 +256,14 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
       return FALSE;
     }
 
-    $status = $this->getDrupalVmStatus();
-    $machine_name = $this->getConfigValue('project.machine_name');
-    $booted = !empty($status[$machine_name]['state'])
-      && $status[$machine_name]['state'] == 'running';
+    $result = $this->executor->execute("vagrant status")
+      ->printOutput(FALSE)
+      ->printMetadata(FALSE)
+      ->interactive(FALSE)
+      ->run();
+    $output = $result->getOutputData();
 
+    $booted = strstr($output, "running");
     $statement = $booted ? "is" : "is not";
     $this->logger->debug("Drupal VM $statement booted.");
 
@@ -504,36 +502,6 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
    */
   public function isSimpleSamlPhpInstalled() {
     return $this->getConfig()->has('simplesamlphp') && $this->getConfigValue('simplesamlphp');
-  }
-
-  /**
-   * Gets the value of $this->drupalVmStatus. Sets it if empty.
-   *
-   * @return array
-   *   An array of status data.
-   */
-  protected function getDrupalVmStatus() {
-    if (empty($this->drupalVmStatus)) {
-      $this->setDrupalVmStatus();
-    }
-    return $this->drupalVmStatus;
-  }
-
-  /**
-   * Sets $this->drupalVmStatus by executing `vagrant status`.
-   */
-  protected function setDrupalVmStatus() {
-    $result = $this->executor->execute("vagrant status --machine-readable")
-      ->printOutput(FALSE)
-      ->printMetadata(FALSE)
-      ->interactive(FALSE)
-      ->run();
-    $output = $result->getOutputData();
-    $lines = explode("\n", $output);
-    foreach ($lines as $line) {
-      list($timestamp, $target, $type, $data) = explode(',', $line);
-      $this->drupalVmStatus[$target][$type] = $data;
-    }
   }
 
 }
