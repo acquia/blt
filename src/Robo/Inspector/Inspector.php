@@ -164,7 +164,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
   protected function getDrupalInstalled() {
     $this->logger->debug("Verifying that Drupal is installed...");
     $result = $this->executor->drush("sqlq \"SHOW TABLES LIKE 'config'\"")->run();
-    $output = trim($result->getOutputData());
+    $output = trim($result->getMessage());
     $installed = $result->wasSuccessful() && $output == 'config';
 
     return $installed;
@@ -177,7 +177,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
    *   The result of `drush status`.
    */
   public function getDrushStatus() {
-    $status_info = json_decode($this->executor->drush('status --format=json --show-passwords')->run()->getOutputData(), TRUE);
+    $status_info = json_decode($this->executor->drush('status --format=json --show-passwords')->run()->getMessage(), TRUE);
 
     return $status_info;
   }
@@ -261,7 +261,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
       ->printMetadata(FALSE)
       ->interactive(FALSE)
       ->run();
-    $output = $result->getOutputData();
+    $output = $result->getMessage();
 
     $booted = strstr($output, "running");
     $statement = $booted ? "is" : "is not";
@@ -296,7 +296,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
       ->interactive(FALSE)
       ->silent(TRUE)
       ->run()
-      ->getOutputData();
+      ->getMessage();
 
     return $installed;
   }
