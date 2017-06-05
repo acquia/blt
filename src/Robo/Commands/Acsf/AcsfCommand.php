@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Acsf;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
 
 /**
@@ -65,7 +66,7 @@ class AcsfCommand extends BltTasks {
   /**
    * Installs drupal/acsf via Composer.
    *
-   * @throws \Exception
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function requireAcsf($acsfVersion) {
     $result = $this->taskExec("composer require 'drupal/acsf:{$acsfVersion}'")
@@ -85,11 +86,9 @@ class AcsfCommand extends BltTasks {
       }
       else {
         // @todo revert previous file chanages.
-        throw new \Exception("Unable to install drupal/acsf package.");
+        throw new BltException("Unable to install drupal/acsf package.");
       }
     }
-
-    return $result;
   }
 
 }

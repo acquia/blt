@@ -164,7 +164,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
   protected function getDrupalInstalled() {
     $this->logger->debug("Verifying that Drupal is installed...");
     $result = $this->executor->drush("sqlq \"SHOW TABLES LIKE 'config'\"")->run();
-    $output = trim($result->getOutputData());
+    $output = trim($result->getMessage());
     $installed = $result->wasSuccessful() && $output == 'config';
 
     return $installed;
@@ -177,7 +177,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
    *   The result of `drush status`.
    */
   public function getDrushStatus() {
-    $status_info = json_decode($this->executor->drush('status --format=json --show-passwords')->run()->getOutputData(), TRUE);
+    $status_info = json_decode($this->executor->drush('status --format=json --show-passwords')->run()->getMessage(), TRUE);
 
     return $status_info;
   }
@@ -238,8 +238,11 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
     // rather than self, then Drupal VM is being used locally.
     $drush_local_alias = $this->getConfigValue('drush.aliases.local');
     $expected_vm_alias = $this->getConfigValue('project.machine_name') . '.local';
+    $initialized = ($drush_local_alias == $expected_vm_alias) && file_exists($this->getConfigValue('repo.root') . '/box/config.yml');
+    $statement = $initialized ? "is" : "is not";
+    $this->logger->debug("Drupal VM $statement initialized.");
 
-    return $drush_local_alias == $expected_vm_alias && file_exists($this->getConfigValue('repo.root') . '/box/config.yml');
+    return $initialized;
   }
 
   /**
@@ -258,9 +261,13 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
       ->printMetadata(FALSE)
       ->interactive(FALSE)
       ->run();
-    $output = $result->getOutputData();
+    $output = $result->getMessage();
 
-    return strstr($output, "running");
+    $booted = strstr($output, "running");
+    $statement = $booted ? "is" : "is not";
+    $this->logger->debug("Drupal VM $statement booted.");
+
+    return $booted;
   }
 
   /**
@@ -289,7 +296,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
       ->interactive(FALSE)
       ->silent(TRUE)
       ->run()
-      ->getOutputData();
+      ->getMessage();
 
     return $installed;
   }

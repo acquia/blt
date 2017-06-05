@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Ci;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
 
 /**
@@ -22,9 +23,11 @@ class CiCommand extends BltTasks {
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
-    $this->say("<info>A pre-configured acquia-pipelines.yml file was copied to your repository root.</info>");
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Could not initialize Acquia Pipelines configuration.");
+    }
 
-    return $result;
+    $this->say("<info>A pre-configured acquia-pipelines.yml file was copied to your repository root.</info>");
   }
 
   /**
@@ -39,9 +42,11 @@ class CiCommand extends BltTasks {
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
-    $this->say("<info>A pre-configured .travis.yml file was copied to your repository root.</info>");
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Could not initialize Travis CI configuration.");
+    }
 
-    return $result;
+    $this->say("<info>A pre-configured .travis.yml file was copied to your repository root.</info>");
   }
 
 }

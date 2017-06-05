@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Setup;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Exceptions\BltException;
 
 /**
  * Defines commands in the "setup:config*" namespace.
@@ -76,7 +77,7 @@ class ConfigCommand extends BltTasks {
           ->drush("cex")
           ->arg('sync');
         if (!$config_overrides->run()->wasSuccessful()) {
-          throw new \Exception("Configuration in the database does not match configuration on disk. You must re-export configuration to capture the changes. This could also indicate a problem with the import process, such as changed field storage for a field with existing content.");
+          throw new BltException("Configuration in the database does not match configuration on disk. You must re-export configuration to capture the changes. This could also indicate a problem with the import process, such as changed field storage for a field with existing content.");
         }
       }
 
@@ -153,7 +154,7 @@ class ConfigCommand extends BltTasks {
             ->option('bundle', $bundle)
             ->option('format', 'json');
           $result = $task->printOutput(TRUE)->run();
-          $output = $result->getOutputData();
+          $output = $result->getMessage();
           $features_overridden = preg_match('/(changed|conflicts|added)( *)$/', $output);
           if ($features_overridden) {
             throw new \Exception("A feature in the $bundle bundle is overridden. You must re-export this feature to incorporate the changes.");

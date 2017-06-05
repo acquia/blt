@@ -2,14 +2,12 @@
 
 namespace Acquia\Blt\Robo\Commands\Sync;
 
-use Acquia\Blt\Robo\BltTasks;
-use Acquia\Blt\Robo\Config\YamlConfigProcessor;
-use Robo\Config\YamlConfigLoader;
+use Acquia\Blt\Robo\Exceptions\BltException;
 
 /**
  * Defines commands in the "setup:db*" namespace.
  */
-class DbCommand extends BltTasks {
+class DbCommand extends SyncBase {
 
   /**
    * Iteratively copies remote db to local db for each multisite.
@@ -23,7 +21,7 @@ class DbCommand extends BltTasks {
       $this->say("Syncing db for site <comment>$multisite</comment>...");
       $result = $this->syncDbMultisite($multisite);
       if (!$result->wasSuccessful()) {
-        return $result->getExitCode();
+        throw new BltException("Could not sync database for site '$multisite'.");
       }
     }
 
@@ -40,20 +38,7 @@ class DbCommand extends BltTasks {
    * @return \Robo\Result
    */
   protected function syncDbMultisite($multisite_name) {
-    $this->config->set('site', $multisite_name);
-    $this->config->set('drush.uri', $multisite_name);
-
-    // After having set site, this should now return the multisite
-    // specific config.
-    $site_config_file = $this->getConfigValue('blt.config-files.multisite');
-
-    // Load multisite-specific config.
-    $loader = new YamlConfigLoader();
-    $processor = new YamlConfigProcessor();
-    $processor->add($this->getConfig()->export());
-    $processor->extend($loader->load($site_config_file));
-    $this->getConfig()->import($processor->export());
-
+    $this->loadMultisiteConfig($multisite_name);
     $result = $this->syncDbDefault();
 
     return $result;

@@ -5,6 +5,7 @@ namespace Acquia\Blt\Robo;
 use Acquia\Blt\Robo\Common\ArrayManipulator;
 use Acquia\Blt\Robo\Common\IO;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
+use Acquia\Blt\Robo\Exceptions\BltException;
 use Acquia\Blt\Robo\Inspector\InspectorAwareInterface;
 use Acquia\Blt\Robo\Inspector\InspectorAwareTrait;
 use Acquia\Blt\Robo\Tasks\LoadTasks;
@@ -92,16 +93,17 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
       return 0;
     }
 
-    /** @var \Robo\Application $application */
+    /** @var \Acquia\Blt\Robo\Application $application */
     $application = $this->getContainer()->get('application');
     $command = $application->find($command_name);
+
     $input = new ArrayInput($args);
     $prefix = str_repeat(">", $this->invokeDepth);
     $this->output->writeln("<comment>$prefix $command_name</comment>");
-    $returnCode = $command->run($input, $this->output());
+    $return_code = $application->runCommand($command, $input, $this->output());
     $this->invokeDepth--;
 
-    return $returnCode;
+    return $return_code;
   }
 
   /**
@@ -159,7 +161,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
         ->stopOnFail()
         ->run();
 
-      return $result;
+      return $result->getExitCode();
     }
     else {
       $this->say("Skipped $hook target hook. No hook is defined.");
@@ -215,26 +217,22 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    *   Indicates whether commands should be run in parallel or sequentially.
    *   Defaults to FALSE.
    *
-   * @return int
-   *   The exit code of the last executed command.
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function executeCommandAgainstFilesets(array $filesets, $command, $parallel = FALSE) {
-    $exit_code = 0;
     foreach ($filesets as $fileset_id => $fileset) {
       if (!is_null($fileset) && iterator_count($fileset)) {
         $this->say("Iterating over fileset $fileset_id...");
         $files = iterator_to_array($fileset);
         $result = $this->executeCommandAgainstFiles($files, $command, $parallel);
         if (!$result->wasSuccessful()) {
-          return $result->getExitCode();
+          throw new BltException("Executing `$command` against $fileset_id returned a non-zero exit code.`");
         }
       }
       else {
         $this->logger->info("No files were found in fileset $fileset_id. Skipped.");
       }
     }
-
-    return $exit_code;
   }
 
   /**
