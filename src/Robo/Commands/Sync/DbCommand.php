@@ -4,6 +4,7 @@ namespace Acquia\Blt\Robo\Commands\Sync;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Config\YamlConfigProcessor;
+use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Config\YamlConfigLoader;
 
 /**
@@ -23,11 +24,9 @@ class DbCommand extends BltTasks {
       $this->say("Syncing db for site <comment>$multisite</comment>...");
       $result = $this->syncDbMultisite($multisite);
       if (!$result->wasSuccessful()) {
-        return $result->getExitCode();
+        throw new BltException("Could not sync database for site '$multisite'.");
       }
     }
-
-    return $exit_code;
   }
 
   /**
