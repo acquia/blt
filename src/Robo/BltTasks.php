@@ -93,16 +93,17 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
       return 0;
     }
 
-    /** @var \Robo\Application $application */
+    /** @var \Acquia\Blt\Robo\Application $application */
     $application = $this->getContainer()->get('application');
     $command = $application->find($command_name);
+
     $input = new ArrayInput($args);
     $prefix = str_repeat(">", $this->invokeDepth);
     $this->output->writeln("<comment>$prefix $command_name</comment>");
-    $returnCode = $command->run($input, $this->output());
+    $return_code = $application->runCommand($command, $input, $this->output());
     $this->invokeDepth--;
 
-    return $returnCode;
+    return $return_code;
   }
 
   /**
