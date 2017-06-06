@@ -50,12 +50,12 @@ class SettingsCommand extends BltTasks {
       $blt_local_settings_file = $this->getConfigValue('blt.root') . '/settings/default.local.settings.php';
       $default_local_settings_file = "$multisite_dir/settings/default.local.settings.php";
       $project_local_settings_file = "$multisite_dir/settings/local.settings.php";
-      
+
       // Use the project's default.local.settings.php if it exists.
       if (file_exists("$default_multisite_dir/settings/default.local.settings.php")) {
         $blt_local_settings_file = "$default_multisite_dir/settings/default.local.settings.php";
       }
-      
+
       // Generate local.drushrc.php.
       $blt_local_drush_file = $this->getConfigValue('blt.root') . '/settings/default.local.drushrc.php';
       $default_local_drush_file = "$multisite_dir/default.local.drushrc.php";
