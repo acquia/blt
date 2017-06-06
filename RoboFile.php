@@ -12,7 +12,7 @@ use Psr\Log\LoggerAwareTrait;
  * @see http://robo.li/
  */
 class RoboFile extends Tasks implements LoggerAwareInterface {
-  
+
   use LoggerAwareTrait;
 
   protected $bltRoot;
