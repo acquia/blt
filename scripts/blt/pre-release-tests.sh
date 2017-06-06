@@ -16,7 +16,7 @@ cd $SCRIPT_DIR/../../../
 export COMPOSER_PROCESS_TIMEOUT=2000
 # @todo prompt to delete if exists
 rm -rf blted8
-composer create-project acquia/blt-project:8.x-dev blted8 --no-interaction
+composer create-project acquia/blt-project:8.7.x-dev blted8 --no-interaction
 cd blted8
 # Overwrite MySQL creds for your local machine, if necessary.
 # echo '$databases["default"]["default"]["username"] = "drupal";' >> docroot/sites/default/settings/local.settings.php
