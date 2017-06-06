@@ -81,6 +81,7 @@ class BehatCommand extends TestsCommandBase {
    * @validateDrupalIsInstalled
    * @validateBehatIsConfigured
    * @validateInsideVm
+   * @launchWebServer
    * @executeInDrupalVm
    */
   public function behat() {
@@ -90,16 +91,13 @@ class BehatCommand extends TestsCommandBase {
     $this->createReportsDir();
 
     try {
-      $this->launchWebServer();
       $this->launchWebDriver();
       $this->executeBehatTests();
       $this->killWebDriver();
-      $this->killWebServer();
     }
     catch (\Exception $e) {
       // Kill web driver a server to prevent Pipelines from hanging after fail.
       $this->killWebDriver();
-      $this->killWebServer();
       throw $e;
     }
   }
@@ -132,27 +130,6 @@ class BehatCommand extends TestsCommandBase {
     $result = $task->run();
 
     return $result;
-  }
-
-  /**
-   * Launches PHP's internal web server via `drush run-server`.
-   */
-  protected function launchWebServer() {
-    if ($this->getConfigValue('behat.run-server')) {
-      $this->killWebServer();
-      $this->say("Launching PHP's internal web server via drush.");
-      $this->logger->info("Running server at $this->serverUrl...");
-      $this->getContainer()->get('executor')->drush("runserver $this->serverUrl > /dev/null")->background(TRUE)->run();
-      $this->getContainer()->get('executor')->waitForUrlAvailable($this->serverUrl);
-    }
-  }
-
-  /**
-   * Kills PHP internal web server running on $this->serverUrl.
-   */
-  protected function killWebServer() {
-    $this->getContainer()->get('executor')->killProcessByName('runserver');
-    $this->getContainer()->get('executor')->killProcessByPort($this->serverPort);
   }
 
   /**

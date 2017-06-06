@@ -20,7 +20,6 @@ class FrontendCommand extends BltTasks {
     $status_code = $this->invokeCommands([
       'frontend:setup',
       'frontend:build',
-      'frontend:test',
     ]);
     return $status_code;
   }
@@ -52,6 +51,7 @@ class FrontendCommand extends BltTasks {
    *
    * @command frontend:test
    *
+   * @launchWebDriver
    * @executeInDrupalVm
    */
   public function test() {
