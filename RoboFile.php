@@ -9,7 +9,9 @@ use Robo\Tasks;
  *
  * @see http://robo.li/
  */
-class RoboFile extends Tasks {
+class RoboFile extends Tasks implements \Psr\Log\LoggerAwareInterface {
+
+  use \Psr\Log\LoggerAwareTrait;
 
   protected $bltRoot;
   protected $bin;
@@ -71,7 +73,10 @@ class RoboFile extends Tasks {
     $this->output()->writeln('');
     $this->say("Continuing will do the following:");
     $this->say("- <comment>Destroy any uncommitted work on the current branch.</comment>");
-    $this->say("- <comment>Hard reset 8.x and 8.x-release to match the upstream history.</comment>");
+    $this->say("- <comment>Hard reset local 8.x and 8.x-release branches to match the upstream history.</comment>");
+    if ($opts['update-changelog']) {
+      $this->say("- Update and commit CHANGELOG.md");
+    }
     $this->say("- Merge 8.x into 8.x-release");
     $this->say("- Push 8.x-release to origin");
     $this->say("- Create a $tag release in GitHub with release notes");
@@ -249,7 +254,7 @@ class RoboFile extends Tasks {
   protected function generateReleaseNotes($tag, $github_token) {
     // Generate release notes.
     $partial_changelog_filename = 'CHANGELOG.partial';
-    if (!$this->taskExec("github_changelog_generator --token=$github_token --future-release=$tag --output=$partial_changelog_filename")
+    if (!$this->taskExec("github_changelog_generator --token=$github_token --future-release=$tag --output=$partial_changelog_filename --max-issues=500")
       ->run()
       ->wasSuccessful()
     ) {
