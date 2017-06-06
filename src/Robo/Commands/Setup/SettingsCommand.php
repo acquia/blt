@@ -30,17 +30,20 @@ class SettingsCommand extends BltTasks {
    * @command setup:settings
    */
   public function generateSiteConfigFiles() {
-    $this->taskFilesystemStack()
-      ->copy($this->getConfigValue('blt.config-files.example-local'), $this->getConfigValue('blt.config-files.local'))
-      ->stopOnFail()
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->run();
+    if (!file_exists($this->getConfigValue('blt.config-files.local'))) {
+      $this->taskFilesystemStack()
+        ->copy($this->getConfigValue('blt.config-files.example-local'), $this->getConfigValue('blt.config-files.local'))
+        ->stopOnFail()
+        ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+        ->run();
+    }
 
     $default_multisite_dir = $this->getConfigValue('docroot') . "/sites/default";
     $default_project_default_settings_file = "$default_multisite_dir/default.settings.php";
 
     $multisites = $this->getConfigValue('multisites');
     foreach ($multisites as $multisite) {
+
       // Generate settings.php.
       $multisite_dir = $this->getConfigValue('docroot') . "/sites/$multisite";
       $project_default_settings_file = "$multisite_dir/default.settings.php";
@@ -56,28 +59,39 @@ class SettingsCommand extends BltTasks {
       $default_local_drush_file = "$multisite_dir/default.local.drushrc.php";
       $project_local_drush_file = "$multisite_dir/local.drushrc.php";
 
-      $this->taskFilesystemStack()
-        ->chmod($multisite_dir, 0777)
-        ->chmod($project_settings_file, 0777)
-        ->copy($default_project_default_settings_file, $project_default_settings_file)
-        ->copy($project_default_settings_file, $project_settings_file)
-        ->copy($blt_local_settings_file, $default_local_settings_file)
-        ->copy($default_local_settings_file, $project_local_settings_file)
-        ->copy($blt_local_drush_file, $default_local_drush_file)
-        ->copy($default_local_drush_file, $project_local_drush_file)
+      $copy_map = [
+        $default_project_default_settings_file => $project_default_settings_file,
+        $project_default_settings_file => $project_settings_file,
+        $blt_local_settings_file => $default_local_settings_file,
+        $default_local_settings_file => $project_local_settings_file,
+        $blt_local_drush_file => $default_local_drush_file,
+        $default_local_drush_file => $project_local_drush_file,
+      ];
+
+      $task = $this->taskFilesystemStack()
         ->stopOnFail()
         ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-        ->run();
+        ->chmod($multisite_dir, 0777)
+        ->chmod($project_settings_file, 0777);
+
+      // Copy files without overwriting.
+      foreach ($copy_map as $from => $to) {
+        if (!file_exists($to)) {
+          $task->copy($from, $to);
+        }
+      }
+
+      $result = $task->run();
 
       $this->getConfig()->expandFileProperties($project_local_drush_file);
 
-      $this->taskWriteToFile($project_settings_file)
+      $result = $this->taskWriteToFile($project_settings_file)
         ->appendUnlessMatches('#vendor/acquia/blt/settings/blt.settings.php#', 'require DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php";')
         ->append(TRUE)
         ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
         ->run();
 
-      $this->taskFilesystemStack()
+      $result = $this->taskFilesystemStack()
         ->chmod($project_settings_file, 0644)
         ->stopOnFail()
         ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
@@ -91,13 +105,17 @@ class SettingsCommand extends BltTasks {
    * @command setup:behat
    */
   public function behat() {
-    $this->say("Generating Behat configuration files...");
-    $this->taskFilesystemStack()
-      ->copy($this->defaultBehatLocalConfigFile, $this->projectBehatLocalConfigFile)
-      ->stopOnFail()
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->run();
-    $this->getConfig()->expandFileProperties($this->projectBehatLocalConfigFile);
+    if (!file_exists($this->projectBehatLocalConfigFile)) {
+      $this->say("Generating Behat configuration files...");
+      $this->taskFilesystemStack()
+        ->copy($this->defaultBehatLocalConfigFile,
+          $this->projectBehatLocalConfigFile)
+        ->stopOnFail()
+        ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+        ->run();
+      $this->getConfig()
+        ->expandFileProperties($this->projectBehatLocalConfigFile);
+    }
   }
 
   /**
