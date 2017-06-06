@@ -94,7 +94,7 @@ class ConfigCommand extends BltTasks {
    * @param string $cm_core_key
    */
   protected function importCoreOnly($task, $cm_core_key) {
-    $core_config_file = $this->getConfigValue("cm.core.dirs.$cm_core_key.path") . '/core.extension.yml';
+    $core_config_file = $this->getConfigValue('docroot') . '/' . $this->getConfigValue("cm.core.dirs.$cm_core_key.path") . '/core.extension.yml';
     if (file_exists($core_config_file)) {
       $task->drush("config-import")->arg($cm_core_key);
     }
@@ -107,7 +107,7 @@ class ConfigCommand extends BltTasks {
    * @param string $cm_core_key
    */
   protected function importConfigSplit($task, $cm_core_key) {
-    $core_config_file = $this->getConfigValue("cm.core.dirs.$cm_core_key.path") . '/core.extension.yml';
+    $core_config_file = $this->getConfigValue('docroot') . '/' . $this->getConfigValue("cm.core.dirs.$cm_core_key.path") . '/core.extension.yml';
     if (file_exists($core_config_file)) {
       $task->drush("pm-enable")->arg('config_split');
       $task->drush("config-import")->arg('sync');
