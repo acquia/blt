@@ -30,11 +30,13 @@ class SettingsCommand extends BltTasks {
    * @command setup:settings
    */
   public function generateSiteConfigFiles() {
-    $this->taskFilesystemStack()
-      ->copy($this->getConfigValue('blt.config-files.example-local'), $this->getConfigValue('blt.config-files.local'))
-      ->stopOnFail()
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->run();
+    if (!file_exists($this->getConfigValue('blt.config-files.local'))) {
+      $this->taskFilesystemStack()
+        ->copy($this->getConfigValue('blt.config-files.example-local'), $this->getConfigValue('blt.config-files.local'))
+        ->stopOnFail()
+        ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+        ->run();
+    }
 
     $default_multisite_dir = $this->getConfigValue('docroot') . "/sites/default";
     $default_project_default_settings_file = "$default_multisite_dir/default.settings.php";
@@ -103,13 +105,17 @@ class SettingsCommand extends BltTasks {
    * @command setup:behat
    */
   public function behat() {
-    $this->say("Generating Behat configuration files...");
-    $this->taskFilesystemStack()
-      ->copy($this->defaultBehatLocalConfigFile, $this->projectBehatLocalConfigFile)
-      ->stopOnFail()
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->run();
-    $this->getConfig()->expandFileProperties($this->projectBehatLocalConfigFile);
+    if (!file_exists($this->projectBehatLocalConfigFile)) {
+      $this->say("Generating Behat configuration files...");
+      $this->taskFilesystemStack()
+        ->copy($this->defaultBehatLocalConfigFile,
+          $this->projectBehatLocalConfigFile)
+        ->stopOnFail()
+        ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+        ->run();
+      $this->getConfig()
+        ->expandFileProperties($this->projectBehatLocalConfigFile);
+    }
   }
 
   /**

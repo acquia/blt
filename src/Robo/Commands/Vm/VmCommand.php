@@ -94,7 +94,7 @@ class VmCommand extends BltTasks {
         // @todo More surgically remove drush.default_alias and drush.aliases.local values from this file
         // rather than overwriting it.
         ->remove($this->getConfigValue('repo.root') . '/blt/project.local.yml')
-        ->copy($this->defaultDrushAliasesFile, $this->projectDrushAliasesFile)
+        ->copy($this->defaultDrushAliasesFile, $this->projectDrushAliasesFile, TRUE)
         ->run();
       $this->say("Your Drupal VM instance has been obliterated.");
       $this->say("Please run `blt vm` to create a new one.");
@@ -133,8 +133,8 @@ class VmCommand extends BltTasks {
 
     $this->taskFilesystemStack()
       ->mkdir($this->vmDir)
-      ->copy($this->defaultDrupalVmConfigFile, $this->projectDrupalVmConfigFile)
-      ->copy($this->defaultDrupalVmVagrantfile, $this->projectDrupalVmVagrantfile)
+      ->copy($this->defaultDrupalVmConfigFile, $this->projectDrupalVmConfigFile, TRUE)
+      ->copy($this->defaultDrupalVmVagrantfile, $this->projectDrupalVmVagrantfile, TRUE)
       ->stopOnFail()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();

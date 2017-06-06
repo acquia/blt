@@ -375,8 +375,8 @@ class DeployCommand extends BltTasks {
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
     $this->taskFilesystemStack()
-      ->copy($this->getConfigValue('repo.root') . '/composer.json', $this->deployDir . '/composer.json')
-      ->copy($this->getConfigValue('repo.root') . '/composer.lock', $this->deployDir . '/composer.lock')
+      ->copy($this->getConfigValue('repo.root') . '/composer.json', $this->deployDir . '/composer.json', TRUE)
+      ->copy($this->getConfigValue('repo.root') . '/composer.lock', $this->deployDir . '/composer.lock', TRUE)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
     $this->taskExecStack()->exec("composer install --no-dev --no-interaction --optimize-autoloader")

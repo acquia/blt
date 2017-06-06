@@ -18,7 +18,7 @@ class CiCommand extends BltTasks {
    */
   public function pipelinesInit() {
     $result = $this->taskFilesystemStack()
-      ->copy($this->getConfigValue('blt.root') . '/scripts/pipelines/acquia-pipelines.yml', $this->getConfigValue('repo.root') . '/acquia-pipelines.yml')
+      ->copy($this->getConfigValue('blt.root') . '/scripts/pipelines/acquia-pipelines.yml', $this->getConfigValue('repo.root') . '/acquia-pipelines.yml', TRUE)
       ->stopOnFail()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
@@ -37,7 +37,7 @@ class CiCommand extends BltTasks {
    */
   public function travisInit() {
     $result = $this->taskFilesystemStack()
-      ->copy($this->getConfigValue('blt.root') . '/scripts/travis/.travis.yml', $this->getConfigValue('repo.root') . '/.travis.yml')
+      ->copy($this->getConfigValue('blt.root') . '/scripts/travis/.travis.yml', $this->getConfigValue('repo.root') . '/.travis.yml', TRUE)
       ->stopOnFail()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
