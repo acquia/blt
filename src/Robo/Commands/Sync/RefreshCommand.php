@@ -2,12 +2,13 @@
 
 namespace Acquia\Blt\Robo\Commands\Sync;
 
+use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
 
 /**
  * Defines commands in the "sync:refresh*" namespace.
  */
-class RefreshCommand extends SyncBase {
+class RefreshCommand extends BltTasks {
 
   /**
    * Copies remote db to local db, re-imports config, and executes db updates
@@ -39,7 +40,7 @@ class RefreshCommand extends SyncBase {
    * @return int
    */
   protected function refreshMultisite($multisite_name) {
-    $this->loadMultisiteConfig($multisite_name);
+    $this->getConfig()->setSiteConfig($multisite_name);
     return $this->refreshDefault();
   }
 

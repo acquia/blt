@@ -101,7 +101,7 @@ class CommandEventHook extends BltTasks {
    */
   protected function warnIfDrupalVmNotRunning() {
     if ($this->getInspector()->isDrupalVmLocallyInitialized() && !$this->getInspector()->isDrupalVmBooted()) {
-      $this->logger->warning("Drupal VM is locally initialized, but it not running.");
+      $this->logger->warning("Drupal VM is locally initialized, but is not running.");
     }
   }
 
