@@ -3,15 +3,17 @@
 use Acquia\Blt\Robo\Common\StringManipulator;
 use GuzzleHttp\Client;
 use Robo\Tasks;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 
 /**
  * This is project's console commands configuration for Robo task runner.
  *
  * @see http://robo.li/
  */
-class RoboFile extends Tasks implements \Psr\Log\LoggerAwareInterface {
-
-  use \Psr\Log\LoggerAwareTrait;
+class RoboFile extends Tasks implements LoggerAwareInterface {
+  
+  use LoggerAwareTrait;
 
   protected $bltRoot;
   protected $bin;
