@@ -1,10 +1,10 @@
 #!/bin/sh
 
-FILE=$HOME/slack_settings
+FILE=/mnt/www/html/$AH_SITE_NAME/slack_settings
 
 if [ -f $FILE ]; then
   # Load the Slack webhook URL (which is not stored in this repo).
-  . $HOME/slack_settings
+  . $FILE
 
   if [ $status -ne 0 ]; then
     # Failed deploy.
