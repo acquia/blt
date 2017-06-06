@@ -556,6 +556,7 @@ class DeployCommand extends BltTasks {
     // Most sites store their version-controlled configuration in
     // /config/default. ACE internally sets the vcs configuration
     // directory to /config/default, so we use that.
+    // @see https://github.com/acquia/blt/issues/678
     $this->config->set('cm.core.key', $this->getConfigValue('cm.core.deploy-key'));
     // Disable alias since we are targeting specific uri.
     $this->config->set('drush.alias', '');
