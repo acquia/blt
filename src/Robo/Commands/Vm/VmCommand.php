@@ -228,7 +228,7 @@ class VmCommand extends BltTasks {
       throw new \Exception("Drupal VM requirements are missing");
     }
     else {
-      $vagrant_hosts_plugin_installed = (bool) $this->taskExec("vagrant plugin list | grep vagrant-hostsupdater")->run()->getOutputData();
+      $vagrant_hosts_plugin_installed = (bool) $this->taskExec("vagrant plugin list | grep vagrant-hostsupdater")->run()->getMessage();
       if ($vagrant_hosts_plugin_installed) {
         $this->logger->warning("The vagrant-hostsupdater plugin is not installed! Attempting to install it");
         $this->taskExec("vagrant plugin install vagrant-hostsupdater")->run();

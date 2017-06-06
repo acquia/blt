@@ -103,7 +103,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
   }
 
   public function getDrushStatus() {
-    $status_info = json_decode($this->executor->drush('status --format=json --show-passwords')->run()->getOutputData(), TRUE);
+    $status_info = json_decode($this->executor->drush('status --format=json --show-passwords')->run()->getMessage(), TRUE);
 
     return $status_info;
   }
@@ -135,7 +135,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
    */
   protected function getDrupalInstalled() {
     $result = $this->executor->drush("sqlq \"SHOW TABLES LIKE 'config'\"")->run();
-    $output = trim($result->getOutputData());
+    $output = trim($result->getMessage());
     $installed = $result->wasSuccessful() && $output == 'config';
 
     return $installed;
