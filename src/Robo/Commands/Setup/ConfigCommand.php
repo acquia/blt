@@ -56,7 +56,7 @@ class ConfigCommand extends BltTasks {
           break;
 
         case 'config-split':
-          $this->importConfigSplit($task);
+          $this->importConfigSplit($task, $cm_core_key);
           break;
 
         case 'features':
@@ -94,7 +94,8 @@ class ConfigCommand extends BltTasks {
    * @param string $cm_core_key
    */
   protected function importCoreOnly($task, $cm_core_key) {
-    if (file_exists($this->getConfigValue("cm.core.dirs.$cm_core_key.path") . '/core.extension.yml')) {
+    $core_config_file = $this->getConfigValue('docroot') . '/' . $this->getConfigValue("cm.core.dirs.$cm_core_key.path") . '/core.extension.yml';
+    if (file_exists($core_config_file)) {
       $task->drush("config-import")->arg($cm_core_key);
     }
   }
@@ -103,13 +104,10 @@ class ConfigCommand extends BltTasks {
    * Import configuration using config_split module.
    *
    * @param \Acquia\Blt\Robo\Tasks\DrushTask $task
-   * @param $drush_alias
+   * @param string $cm_core_key
    */
-  protected function importConfigSplit($task) {
-    // We cannot use ${cm.core.dirs.${cm.core.key}.path} here because
-    // cm.core.key may be 'vcs', which does not have a path defined in
-    // BLT config. Perhaps this should be refactored.
-    $core_config_file = $this->getConfigValue('docroot') . '/' . $this->getConfigValue('cm.core.dirs.sync.path') . '/core.extension.yml';
+  protected function importConfigSplit($task, $cm_core_key) {
+    $core_config_file = $this->getConfigValue('docroot') . '/' . $this->getConfigValue("cm.core.dirs.$cm_core_key.path") . '/core.extension.yml';
     if (file_exists($core_config_file)) {
       $task->drush("pm-enable")->arg('config_split');
       $task->drush("config-import")->arg('sync');
@@ -120,7 +118,7 @@ class ConfigCommand extends BltTasks {
    * Import configuration using features module.
    *
    * @param \Acquia\Blt\Robo\Tasks\DrushTask $task
-   * @param $cm_core_key
+   * @param string $cm_core_key
    */
   protected function importFeatures($task, $cm_core_key) {
     $task->drush("config-import")->arg($cm_core_key)->option('partial');
