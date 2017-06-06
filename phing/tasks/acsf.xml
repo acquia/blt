@@ -4,7 +4,7 @@
   <property name="acsf.package" value="drupal/acsf:^1.33.0" override="false"/>
   <target name="acsf:init" depends="acsf:init:hooks" description="Initializes ACSF support for project.">
     <echo>Adding acsf module as a dependency.</echo>
-    <echo>In future, you may use pass a custom value for acsf.package to override default version. E.g., blt acsf:init -Dacsf.package='drupal/acsf:8.1.x-dev'</echo>
+    <echo>In future, you may pass a custom value for acsf.package to override default version. E.g., blt acsf:init -Dacsf.package='drupal/acsf:8.1.x-dev'</echo>
     <exec dir="${repo.root}" command="composer require ${acsf.package}" logoutput="true" checkreturn="true" passthru="true" level="${blt.exec_level}"/>
     <!-- Run the acsf init commands. -->
     <phingcall target="acsf:init:drush"/>
@@ -13,10 +13,13 @@
   <!-- Run the acsf init commands to sync library files. -->
   <target name="acsf:init:drush" description="Refreshes the acsf settings and hook files.">
     <echo>Executing initialization command for acsf module.</echo>
-    <drush command="acsf-init">
+    <drush command="pm-enable" alias="${drush.alias}">
+      <param>acsf</param>
+    </drush>
+    <drush command="acsf-init" alias="${drush.alias}">
       <option name="include">"${docroot}/modules/contrib/acsf/acsf_init"</option>
     </drush>
-    <echo>Please add acsf_init as a dependency for your installation profile to ensure that it remains enabled.</echo>
+    <echo>Please add acsf as a dependency for your installation profile to ensure that it remains enabled.</echo>
     <echo>An example alias file for ACSF is located in /drush/site-aliases/example.acsf.aliases.drushrc.php.</echo>
   </target>
 
