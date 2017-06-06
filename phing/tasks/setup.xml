@@ -241,9 +241,7 @@
   <target name="setup:config-import:config-split">
 
     <if>
-      <!-- We cannot use ${cm.core.dirs.${cm.core.key}.path} here because cm.core.key may be 'vcs', which does not have a path defined in BLT config. Perhaps this
-      should be refactored. -->
-      <available file="${docroot}/${cm.core.dirs.sync.path}/core.extension.yml"/>
+      <available file="${docroot}/${cm.core.dirs.${cm.core.key}.path}/core.extension.yml"/>
       <then>
 
         <drush command="en" assume="yes" alias="${drush.alias}" passthru="false">
