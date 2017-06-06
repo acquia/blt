@@ -24,7 +24,7 @@ class SecurityUpdatesCommand extends BltTasks {
     /** @var \Drupal\views\Plugin\views\area\ResultData $result */
     $result = $executor->drush("-n ups --check-disabled --security-only 2>/dev/null | grep 'SECURITY UPDATE'")->run();
     $passed = !$result->wasSuccessful();
-    $output = $result->getOutputData();
+    $output = $result->getMessage();
 
     if (!$passed) {
       $this->logger->error("One or more of your dependencies has an outstanding security update. Please apply update(s) immediately.");
