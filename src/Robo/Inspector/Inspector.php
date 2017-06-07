@@ -530,13 +530,15 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
       ->printMetadata(FALSE)
       ->interactive(FALSE)
       ->run();
+    $result->provideOutputdata();
     $output = $result->getOutputData();
+
     if (!$result->wasSuccessful() || !$output) {
       return FALSE;
     }
     $lines = explode("\n", $output);
     foreach ($lines as $line) {
-      if (count($line) < 4) {
+      if (count(explode(',', $line)) < 4) {
         continue;
       }
       list($timestamp, $target, $type, $data) = explode(',', $line);
