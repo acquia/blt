@@ -528,16 +528,17 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
       ->printMetadata(FALSE)
       ->interactive(FALSE)
       ->run();
-    $output = $result->getOutputData();
+    $output = $result->getMessage();
     if (!$result->wasSuccessful() || !$output) {
       return FALSE;
     }
     $lines = explode("\n", $output);
     foreach ($lines as $line) {
-      if (count($line) < 4) {
+      $parsed_line = explode(',', $line);
+      if (count($parsed_line) < 4) {
         continue;
       }
-      list($timestamp, $target, $type, $data) = explode(',', $line);
+      list($timestamp, $target, $type, $data) = $parsed_line;
       $this->drupalVmStatus[$target][$type] = $data;
     }
   }
