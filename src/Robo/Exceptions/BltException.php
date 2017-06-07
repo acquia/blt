@@ -3,11 +3,15 @@
 namespace Acquia\Blt\Robo\Exceptions;
 
 /**
- * Class BltException
+ * Class BltException.
+ *
  * @package Acquia\Blt\Robo\Exceptions
  */
 class BltException extends \Exception {
 
+  /**
+   *
+   */
   public function __construct(
     $message = "",
     $code = 0,

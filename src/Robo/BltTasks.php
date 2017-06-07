@@ -36,19 +36,6 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
   use LoadTasks;
 
   /**
-   * This hook will fire for all commands.
-   *
-   * @hook init
-   */
-  public function initialize() {
-    // We set the value for site late in the bootstrap process so that a user
-    // may define its value at runtime via --define. This can only happen after
-    // input has been processed.
-    $site = $this->getConfigValue('site', 'default');
-    $this->getConfig()->setSiteConfig($site);
-  }
-
-  /**
    * The depth of command invocations, used by invokeCommands().
    *
    * E.g., this would be 1 if invokeCommands() called a method that itself

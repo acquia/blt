@@ -8,7 +8,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Application as ConsoleApplication;
 
 /**
- * Class Application
+ * Class Application.
+ *
  * @package Acquia\Blt\Robo
  */
 class Application extends ConsoleApplication {

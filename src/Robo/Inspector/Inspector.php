@@ -58,6 +58,9 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
     $this->executor = $executor;
   }
 
+  /**
+   *
+   */
   public function clearState() {
     $this->isDrupalInstalled = NULL;
     $this->isMySqlAvailable = NULL;
@@ -370,7 +373,6 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
    *
    * @return bool
    *   TRUE if minimum version is satisfied.
-   *
    */
   public function isGitMinimumVersionSatisfied($minimum_version) {
     exec("git --version | cut -d' ' -f3", $output, $exit_code);

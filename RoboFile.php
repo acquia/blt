@@ -280,10 +280,10 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    */
   public function fixCode() {
     $command = "'{$this->bin}/phpcbf' --standard='{$this->drupalPhpcsStandard}' '%s'";
-    $task = $this->taskExecStack();
+    $task = $this->taskParallelExec();
     foreach ($this->phpcsPaths as $path) {
       $full_command = sprintf($command, $path);
-      $task->exec($full_command);
+      $task->process($full_command);
     }
     $result = $task->run();
 
