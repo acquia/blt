@@ -1,7 +1,16 @@
 <?php
-
-// Add a site ID and configure the sites and environment names to
-// create an alias file for an Acquia Cloud Site Factory site.
+/**
+ * This template will assist you with setting up drush aliases for
+ * ACSF sites. Follow these steps to set up your drush aliases:
+ *
+ * 1. Fill in your site id below. This can be found in the drush
+ *    aliases provided by Acquia Cloud.
+ * 2. Fill in the list of sites below. Each site should correspond
+ *    to the machine name of a site in the ACSF web interface.
+ * 3. Fill in your prod and dev web server ids. These can be
+ *    provided by your account manager or certain online tools.
+ * 4. Rename this entire file to [PROJECT-NAME].aliases.drushrc.php
+ */
 
 // Acquia Cloud Site Factory id.
 $site_id = '[PROJECT-NAME]';
