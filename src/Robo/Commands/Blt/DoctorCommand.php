@@ -50,7 +50,7 @@ class DoctorCommand extends BltTasks {
       $this->executeDoctorOnHost('');
     }
 
-    return $result;
+    return $result->getMessage();
   }
 
   /**
@@ -91,7 +91,7 @@ class DoctorCommand extends BltTasks {
       ->uri("")
       ->includePath($this->getConfigValue('blt.root') . '/drush')
       ->printOutput(FALSE)
-      ->printMetadata(FALSE)
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
     return $result;
