@@ -146,7 +146,9 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    * @param string $hook
    *   The hook name.
    *
-   * @return \Robo\Result|int
+   * @return int
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function invokeHook($hook) {
     if ($this->getConfig()->has("target-hooks.$hook.command")
@@ -161,7 +163,9 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
         ->stopOnFail()
         ->run();
 
-      return $result->getExitCode();
+      if (!$result->wasSuccessful()) {
+        throw new BltException("Executing target-hook $hook failed.");
+      }
     }
     else {
       $this->say("Skipped $hook target hook. No hook is defined.");

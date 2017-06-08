@@ -152,10 +152,15 @@ class ConfigCommand extends BltTasks {
             ->option('bundle', $bundle)
             ->option('format', 'json');
           $result = $task->printOutput(TRUE)->run();
+
+          if (!$result->wasSuccessful()) {
+            throw new BltException("Unable to determine if features in bundle $bundle are overridden.");
+          }
+
           $output = $result->getMessage();
           $features_overridden = preg_match('/(changed|conflicts|added)( *)$/', $output);
           if ($features_overridden) {
-            throw new \Exception("A feature in the $bundle bundle is overridden. You must re-export this feature to incorporate the changes.");
+            throw new BltException("A feature in the $bundle bundle is overridden. You must re-export this feature to incorporate the changes.");
           }
         }
       }

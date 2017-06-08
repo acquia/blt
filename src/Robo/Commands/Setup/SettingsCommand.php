@@ -4,6 +4,7 @@ namespace Acquia\Blt\Robo\Commands\Setup;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\RandomString;
+use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
 
 /**
@@ -31,11 +32,16 @@ class SettingsCommand extends BltTasks {
    */
   public function generateSiteConfigFiles() {
     if (!file_exists($this->getConfigValue('blt.config-files.local'))) {
-      $this->taskFilesystemStack()
+      $result = $this->taskFilesystemStack()
         ->copy($this->getConfigValue('blt.config-files.example-local'), $this->getConfigValue('blt.config-files.local'))
         ->stopOnFail()
         ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
         ->run();
+
+      if (!$result->wasSuccessful()) {
+        $filepath = $this->getInspector()->getFs()->makePathRelative($this->getConfigValue('blt.config-files.local'), $this->getConfigValue('repo.root'));
+        throw new BltException("Unable to create $filepath.");
+      }
     }
 
     $default_multisite_dir = $this->getConfigValue('docroot') . "/sites/default";
@@ -83,6 +89,10 @@ class SettingsCommand extends BltTasks {
 
       $result = $task->run();
 
+      if (!$result->wasSuccessful()) {
+        throw new BltException("Unable to copy files settings files from BLT into your repository.");
+      }
+
       $this->getConfig()->expandFileProperties($project_local_drush_file);
 
       $result = $this->taskWriteToFile($project_settings_file)
@@ -91,11 +101,20 @@ class SettingsCommand extends BltTasks {
         ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
         ->run();
 
+      if (!$result->wasSuccessful()) {
+        throw new BltException("Unable to modify $project_settings_file.");
+      }
+
       $result = $this->taskFilesystemStack()
         ->chmod($project_settings_file, 0644)
         ->stopOnFail()
         ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
         ->run();
+
+      if (!$result->wasSuccessful()) {
+        $filepath = $this->getInspector()->getFs()->makePathRelative($project_settings_file, $this->getConfigValue('repo.root'));
+        throw new BltException("Unable to set permissions on $project_settings_file.");
+      }
     }
   }
 
@@ -107,7 +126,7 @@ class SettingsCommand extends BltTasks {
   public function behat() {
     if (!file_exists($this->projectBehatLocalConfigFile)) {
       $this->say("Generating Behat configuration files...");
-      $this->taskFilesystemStack()
+      $result = $this->taskFilesystemStack()
         ->copy($this->defaultBehatLocalConfigFile,
           $this->projectBehatLocalConfigFile)
         ->stopOnFail()
@@ -115,6 +134,11 @@ class SettingsCommand extends BltTasks {
         ->run();
       $this->getConfig()
         ->expandFileProperties($this->projectBehatLocalConfigFile);
+
+      if (!$result->wasSuccessful()) {
+        $filepath = $this->getInspector()->getFs()->makePathRelative($this->defaultBehatLocalConfigFile, $this->getConfigValue('repo.root'));
+        throw new BltException("Unable to copy $filepath into your repository.");
+      }
     }
   }
 
@@ -136,6 +160,8 @@ class SettingsCommand extends BltTasks {
    *
    * @param string $hook
    *   The git hook to install. E.g., 'pre-commit'.
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function installGitHook($hook) {
     if ($this->getConfigValue('git.hooks.' . $hook)) {
@@ -143,13 +169,17 @@ class SettingsCommand extends BltTasks {
       $source = $this->getConfigValue('git.hooks.' . $hook) . "/$hook";
       $dest = $this->getConfigValue('repo.root') . "/.git/hooks/$hook";
 
-      $this->taskFilesystemStack()
+      $result = $this->taskFilesystemStack()
         ->mkdir($this->getConfigValue('repo.root') . '/.git/hooks')
         ->remove($dest)
         ->symlink($source, $dest)
         ->stopOnFail()
         ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
         ->run();
+
+      if (!$result->wasSuccessful()) {
+        throw new BltException("Unable to install $hook git hook.");
+      }
     }
     else {
       $this->say("Skipping installation of $hook git hook");
@@ -163,6 +193,8 @@ class SettingsCommand extends BltTasks {
    *
    * @return int
    *   A CLI exit code.
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function hashSalt() {
     $hash_salt_file = $this->getConfigValue('repo.root') . '/salt.txt';
@@ -172,13 +204,17 @@ class SettingsCommand extends BltTasks {
         ->line(RandomString::string(55))
         ->run();
 
-      return $result->wasSuccessful();
+      if (!$result->wasSuccessful()) {
+        $filepath = $this->getInspector()->getFs()->makePathRelative($hash_salt_file, $this->getConfigValue('repo.root'));
+        throw new BltException("Unable to write hash salt to $filepath.");
+      }
+
+      return $result->getExitCode();
     }
     else {
       $this->say("Hash salt already exists.");
+      return 0;
     }
-
-    return TRUE;
   }
 
 }

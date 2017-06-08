@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Setup;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Finder\Finder;
 
@@ -80,7 +81,9 @@ class BuildCommand extends BltTasks {
     $taskFilesystemStack->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE);
     $result = $taskFilesystemStack->run();
 
-    return $result;
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Unable to set permissions for site directories.");
+    }
   }
 
   /**
@@ -103,15 +106,12 @@ class BuildCommand extends BltTasks {
     }
 
     if ($this->getConfig()->has('simplesamlphp') && $this->getConfigValue('simplesamlphp')) {
-      $result = $this->taskExec($this->getConfigValue('composer.bin') . "/blt simplesamlphp:build:config")
-        ->detectInteractive()
-        ->dir($this->getConfigValue('repo.root'))
-        ->run();
+      $this->invokeCommand('simplesamlphp:build:config');
     }
 
-    $result = $this->invokeHook("post-setup-build");
+    $exit_code = $this->invokeHook("post-setup-build");
 
-    return $result;
+    return $exit_code;
   }
 
   /**

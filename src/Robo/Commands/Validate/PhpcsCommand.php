@@ -55,7 +55,7 @@ class PhpcsCommand extends BltTasks {
   public function sniffFileList($file_list) {
     $this->say("Sniffing files...");
 
-    $result = 0;
+    $exit_code = 0;
     $files = explode("\n", $file_list);
     /** @var \Acquia\Blt\Robo\Filesets\FilesetManager $fileset_manager */
     $fileset_manager = $this->getContainer()->get('filesetManager');
@@ -67,14 +67,14 @@ class PhpcsCommand extends BltTasks {
         $filtered_fileset = $fileset_manager->filterFilesByFileset($files, $fileset);
         $filtered_fileset = iterator_to_array($filtered_fileset);
         $files_in_fileset = array_keys($filtered_fileset);
-        $result = $this->doSniffFileList($files_in_fileset);
-        if ($result) {
-          return $result;
+        $exit_code = $this->doSniffFileList($files_in_fileset);
+        if ($exit_code) {
+          return $exit_code;
         }
       }
     }
 
-    return $result;
+    return $exit_code;
   }
 
   /**

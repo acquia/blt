@@ -57,6 +57,11 @@ class AliasCommand extends BltTasks {
         ->append(TRUE)
         ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
         ->run();
+
+      if (!$result->wasSuccessful()) {
+        throw new BltException("Unable to install BLT alias.");
+      }
+
       $this->say("<info>Added alias for blt to $config_file.</info>");
       $this->say("You may now use the <comment>blt</comment> command from anywhere within a BLT-generated repository.");
       $this->say("Restart your terminal session or run <comment>source $config_file</comment> to use the new command.");

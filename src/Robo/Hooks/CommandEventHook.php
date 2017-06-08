@@ -46,6 +46,8 @@ class CommandEventHook extends BltTasks {
         return $result;
       }
     }
+
+    // @todo Transmit analytics on command execution. Do the same in status hook.
   }
 
   /**

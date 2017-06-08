@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Blt;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Yaml\Yaml;
 
@@ -48,6 +49,10 @@ class DoctorCommand extends BltTasks {
     if (!$result->wasSuccessful() && $alias != '') {
       $this->logger->warning("Unable to run the doctor using alias '@self'. Trying without alias...");
       $this->executeDoctorOnHost('');
+    }
+
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Unable to execute the `blt doctor` command.");
     }
 
     return $result->getMessage();
