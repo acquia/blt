@@ -79,7 +79,7 @@ class DeployCommand extends BltTasks {
     }
 
     $dirty = (bool) $result->getMessage();
-   if ($dirty) {
+    if ($dirty) {
       if ($options['ignore-dirty']) {
         $this->logger->warning("There are uncommitted changes on the source repository.");
       }

@@ -5,7 +5,6 @@ namespace Acquia\Blt\Robo\Commands\Saml;
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
-use Robo\Result;
 use Symfony\Component\Console\Helper\FormatterHelper;
 
 /**
