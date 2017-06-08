@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Deploy;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Finder\Finder;
@@ -73,13 +74,17 @@ class DeployCommand extends BltTasks {
       ->printOutput(FALSE)
       ->interactive(FALSE)
       ->run();
+    if (!$options['ignore-dirty'] && !$result->wasSuccessful()) {
+      throw new BltException("Unable to determine if local git repository is dirty.");
+    }
+
     $dirty = (bool) $result->getMessage();
     if ($dirty) {
       if ($options['ignore-dirty']) {
         $this->logger->warning("There are uncommitted changes on the source repository.");
       }
       else {
-        throw new \Exception("There are uncommitted changes, commit or stash these changes before deploying.");
+        throw new BltException("There are uncommitted changes, commit or stash these changes before deploying.");
       }
     }
   }

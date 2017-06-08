@@ -58,6 +58,10 @@ class AcsfCommand extends BltTasks {
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Unable to copy ACSF scripts.");
+    }
+
     $this->say('New "factory-hooks/" directory created in repo root. Please commit this to your project.');
 
     return $result;
@@ -83,6 +87,9 @@ class AcsfCommand extends BltTasks {
           ->printOutput(TRUE)
           ->dir($this->getConfigValue('repo.root'))
           ->run();
+        if (!$result->wasSuccessful()) {
+          throw new BltException("Unable to install drupal/acsf package.");
+        }
       }
       else {
         // @todo revert previous file chanages.

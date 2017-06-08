@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Vm;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Yaml\Yaml;
 
@@ -202,6 +203,9 @@ class VmCommand extends BltTasks {
             ->dir($this->getConfigValue('repo.root'))
             ->printOutput(TRUE)
             ->run();
+          if (!$result->wasSuccessful()) {
+            throw new BltException("Unable to provision virtual machine. This is likely due to an issue with your Drupal VM configuration and not BLT itself.");
+          }
         }
       }
       else {
@@ -232,6 +236,9 @@ class VmCommand extends BltTasks {
           ->dir($this->getConfigValue('repo.root'))
           ->printOutput(TRUE)
           ->run();
+        if (!$result->wasSuccessful()) {
+          throw new \Exception("Unable to install Drupal VM.");
+        }
       }
       else {
         // @todo revert previous file chanages.

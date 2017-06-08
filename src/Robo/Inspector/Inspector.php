@@ -13,6 +13,7 @@ use Psr\Log\LoggerAwareTrait;
 use Robo\Common\BuilderAwareTrait;
 use Robo\Contract\BuilderAwareInterface;
 use Robo\Contract\ConfigAwareInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Class Inspector.
@@ -49,6 +50,11 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
   protected $drupalVmStatus = [];
 
   /**
+   * @var \Symfony\Component\Filesystem\Filesystem
+   */
+  protected $fs;
+
+  /**
    * The constructor.
    *
    * @param \Acquia\Blt\Robo\Common\Executor $executor
@@ -56,6 +62,21 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
    */
   public function __construct(Executor $executor) {
     $this->executor = $executor;
+    $this->fs = new Filesystem();
+  }
+
+  /**
+   * @return \Symfony\Component\Filesystem\Filesystem
+   */
+  public function getFs() {
+    return $this->fs;
+  }
+
+  /**
+   * @param \Symfony\Component\Filesystem\Filesystem $fs
+   */
+  public function setFs($fs) {
+    $this->fs = $fs;
   }
 
   /**

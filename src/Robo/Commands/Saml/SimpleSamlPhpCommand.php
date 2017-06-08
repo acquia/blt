@@ -5,7 +5,6 @@ namespace Acquia\Blt\Robo\Commands\Saml;
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
-use Robo\Result;
 use Symfony\Component\Console\Helper\FormatterHelper;
 
 /**
@@ -35,10 +34,6 @@ class SimpleSamlPhpCommand extends BltTasks {
    * Initializes SimpleSAMLphp for project.
    *
    * @command simplesamlphp:init
-   *
-   * @return \Robo\Result
-   *
-   * @throws \Exception
    */
   public function initializeSimpleSamlPhp() {
     if (!$this->getInspector()->isSimpleSamlPhpInstalled()) {
@@ -51,18 +46,12 @@ class SimpleSamlPhpCommand extends BltTasks {
       $this->say('SimpleSAMLphp has already been initialized by BLT.');
     }
     $this->outputCompleteSetupInstructions();
-    if (isset($result)) {
-      return $result;
-    }
-    return Result::EXITCODE_OK;
   }
 
   /**
    * Adds simplesamlphp_auth as a dependency.
    *
-   * @return \Robo\Result
-   *
-   * @throws \Exception
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function requireModule() {
     $this->say('Adding SimpleSAMLphp Auth module as a dependency...');
@@ -76,7 +65,7 @@ class SimpleSamlPhpCommand extends BltTasks {
       ->run();
 
     if (!$result->wasSuccessful()) {
-      throw new \Exception("Unable to install drupal/simplesamlphp_auth package.");
+      throw new BltException("Unable to install drupal/simplesamlphp_auth package.");
     }
   }
 
@@ -84,8 +73,6 @@ class SimpleSamlPhpCommand extends BltTasks {
    * Copies configuration templates from SimpleSamlPHP to the repo root.
    *
    * @command simplesamlphp:config:init
-   *
-   * @return \Robo\Result
    */
   protected function initializeConfig() {
     $destinationDirectory = "{$this->repoRoot}/simplesamlphp/config";
@@ -97,14 +84,19 @@ class SimpleSamlPhpCommand extends BltTasks {
       ->copy("{$this->bltRoot}/scripts/simplesamlphp/acquia_config.php", "${destinationDirectory}/acquia_config.php", TRUE)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
-    // @todo Check $result.
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Unable to copy SimpleSamlPhp config files.");
+    }
 
-    $result = $this->taskWriteToFile("{$this->repoRoot}/simplesamlphp/config/config.php")
+    $config_file = "{$this->repoRoot}/simplesamlphp/config/config.php";
+    $result = $this->taskWriteToFile($config_file)
       ->text("include 'acquia_config.php';")
       ->append()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
-    // @todo Check $result.
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Unable modify $config_file.");
+    }
 
     $this->say("Copying config files to {$this->repoRoot}/simplesamlphp/metadata...");
     $result = $this->taskFileSystemStack()
@@ -121,8 +113,6 @@ class SimpleSamlPhpCommand extends BltTasks {
    * Copies custom config files to SimpleSamlPHP in deploy artifact.
    *
    * @command simplesamlphp:deploy:config
-   *
-   * @return \Robo\Result
    */
   public function simpleSamlPhpDeployConfig() {
     $this->say('Copying config files to the appropriate place in simplesamlphp library in the deploy artifact...');
@@ -130,27 +120,30 @@ class SimpleSamlPhpCommand extends BltTasks {
       ->overwrite(TRUE)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Unable to copy SimpleSamlPhp files into deployment artifact.");
+    }
 
     $result = $this->taskFileSystemStack()
       ->copy("{$this->bltRoot}/scripts/simplesamlphp/gitignore.txt", "{$this->repoRoot}/deploy/vendor/simplesamlphp/simplesamlphp/.gitignore", TRUE)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
-    return $result;
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Unable to copy SimpleSamlPhp .gitignore into deployment artifact.");
+    }
   }
 
   /**
    * Sets value in project.yml to let targets know simplesamlphp is installed.
-   *
-   * @return \Robo\Result
    */
   protected function setSimpleSamlPhpInstalled() {
     $composerBin = $this->getConfigValue('composer.bin');
-    $projectConfigFile = $this->getConfigValue('blt.config-files.project');
-    $this->say("Updating ${projectConfigFile}...");
+    $project_yml = $this->getConfigValue('blt.config-files.project');
+    $this->say("Updating ${project_yml}...");
 
     $result = $this->taskExec("{$composerBin}/yaml-cli update:value")
-      ->arg("${projectConfigFile}")
+      ->arg($project_yml)
       ->arg('simplesamlphp')
       ->arg('TRUE')
       ->printOutput(TRUE)
@@ -159,13 +152,13 @@ class SimpleSamlPhpCommand extends BltTasks {
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
-    return $result;
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Unable to update $project_yml.");
+    }
   }
 
   /**
    * Creates a symlink from the docroot to the web accessible library dir.
-   *
-   * @return \Robo\Result
    */
   protected function symlinkDocrootToLibDir() {
     $docroot = $this->getConfigValue('docroot');
@@ -176,15 +169,15 @@ class SimpleSamlPhpCommand extends BltTasks {
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
-    return $result;
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Unable create symlink.");
+    }
   }
 
   /**
    * Copies customized config files into vendored SimpleSamlPHP.
    *
    * @command simplesamlphp:build:config
-   *
-   * @return \Robo\Result
    */
   public function simpleSamlPhpBuildConfig() {
     $this->say('Copying config files to the appropriate place in simplesamlphp library...');
@@ -192,12 +185,17 @@ class SimpleSamlPhpCommand extends BltTasks {
       ->overwrite(TRUE)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Unable to copy configuration into SimpleSamlPhp.");
+    }
+
     $result = $this->taskFileSystemStack()
       ->copy("{$this->bltRoot}/scripts/simplesamlphp/gitignore.txt", "{$this->repoRoot}/vendor/simplesamlphp/simplesamlphp/.gitignore", TRUE)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
-
-    return $result;
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Unable to copy .gitignore into SimpleSamlPhp.");
+    }
   }
 
   /**
