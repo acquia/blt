@@ -8,12 +8,12 @@ export PATH=${COMPOSER_BIN}:${PATH}
 export NEW_BUILD_DIR=/tmp/artifact
 blt deploy:build -D deploy.dir=${NEW_BUILD_DIR} --ansi
 # Move git history to artifact directory. Required for pipelines to commit and push.
-mv ${BUILD_DIR}/.git ${NEW_BUILD_DIR}/
+mv ${SOURCE_DIR}/.git ${NEW_BUILD_DIR}/
 # Allow dotfiles (hidden) to be globbed (via *).
 shopt -s dotglob
 # Remove all files, including hidden files, from working directory.
-rm -rf ${BUILD_DIR}/*
+rm -rf ${SOURCE_DIR}/*
 # Move all files, including hidden files, from build artifact into working directory.
-mv ${NEW_BUILD_DIR}/* ${BUILD_DIR}/
+mv ${NEW_BUILD_DIR}/* ${SOURCE_DIR}/
 
 set +v
