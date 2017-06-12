@@ -41,11 +41,14 @@ class WebServerHook implements ConfigAwareInterface, ContainerAwareInterface, Lo
       $fs = new Filesystem();
       $fs->mkdir([$this->getConfigValue('repo.root') . '/tmp']);
       $log_file = $this->getConfigValue('repo.root') . '/tmp/runserver.log';
+      if (file_exists($log_file)) {
+        unlink($log_file);
+      }
 
       /** @var \Acquia\Blt\Robo\Common\Executor $executor */
       $executor = $this->getContainer()->get('executor');
       $result = $executor
-        ->drush("runserver $this->serverUrl")
+        ->drush("runserver $this->serverUrl &> $log_file")
         ->background(TRUE)
         ->run();
 
@@ -55,8 +58,7 @@ class WebServerHook implements ConfigAwareInterface, ContainerAwareInterface, Lo
       catch (\Exception $e) {
         if (!$result->wasSuccessful() && file_exists($log_file)) {
           $output = file_get_contents($log_file);
-          unlink($log_file);
-          throw new BltException($output);
+          throw new BltException($e->getMessage() . $output);
         }
       }
     }
