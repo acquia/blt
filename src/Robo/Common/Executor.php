@@ -189,7 +189,7 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
       usleep($checkEvery * 1000);
     }
 
-    throw new \Exception("Timed out");
+    throw new BltException("Timed out");
   }
 
   /**

@@ -79,6 +79,7 @@ class BehatCommand extends TestsCommandBase {
    * @interactConfigureBehat
    * @validateMySqlAvailable
    * @validateDrupalIsInstalled
+   * @validateHashSaltIsPresent
    * @validateBehatIsConfigured
    * @validateInsideVm
    * @launchWebServer

@@ -242,7 +242,7 @@ class VmCommand extends BltTasks {
       }
       else {
         // @todo revert previous file chanages.
-        throw new \Exception("Unable to install Drupal VM.");
+        throw new BltException("Unable to install Drupal VM.");
       }
     }
 
@@ -259,7 +259,7 @@ class VmCommand extends BltTasks {
       $this->logger->error("Vagrant is not installed.");
       $this->say("Please install all dependencies for Drupal VM by following the Quickstart Guide:");
       $this->say("https://github.com/geerlingguy/drupal-vm#quick-start-guide");
-      throw new \Exception("Drupal VM requirements are missing.");
+      throw new BltException("Drupal VM requirements are missing.");
     }
     else {
       $this->installVagrantPlugin('vagrant-hostsupdater');

@@ -44,7 +44,7 @@ class DefaultConfig extends BltConfig {
       }
     }
 
-    throw new \Exception('Could not find repository root directory!');
+    throw new BltException('Could not find repository root directory!');
   }
 
   /**
@@ -66,7 +66,7 @@ class DefaultConfig extends BltConfig {
       }
     }
 
-    throw new \Exception('Could not find the Drupal docroot directory');
+    throw new BltException('Could not find the Drupal docroot directory');
   }
 
   /**

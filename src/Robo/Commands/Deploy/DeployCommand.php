@@ -148,7 +148,7 @@ class DeployCommand extends BltTasks {
 
     if (empty($tag_name)) {
       // @todo Validate tag name is valid. E.g., no spaces or special characters.
-      throw new \Exception("You must enter a valid tag name.");
+      throw new BltException("You must enter a valid tag name.");
     }
     else {
       $tag_name = $options['tag'];
@@ -245,7 +245,7 @@ class DeployCommand extends BltTasks {
     // Add remotes and fetch upstream refs.
     $git_remotes = $this->getConfigValue('git.remotes');
     if (empty($git_remotes)) {
-      throw new \Exception("git.remotes is empty. Please define at least one value for git.remotes in blt/project.yml.");
+      throw new BltException("git.remotes is empty. Please define at least one value for git.remotes in blt/project.yml.");
     }
     foreach ($git_remotes as $remote_url) {
       $this->addGitRemote($remote_url);
