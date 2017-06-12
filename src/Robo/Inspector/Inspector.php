@@ -278,7 +278,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
     $status = $this->getDrupalVmStatus();
     $machine_name = $this->getConfigValue('project.machine_name');
     $initialized = !empty($status[$machine_name])
-      && file_exists($this->getConfgValue('repo.root') . '/box/config.yml');
+      && file_exists($this->getConfigValue('repo.root') . '/box/config.yml');
     $statement = $initialized ? "is" : "is not";
     $this->logger->debug("Drupal VM $statement initialized.");
 
