@@ -256,7 +256,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   protected function generateReleaseNotes($tag, $github_token) {
     // Generate release notes.
     $partial_changelog_filename = 'CHANGELOG.partial';
-    if (!$this->taskExec("github_changelog_generator --token=$github_token --future-release=$tag --output=$partial_changelog_filename --max-issues=500")
+    if (!$this->taskExec("github_changelog_generator --token=$github_token --release-branch=8.x --future-release=$tag --output=$partial_changelog_filename --max-issues=500")
       ->run()
       ->wasSuccessful()
     ) {
