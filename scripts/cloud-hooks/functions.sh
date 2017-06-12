@@ -8,8 +8,10 @@ drush_alias=${site}'.'${target_env}
 deploy_updates() {
 
   case $target_env in
-    [01]*)
+    01dev|01test|01live)
       acsf_deploy
+      ;;
+    01devup|01testup|01update)
       ;;
     *)
       ace_deploy
