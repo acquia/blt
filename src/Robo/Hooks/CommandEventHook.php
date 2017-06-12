@@ -102,7 +102,7 @@ class CommandEventHook extends BltTasks {
    * Emits a warning if Drupal VM is initialized but not running.
    */
   protected function warnIfDrupalVmNotRunning() {
-    if ($this->getInspector()->isDrupalVmLocallyInitialized() && !$this->getInspector()->isDrupalVmBooted()) {
+    if ($this->invokeDepth == 0 && $this->getInspector()->isDrupalVmLocallyInitialized() && !$this->getInspector()->isDrupalVmBooted()) {
       $this->logger->warning("Drupal VM is locally initialized, but is not running.");
     }
   }

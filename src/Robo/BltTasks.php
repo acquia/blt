@@ -257,7 +257,9 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    */
   protected function executeCommandAgainstFiles($files, $command, $parallel = FALSE) {
     if ($parallel) {
-      $task = $this->taskParallelExec();
+      $task = $this->taskParallelExec()
+        ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERY_VERBOSE);
+
       foreach ($files as $file) {
         $full_command = sprintf($command, $file);
         $task->process($full_command);
@@ -265,7 +267,8 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
     }
     else {
       $task = $this->taskExecStack()
-        ->printMetadata(FALSE);
+        ->printMetadata(FALSE)
+        ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERY_VERBOSE);
 
       foreach ($files as $file) {
         $full_command = sprintf($command, $file);
@@ -274,6 +277,10 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
     }
 
     $result = $task->run();
+
+    if (!$result->wasSuccessful()) {
+      $this->say($result->getMessage());
+    }
 
     return $result;
   }

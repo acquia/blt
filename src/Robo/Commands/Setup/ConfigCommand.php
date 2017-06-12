@@ -77,7 +77,7 @@ class ConfigCommand extends BltTasks {
           ->drush("cex")
           ->arg('sync');
         if (!$config_overrides->run()->wasSuccessful()) {
-          throw new BltException("Configuration in the database does not match configuration on disk. You must re-export configuration to capture the changes. This could also indicate a problem with the import process, such as changed field storage for a field with existing content.");
+          throw new BltException("Configuration in the database does not match configuration on disk. You must re-export configuration to capture the changes. This could also indicate a problem with the import process, such as changed field storage for a field with existing content. To permit configuration overrides, set cm.allow-overrides to true in blt/project.yml.");
         }
       }
 
