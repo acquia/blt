@@ -23,6 +23,7 @@ class AllCommand extends BltTasks {
       'tests:behat',
       'tests:phpunit',
       'tests:security-updates',
+      'frontend:test',
     ]);
 
     return $status_code;
