@@ -79,6 +79,7 @@ class BehatCommand extends TestsCommandBase {
    * @interactConfigureBehat
    * @validateMySqlAvailable
    * @validateDrupalIsInstalled
+   * @validateSettingsFilesPresent
    * @validateBehatIsConfigured
    * @validateInsideVm
    * @launchWebServer
@@ -167,6 +168,7 @@ class BehatCommand extends TestsCommandBase {
       ->get('executor')
       ->execute($this->getConfigValue('composer.bin') . "/selenium-server-standalone -port {$this->seleniumPort} -log {$this->seleniumLogFile}  > /dev/null 2>&1")
       ->background(TRUE)
+      // @todo Print output when this command fails.
       ->printOutput(TRUE)
       ->dir($this->getConfigValue('repo.root'))
       ->run();

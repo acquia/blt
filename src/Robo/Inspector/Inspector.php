@@ -14,6 +14,7 @@ use Robo\Common\BuilderAwareTrait;
 use Robo\Contract\BuilderAwareInterface;
 use Robo\Contract\ConfigAwareInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Robo\Contract\VerbosityThresholdInterface;
 
 /**
  * Class Inspector.
@@ -47,7 +48,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
   /**
    * @var array
    */
-  protected $drupalVmStatus = [];
+  protected $drupalVmStatus = NULL;
 
   /**
    * @var \Symfony\Component\Filesystem\Filesystem
@@ -136,6 +137,16 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
    */
   public function isDrupalSettingsFilePresent() {
     return file_exists($this->getConfigValue('drupal.settings_file'));
+  }
+
+  /**
+   * Determines if salt.txt file exists.
+   *
+   * @return bool
+   *   TRUE if file exists.
+   */
+  public function isHashSaltPresent() {
+    return file_exists($this->getConfigValue('repo.root') . '/salt.txt');
   }
 
   /**
@@ -267,7 +278,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
     $status = $this->getDrupalVmStatus();
     $machine_name = $this->getConfigValue('project.machine_name');
     $initialized = !empty($status[$machine_name])
-      && file_exists($this->getConfigValue('repo.root') . '/box/config.yml');
+      && file_exists($this->getConfgValue('repo.root') . '/box/config.yml');
     $statement = $initialized ? "is" : "is not";
     $this->logger->debug("Drupal VM $statement initialized.");
 
@@ -536,7 +547,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
    *   An array of status data.
    */
   protected function getDrupalVmStatus() {
-    if (empty($this->drupalVmStatus)) {
+    if (is_null($this->drupalVmStatus)) {
       $this->setDrupalVmStatus();
     }
     return $this->drupalVmStatus;
@@ -547,12 +558,13 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
    */
   protected function setDrupalVmStatus() {
     $result = $this->executor->execute("vagrant status --machine-readable")
-      ->printOutput(FALSE)
-      ->printMetadata(FALSE)
       ->interactive(FALSE)
+      ->printMetadata(TRUE)
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERY_VERBOSE)
       ->run();
     $output = $result->getMessage();
     if (!$result->wasSuccessful() || !$output) {
+      $this->drupalVmStatus = [];
       return FALSE;
     }
     $lines = explode("\n", $output);

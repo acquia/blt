@@ -15,9 +15,17 @@ class SetupWizard extends Wizard {
    * Executes blt setup:settings command.
    */
   public function wizardGenerateSettingsFiles() {
+    $missing = FALSE;
     if (!$this->getInspector()->isDrupalLocalSettingsFilePresent()) {
       $this->logger->warning("<comment>{$this->getConfigValue('drupal.local_settings_file')}</comment> is missing.");
-      $confirm = $this->confirm("Do you want to generate this required settings file?");
+      $missing = TRUE;
+    }
+    elseif (!$this->getInspector()->isHashSaltPresent()) {
+      $this->logger->warning("<comment>salt.txt</comment> is missing.");
+      $missing = TRUE;
+    }
+    if ($missing) {
+      $confirm = $this->confirm("Do you want to generate this required settings file(s)?");
       if ($confirm) {
         $bin = $this->getConfigValue('composer.bin');
         $this->executor

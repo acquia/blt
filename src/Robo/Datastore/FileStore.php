@@ -116,7 +116,7 @@ class FileStore implements DataStoreInterface {
     }
 
     if (!$key) {
-      throw new \Exception('Could not save data to a file because it is missing an ID');
+      throw new BltException('Could not save data to a file because it is missing an ID');
     }
     return $this->directory . '/' . $key;
   }
@@ -142,13 +142,13 @@ class FileStore implements DataStoreInterface {
     // Reality check to prevent stomping on the local filesystem if there is
     // something wrong with the config.
     if (!$this->directory) {
-      throw new \Exception('Could not save data to a file because the path setting is mis-configured.');
+      throw new BltException('Could not save data to a file because the path setting is mis-configured.');
     }
 
     $writable = is_dir($this->directory) || (!file_exists($this->directory) && @mkdir($this->directory, 0777, TRUE));
     $writable = $writable && is_writable($this->directory);
     if (!$writable) {
-      throw new \Exception(
+      throw new BltException(
         'Could not save data to a file because the path {path} cannot be written to.',
         ['path' => $this->directory]
       );

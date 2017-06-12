@@ -4,6 +4,7 @@ namespace Acquia\Blt\Robo\Hooks;
 
 use Acquia\Blt\Robo\Common\IO;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
+use Acquia\Blt\Robo\Exceptions\BltException;
 use Acquia\Blt\Robo\Inspector\InspectorAwareInterface;
 use Acquia\Blt\Robo\Inspector\InspectorAwareTrait;
 use Consolidation\AnnotatedCommand\CommandData;
@@ -38,7 +39,7 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
    */
   public function validateDocrootIsPresent(CommandData $commandData) {
     if (!$this->getInspector()->isDocrootPresent()) {
-      throw new \Exception("Unable to find Drupal docroot.");
+      throw new BltException("Unable to find Drupal docroot.");
     }
   }
 
@@ -49,7 +50,7 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
    */
   public function validateRepoRootIsPresent(CommandData $commandData) {
     if (empty($this->getInspector()->isRepoRootPresent())) {
-      throw new \Exception("Unable to find repository root.");
+      throw new BltException("Unable to find repository root.");
     }
   }
 
@@ -63,7 +64,7 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
       ->isDrupalInstalled()
     ) {
 
-      throw new \Exception("Drupal is not installed");
+      throw new BltException("Drupal is not installed");
     }
   }
 
@@ -73,14 +74,12 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
    * @hook validate @validateSettingsFileIsValid
    */
   public function validateSettingsFileIsValid(CommandData $commandData) {
-    if (!$this->getInspector()
-      ->isDrupalSettingsFilePresent()
-    ) {
-      throw new \Exception("Could not find settings.php for this site.");
+    if (!$this->getInspector()->isDrupalSettingsFilePresent()) {
+      throw new BltException("Could not find settings.php for this site.");
     }
 
     if (!$this->getInspector()->isDrupalSettingsFileValid()) {
-      throw new \Exception("BLT settings are not included in settings file.");
+      throw new BltException("BLT settings are not included in settings file.");
     }
   }
 
@@ -91,7 +90,7 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
    */
   public function validateBehatIsConfigured(CommandData $commandData) {
     if (!$this->getInspector()->isBehatConfigured()) {
-      throw new \Exception("Behat is not configured properly. Please run `blt doctor` to diagnose the issue.");
+      throw new BltException("Behat is not configured properly. Please run `blt doctor` to diagnose the issue.");
     }
   }
 
@@ -103,8 +102,23 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
   public function validateMySqlAvailable() {
     if (!$this->getInspector()->isMySqlAvailable()) {
       // @todo Prompt to fix.
-      throw new \Exception("MySql is not available. Please run `blt doctor` to diagnose the issue.");
+      throw new BltException("MySql is not available. Please run `blt doctor` to diagnose the issue.");
     }
+  }
+
+  /**
+   * Validates that required settings files exist.
+   *
+   * @hook validate @validateSettingsFilesPresent
+   */
+  public function validateSettingsFilesPresent() {
+    if (!$this->getInspector()->isHashSaltPresent()) {
+      throw new BltException("salt.txt is not present. Please run `blt setup:settings` to generate it.");
+    }
+    if (!$this->getInspector()->isDrupalLocalSettingsFilePresent()) {
+      throw new BltException("Could not find settings.php for this site.");
+    }
+    // @todo Look for local.drushrc.php.
   }
 
   /**
@@ -114,7 +128,7 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
    */
   public function validateInsideVm() {
     if ($this->getInspector()->isDrupalVmLocallyInitialized() && !$this->getInspector()->isVmCli()) {
-      throw new \Exception("You must run this command inside Drupal VM, or else do not use Drupal VM at all. Execute `vagrant ssh` and then execute the command, or else change drush.aliases.local in blt/project.local.yml.");
+      throw new BltException("You must run this command inside Drupal VM, or else do not use Drupal VM at all. Execute `vagrant ssh` and then execute the command, or else change drush.aliases.local in blt/project.local.yml.");
     }
   }
 
