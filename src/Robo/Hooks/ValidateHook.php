@@ -74,9 +74,7 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
    * @hook validate @validateSettingsFileIsValid
    */
   public function validateSettingsFileIsValid(CommandData $commandData) {
-    if (!$this->getInspector()
-      ->isDrupalSettingsFilePresent()
-    ) {
+    if (!$this->getInspector()->isDrupalSettingsFilePresent()) {
       throw new BltException("Could not find settings.php for this site.");
     }
 
@@ -107,16 +105,20 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
       throw new BltException("MySql is not available. Please run `blt doctor` to diagnose the issue.");
     }
   }
+
   /**
-   * Validates that salt.txt exists.
+   * Validates that required settings files exist.
    *
-   * @hook validate @validateHashSaltIsPresent
+   * @hook validate @validateSettingsFilesPresent
    */
-  public function validateHashSaltIsPresent() {
+  public function validateSettingsFilesPresent() {
     if (!$this->getInspector()->isHashSaltPresent()) {
-      // @todo Prompt to fix.
       throw new BltException("salt.txt is not present. Please run `blt setup:settings` to generate it.");
     }
+    if (!$this->getInspector()->isDrupalLocalSettingsFilePresent()) {
+      throw new BltException("Could not find settings.php for this site.");
+    }
+    // @todo Look for local.drushrc.php.
   }
 
   /**

@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Common;
 
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
+use Acquia\Blt\Robo\Exceptions\BltException;
 use GuzzleHttp\Client;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -189,7 +190,7 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
       usleep($checkEvery * 1000);
     }
 
-    throw new BltException("Timed out");
+    throw new BltException("Timed out.");
   }
 
   /**

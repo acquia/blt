@@ -148,6 +148,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
   public function isHashSaltPresent() {
     return file_exists($this->getConfigValue('repo.root') . '/salt.txt');
   }
+
   /**
    * Determines if Drupal local.settings.php file exists.
    *
