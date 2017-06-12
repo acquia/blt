@@ -4,14 +4,6 @@
  * Setup BLT utility variables.
  ******************************************************************************/
 
-try {
-  $site_path = \Drupal\Core\DrupalKernel::findSitePath(\Symfony\Component\HttpFoundation\Request::createFromGlobals());
-}
-catch (\Symfony\Component\HttpKernel\Exception\BadRequestHttpException $e) {
-  $site_path = 'sites/default';
-}
-$site_dir = str_replace('sites/', '', $site_path);
-
 /**
  * Host detection.
  */
@@ -45,6 +37,22 @@ $is_ah_ode_env = (preg_match('/^ode[0-9]*$/', $ah_env));
 $is_acsf = (!empty($ah_group) && file_exists("/mnt/files/$ah_group.$ah_env/files-private/sites.json"));
 $acsf_db_name = $is_acsf ? $GLOBALS['gardens_site_settings']['conf']['acsf_db_name'] : NULL;
 $is_local_env = !$is_ah_env;
+
+/**
+ * Site directory detection.
+ */
+try {
+  $site_path = \Drupal\Core\DrupalKernel::findSitePath(\Symfony\Component\HttpFoundation\Request::createFromGlobals());
+}
+catch (\Symfony\Component\HttpKernel\Exception\BadRequestHttpException $e) {
+  $site_path = 'sites/default';
+}
+$site_dir = str_replace('sites/', '', $site_path);
+// ACSF uses a pseudo-multisite architecture that places all site files under
+// sites/g/files, which isn't useful for our purposes.
+if ($is_acsf) {
+  $site_dir = 'default';
+}
 
 /*******************************************************************************
  * Acquia Cloud settings.
