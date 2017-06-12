@@ -6,8 +6,8 @@ export PATH=${COMPOSER_BIN}:${PATH}
 
 yaml-cli update:value blt/project.yml project.local.hostname '127.0.0.1:8888'
 
-blt validate:all --ansi
-blt ci:setup -Dcreate_alias=false --ansi
+blt validate:all
+blt ci:setup -Dcreate_alias=false
 blt tests:all -D behat.run-server=true -D behat.launch-selenium=false -D behat.launch-phantomjs=true -D behat.tags='~experimental' --yes -v --ansi
 
 set +v
