@@ -569,7 +569,9 @@ class DeployCommand extends BltTasks {
 
     foreach ($this->getConfigValue('multisites') as $multisite) {
       $this->say("Deploying updates to $multisite...");
-      $this->config->set('drush.uri', $multisite);
+      if (!$this->config->get('drush.uri')) {
+        $this->config->set('drush.uri', $multisite);
+      }
 
       $status_code = $this->invokeCommand('setup:config-import');
       $status_code = $this->invokeCommand('setup:toggle-modules');
