@@ -138,7 +138,7 @@ To modify the behavior of the tests:behat target, you may override BLT's `behat`
           # This is used for ad-hoc creation of a server via `drush runserver`.
           server:
             port: 8888
-            url: http://127.0.0.1:${behat.server.port}
+            url: http://127.0.0.1:${tests.server.port}
           # An array of paths with behat tests that should be executed.
           paths:
             # - ${docroot}/modules

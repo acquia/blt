@@ -58,8 +58,8 @@ class BehatCommand extends TestsCommandBase {
     $this->behatLogDir = $this->getConfigValue('reports.localDir') . "/behat";
     $this->seleniumPort = $this->getConfigValue('behat.selenium.port');
     $this->seleniumUrl = $this->getConfigValue('behat.selenium.url');
-    $this->serverPort = $this->getConfigValue('behat.server.port');
-    $this->serverUrl = $this->getConfigValue('behat.server.url');
+    $this->serverPort = $this->getConfigValue('tests.server.port');
+    $this->serverUrl = $this->getConfigValue('tests.server.url');
   }
 
   /**

@@ -1,19 +1,11 @@
 # @todo Move to subkey of tests.
 behat:
   config: ${repo.root}/tests/behat/local.yml
-  haltonerror: true
-  strict: true
   profile: local
-  # If true, `drush runserver` will be used for executing tests.
-  run-server: false
   # The URL of selenium server. Must correspond with setting in behat's yaml config.
   selenium:
     port: 4444
     url: http://127.0.0.1:${behat.selenium.port}/wd/hub
-  # This is used for ad-hoc creation of a server via `drush runserver`.
-  server:
-    port: 8888
-    url: http://127.0.0.1:${behat.server.port}
   # An array of paths with behat tests that should be executed.
   paths:
     # - ${docroot}/modules
@@ -192,6 +184,13 @@ target-hooks:
   post-deploy:
     dir: ${docroot}
     command: null
+
+tests:
+  run-server: true
+  # This is used for ad-hoc creation of a server via `drush runserver`.
+  server:
+    port: 8888
+    url: http://127.0.0.1:${tests.server.port}
 
 validate:
   lint:
