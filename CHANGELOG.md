@@ -1,5 +1,347 @@
 # Change Log
 
+## [8.9.0-beta2](https://github.com/acquia/blt/tree/8.9.0-beta2) (2017-06-13)
+[Full Changelog](https://github.com/acquia/blt/compare/8.9.0-beta1...8.9.0-beta2)
+
+**Implemented enhancements:**
+
+- Don't run ACSF Cloud Hooks in update environments. (#1642) ([danepowell](https://github.com/danepowell))
+- Removing .htaccess files from non-docroots. (#1650) ([dpagini](https://github.com/dpagini))
+- Importing config splits after site install. [\#1661](https://github.com/acquia/blt/pull/1661) ([grasmash](https://github.com/grasmash))
+- Fixing repo.root detection, removing duplicative methods. [\#1660](https://github.com/acquia/blt/pull/1660) ([grasmash](https://github.com/grasmash))
+- Don't clobber drush.uri parameter [\#1656](https://github.com/acquia/blt/pull/1656) ([danepowell](https://github.com/danepowell))
+- Adding --release-branch arg to release command. [\#1644](https://github.com/acquia/blt/pull/1644) ([grasmash](https://github.com/grasmash))
+
+**Fixed bugs:**
+
+- PHP shebang echoed during commit message validation [\#1657](https://github.com/acquia/blt/issues/1657)
+- Front-end Tests not executed during pipelines build [\#1631](https://github.com/acquia/blt/issues/1631)
+- Fixed ACSF deploys, don't clobber drush URI [\#1659](https://github.com/acquia/blt/pull/1659) ([danepowell](https://github.com/danepowell))
+- Fixed ACSF deploy error [\#1653](https://github.com/acquia/blt/pull/1653) ([danepowell](https://github.com/danepowell))
+- Fixed Git fetch/merge during deploy [\#1651](https://github.com/acquia/blt/pull/1651) ([danepowell](https://github.com/danepowell))
+- Fixes \#1631: Front-end Tests not executed during pipelines build. [\#1638](https://github.com/acquia/blt/pull/1638) ([grasmash](https://github.com/grasmash))
+
+**Closed issues:**
+
+- Documented Directory structure not created? [\#1637](https://github.com/acquia/blt/issues/1637)
+
+**Misc merged pull requests**
+
+- Fixes \#1657: PHP shebang echoed during commit message validation. [\#1658](https://github.com/acquia/blt/pull/1658) ([grasmash](https://github.com/grasmash))
+- Update repo architecture docs [\#1649](https://github.com/acquia/blt/pull/1649) ([danepowell](https://github.com/danepowell))
+- Update gitignore patter for libraries to match contrib expectations. [\#1648](https://github.com/acquia/blt/pull/1648) ([greylabel](https://github.com/greylabel))
+- Fixing call @launchWebServer annotation in frontend:test. [\#1645](https://github.com/acquia/blt/pull/1645) ([grasmash](https://github.com/grasmash))
+
+## [8.9.0-beta1](https://github.com/acquia/blt/tree/8.9.0-beta1) (2017-06-12)
+[Full Changelog](https://github.com/acquia/blt/compare/8.9.0-alpha1...8.9.0-beta1)
+
+**Implemented enhancements:**
+
+- Execute the front-end tests target while the Drush Webserver is active [\#1564](https://github.com/acquia/blt/issues/1564)
+- Removed redundant file path setting. [\#1641](https://github.com/acquia/blt/pull/1641) ([danepowell](https://github.com/danepowell))
+- Printing error output when runserver fails. [\#1639](https://github.com/acquia/blt/pull/1639) ([grasmash](https://github.com/grasmash))
+- Set site\_dir to fix config imports on ACSF. [\#1635](https://github.com/acquia/blt/pull/1635) ([danepowell](https://github.com/danepowell))
+- Removed BUILD\_DIR and replaced with SOURCE\_DIR  [\#1633](https://github.com/acquia/blt/pull/1633) ([aweingarten](https://github.com/aweingarten))
+- Ensuring that all commands throw exceptions and return status. [\#1625](https://github.com/acquia/blt/pull/1625) ([grasmash](https://github.com/grasmash))
+- Fixes \#1564: Added frontend-web-test hook to BLT. [\#1615](https://github.com/acquia/blt/pull/1615) ([grasmash](https://github.com/grasmash))
+- Randomize DrupalVM IP address [\#1605](https://github.com/acquia/blt/issues/1605)
+- BLT Split settings missing for ODE  [\#1554](https://github.com/acquia/blt/issues/1554)
+- Split up "run-tests" [\#1541](https://github.com/acquia/blt/issues/1541)
+- Add git version requirements [\#1532](https://github.com/acquia/blt/issues/1532)
+- Allow Both Features and Default CMI [\#1481](https://github.com/acquia/blt/issues/1481)
+- Execute Tests inside the VM where possible [\#1472](https://github.com/acquia/blt/issues/1472)
+- Stop creating a tests/behat/features/Examples.feature file [\#1441](https://github.com/acquia/blt/issues/1441)
+- Multisite property suggestions and default/site.yml [\#1423](https://github.com/acquia/blt/issues/1423)
+- Deploy to multiple remotes, but not merge from? [\#1415](https://github.com/acquia/blt/issues/1415)
+- Speed up builds by conditionally "returning early"? [\#1159](https://github.com/acquia/blt/issues/1159)
+- Access to production databases [\#1109](https://github.com/acquia/blt/issues/1109)
+- Allow PHPUnit Tests to Bootstrap Drupal [\#1048](https://github.com/acquia/blt/issues/1048)
+- New Feature: Allow for Custom PHPUnit Paths [\#1047](https://github.com/acquia/blt/issues/1047)
+- Allow custom Twig lint paths [\#1016](https://github.com/acquia/blt/issues/1016)
+- Invoke blt frontend from inside drupalVM [\#1009](https://github.com/acquia/blt/issues/1009)
+- Execute installation of Lighting on Acquia Cloud environment after Pipelines build [\#975](https://github.com/acquia/blt/issues/975)
+- Fixes \#1423: Multisite property suggestions and default/site.yml. [\#1607](https://github.com/acquia/blt/pull/1607) ([grasmash](https://github.com/grasmash))
+- Fixes \#1605: Randomize DrupalVM IP address. [\#1606](https://github.com/acquia/blt/pull/1606) ([grasmash](https://github.com/grasmash))
+- Refactoring DrushTask-\>run\(\) after upstream changes. [\#1604](https://github.com/acquia/blt/pull/1604) ([grasmash](https://github.com/grasmash))
+- Improving detection of DVM state. [\#1601](https://github.com/acquia/blt/pull/1601) ([grasmash](https://github.com/grasmash))
+- Fixes \#1582: Improve detection of DVM. [\#1587](https://github.com/acquia/blt/pull/1587) ([grasmash](https://github.com/grasmash))
+- Fixes \#1582: @executeInDrupalVm annotation not respected. [\#1585](https://github.com/acquia/blt/pull/1585) ([grasmash](https://github.com/grasmash))
+- Run frontend:setup prior to frontend:build. [\#1584](https://github.com/acquia/blt/pull/1584) ([bobbygryzynger](https://github.com/bobbygryzynger))
+- Allowing Inspector state to be cleared. [\#1559](https://github.com/acquia/blt/pull/1559) ([grasmash](https://github.com/grasmash))
+- Fixes \#\#1554: Added config split settings for Acquia ODEs. [\#1555](https://github.com/acquia/blt/pull/1555) ([aweingarten](https://github.com/aweingarten))
+- Fixes \#1532: Add git version requirements. [\#1550](https://github.com/acquia/blt/pull/1550) ([grasmash](https://github.com/grasmash))
+- Porting validate:\* and filesets concept. [\#1503](https://github.com/acquia/blt/pull/1503) ([grasmash](https://github.com/grasmash))
+- Porting blt:\* commands to Robo. [\#1498](https://github.com/acquia/blt/pull/1498) ([grasmash](https://github.com/grasmash))
+- Config module isn't necessary to handle config updates [\#1494](https://github.com/acquia/blt/pull/1494) ([danepowell](https://github.com/danepowell))
+- BLT-1490: removing invalid parameter \(partial\). [\#1491](https://github.com/acquia/blt/pull/1491) ([mikemadison13](https://github.com/mikemadison13))
+- Fixes \#1481: allowing for combo of features and default config. [\#1488](https://github.com/acquia/blt/pull/1488) ([grasmash](https://github.com/grasmash))
+- Refactoring tests:security-updates command. [\#1487](https://github.com/acquia/blt/pull/1487) ([grasmash](https://github.com/grasmash))
+- Port simplesamlphp targets to Robo. [\#1485](https://github.com/acquia/blt/pull/1485) ([malikkotob](https://github.com/malikkotob))
+- Fixes \#1472: Execute Tests inside the VM where possible. [\#1475](https://github.com/acquia/blt/pull/1475) ([grasmash](https://github.com/grasmash))
+- Fixes \#1159: Speed up builds by conditionally "returning early". [\#1468](https://github.com/acquia/blt/pull/1468) ([grasmash](https://github.com/grasmash))
+- Making random username generation more efficient. [\#1467](https://github.com/acquia/blt/pull/1467) ([grasmash](https://github.com/grasmash))
+- Fixes \#1441: Make Example.feature more generic. [\#1466](https://github.com/acquia/blt/pull/1466) ([grasmash](https://github.com/grasmash))
+- Override CommandArguments::option to default option separator. [\#1461](https://github.com/acquia/blt/pull/1461) ([malikkotob](https://github.com/malikkotob))
+- Refactor drush task [\#1460](https://github.com/acquia/blt/pull/1460) ([malikkotob](https://github.com/malikkotob))
+- Refactoring ConfigCommand to use taskDrush\(\). [\#1455](https://github.com/acquia/blt/pull/1455) ([grasmash](https://github.com/grasmash))
+- BLT-1047: adding ability to customize paths for phpunit tests. [\#1435](https://github.com/acquia/blt/pull/1435) ([mikemadison13](https://github.com/mikemadison13))
+- Update drupal/simplesamlphp\_auth module. [\#1422](https://github.com/acquia/blt/pull/1422) ([dpagini](https://github.com/dpagini))
+- Ensure configuration export integrity [\#1421](https://github.com/acquia/blt/pull/1421) ([danepowell](https://github.com/danepowell))
+
+**Fixed bugs:**
+
+- PHP Memory Limit Errors During Travis Builds [\#1629](https://github.com/acquia/blt/issues/1629)
+- Custom Filesets.php overridden by update [\#1621](https://github.com/acquia/blt/issues/1621)
+- blt doctor failing \(or drush in vagrant issue\) [\#1617](https://github.com/acquia/blt/issues/1617)
+- Fixed \#1621: Custom Filesets.php overridden by update. [\#1624](https://github.com/acquia/blt/pull/1624) ([grasmash](https://github.com/grasmash))
+- Fixes \#1617: blt doctor failing \(or drush in vagrant issue\) . [\#1620](https://github.com/acquia/blt/pull/1620) ([grasmash](https://github.com/grasmash))
+- Fixing call to non-existant drupal:update command. [\#1614](https://github.com/acquia/blt/pull/1614) ([grasmash](https://github.com/grasmash))
+- An alternative default.local.settings.php [\#1610](https://github.com/acquia/blt/issues/1610)
+- Running any blt command gives php notices [\#1598](https://github.com/acquia/blt/issues/1598)
+- Deployment doesn't import configuration [\#1597](https://github.com/acquia/blt/issues/1597)
+- Unexpected NULL results from getOutputData [\#1593](https://github.com/acquia/blt/issues/1593)
+- blt doctor only returns error output [\#1590](https://github.com/acquia/blt/issues/1590)
+- Connects to \#1582: @executeInDrupalVm not respected during invokeCommand [\#1589](https://github.com/acquia/blt/issues/1589)
+- @executeInDrupalVm annotation not respected [\#1582](https://github.com/acquia/blt/issues/1582)
+- sync:refresh doesn't support multisites [\#1580](https://github.com/acquia/blt/issues/1580)
+- default/settings.php and default/settings/default.local.settings.php wiped out by update [\#1577](https://github.com/acquia/blt/issues/1577)
+- local.drushrc.php not created for multisites [\#1576](https://github.com/acquia/blt/issues/1576)
+- 8.9.x Head Pipelines Error [\#1538](https://github.com/acquia/blt/issues/1538)
+- 8.9.x Head has issues with ZSH [\#1537](https://github.com/acquia/blt/issues/1537)
+- Pipelines Build Fail to Complete on 8.9.x [\#1535](https://github.com/acquia/blt/issues/1535)
+- Drush not installed when running blt deploy [\#1528](https://github.com/acquia/blt/issues/1528)
+- unexpected EOF Error [\#1527](https://github.com/acquia/blt/issues/1527)
+- Regression of MySQL Error [\#1526](https://github.com/acquia/blt/issues/1526)
+- Pipelines builds hang [\#1511](https://github.com/acquia/blt/issues/1511)
+- Scripted updates fail between 8.7.0-beta1 and 8.7.3 [\#1510](https://github.com/acquia/blt/issues/1510)
+- Travis CI: MySQL is not available [\#1509](https://github.com/acquia/blt/issues/1509)
+- Fatal Error in 8.x.dev \(8.9.x\): PHP Memory Usage  [\#1508](https://github.com/acquia/blt/issues/1508)
+- blt local:setup stalls unexpectedly on HEAD [\#1502](https://github.com/acquia/blt/issues/1502)
+- Drupal Not Installed Issue w/ Robo & blt tests command [\#1478](https://github.com/acquia/blt/issues/1478)
+- blt local:refresh errors [\#1452](https://github.com/acquia/blt/issues/1452)
+- Cannot install site in VM [\#1448](https://github.com/acquia/blt/issues/1448)
+- Vm::checkRequirements never called during VM setup [\#1446](https://github.com/acquia/blt/issues/1446)
+- blt setup:update:features-override-check is dependent on console window size [\#1443](https://github.com/acquia/blt/issues/1443)
+- Cannot disable security-updates [\#1440](https://github.com/acquia/blt/issues/1440)
+- Spaces in project paths break BLT [\#1328](https://github.com/acquia/blt/issues/1328)
+- Fixes \#1610: An alternative default.local.settings.php. [\#1612](https://github.com/acquia/blt/pull/1612) ([grasmash](https://github.com/grasmash))
+- Fixes \#1597: Deployment doesn't import configuration. [\#1609](https://github.com/acquia/blt/pull/1609) ([grasmash](https://github.com/grasmash))
+- Fixes \#1593: Replacing getOutputData\(\) with getMessage\(\). [\#1603](https://github.com/acquia/blt/pull/1603) ([grasmash](https://github.com/grasmash))
+- Fixes \#1580: sync:refresh doesn't support multisites. [\#1599](https://github.com/acquia/blt/pull/1599) ([grasmash](https://github.com/grasmash))
+- Fixes \#1576: local.drushrc.php not created for multisites. [\#1596](https://github.com/acquia/blt/pull/1596) ([grasmash](https://github.com/grasmash))
+- Fixes \#1589: @executeInDrupalVm not respected during invokeCommand. [\#1595](https://github.com/acquia/blt/pull/1595) ([grasmash](https://github.com/grasmash))
+- Fixes \#1590: blt doctor only returns error output. [\#1594](https://github.com/acquia/blt/pull/1594) ([grasmash](https://github.com/grasmash))
+- Fixes \#1572: Failing Behat Test Hangs Pipelines Build. [\#1575](https://github.com/acquia/blt/pull/1575) ([grasmash](https://github.com/grasmash))
+- Fixing update hook. [\#1569](https://github.com/acquia/blt/pull/1569) ([grasmash](https://github.com/grasmash))
+- Fixing deploy:update command. [\#1565](https://github.com/acquia/blt/pull/1565) ([grasmash](https://github.com/grasmash))
+- Fixing incorrect call to drupal:install. [\#1557](https://github.com/acquia/blt/pull/1557) ([grasmash](https://github.com/grasmash))
+- Disabling command cache if dir is not writable. [\#1553](https://github.com/acquia/blt/pull/1553) ([grasmash](https://github.com/grasmash))
+- Fixing SimpleSamlPhpCommand. [\#1552](https://github.com/acquia/blt/pull/1552) ([grasmash](https://github.com/grasmash))
+- Fixing typo with create-db option in local:sync:db command. [\#1521](https://github.com/acquia/blt/pull/1521) ([malikkotob](https://github.com/malikkotob))
+- Fixes \#1508: Increasing DVM memory\_limit. [\#1520](https://github.com/acquia/blt/pull/1520) ([grasmash](https://github.com/grasmash))
+- Killing processes more effectively, in Pipelines. [\#1518](https://github.com/acquia/blt/pull/1518) ([grasmash](https://github.com/grasmash))
+- Fixing project creation bugs in 8.9.x. [\#1517](https://github.com/acquia/blt/pull/1517) ([grasmash](https://github.com/grasmash))
+- Fixes \#1509, \#1502: Correcting drush.alias settings and preventing ci interaction. [\#1512](https://github.com/acquia/blt/pull/1512) ([grasmash](https://github.com/grasmash))
+- Fixing execution of commands in VM. [\#1495](https://github.com/acquia/blt/pull/1495) ([grasmash](https://github.com/grasmash))
+- Fixes \#1443: blt setup:update:features-override-check is dependent on console window size. [\#1454](https://github.com/acquia/blt/pull/1454) ([grasmash](https://github.com/grasmash))
+- Fixes \#1452: blt local:refresh errors. [\#1453](https://github.com/acquia/blt/pull/1453) ([grasmash](https://github.com/grasmash))
+- Fixes \#1446: Vm::checkRequirements never called during VM setup. [\#1450](https://github.com/acquia/blt/pull/1450) ([grasmash](https://github.com/grasmash))
+- Fixes \#1448: Cannot install site in VM. [\#1449](https://github.com/acquia/blt/pull/1449) ([grasmash](https://github.com/grasmash))
+- Fixed errors for BLT doctor. [\#1447](https://github.com/acquia/blt/pull/1447) ([danepowell](https://github.com/danepowell))
+- Fixes \#1328: Spaces in project paths break BLT. [\#1426](https://github.com/acquia/blt/pull/1426) ([grasmash](https://github.com/grasmash))
+
+**Misc merged pull requests**
+
+- Increase DrupalVM memory [\#1630](https://github.com/acquia/blt/pull/1630) ([danepowell](https://github.com/danepowell))
+- Increasing Travis CI memory limit to 512Mb. [\#1626](https://github.com/acquia/blt/pull/1626) ([grasmash](https://github.com/grasmash))
+- Fix vagrant status output parsing. [\#1619](https://github.com/acquia/blt/pull/1619) ([bobbygryzynger](https://github.com/bobbygryzynger))
+- Refactoring all commands to throw BltException on failure. [\#1579](https://github.com/acquia/blt/pull/1579) ([grasmash](https://github.com/grasmash))
+- Fixes \#1572: Failing Behat Test Hangs Pipelines Build. [\#1578](https://github.com/acquia/blt/pull/1578) ([grasmash](https://github.com/grasmash))
+- Fix formatting. [\#1574](https://github.com/acquia/blt/pull/1574) ([wouteradem](https://github.com/wouteradem))
+- Adding setup:toggle-modules command. [\#1571](https://github.com/acquia/blt/pull/1571) ([grasmash](https://github.com/grasmash))
+- Creating internal PHPCS and PHPCBF tasks. [\#1549](https://github.com/acquia/blt/pull/1549) ([grasmash](https://github.com/grasmash))
+- Expanding config JIT. [\#1547](https://github.com/acquia/blt/pull/1547) ([grasmash](https://github.com/grasmash))
+- Improving VM status detection. [\#1546](https://github.com/acquia/blt/pull/1546) ([grasmash](https://github.com/grasmash))
+- Updating Robo to 1.0.7. [\#1545](https://github.com/acquia/blt/pull/1545) ([grasmash](https://github.com/grasmash))
+- Cleaning up Pipelines output. [\#1544](https://github.com/acquia/blt/pull/1544) ([grasmash](https://github.com/grasmash))
+- Adding SSL info for SimpleSAMLphp configuration. [\#1542](https://github.com/acquia/blt/pull/1542) ([wouteradem](https://github.com/wouteradem))
+- Attemping to fix ZSH alias issues. [\#1540](https://github.com/acquia/blt/pull/1540) ([grasmash](https://github.com/grasmash))
+- Porting install-alias.sh to PHP. [\#1534](https://github.com/acquia/blt/pull/1534) ([grasmash](https://github.com/grasmash))
+- Miscellaneous release prep. [\#1533](https://github.com/acquia/blt/pull/1533) ([grasmash](https://github.com/grasmash))
+- Remove double quote from drush command. [\#1529](https://github.com/acquia/blt/pull/1529) ([malikkotob](https://github.com/malikkotob))
+- Adding a command cache. [\#1519](https://github.com/acquia/blt/pull/1519) ([grasmash](https://github.com/grasmash))
+- Ripping out Phing. [\#1507](https://github.com/acquia/blt/pull/1507) ([grasmash](https://github.com/grasmash))
+- Porting fix:\* and local:\* namespaces to Robo. [\#1506](https://github.com/acquia/blt/pull/1506) ([grasmash](https://github.com/grasmash))
+- Fix Documentation Title typo in mkdocs.yml [\#1497](https://github.com/acquia/blt/pull/1497) ([dasginganinja](https://github.com/dasginganinja))
+- Enhance nuke command. [\#1493](https://github.com/acquia/blt/pull/1493) ([dpagini](https://github.com/dpagini))
+- BLT-1479: correcting example path to the phpunit.xml.dist file. [\#1480](https://github.com/acquia/blt/pull/1480) ([mikemadison13](https://github.com/mikemadison13))
+- Fixes \#1440: Cannot disable security-updates. [\#1473](https://github.com/acquia/blt/pull/1473) ([grasmash](https://github.com/grasmash))
+- Halt task execution when options set before drush command. [\#1465](https://github.com/acquia/blt/pull/1465) ([malikkotob](https://github.com/malikkotob))
+- Fixing AC hooks. [\#1463](https://github.com/acquia/blt/pull/1463) ([grasmash](https://github.com/grasmash))
+- Fixes \#1009: Invoke blt frontend from inside drupalVM. [\#1462](https://github.com/acquia/blt/pull/1462) ([grasmash](https://github.com/grasmash))
+- Fixes \#1415: Port deploy:\* commands to Robo. [\#1457](https://github.com/acquia/blt/pull/1457) ([grasmash](https://github.com/grasmash))
+- Site install task doesn't respect alias. [\#1451](https://github.com/acquia/blt/pull/1451) ([danepowell](https://github.com/danepowell))
+
+**Closed issues:**
+
+- If the blt command is included in git commit message, blt command will be executed. [\#1592](https://github.com/acquia/blt/issues/1592)
+- Failing Behat Test Hangs Pipelines Build [\#1572](https://github.com/acquia/blt/issues/1572)
+- Memcache patch breaking blt build [\#1562](https://github.com/acquia/blt/issues/1562)
+- How to auto checkout build branches with git post-receive? [\#1501](https://github.com/acquia/blt/issues/1501)
+- Typo in documentation title -- "Acquia BLT Documentaton" [\#1496](https://github.com/acquia/blt/issues/1496)
+- Invalid Parameter in Configuration Import [\#1490](https://github.com/acquia/blt/issues/1490)
+- Incorrect PHPUnit Path for Config File [\#1479](https://github.com/acquia/blt/issues/1479)
+- blt local:setup is asking for a password, and I have no idea what it is [\#1477](https://github.com/acquia/blt/issues/1477)
+
+## [8.8.5](https://github.com/acquia/blt/tree/8.8.5) (2017-06-12)
+[Full Changelog](https://github.com/acquia/blt/compare/8.8.4...8.8.5)
+
+**Implemented enhancements:**
+
+- Increasing Travis CI memory limit to 512Mb. (#1627)
+
+**Fixed bugs**
+
+- Remove nonexistent ansi option. (#1640)
+
+## [8.7.5](https://github.com/acquia/blt/tree/8.7.5) (2017-06-12)
+[Full Changelog](https://github.com/acquia/blt/compare/8.7.4...8.7.5)
+
+**Implemented enhancements:**
+
+- Increasing Travis CI memory limit to 512Mb. (#1628)
+
+## [8.7.4](https://github.com/acquia/blt/tree/8.7.4) (2017-06-06)
+[Full Changelog](https://github.com/acquia/blt/compare/8.7.3...8.7.4)
+
+**Implemented enhancements:**
+
+- Move post-config-import target call. (#1522)
+- Backporting ArrayManipulator. (#1551)
+- Added config split settings for Acquia ODEs. (#1560)
+
+## [8.8.4](https://github.com/acquia/blt/tree/8.8.4) (2017-06-06)
+[Full Changelog](https://github.com/acquia/blt/compare/8.8.3..8.8.4)
+
+**Implemented enhancements:**
+
+- Fixes #1597: Deployment doesn't import configuration. (#1608)
+- Fixing calls to getOutputData() after upstream Robo change. (#1613)
+- Connects to #1566: Adding color to Behat output in Pipelines. (#1583)
+- Fixes #1504: Documentation for "Automated testing using live content"… (#1586)
+- Killing web server after Behat runs. (#1536)
+- Killing processes on Pipelines more effectively.
+- Fixes #1440: Cannot disable security-updates. (#1489)
+
+## [8.9.0-alpha1](https://github.com/acquia/blt/tree/8.9.0-alpha1) (2017-04-26)
+[Full Changelog](https://github.com/acquia/blt/compare/8.8.3...8.9.0-alpha1)
+
+**Notable changes**:
+
+- The following targets have been moved to Robo:
+  - setup:*
+  - ascf:*
+  - frontend:*
+  - drupal:*
+
+**Implemented enhancements:**
+
+- Frontend Target [\#1436](https://github.com/acquia/blt/issues/1436)
+- Randomize user 1 name on install [\#1403](https://github.com/acquia/blt/issues/1403)
+- Refactoring release command OUT of BLT app. [\#1434](https://github.com/acquia/blt/pull/1434) ([grasmash](https://github.com/grasmash))
+- Fixes \#1325: Updating composer-merge-plugin to dev-master. [\#1430](https://github.com/acquia/blt/pull/1430) ([grasmash](https://github.com/grasmash))
+- Fixes \#1403: Randomize user 1 name on install. [\#1418](https://github.com/acquia/blt/pull/1418) ([grasmash](https://github.com/grasmash))
+- Fixes \#1408: Porting doctor command to Robo. [\#1417](https://github.com/acquia/blt/pull/1417) ([grasmash](https://github.com/grasmash))
+- Minor refactor of config settings logic. [\#1416](https://github.com/acquia/blt/pull/1416) ([danepowell](https://github.com/danepowell))
+- Create new custom Robo Drush task. [\#1413](https://github.com/acquia/blt/pull/1413) ([malikkotob](https://github.com/malikkotob))
+- Allowing interactive\(\) to be detected. [\#1411](https://github.com/acquia/blt/pull/1411) ([grasmash](https://github.com/grasmash))
+- Porting setup:\* and drupal:\* commands to Robo. [\#1407](https://github.com/acquia/blt/pull/1407) ([grasmash](https://github.com/grasmash))
+
+**Fixed bugs:**
+
+- Not all BLT commands showing up when running blt list [\#1425](https://github.com/acquia/blt/issues/1425)
+- BLT Doctor checkUri reports incorrect uri [\#1408](https://github.com/acquia/blt/issues/1408)
+- "vendor/acquia/blt/composer.suggested.json" causing issues with composer [\#1325](https://github.com/acquia/blt/issues/1325)
+- Resolve merge bug in wikimedia/composer-merge-plugin [\#1241](https://github.com/acquia/blt/issues/1241)
+- BLT Doctor checkNvmExists\(\) on Drupal-VM [\#764](https://github.com/acquia/blt/issues/764)
+- Fixes \#1438: Project prefix contains quote characters. [\#1442](https://github.com/acquia/blt/pull/1442) ([grasmash](https://github.com/grasmash))
+- Fixes \#1431 - PHP Notice: Undefined index: tests:behat [\#1432](https://github.com/acquia/blt/pull/1432) ([aguasingas](https://github.com/aguasingas))
+- Fixes \#1425: Not all BLT commands showing up when running blt list. [\#1427](https://github.com/acquia/blt/pull/1427) ([grasmash](https://github.com/grasmash))
+- Prefixing BLT calls with composer.bin. [\#1419](https://github.com/acquia/blt/pull/1419) ([grasmash](https://github.com/grasmash))
+
+**Closed issues:**
+
+- project.prefix including single quotes when validating commit message [\#1438](https://github.com/acquia/blt/issues/1438)
+- PHP Notice:  Undefined index: tests:behat [\#1431](https://github.com/acquia/blt/issues/1431)
+- MySQL error when trying to run Behat tests on my VM [\#1424](https://github.com/acquia/blt/issues/1424)
+
+**Misc merged pull requests**
+
+- BLT-1436: porting frontend tasks to robo. [\#1437](https://github.com/acquia/blt/pull/1437) ([mikemadison13](https://github.com/mikemadison13))
+- Redundant error message is redundant [\#1428](https://github.com/acquia/blt/pull/1428) ([TravisCarden](https://github.com/TravisCarden))
+- Update README.md [\#1412](https://github.com/acquia/blt/pull/1412) ([danepowell](https://github.com/danepowell))
+
+## [8.7.3](https://github.com/acquia/blt/tree/8.7.3) (2017-04-21)
+[Full changelog](https://github.com/acquia/blt/compare/8.7.2...8.7.3)
+
+- Pass --yes parameter for cloud db sanitize script. (#1410)
+- Remove sudo mysql starts (#1406)
+- Run config-import twice (#1398)
+- BLT 8.7.0 update wipes out pre-existing composer-merge-plugin config.
+- Update composer command invocation. (#1387)
+- Recommend installing hostsupdater plugin. (#1389)
+- Exclude sites/all from multisite variable. (#1388)
+- Fixes #1374: BLT upgrade deletes docroot/sites/default/settings/includes.settings.php. (#1385)
+- Fixes #1354: BLT 8.7.0 upgrade wipes out custom installer-paths configuration. (#1383)
+
+## [8.8.3](https://github.com/acquia/blt/tree/8.8.3) (2017-04-21)
+[Full changelog](https://github.com/acquia/blt/compare/8.8.2...8.8.3)
+
+- Pass --yes parameter for cloud db sanitize script. (#1410)
+- Remove sudo mysql starts (#1406)
+- Adding explanation of "box" directory. (#1404)
+- Issue #53: Fixed git config command. (#1402)
+- Minor spelling fix (#1401)
+- Fix example command doc comment. (#1399)
+- Run config-import twice (#1398)
+- Fixes #1390: Fixing strict errors in ExampleHook. (#1396)
+- Fixes #1390: Using custom Robo commands within a BLT project. (#1395)
+- Using custom Robo commands within a BLT project. (#1393)
+- Fixes #1367: Allow extra arguments to be added to `composer install`. (#1394)
+- BLT 8.7.0 update wipes out pre-existing composer-merge-plugin config. (#1392)
+- Fixes #1377: Failing behat tests still allow travisci to "pass". (#1381)
+- Update composer command invocation. (#1387)
+- Recommend installing hostsupdater plugin. (#1389)
+- Exclude sites/all from multisite variable. (#1388)
+- Fixes #1343: Add a command to print out available Behat definitions. (#1384)
+- Fixes #1374: BLT upgrade deletes docroot/sites/default/settings/includes.settings.php. (#1385)
+- Fixes #1354: BLT 8.7.0 upgrade wipes out custom installer-paths configuration. (#1383)
+- Allow BLT tests to pass when blt is not symlinked into place.
+- Update project.yml (#1376)
+
+## [8.7.2](https://github.com/acquia/blt/tree/8.7.2) (2017-04-14)
+[Full changelog](https://github.com/acquia/blt/compare/8.7.1...8.7.2)
+
+- Disable update module at install time. #1360
+- Fix broken core-only config strategy #1358
+- Update configuration-management.md #1352
+- Update notifications not disabled during Drupal 8.3.x installation #1353
+- Travis email error starting with Drupal 8.3.0 and Lightning 2.1.0 #1336
+- Removing search_api from suggested modules. #1334
+- Examples.feature changes overwritten whenever BLT is updated #1322
+- Fixes #1324: Add ah_other config split. #1331
+- Fixes #1257 Complete branching and tagging documentation #1321
+- Minor cleanup of configuration-management.md #1319
+
+## [8.8.2](https://github.com/acquia/blt/tree/8.8.2) (2017-04-14)
+[Full changelog](https://github.com/acquia/blt/compare/8.8.1...8.8.2)
+
+- Update configuration-management.md (#1378)
+- Removing memcache patch. (#1373)
+- Fixing PHPCS syntax issue.
+- Fixing incorrectly referenced DVM alias.
+- Fixing Pipelines interactive() bug in tests:behat.
+
 ## [8.8.1](https://github.com/acquia/blt/tree/8.8.1) (2017-04-11)
 [Full Changelog](https://github.com/acquia/blt/compare/8.8.0...8.8.1)
 
