@@ -31,7 +31,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $this->drupalPhpcsStandard = $this->bltRoot . '/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml';
     $this->phpcsPaths = [
       $this->bltRoot . '/bin/blt',
-      $this->bltRoot . '/bin/blt-robo',
+      $this->bltRoot . '/bin/blt-robo.php',
       $this->bltRoot . '/bin/blt-robo-run.php',
       $this->bltRoot . '/RoboFile.php',
       $this->bltRoot . '/src/Robo',
