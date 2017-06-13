@@ -35,7 +35,7 @@ acsf_deploy() {
   # Loop through each available site uri and run BLT deploy updates.
   for uri in "${sites[@]}"; do
   #Override BLT default deploy uri.
-  blt deploy:update  -D drush.uri "$uri" -v
+  blt deploy:update  -D drush.uri="$uri" -v
   if [ $? -ne 0 ]; then
       echo "Update errored for site $uri."
       exit 1
