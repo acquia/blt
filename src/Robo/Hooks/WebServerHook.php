@@ -32,8 +32,8 @@ class WebServerHook implements ConfigAwareInterface, ContainerAwareInterface, Lo
    * @hook pre-command @launchWebServer
    */
   public function launchWebServer() {
-    if ($this->getConfigValue('behat.run-server')) {
-      $this->serverUrl = $this->getConfigValue('behat.server.url');
+    if ($this->getConfigValue('tests.run-server')) {
+      $this->serverUrl = $this->getConfigValue('tests.server.url');
       $this->killWebServer();
       $this->say("Launching PHP's internal web server via drush.");
       $this->logger->info("Running server at $this->serverUrl...");
@@ -58,7 +58,7 @@ class WebServerHook implements ConfigAwareInterface, ContainerAwareInterface, Lo
       catch (\Exception $e) {
         if (!$result->wasSuccessful() && file_exists($log_file)) {
           $output = file_get_contents($log_file);
-          throw new BltException($e->getMessage() . $output);
+          throw new BltException($e->getMessage() . "\n" . $output);
         }
       }
     }
@@ -69,7 +69,7 @@ class WebServerHook implements ConfigAwareInterface, ContainerAwareInterface, Lo
    */
   public function killWebServer() {
     $this->getContainer()->get('executor')->killProcessByName('runserver');
-    $this->getContainer()->get('executor')->killProcessByPort($this->getConfigValue('behat.server.port'));
+    $this->getContainer()->get('executor')->killProcessByPort($this->getConfigValue('tests.server.port'));
   }
 
 }

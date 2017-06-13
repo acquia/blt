@@ -51,7 +51,7 @@ class FrontendCommand extends BltTasks {
    *
    * @command frontend:test
    *
-   * @launchWebDriver
+   * @launchWebServer
    * @executeInDrupalVm
    */
   public function test() {
