@@ -20,7 +20,7 @@ docroot/sites/*/private
 docroot/modules/contrib
 docroot/themes/contrib
 docroot/profiles/contrib
-docroot/libraries/contrib
+docroot/libraries
 drush/contrib
 
 # Ignore custom theme build artifacts
