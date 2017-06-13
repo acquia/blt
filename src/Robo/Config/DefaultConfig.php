@@ -90,7 +90,9 @@ class DefaultConfig extends BltConfig {
    */
   public function setSiteConfig($site_name) {
     $this->config->set('site', $site_name);
-    $this->config->set('drush.uri', $site_name);
+    if (!$this->config->get('drush.uri')) {
+      $this->config->set('drush.uri', $site_name);
+    }
 
     // After having set site, this should now return the multisite
     // specific config.
