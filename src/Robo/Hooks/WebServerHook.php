@@ -58,7 +58,7 @@ class WebServerHook implements ConfigAwareInterface, ContainerAwareInterface, Lo
       catch (\Exception $e) {
         if (!$result->wasSuccessful() && file_exists($log_file)) {
           $output = file_get_contents($log_file);
-          throw new BltException($e->getMessage() . $output);
+          throw new BltException($e->getMessage() . "\n" . $output);
         }
       }
     }
