@@ -20,19 +20,14 @@ The following is an overview of the purpose of each top level directory in the p
 
     root
       ├── blt      - Contains custom build config files for CI solutions.
-      ├── box      - Contains DrupalVM Configuration (optional).
+      ├── box      - Contains DrupalVM Configuration (optional, created by `blt vm`).
+      ├── config   - Contains Drupal 8 configuration files.
       ├── drush    - Contain drush configuration that is not site or environment specific.
       ├── docroot  - The drupal docroot.
-      ├── hooks    - Contains Acquia Cloud hooks.
-      ├── modules  - Contains custom and contrib modules.
+      ├── hooks    - Contains Acquia Cloud hooks (optional, created by `blt setup:cloud-hooks`)
       ├── patches  - Contains private patches to be used by composer.json.
-      ├── profiles - Contains contrib and custom profiles.
-      ├── readme   - Contains high level project documentation.
       ├── reports  - Contains output of automated tests; is .gitignored.
-      ├── scripts  - Contains a variety of utility scripts.
-      ├── sites    - Contains sites.
       ├── tests    - Contains project-level test files and configuration.
-      ├── themes   - Contains custom and contrib themes.
       ├── vendor   - Contains built composer dependencies; is .gitignored.
 
 ## Dependency Management
