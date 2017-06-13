@@ -2,6 +2,7 @@
 
 namespace Acquia\Blt\Robo\Config;
 
+use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Config\YamlConfigLoader;
 use Symfony\Component\Finder\Finder;
 
@@ -11,40 +12,18 @@ use Symfony\Component\Finder\Finder;
 class DefaultConfig extends BltConfig {
 
   /**
-   * Constructor.
+   * DefaultConfig constructor.
+   *
+   * @param string $repo_root
+   *   The repository root of the project that depends on BLT.
    */
-  public function __construct() {
+  public function __construct($repo_root) {
     parent::__construct();
 
-    $repo_root = $this->getRepoRoot();
     $this->set('repo.root', $repo_root);
     $this->set('docroot', $repo_root . '/docroot');
     $this->set('blt.root', $this->getBltRoot());
     $this->set('composer.bin', $repo_root . '/vendor/bin');
-  }
-
-  /**
-   * Gets the repository root.
-   *
-   * @return string
-   *   The filepath for the repository root.
-   *
-   * @throws \Exception
-   */
-  protected function getRepoRoot() {
-    $possible_repo_roots = [
-      $_SERVER['PWD'],
-      realpath($_SERVER['PWD'] . '/..'),
-      getcwd(),
-    ];
-    foreach ($possible_repo_roots as $possible_repo_root) {
-      if (file_exists("$possible_repo_root/vendor/acquia/blt")
-        ||file_exists("$possible_repo_root/blt/project.yml")) {
-        return $possible_repo_root;
-      }
-    }
-
-    throw new BltException('Could not find repository root directory!');
   }
 
   /**
