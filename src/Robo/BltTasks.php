@@ -168,7 +168,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
       }
     }
     else {
-      $this->say("Skipped $hook target hook. No hook is defined.");
+      $this->logger->info("Skipped $hook target hook. No hook is defined.");
 
       return 0;
     }
