@@ -288,7 +288,8 @@ class DeployCommand extends BltTasks {
    */
   protected function mergeUpstreamChanges() {
     $git_remotes = $this->getConfigValue('git.remotes');
-    $remote_name = reset($git_remotes);
+    $remote_url = reset($git_remotes);
+    $remote_name = md5($remote_url);
 
     $this->say("Merging upstream changes into local artifact...");
     $this->taskExecStack()
