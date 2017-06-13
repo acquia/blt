@@ -15,7 +15,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 $input = new ArgvInput($_SERVER['argv']);
 $output = new ConsoleOutput();
 
-$config = new DefaultConfig();
+$config = new DefaultConfig($repo_root);
 $loader = new YamlConfigLoader();
 $processor = new YamlConfigProcessor();
 $processor->add($config->export());
