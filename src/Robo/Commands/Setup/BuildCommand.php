@@ -43,9 +43,13 @@ class BuildCommand extends BltTasks {
    * @todo Add a @validateSettingsFilesArePresent
    */
   public function drupalInstall() {
-    $status_code = $this->invokeCommands([
-      'internal:drupal:install',
-    ]);
+    $commands = ['internal:drupal:install'];
+    $strategy = $this->getConfigValue('cm.strategy');
+    if ($strategy == 'config-split') {
+      $commands[] = 'setup:config-import';
+    }
+
+    $status_code = $this->invokeCommands($commands);
     if ($status_code) {
       return $status_code;
     }
