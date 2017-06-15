@@ -1,5 +1,24 @@
 # Change Log
 
+## [8.9.0-beta3](https://github.com/acquia/blt/tree/8.9.0-beta3) (2017-06-15)
+[Full Changelog](https://github.com/acquia/blt/compare/8.9.0-beta2...8.9.0-beta3)
+
+**Implemented enhancements:**
+
+- Ignoring \*.min.js in validation commands. [\#1672](https://github.com/acquia/blt/pull/1672) ([grasmash](https://github.com/grasmash))
+- Adding -y param to `blt:create-project` call. [\#1670](https://github.com/acquia/blt/pull/1670) ([grasmash](https://github.com/grasmash))
+- Run the appropriate behat tags when testing on pipelines. [\#1665](https://github.com/acquia/blt/pull/1665) ([arknoll](https://github.com/arknoll))
+
+**Fixed bugs:**
+
+- Setting tests.run-server to false by default. [\#1671](https://github.com/acquia/blt/pull/1671) ([grasmash](https://github.com/grasmash))
+
+**Misc merged pull requests**
+
+- Fix drush site install command to disable update status module. [\#1663](https://github.com/acquia/blt/pull/1663) ([arknoll](https://github.com/arknoll))
+- Adding -y param to `blt update` call. [\#1662](https://github.com/acquia/blt/pull/1662) ([grasmash](https://github.com/grasmash))
+
+
 ## [8.9.0-beta2](https://github.com/acquia/blt/tree/8.9.0-beta2) (2017-06-13)
 [Full Changelog](https://github.com/acquia/blt/compare/8.9.0-beta1...8.9.0-beta2)
 
