@@ -186,7 +186,7 @@ target-hooks:
     command: null
 
 tests:
-  run-server: true
+  run-server: false
   # This is used for ad-hoc creation of a server via `drush runserver`.
   server:
     port: 8888
