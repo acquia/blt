@@ -133,7 +133,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
   protected function isCommandDisabled($command) {
     $disabled_commands = $this->getDisabledCommands();
     if (is_array($disabled_commands) && array_key_exists($command, $disabled_commands) && $disabled_commands[$command]) {
-      $this->output()->writeln("The $command command is disabled.");
+      $this->logger->warning("The $command command is disabled.");
       return TRUE;
     }
 
@@ -257,23 +257,55 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    */
   protected function executeCommandAgainstFiles($files, $command, $parallel = FALSE) {
     if ($parallel) {
-      $task = $this->taskParallelExec()
-        ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERY_VERBOSE);
+      return $this->executeCommandAgainstFilesInParallel($files, $command);
+    }
+    else {
+      return $this->executeCommandAgainstFilesProcedurally($files, $command);
+    }
+  }
 
-      foreach ($files as $file) {
+  /**
+   * @param $files
+   * @param $command
+   *
+   * @return \Robo\Result
+   */
+  protected function executeCommandAgainstFilesInParallel($files, $command) {
+    $task = $this->taskParallelExec()
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERY_VERBOSE);
+
+    $chunk_size = 20;
+    $chunks = array_chunk((array) $files, $chunk_size);
+    foreach ($chunks as $chunk) {
+      foreach ($chunk as $file) {
         $full_command = sprintf($command, $file);
         $task->process($full_command);
       }
-    }
-    else {
-      $task = $this->taskExecStack()
-        ->printMetadata(FALSE)
-        ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERY_VERBOSE);
 
-      foreach ($files as $file) {
-        $full_command = sprintf($command, $file);
-        $task->exec($full_command);
+      $result = $task->run();
+
+      if (!$result->wasSuccessful()) {
+        $this->say($result->getMessage());
+        return $result;
       }
+    }
+    return $result;
+  }
+
+  /**
+   * @param $files
+   * @param $command
+   *
+   * @return null|\Robo\Result
+   */
+  protected function executeCommandAgainstFilesProcedurally($files, $command) {
+    $task = $this->taskExecStack()
+      ->printMetadata(FALSE)
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERY_VERBOSE);
+
+    foreach ($files as $file) {
+      $full_command = sprintf($command, $file);
+      $task->exec($full_command);
     }
 
     $result = $task->run();
