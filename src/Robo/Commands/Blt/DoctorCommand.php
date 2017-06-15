@@ -73,7 +73,7 @@ class DoctorCommand extends BltTasks {
     if (strstr($repo_root, '{{')) {
       $this->logger->error("The value of drupal_core_path in $drupal_vm_config_filepath contains an unresolved Ansible variable.");
       $this->logger->error("Do not use Ansible variable placeholders for drupal_core_path.");
-      $this->logger->error("drupal_core_path is currently $drupal_vm_config_filepath. Please correct it.");
+      $this->logger->error("drupal_core_path is currently '$repo_root'. Please correct it.");
       throw new BltException("Unparsable value in $drupal_vm_config_filepath.");
     }
 
