@@ -33,7 +33,8 @@ drush:
 # Configuration management options, such as core CM or features.
 # cm:
 #   features:
-#     bundle: blted8
+#     bundle:
+#       - blted8
 #     no-overrides: 'true'
 
 # An array of modules to be enabled or uninstalled automatically in local, ci, and deploy contexts.
