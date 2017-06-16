@@ -7,6 +7,6 @@ yaml-cli update:value blt/project.yml project.local.hostname '127.0.0.1:8888'
 
 blt validate:all
 blt setup -D drush.alias='${drush.aliases.ci}' --no-interaction
-blt tests:all --define tests.run-server=true --yes -v
+blt tests:all drush.alias='${drush.aliases.ci}' --define tests.run-server=true --yes -v
 
 set +v
