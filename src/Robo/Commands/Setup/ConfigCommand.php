@@ -122,15 +122,15 @@ class ConfigCommand extends BltTasks {
    */
   protected function importFeatures($task, $cm_core_key) {
     $task->drush("config-import")->arg($cm_core_key)->option('partial');
-    if ($this->getConfig()->has('cm.features.bundle"')) {
+    if ($this->getConfig()->has('cm.features.bundle')) {
       $task->drush("pm-enable")->arg('features');
       // Clear drush caches to register features drush commands.
       $task->drush("cc")->arg('drush');
       foreach ($this->getConfigValue('cm.features.bundle') as $bundle) {
-        $task->drush("features-revert-all")->option('bundle', $bundle);
+        $task->drush("features-import-all")->option('bundle', $bundle);
         // Revert all features again!
         // @see https://www.drupal.org/node/2851532
-        $task->drush("features-revert-all")->option('bundle', $bundle);
+        $task->drush("features-import-all")->option('bundle', $bundle);
       }
     }
   }
