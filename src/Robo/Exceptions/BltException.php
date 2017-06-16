@@ -20,7 +20,6 @@ class BltException extends \Exception {
 
     // @todo Check verbosity level. If not verbose, append "Re-run the command
     // with -v to see more verbose output."
-
     parent::__construct($message, $code, $previous);
 
     $this->transmitAnalytics();
