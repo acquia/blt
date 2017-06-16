@@ -45,7 +45,7 @@ class BuildCommand extends BltTasks {
   public function drupalInstall() {
     $commands = ['internal:drupal:install'];
     $strategy = $this->getConfigValue('cm.strategy');
-    if ($strategy == 'config-split') {
+    if (in_array($strategy, ['config-split', 'features'])) {
       $commands[] = 'setup:config-import';
     }
 
