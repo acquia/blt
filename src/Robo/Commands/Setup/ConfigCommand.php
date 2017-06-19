@@ -164,7 +164,7 @@ class ConfigCommand extends BltTasks {
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function checkConfigOverrides($cm_core_key) {
-  // Check for configuration overrides.
+    // Check for configuration overrides.
     if (!$this->getConfigValue('cm.allow-overrides')) {
       $this->say("Checking for config overrides...");
       $config_overrides = $this->taskDrush()
