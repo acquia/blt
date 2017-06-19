@@ -5,7 +5,6 @@ namespace Acquia\Blt\Robo\Commands\Blt;
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * Defines commands in the "examples:*" namespace.
