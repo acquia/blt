@@ -11,3 +11,8 @@ ENV['DRUPALVM_DIR'] = "vendor/geerlingguy/drupal-vm"
 
 # Load the real Vagrantfile
 load "#{__dir__}/#{ENV['DRUPALVM_DIR']}/Vagrantfile"
+
+# Set up vagrant exec for BLT.
+if Vagrant.has_plugin?('vagrant-exec')
+  config.exec.commands '*', directory: /var/www/${project.machine_name}
+end
