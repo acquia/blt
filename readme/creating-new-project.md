@@ -22,11 +22,11 @@
 
     1. **With Drupal VM**: If you would like to use Drupal VM for local development, run the following commands:
 
-           blt vm
+             blt vm
 
     1. **Without Drupal VM**: If you would not like to use Drupal VM, please review [Local Development](http://blt.readthedocs.io/en/8.x/readme/local-development/) and set up your own LAMP stack. Once your LAMP stack is running, execute the following command to generate default local settings files:
 
-           blt setup:settings
+             blt setup:settings
 
        Modify the generated `docroot/sites/default/settings/local.settings.php` file by adding your custom MySql credentials.
 
