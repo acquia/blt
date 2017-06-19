@@ -89,9 +89,9 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
       $exit_code = $application->runCommand($command, $input, $this->output());
       $this->invokeDepth--;
 
-      // The application will catch any exceptions thrown in the run command.
-      // We must check the exit code and throw our own exception. This allows
-      // us to do without checking the exit code of every invoked command.
+      // The application will catch any exceptions thrown in the executed
+      // command. We must check the exit code and throw our own exception. This
+      // obviates the need to check the exit code of every invoked command.
       if ($exit_code) {
         throw new BltException("Command `$command_name {$input->__toString()}` exited with code $exit_code.");
       }

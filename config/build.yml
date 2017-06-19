@@ -51,7 +51,7 @@ cm:
       sync:
         path: ${cm.core.path}/default
       vcs:
-        path: ${cm.core.path}/default
+        path: ${cm.core.dirs.sync.path}
   features:
     no-overrides: true
 
