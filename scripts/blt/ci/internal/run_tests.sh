@@ -39,6 +39,9 @@ blt deploy:update
 # Test SimpleSAMLphp configuration.
 blt simplesamlphp:init
 
+# Test that custom commands are loaded.
+blt custom:hello
+
 # Run the doctor.
 blt doctor
 

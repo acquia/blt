@@ -52,4 +52,7 @@ blt setup:cloud-hooks
 sed -i "s:deploy_updates:deploy_install:g" hooks/common/post-code-deploy/post-code-deploy.sh
 sed -i "s:deploy_updates:deploy_install:g" hooks/common/post-code-update/post-code-update.sh
 
+# Create example command and hook files.
+blt examples:init
+
 set +v
