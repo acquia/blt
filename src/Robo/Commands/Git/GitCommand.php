@@ -44,27 +44,19 @@ class GitCommand extends BltTasks {
    * @return int
    */
   public function preCommitHook($changed_files) {
-    $exit_code = $this->invokeCommands([
+    $this->invokeCommands([
       'validate:phpcs:files' => ['file_list' => $changed_files],
       'validate:twig:files' => ['file_list' => $changed_files],
       'validate:yaml:files' => ['file_list' => $changed_files],
     ]);
-    if ($exit_code) {
-      return $exit_code;
-    }
 
     $changed_files_list = explode("\n", $changed_files);
     if (in_array(['composer.json', 'composer.lock'], $changed_files_list)) {
-      $exit_code = $this->invokeCommand('validate:composer', ['file_list' => $changed_files]);
+      $this->invokeCommand('validate:composer', ['file_list' => $changed_files]);
     }
 
-    $exit_code = $this->invokeHook('pre-commit');
-
-    if ($exit_code === 0) {
-      $this->say("<info>Your local code has passed git pre-commit validation.</info>");
-    }
-
-    return $exit_code;
+    $this->invokeHook('pre-commit');
+    $this->say("<info>Your local code has passed git pre-commit validation.</info>");
   }
 
 }

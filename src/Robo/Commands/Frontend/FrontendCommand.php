@@ -17,11 +17,10 @@ class FrontendCommand extends BltTasks {
    * @executeInDrupalVm
    */
   public function frontend() {
-    $status_code = $this->invokeCommands([
+    $this->invokeCommands([
       'frontend:setup',
       'frontend:build',
     ]);
-    return $status_code;
   }
 
   /**

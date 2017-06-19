@@ -50,12 +50,8 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    *
    * @param array $commands
    *   An array of Symfony commands to invoke. E.g., 'tests:behat'.
-   *
-   * @return int
-   *   The exit code of the command.
    */
   protected function invokeCommands(array $commands) {
-    $returnCode = 0;
     foreach ($commands as $key => $value) {
       if (is_numeric($key)) {
         $command = $value;
@@ -65,13 +61,8 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
         $command = $key;
         $args = $value;
       }
-      $returnCode = $this->invokeCommand($command, $args);
-      // Return if this is non-zero exit code.
-      if ($returnCode) {
-        return $returnCode;
-      }
+      $this->invokeCommand($command, $args);
     }
-    return $returnCode;
   }
 
   /**
@@ -82,28 +73,29 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    * @param array $args
    *   An array of arguments to pass to the command.
    *
-   * @return int
-   *   The exit code of the command.
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function invokeCommand($command_name, array $args = []) {
     $this->invokeDepth++;
 
-    // Skip invocation of disabled commands.
-    if ($this->isCommandDisabled($command_name)) {
-      return 0;
+    if (!$this->isCommandDisabled($command_name)) {
+      /** @var \Acquia\Blt\Robo\Application $application */
+      $application = $this->getContainer()->get('application');
+      $command = $application->find($command_name);
+
+      $input = new ArrayInput($args);
+      $prefix = str_repeat(">", $this->invokeDepth);
+      $this->output->writeln("<comment>$prefix $command_name</comment>");
+      $exit_code = $application->runCommand($command, $input, $this->output());
+      $this->invokeDepth--;
+
+      // The application will catch any exceptions thrown in the run command.
+      // We must check the exit code and throw our own exception. This allows
+      // us to do without checking the exit code of every invoked command.
+      if ($exit_code) {
+        throw new BltException("Command `$command_name {$input->__toString()}` exited with code $exit_code.");
+      }
     }
-
-    /** @var \Acquia\Blt\Robo\Application $application */
-    $application = $this->getContainer()->get('application');
-    $command = $application->find($command_name);
-
-    $input = new ArrayInput($args);
-    $prefix = str_repeat(">", $this->invokeDepth);
-    $this->output->writeln("<comment>$prefix $command_name</comment>");
-    $return_code = $application->runCommand($command, $input, $this->output());
-    $this->invokeDepth--;
-
-    return $return_code;
   }
 
   /**
