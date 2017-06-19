@@ -560,7 +560,11 @@ class DeployCommand extends BltTasks {
     // /config/default. ACE internally sets the vcs configuration
     // directory to /config/default, so we use that.
     // @see https://github.com/acquia/blt/issues/678
+    if (!isset($_ENV['AH_SITE_ENVIRONMENT']) && $this->getConfigValue('cm.core.deploy-key') == 'vcs') {
+      $this->logger->warning('cm.core.deploy-key is set to "vcs". This will only work on Acquia Cloud. If you are not using Acquia Cloud, change this configuration value.');
+    }
     $this->config->set('cm.core.key', $this->getConfigValue('cm.core.deploy-key'));
+
     // Disable alias since we are targeting specific uri.
     $this->config->set('drush.alias', '');
 
