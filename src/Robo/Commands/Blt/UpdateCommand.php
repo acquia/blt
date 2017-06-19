@@ -48,7 +48,7 @@ class UpdateCommand extends BltTasks {
     $this->reInstallComposerPackages();
     $this->setProjectName();
     $this->initAndCommitRepo();
-    $exit_code = $this->invokeCommand('install-alias');
+    $this->invokeCommand('install-alias');
     $this->displayArt();
 
     $this->yell("Your new BLT-based project has been created in {$this->getConfigValue('repo.root')}.");
@@ -68,9 +68,7 @@ class UpdateCommand extends BltTasks {
       $this->updateSchemaVersionFile();
     }
     $this->cleanup();
-    $exit_code = $this->invokeCommand('install-alias');
-
-    return $exit_code;
+    $this->invokeCommand('install-alias');
   }
 
   /**

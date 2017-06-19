@@ -311,7 +311,7 @@ class DeployCommand extends BltTasks {
   public function build() {
     $this->say("Generating build artifact...");
     $this->say("For more detailed output, use the -v flag.");
-    $exit_code = $this->invokeCommands([
+    $this->invokeCommands([
       // Execute `blt frontend` to ensure that frontend artifact are generated
       // in source repo.
       'frontend',
@@ -319,9 +319,6 @@ class DeployCommand extends BltTasks {
       // slim chance this has never been generated.
       'setup:hash-salt',
     ]);
-    if ($exit_code) {
-      return $exit_code;
-    }
 
     $this->buildCopy();
     $this->composerInstall();
@@ -573,12 +570,10 @@ class DeployCommand extends BltTasks {
         $this->config->set('drush.uri', $multisite);
       }
 
-      $status_code = $this->invokeCommand('setup:config-import');
-      $status_code = $this->invokeCommand('setup:toggle-modules');
+      $this->invokeCommand('setup:config-import');
+      $this->invokeCommand('setup:toggle-modules');
 
       $this->say("Finished deploying updates to $multisite.");
-
-      return $status_code;
     }
   }
 
@@ -588,13 +583,10 @@ class DeployCommand extends BltTasks {
    * @command deploy:drupal:install
    */
   public function installDrupal() {
-    $status_code = $this->invokeCommands([
+    $this->invokeCommands([
       'internal:drupal:install',
       'deploy:update',
     ]);
-    if ($status_code) {
-      return $status_code;
-    }
 
     $this->updateSites();
   }

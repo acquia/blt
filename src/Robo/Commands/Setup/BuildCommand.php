@@ -21,13 +21,12 @@ class BuildCommand extends BltTasks {
    */
   public function setup() {
     $this->say("Setting up local environment for site '{$this->getConfigValue('site')}'...");
-    $status_code = $this->invokeCommands([
+    $this->invokeCommands([
       'setup:build',
       'setup:hash-salt',
       'setup:drupal:install',
       'install-alias',
     ]);
-    return $status_code;
   }
 
   /**
@@ -49,13 +48,8 @@ class BuildCommand extends BltTasks {
       $commands[] = 'setup:config-import';
     }
 
-    $status_code = $this->invokeCommands($commands);
-    if ($status_code) {
-      return $status_code;
-    }
+    $this->invokeCommands($commands);
     $this->setSitePermissions();
-
-    return $status_code;
   }
 
   /**
@@ -96,7 +90,7 @@ class BuildCommand extends BltTasks {
    * @command setup:build
    */
   public function build() {
-    $status_code = $this->invokeCommands([
+    $this->invokeCommands([
       'setup:behat',
       // setup:composer:install must run prior to setup:settings to ensure that
       // scaffold files are present.
@@ -105,17 +99,12 @@ class BuildCommand extends BltTasks {
       'setup:settings',
       // 'frontend'.
     ]);
-    if ($status_code) {
-      return $status_code;
-    }
 
     if ($this->getConfig()->has('simplesamlphp') && $this->getConfigValue('simplesamlphp')) {
       $this->invokeCommand('simplesamlphp:build:config');
     }
 
-    $exit_code = $this->invokeHook("post-setup-build");
-
-    return $exit_code;
+    $this->invokeHook("post-setup-build");
   }
 
   /**

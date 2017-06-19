@@ -16,9 +16,7 @@ class ConfigCommand extends BltTasks {
    * @command setup:update
    */
   public function update() {
-    $status_code = $this->invokeCommands(['setup:config-import']);
-
-    return $status_code;
+    $this->invokeCommands(['setup:config-import']);
   }
 
   /**

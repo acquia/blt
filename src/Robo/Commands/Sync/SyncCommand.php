@@ -27,7 +27,7 @@ class SyncCommand extends BltTasks {
       $commands[] = 'sync:files';
     }
 
-    return $this->invokeCommands($commands);
+    $this->invokeCommands($commands);
 
   }
 

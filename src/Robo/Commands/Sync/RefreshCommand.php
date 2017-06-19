@@ -50,7 +50,7 @@ class RefreshCommand extends BltTasks {
    * @command sync:refresh
    */
   public function refreshDefault() {
-    return $this->invokeCommands([
+    $this->invokeCommands([
       'sync',
       'setup:update',
     ]);
