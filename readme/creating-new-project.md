@@ -34,7 +34,7 @@
 
         blt setup
 
-   This will generate all required files and install Drupal.
+    This will generate all required files and install Drupal.
 
 1. Login to Drupal `drush @[project.machine_name].local uli`, where [project.machine_name] is the value that you set in project.yml.
 
