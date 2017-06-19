@@ -27,6 +27,9 @@ yaml-cli update:value blt/project.yml project.local.hostname '127.0.0.1:8888'
 # Define BLT's deployment endpoints.
 yaml-cli update:value blt/project.yml git.remotes.0 bolt8@svn-5223.devcloud.hosting.acquia.com:bolt8.git
 yaml-cli update:value blt/project.yml git.remotes.1 git@github.com:acquia-pso/blted8.git
+# Set cm.core.deploy-key to sync since we are not executing this on Acquia Cloud.
+touch blt/project.local.yml
+yaml-cli update:value blt/project.local.yml cm.core.deploy-key sync
 
 git add -A
 git commit -m 'Adding new dependencies from BLT update.' -n

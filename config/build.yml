@@ -44,6 +44,7 @@ cm:
     key: sync
     # A different config key is used by the deploy:update step, which is executed on Acquia Cloud.
     # This must also have a corresponding value at cm.core.dirs.vcs.
+    # If you are NOT on Acquia hosting, you probably need to change this to 'sync'.
     # @see https://github.com/acquia/blt/issues/678
     deploy-key: vcs
     dirs:
