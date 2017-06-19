@@ -29,6 +29,7 @@ class ConfigCommand extends BltTasks {
   public function import() {
     $strategy = $this->getConfigValue('cm.strategy');
     $cm_core_key = $this->getConfigValue('cm.core.key');
+    $this->logConfig($this->getConfigValue('cm'), 'cm');
 
     if ($strategy != 'none') {
       $this->invokeHook('pre-config-import');
@@ -100,6 +101,9 @@ class ConfigCommand extends BltTasks {
     if (file_exists($core_config_file)) {
       $task->drush("pm-enable")->arg('config_split');
       $task->drush("config-import")->arg($cm_core_key);
+    }
+    else {
+      $this->logger->warning("BLT will NOT import configuration, $core_config_file was not found.");
     }
   }
 
