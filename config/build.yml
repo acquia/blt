@@ -80,7 +80,6 @@ drupal:
 drush:
   bin: ${composer.bin}/drush
   dir: ${docroot}
-  uri: default
   assume: yes
   passthru: yes
   logoutput: yes

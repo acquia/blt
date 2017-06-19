@@ -29,7 +29,9 @@ class InitHook extends Tasks implements IOAwareInterface, ConfigAwareInterface, 
     // We set the value for site late in the bootstrap process so that a user
     // may define its value at runtime via --define. This can only happen after
     // input has been processed.
-    $site = $this->getConfigValue('site', 'default');
+    $multisites = $this->getConfigValue('multisites');
+    $first_multisite = reset($multisites);
+    $site = $this->getConfigValue('site', $first_multisite);
     $this->getConfig()->setSiteConfig($site);
   }
 
