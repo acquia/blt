@@ -1,7 +1,6 @@
 <?php
 
 namespace Acquia\Blt\Custom;
-
 // Do not remove this, even though it appears to be unused.
 use Acquia\Blt\Annotations\Fileset;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
