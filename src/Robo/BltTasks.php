@@ -92,7 +92,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
       // The application will catch any exceptions thrown in the run command.
       // We must check the exit code and throw our own exception. This allows
       // us to do without checking the exit code of every invoked command.
-      if (!$exit_code) {
+      if ($exit_code) {
         throw new BltException("Command `$command_name {$input->__toString()}` exited with code $exit_code.");
       }
     }
