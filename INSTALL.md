@@ -1,6 +1,6 @@
 # BLT installation
 
-*Please do not clone BLT as a means of using it. The only reason to clone BLT is to contribute outside the context of a particular Drupal site.*
+*Please do not clone BLT as a means of using it. The only reason to clone BLT is to contribute to it.
 
 ## System requirements
 
@@ -28,13 +28,13 @@ Then install the  minimum dependencies for BLT. The preferred method is via Home
         brew install php56 git composer drush
         composer global require "hirak/prestissimo:^0.3"
 
-If you'd like to create a VM with BLT, you will require the following additional libraries. If you'd like to use a LAMP stack other than Drupal VM, see [Local Development](readme/local-development.md).
+If you'd like to create a [Drupal VM](https://www.drupalvm.com/) with BLT, you will require the following additional libraries. If you'd like to use a LAMP stack other than Drupal VM, see [Local Development](readme/local-development.md).
 
         brew tap caskroom/cask
         brew cask install virtualbox vagrant
-        vagrant plugin install vagrant-hostsupdater
+        vagrant plugin install vagrant-hostsupdater vagrant-exec
 
-The minimum required versions are VirtualBox 5.1.x and Vagrant 1.8.6. 
+The minimum required versions are VirtualBox 5.1.x and Vagrant 1.8.6.
 
 The local PHP environment should also have a memory limit of at least 2G for BLT to initialize. You can modify your PHP CLI's memory limit by editing php.ini. You can use the following command to open the correct php.ini in TextEdit. Set `memory_limit = 2G`.
 

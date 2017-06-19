@@ -37,9 +37,15 @@ After the artifact is created, you can inspect it or even run it as a website lo
 
 To both create and deploy the build artifact in a single command, run the following command
 
-    blt deploy -Ddeploy.branch=develop-build -Ddeploy.commitMsg='BLT-123: The commit message.'
+    blt deploy --commit-msg "BLT-000: Example deploy to branch" --branch "develop-build" --no-interaction
 
 This command will commit the artifact to the `develop-build` branch with the specified commit message and push it to the remotes defined in project.yml.
+
+To create a new git tag for the artifact (rather than committing to a branch) run:
+
+    blt blt deploy --commit-msg "Creating release 1.0.0." --tag "1.0.0"
+
+This will generate the artifact, tag it with `1.0.0`, and push it to the remotes defined in project.yml.
 
 ## Modifying the artifact
 
@@ -56,7 +62,7 @@ See [Extending BLT](extending-blt.md) for more information on overriding default
 
 If you would like to create, commit, but _not push_ the artifact, you may do a dry run:
 
-    blt deploy -Ddeploy.branch=develop-build -Ddeploy.commitMsg='BLT-123: The commit message.' -Ddeploy.dryRun=true
+    blt deploy -D deploy.dryRun=true
 
 This is helpful for debugging deployment artifacts.
 

@@ -39,7 +39,6 @@ Other commonly used commands:
         blt tests:phpunit
 
         # ssh into vm & run behat tests
-        drush @[project.machine_name].local ssh
         blt tests:behat
 
         # diagnose issues

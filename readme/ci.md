@@ -8,7 +8,7 @@ Two CI solutions are supported out-of-the-box:
 1. [Travis CI](#travis-ci)
 
 BLT provides one default instruction file (e.g., .travis.yml or acquia-pipelines.yml) for each of these CI solutions, allowing you to have a working build out-of-the-box. To use the default instruction file you must run an initialization command (detailed below). This will copy the default instruction file to the required location, much in the way that Drupal requires you to copy default.settings.php to settings.php.
- 
+
 The instruction files are intended to be customized. BLT will provide updates to the default instruction files, but it is your responsibility to merge those updates into your customized files.
 
 ### Workflow
@@ -39,11 +39,11 @@ To initialize Pipelines support for your BLT project:
         # Move to a location specified in $PATH. E.g.,
         mv pipelines /usr/local/bin
 
-1. [Configure the Pipelines client](https://docs.acquia.com/pipelines/install#authenticate) 
+1. [Configure the Pipelines client](https://docs.acquia.com/pipelines/install#authenticate)
 1. Initialize Pipelines for your project
 
         blt ci:pipelines:init
-   
+
     This will generate an [acquia-pipelines.yml file](https://docs.acquia.com/pipelines/yaml) in your project root based on [BLT's default acquia-pipelines.yml file](https://github.com/acquia/blt/blob/8.x/scripts/pipelines/acquia-pipelines.yml).
 
 1. Commit the new file and push it to your Acquia git remote. Example commands:
@@ -75,7 +75,7 @@ You may [use the Pipelines client](https://docs.acquia.com/pipelines/client) to 
     # Show status of all builds.
     pipelines status
     # Find the job-id for to get your Github integrated build logs
-    pipelines list-jobs --application-id=[Application-id] 
+    pipelines list-jobs --application-id=[Application-id]
     # Show logs for most recent Github integrated build.
     pipelines logs --job-ib=[Job-id]
 
@@ -119,7 +119,7 @@ To set up the [workflow described earlier](#workflow), you must configure Acquia
         addons:
           ssh_known_hosts:
           - svn-14671.prod.hosting.acquia.com
-   
+
     Note: if planning on executing any drush sql-syncs/rsyncs between the cloud and your environment, also add the test/stage server host here.
 
 1. Commits or merges to the develop branch on GitHub should now trigger a fully built artifact to be deployed to your specified remotes.
@@ -133,32 +133,8 @@ You can monitor multiple branches on github for deployment, for example master a
 ````
 deploy:
    - provider: script
-     script: blt deploy -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="${TRAVIS_BRANCH}-build"
-     skip_cleanup: true
-     on:
-       branch: master
-
-   - provider: script
-     script: blt deploy -Ddeploy.commitMsg="Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" -Ddeploy.branch="${TRAVIS_BRANCH}-build"
+     script: "$BLT_DIR/scripts/travis/deploy_branch"
      skip_cleanup: true
      on:
        branch: integration
 ````
-
-
-#### Automated testing using live content
-
-By default, the Travis CI automated tests install and test your site from scratch. You may also run automated tests against a copy of your production database. This allows you to functionally test update hooks.
-
-Automated testing of live content is easy to set up with two simple steps:
-
-1. Add the hostname of your staging server to .travis.yml:
-
-         ssh_known_hosts:
-           - staging-12345.prod.hosting.acquia.com
-
-2. Follow the steps in [extending BLT](extending-blt.md) to override the default `ci:build:validate:test` target:
-
-         <!-- Override the core ci:build:validate:test target to include a local refresh-->
-         <target name="ci:build:validate:test" description="Builds, validates, tests, and deploys an artifact."
-           depends="validate:all, ci:setup, local:sync, local:update, tests:all" />
