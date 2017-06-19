@@ -2,14 +2,6 @@
 
 Here is a quick-start guide to getting your local development environment set up and getting oriented with the project standards and workflows.
 
-## Required SAAS Access:
-
-Please ask the project's engagement manager for access to the following SaaS services:
-
-* JIRA
-* GitHub repository
-* Acquia Cloud subscription
-
 ## System Requirements
 
 Verify that your system meets [System requirements](../INSTALL.md)

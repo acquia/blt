@@ -8,24 +8,26 @@ To create your own Robo PHP command:
 
 1. Create a new file in `blt/src/Commands` named using the pattern `*Command.php`. The file naming convention is required.
 1. You must use the namespace `Acquia\Blt\Custom\Commands` in your command file.
+1. Generate an example command file by executing `blt example:init`. You may use the generated file as a guide for writing your own command.
 1. Follow the [Robo PHP Getting Started guide](http://robo.li/getting-started/#commands) to write a custom command.
-
-For an example implementation, please see [ExampleCommand.php](../template/blt/src/Commands/ExampleCommand.php).
 
 ## Adding a custom Robo Hook
 
 BLT uses the [Annotated Command](https://github.com/consolidation/annotated-command) library to enable you to hook into BLT commands. This allows you to execute custom code
 in response to various events, typically just before or just after a BLT command is executed.
 
-To create a hook, create a new file in `blt/src/Hooks` named using the pattern `*Hook.php`.
+To create a hook:
 
-For an example implementation, please see [ExampleHook.php](../template/blt/src/Hooks/ExampleHook.php).
+1. Create a new file in `blt/src/Hooks` named using the pattern `*Hook.php`.
+1. Generate an example hook file by executing `blt example:init`. You may use the generated file as a guide for writing your own command.
 
 For a list of all available hook types, see [Annotated Command's hook types](https://github.com/consolidation/annotated-command#hooks).
 
 ## Replacing/Overriding a Robo Command
 
-@todo Document this!
+To replace a BLT command with your own custom version, implement the [replace command annotation](https://github.com/consolidation/annotated-command#replace-command-hook) for your custom command.
+
+Please note that when you do this, you take responsibility for maintaining your custom command. Your command may break when changes are made to the upstream version of the command in BLT itself.
 
 ## Overriding a variable value:
 
@@ -51,7 +53,18 @@ This snippet would cause the `validate:phpcs` target to be skipped during BLT bu
 
 ## Adding / overriding filesets
 
-@todo Document this!
+1. Generate an example `Filesets.php` file by executing `blt example:init`. You may use the generated file as a guide for writing your own filesite.
+1. Create a public method in the `Filesets` class in the generated file.
+1. Add a Fileset annotation to your public method, specifying its id:
+
+        @fileset(id="files.php.custom.mytheme")
+
+1. Instantiate and return a `Symfony\Component\Finder\Finder` object. The files found by the finder comprise the fileset.
+1. You may use the Fileset id in various configuration values in your `blt/project.yml` file. E.g., modify `validate:phpcs` such that it scans only your custom fileset, you would add the following to `blt/project.yml`:
+
+        phpcs:
+          filesets:
+            - files.php.custom.mytheme
 
 ## Modifying BLT Configuration
 
@@ -126,19 +139,11 @@ To modify the behavior of the tests:behat target, you may override BLT's `behat`
 
         behat:
           config: ${repo.root}/tests/behat/local.yml
-          haltonerror: true
-          strict: true
           profile: local
-          # If true, `drush runserver` will be used for executing tests.
-          run-server: false
           # The URL of selenium server. Must correspond with setting in behat's yaml config.
           selenium:
             port: 4444
             url: http://127.0.0.1:${behat.selenium.port}/wd/hub
-          # This is used for ad-hoc creation of a server via `drush runserver`.
-          server:
-            port: 8888
-            url: http://127.0.0.1:${tests.server.port}
           # An array of paths with behat tests that should be executed.
           paths:
             # - ${docroot}/modules

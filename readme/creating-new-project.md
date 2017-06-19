@@ -18,10 +18,24 @@
 
     By default, BLT will use the [`lightning`](https://github.com/acquia/lightning) profile, other valid values are `standard` or `minimal`.
 
-1. If using Drupal VM for local development, run the following commands. Otherwise, see [Local Development](http://blt.readthedocs.io/en/8.x/readme/local-development/).
+1. Now its time to spin up your LAMP stack.
+  - **With Drupal VM**: If you would like to use Drupal VM for local development, run the following commands.
 
         blt vm
-        blt local:setup
+
+
+  - **Without Drupal VM**: If you would not like to use Drupal VM, please review [Local Development](http://blt.readthedocs.io/en/8.x/readme/local-development/) and set up your own LAMP stack. Once your LAMP stack is running, execute the following command to generate default local settings files:
+
+        blt setup:settings
+
+    Modify the generated `docroot/sites/default/settings/local.settings.php` file by adding your custom MySql credentials.
+
+1. Execute the following command to complete setup:
+
+        blt setup
+
+   This will generate all required files and install Drupal.
 
 1. Login to Drupal `drush @[project.machine_name].local uli`, where [project.machine_name] is the value that you set in project.yml.
+
 1. See [Next steps](next-steps.md).
