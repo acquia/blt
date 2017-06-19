@@ -15,7 +15,7 @@ load "#{__dir__}/#{ENV['DRUPALVM_DIR']}/Vagrantfile"
 # Set up vagrant exec for BLT.
 Vagrant.configure('2') do |config|
   if Vagrant.has_plugin?('vagrant-exec')
-    config.exec.commands '*', directory: "/var/www/wfm8"
+    config.exec.commands '*', directory: "/var/www/${project.machine_name}"
   end
 end
 
