@@ -34,6 +34,17 @@ class ConfigCommand extends BltTasks {
     if ($strategy != 'none') {
       $this->invokeHook('pre-config-import');
 
+      // If using core-only or config-split strategies, first check to see if
+      // required config is exported.
+      if (in_array($strategy, ['core-only', 'config-split'])) {
+        $core_config_file = $this->getConfigValue('docroot') . '/' . $this->getConfigValue("cm.core.dirs.$cm_core_key.path") . '/core.extension.yml';
+        if (!file_exists($core_config_file)) {
+          $this->logger->warning("BLT will NOT import configuration, $core_config_file was not found.");
+        }
+        // This is not considered a failure.
+        return 0;
+      }
+
       $task = $this->taskDrush()
         ->stopOnFail()
         ->assume(TRUE)
@@ -84,10 +95,7 @@ class ConfigCommand extends BltTasks {
    * @param string $cm_core_key
    */
   protected function importCoreOnly($task, $cm_core_key) {
-    $core_config_file = $this->getConfigValue('docroot') . '/' . $this->getConfigValue("cm.core.dirs.$cm_core_key.path") . '/core.extension.yml';
-    if (file_exists($core_config_file)) {
-      $task->drush("config-import")->arg($cm_core_key);
-    }
+    $task->drush("config-import")->arg($cm_core_key);
   }
 
   /**
@@ -97,14 +105,8 @@ class ConfigCommand extends BltTasks {
    * @param string $cm_core_key
    */
   protected function importConfigSplit($task, $cm_core_key) {
-    $core_config_file = $this->getConfigValue('docroot') . '/' . $this->getConfigValue("cm.core.dirs.$cm_core_key.path") . '/core.extension.yml';
-    if (file_exists($core_config_file)) {
-      $task->drush("pm-enable")->arg('config_split');
-      $task->drush("config-import")->arg($cm_core_key);
-    }
-    else {
-      $this->logger->warning("BLT will NOT import configuration, $core_config_file was not found.");
-    }
+    $task->drush("pm-enable")->arg('config_split');
+    $task->drush("config-import")->arg($cm_core_key);
   }
 
   /**
