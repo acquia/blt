@@ -68,18 +68,7 @@ class ConfigCommand extends BltTasks {
       $task->run();
 
       $this->checkFeaturesOverrides();
-
-      // Check for configuration overrides.
-      if (!$this->getConfigValue('cm.allow-overrides')) {
-        $this->say("Checking for config overrides...");
-        $config_overrides = $this->taskDrush()
-          ->assume(FALSE)
-          ->drush("cex")
-          ->arg('sync');
-        if (!$config_overrides->run()->wasSuccessful()) {
-          throw new BltException("Configuration in the database does not match configuration on disk. You must re-export configuration to capture the changes. This could also indicate a problem with the import process, such as changed field storage for a field with existing content. To permit configuration overrides, set cm.allow-overrides to true in blt/project.yml.");
-        }
-      }
+      $this->checkConfigOverrides($cm_core_key);
 
       $result = $this->invokeHook('post-config-import');
 
@@ -110,7 +99,7 @@ class ConfigCommand extends BltTasks {
     $core_config_file = $this->getConfigValue('docroot') . '/' . $this->getConfigValue("cm.core.dirs.$cm_core_key.path") . '/core.extension.yml';
     if (file_exists($core_config_file)) {
       $task->drush("pm-enable")->arg('config_split');
-      $task->drush("config-import")->arg('sync');
+      $task->drush("config-import")->arg($cm_core_key);
     }
   }
 
@@ -163,6 +152,27 @@ class ConfigCommand extends BltTasks {
             throw new BltException("A feature in the $bundle bundle is overridden. You must re-export this feature to incorporate the changes.");
           }
         }
+      }
+    }
+  }
+
+  /**
+   * Checks whether core config is overridden.
+   *
+   * @param string $cm_core_key
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   */
+  protected function checkConfigOverrides($cm_core_key) {
+  // Check for configuration overrides.
+    if (!$this->getConfigValue('cm.allow-overrides')) {
+      $this->say("Checking for config overrides...");
+      $config_overrides = $this->taskDrush()
+        ->assume(FALSE)
+        ->drush("cex")
+        ->arg($cm_core_key);
+      if (!$config_overrides->run()->wasSuccessful()) {
+        throw new BltException("Configuration in the database does not match configuration on disk. You must re-export configuration to capture the changes. This could also indicate a problem with the import process, such as changed field storage for a field with existing content. To permit configuration overrides, set cm.allow-overrides to true in blt/project.yml.");
       }
     }
   }
