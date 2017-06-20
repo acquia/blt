@@ -20,6 +20,7 @@
 /README.md
 /readme
 /sites/development.services.yml
+/sites/blt.development.services.yml
 /tests
 /tmp
 /Vagrantfile

@@ -1,0 +1,8 @@
+# BLT's Local development services.
+
+# Enable twig debugging.
+parameters:
+  twig.config:
+    debug: true
+    auto_reload: true
+    cache: false
