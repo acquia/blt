@@ -159,9 +159,7 @@ class AliasCommand extends BltTasks {
    * Creates a ~/.bash_profile on OSX if one does not exist.
    */
   protected function createOsxBashProfile() {
-    $os_detector = new Detector();
-    $os_type = $os_detector->getType();
-    if ($os_type == MACOSX) {
+    if ($this->getInspector()->isOsx()) {
       $user = posix_getpwuid(posix_getuid());
       $home_dir = $user['dir'];
       $bash_profile = $home_dir . '/.bash_profile';

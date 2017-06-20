@@ -157,13 +157,12 @@ class BehatCommand extends TestsCommandBase {
    * Launches a headless chrome process.
    */
   protected function launchChrome() {
-    // @todo Find chrome. OSX:
-    // "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome".
     $this->killChrome();
+    $chrome_bin = $this->findChrome();
     $this->logger->info("Launching headless chrome...");
     $this->getContainer()
       ->get('executor')
-      ->execute("google-chrome --headless --disable-gpu --remote-debugging-port={$this->chromePort} https://www.chromestatus.com  > /dev/null 2>&1")
+      ->execute("$chrome_bin --headless --disable-gpu --remote-debugging-port={$this->chromePort} https://www.chromestatus.com  > /dev/null 2>&1")
       ->background(TRUE)
       ->printOutput(TRUE)
       ->run();
@@ -176,6 +175,28 @@ class BehatCommand extends TestsCommandBase {
   protected function killChrome() {
     $this->logger->info("Killing running google-chrome processes...");
     $this->getContainer()->get('executor')->killProcessByPort($this->chromePort);
+  }
+
+  /**
+   * Finds the local Chrome binary.
+   *
+   * @return null|string
+   *   NULL if Chrome could not be found.
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   *   Throws exception if google-chrome cannot be found.
+   */
+  protected function findChrome() {
+    if ($this->getInspector()->commandExists('google-chrome')) {
+      return 'google-chrome';
+    }
+
+    $osx_path = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+    if ($this->getInspector()->isOsx() && file_exists($osx_path)) {
+      return $osx_path;
+    }
+
+    throw new BltException("Could not find Google Chrome. Please add an alias for \"google-chrome\" to your CLI environment.");
   }
 
   /**
