@@ -30,6 +30,7 @@ cache:
 addons:
   ssh_known_hosts:
     - svn-5223.devcloud.hosting.acquia.com
+  chrome: stable
 
 before_install:
   # Exit build early if only documentation was changed in a Pull Request.
