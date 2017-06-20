@@ -1,5 +1,47 @@
 # Change Log
 
+## [8.9.0-beta4](https://github.com/acquia/blt/tree/8.9.0-beta4) (2017-06-20)
+[Full Changelog](https://github.com/acquia/blt/compare/8.9.0-beta3...8.9.0-beta4)
+
+**Implemented enhancements:**
+
+- Remove ExampleCommand and ExampleHook from template, require `blt examples:init` or something. [\#1669](https://github.com/acquia/blt/issues/1669)
+- Fixes \#1669: Remove ExampleCommand and ExampleHook from template, require `blt examples:init` or something. [\#1697](https://github.com/acquia/blt/pull/1697) ([grasmash](https://github.com/grasmash))
+- Fixes \#1675: Setting cm.core.dirs.vcs to cm.core.dirs.sync. [\#1695](https://github.com/acquia/blt/pull/1695) ([grasmash](https://github.com/grasmash))
+- Issue \#1681: Set vagrant exec default directory in BLT Vagrantfile. [\#1688](https://github.com/acquia/blt/pull/1688) ([geerlingguy](https://github.com/geerlingguy))
+
+**Fixed bugs:**
+
+- blt tests failure [\#1698](https://github.com/acquia/blt/issues/1698)
+- Behat Tests Fail [\#1681](https://github.com/acquia/blt/issues/1681)
+- Features Import Fails [\#1679](https://github.com/acquia/blt/issues/1679)
+- Git Hooks Failing on Commit [\#1677](https://github.com/acquia/blt/issues/1677)
+- setup commands not using multisite param [\#1676](https://github.com/acquia/blt/issues/1676)
+- BLT Fails to run config-import sync on cloudhooks [\#1675](https://github.com/acquia/blt/issues/1675)
+- Config Import Incorrect On Multi-site install [\#1674](https://github.com/acquia/blt/issues/1674)
+- Fixes \#1698: blt tests failure. [\#1700](https://github.com/acquia/blt/pull/1700) ([grasmash](https://github.com/grasmash))
+- Fixing early return. [\#1696](https://github.com/acquia/blt/pull/1696) ([grasmash](https://github.com/grasmash))
+- Connects to \#1681: Fixing Vagrantfile syntax. [\#1694](https://github.com/acquia/blt/pull/1694) ([grasmash](https://github.com/grasmash))
+- Fixes \#1675: Use cm.core.key everywhere. [\#1693](https://github.com/acquia/blt/pull/1693) ([grasmash](https://github.com/grasmash))
+- Throwing BltException whenever invokeCommand\(\) fails. [\#1692](https://github.com/acquia/blt/pull/1692) ([grasmash](https://github.com/grasmash))
+- Fixes \#1674: Config Import Incorrect On Multi-site install. [\#1691](https://github.com/acquia/blt/pull/1691) ([grasmash](https://github.com/grasmash))
+- Fixes \#1681: Expand Vagrantfile properties. [\#1690](https://github.com/acquia/blt/pull/1690) ([grasmash](https://github.com/grasmash))
+- BLT-1679: correcting features import in config import process. [\#1680](https://github.com/acquia/blt/pull/1680) ([mikemadison13](https://github.com/mikemadison13))
+
+**Closed issues:**
+
+- Instructions to generate a custom profile don't work [\#1682](https://github.com/acquia/blt/issues/1682)
+- Unable to set permissions for site directories.  [\#1678](https://github.com/acquia/blt/issues/1678)
+- Documentation gap for alternative local development environments [\#1636](https://github.com/acquia/blt/issues/1636)
+
+**Misc merged pull requests**
+
+- Fixes \#1636: Documentation gap for alternative local development environments. [\#1699](https://github.com/acquia/blt/pull/1699) ([grasmash](https://github.com/grasmash))
+- Fix a dead link in the tests directory to point to the updated URL on… [\#1689](https://github.com/acquia/blt/pull/1689) ([gabe-connolly](https://github.com/gabe-connolly))
+- Fixes \#1682: Instructions to generate a custom profile don't work. [\#1686](https://github.com/acquia/blt/pull/1686) ([grasmash](https://github.com/grasmash))
+- Adding @todos. [\#1684](https://github.com/acquia/blt/pull/1684) ([grasmash](https://github.com/grasmash))
+
+
 ## [8.9.0-beta3](https://github.com/acquia/blt/tree/8.9.0-beta3) (2017-06-15)
 [Full Changelog](https://github.com/acquia/blt/compare/8.9.0-beta2...8.9.0-beta3)
 
