@@ -159,6 +159,7 @@ class BehatCommand extends TestsCommandBase {
   protected function launchChrome() {
     $this->killChrome();
     $chrome_bin = $this->findChrome();
+    $this->checkChromeVersion($chrome_bin);
     $this->logger->info("Launching headless chrome...");
     $this->getContainer()
       ->get('executor')
@@ -198,6 +199,26 @@ class BehatCommand extends TestsCommandBase {
     }
 
     throw new BltException("Could not find Google Chrome. Please add an alias for \"google-chrome\" to your CLI environment.");
+  }
+
+  /**
+   * Verifies that Google Chrome meets minimum version requirement.
+
+   * @param string $bin
+   *   Absolute file path to the google chrome bin.
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   *   Throws exception if minimum version is not met.
+   */
+  protected function checkChromeVersion($bin) {
+    $version = (int) $this->getContainer()->get('executor')
+      ->execute("'$bin' --version | cut -f3 -d' ' | cut -f1 -d'.'")
+      ->run()
+      ->getMessage();
+
+    if ($version < 59) {
+      throw new BltException("You must have Google Chrome version 59+ to execute headless tests.");
+    }
   }
 
   /**
