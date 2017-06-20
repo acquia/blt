@@ -5,8 +5,6 @@ namespace Acquia\Blt\Robo\Commands\Blt;
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
-use Tivie\OS\Detector;
-use const Tivie\OS\MACOSX;
 
 /**
  * Defines commands for installing and updating the BLT alias.

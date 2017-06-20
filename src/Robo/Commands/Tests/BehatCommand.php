@@ -162,9 +162,10 @@ class BehatCommand extends TestsCommandBase {
     $this->logger->info("Launching headless chrome...");
     $this->getContainer()
       ->get('executor')
-      ->execute("$chrome_bin --headless --disable-gpu --remote-debugging-port={$this->chromePort} https://www.chromestatus.com  > /dev/null 2>&1")
+      ->execute("'$chrome_bin' --headless --disable-gpu --remote-debugging-port={$this->chromePort} https://www.chromestatus.com  > /dev/null 2>&1")
       ->background(TRUE)
       ->printOutput(TRUE)
+      ->printMetadata(TRUE)
       ->run();
     $this->getContainer()->get('executor')->waitForUrlAvailable("localhost:{$this->chromePort}");
   }

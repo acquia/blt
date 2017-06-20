@@ -304,7 +304,7 @@ class Updates {
       $this->updater->getOutput()->writeln("<comment>blt/composer.overrides.json</comment> is no longer necessary.");
       $this->updater->getOutput()->writeln("Instead, move your overrides to your root composer.json, and set extra.merge-plugin.ignore-duplicates to true.");
     }
-
+    $this->updater->syncWithTemplate('tests/behat/example.local.yml');
     $this->updater->writeProjectYml($project_yml);
   }
 }
