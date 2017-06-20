@@ -33,6 +33,9 @@ mv ${BLT_DIR}/scripts/blt/ci/internal/config_split.config_split.ci.yml config/de
 blt setup:config-import
 drush pm-uninstall config_split --root=docroot -y
 
+# Remove all exported configuration from previous test steps.
+rm -rf config/default/*
+
 # Test deployment commands.
 blt deploy:update
 

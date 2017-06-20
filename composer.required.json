@@ -57,8 +57,8 @@
     "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
     "nuke": [
       "rm -rf vendor composer.lock docroot/core docroot/modules/contrib docroot/profiles/contrib docroot/themes/contrib",
-      "@composer clearcache",
-      "@composer install"
+      "@composer clearcache --ansi",
+      "@composer install --ansi"
     ],
     "install-phantomjs": [
       "rm -rf vendor/bin/phantomjs",
