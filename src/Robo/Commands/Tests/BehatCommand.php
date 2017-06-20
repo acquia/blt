@@ -157,6 +157,8 @@ class BehatCommand extends TestsCommandBase {
    * Launches a headless chrome process.
    */
   protected function launchChrome() {
+    // @todo Find chrome. OSX:
+    // "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome".
     $this->killChrome();
     $this->logger->info("Launching headless chrome...");
     $this->getContainer()
