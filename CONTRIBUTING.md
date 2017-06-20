@@ -30,13 +30,12 @@ Use the following commands to create a testable BLT-created project alongside BL
 git clone https://github.com/acquia/blt.git
 rm -rf blted8
 composer install --working-dir=blt
-cp -R blt/blt-project blted8
+mkdir blted8
+cp blt/blt-project/composer.json blted8/
 cd blted8
 git init
 composer install
 ./vendor/bin/blt install-alias
-rm -rf vendor
-composer update
 git add -A
 git commit -m 'Initial commit.'
 ```
