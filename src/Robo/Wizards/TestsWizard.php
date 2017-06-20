@@ -34,6 +34,7 @@ class TestsWizard extends Wizard {
   public function wizardConfigureBehat() {
     if (!$this->getInspector()->isBehatConfigured()) {
       $this->logger->warning('Behat is not configured properly.');
+      $this->say("BLT can (re)generate tests/behat/local.yml using tests/behat/example.local.yml.");
       $confirm = $this->confirm("Do you want (re)generate local Behat config in <comment>tests/behat/local.yml</comment>?", TRUE);
       if ($confirm) {
         $bin = $this->getConfigValue('composer.bin');

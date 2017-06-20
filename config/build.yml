@@ -6,6 +6,8 @@ behat:
   selenium:
     port: 4444
     url: http://127.0.0.1:${behat.selenium.port}/wd/hub
+  chrome:
+    port: 9222
   # An array of paths with behat tests that should be executed.
   paths:
     # - ${docroot}/modules
@@ -13,8 +15,8 @@ behat:
     - ${repo.root}/tests/behat
   tags: '~ajax&&~experimental&&~lightningextension'
   extra: ''
-  # May be selenium or phantomjs.
-  web-driver: selenium
+  # May be chrome, selenium, phantomjs.
+  web-driver: chrome
 
 bin.path: vendor/bin
 
