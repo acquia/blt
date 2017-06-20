@@ -73,7 +73,6 @@ class DbCommand extends BltTasks {
     }
 
     $task->drush('cache-clear drush');
-    $task->drush("$local_alias cache-rebuild");
 
     $result = $task->run();
 
