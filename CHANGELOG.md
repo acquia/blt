@@ -1,5 +1,25 @@
 # Change Log
 
+## [8.9.0-beta5](https://github.com/acquia/blt/tree/8.9.0-beta5) (2017-06-21)
+[Full Changelog](https://github.com/acquia/blt/compare/8.9.0-beta4...8.9.0-beta5)
+
+**Implemented enhancements:**
+
+- Connects to \#1711: Adding config:get and config:dump commmands. [\#1714](https://github.com/acquia/blt/pull/1714) ([grasmash](https://github.com/grasmash))
+- Fixes \#1709: Adding notifications regarding manual upgrade path. [\#1713](https://github.com/acquia/blt/pull/1713) ([grasmash](https://github.com/grasmash))
+
+**Fixed bugs:**
+
+- BLT Upgrade to 8.9.0-beta4 Issues [\#1707](https://github.com/acquia/blt/issues/1707)
+- New plugin.php is not executed after BLT update [\#1683](https://github.com/acquia/blt/issues/1683)
+- Fixes \#1683: Check schema version before command execution. [\#1710](https://github.com/acquia/blt/pull/1710) ([grasmash](https://github.com/grasmash))
+
+**Misc merged pull requests**
+
+- Fix docs for creating a deploy-exclude.txt file. [\#1712](https://github.com/acquia/blt/pull/1712) ([greylabel](https://github.com/greylabel))
+- Fixes \#1707: BLT Upgrade to 8.9.0-beta4 issues. [\#1708](https://github.com/acquia/blt/pull/1708) ([grasmash](https://github.com/grasmash))
+
+
 ## [8.9.0-beta4](https://github.com/acquia/blt/tree/8.9.0-beta4) (2017-06-20)
 [Full Changelog](https://github.com/acquia/blt/compare/8.9.0-beta3...8.9.0-beta4)
 
