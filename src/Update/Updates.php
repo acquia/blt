@@ -301,6 +301,12 @@ class Updates {
     }
     unset($project_yml['behat']['launch-selenium']);
     unset($project_yml['behat']['launch-phantomjs']);
+
+    if (!empty($project_yml['multisite.name'])) {
+      $project_yml['multisites'][] = $project_yml['multisite.name'];
+      unset ($project_yml['multisite.name']);
+    }
+
     $this->updater->writeProjectYml($project_yml);
 
     if (file_exists($this->updater->getRepoRoot() . '/blt/composer.overrides.json')) {
