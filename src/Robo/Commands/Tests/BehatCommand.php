@@ -203,7 +203,7 @@ class BehatCommand extends TestsCommandBase {
 
   /**
    * Verifies that Google Chrome meets minimum version requirement.
-
+   *
    * @param string $bin
    *   Absolute file path to the google chrome bin.
    *
