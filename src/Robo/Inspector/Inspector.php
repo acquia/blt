@@ -3,6 +3,8 @@
 namespace Acquia\Blt\Robo\Inspector;
 
 use Acquia\Blt\Robo\Config\YamlConfigProcessor;
+use League\Container\ContainerAwareInterface;
+use League\Container\ContainerAwareTrait;
 use Robo\Config\YamlConfigLoader;
 use Acquia\Blt\Robo\Common\Executor;
 use Acquia\Blt\Robo\Common\IO;
@@ -23,10 +25,11 @@ use const Tivie\OS\MACOSX;
  *
  * @package Acquia\Blt\Robo\Common
  */
-class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAwareInterface {
+class Inspector implements BuilderAwareInterface, ConfigAwareInterface, ContainerAwareInterface, LoggerAwareInterface {
 
   use BuilderAwareTrait;
   use ConfigAwareTrait;
+  use ContainerAwareTrait;
   use LoggerAwareTrait;
   use IO;
 
@@ -590,6 +593,27 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
     $os_type = $os_detector->getType();
 
     return $os_type == MACOSX;
+  }
+
+  /**
+   * Gets the current schema version of the root project.
+   *
+   * @return string
+   *   The current schema version.
+   */
+  public function getCurrentSchemaVersion() {
+    if (file_exists($this->getConfigValue('blt.config-files.schema-version'))) {
+      $version = file_get_contents($this->getConfigValue('blt.config-files.schema-version'));
+    }
+    else {
+      $version = $this->getContainer()->get('updater')->getLatestUpdateMethodVersion();
+    }
+
+    return $version;
+  }
+
+  public function isSchemaVersionUpToDate() {
+    return $this->getCurrentSchemaVersion() == $this->getContainer()->get('updater')->getLatestUpdateMethodVersion();
   }
 
 }

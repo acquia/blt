@@ -2,17 +2,10 @@
 
 namespace Acquia\Blt\Robo\Hooks;
 
-use Acquia\Blt\Robo\Config\ConfigAwareTrait;
-use Acquia\Blt\Robo\Inspector\InspectorAwareInterface;
-use Acquia\Blt\Robo\Inspector\InspectorAwareTrait;
+use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Wizards\SetupWizard;
 use Acquia\Blt\Robo\Wizards\TestsWizard;
 use Consolidation\AnnotatedCommand\AnnotationData;
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerAwareTrait;
-use Robo\Contract\ConfigAwareInterface;
-use Robo\Contract\IOAwareInterface;
-use Robo\Tasks;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -22,11 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * These hooks typically use a Wizard to evaluate the validity of config or
  * state and guide the user toward resolving issues.
  */
-class InteractHook extends Tasks implements IOAwareInterface, ConfigAwareInterface, InspectorAwareInterface, LoggerAwareInterface {
-
-  use ConfigAwareTrait;
-  use InspectorAwareTrait;
-  use LoggerAwareTrait;
+class InteractHook extends BltTasks {
 
   /**
    * Sets $this->input.
@@ -85,6 +74,25 @@ class InteractHook extends Tasks implements IOAwareInterface, ConfigAwareInterfa
     /** @var \Acquia\Blt\Robo\Wizards\TestsWizard $tests_wizard */
     $tests_wizard = $this->getContainer()->get(TestsWizard::class);
     $tests_wizard->wizardConfigureBehat();
+  }
+
+  /**
+   * Executes outstanding updates.
+   *
+   * @hook interact *
+   */
+  public function interactExecuteUpdates(
+    InputInterface $input,
+    OutputInterface $output,
+    AnnotationData $annotationData
+  ) {
+    if ($this->invokeDepth == 0 && $input->getFirstArgument() != 'update' && !$this->getInspector()->isSchemaVersionUpToDate()) {
+      $this->logger->warning("Your BLT schema is out of date.");
+      $confirm = $this->confirm("Would you like to run outstanding updates?");
+      if ($confirm) {
+        $this->invokeCommand('update');
+      }
+    }
   }
 
 }
