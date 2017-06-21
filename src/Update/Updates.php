@@ -296,6 +296,9 @@ class Updates {
     if (!empty($project_yml['behat']['launch-phantomjs']) && $project_yml['behat']['launch-phantomjs']) {
       $project_yml['behat']['web-driver'] = 'phantomjs';
     }
+    else {
+      $project_yml['behat']['web-driver'] = 'selenium';
+    }
     unset($project_yml['behat']['launch-selenium']);
     unset($project_yml['behat']['launch-phantomjs']);
     $this->updater->writeProjectYml($project_yml);
@@ -304,7 +307,5 @@ class Updates {
       $this->updater->getOutput()->writeln("<comment>blt/composer.overrides.json</comment> is no longer necessary.");
       $this->updater->getOutput()->writeln("Instead, move your overrides to your root composer.json, and set extra.merge-plugin.ignore-duplicates to true.");
     }
-    $this->updater->syncWithTemplate('tests/behat/example.local.yml');
-    $this->updater->writeProjectYml($project_yml);
   }
 }
