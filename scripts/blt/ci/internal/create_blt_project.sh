@@ -55,4 +55,7 @@ sed -i "s:deploy_updates:deploy_install:g" hooks/common/post-code-update/post-co
 # Create example command and hook files.
 blt examples:init
 
+# Dump all config values.
+blt config:dump
+
 set +v
