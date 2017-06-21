@@ -16,7 +16,7 @@ However, there are sometimes extenuating circumstances that require you to commi
 
 * Create a custom deploy.exclude_file and reference its location in your project.yml
 
-        mkdir blt/deploy && cp vendor/acquia/blt/scripts/files/deploy-exclude.txt blt/deploy/deploy-exclude.txt
+        mkdir blt/deploy && cp vendor/acquia/blt/scripts/blt/deploy/deploy-exclude.txt blt/deploy/deploy-exclude.txt
         
         deploy:
           exclude_file: ${repo.root}/blt/deploy/deploy_exclude.txt
