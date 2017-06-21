@@ -11,7 +11,7 @@ use Acquia\Blt\Robo\Exceptions\BltException;
 class ConfigCommand extends BltTasks {
 
   /**
-   * Gets the value of a config variables.
+   * Gets the value of a config variable.
    *
    * @command config:get
    *
@@ -28,7 +28,7 @@ class ConfigCommand extends BltTasks {
   }
 
   /**
-   * Dumps all config values.
+   * Dumps all configuration values.
    *
    * @command config:dump
    */
