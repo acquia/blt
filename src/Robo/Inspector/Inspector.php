@@ -3,7 +3,6 @@
 namespace Acquia\Blt\Robo\Inspector;
 
 use Acquia\Blt\Robo\Config\YamlConfigProcessor;
-use Acquia\Blt\Update\Updater;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 use Robo\Config\YamlConfigLoader;

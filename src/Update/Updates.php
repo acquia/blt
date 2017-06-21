@@ -307,5 +307,9 @@ class Updates {
       $this->updater->getOutput()->writeln("<comment>blt/composer.overrides.json</comment> is no longer necessary.");
       $this->updater->getOutput()->writeln("Instead, move your overrides to your root composer.json, and set extra.merge-plugin.ignore-duplicates to true.");
     }
+
+    // Notify that DVM configuration should be updated.
+    // Notify that Pipelines, Travis CI should be re-initialized.
+    // Notify that custom Phing commands must be ported to Robo.
   }
 }
