@@ -8,7 +8,7 @@ You must have the following tools on the command line of your *host operating sy
 
 * [Git](https://git-scm.com/)
 * [Composer](https://getcomposer.org/download/)
-* [PHP 5.6+](http://php.net/manual/en/install.php)
+* [PHP 7+](http://php.net/manual/en/install.php)
 
 Instructions for installing _all_ requirements are listed below.
 
