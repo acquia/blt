@@ -306,16 +306,26 @@ class Updates {
       $project_yml['multisites'][] = $project_yml['multisite.name'];
       unset ($project_yml['multisite.name']);
     }
+    unset($project_yml['import']);
 
     $this->updater->writeProjectYml($project_yml);
 
+    $messages = [
+      "You have updated to a new major version of BLT, which introduces backwards-incompatible changes.",
+      "You may need to perform the following manual update steps:",
+      "  - Re-initialize default Drupal VM configuration via `blt vm:config`.",
+      "  - Re-initialize default Travis CI and/or Acquia Pipelines configuration via `blt ci:travis:init` and `blt:pipelines:init`.",
+      "  - All Phing commands are now obsolete. If you previously had custom Phing commands, you must port them to Robo. See:",
+      "    http://blt.readthedocs.io/en/8.x/readme/extending-blt/",
+      "  - Some commands that existed in previous version of BLT have been removed. Run `blt list` for a full list of commands.",
+    ];
     if (file_exists($this->updater->getRepoRoot() . '/blt/composer.overrides.json')) {
-      $this->updater->getOutput()->writeln("<comment>blt/composer.overrides.json</comment> is no longer necessary.");
-      $this->updater->getOutput()->writeln("Instead, move your overrides to your root composer.json, and set extra.merge-plugin.ignore-duplicates to true.");
+      $messages[] = "- <comment>blt/composer.overrides.json</comment> is no longer necessary.";
+      $messages[] = "-  Instead, move your overrides to your root composer.json, and set extra.merge-plugin.ignore-duplicates to true.";
     }
-
-    // Notify that DVM configuration should be updated.
-    // Notify that Pipelines, Travis CI should be re-initialized.
-    // Notify that custom Phing commands must be ported to Robo.
+    $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
+    $this->updater->getOutput()->writeln("");
+    $this->updater->getOutput()->writeln($formattedBlock);
+    $this->updater->getOutput()->writeln("");
   }
 }
