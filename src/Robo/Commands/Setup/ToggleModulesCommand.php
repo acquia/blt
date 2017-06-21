@@ -26,7 +26,7 @@ class ToggleModulesCommand extends BltTasks {
    *   your configuration.
    */
   public function toggleModules($options = [
-    'environment' =>  InputOption::VALUE_REQUIRED,
+    'environment' => InputOption::VALUE_REQUIRED,
   ]) {
     if ($options['environment']) {
       $environment = $options['environment'];
