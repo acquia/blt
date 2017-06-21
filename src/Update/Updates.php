@@ -315,13 +315,12 @@ class Updates {
       "You may need to perform the following manual update steps:",
       "  - Re-initialize default Drupal VM configuration via `blt vm:config`.",
       "  - Re-initialize default Travis CI and/or Acquia Pipelines configuration via `blt ci:travis:init` and `blt:pipelines:init`.",
-      "  - All Phing commands are now obsolete. If you previously had custom Phing commands, you must port them to Robo. See:",
+      "  - Port custom Phing commands to Robo. All Phing commands are now obsolete. See:",
       "    http://blt.readthedocs.io/en/8.x/readme/extending-blt/",
-      "  - Some commands that existed in previous version of BLT have been removed. Run `blt list` for a full list of commands.",
     ];
     if (file_exists($this->updater->getRepoRoot() . '/blt/composer.overrides.json')) {
-      $messages[] = "- <comment>blt/composer.overrides.json</comment> is no longer necessary.";
-      $messages[] = "-  Instead, move your overrides to your root composer.json, and set extra.merge-plugin.ignore-duplicates to true.";
+      $messages[] = "  - <comment>blt/composer.overrides.json</comment> is no longer necessary.";
+      $messages[] = "  -  Move your overrides to your root composer.json, and set extra.merge-plugin.ignore-duplicates to true.";
     }
     $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
     $this->updater->getOutput()->writeln("");
