@@ -10,6 +10,7 @@ use Acquia\Blt\Robo\Inspector\InspectorAwareInterface;
 use Acquia\Blt\Robo\Log\BltLogStyle;
 use Acquia\Blt\Robo\Wizards\SetupWizard;
 use Acquia\Blt\Robo\Wizards\TestsWizard;
+use Acquia\Blt\Update\Updater;
 use Consolidation\AnnotatedCommand\CommandFileDiscovery;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
@@ -195,6 +196,9 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
       ->withArgument('executor');
 
     $container->share('filesetManager', FilesetManager::class);
+
+    $updater = new Updater('Acquia\Blt\Update\Updates', $this->getConfig()->get('repo.root'));
+    $container->share('updater', $updater);
 
     /** @var \Consolidation\AnnotatedCommand\AnnotatedCommandFactory $factory */
     $factory = $container->get('commandFactory');

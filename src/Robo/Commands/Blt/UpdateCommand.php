@@ -31,8 +31,8 @@ class UpdateCommand extends BltTasks {
    * @hook init
    */
   public function initialize() {
-    $this->updater = new Updater('Acquia\Blt\Update\Updates', $this->getConfigValue('repo.root'));
-    $this->currentSchemaVersion = $this->getCurrentSchemaVersion();
+    $this->updater = $this->getContainer()->get('updater');
+    $this->currentSchemaVersion = $this->getInspector()->getCurrentSchemaVersion();
   }
 
   /**
@@ -223,23 +223,6 @@ class UpdateCommand extends BltTasks {
   }
 
   /**
-   * Gets the current schema version of the root project.
-   *
-   * @return string
-   *   The current schema version.
-   */
-  protected function getCurrentSchemaVersion() {
-    if (file_exists($this->getConfigValue('blt.config-files.schema-version'))) {
-      $version = file_get_contents($this->getConfigValue('blt.config-files.schema-version'));
-    }
-    else {
-      $version = $this->updater->getLatestUpdateMethodVersion();
-    }
-
-    return $version;
-  }
-
-  /**
    * Updates blt/.schema_version with latest schema version.
    */
   protected function updateSchemaVersionFile() {
@@ -255,6 +238,9 @@ class UpdateCommand extends BltTasks {
    * Executes all update hooks for a given schema delta.
    *
    * @param $starting_version
+   *
+   * @return bool
+   *   TRUE if updates were successfully executed.
    */
   protected function executeSchemaUpdates($starting_version) {
     $starting_version = $this->convertLegacySchemaVersion($starting_version);
