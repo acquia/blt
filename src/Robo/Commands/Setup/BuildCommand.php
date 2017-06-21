@@ -25,6 +25,7 @@ class BuildCommand extends BltTasks {
       'setup:build',
       'setup:hash-salt',
       'setup:drupal:install',
+      'setup:toggle-modules',
       'install-alias',
     ]);
   }

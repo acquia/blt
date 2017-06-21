@@ -3,6 +3,8 @@
 namespace Acquia\Blt\Robo\Commands\Setup;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Exceptions\BltException;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Defines commands in the "setup:toggle-modules" namespace.
@@ -12,19 +14,41 @@ class ToggleModulesCommand extends BltTasks {
   /**
    * Enables and uninstalls specified modules.
    *
+   * You may define the environment for which modules should be toggled by
+   * passing the --environment=[value] option to this command setting
+   * $_ENV['environment'] via the CLI, or defining environment in one of your
+   * BLT configuration files.
+   *
    * @command setup:toggle-modules
+   *
+   * @option environment The environment key for which modules should be
+   *   toggled. This should correspond with a modules.[environment].* key in
+   *   your configuration.
    */
-  public function toggleModules() {
-    if (!empty($_ENV['environment'])) {
+  public function toggleModules($options = [
+    'environment' => InputOption::VALUE_REQUIRED,
+  ]) {
+    if ($options['environment']) {
+      $environment = $options['environment'];
+    }
+    elseif ($this->getConfig()->has('environment')) {
+      $environment = $this->getConfigValue('environment');
+    }
+    elseif (!empty($_ENV['environment'])) {
+      $environment = $_ENV['environment'];
+    }
+
+    if (isset($environment)) {
       // Enable modules.
-      $enable_key = "modules.{$_ENV['environment']}.enable";
-      $exit_code = $this->doToggleModules('pm-enable', $enable_key);
+      $enable_key = "modules.$environment.enable";
+      $this->doToggleModules('pm-enable --skip', $enable_key);
 
       // Uninstall modules.
-      $disable_key = "modules.{$_ENV['environment']}.uninstall";
-      $exit_code = $this->doToggleModules('pm-uninstall', $disable_key);
-
-      return $exit_code;
+      $disable_key = "modules.$environment.uninstall";
+      $this->doToggleModules('pm-uninstall', $disable_key);
+    }
+    else {
+      $this->say("Environment is unset. Skipping setup:toggle-modules...");
     }
   }
 
@@ -36,15 +60,14 @@ class ToggleModulesCommand extends BltTasks {
    * @param string $config_key
    *   The config key containing the array of modules.
    *
-   * @return int
-   *   The exit code of the command.
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function doToggleModules($command, $config_key) {
     if ($this->getConfig()->has($config_key)) {
       $modules = $this->getConfigValue($config_key);
       $modules_list = implode(' ', $modules);
       $result = $this->taskDrush()
-        ->drush("$command $modules_list --skip")
+        ->drush("$command $modules_list")
         ->run();
       $exit_code = $result->getExitCode();
     }
@@ -53,7 +76,9 @@ class ToggleModulesCommand extends BltTasks {
       $this->logger->info("$config_key is not set.");
     }
 
-    return $exit_code;
+    if ($exit_code) {
+      throw new BltException("Could not toggle modules listed in $config_key.");
+    }
   }
 
 }

@@ -577,6 +577,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
       }
       list($timestamp, $target, $type, $data) = $parsed_line;
       $this->drupalVmStatus[$target][$type] = $data;
+      $this->logger->debug("vagrant $target.$type = $data");
     }
   }
 
