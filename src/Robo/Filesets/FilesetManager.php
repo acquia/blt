@@ -2,7 +2,6 @@
 
 namespace Acquia\Blt\Robo\Filesets;
 
-use Acquia\Blt\Custom\Filesets;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
