@@ -49,6 +49,11 @@ class BehatCommand extends TestsCommandBase {
   protected $behatLogDir;
 
   /**
+   * @var string
+   */
+  protected $chromePort;
+
+  /**
    * This hook will fire for all commands in this command file.
    *
    * @hook init
@@ -56,6 +61,7 @@ class BehatCommand extends TestsCommandBase {
   public function initialize() {
     $this->seleniumLogFile = $this->getConfigValue('reports.localDir') . "/selenium2.log";
     $this->behatLogDir = $this->getConfigValue('reports.localDir') . "/behat";
+    $this->chromePort = $this->getConfigValue('behat.chrome.port');
     $this->seleniumPort = $this->getConfigValue('behat.selenium.port');
     $this->seleniumUrl = $this->getConfigValue('behat.selenium.url');
     $this->serverPort = $this->getConfigValue('tests.server.port');
@@ -142,6 +148,77 @@ class BehatCommand extends TestsCommandBase {
     elseif ($this->getConfigValue('behat.web-driver') == 'selenium') {
       $this->launchSelenium();
     }
+    elseif ($this->getConfigValue('behat.web-driver') == 'chrome') {
+      $this->launchChrome();
+    }
+  }
+
+  /**
+   * Launches a headless chrome process.
+   */
+  protected function launchChrome() {
+    $this->killChrome();
+    $chrome_bin = $this->findChrome();
+    $this->checkChromeVersion($chrome_bin);
+    $this->logger->info("Launching headless chrome...");
+    $this->getContainer()
+      ->get('executor')
+      ->execute("'$chrome_bin' --headless --disable-gpu --remote-debugging-port={$this->chromePort} https://www.chromestatus.com  > /dev/null 2>&1")
+      ->background(TRUE)
+      ->printOutput(TRUE)
+      ->printMetadata(TRUE)
+      ->run();
+    $this->getContainer()->get('executor')->waitForUrlAvailable("localhost:{$this->chromePort}");
+  }
+
+  /**
+   * Kills headless chrome process running on $this->chromePort.
+   */
+  protected function killChrome() {
+    $this->logger->info("Killing running google-chrome processes...");
+    $this->getContainer()->get('executor')->killProcessByPort($this->chromePort);
+  }
+
+  /**
+   * Finds the local Chrome binary.
+   *
+   * @return null|string
+   *   NULL if Chrome could not be found.
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   *   Throws exception if google-chrome cannot be found.
+   */
+  protected function findChrome() {
+    if ($this->getInspector()->commandExists('google-chrome')) {
+      return 'google-chrome';
+    }
+
+    $osx_path = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+    if ($this->getInspector()->isOsx() && file_exists($osx_path)) {
+      return $osx_path;
+    }
+
+    throw new BltException("Could not find Google Chrome. Please add an alias for \"google-chrome\" to your CLI environment.");
+  }
+
+  /**
+   * Verifies that Google Chrome meets minimum version requirement.
+   *
+   * @param string $bin
+   *   Absolute file path to the google chrome bin.
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   *   Throws exception if minimum version is not met.
+   */
+  protected function checkChromeVersion($bin) {
+    $version = (int) $this->getContainer()->get('executor')
+      ->execute("'$bin' --version | cut -f3 -d' ' | cut -f1 -d'.'")
+      ->run()
+      ->getMessage();
+
+    if ($version < 59) {
+      throw new BltException("You must have Google Chrome version 59+ to execute headless tests.");
+    }
   }
 
   /**
@@ -154,6 +231,9 @@ class BehatCommand extends TestsCommandBase {
     elseif ($this->getConfigValue('behat.web-driver') == 'selenium') {
       $this->killSelenium();
     }
+    elseif ($this->getConfigValue('behat.web-driver') == 'chrome') {
+      $this->killChrome();
+    }
   }
 
   /**
@@ -162,7 +242,7 @@ class BehatCommand extends TestsCommandBase {
   protected function launchSelenium() {
     $this->createSeleniumLogs();
     $this->killSelenium();
-    $this->logger->info("Launching Selenium standalone server.");
+    $this->logger->info("Launching Selenium standalone server...");
     $this->getContainer()
       ->get('executor')
       ->execute($this->getConfigValue('composer.bin') . "/selenium-server-standalone -port {$this->seleniumPort} -log {$this->seleniumLogFile}  > /dev/null 2>&1")
@@ -178,7 +258,7 @@ class BehatCommand extends TestsCommandBase {
    * Kills any Selenium processes already running.
    */
   protected function killSelenium() {
-    $this->logger->info("Killing any running Selenium processes");
+    $this->logger->info("Killing any running Selenium processes...");
     $this->getContainer()->get('executor')->killProcessByPort($this->seleniumPort);
     $this->getContainer()->get('executor')->killProcessByName('selenium-server-standalone');
   }

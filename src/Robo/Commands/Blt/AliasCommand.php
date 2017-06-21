@@ -5,8 +5,6 @@ namespace Acquia\Blt\Robo\Commands\Blt;
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
-use Tivie\OS\Detector;
-use const Tivie\OS\MACOSX;
 
 /**
  * Defines commands for installing and updating the BLT alias.
@@ -159,9 +157,7 @@ class AliasCommand extends BltTasks {
    * Creates a ~/.bash_profile on OSX if one does not exist.
    */
   protected function createOsxBashProfile() {
-    $os_detector = new Detector();
-    $os_type = $os_detector->getType();
-    if ($os_type == MACOSX) {
+    if ($this->getInspector()->isOsx()) {
       $user = posix_getpwuid(posix_getuid());
       $home_dir = $user['dir'];
       $bash_profile = $home_dir . '/.bash_profile';

@@ -22,8 +22,10 @@ local:
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\DrupalExtension\Context\DrushContext
   extensions:
+    DMore\ChromeExtension\Behat\ServiceContainer\ChromeExtension: ~
     Behat\MinkExtension:
-      javascript_session: selenium2
+      browser_name: chrome
+      javascript_session: default
       # configure the base url for your site
       base_url: ${project.local.uri}
       # set default command for "Show last response" step.
@@ -41,6 +43,10 @@ local:
       selenium2:
         wd_host: ${behat.selenium.url}
         browser: chrome
+      sessions:
+        default:
+          chrome:
+            api_url: "http://localhost:9222"
     Drupal\DrupalExtension:
       drupal:
         # This must be an absolute path.

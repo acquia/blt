@@ -15,6 +15,8 @@ use Robo\Contract\BuilderAwareInterface;
 use Robo\Contract\ConfigAwareInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Robo\Contract\VerbosityThresholdInterface;
+use Tivie\OS\Detector;
+use const Tivie\OS\MACOSX;
 
 /**
  * Class Inspector.
@@ -576,6 +578,17 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
       list($timestamp, $target, $type, $data) = $parsed_line;
       $this->drupalVmStatus[$target][$type] = $data;
     }
+  }
+
+  /**
+   * Gets the Operating system type.
+   * @return int
+   */
+  public function isOsx() {
+    $os_detector = new Detector();
+    $os_type = $os_detector->getType();
+
+    return $os_type == MACOSX;
   }
 
 }
