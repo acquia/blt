@@ -86,7 +86,7 @@ class InteractHook extends BltTasks {
     OutputInterface $output,
     AnnotationData $annotationData
   ) {
-    if ($this->invokeDepth == 0 && !$this->getInspector()->isSchemaVersionUpToDate()) {
+    if ($this->invokeDepth == 0 && $input->getFirstArgument() != 'update' && !$this->getInspector()->isSchemaVersionUpToDate()) {
       $this->logger->warning("Your BLT schema is out of date.");
       $confirm = $this->confirm("Would you like to run outstanding updates?");
       if ($confirm) {
