@@ -14,13 +14,25 @@ class ToggleModulesCommand extends BltTasks {
   /**
    * Enables and uninstalls specified modules.
    *
+   * You may define the environment for which modules should be toggled by
+   * passing the --environment=[value] option to this command setting
+   * $_ENV['environment'] via the CLI, or defining environment in one of your
+   * BLT configuration files.
+   *
    * @command setup:toggle-modules
+   *
+   * @option environment The environment key for which modules should be
+   *   toggled. This should correspond with a modules.[environment].* key in
+   *   your configuration.
    */
   public function toggleModules($options = [
     'environment' =>  InputOption::VALUE_REQUIRED,
   ]) {
     if ($options['environment']) {
       $environment = $options['environment'];
+    }
+    elseif ($this->getConfig()->has('environment')) {
+      $environment = $this->getConfigValue('environment');
     }
     elseif (!empty($_ENV['environment'])) {
       $environment = $_ENV['environment'];
