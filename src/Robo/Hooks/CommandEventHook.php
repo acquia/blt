@@ -26,6 +26,17 @@ class CommandEventHook extends BltTasks {
   }
 
   /**
+   * Issues warnings to user if their local environment is mis-configured.
+   *
+   * @hook command-event *
+   */
+  public function issueWarnings(ConsoleCommandEvent $event) {
+    // The inspector tracks whether warnings have been issued because it is
+    // shared in the container.
+    $this->getInspector()->issueEnvironmentWarnings();
+  }
+
+  /**
    * Execute a command inside of Drupal VM.
    *
    * @hook command-event *
@@ -36,7 +47,6 @@ class CommandEventHook extends BltTasks {
     if (method_exists($command, 'getAnnotationData')) {
       /* @var \Consolidation\AnnotatedCommand\AnnotationData */
       $annotation_data = $event->getCommand()->getAnnotationData();
-      $this->warnIfDrupalVmNotRunning();
       if ($annotation_data->has('executeInDrupalVm') && $this->shouldExecuteInDrupalVm()) {
         $event->disableCommand();
         $args = $this->getCliArgs();
@@ -96,15 +106,6 @@ class CommandEventHook extends BltTasks {
     return !$this->getInspector()->isVmCli() &&
       $this->getInspector()->isDrupalVmLocallyInitialized()
       && $this->getInspector()->isDrupalVmBooted();
-  }
-
-  /**
-   * Emits a warning if Drupal VM is initialized but not running.
-   */
-  protected function warnIfDrupalVmNotRunning() {
-    if ($this->invokeDepth == 0 && $this->getInspector()->isDrupalVmLocallyInitialized() && !$this->getInspector()->isDrupalVmBooted()) {
-      $this->logger->warning("Drupal VM is locally initialized, but is not running.");
-    }
   }
 
 }

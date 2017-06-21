@@ -77,7 +77,6 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     $this->runner->setContainer($container);
 
     $this->setLogger($container->get('logger'));
-    $this->validateEnvironment();
   }
 
   /**
@@ -231,23 +230,6 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     $status_code = $this->runner->run($input, $output, $application, $this->commands);
 
     return $status_code;
-  }
-
-  /**
-   * Validates that environment is BLT compatible.
-   */
-  protected function validateEnvironment() {
-    $this->warnIfXDebugLoaded();
-  }
-
-  /**
-   * Warns the user if the xDebug extension is loaded.
-   */
-  protected function warnIfXdebugLoaded() {
-    $xdebug_loaded = extension_loaded('xdebug');
-    if ($xdebug_loaded) {
-      $this->logger->warning("The xDebug extension is loaded. This will significantly decrease performance.");
-    }
   }
 
 }
