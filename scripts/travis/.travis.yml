@@ -54,26 +54,26 @@ before_install:
 
 install:
   - source ${BLT_DIR}/scripts/travis/setup_environment
-  - source $BLT_DIR/scripts/travis/setup_project
+  - source ${BLT_DIR}/scripts/travis/setup_project
 
 script:
-  - source $BLT_DIR/scripts/travis/run_tests
+  - source ${BLT_DIR}/scripts/travis/run_tests
 
 deploy:
    - provider: script
-     script: "$BLT_DIR/scripts/travis/deploy_branch"
+     script: "${BLT_DIR}/scripts/travis/deploy_branch"
      skip_cleanup: true
      on:
        branch: develop
        php: 5.6
    - provider: script
-     script: "$BLT_DIR/scripts/travis/deploy_branch"
+     script: "${BLT_DIR}/scripts/travis/deploy_branch"
      skip_cleanup: true
      on:
        branch: master
        php: 5.6
    - provider: script
-     script: "$BLT_DIR/scripts/travis/deploy_tag"
+     script: "${BLT_DIR}/scripts/travis/deploy_tag"
      skip_cleanup: true
      on:
        tags: true
