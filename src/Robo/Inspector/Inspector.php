@@ -61,6 +61,11 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   protected $fs;
 
   /**
+   * @var bool
+   */
+  protected $warningsIssued = FALSE;
+
+  /**
    * The constructor.
    *
    * @param \Acquia\Blt\Robo\Common\Executor $executor
@@ -282,7 +287,8 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   public function isDrupalVmLocallyInitialized() {
     $status = $this->getDrupalVmStatus();
     $machine_name = $this->getConfigValue('project.machine_name');
-    $initialized = !empty($status[$machine_name])
+    $initialized = !empty($status[$machine_name]['state'])
+      && $status[$machine_name]['state'] != 'not_created'
       && file_exists($this->getConfigValue('repo.root') . '/box/config.yml');
     $statement = $initialized ? "is" : "is not";
     $this->logger->debug("Drupal VM $statement initialized.");
@@ -614,6 +620,36 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
 
   public function isSchemaVersionUpToDate() {
     return $this->getCurrentSchemaVersion() == $this->getContainer()->get('updater')->getLatestUpdateMethodVersion();
+  }
+
+  /**
+   * Emits a warning if Drupal VM is initialized but not running.
+   */
+  protected function warnIfDrupalVmNotRunning() {
+    if ($this->isDrupalVmLocallyInitialized() && !$this->isDrupalVmBooted()) {
+      $this->logger->warning("Drupal VM is locally initialized, but is not running.");
+    }
+  }
+
+  /**
+   * Issues warnings to user if their local environment is mis-configured.
+   */
+  public function issueEnvironmentWarnings() {
+    if (!$this->warningsIssued) {
+      $this->warnIfDrupalVmNotRunning();
+      $this->warnIfXdebugLoaded();
+      $this->warningsIssued = TRUE;
+    }
+  }
+
+  /**
+   * Warns the user if the xDebug extension is loaded.
+   */
+  protected function warnIfXdebugLoaded() {
+    $xdebug_loaded = extension_loaded('xdebug');
+    if ($xdebug_loaded) {
+      $this->logger->warning("The xDebug extension is loaded. This will significantly decrease performance.");
+    }
   }
 
 }
