@@ -163,7 +163,7 @@ class BehatCommand extends TestsCommandBase {
     $this->logger->info("Launching headless chrome...");
     $this->getContainer()
       ->get('executor')
-      ->execute("'$chrome_bin' --headless --disable-gpu --remote-debugging-port={$this->chromePort} https://www.chromestatus.com  > /dev/null 2>&1")
+      ->execute("'$chrome_bin' --headless --disable-gpu --remote-debugging-port={$this->chromePort} https://www.chromestatus.com --disable-web-security --user-data-dir > /dev/null 2>&1")
       ->background(TRUE)
       ->printOutput(TRUE)
       ->printMetadata(TRUE)
@@ -324,7 +324,12 @@ class BehatCommand extends TestsCommandBase {
   protected function executeBehatTests() {
     $exit_code = 0;
 
-    foreach ($this->getConfigValue('behat.paths') as $behat_path) {
+    $behat_paths = $this->getConfigValue('behat.paths');
+    if (is_string($behat_paths)) {
+      $behat_paths = [$behat_paths];
+    }
+
+    foreach ($behat_paths as $behat_path) {
       // Output errors.
       // @todo replace base_url in behat config when internal server is being used.
       $task = $this->taskBehat($this->getConfigValue('composer.bin') . '/behat')
