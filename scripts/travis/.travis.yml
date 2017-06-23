@@ -44,13 +44,13 @@ notifications:
 # - slack: '<account>:<token>#[channel]'
 
 before_install:
-  # Exit build early if only documentation was changed in a Pull Request.
-  - source ${BLT_DIR}/scripts/travis/exit_early
   # Disable xdebug.
   - phpenv config-rm xdebug.ini
   - composer self-update
   - composer validate --no-check-all --ansi
   - composer install
+  # Exit build early if only documentation was changed in a Pull Request.
+  - source ${BLT_DIR}/scripts/travis/exit_early
 
 install:
   - source ${BLT_DIR}/scripts/travis/setup_environment
