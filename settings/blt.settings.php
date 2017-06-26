@@ -170,4 +170,8 @@ if ($is_local_env) {
   elseif (getenv('TUGBOAT_URL') && file_exists(__DIR__ . '/tugboat.settings.php')) {
     require __DIR__ . '/tugboat.settings.php';
   }
+  // Load Probo settings.
+  elseif (getenv('PROBO_ENVIRONMENT') && file_exists(__DIR__ . '/probo.settings.php')) {
+    require __DIR__ . '/probo.settings.php';
+  }
 }
