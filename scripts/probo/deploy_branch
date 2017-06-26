@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -ev
+
+# Add the git remote to known hosts
+$SRC_DIR/vendor/bin/yaml-cli get:value blt/project.yml git.remotes | cut -d@ -f2 | cut -d: -f1 >> ~/.ssh/known_hosts
+
+$SRC_DIR/vendor/bin/blt deploy --commit-msg "Automated commit by Probo CI for Build ${BUILD_ID}" --branch "${BRANCH_NAME}-build" --ignore-dirty --no-interaction -v
+
+set +v

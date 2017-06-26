@@ -49,4 +49,23 @@ class CiCommand extends BltTasks {
     $this->say("<info>A pre-configured .travis.yml file was copied to your repository root.</info>");
   }
 
+  /**
+   * Initializes default Travis CI configuration for this project.
+   *
+   * @command ci:probo:init
+   */
+  public function proboInit() {
+    $result = $this->taskFilesystemStack()
+      ->copy($this->getConfigValue('blt.root') . '/scripts/probo/.probo.yml', $this->getConfigValue('repo.root') . '/.probo.yml', TRUE)
+      ->stopOnFail()
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->run();
+
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Could not initialize Probo CI configuration.");
+    }
+
+    $this->say("<info>A pre-configured .probo.yml file was copied to your repository root.</info>");
+  }
+
 }

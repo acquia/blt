@@ -59,6 +59,10 @@
  * affects the loading of Drush configuration files.
  */
 
+if (getenv('PROBO_ENVIRONMENT') && getenv('BUILD_DOMAIN')) {
+  $options['uri'] = $_ENV['BUILD_DOMAIN'];
+}
+
 if (getenv('TUGBOAT_URL')) {
   $options['uri'] = $_ENV['TUGBOAT_URL'];
 }

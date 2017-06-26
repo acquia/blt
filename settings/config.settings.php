@@ -14,7 +14,7 @@ $split = 'none';
 // Non-acquia envs.
 if ($is_local_env) {
   $split = 'local';
-  if (getenv('TRAVIS') || getenv('PIPELINE_ENV')) {
+  if (getenv('TRAVIS') || getenv('PIPELINE_ENV') || getenv('PROBO_ENVIRONMENT')) {
     $split = 'ci';
   }
 }

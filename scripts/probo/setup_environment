@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+set -ev
+
+# Allow MySQL to finish starting.
+sleep 3
+
+export PATH="${SRC_DIR}/vendor/bin":$PATH
+
+# Install PHP 7
+echo 'exit 0' > /usr/sbin/policy-rc.d
+apt-get update
+apt-get install -y software-properties-common language-pack-en-base
+LC_ALL=en_US.UTF-8 add-apt-repository -y ppa:ondrej/php
+apt-get update
+DEBIAN_FRONTEND=noninteractive apt-get install -y php7.0 libapache2-mod-php7.0 php7.0-gd php7.0-curl php7.0-json php7.0-mbstring php7.0-mysql php7.0-mcrypt php7.0-imagick php7.0-dev php7.0-gmp php7.0-xml php7.0-bcmath php7.0-redis php7.0-uploadprogress php7.0-soap php7.0-pgsql php7.0-bz2
+
+# Create fake mailer.
+ln -s /bin/true /usr/sbin/sendmail
+echo 'max_execution_time = 120' >> /etc/php/7.0/cli/conf.d/probo.ini
+echo 'sendmail_path = /bin/true' >> /etc/php/7.0/cli/conf.d/probo.ini
+
+# Enable $_ENV variables in PHP.
+echo 'variables_order = "EGPCS"' >> /etc/php/7.0/cli/conf.d/probo.ini
+# Ensure that always_populate_raw_post_data PHP setting: Not set to -1 does not happen.
+echo "always_populate_raw_post_data = -1" >> /etc/php/7.0/cli/conf.d/probo.ini
+# Set PHP memory limit to something more realistic.
+echo "memory_limit=512M" >> /etc/php/7.0/cli/conf.d/probo.ini
+
+# Set git info.
+git config --global user.name "ProboCI"
+git config --global user.email "noreply@probo.ci"
+
+export DISPLAY=:99.0
+
+set +v
