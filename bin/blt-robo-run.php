@@ -5,15 +5,16 @@
  * Execute BLT commands via Robo.
  */
 
-use Acquia\Blt\Robo\Config\YamlConfigProcessor;
-use Robo\Config\YamlConfigLoader;
-use Symfony\Component\Console\Input\ArgvInput;
 use Acquia\Blt\Robo\Blt;
 use Acquia\Blt\Robo\Config\DefaultConfig;
+use Acquia\Blt\Robo\Config\YamlConfigProcessor;
+use Robo\Common\TimeKeeper;
+use Robo\Config\YamlConfigLoader;
+use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 // Start Timer.
-$timer = new \Robo\Common\TimeKeeper();
+$timer = new TimeKeeper();
 $timer->start();
 
 // Initialize input and output.
