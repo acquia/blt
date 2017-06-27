@@ -45,6 +45,9 @@ class DeployCommand extends BltTasks {
     if (!$this->getInspector()->isGitMinimumVersionSatisfied('2.0')) {
       $this->logger->error("Your system does not meet BLT's requirements. Please update git to 2.0 or newer.");
     }
+    if ($options['dry-run']) {
+      $this->logger->warning("This will be a dry run, the artifact will not be pushed.");
+    }
     $this->checkDirty($options);
 
     if (!$options['tag'] && !$options['branch']) {
