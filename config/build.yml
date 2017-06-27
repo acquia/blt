@@ -16,7 +16,7 @@ behat:
   tags: '~ajax&&~experimental&&~lightningextension'
   extra: ''
   # May be chrome, selenium, phantomjs.
-  web-driver: chrome
+  web-driver: selenium
 
 bin.path: vendor/bin
 

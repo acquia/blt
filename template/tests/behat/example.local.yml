@@ -25,7 +25,8 @@ local:
     DMore\ChromeExtension\Behat\ServiceContainer\ChromeExtension: ~
     Behat\MinkExtension:
       browser_name: chrome
-      javascript_session: default
+      # Change to "default" for headless Chrome.
+      javascript_session: selenium2
       # configure the base url for your site
       base_url: ${project.local.uri}
       # set default command for "Show last response" step.
