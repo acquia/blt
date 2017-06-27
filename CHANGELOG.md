@@ -1,5 +1,38 @@
 # Change Log
 
+## [8.9.0-beta6](https://github.com/acquia/blt/tree/8.9.0-beta6) (2017-06-27)
+[Full Changelog](https://github.com/acquia/blt/compare/8.9.0-beta5...8.9.0-beta6)
+
+**Implemented enhancements:**
+
+- Unneeded .gitignore line about drupal console. [\#1727](https://github.com/acquia/blt/issues/1727)
+- Robo feature request: total "setup" time [\#1719](https://github.com/acquia/blt/issues/1719)
+- Copying behat.yml and example.local.yml as part of setup:behat. [\#1732](https://github.com/acquia/blt/pull/1732) ([grasmash](https://github.com/grasmash))
+- Printing metadata for hook invokations. [\#1731](https://github.com/acquia/blt/pull/1731) ([grasmash](https://github.com/grasmash))
+- Fixes \#1719: Robo feature request: total "setup" time. [\#1730](https://github.com/acquia/blt/pull/1730) ([grasmash](https://github.com/grasmash))
+- Defaulting web driver to Selenium. [\#1729](https://github.com/acquia/blt/pull/1729) ([grasmash](https://github.com/grasmash))
+- \#1727 Removes drupal console related gitignore line. [\#1728](https://github.com/acquia/blt/pull/1728) ([marvil07](https://github.com/marvil07))
+- Adds probo.ci settings. [\#1726](https://github.com/acquia/blt/pull/1726) ([typhonius](https://github.com/typhonius))
+- Normalize variable usage in travis.yml. [\#1720](https://github.com/acquia/blt/pull/1720) ([greylabel](https://github.com/greylabel))
+- Preventing duplicate warnings from being displayed. [\#1716](https://github.com/acquia/blt/pull/1716) ([grasmash](https://github.com/grasmash))
+
+**Fixed bugs:**
+
+- Connects to \#1528: BLT's merged dependencies not installed during deploy [\#1634](https://github.com/acquia/blt/issues/1634)
+- Allowing specific Behat features to be tested. [\#1723](https://github.com/acquia/blt/pull/1723) ([grasmash](https://github.com/grasmash))
+- Implementing exit\_early after composer install. [\#1721](https://github.com/acquia/blt/pull/1721) ([dpagini](https://github.com/dpagini))
+
+**Closed issues:**
+
+- Unable to run tests via the simpletest UI [\#1724](https://github.com/acquia/blt/issues/1724)
+
+**Misc merged pull requests**
+
+- Issue \#1724: Fixed missing dev dependency. [\#1725](https://github.com/acquia/blt/pull/1725) ([danepowell](https://github.com/danepowell))
+- Changing drupalextension version to work with Lightning tests. [\#1717](https://github.com/acquia/blt/pull/1717) ([grasmash](https://github.com/grasmash))
+- Ensure travis commands run as 'CI' environment. [\#1715](https://github.com/acquia/blt/pull/1715) ([dpagini](https://github.com/dpagini))
+
+
 ## [8.9.0-beta5](https://github.com/acquia/blt/tree/8.9.0-beta5) (2017-06-21)
 [Full Changelog](https://github.com/acquia/blt/compare/8.9.0-beta4...8.9.0-beta5)
 
