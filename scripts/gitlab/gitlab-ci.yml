@@ -1,0 +1,31 @@
+stages:
+  - build
+  - test
+  - deploy
+
+variables:
+  APP_NAME: Project
+
+before_script:
+  - echo "hello world"
+
+build:
+  stage: build
+  script:
+    - composer install
+    - blt setup:build
+
+validate:
+  stage: test
+  script:
+    - blt validate
+
+production:
+  stage: deploy
+  script:
+    - echo "Launching application"
+  environment:
+    name: production
+    url: http://$APP_NAME.example.com
+  only:
+    - master
