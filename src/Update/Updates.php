@@ -314,7 +314,7 @@ class Updates {
       "You have updated to a new major version of BLT, which introduces backwards-incompatible changes.",
       "You may need to perform the following manual update steps:",
       "  - Re-initialize default Drupal VM configuration via `blt vm:config`.",
-      "  - Re-initialize default Travis CI and/or Acquia Pipelines configuration via `blt ci:travis:init` and `blt:pipelines:init`.",
+      "  - Re-initialize default Travis CI and/or Acquia Pipelines configuration via `blt ci:travis:init` and `blt ci:pipelines:init`.",
       "  - Port custom Phing commands to Robo. All Phing commands are now obsolete. See:",
       "    http://blt.readthedocs.io/en/8.x/readme/extending-blt/",
     ];
