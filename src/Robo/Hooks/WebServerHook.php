@@ -48,7 +48,7 @@ class WebServerHook implements ConfigAwareInterface, ContainerAwareInterface, Lo
       /** @var \Acquia\Blt\Robo\Common\Executor $executor */
       $executor = $this->getContainer()->get('executor');
       $result = $executor
-        ->drush("runserver $this->serverUrl &> $log_file")
+        ->drush("runserver $this->serverUrl > $log_file 2>&1")
         ->background(TRUE)
         ->run();
 
