@@ -3,10 +3,10 @@
 namespace Acquia\Blt\Robo\Config;
 
 use Acquia\Blt\Robo\Common\ArrayManipulator;
-use Robo\Config\ConfigProcessor;
+use Consolidation\Config\Loader\ConfigProcessor;
 
 /**
- * Custom processor for YAML based configration.
+ * Custom processor for YAML based configuration.
  */
 class YamlConfigProcessor extends ConfigProcessor {
 

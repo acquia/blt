@@ -9,7 +9,7 @@ use Acquia\Blt\Robo\Blt;
 use Acquia\Blt\Robo\Config\DefaultConfig;
 use Acquia\Blt\Robo\Config\YamlConfigProcessor;
 use Robo\Common\TimeKeeper;
-use Robo\Config\YamlConfigLoader;
+use Consolidation\Config\Loader\YamlConfigLoader;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
