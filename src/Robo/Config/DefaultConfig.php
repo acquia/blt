@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Robo\Config;
 
 use Acquia\Blt\Robo\Exceptions\BltException;
-use Robo\Config\YamlConfigLoader;
+use Consolidation\Config\Loader\YamlConfigLoader;
 use Symfony\Component\Finder\Finder;
 
 /**
