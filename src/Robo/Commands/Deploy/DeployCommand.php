@@ -154,8 +154,7 @@ class DeployCommand extends BltTasks {
       throw new BltException("You must enter a valid tag name.");
     }
     else {
-      $tag_name = $options['tag'];
-      $this->say("Tag is set to <comment>{$options['tag']}</comment>.");
+      $this->say("Tag is set to <comment>$tag_name</comment>.");
     }
 
     return $tag_name;
