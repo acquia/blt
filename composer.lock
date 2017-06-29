@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "c4a352365b7e9b5090eac08eb73b2f90",
+    "content-hash": "75ef0cdf73e446a60c938206474c4a26",
     "packages": [
         {
             "name": "asm89/twig-lint",
@@ -225,7 +225,7 @@
         },
         {
             "name": "consolidation/config",
-            "version": "dev-master",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/config.git",
@@ -270,7 +270,7 @@
                 }
             ],
             "description": "Provide configuration services for a commandline tool.",
-            "time": "2017-06-28 18:24:02"
+            "time": "2017-06-28T18:24:02+00:00"
         },
         {
             "name": "consolidation/log",
@@ -370,16 +370,16 @@
         },
         {
             "name": "consolidation/robo",
-            "version": "dev-master",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/Robo.git",
-                "reference": "5c2b629d3622fa64d329601138cb3a043f938bba"
+                "reference": "36fe43c6be39dd2299d9a3e551f45c5ac15013ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/Robo/zipball/5c2b629d3622fa64d329601138cb3a043f938bba",
-                "reference": "5c2b629d3622fa64d329601138cb3a043f938bba",
+                "url": "https://api.github.com/repos/consolidation/Robo/zipball/36fe43c6be39dd2299d9a3e551f45c5ac15013ec",
+                "reference": "36fe43c6be39dd2299d9a3e551f45c5ac15013ec",
                 "shasum": ""
             },
             "require": {
@@ -445,7 +445,7 @@
                 }
             ],
             "description": "Modern task runner",
-            "time": "2017-06-29 03:13:00"
+            "time": "2017-06-29T15:42:54+00:00"
         },
         {
             "name": "container-interop/container-interop",
@@ -4175,8 +4175,6 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "wikimedia/composer-merge-plugin": 20,
-        "consolidation/robo": 20,
-        "consolidation/config": 20,
         "composer/composer": 20
     },
     "prefer-stable": true,
