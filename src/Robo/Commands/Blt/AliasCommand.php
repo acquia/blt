@@ -17,14 +17,23 @@ class AliasCommand extends BltTasks {
    * @command install-alias
    */
   public function installBltAlias() {
-    $this->createOsxBashProfile();
     if (!$this->getInspector()->isBltAliasInstalled()) {
       $config_file = $this->getInspector()->getCliConfigFile();
-      $this->say("BLT can automatically create a Bash alias to make it easier to run BLT tasks.");
-      $this->say("This alias will be created in <comment>$config_file</comment>.");
-      $confirm = $this->confirm("Install alias?");
-      if ($confirm) {
-        $this->createNewAlias();
+      if (is_null($config_file)) {
+        $this->logger->warning("Could not find your CLI configuration file.");
+        $this->logger->warning("Looked in ~/.zsh, ~/.bash_profile, ~/.bashrc, ~/.profile.");
+        $created = $this->createOsxBashProfile();
+        if (!$created) {
+          $this->logger->warning("Please create one of the aforementioned files, or create the BLT alias manually.");
+        }
+      }
+      else {
+        $this->say("BLT can automatically create a Bash alias to make it easier to run BLT tasks.");
+        $this->say("This alias will be created in <comment>$config_file</comment>.");
+        $confirm = $this->confirm("Install alias?");
+        if ($confirm) {
+          $this->createNewAlias();
+        }
       }
     }
     elseif (!$this->isBltAliasUpToDate()) {
@@ -158,19 +167,26 @@ class AliasCommand extends BltTasks {
    */
   protected function createOsxBashProfile() {
     if ($this->getInspector()->isOsx()) {
-      $user = posix_getpwuid(posix_getuid());
-      $home_dir = $user['dir'];
-      $bash_profile = $home_dir . '/.bash_profile';
-      if (!file_exists($bash_profile)) {
-        $result = $this->taskFilesystemStack()
-          ->touch($bash_profile)
-          ->run();
+      $continue = $this->confirm("Would you like to create ~/.bash_profile?");
+      if ($continue) {
+        $user = posix_getpwuid(posix_getuid());
+        $home_dir = $user['dir'];
+        $bash_profile = $home_dir . '/.bash_profile';
+        if (!file_exists($bash_profile)) {
+          $result = $this->taskFilesystemStack()
+            ->touch($bash_profile)
+            ->run();
 
-        if (!$result->wasSuccessful()) {
-          throw new BltException("Could not create $bash_profile.");
+          if (!$result->wasSuccessful()) {
+            throw new BltException("Could not create $bash_profile.");
+          }
+
+          return TRUE;
         }
       }
     }
+
+    return FALSE;
   }
 
 }
