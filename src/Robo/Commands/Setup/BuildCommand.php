@@ -98,7 +98,7 @@ class BuildCommand extends BltTasks {
       'setup:composer:install',
       'setup:git-hooks',
       'setup:settings',
-      // 'frontend'.
+      'frontend',
     ]);
 
     if ($this->getConfig()->has('simplesamlphp') && $this->getConfigValue('simplesamlphp')) {
