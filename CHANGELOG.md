@@ -1,5 +1,25 @@
 # Change Log
 
+## [8.9.0-rc1](https://github.com/acquia/blt/tree/8.9.0-rc1) (2017-06-29)
+[Full Changelog](https://github.com/acquia/blt/compare/8.9.0-beta6...8.9.0-rc1)
+
+**Implemented enhancements:**
+
+- Adding consolidation/config. [\#1739](https://github.com/acquia/blt/pull/1739) ([grasmash](https://github.com/grasmash))
+- Checking that class exists before loading Fileset. [\#1737](https://github.com/acquia/blt/pull/1737) ([grasmash](https://github.com/grasmash))
+
+**Fixed bugs:**
+
+- Fixing bug in setting of deploy tag. [\#1741](https://github.com/acquia/blt/pull/1741) ([grasmash](https://github.com/grasmash))
+- Fixes \#1722: Travis chrome behat setup. [\#1736](https://github.com/acquia/blt/pull/1736) ([grasmash](https://github.com/grasmash))
+
+**Misc merged pull requests**
+
+- Adding frontend task to setup:build. [\#1740](https://github.com/acquia/blt/pull/1740) ([grasmash](https://github.com/grasmash))
+- Fix update message. [\#1738](https://github.com/acquia/blt/pull/1738) ([arknoll](https://github.com/arknoll))
+- Revert "Defaulting web driver to Selenium." [\#1735](https://github.com/acquia/blt/pull/1735) ([grasmash](https://github.com/grasmash))
+
+
 ## [8.9.0-beta6](https://github.com/acquia/blt/tree/8.9.0-beta6) (2017-06-27)
 [Full Changelog](https://github.com/acquia/blt/compare/8.9.0-beta5...8.9.0-beta6)
 
