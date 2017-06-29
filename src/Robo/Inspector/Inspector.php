@@ -5,7 +5,7 @@ namespace Acquia\Blt\Robo\Inspector;
 use Acquia\Blt\Robo\Config\YamlConfigProcessor;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
-use Robo\Config\YamlConfigLoader;
+use Consolidation\Config\Loader\YamlConfigLoader;
 use Acquia\Blt\Robo\Common\Executor;
 use Acquia\Blt\Robo\Common\IO;
 use Acquia\Blt\Robo\Config\BltConfig;
