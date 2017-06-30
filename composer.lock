@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "bfde88e195891b1a687534d9560ab374",
+    "content-hash": "d04e601d850d70b3718f38078f3de31a",
     "packages": [
         {
             "name": "asm89/twig-lint",
@@ -217,6 +217,55 @@
             "time": "2017-04-03T22:37:00+00:00"
         },
         {
+            "name": "consolidation/config",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/consolidation/config.git",
+                "reference": "b30571aa8f0eae40581ae8b8aeaa26706b444781"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/consolidation/config/zipball/b30571aa8f0eae40581ae8b8aeaa26706b444781",
+                "reference": "b30571aa8f0eae40581ae8b8aeaa26706b444781",
+                "shasum": ""
+            },
+            "require": {
+                "dflydev/dot-access-data": "^1.1.0",
+                "grasmash/yaml-expander": "^1.1",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4",
+                "satooshi/php-coveralls": "^1.0",
+                "squizlabs/php_codesniffer": "2.*",
+                "symfony/console": "^2.5|^3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Consolidation\\Config\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Greg Anderson",
+                    "email": "greg.1.anderson@greenknowe.org"
+                }
+            ],
+            "description": "Provide configuration services for a commandline tool.",
+            "time": "2017-06-28T18:24:02+00:00"
+        },
+        {
             "name": "consolidation/log",
             "version": "1.0.3",
             "source": {
@@ -314,27 +363,25 @@
         },
         {
             "name": "consolidation/robo",
-            "version": "1.0.6",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/Robo.git",
-                "reference": "de6225256b2ed88822af1cd8cc3a01bf933add8c"
+                "reference": "36fe43c6be39dd2299d9a3e551f45c5ac15013ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/Robo/zipball/de6225256b2ed88822af1cd8cc3a01bf933add8c",
-                "reference": "de6225256b2ed88822af1cd8cc3a01bf933add8c",
+                "url": "https://api.github.com/repos/consolidation/Robo/zipball/36fe43c6be39dd2299d9a3e551f45c5ac15013ec",
+                "reference": "36fe43c6be39dd2299d9a3e551f45c5ac15013ec",
                 "shasum": ""
             },
             "require": {
                 "consolidation/annotated-command": "^2.2",
+                "consolidation/config": "^1",
                 "consolidation/log": "~1",
                 "consolidation/output-formatters": "^3.1.5",
-                "dflydev/dot-access-data": "^1.1.0",
-                "grasmash/yaml-expander": "^1.1",
                 "league/container": "^2.2",
                 "php": ">=5.5.0",
-                "squizlabs/php_codesniffer": "^2.8",
                 "symfony/console": "~2.8|~3.0",
                 "symfony/event-dispatcher": "~2.5|~3.0",
                 "symfony/filesystem": "~2.5|~3.0",
@@ -353,11 +400,12 @@
                 "patchwork/jsqueeze": "~2",
                 "pear/archive_tar": "^1.4.2",
                 "phpunit/php-code-coverage": "~2|~4",
-                "satooshi/php-coveralls": "~1"
+                "satooshi/php-coveralls": "~1",
+                "squizlabs/php_codesniffer": "^2.8"
             },
             "suggest": {
                 "henrikbjorn/lurker": "For monitoring filesystem changes in taskWatch",
-                "natxet/CssMin": "For minifying JS files in taskMinify",
+                "natxet/CssMin": "For minifying CSS files in taskMinify",
                 "patchwork/jsqueeze": "For minifying JS files in taskMinify",
                 "pear/archive_tar": "Allows tar archives to be created and extracted in taskPack and taskExtract, respectively."
             },
@@ -367,7 +415,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.x-dev"
+                    "dev-master": "1.x-dev",
+                    "dev-state": "1.x-dev"
                 }
             },
             "autoload": {
@@ -389,7 +438,7 @@
                 }
             ],
             "description": "Modern task runner",
-            "time": "2017-03-31T18:23:36+00:00"
+            "time": "2017-06-29T15:42:54+00:00"
         },
         {
             "name": "container-interop/container-interop",

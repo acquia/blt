@@ -4,7 +4,7 @@ namespace Acquia\Blt\Robo\Config;
 
 use Acquia\Blt\Robo\Common\ArrayManipulator;
 use Grasmash\YamlExpander\Expander;
-use Robo\Config\ConfigProcessor;
+use Consolidation\Config\Loader\ConfigProcessor;
 
 class YamlConfigProcessor extends ConfigProcessor {
 

@@ -183,7 +183,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, LoggerAw
     $behat_local_config_file = $this->getConfigValue('repo.root') . '/tests/behat/local.yml';
 
     $behat_local_config = new BltConfig();
-    $loader = new \Robo\Config\YamlConfigLoader();
+    $loader = new \Consolidation\Config\Loader\YamlConfigLoader();
     $processor = new \Acquia\Blt\Robo\Config\YamlConfigProcessor();
     $processor->extend($loader->load($behat_local_config_file));
     $behat_local_config->import($processor->export());
