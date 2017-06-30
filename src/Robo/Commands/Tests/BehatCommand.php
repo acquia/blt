@@ -322,14 +322,17 @@ class BehatCommand extends TestsCommandBase {
    *   Throws an exception if any Behat test fails.
    */
   protected function executeBehatTests() {
-    $exit_code = 0;
-
     $behat_paths = $this->getConfigValue('behat.paths');
     if (is_string($behat_paths)) {
       $behat_paths = [$behat_paths];
     }
 
     foreach ($behat_paths as $behat_path) {
+      // If we do not have an absolute path, we assume that the behat feature
+      // path is relative to tests/behat/features.
+      if (!$this->getInspector()->getFs()->isAbsolutePath($behat_path)) {
+        $behat_path = $this->getConfigValue('repo.root') . '/tests/behat/features/' . $behat_path;
+      }
       // Output errors.
       // @todo replace base_url in behat config when internal server is being used.
       $task = $this->taskBehat($this->getConfigValue('composer.bin') . '/behat')
