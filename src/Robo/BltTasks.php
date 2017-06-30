@@ -216,18 +216,28 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function executeCommandAgainstFilesets(array $filesets, $command, $parallel = FALSE) {
+    $passed = TRUE;
+    $failed_filesets = [];
     foreach ($filesets as $fileset_id => $fileset) {
       if (!is_null($fileset) && iterator_count($fileset)) {
         $this->say("Iterating over fileset $fileset_id...");
         $files = iterator_to_array($fileset);
         $result = $this->executeCommandAgainstFiles($files, $command, $parallel);
         if (!$result->wasSuccessful()) {
-          throw new BltException("Executing `$command` against $fileset_id returned a non-zero exit code.`");
+          // We iterate over all filesets before throwing an exception. This
+          // will, for instance, allow a user to see all PHPCS violations in
+          // output before the command exits.
+          $passed = FALSE;
+          $failed_filesets[] = $fileset_id;
         }
       }
       else {
         $this->logger->info("No files were found in fileset $fileset_id. Skipped.");
       }
+    }
+
+    if (!$passed) {
+      throw new BltException("Executing `$command` against fileset(s) " . implode(', ', $failed_filesets) . " returned a non-zero exit code.`");
     }
   }
 
