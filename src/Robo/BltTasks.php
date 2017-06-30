@@ -217,6 +217,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    */
   protected function executeCommandAgainstFilesets(array $filesets, $command, $parallel = FALSE) {
     $passed = TRUE;
+    $failed_filesets = [];
     foreach ($filesets as $fileset_id => $fileset) {
       if (!is_null($fileset) && iterator_count($fileset)) {
         $this->say("Iterating over fileset $fileset_id...");
@@ -227,6 +228,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
           // will, for instance, allow a user to see all PHPCS violations in
           // output before the command exits.
           $passed = FALSE;
+          $failed_filesets[] = $fileset_id;
         }
       }
       else {
@@ -235,7 +237,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
     }
 
     if (!$passed) {
-      throw new BltException("Executing `$command` against $fileset_id returned a non-zero exit code.`");
+      throw new BltException("Executing `$command` against fileset(s) " . implode(', ', $failed_filesets) . " returned a non-zero exit code.`");
     }
   }
 
