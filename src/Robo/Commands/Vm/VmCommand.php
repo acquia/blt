@@ -12,6 +12,8 @@ use Symfony\Component\Yaml\Yaml;
  */
 class VmCommand extends BltTasks {
 
+  const DRUPALVM_CONFIG_KEY = 'blt.config-files.drupal-vm';
+
   protected $drupalVmAlias;
   protected $drupalVmVersionConstraint;
   protected $defaultDrupalVmDrushAliasesFile;
@@ -21,6 +23,8 @@ class VmCommand extends BltTasks {
   protected $projectDrushAliasesFile;
   protected $projectDrupalVmConfigFile;
   protected $projectDrupalVmVagrantfile;
+  protected $vmConfigDir;
+  protected $vmConfigFile;
   protected $vmDir;
 
   /**
@@ -35,10 +39,12 @@ class VmCommand extends BltTasks {
     $this->defaultDrupalVmConfigFile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/config.yml';
     $this->defaultDrupalVmVagrantfile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/Vagrantfile';
     $this->defaultDrushAliasesFile = $this->getConfigValue('blt.root') . '/template/drush/site-aliases/aliases.drushrc.php';
-    $this->projectDrupalVmConfigFile = $this->getConfigValue('repo.root') . '/box/config.yml';
     $this->projectDrushAliasesFile = $this->getConfigValue('repo.root') . '/drush/site-aliases/aliases.drushrc.php';
     $this->projectDrupalVmVagrantfile = $this->getConfigValue('repo.root') . '/Vagrantfile';
-    $this->vmDir = $this->getConfigValue('repo.root') . '/box';
+    $this->projectDrupalVmConfigFile = $this->getConfigValue(self::DRUPALVM_CONFIG_KEY);
+    $this->vmDir = dirname($this->projectDrupalVmConfigFile);
+    $this->vmConfigDir = str_replace($this->getConfigValue('repo.root') . DIRECTORY_SEPARATOR, '', $this->vmDir);
+    $this->vmConfigFile = array_pop((explode(DIRECTORY_SEPARATOR, $this->projectDrupalVmConfigFile)));
   }
 
   /**
@@ -118,6 +124,31 @@ class VmCommand extends BltTasks {
    * @command vm:config
    */
   public function config() {
+    $drupalvm_install_dir = $this->askDefault("Where would you like to install Drupal-VM files?", $this->vmConfigDir);
+    if ($this->vmConfigDir != $drupalvm_install_dir) {
+      // @TODO: Validation of input?
+
+      // Remove leading or trailing slashes with trim() call.
+      $this->vmConfigDir = trim($drupalvm_install_dir, DIRECTORY_SEPARATOR);
+      $this->vmDir = $this->getConfigValue('repo.root') . DIRECTORY_SEPARATOR . $this->vmConfigDir;
+      $this->projectDrupalVmConfigFile = $this->vmDir . DIRECTORY_SEPARATOR . $this->vmConfigFile;
+
+      // This feels like it should be consolidated to its own class?
+      // Write new directory out to project.yml.
+      $composerBin = $this->getConfigValue('composer.bin');
+      $project_yml = $this->getConfigValue('blt.config-files.project');
+      $config_val = str_replace($this->getConfigValue('repo.root'), '${repo.root}', $this->projectDrupalVmConfigFile);
+      $this->say("Updating ${project_yml}...");
+      $result = $this->taskExec("{$composerBin}/yaml-cli update:value")
+        ->arg($project_yml)
+        ->arg(self::DRUPALVM_CONFIG_KEY)
+        ->arg($config_val)
+        ->printOutput(TRUE)
+        ->detectInteractive()
+        ->dir($this->getConfigValue('repo.root'))
+        ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+        ->run();
+    }
 
     $this->say("Generating default configuration for Drupal VM...");
 
@@ -142,14 +173,16 @@ class VmCommand extends BltTasks {
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
-    $this->getConfig()->expandFileProperties($this->projectDrupalVmVagrantfile);
+    $config = clone $this->getConfig();
+
+    $config->set('drupalvm.config.dir', $this->vmConfigDir);
+    $config->expandFileProperties($this->projectDrupalVmVagrantfile);
 
     // Generate a Random IP address for the new VM.
-    $config = clone $this->getConfig();
     $random_local_ip = "192.168." . rand(0, 255) . '.' . rand(0, 255);
     $config->set('random.ip', $random_local_ip);
-
     $config->expandFileProperties($this->projectDrupalVmConfigFile);
+
     $vm_config = Yaml::parse(file_get_contents($this->projectDrupalVmConfigFile));
     $this->validateConfig($vm_config);
 

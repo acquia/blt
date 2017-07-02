@@ -29,6 +29,7 @@ blt:
     example-local: ${repo.root}/blt/example.project.local.yml
     schema-version: ${repo.root}/blt/.schema_version
     multisite: ${docroot}/sites/${site}/site.yml
+    drupal-vm: ${repo.root}/box/config.yml
   command-cache-dir: ${blt.root}/cache/commands
 
 composer:
