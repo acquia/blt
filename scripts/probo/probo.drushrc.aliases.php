@@ -1,6 +1,6 @@
 <?php
 
 $aliases['${project.machine_name}.ci'] = array(
-  'uri' => $_ENV['PROBO_ENVIRONMENT'],
+  'uri' => 'http://localhost',
   'root' => $_ENV['SRC_DIR'] . '/docroot',
 );
