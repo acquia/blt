@@ -46,9 +46,6 @@
     },
     "enable-patching": true,
     "patches": {
-      "drupal/core": {
-        "Clear Twig caches on deploys": "https://www.drupal.org/files/issues/no_reliable_method-2752961-29.patch"
-      }
     }
   },
   "scripts": {
