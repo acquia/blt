@@ -2,11 +2,11 @@
 
 set -ev
 
-#  The local.hostname must be set to 127.0.0.1:8888 because we are using drush runserver to test the site.
-$SRC_DIR/vendor/bin/yaml-cli update:value $SRC_DIR/blt/project.yml project.local.hostname '127.0.0.1:8888'
+#  The local.hostname must be set to localhost on probo CI.
+$SRC_DIR/vendor/bin/yaml-cli update:value $SRC_DIR/blt/project.yml project.local.hostname 'localhost'
 
 $SRC_DIR/vendor/bin/blt validate:all
-$SRC_DIR/vendor/bin/blt setup -D drush.alias='${drush.aliases.ci}' --no-interaction
-$SRC_DIR/vendor/bin/blt tests:all -D drush.alias='${drush.aliases.ci}' --define tests.run-server=true --yes -v
+$SRC_DIR/vendor/bin/blt setup:behat -D drush.alias='${drush.aliases.ci}' --no-interaction
+$SRC_DIR/vendor/bin/blt tests:all -D drush.alias='${drush.aliases.ci}' --yes -v
 
 set +v

@@ -2,30 +2,33 @@
 
 set -ev
 
-# Allow MySQL to finish starting.
-sleep 3
+PHP_VERSION=${PHP_VERSION:-"5.6"}
 
 export PATH="${SRC_DIR}/vendor/bin":$PATH
 
-# Install PHP 7
-echo 'exit 0' > /usr/sbin/policy-rc.d
-apt-get update
-apt-get install -y software-properties-common language-pack-en-base
-LC_ALL=en_US.UTF-8 add-apt-repository -y ppa:ondrej/php
-apt-get update
-DEBIAN_FRONTEND=noninteractive apt-get install -y php7.0 libapache2-mod-php7.0 php7.0-gd php7.0-curl php7.0-json php7.0-mbstring php7.0-mysql php7.0-mcrypt php7.0-imagick php7.0-dev php7.0-gmp php7.0-xml php7.0-bcmath php7.0-redis php7.0-uploadprogress php7.0-soap php7.0-pgsql php7.0-bz2
+# Install Node v6.
+sudo npm install -g n
+sudo n lts
+npm install -g gulp-cli
+npm install -g bower
+
+# Install chrome.
+wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+sudo apt-get update
+sudo apt-get -y install google-chrome-stable
 
 # Create fake mailer.
 ln -s /bin/true /usr/sbin/sendmail
-echo 'max_execution_time = 120' >> /etc/php/7.0/cli/conf.d/probo.ini
-echo 'sendmail_path = /bin/true' >> /etc/php/7.0/cli/conf.d/probo.ini
+echo 'max_execution_time = 120' >> /etc/php/${PHP_VERSION}/cli/conf.d/probo.ini
+echo 'sendmail_path = /bin/true' >> /etc/php/${PHP_VERSION}/cli/conf.d/probo.ini
 
 # Enable $_ENV variables in PHP.
-echo 'variables_order = "EGPCS"' >> /etc/php/7.0/cli/conf.d/probo.ini
+echo 'variables_order = "EGPCS"' >> /etc/php/${PHP_VERSION}/cli/conf.d/probo.ini
 # Ensure that always_populate_raw_post_data PHP setting: Not set to -1 does not happen.
-echo "always_populate_raw_post_data = -1" >> /etc/php/7.0/cli/conf.d/probo.ini
+echo "always_populate_raw_post_data = -1" >> /etc/php/${PHP_VERSION}/cli/conf.d/probo.ini
 # Set PHP memory limit to something more realistic.
-echo "memory_limit=512M" >> /etc/php/7.0/cli/conf.d/probo.ini
+echo "memory_limit=512M" >> /etc/php/${PHP_VERSION}/cli/conf.d/probo.ini
 
 # Set git info.
 git config --global user.name "ProboCI"
