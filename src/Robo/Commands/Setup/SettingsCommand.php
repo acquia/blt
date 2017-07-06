@@ -75,9 +75,7 @@ class SettingsCommand extends BltTasks {
 
       // Only add the settings file if the default exists.
       if (file_exists($project_default_settings_file)) {
-        $copy_map[] = [
-          $project_default_settings_file => $project_settings_file,
-        ];
+        $copy_map[$project_default_settings_file] = $project_settings_file;
       }
 
       $task = $this->taskFilesystemStack()
