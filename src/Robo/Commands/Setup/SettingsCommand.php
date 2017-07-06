@@ -67,12 +67,16 @@ class SettingsCommand extends BltTasks {
 
       $copy_map = [
         $default_project_default_settings_file => $project_default_settings_file,
-        $project_default_settings_file => $project_settings_file,
         $blt_local_settings_file => $default_local_settings_file,
         $default_local_settings_file => $project_local_settings_file,
         $blt_local_drush_file => $default_local_drush_file,
         $default_local_drush_file => $project_local_drush_file,
       ];
+
+      // Only add the settings file if the default exists.
+      if (file_exists($project_default_settings_file)) {
+        $copy_map[$project_default_settings_file] = $project_settings_file;
+      }
 
       $task = $this->taskFilesystemStack()
         ->stopOnFail()
