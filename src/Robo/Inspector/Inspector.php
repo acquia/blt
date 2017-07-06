@@ -287,9 +287,12 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   public function isDrupalVmLocallyInitialized() {
     $status = $this->getDrupalVmStatus();
     $machine_name = $this->getConfigValue('project.machine_name');
+    $local_project_config = $this->getLocalProjectVmConfig();
+    $local_drush_alias = $local_project_config->get('drush.aliases.local');
     $initialized = !empty($status[$machine_name]['state'])
       && $status[$machine_name]['state'] != 'not_created'
-      && file_exists($this->getConfigValue('repo.root') . '/box/config.yml');
+      && file_exists($this->getConfigValue('repo.root') . '/box/config.yml')
+      && $local_drush_alias;
     $statement = $initialized ? "is" : "is not";
     $this->logger->debug("Drupal VM $statement initialized.");
 
@@ -423,6 +426,24 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
       return TRUE;
     }
     return FALSE;
+  }
+
+  /**
+   * Gets the local VM configuration defined in project.local.yml.
+   *
+   * @return \Acquia\Blt\Robo\Config\BltConfig
+   *   The local VM Configuration.
+   */
+  public function getLocalProjectVmConfig() {
+    $local_project_config_file = $this->getConfigValue('repo.root') . '/blt/project.local.yml';
+
+    $local_project_config = new BltConfig();
+    $loader = new YamlConfigLoader();
+    $processor = new YamlConfigProcessor();
+    $processor->extend($loader->load($local_project_config_file));
+    $local_project_config->import($processor->export());
+
+    return $local_project_config;
   }
 
   /**
