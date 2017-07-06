@@ -140,7 +140,7 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
         }
       }
       catch (\Exception $e) {
-        $this->logger->debug($e->getMessage());
+        $this->logger->error($e->getMessage());
       }
       usleep($checkEvery * 1000);
     }
