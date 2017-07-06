@@ -15,6 +15,7 @@ class RefreshCommand extends BltTasks {
    * for each multisite.
    *
    * @command sync:refresh:all
+   * @executeInDrupalVm
    */
   public function refreshAll() {
     $exit_code = 0;
@@ -48,6 +49,7 @@ class RefreshCommand extends BltTasks {
    * Copies remote db to local db, re-imports config, and executes db updates.
    *
    * @command sync:refresh
+   * @executeInDrupalVm
    */
   public function refreshDefault() {
     $this->invokeCommands([

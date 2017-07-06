@@ -43,15 +43,20 @@ class CommandEventHook extends BltTasks {
    */
   public function executeInDrupalVm(ConsoleCommandEvent $event) {
     // @todo Create global option to opt-out of this. E.g., --execute-on-host.
-    if ($this->shouldExecuteInDrupalVm()) {
-      $event->disableCommand();
-      $args = $this->getCliArgs();
-      $command_name = $event->getCommand()->getName();
+    $command = $event->getCommand();
+    if (method_exists($command, 'getAnnotationData')) {
+      /* @var \Consolidation\AnnotatedCommand\AnnotationData */
+      $annotation_data = $event->getCommand()->getAnnotationData();
+      if ($annotation_data->has('executeInDrupalVm') && $this->shouldExecuteInDrupalVm()) {
+        $event->disableCommand();
+        $args = $this->getCliArgs();
+        $command_name = $event->getCommand()->getName();
 
-      // We cannot return an exit code directly, because disabled commands
-      // always return ConsoleCommandEvent::RETURN_CODE_DISABLED.
-      $result = $this->executeCommandInDrupalVm("blt $command_name $args --define drush.alias=self");
+        // We cannot return an exit code directly, because disabled commands
+        // always return ConsoleCommandEvent::RETURN_CODE_DISABLED.
+        $result = $this->executeCommandInDrupalVm("blt $command_name $args --define drush.alias=self");
       }
+    }
 
     // @todo Transmit analytics on command execution. Do the same in status hook.
   }

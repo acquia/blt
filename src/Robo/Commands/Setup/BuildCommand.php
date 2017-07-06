@@ -39,6 +39,7 @@ class BuildCommand extends BltTasks {
    *
    * @validateMySqlAvailable
    * @validateDocrootIsPresent
+   * @executeInDrupalVm
    *
    * @todo Add a @validateSettingsFilesArePresent
    */

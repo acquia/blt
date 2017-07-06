@@ -13,6 +13,7 @@ class FilesCommand extends BltTasks {
    * Copies remote files to local machine.
    *
    * @command sync:files
+   * @executeInDrupalVm
    */
   public function syncFiles() {
     $local_alias = '@' . $this->getConfigValue('drush.aliases.local');
