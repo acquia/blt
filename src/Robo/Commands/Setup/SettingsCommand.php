@@ -100,7 +100,7 @@ class SettingsCommand extends BltTasks {
       $this->getConfig()->expandFileProperties($project_local_drush_file);
 
       $result = $this->taskWriteToFile($project_settings_file)
-        ->appendUnlessMatches('#vendor/acquia/blt/settings/blt.settings.php#', 'require DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php";')
+        ->appendUnlessMatches('#vendor/acquia/blt/settings/blt.settings.php#', 'require DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php";' . "\n")
         ->append(TRUE)
         ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
         ->run();
@@ -126,6 +126,8 @@ class SettingsCommand extends BltTasks {
    * Generates tests/behat/local.yml file for executing Behat tests locally.
    *
    * @command setup:behat
+   *
+   * @executeInDrupalVm
    */
   public function behat() {
     if (!file_exists($this->projectBehatLocalConfigFile)) {

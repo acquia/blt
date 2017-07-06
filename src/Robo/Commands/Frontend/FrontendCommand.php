@@ -13,7 +13,6 @@ class FrontendCommand extends BltTasks {
    * Runs all frontend targets.
    *
    * @command frontend
-   *
    * @executeInDrupalVm
    */
   public function frontend() {
@@ -27,7 +26,6 @@ class FrontendCommand extends BltTasks {
    * Executes frontend-build target hook.
    *
    * @command frontend:build
-   *
    * @executeInDrupalVm
    */
   public function build() {
@@ -38,7 +36,6 @@ class FrontendCommand extends BltTasks {
    * Executes frontend-setup target hook.
    *
    * @command frontend:setup
-   *
    * @executeInDrupalVm
    */
   public function setup() {

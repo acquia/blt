@@ -24,6 +24,8 @@ class ToggleModulesCommand extends BltTasks {
    * @option environment The environment key for which modules should be
    *   toggled. This should correspond with a modules.[environment].* key in
    *   your configuration.
+   *
+   * @executeInDrupalVm
    */
   public function toggleModules($options = [
     'environment' => InputOption::VALUE_REQUIRED,

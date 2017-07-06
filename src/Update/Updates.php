@@ -308,6 +308,10 @@ class Updates {
     }
     unset($project_yml['import']);
 
+    if (file_exists($this->updater->getRepoRoot() . '/Vagrantfile')) {
+      $project_yml['vm']['enable'] = TRUE;
+    }
+
     $this->updater->writeProjectYml($project_yml);
 
     $messages = [

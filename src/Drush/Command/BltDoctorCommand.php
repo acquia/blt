@@ -199,7 +199,7 @@ class BltDoctor {
     }
 
     if (file_exists($this->repoRoot . '/Vagrantfile')
-      && file_exists($this->repoRoot . '/project.local.yml')
+      && file_exists($this->repoRoot . '/blt/project.local.yml')
       && $this->config['drush']['aliases']['local'] != 'self') {
       $this->drupalVmEnabled = TRUE;
     }
@@ -828,7 +828,7 @@ class BltDoctor {
         $this->logOutcome(__FUNCTION__ . ':root', [
           "You have DrupalVM initialized, but drupal_root in tests/behat/local.yml does not reference the DrupalVM docroot.",
           "  Behat drupal_root is $behat_drupal_root.",
-          "  To resolve, remove tests/behat/local.yml, ssh into the VM, and run blt setup:behat.",
+          "  To resolve, run blt setup:behat.",
         ], 'error');
       }
       else {
