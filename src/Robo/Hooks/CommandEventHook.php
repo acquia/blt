@@ -51,9 +51,10 @@ class CommandEventHook extends BltTasks {
         $event->disableCommand();
         $args = $this->getCliArgs();
         $command_name = $event->getCommand()->getName();
-        $result = $this->executeCommandInDrupalVm("blt $command_name $args --define drush.alias=self");
 
-        return $result;
+        // We cannot return an exit code directly, because disabled commands
+        // always return ConsoleCommandEvent::RETURN_CODE_DISABLED.
+        $result = $this->executeCommandInDrupalVm("blt $command_name $args --define drush.alias=self");
       }
     }
 
