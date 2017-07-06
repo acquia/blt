@@ -106,7 +106,9 @@ class VmCommand extends BltTasks {
    * Installs and configures default Drupal VM instance.
    */
   protected function install() {
-    $this->requireDrupalVm();
+    if (!$this->isDrupalVmRequired()) {
+      $this->requireDrupalVm();
+    }
     $this->config();
   }
 
@@ -249,6 +251,19 @@ class VmCommand extends BltTasks {
     }
 
     return $result;
+  }
+
+  /**
+   * Determines if Drupal VM is currently in composer.json's require-dev.
+   *
+   * @return bool
+   *   TRUE if it is present already and matches version constraint.
+   *
+   */
+  protected function isDrupalVmRequired() {
+    $composer_json = json_decode($this->getConfigValue('repo.root') . '/composer.json', TRUE);
+    return !empty($composer_json['require-dev']['geerlingguy/drupal-vm'])
+      && $composer_json['require-dev']['geerlingguy/drupal-vm'] == $this->drupalVmVersionConstraint;
   }
 
   /**

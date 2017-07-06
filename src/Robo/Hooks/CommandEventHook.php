@@ -43,7 +43,6 @@ class CommandEventHook extends BltTasks {
    */
   public function executeInDrupalVm(ConsoleCommandEvent $event) {
     // @todo Create global option to opt-out of this. E.g., --execute-on-host.
-    $command = $event->getCommand();
     if ($this->shouldExecuteInDrupalVm()) {
       $event->disableCommand();
       $args = $this->getCliArgs();
