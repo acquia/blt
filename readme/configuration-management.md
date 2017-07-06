@@ -96,25 +96,31 @@ If for some reason BLT is not working with Config Split, ensure that you are usi
 
 BLT and Config Split together make it easy to capture configuration changes in code and deploy those changes to a remote environment.
 
-BLT automatically enables the following config splits in the following environments:
+BLT has built-in support for the following splits on the following environments:
 
-| Split    | Environment
-|----------|----------------------------------------------
-| local    | any non-Acquia, non-Travis environment
-| ci       | Acquia Pipelines OR Travis CI
-| dev      | Acquia Dev
-| stage    | Acquia Staging
-| prod     | Acquia Prod
-| ah_other | any Acquia environment not listed above
+| Split    | Environment                                  | File path          |
+|----------|----------------------------------------------|--------------------|
+| local    | any non-Acquia, non-Travis environment       | ../config/local    |
+| ci       | Acquia Pipelines OR Travis CI                | ../config/ci       |
+| dev      | Acquia Dev                                   | ../config/dev      |
+| stage    | Acquia Staging                               | ../config/stage    |
+| prod     | Acquia Prod                                  | ../config/prod     |
+| ah_other | any Acquia environment not listed above      | ../config/ah_other |
+
+However, BLT will only mark these splits as enabled _if they exist_. It will not create the splits for you.
 
 As a prerequisite, make sure your BLT-based project is set up to use Config Split (see section above).
 
-To capture and deploy configuration changes using Config Split:
+### Creating a supported split
 
-1. Ensure that your local environment is up to date and refreshed (e.g. `git pull` and `blt local:refresh`).
-2. Use the Drupal UI to make the necessary configuration changes in your local environment. For instance, go to http://local.example.com/admin/structure/types/add to add a new content type.
-3. Once you have completed local development, use `drush cex` (`config-export`) to export your configuration changes to the `config/default` directory. Remember to use an appropriate alias if you are using a VM (e.g. `drush @example.local cex`).
-4. Review the updated configuration in `config/default` using `git diff`.  If you are satisfied with the changes, commit them and open a pull request.
+To create a new config split:
+
+1. Navigate to `/admin/config/development/configuration/config-split/` and click "Create split"
+1. Name the split "local"
+1. Set the split directory to "../config/local"
+1. Save the split.
+1. Execute `drush config-export` to export the config for the split itself.
+1. Edit the split and define the blacklisted config, as specified below.
 
 ### Blacklisting modules and configuration
 
@@ -122,13 +128,12 @@ Note that when you run `drush cex`, if the project has been configured correctly
 
 For example, let's say you want to install and configure the Stage File Proxy module locally but not in remote environments. Follow these steps to add it to the local split:
 
-1. Add the module to `composer.json` and run `composer update drupal/stage_file_proxy`.
+1. Require the module via `composer require drupal/stage_file_proxy`.
 2. Start from a clean installation: `blt local:setup` or `blt local:refresh`.
-3. Install the Stage File Proxy module.
+3. Install the Stage File Proxy module via `drush en stage_file_proxy -y`
 4. Configure the Stage File Proxy module as appropriate.
 5. Navigate to the local config split configuration page: `/admin/config/development/configuration/config-split/local/edit`
-6. Add _Stage File Proxy_ to the list of modules to filter (make sure to use ctrl-click or cmd-click to select multiple).
-7. Add `stage_file_proxy.settings` to the blacklist (again using ctrl-click or cmd-click).
+6. Add _Stage File Proxy_ to the list of modules to filter (make sure to use ctrl-click or cmd-click to select multiple). Optionally, you may instead select specific configuration items to blacklist, rather than blacklisting all config for the module.
 8. Save your changes.
 9. Export the modified local config split to disk: `drush csex local`
 10. Finally, export the default config split to disk: `drush cex`
@@ -138,6 +143,16 @@ At this point, you should see a new file `config/local/stage_file_proxy.settings
 ### Greylisting modules and configuration
 
 Some configuration that's intended to be "unlocked" in production might also be excluded (such as webforms). If you need to customize this behavior, you can use the greylist functionality described in [this blog post](https://blog.liip.ch/archive/2017/04/07/advanced-drupal-8-cmi-workflows.html).
+
+### Exporting configuration
+
+To capture and deploy configuration changes using Config Split:
+
+1. Ensure that your local environment is up to date and refreshed (e.g. `git pull` and `blt local:refresh`).
+2. Use the Drupal UI to make the necessary configuration changes in your local environment. For instance, go to http://local.example.com/admin/structure/types/add to add a new content type.
+3. Once you have completed local development, use `drush cex` (`config-export`) to export your configuration changes to the `config/default` directory. Remember to use an appropriate alias if you are using a VM (e.g. `drush @example.local cex`).
+4. Review the updated configuration in `config/default` using `git diff`.  If you are satisfied with the changes, commit them and open a pull request.
+
 
 ## Features-based workflow
 
