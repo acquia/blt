@@ -206,3 +206,6 @@ validate:
   yaml:
     filesets:
       - files.yaml
+
+vm:
+  enable: false

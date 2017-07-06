@@ -177,6 +177,7 @@ class VmCommand extends BltTasks {
     $contents = Yaml::parse(file_get_contents($filename));
     $contents['drush']['default_alias'] = $this->drupalVmAlias;
     $contents['drush']['aliases']['local'] = $this->drupalVmAlias;
+    $contents['vm']['enable'] = TRUE;
     $yaml = Yaml::dump($contents, 3, 2);
     file_put_contents($filename, $yaml);
 

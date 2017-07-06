@@ -285,15 +285,36 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *   TRUE if Drupal VM is initialized for the local machine.
    */
   public function isDrupalVmLocallyInitialized() {
-    $status = $this->getDrupalVmStatus();
-    $machine_name = $this->getConfigValue('project.machine_name');
-    $initialized = !empty($status[$machine_name]['state'])
-      && $status[$machine_name]['state'] != 'not_created'
-      && file_exists($this->getConfigValue('repo.root') . '/box/config.yml');
+    $initialized = $this->getConfigValue('vm.enable') && $this->isDrupalVmConfigValid();
     $statement = $initialized ? "is" : "is not";
     $this->logger->debug("Drupal VM $statement initialized.");
 
     return $initialized;
+  }
+
+  /**
+   * Determines if Drupal VM config is valid.
+   *
+   * @return bool
+   *   TRUE is Drupal VM config is valid.
+   */
+  public function isDrupalVmConfigValid() {
+    $status = $this->getDrupalVmStatus();
+    $machine_name = $this->getConfigValue('project.machine_name');
+    if (empty($status[$machine_name]['state'])) {
+      $this->logger->error("Could not find VM. Please ensure that the VM machine name matches project.machine_name");
+      return FALSE;
+    }
+    if ($status[$machine_name]['state'] == 'not_created') {
+      $this->logger->error("VM is not created. Please re-run `blt vm`.");
+      return FALSE;
+    }
+    if (!file_exists($this->getConfigValue('repo.root') . '/box/config.yml')) {
+      $this->logger->error("box/config.yml is missing. Please re-run `blt vm`.");
+      return FALSE;
+    }
+
+    return TRUE;
   }
 
   /**
