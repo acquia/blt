@@ -20,7 +20,7 @@ class BuildCommand extends BltTasks {
    * @aliases setup:all
    */
   public function setup() {
-    $this->say("Setting up local environment for site '{$this->getConfigValue('site')}'...");
+    $this->say("Setting up local environment for site '{$this->getConfigValue('site')}' using drush alias @{$this->getConfigValue('drush.alias')}");
     $this->invokeCommands([
       'setup:build',
       'setup:hash-salt',
