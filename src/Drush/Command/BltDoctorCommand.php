@@ -199,7 +199,7 @@ class BltDoctor {
     }
 
     if (file_exists($this->repoRoot . '/Vagrantfile')
-      && file_exists($this->repoRoot . '/project.local.yml')
+      && file_exists($this->repoRoot . '/blt/project.local.yml')
       && $this->config['drush']['aliases']['local'] != 'self') {
       $this->drupalVmEnabled = TRUE;
     }
