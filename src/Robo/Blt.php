@@ -35,6 +35,11 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
   use LoggerAwareTrait;
 
   /**
+   * The BLT version.
+   */
+  const VERSION = '8.9.0';
+
+  /**
    * The Robo task runner.
    *
    * @var \Robo\Runner
@@ -65,7 +70,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
   ) {
 
     $this->setConfig($config);
-    $application = new Application('BLT', $config->get('version'));
+    $application = new Application('BLT', Blt::VERSION);
     $container = Robo::createDefaultContainer($input, $output, $application,
       $config);
     $this->setContainer($container);
