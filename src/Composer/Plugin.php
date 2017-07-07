@@ -58,7 +58,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     $this->composer = $composer;
     $this->io = $io;
     $this->eventDispatcher = $composer->getEventDispatcher();
-    ProcessExecutor::setTimeout(2000);
+    ProcessExecutor::setTimeout(3600);
     $this->executor = new ProcessExecutor($this->io);
   }
 
