@@ -249,12 +249,12 @@
         </drush>
 
         <drush command="config-import" assume="yes" alias="${drush.alias}">
-          <param>sync</param>
+          <param>${cm.core.key}</param>
         </drush>
 
         <!-- Sometimes config-import has to be run twice to catch everything. Can be removed once the core configuration system is more stable. -->
         <drush command="config-import" assume="yes" alias="${drush.alias}">
-          <param>sync</param>
+          <param>${cm.core.key}</param>
         </drush>
 
       </then>
