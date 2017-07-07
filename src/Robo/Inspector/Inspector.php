@@ -322,18 +322,15 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
     }
     else {
       if ($status[$machine_name]['state'] == 'not_created') {
-        $this->logger->error("VM is not created. Please re-run `blt vm`.");
+        $this->logger->error("Drupal VM config has been initialized, but the VM has not been created. Please re-run `blt vm`.");
         $valid = FALSE;
       }
     }
 
-    if (!file_exists($this->getConfigValue('repo.root') . '/box/config.yml')) {
-      $this->logger->error("box/config.yml is missing. Please re-run `blt vm`.");
+    $file_path = $this->getConfigValue('repo.root') . '/box/config.yml';
+    if (!file_exists($file_path)) {
+      $this->logger->error("$file_path is missing. Please re-run `blt vm`.");
       $valid = FALSE;
-    }
-
-    if (!$valid) {
-      $this->logger->error("Drupal VM configuration is not valid!");
     }
 
     return $valid;

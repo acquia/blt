@@ -317,8 +317,10 @@ class Updates {
     $messages = [
       "You have updated to a new major version of BLT, which introduces backwards-incompatible changes.",
       "You may need to perform the following manual update steps:",
+      "  - View the full list of commands via `blt list`, <comment>BLT commands have changed</comment>",
       "  - Re-initialize default Drupal VM configuration via `blt vm:config`.",
-      "  - Re-initialize default Travis CI and/or Acquia Pipelines configuration via `blt ci:travis:init` and `blt ci:pipelines:init`.",
+      "  - Re-initialize default Travis CI configuration via `blt ci:travis:init`.
+         - Re-initialize default Acquia Pipelines configuration via `blt ci:pipelines:init`.",
       "  - Port custom Phing commands to Robo. All Phing commands are now obsolete. See:",
       "    http://blt.readthedocs.io/en/8.x/readme/extending-blt/",
     ];

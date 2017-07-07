@@ -126,12 +126,13 @@ class AliasCommand extends BltTasks {
     $alias_info = $this->getAliasInfo();
     $new_contents = str_replace($alias_info['alias'], $alias_info['canonical_alias'], $alias_info['contents']);
     $bytes = file_put_contents($alias_info['config_file'], $new_contents);
-    if ($bytes) {
+    if (!$bytes) {
       throw new BltException("Could not update BLT alias in {$alias_info['config_file']}.");
     }
 
     $this->say("<info>The <comment>blt</comment> alias was updated in {$alias_info['config_file']}");
     $this->say("Execute <comment>source {$alias_info['config_file']}</comment> to update your terminal session.");
+    $this->say("You may then execute <comment>blt</comment> commands.");
   }
 
   /**
