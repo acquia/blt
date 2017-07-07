@@ -61,6 +61,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $github_token,
     $opts = ['update-changelog' => TRUE]
   ) {
+
     $requirements_met = $this->checkCommandsExist([
       'git',
       'github_changelog_generator',
@@ -97,6 +98,12 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $this->_exec('git checkout 8.x');
     // @todo Check to see if branch doesn't match, confirm with dialog.
     $this->_exec('git reset --hard origin/8.x');
+
+    // Change version constant in Blt.php.
+    $this->taskReplaceInFile($this->bltRoot . '/src/Robo/Blt.php')
+      ->regex('/(const VERSION = \')([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,2})(\';)/')
+      ->to('${1}' . $tag . '${3}')
+      ->run();
 
     if (!$tag_release_notes = $this->generateReleaseNotes($tag,
       $github_token)
