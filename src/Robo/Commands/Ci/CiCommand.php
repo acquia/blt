@@ -50,7 +50,7 @@ class CiCommand extends BltTasks {
   }
 
   /**
-   * Initializes default Travis CI configuration for this project.
+   * Initializes default Probo CI configuration for this project.
    *
    * @command ci:probo:init
    */
