@@ -133,7 +133,7 @@ class SettingsCommand extends BltTasks {
     if (!file_exists($this->projectBehatLocalConfigFile)) {
       $this->say("Generating Behat configuration files...");
       $result = $this->taskFilesystemStack()
-        ->copy($this->getConfigValue('blt.root') . '/template/tests/behat/behat.yml', $this->getConfigValue('repo.root') . '/test/behat/behat.yml')
+        ->copy($this->getConfigValue('blt.root') . '/template/tests/behat/behat.yml', $this->getConfigValue('repo.root') . '/tests/behat/behat.yml')
         ->copy($this->getConfigValue('blt.root') . '/template/tests/behat/example.local.yml', $this->defaultBehatLocalConfigFile)
         ->copy($this->defaultBehatLocalConfigFile, $this->projectBehatLocalConfigFile)
         ->stopOnFail()
