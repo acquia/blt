@@ -78,7 +78,7 @@ class SettingsCommand extends BltTasks {
         $copy_map[$project_default_settings_file] = $project_settings_file;
       }
       else {
-        $this->yell("No $default_project_default_settings_file file found.");
+        $this->logger->warning("No $default_project_default_settings_file file found.");
       }
 
       $task = $this->taskFilesystemStack()
