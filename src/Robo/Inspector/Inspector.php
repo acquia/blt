@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Inspector;
 
 use Acquia\Blt\Robo\Config\YamlConfigProcessor;
+use Acquia\Blt\Robo\Exceptions\BltException;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 use Consolidation\Config\Loader\YamlConfigLoader;
@@ -678,9 +679,23 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    */
   public function issueEnvironmentWarnings() {
     if (!$this->warningsIssued) {
+      $this->warnIfPhpOutdated();
       $this->warnIfDrupalVmNotRunning();
       $this->warnIfXdebugLoaded();
       $this->warningsIssued = TRUE;
+    }
+  }
+
+  /**
+   * Throws an exception if the minimum PHP version is not met.
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   */
+  public function warnIfPhpOutdated() {
+    $minimum_php_version = 5.6;
+    $current_php_version = phpversion();
+    if ($current_php_version < $minimum_php_version) {
+      throw new BltException("BLT requires PHP $minimum_php_version or greater. You are using $current_php_version.");
     }
   }
 
