@@ -1,5 +1,29 @@
 # Change Log
 
+## [8.9.0-rc3](https://github.com/acquia/blt/tree/8.9.0-rc3) (2017-07-11)
+[Full Changelog](https://github.com/acquia/blt/compare/8.9.0-rc2...8.9.0-rc3)
+
+**Implemented enhancements:**
+
+- Throw exception if minimum PHP version is unmet. [\#1785](https://github.com/acquia/blt/pull/1785) ([grasmash](https://github.com/grasmash))
+- Updating settings command. [\#1782](https://github.com/acquia/blt/pull/1782) ([dpagini](https://github.com/dpagini))
+- Adding version constant replacement to release command. [\#1774](https://github.com/acquia/blt/pull/1774) ([grasmash](https://github.com/grasmash))
+
+**Fixed bugs:**
+
+- config-split cm strategy always uses sync as config directory key [\#1775](https://github.com/acquia/blt/issues/1775)
+- blt vm writes to bashrc in DrupalVM and leaves it unwritable [\#1771](https://github.com/acquia/blt/issues/1771)
+- composer create-project fails on Twig patch application [\#1770](https://github.com/acquia/blt/issues/1770)
+- Updating behat copy target. [\#1784](https://github.com/acquia/blt/pull/1784) ([dpagini](https://github.com/dpagini))
+- Fixes \#1772: Increasing Composer plugin timeout to 1hr. [\#1776](https://github.com/acquia/blt/pull/1776) ([grasmash](https://github.com/grasmash))
+- Fixes \#1771: blt vm writes to bashrc in DrupalVM and leaves it unwritable. [\#1773](https://github.com/acquia/blt/pull/1773) ([grasmash](https://github.com/grasmash))
+
+**Misc merged pull requests**
+
+- Update example tests path to match repo structure. [\#1780](https://github.com/acquia/blt/pull/1780) ([greylabel](https://github.com/greylabel))
+- Fix typo in Probo CI command description. [\#1779](https://github.com/acquia/blt/pull/1779) ([greylabel](https://github.com/greylabel))
+
+
 ## [8.9.0-rc1](https://github.com/acquia/blt/tree/8.9.0-rc1) (2017-06-29)
 [Full Changelog](https://github.com/acquia/blt/compare/8.9.0-beta6...8.9.0-rc1)
 
