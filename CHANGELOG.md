@@ -1,5 +1,18 @@
 # Change Log
 
+## [8.9.0](https://github.com/acquia/blt/tree/8.9.0) (2017-07-12)
+[Full Changelog](https://github.com/acquia/blt/compare/8.9.0-rc3...8.9.0)
+
+**Fixed bugs:**
+
+- config-split cm strategy always uses sync as config directory key [\#1775](https://github.com/acquia/blt/issues/1775)
+
+**Misc merged pull requests**
+
+- Remove duplicate simplesamlphp documentation. [\#1791](https://github.com/acquia/blt/pull/1791) ([greylabel](https://github.com/greylabel))
+- Updating documentation. [\#1789](https://github.com/acquia/blt/pull/1789) ([grasmash](https://github.com/grasmash))
+
+
 ## [8.9.0-rc3](https://github.com/acquia/blt/tree/8.9.0-rc3) (2017-07-11)
 [Full Changelog](https://github.com/acquia/blt/compare/8.9.0-rc2...8.9.0-rc3)
 
