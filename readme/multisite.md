@@ -40,7 +40,7 @@ TODO: Add instructions for integration with BLT development workflows and Drupal
 
 ## Multisite tasks
 
-You may override BLT variables on a per-site basis by creating a `site.yml` file in `docroot/sites/[site-name]/`. You may then run BLT with the `multisite.name` variable set at the command line to load the site's properties. 
+You may override BLT variables on a per-site basis by creating a `site.yml` file in `docroot/sites/[site-name]/`. You may then run BLT with the `multisite.name` variable set at the command line to load the site's properties.
 
 For instance, if the `drush` aliases for your site in `docroot/sites/mysite` were `@mysite.local` and `@mysite.test`, you could define these in `docroot/sites/mysite/site.yml` as:
 
@@ -51,4 +51,4 @@ drush:
     remote: mysite.test
 ```
 
-Then, to refresh your local site, you could run: `blt local:refresh -Dmultisite.name=mysite`.
+Then, to refresh your local site, you could run: `blt sync:refresh -Dmultisite.name=mysite`.

@@ -18,7 +18,7 @@ If you are already using BLT via Composer, you can update to the latest version 
 
 1. Check the [release information](https://github.com/acquia/blt/releases) to see if there are special update instructions for the new version.
 1. Review and commit changes to your project files.
-1. Rarely, you may need to refresh your local environment via `blt local:setup`. This will drop your local database and re-install Drupal.
+1. Rarely, you may need to refresh your local environment via `blt setup`. This will drop your local database and re-install Drupal.
 
 ### Modifying update behavior
 

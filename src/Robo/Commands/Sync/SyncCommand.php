@@ -5,7 +5,7 @@ namespace Acquia\Blt\Robo\Commands\Sync;
 use Acquia\Blt\Robo\BltTasks;
 
 /**
- * Defines commands in the "setup:sync*" namespace.
+ * Defines commands in the "sync" namespace.
  */
 class SyncCommand extends BltTasks {
 
@@ -23,8 +23,7 @@ class SyncCommand extends BltTasks {
       'sync:db',
     ];
 
-    // @todo Read sync.files config.
-    if ($options['sync-files']) {
+    if ($options['sync-files'] || $this->getConfigValue('sync.files')) {
       $commands[] = 'sync:files';
     }
 
