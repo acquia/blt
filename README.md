@@ -33,6 +33,14 @@ Typically, the last two most major versions of BLT are supported actively. The n
     * 8.9.x will be created for major new features.
 * At some point later, 8.9.0 will be cut, and 8.8.x will enter "LTS".
 
+### Release support
+
+| Major Version | Status      |
+|---------------|-------------|
+| 8.9.x         | Supported   |
+| 8.8.x         | Supported   |
+| 8.7.x         | Unsupported |
+
 ## Philosophy and Purpose
 
 BLT is designed to improve efficiency and collaboration across Drupal projects by providing a common set of tools and standardized structure. It was born out of the need to reduce re-work, project set up time, and developer onboarding time.
