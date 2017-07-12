@@ -49,6 +49,7 @@ This directory contains all projects tests, grouped by testing technology. For a
 Before attempting to execute any tests, verify that composer dependencies are built by running `composer install` in the project root.
 
 The following testing commands are available:
+
 * `blt tests:all`
 * `blt tests:behat`
 * `blt tests:phpunit`
@@ -76,10 +77,14 @@ See referenced materials for more information on BDD best practices.
 To execute a single feature:
 
     blt tests:behat -D behat.paths=${PWD}/tests/behat/features/Examples.feature
+    # Relative paths are assumed to be relative to tests/behat/features.
+    blt tests:behat -D behat.paths=Examples.feature
 
 To execute a single scenario:
 
     blt tests:behat -D behat.paths=${PWD}/tests/behat/features/Examples.feature:4
+    # Relative paths are assumed to be relative to tests/behat/features.
+    blt tests:behat -D behat.paths=Examples.feature:4
 
 Where "4" is the line number of the scenario in the feature file.
 
@@ -156,7 +161,7 @@ Project level, functional PHPUnit tests are included in `tests/phpunit`. Any PHP
 You can customize the `tests:phpunit` command by [customize the configuration values](extending-blt.md#modifying-blt-configuration) for the `phpunit` key.
 
 Each row under the `phpunit` key should contain a `path` and a `config` key. The `path` key indicates a directory containing PHPUnit tests. The optional `config` key can be used to specify a PHP configuration file.
- 
+
  * config: path to either the Core phpunit configuration file (docroot/core/phpunit.xml.dist) or a custom one. If left blank, no configuration will be loaded with the unit test.
  * path: the path to the custom phpunit test
 

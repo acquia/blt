@@ -35,9 +35,6 @@ pages:
             - Patches: 'template/patches/README.md'
             - Drush: 'template/drush/README.md'
             - Git hooks: 'scripts/git-hooks/README.md'
-          - Best practices:
-            - Overview: 'readme/best-practices.md'
-            - Views: 'readme/views.md'
           - Development Workflow: 'readme/dev-workflow.md'
           - Configuration Management: 'readme/configuration-management.md'
           - Automated testing: 'readme/testing.md'
