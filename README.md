@@ -33,13 +33,13 @@ Typically, the last two most major versions of BLT are supported actively. The n
     * 8.9.x will be created for major new features.
 * At some point later, 8.9.0 will be cut, and 8.8.x will enter "LTS".
 
-### Release support
+### Release support status
 
-| Major Version | Status      |
-|---------------|-------------|
-| 8.9.x         | Supported   |
-| 8.8.x         | Supported   |
-| 8.7.x         | Unsupported |
+| Major Version | Status                      |
+|---------------|-----------------------------|
+| 8.9.x         | Supported                   |
+| 8.8.x         | Supported, LTS thru 9/12/17 |
+| 8.7.x         | Unsupported, EOL            |
 
 ## Philosophy and Purpose
 
