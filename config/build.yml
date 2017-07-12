@@ -152,13 +152,13 @@ target-hooks:
   frontend-setup:
     # E.g., ${docroot}/sites/all/themes/custom/mytheme.
     dir: ${docroot}
-    # E.g., `npm install` or `bower install`.
+    # E.g., '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use 4.4.4 && npm install'
     command: null
   # Executed when front end assets should be generated.
   frontend-build:
     # E.g., ${docroot}/sites/all/themes/custom/mytheme.
     dir: ${docroot}
-    # E.g., `npm run build`.
+    # E.g., '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use 4.4.4 && npm build'
     command: null
   frontend-test:
     # E.g., ${docroot}/sites/all/themes/custom/mytheme.
