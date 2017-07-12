@@ -61,18 +61,27 @@ The project is configured to update the local environment with a local drush ali
 
 This all in one command will make sure your local is in sync with the remote site.
 
-    blt local:refresh
+    blt sync:refresh
 
-You may also sync your site's remote files by setting the `-Dsync.files` variable at the command line.
+This will sync your site and execute all necessary updates afterwards (cache clears, database updates, config imports).
 
-    blt local:refresh -Dsync.files=true
+By default, BLT will not sync your public and private files directories. However, you may set `sync.files` to `true` in your `project.yml` file to perform a file sync during `sync:refresh` tasks by default
+within your project.
 
-By default, BLT sets `sync.files` to `false`. You may set `sync.files` to `true` in your `project.yml` file to perform a file sync during `local:sync` and `local:refresh` tasks by default within your project.
+### Multisite
+
+If you are using multisite, you may refresh every single multisite on your local machine by running:
+
+    blt sync:refresh:all
 
 ### Sync: Copy the database from the remote site
 
-    blt local:sync
+    blt sync
+
+This will copy and database (and files if sync.files is set to true) but will not execute any updates afterwards.
 
 ### Update: Run update tasks locally
 
-    blt local:update
+    blt setup:update
+
+This will execute various update commands (cache clears, db updates, config imports) to bring the local database in light with your codebase (i.e., exported config).

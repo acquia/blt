@@ -72,3 +72,20 @@ modules:
     uninstall:
       - devel
       - views_ui
+
+# Custom tasks that are triggered at pre-defined times in the build process.
+# The tasks hook into BLT's existing commands.
+# @see vendor/acquia/blt/build.yml for more examples.
+target-hooks:
+  # Executed when front end dependencies should be installed.
+  frontend-setup:
+    # E.g., ${docroot}/sites/all/themes/custom/mytheme.
+    dir: ${docroot}
+    # E.g., '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use 4.4.4 && npm install'
+    command: null
+  # Executed when front end assets should be generated.
+  frontend-build:
+    # E.g., ${docroot}/sites/all/themes/custom/mytheme.
+    dir: ${docroot
+    # E.g., '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use 4.4.4 && npm build'
+    command: null

@@ -27,7 +27,7 @@ To use [Drupal VM](http://www.drupalvm.com/) with a Drupal project that is gener
 1. Create & boot the VM, install Drupal.
 
         blt vm
-        blt local:setup
+        blt setup
 
 1. Login to Drupal `drush @[project.machine_name].local uli`, where [project.machine_name] is the value that you set in project.yml.
 
@@ -51,7 +51,7 @@ Alternatively, you may choose to write only behat tests that utilize the Drupal 
 ### Project creation and installation changes
 
 1. Add a new site in [Dev Desktop](https://www.acquia.com/products-services/dev-desktop) by selecting _Import local Drupal site_. Point it at the `docroot` folder inside your new code base. Your `/sites/default/settings.php` file will be modified automatically to include the Dev Desktop database connection information.
-1. Follow the normal setup process by executing `blt local:setup`.
+1. Follow the normal setup process by executing `blt setup`.
 
 ### Drush support
 

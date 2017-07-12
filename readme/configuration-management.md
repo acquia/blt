@@ -129,7 +129,7 @@ Note that when you run `drush cex`, if the project has been configured correctly
 For example, let's say you want to install and configure the Stage File Proxy module locally but not in remote environments. Follow these steps to add it to the local split:
 
 1. Require the module via `composer require drupal/stage_file_proxy`.
-2. Start from a clean installation: `blt local:setup` or `blt local:refresh`.
+2. Start from a clean installation: `blt setup` or `blt sync:refresh`.
 3. Install the Stage File Proxy module via `drush en stage_file_proxy -y`
 4. Configure the Stage File Proxy module as appropriate.
 5. Navigate to the local config split configuration page: `/admin/config/development/configuration/config-split/local/edit`
@@ -148,7 +148,7 @@ Some configuration that's intended to be "unlocked" in production might also be 
 
 To capture and deploy configuration changes using Config Split:
 
-1. Ensure that your local environment is up to date and refreshed (e.g. `git pull` and `blt local:refresh`).
+1. Ensure that your local environment is up to date and refreshed (e.g. `git pull` and `blt sync:refresh`).
 2. Use the Drupal UI to make the necessary configuration changes in your local environment. For instance, go to http://local.example.com/admin/structure/types/add to add a new content type.
 3. Once you have completed local development, use `drush cex` (`config-export`) to export your configuration changes to the `config/default` directory. Remember to use an appropriate alias if you are using a VM (e.g. `drush @example.local cex`).
 4. Review the updated configuration in `config/default` using `git diff`.  If you are satisfied with the changes, commit them and open a pull request.
