@@ -30,7 +30,7 @@
         "squizlabs/php_codesniffer":        "^2.7",
         "symfony/yaml":                     "^2.8.11",
         "symfony/console":                  "^2.8.11",
-        "wikimedia/composer-merge-plugin":  "dev-master",
+        "wikimedia/composer-merge-plugin":  "^1.4.1",
         "consolidation/robo":               "^1.1.0",
         "tivie/php-os-detector":            "^1.0",
         "consolidation/robo": "^1.1.0",
