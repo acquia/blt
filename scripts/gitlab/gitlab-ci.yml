@@ -1,4 +1,5 @@
 stages:
+  - validate
   - build
   - test
   - deploy
@@ -9,16 +10,22 @@ variables:
 before_script:
   - echo "hello world"
 
+validate:
+  stage: validate
+  script:
+    - blt validate:all
+
 build:
   stage: build
   script:
-    - composer install
+    - composer validate --no-check-all --ansi
+    - composer install --ansi
     - blt setup:build
 
-validate:
+test:
   stage: test
   script:
-    - blt validate
+    - blt tests --define tests.run-server=true --yes -v
 
 production:
   stage: deploy
