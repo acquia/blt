@@ -54,6 +54,11 @@ class BehatCommand extends TestsCommandBase {
   protected $chromePort;
 
   /**
+   * @var string
+   */
+  protected $chromeArgs;
+
+  /**
    * This hook will fire for all commands in this command file.
    *
    * @hook init
@@ -62,6 +67,7 @@ class BehatCommand extends TestsCommandBase {
     $this->seleniumLogFile = $this->getConfigValue('reports.localDir') . "/selenium2.log";
     $this->behatLogDir = $this->getConfigValue('reports.localDir') . "/behat";
     $this->chromePort = $this->getConfigValue('behat.chrome.port');
+    $this->chromeArgs = $this->getConfigValue('behat.chrome.args');
     $this->seleniumPort = $this->getConfigValue('behat.selenium.port');
     $this->seleniumUrl = $this->getConfigValue('behat.selenium.url');
     $this->serverPort = $this->getConfigValue('tests.server.port');
@@ -163,7 +169,7 @@ class BehatCommand extends TestsCommandBase {
     $this->logger->info("Launching headless chrome...");
     $this->getContainer()
       ->get('executor')
-      ->execute("'$chrome_bin' --headless --disable-gpu --remote-debugging-port={$this->chromePort} https://www.chromestatus.com --disable-web-security --user-data-dir > /dev/null 2>&1")
+      ->execute("'$chrome_bin' --headless --disable-gpu --remote-debugging-port={$this->chromePort} {$this->chromeArgs} https://www.chromestatus.com --disable-web-security --user-data-dir > /dev/null 2>&1")
       ->background(TRUE)
       ->printOutput(TRUE)
       ->printMetadata(TRUE)
