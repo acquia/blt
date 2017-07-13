@@ -69,7 +69,7 @@ class CiCommand extends BltTasks {
   }
 
   /**
-   * Initializes default Gitlab Pipelines configuration for this project.
+   * Initializes default GitLab Pipelines configuration for this project.
    *
    * @command ci:gitlab:init
    */
@@ -80,9 +80,10 @@ class CiCommand extends BltTasks {
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
     if (!$result->wasSuccessful()) {
-      throw new BltException("Could not initialize the Gitlab Pipelines configuration.");
+      throw new BltException("Could not initialize the GitLab Pipelines configuration.");
     }
     $this->say("<info>A pre-configured .gitlab-ci.yml file was copied to your repository root.</info>");
+    $this->logger->warning("GitLab support is experimental and may not support all BLT features.");
   }
 
 }
