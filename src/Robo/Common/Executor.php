@@ -137,7 +137,7 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
   }
 
   /**
-   * Waits until a given URL responds with a 200.
+   * Waits until a given URL responds with a non-50x response.
    *
    * This does have a maximum timeout, defined in wait().
    *
@@ -194,13 +194,13 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
   }
 
   /**
-   * Checks a URL for a 200 response.
+   * Checks a URL for a non-50x response.
    *
    * @param string $url
    *   The URL to check.
    *
    * @return bool
-   *   TRUE if URL responded with a 200.
+   *   TRUE if URL responded with a non-50x response.
    */
   public function checkUrl($url) {
     try {
@@ -210,7 +210,12 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
         'timeout' => 2,
         'exceptions' => FALSE,
       ]);
-      return $res->getStatusCode() == 200;
+      if ($res->getStatusCode() && substr($res->getStatusCode(), 0, 1) != '5') {
+        return TRUE;
+      }
+      else {
+        return FALSE;
+      }
     }
     catch (\Exception $e) {
 
