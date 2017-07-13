@@ -28,6 +28,9 @@ class ExamplesCommand extends BltTasks {
         $this->getConfigValue('blt.root') . '/scripts/blt/examples/Test/ExampleTest.php',
         $this->getConfigValue('repo.root') . '/tests/phpunit/ExampleTest.php', FALSE)
       ->copy(
+        $this->getConfigValue('blt.root') . '/scripts/blt/examples/Test/Examples.feature',
+        $this->getConfigValue('repo.root') . '/tests/behat/features/Examples.feature', FALSE)
+      ->copy(
         $this->getConfigValue('blt.root') . '/scripts/blt/examples/Filesets.php',
         $this->getConfigValue('repo.root') . '/blt/src/Filesets.php', FALSE)
       ->stopOnFail()
