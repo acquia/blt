@@ -1,0 +1,38 @@
+stages:
+  - validate
+  - build
+  - test
+  - deploy
+
+variables:
+  APP_NAME: Project
+
+before_script:
+  - echo "hello world"
+
+validate:
+  stage: validate
+  script:
+    - blt validate:all
+
+build:
+  stage: build
+  script:
+    - composer validate --no-check-all --ansi
+    - composer install --ansi
+    - blt setup:build
+
+test:
+  stage: test
+  script:
+    - blt tests --define tests.run-server=true --yes -v
+
+production:
+  stage: deploy
+  script:
+    - echo "Launching application"
+  environment:
+    name: production
+    url: http://$APP_NAME.example.com
+  only:
+    - master
