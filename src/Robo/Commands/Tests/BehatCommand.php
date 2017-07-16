@@ -119,7 +119,7 @@ class BehatCommand extends TestsCommandBase {
    */
   protected function killWebServer() {
     $this->getContainer()->get('executor')->killProcessByName('runserver');
-    $this->getContainer()->get('executor')->killProcessByPort($this->serverPort);
+    $this->getContainer()->get('executor')->killProcessByPort('4444');
   }
 
   /**
