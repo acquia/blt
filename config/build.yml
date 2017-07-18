@@ -210,3 +210,4 @@ validate:
 
 vm:
   enable: false
+  config: ${repo.root}/box/config.yml

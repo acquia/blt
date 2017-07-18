@@ -8,6 +8,7 @@ use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Yaml\Yaml;
 use Drupal\Core\Installer\Exception\AlreadyInstalledException;
+use Acquia\Blt\Robo\Commands\Vm\VmCommand;
 
 /**
  *
@@ -709,8 +710,9 @@ class BltDoctor {
   protected function checkDrupalVm() {
     if ($this->drupalVmEnabled) {
       $passed = TRUE;
-      if (!file_exists($this->repoRoot . '/box/config.yml')) {
-        $this->logOutcome(__FUNCTION__ . ':init', "You have DrupalVM initialized, but box/config.yml is missing.", 'error');
+      $drupal_vm_config = $this->getDrupalVmConfigFile();
+      if (!file_exists($this->repoRoot . $drupal_vm_config)) {
+        $this->logOutcome(__FUNCTION__ . ':init', "You have DrupalVM initialized, but $drupal_vm_config is missing.", 'error');
 
         $passed = FALSE;
       }
@@ -770,10 +772,21 @@ class BltDoctor {
   }
 
   /**
+   * @return string
+   */
+  protected function getDrupalVmConfigFile() {
+    // This is the only non-config "box/config.yml" entry.
+    $drupal_vm_config = isset($this->config['blt']['config-files']['drupal-vm']) ? $this->config['blt']['config-files']['drupal-vm'] : 'box/config.yml';
+    // Is there a way to calculate this "${repo.root}"? Removing for now.
+    $drupal_vm_config = str_replace('${repo.root}', "", $drupal_vm_config);
+    return $drupal_vm_config;
+  }
+
+  /**
    * @return array|mixed
    */
   protected function setDrupalVmConfig() {
-    $this->drupalVmConfig = Yaml::parse(file_get_contents($this->repoRoot . '/box/config.yml'));
+    $this->drupalVmConfig = Yaml::parse(file_get_contents($this->repoRoot . $this->getDrupalVmConfigFile()));
 
     return $this->drupalVmConfig;
   }

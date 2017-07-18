@@ -4,7 +4,7 @@ ENV['DRUPALVM_PROJECT_ROOT'] = "#{__dir__}"
 
 # The relative path from the project root to the config directory where you
 # placed your config.yml file.
-ENV['DRUPALVM_CONFIG_DIR'] = "box"
+ENV['DRUPALVM_CONFIG_DIR'] = "${drupalvm.config.dir}"
 
 # The relative path from the project root to the directory where Drupal VM is located.
 ENV['DRUPALVM_DIR'] = "vendor/geerlingguy/drupal-vm"
@@ -18,4 +18,3 @@ Vagrant.configure('2') do |config|
     config.exec.commands '*', directory: "/var/www/${project.machine_name}"
   end
 end
-
