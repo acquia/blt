@@ -731,7 +731,7 @@ class BltDoctor {
           else {
             $this->logOutcome(__FUNCTION__ . ':alias', "drush.aliases.local exists your drush aliases file.", 'info');
             $local_alias = $this->drushAliases[$local_alias_id];
-            if ($local_alias['remote-host'] != $this->drupalVmConfig['vagrant_hostname']) {
+            if ('vagrant' != $_SERVER['USER'] && $local_alias['remote-host'] != $this->drupalVmConfig['vagrant_hostname']) {
               $this->logOutcome(__FUNCTION__ . ":remote-host", [
                 "remote-host for @$local_alias_id drush alias does not match vagrant_hostname for DrupalVM.",
                 "  remote-host is set to {$local_alias['remote-host']} for @$local_alias_id",
