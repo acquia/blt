@@ -11,7 +11,10 @@ trait LoadTasks {
    * @return \Acquia\Blt\Robo\Tasks\DrushTask
    */
   protected function taskDrush() {
-    return $this->task(DrushTask::class);
+    $task = $this->task(DrushTask::class);
+    $task->setInput($this->input());
+
+    return $task;
   }
 
 }

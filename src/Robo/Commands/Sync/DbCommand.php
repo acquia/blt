@@ -61,7 +61,6 @@ class DbCommand extends BltTasks {
 
     $task = $this->taskDrush()
       ->alias('')
-      ->assume('')
       ->drush('cache-clear drush')
       ->drush('sql-drop')
       ->drush('sql-sync')

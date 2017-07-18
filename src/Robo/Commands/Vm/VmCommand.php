@@ -258,7 +258,6 @@ class VmCommand extends BltTasks {
    *
    * @return bool
    *   TRUE if it is present already and matches version constraint.
-   *
    */
   protected function isDrupalVmRequired() {
     $composer_json = json_decode($this->getConfigValue('repo.root') . '/composer.json', TRUE);

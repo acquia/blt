@@ -45,7 +45,7 @@ git commit -m 'Initializing Travis CI and Acquia Pipelines.' -n
 # 'if [ "$PULL_REQUEST" != "false" ]; then printf "behat.paths: [ \${repo.root}/tests/behat ]" >> blt/project.yml; fi'
 
 # Initialize ACSF config.
-blt acsf:init
+blt acsf:init -y
 # Initialize Acquia Cloud hooks.
 blt setup:cloud-hooks
 # Change cloud hooks to re-install Drupal on deployments.
