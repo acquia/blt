@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Blt;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Commands\Vm\VmCommand;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Yaml\Yaml;
@@ -67,7 +68,7 @@ class DoctorCommand extends BltTasks {
    * @throws \Exception
    */
   protected function executeDoctorInsideVm() {
-    $drupal_vm_config_filepath = $this->getConfigValue('repo.root') . '/box/config.yml';
+    $drupal_vm_config_filepath = $this->getConfigValue(VmCommand::DRUPALVM_CONFIG_KEY);
     $drupal_vm_config = Yaml::parse(file_get_contents($drupal_vm_config_filepath));
     $repo_root = $drupal_vm_config['drupal_core_path'] . '/..';
     if (strstr($repo_root, '{{')) {
