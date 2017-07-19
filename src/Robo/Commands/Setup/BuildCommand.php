@@ -171,7 +171,7 @@ class BuildCommand extends BltTasks {
       $this->output()->writeln("<comment>$modified</comment>");
     }
     else {
-      $this->taskExec("composer update $dependency --with-dependencies")
+      $this->taskExec("composer require $dependency --with-dependencies")
         ->dir($this->getConfigValue('repo.root'))
         ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
         ->run();
