@@ -29,18 +29,6 @@ To replace a BLT command with your own custom version, implement the [replace co
 
 Please note that when you do this, you take responsibility for maintaining your custom command. Your command may break when changes are made to the upstream version of the command in BLT itself.
 
-## Overriding a variable value:
-
-You can override the value of any configuration variable used by BLT by either:
-
-1. Adding the variable to your project.yml file:
-
-        behat.tags: @mytags
-
-2. Specifying the variable value in your `blt` command using argument syntax `-D [key]=[value]`, e.g.,
-
-        blt tests:behat -D behat.tags='@mytags'
-
 ## Disabling a command
 
 You may disable any BLT command. This will cause the target to be skipped during the normal build process. To disable a target, add a `disable-targets` key to your project.yml file:
@@ -69,6 +57,38 @@ This snippet would cause the `validate:phpcs` target to be skipped during BLT bu
 ## Modifying BLT Configuration
 
 BLT configuration can be customized by overriding the value of default variable values. You can find the default value of any BLT variable in [build.yml](https://github.com/acquia/blt/blob/8.x/config/build.yml).
+
+### Overriding a variable value:
+
+Configuration values are loaded, in this order, from the following list of YAML files:
+
+-  blt/project.yml
+-  blt/[environment].yml
+-  blt/project.local.yml
+
+Values loaded from the later files will overwrite values in earlier files.
+
+### Overriding project-wide
+
+You can override any variable value by adding an entry for that variable to your `project.yml` file. This change will be committed to your repository and shared by all developers for the project. For example:
+
+        behat.tags: @mytags
+
+### Overriding locally
+
+You can override a variable value for your local machine by adding an entry for that variable to your `project.local.yml file`.  This change will not be committed to your repository.
+
+### Overriding in specific environments
+
+You may override a variable value for specific environments, such as a the `ci` environment, by adding an entry for that variable to a file named in the pattern [environment].yml. For instance, ci.yml.
+
+At present, only the CI environment is automatically detected.
+
+### Overriding at runtime
+
+You may overwrite a variable value at runtime by specifying the variable value in your `blt` command using argument syntax `-D [key]=[value]`, e.g.,
+
+        blt tests:behat -D behat.tags='@mytags'
 
 Listed below are some of the more commonly customized BLT targets.
 

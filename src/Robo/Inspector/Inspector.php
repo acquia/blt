@@ -636,6 +636,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
 
   /**
    * Gets the Operating system type.
+   *
    * @return int
    */
   public function isOsx() {
@@ -662,6 +663,9 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
     return $version;
   }
 
+  /**
+   *
+   */
   public function isSchemaVersionUpToDate() {
     return $this->getCurrentSchemaVersion() == $this->getContainer()->get('updater')->getLatestUpdateMethodVersion();
   }

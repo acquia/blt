@@ -29,6 +29,11 @@ $processor->add($config->export());
 $processor->extend($loader->load($config->get('blt.root') . '/config/build.yml'));
 $processor->extend($loader->load($config->get('repo.root') . '/blt/project.yml'));
 $processor->extend($loader->load($config->get('repo.root') . '/blt/project.local.yml'));
+
+if ($input->hasArgument('environment')) {
+  $processor->extend($loader->load($config->get('repo.root') . '/blt/' . $input->getArgument('environment') . '.yml'));
+}
+
 $config->import($processor->export());
 $config->populateHelperConfig();
 

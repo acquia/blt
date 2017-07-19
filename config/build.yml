@@ -71,7 +71,6 @@ deploy:
     failOnDirty: true
 
 # File and Directory locations.
-docroot.relative: ${repo.root.relative}/docroot
 docroot: ${repo.root}/docroot
 
 # Drupal Account Credentials. These are used for installing Drupal.
@@ -116,8 +115,6 @@ phpcs:
     - files.php.tests
     - files.php.custom.themes
     - files.frontend.custom.themes
-  haltonerror: true
-  haltonwarning: true
 
 #$ @todo Move to subkey of fix.
 phpcbf:
@@ -140,9 +137,16 @@ project:
   local:
     uri: ${project.local.protocol}://${project.local.hostname}
 
+setup:
+  # Valid values are install, sync, import.
+  strategy: install
+  sync: false
+  # If setup.strategy is import, this file will be imported.
+  dump-file: null
+
 sync:
-  # By default, files are not synced during local:sync.
-  # Set this value to 'true' or pass -Dsync.files=true
+  # By default, files are not synced during sync:refresh.
+  # Set this value to 'true' or pass -D sync.files=true
   # to override this behavior.
   files: false
 

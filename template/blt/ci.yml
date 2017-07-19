@@ -1,0 +1,3 @@
+# If false, the setup task will re-install Drupal. If true, it will call
+# the sync command and copy a db from @drush.aliases.remote.
+# setup.strategy: sync
