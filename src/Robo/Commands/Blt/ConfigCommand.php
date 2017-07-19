@@ -15,7 +15,8 @@ class ConfigCommand extends BltTasks {
    *
    * @command config:get
    *
-   * @param string $key The key for the configuration item to get.
+   * @param string $key
+   *   The key for the configuration item to get.
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
