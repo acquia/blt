@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Validate;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Exceptions\BltException;
 
 /**
  * Defines commands in the "validate:phpcs*" namespace.
@@ -28,15 +29,15 @@ class PhpcsCommand extends BltTasks {
    * @command validate:phpcs
    */
   public function sniffFileSets() {
-    $fileset_ids = $this->getConfigValue('phpcs.filesets');
-    $filesets = $this->getContainer()->get('filesetManager')->getFilesets($fileset_ids);
     $bin = $this->getConfigValue('composer.bin');
-    $command = "'$bin/phpcs' --standard='{$this->standard}' '%s'";
-
-    // @todo Compare the performance of this vs. dumping $files to a temp file
-    // and executing phpcs --file-set=[tmp-file]. Also, compare vs. using
-    // parallel processes.
-    $this->executeCommandAgainstFilesets($filesets, $command);
+    $result = $this->taskExecStack()
+      ->dir($this->getConfigValue('repo.root'))
+      ->exec("$bin/phpcs")
+      ->run();
+    $exit_code = $result->getExitCode();
+    if ($exit_code) {
+      throw new BltException("PHPCS failed.");
+    }
   }
 
   /**

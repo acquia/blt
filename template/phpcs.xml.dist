@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+   To override this file, copy it to phpcs.xml and then modify.
+-->
+<ruleset name="blt">
+  <description>BLT PHP_CodeSniffer standards overrides.</description>
+
+  <!-- Set ignore extensions. -->
+  <!-- @see https://www.drupal.org/node/2867601#comment-12075633 -->
+  <arg name="ignore" value="*.css,*.md,*.txt"/>
+
+  <!-- Use colors in output -->
+  <arg name="colors"/>
+
+  <!-- Include existing standards. -->
+  <rule ref="Drupal"/>
+  <rule ref="DrupalPractice"/>
+
+  <file>docroot/modules/custom</file>
+  <file>docroot/themes/custom</file>
+  <file>tests</file>
+
+  <exclude-pattern>*/vendor</exclude-pattern>
+  <exclude-pattern>*/node_modules</exclude-pattern>
+  <exclude-pattern>*/behat</exclude-pattern>
+
+</ruleset>
