@@ -20,7 +20,7 @@
         "doctrine/common":                  "^2.5",
         "oomphinc/composer-installers-extender": "^1.1",
         "dflydev/dot-access-data":          "^1.1.0",
-        "drupal/coder":                     "^8.2.8",
+        "drupal/coder":                     "^8.2.11",
         "drush/drush":                      "^8.1.10",
         "grasmash/drupal-security-warning": "^1.0.0",
         "grasmash/yaml-cli":                "^1.0.0",
@@ -32,9 +32,8 @@
         "symfony/console":                  "^2.8.11",
         "wikimedia/composer-merge-plugin":  "^1.4.1",
         "consolidation/robo":               "^1.1.0",
-        "tivie/php-os-detector":            "^1.0",
-        "consolidation/robo": "^1.1.0",
-        "consolidation/config": "^1.0.0"
+        "consolidation/config":             "^1.0.0",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.4.0"
     },
     "autoload": {
         "psr-4": {

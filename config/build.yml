@@ -110,6 +110,7 @@ reports:
 
 # @todo Move to subkey of validate.
 phpcs:
+  standard: Drupal,DrupalPractice
   filesets:
     - files.php.custom.modules
     - files.php.tests
