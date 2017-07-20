@@ -31,7 +31,7 @@
         "symfony/yaml":                     "^2.8.11",
         "symfony/console":                  "^2.8.11",
         "wikimedia/composer-merge-plugin":  "^1.4.1",
-        "consolidation/robo":               "^1.1.0",
+        "consolidation/robo":               "dev-plugin-commands",
         "consolidation/config":             "^1.0.0",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.4.0"
     },

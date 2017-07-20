@@ -1,6 +1,6 @@
 <?php
 
-namespace Acquia\Blt\Custom\Commands;
+namespace Acquia\Blt\BltPlugin\Commands;
 
 use Acquia\Blt\Robo\BltTasks;
 

@@ -32,7 +32,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Acquia\\Blt\\Custom\\": "../../../blt/src/"
+      "Acquia\\Blt\\BltPlugin\\": "../../../blt/src/"
     }
   },
   "extra": {

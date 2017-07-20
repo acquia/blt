@@ -5,8 +5,8 @@
  */
 
 $repo_root = find_repo_root();
-$autoload = require_once $repo_root . '/vendor/autoload.php';
-if (!isset($autoload)) {
+$autoloader = require_once $repo_root . '/vendor/autoload.php';
+if (!isset($autoloader)) {
   print "Unable to find autoloader for BLT\n";
   exit(1);
 }

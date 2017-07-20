@@ -66,7 +66,8 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
   public function __construct(
     Config $config,
     InputInterface $input = NULL,
-    OutputInterface $output = NULL
+    OutputInterface $output = NULL,
+    $autoloader
   ) {
 
     $this->setConfig($config);
@@ -77,9 +78,10 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     $this->addDefaultArgumentsAndOptions($application);
     $this->configureContainer($container);
     $this->addBuiltInCommandsAndHooks();
-    $this->addPluginsCommandsAndHooks();
     $this->runner = new RoboRunner();
     $this->runner->setContainer($container);
+    $this->runner->setLoader($autoloader);
+    $this->runner->setCommandFilePluginPattern('.*\\\\BltPlugin\\\\');
 
     $this->setLogger($container->get('logger'));
   }
@@ -97,22 +99,6 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
       'namespace' => 'Acquia\Blt\Robo\Hooks',
     ]);
     $this->commands = array_merge($commands, $hooks);
-  }
-
-  /**
-   * Registers custom commands and hooks defined project.
-   */
-  private function addPluginsCommandsAndHooks() {
-    $commands = $this->getCommands([
-      'path' => $this->getConfig()->get('repo.root') . '/blt/src/Commands',
-      'namespace' => 'Acquia\Blt\Custom\Commands',
-    ]);
-    $hooks = $this->getHooks([
-      'path' => $this->getConfig()->get('repo.root') . '/blt/src/Hooks',
-      'namespace' => 'Acquia\Blt\Custom\Hooks',
-    ]);
-    $plugin_commands_hooks = array_merge($commands, $hooks);
-    $this->commands = array_merge($this->commands, $plugin_commands_hooks);
   }
 
   /**

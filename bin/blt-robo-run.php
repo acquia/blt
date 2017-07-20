@@ -38,7 +38,7 @@ $config->import($processor->export());
 $config->populateHelperConfig();
 
 // Execute command.
-$blt = new Blt($config, $input, $output);
+$blt = new Blt($config, $input, $output, $autoloader);
 $status_code = (int) $blt->run($input, $output);
 
 // Stop timer.

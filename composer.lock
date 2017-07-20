@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "990d5664c4dbe263da779428b6317cb5",
+    "content-hash": "a79cda747d3b6692fa3a31f6e05af2f4",
     "packages": [
         {
             "name": "asm89/twig-lint",
@@ -370,20 +370,20 @@
         },
         {
             "name": "consolidation/robo",
-            "version": "1.1.1",
+            "version": "dev-plugin-commands",
             "source": {
                 "type": "git",
                 "url": "https://github.com/consolidation/Robo.git",
-                "reference": "b83f558a6d7efa8d4d1d3faaff90d6448a6d2716"
+                "reference": "2a6e363fc690cbe1da0c518b78a6be63600aa268"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/consolidation/Robo/zipball/b83f558a6d7efa8d4d1d3faaff90d6448a6d2716",
-                "reference": "b83f558a6d7efa8d4d1d3faaff90d6448a6d2716",
+                "url": "https://api.github.com/repos/consolidation/Robo/zipball/2a6e363fc690cbe1da0c518b78a6be63600aa268",
+                "reference": "2a6e363fc690cbe1da0c518b78a6be63600aa268",
                 "shasum": ""
             },
             "require": {
-                "consolidation/annotated-command": "^2.2",
+                "consolidation/annotated-command": "^2.4.8",
                 "consolidation/config": "^1",
                 "consolidation/log": "~1",
                 "consolidation/output-formatters": "^3.1.5",
@@ -445,7 +445,7 @@
                 }
             ],
             "description": "Modern task runner",
-            "time": "2017-07-07T19:48:25+00:00"
+            "time": "2017-07-15 00:51:06"
         },
         {
             "name": "container-interop/container-interop",
@@ -4243,6 +4243,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "consolidation/robo": 20,
         "composer/composer": 20
     },
     "prefer-stable": true,
