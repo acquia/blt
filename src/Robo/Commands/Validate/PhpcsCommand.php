@@ -17,7 +17,7 @@ class PhpcsCommand extends BltTasks {
    * @hook init
    */
   public function initialize() {
-    $this->standard = $this->getConfigValue('repo.root') . '/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml';
+    $this->standard = $this->getConfigValue('phpcs.standard');
   }
 
   /**
