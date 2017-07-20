@@ -19,6 +19,7 @@ use Robo\Common\CommandArguments;
  * ```
  */
 class DrushTask extends CommandStack {
+
   use CommandArguments {
     option as traitOption;
   }
@@ -212,14 +213,11 @@ class DrushTask extends CommandStack {
     if (!isset($this->uri)) {
       $this->uri = $this->getConfig()->get('drush.uri');
     }
-    if (!isset($this->assume)) {
-      $this->assume($this->getConfig()->get('drush.assume'));
-    }
-    if (!isset($this->verbose)) {
-      $this->verbose($this->getConfig()->get('drush.verbose'));
-    }
     if (!isset($this->alias)) {
       $this->alias($this->getConfig()->get('drush.alias'));
+    }
+    if (!isset($this->assume) && $this->input->hasOption('yes') && $this->input->getOption('yes')) {
+      $this->assume(TRUE);
     }
 
     $this->defaultsInitialized = TRUE;

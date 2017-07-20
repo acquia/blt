@@ -83,9 +83,6 @@ drupal:
 drush:
   bin: ${composer.bin}/drush
   dir: ${docroot}
-  assume: yes
-  passthru: yes
-  logoutput: yes
   sanitize: true
 
 git:
