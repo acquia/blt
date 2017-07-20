@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<ruleset name="blt">
+  <description>BLT PHP_CodeSniffer standards overrides.</description>
+
+  <!-- Set default extensions. -->
+  <arg name="extensions" value="module,install,profile,php,theme,inc,test"/>
+
+  <!-- Use colors in output -->
+  <arg name="colors"/>
+
+  <!-- Include existing standards. -->
+  <rule ref="Drupal"/>
+  <rule ref="DrupalPractice"/>
+
+  <file>./docroot/modules/custom</file>
+  <file>./docroot/themes/custom</file>
+  <file>./tests</file>
+
+  <exclude-pattern>*/vendor</exclude-pattern>
+  <exclude-pattern>*/node_modules</exclude-pattern>
+  <exclude-pattern>*/behat</exclude-pattern>
+
+</ruleset>

@@ -111,11 +111,6 @@ reports:
 # @todo Move to subkey of validate.
 phpcs:
   standard: Drupal,DrupalPractice
-  filesets:
-    - files.php.custom.modules
-    - files.php.tests
-    - files.php.custom.themes
-    - files.frontend.custom.themes
 
 #$ @todo Move to subkey of fix.
 phpcbf:
