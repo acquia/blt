@@ -5,7 +5,7 @@ steps:
     plugin: Script
     script:
      - cd $SRC_DIR
-     - "PHP_VERSION='5.6' $SRC_DIR/vendor/acquia/blt/scripts/probo/setup_environment"
+     - "PHP_VERSION='5.6' scripts/probo/setup_environment"
      - composer self-update
      - composer validate --no-check-all --ansi
      - composer install
