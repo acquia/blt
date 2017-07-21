@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Tests;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
 
 /**
@@ -61,7 +62,11 @@ class PhpUnitCommand extends BltTasks {
       if (isset($test['config'])) {
         $task->option('--configuration', $test['config']);
       }
-      $task->run();
+      $result = $task->run();
+      $exit_code = $result->getExitCode();
+      if ($exit_code) {
+        throw new BltException("PHPUnit tests failed.");
+      }
     }
   }
 
