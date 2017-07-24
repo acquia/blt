@@ -56,14 +56,27 @@ class PhpUnitCommand extends BltTasks {
         ->arg('.')
         ->printOutput(TRUE)
         ->printMetadata(FALSE);
+
       if (isset($test['path'])) {
         $task->dir($test['path']);
       }
-      if (isset($test['config'])) {
-        $task->option('--configuration', $test['config']);
+
+      $supported_options = [
+        'config' => 'configuration',
+        'group' => 'group',
+        'exclude-group' => 'exclude-group',
+        'filter' => 'filter',
+      ];
+
+      foreach ($supported_options as $yml_key => $option) {
+        if (isset($test[$yml_key])) {
+          $task->option("--$option", $test[$yml_key]);
+        }
       }
+
       $result = $task->run();
       $exit_code = $result->getExitCode();
+
       if ($exit_code) {
         throw new BltException("PHPUnit tests failed.");
       }
