@@ -25,8 +25,8 @@ class FilesCommand extends BltTasks {
       ->assume('')
       ->uri('')
       ->drush('rsync')
-      ->arg($remote_alias . ':%files')
-      ->arg($this->getConfigValue('docroot') . "/sites/$site_dir/files")
+      ->arg($remote_alias . ':%files/')
+      ->arg($this->getConfigValue('docroot') . "/sites/$site_dir/files/")
       ->option('exclude-paths', 'styles:css:js');
 
     $result = $task->run();
