@@ -38,6 +38,13 @@ $config['secretsalt'] = 'y0h9d13pki9qdhfm3l5nws4jjn55j6hj';
 $config['auth.adminpassword'] = 'mysupersecret';
 
 /**
+ * Multi-site installs.
+ *
+ * Support multi-site installations at different base URLs.
+ */
+# $config['baseurlpath'] = "https://{$_SERVER['SERVER_NAME']}/simplesaml/";
+
+/**
  * Cookies No Cache.
  *
  * Allow users to be automatically logged in if they signed in via the same
