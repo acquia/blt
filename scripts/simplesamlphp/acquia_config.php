@@ -53,6 +53,7 @@ function acquia_logging_config($config) {
 function mc_session_store($config) {
   $config['store.type'] = 'memcache';
   $config['memcache_store.servers'] = mc_info();
+  $config['memcache_store.prefix'] = $ah_options['database_name'];
   return $config;
 }
 function mc_info() {
