@@ -5,8 +5,8 @@ vagrant_machine_name: ${project.machine_name}
 # Set the IP address so it doesn't conflict with other Drupal VM instances.
 vagrant_ip: ${random.ip}
 
-# Use Ubuntu 14.04 LTS to more closely match Acquia Cloud environment.
-vagrant_box: geerlingguy/ubuntu1404
+# Use Ubuntu 16.04 LTS to match Acquia Cloud environments.
+vagrant_box: geerlingguy/ubuntu1604
 
 # Set drupal_site_name to the project's human-readable name.
 drupal_site_name: "${project.human_name}"
@@ -55,7 +55,7 @@ installed_extras:
   - selenium
   - xdebug
 
-# Use PHP 5.6.
+# PHP 5.6 (PHP 7.1 is being tested, see: https://docs.acquia.com/node/25726).
 php_version: "5.6"
 php_packages_extra:
   - "php{{ php_version }}-bz2"

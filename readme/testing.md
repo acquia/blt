@@ -160,10 +160,28 @@ Project level, functional PHPUnit tests are included in `tests/phpunit`. Any PHP
 
 You can customize the `tests:phpunit` command by [customize the configuration values](extending-blt.md#modifying-blt-configuration) for the `phpunit` key.
 
-Each row under the `phpunit` key should contain a `path` and a `config` key. The `path` key indicates a directory containing PHPUnit tests. The optional `config` key can be used to specify a PHP configuration file.
+Each row under the `phpunit` key should contain a combination of the following properties:
 
  * config: path to either the Core phpunit configuration file (docroot/core/phpunit.xml.dist) or a custom one. If left blank, no configuration will be loaded with the unit test.
  * path: the path to the custom phpunit test
+ * group: run tests only tagged with a specific `@group`
+ * exclude: run tests excluding any tagged with this `@group`
+ * filter: allows text filter for tests see [documentation](https://phpunit.de/manual/current/en/textui.htm) for more
+
+```yml
+phpunit:
+  -
+    config: ${docroot}/core/phpunit.xml.dist
+    group: 'example'
+  -
+    config: ${docroot}/core/phpunit.xml.dist
+    exclude: 'mylongtest'
+    group: 'example'
+  -
+    config: ${docroot}/core/phpunit.xml.dist
+    path: ${docroot}/modules/custom/example
+```
+
 
 ## Frontend Testing
 

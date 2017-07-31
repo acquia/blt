@@ -46,15 +46,18 @@ class RefreshCommand extends BltTasks {
   }
 
   /**
-   * Copies remote db to local db, re-imports config, and executes db updates.
+   * Executes composer install, runs frontend command, copies remote db to
+   * local db, re-imports config, and executes db updates.
    *
    * @command sync:refresh
    * @executeInDrupalVm
    */
   public function refreshDefault() {
     $this->invokeCommands([
+      'setup:composer:install',
       'sync',
       'setup:update',
+      'frontend',
     ]);
   }
 
