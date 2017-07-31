@@ -68,9 +68,10 @@ class PhpcsCommand extends BltTasks {
         $filtered_fileset = $fileset_manager->filterFilesByFileset($files, $fileset);
         $filtered_fileset = iterator_to_array($filtered_fileset);
         $files_in_fileset = array_keys($filtered_fileset);
-        $exit_code = $this->doSniffFileList($files_in_fileset);
-        if ($exit_code) {
-          return $exit_code;
+        $sniff_exit_code = $this->doSniffFileList($files_in_fileset);
+        // Allow sniffing of all files to continue before exiting.
+        if ($sniff_exit_code) {
+          $exit_code = $sniff_exit_code;
         }
       }
     }
