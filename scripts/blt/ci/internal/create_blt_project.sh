@@ -51,6 +51,4 @@ blt setup:cloud-hooks
 sed -i "s:deploy_updates:deploy_install:g" hooks/common/post-code-deploy/post-code-deploy.sh
 sed -i "s:deploy_updates:deploy_install:g" hooks/common/post-code-update/post-code-update.sh
 
-blt acsf:init:drush
-
 set +v

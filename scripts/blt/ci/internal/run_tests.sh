@@ -8,6 +8,8 @@ yaml-cli update:value blt/project.yml project.local.hostname '127.0.0.1:8888'
 yaml-cli update:value blt/project.yml cm.strategy none
 blt validate:all
 blt ci:setup -Dcreate_alias=false
+# ACSF init needs to happen after Drupal is installed.
+blt acsf:init:drush
 blt tests:all --define behat.run-server=true --yes
 blt tests:behat:definitions
 drush config-export --root=docroot -y
