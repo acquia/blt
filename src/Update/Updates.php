@@ -333,4 +333,16 @@ class Updates {
     $this->updater->getOutput()->writeln($formattedBlock);
     $this->updater->getOutput()->writeln("");
   }
+
+  /**
+   * 8.9.1.
+   *
+   * @Update(
+   *   version = "8009001",
+   *   description = "Updating namespaces in custom commands."
+   * )
+   */
+  public function update_8009001() {
+
+  }
 }
