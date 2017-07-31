@@ -18,7 +18,7 @@ Instructions for installing _all_ requirements are listed below.
 
 Ensure that [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12) is installed. On OSX 10.9+ you can install Xcode with:
 
-        xcodebuild -license
+        sudo xcodebuild -license
         xcode-select --install
 
 Then install the  minimum dependencies for BLT. The preferred method is via Homebrew, though you could install these yourself without a package manager.
