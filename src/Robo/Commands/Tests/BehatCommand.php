@@ -23,6 +23,11 @@ class BehatCommand extends TestsCommandBase {
   protected $seleniumUrl;
 
   /**
+   * @var string
+   */
+  protected $serverUrl;
+
+  /**
    * This hook will fire for all commands in this command file.
    *
    * @hook init
@@ -32,6 +37,7 @@ class BehatCommand extends TestsCommandBase {
 
     $this->seleniumLogFile = $this->getConfigValue('reports.localDir') . "/selenium2.log";
     $this->seleniumUrl = "http://127.0.0.1:4444/wd/hub";
+    $this->serverUrl = $this->getConfigValue('behat.server-url');
   }
 
   /**
@@ -46,7 +52,6 @@ class BehatCommand extends TestsCommandBase {
    * @usage -D behat.paths=${PWD}/tests/behat/features/Examples.feature:4
    *   Executes only the scenario on line 4 of Examples.feature.
    *
-   * @interactLaunchPhpWebServer
    * @interactGenerateSettingsFiles
    * @interactInstallDrupal
    * @interactConfigureBehat
@@ -60,9 +65,13 @@ class BehatCommand extends TestsCommandBase {
     $this->logConfig($this->getConfigValue('behat'), 'behat');
     $this->logConfig($this->getInspector()->getLocalBehatConfig()->export());
     $this->createReportsDir();
+    $this->launchWebServer();
     $this->launchWebDriver();
-    $this->executeBehatTests();
+    $behat_exit_code = $this->executeBehatTests();
     $this->killWebDriver();
+    $this->killWebServer();
+
+    return $behat_exit_code;
   }
 
   /**
@@ -90,6 +99,27 @@ class BehatCommand extends TestsCommandBase {
     $result = $task->run();
 
     return $result;
+  }
+
+  /**
+   * Launches PHP's internal web server via `drush run-server`.
+   */
+  protected function launchWebServer() {
+    if ($this->getConfigValue('behat.run-server')) {
+      $this->killWebServer();
+      $this->say("Launching PHP's internal web server via drush.");
+      $this->logger->info("Running server at $this->serverUrl");
+      $this->getContainer()->get('executor')->drush("runserver $this->serverUrl > /dev/null")->background(TRUE)->run();
+      $this->getContainer()->get('executor')->waitForUrlAvailable($this->serverUrl);
+    }
+  }
+
+  /**
+   * Kills PHP internal web server running on $this->serverUrl.
+   */
+  protected function killWebServer() {
+    $this->getContainer()->get('executor')->killProcessByName('runserver');
+    $this->getContainer()->get('executor')->killProcessByPort('4444');
   }
 
   /**
@@ -202,12 +232,15 @@ class BehatCommand extends TestsCommandBase {
    *   Throws an exception if any Behat test fails.
    */
   protected function executeBehatTests() {
+    $exit_code = 0;
+
     foreach ($this->getConfigValue('behat.paths') as $behat_path) {
       // Output errors.
       // @todo replace base_url in behat config when internal server is being used.
       $task = $this->taskBehat($this->getConfigValue('composer.bin') . '/behat')
         ->format('pretty')
         ->arg($behat_path)
+        ->option('colors')
         ->noInteraction()
         ->printMetadata(FALSE)
         ->stopOnFail()
@@ -215,7 +248,7 @@ class BehatCommand extends TestsCommandBase {
         ->option('config', $this->getConfigValue('behat.config'))
         ->option('profile', $this->getConfigValue('behat.profile'))
         ->option('tags', $this->getConfigValue('behat.tags'));
-      // @todo Make verbose if blt.verbose is true.
+
       $task->detectInteractive();
 
       if ($this->getConfigValue('behat.extra')) {
@@ -225,9 +258,11 @@ class BehatCommand extends TestsCommandBase {
       $result = $task->run();
 
       if (!$result->wasSuccessful()) {
-        throw new \Exception("Behat tests failed");
+        return $result->getExitCode();
       }
     }
+
+    return $exit_code;
   }
 
 }

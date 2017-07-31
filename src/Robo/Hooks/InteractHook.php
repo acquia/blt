@@ -83,26 +83,4 @@ class InteractHook extends Tasks implements IOAwareInterface, ConfigAwareInterfa
     $tests_wizard->wizardConfigureBehat();
   }
 
-  /**
-   * @hook interact @interactLaunchPhpWebServer
-   */
-  public function interactLaunchPhpWebServer() {
-    /** @var Executor $executor */
-    if ($this->getConfigValue('behat.run-server')) {
-      /** @var Executor $executor */
-      $executor = $this->getContainer()->get('executor');
-      if (!$this->getInspector()->isMySqlAvailable()) {
-        throw new \Exception("MySql is not available.");
-      }
-      $server_url = $this->getConfigValue('behat.server-url');
-      // $this->getConfig()->set('project.local.uri', $server_url);
-      $executor->killProcessByName('runserver');
-      $executor->killProcessByPort(8888);
-      $this->say("Launching PHP's internal web server via drush.");
-      $this->logger->info("Running server at $server_url");
-      $executor->drush("runserver $server_url > /dev/null")->background(true)->run();
-      $executor->waitForUrlAvailable($server_url);
-    }
-  }
-
 }

@@ -6,7 +6,7 @@
  */
 
 use Acquia\Blt\Robo\Config\YamlConfigProcessor;
-use Robo\Config\YamlConfigLoader;
+use Consolidation\Config\Loader\YamlConfigLoader;
 use Robo\Robo;
 use Symfony\Component\Console\Input\ArgvInput;
 
