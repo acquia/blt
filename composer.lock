@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "990d5664c4dbe263da779428b6317cb5",
+    "content-hash": "87dbdc4827d1320e4e9110facd47d403",
     "packages": [
         {
             "name": "asm89/twig-lint",
