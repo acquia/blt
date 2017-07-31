@@ -159,6 +159,7 @@ Automated testing of live content is easy to set up with two simple steps:
 
 2. Follow the steps in [extending BLT](extending-blt.md) to override the default `ci:build:validate:test` target:
 
-         <!-- Override the core ci:build:validate:test target to include a local refresh-->
-         <target name="ci:build:validate:test" description="Builds, validates, tests, and deploys an artifact."
-           depends="validate:all, ci:setup, local:sync, local:update, tests:all" />
+        <!-- Override the core ci:build:validate:test target to include a local refresh-->
+          <target name="ci:build:validate:test" description="Builds, validates, tests, and deploys an artifact."
+            depends="validate:all, ci:setup, local:sync, local:update" />
+         <exec dir="${repo.root}" command="blt tests:all" logoutput="true" passthru="true" checkreturn="true"/>

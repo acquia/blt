@@ -4,7 +4,7 @@ namespace Acquia\Blt\Robo\Config;
 
 use Acquia\Blt\Robo\Common\ArrayManipulator;
 use Grasmash\YamlExpander\Expander;
-use Robo\Config\ConfigProcessor;
+use Consolidation\Config\Loader\ConfigProcessor;
 
 class YamlConfigProcessor extends ConfigProcessor {
 
@@ -14,7 +14,7 @@ class YamlConfigProcessor extends ConfigProcessor {
    * @param array $config
    * @return array
    */
-  protected function preprocess($config)
+  protected function preprocess(array $config)
   {
     $config = ArrayManipulator::expandFromDotNotatedKeys(ArrayManipulator::flattenToDotNotatedKeys($config));
 

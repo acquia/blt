@@ -50,10 +50,14 @@ cm:
     # E.g., $config_directories['sync']. It must have a corresponding key in cm.core.dirs. E.g., `cm.core.dirs.sync`.
     key: sync
     # A different config key is used by the deploy:update step, which is executed on Acquia Cloud.
+    # This must also have a corresponding value at cm.core.dirs.vcs.
+    # @see https://github.com/acquia/blt/issues/678
     deploy-key: vcs
     dirs:
-      # Corresponding values are defined in default.local.settings.php.
+      # Corresponding value is defined in config.settings.php.
       sync:
+        path: ${cm.core.path}/default
+      vcs:
         path: ${cm.core.path}/default
   features:
     no-overrides: true
