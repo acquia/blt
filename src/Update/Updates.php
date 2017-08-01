@@ -333,4 +333,20 @@ class Updates {
     $this->updater->getOutput()->writeln($formattedBlock);
     $this->updater->getOutput()->writeln("");
   }
+
+  /**
+   * 8.9.1.
+   *
+   * @Update(
+   *   version = "8009001",
+   *   description = "Removing deprecated filesets."
+   * )
+   */
+  public function update_8009001() {
+    $project_yml = $this->updater->getProjectYml();
+    unset($project_yml['phpcs']['filesets']['files.php.custom.modules']);
+    unset($project_yml['phpcs']['filesets']['files.php.custom.themes']);
+    unset($project_yml['phpcs']['filesets']['files.php.tests']);
+    $this->updater->writeProjectYml($project_yml);
+  }
 }

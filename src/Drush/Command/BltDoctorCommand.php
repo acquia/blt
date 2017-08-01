@@ -10,7 +10,7 @@ use Symfony\Component\Yaml\Yaml;
 use Drupal\Core\Installer\Exception\AlreadyInstalledException;
 
 /**
- *
+ * Provides drush `blt-doctor` command.
  */
 class BltDoctor {
 
@@ -198,12 +198,13 @@ class BltDoctor {
     if (strstr($file_contents, 'DDSETTINGS')) {
       $this->devDesktopEnabled = TRUE;
     }
+    $this->statusTable['dev-desktop-enabled'] = $this->devDesktopEnabled;
 
-    if (file_exists($this->repoRoot . '/Vagrantfile')
-      && file_exists($this->repoRoot . '/blt/project.local.yml')
-      && $this->config['drush']['aliases']['local'] != 'self') {
+    if (file_exists($this->repoRoot . '/Vagrantfile')) {
       $this->drupalVmEnabled = TRUE;
     }
+
+    $this->statusTable['drupal-vm-enabled'] = $this->drupalVmEnabled;
   }
 
   /**
@@ -318,6 +319,14 @@ class BltDoctor {
           }
         }
         else {
+          if (is_bool($value)) {
+            if ($value) {
+              $value = 'true';
+            }
+            else {
+              $value = 'false';
+            }
+          }
           $contents = wordwrap($value, $max_line_length, "\n", TRUE);
           $rows[] = [$key, $contents];
         }
@@ -712,7 +721,7 @@ class BltDoctor {
     if ($this->drupalVmEnabled) {
       $passed = TRUE;
       $drupal_vm_config = $this->getDrupalVmConfigFile();
-      if (!file_exists($this->repoRoot . $drupal_vm_config)) {
+      if (!file_exists($this->repoRoot . '/' . $drupal_vm_config)) {
         $this->logOutcome(__FUNCTION__ . ':init', "You have DrupalVM initialized, but $drupal_vm_config is missing.", 'error');
 
         $passed = FALSE;
