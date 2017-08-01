@@ -55,26 +55,9 @@ class PhpcsCommand extends BltTasks {
    */
   public function sniffFileList($file_list) {
     $this->say("Sniffing files...");
-
-    $exit_code = 0;
     $files = explode("\n", $file_list);
-    /** @var \Acquia\Blt\Robo\Filesets\FilesetManager $fileset_manager */
-    $fileset_manager = $this->getContainer()->get('filesetManager');
-    $filesets_ids = $this->getConfigValue('phpcs.filesets');
-
-    foreach ($filesets_ids as $fileset_id) {
-      $fileset = $fileset_manager->getFileset($fileset_id);
-      if (!is_null($fileset)) {
-        $filtered_fileset = $fileset_manager->filterFilesByFileset($files, $fileset);
-        $filtered_fileset = iterator_to_array($filtered_fileset);
-        $files_in_fileset = array_keys($filtered_fileset);
-        $sniff_exit_code = $this->doSniffFileList($files_in_fileset);
-        // Allow sniffing of all files to continue before exiting.
-        if ($sniff_exit_code) {
-          $exit_code = $sniff_exit_code;
-        }
-      }
-    }
+    $files = array_filter($files);
+    $exit_code = $this->doSniffFileList($files);
 
     return $exit_code;
   }
@@ -82,16 +65,16 @@ class PhpcsCommand extends BltTasks {
   /**
    * Executes PHP Code Sniffer against an array of files.
    *
-   * @param array $file_list
+   * @param array $files
    *   A flat array of absolute file paths.
    *
    * @return int
    */
-  protected function doSniffFileList($file_list) {
-    if ($file_list) {
+  protected function doSniffFileList(array $files) {
+    if ($files) {
       $temp_path = $this->getConfigValue('repo.root') . '/tmp/phpcs-fileset';
       $this->taskWriteToFile($temp_path)
-        ->lines($file_list)
+        ->lines($files)
         ->run();
 
       $bin = $this->getConfigValue('composer.bin') . '/phpcs';
