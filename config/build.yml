@@ -133,7 +133,6 @@ project:
 setup:
   # Valid values are install, sync, import.
   strategy: install
-  sync: false
   # If setup.strategy is import, this file will be imported.
   dump-file: null
 
