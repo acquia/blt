@@ -56,6 +56,7 @@ class PhpcsCommand extends BltTasks {
   public function sniffFileList($file_list) {
     $this->say("Sniffing files...");
     $files = explode("\n", $file_list);
+    $files = array_filter($files);
     $exit_code = $this->doSniffFileList($files);
 
     return $exit_code;
@@ -64,16 +65,16 @@ class PhpcsCommand extends BltTasks {
   /**
    * Executes PHP Code Sniffer against an array of files.
    *
-   * @param array $file_list
+   * @param array $files
    *   A flat array of absolute file paths.
    *
    * @return int
    */
-  protected function doSniffFileList($file_list) {
-    if ($file_list) {
+  protected function doSniffFileList(array $files) {
+    if ($files) {
       $temp_path = $this->getConfigValue('repo.root') . '/tmp/phpcs-fileset';
       $this->taskWriteToFile($temp_path)
-        ->lines($file_list)
+        ->lines($files)
         ->run();
 
       $bin = $this->getConfigValue('composer.bin') . '/phpcs';
