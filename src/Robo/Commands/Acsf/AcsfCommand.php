@@ -23,7 +23,7 @@ class AcsfCommand extends BltTasks {
     $this->say('Adding acsf module as a dependency...');
     $package_options = [
       'package_name' => 'drupal/acsf',
-      'package_version' => $options['acsf-version']
+      'package_version' => $options['acsf-version'],
     ];
     $this->invokeCommand('composer:require', $package_options);
     $this->say("In the future, you may pass in a custom value for acsf-version to override the default version. E.g., blt acsf:init --acsf-version='8.1.x-dev'");
@@ -31,7 +31,7 @@ class AcsfCommand extends BltTasks {
     $this->say('Adding acsf-tools drush module as a dependency...');
     $package_options = [
       'package_name' => 'acquia/acsf-tools',
-      'package_version' => '^8.1'
+      'package_version' => '^8.1',
     ];
     $this->invokeCommand('composer:require', $package_options);
     $this->say("<info>ACSF was successfully initialized.</info>");

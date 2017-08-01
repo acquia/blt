@@ -47,4 +47,5 @@ class ComposerCommand extends BltTasks {
       }
     }
   }
+  
 }
