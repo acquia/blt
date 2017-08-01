@@ -8,7 +8,6 @@ use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Yaml\Yaml;
 use Drupal\Core\Installer\Exception\AlreadyInstalledException;
-use Acquia\Blt\Robo\Commands\Vm\VmCommand;
 
 /**
  *
@@ -89,7 +88,8 @@ class BltDoctor {
     $this->setComposerLock();
     $this->setBltVersion();
     $this->statusTable['blt-version'] = $this->bltVersion;
-    $status_table['php-mysql'] = ini_get('pdo_mysql.default_socket');
+    $this->statusTable['php-mysql'] = ini_get('pdo_mysql.default_socket');
+    $this->statusTable['shell'] = $_ENV['SHELL'];
 
     $this->setProjectConfig();
     $this->setCiEnabled();
@@ -520,12 +520,13 @@ class BltDoctor {
       $outcome[] = "";
     }
 
+    $php_conf = is_array($this->statusTable['php-conf']) ? implode(', ', $this->statusTable['php-conf']) : $this->statusTable['php-conf'];
     $outcome = array_merge($outcome, [
       'Are you using the correct PHP binary?',
       'Is PHP using the correct MySQL socket?',
       "  php-os: {$this->statusTable['php-os']}",
       "  php-bin: {$this->statusTable['php-bin']}",
-      "  php-conf: {$this->statusTable['php-conf']}",
+      "  php-conf: $php_conf",
       "  php-mysql: {$this->statusTable['php-mysql']}",
       '',
       'Are you using the correct site and settings.php file?',
