@@ -28,7 +28,6 @@ class AcsfCommand extends BltTasks {
     $this->invokeCommand('composer:require', $package_options);
     $this->say("In the future, you may pass in a custom value for acsf-version to override the default version. E.g., blt acsf:init --acsf-version='8.1.x-dev'");
     $this->acsfDrushInitialize();
-    // Install ACSF Tools.
     $this->say('Adding acsf-tools drush module as a dependency...');
     $package_options = [
       'package_name' => 'acquia/acsf-tools',
