@@ -10,17 +10,6 @@ use Acquia\Blt\Robo\Exceptions\BltException;
  */
 class PhpcsCommand extends BltTasks {
 
-  protected $standard;
-
-  /**
-   * This hook will fire for all commands in this command file.
-   *
-   * @hook init
-   */
-  public function initialize() {
-    $this->standard = $this->getConfigValue('phpcs.standard');
-  }
-
   /**
    * Executes PHP Code Sniffer against all phpcs.filesets files.
    *
@@ -54,9 +43,17 @@ class PhpcsCommand extends BltTasks {
    * @return int
    */
   public function sniffFileList($file_list) {
-    $this->say("Sniffing files...");
+    $this->say("Sniffing directories containing changed files...");
     $files = explode("\n", $file_list);
     $files = array_filter($files);
+
+    // We must scan directories rather than individual files in order for PHPCS
+    // extension constraints to be recognized.
+    foreach ($files as $key => $file) {
+      $files[$key] = dirname($file);
+    }
+    $files = array_unique($files);
+
     $exit_code = $this->doSniffFileList($files);
 
     return $exit_code;
@@ -79,7 +76,7 @@ class PhpcsCommand extends BltTasks {
 
       $bin = $this->getConfigValue('composer.bin') . '/phpcs';
       $result = $this->taskExecStack()
-        ->exec("'$bin' --file-list='$temp_path' --standard='{$this->standard}'")
+        ->exec("'$bin' --file-list='$temp_path' -l")
         ->printMetadata(FALSE)
         ->run();
 
