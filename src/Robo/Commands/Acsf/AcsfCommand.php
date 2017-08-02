@@ -34,7 +34,9 @@ class AcsfCommand extends BltTasks {
       'package_version' => '^8.1',
     ];
     $this->invokeCommand('composer:require', $package_options);
-    $this->say("<info>ACSF was successfully initialized.</info>");
+    $this->say('<comment>ACSF Tools has been added. Some post-install configuration is necessary.</comment>');
+    $this->say('<comment>See /drush/contrib/acsf-tools/README.md. </comment>');
+    $this->say('<info>ACSF was successfully initialized.</info>');
   }
 
   /**

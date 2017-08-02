@@ -46,6 +46,8 @@ class ComposerCommand extends BltTasks {
         throw new BltException("Unable to install {$package_name} package.");
       }
     }
+
+    return $result;
   }
 
 }
