@@ -21,10 +21,22 @@ class AcsfCommand extends BltTasks {
   public function acsfInitialize($options = ['acsf-version' => '^1.33.0']) {
     $this->acsfHooksInitialize();
     $this->say('Adding acsf module as a dependency...');
-    $this->requireAcsf($options['acsf-version']);
+    $package_options = [
+      'package_name' => 'drupal/acsf',
+      'package_version' => $options['acsf-version'],
+    ];
+    $this->invokeCommand('composer:require', $package_options);
     $this->say("In the future, you may pass in a custom value for acsf-version to override the default version. E.g., blt acsf:init --acsf-version='8.1.x-dev'");
     $this->acsfDrushInitialize();
-    $this->say("<info>ACSF was successfully initialized.</info>");
+    $this->say('Adding acsf-tools drush module as a dependency...');
+    $package_options = [
+      'package_name' => 'acquia/acsf-tools',
+      'package_version' => '^8.1',
+    ];
+    $this->invokeCommand('composer:require', $package_options);
+    $this->say('<comment>ACSF Tools has been added. Some post-install configuration is necessary.</comment>');
+    $this->say('<comment>See /drush/contrib/acsf-tools/README.md. </comment>');
+    $this->say('<info>ACSF was successfully initialized.</info>');
   }
 
   /**
@@ -65,37 +77,6 @@ class AcsfCommand extends BltTasks {
     $this->say('New "factory-hooks/" directory created in repo root. Please commit this to your project.');
 
     return $result;
-  }
-
-  /**
-   * Installs drupal/acsf via Composer.
-   *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
-   */
-  protected function requireAcsf($acsfVersion) {
-    $result = $this->taskExec("composer require 'drupal/acsf:{$acsfVersion}'")
-      ->printOutput(TRUE)
-      ->dir($this->getConfigValue('repo.root'))
-      ->run();
-
-    if (!$result->wasSuccessful()) {
-      $this->logger->error("An error occurred while requiring drupal/acsf.");
-      $this->say("This is likely due to an incompatibility with your existing packages.");
-      $confirm = $this->confirm("Should BLT attempt to update all of your Composer packages in order to find a compatible version?");
-      if ($confirm) {
-        $result = $this->taskExec("composer require 'drupal/acsf:{$acsfVersion}' --no-update && composer update")
-          ->printOutput(TRUE)
-          ->dir($this->getConfigValue('repo.root'))
-          ->run();
-        if (!$result->wasSuccessful()) {
-          throw new BltException("Unable to install drupal/acsf package.");
-        }
-      }
-      else {
-        // @todo revert previous file chanages.
-        throw new BltException("Unable to install drupal/acsf package.");
-      }
-    }
   }
 
 }

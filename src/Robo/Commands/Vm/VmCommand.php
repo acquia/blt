@@ -232,32 +232,13 @@ class VmCommand extends BltTasks {
    * @throws \Exception
    */
   protected function requireDrupalVm() {
+
     $this->say("Adding geerlingguy/drupal-vm:{$this->drupalVmVersionConstraint} to composer.json's require-dev array...");
-    $result = $this->taskExec("composer require --dev geerlingguy/drupal-vm:{$this->drupalVmVersionConstraint}")
-      ->dir($this->getConfigValue('repo.root'))
-      ->printOutput(TRUE)
-      ->run();
-
-    if (!$result->wasSuccessful()) {
-      $this->logger->error("An error occurred while requiring geerlingguy/drupal-vm.");
-      $this->say("This is likely due to an incompatibility with your existing packages.");
-      $confirm = $this->confirm("Should BLT attempt to update all of your Composer packages in order to find a compatible version?");
-      if ($confirm) {
-        $result = $this->taskExec("composer require --dev geerlingguy/drupal-vm:{$this->drupalVmVersionConstraint} --no-update && composer update")
-          ->dir($this->getConfigValue('repo.root'))
-          ->printOutput(TRUE)
-          ->run();
-        if (!$result->wasSuccessful()) {
-          throw new \Exception("Unable to install Drupal VM.");
-        }
-      }
-      else {
-        // @todo revert previous file chanages.
-        throw new BltException("Unable to install Drupal VM.");
-      }
-    }
-
-    return $result;
+    $package_options = [
+      'package_name' => 'geerlingguy/drupal-vm',
+      'package_version' => $this->drupalVmVersionConstraint,
+    ];
+    return $this->invokeCommand('composer:require', $package_options);
   }
 
   /**

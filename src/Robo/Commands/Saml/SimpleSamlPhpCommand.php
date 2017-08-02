@@ -56,17 +56,11 @@ class SimpleSamlPhpCommand extends BltTasks {
   protected function requireModule() {
     $this->say('Adding SimpleSAMLphp Auth module as a dependency...');
 
-    $result = $this->taskExec("composer require")
-      ->arg('drupal/simplesamlphp_auth:^3.0')
-      ->printOutput(TRUE)
-      ->detectInteractive()
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->dir($this->getConfigValue('repo.root'))
-      ->run();
-
-    if (!$result->wasSuccessful()) {
-      throw new BltException("Unable to install drupal/simplesamlphp_auth package.");
-    }
+    $package_options = [
+      'package_name' => 'drupal/simplesamlphp_auth',
+      'package_version' => '^3.0',
+    ];
+    $this->invokeCommand('composer:require', $package_options);
   }
 
   /**
