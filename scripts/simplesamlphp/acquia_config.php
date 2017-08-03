@@ -22,9 +22,9 @@
 $ah_options = [
   'database_name' => 'mydatabasename',
   'session_store' => [
-    'prod' => 'memcache',
-    'test' => 'memcache',
-    'dev' => 'database',
+    'prod' => 'database',
+    'test' => 'database',
+    'dev'  => 'database',
   ],
 ];
 

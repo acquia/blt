@@ -40,11 +40,17 @@ Request the remote IdP metadata (XML) from the customer. Note that each environm
                 'database_name' => 'example',
                 'session_store' => array(
                   // Valid values are "memcache" and "database".
-                  'prod' => 'memcache',
-                  'test' => 'memcache',
+                  'prod' => 'database',
+                  'test' => 'database',
                   'dev'  => 'database',
                 ),
               );
+
+      1. Amend the default values for the simplesaml session store if desired.
+         Note, memcache is only supported on PHP < 7 as tagged versions of the
+         simplesaml library only support php-memcache rather than the more
+         mature (and PHP 7 ready) php-memcached. This has been fixed in https://github.com/simplesamlphp/simplesamlphp/pull/395
+         and will likely be included in a future tagged version.
 
       1. Update the following values in the `$config` array:
 
