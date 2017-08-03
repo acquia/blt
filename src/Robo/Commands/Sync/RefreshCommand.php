@@ -15,7 +15,11 @@ class RefreshCommand extends BltTasks {
    * for each multisite.
    *
    * @command sync:refresh:all
-   * @executeInDrupalVm
+   *
+   * This command does not use @executeInDrupalVm because it would require 
+   * SSH forwarding.
+   *
+   * @see https://github.com/acquia/blt/issues/1875
    */
   public function refreshAll() {
     $exit_code = 0;
