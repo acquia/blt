@@ -219,6 +219,9 @@ class DrushTask extends CommandStack {
     if (!isset($this->assume) && $this->input->hasOption('yes') && $this->input->getOption('yes')) {
       $this->assume(TRUE);
     }
+    elseif (!isset($this->assume) && !$this->input->isInteractive()) {
+      $this->assume(TRUE);
+    }
 
     $this->defaultsInitialized = TRUE;
   }
