@@ -9,8 +9,8 @@
 $ah_options = array(
   'database_name' => 'mydatabasename',
   'session_store' => array(
-    'prod' => 'memcache',
-    'test' => 'memcache',
+    'prod' => 'database',
+    'test' => 'database',
     'dev'  => 'database',
   ),
 );
