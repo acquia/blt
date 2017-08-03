@@ -18,6 +18,7 @@
         "composer/installers":              "^1.2.0",
         "composer-plugin-api":              "^1.0.0",
         "doctrine/common":                  "^2.5",
+        "doctrine/inflector":               "~1.1.0",
         "oomphinc/composer-installers-extender": "^1.1",
         "dflydev/dot-access-data":          "^1.1.0",
         "drupal/coder":                     "^8.2.11",
@@ -33,7 +34,8 @@
         "wikimedia/composer-merge-plugin":  "^1.4.1",
         "consolidation/robo":               "^1.1.0",
         "consolidation/config":             "^1.0.0",
-        "dealerdirect/phpcodesniffer-composer-installer": "^0.4.0"
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.4.0",
+        "tivie/php-os-detector": "^1.0"
     },
     "autoload": {
         "psr-4": {

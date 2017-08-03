@@ -329,7 +329,7 @@ class DrushTask extends CommandStack {
   }
 
   /**
-   * Adds drush comands with their corresponding options to stack.
+   * Adds drush commands with their corresponding options to stack.
    */
   protected function setupExecution() {
     $this->setOptionsForLastCommand();

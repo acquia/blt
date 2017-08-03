@@ -8,10 +8,9 @@ use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Yaml\Yaml;
 use Drupal\Core\Installer\Exception\AlreadyInstalledException;
-use Acquia\Blt\Robo\Commands\Vm\VmCommand;
 
 /**
- *
+ * Provides drush `blt-doctor` command.
  */
 class BltDoctor {
 
@@ -89,7 +88,8 @@ class BltDoctor {
     $this->setComposerLock();
     $this->setBltVersion();
     $this->statusTable['blt-version'] = $this->bltVersion;
-    $status_table['php-mysql'] = ini_get('pdo_mysql.default_socket');
+    $this->statusTable['php-mysql'] = ini_get('pdo_mysql.default_socket');
+    $this->statusTable['shell'] = $_ENV['SHELL'];
 
     $this->setProjectConfig();
     $this->setCiEnabled();
@@ -198,12 +198,13 @@ class BltDoctor {
     if (strstr($file_contents, 'DDSETTINGS')) {
       $this->devDesktopEnabled = TRUE;
     }
+    $this->statusTable['dev-desktop-enabled'] = $this->devDesktopEnabled;
 
-    if (file_exists($this->repoRoot . '/Vagrantfile')
-      && file_exists($this->repoRoot . '/blt/project.local.yml')
-      && $this->config['drush']['aliases']['local'] != 'self') {
+    if (file_exists($this->repoRoot . '/Vagrantfile')) {
       $this->drupalVmEnabled = TRUE;
     }
+
+    $this->statusTable['drupal-vm-enabled'] = $this->drupalVmEnabled;
   }
 
   /**
@@ -318,6 +319,14 @@ class BltDoctor {
           }
         }
         else {
+          if (is_bool($value)) {
+            if ($value) {
+              $value = 'true';
+            }
+            else {
+              $value = 'false';
+            }
+          }
           $contents = wordwrap($value, $max_line_length, "\n", TRUE);
           $rows[] = [$key, $contents];
         }
@@ -520,12 +529,13 @@ class BltDoctor {
       $outcome[] = "";
     }
 
+    $php_conf = is_array($this->statusTable['php-conf']) ? implode(', ', $this->statusTable['php-conf']) : $this->statusTable['php-conf'];
     $outcome = array_merge($outcome, [
       'Are you using the correct PHP binary?',
       'Is PHP using the correct MySQL socket?',
       "  php-os: {$this->statusTable['php-os']}",
       "  php-bin: {$this->statusTable['php-bin']}",
-      "  php-conf: {$this->statusTable['php-conf']}",
+      "  php-conf: $php_conf",
       "  php-mysql: {$this->statusTable['php-mysql']}",
       '',
       'Are you using the correct site and settings.php file?',
@@ -711,7 +721,7 @@ class BltDoctor {
     if ($this->drupalVmEnabled) {
       $passed = TRUE;
       $drupal_vm_config = $this->getDrupalVmConfigFile();
-      if (!file_exists($this->repoRoot . $drupal_vm_config)) {
+      if (!file_exists($this->repoRoot . '/' . $drupal_vm_config)) {
         $this->logOutcome(__FUNCTION__ . ':init', "You have DrupalVM initialized, but $drupal_vm_config is missing.", 'error');
 
         $passed = FALSE;

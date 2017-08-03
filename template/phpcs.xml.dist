@@ -9,8 +9,10 @@
   <!-- @see https://www.drupal.org/node/2867601#comment-12075633 -->
   <arg name="ignore" value="*.css,*.md,*.txt"/>
 
-  <!-- Use colors in output -->
+  <!-- Use colors in output. -->
   <arg name="colors"/>
+  <!-- Show progress. -->
+  <arg value="p"/>
 
   <!-- Include existing standards. -->
   <rule ref="Drupal"/>
@@ -22,6 +24,5 @@
 
   <exclude-pattern>*/vendor</exclude-pattern>
   <exclude-pattern>*/node_modules</exclude-pattern>
-  <exclude-pattern>*/behat</exclude-pattern>
 
 </ruleset>

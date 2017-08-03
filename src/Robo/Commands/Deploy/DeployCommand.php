@@ -542,13 +542,7 @@ class DeployCommand extends BltTasks {
    */
   protected function deploySamlConfig() {
     if ($this->getConfigValue('simplesamlphp')) {
-      $this->say("Generating simplesamlphp configuration...");
-      $this->taskExecStack()
-        ->exec("blt simplesamlphp:deploy:config")
-        ->dir($this->getConfigValue('repo.root'))
-        ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-        ->stopOnFail()
-        ->run();
+      $this->invokeCommand('simplesamlphp:deploy:config');
     }
   }
 

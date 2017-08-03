@@ -133,7 +133,6 @@ project:
 setup:
   # Valid values are install, sync, import.
   strategy: install
-  sync: false
   # If setup.strategy is import, this file will be imported.
   dump-file: null
 
@@ -142,6 +141,11 @@ sync:
   # Set this value to 'true' or pass -D sync.files=true
   # to override this behavior.
   files: false
+  # Paths to exclude during file syncing operations.
+  exclude-paths:
+    - styles
+    - css
+    - js
 
 # Custom tasks that are triggered at pre-defined times in the build process.
 # The tasks hook into BLT's existing commands.

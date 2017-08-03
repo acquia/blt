@@ -10,17 +10,6 @@ use Acquia\Blt\Robo\Exceptions\BltException;
  */
 class PhpcsCommand extends BltTasks {
 
-  protected $standard;
-
-  /**
-   * This hook will fire for all commands in this command file.
-   *
-   * @hook init
-   */
-  public function initialize() {
-    $this->standard = $this->getConfigValue('phpcs.standard');
-  }
-
   /**
    * Executes PHP Code Sniffer against all phpcs.filesets files.
    *
@@ -54,26 +43,18 @@ class PhpcsCommand extends BltTasks {
    * @return int
    */
   public function sniffFileList($file_list) {
-    $this->say("Sniffing files...");
-
-    $exit_code = 0;
+    $this->say("Sniffing directories containing changed files...");
     $files = explode("\n", $file_list);
-    /** @var \Acquia\Blt\Robo\Filesets\FilesetManager $fileset_manager */
-    $fileset_manager = $this->getContainer()->get('filesetManager');
-    $filesets_ids = $this->getConfigValue('phpcs.filesets');
+    $files = array_filter($files);
 
-    foreach ($filesets_ids as $fileset_id) {
-      $fileset = $fileset_manager->getFileset($fileset_id);
-      if (!is_null($fileset)) {
-        $filtered_fileset = $fileset_manager->filterFilesByFileset($files, $fileset);
-        $filtered_fileset = iterator_to_array($filtered_fileset);
-        $files_in_fileset = array_keys($filtered_fileset);
-        $exit_code = $this->doSniffFileList($files_in_fileset);
-        if ($exit_code) {
-          return $exit_code;
-        }
-      }
+    // We must scan directories rather than individual files in order for PHPCS
+    // extension constraints to be recognized.
+    foreach ($files as $key => $file) {
+      $files[$key] = dirname($file);
     }
+    $files = array_unique($files);
+
+    $exit_code = $this->doSniffFileList($files);
 
     return $exit_code;
   }
@@ -81,21 +62,21 @@ class PhpcsCommand extends BltTasks {
   /**
    * Executes PHP Code Sniffer against an array of files.
    *
-   * @param array $file_list
+   * @param array $files
    *   A flat array of absolute file paths.
    *
    * @return int
    */
-  protected function doSniffFileList($file_list) {
-    if ($file_list) {
+  protected function doSniffFileList(array $files) {
+    if ($files) {
       $temp_path = $this->getConfigValue('repo.root') . '/tmp/phpcs-fileset';
       $this->taskWriteToFile($temp_path)
-        ->lines($file_list)
+        ->lines($files)
         ->run();
 
       $bin = $this->getConfigValue('composer.bin') . '/phpcs';
       $result = $this->taskExecStack()
-        ->exec("'$bin' --file-list='$temp_path' --standard='{$this->standard}'")
+        ->exec("'$bin' --file-list='$temp_path' -l")
         ->printMetadata(FALSE)
         ->run();
 
