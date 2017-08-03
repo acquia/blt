@@ -11,9 +11,6 @@ use Symfony\Component\Yaml\Yaml;
  * Defines commands in the "vm" namespace.
  */
 class VmCommand extends BltTasks {
-
-  const DRUPALVM_CONFIG_KEY = 'vm.config';
-
   protected $drupalVmAlias;
   protected $drupalVmVersionConstraint;
   protected $defaultDrupalVmDrushAliasesFile;
@@ -41,7 +38,7 @@ class VmCommand extends BltTasks {
     $this->defaultDrushAliasesFile = $this->getConfigValue('blt.root') . '/template/drush/site-aliases/aliases.drushrc.php';
     $this->projectDrushAliasesFile = $this->getConfigValue('repo.root') . '/drush/site-aliases/aliases.drushrc.php';
     $this->projectDrupalVmVagrantfile = $this->getConfigValue('repo.root') . '/Vagrantfile';
-    $this->projectDrupalVmConfigFile = $this->getConfigValue(self::DRUPALVM_CONFIG_KEY);
+    $this->projectDrupalVmConfigFile = $this->getConfigValue('vm.config');
     $this->vmDir = dirname($this->projectDrupalVmConfigFile);
     $this->vmConfigDir = str_replace($this->getConfigValue('repo.root') . DIRECTORY_SEPARATOR, '', $this->vmDir);
     $this->vmConfigFile = array_pop((explode(DIRECTORY_SEPARATOR, $this->projectDrupalVmConfigFile)));
@@ -267,7 +264,6 @@ class VmCommand extends BltTasks {
     }
     else {
       $this->installVagrantPlugin('vagrant-hostsupdater');
-      $this->installVagrantPlugin('vagrant-exec');
     }
   }
 

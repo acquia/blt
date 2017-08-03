@@ -21,6 +21,7 @@ use Robo\LoadAllTasks;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Base class for BLT Robo commands.
@@ -190,9 +191,9 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    */
   protected function executeCommandInDrupalVm($command) {
     $this->say("Executing command <comment>$command</comment> inside of Drupal VM...");
-    $this->installVagrantPlugin('vagrant-exec');
+    $vm_config = Yaml::parse(file_get_contents($this->getConfigValue('vm.config')));
     $result = $this->taskExecStack()
-      ->exec("vagrant exec --tty '$command'")
+      ->exec("vagrant ssh --command 'cd {$vm_config['ssh_home']}; $command'")
       ->dir($this->getConfigValue('repo.root'))
       ->detectInteractive()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
