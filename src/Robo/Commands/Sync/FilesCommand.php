@@ -13,7 +13,11 @@ class FilesCommand extends BltTasks {
    * Copies remote files to local machine.
    *
    * @command sync:files
-   * @executeInDrupalVm
+   *
+   * This command does not use @executeInDrupalVm because it
+   * requires an interactive shell.
+   *
+   * @see https://github.com/acquia/blt/issues/1874
    */
   public function syncFiles() {
     $local_alias = '@' . $this->getConfigValue('drush.aliases.local');
