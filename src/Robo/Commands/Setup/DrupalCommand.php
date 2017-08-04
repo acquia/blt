@@ -42,7 +42,6 @@ class DrupalCommand extends BltTasks {
       ->option('account-name', $username, '=')
       ->option('account-mail', $this->getConfigValue('drupal.account.mail'))
       ->option('locale', $this->getConfigValue('drupal.locale'))
-      ->assume(TRUE)
       ->printOutput(TRUE);
 
     $config_strategy = $this->getConfigValue('cm.strategy');

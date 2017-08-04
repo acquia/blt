@@ -4,7 +4,6 @@ namespace Acquia\Blt\Robo\Inspector;
 
 use Acquia\Blt\Robo\Config\YamlConfigProcessor;
 use Acquia\Blt\Robo\Exceptions\BltException;
-use Acquia\Blt\Robo\Commands\Vm\VmCommand;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 use Consolidation\Config\Loader\YamlConfigLoader;
@@ -329,7 +328,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
       }
     }
 
-    $file_path = $this->getConfigValue(VmCommand::DRUPALVM_CONFIG_KEY);
+    $file_path = $this->getConfigValue('vm.config');
     if (!file_exists($file_path)) {
       $this->logger->error("$file_path is missing. Please re-run `blt vm`.");
       $valid = FALSE;

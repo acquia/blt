@@ -16,7 +16,7 @@ class RefreshCommand extends BltTasks {
    *
    * @command sync:refresh:all
    *
-   * This command does not use @executeInDrupalVm because it would require 
+   * This command does not use @executeInDrupalVm because it would require
    * SSH forwarding.
    *
    * @see https://github.com/acquia/blt/issues/1875
