@@ -54,7 +54,8 @@
         "drupal/core": "7.*"
     },
     "suggest": {
-        "hirak/prestissimo": "^0.3"
+        "hirak/prestissimo": "^0.3",
+        "typhonius/acquia_cli": "^0.0.7"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
