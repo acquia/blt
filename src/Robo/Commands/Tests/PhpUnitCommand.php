@@ -5,6 +5,7 @@ namespace Acquia\Blt\Robo\Commands\Tests;
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Defines commands in the "tests" namespace.
@@ -59,6 +60,11 @@ class PhpUnitCommand extends BltTasks {
 
       if (isset($test['path'])) {
         $task->dir($test['path']);
+      }
+
+      if ($this->output()->getVerbosity() >= OutputInterface::VERBOSITY_NORMAL) {
+        $task->printMetadata(TRUE);
+        $task->arg('-v');
       }
 
       $supported_options = [
