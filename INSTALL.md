@@ -32,7 +32,7 @@ If you'd like to create a [Drupal VM](https://www.drupalvm.com/) with BLT, you w
 
         brew tap caskroom/cask
         brew cask install virtualbox vagrant
-        vagrant plugin install vagrant-hostsupdater vagrant-exec
+        vagrant plugin install vagrant-hostsupdater
 
 The minimum required versions are VirtualBox 5.1.x and Vagrant 1.8.6.
 
