@@ -14,7 +14,6 @@ class DbCommand extends BltTasks {
    * Iteratively copies remote db to local db for each multisite.
    *
    * @command sync:db:all
-   * @executeInDrupalVm
    */
   public function syncDbAll() {
     $exit_code = 0;
@@ -51,7 +50,6 @@ class DbCommand extends BltTasks {
    * Copies remote db to local db for default site.
    *
    * @command sync:db
-   * @executeInDrupalVm
    */
   public function syncDbDefault() {
     $this->invokeCommand('setup:settings');
