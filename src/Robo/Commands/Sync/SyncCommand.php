@@ -13,7 +13,6 @@ class SyncCommand extends BltTasks {
    * Synchronize local env from remote (remote --> local).
    *
    * @command sync
-   * @executeInDrupalVm
    */
   public function sync($options = [
     'sync-files' => FALSE,
