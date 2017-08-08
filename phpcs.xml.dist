@@ -1,9 +1,6 @@
 <?xml version="1.0"?>
-<!--
-   To override this file, copy it to phpcs.xml and then modify.
--->
 <ruleset name="blt">
-  <description>BLT PHP_CodeSniffer standards overrides.</description>
+  <description>BLT PHP_CodeSniffer standards.</description>
 
   <!-- Set ignore extensions. -->
   <!-- @see https://www.drupal.org/node/2867601#comment-12075633 -->
@@ -15,15 +12,20 @@
   <arg value="p"/>
 
   <!-- Include existing standards. -->
-  <rule ref="Drupal"/>
-  <rule ref="DrupalPractice"/>
+  <rule ref="Drupal">
+    <exclude name="Drupal.Commenting.FunctionComment"/>
+    <exclude name="Drupal.Commenting.DocComment"/>
+  </rule>
+  <!--<rule ref="DrupalPractice"/>-->
 
-  <file>blt</file>
-  <file>docroot/modules/custom</file>
-  <file>docroot/themes/custom</file>
+  <file>bin</file>
+  <file>bin/blt</file>
+  <file>RoboFile.php</file>
+  <file>scripts/blt/examples</file>
+  <file>src/Robo</file>
   <file>tests</file>
+  <file>template/blt</file>
 
-  <exclude-pattern>*/behat</exclude-pattern>
   <exclude-pattern>*/node_modules</exclude-pattern>
   <exclude-pattern>*/vendor</exclude-pattern>
 

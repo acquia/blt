@@ -28,15 +28,6 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   public function initialize() {
     $this->bltRoot = __DIR__;
     $this->bin = $this->bltRoot . '/vendor/bin';
-    $this->drupalPhpcsStandard = $this->bltRoot . '/vendor/drupal/coder/coder_sniffer/Drupal/ruleset.xml';
-    $this->phpcsPaths = [
-      $this->bltRoot . '/bin/blt',
-      $this->bltRoot . '/bin/blt-robo.php',
-      $this->bltRoot . '/bin/blt-robo-run.php',
-      $this->bltRoot . '/RoboFile.php',
-      $this->bltRoot . '/src/Robo',
-      $this->bltRoot . '/tests',
-    ];
   }
 
   /**
@@ -286,12 +277,10 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    * @command fix-code
    */
   public function fixCode() {
-    $command = "'{$this->bin}/phpcbf' --standard='{$this->drupalPhpcsStandard}' '%s'";
-    $task = $this->taskParallelExec();
-    foreach ($this->phpcsPaths as $path) {
-      $full_command = sprintf($command, $path);
-      $task->process($full_command);
-    }
+    $command = "'{$this->bin}/phpcbf'";
+    $task = $this->taskExecStack()
+      ->dir($this->bltRoot)
+      ->exec($command);
     $result = $task->run();
 
     return $result->getExitCode();
@@ -303,12 +292,10 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    * @command sniff-code
    */
   public function sniffCode() {
-    $command = "'{$this->bin}/phpcs' --standard='{$this->drupalPhpcsStandard}' --exclude=Drupal.Commenting.FunctionComment,Drupal.Commenting.DocComment '%s'";
-    $task = $this->taskExecStack();
-    foreach ($this->phpcsPaths as $path) {
-      $full_command = sprintf($command, $path);
-      $task->exec($full_command);
-    }
+    $command = "'{$this->bin}/phpcs'";
+    $task = $this->taskExecStack()
+      ->dir($this->bltRoot)
+      ->exec($command);
     $result = $task->run();
 
     return $result->getExitCode();
