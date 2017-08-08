@@ -133,17 +133,30 @@ class SettingsCommand extends BltTasks {
    * @executeInDrupalVm
    */
   public function behat() {
-    if (!file_exists($this->projectBehatLocalConfigFile)) {
+    $copy_map = [
+      $this->getConfigValue('blt.root') . '/template/tests/behat/behat.yml' => $this->getConfigValue('repo.root') . '/tests/behat/behat.yml',
+      $this->getConfigValue('blt.root') . '/template/tests/behat/example.local.yml' => $this->defaultBehatLocalConfigFile,
+      $this->defaultBehatLocalConfigFile => $this->projectBehatLocalConfigFile,
+    ];
+
+    $task = $this->taskFilesystemStack()
+      ->stopOnFail()
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE);
+
+    // Copy files without overwriting.
+    foreach ($copy_map as $from => $to) {
+      if (file_exists($to)) {
+        unset($copy_map[$from]);
+      }
+    }
+
+    if ($copy_map) {
       $this->say("Generating Behat configuration files...");
-      $result = $this->taskFilesystemStack()
-        ->copy($this->getConfigValue('blt.root') . '/template/tests/behat/behat.yml', $this->getConfigValue('repo.root') . '/tests/behat/behat.yml')
-        ->copy($this->getConfigValue('blt.root') . '/template/tests/behat/example.local.yml', $this->defaultBehatLocalConfigFile)
-        ->copy($this->defaultBehatLocalConfigFile, $this->projectBehatLocalConfigFile)
-        ->stopOnFail()
-        ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-        ->run();
-      $this->getConfig()
-        ->expandFileProperties($this->projectBehatLocalConfigFile);
+      foreach ($copy_map as $from => $to) {
+        $task->copy($from, $to);
+      }
+      $result = $task->run();
+      $this->getConfig()->expandFileProperties($this->projectBehatLocalConfigFile);
 
       if (!$result->wasSuccessful()) {
         $filepath = $this->getInspector()->getFs()->makePathRelative($this->defaultBehatLocalConfigFile, $this->getConfigValue('repo.root'));
