@@ -45,17 +45,10 @@ cm:
     # The default config key to use for imports. This is the key used in Drupal's global $config_directories variable.
     # E.g., $config_directories['sync']. It must have a corresponding key in cm.core.dirs. E.g., `cm.core.dirs.sync`.
     key: sync
-    # A different config key is used by the deploy:update step, which is executed on Acquia Cloud.
-    # This must also have a corresponding value at cm.core.dirs.vcs.
-    # If you are NOT on Acquia hosting, you probably need to change this to 'sync'.
-    # @see https://github.com/acquia/blt/issues/678
-    deploy-key: vcs
     dirs:
       # Corresponding value is defined in config.settings.php.
       sync:
         path: ${cm.core.path}/default
-      vcs:
-        path: ${cm.core.dirs.sync.path}
   features:
     no-overrides: true
 
