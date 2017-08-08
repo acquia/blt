@@ -35,6 +35,11 @@
       "Acquia\\Blt\\Custom\\": "../../../blt/src/"
     }
   },
+  "config": {
+    "platform": {
+      "php": "7"
+    }
+  },
   "extra": {
     "composer-exit-on-patch-failure": true,
     "drupal-scaffold": {
