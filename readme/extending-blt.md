@@ -178,12 +178,4 @@ To modify the behavior of the tests:behat target, you may override BLT's `behat`
 
 #### validate:phpcs
 
-To modify the behavior of the validate:phpcs target, you may override BLT's `phpcs` configuration:
-
-        phpcs:
-          filesets:
-            - files.php.custom.modules
-            - files.php.tests
-            - files.frontend.custom.themes
-
-The phpcs.filesets array contains references BLT filesets. You can remove or add your own custom filesets to the phpcs.filesets array.
+To modify the behavior of the validate:phpcs target, you may copy `phpcs.xml.dist` to `phpcs.xml` in your repository root directory and modify the XML. Please see the [official PHPCS documentation](https://github.com/squizlabs/PHP_CodeSniffer/wiki/Advanced-Usage#using-a-default-configuration-file) for more information.
