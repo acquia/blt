@@ -55,6 +55,11 @@
       }
     }
   },
+  "config": {
+    "platform": {
+      "php": "5.6"
+    }
+  },
   "scripts": {
     "blt-alias": "blt install-alias -y --ansi",
     "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
