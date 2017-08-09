@@ -796,7 +796,7 @@ class BltDoctor {
    * @return array|mixed
    */
   protected function setDrupalVmConfig() {
-    $this->drupalVmConfig = Yaml::parse(file_get_contents($this->repoRoot . $this->getDrupalVmConfigFile()));
+    $this->drupalVmConfig = Yaml::parse(file_get_contents($this->repoRoot . '/' . $this->getDrupalVmConfigFile()));
 
     return $this->drupalVmConfig;
   }
