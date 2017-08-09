@@ -47,6 +47,7 @@ class UpdateCommand extends BltTasks {
     $this->updateRootProjectFiles();
     $this->reInstallComposerPackages();
     $this->setProjectName();
+    $this->invokeCommand('examples:init');
     $this->initAndCommitRepo();
     $this->invokeCommand('install-alias');
     $this->displayArt();
