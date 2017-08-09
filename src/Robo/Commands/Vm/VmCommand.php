@@ -41,7 +41,8 @@ class VmCommand extends BltTasks {
     $this->projectDrupalVmConfigFile = $this->getConfigValue('vm.config');
     $this->vmDir = dirname($this->projectDrupalVmConfigFile);
     $this->vmConfigDir = str_replace($this->getConfigValue('repo.root') . DIRECTORY_SEPARATOR, '', $this->vmDir);
-    $this->vmConfigFile = array_pop((explode(DIRECTORY_SEPARATOR, $this->projectDrupalVmConfigFile)));
+    $path_parts = explode(DIRECTORY_SEPARATOR, $this->projectDrupalVmConfigFile);
+    $this->vmConfigFile = array_pop($path_parts);
   }
 
   /**
