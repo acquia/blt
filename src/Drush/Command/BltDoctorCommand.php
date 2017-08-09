@@ -914,18 +914,20 @@ class BltDoctor {
       ], 'info');
     }
 
-    $prestissimo_intalled = drush_shell_exec("composer global show | grep hirak/prestissimo");
-    if (!$prestissimo_intalled) {
-      $this->logOutcome(__FUNCTION__ . ":plugins", [
-        "hirak/prestissimo plugin for composer is not installed.",
-        "  Run `composer global require hirak/prestissimo:^0.3` to install it.",
-        "  This will improve composer install/update performance by parallelizing the download of dependency information.",
-      ], 'comment');
-    }
-    else {
-      $this->logOutcome(__FUNCTION__ . ':plugins', [
-        "hirak/prestissimo plugin for composer is installed.",
-      ], 'info');
+    if ('vagrant' != $_SERVER['USER']) {
+      $prestissimo_intalled = drush_shell_exec("composer global show | grep hirak/prestissimo");
+      if (!$prestissimo_intalled) {
+        $this->logOutcome(__FUNCTION__ . ":plugins", [
+          "hirak/prestissimo plugin for composer is not installed.",
+          "  Run `composer global require hirak/prestissimo:^0.3` to install it.",
+          "  This will improve composer install/update performance by parallelizing the download of dependency information.",
+        ], 'comment');
+      }
+      else {
+        $this->logOutcome(__FUNCTION__ . ':plugins', [
+          "hirak/prestissimo plugin for composer is installed.",
+        ], 'info');
+      }
     }
   }
 

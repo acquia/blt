@@ -70,6 +70,7 @@ class ToggleModulesCommand extends BltTasks {
       $modules_list = implode(' ', $modules);
       $result = $this->taskDrush()
         ->drush("$command $modules_list")
+        ->assume(TRUE)
         ->run();
       $exit_code = $result->getExitCode();
     }
