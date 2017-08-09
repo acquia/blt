@@ -32,7 +32,7 @@ All contributed projects hosted on drupal.org, including Drupal core, profiles, 
           "repositories": {
               "drupal": {
                   "type": "composer",
-                  "url": "https://packages.drupal.org/7"
+                  "url": "https://packages.drupal.org/8"
               }
           }
       }
