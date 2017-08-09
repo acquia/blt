@@ -786,7 +786,7 @@ class BltDoctor {
    */
   protected function getDrupalVmConfigFile() {
     // This is the only non-config "box/config.yml" entry.
-    $drupal_vm_config = isset($this->config['blt']['config-files']['drupal-vm']) ? $this->config['blt']['config-files']['drupal-vm'] : 'box/config.yml';
+    $drupal_vm_config = isset($this->config['vm']['config']) ? $this->config['vm']['config'] : 'box/config.yml';
     // Is there a way to calculate this "${repo.root}"? Removing for now.
     $drupal_vm_config = str_replace('${repo.root}', "", $drupal_vm_config);
     return $drupal_vm_config;
