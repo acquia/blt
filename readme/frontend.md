@@ -14,40 +14,40 @@ You must let BLT know which commands should be run in which directories. You can
 
 These commands will run inside of the virtual machine, if available. This obviates the need to install frontend dependencies on the host machine.
 
-The three following target hooks are available for frontend commands:
+The three following target hooks are available for frontend commands: setup, build, test.
 
-* Setup
+### Setup
 
-  During the execution of `blt setup`, BLT will execute `target-hooks.frontend-setup.command`. This hook is intended to provide an opportunity to install the tools required for your frontend build process. For instance, you may use this hook to install dependencies via NPM or Bower. E.g.,
+During the execution of `blt setup`, BLT will execute `target-hooks.frontend-setup.command`. This hook is intended to provide an opportunity to install the tools required for your frontend build process. For instance, you may use this hook to install dependencies via NPM or Bower. E.g.,
     
-          target-hooks:
-            frontend-setup:
-              dir: ${docroot}/sites/all/themes/custom/mytheme.
-              command: '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use 4.4.4 && npm install'
+    target-hooks:
+      frontend-setup:
+        dir: ${docroot}/sites/all/themes/custom/mytheme.
+        command: '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use 4.4.4 && npm install'
 
-  If you are using a sub theme of Cog, executing `npm install` in your theme directory (as exemplified above) will install all dependencies listed in [package.json](https://github.com/acquia-pso/cog/blob/8.x-1.x/STARTERKIT/package.json).
+If you are using a sub theme of Cog, executing `npm install` in your theme directory (as exemplified above) will install all dependencies listed in [package.json](https://github.com/acquia-pso/cog/blob/8.x-1.x/STARTERKIT/package.json).
 
-* Build
+### Build
 
-  During the execution of `blt setup` and `blt deploy`, BLT will execute `target-hooks.frontend-build.command`. This is always executed after `target-hooks.frontend-setup.command`. This hook is intended to provide an opportunity to compile your frontend assets, such as compiling SCSS to CSS or generating a style guide.
+During the execution of `blt setup` and `blt deploy`, BLT will execute `target-hooks.frontend-build.command`. This is always executed after `target-hooks.frontend-setup.command`. This hook is intended to provide an opportunity to compile your frontend assets, such as compiling SCSS to CSS or generating a style guide.
 
-            target-hooks:
-              frontend-build:
-                dir: ${docroot}/sites/all/themes/custom/mytheme.
-                command: '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use 4.4.4 && npm run build'
+    target-hooks:
+      frontend-build:
+        dir: ${docroot}/sites/all/themes/custom/mytheme.
+        command: '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use 4.4.4 && npm run build'
 
-    If you are using a sub theme of Cog, executing `npm run build` in your theme directory (as exemplified above) will execute the command defined in `scripts.build` in [package.json](https://github.com/acquia-pso/cog/blob/8.x-1.x/STARTERKIT/package.json#L51).
+If you are using a sub theme of Cog, executing `npm run build` in your theme directory (as exemplified above) will execute the command defined in `scripts.build` in [package.json](https://github.com/acquia-pso/cog/blob/8.x-1.x/STARTERKIT/package.json#L51).
 
-* Test
+### Test
 
-  During the execution of `blt tests`, BLT will execute `target-hooks.frontend-test.command`. This hook is intended to provide an opportunity execute frontend tests, like JavaScript linting and visual regression testing. E.g.,
+During the execution of `blt tests`, BLT will execute `target-hooks.frontend-test.command`. This hook is intended to provide an opportunity execute frontend tests, like JavaScript linting and visual regression testing. E.g.,
 
-            target-hooks:
-              frontend-test:
-                dir: ${docroot}/sites/all/themes/custom/mytheme.
-                command: '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use 4.4.4 && npm test'
+    target-hooks:
+      frontend-test:
+        dir: ${docroot}/sites/all/themes/custom/mytheme.
+        command: '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use 4.4.4 && npm test'
 
-    If you are using a sub theme of Cog, executing `npm test` in your theme directory (as exemplified above) will execute the command defined in `scripts.test` in [package.json](https://github.com/acquia-pso/cog/blob/8.x-1.x/STARTERKIT/package.json).
+If you are using a sub theme of Cog, executing `npm test` in your theme directory (as exemplified above) will execute the command defined in `scripts.test` in [package.json](https://github.com/acquia-pso/cog/blob/8.x-1.x/STARTERKIT/package.json).
 
 ### Executing complex commands
 
