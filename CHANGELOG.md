@@ -1,5 +1,30 @@
 # Change Log
 
+## [8.9.2](https://github.com/acquia/blt/tree/8.9.2) (2017-08-09)
+[Full Changelog](https://github.com/acquia/blt/compare/8.9.1...8.9.2)
+
+**Implemented enhancements:**
+
+- Scaffold  composer files required by merge plugin. [\#1849](https://github.com/acquia/blt/issues/1849)
+- Fixes \#1903: 8.9.1 Feedback. [\#1904](https://github.com/acquia/blt/pull/1904) ([grasmash](https://github.com/grasmash))))
+- Adding phpcs.xml. [\#1895](https://github.com/acquia/blt/pull/1895) ([grasmash](https://github.com/grasmash))
+
+**Fixed bugs:**
+
+- setup:behat overwrites behat.yml and example.local.yml [\#1898](https://github.com/acquia/blt/issues/1898)
+- Couldn't create a new project with blt [\#1896](https://github.com/acquia/blt/issues/1896)
+- Small fix to custom Drupal-VM. [\#1902](https://github.com/acquia/blt/pull/1902) ([dpagini](https://github.com/dpagini))
+- Fixes \#1898: setup:behat overwrites behat.yml and example.local.yml. [\#1899](https://github.com/acquia/blt/pull/1899) ([grasmash](https://github.com/grasmash))
+
+**Closed issues:**
+
+- phpcs: haltonwarning no longer available [\#1889](https://github.com/acquia/blt/issues/1889)
+
+**Misc merged pull requests**
+
+- Fixes \#1889: phpcs: haltonwarning no longer available. [\#1897](https://github.com/acquia/blt/pull/1897) ([grasmash](https://github.com/grasmash))
+
+
 ## [8.9.1](https://github.com/acquia/blt/tree/8.9.1) (2017-08-08)
 [Full Changelog](https://github.com/acquia/blt/compare/8.9.0...8.9.1)
 
