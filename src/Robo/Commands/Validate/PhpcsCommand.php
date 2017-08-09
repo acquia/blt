@@ -25,6 +25,7 @@ class PhpcsCommand extends BltTasks {
       ->run();
     $exit_code = $result->getExitCode();
     if ($exit_code) {
+      $this->logger->notice('Try running `blt fix:phpcbf` to automatically fix standards violations.');
       throw new BltException("PHPCS failed.");
     }
   }
