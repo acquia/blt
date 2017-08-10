@@ -20,4 +20,4 @@ To configure a project to run on ACSF, perform the following steps after initial
 1. Use ACSF's "update code" feature to push the artifact out to sites.
 1. When creating a new site, select your custom profile as the profile.
 
-**Note:** The above process will not work for updating existing ACSF sites using lightning.
+To set up a local development environment for your ACSF project, follow the steps in the [multisite readme](multisite.md).

@@ -36,7 +36,6 @@ The default Drush site aliases provided by [Acquia Cloud](https://docs.acquia.co
 
 It's recommended to copy the aliases file provided by Acquia Cloud or Club to create a separate aliases file for each site. Simply modify the `uri` and `parent` keys for the aliases within each file to match the correct database / site.
 
-TODO: Add instructions for integration with BLT development workflows and DrupalVM.
 
 ## Multisite tasks
 
@@ -52,3 +51,9 @@ drush:
 ```
 
 Then, to refresh your local site, you could run: `blt sync:refresh -Dmultisite.name=mysite`.
+
+## DrupalVM
+
+BLT by default only runs a single site at a time inside of DrupalVM. You can change which site is running locally at any given time using the `multisite` parameter described above.
+
+To run multiple sites simultaneously (on a single docroot) inside of DrupalVM, you should modify the `box/config.yml` file to add an additional virtual host and database for each site. Make sure to reprovision the VM afterwards (`vagrant provision`).

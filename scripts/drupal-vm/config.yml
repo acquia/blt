@@ -28,9 +28,31 @@ drupal_composer_install_dir: "/var/www/${project.machine_name}"
 drupal_core_path: "/var/www/${project.machine_name}/docroot"
 ssh_home: /var/www/${project.machine_name}
 
-drupal_db_user: drupal
-drupal_db_password: drupal
-drupal_db_name: drupal
+# Multisite installations should configure additional domains here.
+apache_vhosts:
+  # Drupal VM's default domain, evaluating to whatever `vagrant_hostname` is set to (drupalvm.dev by default).
+  - servername: "{{ drupal_domain }}"
+    serveralias: "www.{{ drupal_domain }}"
+    documentroot: "{{ drupal_core_path }}"
+    extra_parameters: "{{ apache_vhost_php_fpm_parameters }}"
+#  - servername: "local.second-drupal-site.com"
+#    documentroot: "{{ drupal_core_path }}"
+#    extra_parameters: "{{ apache_vhost_php_fpm_parameters }}"
+
+# Multisite installations should configure additional databases here.
+mysql_databases:
+  - name: drupal
+    encoding: utf8
+    collation: utf8_general_ci
+#  - name: drupal_two
+#    encoding: utf8
+#    collation: utf8_general_ci
+
+mysql_users:
+  - name: drupal
+    host: "%"
+    password: drupal
+    priv: "drupal.*:ALL"
 
 # Set this to 'false' if you don't need to install drupal (using the drupal_*
 # settings below), but instead copy down a database (e.g. using drush sql-sync).
