@@ -19,12 +19,11 @@ Start by following the [Acquia Cloud multisite instructions](https://docs.acquia
 
 ## BLT setup
 
-You have the option to define your multisites in `blt/project.yml` by creating a `multisite.name` variable. This allows BLT to run setup and deployment tasks for each site in the codebase. If you don't manually define this variable, BLT will automatically set it based on discovered multisite directories.
+You have the option to define your multisites in `blt/project.yml` by creating a `multisites` array. This allows BLT to run setup and deployment tasks for each site in the codebase. If you don't manually define this variable, BLT will automatically set it based on discovered multisite directories.
 
-    multisite:
-      name:
-        - default
-        - example.com
+    multisites:
+      - default
+      - example.com
 
 Ensure that your new project has `$settings['install_profile']` set, or Drupal core will attempt (unsuccessfully) to write it to disk!
 
@@ -39,7 +38,7 @@ It's recommended to copy the aliases file provided by Acquia Cloud or Club to cr
 
 ## Multisite tasks
 
-You may override BLT variables on a per-site basis by creating a `site.yml` file in `docroot/sites/[site-name]/`. You may then run BLT with the `multisite.name` variable set at the command line to load the site's properties.
+You may override BLT variables on a per-site basis by creating a `site.yml` file in `docroot/sites/[site-name]/`. You may then run BLT with the `site` variable set at the command line to load the site's properties.
 
 For instance, if the `drush` aliases for your site in `docroot/sites/mysite` were `@mysite.local` and `@mysite.test`, you could define these in `docroot/sites/mysite/site.yml` as:
 
@@ -50,10 +49,10 @@ drush:
     remote: mysite.test
 ```
 
-Then, to refresh your local site, you could run: `blt sync:refresh -Dmultisite.name=mysite`.
+Then, to refresh your local site, you could run: `blt sync:refresh -D site=mysite`.
 
 ## DrupalVM
 
-BLT by default only runs a single site at a time inside of DrupalVM. You can change which site is running locally at any given time using the `multisite` parameter described above.
+BLT by default only runs a single site at a time inside of DrupalVM. You can change which site is running locally at any given time using the `site` parameter described above.
 
 To run multiple sites simultaneously (on a single docroot) inside of DrupalVM, you should modify the `box/config.yml` file to add an additional virtual host and database for each site. Make sure to reprovision the VM afterwards (`vagrant provision`).
