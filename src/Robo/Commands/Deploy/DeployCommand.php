@@ -586,7 +586,8 @@ class DeployCommand extends BltTasks {
         $this->config->set('drush.uri', $multisite);
       }
 
-      $this->invokeCommand('sync');
+      $this->invokeCommand('sync:db');
+      $this->invokeCommand('sync:files');
       $this->invokeCommand('setup:config-import');
       $this->invokeCommand('setup:toggle-modules');
 

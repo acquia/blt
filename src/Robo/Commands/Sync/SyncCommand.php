@@ -19,6 +19,7 @@ class SyncCommand extends BltTasks {
   ]) {
 
     $commands = [
+      'setup:settings',
       'sync:db',
     ];
 
