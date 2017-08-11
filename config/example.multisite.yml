@@ -17,14 +17,12 @@ tests:
     port: 8888
     url: http://127.0.0.1:${tests.server.port}
 
-multisite:
-  # This should correspond the directory name in docroot/sites. E.g.,
-  # docroot/sites/example-multisite.com.
-  name: example-multisite.com
-
 project:
   profile:
     name: example_multisite_profile
-  # The acquia cloud alias for the site group. This will be used to execute
-  # against *.dev and *.test aliases for upstream db syncs.
-  cloud_alias: @example-multisite
+
+# Drush aliases to be used for syncs and setups.
+drush:
+  aliases:
+    local: mysite.local
+    remote: mysite.test
