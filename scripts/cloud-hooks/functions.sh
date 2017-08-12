@@ -14,7 +14,7 @@ deploy_updates() {
     01devup|01testup|01update)
       ;;
     ode[1-9])
-      deploy_sync
+      deploy_install
       ;;
     *)
       ace_deploy
