@@ -569,6 +569,33 @@ class DeployCommand extends BltTasks {
   }
 
   /**
+   * Syncs database and files and runs updates.
+   *
+   * @command deploy:sync:refresh
+   */
+  public function syncRefresh() {
+    // Disable alias since we are targeting specific uri.
+    $this->config->set('drush.alias', '');
+
+    // Sync files.
+    $this->config->set('sync.files', TRUE);
+
+    foreach ($this->getConfigValue('multisites') as $multisite) {
+      $this->say("Syncing $multisite...");
+      if (!$this->config->get('drush.uri')) {
+        $this->config->set('drush.uri', $multisite);
+      }
+
+      $this->invokeCommand('sync:db');
+      $this->invokeCommand('sync:files');
+      $this->invokeCommand('setup:config-import');
+      $this->invokeCommand('setup:toggle-modules');
+
+      $this->say("Finished syncing $multisite.");
+    }
+  }
+
+  /**
    * Installs Drupal, imports config, and executes updates.
    *
    * @command deploy:drupal:install
