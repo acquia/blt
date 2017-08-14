@@ -11,6 +11,10 @@ git config --global user.email "noreply@acquia.com"
 # Create MySQL DB.
 mysql -u root -proot -e "CREATE DATABASE IF NOT EXISTS drupal"
 
+# Setup NVM.
+nvm install v8.1.4
+npm install -g npm
+
 #  The local.hostname must be set to 127.0.0.1:8888 because we are using drush runserver to test the site.
 yaml-cli update:value blt/project.yml project.local.hostname '127.0.0.1:8888'
 

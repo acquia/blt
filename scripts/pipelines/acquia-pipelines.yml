@@ -16,8 +16,6 @@ events:
               - composer validate --no-check-all --ansi
               - composer install --ansi
               - source ${BLT_DIR}/scripts/pipelines/setup_env
-              - nvm install v8.1.4
-              - npm install -g npm
         - validate:
             type: script
             script:
