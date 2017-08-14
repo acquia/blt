@@ -6,7 +6,7 @@ See the [System Requirements](../INSTALL.md) for installing / using BLT. It is s
 ## Enterprise Web Development
 
 ### Development Environment
-BLT can be operated on any "LAMP" stack that will run Drupal. Acquia provides several tools for this, but they are optional.
+BLT can be operated on any "LAMP" stack that will run Drupal. 
 
 #### [DrupalVM](https://www.drupalvm.com/)
 This project aims to make spinning up a simple local Drupal test/development environment incredibly quick and easy, and to introduce new developers to the wonderful world of Drupal development on local virtual machines (instead of crufty old MAMP/WAMP-based development).
