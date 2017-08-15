@@ -7,6 +7,9 @@
             "url": "https://packages.drupal.org/8"
         }
     },
+    "config": {
+        "sort-packages": true
+    },
     "require": {},
     "require-dev": {},
     "extra": {
