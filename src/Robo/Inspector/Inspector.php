@@ -368,7 +368,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *   TRUE if current PHP process is being executed inside of VM.
    */
   public function isVmCli() {
-    return $_SERVER['USER'] == 'vagrant';
+    return (isset($_SERVER['USER']) && $_SERVER['USER'] == 'vagrant');
   }
 
   /**
