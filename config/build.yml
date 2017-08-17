@@ -141,6 +141,11 @@ sync:
     - styles
     - css
     - js
+  commands:
+    - setup:composer:install
+    - sync
+    - setup:update
+    - frontend
 
 # Custom tasks that are triggered at pre-defined times in the build process.
 # The tasks hook into BLT's existing commands.
