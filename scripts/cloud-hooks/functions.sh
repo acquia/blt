@@ -13,7 +13,7 @@ deploy_updates() {
       ;;
     01devup|01testup|01update)
       ;;
-    ode[1-9])
+    ode[[:digit:]]*)
       deploy_install
       ;;
     *)
