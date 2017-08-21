@@ -349,4 +349,43 @@ class Updates {
     unset($project_yml['phpcs']['filesets']['files.php.tests']);
     $this->updater->writeProjectYml($project_yml);
   }
+
+  /**
+   * 8.9.3.
+   *
+   * @Update(
+   *    version = "8009003",
+   *    description = "Adding support for Asset Packagist."
+   * )
+   */
+  public function update_8009003() {
+    $composer_json = $this->updater->getComposerJson();
+
+    // Add the Asset Packagist repository if it does not already exist.
+    if (isset($composer_json['repositories'])) {
+      $repository_key = NULL;
+      foreach ($composer_json['repositories'] as $key => $repository) {
+        if ($repository['type'] == 'composer' && strpos($repository['url'], 'https://asset-packagist.org') === 0) {
+          $repository_key = $key;
+          break;
+        }
+      }
+      if (is_null($repository_key)) {
+        $composer_json['repositories']['asset-packagist'] = [
+          'type' => 'composer',
+          'url' => 'https://asset-packagist.org',
+        ];
+      }
+    }
+
+    unset($composer_json['require']['composer/installers']);
+    $composer_json['require']['oomphinc/composer-installers-extender'] = '^1.1';
+
+    $composer_json['extra']['installer-types'][] = 'bower-asset';
+    $composer_json['extra']['installer-types'][] = 'npm-asset';
+    $composer_json['extra']['installer-paths']['docroot/libraries/{$name}'][] = 'type:bower-asset';
+    $composer_json['extra']['installer-paths']['docroot/libraries/{$name}'][] = 'type:npm-asset';
+
+    $this->updater->writeComposerJson($composer_json);
+  }
 }
