@@ -13,24 +13,6 @@ use Symfony\Component\Finder\Finder;
 class BuildCommand extends BltTasks {
 
   /**
-   * Install dependencies, builds docroot, installs Drupal.
-   *
-   * @command setup
-   *
-   * @aliases setup:all
-   */
-  public function setup() {
-    $this->say("Setting up local environment for site '{$this->getConfigValue('site')}' using drush alias @{$this->getConfigValue('drush.alias')}");
-    $this->invokeCommands([
-      'setup:build',
-      'setup:hash-salt',
-      'setup:drupal:install',
-      'setup:toggle-modules',
-      'install-alias',
-    ]);
-  }
-
-  /**
    * Installs Drupal and sets correct file/directory permissions.
    *
    * @command setup:drupal:install
