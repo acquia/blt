@@ -2,6 +2,10 @@
 <ruleset name="blt">
   <description>BLT PHP_CodeSniffer standards.</description>
 
+  <!-- By default, warnings and errors cause an exception. -->
+  <config name="ignore_warnings_on_exit" value="0" />
+  <config name="ignore_errors_on_exit" value="0" />
+
   <!-- Set ignore extensions. -->
   <!-- @see https://www.drupal.org/node/2867601#comment-12075633 -->
   <arg name="ignore" value="*.css,*.md,*.txt"/>
