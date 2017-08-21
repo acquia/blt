@@ -34,7 +34,7 @@ If you'd like to create a [Drupal VM](https://www.drupalvm.com/) with BLT, you w
         brew cask install virtualbox vagrant
         vagrant plugin install vagrant-hostsupdater
 
-The minimum required versions are VirtualBox 5.1.x and Vagrant 1.8.6.
+The minimum required versions are VirtualBox 5.1.x and Vagrant 1.8.6. Ansible is not a requirement, but if you have it installed on your host machine it must be at least version 2.2.
 
 The local PHP environment should also have a memory limit of at least 2G for BLT to initialize. You can modify your PHP CLI's memory limit by editing php.ini. You can use the following command to open the correct php.ini in TextEdit. Set `memory_limit = 2G`.
 
