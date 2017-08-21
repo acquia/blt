@@ -5,6 +5,10 @@
         "drupal": {
             "type": "composer",
             "url": "https://packages.drupal.org/8"
+        },
+        "asset-packagist": {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
         }
     },
     "config": {
@@ -14,6 +18,7 @@
     "require-dev": {},
     "extra": {
         "enable-patching": true,
+        "installer-types": ["bower-asset", "npm-asset"],
         "installer-paths": {
             "docroot/core": ["type:drupal-core"],
             "docroot/modules/contrib/{$name}": ["type:drupal-module"],
@@ -22,7 +27,7 @@
             "docroot/profiles/custom/{$name}": ["type:drupal-custom-profile"],
             "docroot/themes/contrib/{$name}": ["type:drupal-theme"],
             "docroot/themes/custom/{$name}": ["type:drupal-custom-theme"],
-            "docroot/libraries/{$name}": ["type:drupal-library"],
+            "docroot/libraries/{$name}": ["type:drupal-library", "type:bower-asset", "type:npm-asset"],
             "drush/contrib/{$name}": ["type:drupal-drush"]
         },
         "merge-plugin": {
