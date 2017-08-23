@@ -42,6 +42,7 @@ pages:
     - Technical Architect:
         - Deploying to cloud: 'readme/deploy.md'
         - Release process: 'readme/release-process.md'
+        - Acquia Cloud Site Factory support: 'readme/acsf-setup.md'
         - Setting up continuous integration: 'readme/ci.md'
         - Setting up SSO with SimpleSAMLphp: 'readme/simplesamlphp-setup.md'
         - Setting up multisite: 'readme/multisite.md'

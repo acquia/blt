@@ -21,3 +21,8 @@ To configure a project to run on ACSF, perform the following steps after initial
 1. When creating a new site, select your custom profile as the profile.
 
 To set up a local development environment for your ACSF project, follow the steps in the [multisite readme](multisite.md).
+
+### Resources
+
+* https://docs.acquia.com/site-factory/quick-start/configure
+* https://www.drupal.org/project/acsf

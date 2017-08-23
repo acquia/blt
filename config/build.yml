@@ -90,8 +90,8 @@ git:
 # otherwise BLT will generate this sites list based on directories
 # in ${docroot}/sites/*/
 #
-# multisites
-#   - default
+# multisites:
+#  - default
 
 # @todo Move to subkey of tests.
 reports:
