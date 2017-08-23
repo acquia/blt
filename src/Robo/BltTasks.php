@@ -5,12 +5,11 @@ namespace Acquia\Blt\Robo;
 use Acquia\Blt\Robo\Common\ArrayManipulator;
 use Acquia\Blt\Robo\Common\IO;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
-use Acquia\Blt\Robo\Config\DefaultConfig;
+use Acquia\Blt\Robo\Config\ConfigInitializer;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Acquia\Blt\Robo\Inspector\InspectorAwareInterface;
 use Acquia\Blt\Robo\Inspector\InspectorAwareTrait;
 use Acquia\Blt\Robo\Tasks\LoadTasks;
-use Consolidation\Config\Loader\YamlConfigLoader;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 use Psr\Log\LoggerAwareInterface;
@@ -371,22 +370,9 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    *   $site_name would be example.com.
    */
   public function switchSiteContext($site_name) {
-    $this->config->set('site', $site_name);
-    if (!$this->config->get('drush.uri')) {
-      $this->config->set('drush.uri', $site_name);
-    }
-
-    // After having set site, this should now return the multisite
-    // specific config.
-    $site_config_file = $this->getConfigValue('blt.config-files.multisite');
-
-    $config = new DefaultConfig($this->getConfigValue('repo.root'));
-    $loader = new YamlConfigLoader();
-    $processor = init_config_processor($config, $this->input());
-    $processor->extend($loader->load($site_config_file));
-    $config->import($processor->export());
-    $config->populateHelperConfig();
-
+    $config_initializer = new ConfigInitializer($this->getConfigValue('repo.root'), $this->input());
+    $config_initializer->setSite($site_name);
+    $config = $config_initializer->initialize();
     $this->setConfig($config);
   }
 

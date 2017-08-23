@@ -52,7 +52,10 @@ class SettingsCommand extends BltTasks {
     $initial_site = $this->getConfigValue('site');
 
     foreach ($multisites as $multisite) {
-      $this->switchSiteContext($multisite);
+      $current_site = $this->getConfigValue('site');
+      if ($current_site != $multisite) {
+        $this->switchSiteContext($multisite);
+      }
 
       // Generate settings.php.
       $multisite_dir = $this->getConfigValue('docroot') . "/sites/$multisite";
@@ -130,7 +133,11 @@ class SettingsCommand extends BltTasks {
         throw new BltException("Unable to set permissions on $project_settings_file.");
       }
     }
-    $this->getConfig()->setSiteConfig($initial_site);
+
+    $current_site = $this->getConfigValue('site');
+    if ($current_site != $initial_site) {
+      $this->switchSiteContext($initial_site);
+    }
   }
 
   /**

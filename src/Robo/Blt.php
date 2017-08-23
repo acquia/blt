@@ -3,7 +3,6 @@
 namespace Acquia\Blt\Robo;
 
 use Acquia\Blt\Robo\Common\Executor;
-use Acquia\Blt\Robo\Config\DefaultConfig;
 use Acquia\Blt\Robo\Datastore\FileStore;
 use Acquia\Blt\Robo\Filesets\FilesetManager;
 use Acquia\Blt\Robo\Inspector\Inspector;
