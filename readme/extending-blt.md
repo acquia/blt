@@ -36,8 +36,10 @@ You may disable any BLT command. This will cause the target to be skipped during
       disable-targets:
         validate:
           phpcs: true
+        git:
+          commit-msg: true
 
-This snippet would cause the `validate:phpcs` target to be skipped during BLT builds.
+This snippet would cause the `validate:phpcs` and `git:commit-msg` targets to be skipped during BLT builds.
 
 ## Adding / overriding filesets
 
@@ -150,6 +152,8 @@ You may use a custom git hook in place of BLT's default git hooks by setting its
             pre-commit: ${repo.root}/my-custom-git-hooks
 
 In this example, an executable file named `pre-commit` should exist in `${repo.root}/my-custom-git-hooks`.
+
+You should execute `blt setup:git-hooks` after modifying these values in order for changes to take effect.
 
 ### tests:*
 

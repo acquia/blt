@@ -25,8 +25,25 @@ class PhpcsCommand extends BltTasks {
       ->run();
     $exit_code = $result->getExitCode();
     if ($exit_code) {
-      $this->logger->notice('Try running `blt fix:phpcbf` to automatically fix standards violations.');
-      throw new BltException("PHPCS failed.");
+      if ($this->input()->isInteractive()) {
+        $this->fixViolationsInteractively();
+        throw new BltException("Initial execution of PHPCS failed. Re-run now that PHPCBF has fixed some violations.");
+      }
+      else {
+        $this->logger->notice('Try running `blt fix:phpcbf` to automatically fix standards violations.');
+        throw new BltException("PHPCS failed.");
+      }
+    }
+  }
+
+  /**
+   * Prompts user to fix PHPCS violations.
+   */
+  protected function fixViolationsInteractively() {
+    $continue = $this->confirm("Attempt to fix violations automatically via PHPCBF?");
+    if ($continue) {
+      $this->invokeCommand('fix:phpcbf');
+      $this->logger->warning("You must stage any new changes to files before committing.");
     }
   }
 
