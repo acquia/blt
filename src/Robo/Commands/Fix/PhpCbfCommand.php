@@ -35,7 +35,7 @@ class PhpCbfCommand extends BltTasks {
 
       case 1:
         $this->say('<comment>Please note that exit code 1 does not indicate an error for PHPCBF.</comment>');
-        $this->say('<info>All fixable errors were fixed correctly.</info>');
+        $this->say('<info>All fixable errors were fixed correctly. There may still be errors that could not be fixed automatically.</info>');
         return 0;
 
       case 2:
