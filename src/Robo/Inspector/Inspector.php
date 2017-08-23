@@ -666,7 +666,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *
    */
   public function isSchemaVersionUpToDate() {
-    return $this->getCurrentSchemaVersion() == $this->getContainer()->get('updater')->getLatestUpdateMethodVersion();
+    return $this->getCurrentSchemaVersion() >= $this->getContainer()->get('updater')->getLatestUpdateMethodVersion();
   }
 
   /**
