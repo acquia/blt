@@ -5,6 +5,7 @@ namespace Acquia\Blt\Robo\Commands\Setup;
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\RandomString;
 use Acquia\Blt\Robo\Exceptions\BltException;
+use function file_exists;
 use Robo\Contract\VerbosityThresholdInterface;
 
 /**
@@ -48,7 +49,10 @@ class SettingsCommand extends BltTasks {
     $default_project_default_settings_file = "$default_multisite_dir/default.settings.php";
 
     $multisites = $this->getConfigValue('multisites');
+    $initial_site = $this->getConfigValue('site');
+
     foreach ($multisites as $multisite) {
+      $this->switchSiteContext($multisite);
 
       // Generate settings.php.
       $multisite_dir = $this->getConfigValue('docroot') . "/sites/$multisite";
@@ -84,8 +88,11 @@ class SettingsCommand extends BltTasks {
       $task = $this->taskFilesystemStack()
         ->stopOnFail()
         ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-        ->chmod($multisite_dir, 0777)
-        ->chmod($project_settings_file, 0777);
+        ->chmod($multisite_dir, 0777);
+
+      if (file_exists($project_settings_file)) {
+        $task->chmod($project_settings_file, 0777);
+      }
 
       // Copy files without overwriting.
       foreach ($copy_map as $from => $to) {
@@ -123,6 +130,7 @@ class SettingsCommand extends BltTasks {
         throw new BltException("Unable to set permissions on $project_settings_file.");
       }
     }
+    $this->getConfig()->setSiteConfig($initial_site);
   }
 
   /**

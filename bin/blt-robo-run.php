@@ -22,20 +22,7 @@ $input = new ArgvInput($_SERVER['argv']);
 $output = new ConsoleOutput();
 
 // Initialize configuration.
-$config = new DefaultConfig($repo_root);
-$loader = new YamlConfigLoader();
-$processor = new YamlConfigProcessor();
-$processor->add($config->export());
-$processor->extend($loader->load($config->get('blt.root') . '/config/build.yml'));
-$processor->extend($loader->load($config->get('repo.root') . '/blt/project.yml'));
-$processor->extend($loader->load($config->get('repo.root') . '/blt/project.local.yml'));
-
-if ($input->hasArgument('environment')) {
-  $processor->extend($loader->load($config->get('repo.root') . '/blt/' . $input->getArgument('environment') . '.yml'));
-}
-
-$config->import($processor->export());
-$config->populateHelperConfig();
+$config = init_config($repo_root, $input);
 
 // Execute command.
 $blt = new Blt($config, $input, $output);
@@ -48,3 +35,39 @@ if ($output->isVerbose()) {
 }
 
 exit($status_code);
+
+/**
+ * @param $repo_root
+ * @param $input
+ *
+ * @return \Acquia\Blt\Robo\Config\DefaultConfig
+ */
+function init_config($repo_root, $input) {
+  $config = new DefaultConfig($repo_root);
+  $processor = init_config_processor($config, $input);
+  $config->import($processor->export());
+  $config->populateHelperConfig();
+
+  return $config;
+}
+
+/**
+ * @param $config
+ * @param $input
+ *
+ * @return \Acquia\Blt\Robo\Config\YamlConfigProcessor
+ */
+function init_config_processor($config, $input) {
+  $loader = new YamlConfigLoader();
+  $processor = new YamlConfigProcessor();
+  $processor->add($config->export());
+  $processor->extend($loader->load($config->get('blt.root') . '/config/build.yml'));
+  $processor->extend($loader->load($config->get('repo.root') . '/blt/project.yml'));
+  $processor->extend($loader->load($config->get('repo.root') . '/blt/project.local.yml'));
+
+  if ($input->hasArgument('environment')) {
+    $processor->extend($loader->load($config->get('repo.root') . '/blt/' . $input->getArgument('environment') . '.yml'));
+  }
+
+  return $processor;
+}
