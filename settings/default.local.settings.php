@@ -15,11 +15,11 @@ $databases = array(
   array(
     'default' =>
     array(
-      'database' => 'drupal',
-      'username' => 'drupal',
-      'password' => 'drupal',
-      'host' => 'localhost',
-      'port' => '3306',
+      'database' => '${drupal.db.database}',
+      'username' => '${drupal.db.username}',
+      'password' => '${drupal.db.password}',
+      'host' => '${drupal.db.host}',
+      'port' => '${drupal.db.port}',
       'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
       'driver' => 'mysql',
       'prefix' => '',
