@@ -3,6 +3,7 @@
     "acquia/lightning": "^2.1.4",
     "drupal/acquia_connector": "^1.5.0",
     "drupal/cog": "^1.0.0",
+    "drupal/devel": "^1.0.0",
     "drupal/qa_accounts": "^1.0.0-alpha1",
     "drupal/memcache": "^2.0-alpha3",
     "drupal/seckit": "^1.0.0-alpha2",
@@ -11,6 +12,9 @@
   },
   "extra": {
     "patches": {
+      "drupal/core": {
+        "Clear Twig caches on deploys": "https://www.drupal.org/files/issues/2752961-90.patch"
+      }
     }
   }
 }
