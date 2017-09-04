@@ -59,8 +59,14 @@ if ($is_acsf) {
  ******************************************************************************/
 
 if ($is_ah_env) {
-  if (!$is_acsf && file_exists('/var/www/site-php') && $site_dir == 'default') {
-    require "/var/www/site-php/{$_ENV['AH_SITE_GROUP']}/{$_ENV['AH_SITE_GROUP']}-settings.inc";
+  if (!$is_acsf && file_exists('/var/www/site-php')) {
+    if ($site_dir == 'default') {
+      require "/var/www/site-php/{$_ENV['AH_SITE_GROUP']}/{$_ENV['AH_SITE_GROUP']}-settings.inc";
+    }
+    // Includes multisite settings for given site.
+    elseif (file_exists("/var/www/site-php/{$_ENV['AH_SITE_GROUP']}/$site_dir-settings.inc")) {
+      require "/var/www/site-php/{$_ENV['AH_SITE_GROUP']}/$site_dir-settings.inc";
+    }
   }
 
   // Store API Keys and things outside of version control.
