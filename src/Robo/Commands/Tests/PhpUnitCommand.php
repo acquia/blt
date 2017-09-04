@@ -54,7 +54,6 @@ class PhpUnitCommand extends BltTasks {
     foreach ($this->phpunitConfig as $test) {
       $task = $this->taskPHPUnit()
         ->xml($this->reportFile)
-        ->arg('.')
         ->printOutput(TRUE)
         ->printMetadata(FALSE);
 
@@ -69,9 +68,10 @@ class PhpUnitCommand extends BltTasks {
 
       $supported_options = [
         'config' => 'configuration',
-        'group' => 'group',
         'exclude-group' => 'exclude-group',
         'filter' => 'filter',
+        'group' => 'group',
+        'testsuite' => 'testsuite',
       ];
 
       foreach ($supported_options as $yml_key => $option) {
