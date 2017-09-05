@@ -53,6 +53,12 @@
       "drupal/core": {
         "Clear Twig caches on deploys": "https://www.drupal.org/files/issues/2752961-90.patch"
       }
+    },
+    "patches-ignore": {
+      "drush/drush": {
+        "2697 - Don't add profile dependencies to required_by array of modules":
+        "https://www.drupal.org/files/issues/2902643-2--drush-8.x.patch"
+      }
     }
   },
   "scripts": {
