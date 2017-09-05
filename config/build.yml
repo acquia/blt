@@ -29,7 +29,6 @@ blt:
     local: ${repo.root}/blt/project.local.yml
     example-local: ${repo.root}/blt/example.project.local.yml
     schema-version: ${repo.root}/blt/.schema_version
-    multisite: ${docroot}/sites/${site}/site.yml
   command-cache-dir: ${blt.root}/cache/commands
 
 composer:
@@ -90,8 +89,8 @@ git:
 # otherwise BLT will generate this sites list based on directories
 # in ${docroot}/sites/*/
 #
-# multisites
-#   - default
+# multisites:
+#  - default
 
 # @todo Move to subkey of tests.
 reports:

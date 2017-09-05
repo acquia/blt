@@ -26,3 +26,10 @@ drush:
   aliases:
     local: mysite.local
     remote: mysite.test
+
+# If you would like to manage configuration for this multisite
+# completely separately from the default site, change this value to
+# ${cm.core.path}/site2. Be sure to also set
+# $config_directories['sync'] = $dir . "/config/site2" in settings.php
+# for the site.
+# cm.core.dirs.sync.path: ${cm.core.path}/default

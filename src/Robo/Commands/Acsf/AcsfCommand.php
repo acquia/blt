@@ -12,6 +12,19 @@ use Robo\Contract\VerbosityThresholdInterface;
 class AcsfCommand extends BltTasks {
 
   /**
+   * Prints information about the command.
+   */
+  public function printPreamble() {
+    $this->logger->notice("This command will initialize support for Acquia Cloud Site Factory by performing the following tasks:");
+    $this->logger->notice("  * Adding drupal/acsf and acquia/acsf-tools the require array in your composer.json file.");
+    $this->logger->notice("  * Executing the `acsf-init` command, provided by the drupal/acsf module.");
+    $this->logger->notice("  * Adding default factory-hooks to your application.");
+    $this->logger->notice("");
+    $this->logger->notice("For more information, see:");
+    $this->logger->notice("<comment>http://blt.readthedocs.io/en/8.x/readme/acsf-setup</comment>");
+  }
+
+  /**
    * Initializes ACSF support for project.
    *
    * @command acsf:init
@@ -19,6 +32,7 @@ class AcsfCommand extends BltTasks {
    * @options acsf-version
    */
   public function acsfInitialize($options = ['acsf-version' => '^1.33.0']) {
+    $this->printPreamble();
     $this->acsfHooksInitialize();
     $this->say('Adding acsf module as a dependency...');
     $package_options = [

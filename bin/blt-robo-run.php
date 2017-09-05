@@ -6,10 +6,8 @@
  */
 
 use Acquia\Blt\Robo\Blt;
-use Acquia\Blt\Robo\Config\DefaultConfig;
-use Acquia\Blt\Robo\Config\YamlConfigProcessor;
+use Acquia\Blt\Robo\Config\ConfigInitializer;
 use Robo\Common\TimeKeeper;
-use Consolidation\Config\Loader\YamlConfigLoader;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
@@ -22,20 +20,8 @@ $input = new ArgvInput($_SERVER['argv']);
 $output = new ConsoleOutput();
 
 // Initialize configuration.
-$config = new DefaultConfig($repo_root);
-$loader = new YamlConfigLoader();
-$processor = new YamlConfigProcessor();
-$processor->add($config->export());
-$processor->extend($loader->load($config->get('blt.root') . '/config/build.yml'));
-$processor->extend($loader->load($config->get('repo.root') . '/blt/project.yml'));
-$processor->extend($loader->load($config->get('repo.root') . '/blt/project.local.yml'));
-
-if ($input->hasArgument('environment')) {
-  $processor->extend($loader->load($config->get('repo.root') . '/blt/' . $input->getArgument('environment') . '.yml'));
-}
-
-$config->import($processor->export());
-$config->populateHelperConfig();
+$config_initializer = new ConfigInitializer($repo_root, $input);
+$config = $config_initializer->initialize();
 
 // Execute command.
 $blt = new Blt($config, $input, $output);

@@ -45,7 +45,7 @@ class RefreshCommand extends BltTasks {
    * @return int
    */
   protected function refreshMultisite($multisite_name) {
-    $this->getConfig()->setSiteConfig($multisite_name);
+    $this->switchSiteContext($multisite_name);
     return $this->refreshDefault();
   }
 

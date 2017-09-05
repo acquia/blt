@@ -40,7 +40,7 @@ class DbCommand extends BltTasks {
    * @return \Robo\Result
    */
   protected function syncDbMultisite($multisite_name) {
-    $this->getConfig()->setSiteConfig($multisite_name);
+    $this->switchSiteContext($multisite_name);
     $result = $this->syncDbDefault();
 
     return $result;

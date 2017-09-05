@@ -5,6 +5,7 @@ namespace Acquia\Blt\Robo;
 use Acquia\Blt\Robo\Common\ArrayManipulator;
 use Acquia\Blt\Robo\Common\IO;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
+use Acquia\Blt\Robo\Config\ConfigInitializer;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Acquia\Blt\Robo\Inspector\InspectorAwareInterface;
 use Acquia\Blt\Robo\Inspector\InspectorAwareTrait;
@@ -359,6 +360,20 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
     $table->setHeaders($headers)
       ->setRows(ArrayManipulator::convertArrayToFlatTextArray($array))
       ->render();
+  }
+
+  /**
+   * Sets multisite context by settings site-specific config values.
+   *
+   * @param string $site_name
+   *   The name of a multisite. E.g., if docroot/sites/example.com is the site,
+   *   $site_name would be example.com.
+   */
+  public function switchSiteContext($site_name) {
+    $config_initializer = new ConfigInitializer($this->getConfigValue('repo.root'), $this->input());
+    $config_initializer->setSite($site_name);
+    $config = $config_initializer->initialize();
+    $this->setConfig($config);
   }
 
 }
