@@ -57,6 +57,18 @@ class PhpUnitCommand extends BltTasks {
         ->printOutput(TRUE)
         ->printMetadata(FALSE);
 
+      if (isset($test['class'])) {
+        $task->arg($test['class']);
+        if (isset($test['file'])) {
+          $task->arg($test['file']);
+        }
+      }
+      else {
+        if (isset($test['path'])) {
+          $task->arg($test['path']);
+        }
+      }
+
       if (isset($test['path'])) {
         $task->dir($test['path']);
       }
