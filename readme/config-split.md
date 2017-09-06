@@ -1,6 +1,6 @@
-This tutorial covers common use cases for configuration splits as a strategy for configuration management in Drupal 8.
+# Config Split
 
-Specifically it covers:
+This covers common use cases for using configuration splits as a strategy for configuration management in Drupal 8. Specifically, it covers:
 
 - Default application configuration
 - Environment specific configuration (e.g., local, data, test, prod, etc.)
