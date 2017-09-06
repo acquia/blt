@@ -35,7 +35,7 @@ This will populate `../config/default` with all configuration for the site.  `..
           preprocess: true
           gzip: true
 
- ### Test overriding and reverting
+### Test overriding and reverting
 
 You can test the process of importing configuration by:
 
@@ -60,10 +60,10 @@ To accomplish this, we will create a "local" configuration split.
         label: Local
         folder: ../config/envs/local
         blacklist: {  }
-        graylist:
+        greylist:
           - system.performance
-        graylist_dependents: true
-        graylist_skip_equal: true
+        greylist_dependents: true
+        greylist_skip_equal: true
         weight: 0
 
 1. `drush config-export -y`. This will export the configuration definition for the split itself,  which is stored in `config/default/config_split.config_split.local.yml`.
@@ -130,9 +130,9 @@ To accomplish this, we will create a "blog" configuration split. That split will
           - system.action.user_remove_role_action.blog_entry_reviewer
           - user.role.blog_entry_creator
           - user.role.blog_entry_reviewer
-        graylist: {  }
-        graylist_dependents: true
-        graylist_skip_equal: true
+        greylist: {  }
+        greylist_dependents: true
+        greylist_skip_equal: true
         weight: 0
 
 1. Visit `/admin/config/development/configuration/ignore` and add the following line to "Configuration entity names to ignore":
@@ -174,9 +174,9 @@ Consider that we would like site to to have different cache lifetimes then the d
         label: Site 2
         folder: ../config/site2
         blacklist: {  }
-        graylist: {  }
-        graylist_dependents: true
-        graylist_skip_equal: true
+        greylist: {  }
+        greylist_dependents: true
+        greylist_skip_equal: true
         weight: 0
 
 ## Executing commands against multisites
@@ -207,17 +207,19 @@ If you would like to export configuration that is blacklisted in more than one s
 
 **blacklist**
 
-Blacklisted splits are blacklisted from `config/default`. If a given split is active, and that Split defines a configuration setting in its blacklist, that configuration setting will not be exported to `config/default` when `drush config-export` is executed.
+Blacklisted splits are blacklisted from `config/default`. If a given split is active, and that Split defines a configuration setting in its blacklist, that configuration setting will not be exported to `config/default` when `drush config-export` is executed:
 
 - Exported to split
 - *Not* exported to default configuration
 
-**graylist**
+**greylist**
 
-Graylist splits allow a given configuration setting to be exported to both the default configuration and also to a split's configuration (overriding default when active).
+Graylist splits allow a given configuration setting to be exported to both the default configuration and also to a split's configuration (overriding default when active):
 
 - Exported to split
 - Also exported to default configuration
+
+Graylists may also be used for configuration that's intended to be "unlocked" in production (such as webforms). If you need to customize this behavior, you can use the greylist functionality described in [this blog post](https://blog.liip.ch/archive/2017/04/07/advanced-drupal-8-cmi-workflows.html).
 
 ### Development settings
 
