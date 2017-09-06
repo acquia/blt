@@ -37,6 +37,7 @@ pages:
             - Git hooks: 'scripts/git-hooks/README.md'
           - Development Workflow: 'readme/dev-workflow.md'
           - Configuration Management: 'readme/configuration-management.md'
+          - Using Config Split: 'readme/config-split.md'
           - Frontend Management: 'readme/frontend.md'
           - Automated testing: 'readme/testing.md'
     - Technical Architect:
