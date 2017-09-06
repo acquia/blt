@@ -13,7 +13,8 @@ if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
   # apt-get -f install
 
   # Installs chromedriver for Linux 64 bit systems.
-  wget -N http://chromedriver.storage.googleapis.com/2.24/chromedriver_linux64.zip
+  LATEST_CHROMEDRIVER=$(wget -q -O - http://chromedriver.storage.googleapis.com/LATEST_RELEASE)
+  wget -N http://chromedriver.storage.googleapis.com/$LATEST_CHROMEDRIVER/chromedriver_linux64.zip
   unzip chromedriver_linux64.zip
   chmod +x chromedriver
   mv -f chromedriver $BIN_DIR
