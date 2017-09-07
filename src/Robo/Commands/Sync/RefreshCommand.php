@@ -14,10 +14,10 @@ class RefreshCommand extends BltTasks {
    * Copies remote db to local db, re-imports config, and executes db updates
    * for each multisite.
    *
-   * @command sync:refresh:all
-   *
    * This command does not use @executeInDrupalVm because it would require
    * SSH forwarding.
+   *
+   * @command sync:refresh:all
    *
    * @see https://github.com/acquia/blt/issues/1875
    */

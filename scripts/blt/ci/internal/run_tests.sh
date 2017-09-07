@@ -8,7 +8,7 @@ yaml-cli update:value blt/project.yml project.local.hostname '127.0.0.1:8888'
 yaml-cli update:value blt/project.yml cm.strategy none
 blt validate:all
 blt setup --define environment=ci --yes -vvv
-blt generate:multisite --yes -vvv
+blt generate:multisite --no-interaction  --yes -vvv
 blt tests:all --define tests.run-server=true --yes -vvv
 blt tests:behat:definitions
 drush config-export --root=docroot -y

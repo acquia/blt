@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Generate;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Exceptions\BltException;
 use function file_exists;
 use function file_put_contents;
 use Symfony\Component\Yaml\Yaml;
@@ -21,13 +22,22 @@ class MultisiteCommand extends BltTasks {
   public function generate() {
     $this->say("This will generate a new site in the docroot/sites directory.");
     $site_yml = [];
-    $site_name = $this->ask("Machine name");
-    $domain = parse_url($this->ask("Local domain name"));
-    $site_yml['project']['local']['hostname'] = $domain['host'];
 
-    $config_local_db = $this->ask("Would you like to configure the local database credentials?");
+    $site_name = $this->askRequired("Machine name");
+    $new_site_dir = $this->getConfigValue('docroot') . '/sites/' . $site_name;
+
+    if (file_exists($new_site_dir)) {
+      throw new BltException("Cannot generate new multisite, $new_site_dir already exists!");
+    }
+
+    $domain = $this->askDefault("Local domain name", "http://local.$site_name.com");
+    $url = parse_url($domain);
+    $site_yml['project']['local']['protocol'] = $url['scheme'];
+    $site_yml['project']['local']['hostname'] = $url['host'];
+
+    $config_local_db = $this->confirm("Would you like to configure the local database credentials?");
     if ($config_local_db) {
-      $default_db = $this->getDefaultDbCreds();
+      $default_db = $this->getConfigValue('drupal.db');
       $db = [];
       $db['username'] = $this->askDefault("Local database user", $default_db['username']);
       $db['password'] = $this->askDefault("Local database password", $default_db['password']);
@@ -36,13 +46,46 @@ class MultisiteCommand extends BltTasks {
       $this->getConfig()->set('drupal.db', $db);
     }
 
-    $this->logger->warning("Automatically configuring your Drupal VM instance will remove  formatting and comments from your config.yml file.");
-    $configure_vm = $this->ask("Would you like to generate a new virtual host entry for this site inside Drupal VM?");
+    if ($this->getInspector()->isDrupalVmConfigPresent()) {
+      $this->configureDrupalVm($url, $site_name);
+    }
+
+    $default_site_dir = $this->getConfigValue('docroot') . '/sites/default';
+    $this->taskCopyDir([$default_site_dir => $new_site_dir]);
+    $result = $this->taskFilesystemStack()
+      ->mkdir($this->getConfigValue('docroot') . '/config/' . $site_name)
+      ->run();
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Unable to create $new_site_dir.");
+    }
+
+    $site_yml_filename = $new_site_dir . '/site.yml';
+    $result = $this->taskWriteToFile($site_yml_filename)
+      ->text(Yaml::dump($site_yml))
+      ->run();
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Unable to write $site_yml_filename.");
+    }
+
+    $this->invokeCommand('setup:settings');
+  }
+
+  /**
+   * Updates box/config.yml with settings for new multisite.
+   *
+   * @param string $url
+   *   The local URL for the site.
+   * @param string $site_name
+   *   The machine name of the site.
+   */
+  protected function configureDrupalVm($url, $site_name) {
+    $this->logger->warning("Automatically configuring your Drupal VM instance will remove formatting and comments from your config.yml file.");
+    $configure_vm = $this->confirm("Would you like to generate a new virtual host entry for this site inside Drupal VM?");
     if ($configure_vm) {
       $this->projectDrupalVmConfigFile = $this->getConfigValue('vm.config');
       $vm_config = Yaml::parse(file_get_contents($this->projectDrupalVmConfigFile));
       $vm_config['apache_vhosts'][] = [
-        'servername' => $domain['host'],
+        'servername' => $url['host'],
         'documentroot' => $vm_config['apache_vhosts'][0]['documentroot'],
         'extra_parameters' => $vm_config['apache_vhosts'][0]['extra_parameters'],
       ];
@@ -51,31 +94,9 @@ class MultisiteCommand extends BltTasks {
         'encoding' => $vm_config['mysql_databases'][0]['encoding'],
         'collation' => $vm_config['mysql_databases'][0]['collation'],
       ];
-      file_put_contents($this->projectDrupalVmConfigFile, Yaml::dump($vm_config));
+      file_put_contents($this->projectDrupalVmConfigFile,
+        Yaml::dump($vm_config));
     }
-
-    $new_site_dir = $this->getConfigValue('docroot') . '/sites/' . $site_name;
-    $this->taskFilesystemStack()
-      ->mkdir($new_site_dir)
-      ->mkdir($this->getConfigValue('docroot') . '/config/' . $site_name)
-      ->run();
-    $this->taskWriteToFile($new_site_dir . '/site.yml')
-      ->text(Yaml::dump($site_yml))
-      ->run();
-    $this->invokeCommand('setup:settings');
-  }
-
-  /**
-   * @return mixed|null
-   */
-  protected function getDefaultDbCreds() {
-    $default_local_settings_file = $this->getConfigValue('docroot') . '/sites/default/settings/local.settings.php';
-    if (file_exists($default_local_settings_file)) {
-      require $default_local_settings_file;
-      return $databases['default']['default'];
-    }
-
-    return $this->getConfigValue('drupal.db');
   }
 
 }
