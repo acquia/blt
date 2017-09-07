@@ -4,6 +4,7 @@ namespace Acquia\Blt\Update;
 
 use Acquia\Blt\Annotations\Update;
 use Acquia\Blt\Robo\Common\ArrayManipulator;
+use function file_exists;
 
 /**
  * Defines scripted updates for specific version deltas of BLT.
@@ -378,13 +379,16 @@ class Updates {
       }
     }
 
-    unset($composer_json['require']['composer/installers']);
-    $composer_json['require']['oomphinc/composer-installers-extender'] = '^1.1';
-
     $composer_json['extra']['installer-types'][] = 'bower-asset';
     $composer_json['extra']['installer-types'][] = 'npm-asset';
     $composer_json['extra']['installer-paths']['docroot/libraries/{$name}'][] = 'type:bower-asset';
     $composer_json['extra']['installer-paths']['docroot/libraries/{$name}'][] = 'type:npm-asset';
+
+    $projectAcsfHooks = $this->updater->getRepoRoot() . '/factory-hooks';
+    $acsf_inited = file_exists($projectAcsfHooks);
+    if ($acsf_inited) {
+      $composer_json['config']['platform']['php'] = '5.6';
+    }
 
     $this->updater->writeComposerJson($composer_json);
 
