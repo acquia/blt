@@ -12,6 +12,7 @@
   },
   "require-dev": {
     "cweagans/composer-patches": "^1.6.0",
+    "oomphinc/composer-installers-extender": "^1.1",
     "behat/behat": "^3.0",
     "behat/mink": "~1.7",
     "behat/mink-selenium2-driver": "^1.3.1",
