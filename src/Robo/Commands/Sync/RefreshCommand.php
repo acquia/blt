@@ -54,14 +54,11 @@ class RefreshCommand extends BltTasks {
    * local db, re-imports config, and executes db updates.
    *
    * @command sync:refresh
+   *
+   * @aliases sync
    */
   public function refreshDefault() {
-    $this->invokeCommands([
-      'setup:composer:install',
-      'sync',
-      'setup:update',
-      'frontend',
-    ]);
+    $this->invokeCommands($this->getConfigValue('sync.commands'));
   }
 
 }
