@@ -130,7 +130,6 @@ Note that Cucumber is simply a Ruby based BDD library, whereas Behat is a
 PHP based BDD library. Best practices for tests writing apply to both
 * [The training wheels came off](http://aslakhellesoy.com/post/11055981222/the-training-wheels-came-off)
 
-
 ## PHPUnit
 
 Project level, functional PHPUnit tests are included in `tests/phpunit`. Any PHPUnit tests that affect specific modules or application level features should be placed in the same directory as that module, not in this directory.
@@ -155,7 +154,6 @@ Project level, functional PHPUnit tests are included in `tests/phpunit`. Any PHP
 * [xUnit Test Patterns: Refactoring Test Code (book for the really serious)](http://amazon.com/dp/0131495054)
 * [Unit testing: Why bother?](http://soundsoftware.ac.uk/unit-testing-why-bother/)
 
-
 ### Configuration
 
 You can customize the `tests:phpunit` command by [customize the configuration values](extending-blt.md#modifying-blt-configuration) for the `phpunit` key.
@@ -164,24 +162,43 @@ Each row under the `phpunit` key should contain a combination of the following p
 
  * config: path to either the Core phpunit configuration file (docroot/core/phpunit.xml.dist) or a custom one. If left blank, no configuration will be loaded with the unit test.
  * path: the path to the custom phpunit test
+ * class: the class name for the test
+ * file: the sourcefile that declares the class provided in `class`
+ * testsuite: run tests that are part of a specific `@testsuite`
  * group: run tests only tagged with a specific `@group`
  * exclude: run tests excluding any tagged with this `@group`
- * filter: allows text filter for tests see [documentation](https://phpunit.de/manual/current/en/textui.htm) for more
+ * filter: allows text filter for tests
+
+ See PHPUnit's [documentation](https://phpunit.de/manual/current/en/textui.htm) for additional information.
 
 ```yml
 phpunit:
+  - path: '${repo.root}/tests/phpunit'
+    class: 'ExampleTest'
+    file: 'ExampleTest.php'
   -
     config: ${docroot}/core/phpunit.xml.dist
     group: 'example'
+    class: null
+    file: null
   -
     config: ${docroot}/core/phpunit.xml.dist
     exclude: 'mylongtest'
     group: 'example'
+    class: null
+    file: null
   -
-    config: ${docroot}/core/phpunit.xml.dist
-    path: ${docroot}/modules/custom/example
+    config: ${docroot}/core/phpunit.xml
+    path: '${docroot}/core'
+    testsuite: 'functional'
+    class: null
+    file: null
+   -
+    config: ${docroot}/core/phpunit.xml
+    path: ${docroot}/modules/custom/my_module
+    class: ExampeleTest
+    file: tests/src/Unit/ExampeleTest.php
 ```
-
 
 ## Frontend Testing
 

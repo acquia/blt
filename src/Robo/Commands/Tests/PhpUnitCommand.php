@@ -54,9 +54,20 @@ class PhpUnitCommand extends BltTasks {
     foreach ($this->phpunitConfig as $test) {
       $task = $this->taskPHPUnit()
         ->xml($this->reportFile)
-        ->arg('.')
         ->printOutput(TRUE)
         ->printMetadata(FALSE);
+
+      if (isset($test['class'])) {
+        $task->arg($test['class']);
+        if (isset($test['file'])) {
+          $task->arg($test['file']);
+        }
+      }
+      else {
+        if (isset($test['path'])) {
+          $task->arg($test['path']);
+        }
+      }
 
       if (isset($test['path'])) {
         $task->dir($test['path']);
@@ -69,9 +80,10 @@ class PhpUnitCommand extends BltTasks {
 
       $supported_options = [
         'config' => 'configuration',
-        'group' => 'group',
         'exclude-group' => 'exclude-group',
         'filter' => 'filter',
+        'group' => 'group',
+        'testsuite' => 'testsuite',
       ];
 
       foreach ($supported_options as $yml_key => $option) {

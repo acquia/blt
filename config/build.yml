@@ -112,6 +112,8 @@ phpcbf:
 # @todo Move to subkey of tests.
 phpunit:
   - path: '${repo.root}/tests/phpunit'
+    class: 'ExampleTest'
+    file: 'ExampleTest.php'
     config: null
   # Customization for one or more custom phpunit test locations
   # and if the core (or custom) config file should be included as a -c parameter.
