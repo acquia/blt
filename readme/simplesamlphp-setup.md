@@ -119,7 +119,7 @@ Request the remote IdP metadata (XML) from the customer. Note that each environm
 
 Once you have completed the code changes above, you should proceed with testing the configuration of SimpleSAMLphp as a Service Provider connecting to your specified Identity Provider.
 
-You can do this by navigating to Go to the path `/simplesaml/module.php/core/authenticate.php` on your application to access the SimpleSAMLphp library Test authentication sources page. On this page you will need to click the authsource to test. It should be default-sp unless configured otherwise.
+You can do this by navigating to the path `/simplesaml/module.php/core/authenticate.php` on your application to access the SimpleSAMLphp library Test authentication sources page. On this page you will need to click the authsource to test. It should be default-sp unless configured otherwise.
 
 If it successfully connects and authenticates it will return you to a page in the SimpleSAML interface where it will list the attributes returned by the IdP. Make a note of these attributes because they will be used to configure the SimpleSAMLphp_auth Drupal module.
 
