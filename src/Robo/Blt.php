@@ -24,6 +24,7 @@ use Robo\Runner as RoboRunner;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Bridge\Twig\Command\LintCommand;
 
 /**
  * The BLT Robo application.
@@ -78,6 +79,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     $this->configureContainer($container);
     $this->addBuiltInCommandsAndHooks();
     $this->addPluginsCommandsAndHooks();
+    $this->addSymfonyCommands($application);
     $this->runner = new RoboRunner();
     $this->runner->setContainer($container);
 
@@ -113,6 +115,15 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     ]);
     $plugin_commands_hooks = array_merge($commands, $hooks);
     $this->commands = array_merge($this->commands, $plugin_commands_hooks);
+  }
+
+  /**
+   * Adds Symfony (non-Robo) command classes to the application.
+   *
+   * @param \Acquia\Blt\Robo\Application $application
+   */
+  protected function addSymfonyCommands(Application $application) {
+    $application->add(new LintCommand('validate:twig:files'));
   }
 
   /**
@@ -159,7 +170,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
   /**
    * Add any global arguments or options that apply to all commands.
    *
-   * @param \Symfony\Component\Console\Application $app
+   * @param \Acquia\Blt\Robo\Application $app
    *   The Symfony application.
    */
   private function addDefaultArgumentsAndOptions(Application $app) {
