@@ -1,5 +1,24 @@
 # Change Log
 
+## [8.9.3](https://github.com/acquia/blt/tree/8.9.3) (2017-09-12)
+[Full Changelog](https://github.com/acquia/blt/compare/8.9.2...8.9.3)
+
+**Implemented enhancements:**
+
+- Use the latest chromedriver. [\#1967](https://github.com/acquia/blt/pull/1967) ([ericchenshine](https://github.com/ericchenshine))
+- Adds manual port information for SimpleSAML when on Acquia Cloud. [\#1958](https://github.com/acquia/blt/pull/1958) ([typhonius](https://github.com/typhonius))
+- Adds template for allowing warnings/errors to succeed. [\#1937](https://github.com/acquia/blt/pull/1937) ([grahl](https://github.com/grahl))
+
+**Fixed bugs:**
+
+- Check if server\['USER'\] is defined. [\#1928](https://github.com/acquia/blt/pull/1928) ([thom8](https://github.com/thom8))
+- Fixes \#1935: features-import-all build step errors do not fail build. [\#1942]
+- BLT-1962: adding environment calls to pipelines scripts. [\#1963](https://github.com/acquia/blt/pull/1963) ([mikemadison13](https://github.com/mikemadison13))
+- Fixes \#1914: BLT Schema out of date process. [\#1943](https://github.com/acquia/blt/pull/1943) ([grasmash](https://github.com/grasmash))
+- Fix blt sync:files command so it runs outside VM [\#1911](https://github.com/acquia/blt/pull/1911) ([gabe-connolly](https://github.com/gabe-connolly))
+- Travis should only exit early for docs on PRs. [\#1912](https://github.com/acquia/blt/pull/1912) ([danepowell](https://github.com/danepowell))
+
+
 ## [8.9.2](https://github.com/acquia/blt/tree/8.9.2) (2017-08-09)
 [Full Changelog](https://github.com/acquia/blt/compare/8.9.1...8.9.2)
 
