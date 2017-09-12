@@ -685,7 +685,6 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
     if (!$this->warningsIssued) {
       $this->warnIfPhpOutdated();
       $this->warnIfDrupalVmNotRunning();
-      $this->warnIfXdebugLoaded();
       $this->warningsIssued = TRUE;
     }
   }
@@ -700,16 +699,6 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
     $current_php_version = phpversion();
     if ($current_php_version < $minimum_php_version) {
       throw new BltException("BLT requires PHP $minimum_php_version or greater. You are using $current_php_version.");
-    }
-  }
-
-  /**
-   * Warns the user if the xDebug extension is loaded.
-   */
-  protected function warnIfXdebugLoaded() {
-    $xdebug_loaded = extension_loaded('xdebug');
-    if ($xdebug_loaded) {
-      $this->logger->warning("The xDebug extension is loaded. This will significantly decrease performance.");
     }
   }
 
