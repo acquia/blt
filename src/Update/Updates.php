@@ -391,5 +391,14 @@ class Updates {
     }
 
     $this->updater->writeComposerJson($composer_json);
+
+    $messages = [
+      "Your composer.json file has been modified to be compatible with Lightning 2.1.8+.",
+      "You must execute `composer update` to update your lock file.",
+    ];
+    $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
+    $this->updater->getOutput()->writeln("");
+    $this->updater->getOutput()->writeln($formattedBlock);
+    $this->updater->getOutput()->writeln("");
   }
 }
