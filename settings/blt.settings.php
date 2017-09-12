@@ -26,7 +26,7 @@ $forwarded_protocol = !empty($_ENV['HTTP_X_FORWARDED_PROTO']) ? $_ENV['HTTP_X_FO
  * Note that the values of enviromental variables are set differently on Acquia
  * Cloud Free tier vs Acquia Cloud Professional and Enterprise.
  */
-$repo_root = realpath(DRUPAL_ROOT . "/../");
+$repo_root = dirname(DRUPAL_ROOT);
 $ah_env = isset($_ENV['AH_SITE_ENVIRONMENT']) ? $_ENV['AH_SITE_ENVIRONMENT'] : NULL;
 $ah_group = isset($_ENV['AH_SITE_GROUP']) ? $_ENV['AH_SITE_GROUP'] : NULL;
 $is_ah_env = (bool) $ah_env;
