@@ -45,6 +45,7 @@ $is_ci_env = $is_travis_env || $is_pipelines_env || $is_probo_env || $is_tugboat
  * Note that the values of environmental variables are set differently on Acquia
  * Cloud Free tier vs Acquia Cloud Professional and Enterprise.
  */
+$repo_root = realpath(DRUPAL_ROOT . "/../");
 $ah_env = isset($_ENV['AH_SITE_ENVIRONMENT']) ? $_ENV['AH_SITE_ENVIRONMENT'] : NULL;
 $ah_group = isset($_ENV['AH_SITE_GROUP']) ? $_ENV['AH_SITE_GROUP'] : NULL;
 $is_ah_env = (bool) $ah_env;
@@ -53,8 +54,9 @@ $is_ah_stage_env = ($ah_env == 'test' || $ah_env == '01test' || $ah_env == 'stg'
 $is_ah_dev_cloud = (!empty($_SERVER['HTTP_HOST']) && strstr($_SERVER['HTTP_HOST'], 'devcloud'));
 $is_ah_dev_env = (preg_match('/^dev[0-9]*$/', $ah_env) || $ah_env == '01dev');
 $is_ah_ode_env = (preg_match('/^ode[0-9]*$/', $ah_env));
-$is_acsf = (!empty($ah_group) && file_exists("/mnt/files/$ah_group.$ah_env/files-private/sites.json"));
-$acsf_db_name = $is_acsf ? $GLOBALS['gardens_site_settings']['conf']['acsf_db_name'] : NULL;
+$is_acsf_env = (!empty($ah_group) && file_exists("/mnt/files/$ah_group.$ah_env/files-private/sites.json"));
+$is_acsf_inited = file_exists(DRUPAL_ROOT . "/sites/g");
+$acsf_db_name = $is_acsf_env ? $GLOBALS['gardens_site_settings']['conf']['acsf_db_name'] : NULL;
 
 /**
  * Pantheon envs.
@@ -89,7 +91,7 @@ catch (BadRequestHttpException $e) {
 $site_dir = str_replace('sites/', '', $site_path);
 // ACSF uses a pseudo-multisite architecture that places all site files under
 // sites/g/files, which isn't useful for our purposes.
-if ($is_acsf) {
+if ($is_acsf_env) {
   $site_dir = 'default';
 }
 
@@ -103,7 +105,7 @@ if ($is_acsf) {
  ******************************************************************************/
 
 if ($is_ah_env) {
-  if (!$is_acsf && file_exists('/var/www/site-php')) {
+  if (!$is_acsf_env && file_exists('/var/www/site-php')) {
     if ($site_dir == 'default') {
       require "/var/www/site-php/{$_ENV['AH_SITE_GROUP']}/{$_ENV['AH_SITE_GROUP']}-settings.inc";
     }
@@ -226,6 +228,9 @@ elseif ($is_tugboat_env) {
 // Load Probo settings.
 elseif ($is_probo_env) {
   require __DIR__ . '/probo.settings.php';
+}
+elseif ($is_acsf_inited) {
+  require __DIR__ . '/acsf.local.settings.php';
 }
 
 /**

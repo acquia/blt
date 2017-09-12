@@ -1,3 +1,8 @@
+acsf:
+  sites: []
+  # - site1
+  # - site2
+
 # @todo Move to subkey of tests.
 behat:
   config: ${repo.root}/tests/behat/local.yml
