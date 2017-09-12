@@ -16,8 +16,7 @@
  */
 if (!isset($config_directories['sync'])) {
   // Configuration directories.
-  $dir = dirname(DRUPAL_ROOT);
-  $config_directories['sync'] = $dir . "/config/default";
+  $config_directories['sync'] = $repo_root . "/config/default";
 }
 
 $split_filename_prefix = 'config_split.config_split';

@@ -45,7 +45,7 @@ $is_ci_env = $is_travis_env || $is_pipelines_env || $is_probo_env || $is_tugboat
  * Note that the values of environmental variables are set differently on Acquia
  * Cloud Free tier vs Acquia Cloud Professional and Enterprise.
  */
-$repo_root = realpath(DRUPAL_ROOT . "/../");
+$repo_root = dirname(DRUPAL_ROOT);
 $ah_env = isset($_ENV['AH_SITE_ENVIRONMENT']) ? $_ENV['AH_SITE_ENVIRONMENT'] : NULL;
 $ah_group = isset($_ENV['AH_SITE_GROUP']) ? $_ENV['AH_SITE_GROUP'] : NULL;
 $is_ah_env = (bool) $ah_env;

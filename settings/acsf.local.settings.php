@@ -29,4 +29,7 @@ if (in_array($name, $acsf_sites)) {
           ),
       ),
   );
+
+  $settings['file_public_path'] = "sites/default/files/$name";
+  $settings['file_private_path'] = "$repo_root/files-private/$name";
 }
