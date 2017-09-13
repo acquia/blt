@@ -1,4 +1,10 @@
 {
+  "repositories": {
+    "asset-packagist": {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  },
   "require": {
     "acquia/lightning": "^2.1.4",
     "drupal/acquia_connector": "^1.5.0",
