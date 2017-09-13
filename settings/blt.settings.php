@@ -5,10 +5,12 @@
  * Setup BLT utility variables, include required files.
  */
 
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpFoundation\Request;
-use Drupal\Core\DrupalKernel;
+use Acquia\Blt\Robo\Config\ConfigInitializer;
 use Drupal\Component\Utility\Bytes;
+use Drupal\Core\DrupalKernel;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
  * Host detection.
@@ -89,10 +91,28 @@ catch (BadRequestHttpException $e) {
   $site_path = 'sites/default';
 }
 $site_dir = str_replace('sites/', '', $site_path);
-// ACSF uses a pseudo-multisite architecture that places all site files under
-// sites/g/files, which isn't useful for our purposes.
-if ($is_acsf_env) {
-  $site_dir = 'default';
+
+/*******************************************************************************
+ * Acquia Cloud Site Factory settings.
+ ******************************************************************************/
+
+if ($is_acsf_inited) {
+  $input = new ArgvInput($_SERVER['argv']);
+  $config_initializer = new ConfigInitializer($repo_root, $input);
+  $config = $config_initializer->initialize();
+
+  // ACSF uses a pseudo-multisite architecture that places all site files under
+  // sites/g/files.
+  if ($is_acsf_env) {
+    $site_dir = 'default';
+  }
+
+  $name = substr($_SERVER['HTTP_HOST'],0, strpos($_SERVER['HTTP_HOST'],'.local'));
+  $acsf_sites = $config->get('acsf.sites');
+  if (in_array($name, $acsf_sites)) {
+    $acsf_site_name = $name;
+  }
+
 }
 
 /*******************************************************************************
