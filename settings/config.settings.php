@@ -58,6 +58,7 @@ if (file_exists("$split_filepath_prefix.$site_dir.yml")) {
   $config["$split_filename_prefix.$site_dir"]['status'] = TRUE;
 }
 
+// Set acsf site split.
 if (isset($acsf_site_name) && file_exists("$split_filepath_prefix.$acsf_site_name.yml")) {
   $config["$split_filename_prefix.$acsf_site_name"]['status'] = TRUE;
 }

@@ -62,16 +62,23 @@ $site_dir = str_replace('sites/', '', $site_path);
 
 if ($is_acsf_inited) {
   if ($is_local_env) {
+    // When developing locally, we use the host name to determine which site
+    // factory site is active. The hostname must have a corresponding entry
+    // under the acsf.sites key.
     $input = new ArgvInput($_SERVER['argv']);
     $config_initializer = new ConfigInitializer($repo_root, $input);
     $config = $config_initializer->initialize();
 
+    // The hostname must match the pattern [sitename].local, where [sitename]
+    // is a value in the acsf.sites array.
     $name = substr($_SERVER['HTTP_HOST'],0, strpos($_SERVER['HTTP_HOST'],'.local'));
     $acsf_sites = $config->get('acsf.sites');
     if (in_array($name, $acsf_sites)) {
       $acsf_site_name = $name;
     }
   }
+  // In a site factory environment, we can use environmental variables to
+  // determine the active site.
   elseif ($is_acsf_env && function_exists('gardens_site_data_load_file')) {
     // Function gardens_site_data_load_file() lives in
     // /mnt/www/html/$ah_site/docroot/sites/g/sites.inc
