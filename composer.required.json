@@ -3,10 +3,6 @@
     "drupal": {
       "type": "composer",
       "url": "https://packages.drupal.org/8"
-    },
-      "asset-packagist": {
-      "type": "composer",
-      "url": "https://asset-packagist.org"
     }
   },
   "require": {

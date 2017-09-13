@@ -362,23 +362,6 @@ class Updates {
   public function update_8009003() {
     $composer_json = $this->updater->getComposerJson();
 
-    // Add the Asset Packagist repository if it does not already exist.
-    if (isset($composer_json['repositories'])) {
-      $repository_key = NULL;
-      foreach ($composer_json['repositories'] as $key => $repository) {
-        if ($repository['type'] == 'composer' && strpos($repository['url'], 'https://asset-packagist.org') === 0) {
-          $repository_key = $key;
-          break;
-        }
-      }
-      if (is_null($repository_key)) {
-        $composer_json['repositories']['asset-packagist'] = [
-          'type' => 'composer',
-          'url' => 'https://asset-packagist.org',
-        ];
-      }
-    }
-
     $composer_json['extra']['installer-types'][] = 'bower-asset';
     $composer_json['extra']['installer-types'][] = 'npm-asset';
     $composer_json['extra']['installer-paths']['docroot/libraries/{$name}'][] = 'type:bower-asset';
