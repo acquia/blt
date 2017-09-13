@@ -1,15 +1,6 @@
 <?php
 
-use Acquia\Blt\Robo\Config\ConfigInitializer;
-use Symfony\Component\Console\Input\ArgvInput;
-
-$input = new ArgvInput($_SERVER['argv']);
-$config_initializer = new ConfigInitializer($repo_root, $input);
-$config = $config_initializer->initialize();
-
-$name = substr($_SERVER['HTTP_HOST'],0, strpos($_SERVER['HTTP_HOST'],'.local'));
-$acsf_sites = $config->get('acsf.sites');
-if (in_array($name, $acsf_sites)) {
+if (isset($acsf_site_name)) {
   /**
    * Database configuration.
    */
@@ -18,7 +9,7 @@ if (in_array($name, $acsf_sites)) {
       array(
         'default' =>
           array(
-            'database' => "drupal_{$name}",
+            'database' => "drupal_{$acsf_site_name}",
             'username' => 'drupal',
             'password' => 'drupal',
             'host' => 'localhost',
@@ -30,6 +21,6 @@ if (in_array($name, $acsf_sites)) {
       ),
   );
 
-  $settings['file_public_path'] = "sites/default/files/$name";
-  $settings['file_private_path'] = "$repo_root/files-private/$name";
+  $settings['file_public_path'] = "sites/default/files/$acsf_site_name";
+  $settings['file_private_path'] = "$repo_root/files-private/$acsf_site_name";
 }

@@ -32,6 +32,7 @@ $forwarded_protocol = !empty($_ENV['HTTP_X_FORWARDED_PROTO']) ? $_ENV['HTTP_X_FO
 $repo_root = dirname(DRUPAL_ROOT);
 $ah_env = isset($_ENV['AH_SITE_ENVIRONMENT']) ? $_ENV['AH_SITE_ENVIRONMENT'] : NULL;
 $ah_group = isset($_ENV['AH_SITE_GROUP']) ? $_ENV['AH_SITE_GROUP'] : NULL;
+$ah_site = isset($_ENV['AH_SITE_NAME']) ? $_ENV['AH_SITE_NAME'] : NULL;
 $is_ah_env = (bool) $ah_env;
 $is_ah_prod_env = ($ah_env == 'prod' || $ah_env == '01live');
 $is_ah_stage_env = ($ah_env == 'test' || $ah_env == '01test' || $ah_env == 'stg');
@@ -39,6 +40,7 @@ $is_ah_dev_cloud = (!empty($_SERVER['HTTP_HOST']) && strstr($_SERVER['HTTP_HOST'
 $is_ah_dev_env = (preg_match('/^dev[0-9]*$/', $ah_env) || $ah_env == '01dev');
 $is_ah_ode_env = (preg_match('/^ode[0-9]*$/', $ah_env));
 $is_acsf_env = (!empty($ah_group) && file_exists("/mnt/files/$ah_group.$ah_env/files-private/sites.json"));
+// @todo Maybe check for acsf-tools.
 $is_acsf_inited = file_exists(DRUPAL_ROOT . "/sites/g");
 $acsf_db_name = $is_acsf_env ? $GLOBALS['gardens_site_settings']['conf']['acsf_db_name'] : NULL;
 $is_local_env = !$is_ah_env;
@@ -59,22 +61,33 @@ $site_dir = str_replace('sites/', '', $site_path);
  ******************************************************************************/
 
 if ($is_acsf_inited) {
-  $input = new ArgvInput($_SERVER['argv']);
-  $config_initializer = new ConfigInitializer($repo_root, $input);
-  $config = $config_initializer->initialize();
+  if ($is_local_env) {
+    $input = new ArgvInput($_SERVER['argv']);
+    $config_initializer = new ConfigInitializer($repo_root, $input);
+    $config = $config_initializer->initialize();
 
-  // ACSF uses a pseudo-multisite architecture that places all site files under
-  // sites/g/files.
-  if ($is_acsf_env) {
+    $name = substr($_SERVER['HTTP_HOST'],0, strpos($_SERVER['HTTP_HOST'],'.local'));
+    $acsf_sites = $config->get('acsf.sites');
+    if (in_array($name, $acsf_sites)) {
+      $acsf_site_name = $name;
+    }
+  }
+  elseif ($is_acsf_env && function_exists('gardens_site_data_load_file')) {
+    // Function gardens_site_data_load_file() lives in
+    // /mnt/www/html/$ah_site/docroot/sites/g/sites.inc
+    if (($map = gardens_site_data_load_file()) && isset($map['sites'])) {
+      foreach ($map['sites'] as $domain => $site_details) {
+        if ($acsf_db_name == $site_details['name']) {
+          $acsf_site_name = $domain;
+          break;
+        }
+      }
+    }
+
+    // ACSF uses a pseudo-multisite architecture that places all site files under
+    // sites/g/files.
     $site_dir = 'default';
   }
-
-  $name = substr($_SERVER['HTTP_HOST'],0, strpos($_SERVER['HTTP_HOST'],'.local'));
-  $acsf_sites = $config->get('acsf.sites');
-  if (in_array($name, $acsf_sites)) {
-    $acsf_site_name = $name;
-  }
-
 }
 
 /*******************************************************************************
