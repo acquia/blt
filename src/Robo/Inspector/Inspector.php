@@ -433,6 +433,9 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
     elseif (file_exists($home_dir . '/.profile')) {
       $file = $home_dir . '/.profile';
     }
+    elseif (file_exists($home_dir . '/.functions')) {
+      $file = $home_dir . '/.functions';
+    }
 
     return $file;
   }
