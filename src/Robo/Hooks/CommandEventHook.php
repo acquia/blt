@@ -4,6 +4,7 @@ namespace Acquia\Blt\Robo\Hooks;
 
 use Acquia\Blt\Robo\BltTasks;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
+use Symfony\Component\Console\Input\ArrayInput;
 
 /**
  * This class defines hooks that provide user interaction.
@@ -49,60 +50,46 @@ class CommandEventHook extends BltTasks {
       $annotation_data = $event->getCommand()->getAnnotationData();
       if ($annotation_data->has('executeInDrupalVm') && $this->shouldExecuteInDrupalVm()) {
         $event->disableCommand();
-        $args = $this->getCliArgs();
         $command_name = $event->getCommand()->getName();
+        $options = $this->input->getOptions();
+        $args = $this->input->getArguments();
+        unset($args['command']);
+        $command_definition = $command->getDefinition();
+        $new_input = new ArrayInput(['blt', 'command' => $command_name], $command_definition);
 
-        $command_parts = [];
-        $command_parts[] = "blt $command_name";
-        if (!empty($args)) {
-          $command_parts[] = $args;
+        foreach ($args as $name => $value) {
+          if ($command_definition->hasArgument($name)) {
+            $new_input->setArgument($name, $value);
+          }
         }
-        $command_parts[] = "--define drush.alias=self";
-        $full_command = implode(' ', $command_parts);
+
+        foreach ($options as $name => $value) {
+          if ($command_definition->hasOption($name)) {
+            $new_input->setOption($name, $value);
+          }
+        }
+
+        $new_input->setOption('define', 'drush.alias=self');
+
+        $command_string = (string) $new_input;
+        foreach ($new_input->getOptions() as $name => $value) {
+          if ($new_input->getOption($name)) {
+            if ($command_definition->getOption($name)->acceptValue()) {
+              $command_string .= " --$name=$value";
+            }
+            else {
+              $command_string .= " --$name";
+            }
+          }
+        }
 
         // We cannot return an exit code directly, because disabled commands
         // always return ConsoleCommandEvent::RETURN_CODE_DISABLED.
-        $result = $this->executeCommandInDrupalVm($full_command);
+        $result = $this->executeCommandInDrupalVm($command_string);
       }
     }
 
     // @todo Transmit analytics on command execution. Do the same in status hook.
-  }
-
-  /**
-   * Gets the CLI args that were used when BLT was executed.
-   *
-   * This does not include 'blt' or the command name like 'test:behat'. Example
-   * value: ['-v', ['--key="value"']].
-   *
-   * @return array|string
-   *   The CLI args.
-   */
-  protected function getCliArgs() {
-    $args = array_slice($_SERVER['argv'], 2);
-    $args = array_map([$this, 'escapeShellArg'], $args);
-    $args = implode(' ', $args);
-
-    return $args;
-  }
-
-  /**
-   * Escapes the value for CLI arguments in form key=value.
-   *
-   * @param string $arg
-   *   The argument to be escaped.
-   *
-   * @return string
-   *   The escaped argument.
-   */
-  protected function escapeShellArg($arg) {
-    if (strpos($arg, '-') !== 0
-      && strstr($arg, '=') !== FALSE) {
-      $arg_parts = explode('=', $arg);
-      $arg = $arg_parts[0] . '="' . $arg_parts[1] . '"';
-    }
-
-    return $arg;
   }
 
   /**
