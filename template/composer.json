@@ -25,9 +25,6 @@
                 "blt/composer.required.json",
                 "blt/composer.suggested.json"
             ],
-            "include": [
-                "blt/composer.overrides.json"
-            ],
             "merge-extra": true,
             "merge-extra-deep": true,
             "merge-scripts": true,
