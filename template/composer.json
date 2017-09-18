@@ -22,9 +22,6 @@
                 "vendor/acquia/blt/composer.required.json",
                 "vendor/acquia/blt/composer.suggested.json"
             ],
-            "include": [
-                "blt/composer.overrides.json"
-            ],
             "merge-extra": true,
             "merge-extra-deep": true,
             "merge-scripts": true,
