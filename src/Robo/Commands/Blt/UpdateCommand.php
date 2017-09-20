@@ -80,7 +80,18 @@ class UpdateCommand extends BltTasks {
    * @return \Robo\Result
    */
   public function addToProject() {
-    $this->reInstallComposerPackages();
+    $this->updateRootProjectFiles();
+    $this->invokeCommand('examples:init');
+    $this->invokeCommand('install-alias');
+    $this->say("To complete BLT installation, your composer dependencies must be updated.");
+    $confirm = $this->ask('Execute `composer update` now?');
+    if ($confirm) {
+      $result = $this->taskExecStack()
+        ->dir($this->getConfigValue('repo.root'))
+        ->exec("composer update --no-interaction --ansi")
+        ->detectInteractive()
+        ->run();
+    }
     $this->displayArt();
     $this->yell("BLT has been added to your project.");
     $this->say("It has added and modified various project files. Please inspect your repository.");
