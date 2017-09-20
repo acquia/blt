@@ -8,6 +8,7 @@ use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Yaml\Yaml;
 use Drupal\Core\Installer\Exception\AlreadyInstalledException;
+use Drush\Commands\core\StatusCommands;
 
 /**
  * Provides drush `blt-doctor` command.
@@ -103,7 +104,12 @@ class BltDoctor {
    * @return array
    */
   public function setStatusTable() {
-    $status_table = drush_core_status();
+    if (function_exists('drush_core_status')) {
+      $status_table = drush_core_status();
+    }
+    else {
+      $status_table = StatusCommands::getPropertyList([]);
+    }
     $this->statusTable = $status_table;
 
     return $status_table;
