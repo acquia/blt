@@ -38,7 +38,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
   /**
    * The BLT version.
    */
-  const VERSION = '8.9.1';
+  const VERSION = '8.9.5';
 
   /**
    * The Robo task runner.
