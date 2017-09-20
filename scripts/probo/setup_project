@@ -2,4 +2,6 @@
 
 set -ev
 
+$SRC_DIR/vendor/bin/blt setup --define drush.alias='${drush.aliases.ci}' --define environment=ci --no-interaction --ansi
+
 set +v
