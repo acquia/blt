@@ -10,7 +10,8 @@ blt validate:all
 blt setup --define environment=ci --yes -vvv
 blt tests:all --define tests.run-server=true --yes -vvv
 blt tests:behat:definitions
-drush cc drush
+drush en config -y --root=docroot
+drush cc drush --root=docroot
 drush config-export --root=docroot -y
 
 # Test core-only config management.
