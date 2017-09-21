@@ -3,6 +3,7 @@
 set -ev
 
 yaml-cli update:value blt/project.yml project.local.hostname '127.0.0.1:8888'
+yaml-cli update:value blt/project.yml modules.ci.enable.0 views_ui
 
 # Build codebase, validate, install Drupal, run basic tests.
 yaml-cli update:value blt/project.yml cm.strategy none

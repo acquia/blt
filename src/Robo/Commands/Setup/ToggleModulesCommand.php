@@ -43,7 +43,7 @@ class ToggleModulesCommand extends BltTasks {
     if (isset($environment)) {
       // Enable modules.
       $enable_key = "modules.$environment.enable";
-      $this->doToggleModules('pm-enable --skip', $enable_key);
+      $this->doToggleModules('pm-enable', $enable_key);
 
       // Uninstall modules.
       $disable_key = "modules.$environment.uninstall";
