@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Setup;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Common\RandomString;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Finder\Finder;
@@ -31,9 +32,20 @@ class BuildCommand extends BltTasks {
     if (in_array($strategy, ['config-split', 'features'])) {
       $commands[] = 'setup:config-import';
     }
-
     $this->invokeCommands($commands);
     $this->setSitePermissions();
+    $this->createDeployId(RandomString::string(8));
+  }
+
+  /**
+   * Creates deployment_identifier file.
+   */
+  protected function createDeployId($id) {
+    $this->taskExecStack()->exec("echo '$id' > deployment_identifier")
+      ->dir($this->getConfigValue('repo.root'))
+      ->stopOnFail()
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->run();
   }
 
   /**
