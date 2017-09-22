@@ -3,8 +3,6 @@
 namespace Acquia\Blt\Robo\Commands\Git;
 
 use Acquia\Blt\Robo\BltTasks;
-use function explode;
-use function implode;
 
 /**
  * Defines commands in the "git:*" namespace.
@@ -54,9 +52,7 @@ class GitCommand extends BltTasks {
       // be sniffed, regardless of the extensions or patterns defined in
       // phpcs.xml. So, we do not use validate:phpcs:files.
       'validate:phpcs' => [],
-      'validate:twig:files' => [
-        'file_list' => implode(' ', explode("\n", $changed_files)),
-      ],
+      'validate:twig:files' => ['file_list' => $changed_files],
       'validate:yaml:files' => ['file_list' => $changed_files],
     ]);
 
