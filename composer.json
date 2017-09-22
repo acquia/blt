@@ -35,7 +35,8 @@
         "consolidation/robo":               "^1.1.0",
         "consolidation/config":             "^1.0.0",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.4.0",
-        "tivie/php-os-detector":            "^1.0"
+        "tivie/php-os-detector":            "^1.0",
+        "composer/semver":                  "^1.4"
     },
     "autoload": {
         "psr-4": {
