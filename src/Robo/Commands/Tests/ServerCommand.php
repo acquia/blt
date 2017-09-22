@@ -54,7 +54,7 @@ class ServerCommand extends TestsCommandBase {
   /**
    * Kills running PHP web server.
    *
-   * @hook tests:server:kill
+   * @command tests:server:kill
    */
   public function killWebServer() {
     $this->getContainer()->get('executor')->killProcessByName('runserver');

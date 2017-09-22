@@ -159,7 +159,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
   /**
    * Add any global arguments or options that apply to all commands.
    *
-   * @param \Symfony\Component\Console\Application $app
+   * @param \Acquia\Blt\Robo\Application $app
    *   The Symfony application.
    */
   private function addDefaultArgumentsAndOptions(Application $app) {

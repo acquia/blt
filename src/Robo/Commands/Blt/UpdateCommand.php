@@ -81,6 +81,7 @@ class UpdateCommand extends BltTasks {
    */
   public function addToProject() {
     $this->updateRootProjectFiles();
+    $this->invokeCommand('setup:settings');
     $this->invokeCommand('examples:init');
     $this->invokeCommand('install-alias');
     $this->say("To complete BLT installation, your composer dependencies must be updated.");
