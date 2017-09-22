@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Composer;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Exceptions\BltException;
 
 /**
  * Defines commands in the "composer:*" namespace.
@@ -13,8 +14,6 @@ class ComposerCommand extends BltTasks {
    * Requires a composer package.
    *
    * @command composer:require
-   *
-   * @return int
    */
   public function requirePackage($package_name, $package_version) {
 
@@ -35,14 +34,14 @@ class ComposerCommand extends BltTasks {
       if ($confirm) {
         $result = $this->taskExec("composer require '{$package_name}:{$package_version}' --no-update && composer update")
           ->printOutput(TRUE)
-          ->dir(getConfigValue('repo.root'))
+          ->dir($this->getConfigValue('repo.root'))
           ->run();
         if (!$result->wasSuccessful()) {
           throw new BltException("Unable to install {$package_name} package.");
         }
       }
       else {
-        // @todo revert previous file chanages.
+        // @todo Revert previous file changes.
         throw new BltException("Unable to install {$package_name} package.");
       }
     }
