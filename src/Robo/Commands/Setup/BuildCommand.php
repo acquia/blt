@@ -20,6 +20,7 @@ class BuildCommand extends BltTasks {
    *
    * @interactGenerateSettingsFiles
    *
+   * @validateDrushConfig
    * @validateMySqlAvailable
    * @validateDocrootIsPresent
    * @executeInDrupalVm
