@@ -16,6 +16,8 @@ class DoctorCommand extends BltTasks {
    * Inspects your local blt configuration for possible issues.
    *
    * @command doctor
+   *
+   * @validateDrushConfig
    */
   public function doctor() {
 

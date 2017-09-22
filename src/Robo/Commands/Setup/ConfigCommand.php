@@ -25,6 +25,8 @@ class ConfigCommand extends BltTasks {
    *
    * @command setup:config-import
    * @aliases sci
+   *
+   * @validateDrushConfig
    */
   public function import() {
     $strategy = $this->getConfigValue('cm.strategy');

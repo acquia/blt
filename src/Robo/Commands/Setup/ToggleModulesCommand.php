@@ -26,6 +26,7 @@ class ToggleModulesCommand extends BltTasks {
    *   your configuration.
    *
    * @executeInDrupalVm
+   * @validateDrushConfig
    */
   public function toggleModules($options = [
     'environment' => InputOption::VALUE_REQUIRED,

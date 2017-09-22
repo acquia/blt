@@ -50,6 +50,8 @@ class DbCommand extends BltTasks {
    * Copies remote db to local db for default site.
    *
    * @command sync:db
+   *
+   * @validateDrushConfig
    */
   public function syncDbDefault() {
 

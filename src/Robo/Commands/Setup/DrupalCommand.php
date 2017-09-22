@@ -16,6 +16,7 @@ class DrupalCommand extends BltTasks {
    * @command internal:drupal:install
    *
    * @validateMySqlAvailable
+   * @validateDrushConfig
    *
    * @return \Robo\Result
    *   The `drush site-install` command result.

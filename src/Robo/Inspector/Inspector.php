@@ -247,6 +247,18 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   }
 
   /**
+   * Validates a drush alias.
+   *
+   * @param string $alias
+   *
+   * @return bool
+   *   TRUE if alias is valid.
+   */
+  public function isDrushAliasValid($alias) {
+    return $this->executor->drush("site-alias $alias --format=json")->run()->wasSuccessful();
+  }
+
+  /**
    * Determines if MySQL is available, caches result.
    *
    * This method caches its result in $this->mySqlAvailable.

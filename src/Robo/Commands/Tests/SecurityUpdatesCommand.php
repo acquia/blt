@@ -17,9 +17,6 @@ class SecurityUpdatesCommand extends BltTasks {
    *
    * @command tests:security-updates
    * @description Check local Drupal installation for security updates.
-   *
-   * @interactInstallDrupal
-   * @validateDrupalIsInstalled
    */
   public function testsSecurityUpdates() {
     $security_updates = [];
