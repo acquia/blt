@@ -23,7 +23,8 @@
     "se/selenium-server-standalone": "^2.53",
     "jakoch/phantomjs-installer":   "2.1.1-p07",
     "dmore/behat-chrome-extension": "^1.0.0",
-    "mikey179/vfsStream": "~1.2"
+    "mikey179/vfsStream": "~1.2",
+    "sensiolabs-de/deprecation-detector": "^0.1.0-alpha4"
   },
   "autoload-dev": {
     "psr-4": {
