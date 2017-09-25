@@ -50,7 +50,7 @@ class DrupalCommand extends BltTasks {
     $config_strategy = $this->getConfigValue('cm.strategy');
 
     // --config-dir is not valid for Drush 9.
-    if ($config_strategy != 'none' && $this->getInspector()->getDrushMajorVersion() == 8) {
+    if ($config_strategy != 'none' && $this->getInspector()->getDrushMajorVersion() == 8 && $this->getConfigValue('setup.drupal.install.import-config')) {
       $cm_core_key = $this->getConfigValue('cm.core.key');
       $task->option('config-dir', $this->getConfigValue("cm.core.dirs.$cm_core_key.path"));
     }
