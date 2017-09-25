@@ -73,6 +73,7 @@ installed_extras:
   - adminer
   - drush
   - mailhog
+  - memcached
   - nodejs
   - selenium
   - xdebug
