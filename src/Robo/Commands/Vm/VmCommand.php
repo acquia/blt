@@ -124,36 +124,9 @@ class VmCommand extends BltTasks {
   public function config() {
     $this->say("Generating default configuration for Drupal VM...");
 
-    $this->logger->info("Adding a drush alias for the new VM...");
-    // @todo Concat only if it has not already been done.
-    $this->taskConcat([
-      $this->projectDrushAliasesFile,
-      $this->defaultDrupalVmDrushAliasesFile,
-    ])
-      ->to($this->projectDrushAliasesFile)
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->run();
-    $this->getConfig()->expandFileProperties($this->projectDrushAliasesFile);
-
-    $this->logger->info("Creating configuration files for Drupal VM...");
-
-    $this->taskFilesystemStack()
-      ->mkdir($this->vmDir)
-      ->copy($this->defaultDrupalVmConfigFile, $this->projectDrupalVmConfigFile, TRUE)
-      ->copy($this->defaultDrupalVmVagrantfile, $this->projectDrupalVmVagrantfile, TRUE)
-      ->stopOnFail()
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->run();
-
-    $config = clone $this->getConfig();
-
-    $config->set('drupalvm.config.dir', $this->vmConfigDir);
-    $config->expandFileProperties($this->projectDrupalVmVagrantfile);
-
-    // Generate a Random IP address for the new VM.
-    $random_local_ip = "192.168." . rand(0, 255) . '.' . rand(0, 255);
-    $config->set('random.ip', $random_local_ip);
-    $config->expandFileProperties($this->projectDrupalVmConfigFile);
+    $this->createDrushAlias();
+    $this->createConfigFiles();
+    $this->customizeConfigFiles();
 
     $vm_config = Yaml::parse(file_get_contents($this->projectDrupalVmConfigFile));
     $this->validateConfig($vm_config);
@@ -278,6 +251,79 @@ class VmCommand extends BltTasks {
     if (strstr($config['vagrant_machine_name'], '_')) {
       $this->logger->warning("vagrant_machine_namefor should not contain an underscore.");
     }
+  }
+
+  /**
+   * Sets the Drupal VM base box.
+   *
+   * @param \Acquia\Blt\Robo\Config\BltConfig $config
+   */
+  protected function setBaseBox($config) {
+    $base_box = $this->askChoice(
+      "Which base box would you like to use?",
+      [
+        'geerlingguy/ubuntu1604',
+        'beet/box',
+      ],
+      'geerlingguy/ubuntu1604');
+
+    if ($base_box == 'beet/box') {
+      $config->set('workspace', '/beetbox/workspace/{{ php_version }}');
+      $config->set('installed_extras', []);
+    }
+    $config->set('vagrant_box', $base_box);
+  }
+
+  /**
+   * Modifies the default configuration file.
+   */
+  protected function customizeConfigFiles() {
+    /** @var \Acquia\Blt\Robo\Config\BltConfig $config */
+    $config = clone $this->getConfig();
+
+    $config->set('drupalvm.config.dir', $this->vmConfigDir);
+    $config->expandFileProperties($this->projectDrupalVmVagrantfile);
+
+    // Generate a Random IP address for the new VM.
+    $random_local_ip = "192.168." . rand(0, 255) . '.' . rand(0, 255);
+    $config->set('random.ip', $random_local_ip);
+
+    $this->setBaseBox($config);
+
+    $config->expandFileProperties($this->projectDrupalVmConfigFile);
+  }
+
+  /**
+   * Creates the default configuration file.
+   */
+  protected function createConfigFiles() {
+    $this->logger->info("Creating configuration files for Drupal VM...");
+
+    $this->taskFilesystemStack()
+      ->mkdir($this->vmDir)
+      ->copy($this->defaultDrupalVmConfigFile, $this->projectDrupalVmConfigFile,
+        TRUE)
+      ->copy($this->defaultDrupalVmVagrantfile,
+        $this->projectDrupalVmVagrantfile, TRUE)
+      ->stopOnFail()
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->run();
+  }
+
+  /**
+   * Creates a new drush alias record.
+   */
+  protected function createDrushAlias() {
+    $this->logger->info("Adding a drush alias for the new VM...");
+    // @todo Concat only if it has not already been done.
+    $this->taskConcat([
+      $this->projectDrushAliasesFile,
+      $this->defaultDrupalVmDrushAliasesFile,
+    ])
+      ->to($this->projectDrushAliasesFile)
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->run();
+    $this->getConfig()->expandFileProperties($this->projectDrushAliasesFile);
   }
 
 }

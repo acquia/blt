@@ -61,6 +61,7 @@ drupal_install_site: false
 # Drupal VM automatically creates a drush alias file in your ~/.drush folder if
 # this variable is 'true'.
 configure_drush_aliases: false
+drush_version: 9.0.0-beta4
 
 # This is required for front-end building tools.
 nodejs_version: "4.x"
