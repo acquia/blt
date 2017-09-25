@@ -48,7 +48,7 @@ class DrupalCommand extends BltTasks {
 
     $config_strategy = $this->getConfigValue('cm.strategy');
 
-    if (!$config_strategy != 'none') {
+    if (!$config_strategy != 'none' && $this->getConfigValue('setup.drupal.install.import-config')) {
       $cm_core_key = $this->getConfigValue('cm.core.key');
       $task->option('config-dir', $this->getConfigValue("cm.core.dirs.$cm_core_key.path"));
     }

@@ -130,6 +130,9 @@ setup:
   strategy: install
   # If setup.strategy is import, this file will be imported.
   dump-file: null
+  drupal:
+    install:
+      import-config: true
 
 sync:
   # By default, files are not synced during sync:refresh.
