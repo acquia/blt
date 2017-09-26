@@ -2,15 +2,12 @@
 
 /**
  * @file
+ * Setup BLT utility variables, include required files.
  */
 
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Drupal\Core\DrupalKernel;
-
-/** *****************************************************************************
- * Setup BLT utility variables.
- ******************************************************************************/
 
 /**
  * Host detection.
@@ -32,7 +29,6 @@ $forwarded_protocol = !empty($_ENV['HTTP_X_FORWARDED_PROTO']) ? $_ENV['HTTP_X_FO
  * Environment detection.
  ******************************************************************************/
 
-
 /**
  * CI envs.
  */
@@ -40,7 +36,6 @@ $is_travis_env = isset($_ENV['TRAVIS']);
 $is_pipelines_env = isset($_ENV['PIPELINE_ENV']);
 $is_probo_env = isset($_ENV['PIPELINEPROBO_ENVIRONMENT_ENV']);
 $is_ci_env = $is_travis_env || $is_pipelines_env || $is_probo_env;
-
 
 /**
  * Acquia envs.
@@ -201,13 +196,6 @@ if ($is_ci_env) {
   elseif (getenv('PROBO_ENVIRONMENT') && file_exists(__DIR__ . '/probo.settings.php')) {
     require __DIR__ . '/probo.settings.php';
   }
-}
-
-/**
- * Load Pantheon includes.
- */
-if ($is_pantheon_env) {
-  require __DIR__ . '/pantheon.settings.php';
 }
 
 /**
