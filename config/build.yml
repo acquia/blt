@@ -71,6 +71,12 @@ drupal:
   locale: en
   local_settings_file: ${docroot}/sites/${site}/settings/local.settings.php
   settings_file: ${docroot}/sites/${site}/settings.php
+  db:
+    database: drupal
+    username: drupal
+    password: drupal
+    host: localhost
+    port: 3306
 
 drush:
   bin: ${composer.bin}/drush

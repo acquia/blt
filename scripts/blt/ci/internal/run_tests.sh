@@ -9,6 +9,7 @@ yaml-cli update:value blt/project.yml modules.ci.enable.0 views_ui
 yaml-cli update:value blt/project.yml cm.strategy none
 blt validate:all
 blt setup --define environment=ci --yes -vvv
+blt generate:multisite --no-interaction  --yes -vvv
 blt tests:all --define tests.run-server=true --yes -vvv
 blt tests:behat:definitions
 cd docroot

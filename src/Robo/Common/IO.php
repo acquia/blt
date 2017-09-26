@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Common;
 
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Console\Question\Question;
 
 /**
  * An extension of \Robo\Common\IO.
@@ -69,6 +70,25 @@ trait IO {
     }
 
     return $this->doAsk(new ConfirmationQuestion($this->formatQuestion($question . ' (y/n)'), $default));
+  }
+
+  /**
+   * @param $message
+   *
+   * @return string
+   */
+  protected function askRequired($message) {
+    $question = new Question($this->formatQuestion($message));
+    $question->setValidator(function ($answer) {
+      if (empty($answer)) {
+        throw new \RuntimeException(
+          'You must enter a value!'
+        );
+      }
+
+      return $answer;
+    });
+    return $this->doAsk($question);
   }
 
 }
