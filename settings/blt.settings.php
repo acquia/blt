@@ -34,7 +34,7 @@ $forwarded_protocol = !empty($_ENV['HTTP_X_FORWARDED_PROTO']) ? $_ENV['HTTP_X_FO
  */
 $is_travis_env = isset($_ENV['TRAVIS']);
 $is_pipelines_env = isset($_ENV['PIPELINE_ENV']);
-$is_probo_env = isset($_ENV['PIPELINEPROBO_ENVIRONMENT_ENV']);
+$is_probo_env = isset($_ENV['PROBO_ENVIRONMENT']);
 $is_tugboat_env = isset($_ENV['TUGBOAT_URL']);
 $is_ci_env = $is_travis_env || $is_pipelines_env || $is_probo_env || $is_tugboat_env;
 
@@ -61,6 +61,8 @@ $acsf_db_name = $is_acsf ? $GLOBALS['gardens_site_settings']['conf']['acsf_db_na
 $is_pantheon_env = isset($_ENV['PANTHEON_ENVIRONMENT']);
 $pantheon_env = $is_pantheon_env ? $_ENV['PANTHEON_ENVIRONMENT'] : NULL;
 $is_pantheon_dev_env = $pantheon_env == 'dev';
+$is_pantheon_stage_env = $pantheon_env == 'test';
+$is_pantheon_prod_env = $pantheon_env == 'live';
 
 /**
  * Local envs.
@@ -71,6 +73,8 @@ $is_local_env = !$is_ah_env && !$is_pantheon_env;
  * Common variables.
  */
 $is_dev_env = $is_ah_dev_env || $is_pantheon_dev_env;
+$is_stage_env = $is_ah_stage_env || $is_pantheon_stage_env;
+$is_prod_env = $is_ah_prod_env || $is_pantheon_prod_env;
 
 /**
  * Site directory detection.
