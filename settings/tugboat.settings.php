@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @file
+ */
+
 $databases = array(
   'default' => array(
     'default' => array(
