@@ -35,7 +35,8 @@ $forwarded_protocol = !empty($_ENV['HTTP_X_FORWARDED_PROTO']) ? $_ENV['HTTP_X_FO
 $is_travis_env = isset($_ENV['TRAVIS']);
 $is_pipelines_env = isset($_ENV['PIPELINE_ENV']);
 $is_probo_env = isset($_ENV['PIPELINEPROBO_ENVIRONMENT_ENV']);
-$is_ci_env = $is_travis_env || $is_pipelines_env || $is_probo_env;
+$is_tugboat_env = isset($_ENV['TUGBOAT_URL']);
+$is_ci_env = $is_travis_env || $is_pipelines_env || $is_probo_env || $is_tugboat_env;
 
 /**
  * Acquia envs.
@@ -179,23 +180,22 @@ if (file_exists($deploy_id_file)) {
 /**
  * Load CI env includes.
  */
-if ($is_ci_env) {
-  // Load Acquia Pipeline settings.
-  if (getenv('PIPELINE_ENV') && file_exists(__DIR__ . '/pipelines.settings.php')) {
-    require __DIR__ . '/pipelines.settings.php';
-  }
-  // Load Travis CI settings.
-  elseif (getenv('TRAVIS') && file_exists(__DIR__ . '/travis.settings.php')) {
-    require __DIR__ . '/travis.settings.php';
-  }
-  // Load Tugboat settings.
-  elseif (getenv('TUGBOAT_URL') && file_exists(__DIR__ . '/tugboat.settings.php')) {
-    require __DIR__ . '/tugboat.settings.php';
-  }
-  // Load Probo settings.
-  elseif (getenv('PROBO_ENVIRONMENT') && file_exists(__DIR__ . '/probo.settings.php')) {
-    require __DIR__ . '/probo.settings.php';
-  }
+
+// Load Acquia Pipeline settings.
+if ($is_pipelines_env) {
+  require __DIR__ . '/pipelines.settings.php';
+}
+// Load Travis CI settings.
+elseif ($is_travis_env) {
+  require __DIR__ . '/travis.settings.php';
+}
+// Load Tugboat settings.
+elseif ($is_tugboat_env) {
+  require __DIR__ . '/tugboat.settings.php';
+}
+// Load Probo settings.
+elseif ($is_probo_env) {
+  require __DIR__ . '/probo.settings.php';
 }
 
 /**
