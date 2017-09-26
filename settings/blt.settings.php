@@ -20,10 +20,24 @@ else {
 $server_protocol = empty($_SERVER['HTTPS']) ? 'http' : 'https';
 $forwarded_protocol = !empty($_ENV['HTTP_X_FORWARDED_PROTO']) ? $_ENV['HTTP_X_FORWARDED_PROTO'] : $server_protocol;
 
-/**
+/*******************************************************************************
  * Environment detection.
+ ******************************************************************************/
+
+
+/**
+ * CI envs.
+ */
+$is_travis_env = isset($_ENV['TRAVIS']);
+$is_pipelines_env = isset($_ENV['PIPELINE_ENV']);
+$is_probo_env = isset($_ENV['PIPELINEPROBO_ENVIRONMENT_ENV']);
+$is_ci_env = $is_travis_env || $is_pipelines_env || $is_probo_env;
+
+
+/**
+ * Acquia envs.
  *
- * Note that the values of enviromental variables are set differently on Acquia
+ * Note that the values of environmental variables are set differently on Acquia
  * Cloud Free tier vs Acquia Cloud Professional and Enterprise.
  */
 $ah_env = isset($_ENV['AH_SITE_ENVIRONMENT']) ? $_ENV['AH_SITE_ENVIRONMENT'] : NULL;
@@ -36,8 +50,16 @@ $is_ah_dev_env = (preg_match('/^dev[0-9]*$/', $ah_env) || $ah_env == '01dev');
 $is_ah_ode_env = (preg_match('/^ode[0-9]*$/', $ah_env));
 $is_acsf = (!empty($ah_group) && file_exists("/mnt/files/$ah_group.$ah_env/files-private/sites.json"));
 $acsf_db_name = $is_acsf ? $GLOBALS['gardens_site_settings']['conf']['acsf_db_name'] : NULL;
+
+/**
+ * Pantheon envs.
+ */
 $is_pantheon_env = isset($_ENV['PANTHEON_ENVIRONMENT']);
-$pantheon_env = $is_pantheon_env? $_ENV['PANTHEON_ENVIRONMENT'] : NULL;
+$pantheon_env = $is_pantheon_env ? $_ENV['PANTHEON_ENVIRONMENT'] : NULL;
+
+/**
+ * Local envs.
+ */
 $is_local_env = !$is_ah_env && !$is_pantheon_env;
 
 /**
@@ -58,6 +80,11 @@ if ($is_acsf) {
 
 /*******************************************************************************
  * Acquia Cloud settings.
+ *
+ * These includes are intentionally loaded before all others because we do not
+ * have control over their contents. By loading all other includes after this,
+ * we have the opportunity to override any configuration values provided by the
+ * hosted files. This is not necessary for files that we control.
  ******************************************************************************/
 
 if ($is_ah_env) {
@@ -141,31 +168,9 @@ if (file_exists($deploy_id_file)) {
  ******************************************************************************/
 
 /**
- * Include optional site specific includes file.
- *
- * This is being included before the local file so all available settings are
- * able to be overridden in the local.settings.php file below.
+ * Load CI env includes.
  */
-if (file_exists(DRUPAL_ROOT . "/sites/$site_dir/settings/includes.settings.php")) {
-  require DRUPAL_ROOT . "/sites/$site_dir/settings/includes.settings.php";
-}
-
-/**
- * Load local development override configuration, if available.
- *
- * Use local.settings.php to override variables on secondary (staging,
- * development, etc) installations of this site. Typically used to disable
- * caching, JavaScript/CSS compression, re-routing of outgoing emails, and
- * other things that should not happen on development and testing sites.
- *
- * Keep this code block at the end of this file to take full effect.
- */
-if ($is_local_env) {
-  // Load local machine settings.
-  if (file_exists(DRUPAL_ROOT . "/sites/$site_dir/settings/local.settings.php")) {
-    require DRUPAL_ROOT . "/sites/$site_dir/settings/local.settings.php";
-  }
-
+if ($is_ci_env) {
   // Load Acquia Pipeline settings.
   if (getenv('PIPELINE_ENV') && file_exists(__DIR__ . '/pipelines.settings.php')) {
     require __DIR__ . '/pipelines.settings.php';
@@ -181,5 +186,45 @@ if ($is_local_env) {
   // Load Probo settings.
   elseif (getenv('PROBO_ENVIRONMENT') && file_exists(__DIR__ . '/probo.settings.php')) {
     require __DIR__ . '/probo.settings.php';
+  }
+}
+
+/**
+ * Load Pantheon includes.
+ */
+if ($is_pantheon_env) {
+  require __DIR__ . '/pantheon.settings.php';
+}
+
+/**
+ * Include optional site specific includes file.
+ *
+ * This is intended for to provide an opportunity for applications to override
+ * any previous configuration.
+ *
+ * This is being included before the local file so all available settings are
+ * able to be overridden in the local.settings.php file below.
+ */
+if (file_exists(DRUPAL_ROOT . "/sites/$site_dir/settings/includes.settings.php")) {
+  require DRUPAL_ROOT . "/sites/$site_dir/settings/includes.settings.php";
+}
+
+/**
+ * Load local development override configuration, if available.
+ *
+ * This is intended to provide an opportunity for local environments to override
+ * any previous configuration.
+ *
+ * Use local.settings.php to override variables on secondary (staging,
+ * development, etc) installations of this site. Typically used to disable
+ * caching, JavaScript/CSS compression, re-routing of outgoing emails, and
+ * other things that should not happen on development and testing sites.
+ *
+ * Keep this code block at the end of this file to take full effect.
+ */
+if ($is_local_env) {
+  // Load local machine settings.
+  if (file_exists(DRUPAL_ROOT . "/sites/$site_dir/settings/local.settings.php")) {
+    require DRUPAL_ROOT . "/sites/$site_dir/settings/local.settings.php";
   }
 }

@@ -56,7 +56,8 @@
     },
     "suggest": {
         "hirak/prestissimo": "^0.3",
-        "typhonius/acquia_cli": "^0.0.7"
+        "typhonius/acquia_cli": "^0.0.7",
+        "davereid/drush-acquia-hook-invoke": "dev-master"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
