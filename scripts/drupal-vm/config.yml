@@ -6,7 +6,8 @@ vagrant_machine_name: ${project.machine_name}
 vagrant_ip: ${random.ip}
 
 # Use Ubuntu 16.04 LTS to match Acquia Cloud environments.
-vagrant_box: geerlingguy/ubuntu1604
+vagrant_box: ${base_box}
+workspace: ${workspace}
 
 # Set drupal_site_name to the project's human-readable name.
 drupal_site_name: "${project.human_name}"
@@ -69,14 +70,7 @@ nodejs_npm_global_packages:
   - name: gulp-cli
 nodejs_install_npm_user: "{{ drupalvm_user }}"
 npm_config_prefix: "/home/{{ drupalvm_user }}/.npm-global"
-installed_extras:
-  - adminer
-  - drush
-  - mailhog
-  - memcached
-  - nodejs
-  - selenium
-  - xdebug
+installed_extras: ${installed_extras}
 
 # PHP 7
 php_version: "7.1"
