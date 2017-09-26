@@ -4,6 +4,7 @@ namespace Acquia\Blt\Robo\Commands\Vm;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
+use function file_get_contents;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Yaml\Yaml;
 
@@ -208,6 +209,7 @@ class VmCommand extends BltTasks {
     $package_options = [
       'package_name' => 'geerlingguy/drupal-vm',
       'package_version' => $this->drupalVmVersionConstraint,
+      ['dev' => TRUE],
     ];
     return $this->invokeCommand('composer:require', $package_options);
   }
@@ -219,7 +221,7 @@ class VmCommand extends BltTasks {
    *   TRUE if it is present already and matches version constraint.
    */
   protected function isDrupalVmRequired() {
-    $composer_json = json_decode($this->getConfigValue('repo.root') . '/composer.json', TRUE);
+    $composer_json = json_decode(file_get_contents($this->getConfigValue('repo.root') . '/composer.json'), TRUE);
     return !empty($composer_json['require-dev']['geerlingguy/drupal-vm'])
       && $composer_json['require-dev']['geerlingguy/drupal-vm'] == $this->drupalVmVersionConstraint;
   }
@@ -249,7 +251,7 @@ class VmCommand extends BltTasks {
    */
   protected function validateConfig($config) {
     if (strstr($config['vagrant_machine_name'], '_')) {
-      $this->logger->warning("vagrant_machine_namefor should not contain an underscore.");
+      $this->logger->warning("vagrant_machine_name should not contain an underscore.");
     }
   }
 
@@ -267,11 +269,27 @@ class VmCommand extends BltTasks {
       ],
       'geerlingguy/ubuntu1604');
 
-    if ($base_box == 'beet/box') {
-      $config->set('workspace', '/beetbox/workspace/{{ php_version }}');
-      $config->set('installed_extras', []);
+    switch ($base_box) {
+      case 'beet/box':
+        $config->set('workspace', '/beetbox/workspace/{{ php_version }}');
+        $config->set('installed_extras', ['drush']);
+        break;
+
+      case 'geerlingguy/ubuntu1604':
+        $config->set('workspace', '/root');
+        $config->set('installed_extras', [
+          'adminer',
+          'drush',
+          'mailhog',
+          'memcached',
+          'nodejs',
+          'selenium',
+          'xdebug',
+        ]);
+        break;
     }
-    $config->set('vagrant_box', $base_box);
+
+    $config->set('base_box', $base_box);
   }
 
   /**
@@ -282,7 +300,6 @@ class VmCommand extends BltTasks {
     $config = clone $this->getConfig();
 
     $config->set('drupalvm.config.dir', $this->vmConfigDir);
-    $config->expandFileProperties($this->projectDrupalVmVagrantfile);
 
     // Generate a Random IP address for the new VM.
     $random_local_ip = "192.168." . rand(0, 255) . '.' . rand(0, 255);

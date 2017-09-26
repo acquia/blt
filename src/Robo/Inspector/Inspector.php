@@ -298,7 +298,8 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *   TRUE if Drupal VM configuration exists.
    */
   public function isDrupalVmConfigPresent() {
-    return file_exists($this->getConfigValue('repo.root') . '/Vagrantfile');
+    return file_exists($this->getConfigValue('repo.root') . '/Vagrantfile')
+      && file_exists($this->getConfigValue('vm.config'));
   }
 
   /**
