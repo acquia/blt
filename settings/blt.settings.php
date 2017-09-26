@@ -36,7 +36,9 @@ $is_ah_dev_env = (preg_match('/^dev[0-9]*$/', $ah_env) || $ah_env == '01dev');
 $is_ah_ode_env = (preg_match('/^ode[0-9]*$/', $ah_env));
 $is_acsf = (!empty($ah_group) && file_exists("/mnt/files/$ah_group.$ah_env/files-private/sites.json"));
 $acsf_db_name = $is_acsf ? $GLOBALS['gardens_site_settings']['conf']['acsf_db_name'] : NULL;
-$is_local_env = !$is_ah_env;
+$is_pantheon_env = isset($_ENV['PANTHEON_ENVIRONMENT']);
+$pantheon_env = $is_pantheon_env? $_ENV['PANTHEON_ENVIRONMENT'] : NULL;
+$is_local_env = !$is_ah_env && !$is_pantheon_env;
 
 /**
  * Site directory detection.

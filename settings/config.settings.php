@@ -48,6 +48,17 @@ if (!isset($split)) {
       $split = 'prod';
     }
   }
+  elseif ($is_pantheon_env) {
+    if ($pantheon_env == 'live') {
+      $split = 'prod';
+    }
+    elseif ($pantheon_env == 'test') {
+      $split = 'stage';
+    }
+    elseif ($pantheon_env == 'dev') {
+      $split = 'dev';
+    }
+  }
 }
 
 if ($split != 'none' && file_exists("$split_filepath_prefix.$split.yml")) {
