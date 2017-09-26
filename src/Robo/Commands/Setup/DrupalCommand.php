@@ -20,6 +20,8 @@ class DrupalCommand extends BltTasks {
    *
    * @return \Robo\Result
    *   The `drush site-install` command result.
+   *
+   * @hidden
    */
   public function install() {
 

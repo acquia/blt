@@ -41,6 +41,8 @@ class UpdateCommand extends BltTasks {
    * Called during `composer create-project acquia/blt-project`.
    *
    * @command internal:create-project
+   *
+   * @hidden
    */
   public function createProject() {
     $this->cleanUpProjectTemplate();
@@ -78,6 +80,8 @@ class UpdateCommand extends BltTasks {
    * @command internal:add-to-project
    *
    * @return \Robo\Result
+   *
+   * @hidden
    */
   public function addToProject() {
     $this->updateRootProjectFiles();
@@ -151,6 +155,8 @@ class UpdateCommand extends BltTasks {
    * (internal) Initializes the project repo and performs initial commit.
    *
    * @command internal:create-project:init-repo
+   *
+   * @hidden
    */
   public function initAndCommitRepo() {
     $result = $this->taskExecStack()
