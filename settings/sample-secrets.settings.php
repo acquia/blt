@@ -28,10 +28,13 @@ if (isset($conf['acquia_hosting_site_info']['db'])) {
        * @see https://docs.acquia.com/network/install
        * @see https://insight.acquia.com/subscriptions/keys
        *
+       * @codingStandardsIgnoreStart
+       *
        * $config['acquia_connector.settings']['identifier'] = 'ABCD-12345';
        * $config['acquia_connector.settings']['key'] = '00000000000000000000000000000000';
+       *
+       * @codingStandardsIgnoreEnd
        */
       break;
   }
 }
-

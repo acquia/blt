@@ -1,6 +1,14 @@
 <?php
 
-/*******************************************************************************
+/**
+ * @file
+ */
+
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpFoundation\Request;
+use Drupal\Core\DrupalKernel;
+
+/** *****************************************************************************
  * Setup BLT utility variables.
  ******************************************************************************/
 
@@ -10,7 +18,7 @@
 if (!empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
   $forwarded_host = $_SERVER['HTTP_X_FORWARDED_HOST'];
 }
-elseif(!empty($_SERVER['HTTP_HOST'])) {
+elseif (!empty($_SERVER['HTTP_HOST'])) {
   $forwarded_host = $_SERVER['HTTP_HOST'];
 }
 else {
@@ -56,6 +64,7 @@ $acsf_db_name = $is_acsf ? $GLOBALS['gardens_site_settings']['conf']['acsf_db_na
  */
 $is_pantheon_env = isset($_ENV['PANTHEON_ENVIRONMENT']);
 $pantheon_env = $is_pantheon_env ? $_ENV['PANTHEON_ENVIRONMENT'] : NULL;
+$is_pantheon_dev_env = $pantheon_env == 'dev';
 
 /**
  * Local envs.
@@ -63,12 +72,17 @@ $pantheon_env = $is_pantheon_env ? $_ENV['PANTHEON_ENVIRONMENT'] : NULL;
 $is_local_env = !$is_ah_env && !$is_pantheon_env;
 
 /**
+ * Common variables.
+ */
+$is_dev_env = $is_ah_dev_env || $is_pantheon_dev_env;
+
+/**
  * Site directory detection.
  */
 try {
-  $site_path = \Drupal\Core\DrupalKernel::findSitePath(\Symfony\Component\HttpFoundation\Request::createFromGlobals());
+  $site_path = DrupalKernel::findSitePath(Request::createFromGlobals());
 }
-catch (\Symfony\Component\HttpKernel\Exception\BadRequestHttpException $e) {
+catch (BadRequestHttpException $e) {
   $site_path = 'sites/default';
 }
 $site_dir = str_replace('sites/', '', $site_path);
