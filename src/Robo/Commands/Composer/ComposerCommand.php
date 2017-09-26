@@ -22,8 +22,10 @@ class ComposerCommand extends BltTasks {
     /** @var \Robo\Task\Composer\RequireDependency $task */
     $task = $this->taskComposerRequire()
       ->printOutput(TRUE)
-      ->dir($this->getConfigValue('repo.root'))
-      ->dev($options['dev']);
+      ->dir($this->getConfigValue('repo.root'));
+    if ($options['dev']) {
+      $task->dev(TRUE);
+    }
     if ($package_version) {
       $task->dependency($package_name, $package_version);
     }
