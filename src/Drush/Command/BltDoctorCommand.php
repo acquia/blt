@@ -275,6 +275,7 @@ class BltDoctor {
     $this->checkDrupalVm();
     $this->checkSimpleSamlPhp();
     $this->checkPhpDateTimezone();
+    $this->checkNodeVersionFileExists();
 
     ksort($this->statusTable);
     $this->printArrayAsTable($this->statusTable);
@@ -1117,6 +1118,21 @@ class BltDoctor {
     }
     else {
       $this->logOutcome(__FUNCTION__, "PHP setting for date.timezone is correctly set", 'info');
+    }
+  }
+
+  /**
+   * Checks that one of .nvmrc or .node-version exists in repo root.
+   */
+  protected function checkNodeVersionFileExists() {
+    if (file_exists($this->repoRoot . '/.nvmrc')) {
+      $this->logOutcome(__FUNCTION__, ".nvmrc file exists", 'info');
+    }
+    elseif (file_exists($this->repoRoot . '/.node-version')) {
+      $this->logOutcome(__FUNCTION__, ".node-version file exists", 'info');
+    }
+    else {
+      $this->logOutcome(__FUNCTION__, "Neither .nvmrc nor .node-version file found in repo root.", 'error');
     }
   }
 
