@@ -73,7 +73,7 @@ Configuration values are loaded, in this order, from the following list of YAML 
 -  blt/[environment].yml
 -  blt/project.local.yml
 
-Values loaded from the later files will overwrite values in earlier files.
+Values loaded from the later files will overwrite values in earlier files. Note, if you would like to override a non-empty value with an empty value, the override value must be set to `null` and not `''` or `[]`.
 
 ### Overriding project-wide
 
