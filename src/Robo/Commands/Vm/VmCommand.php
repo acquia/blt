@@ -300,6 +300,7 @@ class VmCommand extends BltTasks {
     $config = clone $this->getConfig();
 
     $config->set('drupalvm.config.dir', $this->vmConfigDir);
+    $config->expandFileProperties($this->projectDrupalVmVagrantfile);
 
     // Generate a Random IP address for the new VM.
     $random_local_ip = "192.168." . rand(0, 255) . '.' . rand(0, 255);
