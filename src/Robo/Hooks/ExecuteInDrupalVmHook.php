@@ -6,6 +6,7 @@ use Acquia\Blt\Robo\BltTasks;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Input\InputInterface;
 
 /**
  * Executes @executeInDrupalVm commands within Drupal VM
@@ -29,7 +30,7 @@ class ExecuteInDrupalVmHook extends BltTasks {
       if ($annotation_data->has('executeInDrupalVm') && $this->shouldExecuteInDrupalVm()) {
         $event->disableCommand();
         $command = $event->getCommand();
-        $new_input = $this->createCommandInputFromCurrentParams($command);
+        $new_input = $this->createCommandInputFromCurrentParams($command, $event->getInput());
         $new_input->setOption('define', 'drush.alias=self');
 
         // We cannot return an exit code directly, because disabled commands
@@ -80,23 +81,28 @@ class ExecuteInDrupalVmHook extends BltTasks {
    *
    * @param \Symfony\Component\Console\Command\Command $command
    *   The command.
+   * @param \Symfony\Component\Console\Input\InputInterface $input
+   *   The command input from the ConsoleCommandEvent.
    *
    * @return \Symfony\Component\Console\Input\ArrayInput
    */
-  protected function createCommandInputFromCurrentParams(Command $command) {
+  protected function createCommandInputFromCurrentParams(Command $command, InputInterface $input) {
     $command_definition = $command->getDefinition();
     $command_name = $command->getName();
     $options = $this->input->getOptions();
     $args = $this->input->getArguments();
     unset($args['command']);
-    $new_input = new ArrayInput(['blt', 'command' => $command_name],
-      $command_definition);
 
+    // Filter out any invalid arguments.
     foreach ($args as $name => $value) {
-      if ($command_definition->hasArgument($name)) {
-        $new_input->setArgument($name, $value);
+      if (!$command_definition->hasArgument($name)) {
+        unset($args[$name]);
       }
     }
+    // Pass in all the arguments so that ArrayInput constructor will not be
+    // missing necessary arguments in validation.
+    $new_input = new ArrayInput(array_merge(['blt', 'command' => $command_name], $args),
+      $command_definition);
 
     foreach ($options as $name => $value) {
       if ($command_definition->hasOption($name)) {
