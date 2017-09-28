@@ -19,6 +19,9 @@
   },
   "extra": {
     "patches": {
+        "drupal/core": {
+            "2766509 - Graceful cache fallbacks": "https://www.drupal.org/files/issues/drupal-graceful-cache-error-2766509-25.patch"
+        }
     }
   }
 }
