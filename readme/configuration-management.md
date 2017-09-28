@@ -99,6 +99,54 @@ However, BLT does not create any configuration splits for you. For detailed info
 
 If for some reason BLT is not working with Config Split, ensure that you are using Drush version 8.1.10 or higher, Config Split version 8.1.0-beta4 or higher, and that `cm.strategy` is set to `config-split` in `blt/project.yml`.
 
+### Using update hooks to importing individual config files
+
+BLT runs module update hooks before importing configuration changes. For use cases where it is necessary for a configuration change to be imported before the update hook runs, in your hook, you'll need to import the needed configuration from files first. (An example of this would be adding a new taxonomy vocabulary via config, and populating that vocabulary with terms in an update hook.)
+
+Code snippet for importing a taxonomy vocabulary config first before creating terms in that vocabulary:
+
+    use Drupal\taxonomy\Entity\Term;
+
+    // Import taxonomy from config sync directory.
+    $vid = 'foo_terms'; // foo_terms is the vocabularly id.
+    $vocab_config_id = "taxonomy.vocabulary.$vid";
+    $vocab_config_data = foo_read_config_from_sync($vocab_config_id);
+    \Drupal::service('config.storage')->write($vocab_config_id, $vocab_config_data);
+    
+    Term::create([
+      'name' => 'Foo Term 1',
+      'vid' => $vid',
+    ])->save();
+
+    Term::create([
+      'name' => 'Foo Term 2',
+      'vid' => $vid',
+    ])->save();
+
+This depends on a helper function, which can be added to your custom profile:
+
+    use Drupal\Core\Config\FileStorage;
+
+    /**
+     * Reads a stored config file from config sync directory.
+     *
+     * @param string $id
+     *   The config ID.
+     *
+     * @return array
+     *   The config data.
+     */
+    function foo_read_config_from_sync($id) {
+      // Statically cache FileStorage object.
+      static $storage;
+
+      if (empty($storage)) {
+        global $config_directories;
+        $storage = new FileStorage($config_directories[CONFIG_SYNC_DIRECTORY]);
+      }
+      return $storage->read($id);
+    }
+
 ## Features-based workflow
 
 Features allows you to bundle related configuration files (such as a content type and its fields) into individual feature modules. Drupal treats features just like normal modules, but Features and its dependencies add some special sauce that allow features to not only provide default configuration (like normal modules), but to also update (track and import) changes to this configuration.
