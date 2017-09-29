@@ -114,9 +114,14 @@ if ($is_ah_env) {
 
   // Store API Keys and things outside of version control.
   // @see settings/sample-secrets.settings.php for sample code.
-  $secrets_file = sprintf('/mnt/gfs/%s.%s/secrets.settings.php', $_ENV['AH_SITE_GROUP'], $_ENV['AH_SITE_ENVIRONMENT']);
+  $secrets_file = sprintf("/mnt/gfs/%s.%s/secrets.settings.php", $_ENV['AH_SITE_GROUP'], $_ENV['AH_SITE_ENVIRONMENT']);
   if (file_exists($secrets_file)) {
     require $secrets_file;
+  }
+  // Includes secrets file for given site.
+  $site_secrets_file = sprintf("/mnt/gfs/%s.%s/$site_dir/secrets.settings.php", $_ENV['AH_SITE_GROUP'], $_ENV['AH_SITE_ENVIRONMENT']);
+  if (file_exists($site_secrets_file)) {
+    require $site_secrets_file;
   }
 }
 
@@ -177,6 +182,21 @@ if (file_exists($deploy_id_file)) {
   $settings['deployment_identifier'] = file_get_contents($deploy_id_file);
 }
 
+/**
+ * Include custom global settings files.
+ *
+ * This is intended for to provide an opportunity for applications to override
+ * any previous configuration at a global or multisite level.
+ *
+ * This is being included before the CI and site specific files so all available
+ * settings are able to be overridden in the includes.settings.php file below.
+ */
+if ($settings_files = glob(DRUPAL_ROOT . "/sites/settings/*.settings.php")) {
+  foreach ($settings_files as $settings_file) {
+    require $settings_file;
+  }
+}
+
 /*******************************************************************************
  * Environment-specific includes.
  ******************************************************************************/
@@ -229,7 +249,11 @@ if (file_exists(DRUPAL_ROOT . "/sites/$site_dir/settings/includes.settings.php")
  * Keep this code block at the end of this file to take full effect.
  */
 if ($is_local_env) {
-  // Load local machine settings.
+  // Load local settings for all sites.
+  if (file_exists(DRUPAL_ROOT . "/sites/settings/local.settings.php")) {
+    require DRUPAL_ROOT . "/sites/settings/local.settings.php";
+  }
+  // Load local settings for given single.
   if (file_exists(DRUPAL_ROOT . "/sites/$site_dir/settings/local.settings.php")) {
     require DRUPAL_ROOT . "/sites/$site_dir/settings/local.settings.php";
   }
