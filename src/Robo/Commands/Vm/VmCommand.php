@@ -284,6 +284,7 @@ class VmCommand extends BltTasks {
           'memcached',
           'nodejs',
           'selenium',
+          'solr',
           'xdebug',
         ]);
         break;
