@@ -95,7 +95,7 @@ class ExecuteInDrupalVmHook extends BltTasks {
 
     // Filter out any invalid arguments.
     foreach ($args as $name => $value) {
-      if (!$command_definition->hasArgument($name)) {
+      if (is_null($value) || !$command_definition->hasArgument($name)) {
         unset($args[$name]);
       }
     }
