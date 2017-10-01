@@ -21,9 +21,12 @@ use Robo\Common\ConfigAwareTrait;
 use Robo\Config\Config;
 use Robo\Robo;
 use Robo\Runner as RoboRunner;
+use Symfony\Bridge\Twig\Command\LintCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 /**
  * The BLT Robo application.
@@ -78,6 +81,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     $this->configureContainer($container);
     $this->addBuiltInCommandsAndHooks();
     $this->addPluginsCommandsAndHooks();
+    $this->addSymfonyCommands($application);
     $this->runner = new RoboRunner();
     $this->runner->setContainer($container);
 
@@ -113,6 +117,60 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     ]);
     $plugin_commands_hooks = array_merge($commands, $hooks);
     $this->commands = array_merge($this->commands, $plugin_commands_hooks);
+  }
+
+  /**
+   * Adds Symfony (non-Robo) command classes to the application.
+   *
+   * @param \Acquia\Blt\Robo\Application $application
+   */
+  protected function addSymfonyCommands(Application $application) {
+    $twig = new Environment(new FilesystemLoader());
+
+    // Get any custom defined Twig filters to be ignored by linter.
+    $twig_filters = (array) $this->getConfig()->get('validate.twig.filters');
+    // Add Twig filters from Drupal TwigExtension to be ignored.
+    // @todo Find a way so that this list doesn't need to be maintained.
+    $drupal_filters = [
+      't',
+      'trans',
+      'placeholder',
+      'drupal_escape',
+      'safe_join',
+      'without',
+      'clean_class',
+      'clean_id',
+      'render',
+      'format_date',
+    ];
+    $twig_filters = array_merge($twig_filters, $drupal_filters);
+    foreach ($twig_filters as $filter) {
+      $twig->addFilter(new \Twig_SimpleFilter($filter, function () {}));
+    }
+
+    // Get any custom defined Twig functions to be ignored by linter.
+    $twig_functions = (array) $this->getConfig()->get('validate.twig.functions');
+    // Add Twig functions from Drupal TwigExtension to be ignored.
+    // @todo Find a way so that this list doesn't need to be maintained.
+    $drupal_functions = [
+      'render_var',
+      'url',
+      'path',
+      'link',
+      'file_url',
+      'attach_library',
+      'active_theme_path',
+      'active_theme',
+      'create_attribute',
+    ];
+    $twig_functions = array_merge($twig_functions, $drupal_functions);
+    foreach ($twig_functions as $function) {
+      $twig->addFunction(new \Twig_SimpleFunction($function, function() {}));
+    }
+
+    $command = new LintCommand('validate:twig:files');
+    $command->setTwigEnvironment($twig);
+    $application->add($command);
   }
 
   /**

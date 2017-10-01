@@ -2,6 +2,7 @@
 
 namespace Acquia\Blt\Robo;
 
+use Acquia\Blt\Robo\Commands\Input\ArrayInput;
 use Acquia\Blt\Robo\Common\ArrayManipulator;
 use Acquia\Blt\Robo\Common\IO;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
@@ -20,7 +21,6 @@ use Robo\Contract\IOAwareInterface;
 use Robo\Contract\VerbosityThresholdInterface;
 use Robo\LoadAllTasks;
 use Symfony\Component\Console\Helper\Table;
-use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
 
