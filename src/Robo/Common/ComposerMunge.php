@@ -33,6 +33,12 @@ class ComposerMunge {
       $output['require-dev'] = (object) $output['require-dev'];
     }
 
+    // Remove the existence of the new project identifier from invoking the
+    // create-project again in subsequent update calls.
+    if (isset($output['extra']['blt']['new'])) {
+      unset($output['extra']['blt']['new']);
+    }
+
     $output_json = json_encode($output, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 
     return $output_json;
