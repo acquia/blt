@@ -29,10 +29,6 @@ if ($is_ah_env) {
 
     if ($memcached_exists) {
       $settings['memcache']['extension'] = 'Memcached';
-      // $settings['memcache']['options'] = [
-      //   \Memcached::OPT_BINARY_PROTOCOL => TRUE,
-      //   \Memcached::OPT_TCP_NODELAY => TRUE,
-      // ];
     }
 
     // Use memcache as the default bin.
