@@ -143,7 +143,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
         $source = $package_dir . DIRECTORY_SEPARATOR . $file;
         $target = $dir . DIRECTORY_SEPARATOR . $file;
         if (file_exists($source)) {
-          if (!file_exists($target) || md5_file($source) != md5_file($target)) {
+          if (!file_exists($target)) {
             $this->io->write("Copying $source to $target");
             copy($source, $target);
           }
