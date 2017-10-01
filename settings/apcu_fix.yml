@@ -1,5 +1,6 @@
-# Added at the advice of Acquia Support to prevent APCu cache exhaustion. Can
-# be removed if memcache is used instead of APCu.
+# Added at the advice of Acquia Support to prevent APCu cache exhaustion.
+# Can be removed if memcache is used or APCu is given more memory.
+# See: https://docs.acquia.com/article/drupal-8-cache-backend
 services:
   cache.backend.chainedfast:
     class: Drupal\Core\Cache\DatabaseBackendFactory
