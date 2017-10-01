@@ -24,9 +24,9 @@ if ($is_ah_env) {
 
 ## Local Development
 
-The below has been tested with DrupalVM as configured through BLT's `blt vm` command, but should work for most CI environments where the memcache backend is localhost on port 11211. Note: the below example code will likely be modified after [#2766509](https://www.drupal.org/node/2766509) is landed in Drupal core.
+The below has been tested with DrupalVM as configured through BLT's `blt vm` command, but should also work for most CI environments where the memcache backend is localhost on port 11211. Note: the below example code will likely be modified after [#2766509](https://www.drupal.org/node/2766509) is landed in Drupal core.
 
-Add the below statements to an environments `local.settings.php` file after the database configuration settings. Note that the below differs slightly from the version BLT provides for use with Acquia Cloud.
+Add the below statements to an environment's `local.settings.php` file after the database configuration settings. Note that the below differs slightly from the version BLT provides for use with Acquia Cloud.
 
 ```
 // Note that this connects the database, so has to go after any
@@ -47,10 +47,6 @@ if ($modules && isset($modules['module']['memcache'])) {
 
   if ($memcached_exists) {
     $settings['memcache']['extension'] = 'Memcached';
-    $settings['memcache']['options'] = [
-      // \Memcached::OPT_BINARY_PROTOCOL => TRUE,
-      // \Memcached::OPT_TCP_NODELAY => TRUE,
-    ];
   }
 
   // Use memcache as the default bin.
