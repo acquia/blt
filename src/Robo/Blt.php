@@ -127,22 +127,16 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
   protected function addSymfonyCommands(Application $application) {
     $twig = new Environment(new FilesystemLoader());
 
+    $repo_root = $this->getConfig()->get('repo.root');
+    $extension_file_contents = file_get_contents($repo_root . '/docroot/core/lib/Drupal/Core/Template/TwigExtension.php');
+
     // Get any custom defined Twig filters to be ignored by linter.
     $twig_filters = (array) $this->getConfig()->get('validate.twig.filters');
     // Add Twig filters from Drupal TwigExtension to be ignored.
-    // @todo Find a way so that this list doesn't need to be maintained.
-    $drupal_filters = [
-      't',
-      'trans',
-      'placeholder',
-      'drupal_escape',
-      'safe_join',
-      'without',
-      'clean_class',
-      'clean_id',
-      'render',
-      'format_date',
-    ];
+    $drupal_filters = [];
+    if ($matches_count = preg_match_all("#new \\\\Twig_SimpleFilter\('([^']+)',#", $extension_file_contents, $matches)) {
+      $drupal_filters = $matches[1];
+    }
     $twig_filters = array_merge($twig_filters, $drupal_filters);
     foreach ($twig_filters as $filter) {
       $twig->addFilter(new \Twig_SimpleFilter($filter, function () {}));
@@ -151,18 +145,10 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     // Get any custom defined Twig functions to be ignored by linter.
     $twig_functions = (array) $this->getConfig()->get('validate.twig.functions');
     // Add Twig functions from Drupal TwigExtension to be ignored.
-    // @todo Find a way so that this list doesn't need to be maintained.
-    $drupal_functions = [
-      'render_var',
-      'url',
-      'path',
-      'link',
-      'file_url',
-      'attach_library',
-      'active_theme_path',
-      'active_theme',
-      'create_attribute',
-    ];
+    $drupal_functions = [];
+    if ($matches_count = preg_match_all("#new \\\\Twig_SimpleFunction\('([^']+)',#", $extension_file_contents, $matches)) {
+      $drupal_functions = $matches[1];
+    }
     $twig_functions = array_merge($twig_functions, $drupal_functions);
     foreach ($twig_functions as $function) {
       $twig->addFunction(new \Twig_SimpleFunction($function, function () {}));
