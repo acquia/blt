@@ -1,4 +1,3 @@
-# Note that the example .travis.yml file for child projects lives in /install.
 sudo: false
 language: php
 dist: trusty
