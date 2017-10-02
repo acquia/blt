@@ -4,6 +4,9 @@ namespace Acquia\Blt\Robo\Commands\Input;
 
 use Symfony\Component\Console\Input\ArrayInput as ArrayInputBase;
 
+/**
+ * ArrayInput class.
+ */
 class ArrayInput extends ArrayInputBase {
 
   /**
