@@ -165,7 +165,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     ];
     $twig_functions = array_merge($twig_functions, $drupal_functions);
     foreach ($twig_functions as $function) {
-      $twig->addFunction(new \Twig_SimpleFunction($function, function() {}));
+      $twig->addFunction(new \Twig_SimpleFunction($function, function () {}));
     }
 
     $command = new LintCommand('validate:twig:files');
