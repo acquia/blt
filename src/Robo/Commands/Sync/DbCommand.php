@@ -60,14 +60,11 @@ class DbCommand extends BltTasks {
     $task = $this->taskDrush()
       ->alias('')
       ->drush('cache-clear drush')
-      ->drush('sql-drop')
-      ->drush('sql-sync')
-      ->arg($remote_alias)
-      ->arg($local_alias)
-      ->option('structure-tables-key', 'lightweight')
-      ->option('create-db')
+      ->drush("$local_alias sql-drop")
+      ->detectInteractive()
       ->assume(TRUE);
 
+    $task->drush("sql-sync $remote_alias $local_alias --structure-tables-key=lightweight --create-db");
     if ($this->getConfigValue('drush.sanitize')) {
       $task->option('sanitize');
     }

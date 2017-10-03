@@ -384,4 +384,19 @@ class Updates {
     $this->updater->getOutput()->writeln($formattedBlock);
     $this->updater->getOutput()->writeln("");
   }
+
+  /**
+   * 8.9.7.
+   *
+   * @Update(
+   *    version = "8009007",
+   *    description = "Removing drush files."
+   * )
+   */
+  public function update_8009007() {
+    $this->updater->deleteFile('drush.wrapper');
+    $this->updater->deleteFile('.drush-use');
+
+    // Recommend drush upgrade.
+  }
 }
