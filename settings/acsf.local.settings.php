@@ -1,9 +1,12 @@
 <?php
 
+/**
+ * @file
+ * Contains ACSF configuration.
+ */
+
 if (isset($acsf_site_name)) {
-  /**
-   * Database configuration.
-   */
+  // Database configuration.
   $databases = array(
     'default' =>
       array(
