@@ -20,7 +20,7 @@
         "composer/installers": "^1.2.0",
         "composer/semver": "^1.4",
         "consolidation/config": "^1.0.0",
-        "consolidation/robo": "^1.1.0",
+        "consolidation/robo": "dev-master",
         "cweagans/composer-patches": "^1.6.2",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.4.0",
         "dflydev/dot-access-data": "^1.1.0",
@@ -66,7 +66,9 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require-dev": {
+        "composer/composer": "dev-master",
         "guzzlehttp/guzzle": "^6.2",
-        "composer/composer": "dev-master"
+        "knplabs/github-api": "^2.6",
+        "php-http/guzzle6-adapter": "^1.1"
     }
 }
