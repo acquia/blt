@@ -1,11 +1,15 @@
 <?php
 
+/**
+ * @file
+ * Setup BLT utility variables, include required files.
+ */
+
 use Acquia\Blt\Robo\Config\ConfigInitializer;
 use Symfony\Component\Console\Input\ArgvInput;
-
-/*******************************************************************************
- * Setup BLT utility variables.
- ******************************************************************************/
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpFoundation\Request;
+use Drupal\Core\DrupalKernel;
 
 /**
  * Host detection.
@@ -13,7 +17,7 @@ use Symfony\Component\Console\Input\ArgvInput;
 if (!empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
   $forwarded_host = $_SERVER['HTTP_X_FORWARDED_HOST'];
 }
-elseif(!empty($_SERVER['HTTP_HOST'])) {
+elseif (!empty($_SERVER['HTTP_HOST'])) {
   $forwarded_host = $_SERVER['HTTP_HOST'];
 }
 else {
@@ -23,10 +27,23 @@ else {
 $server_protocol = empty($_SERVER['HTTPS']) ? 'http' : 'https';
 $forwarded_protocol = !empty($_ENV['HTTP_X_FORWARDED_PROTO']) ? $_ENV['HTTP_X_FORWARDED_PROTO'] : $server_protocol;
 
-/**
+/*******************************************************************************
  * Environment detection.
+ ******************************************************************************/
+
+/**
+ * CI envs.
+ */
+$is_travis_env = isset($_ENV['TRAVIS']);
+$is_pipelines_env = isset($_ENV['PIPELINE_ENV']);
+$is_probo_env = isset($_ENV['PROBO_ENVIRONMENT']);
+$is_tugboat_env = isset($_ENV['TUGBOAT_URL']);
+$is_ci_env = $is_travis_env || $is_pipelines_env || $is_probo_env || $is_tugboat_env;
+
+/**
+ * Acquia envs.
  *
- * Note that the values of enviromental variables are set differently on Acquia
+ * Note that the values of environmental variables are set differently on Acquia
  * Cloud Free tier vs Acquia Cloud Professional and Enterprise.
  */
 $repo_root = dirname(DRUPAL_ROOT);
@@ -43,15 +60,36 @@ $is_acsf_env = (!empty($ah_group) && file_exists("/mnt/files/$ah_group.$ah_env/f
 // @todo Maybe check for acsf-tools.
 $is_acsf_inited = file_exists(DRUPAL_ROOT . "/sites/g");
 $acsf_db_name = $is_acsf_env ? $GLOBALS['gardens_site_settings']['conf']['acsf_db_name'] : NULL;
-$is_local_env = !$is_ah_env;
+
+
+/**
+ * Pantheon envs.
+ */
+$is_pantheon_env = isset($_ENV['PANTHEON_ENVIRONMENT']);
+$pantheon_env = $is_pantheon_env ? $_ENV['PANTHEON_ENVIRONMENT'] : NULL;
+$is_pantheon_dev_env = $pantheon_env == 'dev';
+$is_pantheon_stage_env = $pantheon_env == 'test';
+$is_pantheon_prod_env = $pantheon_env == 'live';
+
+/**
+ * Local envs.
+ */
+$is_local_env = !$is_ah_env && !$is_pantheon_env;
+
+/**
+ * Common variables.
+ */
+$is_dev_env = $is_ah_dev_env || $is_pantheon_dev_env;
+$is_stage_env = $is_ah_stage_env || $is_pantheon_stage_env;
+$is_prod_env = $is_ah_prod_env || $is_pantheon_prod_env;
 
 /**
  * Site directory detection.
  */
 try {
-  $site_path = \Drupal\Core\DrupalKernel::findSitePath(\Symfony\Component\HttpFoundation\Request::createFromGlobals());
+  $site_path = DrupalKernel::findSitePath(Request::createFromGlobals());
 }
-catch (\Symfony\Component\HttpKernel\Exception\BadRequestHttpException $e) {
+catch (BadRequestHttpException $e) {
   $site_path = 'sites/default';
 }
 $site_dir = str_replace('sites/', '', $site_path);
@@ -99,6 +137,11 @@ if ($is_acsf_inited) {
 
 /*******************************************************************************
  * Acquia Cloud settings.
+ *
+ * These includes are intentionally loaded before all others because we do not
+ * have control over their contents. By loading all other includes after this,
+ * we have the opportunity to override any configuration values provided by the
+ * hosted files. This is not necessary for files that we control.
  ******************************************************************************/
 
 if ($is_ah_env) {
@@ -114,9 +157,14 @@ if ($is_ah_env) {
 
   // Store API Keys and things outside of version control.
   // @see settings/sample-secrets.settings.php for sample code.
-  $secrets_file = sprintf('/mnt/gfs/%s.%s/secrets.settings.php', $_ENV['AH_SITE_GROUP'], $_ENV['AH_SITE_ENVIRONMENT']);
+  $secrets_file = sprintf("/mnt/gfs/%s.%s/secrets.settings.php", $_ENV['AH_SITE_GROUP'], $_ENV['AH_SITE_ENVIRONMENT']);
   if (file_exists($secrets_file)) {
     require $secrets_file;
+  }
+  // Includes secrets file for given site.
+  $site_secrets_file = sprintf("/mnt/gfs/%s.%s/$site_dir/secrets.settings.php", $_ENV['AH_SITE_GROUP'], $_ENV['AH_SITE_ENVIRONMENT']);
+  if (file_exists($site_secrets_file)) {
+    require $site_secrets_file;
   }
 }
 
@@ -177,12 +225,51 @@ if (file_exists($deploy_id_file)) {
   $settings['deployment_identifier'] = file_get_contents($deploy_id_file);
 }
 
+/**
+ * Include custom global settings files.
+ *
+ * This is intended for to provide an opportunity for applications to override
+ * any previous configuration at a global or multisite level.
+ *
+ * This is being included before the CI and site specific files so all available
+ * settings are able to be overridden in the includes.settings.php file below.
+ */
+if ($settings_files = glob(DRUPAL_ROOT . "/sites/settings/*.settings.php")) {
+  foreach ($settings_files as $settings_file) {
+    require $settings_file;
+  }
+}
+
 /*******************************************************************************
  * Environment-specific includes.
  ******************************************************************************/
 
 /**
+ * Load CI env includes.
+ */
+
+// Load Acquia Pipeline settings.
+if ($is_pipelines_env) {
+  require __DIR__ . '/pipelines.settings.php';
+}
+// Load Travis CI settings.
+elseif ($is_travis_env) {
+  require __DIR__ . '/travis.settings.php';
+}
+// Load Tugboat settings.
+elseif ($is_tugboat_env) {
+  require __DIR__ . '/tugboat.settings.php';
+}
+// Load Probo settings.
+elseif ($is_probo_env) {
+  require __DIR__ . '/probo.settings.php';
+}
+
+/**
  * Include optional site specific includes file.
+ *
+ * This is intended for to provide an opportunity for applications to override
+ * any previous configuration.
  *
  * This is being included before the local file so all available settings are
  * able to be overridden in the local.settings.php file below.
@@ -194,6 +281,9 @@ if (file_exists(DRUPAL_ROOT . "/sites/$site_dir/settings/includes.settings.php")
 /**
  * Load local development override configuration, if available.
  *
+ * This is intended to provide an opportunity for local environments to override
+ * any previous configuration.
+ *
  * Use local.settings.php to override variables on secondary (staging,
  * development, etc) installations of this site. Typically used to disable
  * caching, JavaScript/CSS compression, re-routing of outgoing emails, and
@@ -202,29 +292,15 @@ if (file_exists(DRUPAL_ROOT . "/sites/$site_dir/settings/includes.settings.php")
  * Keep this code block at the end of this file to take full effect.
  */
 if ($is_local_env) {
-  // Load local machine settings.
+  // Load local settings for all sites.
+  if (file_exists(DRUPAL_ROOT . "/sites/settings/local.settings.php")) {
+    require DRUPAL_ROOT . "/sites/settings/local.settings.php";
+  }
+  // Load local settings for given single.
   if (file_exists(DRUPAL_ROOT . "/sites/$site_dir/settings/local.settings.php")) {
     require DRUPAL_ROOT . "/sites/$site_dir/settings/local.settings.php";
   }
-
-  // Load Acquia Pipeline settings.
-  if (getenv('PIPELINE_ENV') && file_exists(__DIR__ . '/pipelines.settings.php')) {
-    require __DIR__ . '/pipelines.settings.php';
-  }
-  // Load Travis CI settings.
-  elseif (getenv('TRAVIS') && file_exists(__DIR__ . '/travis.settings.php')) {
-    require __DIR__ . '/travis.settings.php';
-  }
-  // Load Tugboat settings.
-  elseif (getenv('TUGBOAT_URL') && file_exists(__DIR__ . '/tugboat.settings.php')) {
-    require __DIR__ . '/tugboat.settings.php';
-  }
-  // Load Probo settings.
-  elseif (getenv('PROBO_ENVIRONMENT') && file_exists(__DIR__ . '/probo.settings.php')) {
-    require __DIR__ . '/probo.settings.php';
-  }
-  elseif ($is_acsf_inited) {
+  if ($is_acsf_inited) {
     require __DIR__ . '/acsf.local.settings.php';
   }
-
 }

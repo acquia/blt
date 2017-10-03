@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Provo environment specific settings.
+ */
+
 $databases = array(
   'default' => array(
     'default' => array(

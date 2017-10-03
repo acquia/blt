@@ -136,6 +136,9 @@ setup:
   strategy: install
   # If setup.strategy is import, this file will be imported.
   dump-file: null
+  drupal:
+    install:
+      import-config: true
 
 sync:
   # By default, files are not synced during sync:refresh.
@@ -203,6 +206,9 @@ tests:
     url: http://127.0.0.1:${tests.server.port}
 
 validate:
+  deprecated:
+    filesets:
+      - files.php.custom.modules
   lint:
     filesets:
       - files.php.custom.modules

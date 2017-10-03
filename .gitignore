@@ -118,3 +118,6 @@ template/composer.lock
 CHANGELOG.partial
 build
 cache/commands/*
+
+# Ignore the local deployment identifier.
+deployment_identifier

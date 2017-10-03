@@ -2,6 +2,7 @@
 
 namespace Acquia\Blt\Robo\Common;
 
+use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
@@ -69,6 +70,21 @@ trait IO {
     }
 
     return $this->doAsk(new ConfirmationQuestion($this->formatQuestion($question . ' (y/n)'), $default));
+  }
+
+  /**
+   * Asks the user a multiple-choice question.
+   *
+   * @param string $question
+   *   The question text.
+   * @param array $options
+   *   An array of available options.
+   *
+   * @return string
+   *   The chosen option.
+   */
+  protected function askChoice($question, $options, $default = NULL) {
+    return $this->doAsk(new ChoiceQuestion($this->formatQuestion($question), $options, $default));
   }
 
 }

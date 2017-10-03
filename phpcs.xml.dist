@@ -27,10 +27,12 @@
   <file>RoboFile.php</file>
   <file>scripts/blt/examples</file>
   <file>src/Robo</file>
+  <file>settings</file>
   <file>tests</file>
   <file>template/blt</file>
 
   <exclude-pattern>*/node_modules</exclude-pattern>
   <exclude-pattern>*/vendor</exclude-pattern>
+  <exclude-pattern>*/default.local.settings.php</exclude-pattern>
 
 </ruleset>

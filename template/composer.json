@@ -1,16 +1,6 @@
 {
     "license": "proprietary",
     "type": "project",
-    "repositories": {
-        "drupal": {
-            "type": "composer",
-            "url": "https://packages.drupal.org/8"
-        },
-        "asset-packagist": {
-            "type": "composer",
-            "url": "https://asset-packagist.org"
-        }
-    },
     "config": {
         "sort-packages": true
     },
@@ -34,9 +24,6 @@
             "require": [
                 "blt/composer.required.json",
                 "blt/composer.suggested.json"
-            ],
-            "include": [
-                "blt/composer.overrides.json"
             ],
             "merge-extra": true,
             "merge-extra-deep": true,

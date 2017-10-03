@@ -41,6 +41,8 @@ class UpdateCommand extends BltTasks {
    * Called during `composer create-project acquia/blt-project`.
    *
    * @command internal:create-project
+   *
+   * @hidden
    */
   public function createProject() {
     $this->cleanUpProjectTemplate();
@@ -78,9 +80,23 @@ class UpdateCommand extends BltTasks {
    * @command internal:add-to-project
    *
    * @return \Robo\Result
+   *
+   * @hidden
    */
   public function addToProject() {
-    $this->reInstallComposerPackages();
+    $this->updateRootProjectFiles();
+    $this->invokeCommand('setup:settings');
+    $this->invokeCommand('examples:init');
+    $this->invokeCommand('install-alias');
+    $this->say("To complete BLT installation, your composer dependencies must be updated.");
+    $confirm = $this->ask('Execute `composer update` now?');
+    if ($confirm) {
+      $result = $this->taskExecStack()
+        ->dir($this->getConfigValue('repo.root'))
+        ->exec("composer update --no-interaction --ansi")
+        ->detectInteractive()
+        ->run();
+    }
     $this->displayArt();
     $this->yell("BLT has been added to your project.");
     $this->say("It has added and modified various project files. Please inspect your repository.");
@@ -139,6 +155,8 @@ class UpdateCommand extends BltTasks {
    * (internal) Initializes the project repo and performs initial commit.
    *
    * @command internal:create-project:init-repo
+   *
+   * @hidden
    */
   public function initAndCommitRepo() {
     $result = $this->taskExecStack()

@@ -43,18 +43,23 @@ This snippet would cause the `validate:phpcs` and `git:commit-msg` targets to be
 
 ## Adding / overriding filesets
 
+To modify the behavior of PHPCS, see [validate:phpcs](#validatephpcs) documentation.
+
+To modify the filesets that are used in other commands, such as `validate:twig`, `validate:yaml`, and `validate:lint`:
+
 1. Generate an example `Filesets.php` file by executing `blt example:init`. You may use the generated file as a guide for writing your own filesite.
 1. Create a public method in the `Filesets` class in the generated file.
 1. Add a Fileset annotation to your public method, specifying its id:
 
-        @fileset(id="files.php.custom.mytheme")
+        @fileset(id="files.yaml.custom")
 
 1. Instantiate and return a `Symfony\Component\Finder\Finder` object. The files found by the finder comprise the fileset.
-1. You may use the Fileset id in various configuration values in your `blt/project.yml` file. E.g., modify `validate:phpcs` such that it scans only your custom fileset, you would add the following to `blt/project.yml`:
+1. You may use the Fileset id in various configuration values in your `blt/project.yml` file. E.g., modify `validate:yaml` such that it scans only your custom fileset, you would add the following to `blt/project.yml`:
 
-        phpcs:
-          filesets:
-            - files.php.custom.mytheme
+        validate:
+          yaml:
+            filesets:
+              - files.yaml.custom
 
 ## Modifying BLT Configuration
 
@@ -68,7 +73,7 @@ Configuration values are loaded, in this order, from the following list of YAML 
 -  blt/[environment].yml
 -  blt/project.local.yml
 
-Values loaded from the later files will overwrite values in earlier files.
+Values loaded from the later files will overwrite values in earlier files. Note, if you would like to override a non-empty value with an empty value, the override value must be set to `null` and not `''` or `[]`.
 
 ### Overriding project-wide
 

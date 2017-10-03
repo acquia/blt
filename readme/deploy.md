@@ -43,7 +43,7 @@ This command will commit the artifact to the `develop-build` branch with the spe
 
 To create a new git tag for the artifact (rather than committing to a branch) run:
 
-    blt blt deploy --commit-msg "Creating release 1.0.0." --tag "1.0.0"
+    blt deploy --commit-msg "Creating release 1.0.0." --tag "1.0.0"
 
 This will generate the artifact, tag it with `1.0.0`, and push it to the remotes defined in project.yml.
 

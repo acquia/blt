@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Deploy;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Common\RandomString;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -329,6 +330,9 @@ class DeployCommand extends BltTasks {
     if (!empty($this->tagName)) {
       $this->createDeployId($this->tagName);
     }
+    else {
+      $this->createDeployId(RandomString::string(8));
+    }
     $this->invokeHook("post-deploy-build");
     $this->say("<info>The deployment artifact was generated at {$this->deployDir}.</info>");
   }
@@ -557,9 +561,7 @@ class DeployCommand extends BltTasks {
 
     foreach ($this->getConfigValue('multisites') as $multisite) {
       $this->say("Deploying updates to $multisite...");
-      if (!$this->config->get('drush.uri')) {
-        $this->config->set('drush.uri', $multisite);
-      }
+      $this->config->set('drush.uri', $multisite);
 
       $this->invokeCommand('setup:config-import');
       $this->invokeCommand('setup:toggle-modules');

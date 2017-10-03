@@ -21,7 +21,7 @@ class AliasCommand extends BltTasks {
       $config_file = $this->getInspector()->getCliConfigFile();
       if (is_null($config_file)) {
         $this->logger->warning("Could not find your CLI configuration file.");
-        $this->logger->warning("Looked in ~/.zsh, ~/.bash_profile, ~/.bashrc, ~/.profile.");
+        $this->logger->warning("Looked in ~/.zsh, ~/.bash_profile, ~/.bashrc, ~/.profile, and ~/.functions.");
         $created = $this->createOsxBashProfile();
         if (!$created) {
           $this->logger->warning("Please create one of the aforementioned files, or create the BLT alias manually.");
@@ -55,7 +55,7 @@ class AliasCommand extends BltTasks {
     $this->say("Installing <comment>blt</comment> alias...");
     $config_file = $this->getInspector()->getCliConfigFile();
     if (is_null($config_file)) {
-      $this->logger->error("Could not install blt alias. No profile found. Tried ~/.zshrc, ~/.bashrc, ~/.bash_profile and ~/.profile.");
+      $this->logger->error("Could not install blt alias. No profile found. Tried ~/.zshrc, ~/.bashrc, ~/.bash_profile, ~/.profile, and ~/.functions.");
     }
     else {
       $canonical_alias = file_get_contents($this->getConfigValue('blt.root') . '/scripts/blt/alias');
