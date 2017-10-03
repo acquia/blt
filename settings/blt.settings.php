@@ -141,9 +141,6 @@ if ($apc_shm_size < $apcu_fix_size) {
 // Includes caching configuration.
 require __DIR__ . '/cache.settings.php';
 
-// Includes memcache configuration.
-require __DIR__ . '/memcache.settings.php';
-
 // Includes configuration management settings.
 require __DIR__ . '/config.settings.php';
 

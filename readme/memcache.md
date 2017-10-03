@@ -8,7 +8,34 @@ Before enabling the Memcache module, it is important to understand how the Drupa
 
 [Using Memcached on Acquia Cloud](https://docs.acquia.com/cloud/performance/memcached) provides detailed information regarding how Acquia supports Memcached for its subscriptions and products, and is a good resource in general for information regarding Drupal and Memcache integrations. It is important that the settings for `memcache_key_prefix` and `memcache_servers` not be modified on Acquia Cloud.
 
-If using a supported Acquia product or service, SASL authentication support in the Drupal Memcache module can be enabled by updating and placing the below in correct site-specific settings.php file, ideally one that is not committed to version control.
+BLT treats Memcache module integration as opt-in as it can be used only in environments that have Drupal installed and the Memcache module enabled, and won't need to be reinstalled, e.g. stage and prod. The snippet below should be customized as need and added to a `settings.php` for a an environment meeting these criteria.
+
+```
+if ($is_ah_env) {
+  switch ($ah_env) {
+    case 'test':
+    case 'prod':
+      if ($modules && isset($modules['module']['memcache'])) {
+        // Use Memcached extension.
+        $memcached_exists = class_exists('Memcached', FALSE);
+        if ($memcached_exists) {
+          $settings['memcache']['extension'] = 'Memcached';
+        }
+
+        // Use memcache as the default bin.
+        $settings['cache']['default'] = 'cache.backend.memcache';
+
+        // Enable stampede protection.
+        $settings['memcache']['stampede_protection'] = TRUE;
+        // Move locks to memcache.
+        $settings['container_yamls'][] = DRUPAL_ROOT . '/../vendor/acquia/blt/settings/memcache.yml';
+      }
+      break;
+  }
+}
+```
+
+If using a supported Acquia product or service, SASL authentication support in the Drupal Memcache module can be enabled by updating and placing the below in correct site-specific `settings.php` file, ideally one that is not committed to version control.
 
 ```
 if ($is_ah_env) {
@@ -24,37 +51,27 @@ if ($is_ah_env) {
 
 ## Local Development
 
-The below has been tested with DrupalVM as configured through BLT's `blt vm` command, but should also work for most CI environments where the memcache backend is localhost on port 11211. Note: the below example code will likely be modified after [#2766509](https://www.drupal.org/node/2766509) is landed in Drupal core.
+The below has been tested with DrupalVM as configured through BLT's `blt vm` command, but should also work for most CI environments where the memcache backend is localhost on port 11211.
 
-Add the below statements to an environment's `local.settings.php` file after the database configuration settings. Note that the below differs slightly from the version BLT provides for use with Acquia Cloud.
+Add the below statements to an environment's `local.settings.php`.
 
 ```
-// Note that this connects the database, so has to go after any
-// $databases definitions. See: https://www.drupal.org/node/2766509
-\Drupal\Core\Database\Database::setMultipleConnectionInfo($databases);
-$bootstrap_config = \Drupal\Core\Config\BootstrapConfigStorageFactory::get($class_loader);
-$modules = $bootstrap_config->read('core.extension');
-
-if ($modules && isset($modules['module']['memcache'])) {
-  // Use Memcached extension.
-  $memcached_exists = class_exists('Memcached', FALSE);
-
-  // Include a unique prefix for each local Drupal installation.
-  if ($is_local_env) {
-    // Do not modify the memcache_key_prefix on Acquia Cloud.
-    $settings['memcache']['key_prefix'] = $site_dir;
-  }
-
-  if ($memcached_exists) {
-    $settings['memcache']['extension'] = 'Memcached';
-  }
-
-  // Use memcache as the default bin.
-  $settings['cache']['default'] = 'cache.backend.memcache';
-
-  // Enable stampede protection.
-  $settings['memcache']['stampede_protection'] = TRUE;
-  // Move locks to memcache.
-  $settings['container_yamls'][] = DRUPAL_ROOT . '/../vendor/acquia/blt/settings/memcache.yml';
+// Include a unique prefix for each local Drupal installation.
+if ($is_local_env) {
+  $settings['memcache']['key_prefix'] = $site_dir;
 }
+
+// Use Memcached extension.
+$memcached_exists = class_exists('Memcached', FALSE);
+if ($memcached_exists) {
+  $settings['memcache']['extension'] = 'Memcached';
+}
+
+// Use memcache as the default bin.
+$settings['cache']['default'] = 'cache.backend.memcache';
+
+// Enable stampede protection.
+$settings['memcache']['stampede_protection'] = TRUE;
+// Move locks to memcache.
+$settings['container_yamls'][] = DRUPAL_ROOT . '/../vendor/acquia/blt/settings/memcache.yml';
 ```
