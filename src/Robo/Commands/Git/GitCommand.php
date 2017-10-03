@@ -45,7 +45,7 @@ class GitCommand extends BltTasks {
     $collection = $this->collectionBuilder();
     $collection->setProgressIndicator(NULL);
     $collection->addCode(
-      function() use ($changed_files) {
+      function () use ($changed_files) {
         return $this->invokeCommands([
           'validate:phpcs:files' => ['file_list' => $changed_files],
           'validate:twig:files' => ['file_list' => $changed_files],
@@ -56,9 +56,9 @@ class GitCommand extends BltTasks {
 
     $changed_files_list = explode("\n", $changed_files);
     if (in_array('composer.json', $changed_files_list)
-      || in_array( 'composer.lock', $changed_files_list)) {
+      || in_array('composer.lock', $changed_files_list)) {
       $collection->addCode(
-        function() use ($changed_files) {
+        function () use ($changed_files) {
           return $this->invokeCommand('validate:composer');
         }
       );
