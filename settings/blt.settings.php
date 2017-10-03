@@ -109,7 +109,7 @@ if ($is_acsf_inited) {
 
     // The hostname must match the pattern [sitename].local, where [sitename]
     // is a value in the acsf.sites array.
-    $name = substr($_SERVER['HTTP_HOST'],0, strpos($_SERVER['HTTP_HOST'],'.local'));
+    $name = substr($_SERVER['HTTP_HOST'], 0, strpos($_SERVER['HTTP_HOST'], '.local'));
     $acsf_sites = $config->get('acsf.sites');
     if (in_array($name, $acsf_sites)) {
       $acsf_site_name = $name;
@@ -119,7 +119,7 @@ if ($is_acsf_inited) {
   // determine the active site.
   elseif ($is_acsf_env && function_exists('gardens_site_data_load_file')) {
     // Function gardens_site_data_load_file() lives in
-    // /mnt/www/html/$ah_site/docroot/sites/g/sites.inc
+    // /mnt/www/html/$ah_site/docroot/sites/g/sites.inc.
     if (($map = gardens_site_data_load_file()) && isset($map['sites'])) {
       foreach ($map['sites'] as $domain => $site_details) {
         if ($acsf_db_name == $site_details['name']) {
@@ -129,8 +129,8 @@ if ($is_acsf_inited) {
       }
     }
 
-    // ACSF uses a pseudo-multisite architecture that places all site files under
-    // sites/g/files.
+    // ACSF uses a pseudo-multisite architecture that places all site files
+    // under sites/g/files.
     $site_dir = 'default';
   }
 }
