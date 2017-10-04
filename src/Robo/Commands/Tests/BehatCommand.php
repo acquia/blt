@@ -92,7 +92,7 @@ class BehatCommand extends TestsCommandBase {
    * @validateMySqlAvailable
    * @validateDrupalIsInstalled
    * @validateBehatIsConfigured
-   * @validateInsideVm
+   * @validateVmConfig
    * @launchWebServer
    * @executeInDrupalVm
    */
