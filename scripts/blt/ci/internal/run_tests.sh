@@ -8,7 +8,7 @@ yaml-cli update:value blt/project.yml modules.ci.enable.0 views_ui
 # Build codebase, validate, install Drupal, run basic tests.
 yaml-cli update:value blt/project.yml cm.strategy none
 blt validate:all
-blt setup --define environment=ci --yes -vvv
+${BLT_DIR}/scripts/travis/tick-tock.sh blt setup --define environment=ci --yes -vvv
 blt tests:all --define tests.run-server=true --yes -vvv
 blt tests:behat:definitions
 cd docroot

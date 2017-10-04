@@ -14,6 +14,8 @@ class DbCommand extends BltTasks {
    * Iteratively copies remote db to local db for each multisite.
    *
    * @command sync:db:all
+   *
+   * @executeInDrupalVm
    */
   public function syncDbAll() {
     $exit_code = 0;
@@ -50,12 +52,18 @@ class DbCommand extends BltTasks {
    * Copies remote db to local db for default site.
    *
    * @command sync:db
+   *
+   * @executeInDrupalVm
    */
   public function syncDbDefault() {
     $this->invokeCommand('setup:settings');
 
     $local_alias = '@' . $this->getConfigValue('drush.aliases.local');
     $remote_alias = '@' . $this->getConfigValue('drush.aliases.remote');
+
+    if ($this->getInspector()->isDrupalVmBooted() && !$this->getInspector()->isVmCli() && $this->getInspector()->getDrushMajorVersion() == 9) {
+      throw new BltException("Drush 9 does not support syncing databases between two remote environments. Please `vagrant ssh` into the virtual machine and re-run.");
+    }
 
     $task = $this->taskDrush()
       ->alias('')

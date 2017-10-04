@@ -16,6 +16,7 @@ use Psr\Log\LoggerAwareTrait;
 use Robo\Common\BuilderAwareTrait;
 use Robo\Contract\BuilderAwareInterface;
 use Robo\Contract\ConfigAwareInterface;
+use function substr;
 use Symfony\Component\Filesystem\Filesystem;
 use Robo\Contract\VerbosityThresholdInterface;
 use Tivie\OS\Detector;
@@ -244,6 +245,26 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
     $status_info = json_decode($this->executor->drush('status --format=json --show-passwords')->run()->getMessage(), TRUE);
 
     return $status_info;
+  }
+
+  /**
+   * Gets the major version of drush.
+   *
+   * @return int
+   *   The major version of drush.
+   */
+  public function getDrushMajorVersion() {
+    $version_info = json_decode($this->executor->drush('version --format=json')->run()->getMessage(), TRUE);
+    if (!empty($version_info['drush-version'])) {
+      $version = $version_info['drush-version'];
+    }
+    else {
+      $version = $version_info['drush-version'];
+    }
+
+    $major_version = substr($version, 0, 1);
+
+    return (int) $major_version;
   }
 
   /**
