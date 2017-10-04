@@ -76,7 +76,7 @@ class DbCommand extends BltTasks {
       ->option('create-db')
       ->assume(TRUE);
 
-    if ($this->getConfigValue('drush.sanitize')) {
+    if ($this->getConfigValue('drush.sanitize') && $this->getInspector()->getDrushMajorVersion() == 8) {
       $task->option('sanitize');
     }
 
