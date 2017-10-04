@@ -77,7 +77,13 @@ class DbCommand extends BltTasks {
       ->assume(TRUE);
 
     if ($this->getConfigValue('drush.sanitize')) {
-      $task->option('sanitize');
+      $drush_version = $this->getInspector()->getDrushMajorVersion();
+      if ($drush_version == 8) {
+        $task->option('sanitize');
+      }
+      else {
+        $task->drush('sql-sanitize');
+      }
     }
 
     $task->drush('cache-clear drush');
