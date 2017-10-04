@@ -124,11 +124,11 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
   /**
    * Validates that current PHP process is being executed inside of the VM.
    *
-   * @hook validate validateVmConfig
+   * @hook validate validateInsideVm
    */
   public function validateInsideVm() {
-    if ($this->getInspector()->isDrupalVmLocallyInitialized() && $this->getInspector()->isDrupalVmBooted() && !$this->getInspector()->isDrupalVmConfigValid()) {
-      throw new BltException("Drupal VM configuration is invalid.");
+    if ($this->getInspector()->isDrupalVmLocallyInitialized() && !$this->getInspector()->isVmCli()) {
+      throw new BltException("You must run this command inside Drupal VM, or else do not use Drupal VM at all. Execute `vagrant ssh` and then execute the command, or else change drush.aliases.local in blt/project.local.yml.");
     }
   }
 

@@ -41,11 +41,10 @@ drupal_install_site: false
 configure_drush_aliases: false
 
 # This is required for front-end building tools.
-nodejs_version: "6.x"
+nodejs_version: "4.x"
 nodejs_npm_global_packages:
   - name: bower
   - name: gulp-cli
-  - name: yarn
 nodejs_install_npm_user: "{{ drupalvm_user }}"
 npm_config_prefix: "/home/{{ drupalvm_user }}/.npm-global"
 installed_extras:

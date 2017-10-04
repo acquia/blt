@@ -367,23 +367,6 @@ class Updates {
     $composer_json['extra']['installer-paths']['docroot/libraries/{$name}'][] = 'type:bower-asset';
     $composer_json['extra']['installer-paths']['docroot/libraries/{$name}'][] = 'type:npm-asset';
 
-    // Add the Asset Packagist repository if it does not already exist.
-    if (isset($composer_json['repositories'])) {
-      $repository_key = NULL;
-      foreach ($composer_json['repositories'] as $key => $repository) {
-        if ($repository['type'] == 'composer' && strpos($repository['url'], 'https://asset-packagist.org') === 0) {
-          $repository_key = $key;
-          break;
-        }
-      }
-      if (is_null($repository_key)) {
-        $composer_json['repositories']['asset-packagist'] = [
-          'type' => 'composer',
-          'url' => 'https://asset-packagist.org',
-        ];
-      }
-    }
-
     $projectAcsfHooks = $this->updater->getRepoRoot() . '/factory-hooks';
     $acsf_inited = file_exists($projectAcsfHooks);
     if ($acsf_inited) {
@@ -395,29 +378,6 @@ class Updates {
     $messages = [
       "Your composer.json file has been modified to be compatible with Lightning 2.1.8+.",
       "You must execute `composer update` to update your lock file.",
-    ];
-    $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
-    $this->updater->getOutput()->writeln("");
-    $this->updater->getOutput()->writeln($formattedBlock);
-    $this->updater->getOutput()->writeln("");
-  }
-
-  /**
-   * 8.9.7.
-   *
-   * @Update(
-   *    version = "8009007",
-   *    description = "Removing drush files."
-   * )
-   */
-  public function update_8009007() {
-    $this->updater->deleteFile('drush.wrapper');
-    $this->updater->deleteFile('.drush-use');
-
-    // Recommend drush upgrade.
-    $messages = [
-      "You should replace your local global installation of drush with drush launcher:",
-      "https://github.com/drush-ops/drush-launcher",
     ];
     $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
     $this->updater->getOutput()->writeln("");
