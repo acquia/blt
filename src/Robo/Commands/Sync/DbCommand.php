@@ -61,10 +61,6 @@ class DbCommand extends BltTasks {
     $local_alias = '@' . $this->getConfigValue('drush.aliases.local');
     $remote_alias = '@' . $this->getConfigValue('drush.aliases.remote');
 
-    if ($this->getInspector()->isDrupalVmBooted() && !$this->getInspector()->isVmCli() && $this->getInspector()->getDrushMajorVersion() == 9) {
-      throw new BltException("Drush 9 does not support syncing databases between two remote environments. Please `vagrant ssh` into the virtual machine and re-run.");
-    }
-
     $task = $this->taskDrush()
       ->alias('')
       ->drush('cache-clear drush')
