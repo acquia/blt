@@ -85,7 +85,12 @@ class ConfigCommand extends BltTasks {
         throw new BltException("Failed to import configuration!");
       }
 
-      $this->checkFeaturesOverrides();
+      if ($this->getConfigValue('cm.features.no-overrides')) {
+        $this->logger->warning("Features override checks are currently disabled due to a Drush 9 incompatibility.");
+        // @codingStandardsIgnoreLine
+        // $this->checkFeaturesOverrides();
+      }
+
       $this->checkConfigOverrides($cm_core_key);
 
       $result = $this->invokeHook('post-config-import');
