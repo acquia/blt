@@ -98,6 +98,14 @@ BLT uses a `drush.wrapper` script to ensure that all drush commands run within t
 
 Java is required by Selenium, which is one option for executing Javascript Behat tests. You may choose NOT to use Selenium, in which case Java is not required. See [testing](testing.md) for more information.
 
+### <a name="headlesschrome">Headless Chrome</a>
+
+Headless Chrome is used by default for Behat tests, though you can also use Selenium or PhantomJS.
+
+*Special note for Docker users*
+
+Connections to Headless Chrome will occasionally time out in containerized environments such as Docker. See this issue for discussion and possible solutions: https://github.com/acquia/blt/issues/2083
+
 ### <a name="chromedriver">Chromedriver</a>
 
 Chromedriver is required by Selenium to communicate with Chrome. Selenium is one option for executing Javascript Behat tests. You may choose NOT to use Selenium, in which case chromedriver is not required. See [testing](testing.md) for more information.
