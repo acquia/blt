@@ -118,6 +118,10 @@ class ConfigCommand extends BltTasks {
    * @param string $cm_core_key
    */
   protected function importFeatures($task, $cm_core_key) {
+    $this->logger->warning("This command has been temporarily deprecated due to breaking changes in Drush 9.");
+    $this->logger->warning("Features configuration override will not be checked..");
+    return 1;
+    // @codingStandardsIgnoreStart
     $task->drush("config-import")->arg($cm_core_key)->option('partial');
     if ($this->getConfig()->has('cm.features.bundle')) {
       $task->drush("pm-enable")->arg('features');
@@ -130,6 +134,7 @@ class ConfigCommand extends BltTasks {
         $task->drush("features-import-all")->option('bundle', $bundle);
       }
     }
+    // @codingStandardsIgnoreEnd
   }
 
   /**
