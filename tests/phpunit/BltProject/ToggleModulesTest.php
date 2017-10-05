@@ -90,6 +90,7 @@ class ToggleModulesTest extends BltProjectTestBase {
     $alias = !empty($alias) ? $alias : $this->config['drush']['default_alias'];
 
     // Get module status, it will be on the first line of output.
+    chdir($this->drupalRoot);
     exec("$drush_bin @$alias pm:list --fields=name,status --root=$this->drupalRoot | grep $module", $output);
     $status = $output[0];
 
