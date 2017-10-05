@@ -8,6 +8,7 @@
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Drupal\Core\DrupalKernel;
+use Drupal\Component\Utility\Bytes;
 
 /**
  * Host detection.
@@ -129,6 +130,14 @@ if ($is_ah_env) {
  * BLT includes & BLT default configuration.
  ******************************************************************************/
 
+// Prevent APCu memory exhaustion.
+// Acquia assigns 8 MB for APCu, which is only adequate for small cache pools.
+$apc_shm_size = Bytes::toInt(ini_get('apc.shm_size'));
+$apcu_fix_size = Bytes::toInt('32M');
+if ($apc_shm_size < $apcu_fix_size) {
+  $settings['container_yamls'][] = __DIR__ . '/apcu_fix.yml';
+}
+
 // Includes caching configuration.
 require __DIR__ . '/cache.settings.php';
 
@@ -140,9 +149,6 @@ require __DIR__ . '/logging.settings.php';
 
 // Includes filesystem configuration.
 require __DIR__ . '/filesystem.settings.php';
-
-// Prevent APCu memory exhaustion.
-$settings['container_yamls'][] = __DIR__ . '/apcu_fix.yml';
 
 // Include simplesamlphp settings if the file exists.
 if (file_exists(__DIR__ . '/simplesamlphp.settings.php')) {
