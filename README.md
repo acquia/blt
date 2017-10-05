@@ -34,11 +34,11 @@ Typically, the last two most major versions of BLT are supported actively. The n
 
 ### Release support status
 
-| Major Version | Support Status              | Drupal | Drush | Dev Status |
+| Major Version | Support Status              | Drupal | Drush | Dev Status   |
 |---------------|-----------------------------|--------|-------|--------------|
 | 10.x          | Supported                   | >=8.4  | 9     | \*active dev |
 | 9.x           | Supported                   | >=8.4  | 9     | bug fixes    |
-| 8.9.x         | LTS thru 12/17              | <8.5   | 8|9   | bug fixes    |
+| 8.9.x         | LTS thru 12/17              | <8.5   | 8\|9  | bug fixes    |
 | 8.8.x         | Unsupported, EOL            | <8.4   | 8     |              |
 | 8.7.x         | Unsupported, EOL            | <8.4   | 8     |              |
 
