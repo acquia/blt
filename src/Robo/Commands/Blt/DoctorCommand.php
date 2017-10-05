@@ -19,6 +19,10 @@ class DoctorCommand extends BltTasks {
    */
   public function doctor() {
 
+    $this->logger->error("This command has been temporarily deprecated due to breaking changes in Drush 9.");
+    return 1;
+
+    // @codingStandardsIgnoreStart
     $this->taskDrush()
       ->drush('cc drush')
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
@@ -56,6 +60,7 @@ class DoctorCommand extends BltTasks {
     }
 
     return $result->getMessage();
+    // @codingStandardsIgnoreEnd
   }
 
   /**
