@@ -59,6 +59,12 @@ class AcsfCommand extends BltTasks {
    * @command acsf:init:drush
    */
   public function acsfDrushInitialize() {
+
+    $this->logger->error("This command has been temporarily deprecated due to breaking changes in Drush 9.");
+    $this->logger->warning("Please follow the instructions in the acsf module for information on the initialization process.");
+    return 1;
+
+    // @codingStandardsIgnoreStart
     $this->say('Executing initialization command provided acsf module...');
 
     $result = $this->taskDrush()
@@ -67,16 +73,23 @@ class AcsfCommand extends BltTasks {
       ->includePath("{$this->getConfigValue('docroot')}/modules/contrib/acsf/acsf_init")
       ->run();
 
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Unable to copy ACSF scripts.");
+    }
+
     $this->say('<comment>Please add acsf_init as a dependency for your installation profile to ensure that it remains enabled.</comment>');
     $this->say('<comment>An example alias file for ACSF is located in /drush/site-aliases/example.acsf.aliases.drushrc.php.</comment>');
 
     return $result;
+    // @codingStandardsIgnoreEnd
   }
 
   /**
    * Creates "factory-hooks/" directory in project's repo root.
+   *
+   * @command acsf:init:hooks
    */
-  protected function acsfHooksInitialize() {
+  public function acsfHooksInitialize() {
     $defaultAcsfHooks = $this->getConfigValue('blt.root') . '/settings/acsf';
     $projectAcsfHooks = $this->getConfigValue('repo.root') . '/factory-hooks';
 
