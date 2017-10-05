@@ -7,8 +7,7 @@ BLT (Build and Launch Tool) provides an automation layer for testing, building, 
 You can find all BLT documentation on [Read the Docs](http://blt.readthedocs.io):
 
 * [Latest (stable) release documentation](http://blt.readthedocs.io/en/stable/)
-* [Latest documentation (8.x / 8.x-dev)](http://blt.readthedocs.io/en/latest/)
-* [8.8.x documentation](http://blt.readthedocs.io/en/8.8.x/)
+* [Latest (dev) documentation (9.x / 9.x-dev)](http://blt.readthedocs.io/en/latest/)
 
 ## Getting started
 
@@ -35,11 +34,13 @@ Typically, the last two most major versions of BLT are supported actively. The n
 
 ### Release support status
 
-| Major Version | Status                      |
-|---------------|-----------------------------|
-| 8.9.x         | Supported                   |
-| 8.8.x         | Supported, LTS thru 9/12/17 |
-| 8.7.x         | Unsupported, EOL            |
+| Major Version | Support Status              | Drupal | Drush | Dev Status |
+|---------------|-----------------------------|--------|-------|--------------|
+| 10.x          | Supported                   | >=8.4  | 9     | \*active dev |
+| 9.x           | Supported                   | >=8.4  | 9     | bug fixes    |
+| 8.9.x         | LTS thru 12/17              | <8.5   | 8|9   | bug fixes    |
+| 8.8.x         | Unsupported, EOL            | <8.4   | 8     |              |
+| 8.7.x         | Unsupported, EOL            | <8.4   | 8     |              |
 
 ## Philosophy and Purpose
 
