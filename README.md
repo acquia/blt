@@ -20,8 +20,6 @@ See [INSTALL.md](INSTALL.md) for a list of prequisites and links to instructions
 
 ## Releases and versioning
 
-BLT does not use Semver. Instead, it uses `[drupal-major-version]-[blt-major-version]-[blt-minor-version]`. E.g., 8.8.1.
-
 Typically, the last two most major versions of BLT are supported actively. The newest major version will recieve both bug fixes and new features, while the penultimate major version will recieve bug fixes for at least two months. For example, if 8.8.1 is the most recent version of BLT:
 
 * As of the first cut tag for 8.8.x, 8.7.x will enter "LTS".
