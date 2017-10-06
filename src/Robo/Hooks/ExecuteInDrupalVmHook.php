@@ -31,7 +31,7 @@ class ExecuteInDrupalVmHook extends BltTasks {
         $event->disableCommand();
         $command = $event->getCommand();
         $new_input = $this->createCommandInputFromCurrentParams($command, $event->getInput());
-        $new_input->setOption('define', 'drush.alias=self');
+        $new_input->setOption('define', 'site=' . $this->getConfigValue('site'));
 
         // We cannot return an exit code directly, because disabled commands
         // always return ConsoleCommandEvent::RETURN_CODE_DISABLED.
