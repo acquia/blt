@@ -46,16 +46,60 @@ class ConfigInitializer {
   }
 
   /**
+   * Find Robo config options.
+   *
+   * At this stage, Robo is not initialized, so commandline config options like
+   * --define=site=example.com have not been parsed and added to config.
+   * We need to parse them ourselves.
+   *
+   * We have the InputInterface available to do this. There appear to be 4
+   * valid forms Robo will accept these arguments in:
+   * * --define=site=example.com
+   * * --define site=example.com
+   * * -Dsite=example.com
+   * * -D site=example.com
+   *
+   * @param string $param
+   * @return mixed
+   */
+  private function getRoboOption($param = '') {
+    if ($param) {
+      // The case where the flag and the value are separated is easiest, since
+      // InputInterface->hasParameterOption($option) works here.
+      if ($this->input->hasParameterOption($param)) {
+        return $this->input->getParameterOption($param);
+      }
+      // Check the -Dsite case.
+      if ($this->input->hasParameterOption("-D$param")) {
+        return $this->input->getParameterOption("-D$param");
+      }
+      // InterfaceInput->getParameterOption() returns the first matching
+      // item, rather than returning an array of all values, so passing
+      // --define=site=example.com --define=environment=stage will fail.
+      // We need to do the parsing ourselves.
+      if ($this->input->hasParameterOption("--define")) {
+        $parameter_string = $this->input->__toString();
+        if (preg_match_all('/define=\'(.*?)\'/', $parameter_string, $matches, PREG_PATTERN_ORDER)) {
+          foreach($matches[1] as $match) {
+            $split = explode('=', $match);
+            // Return on first match of $param.
+            if ($split[0] === $param) {
+              return $split[1];
+            }
+          }
+        }
+      }
+    }
+
+    return null;
+  }
+
+  /**
    * @param mixed $site
    */
   public function setSite($site = '') {
     if (!$site) {
-      if ($this->input->hasParameterOption('site')) {
-        $site = $this->input->getParameterOption('site');
-      }
-      else {
-        $site = 'default';
-      }
+      $site = $this->getRoboOption('site') ?: 'default';
     }
 
     $this->site = $site;
@@ -121,8 +165,8 @@ class ConfigInitializer {
    * @return $this
    */
   public function loadEnvironmentConfig() {
-    if ($this->input->hasParameterOption('environment')) {
-      $this->processor->extend($this->loader->load($this->config->get('repo.root') . '/blt/' . $this->input->getParameterOption('environment') . '.yml'));
+    if ($this->getRoboOption('environment') !== null) {
+      $this->processor->extend($this->loader->load($this->config->get('repo.root') . '/blt/' . $this->getRoboOption('environment') . '.yml'));
     }
 
     return $this;
