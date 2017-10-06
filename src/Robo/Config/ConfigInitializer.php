@@ -80,7 +80,7 @@ class ConfigInitializer {
       if ($this->input->hasParameterOption("--define")) {
         $parameter_string = $this->input->__toString();
         if (preg_match_all('/define=\'(.*?)\'/', $parameter_string, $matches, PREG_PATTERN_ORDER)) {
-          foreach($matches[1] as $match) {
+          foreach ($matches[1] as $match) {
             $split = explode('=', $match);
             // Return on first match of $param.
             if ($split[0] === $param) {
@@ -91,7 +91,7 @@ class ConfigInitializer {
       }
     }
 
-    return null;
+    return NULL;
   }
 
   /**
@@ -165,7 +165,7 @@ class ConfigInitializer {
    * @return $this
    */
   public function loadEnvironmentConfig() {
-    if ($this->getRoboOption('environment') !== null) {
+    if ($this->getRoboOption('environment') !== NULL) {
       $this->processor->extend($this->loader->load($this->config->get('repo.root') . '/blt/' . $this->getRoboOption('environment') . '.yml'));
     }
 
