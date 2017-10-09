@@ -25,7 +25,7 @@ Generally speaking, a configuration change follows this lifecycle:
 
 The way that configuration is captured and deployed between environments in Drupal 8 is typically via YAML files. These YAML files, typically stored in a root `config` directory, or distributed with individual modules in `config/install` directories, represent individual configuration objects that can be synchronized with the active configuration in an environment's database via a variety of methods. See [documentation on core configuration management](https://www.drupal.org/docs/8/configuration-management).
 
-This document addresses the challenge of capturing ("exporting") and deploying ("importing") configuration in a consistent way in order to support the workflow described above.
+This document address the challenge of capturing ("exporting") and deploying ("importing") configuration in a consistent way in order to support the workflow described above.
 
 ### How BLT handles configuration updates
 
@@ -58,8 +58,8 @@ Caution must be taken when updating core and contributed modules. If those updat
 
 The best way to handle this is to always follow these steps when updating contributed and core modules:
 
-1. Start from a clean `setup:update` or `sync:refresh`. If you are using Features, ensure that there are no overridden configuration. The `cm.features.no-overrides` flag in [project.yml](https://github.com/acquia/blt/blob/8.x/template/blt/project.yml#L62) can assist with this by halting builds with overridden features.
-2. Use `composer update drupal/[module_name] --with-dependencies` to download the new module version(s).
+1. Start from a clean `local:setup` or `local:refresh`. If you are using Features, ensure that there are no overridden configuration. The `cm.features.no-overrides` flag in [project.yml](https://github.com/acquia/blt/blob/8.x/template/blt/project.yml#L62) can assist with this by halting builds with overridden features.
+2. Use `composer update drupal/modulename --with-dependencies` to download the new module version(s).
 3. Run `drush updb` to apply any pending updates locally.
 4. Check for any modified configuration. If using Features, check for overridden features and export them. If using core CM, export all configuration (`drush config-export`) and check for any changes on disk using `git status`.
 5. Commit any changed configuration, along with the updated `composer.json` and `composer.lock`.
@@ -74,7 +74,7 @@ Configuration stored on disk, whether via the core configuration system or featu
 
 BLT has a built-in test that will help protect against some of these mistakes. After configuration is imported (i.e. during `setup:update` or `deploy:update`), it will check if any configuration remains overridden. If so, the build will fail, alerting you to the fact that there are uncaptured configuration changes or possibly a corrupt configuration export. This test acts as a canary and should not be disabled, but if you need to temporarily disable it in an emergency (i.e. if deploys to a cloud environment are failing), you can do so by settings `cm.allow-overrides` to `true`.
 
-Finally, you should enable protected branches in GitHub to ensure that pull requests can only be merged if they are up to date with the target branch. This protects against a scenario where, for instance, one PR adds a new content type, while another PR enables Workbench (which would modify that content type). Individually, each of these PRs is perfectly valid, but once they are both merged they produce a corrupt configuration (where the new content type is lacking Workbench configuration). When used with BLT’s built-in test for configuration overrides, protected branches can quite effectively prevent some forms of configuration corruption.
+Finally, you should enable protected branches in Github to ensure that pull requests can only be merged if they are up to date with the target branch. This protects against a scenario where, for instance, one PR adds a new content type, while another PR enables Workbench (which would modify that content type). Individually, each of these PRs is perfectly valid, but once they are both merged they produce a corrupt configuration (where the new content type is lacking Workbench configuration). When used with BLT’s built-in test for configuration overrides, protected branches can quite effectively prevent some forms of configuration corruption.
 
 For an ongoing discussion of how to ensure configuration integrity, see https://www.drupal.org/node/2869910
 
@@ -82,22 +82,77 @@ For an ongoing discussion of how to ensure configuration integrity, see https://
 
 ### Overview
 
-BLT recommends using the Config Split module to manage configuration on most projects. It will allow you to split your application configuration into different groups according to:
+BLT recommends using the Config Split module to manage configuration on most projects. For an overview of how to use Config Split, see this excellent [blog post by Jeff Geerling](https://www.jeffgeerling.com/blog/2017/adding-configuration-split-drupal-site-using-blt-and-acquia-cloud).
 
-* Default (always on) application configuration
-* Environment specific configuration (e.g., local, data, test, prod, etc.)
-* Site-specific configuration (when multisite is used)
-* Feature (e.g. a distinct blog feature that is shared across multiple sites). Not to be confused with the features module.
+The only limitation of Config Split is that it's difficult to define configuration that varies between sites in a multisite installation. Multisite installations that require highly customized bundles of configuration per-site might be better suited by a Features-based workflow.
 
-### Using Config Split
+### Setting up Config Split
 
-BLT uses Config Split for configuration management by default.
-
-However, BLT does not create any configuration splits for you. For detailed information on how you can create and enable configuration splits, please see [managing configuration splits](config-split.md).
-
-#### Troubleshooting
+BLT uses Config Split for configuration management by default, so if you haven't modified BLT defaults, you should be good to go!
 
 If for some reason BLT is not working with Config Split, ensure that you are using Drush version 8.1.10 or higher, Config Split version 8.1.0-beta4 or higher, and that `cm.strategy` is set to `config-split` in `blt/project.yml`.
+
+### Using Config Split to capture and deploy configuration
+
+BLT and Config Split together make it easy to capture configuration changes in code and deploy those changes to a remote environment.
+
+BLT has built-in support for the following splits on the following environments:
+
+| Split    | Environment                                  | File path          |
+|----------|----------------------------------------------|--------------------|
+| local    | any non-Acquia, non-Travis environment       | ../config/local    |
+| ci       | Acquia Pipelines OR Travis CI                | ../config/ci       |
+| dev      | Acquia Dev                                   | ../config/dev      |
+| stage    | Acquia Staging                               | ../config/stage    |
+| prod     | Acquia Prod                                  | ../config/prod     |
+| ah_other | any Acquia environment not listed above      | ../config/ah_other |
+
+However, BLT will only mark these splits as enabled _if they exist_. It will not create the splits for you.
+
+As a prerequisite, make sure your BLT-based project is set up to use Config Split (see section above).
+
+### Creating a supported split
+
+To create a new config split:
+
+1. Navigate to `/admin/config/development/configuration/config-split/` and click "Create split"
+1. Name the split "local"
+1. Set the split directory to "../config/local"
+1. Save the split.
+1. Execute `drush config-export` to export the config for the split itself.
+1. Edit the split and define the blacklisted config, as specified below.
+
+### Blacklisting modules and configuration
+
+Note that when you run `drush cex`, if the project has been configured correctly, some configuration that's specific to the development environment should automatically be excluded. This functionality is known as "blacklisting". If you need to customize this behavior, you can modify the blacklists for the respective environment.
+
+For example, let's say you want to install and configure the Stage File Proxy module locally but not in remote environments. Follow these steps to add it to the local split:
+
+1. Require the module via `composer require drupal/stage_file_proxy`.
+2. Start from a clean installation: `blt setup` or `blt sync:refresh`.
+3. Install the Stage File Proxy module via `drush en stage_file_proxy -y`
+4. Configure the Stage File Proxy module as appropriate.
+5. Navigate to the local config split configuration page: `/admin/config/development/configuration/config-split/local/edit`
+6. Add _Stage File Proxy_ to the list of modules to filter (make sure to use ctrl-click or cmd-click to select multiple). Optionally, you may instead select specific configuration items to blacklist, rather than blacklisting all config for the module.
+8. Save your changes.
+9. Export the modified local config split to disk: `drush csex local`
+10. Finally, export the default config split to disk: `drush cex`
+
+At this point, you should see a new file `config/local/stage_file_proxy.settings.yml` as well as a modified file `config/default/config_split.config_split.local.yml`. Commit these changes as well as your changes to `composer.json` and `composer.lock`.
+
+### Greylisting modules and configuration
+
+Some configuration that's intended to be "unlocked" in production might also be excluded (such as webforms). If you need to customize this behavior, you can use the greylist functionality described in [this blog post](https://blog.liip.ch/archive/2017/04/07/advanced-drupal-8-cmi-workflows.html).
+
+### Exporting configuration
+
+To capture and deploy configuration changes using Config Split:
+
+1. Ensure that your local environment is up to date and refreshed (e.g. `git pull` and `blt sync:refresh`).
+2. Use the Drupal UI to make the necessary configuration changes in your local environment. For instance, go to http://local.example.com/admin/structure/types/add to add a new content type.
+3. Once you have completed local development, use `drush cex` (`config-export`) to export your configuration changes to the `config/default` directory. Remember to use an appropriate alias if you are using a VM (e.g. `drush @example.local cex`).
+4. Review the updated configuration in `config/default` using `git diff`.  If you are satisfied with the changes, commit them and open a pull request.
+
 
 ### Using update hooks to importing individual config files
 
