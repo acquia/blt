@@ -9,10 +9,10 @@ To perform a release:
 
 ## Check build statuses
 
-* [BLT 8.x](https://github.com/acquia/blt): [![Build Status](https://travis-ci.org/acquia/blt.svg?branch=8.x)](https://travis-ci.org/acquia/blt) 
+* [BLT 8.x](https://github.com/acquia/blt): [![Build Status](https://travis-ci.org/acquia/blt.svg?branch=8.x)](https://travis-ci.org/acquia/blt)
 * [BLTed 8.x Travis](https://github.com/acquia-pso/blted8): [![Build Status](https://travis-ci.org/acquia-pso/blted8.svg?branch=8.x)](https://travis-ci.org/acquia-pso/blted8)
 * [BLTed 8.x Pipelines](https://cloud.acquia.com/app/develop/applications/d74d1e87-f611-4e46-ba11-3e9b29cdcbdb/pipelines)
-* [![Documentation Status](https://readthedocs.org/projects/blt/badge/?version=8.x)](http://blt.readthedocs.io/en/8.x/?badge=8.x) 
+* [![Documentation Status](https://readthedocs.org/projects/blt/badge/?version=8.x)](http://blt.readthedocs.io/en/8.x/?badge=8.x)
 
 ## Testing
 
@@ -28,7 +28,7 @@ In order to use these testing instructions:
 ### Execute tests
 
     ./scripts/blt/pre-release-tests.sh [tag]
- 
+
 ### Update Canary
 
 Submit a pull request to Canary with BLT updated to HEAD. Ensure tests pass.
@@ -38,8 +38,6 @@ Submit a pull request to Canary with BLT updated to HEAD. Ensure tests pass.
 ### Prerequisites
 
 * BLT's dependencies must be installed by running `composer install` in the BLT directory.
-* Ruby 2.2.2+ must be installed. You may use [RVM](https://rvm.io/rvm/install) to use a directory specific version of Ruby. E.g., `rvm use 2.2.2`.
-* [skywinder/github-changelog-generator](https://github.com/skywinder/github-changelog-generator) must be installed. E.g., `gem install github_changelog_generator`.
 * Procure a [github api token](https://github.com/skywinder/github-changelog-generator#github-token).
 * Determine the version of your future release.
 
@@ -59,7 +57,7 @@ To both generate release notes and also create a new release on GitHub, execute:
     ./vendor/bin/robo release --update-changelog [tag] [token]
 
 This is a potentially destructive command. It will:
- 
+
  * Perform a hard reset on the 8.x and 8.x-release branches of your local repository
  * Update CHANGELOG.md, commit, and __push upstream__
  * Merge 8.x into 8.x-release and __push upstream__
