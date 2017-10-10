@@ -1,5 +1,6 @@
 <?php
 
+use Github\Api\Issue;
 use Robo\Contract\VerbosityThresholdInterface;
 use Github\Client;
 use Robo\Tasks;
@@ -146,8 +147,8 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
 
     $text = '';
     $text .= "[Full Changelog](https://github.com/acquia/blt/compare/{$this->prevTag}...{$this->tag})\n\n";
-    if (!empty($changes['enchancements'])) {
-      $text .= "**Implemented enchancements**\n\n";
+    if (!empty($changes['enhancements'])) {
+      $text .= "**Implemented enhancements**\n\n";
       $text .= $this->processReleaseNotesSection($changes['enchancements']);
     }
     if (!empty($changes['bugs'])) {
@@ -274,54 +275,111 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   }
 
   /**
-   * @param $log
+   * Sorts an array of log changes based on GitHub issue labels.
+   *
+   * This method will iterate over an array of log changes, use a regular
+   * expression to identify GitHub issue numbers, and use the GitHub API to
+   * fetch the labels for those issues.
+   *
+   * @param array $log_entries
+   *   An array of log changes. Typically each row would be a commit message.
    *
    * @return array
+   *   A multidimensional array grouped by the labels enchancement and bug.
    */
-  protected function sortChanges($log) {
+  protected function sortChanges($log_entries) {
     $client = new Client();
     $client->authenticate($this->gitHubToken, NULL, Client::AUTH_URL_TOKEN);
     /** @var \Github\Api\Issue $issue_api */
     $issue_api = $client->api('issue');
 
     $changes = [
-      'enchancements' => [],
+      'enhancements' => [],
       'bugs' => [],
       'misc' => [],
     ];
-    foreach ($log as $row) {
-      $sorted = FALSE;
-      $found_match = preg_match("/(((fix(es|ed)?)|(close(s|d)?)|(resolve(s|d)?)) )?#([[:digit:]]+)|#[[:digit:]]+/",
-        $row, $matches);
-      if ($found_match) {
-        $issue_num = $matches[9];
-        $issue = $issue_api->show('acquia', 'blt', $issue_num);
-        if (isset($issue['labels'])) {
-          foreach ($issue['labels'] as $label) {
-            if ($label['name'] == 'enhancement') {
-              $changes['enchancements'][] = $row;
-              $sorted = TRUE;
-              break;
-            }
-            elseif ($label['name'] == 'bug') {
-              $changes['bugs'][] = $row;
-              $sorted = TRUE;
-              break;
-            }
-          }
-        }
-      }
-      if (!$sorted) {
-        $changes['misc'][] = $row;
-      }
+    foreach ($log_entries as $log_entry) {
+      $changes = $this->sortLogEntry($log_entry, $issue_api, $changes);
     }
     return $changes;
   }
 
   /**
-   * @param $rows
+   * Sorts log entry according to GitHub label.
+   *
+   * @param $log_entry
+   * @param $issue_api
+   * @param $changes
+   *
+   * @return mixed
+   */
+  protected function sortLogEntry($log_entry, $issue_api, $changes) {
+    $sorted = FALSE;
+    $github_issue_number = $this->parseGitHubIssueNumber($log_entry);
+    if ($github_issue_number) {
+      $labels = $this->getGitHubIssueLabels($issue_api, $github_issue_number);
+      if ($labels) {
+        foreach ($labels as $label) {
+          if ($label['name'] == 'enhancement') {
+            $changes['enhancements'][] = $log_entry;
+            $sorted = TRUE;
+            break;
+          }
+          elseif ($label['name'] == 'bug') {
+            $changes['bugs'][] = $log_entry;
+            $sorted = TRUE;
+            break;
+          }
+        }
+      }
+    }
+    if (!$sorted) {
+      $changes['misc'][] = $log_entry;
+    }
+    return $changes;
+  }
+
+  /**
+   * @param $row
+   *
+   * @return null
+   */
+  protected function parseGitHubIssueNumber($row) {
+    $found_match = preg_match("/(((fix(es|ed)?)|(close(s|d)?)|(resolve(s|d)?)) )?#([[:digit:]]+)|#[[:digit:]]+/",
+      $row, $matches);
+    if ($found_match) {
+      $issue_num = $matches[9];
+
+      return $issue_num;
+    }
+
+    return NULL;
+  }
+
+  /**
+   * @param \Github\Api\Issue $issue_api
+   * @param $github_issue_number
+   *
+   * @return array|bool
+   */
+  protected function getGitHubIssueLabels(Issue $issue_api, $github_issue_number) {
+    $issue = $issue_api->show('acquia', 'blt', $github_issue_number);
+    $labels = isset($issue['labels']) ? isset($issue['labels']) : [];
+
+    return $labels;
+  }
+
+  /**
+   * Processes an array of change log changes.
+   *
+   * Walks the array and appends prefix and suffix for markdown formatting.
+   *
+   * @param string[] $rows
+   *   An array containing a list of changes.
    *
    * @return string
+   *  A string containing the formatted and imploded contents of $rows.
+   *
    */
   protected function processReleaseNotesSection($rows) {
     $text = implode(
