@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Usage ./scripts/blt/release-blt 8.6.11
+# Usage ./scripts/blt/release-blt 9.0.0
 
 tag="$1"
 branch=${tag}-pre-build
@@ -21,7 +21,7 @@ if [ -d ./blted8/.vagrant ]; then
   cd ..
 fi
 rm -rf blted8
-composer create-project acquia/blt-project:8.x-dev blted8 --no-interaction
+composer create-project acquia/blt-project:9.x-dev blted8 --no-interaction
 cd blted8
 # Overwrite MySQL creds for your local machine, if necessary.
 # echo '$databases["default"]["default"]["username"] = "drupal";' >> docroot/sites/default/settings/local.settings.php
