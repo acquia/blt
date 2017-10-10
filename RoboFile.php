@@ -112,9 +112,12 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       ->description($changes)
       ->draft(TRUE)
       ->accessToken($github_token)
-      ->openBrowser(TRUE)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
+
+    $data = $result->getData();
+    $response = $data['response'];
+    $this->taskOpenBrowser($response->html_url)->run();
 
     return 0;
   }
