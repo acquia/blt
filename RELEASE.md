@@ -29,6 +29,10 @@ In order to use these testing instructions:
 
     ./scripts/blt/pre-release-tests.sh [tag]
  
+### Update Canary
+
+Submit a pull request to Canary with BLT updated to HEAD. Ensure tests pass.
+
 ## Update CHANGELOG.md
 
 ### Prerequisites
