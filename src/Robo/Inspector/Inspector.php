@@ -259,7 +259,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
       $version = $version_info['drush-version'];
     }
     else {
-      $version = $version_info['drush-version'];
+      $version = $version_info;
     }
 
     $major_version = substr($version, 0, 1);
