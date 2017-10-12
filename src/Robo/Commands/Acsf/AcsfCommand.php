@@ -47,6 +47,8 @@ class AcsfCommand extends BltTasks {
   public function acsfDrushInitialize() {
     $this->say('Executing initialization command provided acsf module...');
 
+    $this->taskFilesystemStack()->chmod("{$this->getConfigValue('docroot')}/sites/default", 755);
+
     $result = $this->taskDrush()
       ->drush('acsf-init')
       ->alias("")
