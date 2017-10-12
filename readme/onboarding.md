@@ -28,7 +28,7 @@ You have probably been linked to this documentation by a project that is using B
 If your project uses a virtual development environment such as DrupalVM:
 
 1. Make sure you have installed any prerequisites. For DrupalVM, see the [quick start guide](https://github.com/geerlingguy/drupal-vm#quick-start-guide).
-1. Start your virtual machine: `blt vm`
+1. Start your virtual machine: `vagrant up`
 1. Build and install the Drupal installation: `blt setup`
 
 If your project does not use a virtual development environment:
