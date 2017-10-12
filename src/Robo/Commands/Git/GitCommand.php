@@ -47,16 +47,42 @@ class GitCommand extends BltTasks {
    * @return int
    */
   public function preCommitHook($changed_files) {
+
+
+    $changed_files_list = explode("\n", $changed_files);
+    $modified_files = [];
+
+    $extension_list = [
+      'module',
+      'install',
+      'inc',
+      'theme',
+      'profile',
+      'engine',
+      'php',
+    ];
+
+    foreach ($changed_files_list as $changed_file) {
+      $extension = explode('.', $changed_file);
+
+      if (in_array(array_pop($extension), $extension_list)) {
+        $php_files[] = $changed_file;
+      }
+    }
+
+    $php_files_list = implode("\n", $php_files);
+
+
+
     $this->invokeCommands([
       // Passing a file list to be PHPCS will cause all specified files to
       // be sniffed, regardless of the extensions or patterns defined in
       // phpcs.xml. So, we do not use validate:phpcs:files.
-      'validate:phpcs' => [],
+      'validate:phpcs:files' => ['file_list' => $php_files_list],
       'validate:twig:files' => ['file_list' => $changed_files],
       'validate:yaml:files' => ['file_list' => $changed_files],
     ]);
 
-    $changed_files_list = explode("\n", $changed_files);
     if (in_array(['composer.json', 'composer.lock'], $changed_files_list)) {
       $this->invokeCommand('validate:composer', ['file_list' => $changed_files]);
     }
