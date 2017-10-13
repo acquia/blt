@@ -38,7 +38,7 @@ class DrushTest extends BltProjectTestBase {
       // Check for the path to drushrc.php that is included in the project.
       $config_file = $this->projectDirectory . '/drush/drushrc.php';
       $message = "Failed asserting that the output of `$command` contains $config_file when executed from $dir.";
-      $this->assertContains($config_file, $drush_output['drush-conf'], $message);
+      $this->assertContains('Connected', $drush_output['db-status'], $message);
     }
   }
 

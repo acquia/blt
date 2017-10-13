@@ -5,10 +5,6 @@
  * Contains caching configuration.
  */
 
-if ($is_ah_env) {
-  switch ($ah_env) {
-    case 'prod':
-      $config['system.logging']['error_level'] = 'hide';
-      break;
-  }
+if ($is_prod_env || $is_stage_env) {
+  $config['system.logging']['error_level'] = 'hide';
 }
