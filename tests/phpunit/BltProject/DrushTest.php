@@ -27,6 +27,7 @@ class DrushTest extends BltProjectTestBase {
 
     // Test that drush can be run from the following directories.
     $dirs = array(
+      $this->projectDirectory,
       $this->projectDirectory . '/docroot',
       $this->projectDirectory . '/docroot/sites/default',
     );
@@ -35,10 +36,15 @@ class DrushTest extends BltProjectTestBase {
       chdir($dir);
       $json_output = shell_exec($command);
       $drush_output = json_decode($json_output, TRUE);
-      // Check for the path to drushrc.php that is included in the project.
-      $config_file = $this->projectDirectory . '/drush/drushrc.php';
+
+      $config_file = $this->projectDirectory . '/vendor/drush/drush/drush.yml';
       $message = "Failed asserting that the output of `$command` contains $config_file when executed from $dir.";
-      $this->assertContains('Connected', $drush_output['db-status'], $message);
+      $this->assertContains($config_file, $drush_output['drush-conf'][0], $message);
+
+      $config_file = $this->projectDirectory . '/drush/drush.yml';
+      $message = "Failed asserting that the output of `$command` contains $config_file when executed from $dir.";
+      $this->assertContains($config_file, $drush_output['drush-conf'][1], $message);
+
     }
   }
 
