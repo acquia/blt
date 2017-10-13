@@ -20,14 +20,12 @@ To perform a release:
 
 In order to use these testing instructions:
 
-* The `blt` alias must be installed.
-* Your LAMP stack must have host entry for `http://local.blted8.com` pointing to `./blted8/docroot`.
-* MySQL must use `mysql://drupal:drupal@localhost/drupal:3306`.
-* In order to test Drupal VM, you must install VirtualBox and Vagrant. See [Drupal VM](https://github.com/geerlingguy/drupal-vm#quick-start-guide) for more information.
+* BLT's dependencies must be installed by running `composer install` in the BLT directory.
+* You must install VirtualBox and Vagrant. See [Drupal VM](https://github.com/geerlingguy/drupal-vm#quick-start-guide) for more information.
 
 ### Execute tests
 
-    ./scripts/blt/pre-release-tests.sh [tag]
+    ./vendor/bin/robo test
 
 ### Update Canary
 
@@ -47,18 +45,8 @@ Then, generate your release notes via:
 
     ./vendor/bin/robo release-notes [tag] [token]
 
-
-This will update CHANGELOG.md and create a commit locally.
-
 ## Create a release
 
 To both generate release notes and also create a new release on GitHub, execute:
 
-    ./vendor/bin/robo release --update-changelog [tag] [token]
-
-This is a potentially destructive command. It will:
-
- * Perform a hard reset on the 8.x and 8.x-release branches of your local repository
- * Update CHANGELOG.md, commit, and __push upstream__
- * Merge 8.x into 8.x-release and __push upstream__
- * Create a draft release on GitHub, populated with release notes
+    ./vendor/bin/robo release [tag] [token]
