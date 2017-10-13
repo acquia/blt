@@ -4,6 +4,7 @@ namespace Acquia\Blt\Robo\Commands\Setup;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\RandomString;
+use Acquia\Blt\Robo\Exceptions\BltException;
 
 /**
  * Defines commands in the "drupal:*" namespace.
@@ -57,6 +58,9 @@ class DrupalCommand extends BltTasks {
     $result = $task->detectInteractive()->run();
     if ($result->wasSuccessful()) {
       $this->getConfig()->set('state.drupal.installed', TRUE);
+    }
+    else {
+      throw new BltException("Failed to install Drupal!");
     }
 
     return $result;
