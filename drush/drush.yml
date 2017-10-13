@@ -1,0 +1,7 @@
+drush:
+  paths:
+    include:
+      # Include current directory. Will add policy.drush.inc.
+      - .
+      # Add Acquia cloud commands.
+      - /usr/local/drush8/commands
