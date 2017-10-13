@@ -93,8 +93,9 @@ class PhpcsCommand extends BltTasks {
         ->run();
 
       $bin = $this->getConfigValue('composer.bin') . '/phpcs';
+      $bootstrap = __DIR__ . "/phpcs-validate-files-bootstrap.php";
       $result = $this->taskExecStack()
-        ->exec("'$bin' --file-list='$temp_path' -l")
+        ->exec("'$bin' --file-list='$temp_path' --bootstrap='$bootstrap' -l")
         ->printMetadata(FALSE)
         ->run();
 
