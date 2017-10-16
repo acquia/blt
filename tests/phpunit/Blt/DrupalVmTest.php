@@ -27,8 +27,12 @@ class DrupalVmTest extends BltTestBase {
       file_get_contents($this->newProjectDir . '/box/config.yml')
     );
     $this->assertContains(
-      $this->config['project']['machine_name'] . '.local',
-      file_get_contents($this->newProjectDir . '/drush/site-aliases/aliases.drushrc.php')
+      'local',
+      file_get_contents($this->newProjectDir . '/drush/site-aliases/' . $this->config['project']['machine_name'] . '.alias.yml')
+    );
+    $this->assertContains(
+      'http://127.0.0.1:8888',
+      file_get_contents($this->newProjectDir . '/drush/site-aliases/' . $this->config['project']['machine_name'] . '.alias.yml')
     );
     $this->assertContains(
       $this->config['project']['machine_name'] . '.local',
