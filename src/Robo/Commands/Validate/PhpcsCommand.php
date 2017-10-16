@@ -64,14 +64,6 @@ class PhpcsCommand extends BltTasks {
     $this->say("Sniffing directories containing changed files...");
     $files = explode("\n", $file_list);
     $files = array_filter($files);
-
-    // We must scan directories rather than individual files in order for PHPCS
-    // extension constraints to be recognized.
-    foreach ($files as $key => $file) {
-      $files[$key] = dirname($file);
-    }
-    $files = array_unique($files);
-
     $exit_code = $this->doSniffFileList($files);
 
     return $exit_code;

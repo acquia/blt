@@ -33,7 +33,7 @@ $values = $this->values;
 $intersection = [];
 foreach ($values['files'] as $file) {
   foreach ($specified_files as $specified_file) {
-    // Scan the specified file is a portion of its path matches one of the
+    // Scan the specified file if a portion of its path matches one of the
     // default files or directories.
     if (strpos($specified_file, $file) !== FALSE) {
       $intersection[] = $specified_file;
@@ -43,3 +43,8 @@ foreach ($values['files'] as $file) {
 
 // Overwrite the files list using the computed intersection.
 $values['files'] = $intersection;
+
+// Return early to prevent hang in stream_get_contents().
+if (empty($values['files'])) {
+  exit(0);
+}
