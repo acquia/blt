@@ -13,6 +13,8 @@ class AcsfTest extends BltProjectTestBase {
 
   /**
    * Tests acsf:init command.
+   *
+   * @group blt-project
    */
   public function testAcsfInit() {
     $this->assertFileExists($this->projectDirectory . '/docroot/modules/contrib/acsf');

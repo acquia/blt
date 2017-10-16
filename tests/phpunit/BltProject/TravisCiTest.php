@@ -13,6 +13,8 @@ class TravisCiTest extends BltProjectTestBase {
 
   /**
    * Tests ci:travis:init command.
+   *
+   * @group blt-project
    */
   public function testTravisInit() {
     $this->assertFileExists($this->projectDirectory . '/.travis.yml');

@@ -16,6 +16,8 @@ class FixTasksTest extends BltProjectTestBase {
 
   /**
    * Tests for existence of phpcbf script.
+   *
+   * @group blt-project
    */
   public function testFixPhpcbfExists() {
     $this->executePhpcbfFileListScript();
@@ -25,6 +27,8 @@ class FixTasksTest extends BltProjectTestBase {
 
   /**
    * Tests the handling of a missing file parameter.
+   *
+   * @group blt-project
    */
   public function testFixPhpcbfExitsWhenMissingArguments() {
     $this->executePhpcbfFileListScript();
@@ -34,6 +38,8 @@ class FixTasksTest extends BltProjectTestBase {
 
   /**
    * Tests that a file list is not generated, given a file without violations.
+   *
+   * @group blt-project
    */
   public function testFixPhpcbfWithNotFixableFile() {
     $file = $this->createTestFile('file_without_violations.php', FALSE);
@@ -46,6 +52,8 @@ class FixTasksTest extends BltProjectTestBase {
 
   /**
    * Tests that a file list is generated, given a file with a fixable violation.
+   *
+   * @group blt-project
    */
   public function testFixPhpcbfWithFixableFile() {
     $file = $this->createTestFile('file_with_violations.php');

@@ -12,6 +12,8 @@ class TextMungeTest extends \PHPUnit_Framework_TestCase {
   /**
    * Tests arrayMergeNoDuplicates().
    *
+   * @group blt
+   *
    * @dataProvider getValueProvider
    */
   public function testArrayMergeNoDuplicates(

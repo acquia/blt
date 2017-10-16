@@ -13,6 +13,8 @@ class CloudHookTest extends BltProjectTestBase {
 
   /**
    * Tests setup:cloud-hooks command.
+   *
+   * @group blt-project
    */
   public function testSetupCloudHooks() {
     $this->assertFileExists($this->projectDirectory . '/hooks');

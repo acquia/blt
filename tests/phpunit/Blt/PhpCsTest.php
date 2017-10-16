@@ -13,6 +13,8 @@ use Symfony\Component\Process\Process;
 class PhpCsTest extends BltTestBase {
 
   /**
+   * @group blt
+   *
    * @dataProvider testPhpCsFilesBootstrapProvider
    */
   public function testPhpCsFilesBootstrap($filename, $needle, $contains) {
