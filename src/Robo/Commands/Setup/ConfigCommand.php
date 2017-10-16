@@ -150,6 +150,10 @@ class ConfigCommand extends BltTasks {
    */
   protected function checkFeaturesOverrides() {
     if ($this->getConfigValue('cm.features.no-overrides')) {
+      $this->logger->warning("Features configuration overrides will not be checked due to breaking changes in Drush 9.");
+      $this->logger->warning("This check will be re-enabled after fixes are made in the features module upstream.");
+      return 1;
+      // @codingStandardsIgnoreStart
       $this->say("Checking for features overrides...");
       if ($this->getConfig()->has('cm.features.bundle')) {
         $task = $this->taskDrush()->stopOnFail();
@@ -171,6 +175,7 @@ class ConfigCommand extends BltTasks {
         }
       }
     }
+    // @codingStandardsIgnoreEnd
   }
 
   /**
