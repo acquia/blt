@@ -1,0 +1,6 @@
+local:
+  root: /var/www/${project.machine_name}/docroot
+  uri: ${project.local.uri}
+  host: ${project.local.hostname}
+  user: vagrant
+  ssh-options: -o PasswordAuthentication=no -i ' . drush_server_home() . '/.vagrant.d/insecure_private_key

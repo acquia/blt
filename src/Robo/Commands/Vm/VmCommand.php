@@ -3,7 +3,11 @@
 namespace Acquia\Blt\Robo\Commands\Vm;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Common\ArrayManipulator;
 use Acquia\Blt\Robo\Exceptions\BltException;
+use function file_exists;
+use function file_get_contents;
+use Grasmash\YamlExpander\Expander;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Yaml\Yaml;
 
@@ -32,11 +36,11 @@ class VmCommand extends BltTasks {
   public function initialize() {
     $this->drupalVmAlias = $this->getConfigValue('project.machine_name') . '.local';
     $this->drupalVmVersionConstraint = '~4.3';
-    $this->defaultDrupalVmDrushAliasesFile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/drupal-vm.aliases.drushrc.php';
+    $this->defaultDrupalVmDrushAliasesFile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/drupal-vm.aliases.yml';
     $this->defaultDrupalVmConfigFile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/config.yml';
     $this->defaultDrupalVmVagrantfile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/Vagrantfile';
-    $this->defaultDrushAliasesFile = $this->getConfigValue('blt.root') . '/template/drush/site-aliases/aliases.drushrc.php';
-    $this->projectDrushAliasesFile = $this->getConfigValue('repo.root') . '/drush/site-aliases/aliases.drushrc.php';
+    $this->defaultDrushAliasesFile = $this->getConfigValue('blt.root') . '/template/drush/site-aliases/aliases.yml';
+    $this->projectDrushAliasesFile = $this->getConfigValue('repo.root') . '/drush/site-aliases/' . $this->getConfigValue('project.machine_name') . '.alias.yml';
     $this->projectDrupalVmVagrantfile = $this->getConfigValue('repo.root') . '/Vagrantfile';
     $this->projectDrupalVmConfigFile = $this->getConfigValue('vm.config');
     $this->vmDir = dirname($this->projectDrupalVmConfigFile);
@@ -125,15 +129,16 @@ class VmCommand extends BltTasks {
     $this->say("Generating default configuration for Drupal VM...");
 
     $this->logger->info("Adding a drush alias for the new VM...");
-    // @todo Concat only if it has not already been done.
-    $this->taskConcat([
-      $this->projectDrushAliasesFile,
-      $this->defaultDrupalVmDrushAliasesFile,
-    ])
-      ->to($this->projectDrushAliasesFile)
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->run();
-    $this->getConfig()->expandFileProperties($this->projectDrushAliasesFile);
+
+    if (!file_exists($this->projectDrushAliasesFile)) {
+      $new_aliases = Expander::parse(file_get_contents($this->defaultDrupalVmDrushAliasesFile), $this->getConfig()->export());
+    }
+    else {
+      $project_drush_aliases = Expander::parse(file_get_contents($this->projectDrushAliasesFile), $this->getConfig()->export());
+      $default_drupal_vm_drush_aliases = Expander::parse(file_get_contents($this->defaultDrupalVmDrushAliasesFile), $this->getConfig()->export());
+      $new_aliases = ArrayManipulator::arrayMergeRecursiveDistinct($project_drush_aliases, $default_drupal_vm_drush_aliases);
+    }
+    file_put_contents($this->projectDrushAliasesFile, Yaml::dump($new_aliases));
 
     $this->logger->info("Creating configuration files for Drupal VM...");
 
