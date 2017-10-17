@@ -16,7 +16,7 @@ class ToggleModulesTest extends BltProjectTestBase {
    *
    * In the event no environment is specified, this test will be skipped.
    *
-   * @group blt-project
+   * @group blted8
    */
   public function testModulesEnabled() {
     $modules = $this->config['modules'][BLT_ENV]['enable'];
@@ -30,7 +30,7 @@ class ToggleModulesTest extends BltProjectTestBase {
    *
    * In the event no environment is specified, this test will be skipped.
    *
-   * @group blt-project
+   * @group blted8
    */
   public function testModulesNotEnabled() {
     $modules = $this->config['modules'][BLT_ENV]['uninstall'];

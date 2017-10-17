@@ -48,7 +48,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $this->prepareTestProjectDir($test_project_dir);
     $this->taskFilesystemStack()
       ->mkdir($test_project_dir)
-      ->mirror($this->bltRoot . "/blt-project", $test_project_dir)
+      ->mirror($this->bltRoot . "/blted8", $test_project_dir)
       ->run();
     $this->taskExecStack()
       ->dir("../blted8")
@@ -148,39 +148,39 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       ->exec("$bin/blt validate -v")
       ->exec("$bin/yaml-cli update:value blt/project.yml cm.strategy none")
       // The tick-tock.sh script is used to prevent timeout.
-      ->exec("{$this->bltRoot}/scripts/blt/ci/tick-tock.sh $bin/blt setup --define environment={$options['environment']} -vvv")
-      ->exec("$bin/blt tests --define environment={$options['environment']} -v")
-      ->exec("$bin/blt tests:behat:definitions -v")
+      ->exec("{$this->bltRoot}/scripts/blt/ci/tick-tock.sh $bin/blt setup --define environment={$options['environment']} --yes --no-interaction -vvv")
+      ->exec("$bin/blt tests --define environment={$options['environment']} --yes --no-interaction -v")
+      ->exec("$bin/blt tests:behat:definitions --yes --no-interaction -v")
       // Test core-only config management.
       ->exec("$bin/drush $drush_alias config-export --root=$test_project_dir/docroot --yes")
       ->exec("$bin/yaml-cli update:value blt/project.yml cm.strategy core-only")
-      ->exec("$bin/blt setup:config-import -v")
+      ->exec("$bin/blt setup:config-import --yes --no-interaction -v")
       // Test features config management.
       ->exec("$bin/yaml-cli update:value blt/project.yml cm.strategy features")
       ->exec("rm -rf $test_project_dir/config/default/*")
       ->exec("$bin/drush $drush_alias en features --root=$test_project_dir/docroot --yes")
-      ->exec("$bin/blt setup:config-import -v")
+      ->exec("$bin/blt setup:config-import --yes --no-interaction -v")
       ->exec("$bin/drush $drush_alias pm-uninstall features --root=$test_project_dir/docroot --yes")
       // Test config split.
       ->exec("$bin/yaml-cli update:value blt/project.yml cm.strategy config-split")
       ->exec("$bin/drush $drush_alias en config-split --root=$test_project_dir/docroot --yes")
       ->exec("$bin/drush $drush_alias config-export --root=$test_project_dir/docroot --yes")
       ->exec("mv {$this->bltRoot}/scripts/blt/ci/internal/config_split.config_split.ci.yml {$this->bltRoot}/config/default/")
-      ->exec("$bin/blt setup:config-import -v")
+      ->exec("$bin/blt setup:config-import --yes --no-interaction -v")
       ->exec("$bin/drush $drush_alias pm-uninstall config-split --root=$test_project_dir/docroot --yes")
       ->exec("rm -rf $test_project_dir/config/default/*")
       // Test deploy.
-      ->exec("$bin/blt deploy:update -v")
+      ->exec("$bin/blt deploy:update --yes --no-interaction -v")
       // Test SAML.
-      ->exec("$bin/blt simplesamlphp:init -v")
+      ->exec("$bin/blt simplesamlphp:init --yes --no-interaction -v")
       // Test that custom commands are loaded.
-      ->exec("$bin/blt custom:hello -v")
+      ->exec("$bin/blt custom:hello --yes --no-interaction -v")
       // Execute PHP Unit tests.
       ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group blt --exclude-group deploy -v")
-      ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group blt-project -c {$this->bltRoot}/tests/phpunit/phpunit.xml -v")
+      ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group blted8 -c {$this->bltRoot}/tests/phpunit/phpunit.xml -v")
       // Run 'blt' phpunit tests, excluding deploy-push tests.
       ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group blt --exclude-group deploy -v")
-      ->exec("$bin/blt deploy:build -vvv")
+      ->exec("$bin/blt deploy:build --yes --no-interaction -v")
       ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group deploy -v")
       ->run();
     $this->say("<info>Completed testing.</info>");

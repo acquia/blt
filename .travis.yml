@@ -47,7 +47,7 @@ install:
 
 script:
   - source ${BLT_DIR}/scripts/blt/ci/internal/create_blt_project.sh
-  - source ${BLT_DIR}/scripts/blt/ci/internal/run_tests.sh
+  - ${BLT_DIR}/vendor/bin/robo release:test --no-vm --environment=ci --no-create-project
 
 before_deploy:
   - cd ${TRAVIS_BUILD_DIR}/../blted8
@@ -69,7 +69,7 @@ after_success:
 
 deploy:
   - provider: script
-    # Deploys build artifact for generated `blt-project` to acquia-pso/blted8 on GitHub and also to bolt8 sub on ACF.
+    # Deploys build artifact for generated `blted8` to acquia-pso/blted8 on GitHub and also to bolt8 sub on ACF.
     script: ${BLT_DIR}/scripts/travis/deploy_branch && $COMPOSER_BIN/phpunit $BLT_DIR/tests/phpunit --group=deploy -v
     skip_cleanup: true
     on:

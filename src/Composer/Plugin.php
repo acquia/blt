@@ -16,6 +16,7 @@ use Composer\Installer\PackageEvents;
 use Composer\Script\ScriptEvents;
 use Composer\Util\ProcessExecutor;
 use Composer\Util\Filesystem;
+use function in_array;
 
 /**
  *
@@ -255,7 +256,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    */
   protected function isNewProject() {
     $composer_json = json_decode(file_get_contents($this->getRepoRoot() . '/composer.json'), TRUE);
-    if (!empty($composer_json['name'] && $composer_json['name'] == 'acquia/blt-project')) {
+    if (!empty($composer_json['name'] && in_array($composer_json['name'], ['acquia/blt-project', 'acquia/blted8']))) {
       return TRUE;
     }
     return FALSE;

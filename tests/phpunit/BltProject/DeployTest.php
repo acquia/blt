@@ -23,7 +23,7 @@ class DeployTest extends BltProjectTestBase {
    * Tests deploy:build command.
    *
    * @group deploy
-   * @group blt-project
+   * @group blted8
    */
   public function testBltDeployBuild() {
 
