@@ -46,21 +46,11 @@ install:
   - source ${BLT_DIR}/scripts/travis/setup_project
 
 script:
-  - source ${BLT_DIR}/scripts/blt/ci/internal/smoke_tests.sh
   - source ${BLT_DIR}/scripts/blt/ci/internal/create_blt_project.sh
   - source ${BLT_DIR}/scripts/blt/ci/internal/run_tests.sh
-  # Add Drupal VM config to repo.
-  - blt vm --no-boot --no-interaction --yes
-  # Execute PHP Unit tests.
-  - ./vendor/bin/phpunit ${BLT_DIR}/tests/phpunit --group blt --exclude-group deploy -c ${BLT_DIR}/tests/phpunit/phpunit.xml -v
-  - ./vendor/bin/phpunit ${BLT_DIR}/tests/phpunit --group blt-project --exclude-group deploy -c ${BLT_DIR}/tests/phpunit/phpunit.xml -v
-  - ./vendor/bin/phpunit ${BLT_DIR}/tests/phpunit --group blt-multisite -c ${BLT_DIR}/tests/phpunit/phpunit.xml -v
-  # Deploy build artifact.
-  - blt deploy:build
-  - source ${BLT_DIR}/scripts/blt/ci/internal/test_artifact.sh
 
 before_deploy:
-  - cd ${TRAVIS_BUILD_DIR}/../blt-project
+  - cd ${TRAVIS_BUILD_DIR}/../blted8
   # The BLTed8 project will need its ssh_known_hosts configured to push to ACF.
   - yaml-cli update:value .travis.yml addons.ssh_known_hosts.0 svn-5223.devcloud.hosting.acquia.com
   # Add encrypted SSH key to BLTed8 project.
