@@ -107,7 +107,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    */
   public function releaseTest($options = [
     'base-branch' => '9.x',
-    'environment' => 'local',
+    'environment' => 'ci',
     'create-project' => TRUE,
     'project-dir' => '../blted8',
     'project-type' => 'standalone',
@@ -143,7 +143,8 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       // Add Drupal VM config to repo without booting.
       $task->exec("$bin/blt vm --no-boot --no-interaction --yes -vvv");
       $drush_alias = '@self';
-      $task->exec("$bin/yaml-cli update:value blt/project.yml drush.aliases.local self");
+      $task->exec("$bin/yaml-cli update:value blt/ci.yml drush.aliases.local self");
+      $task->exec("$bin/yaml-cli update:value blt/ci.yml drush.default_alias self");
     }
     $task
       ->exec("$bin/blt validate -v")
