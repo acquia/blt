@@ -23,7 +23,6 @@ class FilesCommand extends BltTasks {
 
     $task = $this->taskDrush()
       ->alias('')
-      ->assume('')
       ->uri('')
       ->drush('rsync')
       ->arg($remote_alias . ':%files/')
