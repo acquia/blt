@@ -141,11 +141,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       $drush_alias = '@blted8.local';
     }
     else {
-      // Add Drupal VM config to repo without booting.
-      $task->exec("$bin/blt vm --no-boot $blt_suffix");
       $drush_alias = '@self';
-      $task->exec("$bin/yaml-cli update:value blt/ci.yml drush.aliases.local self");
-      $task->exec("$bin/yaml-cli update:value blt/ci.yml drush.default_alias self");
     }
     $task
       ->exec("$bin/blt validate $blt_suffix")
