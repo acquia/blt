@@ -89,7 +89,7 @@ class UpdateCommand extends BltTasks {
     $this->invokeCommand('examples:init');
     $this->invokeCommand('install-alias');
     $this->say("To complete BLT installation, your composer dependencies must be updated.");
-    $confirm = $this->ask('Execute `composer update` now?');
+    $confirm = $this->confirm('Execute `composer update` now?');
     if ($confirm) {
       $this->reInstallComposerPackages();
     }

@@ -4,3 +4,4 @@
 #   import - Imports a .sql file from setup.dump-file.
 # setup.strategy: import
 # setup.dump-file: /tmp/my-dump-file.sql
+tests.run-server: true
