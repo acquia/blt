@@ -46,10 +46,9 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $test_project_dir = $this->bltRoot . "/" . $options['project-dir'];
     $bin = $test_project_dir . "/vendor/bin";
     $this->prepareTestProjectDir($test_project_dir);
-    $this->taskExecStack()
-      ->dir($this->bltRoot)
-      ->exec("mkdir $test_project_dir")
-      ->exec("cp -R blt-project/ $test_project_dir")
+    $this->taskFilesystemStack()
+      ->mkdir($test_project_dir)
+      ->mirror($this->bltRoot . "/blt-project", $test_project_dir)
       ->run();
     $this->taskExecStack()
       ->dir("../blted8")
