@@ -97,7 +97,14 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    *
    * @option base-branch The blt-project (NOT blt) branch to test.
    * @option project-dir The directory in which the test project will be
+   * @option environment The environment config var used for running Blt
+   * commands against the test site.
+   * @option create-project Whether to create a new blted8 site for testing.
+   * @option project-dir The directory where the test site will be created.
    *   created.
+   * @option project-type The type of test project that will be created. Valid
+   *   values are standalone or symlink.
+   * @option vm Whether a VM will be booted.
    */
   public function releaseTest($options = [
     'base-branch' => '9.x',
