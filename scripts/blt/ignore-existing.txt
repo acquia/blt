@@ -9,8 +9,8 @@ blt/project.yml
 blt/src/Filesets
 composer.json
 composer.lock
-drush/site-aliases/aliases.drushrc.php
-drush/drushrc.php
+drush/site-aliases/*.aliases.yml
+drush/drush.yml
 docroot/sites/default/services.yml
 docroot/sites/default/settings/trusted_host.settings.php
 factory-hooks/pre-settings-php/includes.php

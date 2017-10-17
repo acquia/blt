@@ -1,0 +1,8 @@
+drush:
+  paths:
+    include:
+      # Include current directory. Will add blt.drush.inc.
+      - .
+      # Add Acquia cloud commands.
+      - /usr/local/drush8/commands
+    drush-script: drush8

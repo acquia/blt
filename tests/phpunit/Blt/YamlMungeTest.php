@@ -12,6 +12,8 @@ class YamlMungeTest extends \PHPUnit_Framework_TestCase {
   /**
    * Tests arrayMergeRecursiveExceptEmpty().
    *
+   * @group blt
+   *
    * @dataProvider getValueProvider
    */
   public function testArrayMergeRecursiveExceptEmpty(
