@@ -125,64 +125,65 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       }
     }
     $bin = $test_project_dir . "/vendor/bin";
+    $blt_suffix = "--define environment={$options['environment']} --yes --no-interaction -v";
     $task = $this->taskExecStack()
       ->dir($test_project_dir)
-      ->exec("$bin/blt ci:travis:init -v")
-      ->exec("$bin/blt ci:pipelines:init -v")
-      ->exec("$bin/blt acsf:init:hooks -v")
-      ->exec("$bin/blt setup:cloud-hooks -v")
+      ->exec("$bin/blt ci:travis:init $blt_suffix")
+      ->exec("$bin/blt ci:pipelines:init $blt_suffix")
+      ->exec("$bin/blt acsf:init:hooks $blt_suffix")
+      ->exec("$bin/blt setup:cloud-hooks $blt_suffix")
       // Dump all config values to screen.
-      ->exec("$bin/blt config:dump")
+      ->exec("$bin/blt config:dump $blt_suffix")
       // ->exec("$bin/blt acsf:init --yes")
       ->exec("{$this->bltRoot}/vendor/bin/robo sniff-code --load-from {$this->bltRoot}");
     if ($use_vm) {
-      $task->exec("$bin/blt vm --no-interaction --yes -v");
+      $task->exec("$bin/blt vm $blt_suffix");
       $drush_alias = '@blted8.local';
     }
     else {
       // Add Drupal VM config to repo without booting.
-      $task->exec("$bin/blt vm --no-boot --no-interaction --yes -vvv");
+      $task->exec("$bin/blt vm --no-boot $blt_suffix");
       $drush_alias = '@self';
       $task->exec("$bin/yaml-cli update:value blt/ci.yml drush.aliases.local self");
       $task->exec("$bin/yaml-cli update:value blt/ci.yml drush.default_alias self");
     }
     $task
-      ->exec("$bin/blt validate -v")
+      ->exec("$bin/blt validate $blt_suffix")
       ->exec("$bin/yaml-cli update:value blt/project.yml cm.strategy none")
       // The tick-tock.sh script is used to prevent timeout.
-      ->exec("{$this->bltRoot}/scripts/blt/ci/tick-tock.sh $bin/blt setup --define environment={$options['environment']} --yes --no-interaction -vvv")
-      ->exec("$bin/blt tests --define environment={$options['environment']} --yes --no-interaction -v")
-      ->exec("$bin/blt tests:behat:definitions --yes --no-interaction -v")
+      ->exec("{$this->bltRoot}/scripts/blt/ci/tick-tock.sh $bin/blt setup $blt_suffix")
+      ->exec("$bin/blt tests $blt_suffix")
+      ->exec("$bin/blt tests:behat:definitions $blt_suffix")
       // Test core-only config management.
       ->exec("$bin/drush $drush_alias config-export --root=$test_project_dir/docroot --yes")
       ->exec("$bin/yaml-cli update:value blt/project.yml cm.strategy core-only")
-      ->exec("$bin/blt setup:config-import --yes --no-interaction -v")
+      ->exec("$bin/blt setup:config-import $blt_suffix")
       // Test features config management.
       ->exec("$bin/yaml-cli update:value blt/project.yml cm.strategy features")
       ->exec("rm -rf $test_project_dir/config/default/*")
       ->exec("$bin/drush $drush_alias en features --root=$test_project_dir/docroot --yes")
-      ->exec("$bin/blt setup:config-import --yes --no-interaction -v")
+      ->exec("$bin/blt setup:config-import $blt_suffix")
       ->exec("$bin/drush $drush_alias pm-uninstall features --root=$test_project_dir/docroot --yes")
       // Test config split.
       ->exec("$bin/yaml-cli update:value blt/project.yml cm.strategy config-split")
       ->exec("$bin/drush $drush_alias en config-split --root=$test_project_dir/docroot --yes")
       ->exec("$bin/drush $drush_alias config-export --root=$test_project_dir/docroot --yes")
       ->exec("mv {$this->bltRoot}/scripts/blt/ci/internal/config_split.config_split.ci.yml {$this->bltRoot}/config/default/")
-      ->exec("$bin/blt setup:config-import --yes --no-interaction -v")
+      ->exec("$bin/blt setup:config-import $blt_suffix")
       ->exec("$bin/drush $drush_alias pm-uninstall config-split --root=$test_project_dir/docroot --yes")
       ->exec("rm -rf $test_project_dir/config/default/*")
       // Test deploy.
-      ->exec("$bin/blt deploy:update --yes --no-interaction -v")
+      ->exec("$bin/blt deploy:update $blt_suffix")
       // Test SAML.
-      ->exec("$bin/blt simplesamlphp:init --yes --no-interaction -v")
+      ->exec("$bin/blt simplesamlphp:init $blt_suffix")
       // Test that custom commands are loaded.
-      ->exec("$bin/blt custom:hello --yes --no-interaction -v")
+      ->exec("$bin/blt custom:hello $blt_suffix")
       // Execute PHP Unit tests.
       ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group blt --exclude-group deploy -v")
       ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group blted8 -c {$this->bltRoot}/tests/phpunit/phpunit.xml -v")
       // Run 'blt' phpunit tests, excluding deploy-push tests.
       ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group blt --exclude-group deploy -v")
-      ->exec("$bin/blt deploy:build --yes --no-interaction -v")
+      ->exec("$bin/blt deploy:build $blt_suffix")
       ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group deploy -v")
       ->run();
     $this->say("<info>Completed testing.</info>");
@@ -194,7 +195,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       }
       $this->taskExecStack()
         ->dir($test_project_dir)
-        ->exec("$bin/blt vm:nuke")
+        ->exec("$bin/blt vm:nuke $blt_suffix")
         ->run();
     }
   }
