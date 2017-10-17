@@ -39,9 +39,11 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    *
    * @option project-dir The directory in which the test project will be
    *   created.
+   * @option vm Whether a VM will be booted.
    */
   public function createSymlinkedProject($options = [
     'project-dir' => '../blted8',
+    'vm' => TRUE,
   ]) {
     $test_project_dir = $this->bltRoot . "/" . $options['project-dir'];
     $bin = $test_project_dir . "/vendor/bin";
@@ -60,15 +62,18 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       ->from("../blt")
       ->to($this->bltRoot)
       ->run();
-    $this->taskExecStack()
+    $task = $this->taskExecStack()
       ->dir($test_project_dir)
       // BLT is the only dependency at this point. Install it.
-      ->exec("composer install")
-      ->exec("$bin/blt vm --no-boot --no-interaction --yes -v")
-      ->exec("$bin/yaml-cli update:value box/config.yml vagrant_synced_folders.1.local_path '../blt'")
-      ->exec("$bin/yaml-cli update:value box/config.yml vagrant_synced_folders.1.destination '/var/www/blt'")
-      ->exec("$bin/yaml-cli update:value box/config.yml vagrant_synced_folders.1.type nfs")
-      ->run();
+      ->exec("composer install");
+
+    if ($options['vm']) {
+      $task->exec("$bin/blt vm --no-boot --no-interaction --yes -v")
+        ->exec("$bin/yaml-cli update:value box/config.yml vagrant_synced_folders.1.local_path '../blt'")
+        ->exec("$bin/yaml-cli update:value box/config.yml vagrant_synced_folders.1.destination '/var/www/blt'")
+        ->exec("$bin/yaml-cli update:value box/config.yml vagrant_synced_folders.1.type nfs");
+    }
+    $task->run();
   }
 
   /**
@@ -148,7 +153,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       ->exec("$bin/yaml-cli update:value blt/project.yml cm.strategy none")
       // The tick-tock.sh script is used to prevent timeout.
       ->exec("{$this->bltRoot}/scripts/blt/ci/tick-tock.sh $bin/blt setup $blt_suffix")
-      ->exec("$bin/blt tests $blt_suffix")
+      ->exec("$bin/blt tests {$blt_suffix}vv")
       ->exec("$bin/blt tests:behat:definitions $blt_suffix")
       // Test core-only config management.
       ->exec("$bin/drush $drush_alias config-export --root=$test_project_dir/docroot --yes")
@@ -173,9 +178,15 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       // Test SAML.
       ->exec("$bin/blt simplesamlphp:init $blt_suffix")
       // Test that custom commands are loaded.
-      ->exec("$bin/blt custom:hello $blt_suffix")
-      // Execute PHP Unit tests.
-      ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group blt --exclude-group deploy -v")
+      ->exec("$bin/blt custom:hello $blt_suffix");
+
+    if (!$use_vm) {
+      // Add Drupal VM config to repo without booting.
+      $task->exec("$bin/blt vm --no-boot $blt_suffix");
+    }
+
+    // Execute PHP Unit tests.
+    $task->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group blt --exclude-group deploy -v")
       ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group blted8 -c {$this->bltRoot}/tests/phpunit/phpunit.xml -v")
       // Run 'blt' phpunit tests, excluding deploy-push tests.
       ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group blt --exclude-group deploy -v")
