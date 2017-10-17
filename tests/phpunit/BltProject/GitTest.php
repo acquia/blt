@@ -72,7 +72,8 @@ class GitTasksTest extends BltProjectTestBase {
     $prefix = $this->config['project']['prefix'];
     $command = "./.git/hooks/pre-commit";
     $output = shell_exec($command);
-    $this->assertContains('validate:phpcs', $output);
+    // @todo Assert only changed files are validated.
+    $this->assertContains('validate:phpcs:files', $output);
     $this->assertContains('validate:yaml:files', $output);
     $this->assertContains('validate:twig:files', $output);
   }
