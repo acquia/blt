@@ -215,7 +215,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
         $success = $this->executeCommand($this->getVendorPath() . '/acquia/blt/bin/blt internal:create-project --ansi', [], TRUE);
       }
       else {
-        $success = $this->executeCommand($this->getVendorPath() . '/acquia/blt/bin/blt internal:add-to-project --ansi -y', [], TRUE);
+        $success = $this->executeCommand($this->getVendorPath() . '/acquia/blt/bin/blt internal:add-to-project --ansi', [], TRUE);
       }
     }
     elseif ($options['blt']['update']) {

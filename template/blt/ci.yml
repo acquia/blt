@@ -5,3 +5,5 @@
 # setup.strategy: import
 # setup.dump-file: /tmp/my-dump-file.sql
 tests.run-server: true
+# The local.hostname must be set to 127.0.0.1:8888 because we are using drush runserver to test the site.
+project.local.hostname: 127.0.0.1:8888

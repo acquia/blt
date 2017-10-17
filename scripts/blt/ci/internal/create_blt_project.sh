@@ -12,9 +12,6 @@ ${BLT_DIR}/vendor/bin/robo create:symlinked-project --no-vm
 
 export PATH=${BLT_DIR}/../blted8/vendor/bin:$PATH
 
-# The local.hostname must be set to 127.0.0.1:8888 because we are using drush runserver to run the site on Travis CI.
-yaml-cli update:value ../blted8/blt/project.yml project.local.hostname '127.0.0.1:8888'
-
 # Define BLT's deployment endpoints.
 yaml-cli update:value ../blted8/blt/project.yml git.remotes.0 bolt8@svn-5223.devcloud.hosting.acquia.com:bolt8.git
 yaml-cli update:value ../blted8/blt/project.yml git.remotes.1 git@github.com:acquia-pso/blted8.git

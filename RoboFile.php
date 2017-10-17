@@ -65,8 +65,11 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $task = $this->taskExecStack()
       ->dir($test_project_dir)
       // BLT is the only dependency at this point. Install it.
+      ->exec("composer install")
+      // I have no idea why this is necessary, but testing on OSX does not pass
+      // without it.
+      ->exec("rm -rf $test_project_dir/vendor")
       ->exec("composer install");
-
     if ($options['vm']) {
       $task->exec("$bin/blt vm --no-boot --no-interaction --yes -v")
         ->exec("$bin/yaml-cli update:value box/config.yml vagrant_synced_folders.1.local_path '../blt'")
@@ -162,16 +165,14 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       // Test features config management.
       ->exec("$bin/yaml-cli update:value blt/project.yml cm.strategy features")
       ->exec("rm -rf $test_project_dir/config/default/*")
-      ->exec("$bin/drush $drush_alias en features --root=$test_project_dir/docroot --yes")
       ->exec("$bin/blt setup:config-import $blt_suffix")
       ->exec("$bin/drush $drush_alias pm-uninstall features --root=$test_project_dir/docroot --yes")
       // Test config split.
       ->exec("$bin/yaml-cli update:value blt/project.yml cm.strategy config-split")
-      ->exec("$bin/drush $drush_alias en config-split --root=$test_project_dir/docroot --yes")
       ->exec("$bin/drush $drush_alias config-export --root=$test_project_dir/docroot --yes")
       ->exec("mv {$this->bltRoot}/scripts/blt/ci/internal/config_split.config_split.ci.yml {$this->bltRoot}/config/default/")
       ->exec("$bin/blt setup:config-import $blt_suffix")
-      ->exec("$bin/drush $drush_alias pm-uninstall config-split --root=$test_project_dir/docroot --yes")
+      ->exec("$bin/drush $drush_alias pm-uninstall config_split --root=$test_project_dir/docroot --yes")
       ->exec("rm -rf $test_project_dir/config/default/*")
       // Test deploy.
       ->exec("$bin/blt deploy:update $blt_suffix")
