@@ -209,6 +209,10 @@ validate:
   twig:
     filesets:
       - files.twig
+    # Add any custom Twig filters for linter to ignore.
+    filters: { }
+    # Add any custom Twig functions for linter to ignore.
+    functions: { }
   yaml:
     filesets:
       - files.yaml
