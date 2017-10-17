@@ -311,10 +311,10 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    * @command sniff-code
    */
   public function sniffCode() {
-    $command = "'{$this->bin}/phpcs'";
     $task = $this->taskExecStack()
       ->dir($this->bltRoot)
-      ->exec($command);
+      ->exec("{$this->bin}/phpcs")
+      ->exec("composer validate");
     $result = $task->run();
 
     return $result->getExitCode();
