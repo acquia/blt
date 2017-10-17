@@ -24,7 +24,6 @@ cache:
   - "$HOME/.console"
   - "$HOME/.drush/cache"
   - "$HOME/.nvm"
-  - "vendor"
 
 addons:
   ssh_known_hosts:
