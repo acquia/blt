@@ -6,6 +6,7 @@ use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use function file_exists;
 use function file_put_contents;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -19,11 +20,18 @@ class MultisiteCommand extends BltTasks {
    * @command generate:multisite
    *
    */
-  public function generate() {
+  public function generate($options = [
+    'site-name' => InputOption::VALUE_REQUIRED,
+  ]) {
     $this->say("This will generate a new site in the docroot/sites directory.");
     $site_yml = [];
 
-    $site_name = $this->askRequired("Machine name");
+    if (empty($options['site-name'])) {
+      $site_name = $this->askRequired("Site machine name");
+    }
+    else {
+      $site_name = $options['site-name'];
+    }
     $new_site_dir = $this->getConfigValue('docroot') . '/sites/' . $site_name;
 
     if (file_exists($new_site_dir)) {
