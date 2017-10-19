@@ -136,6 +136,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $blt_suffix = "--define environment={$options['environment']} --yes --no-interaction -v";
     $task = $this->taskExecStack()
       ->dir($test_project_dir)
+      ->printMetadata(TRUE)
       ->exec("$bin/blt ci:travis:init $blt_suffix")
       ->exec("$bin/blt ci:pipelines:init $blt_suffix")
       ->exec("$bin/blt acsf:init:hooks $blt_suffix")
@@ -158,22 +159,30 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       ->exec("{$this->bltRoot}/scripts/blt/ci/tick-tock.sh $bin/blt setup $blt_suffix")
       ->exec("$bin/blt tests {$blt_suffix}vv")
       ->exec("$bin/blt tests:behat:definitions $blt_suffix")
+
       // Test core-only config management.
-      ->exec("$bin/drush $drush_alias config-export --root=$test_project_dir/docroot --yes")
+      ->exec("$bin/drush $drush_alias config-export --root={$test_project_dir}/docroot --yes")
       ->exec("$bin/yaml-cli update:value blt/project.yml cm.strategy core-only")
       ->exec("$bin/blt setup:config-import $blt_suffix")
+
       // Test features config management.
       ->exec("$bin/yaml-cli update:value blt/project.yml cm.strategy features")
-      ->exec("rm -rf $test_project_dir/config/default/*")
+      ->exec("$bin/drush $drush_alias pm-enable features --root={$test_project_dir}/docroot --yes")
+      ->exec("rm -rf {$test_project_dir}/config/default/*")
+      ->exec("$bin/drush $drush_alias config-export --root={$test_project_dir}/docroot --yes")
       ->exec("$bin/blt setup:config-import $blt_suffix")
-      ->exec("$bin/drush $drush_alias pm-uninstall features --root=$test_project_dir/docroot --yes")
+      ->exec("$bin/drush $drush_alias pm-uninstall features --root={$test_project_dir}/docroot --yes")
+
       // Test config split.
       ->exec("$bin/yaml-cli update:value blt/project.yml cm.strategy config-split")
-      ->exec("$bin/drush $drush_alias config-export --root=$test_project_dir/docroot --yes")
-      ->exec("mv {$this->bltRoot}/scripts/blt/ci/internal/config_split.config_split.ci.yml {$this->bltRoot}/config/default/")
+      ->exec("$bin/drush $drush_alias pm-enable config_split --root={$test_project_dir}/docroot --yes")
+      ->exec("rm -rf {$test_project_dir}/config/default/*")
+      ->exec("$bin/drush $drush_alias config-export --root={$test_project_dir}/docroot --yes")
+      ->exec("cp {$this->bltRoot}/scripts/blt/ci/internal/config_split.config_split.ci.yml {$test_project_dir}/config/default/")
       ->exec("$bin/blt setup:config-import $blt_suffix")
-      ->exec("$bin/drush $drush_alias pm-uninstall config_split --root=$test_project_dir/docroot --yes")
-      ->exec("rm -rf $test_project_dir/config/default/*")
+      ->exec("$bin/drush $drush_alias pm-uninstall config_split --root={$test_project_dir}/docroot --yes")
+      ->exec("rm -rf {$test_project_dir}/config/default/*")
+
       // Test deploy.
       ->exec("$bin/blt deploy:update $blt_suffix")
       // Test SAML.
@@ -186,13 +195,11 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       $task->exec("$bin/blt vm --no-boot $blt_suffix");
     }
 
+    $task->exec("$bin/blt deploy:build $blt_suffix");
+
     // Execute PHP Unit tests.
-    $task->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group blt --exclude-group deploy -v")
+    $task->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group blt -c {$this->bltRoot}/tests/phpunit/phpunit.xml -v")
       ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group blted8 -c {$this->bltRoot}/tests/phpunit/phpunit.xml -v")
-      // Run 'blt' phpunit tests, excluding deploy-push tests.
-      ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group blt --exclude-group deploy -v")
-      ->exec("$bin/blt deploy:build $blt_suffix")
-      ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group deploy -v")
       ->run();
     $this->say("<info>Completed testing.</info>");
     if ($use_vm) {
