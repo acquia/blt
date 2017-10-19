@@ -2,7 +2,7 @@
 
 set -ev
 
-cd ${TRAVIS_BUILD_DIR}/../blt-project
+cd ${TRAVIS_BUILD_DIR}/../blted8
 
 git remote add github git@github.com:acquia-pso/blted8.git
 git checkout -b ${TRAVIS_BRANCH}

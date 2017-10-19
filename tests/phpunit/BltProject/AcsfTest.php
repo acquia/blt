@@ -14,7 +14,7 @@ class AcsfTest extends BltProjectTestBase {
   /**
    * Tests acsf:init command.
    *
-   * @group blt-project
+   * @group blted8
    */
   public function testAcsfInit() {
     // @todo Add test back after https://github.com/acquia/blt/issues/2094.

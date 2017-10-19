@@ -35,6 +35,7 @@ class ConfigCommand extends BltTasks {
    */
   public function dump() {
     $config = $this->getConfig()->export();
+    ksort($config);
     $this->printArrayAsTable($config);
   }
 

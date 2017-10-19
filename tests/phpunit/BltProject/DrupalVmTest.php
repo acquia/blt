@@ -14,7 +14,7 @@ class DrupalVmTest extends BltProjectTestBase {
   /**
    * Tests vm:init command.
    *
-   * @group blt-project
+   * @group blted8
    */
   public function testVmInit() {
     $this->assertFileExists($this->projectDirectory . '/Vagrantfile');

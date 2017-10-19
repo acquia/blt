@@ -36,7 +36,7 @@ events:
               - source ${BLT_DIR}/scripts/pipelines/run_tests
               # Make BLT doctor happy.
               - source ${BLT_DIR}/scripts/blt/ci/internal/doctor.sh
-              - phpunit ${BLT_DIR}/tests/phpunit --group blt-project
+              - phpunit ${BLT_DIR}/tests/phpunit --group blted8
 
 
         # Generate artifact.
