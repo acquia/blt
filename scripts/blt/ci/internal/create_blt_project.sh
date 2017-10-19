@@ -15,6 +15,3 @@ export PATH=${BLT_DIR}/../blted8/vendor/bin:$PATH
 # Define BLT's deployment endpoints.
 yaml-cli update:value ../blted8/blt/project.yml git.remotes.0 bolt8@svn-5223.devcloud.hosting.acquia.com:bolt8.git
 yaml-cli update:value ../blted8/blt/project.yml git.remotes.1 git@github.com:acquia-pso/blted8.git
-
-# Ensure that at least one module gets enabled in CI env.
-yaml-cli update:value ../blted8/blt/project.yml modules.ci.enable.0 views_ui

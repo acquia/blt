@@ -154,6 +154,8 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     }
     $task
       ->exec("$bin/blt validate $blt_suffix")
+      // Ensure that at least one module gets enabled in CI env.
+      ->exec("$bin/yaml-cli update:value blt/project.yml modules.ci.enable.0 views_ui")
       ->exec("$bin/yaml-cli update:value blt/project.yml cm.strategy none")
       // The tick-tock.sh script is used to prevent timeout.
       ->exec("{$this->bltRoot}/scripts/blt/ci/tick-tock.sh $bin/blt setup $blt_suffix")
