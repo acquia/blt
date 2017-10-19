@@ -27,6 +27,7 @@ class MultiSiteTest extends BltProjectTestBase {
     $this->assertFileExists($this->projectDirectory . '/docroot/sites/site2/settings/default.local.settings.php');
     $this->assertNotContains('${drupal.db.database}', file_get_contents($this->projectDirectory . '/docroot/sites/site2/settings/default.local.settings.php'));
     $this->assertFileExists($this->projectDirectory . '/docroot/sites/site2/settings/local.settings.php');
+    $this->assertFileExists($this->projectDirectory . '/config/site2');
   }
 
 }

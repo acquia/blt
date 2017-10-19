@@ -62,7 +62,7 @@ class MultisiteCommand extends BltTasks {
     $default_site_dir = $this->getConfigValue('docroot') . '/sites/default';
     $this->taskCopyDir([$default_site_dir => $new_site_dir]);
     $result = $this->taskFilesystemStack()
-      ->mkdir($this->getConfigValue('docroot') . '/config/' . $site_name)
+      ->mkdir($this->getConfigValue('docroot') . '/' . $this->getConfigValue('cm.core.path') . '/' . $site_name)
       ->run();
     if (!$result->wasSuccessful()) {
       throw new BltException("Unable to create $new_site_dir.");
@@ -76,6 +76,8 @@ class MultisiteCommand extends BltTasks {
       throw new BltException("Unable to write $site_yml_filename.");
     }
 
+    $this->getConfig()->set('multisites', []);
+    $this->getConfig()->populateHelperConfig();
     $this->invokeCommand('setup:settings');
   }
 
