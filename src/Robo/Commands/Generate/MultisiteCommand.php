@@ -39,6 +39,7 @@ class MultisiteCommand extends BltTasks {
     if ($config_local_db) {
       $default_db = $this->getConfigValue('drupal.db');
       $db = [];
+      $db['database'] = $this->askDefault("Local database name", $default_db['database']);
       $db['username'] = $this->askDefault("Local database user", $default_db['username']);
       $db['password'] = $this->askDefault("Local database password", $default_db['password']);
       $db['host'] = $this->askDefault("Local database host", $default_db['host']);
@@ -61,7 +62,7 @@ class MultisiteCommand extends BltTasks {
 
     $site_yml_filename = $new_site_dir . '/site.yml';
     $result = $this->taskWriteToFile($site_yml_filename)
-      ->text(Yaml::dump($site_yml))
+      ->text(Yaml::dump($site_yml, 4))
       ->run();
     if (!$result->wasSuccessful()) {
       throw new BltException("Unable to write $site_yml_filename.");
@@ -95,7 +96,7 @@ class MultisiteCommand extends BltTasks {
         'collation' => $vm_config['mysql_databases'][0]['collation'],
       ];
       file_put_contents($this->projectDrupalVmConfigFile,
-        Yaml::dump($vm_config));
+        Yaml::dump($vm_config, 4));
     }
   }
 
