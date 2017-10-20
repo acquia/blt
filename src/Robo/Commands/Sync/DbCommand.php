@@ -15,7 +15,6 @@ class DbCommand extends BltTasks {
    *
    * @command sync:db:all
    *
-   * @executeInDrupalVm
    */
   public function syncDbAll() {
     $exit_code = 0;
@@ -52,6 +51,7 @@ class DbCommand extends BltTasks {
    * Copies remote db to local db for default site.
    *
    * @command sync:db
+   *
    */
   public function syncDbDefault() {
     $this->invokeCommand('setup:settings');
