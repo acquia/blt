@@ -19,7 +19,6 @@ use Robo\Contract\ConfigAwareInterface;
 use Robo\Contract\IOAwareInterface;
 use Robo\Contract\VerbosityThresholdInterface;
 use Robo\LoadAllTasks;
-use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
@@ -342,24 +341,6 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
       }
       $this->printArrayAsTable($array);
     }
-  }
-
-  /**
-   * Writes an array to the screen as a formatted table.
-   *
-   * @param array $array
-   *   The unformatted array.
-   * @param array $headers
-   *   The headers for the array. Defaults to ['Property','Value'].
-   */
-  protected function printArrayAsTable(
-    array $array,
-    array $headers = ['Property', 'Value']
-  ) {
-    $table = new Table($this->output);
-    $table->setHeaders($headers)
-      ->setRows(ArrayManipulator::convertArrayToFlatTextArray($array))
-      ->render();
   }
 
   /**

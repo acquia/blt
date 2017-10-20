@@ -2,6 +2,7 @@
 
 namespace Acquia\Blt\Robo\Common;
 
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
@@ -110,6 +111,24 @@ trait IO {
       return $answer;
     });
     return $this->doAsk($question);
+  }
+
+  /**
+   * Writes an array to the screen as a formatted table.
+   *
+   * @param array $array
+   *   The unformatted array.
+   * @param array $headers
+   *   The headers for the array. Defaults to ['Property','Value'].
+   */
+  protected function printArrayAsTable(
+    array $array,
+    array $headers = ['Property', 'Value']
+  ) {
+    $table = new Table($this->output);
+    $table->setHeaders($headers)
+      ->setRows(ArrayManipulator::convertArrayToFlatTextArray($array))
+      ->render();
   }
 
 }

@@ -82,6 +82,9 @@ class UpdateCommand extends BltTasks {
     $this->invokeCommand('setup:settings');
     $this->invokeCommand('examples:init');
     $this->invokeCommand('install-alias');
+    if ($this->input()->isInteractive()) {
+      $this->invokeCommand('setup:wizard');
+    }
   }
 
   /**
