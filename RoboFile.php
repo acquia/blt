@@ -190,7 +190,9 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       // Test SAML.
       ->exec("$bin/blt simplesamlphp:init $blt_suffix")
       // Test that custom commands are loaded.
-      ->exec("$bin/blt custom:hello $blt_suffix");
+      ->exec("$bin/blt custom:hello $blt_suffix")
+      // Create a test multisite.
+      ->exec("$bin/blt generate:multisite --site-name=site2 $blt_suffix");
 
     if (!$use_vm) {
       // Add Drupal VM config to repo without booting.
