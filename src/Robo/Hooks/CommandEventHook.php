@@ -3,7 +3,9 @@
 namespace Acquia\Blt\Robo\Hooks;
 
 use Acquia\Blt\Robo\BltTasks;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
+use Symfony\Component\Console\Input\ArrayInput;
 
 /**
  * This class defines hooks that provide user interaction.
@@ -49,60 +51,18 @@ class CommandEventHook extends BltTasks {
       $annotation_data = $event->getCommand()->getAnnotationData();
       if ($annotation_data->has('executeInDrupalVm') && $this->shouldExecuteInDrupalVm()) {
         $event->disableCommand();
-        $args = $this->getCliArgs();
-        $command_name = $event->getCommand()->getName();
-
-        $command_parts = [];
-        $command_parts[] = "blt $command_name";
-        if (!empty($args)) {
-          $command_parts[] = $args;
-        }
-        $command_parts[] = "--define drush.alias=self";
-        $full_command = implode(' ', $command_parts);
+        $command = $event->getCommand();
+        $new_input = $this->createCommandInputFromCurrentParams($command);
+        $new_input->setOption('define', 'drush.alias=self');
 
         // We cannot return an exit code directly, because disabled commands
         // always return ConsoleCommandEvent::RETURN_CODE_DISABLED.
-        $result = $this->executeCommandInDrupalVm($full_command);
+        $command_string = $this->convertInputToCommandString($new_input, $command);
+        $result = $this->executeCommandInDrupalVm($command_string);
       }
     }
 
     // @todo Transmit analytics on command execution. Do the same in status hook.
-  }
-
-  /**
-   * Gets the CLI args that were used when BLT was executed.
-   *
-   * This does not include 'blt' or the command name like 'test:behat'. Example
-   * value: ['-v', ['--key="value"']].
-   *
-   * @return array|string
-   *   The CLI args.
-   */
-  protected function getCliArgs() {
-    $args = array_slice($_SERVER['argv'], 2);
-    $args = array_map([$this, 'escapeShellArg'], $args);
-    $args = implode(' ', $args);
-
-    return $args;
-  }
-
-  /**
-   * Escapes the value for CLI arguments in form key=value.
-   *
-   * @param string $arg
-   *   The argument to be escaped.
-   *
-   * @return string
-   *   The escaped argument.
-   */
-  protected function escapeShellArg($arg) {
-    if (strpos($arg, '-') !== 0
-      && strstr($arg, '=') !== FALSE) {
-      $arg_parts = explode('=', $arg);
-      $arg = $arg_parts[0] . '="' . $arg_parts[1] . '"';
-    }
-
-    return $arg;
   }
 
   /**
@@ -115,6 +75,61 @@ class CommandEventHook extends BltTasks {
     return !$this->getInspector()->isVmCli() &&
       $this->getInspector()->isDrupalVmLocallyInitialized()
       && $this->getInspector()->isDrupalVmBooted();
+  }
+
+  /**
+   * @param \Symfony\Component\Console\Input\ArrayInput $new_input
+   * @param \Symfony\Component\Console\Command\Command $command
+   *   The command.
+   *
+   * @return string
+   */
+  protected function convertInputToCommandString(ArrayInput $new_input, Command $command) {
+    $command_definition = $command->getDefinition();
+    $command_string = (string) $new_input;
+    foreach ($new_input->getOptions() as $name => $value) {
+      if ($new_input->getOption($name)) {
+        if ($command_definition->getOption($name)->acceptValue()) {
+          $command_string .= " --$name=$value";
+        }
+        else {
+          $command_string .= " --$name";
+        }
+      }
+    }
+    return $command_string;
+  }
+
+  /**
+   * Creates ArrayInput for new command using valid params from current one.
+   *
+   * @param \Symfony\Component\Console\Command\Command $command
+   *   The command.
+   *
+   * @return \Symfony\Component\Console\Input\ArrayInput
+   */
+  protected function createCommandInputFromCurrentParams(Command $command) {
+    $command_definition = $command->getDefinition();
+    $command_name = $command->getName();
+    $options = $this->input->getOptions();
+    $args = $this->input->getArguments();
+    unset($args['command']);
+    $new_input = new ArrayInput(['blt', 'command' => $command_name],
+      $command_definition);
+
+    foreach ($args as $name => $value) {
+      if ($command_definition->hasArgument($name)) {
+        $new_input->setArgument($name, $value);
+      }
+    }
+
+    foreach ($options as $name => $value) {
+      if ($command_definition->hasOption($name)) {
+        $new_input->setOption($name, $value);
+      }
+    }
+
+    return $new_input;
   }
 
 }
