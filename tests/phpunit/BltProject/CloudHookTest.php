@@ -2,22 +2,24 @@
 
 namespace Acquia\Blt\Tests\Blt;
 
-use Acquia\Blt\Tests\BltTestBase;
+use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
  * Class CloudHookTest.
  *
- * Verifies that acsf support has been initialized.
+ * Verifies that Acquia cloud hook support has been initialized.
  */
-class CloudHookTest extends BltTestBase {
+class CloudHookTest extends BltProjectTestBase {
 
   /**
    * Tests setup:cloud-hooks command.
+   *
+   * @group blted8
    */
   public function testSetupCloudHooks() {
-    $this->assertFileExists($this->new_project_dir . '/hooks');
+    $this->assertFileExists($this->projectDirectory . '/hooks');
 
-    $commonPostCodeDeployScript = $this->new_project_dir . '/hooks/common/post-code-deploy/post-code-deploy.sh';
+    $commonPostCodeDeployScript = $this->projectDirectory . '/hooks/common/post-code-deploy/post-code-deploy.sh';
     $this->assertFileExists($commonPostCodeDeployScript);
 
     $filePermissions = substr(sprintf('%o', fileperms($commonPostCodeDeployScript)), -4);

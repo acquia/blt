@@ -23,9 +23,9 @@ drush:
     # The remote environment from which the database will be pulled.
     remote: ${project.machine_name}.test
     # The local environment against which all local drush commands are run.
-    local: self
+    local: 'self'
     # The drush alias against which all ci commands are run.
-    ci: self
+    ci: 'self'
     # The default drush alias to be used when no environment is specified.
   default_alias: ${drush.aliases.local}
 

@@ -71,6 +71,12 @@ drupal:
   locale: en
   local_settings_file: ${docroot}/sites/${site}/settings/local.settings.php
   settings_file: ${docroot}/sites/${site}/settings.php
+  db:
+    database: drupal
+    username: drupal
+    password: drupal
+    host: localhost
+    port: 3306
 
 drush:
   bin: ${composer.bin}/drush
@@ -84,6 +90,8 @@ git:
   hooks:
     pre-commit: ${blt.root}/scripts/git-hooks
     commit-msg: ${blt.root}/scripts/git-hooks
+  commit-msg:
+    pattern: "/^${project.prefix}-[0-9]+(: )[^ ].{15,}\\./"
 
 # You may provide a list of sites for BLT to run commands against,
 # otherwise BLT will generate this sites list based on directories
@@ -209,6 +217,10 @@ validate:
   twig:
     filesets:
       - files.twig
+    # Add any custom Twig filters for linter to ignore.
+    filters: { }
+    # Add any custom Twig functions for linter to ignore.
+    functions: { }
   yaml:
     filesets:
       - files.yaml

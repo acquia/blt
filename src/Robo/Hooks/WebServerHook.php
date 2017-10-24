@@ -10,7 +10,7 @@ use League\Container\ContainerAwareTrait;
 use Psr\Log\LoggerAwareTrait;
 
 /**
- * Starts and kills Drush websever for @launchWebServer annotation.
+ * Starts and kills Drush webserver for @launchWebServer annotation.
  */
 class WebServerHook extends BltTasks {
 
@@ -27,14 +27,18 @@ class WebServerHook extends BltTasks {
    * @hook pre-command @launchWebServer
    */
   public function launchWebServer() {
-    $this->invokeCommand('tests:server:start');
+    if ($this->getConfigValue('tests.run-server')) {
+      $this->invokeCommand('tests:server:start');
+    }
   }
 
   /**
    * @hook post-command @launchWebServer
    */
   public function killWebServer() {
-    $this->invokeCommand('tests:server:kill');
+    if ($this->getConfigValue('tests.run-server')) {
+      $this->invokeCommand('tests:server:kill');
+    }
   }
 
 }

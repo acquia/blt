@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# This command will simulate output, preventing timeouts for long-running
+# commands that do not produce output.
+
 set -e
 set -u
 

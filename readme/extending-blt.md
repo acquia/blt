@@ -160,6 +160,10 @@ In this example, an executable file named `pre-commit` should exist in `${repo.r
 
 You should execute `blt setup:git-hooks` after modifying these values in order for changes to take effect.
 
+#### git:commit-msg
+
+By default, BLT will execute the `git:commit-msg` command when new git commits are made. This command validates that the commit message matches the regular expression defined in `git.commit-msg.pattern'. You may [override the default configuration](#modifying-blt-configuration).
+
 ### tests:*
 
 #### tests:behat
@@ -188,3 +192,16 @@ To modify the behavior of the tests:behat target, you may override BLT's `behat`
 #### validate:phpcs
 
 To modify the behavior of the validate:phpcs target, you may copy `phpcs.xml.dist` to `phpcs.xml` in your repository root directory and modify the XML. Please see the [official PHPCS documentation](https://github.com/squizlabs/PHP_CodeSniffer/wiki/Advanced-Usage#using-a-default-configuration-file) for more information.
+
+#### validate:twig
+
+To prevent validation failures on any Twig filters or functions created in custom or contrib module `twig.extension` services, add `filters` and `functions` like so:
+
+        validate:
+          twig:
+            filters:
+              - my_filter_1
+              - my_filter_2
+            functions:
+              - my_function_1
+              - my_function_2

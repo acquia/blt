@@ -30,14 +30,8 @@ Use the following commands to create a testable BLT-created project alongside BL
 git clone https://github.com/acquia/blt.git
 rm -rf blted8
 composer install --working-dir=blt
-mkdir blted8
-cp blt/blt-project/composer.json blted8/
-cd blted8
-git init
-composer install
-./vendor/bin/blt install-alias
-git add -A
-git commit -m 'Initial commit.'
+cd blt
+./vendor/bin/robo create:symlinked-project
 ```
 
-The new `blt-project` directory will have a composer dependency on your local clone of BLT via a `../blt` symlink. You can therefore make changes to files in `blt` and see them immediately reflected in `blt-project/vendor/acquia/blt`.
+The new `blted8` directory will have a composer dependency on your local clone of BLT via a `../blt` symlink. You can therefore make changes to files in `blt` and see them immediately reflected in `blted8/vendor/acquia/blt`.

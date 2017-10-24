@@ -106,11 +106,13 @@ class SettingsCommand extends BltTasks {
 
       $result = $task->run();
 
+      foreach ($copy_map as $from => $to) {
+        $this->getConfig()->expandFileProperties($to);
+      }
+
       if (!$result->wasSuccessful()) {
         throw new BltException("Unable to copy files settings files from BLT into your repository.");
       }
-
-      $this->getConfig()->expandFileProperties($project_local_drush_file);
 
       $result = $this->taskWriteToFile($project_settings_file)
         ->appendUnlessMatches('#vendor/acquia/blt/settings/blt.settings.php#', 'require DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php";' . "\n")
@@ -171,7 +173,9 @@ class SettingsCommand extends BltTasks {
         $task->copy($from, $to);
       }
       $result = $task->run();
-      $this->getConfig()->expandFileProperties($this->projectBehatLocalConfigFile);
+      foreach ($copy_map as $from => $to) {
+        $this->getConfig()->expandFileProperties($to);
+      }
 
       if (!$result->wasSuccessful()) {
         $filepath = $this->getInspector()->getFs()->makePathRelative($this->defaultBehatLocalConfigFile, $this->getConfigValue('repo.root'));

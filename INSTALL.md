@@ -12,6 +12,12 @@ You must have the following tools on the command line of your *host operating sy
 
 Instructions for installing _all_ requirements are listed below.
 
+### Networking considerations
+
+Building project dependencies requires that your local machine make HTTP and HTTPS requests to various software providers on the internet. Please ensure that your local and network level security settings permit this to happen.
+
+If you need to make requests via a proxy server, please [configure git to use a proxy](http://stackoverflow.com/a/19213999). This will cover all git based requests made by Composer
+
 ## Installing requirements
 
 ### Mac OSX
