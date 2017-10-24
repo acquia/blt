@@ -26,6 +26,10 @@ acsf_deploy() {
   export PATH=$repo_root/vendor/bin:$PATH
   cd $repo_root
 
+  # Clear drush cache to make sure it can find ACSF tools.
+  echo "Clearing Drush cache"
+  drush cc drush
+
   echo "Running updates for environment: $target_env"
 
   # Generate an array of all site URIs on the Factory from parsed output of Drush utility.
