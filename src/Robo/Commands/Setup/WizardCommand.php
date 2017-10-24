@@ -53,7 +53,10 @@ class WizardCommand extends BltTasks {
   }
 
   /**
+   * Load a recipe.
+   *
    * @param string $filename
+   *   The recipe filename.
    *
    * @return array
    */
@@ -76,7 +79,10 @@ class WizardCommand extends BltTasks {
   }
 
   /**
+   * Prompts the user for information.
+   *
    * @return array
+   *   An array of answers.
    */
   protected function askForAnswers() {
     $this->say("<info>Let's start by entering some information about your project.</info>");
@@ -100,6 +106,12 @@ class WizardCommand extends BltTasks {
     return $answers;
   }
 
+  /**
+   * Updates project.yml with values from askForAnswers().
+   *
+   * @param array $answers
+   *   Answers from $this->askForAnswers().
+   */
   protected function updateProjectYml($answers) {
     $config_file = $this->getConfigValue('repo.root') . '/blt/project.yml';
     $config = Yaml::parse(file_get_contents($config_file));
