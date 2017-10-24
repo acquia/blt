@@ -45,7 +45,6 @@ modules:
       - seckit
       - views_ui
     uninstall:
-      - acsf
       - acquia_connector
       - shield
   ci:
