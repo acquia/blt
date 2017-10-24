@@ -75,7 +75,6 @@ class DefaultConfig extends BltConfig {
 
     // Adapt remote alias for the multisite.
     if ($environment = $this->config->get('drush.aliases.remote_env')) {
-      echo ' environment:: ' . $environment;
       $this->config->set('drush.aliases.remote', $machine_name . '.' . $site_name . '.' . $environment);
     }
 
