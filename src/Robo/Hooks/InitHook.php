@@ -31,8 +31,9 @@ class InitHook extends Tasks implements IOAwareInterface, ConfigAwareInterface, 
     // input has been processed.
     $multisites = $this->getConfigValue('multisites');
     $first_multisite = reset($multisites);
+    $machine_name = $this->getConfigValue('project.machine_name');
     $site = $this->getConfigValue('site', $first_multisite);
-    $this->getConfig()->setSiteConfig($site);
+    $this->getConfig()->setSiteConfig($site, $machine_name);
   }
 
 }
