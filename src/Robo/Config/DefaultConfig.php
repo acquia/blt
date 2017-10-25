@@ -62,6 +62,12 @@ class DefaultConfig extends BltConfig {
     $first_multisite = reset($multisites);
     $site = $this->get('site', $first_multisite);
     $this->setSite($site);
+
+    // Adapt remote alias for the multisite (as --uri is not supported in drush).
+    if ($environment = $this->get('drush.aliases.remote_env')) {
+      $machine_name = $this->get('project.machine_name');
+      $this->config->set('drush.aliases.remote', $machine_name . '.' . $site . '.' . $environment);
+    }
   }
 
   public function setSite($site) {
