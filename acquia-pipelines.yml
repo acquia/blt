@@ -1,7 +1,7 @@
 # This is not the acquia-pipelines file that will be used for projects generated via BLT.
 # This file will create a sample BLT project against which to test. It uses the same logic as the child project's
 # acquia-pipelines.yml file wherever possible.
-version: 1.0.0
+version: 1.1.0
 services:
   - mysql
 
@@ -36,7 +36,7 @@ events:
               - source ${BLT_DIR}/scripts/pipelines/run_tests
               # Make BLT doctor happy.
               - source ${BLT_DIR}/scripts/blt/ci/internal/doctor.sh
-              - phpunit ${BLT_DIR}/tests/phpunit --group blt-project
+              - phpunit ${BLT_DIR}/tests/phpunit --group blted8
 
 
         # Generate artifact.

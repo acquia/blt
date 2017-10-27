@@ -5,6 +5,8 @@
  * Local development override configuration feature.
  */
 
+use Drupal\Component\Assertion\Handle;
+
 /**
  * Database configuration.
  */
@@ -13,11 +15,11 @@ $databases = array(
   array(
     'default' =>
     array(
-      'database' => 'drupal',
-      'username' => 'drupal',
-      'password' => 'drupal',
-      'host' => 'localhost',
-      'port' => '3306',
+      'database' => '${drupal.db.database}',
+      'username' => '${drupal.db.username}',
+      'password' => '${drupal.db.password}',
+      'host' => '${drupal.db.host}',
+      'port' => '${drupal.db.port}',
       'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
       'driver' => 'mysql',
       'prefix' => '',
@@ -51,7 +53,7 @@ $settings['update_free_access'] = TRUE;
  * @see https://wiki.php.net/rfc/expectations
  */
 assert_options(ASSERT_ACTIVE, TRUE);
-\Drupal\Component\Assertion\Handle::register();
+Handle::register();
 
 /**
  * Show all error messages, with backtrace information.
@@ -79,8 +81,7 @@ $config['system.performance']['js']['preprocess'] = FALSE;
  *
  * Do not use this setting until after the site is installed.
  */
-# $settings['cache']['bins']['render'] = 'cache.backend.null';
-
+// $settings['cache']['bins']['render'] = 'cache.backend.null';
 /**
  * Disable Dynamic Page Cache.
  *
@@ -88,8 +89,7 @@ $config['system.performance']['js']['preprocess'] = FALSE;
  * cacheability metadata is present (and hence the expected behavior). However,
  * in the early stages of development, you may want to disable it.
  */
-# $settings['cache']['bins']['dynamic_page_cache'] = 'cache.backend.null';
-
+// $settings['cache']['bins']['dynamic_page_cache'] = 'cache.backend.null';
 /**
  * Allow test modules and themes to be installed.
  *

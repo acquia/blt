@@ -14,6 +14,8 @@ class ImportCommand extends BltTasks {
    * Imports a .sql file into the Drupal database.
    *
    * @command setup:import
+   *
+   * @validateDrushConfig
    */
   public function import() {
     $task = $this->taskDrush()

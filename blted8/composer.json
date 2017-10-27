@@ -1,0 +1,19 @@
+{
+    "name": "acquia/blted8",
+    "description": "Example project used to create new projects with BLT.",
+    "license": "GPL-2.0",
+    "repositories": {
+        "blt": {
+            "type": "path",
+            "url": "../blt",
+            "options": {
+                "symlink": true
+            }
+        }
+    },
+    "require": {
+        "acquia/blt": "*@dev"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

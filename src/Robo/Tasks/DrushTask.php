@@ -269,7 +269,7 @@ class DrushTask extends CommandStack {
     }
 
     if (isset($this->assume) && is_bool($this->assume)) {
-      $assumption = $this->assume ? 'yes' : 'no';
+      $assumption = $this->assume ? 'yes' : 'no-interaction';
       $this->option($assumption);
     }
 
@@ -285,6 +285,8 @@ class DrushTask extends CommandStack {
     if ($this->include) {
       $this->option('include', $this->include);
     }
+
+    $this->option('config', $this->getConfig()->get('repo.root') . '/drush/drushrc.php');
   }
 
   /**
@@ -305,6 +307,10 @@ class DrushTask extends CommandStack {
     if (empty($this->exec)) {
       throw new TaskException($this, 'You must add at least one command');
     }
+
+    // Set $input to NULL so that it is not inherited by the process.
+    $this->setInput(NULL);
+
     // If 'stopOnFail' is not set, or if there is only one command to run,
     // then execute the single command to run.
     if (!$this->stopOnFail || (count($this->exec) == 1)) {

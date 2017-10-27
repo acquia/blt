@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Pipelines environment specific settings.
+ */
+
 $databases = array(
   'default' => array(
     'default' => array(

@@ -6,7 +6,8 @@ vagrant_machine_name: ${project.machine_name}
 vagrant_ip: ${random.ip}
 
 # Use Ubuntu 16.04 LTS to match Acquia Cloud environments.
-vagrant_box: geerlingguy/ubuntu1604
+vagrant_box: ${base_box}
+workspace: ${workspace}
 
 # Set drupal_site_name to the project's human-readable name.
 drupal_site_name: "${project.human_name}"
@@ -63,19 +64,14 @@ drupal_install_site: false
 configure_drush_aliases: false
 
 # This is required for front-end building tools.
-nodejs_version: "4.x"
+nodejs_version: "6.x"
 nodejs_npm_global_packages:
   - name: bower
   - name: gulp-cli
+  - name: yarn
 nodejs_install_npm_user: "{{ drupalvm_user }}"
 npm_config_prefix: "/home/{{ drupalvm_user }}/.npm-global"
-installed_extras:
-  - adminer
-  - drush
-  - mailhog
-  - nodejs
-  - selenium
-  - xdebug
+installed_extras: ${installed_extras}
 
 # PHP 7
 php_version: "7.1"
@@ -88,8 +84,6 @@ php_packages_extra:
 # Change this value to 1 in order to enable xdebug by default.
 php_xdebug_default_enable: 0
 php_xdebug_coverage_enable: 0
-# Change this value to 1 in order to enable xdebug on the cli.
-php_xdebug_cli_enable: 0
 php_xdebug_remote_enable: 1
 php_xdebug_remote_connect_back: 1
 # Use PHPSTORM for PHPStorm, sublime.xdebug for Sublime Text.
@@ -98,5 +92,9 @@ php_xdebug_max_nesting_level: 256
 php_xdebug_remote_port: "9000"
 php_memory_limit: "512M"
 
+# Acquia Search defaults to 4.5.1.
+solr_version: "4.5.1"
+
 post_provision_scripts:
-  - "../../../acquia/blt/scripts/drupal-vm/post-provision.sh"
+  - "../../../acquia/blt/scripts/drupal-vm/configure-solr.sh"
+  - "../../../acquia/blt/scripts/drupal-vm/post-provision.php"

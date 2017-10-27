@@ -16,7 +16,7 @@ class ToggleModulesTest extends BltProjectTestBase {
    *
    * In the event no environment is specified, this test will be skipped.
    *
-   * @group blt-project
+   * @group blted8
    */
   public function testModulesEnabled() {
     $modules = $this->config['modules'][BLT_ENV]['enable'];
@@ -30,7 +30,7 @@ class ToggleModulesTest extends BltProjectTestBase {
    *
    * In the event no environment is specified, this test will be skipped.
    *
-   * @group blt-project
+   * @group blted8
    */
   public function testModulesNotEnabled() {
     $modules = $this->config['modules'][BLT_ENV]['uninstall'];
@@ -86,18 +86,17 @@ class ToggleModulesTest extends BltProjectTestBase {
     $output = [];
     $drush_bin = $this->projectDirectory . '/vendor/bin/drush';
 
-    // Use the project's default alias if no other alias is provided.
-    $alias = !empty($alias) ? $alias : $this->config['drush']['default_alias'];
-
     // Get module status, it will be on the first line of output.
-    exec("$drush_bin @$alias pmi $module --fields=status --root=$this->drupalRoot", $output);
+    chdir($this->drupalRoot);
+    $command = "$drush_bin pm:list --fields=name,status --root=$this->drupalRoot | grep $module";
+    exec($command, $output);
     $status = $output[0];
 
     // Parse status strings, throw if parsing fails.
-    if (preg_match('/enabled/', $status)) {
+    if (preg_match('/enabled/i', $status)) {
       $enabled = TRUE;
     }
-    elseif (preg_match('/(?:disabled|not\sinstalled|not\sfound)/', $status)) {
+    elseif (preg_match('/(?:disabled|not\sinstalled|not\sfound)/i', $status)) {
       $enabled = FALSE;
     }
     else {

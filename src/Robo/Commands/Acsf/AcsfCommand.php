@@ -5,6 +5,7 @@ namespace Acquia\Blt\Robo\Commands\Acsf;
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Defines commands in the "acsf" namespace.
@@ -19,6 +20,7 @@ class AcsfCommand extends BltTasks {
     $this->logger->notice("  * Adding drupal/acsf and acquia/acsf-tools the require array in your composer.json file.");
     $this->logger->notice("  * Executing the `acsf-init` command, provided by the drupal/acsf module.");
     $this->logger->notice("  * Adding default factory-hooks to your application.");
+    $this->logger->notice("  * Adding `acsf` to `modules.local.uninstall` in your project.yml");
     $this->logger->notice("");
     $this->logger->notice("For more information, see:");
     $this->logger->notice("<comment>http://blt.readthedocs.io/en/8.x/readme/acsf-setup</comment>");
@@ -51,6 +53,12 @@ class AcsfCommand extends BltTasks {
     $this->say('<comment>ACSF Tools has been added. Some post-install configuration is necessary.</comment>');
     $this->say('<comment>See /drush/contrib/acsf-tools/README.md. </comment>');
     $this->say('<info>ACSF was successfully initialized.</info>');
+    $project_yml = $this->getConfigValue('blt.config-files.project');
+    $project_config = Yaml::parse(file_get_contents($project_yml));
+    if (!empty($project_config['modules'])) {
+      $project_config['modules']['local']['uninstall'][] = 'acsf';
+    }
+    file_put_contents($project_yml, Yaml::dump($project_config, 3, 2));
   }
 
   /**
@@ -59,6 +67,12 @@ class AcsfCommand extends BltTasks {
    * @command acsf:init:drush
    */
   public function acsfDrushInitialize() {
+
+    $this->logger->error("This command has been temporarily deprecated due to breaking changes in Drush 9.");
+    $this->logger->warning("Please follow the instructions in the acsf module for information on the initialization process.");
+    return 1;
+
+    // @codingStandardsIgnoreStart
     $this->say('Executing initialization command provided acsf module...');
 
     $result = $this->taskDrush()
@@ -67,16 +81,23 @@ class AcsfCommand extends BltTasks {
       ->includePath("{$this->getConfigValue('docroot')}/modules/contrib/acsf/acsf_init")
       ->run();
 
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Unable to copy ACSF scripts.");
+    }
+
     $this->say('<comment>Please add acsf_init as a dependency for your installation profile to ensure that it remains enabled.</comment>');
     $this->say('<comment>An example alias file for ACSF is located in /drush/site-aliases/example.acsf.aliases.drushrc.php.</comment>');
 
     return $result;
+    // @codingStandardsIgnoreEnd
   }
 
   /**
    * Creates "factory-hooks/" directory in project's repo root.
+   *
+   * @command acsf:init:hooks
    */
-  protected function acsfHooksInitialize() {
+  public function acsfHooksInitialize() {
     $defaultAcsfHooks = $this->getConfigValue('blt.root') . '/settings/acsf';
     $projectAcsfHooks = $this->getConfigValue('repo.root') . '/factory-hooks';
 

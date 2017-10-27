@@ -41,20 +41,47 @@ class UpdateCommand extends BltTasks {
    * Called during `composer create-project acquia/blt-project`.
    *
    * @command internal:create-project
+   *
+   * @hidden
    */
   public function createProject() {
     $this->cleanUpProjectTemplate();
-    $this->updateRootProjectFiles();
-    $this->reInstallComposerPackages();
+    $this->initializeBlt();
     $this->setProjectName();
-    $this->invokeCommand('examples:init');
     $this->initAndCommitRepo();
-    $this->invokeCommand('install-alias');
     $this->displayArt();
-
     $this->yell("Your new BLT-based project has been created in {$this->getConfigValue('repo.root')}.");
     $this->say("Please continue by following the \"Creating a new project with BLT\" instructions:");
     $this->say("<comment>http://blt.readthedocs.io/en/8.x/readme/creating-new-project/</comment>");
+  }
+
+  /**
+   * (internal) Prepares a repo that is adding BLT for the first time.
+   *
+   * @command internal:add-to-project
+   *
+   * @return \Robo\Result
+   *
+   * @hidden
+   */
+  public function addToProject() {
+    $this->initializeBlt();
+    $this->displayArt();
+    $this->yell("BLT has been added to your project.");
+    $this->say("This required a full `composer update`.");
+    $this->say("BLT has added and modified various project files.");
+    $this->say("Please inspect your repository.");
+  }
+
+  /**
+   * Creates initial BLT files in their default state.
+   */
+  protected function initializeBlt() {
+    $this->updateRootProjectFiles();
+    $this->reInstallComposerPackages();
+    $this->invokeCommand('setup:settings');
+    $this->invokeCommand('examples:init');
+    $this->invokeCommand('install-alias');
   }
 
   /**
@@ -70,20 +97,6 @@ class UpdateCommand extends BltTasks {
     }
     $this->cleanup();
     $this->invokeCommand('install-alias');
-  }
-
-  /**
-   * (internal) Prepares a repo that is adding BLT for the first time.
-   *
-   * @command internal:add-to-project
-   *
-   * @return \Robo\Result
-   */
-  public function addToProject() {
-    $this->reInstallComposerPackages();
-    $this->displayArt();
-    $this->yell("BLT has been added to your project.");
-    $this->say("It has added and modified various project files. Please inspect your repository.");
   }
 
   /**
@@ -139,6 +152,8 @@ class UpdateCommand extends BltTasks {
    * (internal) Initializes the project repo and performs initial commit.
    *
    * @command internal:create-project:init-repo
+   *
+   * @hidden
    */
   public function initAndCommitRepo() {
     $result = $this->taskExecStack()
@@ -202,8 +217,7 @@ class UpdateCommand extends BltTasks {
 
     $result = $this->taskExecStack()
       ->dir($this->getConfigValue('repo.root'))
-      ->exec("composer install --no-interaction --prefer-dist --ansi")
-      ->detectInteractive()
+      ->exec("composer install --no-interaction --ansi")
       ->run();
 
     if (!$result->wasSuccessful()) {

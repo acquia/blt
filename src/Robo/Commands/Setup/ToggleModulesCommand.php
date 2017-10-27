@@ -26,6 +26,7 @@ class ToggleModulesCommand extends BltTasks {
    *   your configuration.
    *
    * @executeInDrupalVm
+   * @validateDrushConfig
    */
   public function toggleModules($options = [
     'environment' => InputOption::VALUE_REQUIRED,
@@ -43,7 +44,7 @@ class ToggleModulesCommand extends BltTasks {
     if (isset($environment)) {
       // Enable modules.
       $enable_key = "modules.$environment.enable";
-      $this->doToggleModules('pm-enable --skip', $enable_key);
+      $this->doToggleModules('pm-enable', $enable_key);
 
       // Uninstall modules.
       $disable_key = "modules.$environment.uninstall";
@@ -66,7 +67,7 @@ class ToggleModulesCommand extends BltTasks {
    */
   protected function doToggleModules($command, $config_key) {
     if ($this->getConfig()->has($config_key)) {
-      $modules = $this->getConfigValue($config_key);
+      $modules = (array) $this->getConfigValue($config_key);
       $modules_list = implode(' ', $modules);
       $result = $this->taskDrush()
         ->drush("$command $modules_list")

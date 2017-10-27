@@ -1,6 +1,8 @@
-version: 1.0.0
+version: 1.1.0
 services:
   - mysql
+  - php:
+      version: 7.1
 
 variables:
   global:
@@ -16,6 +18,8 @@ events:
               - composer validate --no-check-all --ansi
               - composer install --ansi
               - source ${BLT_DIR}/scripts/pipelines/setup_env
+              # - nvm install v6.9.1
+              # - npm install --global yarn
         - validate:
             type: script
             script:

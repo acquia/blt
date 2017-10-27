@@ -54,14 +54,14 @@ The solution is to make sure that the referenced content exists before configura
 
 ### Updating core and contributed modules
 
-Caution must be taken when updating core and contributed modules. If those updates make changes to a module’s configuration or schema, you must make sure to also update your exported configurations. Otherwise, the next time you run updates it will import a stale configuration schema and cause unexpected behavior.
+Caution must be taken when updating core and contributed modules when using any sort of configuration management process. If those updates make changes to a module’s configuration or schema, you must make sure to also update your exported configurations. Otherwise, your "active" configuration (in the database) and exported configuration (on disk / in Git) will become out of sync, causing problems with future configuration imports. Failing to take this into account is the most common cause of configuration imports failing BLT's test for overridden configuration.
 
-The best way to handle this is to always follow these steps when updating contributed and core modules:
+The best way to prevent such problems is to always follow these steps when updating contributed and core modules:
 
-1. Start from a clean `setup:update` or `sync:refresh`. If you are using Features, ensure that there are no overridden configuration. The `cm.features.no-overrides` flag in [project.yml](https://github.com/acquia/blt/blob/8.x/template/blt/project.yml#L62) can assist with this by halting builds with overridden features.
+1. Start from a clean install or database sync, including config import (`blt setup` or `blt sync:refresh`). Verify that active and exported configuration are in sync by running `drush config-export` (if using core CM) or using the Features UI (if using Features).
 2. Use `composer update drupal/[module_name] --with-dependencies` to download the new module version(s).
 3. Run `drush updb` to apply any pending updates locally.
-4. Check for any modified configuration. If using Features, check for overridden features and export them. If using core CM, export all configuration (`drush config-export`) and check for any changes on disk using `git status`.
+4. Export any configuration that changed as part of the database updates or new module versions. If using Features, check for overridden features and export them. If using core CM, export all configuration (`drush config-export`) and check for any changes on disk using `git status`.
 5. Commit any changed configuration, along with the updated `composer.json` and `composer.lock`.
 
 We need to find a better way of preventing this than manually monitoring module updates. Find more information in these issues:
@@ -98,6 +98,54 @@ However, BLT does not create any configuration splits for you. For detailed info
 #### Troubleshooting
 
 If for some reason BLT is not working with Config Split, ensure that you are using Drush version 8.1.10 or higher, Config Split version 8.1.0-beta4 or higher, and that `cm.strategy` is set to `config-split` in `blt/project.yml`.
+
+### Using update hooks to importing individual config files
+
+BLT runs module update hooks before importing configuration changes. For use cases where it is necessary for a configuration change to be imported before the update hook runs, in your hook, you'll need to import the needed configuration from files first. (An example of this would be adding a new taxonomy vocabulary via config, and populating that vocabulary with terms in an update hook.)
+
+Code snippet for importing a taxonomy vocabulary config first before creating terms in that vocabulary:
+
+    use Drupal\taxonomy\Entity\Term;
+
+    // Import taxonomy from config sync directory.
+    $vid = 'foo_terms'; // foo_terms is the vocabularly id.
+    $vocab_config_id = "taxonomy.vocabulary.$vid";
+    $vocab_config_data = foo_read_config_from_sync($vocab_config_id);
+    \Drupal::service('config.storage')->write($vocab_config_id, $vocab_config_data);
+    
+    Term::create([
+      'name' => 'Foo Term 1',
+      'vid' => $vid',
+    ])->save();
+
+    Term::create([
+      'name' => 'Foo Term 2',
+      'vid' => $vid',
+    ])->save();
+
+This depends on a helper function, which can be added to your custom profile:
+
+    use Drupal\Core\Config\FileStorage;
+
+    /**
+     * Reads a stored config file from config sync directory.
+     *
+     * @param string $id
+     *   The config ID.
+     *
+     * @return array
+     *   The config data.
+     */
+    function foo_read_config_from_sync($id) {
+      // Statically cache FileStorage object.
+      static $storage;
+
+      if (empty($storage)) {
+        global $config_directories;
+        $storage = new FileStorage($config_directories[CONFIG_SYNC_DIRECTORY]);
+      }
+      return $storage->read($id);
+    }
 
 ## Features-based workflow
 

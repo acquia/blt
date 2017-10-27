@@ -4,6 +4,7 @@ namespace Acquia\Blt\Robo\Commands\Setup;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\RandomString;
+use Acquia\Blt\Robo\Exceptions\BltException;
 
 /**
  * Defines commands in the "drupal:*" namespace.
@@ -16,9 +17,12 @@ class DrupalCommand extends BltTasks {
    * @command internal:drupal:install
    *
    * @validateMySqlAvailable
+   * @validateDrushConfig
    *
    * @return \Robo\Result
    *   The `drush site-install` command result.
+   *
+   * @hidden
    */
   public function install() {
 
@@ -42,19 +46,16 @@ class DrupalCommand extends BltTasks {
       ->option('account-name', $username, '=')
       ->option('account-mail', $this->getConfigValue('drupal.account.mail'))
       ->option('locale', $this->getConfigValue('drupal.locale'))
+      ->verbose(TRUE)
       ->assume(TRUE)
       ->printOutput(TRUE);
-
-    $config_strategy = $this->getConfigValue('cm.strategy');
-
-    if (!$config_strategy != 'none') {
-      $cm_core_key = $this->getConfigValue('cm.core.key');
-      $task->option('config-dir', $this->getConfigValue("cm.core.dirs.$cm_core_key.path"));
-    }
 
     $result = $task->detectInteractive()->run();
     if ($result->wasSuccessful()) {
       $this->getConfig()->set('state.drupal.installed', TRUE);
+    }
+    else {
+      throw new BltException("Failed to install Drupal!");
     }
 
     return $result;

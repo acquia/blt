@@ -8,10 +8,6 @@ box/local.config.yml
 *.local
 project.local.yml
 
-# Ignore composer includes.
-blt/composer.required.json
-blt/composer.suggested.json
-
 # Ignore drupal core.
 docroot/core
 
@@ -128,3 +124,6 @@ nbproject/*
 
 # PHPStorm
 atlassian-ide-plugin.xml
+
+#NPM
+npm-debug.log

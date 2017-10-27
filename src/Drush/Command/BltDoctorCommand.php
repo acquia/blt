@@ -8,6 +8,7 @@ use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Yaml\Yaml;
 use Drupal\Core\Installer\Exception\AlreadyInstalledException;
+use Drush\Commands\core\StatusCommands;
 
 /**
  * Provides drush `blt-doctor` command.
@@ -103,7 +104,12 @@ class BltDoctor {
    * @return array
    */
   public function setStatusTable() {
-    $status_table = drush_core_status();
+    if (function_exists('drush_core_status')) {
+      $status_table = drush_core_status();
+    }
+    else {
+      $status_table = StatusCommands::getPropertyList([]);
+    }
     $this->statusTable = $status_table;
 
     return $status_table;
@@ -269,6 +275,7 @@ class BltDoctor {
     $this->checkDrupalVm();
     $this->checkSimpleSamlPhp();
     $this->checkPhpDateTimezone();
+    $this->checkNodeVersionFileExists();
 
     ksort($this->statusTable);
     $this->printArrayAsTable($this->statusTable);
@@ -1111,6 +1118,21 @@ class BltDoctor {
     }
     else {
       $this->logOutcome(__FUNCTION__, "PHP setting for date.timezone is correctly set", 'info');
+    }
+  }
+
+  /**
+   * Checks that one of .nvmrc or .node-version exists in repo root.
+   */
+  protected function checkNodeVersionFileExists() {
+    if (file_exists($this->repoRoot . '/.nvmrc')) {
+      $this->logOutcome(__FUNCTION__, ".nvmrc file exists", 'info');
+    }
+    elseif (file_exists($this->repoRoot . '/.node-version')) {
+      $this->logOutcome(__FUNCTION__, ".node-version file exists", 'info');
+    }
+    else {
+      $this->logOutcome(__FUNCTION__, "Neither .nvmrc nor .node-version file found in repo root.", 'error');
     }
   }
 

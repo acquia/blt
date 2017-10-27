@@ -1,0 +1,3 @@
+# Ignore composer includes.
+composer.required.json
+composer.suggested.json

@@ -64,20 +64,21 @@ Request the remote IdP metadata (XML) from the customer. Note that each environm
 
               $config['admin.protectindexpage'] = TRUE;
               $config['admin.protectmetadata'] = TRUE;
+
       1. Optionally set the following values to prevent Varnish from interfering with SimpleSAMLphp.
- 
-       // Prevent Varnish from interfering with SimpleSAMLphp.
-       // SSL terminated at the ELB/balancer so we correctly set the SERVER_PORT
-       // and HTTPS for SimpleSAMLphp baseurl configuration.
-       $protocol = 'http://';
-       $port = ':80';
-       if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
-         $_SERVER['SERVER_PORT'] = 443;
-         $_SERVER['HTTPS'] = 'true';
-         $protocol = 'https://';
-         $port = ':' . $_SERVER['SERVER_PORT'];
-       }
-       $config['baseurlpath'] = $protocol . $_SERVER['HTTP_HOST'] . $port . '/simplesaml/';	  
+
+              // Prevent Varnish from interfering with SimpleSAMLphp.
+              // SSL terminated at the ELB/balancer so we correctly set the SERVER_PORT
+              // and HTTPS for SimpleSAMLphp baseurl configuration.
+              $protocol = 'http://';
+              $port = ':80';
+              if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
+                $_SERVER['SERVER_PORT'] = 443;
+                $_SERVER['HTTPS'] = 'true';
+                $protocol = 'https://';
+                $port = ':' . $_SERVER['SERVER_PORT'];
+              }
+              $config['baseurlpath'] = $protocol . $_SERVER['HTTP_HOST'] . $port . '/simplesaml/';	  
 
 1. Configure IdP Remote Metadata.
 

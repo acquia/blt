@@ -1,5 +1,4 @@
-# Note that the example .travis.yml file for child projects lives in /install.
-sudo: required
+sudo: false
 language: php
 dist: trusty
 
@@ -25,7 +24,6 @@ cache:
   - "$HOME/.console"
   - "$HOME/.drush/cache"
   - "$HOME/.nvm"
-  - "vendor"
 
 addons:
   ssh_known_hosts:
@@ -48,20 +46,11 @@ install:
   - source ${BLT_DIR}/scripts/travis/setup_project
 
 script:
-  - source ${BLT_DIR}/scripts/blt/ci/internal/smoke_tests.sh
   - source ${BLT_DIR}/scripts/blt/ci/internal/create_blt_project.sh
-  - source ${BLT_DIR}/scripts/blt/ci/internal/run_tests.sh
-  # Add Drupal VM config to repo.
-  - blt vm --no-boot --no-interaction --yes
-  # Execute PHP Unit tests.
-  - ./vendor/bin/phpunit ${BLT_DIR}/tests/phpunit --group blt-project -c ${BLT_DIR}/tests/phpunit/phpunit.xml
-  - ./vendor/bin/phpunit ${BLT_DIR}/tests/phpunit --group blt-multisite -c ${BLT_DIR}/tests/phpunit/phpunit.xml
-  # Deploy build artifact.
-  - blt deploy:build
-  - source ${BLT_DIR}/scripts/blt/ci/internal/test_artifact.sh
+  - ${BLT_DIR}/vendor/bin/robo release:test --no-vm --environment=ci --no-create-project
 
 before_deploy:
-  - cd ${TRAVIS_BUILD_DIR}/../blt-project
+  - cd ${TRAVIS_BUILD_DIR}/../blted8
   # The BLTed8 project will need its ssh_known_hosts configured to push to ACF.
   - yaml-cli update:value .travis.yml addons.ssh_known_hosts.0 svn-5223.devcloud.hosting.acquia.com
   # Add encrypted SSH key to BLTed8 project.
@@ -80,16 +69,16 @@ after_success:
 
 deploy:
   - provider: script
-    # Deploys build artifact for generated `blt-project` to acquia-pso/blted8 on GitHub and also to bolt8 sub on ACF.
-    script: ${BLT_DIR}/scripts/travis/deploy_branch && $COMPOSER_BIN/phpunit $BLT_DIR/tests/phpunit --group=deploy
+    # Deploys build artifact for generated `blted8` to acquia-pso/blted8 on GitHub and also to bolt8 sub on ACF.
+    script: ${BLT_DIR}/scripts/travis/deploy_branch && $COMPOSER_BIN/phpunit $BLT_DIR/tests/phpunit --group=deploy -v
     skip_cleanup: true
     on:
       branch: $DEPLOY_SOURCE_BRANCH
-      php: 5.6
+      php: 7.1
   - provider: script
     # Deploys build artifact's source branch to acquia-pso/blted8 on GitHub.
     script: ${BLT_DIR}/scripts/blt/ci/internal/deploy_blted8.sh
     skip_cleanup: true
     on:
       branch: $DEPLOY_SOURCE_BRANCH
-      php: 5.6
+      php: 7.1

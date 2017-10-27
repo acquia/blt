@@ -16,6 +16,7 @@ use Psr\Log\LoggerAwareTrait;
 use Robo\Common\BuilderAwareTrait;
 use Robo\Contract\BuilderAwareInterface;
 use Robo\Contract\ConfigAwareInterface;
+use function substr;
 use Symfony\Component\Filesystem\Filesystem;
 use Robo\Contract\VerbosityThresholdInterface;
 use Tivie\OS\Detector;
@@ -247,6 +248,38 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   }
 
   /**
+   * Validates a drush alias.
+   *
+   * @param string $alias
+   *
+   * @return bool
+   *   TRUE if alias is valid.
+   */
+  public function isDrushAliasValid($alias) {
+    return $this->executor->drush("site-alias $alias --format=json")->run()->wasSuccessful();
+  }
+
+  /**
+   * Gets the major version of drush.
+   *
+   * @return int
+   *   The major version of drush.
+   */
+  public function getDrushMajorVersion() {
+    $version_info = json_decode($this->executor->drush('version --format=json')->run()->getMessage(), TRUE);
+    if (!empty($version_info['drush-version'])) {
+      $version = $version_info['drush-version'];
+    }
+    else {
+      $version = $version_info;
+    }
+
+    $major_version = substr($version, 0, 1);
+
+    return (int) $major_version;
+  }
+
+  /**
    * Determines if MySQL is available, caches result.
    *
    * This method caches its result in $this->mySqlAvailable.
@@ -286,7 +319,8 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *   TRUE if Drupal VM configuration exists.
    */
   public function isDrupalVmConfigPresent() {
-    return file_exists($this->getConfigValue('repo.root') . '/Vagrantfile');
+    return file_exists($this->getConfigValue('repo.root') . '/Vagrantfile')
+      && file_exists($this->getConfigValue('vm.config'));
   }
 
   /**

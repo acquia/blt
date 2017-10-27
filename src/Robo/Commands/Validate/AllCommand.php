@@ -23,6 +23,7 @@ class AllCommand extends BltTasks {
       'validate:phpcs',
       'validate:yaml',
       'validate:twig',
+      'validate:deprecated',
     ]);
 
     return $status_code;

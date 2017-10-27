@@ -3,7 +3,11 @@
 namespace Acquia\Blt\Robo\Commands\Vm;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Common\ArrayManipulator;
 use Acquia\Blt\Robo\Exceptions\BltException;
+use function file_exists;
+use function file_get_contents;
+use Grasmash\YamlExpander\Expander;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Yaml\Yaml;
 
@@ -32,11 +36,11 @@ class VmCommand extends BltTasks {
   public function initialize() {
     $this->drupalVmAlias = $this->getConfigValue('project.machine_name') . '.local';
     $this->drupalVmVersionConstraint = '~4.3';
-    $this->defaultDrupalVmDrushAliasesFile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/drupal-vm.aliases.drushrc.php';
+    $this->defaultDrupalVmDrushAliasesFile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/drupal-vm.aliases.yml';
     $this->defaultDrupalVmConfigFile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/config.yml';
     $this->defaultDrupalVmVagrantfile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/Vagrantfile';
-    $this->defaultDrushAliasesFile = $this->getConfigValue('blt.root') . '/template/drush/site-aliases/aliases.drushrc.php';
-    $this->projectDrushAliasesFile = $this->getConfigValue('repo.root') . '/drush/site-aliases/aliases.drushrc.php';
+    $this->defaultDrushAliasesFile = $this->getConfigValue('blt.root') . '/template/drush/site-aliases/aliases.yml';
+    $this->projectDrushAliasesFile = $this->getConfigValue('repo.root') . '/drush/site-aliases/' . $this->getConfigValue('project.machine_name') . '.alias.yml';
     $this->projectDrupalVmVagrantfile = $this->getConfigValue('repo.root') . '/Vagrantfile';
     $this->projectDrupalVmConfigFile = $this->getConfigValue('vm.config');
     $this->vmDir = dirname($this->projectDrupalVmConfigFile);
@@ -124,36 +128,9 @@ class VmCommand extends BltTasks {
   public function config() {
     $this->say("Generating default configuration for Drupal VM...");
 
-    $this->logger->info("Adding a drush alias for the new VM...");
-    // @todo Concat only if it has not already been done.
-    $this->taskConcat([
-      $this->projectDrushAliasesFile,
-      $this->defaultDrupalVmDrushAliasesFile,
-    ])
-      ->to($this->projectDrushAliasesFile)
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->run();
-    $this->getConfig()->expandFileProperties($this->projectDrushAliasesFile);
-
-    $this->logger->info("Creating configuration files for Drupal VM...");
-
-    $this->taskFilesystemStack()
-      ->mkdir($this->vmDir)
-      ->copy($this->defaultDrupalVmConfigFile, $this->projectDrupalVmConfigFile, TRUE)
-      ->copy($this->defaultDrupalVmVagrantfile, $this->projectDrupalVmVagrantfile, TRUE)
-      ->stopOnFail()
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->run();
-
-    $config = clone $this->getConfig();
-
-    $config->set('drupalvm.config.dir', $this->vmConfigDir);
-    $config->expandFileProperties($this->projectDrupalVmVagrantfile);
-
-    // Generate a Random IP address for the new VM.
-    $random_local_ip = "192.168." . rand(0, 255) . '.' . rand(0, 255);
-    $config->set('random.ip', $random_local_ip);
-    $config->expandFileProperties($this->projectDrupalVmConfigFile);
+    $this->createDrushAlias();
+    $this->createConfigFiles();
+    $this->customizeConfigFiles();
 
     $vm_config = Yaml::parse(file_get_contents($this->projectDrupalVmConfigFile));
     $this->validateConfig($vm_config);
@@ -235,6 +212,7 @@ class VmCommand extends BltTasks {
     $package_options = [
       'package_name' => 'geerlingguy/drupal-vm',
       'package_version' => $this->drupalVmVersionConstraint,
+      ['dev' => TRUE],
     ];
     return $this->invokeCommand('composer:require', $package_options);
   }
@@ -246,7 +224,7 @@ class VmCommand extends BltTasks {
    *   TRUE if it is present already and matches version constraint.
    */
   protected function isDrupalVmRequired() {
-    $composer_json = json_decode($this->getConfigValue('repo.root') . '/composer.json', TRUE);
+    $composer_json = json_decode(file_get_contents($this->getConfigValue('repo.root') . '/composer.json'), TRUE);
     return !empty($composer_json['require-dev']['geerlingguy/drupal-vm'])
       && $composer_json['require-dev']['geerlingguy/drupal-vm'] == $this->drupalVmVersionConstraint;
   }
@@ -276,8 +254,99 @@ class VmCommand extends BltTasks {
    */
   protected function validateConfig($config) {
     if (strstr($config['vagrant_machine_name'], '_')) {
-      $this->logger->warning("vagrant_machine_namefor should not contain an underscore.");
+      $this->logger->warning("vagrant_machine_name should not contain an underscore.");
     }
+  }
+
+  /**
+   * Sets the Drupal VM base box.
+   *
+   * @param \Acquia\Blt\Robo\Config\BltConfig $config
+   */
+  protected function setBaseBox($config) {
+    $base_box = $this->askChoice(
+      "Which base box would you like to use?",
+      [
+        'geerlingguy/ubuntu1604',
+        'beet/box',
+      ],
+      'geerlingguy/ubuntu1604');
+
+    switch ($base_box) {
+      case 'beet/box':
+        $config->set('workspace', '/beetbox/workspace/{{ php_version }}');
+        $config->set('installed_extras', ['drush']);
+        break;
+
+      case 'geerlingguy/ubuntu1604':
+        $config->set('workspace', '/root');
+        $config->set('installed_extras', [
+          'adminer',
+          'drush',
+          'mailhog',
+          'memcached',
+          'nodejs',
+          'selenium',
+          'solr',
+          'xdebug',
+        ]);
+        break;
+    }
+
+    $config->set('base_box', $base_box);
+  }
+
+  /**
+   * Modifies the default configuration file.
+   */
+  protected function customizeConfigFiles() {
+    /** @var \Acquia\Blt\Robo\Config\BltConfig $config */
+    $config = clone $this->getConfig();
+
+    $config->set('drupalvm.config.dir', $this->vmConfigDir);
+    $config->expandFileProperties($this->projectDrupalVmVagrantfile);
+
+    // Generate a Random IP address for the new VM.
+    $random_local_ip = "192.168." . rand(0, 255) . '.' . rand(0, 255);
+    $config->set('random.ip', $random_local_ip);
+
+    $this->setBaseBox($config);
+
+    $config->expandFileProperties($this->projectDrupalVmConfigFile);
+  }
+
+  /**
+   * Creates the default configuration file.
+   */
+  protected function createConfigFiles() {
+    $this->logger->info("Creating configuration files for Drupal VM...");
+
+    $this->taskFilesystemStack()
+      ->mkdir($this->vmDir)
+      ->copy($this->defaultDrupalVmConfigFile, $this->projectDrupalVmConfigFile,
+        TRUE)
+      ->copy($this->defaultDrupalVmVagrantfile,
+        $this->projectDrupalVmVagrantfile, TRUE)
+      ->stopOnFail()
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->run();
+  }
+
+  /**
+   * Creates a new drush alias record.
+   */
+  protected function createDrushAlias() {
+    $this->logger->info("Adding a drush alias for the new VM...");
+    if (!file_exists($this->projectDrushAliasesFile)) {
+      $new_aliases = Expander::parse(file_get_contents($this->defaultDrupalVmDrushAliasesFile), $this->getConfig()->export());
+    }
+    else {
+      $project_drush_aliases = Expander::parse(file_get_contents($this->projectDrushAliasesFile), $this->getConfig()->export());
+      $default_drupal_vm_drush_aliases = Expander::parse(file_get_contents($this->defaultDrupalVmDrushAliasesFile), $this->getConfig()->export());
+      $new_aliases = ArrayManipulator::arrayMergeRecursiveDistinct($project_drush_aliases, $default_drupal_vm_drush_aliases);
+    }
+
+    file_put_contents($this->projectDrushAliasesFile, Yaml::dump($new_aliases));
   }
 
 }

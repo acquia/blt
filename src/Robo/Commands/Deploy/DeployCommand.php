@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Deploy;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Common\RandomString;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -329,6 +330,9 @@ class DeployCommand extends BltTasks {
     if (!empty($this->tagName)) {
       $this->createDeployId($this->tagName);
     }
+    else {
+      $this->createDeployId(RandomString::string(8));
+    }
     $this->invokeHook("post-deploy-build");
     $this->say("<info>The deployment artifact was generated at {$this->deployDir}.</info>");
   }
@@ -493,13 +497,16 @@ class DeployCommand extends BltTasks {
    */
   protected function commit() {
     $this->say("Committing artifact to <comment>{$this->branchName}</comment>...");
-    $this->taskExecStack()
+    $result = $this->taskExecStack()
       ->dir($this->deployDir)
       ->exec("git add -A")
       ->exec("git commit --quiet -m '{$this->commitMessage}'")
-      ->stopOnFail()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
+
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Failed to commit deployment artifact!");
+    }
   }
 
   /**
@@ -515,13 +522,16 @@ class DeployCommand extends BltTasks {
     }
 
     $task = $this->taskExecStack()
-      ->dir($this->deployDir)
-      ->stopOnFail();
+      ->dir($this->deployDir);
     foreach ($this->getConfigValue('git.remotes') as $remote) {
       $remote_name = md5($remote);
       $task->exec("git push $remote_name $identifier");
     }
-    $task->run();
+    $result = $task->run();
+
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Failed to push deployment artifact!");
+    }
   }
 
   /**
@@ -557,9 +567,7 @@ class DeployCommand extends BltTasks {
 
     foreach ($this->getConfigValue('multisites') as $multisite) {
       $this->say("Deploying updates to $multisite...");
-      if (!$this->config->get('drush.uri')) {
-        $this->config->set('drush.uri', $multisite);
-      }
+      $this->config->set('drush.uri', $multisite);
 
       $this->invokeCommand('setup:config-import');
       $this->invokeCommand('setup:toggle-modules');

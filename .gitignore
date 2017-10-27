@@ -1,6 +1,6 @@
-# Ignore blt-project files
-blt-project/composer.lock
-blt-project/vendor
+# Ignore blted8 files
+blted8/composer.lock
+blted8/vendor
 
 # Ignore config files
 /project.yml
@@ -118,3 +118,6 @@ template/composer.lock
 CHANGELOG.partial
 build
 cache/commands/*
+
+# Ignore the local deployment identifier.
+deployment_identifier
