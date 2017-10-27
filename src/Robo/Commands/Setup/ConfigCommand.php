@@ -128,10 +128,10 @@ class ConfigCommand extends BltTasks {
    */
   protected function importFeatures($task, $cm_core_key) {
     $task->drush("config-import")->arg($cm_core_key)->option('partial');
+    $task->drush("pm-enable")->arg('features');
+    $task->drush("cc")->arg('drush');
     if ($this->getConfig()->has('cm.features.bundle')) {
-      $task->drush("pm-enable")->arg('features');
       // Clear drush caches to register features drush commands.
-      $task->drush("cc")->arg('drush');
       foreach ($this->getConfigValue('cm.features.bundle') as $bundle) {
         $task->drush("features-import-all")->option('bundle', $bundle);
         // Revert all features again!

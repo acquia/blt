@@ -14,7 +14,7 @@ class DrushTest extends BltProjectTestBase {
   /**
    * Tests that correct drush configuration is loaded.
    *
-   * @group blt-project
+   * @group blted8
    */
   public function testDrushConfig() {
 
