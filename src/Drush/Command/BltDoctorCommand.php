@@ -874,7 +874,7 @@ class BltDoctor {
       ], 'error');
     }
     else {
-      drush_log("Behat base_url matches drush URI.", 'notice');
+      $this->logger()->info("Behat base_url matches drush URI.");
     }
   }
 
