@@ -4,6 +4,7 @@ namespace Acquia\Blt\Robo\Common;
 
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Console\Question\Question;
 
 /**
  * An extension of \Robo\Common\IO.
@@ -84,7 +85,31 @@ trait IO {
    *   The chosen option.
    */
   protected function askChoice($question, $options, $default = NULL) {
-    return $this->doAsk(new ChoiceQuestion($this->formatQuestion($question), $options, $default));
+    return $this->doAsk(new ChoiceQuestion($this->formatQuestion($question),
+      $options, $default));
+  }
+
+  /**
+   * Asks a required question.
+   *
+   * @param string $message
+   *   The question text.
+   *
+   * @return string
+   *   The response.
+   */
+  protected function askRequired($message) {
+    $question = new Question($this->formatQuestion($message));
+    $question->setValidator(function ($answer) {
+      if (empty($answer)) {
+        throw new \RuntimeException(
+          'You must enter a value!'
+        );
+      }
+
+      return $answer;
+    });
+    return $this->doAsk($question);
   }
 
 }

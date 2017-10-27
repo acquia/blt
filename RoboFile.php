@@ -33,59 +33,190 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   }
 
   /**
-   * Executes pre-release tests against blt-project 9.x-dev.
+   * Create a new project via symlink from current checkout of BLT.
+   *
+   * Local BLT will be symlinked to blted8/vendor/acquia/blt.
+   *
+   * @option project-dir The directory in which the test project will be
+   *   created.
+   * @option vm Whether a VM will be booted.
+   */
+  public function createSymlinkedProject($options = [
+    'project-dir' => '../blted8',
+    'vm' => TRUE,
+  ]) {
+    $test_project_dir = $this->bltRoot . "/" . $options['project-dir'];
+    $bin = $test_project_dir . "/vendor/bin";
+    $this->prepareTestProjectDir($test_project_dir);
+    $this->taskFilesystemStack()
+      ->mkdir($test_project_dir)
+      ->mirror($this->bltRoot . "/blted8", $test_project_dir)
+      ->run();
+    $this->taskExecStack()
+      ->dir("../blted8")
+      ->exec("git init")
+      ->exec("git add -A")
+      ->exec("git commit -m 'Initial commit.'")
+      ->run();
+    $this->taskReplaceInFile($test_project_dir . "/composer.json")
+      ->from("../blt")
+      ->to($this->bltRoot)
+      ->run();
+    $task = $this->taskExecStack()
+      ->dir($test_project_dir)
+      // BLT is the only dependency at this point. Install it.
+      ->exec("composer install")
+      // I have no idea why this is necessary, but testing on OSX does not pass
+      // without it.
+      ->exec("rm -rf $test_project_dir/vendor")
+      ->exec("composer install");
+    if ($options['vm']) {
+      $task->exec("$bin/blt vm --no-boot --no-interaction --yes -v")
+        ->exec("$bin/yaml-cli update:value box/config.yml vagrant_synced_folders.1.local_path '../blt'")
+        ->exec("$bin/yaml-cli update:value box/config.yml vagrant_synced_folders.1.destination '/var/www/blt'")
+        ->exec("$bin/yaml-cli update:value box/config.yml vagrant_synced_folders.1.type nfs");
+    }
+    $task->run();
+  }
+
+  /**
+   * Create a new project using `composer create-project acquia/blt-project'.
    *
    * @option base-branch The blt-project (NOT blt) branch to test.
+   * @option project-dir The directory in which the test project will be
+   *   created.
    */
-  public function test($options = [
+  public function createStandaloneProject($options = [
     'base-branch' => '9.x',
+    'project-dir' => '../blted8',
   ]) {
-    $this->stopOnFail();
-    $test_project_dir = $this->bltRoot . "/../blted8";
-    if (file_exists($test_project_dir . "/.vagrant")) {
-      $this->taskExecStack()
-        ->exec("vagrant destroy")
-        ->dir($test_project_dir)
-        ->run();
-    }
-    if (file_exists($test_project_dir)) {
-      $this->logger->warning("This will destroy the $test_project_dir directory!");
-      $this->say("If you did not execute tests using `sudo`, this may fail.");
-      $continue = $this->confirm("Continue?");
-      if (!$continue) {
-        return 1;
-      }
-    }
-
-    $this->taskDeleteDir($test_project_dir)->run();
+    $test_project_dir = $this->bltRoot . "/" . $options['project-dir'];
+    $this->prepareTestProjectDir($test_project_dir);
+    $this->yell("Creating project from acquia/blt-project:{$options['base-branch']}-dev.");
     $this->taskExecStack()
       ->dir($this->bltRoot . "/..")
       ->exec("COMPOSER_PROCESS_TIMEOUT=2000 composer create-project acquia/blt-project:{$options['base-branch']}-dev blted8 --no-interaction")
       ->run();
+  }
 
+  /**
+   * Executes pre-release tests against blt-project 9.x-dev.
+   *
+   * @option base-branch The blt-project (NOT blt) branch to test.
+   * @option project-dir The directory in which the test project will be
+   * @option environment The environment config var used for running Blt
+   * commands against the test site.
+   * @option create-project Whether to create a new blted8 site for testing.
+   * @option project-dir The directory where the test site will be created.
+   *   created.
+   * @option project-type The type of test project that will be created. Valid
+   *   values are standalone or symlink.
+   * @option vm Whether a VM will be booted.
+   */
+  public function releaseTest($options = [
+    'base-branch' => '9.x',
+    'environment' => 'ci',
+    'create-project' => TRUE,
+    'project-dir' => '../blted8',
+    'project-type' => 'standalone',
+    'vm' => TRUE,
+  ]) {
+    $this->stopOnFail();
+    $use_vm = $options['vm'];
+    $test_project_dir = $this->bltRoot . "/" . $options['project-dir'];
+    if ($options['create-project']) {
+      if ($options['project-type'] == 'symlink') {
+        $this->createSymlinkedProject($options);
+      }
+      else {
+        $this->createStandaloneProject($options);
+      }
+    }
     $bin = $test_project_dir . "/vendor/bin";
-    $continue = $this->confirm("Ready to boot VM?");
-    if (!$continue) {
-      return 1;
-    }
-    $this->taskExecStack()
+    $blt_suffix = "--define environment={$options['environment']} --yes --no-interaction -v";
+    $task = $this->taskExecStack()
       ->dir($test_project_dir)
-      ->exec("$bin/blt vm --yes")
-      ->exec("$bin/blt validate")
-      ->exec("$bin/blt setup")
-      ->exec("$bin/blt tests")
-      ->run();
+      ->printMetadata(TRUE)
+      ->exec("$bin/blt ci:travis:init $blt_suffix")
+      ->exec("$bin/blt ci:pipelines:init $blt_suffix")
+      ->exec("$bin/blt acsf:init:hooks $blt_suffix")
+      ->exec("$bin/blt setup:cloud-hooks $blt_suffix")
+      // Dump all config values to screen.
+      ->exec("$bin/blt config:dump $blt_suffix")
+      // ->exec("$bin/blt acsf:init --yes")
+      ->exec("{$this->bltRoot}/vendor/bin/robo sniff-code --load-from {$this->bltRoot}");
+    if ($use_vm) {
+      $task->exec("$bin/blt vm $blt_suffix");
+      $drush_alias = '@blted8.local';
+    }
+    else {
+      $drush_alias = '@self';
+    }
+    $task
+      ->exec("$bin/blt validate $blt_suffix")
+      // Ensure that at least one module gets enabled in CI env.
+      ->exec("$bin/yaml-cli update:value blt/project.yml modules.ci.enable.0 views_ui")
+      ->exec("$bin/yaml-cli update:value blt/project.yml cm.strategy none")
+      // The tick-tock.sh script is used to prevent timeout.
+      ->exec("{$this->bltRoot}/scripts/blt/ci/tick-tock.sh $bin/blt setup $blt_suffix")
+      ->exec("$bin/blt tests {$blt_suffix}vv")
+      ->exec("$bin/blt tests:behat:definitions $blt_suffix")
 
-    $this->say("<info>Completed testing on VM.</info>");
-    $continue = $this->confirm("Destroy VM and continue?");
-    if (!$continue) {
-      // Not really a failure.
-      return 0;
+      // Test core-only config management.
+      ->exec("$bin/drush $drush_alias config-export --root={$test_project_dir}/docroot --yes")
+      ->exec("$bin/yaml-cli update:value blt/project.yml cm.strategy core-only")
+      ->exec("$bin/blt setup:config-import $blt_suffix")
+
+      // Test features config management.
+      ->exec("$bin/yaml-cli update:value blt/project.yml cm.strategy features")
+      ->exec("$bin/drush $drush_alias pm-enable features --root={$test_project_dir}/docroot --yes")
+      ->exec("rm -rf {$test_project_dir}/config/default/*")
+      ->exec("$bin/drush $drush_alias config-export --root={$test_project_dir}/docroot --yes")
+      ->exec("$bin/blt setup:config-import $blt_suffix")
+      ->exec("$bin/drush $drush_alias pm-uninstall features --root={$test_project_dir}/docroot --yes")
+
+      // Test config split.
+      ->exec("$bin/yaml-cli update:value blt/project.yml cm.strategy config-split")
+      ->exec("$bin/drush $drush_alias pm-enable config_split --root={$test_project_dir}/docroot --yes")
+      ->exec("rm -rf {$test_project_dir}/config/default/*")
+      ->exec("$bin/drush $drush_alias config-export --root={$test_project_dir}/docroot --yes")
+      ->exec("cp {$this->bltRoot}/scripts/blt/ci/internal/config_split.config_split.ci.yml {$test_project_dir}/config/default/")
+      ->exec("$bin/blt setup:config-import $blt_suffix")
+      ->exec("$bin/drush $drush_alias pm-uninstall config_split --root={$test_project_dir}/docroot --yes")
+      ->exec("rm -rf {$test_project_dir}/config/default/*")
+
+      // Test deploy.
+      ->exec("$bin/blt deploy:update $blt_suffix")
+      // Test SAML.
+      ->exec("$bin/blt simplesamlphp:init $blt_suffix")
+      // Test that custom commands are loaded.
+      ->exec("$bin/blt custom:hello $blt_suffix")
+      // Create a test multisite.
+      ->exec("$bin/blt generate:multisite --site-name=site2 $blt_suffix");
+
+    if (!$use_vm) {
+      // Add Drupal VM config to repo without booting.
+      $task->exec("$bin/blt vm --no-boot $blt_suffix");
     }
-    $this->taskExecStack()
-      ->dir($test_project_dir)
-      ->exec("$bin/blt vm:nuke")
+
+    $task->exec("$bin/blt deploy:build $blt_suffix");
+
+    // Execute PHP Unit tests.
+    $task->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group blt -c {$this->bltRoot}/tests/phpunit/phpunit.xml -v")
+      ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group blted8 -c {$this->bltRoot}/tests/phpunit/phpunit.xml -v")
       ->run();
+    $this->say("<info>Completed testing.</info>");
+    if ($use_vm) {
+      $continue = $this->confirm("Destroy VM?");
+      if (!$continue) {
+        // Not really a failure.
+        return 0;
+      }
+      $this->taskExecStack()
+        ->dir($test_project_dir)
+        ->exec("$bin/blt vm:nuke $blt_suffix")
+        ->run();
+    }
   }
 
   /**
@@ -112,28 +243,12 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   ) {
     $this->stopOnFail();
     $current_branch = $this->getCurrentBranch();
-    $this->branchExistsUpstream($current_branch);
     $this->checkDirty();
     $this->printReleasePreamble($tag, $current_branch);
-
-    $continue = $this->confirm("Continue?");
-    if (!$continue) {
-      return 1;
-    }
-
-    $prev_tag = $this->getPrevTag($options, $current_branch);
-
-    $branch_matches_upstream = $this->_exec("git diff $current_branch origin/$current_branch --quiet")->wasSuccessful();
-    if (!$branch_matches_upstream) {
-      $this->logger->warning("$current_branch does not match origin/$current_branch.");
-      $this->logger->warning("Continuing will cause you to lose all local changes!");
-      $continue = $this->confirm("Continue?");
-      if (!$continue) {
-        return 1;
-      }
-    }
+    $this->assertBranchMatchesUpstream($current_branch);
     $this->resetLocalBranch($current_branch);
     $this->updateBltVersionConstant($tag);
+    $prev_tag = $this->getPrevTag($options, $current_branch);
     $release_notes = $this->generateReleaseNotes($prev_tag, $tag, $github_token);
     $this->updateChangelog($tag, $release_notes);
 
@@ -224,10 +339,10 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    * @command sniff-code
    */
   public function sniffCode() {
-    $command = "'{$this->bin}/phpcs'";
     $task = $this->taskExecStack()
       ->dir($this->bltRoot)
-      ->exec($command);
+      ->exec("{$this->bin}/phpcs")
+      ->exec("composer validate");
     $result = $task->run();
 
     return $result->getExitCode();
@@ -247,6 +362,11 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       ->run();
   }
 
+  /**
+   * @param $prev_tag
+   *
+   * @return array
+   */
   protected function getChangesOnBranchSinceTag($prev_tag) {
     $output = $this->taskExecStack()
       ->exec("git rev-list $prev_tag..HEAD --pretty=oneline")
@@ -432,25 +552,6 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   }
 
   /**
-   * @param $current_branch
-   * @param string $remote
-   *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
-   */
-  protected function branchExistsUpstream($current_branch, $remote = 'origin') {
-    $branch_exists_upstream = $this->taskExecStack()
-      ->exec("git ls-remote --exit-code . $remote/$current_branch &> /dev/null")
-      ->silent(TRUE)
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->run()
-      ->wasSuccessful();
-    if (!$branch_exists_upstream) {
-      $this->say("Please run <comment>git push $remote $current_branch</comment>");
-      throw new BltException("$current_branch does not exist on the $remote remote!");
-    }
-  }
-
-  /**
    * Checks to see if current git branch has uncommitted changes.
    *
    * @throws \Exception
@@ -489,6 +590,12 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $this->say("- Create a $tag release in GitHub with release notes");
   }
 
+  /**
+   * @param $options
+   * @param $current_branch
+   *
+   * @return mixed
+   */
   protected function getPrevTag($options, $current_branch) {
     if (!empty($options['prev-tag'])) {
       return $options['prev-tag'];
@@ -535,6 +642,46 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       ->exec('remote update')
       ->exec("reset --hard origin/$current_branch")
       ->run();
+  }
+
+  /**
+   * @param $test_project_dir
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   */
+  protected function prepareTestProjectDir($test_project_dir) {
+    if (file_exists($test_project_dir . "/.vagrant")) {
+      $this->taskExecStack()
+        ->exec("vagrant destroy")
+        ->dir($test_project_dir)
+        ->run();
+    }
+    if (file_exists($test_project_dir)) {
+      $this->logger->warning("This will destroy the $test_project_dir directory!");
+      $continue = $this->confirm("Continue?");
+      if (!$continue) {
+        $this->say("Please run <comment>sudo rm -rf $test_project_dir</comment>");
+        throw new BltException("$test_project_dir already exists.");
+      }
+    }
+    $this->taskDeleteDir($test_project_dir)->run();
+  }
+
+  /**
+   * @param $current_branch
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   */
+  protected function assertBranchMatchesUpstream($current_branch) {
+    $branch_matches_upstream = $this->_exec("git diff $current_branch origin/$current_branch --quiet")->wasSuccessful();
+    if (!$branch_matches_upstream) {
+      $this->logger->warning("$current_branch does not match origin/$current_branch.");
+      $this->logger->warning("Continuing will cause you to lose all local changes!");
+      $continue = $this->confirm("Continue?");
+      if (!$continue) {
+        throw new BltException("Release terminated by user.");
+      }
+    }
   }
 
 }

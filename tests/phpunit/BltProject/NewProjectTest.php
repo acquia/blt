@@ -15,7 +15,7 @@ class NewProjectTest extends BltProjectTestBase {
   /**
    * Tests BLT's project creation.
    *
-   * @group blt-project
+   * @group blted8
    */
   public function testBltCreate() {
     $this->assertFileExists($this->projectDirectory);

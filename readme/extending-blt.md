@@ -97,6 +97,8 @@ You may overwrite a variable value at runtime by specifying the variable value i
 
         blt tests:behat -D behat.tags='@mytags'
 
+For configuration values that are indexed arrays, you can override individual values using the numeric index, such as `git.remotes.0`.
+
 Listed below are some of the more commonly customized BLT targets.
 
 ### deploy:*

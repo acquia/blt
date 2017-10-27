@@ -14,7 +14,7 @@ class BehatTest extends BltProjectTestBase {
   /**
    * Tests setup:behat command.
    *
-   * @group blt-project
+   * @group blted8
    */
   public function testSetupBehat() {
 
