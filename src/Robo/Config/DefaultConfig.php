@@ -66,9 +66,18 @@ class DefaultConfig extends BltConfig {
    * @param string $site_name
    *   The name of a multisite. E.g., if docroot/sites/example.com is the site,
    *   $site_name would be example.com.
+   * @param string $machine_name
+   *   The machine name in a multisite environment.
+   *   E.g., @machine_name.sitename.dev
    */
-  public function setSiteConfig($site_name) {
+  public function setSiteConfig($site_name, $machine_name = NULL) {
     $this->config->set('site', $site_name);
+
+    // Adapt remote alias for the multisite.
+    if ($environment = $this->config->get('drush.aliases.remote_env')) {
+      $this->config->set('drush.aliases.remote', $machine_name . '.' . $site_name . '.' . $environment);
+    }
+
     if (!$this->config->get('drush.uri')) {
       $this->config->set('drush.uri', $site_name);
     }

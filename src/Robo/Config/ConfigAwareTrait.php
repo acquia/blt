@@ -23,6 +23,7 @@ trait ConfigAwareTrait {
    *   The config value, or else the default value if they key does not exist.
    */
   protected function getConfigValue($key, $default = NULL) {
+
     if (!$this->getConfig()) {
       return $default;
     }
