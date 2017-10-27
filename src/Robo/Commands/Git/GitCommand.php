@@ -18,15 +18,10 @@ class GitCommand extends BltTasks {
    */
   public function commitMsgHook($message) {
     $this->say('Validating commit message syntax...');
-    $prefix = $this->getConfigValue('project.prefix');
-    if (!preg_match("/^$prefix-[0-9]+(: )[^ ].{15,}\\./", $message)) {
+    $pattern = $this->getConfigValue('git.commit-msg.pattern');
+    if (!preg_match($pattern, $message)) {
       $this->logger->error("Invalid commit message!");
-      $this->say("Commit messages must:");
-      $this->say("* Contain the project prefix followed by a hyphen");
-      $this->say("* Contain a ticket number followed by a colon and a space");
-      $this->say("* Be at least 15 characters long and end with a period.");
-      $this->say("Valid example: $prefix-135: Added the new picture field to the article feature.");
-      $this->say("");
+      $this->say("Commit messages must conform to the regex $pattern");
       $this->logger->notice("To disable this command, see http://blt.rtfd.io/en/8.x/readme/extending-blt/#disabling-a-command");
       $this->logger->notice("To customize git hooks, see http://blt.rtfd.io/en/8.x/readme/extending-blt/#setupgit-hooks.");
 
@@ -44,22 +39,38 @@ class GitCommand extends BltTasks {
    * @param string $changed_files
    *   A list of staged files, separated by \n.
    *
-   * @return int
+   * @return \Robo\Result
    */
   public function preCommitHook($changed_files) {
-    $this->invokeCommands([
-      'validate:phpcs:files' => ['file_list' => $changed_files],
-      'validate:twig:files' => ['file_list' => $changed_files],
-      'validate:yaml:files' => ['file_list' => $changed_files],
-    ]);
+    $collection = $this->collectionBuilder();
+    $collection->setProgressIndicator(NULL);
+    $collection->addCode(
+      function () use ($changed_files) {
+        return $this->invokeCommands([
+          'validate:phpcs:files' => ['file_list' => $changed_files],
+          'validate:twig:files' => ['file_list' => $changed_files],
+          'validate:yaml:files' => ['file_list' => $changed_files],
+        ]);
+      }
+    );
 
     $changed_files_list = explode("\n", $changed_files);
-    if (in_array(['composer.json', 'composer.lock'], $changed_files_list)) {
-      $this->invokeCommand('validate:composer', ['file_list' => $changed_files]);
+    if (in_array('composer.json', $changed_files_list)
+      || in_array('composer.lock', $changed_files_list)) {
+      $collection->addCode(
+        function () use ($changed_files) {
+          return $this->invokeCommand('validate:composer');
+        }
+      );
     }
 
-    $this->invokeHook('pre-commit');
-    $this->say("<info>Your local code has passed git pre-commit validation.</info>");
+    $result = $collection->run();
+
+    if ($result->wasSuccessful()) {
+      $this->say("<info>Your local code has passed git pre-commit validation.</info>");
+    }
+
+    return $result;
   }
 
 }
