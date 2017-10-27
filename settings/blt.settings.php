@@ -5,10 +5,12 @@
  * Setup BLT utility variables, include required files.
  */
 
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpFoundation\Request;
-use Drupal\Core\DrupalKernel;
+use Acquia\Blt\Robo\Config\ConfigInitializer;
 use Drupal\Component\Utility\Bytes;
+use Drupal\Core\DrupalKernel;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
  * Host detection.
@@ -45,16 +47,20 @@ $is_ci_env = $is_travis_env || $is_pipelines_env || $is_probo_env || $is_tugboat
  * Note that the values of environmental variables are set differently on Acquia
  * Cloud Free tier vs Acquia Cloud Professional and Enterprise.
  */
+$repo_root = dirname(DRUPAL_ROOT);
 $ah_env = isset($_ENV['AH_SITE_ENVIRONMENT']) ? $_ENV['AH_SITE_ENVIRONMENT'] : NULL;
 $ah_group = isset($_ENV['AH_SITE_GROUP']) ? $_ENV['AH_SITE_GROUP'] : NULL;
+$ah_site = isset($_ENV['AH_SITE_NAME']) ? $_ENV['AH_SITE_NAME'] : NULL;
 $is_ah_env = (bool) $ah_env;
 $is_ah_prod_env = ($ah_env == 'prod' || $ah_env == '01live');
 $is_ah_stage_env = ($ah_env == 'test' || $ah_env == '01test' || $ah_env == 'stg');
 $is_ah_dev_cloud = (!empty($_SERVER['HTTP_HOST']) && strstr($_SERVER['HTTP_HOST'], 'devcloud'));
 $is_ah_dev_env = (preg_match('/^dev[0-9]*$/', $ah_env) || $ah_env == '01dev');
 $is_ah_ode_env = (preg_match('/^ode[0-9]*$/', $ah_env));
-$is_acsf = (!empty($ah_group) && file_exists("/mnt/files/$ah_group.$ah_env/files-private/sites.json"));
-$acsf_db_name = $is_acsf ? $GLOBALS['gardens_site_settings']['conf']['acsf_db_name'] : NULL;
+$is_acsf_env = (!empty($ah_group) && file_exists("/mnt/files/$ah_group.$ah_env/files-private/sites.json"));
+// @todo Maybe check for acsf-tools.
+$is_acsf_inited = file_exists(DRUPAL_ROOT . "/sites/g");
+$acsf_db_name = $is_acsf_env ? $GLOBALS['gardens_site_settings']['conf']['acsf_db_name'] : NULL;
 
 /**
  * Pantheon envs.
@@ -87,10 +93,46 @@ catch (BadRequestHttpException $e) {
   $site_path = 'sites/default';
 }
 $site_dir = str_replace('sites/', '', $site_path);
-// ACSF uses a pseudo-multisite architecture that places all site files under
-// sites/g/files, which isn't useful for our purposes.
-if ($is_acsf) {
-  $site_dir = 'default';
+
+/*******************************************************************************
+ * Acquia Cloud Site Factory settings.
+ ******************************************************************************/
+
+if ($is_acsf_inited) {
+  if ($is_local_env) {
+    // When developing locally, we use the host name to determine which site
+    // factory site is active. The hostname must have a corresponding entry
+    // under the multisites key.
+    $input = new ArgvInput($_SERVER['argv']);
+    $config_initializer = new ConfigInitializer($repo_root, $input);
+    $config = $config_initializer->initialize();
+
+    // The hostname must match the pattern [sitename].local, where [sitename]
+    // is a value in the multisites array.
+    $name = substr($_SERVER['HTTP_HOST'], 0, strpos($_SERVER['HTTP_HOST'], '.local'));
+    $acsf_sites = $config->get('multisites');
+    if (in_array($name, $acsf_sites)) {
+      $acsf_site_name = $name;
+    }
+  }
+  // In a site factory environment, we can use environmental variables to
+  // determine the active site.
+  elseif ($is_acsf_env && function_exists('gardens_site_data_load_file')) {
+    // Function gardens_site_data_load_file() lives in
+    // /mnt/www/html/$ah_site/docroot/sites/g/sites.inc.
+    if (($map = gardens_site_data_load_file()) && isset($map['sites'])) {
+      foreach ($map['sites'] as $domain => $site_details) {
+        if ($acsf_db_name == $site_details['name']) {
+          $acsf_site_name = $domain;
+          break;
+        }
+      }
+    }
+
+    // ACSF uses a pseudo-multisite architecture that places all site files
+    // under sites/g/files.
+    $site_dir = 'default';
+  }
 }
 
 /*******************************************************************************
@@ -103,7 +145,7 @@ if ($is_acsf) {
  ******************************************************************************/
 
 if ($is_ah_env) {
-  if (!$is_acsf && file_exists('/var/www/site-php')) {
+  if (!$is_acsf_env && file_exists('/var/www/site-php')) {
     if ($site_dir == 'default') {
       require "/var/www/site-php/{$_ENV['AH_SITE_GROUP']}/{$_ENV['AH_SITE_GROUP']}-settings.inc";
     }
