@@ -12,6 +12,8 @@ class TextMungeTest extends \PHPUnit_Framework_TestCase {
   /**
    * Tests arrayMergeNoDuplicates().
    *
+   * @group blt
+   *
    * @dataProvider getValueProvider
    */
   public function testArrayMergeNoDuplicates(
@@ -19,8 +21,8 @@ class TextMungeTest extends \PHPUnit_Framework_TestCase {
     $array2,
     $expected_array
   ) {
-    $this->assertEquals(TextMunge::arrayMergeNoDuplicates($array1,
-      $array2), $expected_array);
+    $munged = TextMunge::arrayMergeNoDuplicates($array1, $array2);
+    $this->assertEquals($munged, $expected_array);
   }
 
   /**

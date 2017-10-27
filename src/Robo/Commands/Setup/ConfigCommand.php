@@ -128,10 +128,10 @@ class ConfigCommand extends BltTasks {
    */
   protected function importFeatures($task, $cm_core_key) {
     $task->drush("config-import")->arg($cm_core_key)->option('partial');
+    $task->drush("pm-enable")->arg('features');
+    $task->drush("cc")->arg('drush');
     if ($this->getConfig()->has('cm.features.bundle')) {
-      $task->drush("pm-enable")->arg('features');
       // Clear drush caches to register features drush commands.
-      $task->drush("cc")->arg('drush');
       foreach ($this->getConfigValue('cm.features.bundle') as $bundle) {
         $task->drush("features-import-all")->option('bundle', $bundle);
         // Revert all features again!
@@ -150,6 +150,10 @@ class ConfigCommand extends BltTasks {
    */
   protected function checkFeaturesOverrides() {
     if ($this->getConfigValue('cm.features.no-overrides')) {
+      $this->logger->warning("Features configuration overrides will not be checked due to breaking changes in Drush 9.");
+      $this->logger->warning("This check will be re-enabled after fixes are made in the features module upstream.");
+      return 1;
+      // @codingStandardsIgnoreStart
       $this->say("Checking for features overrides...");
       if ($this->getConfig()->has('cm.features.bundle')) {
         $task = $this->taskDrush()->stopOnFail();
@@ -171,6 +175,7 @@ class ConfigCommand extends BltTasks {
         }
       }
     }
+    // @codingStandardsIgnoreEnd
   }
 
   /**
@@ -189,7 +194,7 @@ class ConfigCommand extends BltTasks {
         ->drush("cex")
         ->arg($cm_core_key);
       if (!$config_overrides->run()->wasSuccessful()) {
-        throw new BltException("Configuration in the database does not match configuration on disk. You must re-export configuration to capture the changes. This could also indicate a problem with the import process, such as changed field storage for a field with existing content. To permit configuration overrides, set cm.allow-overrides to true in blt/project.yml.");
+        throw new BltException("Configuration in the database does not match configuration on disk. BLT has attempted to automatically fix this by re-exporting configuration to disk. Please read https://github.com/acquia/blt/wiki/Configuration-overrides");
       }
     }
   }

@@ -19,34 +19,32 @@ class ServerCommand extends TestsCommandBase {
    * @command tests:server:start
    */
   public function launchWebServer() {
-    if ($this->getConfigValue('tests.run-server')) {
-      $this->serverUrl = $this->getConfigValue('tests.server.url');
-      $this->killWebServer();
-      $this->say("Launching PHP's internal web server via drush.");
-      $this->logger->info("Running server at $this->serverUrl...");
+    $this->serverUrl = $this->getConfigValue('tests.server.url');
+    $this->killWebServer();
+    $this->say("Launching PHP's internal web server via drush.");
+    $this->logger->info("Running server at $this->serverUrl...");
 
-      $fs = new Filesystem();
-      $fs->mkdir([$this->getConfigValue('repo.root') . '/tmp']);
-      $log_file = $this->getConfigValue('repo.root') . '/tmp/runserver.log';
-      if (file_exists($log_file)) {
-        unlink($log_file);
-      }
+    $fs = new Filesystem();
+    $fs->mkdir([$this->getConfigValue('repo.root') . '/tmp']);
+    $log_file = $this->getConfigValue('repo.root') . '/tmp/runserver.log';
+    if (file_exists($log_file)) {
+      unlink($log_file);
+    }
 
-      /** @var \Acquia\Blt\Robo\Common\Executor $executor */
-      $executor = $this->getContainer()->get('executor');
-      $result = $executor
-        ->drush("runserver $this->serverUrl > $log_file 2>&1")
-        ->background(TRUE)
-        ->run();
+    /** @var \Acquia\Blt\Robo\Common\Executor $executor */
+    $executor = $this->getContainer()->get('executor');
+    $result = $executor
+      ->drush("runserver $this->serverUrl > $log_file 2>&1")
+      ->background(TRUE)
+      ->run();
 
-      try {
-        $executor->waitForUrlAvailable($this->serverUrl);
-      }
-      catch (\Exception $e) {
-        if (!$result->wasSuccessful() && file_exists($log_file)) {
-          $output = file_get_contents($log_file);
-          throw new BltException($e->getMessage() . "\n" . $output);
-        }
+    try {
+      $executor->waitForUrlAvailable($this->serverUrl);
+    }
+    catch (\Exception $e) {
+      if (!$result->wasSuccessful() && file_exists($log_file)) {
+        $output = file_get_contents($log_file);
+        throw new BltException($e->getMessage() . "\n" . $output);
       }
     }
   }
@@ -58,7 +56,9 @@ class ServerCommand extends TestsCommandBase {
    */
   public function killWebServer() {
     $this->getContainer()->get('executor')->killProcessByName('runserver');
-    $this->getContainer()->get('executor')->killProcessByPort($this->getConfigValue('tests.server.port'));
+    $this->getContainer()
+      ->get('executor')
+      ->killProcessByPort($this->getConfigValue('tests.server.port'));
   }
 
 }

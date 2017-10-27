@@ -16,7 +16,7 @@ class SimpleSamlPhpTest extends BltProjectTestBase {
    *
    * Ensures simplesamlphp config files were copied to project.
    *
-   * @group blt-project
+   * @group blted8
    */
   public function testSimpleSamlPhpConfigInit() {
     $simpleSamlPhpConfigDirectory = "{$this->projectDirectory}/simplesamlphp/config";
@@ -40,7 +40,7 @@ class SimpleSamlPhpTest extends BltProjectTestBase {
    *
    * Ensures project.yml was updated with simplesamlphp key.
    *
-   * @group blt-project
+   * @group blted8
    */
   public function testSetSimpleSamlPhpInstalled() {
     $this->assertArrayHasKey('simplesamlphp', $this->config);
@@ -51,7 +51,7 @@ class SimpleSamlPhpTest extends BltProjectTestBase {
    *
    * Ensures a symlink from the docroot to web accessible lib dir was created.
    *
-   * @group blt-project
+   * @group blted8
    */
   public function testSymlinkDocrootToLibDir() {
     $this->assertFileExists("{$this->drupalRoot}/simplesaml/saml2");

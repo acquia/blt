@@ -15,19 +15,18 @@
     "license": "GPL-2.0",
     "require": {
         "php": ">=5.6",
-        "asm89/twig-lint": "^1.0.2",
         "composer-plugin-api": "^1.0.0",
         "composer/installers": "^1.2.0",
         "composer/semver": "^1.4",
         "consolidation/config": "^1.0.0",
-        "consolidation/robo": "^1.1.0",
+        "consolidation/robo": "^1.1.4",
         "cweagans/composer-patches": "^1.6.2",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.4.0",
         "dflydev/dot-access-data": "^1.1.0",
         "doctrine/common": "^2.5",
         "doctrine/inflector": "~1.1.0",
         "drupal/coder": "^8.2.11",
-        "drush/drush": "^9.0.0-beta4",
+        "drush/drush": "^9.0.0-beta7",
         "grasmash/drupal-security-warning": "^1.0.0",
         "grasmash/yaml-cli": "^1.0.0",
         "grasmash/yaml-expander": "^1.2.0",
@@ -35,6 +34,7 @@
         "phpunit/phpunit": "^4.8",
         "squizlabs/php_codesniffer": "^2.7",
         "symfony/console": "^3.2",
+        "symfony/twig-bridge": "^3.3",
         "symfony/yaml": "^3.2",
         "tivie/php-os-detector": "^1.0",
         "wikimedia/composer-merge-plugin": "^1.4.1"
@@ -66,7 +66,8 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require-dev": {
-        "guzzlehttp/guzzle": "^6.2",
-        "composer/composer": "dev-master"
+        "composer/composer": "dev-master",
+        "knplabs/github-api": "^2.6",
+        "php-http/guzzle6-adapter": "^1.1"
     }
 }

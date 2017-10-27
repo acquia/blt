@@ -16,7 +16,7 @@ class DrupalSettingsTest extends BltProjectTestBase {
    *
    * Ensures each site has a default.local.settings.php file.
    *
-   * @group blt-project
+   * @group blted8
    */
   public function testSetupDefaultLocalSettings() {
     foreach ($this->sites as $site) {
@@ -29,7 +29,7 @@ class DrupalSettingsTest extends BltProjectTestBase {
    *
    * Ensures each site has a local.settings.php file.
    *
-   * @group blt-project
+   * @group blted8
    */
   public function testSetupLocalSettings() {
     foreach ($this->sites as $site) {
@@ -43,7 +43,7 @@ class DrupalSettingsTest extends BltProjectTestBase {
    * Ensures the default site has a default.settings.php file, which is used
    * as the basis for new settings.php files.
    *
-   * @group blt-project
+   * @group blted8
    */
   public function testSetupDefaultSettings() {
     $this->assertFileExists("$this->projectDirectory/docroot/sites/default/default.settings.php");
@@ -54,7 +54,7 @@ class DrupalSettingsTest extends BltProjectTestBase {
    *
    * Ensures each site has a settings.php file.
    *
-   * @group blt-project
+   * @group blted8
    */
   public function testSetupSettings() {
     foreach ($this->sites as $site) {
@@ -67,7 +67,7 @@ class DrupalSettingsTest extends BltProjectTestBase {
    *
    * Ensures BLT's settings are included in each site's settings.php file.
    *
-   * @group blt-project
+   * @group blted8
    */
   public function testSetupBltSettings() {
     foreach ($this->sites as $site) {
