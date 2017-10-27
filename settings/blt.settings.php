@@ -297,9 +297,6 @@ if (file_exists(DRUPAL_ROOT . "/sites/$site_dir/settings/includes.settings.php")
  * Keep this code block at the end of this file to take full effect.
  */
 if ($is_local_env) {
-  if ($is_acsf_inited) {
-    require __DIR__ . '/acsf.local.settings.php';
-  }
   // Load local settings for all sites.
   if (file_exists(DRUPAL_ROOT . "/sites/settings/local.settings.php")) {
     require DRUPAL_ROOT . "/sites/settings/local.settings.php";
