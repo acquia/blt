@@ -4,6 +4,7 @@ namespace Acquia\Blt\Robo\Inspector;
 
 use Acquia\Blt\Robo\Config\YamlConfigProcessor;
 use Acquia\Blt\Robo\Exceptions\BltException;
+use function file_exists;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 use Consolidation\Config\Loader\YamlConfigLoader;
@@ -668,6 +669,16 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
       $this->drupalVmStatus[$target][$type] = $data;
       $this->logger->debug("vagrant $target.$type = $data");
     }
+  }
+
+  /**
+   * Indicates whether ACSF has been initialized.
+   *
+   * @return bool
+   *   TRUE if ACSF has been initialized.
+   */
+  public function isAcsfInited() {
+    return file_exists($this->getConfigValue('docroot') . '/sites/g');
   }
 
   /**

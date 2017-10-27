@@ -64,6 +64,9 @@ class DefaultConfig extends BltConfig {
     $this->setSite($site);
   }
 
+  /**
+   * @param $site
+   */
   public function setSite($site) {
     $this->config->set('site', $site);
     if (!$this->get('drush.uri')) {
