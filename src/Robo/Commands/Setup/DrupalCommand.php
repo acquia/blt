@@ -47,7 +47,6 @@ class DrupalCommand extends BltTasks {
       ->option('account-mail', $this->getConfigValue('drupal.account.mail'))
       ->option('locale', $this->getConfigValue('drupal.locale'))
       ->verbose(TRUE)
-      ->assume(TRUE)
       ->printOutput(TRUE);
 
     $result = $task->detectInteractive()->run();

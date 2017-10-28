@@ -69,8 +69,7 @@ class DbCommand extends BltTasks {
       ->arg($remote_alias)
       ->arg($local_alias)
       ->option('structure-tables-key', 'lightweight')
-      ->option('create-db')
-      ->assume(TRUE);
+      ->option('create-db');
 
     if ($this->getConfigValue('drush.sanitize')) {
       $task->drush('sql-sanitize');
