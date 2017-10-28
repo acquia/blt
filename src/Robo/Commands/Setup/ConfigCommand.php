@@ -50,7 +50,6 @@ class ConfigCommand extends BltTasks {
 
       $task = $this->taskDrush()
         ->stopOnFail()
-        ->assume(TRUE)
         // Sometimes drush forgets where to find its aliases.
         ->drush("cc")->arg('drush')
         // Rebuild caches in case service definitions have changed.
@@ -190,7 +189,6 @@ class ConfigCommand extends BltTasks {
     if (!$this->getConfigValue('cm.allow-overrides')) {
       $this->say("Checking for config overrides...");
       $config_overrides = $this->taskDrush()
-        ->assume(FALSE)
         ->drush("cex")
         ->arg($cm_core_key);
       if (!$config_overrides->run()->wasSuccessful()) {
