@@ -9,6 +9,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Yaml\Yaml;
 use Drupal\Core\Installer\Exception\AlreadyInstalledException;
 use Drush\Commands\core\StatusCommands;
+use Drush\SiteAlias\SiteAliasManager;
 
 /**
  * Provides drush `blt-doctor` command.
@@ -108,7 +109,9 @@ class BltDoctor {
       $status_table = drush_core_status();
     }
     else {
-      $status_table = StatusCommands::getPropertyList([]);
+      $status_commands = new StatusCommands();
+      $status_commands->setSiteAliasManager(new SiteAliasManager());
+      $status_table = $status_commands->getPropertyList([]);
     }
     $this->statusTable = $status_table;
 
@@ -874,7 +877,7 @@ class BltDoctor {
       ], 'error');
     }
     else {
-      drush_log("Behat base_url matches drush URI.", 'notice');
+      $this->logger()->info("Behat base_url matches drush URI.");
     }
   }
 

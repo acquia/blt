@@ -59,6 +59,6 @@ blt simplesamlphp:init
 blt custom:hello
 
 # Run the doctor.
-# blt doctor
+blt doctor
 
 set +v
