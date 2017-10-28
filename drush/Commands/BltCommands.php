@@ -10,6 +10,7 @@ class BltCommands extends DrushCommands {
    *
    * @command blt:doctor
    * @aliases bdr,blt-doctor
+   * @bootstrap full
    */
   public function doctor()
   {

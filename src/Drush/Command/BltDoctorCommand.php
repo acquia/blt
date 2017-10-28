@@ -108,7 +108,8 @@ class BltDoctor {
       $status_table = drush_core_status();
     }
     else {
-      $status_table = StatusCommands::getPropertyList([]);
+      $status_commands = new StatusCommands();
+      $status_table = $status_commands->getPropertyList([]);
     }
     $this->statusTable = $status_table;
 
