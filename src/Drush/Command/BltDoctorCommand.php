@@ -9,6 +9,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Yaml\Yaml;
 use Drupal\Core\Installer\Exception\AlreadyInstalledException;
 use Drush\Commands\core\StatusCommands;
+use Drush\SiteAlias\SiteAliasManager;
 
 /**
  * Provides drush `blt-doctor` command.
@@ -109,6 +110,7 @@ class BltDoctor {
     }
     else {
       $status_commands = new StatusCommands();
+      $status_commands->setSiteAliasManager(new SiteAliasManager());
       $status_table = $status_commands->getPropertyList([]);
     }
     $this->statusTable = $status_table;
