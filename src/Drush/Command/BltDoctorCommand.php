@@ -105,15 +105,8 @@ class BltDoctor {
    * @return array
    */
   public function setStatusTable() {
-    if (function_exists('drush_core_status')) {
-      $status_table = drush_core_status();
-    }
-    else {
-      $status_commands = new StatusCommands();
-      $status_commands->setSiteAliasManager(new SiteAliasManager());
-      $status_table = $status_commands->getPropertyList([]);
-    }
-    $this->statusTable = $status_table;
+    $return = drush_invoke_process($this->config['drush']['aliases']['local'], 'core-status', array(), array('format'=>'json'), array('integrate' => FALSE));
+    $this->statusTable = $return['object'];
 
     return $status_table;
   }
