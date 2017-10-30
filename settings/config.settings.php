@@ -16,8 +16,7 @@
  */
 if (!isset($config_directories['sync'])) {
   // Configuration directories.
-  $dir = dirname(DRUPAL_ROOT);
-  $config_directories['sync'] = $dir . "/config/default";
+  $config_directories['sync'] = $repo_root . "/config/default";
 }
 
 $split_filename_prefix = 'config_split.config_split';
@@ -91,4 +90,9 @@ if ($split != 'none' && file_exists("$split_filepath_prefix.$split.yml")) {
  */
 if (file_exists("$split_filepath_prefix.$site_dir.yml")) {
   $config["$split_filename_prefix.$site_dir"]['status'] = TRUE;
+}
+
+// Set acsf site split.
+if (isset($acsf_site_name) && file_exists("$split_filepath_prefix.$acsf_site_name.yml")) {
+  $config["$split_filename_prefix.$acsf_site_name"]['status'] = TRUE;
 }
