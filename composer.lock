@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "3307b5d3c36a61dce70f097a8cbf8adc",
+    "content-hash": "ad55679811aa812be3010860d5b7278a",
     "packages": [
         {
             "name": "acquia/acquia-sdk-php-cloud-api",
@@ -1323,7 +1323,7 @@
             "version": "8.2.12",
             "source": {
                 "type": "git",
-                "url": "https://github.com/klausi/coder.git",
+                "url": "https://git.drupal.org/project/coder.git",
                 "reference": "984c54a7b1e8f27ff1c32348df69712afd86b17f"
             },
             "dist": {
