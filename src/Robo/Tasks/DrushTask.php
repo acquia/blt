@@ -48,11 +48,11 @@ class DrushTask extends CommandStack {
   protected $uri;
 
   /**
-   * Assume 'yes' or 'no' to all prompts.
+   * Indicates if the command should be interactive or use default values.
    *
    * @var string|bool
    */
-  protected $assume;
+  protected $interactive;
 
   /**
    * Indicates if the command output should be verbose.
@@ -155,18 +155,18 @@ class DrushTask extends CommandStack {
   }
 
   /**
-   * Assume 'yes' or 'no' to all prompts.
+   * Indicates if the command should be interactive.
    *
-   * @param string|bool $assume
+   * @param string|bool $interactive
    *
    * @return $this
    */
-  public function assume($assume) {
-    if ($assume === "") {
-      $this->assume = $assume;
+  public function interactive($interactive) {
+    if ($interactive === "") {
+      $this->interactive = $interactive;
     }
     else {
-      $this->assume = $this->mixedToBool($assume);
+      $this->interactive = $this->mixedToBool($interactive);
     }
     return $this;
   }
@@ -216,11 +216,8 @@ class DrushTask extends CommandStack {
     if (!isset($this->alias)) {
       $this->alias($this->getConfig()->get('drush.alias'));
     }
-    if (!isset($this->assume) && $this->input->hasOption('yes') && $this->input->getOption('yes')) {
-      $this->assume(TRUE);
-    }
-    elseif (!isset($this->assume) && !$this->input->isInteractive()) {
-      $this->assume(TRUE);
+    if (!isset($this->interactive)) {
+      $this->interactive(FALSE);
     }
 
     $this->defaultsInitialized = TRUE;
@@ -268,9 +265,8 @@ class DrushTask extends CommandStack {
       $this->option('uri', $this->uri);
     }
 
-    if (isset($this->assume) && is_bool($this->assume)) {
-      $assumption = $this->assume ? 'yes' : 'no-interaction';
-      $this->option($assumption);
+    if (!$this->interactive) {
+      $this->option('no-interaction');
     }
 
     if ($this->verbosityThreshold() >= VerbosityThresholdInterface::VERBOSITY_VERBOSE

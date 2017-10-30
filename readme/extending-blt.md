@@ -97,6 +97,8 @@ You may overwrite a variable value at runtime by specifying the variable value i
 
         blt tests:behat -D behat.tags='@mytags'
 
+For configuration values that are indexed arrays, you can override individual values using the numeric index, such as `git.remotes.0`.
+
 Listed below are some of the more commonly customized BLT targets.
 
 ### deploy:*
@@ -159,6 +161,10 @@ You may use a custom git hook in place of BLT's default git hooks by setting its
 In this example, an executable file named `pre-commit` should exist in `${repo.root}/my-custom-git-hooks`.
 
 You should execute `blt setup:git-hooks` after modifying these values in order for changes to take effect.
+
+#### git:commit-msg
+
+By default, BLT will execute the `git:commit-msg` command when new git commits are made. This command validates that the commit message matches the regular expression defined in `git.commit-msg.pattern`. You may [override the default configuration](#modifying-blt-configuration).
 
 ### tests:*
 
