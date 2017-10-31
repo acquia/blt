@@ -14,7 +14,7 @@ deploy_updates() {
     # Do not run deploy updates on 01live in case a branch is deployed in prod. 
     01devup|01testup|01update|01live)
       ;;
-    ode[[:digit:]]*)
+    *)
       deploy_install
       ;;
     *)
