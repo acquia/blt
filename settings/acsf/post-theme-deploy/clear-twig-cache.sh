@@ -3,6 +3,11 @@
 # $1 = The hosting site group.
 # $2 = The hosting environment.
 # $5 = The site domain.
-# Example:
-#   drush8 @conagra.01live --uri=readysteat.conagra.acsitefactory.com ...
-drush8 @$1.$2 --uri=$5 ev '\Drupal\Core\PhpStorage\PhpStorageFactory::get("twig")->deleteAll();'
+site="$1"
+env="$2"
+
+# local drush  executable:
+repo="/var/www/html/$site.$env"
+
+cd $repo
+drush @$1.$2 --uri=$5 ev '\Drupal\Core\PhpStorage\PhpStorageFactory::get("twig")->deleteAll();'
