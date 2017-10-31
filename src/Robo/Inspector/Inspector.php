@@ -257,7 +257,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *   TRUE if alias is valid.
    */
   public function isDrushAliasValid($alias) {
-    return $this->executor->drush("site-alias $alias --format=json")->run()->wasSuccessful();
+    return $this->executor->drush("site:alias $alias --format=json")->run()->wasSuccessful();
   }
 
   /**
