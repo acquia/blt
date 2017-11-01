@@ -3,9 +3,6 @@
 namespace Acquia\Blt\Robo\Commands\Tests;
 
 use Acquia\Blt\Robo\BltTasks;
-use Composer\Semver\Comparator;
-use GuzzleHttp\Client;
-use Symfony\Component\Console\Helper\Table;
 
 /**
  * Defines commands in the "tests" namespace.
