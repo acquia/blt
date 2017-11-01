@@ -38,9 +38,20 @@ class ConfigCommand extends BltTasks {
         $core_config_file = $this->getConfigValue('docroot') . '/' . $this->getConfigValue("cm.core.dirs.$cm_core_key.path") . '/core.extension.yml';
 
         if (!file_exists($core_config_file)) {
-          $this->logger->warning("BLT will NOT import configuration, $core_config_file was not found.");
-          // This is not considered a failure.
-          return 0;
+          if ($this->getConfigValue('cm.share-configs') == FALSE) {
+            $drush_uri = $this->getConfigValue('drush.uri');
+            // Is there a multisite config?
+            $core_config_file = $this->getConfigValue('docroot') . '/' .
+              $this->getConfigValue("cm.core.dirs.$cm_core_key.path") . '/../' .
+              $drush_uri . '/core.extension.yml';
+          }
+
+          // If we still don't have core_config_file
+          if (!file_exists($core_config_file)) {
+            $this->logger->warning("BLT will NOT import configuration, $core_config_file was not found.");
+            // This is not considered a failure.
+            return 0;
+          }
         }
       }
 
