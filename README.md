@@ -36,7 +36,7 @@ Typically, the last two most major versions of BLT are supported actively. The n
 |---------------|-----------------------------|--------|----------------|--------------|
 | 9.1.x         | Supported                   | >=8.4  | >=9.0.0-beta6  | \*active dev |
 | 9.0.x         | Supported                   | >=8.4  | >=9.0.0-beta6  | bug fixes    |
-| 8.9.x         | LTS thru 12/17              | <=8.4  | 8\|9.0.0-beta4 | bug fixes    |
+| 8.9.x         | LTS thru 12/17              | <=8.4  | 8              | bug fixes    |
 | 8.8.x         | Unsupported, EOL            | <=8.3  | ~8             |              |
 | 8.7.x         | Unsupported, EOL            | <=8.3  | ~8             |              |
 
