@@ -39,6 +39,11 @@ class ConfigCommand extends BltTasks {
       // If using core-only or config-split strategies, first check to see if
       // required config is exported.
       if (in_array($strategy, ['core-only', 'config-split'])) {
+        // Read the config from the default folder (/config/default). This will
+        // Also be the fallback option, so some domains can still use default.
+        $core_config_file = $this->getConfigValue('docroot') . '/' .
+          $this->getConfigValue("cm.core.dirs.$cm_core_key.path") .
+          '/core.extension.yml';
 
         // We don't want configs to be shared between multisites.
         if ($this->getConfigValue('cm.share-configs') == FALSE) {
@@ -48,12 +53,6 @@ class ConfigCommand extends BltTasks {
           $core_config_file = $this->getConfigValue('docroot') . '/' .
             $this->getConfigValue("cm.core.dirs.$cm_core_key.path") . '/../' .
             $drush_uri . '/core.extension.yml';
-        }
-        else {
-          // Read the config from the default folder (/config/default).
-          $core_config_file = $this->getConfigValue('docroot') . '/' .
-            $this->getConfigValue("cm.core.dirs.$cm_core_key.path") .
-            '/core.extension.yml';
         }
 
         // If we still don't have core_config_file.
