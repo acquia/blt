@@ -40,6 +40,7 @@ class ConfigCommand extends BltTasks {
       // required config is exported.
       if (in_array($strategy, ['core-only', 'config-split'])) {
         $core_config_file = $this->getConfigValue('docroot') . '/' . $this->getConfigValue("cm.core.dirs.$cm_core_key.path") . '/core.extension.yml';
+
         if (!file_exists($core_config_file)) {
           $this->logger->warning("BLT will NOT import configuration, $core_config_file was not found.");
           // This is not considered a failure.
