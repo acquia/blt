@@ -7,6 +7,11 @@
 
 use Drupal\Component\Assertion\Handle;
 
+$db_name = '${drupal.db.database}';
+if (isset($acsf_site_name)) {
+  $db_name .= '_' . $acsf_site_name;
+}
+
 /**
  * Database configuration.
  */
@@ -15,7 +20,7 @@ $databases = array(
   array(
     'default' =>
     array(
-      'database' => '${drupal.db.database}',
+      'database' => $db_name,
       'username' => '${drupal.db.username}',
       'password' => '${drupal.db.password}',
       'host' => '${drupal.db.host}',
@@ -126,6 +131,10 @@ $config['system.file']['path']['temporary'] = '/tmp';
  * Private file path.
  */
 $settings['file_private_path'] = $dir . '/files-private';
+if (isset($acsf_site_name)) {
+  $settings['file_public_path'] = "sites/default/files/$acsf_site_name";
+  $settings['file_private_path'] = "$repo_root/files-private/$acsf_site_name";
+}
 
 /**
  * Trusted host configuration.

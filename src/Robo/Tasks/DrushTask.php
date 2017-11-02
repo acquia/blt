@@ -48,13 +48,6 @@ class DrushTask extends CommandStack {
   protected $uri;
 
   /**
-   * Assume 'yes' or 'no' to all prompts.
-   *
-   * @var string|bool
-   */
-  protected $assume;
-
-  /**
    * Indicates if the command output should be verbose.
    *
    * @var bool
@@ -155,23 +148,6 @@ class DrushTask extends CommandStack {
   }
 
   /**
-   * Assume 'yes' or 'no' to all prompts.
-   *
-   * @param string|bool $assume
-   *
-   * @return $this
-   */
-  public function assume($assume) {
-    if ($assume === "") {
-      $this->assume = $assume;
-    }
-    else {
-      $this->assume = $this->mixedToBool($assume);
-    }
-    return $this;
-  }
-
-  /**
    * Indicates if the command output should be verbose.
    *
    * @param string|bool $verbose
@@ -216,11 +192,8 @@ class DrushTask extends CommandStack {
     if (!isset($this->alias)) {
       $this->alias($this->getConfig()->get('drush.alias'));
     }
-    if (!isset($this->assume) && $this->input->hasOption('yes') && $this->input->getOption('yes')) {
-      $this->assume(TRUE);
-    }
-    elseif (!isset($this->assume) && !$this->input->isInteractive()) {
-      $this->assume(TRUE);
+    if (!isset($this->interactive)) {
+      $this->interactive(FALSE);
     }
 
     $this->defaultsInitialized = TRUE;
@@ -268,9 +241,8 @@ class DrushTask extends CommandStack {
       $this->option('uri', $this->uri);
     }
 
-    if (isset($this->assume) && is_bool($this->assume)) {
-      $assumption = $this->assume ? 'yes' : 'no-interaction';
-      $this->option($assumption);
+    if (!$this->interactive) {
+      $this->option('no-interaction');
     }
 
     if ($this->verbosityThreshold() >= VerbosityThresholdInterface::VERBOSITY_VERBOSE
