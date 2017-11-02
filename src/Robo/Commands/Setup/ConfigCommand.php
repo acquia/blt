@@ -56,7 +56,7 @@ class ConfigCommand extends BltTasks {
             '/core.extension.yml';
         }
 
-        // If we still don't have core_config_file
+        // If we still don't have core_config_file.
         if (!file_exists($core_config_file)) {
           $this->logger->warning("BLT will NOT import configuration, $core_config_file was not found.");
           // This is not considered a failure.
