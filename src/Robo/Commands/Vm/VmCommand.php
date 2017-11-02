@@ -282,11 +282,11 @@ class VmCommand extends BltTasks {
         $config->set('workspace', '/root');
         $config->set('installed_extras', [
           'adminer',
+          'chrome',
           'drush',
           'mailhog',
           'memcached',
           'nodejs',
-          'selenium',
           'solr',
           'xdebug',
         ]);
