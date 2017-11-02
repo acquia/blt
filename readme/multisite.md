@@ -27,6 +27,7 @@ You have the option to define your multisites in `blt/project.yml` by creating a
 
 Ensure that your new project has `$settings['install_profile']` set, or Drupal core will attempt (unsuccessfully) to write it to disk!
 
+
 At this point you should have a functional multisite codebase that can be installed on Acquia Cloud.
 
 ## Drush aliases
@@ -35,6 +36,15 @@ The default Drush site aliases provided by [Acquia Cloud](https://docs.acquia.co
 
 It's recommended to copy the aliases file provided by Acquia Cloud or Club to create a separate aliases file for each site. Simply modify the `uri` and `parent` keys for the aliases within each file to match the correct database / site.
 
+In order for BLT to execute correctly the drush aliases for multisites, specify your production environment in `blt/project.yml`:
+
+```
+drush:
+  aliases:
+    remote_env: 'prod'
+```
+
+From now on you can sync from specific sites, ie: `blt sync -D site=SITE_X -y`
 
 ## Multisite tasks
 
