@@ -732,49 +732,46 @@ class BltDoctor {
       else {
         $this->setDrupalVmConfig();
       }
-      if ($this->drushAliasesFileExists()) {
-        $local_alias_id = $this->config['drush']['aliases']['local'];
-        if ($local_alias_id !== 'self') {
-          if (empty($this->drushAliases[$local_alias_id])) {
-            $this->logOutcome(__FUNCTION__ . ":alias", [
-              "The drush alias assigned to drush.aliases.local does not exist in your drush aliases file.",
-              "  drush.aliases.local is set to @$local_alias_id",
-              "  Looked in " . $this->repoRoot . '/drush/site-aliases/aliases.drushrc.php',
+      $local_alias_id = '@' . $this->config['drush']['aliases']['local'];
+      if ($local_alias_id !== '@self') {
+        if (empty($this->drushAliases[$local_alias_id])) {
+          $this->logOutcome(__FUNCTION__ . ":alias", [
+            "The drush alias assigned to drush.aliases.local does not exist in your drush aliases file.",
+            "  drush.aliases.local is set to @$local_alias_id",
+          ], 'error');
+          $passed = FALSE;
+        }
+        else {
+          $this->logOutcome(__FUNCTION__ . ':alias', "drush.aliases.local exists your drush aliases file.", 'info');
+          $local_alias = $this->drushAliases[$local_alias_id];
+          if ('vagrant' != $_SERVER['USER'] && $local_alias['remote-host'] != $this->drupalVmConfig['vagrant_hostname']) {
+            $this->logOutcome(__FUNCTION__ . ":remote-host", [
+              "remote-host for @$local_alias_id drush alias does not match vagrant_hostname for DrupalVM.",
+              "  remote-host is set to {$local_alias['remote-host']} for @$local_alias_id",
+              "  vagrant_hostname is set to {$this->drupalVmConfig['vagrant_hostname']} for DrupalVM.",
+              "  {$local_alias['remote-host']} != {$this->drupalVmConfig['vagrant_hostname']}",
             ], 'error');
             $passed = FALSE;
           }
-          else {
-            $this->logOutcome(__FUNCTION__ . ':alias', "drush.aliases.local exists your drush aliases file.", 'info');
-            $local_alias = $this->drushAliases[$local_alias_id];
-            if ('vagrant' != $_SERVER['USER'] && $local_alias['remote-host'] != $this->drupalVmConfig['vagrant_hostname']) {
-              $this->logOutcome(__FUNCTION__ . ":remote-host", [
-                "remote-host for @$local_alias_id drush alias does not match vagrant_hostname for DrupalVM.",
-                "  remote-host is set to {$local_alias['remote-host']} for @$local_alias_id",
-                "  vagrant_hostname is set to {$this->drupalVmConfig['vagrant_hostname']} for DrupalVM.",
-                "  {$local_alias['remote-host']} != {$this->drupalVmConfig['vagrant_hostname']}",
-              ], 'error');
-              $passed = FALSE;
-            }
-            $parsed_uri = parse_url($local_alias['uri']);
-            if ($parsed_uri['host'] != $this->drupalVmConfig['vagrant_hostname']) {
-              $this->logOutcome(__FUNCTION__ . ":uri", [
-                "uri for @$local_alias_id drush alias does not match vagrant_hostname for DrupalVM.",
-                "  uri is set to {$local_alias['uri']} for @$local_alias_id",
-                "  vagrant_hostname is set to {$this->drupalVmConfig['vagrant_hostname']} for DrupalVM.",
-                "  {$local_alias['uri']} != {$this->drupalVmConfig['vagrant_hostname']}",
-              ], 'error');
-              $passed = FALSE;
-            }
-            $expected_root = $this->drupalVmConfig['drupal_composer_install_dir'] . '/docroot';
-            if ($local_alias['root'] != $expected_root) {
-              $this->logOutcome(__FUNCTION__ . ":root", [
-                "root for @$local_alias_id drush alias does not match docroot for DrupalVM.",
-                "  root is set to {$local_alias['root']} for @$local_alias_id",
-                "  docroot is set to $expected_root for DrupalVM.",
-                "  {$local_alias['root']} != $expected_root",
-              ], 'error');
-              $passed = FALSE;
-            }
+          $parsed_uri = parse_url($local_alias['uri']);
+          if ($parsed_uri['host'] != $this->drupalVmConfig['vagrant_hostname']) {
+            $this->logOutcome(__FUNCTION__ . ":uri", [
+              "uri for @$local_alias_id drush alias does not match vagrant_hostname for DrupalVM.",
+              "  uri is set to {$local_alias['uri']} for @$local_alias_id",
+              "  vagrant_hostname is set to {$this->drupalVmConfig['vagrant_hostname']} for DrupalVM.",
+              "  {$local_alias['uri']} != {$this->drupalVmConfig['vagrant_hostname']}",
+            ], 'error');
+            $passed = FALSE;
+          }
+          $expected_root = $this->drupalVmConfig['drupal_composer_install_dir'] . '/docroot';
+          if ($local_alias['root'] != $expected_root) {
+            $this->logOutcome(__FUNCTION__ . ":root", [
+              "root for @$local_alias_id drush alias does not match docroot for DrupalVM.",
+              "  root is set to {$local_alias['root']} for @$local_alias_id",
+              "  docroot is set to $expected_root for DrupalVM.",
+              "  {$local_alias['root']} != $expected_root",
+            ], 'error');
+            $passed = FALSE;
           }
         }
       }
@@ -805,27 +802,17 @@ class BltDoctor {
   }
 
   /**
-   * @return mixed
-   */
-  protected function drushAliasesFileExists() {
-    return file_exists($this->repoRoot . '/drush/site-aliases/aliases.drushrc.php');
-  }
-
-  /**
    *
    */
   protected function checkDrushAliases() {
-    $file_path = $this->repoRoot . '/drush/site-aliases/aliases.drushrc.php';
-    if (!$this->drushAliasesFileExists()) {
+    $return = drush_invoke_process(null, 'sa', null, array('format'=>'json'), array('integrate', FALSE));
+    if ($return['error_status']) {
       $this->logOutcome(__FUNCTION__, [
-        "drush alias file does not exist!",
-        "",
-        "Create $file_path",
+        "Cannot find any valid drush aliases.",
       ], 'error');
     }
     else {
-      require $file_path;
-      $this->drushAliases = $aliases;
+      $this->drushAliases = $return['object'];
     }
   }
 
