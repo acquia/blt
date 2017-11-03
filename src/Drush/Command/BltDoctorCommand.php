@@ -732,8 +732,8 @@ class BltDoctor {
       else {
         $this->setDrupalVmConfig();
       }
-      $local_alias_id = $this->config['drush']['aliases']['local'];
-      if ($local_alias_id !== 'self') {
+      $local_alias_id = '@' . $this->config['drush']['aliases']['local'];
+      if ($local_alias_id !== '@self') {
         if (empty($this->drushAliases[$local_alias_id])) {
           $this->logOutcome(__FUNCTION__ . ":alias", [
             "The drush alias assigned to drush.aliases.local does not exist in your drush aliases file.",
