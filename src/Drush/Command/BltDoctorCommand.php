@@ -919,6 +919,9 @@ class BltDoctor {
         ], 'info');
       }
     }
+    drush_shell_exec("composer --version");
+    $composer_version = drush_shell_exec_output();
+    $this->statusTable['composer-version'] = $composer_version;
   }
 
   /**
