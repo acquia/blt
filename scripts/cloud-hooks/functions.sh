@@ -45,6 +45,7 @@ acsf_deploy() {
   for uri in "${sites[@]}"; do
   #Override BLT default deploy uri.
   blt deploy:update --define environment=$target_env --define drush.uri="$uri" -v -y
+  drush @"${drush_alias}" --uri=$uri ev '\Drupal\Core\PhpStorage\PhpStorageFactory::get("twig")->deleteAll();'
   if [ $? -ne 0 ]; then
       echo "Update errored for site $uri."
       exit 1
@@ -66,6 +67,7 @@ ace_deploy() {
   cd $repo_root
 
   blt deploy:update --define environment=$target_env -v -y
+  drush @"${drush_alias}" ev '\Drupal\Core\PhpStorage\PhpStorageFactory::get("twig")->deleteAll();'
   if [ $? -ne 0 ]; then
       echo "Update errored."
       exit 1
