@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "6ccf68ffdf50832f892de12f01ad4390",
+    "content-hash": "f67a8b5a2ea22e61ba3884d2172eab7a",
     "packages": [
         {
             "name": "chi-teck/drupal-code-generator",
@@ -1196,7 +1196,7 @@
             "version": "8.2.12",
             "source": {
                 "type": "git",
-                "url": "https://github.com/klausi/coder.git",
+                "url": "https://git.drupal.org/project/coder.git",
                 "reference": "984c54a7b1e8f27ff1c32348df69712afd86b17f"
             },
             "dist": {
