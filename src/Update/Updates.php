@@ -424,4 +424,26 @@ class Updates {
     $this->updater->getOutput()->writeln($formattedBlock);
     $this->updater->getOutput()->writeln("");
   }
+
+  /**
+   * 8.9.11.
+   *
+   * @Update(
+   *    version = "8009011",
+   *    description = "Move vm.enable from project.yml to project.local.yml."
+   * )
+   */
+  public function update_8009011() {
+    $project_yml = $this->updater->getProjectYml();
+    if ($project_yml['vm']['enable']) {
+      // Remove from project.yml.
+      unset($project_yml['vm']);
+      $this->updater->writeProjectYml($project_yml);
+      // Add to project.local.yml.
+      $project_local_yml = $this->updater->getProjectLocalYml();
+      $project_local_yml['vm']['enable'] = TRUE;
+      $this->updater->writeProjectLocalYml($project_local_yml);
+    }
+
+  }
 }
