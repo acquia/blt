@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a00c8d4cdeb252138801676ae6d77d71",
+    "content-hash": "6316dc28b227ee0c6babf7b86c1bbead",
     "packages": [
         {
             "name": "asm89/twig-lint",
@@ -1199,7 +1199,7 @@
             "version": "8.2.12",
             "source": {
                 "type": "git",
-                "url": "https://github.com/klausi/coder.git",
+                "url": "https://git.drupal.org/project/coder.git",
                 "reference": "984c54a7b1e8f27ff1c32348df69712afd86b17f"
             },
             "dist": {

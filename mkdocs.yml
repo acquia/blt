@@ -47,4 +47,4 @@ pages:
         - Setting up multisite: 'readme/multisite.md'
         - Open source contribution: 'readme/os-contribution.md'
   - Extending / Overriding BLT: 'readme/extending-blt.md'
-  - Support & Contribution: 'CONTRIBUTING.md'
+  - Support & Contribution: '.github/CONTRIBUTING.md'
