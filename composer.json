@@ -22,7 +22,7 @@
         "oomphinc/composer-installers-extender": "^1.1",
         "dflydev/dot-access-data":          "^1.1.0",
         "drupal/coder":                     "^8.2.11",
-        "drush/drush":                      "9.0.0-beta8",
+        "drush/drush":                      "^9.0.0-beta9",
         "grasmash/drupal-security-warning": "^1.0.0",
         "grasmash/yaml-cli":                "^1.0.0",
         "grasmash/yaml-expander":           "^1.0.5",
