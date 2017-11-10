@@ -435,14 +435,14 @@ class Updates {
    */
   public function update_8009011() {
     $project_yml = $this->updater->getProjectYml();
-    if ($project_yml['vm']['enable']) {
+    if (isset($project_yml['vm']['enable'])) {
+      // Add to project.local.yml.
+      $project_local_yml = $this->updater->getProjectLocalYml();
+      $project_local_yml['vm']['enable'] = $project_yml['vm']['enable'];
+      $this->updater->writeProjectLocalYml($project_local_yml);
       // Remove from project.yml.
       unset($project_yml['vm']);
       $this->updater->writeProjectYml($project_yml);
-      // Add to project.local.yml.
-      $project_local_yml = $this->updater->getProjectLocalYml();
-      $project_local_yml['vm']['enable'] = TRUE;
-      $this->updater->writeProjectLocalYml($project_local_yml);
     }
 
   }
