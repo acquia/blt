@@ -10,6 +10,7 @@ use Symfony\Component\Yaml\Yaml;
 use Drupal\Core\Installer\Exception\AlreadyInstalledException;
 use Drush\Commands\core\StatusCommands;
 use Drush\SiteAlias\SiteAliasManager;
+use Drush\Drush;
 
 /**
  * Provides drush `blt-doctor` command.
@@ -958,7 +959,7 @@ class BltDoctor {
    * Checks that caching is configured for local development.
    */
   protected function checkCaching() {
-    if (drush_bootstrap_max(DRUSH_BOOTSTRAP_DRUPAL_FULL)) {
+    if (Drush::bootstrapManager()->bootstrapMax(DRUSH_BOOTSTRAP_DRUPAL_FULL)) {
       global $conf;
 
       if ($conf['cache']) {
