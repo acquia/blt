@@ -48,13 +48,6 @@ class DrushTask extends CommandStack {
   protected $uri;
 
   /**
-   * Indicates if the command should be interactive or use default values.
-   *
-   * @var string|bool
-   */
-  protected $interactive;
-
-  /**
    * Indicates if the command output should be verbose.
    *
    * @var bool
@@ -151,23 +144,6 @@ class DrushTask extends CommandStack {
     $this->dir = $dir;
     parent::dir($dir);
 
-    return $this;
-  }
-
-  /**
-   * Indicates if the command should be interactive.
-   *
-   * @param string|bool $interactive
-   *
-   * @return $this
-   */
-  public function interactive($interactive) {
-    if ($interactive === "") {
-      $this->interactive = $interactive;
-    }
-    else {
-      $this->interactive = $this->mixedToBool($interactive);
-    }
     return $this;
   }
 

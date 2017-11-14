@@ -20,9 +20,11 @@
 
 1. Now its time to spin up your LAMP stack.
 
-    1. **With Drupal VM**: If you would like to use Drupal VM for local development, run the following commands:
+    1. **With Drupal VM (recommended)**: If you would like to use Drupal VM for local development, run the following command:
 
              blt vm
+             
+       Optional: to customize your VM (such as to enable Solr), respond 'no' when BLT offers to boot your VM, and [make any necessary modifications](http://docs.drupalvm.com/en/latest/getting-started/configure-drupalvm/) to `box/config.yml` before starting your VM.
 
     1. **Without Drupal VM**: If you would not like to use Drupal VM, please review [Local Development](http://blt.readthedocs.io/en/8.x/readme/local-development/) and set up your own LAMP stack. Once your LAMP stack is running, execute the following command to generate default local settings files:
 
