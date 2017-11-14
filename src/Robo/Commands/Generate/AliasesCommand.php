@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Generate;
 
 use Acquia\Blt\Robo\BltTasks;
-use Acquia\Cloud\Api\CloudApiClient;
+use AcquiaCloudApi\CloudApi\Client;
 use function file_put_contents;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\DelegatingLoader;
@@ -49,9 +49,6 @@ class AliasesCommand extends BltTasks {
   /** @var \Symfony\Component\Filesystem\Filesystem*/
   protected $fs;
 
-  /** @var \Symfony\Component\Console\Helper\QuestionHelper*/
-  protected $questionHelper;
-
   /**
    * @var \Symfony\Component\Console\Helper\FormatterHelper
    */
@@ -69,18 +66,16 @@ class AliasesCommand extends BltTasks {
       return 1;
     }
 
-    $this->questionHelper = $this->getHelper('question');
-    $this->formatter = $this->getHelper('formatter');
     $this->fs = new Filesystem();
     $this->cloudConfDir = $_SERVER['HOME'] . '/.acquia';
-    $this->drushAliasDir = $_SERVER['HOME'] . '/.drush';
+    $this->drushAliasDir = $this->getConfigValue('repo.root') . '/drush/site-aliases';
     $this->cloudConfFileName = 'cloudapi.conf';
     $this->cloudConfFilePath = $this->cloudConfDir . '/' . $this->cloudConfFileName;
 
     $this->cloudApiConfig = $this->loadCloudApiConfig();
     $this->setCloudApiClient($this->cloudApiConfig['email'], $this->cloudApiConfig['key']);
     $this->say("<info>Gathering sites list from Acquia Cloud.</info>");
-    $sites = (array) $this->cloudApiClient->sites();
+    $sites = (array) $this->cloudApiClient->applications();
     $sitesCount = count($sites);
     $this->progressBar = new ProgressBar($this->output(), $sitesCount);
     $style = new OutputFormatterStyle('white', 'blue');
@@ -95,7 +90,7 @@ class AliasesCommand extends BltTasks {
     foreach ($sites as $site) {
       $this->progressBar->setMessage('Syncing: ' . $site);
       try {
-        $this->getSiteAliases($site, $errors);
+        //$this->getSiteAliases($site, $errors);
       }
       catch (\Exception $e) {
         $errors[] = "Could not fetch alias data for $site. Error: " . $e->getMessage();
@@ -147,18 +142,15 @@ class AliasesCommand extends BltTasks {
    *
    */
   protected function askForCloudApiCredentials() {
-    $usernameQuestion = new Question('<question>Please enter your Acquia cloud email address:</question> ', '');
-    $privateKeyQuestion = new Question('<question>Please enter your Acquia cloud private key:</question> ', '');
-    $privateKeyQuestion->setHidden(TRUE);
+    $key = $this->askRequired('Please enter your Acquia cloud API key:');
+    $secret = $this->askRequired('Please enter your Acquia cloud API secret:');
     do {
-      $email = $this->questionHelper->ask($this->input, $this->output, $usernameQuestion);
-      $key = $this->questionHelper->ask($this->input, $this->output, $privateKeyQuestion);
-      $this->setCloudApiClient($email, $key);
+      $this->setCloudApiClient($key, $secret);
       $cloud_api_client = $this->getCloudApiClient();
     } while (!$cloud_api_client);
     $config = array(
-      'email' => $email,
       'key' => $key,
+      'secret' => $secret,
     );
     $this->writeCloudApiConfig($config);
   }
@@ -206,23 +198,21 @@ class AliasesCommand extends BltTasks {
     return $this->cloudApiConfig;
   }
 
-  protected function setCloudApiClient($username, $password) {
+  protected function setCloudApiClient($key, $secret) {
     try {
-      $cloudapi = CloudApiClient::factory(array(
-        'username' => $username,
-        'password' => $password,
+      $cloud_api = Client::factory(array(
+        'key' => $key,
+        'secret' => $secret,
       ));
       // We must call some method on the client to test authentication.
-      $cloudapi->sites();
-      $this->cloudApiClient = $cloudapi;
-      return $cloudapi;
+      $cloud_api->applications();
+      $this->cloudApiClient = $cloud_api;
+      return $cloud_api;
     }
     catch (\Exception $e) {
       // @todo this is being thrown after first auth. still works? check out.
-      $this->output->writeln("<error>Failed to authenticate with Acquia Cloud API.</error>");
-      if ($this->output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
-        $this->output->writeln('Exception was thrown: ' . $e->getMessage());
-      }
+      $this->logger->error('Failed to authenticate with Acquia Cloud API.');
+      $this->logger->error('Exception was thrown: ' . $e->getMessage());
       return NULL;
     }
   }
