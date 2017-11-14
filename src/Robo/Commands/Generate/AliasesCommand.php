@@ -12,6 +12,7 @@ use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Defines commands in the "generate:aliases" namespace.
@@ -25,6 +26,11 @@ class AliasesCommand extends BltTasks {
 
   /** @var \Acquia\Cloud\Api\CloudApiClient*/
   protected $cloudApiClient;
+
+  /**
+   * @var string
+   */
+  protected $appId;
 
   /**
    * @var string
@@ -65,49 +71,33 @@ class AliasesCommand extends BltTasks {
     $this->fs = new Filesystem();
     $this->cloudConfDir = $_SERVER['HOME'] . '/.acquia';
     $this->drushAliasDir = $this->getConfigValue('repo.root') . '/drush/site-aliases';
+    $this->setAppId();
     $this->cloudConfFileName = 'cloudapi.conf';
     $this->cloudConfFilePath = $this->cloudConfDir . '/' . $this->cloudConfFileName;
 
     $this->cloudApiConfig = $this->loadCloudApiConfig();
     $this->setCloudApiClient($this->cloudApiConfig->key, $this->cloudApiConfig->secret);
 
-    $continue = $this->confirm("This will overwrite existing drush aliases. Do you want to continue?");
-    if (!$continue) {
-      return 1;
-    }
-
-    $this->say("<info>Gathering sites list from Acquia Cloud.</info>");
-    $sites = (array) $this->cloudApiClient->applications();
-    $sitesCount = count($sites);
-    $this->progressBar = new ProgressBar($this->output(), $sitesCount);
-    $style = new OutputFormatterStyle('white', 'blue');
-    $this->output()->getFormatter()->setStyle('status', $style);
-    $this->progressBar->setFormat("<status> %current%/%max% subscriptions [%bar%] %percent:3s%% \n %message%</status>");
-    $this->progressBar->setMessage('Starting Aliases sync...');
-    $this->say(
-      "<info>Found " . $sitesCount . " subscription(s). Gathering information about each.</info>\n"
-    );
+    $this->say("<info>Gathering site info from Acquia Cloud.</info>");
+    $site = $this->cloudApiClient->application($this->appId);
     $errors = [];
-    $this->progressBar->setRedrawFrequency(0.1);
-    foreach ($sites as $site) {
-      $this->progressBar->setMessage('Syncing: ' . $site);
-      try {
-        $this->getSiteAliases($site, $errors);
-      }
-      catch (\Exception $e) {
-        $errors[] = "Could not fetch alias data for $site. Error: " . $e->getMessage();
-      }
-      $this->progressBar->advance();
+    try {
+      $this->getSiteAliases($site, $errors);
     }
-    $this->progressBar->setMessage("Syncing: complete. \n");
-    $this->progressBar->clear();
-    $this->progressBar->finish();
-    if ($errors) {
-      $formatter = $this->getHelper('formatter');
-      $formattedBlock = $formatter->formatBlock($errors, 'error');
-      $this->output()->writeln($formattedBlock);
+    catch (\Exception $e) {
+      $this->logger->error("Could not fetch alias data for $site->name. Error: " . $e->getMessage());
     }
-    $this->output->writeln("<info>Aliases were written to, type 'drush sa' to see them.</info>");
+    $this->say("<info>Aliases were written, type 'drush sa' to see them.</info>");
+  }
+
+  protected function setAppId() {
+    if ($app_id = $this->getConfigValue('cloud.appId')) {
+      $this->appId = $app_id;
+    }
+    else {
+      $this->appId = $this->askRequired('Please enter your Acquia Cloud application ID');
+      // @TODO write the app ID to project.yml.
+    }
   }
 
   /**
@@ -143,34 +133,6 @@ class AliasesCommand extends BltTasks {
     );
     $this->writeCloudApiConfig($config);
     return $config;
-  }
-
-  /**
-   * @param $cloud_api_client
-   *
-   * @return string
-   */
-  protected function askWhichCloudSite($cloud_api_client) {
-    $question = new ChoiceQuestion(
-      '<question>Which site?</question>',
-      $this->getSitesList($cloud_api_client)
-    );
-    $site_name = $this->questionHelper->ask($this->input, $this->output, $question);
-    return $site_name;
-  }
-
-  /**
-   * @param \Acquia\Cloud\Api\CloudApiClient $cloud_api_client
-   * @param Site $site
-   */
-  protected function askWhichCloudEnvironment($cloud_api_client, $site) {
-    $environments = $this->getEnvironmentsList($cloud_api_client, $site);
-    $question = new ChoiceQuestion(
-      '<question>Which environment?</question>',
-      (array) $environments
-    );
-    $env = $this->questionHelper->ask($this->input, $this->output, $question);
-    return $env;
   }
 
   /**
@@ -213,40 +175,6 @@ class AliasesCommand extends BltTasks {
    */
   protected function getCloudApiClient() {
     return $this->cloudApiClient;
-  }
-
-  /**
-   * @param $dir_name
-   *
-   * @return int
-   */
-  protected function checkDestinationDir($dir_name) {
-    $destination_dir = getcwd() . '/' . $dir_name;
-    if ($this->fs->exists($destination_dir)) {
-      $this->output->writeln("<comment>Uh oh. The destination directory already exists.</comment>");
-      $question = new ConfirmationQuestion("<comment>Delete $destination_dir?</comment> ", FALSE);
-      $delete_dir = $this->questionHelper->ask($this->input, $this->output, $question);
-      if ($delete_dir) {
-        if ($this->fs->exists($destination_dir . '/.vagrant')) {
-          $this->output->writeln('');
-          $this->output->writeln("<comment>One more thing, it looks like there's a vagrant machine in the destination directory.</comment>");
-          $question = new ConfirmationQuestion("<comment>Destroy the vagrant machine in $destination_dir?</comment> ", FALSE);
-          $vagrant_destroy = $this->questionHelper->ask($this->input, $this->output, $question);
-          if ($vagrant_destroy) {
-            $this->executeCommand('vagrant destroy --force', $destination_dir);
-          }
-        }
-        // @todo recursively chmod all files in docroot/sites/default.
-        $this->fs->chmod($destination_dir . '/docroot/sites/default/default.settings.php', 777);
-        $this->fs->remove($destination_dir);
-      }
-      else {
-        $this->output->writeln(
-          "<comment>Please choose a different machine name for your project, or change directories.</comment>"
-              );
-        return 1;
-      }
-    }
   }
 
   /**
@@ -338,53 +266,40 @@ class AliasesCommand extends BltTasks {
    * @param $site SiteNames[]
    */
   protected function getSiteAliases($site, &$errors) {
-    return;
-    // Skip AC trex sites because the api breaks on them.
-    $skip_site = FALSE;
-    if (strpos($site, 'trex') !== FALSE
-      || strpos($site, ':*') !== FALSE) {
-      $skip_site = TRUE;
+    // Gather our environments.
+    $environments = $this->cloudApiClient->environments($site->uuid);
+    $this->say('<info>Found ' . count($environments) . ' environments for site ' . $site->name . ', writing aliases...</info>');
+    // Lets split the site name in the format ac-realm:ac-site.
+    $site_split = explode(':', $site->hosting->id);
+    $siteRealm = $site_split[0];
+    $siteID = $site_split[1];
+    // Loop over all environments.
+    foreach ($environments as $env) {
+      // Build our variables in case API changes.
+      $envName = $env->name;
+      $uri = $env->domains[0];
+      $ssh_split = explode('@', $env->sshUrl);
+      $remoteHost = $ssh_split[1];
+      $remoteUser = $ssh_split[0];
+      $docroot = '/var/www/html/' . $siteID . '.' . $envName . '/docroot';
+      $aliases[$envName] = array(
+        'root' => $docroot,
+        'uri' => $uri,
+        'host' => $remoteHost,
+        'user' => $remoteUser,
+      );
     }
-    if (!$skip_site) {
-      // Gather our environments.
-      $environments = $this->cloudApiClient->environments($site);
-      // Lets split the site name in the format ac-realm:ac-site.
-      $site_split = explode(':', $site);
-      $siteRealm = $site_split[0];
-      $siteID = $site_split[1];
-      // Loop over all environments.
-      foreach ($environments as $env) {
-        // Build our variables in case API changes.
-        $envName = $env->name();
-        $uri = $env->defaultDomain();
-        $remoteHost = $env->sshHost();
-        $remoteUser = $env['unix_username'];
-        $docroot = '/var/www/html/' . $siteID . '.' . $envName . '/docroot';
-        $aliases[$envName] = array(
-          'env-name' => $envName,
-          'root' => $docroot,
-          'ac-site' => $siteID,
-          'ac-env' => $envName,
-          'ac-realm' => $siteRealm,
-          'uri' => $uri,
-          'remote-host' => $remoteHost,
-          'remote-user' => $remoteUser,
-        );
-      }
-      $this->writeSiteAliases($siteID, $aliases);
-    }
+    $this->writeSiteAliases($siteID, $aliases);
   }
 
   protected function writeSiteAliases($site_id, $aliases) {
-    // Load twig template.
-    $loader = new Twig_Loader_Filesystem(__DIR__ . '/../../Resources/templates');
-    $twig = new Twig_Environment($loader);
-    // Render our aliases.
-    $aliasesRender = $twig->render('aliases.php.twig', array('aliases' => $aliases));
-    $aliasesFileName = $this->drushAliasDir . '/' . $site_id . '.aliases.drushrc.php';
-    $writable = (is_writable($aliasesFileName)) ? TRUE : chmod($aliasesFileName, 0755);
-    // Write to file.
-    file_put_contents($aliasesFileName, $aliasesRender);
+    $filePath = $this->drushAliasDir . '/' . $site_id . '.alias.yml';
+    if (file_exists($filePath)) {
+      if (!$this->confirm("File $filePath already exists and will be overwritten. Continue?")) {
+        return;
+      }
+    }
+    file_put_contents($filePath, Yaml::dump($aliases, 3, 2));
   }
 
 }
