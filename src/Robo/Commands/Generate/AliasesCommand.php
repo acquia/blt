@@ -61,10 +61,6 @@ class AliasesCommand extends BltTasks {
    *
    */
   public function generateAliasesAcquia() {
-    $continue = $this->confirm("This will overwrite existing drush aliases. Do you want to continue?");
-    if (!$continue) {
-      return 1;
-    }
 
     $this->fs = new Filesystem();
     $this->cloudConfDir = $_SERVER['HOME'] . '/.acquia';
@@ -73,7 +69,13 @@ class AliasesCommand extends BltTasks {
     $this->cloudConfFilePath = $this->cloudConfDir . '/' . $this->cloudConfFileName;
 
     $this->cloudApiConfig = $this->loadCloudApiConfig();
-    $this->setCloudApiClient($this->cloudApiConfig['email'], $this->cloudApiConfig['key']);
+    $this->setCloudApiClient($this->cloudApiConfig->key, $this->cloudApiConfig->secret);
+
+    $continue = $this->confirm("This will overwrite existing drush aliases. Do you want to continue?");
+    if (!$continue) {
+      return 1;
+    }
+
     $this->say("<info>Gathering sites list from Acquia Cloud.</info>");
     $sites = (array) $this->cloudApiClient->applications();
     $sitesCount = count($sites);
@@ -90,7 +92,7 @@ class AliasesCommand extends BltTasks {
     foreach ($sites as $site) {
       $this->progressBar->setMessage('Syncing: ' . $site);
       try {
-        //$this->getSiteAliases($site, $errors);
+        $this->getSiteAliases($site, $errors);
       }
       catch (\Exception $e) {
         $errors[] = "Could not fetch alias data for $site. Error: " . $e->getMessage();
@@ -122,20 +124,7 @@ class AliasesCommand extends BltTasks {
    * @return array
    */
   protected function loadCloudApiConfigFile() {
-    $config_dirs = [
-      $_SERVER['HOME'] . $this->cloudConfDir,
-    ];
-    $locator = new FileLocator($config_dirs);
-    try {
-      $file = $locator->locate($this->cloudConfFileName, NULL, TRUE);
-      $loaderResolver = new LoaderResolver(array(new JsonFileLoader($locator)));
-      $delegatingLoader = new DelegatingLoader($loaderResolver);
-      $config = $delegatingLoader->load($file);
-      return $config;
-    }
-    catch (\Exception $e) {
-      return [];
-    }
+    return json_decode(file_get_contents($this->cloudConfFilePath));
   }
 
   /**
@@ -153,6 +142,7 @@ class AliasesCommand extends BltTasks {
       'secret' => $secret,
     );
     $this->writeCloudApiConfig($config);
+    return $config;
   }
 
   /**
@@ -187,8 +177,9 @@ class AliasesCommand extends BltTasks {
    * @param $config
    */
   protected function writeCloudApiConfig($config) {
+    mkdir($this->cloudConfDir);
     file_put_contents($this->cloudConfFilePath, json_encode($config));
-    $this->output->writeln("<info>Credentials were written to {$this->cloudConfFilePath}.</info>");
+    $this->say("Credentials were written to {$this->cloudConfFilePath}.");
   }
 
   /**
@@ -347,6 +338,7 @@ class AliasesCommand extends BltTasks {
    * @param $site SiteNames[]
    */
   protected function getSiteAliases($site, &$errors) {
+    return;
     // Skip AC trex sites because the api breaks on them.
     $skip_site = FALSE;
     if (strpos($site, 'trex') !== FALSE
