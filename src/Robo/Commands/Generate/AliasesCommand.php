@@ -4,25 +4,12 @@ namespace Acquia\Blt\Robo\Commands\Generate;
 
 use Acquia\Blt\Robo\BltTasks;
 use AcquiaCloudApi\CloudApi\Client;
-use function file_put_contents;
-use Symfony\Component\Config\FileLocator;
-use Symfony\Component\Config\Loader\DelegatingLoader;
-use Symfony\Component\Config\Loader\LoaderResolver;
-use Symfony\Component\Console\Formatter\OutputFormatterStyle;
-use Symfony\Component\Console\Helper\ProgressBar;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
 
 /**
  * Defines commands in the "generate:aliases" namespace.
  */
 class AliasesCommand extends BltTasks {
-
-  /**
-   * @var string
-   */
-  protected $drushAliasDir;
 
   /** @var \Acquia\Cloud\Api\CloudApiClient*/
   protected $cloudApiClient;
@@ -48,19 +35,6 @@ class AliasesCommand extends BltTasks {
   protected $cloudConfFilePath;
 
   /**
-   * @var array
-   */
-  protected $cloudApiConfig;
-
-  /** @var \Symfony\Component\Filesystem\Filesystem*/
-  protected $fs;
-
-  /**
-   * @var \Symfony\Component\Console\Helper\FormatterHelper
-   */
-  protected $formatter;
-
-  /**
    * Generates new Acquia site aliases for Drush.
    *
    * @command generate:aliases:acquia
@@ -68,26 +42,28 @@ class AliasesCommand extends BltTasks {
    */
   public function generateAliasesAcquia() {
 
-    $this->fs = new Filesystem();
     $this->cloudConfDir = $_SERVER['HOME'] . '/.acquia';
-    $this->drushAliasDir = $this->getConfigValue('repo.root') . '/drush/site-aliases';
     $this->setAppId();
-    $this->cloudConfFileName = 'cloudapi.conf';
+    $this->cloudConfFileName = 'cloud_api.conf';
     $this->cloudConfFilePath = $this->cloudConfDir . '/' . $this->cloudConfFileName;
 
-    $this->cloudApiConfig = $this->loadCloudApiConfig();
-    $this->setCloudApiClient($this->cloudApiConfig->key, $this->cloudApiConfig->secret);
+    $cloudApiConfig = $this->loadCloudApiConfig();
+    $this->setCloudApiClient($cloudApiConfig->key, $cloudApiConfig->secret);
 
     $this->say("<info>Gathering site info from Acquia Cloud.</info>");
     $site = $this->cloudApiClient->application($this->appId);
-    $errors = [];
+
+    $error = FALSE;
     try {
       $this->getSiteAliases($site, $errors);
     }
     catch (\Exception $e) {
-      $this->logger->error("Could not fetch alias data for $site->name. Error: " . $e->getMessage());
+      $error = TRUE;
+      $this->logger->error("Did not write aliases for $site->name. Error: " . $e->getMessage());
     }
-    $this->say("<info>Aliases were written, type 'drush sa' to see them.</info>");
+    if (!$error) {
+      $this->say("<info>Aliases were written, type 'drush sa' to see them.</info>");
+    }
   }
 
   protected function setAppId() {
@@ -144,13 +120,6 @@ class AliasesCommand extends BltTasks {
     $this->say("Credentials were written to {$this->cloudConfFilePath}.");
   }
 
-  /**
-   * @return mixed
-   */
-  protected function getCloudApiConfig() {
-    return $this->cloudApiConfig;
-  }
-
   protected function setCloudApiClient($key, $secret) {
     try {
       $cloud_api = Client::factory(array(
@@ -175,91 +144,6 @@ class AliasesCommand extends BltTasks {
    */
   protected function getCloudApiClient() {
     return $this->cloudApiClient;
-  }
-
-  /**
-   * @param \Acquia\Cloud\Api\CloudApiClient $cloud_api_client
-   * @param $site_id
-   *
-   * @return \Acquia\Cloud\Api\Response\Site
-   */
-  protected function getSite(CloudApiClient $cloud_api_client, $site_id) {
-    return $cloud_api_client->site($site_id);
-  }
-
-  /**
-   * @param \Acquia\Cloud\Api\CloudApiClient $cloud_api_client
-   *
-   * @return array
-   */
-  protected function getSites(CloudApiClient $cloud_api_client) {
-    $sites = $cloud_api_client->sites();
-    $sites_filtered = [];
-    foreach ($sites as $key => $site) {
-      $label = $this->getSiteLabel($site);
-      if ($label !== '*') {
-        $sites_filtered[(string) $site] = $site;
-      }
-    }
-    return $sites_filtered;
-  }
-
-  /**
-   * @param $site
-   *
-   * @return mixed
-   */
-  protected function getSiteLabel($site) {
-    $site_slug = (string) $site;
-    $site_split = explode(':', $site_slug);
-    return $site_split[1];
-  }
-
-  /**
-   * @param \Acquia\Cloud\Api\CloudApiClient $cloud_api_client
-   *
-   * @return array
-   */
-  protected function getSitesList(CloudApiClient $cloud_api_client) {
-    $site_list = [];
-    $sites = $this->getSites($cloud_api_client);
-    foreach ($sites as $site) {
-      $site_list[] = $this->getSiteLabel($site);
-    }
-    sort($site_list, SORT_NATURAL | SORT_FLAG_CASE);
-    return $site_list;
-  }
-
-  /**
-   * @param \Acquia\Cloud\Api\CloudApiClient $cloud_api_client
-   * @param $label
-   *
-   * @return \Acquia\Cloud\Api\Response\Site|null
-   */
-  protected function getSiteByLabel(CloudApiClient $cloud_api_client, $label) {
-    $sites = $this->getSites($cloud_api_client);
-    foreach ($sites as $site_id) {
-      if ($this->getSiteLabel($site_id) == $label) {
-        $site = $this->getSite($cloud_api_client, $site_id);
-        return $site;
-      }
-    }
-    return NULL;
-  }
-
-  /**
-   * @param \Acquia\Cloud\Api\CloudApiClient $cloud_api_client
-   * @param $site
-   *
-   * @return array
-   */
-  protected function getEnvironmentsList(CloudApiClient $cloud_api_client, $site) {
-    $environments = $cloud_api_client->environments($site);
-    $environments_list = [];
-    foreach ($environments as $environment) {
-      $environments_list[] = $environment->name();
-    }
-    return $environments_list;
   }
 
   /**
@@ -293,13 +177,14 @@ class AliasesCommand extends BltTasks {
   }
 
   protected function writeSiteAliases($site_id, $aliases) {
-    $filePath = $this->drushAliasDir . '/' . $site_id . '.alias.yml';
+    $filePath = $this->getConfigValue('repo.root') . '/drush/site-aliases' . '/' . $site_id . '.alias.yml';
     if (file_exists($filePath)) {
       if (!$this->confirm("File $filePath already exists and will be overwritten. Continue?")) {
-        return;
+        throw new \Exception("Aborted at user request");
       }
     }
     file_put_contents($filePath, Yaml::dump($aliases, 3, 2));
+    return $filePath;
   }
 
 }
