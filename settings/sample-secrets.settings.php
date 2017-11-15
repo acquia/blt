@@ -15,7 +15,11 @@
  */
 
 /**
- * The below example would set a sensitive API key for the "foo" module.
+ * The below example would set a sensitive API key.
+ *
+ * Note that well-designed modules should use $settings for sensitive data like
+ * API keys, but others may use $config.
+ * @see https://anavarre.net/from-conf-to-config-and-settings-in-drupal-8
  *
  * In addition to $ah_env, you can use other variables defined in blt.settings.php
  * such as $is_dev_env, $is_stage_env, $is_prod_env, and $ah_site.
@@ -23,9 +27,9 @@
 switch ($ah_env) {
   case 'dev':
   case 'test':
-    $settings['foo']['super_secret_key'] = 'DEV-1234';
+    $settings['super_secret_key'] = 'DEV-1234';
     break;
   case 'prod':
-    $settings['foo']['super_secret_key'] = 'PROD-1234';
+    $settings['super_secret_key'] = 'PROD-1234';
     break;
 }
