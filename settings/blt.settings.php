@@ -145,24 +145,26 @@ if ($is_acsf_inited) {
  ******************************************************************************/
 
 if ($is_ah_env) {
-  if (!$is_acsf_env && file_exists('/var/www/site-php')) {
+  $group_settings_file = "/var/www/site-php/$ah_group/$ah_group-settings.inc";
+  $site_settings_file = "/var/www/site-php/$ah_group/$site_dir-settings.inc";
+  if (!$is_acsf_env && file_exists($group_settings_file)) {
     if ($site_dir == 'default') {
-      require "/var/www/site-php/{$_ENV['AH_SITE_GROUP']}/{$_ENV['AH_SITE_GROUP']}-settings.inc";
+      require $group_settings_file;
     }
     // Includes multisite settings for given site.
-    elseif (file_exists("/var/www/site-php/{$_ENV['AH_SITE_GROUP']}/$site_dir-settings.inc")) {
-      require "/var/www/site-php/{$_ENV['AH_SITE_GROUP']}/$site_dir-settings.inc";
+    elseif (file_exists($site_settings_file)) {
+      require $site_settings_file;
     }
   }
 
   // Store API Keys and things outside of version control.
   // @see settings/sample-secrets.settings.php for sample code.
-  $secrets_file = sprintf("/mnt/gfs/%s.%s/secrets.settings.php", $_ENV['AH_SITE_GROUP'], $_ENV['AH_SITE_ENVIRONMENT']);
+  $secrets_file = "/mnt/gfs/home/$ah_group/secrets.settings.php";
   if (file_exists($secrets_file)) {
     require $secrets_file;
   }
   // Includes secrets file for given site.
-  $site_secrets_file = sprintf("/mnt/gfs/%s.%s/$site_dir/secrets.settings.php", $_ENV['AH_SITE_GROUP'], $_ENV['AH_SITE_ENVIRONMENT']);
+  $site_secrets_file = "/mnt/gfs/home/$ah_group/$site_dir/secrets.settings.php";
   if (file_exists($site_secrets_file)) {
     require $site_secrets_file;
   }
