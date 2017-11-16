@@ -369,13 +369,10 @@ class UpdateCommand extends BltTasks {
    */
   protected function setProjectName() {
     $project_name = basename($this->getConfigValue('repo.root'));
-    $result = $this->taskExecStack()
-      ->exec("{$this->getConfigValue('composer.bin')}/yaml-cli update:value {$this->getConfigValue('blt.config-files.project')} project.machine_name '$project_name'")
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->run();
-    if (!$result->wasSuccessful()) {
-      throw new BltException("Could not set value for project.machine_name in {$this->getConfigValue('blt.config-files.project')}.");
-    }
+    $project_yml = $this->getConfigValue('blt.config-files.project');
+    $project_config = YamlMunge::parseFile($project_yml);
+    $project_config['project']['machine_name'] = $project_name;
+    YamlMunge::writeFile($project_yml, $project_config);
   }
 
 }
