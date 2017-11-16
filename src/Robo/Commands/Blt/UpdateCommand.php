@@ -355,7 +355,7 @@ class UpdateCommand extends BltTasks {
     $template_project_yml = $this->getConfigValue('blt.root') . '/template/blt/project.yml';
     $munged_yml = YamlMunge::munge($template_project_yml, $repo_project_yml);
     try {
-      YamlMunge::writeFile($this->getConfigValue('blt.config-files.project'), $munged_yml);
+      YamlMunge::writeFile($repo_project_yml, $munged_yml);
     }
     catch (\Exception $e) {
       throw new BltException("Could not update $repo_project_yml.");
