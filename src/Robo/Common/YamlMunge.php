@@ -19,15 +19,13 @@ class YamlMunge {
    *   The file path of the second file.
    *
    * @return string
-   *   The merged arrays, in yaml format.
+   *   The merged arrays.
    */
   public static function munge($file1, $file2) {
     $file1_contents = (array) self::parseFile($file1);
     $file2_contents = (array) self::parseFile($file2);
 
-    $munged_contents = self::arrayMergeRecursiveExceptEmpty($file1_contents, $file2_contents);
-
-    return Yaml::dump($munged_contents, 3, 2);
+    return self::arrayMergeRecursiveExceptEmpty($file1_contents, $file2_contents);
   }
 
   /**
