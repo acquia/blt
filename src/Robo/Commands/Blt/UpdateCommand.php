@@ -352,9 +352,12 @@ class UpdateCommand extends BltTasks {
     // Values in the project's existing project.yml file will be preserved and
     // not overridden.
     $repo_project_yml = $this->getConfigValue('blt.config-files.project');
-    $munged_yaml = YamlMunge::munge($this->getConfigValue('blt.root') . '/template/blt/project.yml', $repo_project_yml);
-    $bytes = file_put_contents($this->getConfigValue('blt.config-files.project'), $munged_yaml);
-    if (!$bytes) {
+    $template_project_yml = $this->getConfigValue('blt.root') . '/template/blt/project.yml';
+    $munged_yml = YamlMunge::munge($template_project_yml, $repo_project_yml);
+    try {
+      YamlMunge::writeFile($this->getConfigValue('blt.config-files.project'), $munged_yml);
+    }
+    catch (\Exception $e) {
       throw new BltException("Could not update $repo_project_yml.");
     }
   }

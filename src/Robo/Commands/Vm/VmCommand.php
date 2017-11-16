@@ -102,7 +102,7 @@ class VmCommand extends BltTasks {
         ->remove($this->projectDrupalVmVagrantfile)
         // @todo More surgically remove drush.default_alias and drush.aliases.local values from this file
         // rather than overwriting it.
-        ->remove($this->getConfigValue('repo.root') . '/blt/project.local.yml')
+        ->remove($this->getConfigValue('blt.config-file.local'))
         ->copy($this->defaultDrushAliasesFile, $this->projectDrushAliasesFile, TRUE)
         ->run();
       $this->say("Your Drupal VM instance has been obliterated.");

@@ -3,9 +3,9 @@
 namespace Acquia\Blt\Robo\Commands\Acsf;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Common\YamlMunge;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * Defines commands in the "acsf" namespace.
@@ -54,11 +54,11 @@ class AcsfCommand extends BltTasks {
     $this->say('<comment>See /drush/contrib/acsf-tools/README.md. </comment>');
     $this->say('<info>ACSF was successfully initialized.</info>');
     $project_yml = $this->getConfigValue('blt.config-files.project');
-    $project_config = Yaml::parse(file_get_contents($project_yml));
+    $project_config = YamlMunge::parseFile($project_yml);
     if (!empty($project_config['modules'])) {
       $project_config['modules']['local']['uninstall'][] = 'acsf';
     }
-    file_put_contents($project_yml, Yaml::dump($project_config, 3, 2));
+    YamlMunge::writeFile($project_yml, $project_config);
   }
 
   /**

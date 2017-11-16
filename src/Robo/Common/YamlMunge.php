@@ -41,7 +41,7 @@ class YamlMunge {
    *
    * @throws \Symfony\Component\Yaml\Exception\ParseException
    */
-  protected static function parseFile($file) {
+  public static function parseFile($file) {
     try {
       $value = Yaml::parse(file_get_contents($file));
     }
@@ -50,6 +50,12 @@ class YamlMunge {
     }
 
     return $value;
+  }
+
+  public static function writeFile($file, $contents) {
+    if (!file_put_contents($file_path, Yaml::dump($contents, 3, 2))) {
+      throw new BltException('Unable to write file.');
+    }
   }
 
   /**
