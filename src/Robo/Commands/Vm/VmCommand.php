@@ -307,7 +307,7 @@ class VmCommand extends BltTasks {
     $config->expandFileProperties($this->projectDrupalVmVagrantfile);
 
     // Generate a Random IP address for the new VM.
-    $random_local_ip = "192.168." . rand(0, 255) . '.' . rand(0, 255);
+    $random_local_ip = "192.168." . rand(3, 254) . '.' . rand(3, 254);
     $config->set('random.ip', $random_local_ip);
 
     $this->setBaseBox($config);
