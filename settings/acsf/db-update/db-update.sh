@@ -22,4 +22,4 @@ blt="/var/www/html/$site.$env/vendor/acquia/blt/bin/blt"
 
 deployupdate="$blt deploy:update --define environment=$env --define drush.uri=$domain -v -y"
 
-$deployudpate
+$deployupdate
