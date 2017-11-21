@@ -6,8 +6,8 @@ BLT (Build and Launch Tool) provides an automation layer for testing, building, 
 
 You can find all BLT documentation on [Read the Docs](http://blt.readthedocs.io):
 
-* [Latest (stable) release documentation](http://blt.readthedocs.io/en/stable/)
-* [Latest (dev) documentation (9.x / 9.x-dev)](http://blt.readthedocs.io/en/latest/)
+* [Latest documentation (9.0.x / 9.1.x)](http://blt.readthedocs.io/en/latest/) (best for guidance on general issues and best practices)
+* [Stable release documentation (8.9.x)](http://blt.readthedocs.io/en/stable/) (best for features specific to 8.9.x)
 
 ## Getting started
 
