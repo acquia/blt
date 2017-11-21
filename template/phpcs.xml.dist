@@ -23,7 +23,7 @@
   <rule ref="Drupal"/>
   <rule ref="DrupalPractice">
     <!-- Ignore specific sniffs. -->
-    <!-- <exclude name="DrupalPractice.CodeAnalysis.VariableAnalysis.UnusedVariable"/> -->
+    <exclude name="DrupalPractice.InfoFiles.NamespacedDependency"/>
   </rule>
 
   <file>blt</file>
