@@ -26,13 +26,13 @@
 
        Modify the generated *docroot/sites/default/settings/local.settings.php* file by adding your custom MySql credentials.
 
-1. Install Drupal and generate any remaining required files (e.g. settings.php, hash salt, etc...):
+1. Install Drupal and automatically generate any remaining required files (e.g. settings.php, hash salt, etc...):
 
         blt setup
 
 1. Log in to Drupal: `drush @my-project.local uli` (replace *my-project* with the name of your project, which should be the value of *project.machine_name* in *blt/project.yml*).
 
-1. See [Next steps](next-steps.md).
+1. Congratulations, you now have a running local Drupal site using BLT! See [Next steps](next-steps.md).
 
 ## Troubleshooting
 
@@ -47,3 +47,5 @@ If you have trouble using the `blt` alias, make sure it’s installed correctly 
         source ~/.bash_profile
 
 If you get syntax errors from vendor packages, check that the version of PHP on your host matches the version of PHP in your VM, or else make sure to always run composer commands from within the VM.
+
+Finally, if you continue to have trouble, review the remaining [BLT documentation](http://blt.readthedocs.io/en/latest/), search for [relevant issues](https://github.com/acquia/blt/issues), or [create a new issue](https://github.com/acquia/blt/issues/new).
