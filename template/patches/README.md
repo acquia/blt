@@ -17,7 +17,15 @@ Patch information should be specified in the JSON array in accordance with the f
       }
     },
 
-Remember to run `composer update` after modifying `composer.json` to actually apply the patch and update `composer.lock`, and commit the modified lock file.
+Note that when a package is patched, it's advisable to pin it to a specific version to avoid downloading an updated version that could introduce a patch conflict.
+
+After modifying `composer.json`, run `composer update VENDOR_NAME/PACKAGE_NAME`, replacing `VENDOR_NAME/PACKAGE_NAME` with the name of the patched dependency. E.g.,
+
+    composer update drupal/core
+
+This will apply the patch and update `composer.lock`. Commit the modified `composer.json` and `composer.lock` files.
+
+_Alternatively the patch can be applied by running `composer update`. This, however, will update all of the project's dependencies, which may not be desired._
 
 ## Storing patches
 
