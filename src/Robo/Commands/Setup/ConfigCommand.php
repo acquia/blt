@@ -39,8 +39,23 @@ class ConfigCommand extends BltTasks {
       // If using core-only or config-split strategies, first check to see if
       // required config is exported.
       if (in_array($strategy, ['core-only', 'config-split'])) {
-        $core_config_file = $this->getConfigValue('docroot') . '/' . $this->getConfigValue("cm.core.dirs.$cm_core_key.path") . '/core.extension.yml';
+        // Read the config from the default folder (/config/default). This will
+        // Also be the fallback option, so some domains can still use default.
+        $core_config_file = $this->getConfigValue('docroot') . '/' .
+          $this->getConfigValue("cm.core.dirs.$cm_core_key.path") .
+          '/core.extension.yml';
 
+        // We don't want configs to be shared between multisites.
+        if ($this->getConfigValue('cm.share-configs') == FALSE) {
+          $drush_uri = $this->getConfigValue('drush.uri');
+
+          // Read the config from the site folder (/config/URI/).
+          $core_config_file = $this->getConfigValue('docroot') . '/' .
+            $this->getConfigValue("cm.core.dirs.$cm_core_key.path") . '/../' .
+            $drush_uri . '/core.extension.yml';
+        }
+
+        // If we still don't have core_config_file.
         if (!file_exists($core_config_file)) {
           $this->logger->warning("BLT will NOT import configuration, $core_config_file was not found.");
           // This is not considered a failure.
