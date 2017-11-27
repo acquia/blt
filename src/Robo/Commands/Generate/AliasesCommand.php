@@ -4,6 +4,7 @@ namespace Acquia\Blt\Robo\Commands\Generate;
 
 use Acquia\Blt\Robo\BltTasks;
 use AcquiaCloudApi\CloudApi\Client;
+use AcquiaCloudApi\CloudApi\Connector;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -11,7 +12,9 @@ use Symfony\Component\Yaml\Yaml;
  */
 class AliasesCommand extends BltTasks {
 
-  /** @var \Acquia\Cloud\Api\CloudApiClient*/
+  /**
+   * @var \AcquiaCloudApi\CloudApi\Client
+   */
   protected $cloudApiClient;
 
   /**
@@ -122,10 +125,11 @@ class AliasesCommand extends BltTasks {
 
   protected function setCloudApiClient($key, $secret) {
     try {
-      $cloud_api = Client::factory(array(
+      $connector = new Connector(array(
         'key' => $key,
         'secret' => $secret,
       ));
+      $cloud_api = Client::factory($connector);
       // We must call some method on the client to test authentication.
       $cloud_api->applications();
       $this->cloudApiClient = $cloud_api;
@@ -140,7 +144,7 @@ class AliasesCommand extends BltTasks {
   }
 
   /**
-   * @return \Acquia\Cloud\Api\CloudApiClient
+   * @return \AcquiaCloudApi\CloudApi\Client
    */
   protected function getCloudApiClient() {
     return $this->cloudApiClient;
@@ -150,6 +154,7 @@ class AliasesCommand extends BltTasks {
    * @param $site SiteNames[]
    */
   protected function getSiteAliases($site, &$errors) {
+    /** @var \AcquiaCloudApi\Response\ApplicationResponse $site */
     // Gather our environments.
     $environments = $this->cloudApiClient->environments($site->uuid);
     $this->say('<info>Found ' . count($environments) . ' environments for site ' . $site->name . ', writing aliases...</info>');
@@ -159,6 +164,7 @@ class AliasesCommand extends BltTasks {
     $siteID = $site_split[1];
     // Loop over all environments.
     foreach ($environments as $env) {
+      /** @var \AcquiaCloudApi\Response\EnvironmentResponse $env */
       // Build our variables in case API changes.
       $envName = $env->name;
       $uri = $env->domains[0];
