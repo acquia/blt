@@ -9,7 +9,7 @@
     All subsequent steps assume you are in the *my-project* directory (`cd my-project`).
 
 1. If this is your first time using BLT on this machine, restart your shell so that Bash detects the new BLT alias.
-1. Customize *blt/project.yml*. At a minimum, set the *project.machine_name* (i.e. *my-project*) and *project.profile.name*.
+1. Customize *blt/project.yml* if desired, such as to choose an install profile.
 
     By default, BLT will install sites using the [*lightning*](https://github.com/acquia/lightning) profile. You can change this to any other core, contributed, or custom profile in your codebase. Make sure to download the profile if necessary, e.g. `composer require acquia/headless-lightning:~1.1.0`
 1. Now it’s time to spin up your LAMP stack.
