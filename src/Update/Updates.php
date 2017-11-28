@@ -435,7 +435,7 @@ class Updates {
    */
   public function update_8009011() {
     $project_yml = $this->updater->getProjectYml();
-    if ($project_yml['vm']['enable']) {
+    if (isset($project_yml['vm']) && $project_yml['vm']['enable']) {
       // Remove from project.yml.
       unset($project_yml['vm']);
       $this->updater->writeProjectYml($project_yml);
