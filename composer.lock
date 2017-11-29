@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b1cc9374f3ae642d28e434826ee6285d",
+    "content-hash": "8ea4988765da2c54bce3a6e1d5eb3dd4",
     "packages": [
         {
             "name": "acquia/http-hmac-php",
@@ -595,16 +595,16 @@
         },
         {
             "name": "cweagans/composer-patches",
-            "version": "1.6.2",
+            "version": "1.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cweagans/composer-patches.git",
-                "reference": "014e968ca2ce4342476b3f2f6779b274fff8ae9e"
+                "reference": "730f0f620845974764a91482ac936cc6f39da184"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cweagans/composer-patches/zipball/014e968ca2ce4342476b3f2f6779b274fff8ae9e",
-                "reference": "014e968ca2ce4342476b3f2f6779b274fff8ae9e",
+                "url": "https://api.github.com/repos/cweagans/composer-patches/zipball/730f0f620845974764a91482ac936cc6f39da184",
+                "reference": "730f0f620845974764a91482ac936cc6f39da184",
                 "shasum": ""
             },
             "require": {
@@ -635,7 +635,7 @@
                 }
             ],
             "description": "Provides a way to patch Composer packages.",
-            "time": "2017-08-30T16:41:23+00:00"
+            "time": "2017-11-22T20:18:27+00:00"
         },
         {
             "name": "dealerdirect/phpcodesniffer-composer-installer",
