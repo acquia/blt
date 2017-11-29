@@ -15,37 +15,21 @@ if ($is_ah_env) {
   switch ($ah_env) {
     case 'test':
     case 'prod':
-      if ($modules && isset($modules['module']['memcache'])) {
-        // Use Memcached extension.
-        $memcached_exists = class_exists('Memcached', FALSE);
-        if ($memcached_exists) {
-          $settings['memcache']['extension'] = 'Memcached';
-        }
-
-        // Use memcache as the default bin.
-        $settings['cache']['default'] = 'cache.backend.memcache';
-
-        // Enable stampede protection.
-        $settings['memcache']['stampede_protection'] = TRUE;
-        // Move locks to memcache.
-        $settings['container_yamls'][] = DRUPAL_ROOT . '/../vendor/acquia/blt/settings/memcache.yml';
+      // Use Memcached extension.
+      $memcached_exists = class_exists('Memcached', FALSE);
+      if ($memcached_exists) {
+        $settings['memcache']['extension'] = 'Memcached';
       }
-      break;
+
+      // Use memcache as the default bin.
+      $settings['cache']['default'] = 'cache.backend.memcache';
+
+      // Enable stampede protection.
+      $settings['memcache']['stampede_protection'] = TRUE;
+      // Move locks to memcache.
+      $settings['container_yamls'][] = DRUPAL_ROOT . '/../vendor/acquia/blt/settings/memcache.yml';
+    break;
   }
-}
-```
-
-If using a supported Acquia product or service, SASL authentication support in the Drupal Memcache module can be enabled by updating and placing the below in correct site-specific `settings.php` file, ideally one that is not committed to version control.
-
-```
-if ($is_ah_env) {
-  $settings['memcache']['sasl'] = [
-  'username' => 'yourSASLUsername',
-  'password' => 'yourSASLPassword',
-  ];
-  $settings['memcache']['options'] = [
-    \Memcached::OPT_BINARY_PROTOCOL => TRUE,
-  ];
 }
 ```
 
