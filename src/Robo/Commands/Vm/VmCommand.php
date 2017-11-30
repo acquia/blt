@@ -254,7 +254,7 @@ class VmCommand extends BltTasks {
    */
   protected function validateConfig($config) {
     if (strstr($config['vagrant_machine_name'], '_')) {
-      $this->logger->warning("vagrant_machine_name should not contain an underscore.");
+      $this->logger->warning("vagrant_machine_name {$config['vagrant_machine_name']} should not contain an underscore.");
     }
   }
 
