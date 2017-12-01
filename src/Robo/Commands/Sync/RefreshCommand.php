@@ -60,6 +60,7 @@ class RefreshCommand extends BltTasks {
       'setup:composer:install',
       'sync',
       'setup:update',
+      'setup:toggle-modules',
       'frontend',
     ]);
   }
