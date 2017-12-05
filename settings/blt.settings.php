@@ -23,17 +23,21 @@ $forwarded_protocol = !empty($_ENV['HTTP_X_FORWARDED_PROTO']) ? $_ENV['HTTP_X_FO
 /**
  * Environment detection.
  *
- * Note that the values of enviromental variables are set differently on Acquia
+ * Note that the values of environmental variables are set differently on Acquia
  * Cloud Free tier vs Acquia Cloud Professional and Enterprise.
  */
 $ah_env = isset($_ENV['AH_SITE_ENVIRONMENT']) ? $_ENV['AH_SITE_ENVIRONMENT'] : NULL;
 $ah_group = isset($_ENV['AH_SITE_GROUP']) ? $_ENV['AH_SITE_GROUP'] : NULL;
 $is_ah_env = (bool) $ah_env;
-$is_ah_prod_env = ($ah_env == 'prod' || $ah_env == '01live');
-$is_ah_stage_env = ($ah_env == 'test' || $ah_env == '01test' || $ah_env == 'stg');
+// ACE prod is 'prod'; ACSF can be '01prod', '02prod', ...
+$is_ah_prod_env = $ah_env == 'prod' || preg_match('/^\d*live$/', $ah_env);
+// ACE staging is 'test' or 'stg'; ACSF is '01test', '02test', ...
+$is_ah_stage_env = preg_match('/^\d*test$/', $ah_env) || $ah_env == 'stg';
 $is_ah_dev_cloud = (!empty($_SERVER['HTTP_HOST']) && strstr($_SERVER['HTTP_HOST'], 'devcloud'));
-$is_ah_dev_env = (preg_match('/^dev[0-9]*$/', $ah_env) || $ah_env == '01dev');
-$is_ah_ode_env = (preg_match('/^ode[0-9]*$/', $ah_env));
+// ACE dev is 'dev', 'dev1', ...; ACSF dev is '01dev', '02dev', ...
+$is_ah_dev_env = (preg_match('/^\d*dev\d*$/', $ah_env));
+// CDEs (formerly 'ODEs') can be 'ode1', 'ode2', ...
+$is_ah_ode_env = (preg_match('/^ode\d*$/', $ah_env));
 $is_acsf = (!empty($ah_group) && file_exists("/mnt/files/$ah_group.$ah_env/files-private/sites.json"));
 $acsf_db_name = $is_acsf ? $GLOBALS['gardens_site_settings']['conf']['acsf_db_name'] : NULL;
 $is_local_env = !$is_ah_env;
