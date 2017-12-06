@@ -51,7 +51,7 @@ class AliasesCommand extends BltTasks {
     $this->cloudConfFilePath = $this->cloudConfDir . '/' . $this->cloudConfFileName;
 
     $cloudApiConfig = $this->loadCloudApiConfig();
-    $this->setCloudApiClient($cloudApiConfig->key, $cloudApiConfig->secret);
+    $this->setCloudApiClient($cloudApiConfig['key'], $cloudApiConfig['secret']);
 
     $this->say("<info>Gathering site info from Acquia Cloud.</info>");
     $site = $this->cloudApiClient->application($this->appId);
@@ -90,10 +90,19 @@ class AliasesCommand extends BltTasks {
   }
 
   /**
-   * @return array
+   * Load existing credentials from disk.
+   *
+   * Returns credentials as array on success, or FALSE on failure.
+   *
+   * @return bool|array
    */
   protected function loadCloudApiConfigFile() {
-    return json_decode(file_get_contents($this->cloudConfFilePath));
+    if (file_exists($this->cloudConfFilePath)) {
+      return (array) json_decode(file_get_contents($this->cloudConfFilePath));
+    }
+    else {
+      return FALSE;
+    }
   }
 
   /**
@@ -118,7 +127,9 @@ class AliasesCommand extends BltTasks {
    * @param $config
    */
   protected function writeCloudApiConfig($config) {
-    mkdir($this->cloudConfDir);
+    if (!is_dir($this->cloudConfDir)) {
+      mkdir($this->cloudConfDir);
+    }
     file_put_contents($this->cloudConfFilePath, json_encode($config));
     $this->say("Credentials were written to {$this->cloudConfFilePath}.");
   }
