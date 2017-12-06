@@ -1,6 +1,6 @@
 <?php
 
-namespace Acquia\Blt\Robo\Commands\Sync;
+namespace Acquia\Blt\Robo\Commands\Setup;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
