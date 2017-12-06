@@ -154,6 +154,7 @@ sync:
     - setup:composer:install
     - sync
     - setup:update
+    - setup:toggle-modules
     - frontend
 
 # Custom tasks that are triggered at pre-defined times in the build process.
