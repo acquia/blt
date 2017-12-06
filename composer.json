@@ -14,6 +14,7 @@
     "type": "composer-plugin",
     "license": "GPL-2.0",
     "require": {
+        "cweagans/composer-patches":        "^1.6.3",
         "asm89/twig-lint":                  "^1.0.2",
         "composer/installers":              "^1.2.0",
         "composer-plugin-api":              "^1.0.0",
