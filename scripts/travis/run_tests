@@ -7,6 +7,6 @@ yaml-cli update:value blt/project.yml project.local.hostname '127.0.0.1:8888'
 
 blt validate:all
 ${BLT_DIR}/scripts/travis/tick-tock.sh blt setup --define drush.alias='${drush.aliases.ci}' --define environment=ci --no-interaction --yes -v
-blt tests:all --define drush.alias='${drush.aliases.ci}' --define tests.run-server=true --yes -v
+blt tests:all --define drush.alias='${drush.aliases.ci}' --define tests.run-server=true --define environment=ci --yes -v
 
 set +v
