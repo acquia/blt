@@ -20,7 +20,7 @@
         "composer/semver": "^1.4",
         "consolidation/config": "^1.0.0",
         "consolidation/robo": "^1.1.4",
-        "cweagans/composer-patches": "^1.6.2",
+        "cweagans/composer-patches": "^1.6.3",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.4.0",
         "dflydev/dot-access-data": "^1.1.0",
         "doctrine/common": "^2.5",

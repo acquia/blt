@@ -2,14 +2,15 @@
 
 *Do not clone BLT or BLT Project as a means of using them. Just follow the directions below.*
 
-1. Run the following command to create a new project directory named *my-project* and download all dependencies for Drupal and BLT.
+1. Pick a machine name for your new project, i.e. *my-project*. For compatibility with third-party tools, it's best to only use letters, numbers, and hyphens.
+1. Run the following command to create your new project and download all dependencies (including BLT).
 
         composer create-project --no-interaction acquia/blt-project my-project
 
-    All subsequent steps assume you are in the *my-project* directory (`cd my-project`).
+    All subsequent steps assume you are in the project directory (`cd my-project`).
 
 1. If this is your first time using BLT on this machine, restart your shell so that Bash detects the new BLT alias.
-1. Customize *blt/project.yml*. At a minimum, set the *project.machine_name* (i.e. *my-project*) and *project.profile.name*.
+1. Customize *blt/project.yml* if desired, such as to choose an install profile.
 
     By default, BLT will install sites using the [*lightning*](https://github.com/acquia/lightning) profile. You can change this to any other core, contributed, or custom profile in your codebase. Make sure to download the profile if necessary, e.g. `composer require acquia/headless-lightning:~1.1.0`
 1. Now it’s time to spin up your LAMP stack.
