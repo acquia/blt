@@ -30,8 +30,8 @@ $processor->extend($loader->load($config->get('blt.root') . '/config/build.yml')
 $processor->extend($loader->load($config->get('repo.root') . '/blt/project.yml'));
 $processor->extend($loader->load($config->get('repo.root') . '/blt/project.local.yml'));
 
-if ($input->hasArgument('environment')) {
-  $processor->extend($loader->load($config->get('repo.root') . '/blt/' . $input->getArgument('environment') . '.yml'));
+if ($input->hasParameterOption('environment')) {
+  $processor->extend($loader->load($config->get('repo.root') . '/blt/' . $input->getParameterOption('environment') . '.yml'));
 }
 
 $config->import($processor->export());
