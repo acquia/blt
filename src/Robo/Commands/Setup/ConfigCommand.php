@@ -17,7 +17,7 @@ class ConfigCommand extends BltTasks {
    * @aliases su
    */
   public function update() {
-    $this->invokeCommands(['setup:config-import']);
+    $this->invokeCommands(['setup:config-import', 'setup:toggle-modules']);
   }
 
   /**
