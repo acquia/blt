@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "8ea4988765da2c54bce3a6e1d5eb3dd4",
+    "content-hash": "0ffe5463e6896e814c406a53b2219dcd",
     "packages": [
         {
             "name": "acquia/http-hmac-php",
@@ -4093,22 +4093,27 @@
         },
         {
             "name": "typhonius/acquia-php-sdk-v2",
-            "version": "dev-master",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/typhonius/acquia-php-sdk-v2.git",
-                "reference": "8dfd3df08ca2da7a9de7d1dc40452e40906747ca"
+                "reference": "ee31b327c4db5a21f4019d493833a832d0fc850c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/typhonius/acquia-php-sdk-v2/zipball/8dfd3df08ca2da7a9de7d1dc40452e40906747ca",
-                "reference": "8dfd3df08ca2da7a9de7d1dc40452e40906747ca",
+                "url": "https://api.github.com/repos/typhonius/acquia-php-sdk-v2/zipball/ee31b327c4db5a21f4019d493833a832d0fc850c",
+                "reference": "ee31b327c4db5a21f4019d493833a832d0fc850c",
                 "shasum": ""
             },
             "require": {
                 "acquia/http-hmac-php": "^3.1",
                 "guzzlehttp/guzzle": "^6.3",
-                "php": "^7.0"
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "php-coveralls/php-coveralls": "dev-master",
+                "phpunit/phpunit": "^6.4",
+                "squizlabs/php_codesniffer": "^2.7"
             },
             "type": "library",
             "autoload": {
@@ -4128,7 +4133,7 @@
                 }
             ],
             "description": "A PHP SDK for Acquia CloudAPI v2",
-            "time": "2017-11-13T00:19:51+00:00"
+            "time": "2017-11-27T05:24:23+00:00"
         },
         {
             "name": "webflo/drupal-finder",
