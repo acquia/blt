@@ -12,7 +12,7 @@
 1. If this is your first time using BLT on this machine, restart your shell so that Bash detects the new BLT alias.
 1. Customize *blt/project.yml* if desired, such as to choose an install profile.
 
-    By default, BLT will install sites using the [*lightning*](https://github.com/acquia/lightning) profile. You can change this to any other core, contributed, or custom profile in your codebase. Make sure to download the profile if necessary, e.g. `composer require acquia/headless-lightning:~1.1.0`
+    By default, BLT will install sites using the [*lightning*](https://github.com/acquia/lightning) profile. You can change this to any other core, contributed, or custom profile in your codebase. Make sure to download the profile if necessary, e.g. `composer require acquia/headless_lightning:~1.1.0`
 1. Now it’s time to spin up your LAMP stack.
 
     1. **Recommended**: Run the following command to create a DrupalVM instance:
