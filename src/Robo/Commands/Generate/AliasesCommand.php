@@ -38,6 +38,11 @@ class AliasesCommand extends BltTasks {
   protected $cloudConfFilePath;
 
   /**
+   * @var string
+   */
+  protected $siteAliasDir;
+
+  /**
    * Generates new Acquia site aliases for Drush.
    *
    * @command generate:aliases:acquia
@@ -49,6 +54,7 @@ class AliasesCommand extends BltTasks {
     $this->setAppId();
     $this->cloudConfFileName = 'cloud_api.conf';
     $this->cloudConfFilePath = $this->cloudConfDir . '/' . $this->cloudConfFileName;
+    $this->siteAliasDir = $this->getConfigValue('repo.root') . '/drush/sites';
 
     $cloudApiConfig = $this->loadCloudApiConfig();
     $this->setCloudApiClient($cloudApiConfig['key'], $cloudApiConfig['secret']);
@@ -162,10 +168,12 @@ class AliasesCommand extends BltTasks {
   }
 
   /**
-   * @param $site SiteNames[]
+   * @param $site
+   * @throws \Exception
    */
   protected function getSiteAliases($site, &$errors) {
     /** @var \AcquiaCloudApi\Response\ApplicationResponse $site */
+    $aliases = array();
     // Gather our environments.
     $environments = $this->cloudApiClient->environments($site->uuid);
     $this->say('<info>Found ' . count($environments) . ' environments for site ' . $site->name . ', writing aliases...</info>');
@@ -193,8 +201,20 @@ class AliasesCommand extends BltTasks {
     $this->writeSiteAliases($siteID, $aliases);
   }
 
+  /**
+   * Writes site aliases to disk.
+   *
+   * @param $site_id
+   * @param $aliases
+   *
+   * @return string
+   * @throws \Exception
+   */
   protected function writeSiteAliases($site_id, $aliases) {
-    $filePath = $this->getConfigValue('repo.root') . '/drush/site-aliases' . '/' . $site_id . '.alias.yml';
+    if (!is_dir($this->siteAliasDir)) {
+      mkdir($this->siteAliasDir);
+    }
+    $filePath = $this->siteAliasDir . '/' . $site_id . '.site.yml';
     if (file_exists($filePath)) {
       if (!$this->confirm("File $filePath already exists and will be overwritten. Continue?")) {
         throw new \Exception("Aborted at user request");
