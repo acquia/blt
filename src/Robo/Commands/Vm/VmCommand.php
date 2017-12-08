@@ -141,9 +141,9 @@ class VmCommand extends BltTasks {
 
     $this->say(" * To customize the VM, follow the Quick Start Guide in Drupal VM's README:");
     $this->say("   <comment>https://github.com/geerlingguy/drupal-vm#quick-start-guide</comment>");
-
+    $this->say(" * All <comment>blt</comment> commands executed on your host machine will be executed against this VM.");
     $this->say(" * To run drush commands against the VM, use the <comment>@{$this->drupalVmAlias}</comment> alias.");
-    $this->say(" * From now on, please use vagrant commands to manage your virtual machine.");
+    $this->say(" * From now on, please use vagrant commands to manage your virtual machine on this computer.");
     $this->say("");
   }
 
@@ -195,7 +195,10 @@ class VmCommand extends BltTasks {
         }
       }
       else {
-        $this->yell("Drupal VM booted successfully. Please use vagrant commands to interact with your VM from now on.");
+        $this->yell("Drupal VM booted successfully.");
+        $this->say(" * All <comment>blt</comment> commands executed on your host machine will be executed against this VM.");
+        $this->say(" * To run drush commands against the VM, use the <comment>@{$this->drupalVmAlias}</comment> alias.");
+        $this->say(" * From now on, please use vagrant commands to manage your virtual machine on this computer.");
       }
       return $result;
     }
