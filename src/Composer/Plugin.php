@@ -86,14 +86,14 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
   public function checkInstallerPaths(Event $event) {
     $extra = $this->composer->getPackage()->getExtra();
     if (empty($extra['installer-paths'])) {
-      $this->io->write('<error>Error: extras.installer-paths is missing from your composer.json file.</error>');
+      $this->io->write('<error>Error: extra.installer-paths is missing from your composer.json file.</error>');
     }
     else {
       $composer_required_json_filename = $this->getVendorPath() . '/acquia/blt/template/composer.json';
       if (file_exists($composer_required_json_filename)) {
         $composer_required_json = json_decode(file_get_contents($composer_required_json_filename), TRUE);
         if ($composer_required_json['extra']['installer-paths'] != $extra['installer-paths']) {
-          $this->io->write('<warning>Warning: The value for extras.installer-paths in composer.json differs from BLT\'s recommended values.</warning>');
+          $this->io->write('<warning>Warning: The value for extra.installer-paths in composer.json differs from BLT\'s recommended values.</warning>');
           $this->io->write('<warning>See https://github.com/acquia/blt/blob/8.x/template/composer.json</warning>');
         }
       }
