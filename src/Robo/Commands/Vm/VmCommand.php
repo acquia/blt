@@ -36,11 +36,11 @@ class VmCommand extends BltTasks {
   public function initialize() {
     $this->drupalVmAlias = $this->getConfigValue('project.machine_name') . '.local';
     $this->drupalVmVersionConstraint = '~4.3';
-    $this->defaultDrupalVmDrushAliasesFile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/drupal-vm.aliases.yml';
+    $this->defaultDrupalVmDrushAliasesFile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/drupal-vm.site.yml';
     $this->defaultDrupalVmConfigFile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/config.yml';
     $this->defaultDrupalVmVagrantfile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/Vagrantfile';
-    $this->defaultDrushAliasesFile = $this->getConfigValue('blt.root') . '/template/drush/site-aliases/aliases.yml';
-    $this->projectDrushAliasesFile = $this->getConfigValue('repo.root') . '/drush/site-aliases/' . $this->getConfigValue('project.machine_name') . '.alias.yml';
+    $this->defaultDrushAliasesFile = $this->getConfigValue('blt.root') . '/template/drush/sites/aliases.yml';
+    $this->projectDrushAliasesFile = $this->getConfigValue('repo.root') . '/drush/sites/' . $this->getConfigValue('project.machine_name') . '.site.yml';
     $this->projectDrupalVmVagrantfile = $this->getConfigValue('repo.root') . '/Vagrantfile';
     $this->projectDrupalVmConfigFile = $this->getConfigValue('vm.config');
     $this->vmDir = dirname($this->projectDrupalVmConfigFile);
@@ -57,6 +57,8 @@ class VmCommand extends BltTasks {
    * @aliases vm:all
    *
    * @options no-boot
+   *
+   * @throws \Exception
    */
   public function vm($options = ['no-boot' => FALSE]) {
     if (!$this->getInspector()->isDrupalVmConfigPresent()) {
@@ -87,6 +89,7 @@ class VmCommand extends BltTasks {
    * Destroys existing VM and all related configuration.
    *
    * @command vm:nuke
+   * @throws \Exception
    */
   public function nuke() {
     $confirm = $this->confirm("This will destroy your VM, and delete all associated configuration. Continue?");
@@ -112,6 +115,7 @@ class VmCommand extends BltTasks {
 
   /**
    * Installs and configures default Drupal VM instance.
+   * @throws \Exception
    */
   protected function install() {
     if (!$this->isDrupalVmRequired()) {
@@ -199,6 +203,7 @@ class VmCommand extends BltTasks {
 
   /**
    * Boots a Drupal VM.
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function boot() {
     $this->checkRequirements();
@@ -260,6 +265,7 @@ class VmCommand extends BltTasks {
    * Checks local system for Drupal VM requirements.
    *
    * Verifies that vagrant and its required plugins are installed.
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function checkRequirements() {
     if (!$this->getInspector()->commandExists("vagrant")) {
