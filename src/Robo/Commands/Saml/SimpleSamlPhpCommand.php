@@ -35,6 +35,7 @@ class SimpleSamlPhpCommand extends BltTasks {
    * Initializes SimpleSAMLphp for project.
    *
    * @command simplesamlphp:init
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function initializeSimpleSamlPhp() {
     if (!$this->getInspector()->isSimpleSamlPhpInstalled()) {
@@ -68,6 +69,7 @@ class SimpleSamlPhpCommand extends BltTasks {
    * Copies configuration templates from SimpleSamlPHP to the repo root.
    *
    * @command simplesamlphp:config:init
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function initializeConfig() {
     $destinationDirectory = "{$this->repoRoot}/simplesamlphp/config";
@@ -108,6 +110,7 @@ class SimpleSamlPhpCommand extends BltTasks {
    * Copies custom config files to SimpleSamlPHP in deploy artifact.
    *
    * @command simplesamlphp:deploy:config
+   * @throws BltException
    */
   public function simpleSamlPhpDeployConfig() {
     $this->say('Copying config files to the appropriate place in simplesamlphp library in the deploy artifact...');
@@ -131,11 +134,13 @@ class SimpleSamlPhpCommand extends BltTasks {
 
   /**
    * Sets value in project.yml to let targets know simplesamlphp is installed.
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function setSimpleSamlPhpInstalled() {
+    $project_yml = $this->getConfigValue('blt.config-files.project');
+
     $this->say("Updating ${project_yml}...");
 
-    $project_yml = $this->getConfigValue('blt.config-files.project');
     $project_config = YamlMunge::parseFile($project_yml);
     $project_config['simplesamlphp'] = TRUE;
 
@@ -149,6 +154,7 @@ class SimpleSamlPhpCommand extends BltTasks {
 
   /**
    * Creates a symlink from the docroot to the web accessible library dir.
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function symlinkDocrootToLibDir() {
     $docroot = $this->getConfigValue('docroot');
@@ -168,6 +174,7 @@ class SimpleSamlPhpCommand extends BltTasks {
    * Copies customized config files into vendored SimpleSamlPHP.
    *
    * @command simplesamlphp:build:config
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function simpleSamlPhpBuildConfig() {
     $this->say('Copying config files to the appropriate place in simplesamlphp library...');
