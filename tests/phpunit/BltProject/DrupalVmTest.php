@@ -20,7 +20,6 @@ class DrupalVmTest extends BltProjectTestBase {
     $this->assertFileExists($this->projectDirectory . '/Vagrantfile');
     $this->assertFileExists($this->projectDirectory . '/box/config.yml');
     $this->assertFileExists($this->projectDirectory . '/blt/project.local.yml');
-    $this->assertFileExists($this->projectDirectory . '/drush/site-aliases/aliases.drushrc.php');
 
     $this->assertNotContains(
       '${project.machine_name}',
@@ -28,11 +27,11 @@ class DrupalVmTest extends BltProjectTestBase {
     );
     $this->assertContains(
       'local',
-      file_get_contents($this->projectDirectory . '/drush/site-aliases/' . $this->config['project']['machine_name'] . '.alias.yml')
+      file_get_contents($this->projectDirectory . '/drush/sites/' . $this->config['project']['machine_name'] . '.site.yml')
     );
     $this->assertContains(
       'http://127.0.0.1:8888',
-      file_get_contents($this->projectDirectory . '/drush/site-aliases/' . $this->config['project']['machine_name'] . '.alias.yml')
+      file_get_contents($this->projectDirectory . '/drush/sites/' . $this->config['project']['machine_name'] . '.site.yml')
     );
     $this->assertContains(
       $this->config['project']['machine_name'] . '.local',
