@@ -8,6 +8,7 @@ use Acquia\Blt\Robo\Wizards\TestsWizard;
 use Consolidation\AnnotatedCommand\AnnotationData;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Acquia\Blt\Robo\Exceptions\BltException;
 
 /**
  * This class defines hooks that provide user interaction.
@@ -94,6 +95,33 @@ class InteractHook extends BltTasks {
       $confirm = $this->confirm("Would you like to run outstanding updates?");
       if ($confirm) {
         $this->invokeCommand('update');
+      }
+    }
+  }
+
+  /**
+   * Confirms active config matches config in sync directory.
+   *
+   * @hook interact @interactConfigIdentical
+   */
+  public function interactConfigIdentical(
+    InputInterface $input,
+    OutputInterface $output,
+    AnnotationData $annotationData
+  ) {
+    if ($this->getConfigValue('cm.strategy') == 'config-split') {
+      $drupal_installed = $this->getInspector()->isDrupalInstalled();
+      $config_identical = $this->getInspector()->isActiveConfigIdentical();
+      if (!$config_identical) {
+        $this->logger->warning("The site's active config does not match the config in the sync directory.");
+        if (!$input->isInteractive()) {
+          $this->logger->warning("Run `drush cex` to export the active config to the sync directory.");
+        }
+        $confirm = $this->confirm("Would you like to proceed anyway?");
+        if (!$confirm) {
+          throw new BltException("The site's active config does not match the config in the sync directory.");
+        }
+
       }
     }
   }
