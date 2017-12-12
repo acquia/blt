@@ -25,6 +25,7 @@ class Filesets implements ConfigAwareInterface {
   public function getFilesetFrontend() {
     $finder = $this->getFrontendFilesetFinder();
     $finder->in([$this->getConfigValue('docroot') . '/themes/custom']);
+    $finder->in([$this->getConfigValue('docroot') . '/sites/*/themes/custom']);
 
     return $finder;
   }
@@ -37,7 +38,9 @@ class Filesets implements ConfigAwareInterface {
   public function getFilesetTwig() {
     $finder = $this->getTwigFilesetFinder();
     $finder->in([$this->getConfigValue('docroot') . '/themes/custom']);
+    $finder->in([$this->getConfigValue('docroot') . '/sites/*/themes/custom']);
     $finder->in([$this->getConfigValue('docroot') . '/modules/custom']);
+    $finder->in([$this->getConfigValue('docroot') . '/sites/*/modules/custom']);
 
     return $finder;
   }
@@ -52,6 +55,7 @@ class Filesets implements ConfigAwareInterface {
     $finder->in([
       $this->getConfigValue('repo.root') . '/config',
       $this->getConfigValue('docroot') . '/modules/custom',
+      $this->getConfigValue('docroot') . '/sites/*/modules/custom',
     ]);
 
     return $finder;
