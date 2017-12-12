@@ -53,6 +53,7 @@ class GitTasksTest extends BltProjectTestBase {
       array(FALSE, "{$prefix}-123: This is a bad commit", 'Missing period.'),
       array(FALSE, "{$prefix}-123: Hello.", 'Too short.'),
       array(FALSE, "NOT-123: This is a bad commit.", 'Wrong project prefix.'),
+      array(TRUE, "Merge branch 'master' into feature/foo", 'Good commit.'),
       array(TRUE, "{$prefix}-123: This is a good commit.", 'Good commit.'),
       array(TRUE, "{$prefix}-123: This is an exceptionally long--seriously, really, really, REALLY long, but still good commit.", 'Long good commit.',
       ),

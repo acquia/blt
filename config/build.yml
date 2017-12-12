@@ -91,7 +91,8 @@ git:
     pre-commit: ${blt.root}/scripts/git-hooks
     commit-msg: ${blt.root}/scripts/git-hooks
   commit-msg:
-    pattern: "/^${project.prefix}-[0-9]+(: )[^ ].{15,}\\./"
+    # Commit messages must conform to this pattern.
+    pattern: "/(^${project.prefix}-[0-9]+(: )[^ ].{15,}\\.)|(Merge branch (.)+)/"
 
 # You may provide a list of sites for BLT to run commands against,
 # otherwise BLT will generate this sites list based on directories
