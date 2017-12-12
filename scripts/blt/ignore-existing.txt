@@ -9,7 +9,7 @@ blt/project.yml
 blt/src/Filesets
 composer.json
 composer.lock
-drush/site-aliases/*.aliases.yml
+drush/sites/*.site.yml
 drush/drush.yml
 docroot/sites/default/services.yml
 docroot/sites/default/settings/trusted_host.settings.php

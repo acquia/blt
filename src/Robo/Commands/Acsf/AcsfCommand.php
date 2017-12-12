@@ -71,7 +71,6 @@ class AcsfCommand extends BltTasks {
     }
 
     $this->say('<comment>Please add acsf_init as a dependency for your installation profile to ensure that it remains enabled.</comment>');
-    $this->say('<comment>An example alias file for ACSF is located in /drush/site-aliases/example.acsf.aliases.drushrc.php.</comment>');
 
     return $result;
     // @codingStandardsIgnoreEnd
