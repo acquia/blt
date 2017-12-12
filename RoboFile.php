@@ -43,7 +43,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    *   created.
    * @option vm Whether a VM will be booted.
    */
-  public function createFromSymlinked($options = [
+  public function createFromSymlink($options = [
     'project-dir' => '../blted8',
     'vm' => TRUE,
   ]) {
@@ -157,10 +157,10 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $test_project_dir = $this->bltRoot . "/" . $options['project-dir'];
     if ($options['create-project']) {
       if ($options['project-type'] == 'symlink') {
-        $this->createSymlinkedProject($options);
+        $this->createFromSymlink($options);
       }
       else {
-        $this->createStandaloneProject($options);
+        $this->createFromBltProject($options);
       }
     }
     $bin = $test_project_dir . "/vendor/bin";
