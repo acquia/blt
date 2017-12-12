@@ -36,9 +36,19 @@ Typically, the last two most major versions of BLT are supported actively. The n
 |---------------|-----------------------------|--------|----------------|--------------|
 | 9.1.x         | Supported                   | >=8.4  | >=9.0.0-beta6  | \*active dev |
 | 9.0.x         | Supported                   | >=8.4  | >=9.0.0-beta6  | bug fixes    |
-| 8.9.x         | LTS thru 12/17              | <=8.4  | 8              | bug fixes    |
+| 8.9.x         | LTS (see below)             | <=8.4  | 8              | bug fixes    |
 | 8.8.x         | Unsupported, EOL            | <=8.3  | ~8             |              |
 | 8.7.x         | Unsupported, EOL            | <=8.3  | ~8             |              |
+
+### 8.9.x End of Life (EOL)
+
+8.9.x is currently in maintenance / long-term support mode (receiving only bug fixes) while we focus on feature development for 9.1.x. 8.9.x will continue to be supported until the following conditions are met:
+
+* Drush 9 has a stable release
+* ACSF is compatible with Drush 9
+* BLT 9.1.0 is released with full support for ACSF users
+
+The current ETA for this cutoff is Q1 2018.
 
 ## Philosophy and Purpose
 
