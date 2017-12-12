@@ -217,12 +217,15 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
       else {
         $success = $this->executeCommand($this->getVendorPath() . '/acquia/blt/bin/blt internal:add-to-project --ansi', [], TRUE);
       }
+      if (!$success) {
+        $this->io->write("<error>BLT installation failed! Please retry with --verbose flag to debug the issue.</error>");
+      }
     }
     elseif ($options['blt']['update']) {
       $this->io->write('<info>Updating BLT templated files...</info>');
       $success = $this->executeCommand('blt update --ansi -y', [], TRUE);
       if (!$success) {
-        $this->io->write("<error>BLT update script failed! Run `blt update -verbose` to retry.</error>");
+        $this->io->write("<error>BLT update script failed! Run `blt update --verbose` to retry.</error>");
       }
     }
     else {
