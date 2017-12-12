@@ -7,6 +7,10 @@
  * This hook enables you to execute PHP after a new website is created
  * in your subscription. Unlike most API-based hooks, this hook does not
  * take arguments, but instead executes the PHP code it is provided.
+ *
+ * @todo Remove this script after https://www.drupal.org/node/2752961 is 
+ * resolved and the corresponding Drupal core version is set as a minimum 
+ * requirement for BLT.
  */
 
 $site = $_ENV['AH_SITE_GROUP'];
