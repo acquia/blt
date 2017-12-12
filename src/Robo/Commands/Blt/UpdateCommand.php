@@ -352,9 +352,12 @@ class UpdateCommand extends BltTasks {
     // Values in the project's existing project.yml file will be preserved and
     // not overridden.
     $repo_project_yml = $this->getConfigValue('blt.config-files.project');
-    $munged_yaml = YamlMunge::munge($this->getConfigValue('blt.root') . '/template/blt/project.yml', $repo_project_yml);
-    $bytes = file_put_contents($this->getConfigValue('blt.config-files.project'), $munged_yaml);
-    if (!$bytes) {
+    $template_project_yml = $this->getConfigValue('blt.root') . '/template/blt/project.yml';
+    $munged_yml = YamlMunge::munge($template_project_yml, $repo_project_yml);
+    try {
+      YamlMunge::writeFile($repo_project_yml, $munged_yml);
+    }
+    catch (\Exception $e) {
       throw new BltException("Could not update $repo_project_yml.");
     }
   }
@@ -366,13 +369,10 @@ class UpdateCommand extends BltTasks {
    */
   protected function setProjectName() {
     $project_name = basename($this->getConfigValue('repo.root'));
-    $result = $this->taskExecStack()
-      ->exec("{$this->getConfigValue('composer.bin')}/yaml-cli update:value {$this->getConfigValue('blt.config-files.project')} project.machine_name '$project_name'")
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->run();
-    if (!$result->wasSuccessful()) {
-      throw new BltException("Could not set value for project.machine_name in {$this->getConfigValue('blt.config-files.project')}.");
-    }
+    $project_yml = $this->getConfigValue('blt.config-files.project');
+    $project_config = YamlMunge::parseFile($project_yml);
+    $project_config['project']['machine_name'] = $project_name;
+    YamlMunge::writeFile($project_yml, $project_config);
   }
 
 }

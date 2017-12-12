@@ -18,7 +18,7 @@ git:
   remotes: []
 
 drush:
-  # You can set custom project aliases in drush/site-aliases/aliases.drushrc.php.
+  # You can set custom project aliases in drush/sites/*.site.yml.
   aliases:
     # The remote environment from which the database will be pulled.
     remote: ${project.machine_name}.test
