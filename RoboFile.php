@@ -53,7 +53,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       ->mirror($this->bltRoot . "/blted8", $test_project_dir)
       ->run();
     $this->taskExecStack()
-      ->dir("../blted8")
+      ->dir($test_project_dir)
       ->exec("git init")
       ->exec("git add -A")
       ->exec("git commit -m 'Initial commit.'")
@@ -97,6 +97,38 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       ->dir($this->bltRoot . "/..")
       ->exec("COMPOSER_PROCESS_TIMEOUT=2000 composer create-project acquia/blt-project:{$options['base-branch']}-dev blted8 --no-interaction")
       ->run();
+  }
+
+  /**
+   * @param array $options
+   */
+  public function addToEmptyProject($options = [
+    'project-dir' => '../blted8',
+    'vm' => TRUE,
+  ]) {
+    $test_project_dir = $this->bltRoot . "/" . $options['project-dir'];
+    $bin = $test_project_dir . "/vendor/bin";
+    $this->prepareTestProjectDir($test_project_dir);
+    $this->taskFilesystemStack()->mkdir("$test_project_dir")->run();
+    $this->taskExecStack()
+      ->dir($test_project_dir)
+      ->exec("composer init --name=acquia/blted8 --no-interaction")
+      ->exec("git init")
+      ->exec("git add -A")
+      ->exec("git commit -m 'Initial commit.'")
+      ->run();
+    $task = $this->taskExecStack()
+      ->dir($test_project_dir)
+      // BLT is the only dependency at this point. Install it.
+      ->exec("composer require acquia/blt")
+      // I have no idea why this is necessary, but testing on OSX does not pass
+      // without it.
+      ->exec("rm -rf $test_project_dir/vendor")
+      ->exec("composer install");
+    if ($options['vm']) {
+      $task->exec("$bin/blt vm --no-boot --no-interaction --yes -v");
+    }
+    $task->run();
   }
 
   /**

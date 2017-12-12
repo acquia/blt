@@ -204,6 +204,7 @@ class UpdateCommand extends BltTasks {
    */
   protected function reInstallComposerPackages() {
     $this->say("Installing new Composer dependencies provided by BLT. This make take a while...");
+    require $this->getConfigValue('repo.root') . "/vendor/autoload.php";
     $result = $this->taskFilesystemStack()
       ->remove([
         $this->getConfigValue('repo.root') . '/composer.lock',
