@@ -8,8 +8,8 @@
  * in your subscription. Unlike most API-based hooks, this hook does not
  * take arguments, but instead executes the PHP code it is provided.
  *
- * @todo Remove this script after https://www.drupal.org/node/2752961 is 
- * resolved and the corresponding Drupal core version is set as a minimum 
+ * @todo Remove this script after https://www.drupal.org/node/2752961 is
+ * resolved and the corresponding Drupal core version is set as a minimum
  * requirement for BLT.
  */
 
