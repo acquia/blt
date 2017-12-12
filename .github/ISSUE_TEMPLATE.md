@@ -10,12 +10,12 @@ Output of `blt doctor`:
 
 When I run this command:
 ```
-[replace]
+[replace with command]
 ```
 
 I get the following output:
 ```
-[replace]
+[replace with ENTIRE command output]
 ```
 
 And I expected this to happen:
