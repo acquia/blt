@@ -21,4 +21,4 @@ $env = $_ENV['AH_SITE_ENVIRONMENT'];
 $domain = $_SERVER['HTTP_HOST'];
 
 
-exec('/mnt/www/html/$target_env/vendor/acquia/blt/bin/blt deploy:update --define environment=$env --define drush.uri=$domain -v -y');
+exec("/mnt/www/html/$target_env/vendor/acquia/blt/bin/blt deploy:update --define environment=$env --define drush.uri=$domain --verbose --yes");
