@@ -40,7 +40,6 @@ If your project does not use a virtual development environment:
 1. Setup your local LAMP stack with the webroot pointing at you project's `docroot` directory.
 1. Run `blt setup:settings` This will generate `docroot/sites/default/settings/local.settings.php` and `docroot/sites/default/local.drushrc.php`. Update these with your local database credentials and your local site URL.
 1. Run `blt setup`. This will build all project dependencies and install drupal.
-1. Create and edit your local drush alias file. Copy `drush/site-aliases/example.local.aliases.drushrc.php` to `drush/site-aliases/local.aliases.drushrc.php`. Edit the new alias file with your local path.
 
 Please see [Local Development](local-development.md) for more information on setting up a local \*AMP stack or virtual development environment.
 
@@ -64,7 +63,7 @@ Ensure that your local email address correctly matches the email address for you
 
 ## Updating you local environment
 
-The project is configured to update the local environment with a local drush alias and a remote alias as defined in `blt/project.yml` or `blt/project.local.yml`. Given that these aliases match, those in `drush/site-aliases/`, you can update the site with BLT.
+The project is configured to update the local environment with a local drush alias and a remote alias as defined in `blt/project.yml` or `blt/project.local.yml`. Given that these aliases match, those in `drush/sites/`, you can update the site with BLT.
 
 [Local Development Tasks](project-tasks.md#local-tasks)
 
