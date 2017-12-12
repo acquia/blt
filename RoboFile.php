@@ -22,6 +22,8 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   protected $drupalPhpcsStandard;
   protected $phpcsPaths;
 
+  const BLT_DEV_BRANCH = "9.1.x";
+
   /**
    * This hook will fire for all commands in this command file.
    *
@@ -41,7 +43,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    *   created.
    * @option vm Whether a VM will be booted.
    */
-  public function createSymlinkedProject($options = [
+  public function createFromSymlink($options = [
     'project-dir' => '../blted8',
     'vm' => TRUE,
   ]) {
@@ -53,7 +55,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       ->mirror($this->bltRoot . "/blted8", $test_project_dir)
       ->run();
     $this->taskExecStack()
-      ->dir("../blted8")
+      ->dir($test_project_dir)
       ->exec("git init")
       ->exec("git add -A")
       ->exec("git commit -m 'Initial commit.'")
@@ -86,8 +88,8 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    * @option project-dir The directory in which the test project will be
    *   created.
    */
-  public function createStandaloneProject($options = [
-    'base-branch' => '9.x',
+  public function createFromBltProject($options = [
+    'base-branch' => self::BLT_DEV_BRANCH,
     'project-dir' => '../blted8',
   ]) {
     $test_project_dir = $this->bltRoot . "/" . $options['project-dir'];
@@ -100,7 +102,36 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   }
 
   /**
-   * Executes pre-release tests against blt-project 9.x-dev.
+   * @param array $options
+   */
+  public function createFromScratch($options = [
+    'project-dir' => '../blted8',
+    'vm' => TRUE,
+  ]) {
+    $test_project_dir = $this->bltRoot . "/" . $options['project-dir'];
+    $bin = $test_project_dir . "/vendor/bin";
+    $this->prepareTestProjectDir($test_project_dir);
+    $this->taskFilesystemStack()->mkdir("$test_project_dir")->run();
+    $this->taskExecStack()
+      ->dir($test_project_dir)
+      ->exec("composer init --name=acme/project --stability=dev --no-interaction")
+      ->exec("composer config prefer-stable true")
+      ->exec("git init")
+      ->exec("git add -A")
+      ->exec("git commit -m 'Initial commit.'")
+      ->run();
+    $task = $this->taskExecStack()
+      ->dir($test_project_dir)
+      // BLT is the only dependency at this point. Install it.
+      ->exec("composer require acquia/blt " . self::BLT_DEV_BRANCH);
+    if ($options['vm']) {
+      $task->exec("$bin/blt vm --no-boot --no-interaction --yes -v");
+    }
+    $task->run();
+  }
+
+  /**
+   * Executes pre-release tests against blt-project self::BLT_DEV_BRANCH.
    *
    * @option base-branch The blt-project (NOT blt) branch to test.
    * @option project-dir The directory in which the test project will be
@@ -114,7 +145,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    * @option vm Whether a VM will be booted.
    */
   public function releaseTest($options = [
-    'base-branch' => '9.x',
+    'base-branch' => self::BLT_DEV_BRANCH,
     'environment' => 'ci',
     'create-project' => TRUE,
     'project-dir' => '../blted8',
@@ -126,10 +157,10 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $test_project_dir = $this->bltRoot . "/" . $options['project-dir'];
     if ($options['create-project']) {
       if ($options['project-type'] == 'symlink') {
-        $this->createSymlinkedProject($options);
+        $this->createFromSymlink($options);
       }
       else {
-        $this->createStandaloneProject($options);
+        $this->createFromBltProject($options);
       }
     }
     $bin = $test_project_dir . "/vendor/bin";
