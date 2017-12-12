@@ -34,11 +34,19 @@ Typically, the last two most major versions of BLT are supported actively. The n
 
 | Major Version | Support Status              | Drupal | Drush          | Dev Status   |
 |---------------|-----------------------------|--------|----------------|--------------|
-| 9.1.x         | Supported                   | >=8.4  | >=9.0.0-beta6  | \*active dev |
-| 9.0.x         | Supported                   | >=8.4  | >=9.0.0-beta6  | bug fixes    |
-| 8.9.x         | LTS (see below)             | <=8.4  | 8              | bug fixes    |
+| 9.1.x         | Supported                   | >=8.4  | >=9.0.0-rc1    | \*active dev |
+| 9.0.x         | Supported                   | >=8.4  | >=9.0.0-rc1    | bug fixes    |
+| 8.9.x         | LTS (see below)             | <=8.4  | ~8             | bug fixes    |
 | 8.8.x         | Unsupported, EOL            | <=8.3  | ~8             |              |
 | 8.7.x         | Unsupported, EOL            | <=8.3  | ~8             |              |
+
+### 9.1.x branch
+
+The 9.1.x branch is currently in development and primarily improves support for users with multisite and ACSF installations.
+
+### 9.0.x branch
+
+The 9.0.x is functionally equivalent to 8.9.x. The only difference is that is supports Drush 9 instead of Drush 8. This is intented to be a transitional release to allow projects to gradually migrate from Drush 8 to Drush 9 (since this is a non-trivial upgrade).
 
 ### 8.9.x End of Life (EOL)
 
