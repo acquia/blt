@@ -52,11 +52,15 @@ $ah_env = isset($_ENV['AH_SITE_ENVIRONMENT']) ? $_ENV['AH_SITE_ENVIRONMENT'] : N
 $ah_group = isset($_ENV['AH_SITE_GROUP']) ? $_ENV['AH_SITE_GROUP'] : NULL;
 $ah_site = isset($_ENV['AH_SITE_NAME']) ? $_ENV['AH_SITE_NAME'] : NULL;
 $is_ah_env = (bool) $ah_env;
-$is_ah_prod_env = ($ah_env == 'prod' || $ah_env == '01live');
-$is_ah_stage_env = ($ah_env == 'test' || $ah_env == '01test' || $ah_env == 'stg');
+// ACE prod is 'prod'; ACSF can be '01prod', '02prod', ...
+$is_ah_prod_env = $ah_env == 'prod' || preg_match('/^\d*live$/', $ah_env);
+// ACE staging is 'test' or 'stg'; ACSF is '01test', '02test', ...
+$is_ah_stage_env = preg_match('/^\d*test$/', $ah_env) || $ah_env == 'stg';
 $is_ah_dev_cloud = (!empty($_SERVER['HTTP_HOST']) && strstr($_SERVER['HTTP_HOST'], 'devcloud'));
-$is_ah_dev_env = (preg_match('/^dev[0-9]*$/', $ah_env) || $ah_env == '01dev');
-$is_ah_ode_env = (preg_match('/^ode[0-9]*$/', $ah_env));
+// ACE dev is 'dev', 'dev1', ...; ACSF dev is '01dev', '02dev', ...
+$is_ah_dev_env = (preg_match('/^\d*dev\d*$/', $ah_env));
+// CDEs (formerly 'ODEs') can be 'ode1', 'ode2', ...
+$is_ah_ode_env = (preg_match('/^ode\d*$/', $ah_env));
 $is_acsf_env = (!empty($ah_group) && file_exists("/mnt/files/$ah_group.$ah_env/files-private/sites.json"));
 // @todo Maybe check for acsf-tools.
 $is_acsf_inited = file_exists(DRUPAL_ROOT . "/sites/g");
@@ -145,24 +149,26 @@ if ($is_acsf_inited) {
  ******************************************************************************/
 
 if ($is_ah_env) {
-  if (!$is_acsf_env && file_exists('/var/www/site-php')) {
+  $group_settings_file = "/var/www/site-php/$ah_group/$ah_group-settings.inc";
+  $site_settings_file = "/var/www/site-php/$ah_group/$site_dir-settings.inc";
+  if (!$is_acsf_env && file_exists($group_settings_file)) {
     if ($site_dir == 'default') {
-      require "/var/www/site-php/{$_ENV['AH_SITE_GROUP']}/{$_ENV['AH_SITE_GROUP']}-settings.inc";
+      require $group_settings_file;
     }
     // Includes multisite settings for given site.
-    elseif (file_exists("/var/www/site-php/{$_ENV['AH_SITE_GROUP']}/$site_dir-settings.inc")) {
-      require "/var/www/site-php/{$_ENV['AH_SITE_GROUP']}/$site_dir-settings.inc";
+    elseif (file_exists($site_settings_file)) {
+      require $site_settings_file;
     }
   }
 
   // Store API Keys and things outside of version control.
   // @see settings/sample-secrets.settings.php for sample code.
-  $secrets_file = sprintf("/mnt/gfs/%s.%s/secrets.settings.php", $_ENV['AH_SITE_GROUP'], $_ENV['AH_SITE_ENVIRONMENT']);
+  $secrets_file = "/mnt/gfs/home/$ah_group/secrets.settings.php";
   if (file_exists($secrets_file)) {
     require $secrets_file;
   }
   // Includes secrets file for given site.
-  $site_secrets_file = sprintf("/mnt/gfs/%s.%s/$site_dir/secrets.settings.php", $_ENV['AH_SITE_GROUP'], $_ENV['AH_SITE_ENVIRONMENT']);
+  $site_secrets_file = "/mnt/gfs/home/$ah_group/$site_dir/secrets.settings.php";
   if (file_exists($site_secrets_file)) {
     require $site_secrets_file;
   }

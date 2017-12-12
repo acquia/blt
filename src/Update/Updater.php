@@ -2,6 +2,7 @@
 
 namespace Acquia\Blt\Update;
 
+use Acquia\Blt\Robo\Common\YamlMunge;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Annotations\IndexedReader;
@@ -13,7 +14,6 @@ use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  *
@@ -84,6 +84,7 @@ class Updater {
     $this->composerSuggestedJsonFilepath = $this->getBltRoot() . '/composer.suggested.json';
     $this->templateComposerJsonFilepath = $this->getBltRoot() . '/template/composer.json';
     $this->projectYmlFilepath = $this->repoRoot . '/blt/project.yml';
+    $this->projectLocalYmlFilepath = $this->repoRoot . '/blt/project.local.yml';
     $this->formatter = new FormatterHelper();
 
     // Create "ice" style.
@@ -443,16 +444,28 @@ class Updater {
    * @return mixed
    */
   public function getProjectYml() {
-    $project_yml = Yaml::parse(file_get_contents($this->projectYmlFilepath));
+    return YamlMunge::parseFile($this->projectYmlFilepath);
+  }
 
-    return $project_yml;
+  /**
+   * @return mixed
+   */
+  public function getProjectLocalYml() {
+    return YamlMunge::parseFile($this->projectLocalYmlFilepath);
   }
 
   /**
    * @param $contents
    */
   public function writeProjectYml($contents) {
-    file_put_contents($this->projectYmlFilepath, Yaml::dump($contents, 3, 2));
+    YamlMunge::writeFile($this->projectYmlFilepath, $contents);
+  }
+
+  /**
+   * @param $contents
+   */
+  public function writeProjectLocalYml($contents) {
+    YamlMunge::writeFile($this->projectLocalYmlFilepath, $contents);
   }
 
   /**

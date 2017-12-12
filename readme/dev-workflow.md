@@ -2,8 +2,6 @@
 
 “How do I contribute code to this project?”
 
-First off, take a moment to review our [Best Practices](best-practices.md) before writing or submitting any code.
-
 ## Git Workflow
 
 No direct changes should be pushed to the build-artifact repository. The process of syncing these repositories is managed transparently in the background.

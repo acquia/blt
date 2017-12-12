@@ -12,7 +12,6 @@ Please read through [Getting started](INSTALL.md) to "install" BLT, then review 
     * [Onboarding](readme/onboarding.md): “how do I get up and running on project work?”
     * [Repository architecture](readme/repo-architecture.md): “how is the code organized, and why?”
     * [Running project tasks](readme/project-tasks.md): “how do I [fill-in-the-blank] on my local machine?”
-    * [Best practices](readme/best-practices.md): "how should I write code?"
     * [Workflow](readme/dev-workflow.md): “how do I contribute my code to this project?”
     * [Automated testing](readme/testing.md): “how do I write / run them, and why should I care?”
 * Technical Architect

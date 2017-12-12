@@ -2,8 +2,8 @@
 
 namespace Acquia\Blt\Robo\Common;
 
+use Acquia\Blt\Robo\Exceptions\BltException;
 use Symfony\Component\Yaml\Yaml;
-use Symfony\Component\Yaml\Exception\ParseException;
 
 /**
  * Munges two yaml files.
@@ -19,15 +19,13 @@ class YamlMunge {
    *   The file path of the second file.
    *
    * @return string
-   *   The merged arrays, in yaml format.
+   *   The merged arrays.
    */
   public static function munge($file1, $file2) {
     $file1_contents = (array) self::parseFile($file1);
     $file2_contents = (array) self::parseFile($file2);
 
-    $munged_contents = self::arrayMergeRecursiveExceptEmpty($file1_contents, $file2_contents);
-
-    return Yaml::dump($munged_contents, 3, 2);
+    return self::arrayMergeRecursiveExceptEmpty($file1_contents, $file2_contents);
   }
 
   /**
@@ -41,15 +39,14 @@ class YamlMunge {
    *
    * @throws \Symfony\Component\Yaml\Exception\ParseException
    */
-  protected static function parseFile($file) {
-    try {
-      $value = Yaml::parse(file_get_contents($file));
-    }
-    catch (ParseException $e) {
-      printf("Unable to parse the YAML string: %s", $e->getMessage());
-    }
+  public static function parseFile($file) {
+    return Yaml::parse(file_get_contents($file));
+  }
 
-    return $value;
+  public static function writeFile($file, $contents) {
+    if (!file_put_contents($file, Yaml::dump($contents, 3, 2))) {
+      throw new BltException('Unable to write file.');
+    }
   }
 
   /**
