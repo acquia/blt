@@ -6,7 +6,7 @@ export PATH=${COMPOSER_BIN}:${PATH}
 
 # Generate artifact in a separate directory.
 export NEW_BUILD_DIR=/tmp/artifact
-blt deploy:build -D deploy.dir=${NEW_BUILD_DIR} --ansi
+blt deploy:build -D deploy.dir=${NEW_BUILD_DIR} --ansi --verbose
 # Move git history to artifact directory. Required for pipelines to commit and push.
 mv ${SOURCE_DIR}/.git ${NEW_BUILD_DIR}/
 # Allow dotfiles (hidden) to be globbed (via *).
