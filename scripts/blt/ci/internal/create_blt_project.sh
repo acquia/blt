@@ -10,6 +10,10 @@ export PATH=${COMPOSER_BIN}:${PATH}
 
 ${BLT_DIR}/vendor/bin/robo create:symlinked-project --no-vm
 
+if [ "${DRUPAL_CORE_VERSION}" != "default" ]; then
+  composer require "drupal/core:${DRUPAL_CORE_VERSION}"
+fi
+
 export PATH=${BLT_DIR}/../blted8/vendor/bin:$PATH
 
 # Define BLT's deployment endpoints.
