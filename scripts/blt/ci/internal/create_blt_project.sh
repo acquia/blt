@@ -8,7 +8,7 @@ set -ev
 
 export PATH=${COMPOSER_BIN}:${PATH}
 
-${BLT_DIR}/vendor/bin/robo create:symlinked-project --no-vm
+${BLT_DIR}/vendor/bin/robo create:from-symlink --no-vm
 
 export PATH=${BLT_DIR}/../blted8/vendor/bin:$PATH
 
