@@ -4,6 +4,6 @@ set -ev
 
 export PATH=${COMPOSER_BIN}:${PATH}
 
-blt validate:all --define drush.alias='${drush.aliases.ci}' --define environment=ci --ansi
+blt validate:all --define drush.alias='${drush.aliases.ci}' --define environment=ci --ansi --verbose
 
 set +v
