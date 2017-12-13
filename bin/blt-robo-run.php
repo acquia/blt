@@ -14,6 +14,9 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 // Start Timer.
 $timer = new TimeKeeper();
 $timer->start();
+if ($output->isVerbose()) {
+  $output->writeln("<comment>BLT version " . Blt::VERSION . "</comment>");
+}
 
 // Initialize input and output.
 $input = new ArgvInput($_SERVER['argv']);
