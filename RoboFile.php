@@ -180,18 +180,19 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $this->prepareTestProjectDir($test_project_dir2);
     $this->createTestApp($options);
     // Create drush alias.
-    $alias1 = [
-      'root' => $test_project_dir,
-      'host' => 'local.blted8.com',
-      'uri' => 'http://local.blted8.com',
+    $aliases = [
+      'site1' => [
+        'root' => $test_project_dir,
+        'host' => 'local.blted8.com',
+        'uri' => 'http://local.blted8.com',
+      ],
+      'site2' => [
+        'root' => $test_project_dir2,
+        'host' => 'local.blted82.com',
+        'uri' => 'http://local.blted82.com',
+      ],
     ];
-    $alias2 = [
-      'root' => $test_project_dir2,
-      'host' => 'local.blted82.com',
-      'uri' => 'http://local.blted82.com',
-    ];
-    file_put_contents($test_project_dir . '/drush/sites/site1.site.yml', Yaml::dump($alias1));
-    file_put_contents($test_project_dir . '/drush/sites/site2.site.yml', Yaml::dump($alias2));
+    file_put_contents($test_project_dir . '/drush/sites/blted82.site.yml', Yaml::dump($aliases));
     $bin = $test_project_dir . "/vendor/bin";
     $this->taskExecStack()
       ->dir($test_project_dir)
@@ -203,6 +204,19 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
         $test_project_dir2
       )
       ->run();
+
+    $this->say("Please configure DB settings in:");
+    $this->say("* $test_project_dir/docroot/sites/default/settings/local.settings.php");
+    $this->say("* $test_project_dir/docroot/sites/site2/settings/local.settings.php");
+    $this->say("");
+    $this->say("Setup each with:");
+    $this->say("* blt setup -D site=site1");
+    $this->say("* blt setup -D site=site2");
+    $this->say("");
+    $this->say("Utilize default aliases:");
+    $this->say("* drush @blted82.site1 status");
+    $this->say("* drush @blted82.site2 status");
+    $this->say("* blt sync:db:all");
   }
 
   /**
