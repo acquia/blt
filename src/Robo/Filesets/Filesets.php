@@ -49,6 +49,7 @@ class Filesets implements ConfigAwareInterface {
   public function getFilesetPhpTests() {
     $finder = $this->getPhpFilesetFinder();
     $finder->in([$this->getConfigValue('repo.root') . '/tests']);
+
     return $finder;
   }
 
