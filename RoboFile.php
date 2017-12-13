@@ -7,6 +7,7 @@ use Github\Client;
 use Robo\Tasks;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * This is project's console commands configuration for Robo task runner.
@@ -32,6 +33,25 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   public function initialize() {
     $this->bltRoot = __DIR__;
     $this->bin = $this->bltRoot . '/vendor/bin';
+  }
+
+  /**
+   * @param array $options
+   */
+  protected function createTestApp($options = [
+    'project-type' => 'standalone',
+    'project-dir' => '../blted8',
+    'vm' => TRUE,
+  ]) {
+    switch ($options['project-type']) {
+      case 'standalone':
+        $this->createFromBltProject($options);
+        break;
+
+      case 'symlink':
+        $this->createFromSymlink($options);
+        break;
+    }
   }
 
   /**
@@ -87,6 +107,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    * @option base-branch The blt-project (NOT blt) branch to test.
    * @option project-dir The directory in which the test project will be
    *   created.
+   * @option vm Whether a VM will be booted.
    */
   public function createFromBltProject($options = [
     'base-branch' => self::BLT_DEV_BRANCH,
@@ -102,9 +123,15 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   }
 
   /**
-   * @param array $options
+   * Create a new project using `composer require acquia/blt'.
+   *
+   * @option base-branch The blt-project (NOT blt) branch to test.
+   * @option project-dir The directory in which the test project will be
+   *   created.
+   * @option vm Whether a VM will be booted.
    */
   public function createFromScratch($options = [
+    'base-branch' => self::BLT_DEV_BRANCH,
     'project-dir' => '../blted8',
     'vm' => TRUE,
   ]) {
@@ -123,11 +150,59 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $task = $this->taskExecStack()
       ->dir($test_project_dir)
       // BLT is the only dependency at this point. Install it.
-      ->exec("composer require acquia/blt " . self::BLT_DEV_BRANCH);
+      ->exec("composer require acquia/blt {$options['base-branch']}-dev");
     if ($options['vm']) {
       $task->exec("$bin/blt vm --no-boot --no-interaction --yes -v");
     }
     $task->run();
+  }
+
+  /**
+   * Create a new project with one multisite.
+   *
+   * The project will be duplicated such that you may refer to the duplicate as
+   * a remote instance of the site via a drush alias.
+   *
+   * This allows us to internally test syncing between multisite applications.
+   *
+   * @option project-dir The directory in which the test project will be
+   *   created.
+   * @option vm Whether a VM will be booted.
+   */
+  public function createMultisites($options = [
+    'project-dir' => '../blted8',
+    'vm' => FALSE,
+  ]) {
+    $options['project-type'] = 'symlink';
+    $test_project_dir = $this->bltRoot . "/" . $options['project-dir'];
+    $project_dir2 = $options['project-dir'] . "2";
+    $test_project_dir2 = $this->bltRoot . "/" . $project_dir2;
+    $this->prepareTestProjectDir($test_project_dir2);
+    $this->createTestApp($options);
+    // Create drush alias.
+    $alias1 = [
+      'root' => $test_project_dir,
+      'host' => 'local.blted8.com',
+      'uri' => 'http://local.blted8.com',
+    ];
+    $alias2 = [
+      'root' => $test_project_dir2,
+      'host' => 'local.blted82.com',
+      'uri' => 'http://local.blted82.com',
+    ];
+    file_put_contents($test_project_dir . '/drush/sites/site1.site.yml', Yaml::dump($alias1));
+    file_put_contents($test_project_dir . '/drush/sites/site2.site.yml', Yaml::dump($alias2));
+    $bin = $test_project_dir . "/vendor/bin";
+    $this->taskExecStack()
+      ->dir($test_project_dir)
+      ->exec("$bin/blt generate:multisite --site-name=site2 --yes --no-interaction")
+      ->run();
+    $this->taskFilesystemStack()
+      ->mirror(
+        $test_project_dir,
+        $test_project_dir2
+      )
+      ->run();
   }
 
   /**
