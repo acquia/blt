@@ -29,8 +29,6 @@
   <file>blt</file>
   <file>docroot/modules/custom</file>
   <file>docroot/themes/custom</file>
-  <file>docroot/sites/*/themes/custom</file>
-  <file>docroot/sites/*/modules/custom</file>
   <file>tests</file>
 
   <exclude-pattern>*/behat</exclude-pattern>
