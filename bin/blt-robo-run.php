@@ -14,13 +14,15 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 // Start Timer.
 $timer = new TimeKeeper();
 $timer->start();
-if ($output->isVerbose()) {
-  $output->writeln("<comment>BLT version " . Blt::VERSION . "</comment>");
-}
 
 // Initialize input and output.
 $input = new ArgvInput($_SERVER['argv']);
 $output = new ConsoleOutput();
+
+// Write BLT version for debugging.
+if ($output->isVerbose()) {
+  $output->writeln("<comment>BLT version " . Blt::VERSION . "</comment>");
+}
 
 // Initialize configuration.
 $config_initializer = new ConfigInitializer($repo_root, $input);

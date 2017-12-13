@@ -126,10 +126,10 @@ class FilesetManager implements ConfigAwareInterface, LoggerAwareInterface {
 
     if ($fileset_ids) {
       foreach ($fileset_ids as $fileset_id) {
-        if (!in_array($fileset_id, $this->filesets)) {
+        if (!in_array($fileset_id, array_keys($this->filesets))) {
           throw new BltException("Unable to find fileset $fileset_id!");
         }
-        $filesets[] = $fileset_id;
+        $filesets[$fileset_id] = $this->filesets[$fileset_id];
       }
       return $filesets;
     }
