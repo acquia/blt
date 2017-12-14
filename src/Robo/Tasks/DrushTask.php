@@ -259,6 +259,8 @@ class DrushTask extends CommandStack {
     }
 
     $this->option('config', $this->getConfig()->get('repo.root') . '/drush/drushrc.php');
+
+    $this->option("ansi");
   }
 
   /**
