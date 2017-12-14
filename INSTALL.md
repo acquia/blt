@@ -36,11 +36,11 @@ Then install the minimum dependencies for BLT. The preferred method is via Homeb
  
 Note that the recommended installation method for Drush has changed recently. Drush should only be installed as a dependency of individual projects, rather than being installed system-wide. BLT will manage this dependency for you on projects, but in order for you to run Drush commands independently of BLT commands you'll want to install the Drush Launcher:
  
-        composer global require "drush-ops/drush-launcher:^0.4.3"
+        composer global require drush/drush-launcher
         
 In order to call Drush Launcher from anywhere, make sure your Composer binary directory is in your PATH (i.e. in `~/.profile`):
 
-        PATH="$PATH:~/.composer/vendor/bin"
+        export PATH="$PATH:$HOME/.composer/vendor/bin"
 
 If you'd like to create a [Drupal VM](https://www.drupalvm.com/) with BLT, you will require the following additional libraries. If you'd like to use a LAMP stack other than Drupal VM, see [Local Development](readme/local-development.md).
 
