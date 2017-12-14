@@ -38,7 +38,7 @@ Note that the recommended installation method for Drush has changed recently. Dr
  
         composer global require drush/drush-launcher
         
-In order to call Drush Launcher from anywhere, make sure your Composer binary directory is in your PATH (i.e. in `~/.profile`):
+In order to call Drush Launcher from anywhere, make sure your Composer binary directory is in your PATH (i.e. in `~/.bash_profile`):
 
         export PATH="$PATH:$HOME/.composer/vendor/bin"
 
