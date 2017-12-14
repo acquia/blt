@@ -27,12 +27,20 @@ Ensure that [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12) is 
         sudo xcodebuild -license
         xcode-select --install
 
-Then install the  minimum dependencies for BLT. The preferred method is via Homebrew, though you could install these yourself without a package manager.
+Then install the minimum dependencies for BLT. The preferred method is via Homebrew, though you could install these yourself without a package manager.
 
         /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-        brew tap homebrew/dupes; brew tap homebrew/versions; brew tap homebrew/homebrew-php;
-        brew install php56 git composer drush
+        brew tap homebrew/homebrew-php;
+        brew install php56 git composer
         composer global require "hirak/prestissimo:^0.3"
+ 
+Note that the recommended installation method for Drush has changed recently. Drush should only be installed as a dependency of individual projects, rather than being installed system-wide. Note that BLT will manage this dependency for you, but in order for you to run Drush commands independently of BLT commands you'll want to install the Drush Launcher:
+ 
+        composer global require "drush-ops/drush-launcher:^0.4.3"
+        
+In order to call Drush Launcher from anywhere, make sure your Composer binary directory is in your PATH (i.e. in `~/.profile`):
+
+        PATH="$PATH:~/.composer/vendor/bin"
 
 If you'd like to create a [Drupal VM](https://www.drupalvm.com/) with BLT, you will require the following additional libraries. If you'd like to use a LAMP stack other than Drupal VM, see [Local Development](readme/local-development.md).
 
