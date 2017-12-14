@@ -31,16 +31,10 @@ Then install the minimum dependencies for BLT. The preferred method is via Homeb
 
         /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
         brew tap homebrew/homebrew-php;
-        brew install php56 git composer
+        brew install php56 git composer drush-launcher
         composer global require "hirak/prestissimo:^0.3"
  
-Note that the recommended installation method for Drush has changed recently. Drush should only be installed as a dependency of individual projects, rather than being installed system-wide. BLT will manage this dependency for you on projects, but in order for you to run Drush commands independently of BLT commands you'll want to install the Drush Launcher:
- 
-        composer global require drush/drush-launcher
-        
-In order to call Drush Launcher from anywhere, make sure your Composer binary directory is in your PATH (i.e. in `~/.bash_profile`):
-
-        export PATH="$PATH:$HOME/.composer/vendor/bin"
+Note that the recommended installation method for Drush has changed recently. Drush should only be installed as a dependency of individual projects, rather than being installed system-wide. BLT will manage this dependency for you on projects, but in order for you to run Drush commands independently of BLT commands you'll want to install the Drush Launcher as above.
 
 If you'd like to create a [Drupal VM](https://www.drupalvm.com/) with BLT, you will require the following additional libraries. If you'd like to use a LAMP stack other than Drupal VM, see [Local Development](readme/local-development.md).
 
