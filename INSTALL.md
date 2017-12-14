@@ -34,7 +34,7 @@ Then install the minimum dependencies for BLT. The preferred method is via Homeb
         brew install php56 git composer
         composer global require "hirak/prestissimo:^0.3"
  
-Note that the recommended installation method for Drush has changed recently. Drush should only be installed as a dependency of individual projects, rather than being installed system-wide. Note that BLT will manage this dependency for you, but in order for you to run Drush commands independently of BLT commands you'll want to install the Drush Launcher:
+Note that the recommended installation method for Drush has changed recently. Drush should only be installed as a dependency of individual projects, rather than being installed system-wide. BLT will manage this dependency for you on projects, but in order for you to run Drush commands independently of BLT commands you'll want to install the Drush Launcher:
  
         composer global require "drush-ops/drush-launcher:^0.4.3"
         
