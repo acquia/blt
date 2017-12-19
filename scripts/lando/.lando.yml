@@ -1,0 +1,14 @@
+name: ${project.machine_name}
+recipe: drupal8
+config:
+  webroot: docroot
+tooling:
+  blt:
+    service: appserver
+    cmd: /usr/bin/blt
+services:
+  database:
+    creds:
+      user: ${db.user}
+      password: ${db.password}
+      database: ${db.database}
