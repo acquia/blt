@@ -23,6 +23,7 @@ class DbCommand extends BltTasks {
     foreach ($multisites as $multisite) {
       $result = $this->taskExecStack()
         ->dir($this->getConfigValue('repo.root'))
+        // @todo Pass all $arg['v'].
         ->exec($this->getConfigValue('repo.root') . "/vendor/bin/blt sync:db --define site=$multisite")
         ->run();
       if (!$result->wasSuccessful()) {

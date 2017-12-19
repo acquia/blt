@@ -28,6 +28,7 @@ class RefreshCommand extends BltTasks {
       $this->say("Refreshing site <comment>$multisite</comment>...");
       $result = $this->taskExecStack()
         ->dir($this->getConfigValue('repo.root'))
+        // @todo Pass all $arg['v'].
         ->exec($this->getConfigValue('repo.root') . "/vendor/bin/blt sync:refresh --define site=$multisite")
         ->run();
       if ($result->wasSuccessful()) {
