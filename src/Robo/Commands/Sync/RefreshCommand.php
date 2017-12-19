@@ -26,27 +26,17 @@ class RefreshCommand extends BltTasks {
     $multisites = $this->getConfigValue('multisites');
     foreach ($multisites as $multisite) {
       $this->say("Refreshing site <comment>$multisite</comment>...");
-      $exit_code = $this->refreshMultisite($multisite);
-      if ($exit_code) {
+      $result = $this->taskExecStack()
+        ->dir($this->getConfigValue('repo.root'))
+        // @todo Pass all $arg['v'].
+        ->exec($this->getConfigValue('repo.root') . "/vendor/bin/blt sync:refresh --define site=$multisite")
+        ->run();
+      if ($result->wasSuccessful()) {
         throw new BltException("Could not refresh site '$multisite'.");
       }
     }
 
     return $exit_code;
-  }
-
-  /**
-   * Executes sync:refresh for a specific multisite.
-   *
-   * @param string $multisite_name
-   *   The name of a multisite. E.g., if docroot/sites/example.com is the site,
-   *   $multisite_name would be example.com.
-   *
-   * @return int
-   */
-  protected function refreshMultisite($multisite_name) {
-    $this->switchSiteContext($multisite_name);
-    return $this->refreshDefault();
   }
 
   /**
