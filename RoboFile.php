@@ -173,31 +173,31 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     'project-dir' => '../blted8',
     'vm' => FALSE,
   ]) {
+
+    // Create test project.
     $options['project-type'] = 'symlink';
     $test_project_dir = $this->bltRoot . "/" . $options['project-dir'];
     $project_dir2 = $options['project-dir'] . "2";
     $test_project_dir2 = $this->bltRoot . "/" . $project_dir2;
     $this->prepareTestProjectDir($test_project_dir2);
     $this->createTestApp($options);
+
     // Create drush alias.
     $aliases = [
-      'site1' => [
-        'root' => $test_project_dir,
-        'host' => 'local.blted8.com',
-        'uri' => 'http://local.blted8.com',
-      ],
-      'site2' => [
+      'remote' => [
         'root' => $test_project_dir2,
-        'host' => 'local.blted82.com',
-        'uri' => 'http://local.blted82.com',
       ],
     ];
     file_put_contents($test_project_dir . '/drush/sites/blted82.site.yml', Yaml::dump($aliases));
+
+    // Generate multisite in test project.
     $bin = $test_project_dir . "/vendor/bin";
     $this->taskExecStack()
       ->dir($test_project_dir)
       ->exec("$bin/blt generate:multisite --site-name=site2 --yes --no-interaction")
       ->run();
+
+    // Make a local clone of new project.
     $this->taskFilesystemStack()
       ->mirror(
         $test_project_dir,
@@ -205,17 +205,48 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       )
       ->run();
 
-    $this->say("Please configure DB settings in:");
-    $this->say("* $test_project_dir/docroot/sites/default/settings/local.settings.php");
-    $this->say("* $test_project_dir/docroot/sites/site2/settings/local.settings.php");
-    $this->say("");
-    $this->say("Setup each with:");
+    // Generate sites.php for site1.
+    $sites['local.blted8.site1.com'] = 'default';
+    $sites['local.blted8.site2.com'] = 'site2';
+    $contents = "<?php\n" . var_dump($sites);
+    file_put_contents($test_project_dir . "/docroot/sites/sites.php", $contents);
+
+    // Generate sites.php for site2.
+    $sites['local.blted82.site1.com'] = 'default';
+    $sites['local.blted82.site2.com'] = 'site2';
+    $contents = "<?php\n" . var_dump($sites);
+    file_put_contents($test_project_dir2 . "/docroot/sites/sites.php", $contents);
+
+    $this->say("The following applications were created:");
+    $this->say("* $test_project_dir");
+    $this->say("  * site1 ");
+    $this->say("      * dir: $test_project_dir/docroot/sites/default");
+    $this->say("      * url: local.blted8.site1.com");
+    $this->say("      * db config: $test_project_dir/docroot/sites/default/settings/local.settings.php");
+    $this->say("  * site2 ");
+    $this->say("      * dir: $test_project_dir/docroot/sites/site2");
+    $this->say("      * url: local.blted8.site2.com");
+    $this->say("      * db config: $test_project_dir/docroot/sites/site2/settings/local.settings.php");
+    $this->say("* (pseudo remote) $test_project_dir2");
+    $this->say("  * site1 ");
+    $this->say("      * dir: $test_project_dir2/docroot/sites/default");
+    $this->say("      * url: local.blted82.site1.com");
+    $this->say("      * alias: @blted82.remote");
+    $this->say("      * db config: $test_project_dir2/docroot/sites/default/settings/local.settings.php");
+    $this->say("  * site2 ");
+    $this->say("      * dir: $test_project_dir2/docroot/sites/site2");
+    $this->say("      * url: local.blted82.site2.com");
+    $this->say("      * alias: @blted82.remote --uri=site2");
+    $this->say("      * db config: $test_project_dir2/docroot/sites/site2/settings/local.settings.php");
+    $this->say("<comment>Please configure DB settings. You will need 4 databases.</comment>");
+    $this->say("<comment>Please configure hosts settings. You will need 4 host entries.</comment>");
+    $this->say("You may setup sites via:");
+    $this->say("* cd $test_project_dir2");
     $this->say("* blt setup -D site=site1");
     $this->say("* blt setup -D site=site2");
-    $this->say("");
-    $this->say("Utilize default aliases:");
-    $this->say("* drush @blted82.site1 status");
-    $this->say("* drush @blted82.site2 status");
+    $this->say("* cd $test_project_dir");
+    $this->say("* drush @blted82.remote status");
+    $this->say("* drush @blted82.remote --uri=site2 status");
     $this->say("* blt sync:db:all");
   }
 

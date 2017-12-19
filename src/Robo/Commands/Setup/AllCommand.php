@@ -17,9 +17,9 @@ class AllCommand extends BltTasks {
    * @aliases setup:all
    */
   public function setup() {
-    $this->say("Setting up local environment for site '{$this->getConfigValue('site')}'.");
+    $this->say("Setting up local environment for site <comment>{$this->getConfigValue('site')}</comment>.");
     if ($this->getConfigValue('drush.alias')) {
-      $this->say("Using drush alias @{$this->getConfigValue('drush.alias')}");
+      $this->say("Using drush alias <comment>@{$this->getConfigValue('drush.alias')}</comment>");
     }
 
     $commands = [
