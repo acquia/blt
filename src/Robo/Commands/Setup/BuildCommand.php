@@ -85,6 +85,8 @@ class BuildCommand extends BltTasks {
    * Generates all required files for a full build.
    *
    * @command setup:build
+   *
+   * @interactConfigIdentical
    */
   public function build() {
     $this->invokeCommands([
