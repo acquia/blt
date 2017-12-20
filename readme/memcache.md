@@ -8,111 +8,19 @@ Before enabling the Memcache module, it is important to understand how the Drupa
 
 [Using Memcached on Acquia Cloud](https://docs.acquia.com/cloud/performance/memcached) provides detailed information regarding how Acquia supports Memcached for its subscriptions and products, and is a good resource in general for information regarding Drupal and Memcache integrations. It is important that the settings for `memcache_key_prefix` and `memcache_servers` not be modified on Acquia Cloud.
 
-BLT treats Memcache module integration as opt-in as it can be used only in environments that have Drupal installed and the Memcache module enabled, and won't need to be reinstalled, e.g. stage and prod. The snippet below should be customized as need and added to a `settings.php` for an environment meeting these criteria. Note that the below configuration explicitly overrides the default bins for the discovery, bootstrap, and config cache bins because Drupal core permanently caches these static bins by default. This is required for rebuilding service definitions accurately on cache rebuilds and deploys.
-
-```
-/**
- * Use memcache as cache backend. 
- *
- * Autoload memcache classes and service container in case module is not installed. 
- * Avoids the need to patch core and allows for overriding the default backend
- * when installing Drupal: See https://www.drupal.org/node/2766509.
- */
-
-if ($is_ah_env) {
-  switch ($ah_env) {
-    case 'test':
-    case 'prod':
-    
-      // Check for PHP Memcached libraries. 
-      $memcache_exists = class_exists('Memcache', FALSE);
-      $memcached_exists = class_exists('Memcached', FALSE);
-      if ($memcache_exists || $memcached_exists) {
-        // Use Memcached extension if available.
-        if ($memcached_exists) {
-          $settings['memcache']['extension'] = 'Memcached';
-        }     
-        
-        if (class_exists(\Composer\Autoload\ClassLoader::class)) {
-          $class_loader = new \Composer\Autoload\ClassLoader();
-          $class_loader->addPsr4('Drupal\\memcache\\', 'modules/contrib/memcache/src');
-          $class_loader->register();
-
-          $settings['container_yamls'][] = DRUPAL_ROOT . '/modules/contrib/memcache/memcache.services.yml';
-  
-          // Bootstrap cache.container with memcache rather than database.
-          $settings['bootstrap_container_definition'] = [
-            'parameters' => [],
-            'services' => [
-              'database' => [
-                'class' => 'Drupal\Core\Database\Connection',
-                'factory' => 'Drupal\Core\Database\Database::getConnection',
-                'arguments' => ['default'],
-              ],
-              'settings' => [
-                'class' => 'Drupal\Core\Site\Settings',
-                'factory' => 'Drupal\Core\Site\Settings::getInstance',
-              ],
-              'memcache.config' => [
-                'class' => 'Drupal\memcache\DrupalMemcacheConfig',
-                'arguments' => ['@settings'],
-              ],
-              'memcache.backend.cache.factory' => [
-                'class' => 'Drupal\memcache\DrupalMemcacheFactory',
-                'arguments' => ['@memcache.config']
-              ],
-              'memcache.backend.cache.container' => [
-                'class' => 'Drupal\memcache\DrupalMemcacheFactory',
-                'factory' => ['@memcache.backend.cache.factory', 'get'],
-                'arguments' => ['container'],
-              ],
-              'lock.container' => [
-                'class' => 'Drupal\memcache\Lock\MemcacheLockBackend',
-                'arguments' => ['container', '@memcache.backend.cache.container'],
-              ],
-              'cache_tags_provider.container' => [
-                'class' => 'Drupal\Core\Cache\DatabaseCacheTagsChecksum',
-                'arguments' => ['@database'],
-              ],
-              'cache.container' => [
-                'class' => 'Drupal\memcache\MemcacheBackend',
-                'arguments' => ['container', '@memcache.backend.cache.container', '@lock.container', '@memcache.config', '@cache_tags_provider.container'],
-              ],
-            ],
-          ];
-
-          // Override default fastchained backend for static bins. 
-          // See https://www.drupal.org/node/2754947
-          $settings['cache']['bins']['bootstrap'] = 'cache.backend.memcache';
-          $settings['cache']['bins']['discovery'] = 'cache.backend.memcache';
-          $settings['cache']['bins']['config'] = 'cache.backend.memcache';
-
-          // Use memcache as the default bin.
-          $settings['cache']['default'] = 'cache.backend.memcache';
-
-          // Enable stampede protection.
-          $settings['memcache']['stampede_protection'] = TRUE;
-
-          // Move locks to memcache.
-          $settings['container_yamls'][] = DRUPAL_ROOT . '/../vendor/acquia/blt/settings/memcache.yml';
-        }
-      }
-      break;
-  }
-}
-```
+BLT modifies the Memcache module integration on Acquia Cloud. BLT's configuration explicitly overrides the default bins for the discovery, bootstrap, and config cache bins because Drupal core permanently caches these static bins by default. This is required for rebuilding service definitions accurately on cache rebuilds and deploys. See [caching.settings.php](/settings/cache.settings.php).
 
 ## Local Development
 
 The below has been tested with DrupalVM as configured through BLT's `blt vm` command, but should also work for most CI environments where the memcache backend is localhost on port 11211.
 
-Add the below statements to an environment's `local.settings.php` to use memcache as the default backend for Drupal's caching and locking systems. The memcache module does not need to be enabled with the snippet below, but may need to be if this configuration is removed. Note that the below configuration explicitly overrides the default bins for the discovery, bootstrap, and config cache bins because Drupal core permanently caches these static bins by default. 
+Add the below statements to an environment's `local.settings.php` to use memcache as the default backend for Drupal's caching and locking systems. The memcache module does not need to be enabled with the snippet below, but may need to be if this configuration is removed. Note that the below configuration explicitly overrides the default bins for the discovery, bootstrap, and config cache bins because Drupal core permanently caches these static bins by default.
 
 ```
 /**
- * Use memcache as cache backend. 
+ * Use memcache as cache backend.
  *
- * Autoload memcache classes and service container in case module is not installed. 
+ * Autoload memcache classes and service container in case module is not installed.
  * Avoids the need to patch core and allows for overriding the default backend
  * when installing Drupal: See https://www.drupal.org/node/2766509.
  */
@@ -122,7 +30,7 @@ if ($is_local_env) {
   $settings['memcache']['key_prefix'] = $site_dir;
 }
 
-// Check for PHP Memcached libraries. 
+// Check for PHP Memcached libraries.
 $memcache_exists = class_exists('Memcache', FALSE);
 $memcached_exists = class_exists('Memcached', FALSE);
 if ($memcache_exists || $memcached_exists) {
@@ -130,14 +38,14 @@ if ($memcache_exists || $memcached_exists) {
   if ($memcached_exists) {
     $settings['memcache']['extension'] = 'Memcached';
   }
-  
+
   if (class_exists(\Composer\Autoload\ClassLoader::class)) {
     $class_loader = new \Composer\Autoload\ClassLoader();
     $class_loader->addPsr4('Drupal\\memcache\\', 'modules/contrib/memcache/src');
     $class_loader->register();
 
     $settings['container_yamls'][] = DRUPAL_ROOT . '/modules/contrib/memcache/memcache.services.yml';
-  
+
     // Bootstrap cache.container with memcache rather than database.
     $settings['bootstrap_container_definition'] = [
       'parameters' => [],
@@ -179,7 +87,7 @@ if ($memcache_exists || $memcached_exists) {
       ],
     ];
 
-    // Override default fastchained backend for static bins. 
+    // Override default fastchained backend for static bins.
     // See https://www.drupal.org/node/2754947
     $settings['cache']['bins']['bootstrap'] = 'cache.backend.memcache';
     $settings['cache']['bins']['discovery'] = 'cache.backend.memcache';
@@ -194,5 +102,5 @@ if ($memcache_exists || $memcached_exists) {
     // Move locks to memcache.
     $settings['container_yamls'][] = DRUPAL_ROOT . '/sites/default/settings/memcache.yml';
   }
-} 
+}
 ```
