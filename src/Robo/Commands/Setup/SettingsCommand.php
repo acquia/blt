@@ -50,11 +50,12 @@ class SettingsCommand extends BltTasks {
 
     $multisites = $this->getConfigValue('multisites');
     $initial_site = $this->getConfigValue('site');
+    $current_site = $initial_site;
 
     foreach ($multisites as $multisite) {
-      $current_site = $this->getConfigValue('site');
       if ($current_site != $multisite) {
         $this->switchSiteContext($multisite);
+        $current_site = $multisite;
       }
 
       // Generate settings.php.
@@ -136,7 +137,6 @@ class SettingsCommand extends BltTasks {
       }
     }
 
-    $current_site = $this->getConfigValue('site');
     if ($current_site != $initial_site) {
       $this->switchSiteContext($initial_site);
     }

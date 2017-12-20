@@ -40,7 +40,9 @@ class MultisiteCommand extends BltTasks {
 
     $domain = $this->askDefault("Local domain name", "http://local.$site_name.com");
     $url = parse_url($domain);
-    $site_yml['project']['local']['protocol'] = $url['scheme'];
+    $site_yml['project']['machine_name'] = $site_name;
+    $site_yml['project']['human_name'] = $site_name;
+    $site_yml['project']['local']['hostname'] = $url['host'];
     $site_yml['project']['local']['hostname'] = $url['host'];
 
     $config_local_db = $this->confirm("Would you like to configure the local database credentials?");

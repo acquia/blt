@@ -115,6 +115,7 @@ class AliasesCommand extends BltTasks {
    *
    */
   protected function askForCloudApiCredentials() {
+    $this->say("You may generate new API tokens at <comment>https://cloud.acquia.com/app/profile/tokens</comment>");
     $key = $this->askRequired('Please enter your Acquia cloud API key:');
     $secret = $this->askRequired('Please enter your Acquia cloud API secret:');
     do {

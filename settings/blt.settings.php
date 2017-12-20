@@ -90,11 +90,13 @@ $is_prod_env = $is_ah_prod_env || $is_pantheon_prod_env;
 /**
  * Site directory detection.
  */
-try {
-  $site_path = DrupalKernel::findSitePath(Request::createFromGlobals());
-}
-catch (BadRequestHttpException $e) {
-  $site_path = 'sites/default';
+if (!isset($site_path)) {
+  try {
+    $site_path = DrupalKernel::findSitePath(Request::createFromGlobals());
+  }
+  catch (BadRequestHttpException $e) {
+    $site_path = 'sites/default';
+  }
 }
 $site_dir = str_replace('sites/', '', $site_path);
 

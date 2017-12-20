@@ -21,31 +21,15 @@ class DbCommand extends BltTasks {
     $exit_code = 0;
     $multisites = $this->getConfigValue('multisites');
     foreach ($multisites as $multisite) {
-      $this->say("Syncing db for site <comment>$multisite</comment>...");
-      $result = $this->syncDbMultisite($multisite);
+      $this->switchSiteContext($multisite);
+      $result = $this->syncDbDefault();
       if (!$result->wasSuccessful()) {
-        $this->logger->error("Could not sync database for site '$multisite'.");
+        $this->logger->error("Could not sync database for site <comment>$multisite</comment>.");
         throw new BltException("Could not sync database.");
       }
     }
 
     return $exit_code;
-  }
-
-  /**
-   * Calls sync:db for a specific multisite.
-   *
-   * @param string $multisite_name
-   *   The name of a multisite. E.g., if docroot/sites/example.com is the site,
-   *   $multisite_name would be example.com.
-   *
-   * @return \Robo\Result
-   */
-  protected function syncDbMultisite($multisite_name) {
-    $this->switchSiteContext($multisite_name);
-    $result = $this->syncDbDefault();
-
-    return $result;
   }
 
   /**
@@ -57,7 +41,6 @@ class DbCommand extends BltTasks {
    * @executeInDrupalVm
    */
   public function syncDbDefault() {
-
     $local_alias = '@' . $this->getConfigValue('drush.aliases.local');
     $remote_alias = '@' . $this->getConfigValue('drush.aliases.remote');
 

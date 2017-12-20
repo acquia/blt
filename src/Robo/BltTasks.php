@@ -370,10 +370,13 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    *   $site_name would be example.com.
    */
   public function switchSiteContext($site_name) {
+    $this->logger->debug("Switching site context to <comment>$site_name</comment>.");
     $config_initializer = new ConfigInitializer($this->getConfigValue('repo.root'), $this->input());
     $config_initializer->setSite($site_name);
-    $config = $config_initializer->initialize();
-    $this->setConfig($config);
+    $new_config = $config_initializer->initialize();
+
+    // Replaces config.
+    $this->getConfig()->import($new_config->export());
   }
 
 }
