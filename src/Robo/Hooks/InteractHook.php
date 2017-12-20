@@ -100,7 +100,7 @@ class InteractHook extends BltTasks {
   }
 
   /**
-   * Confirms active config matches config in sync directory.
+   * Prompts user to confirm overwrite of active config on blt setup.
    *
    * @hook interact @interactConfigIdentical
    */
@@ -109,17 +109,19 @@ class InteractHook extends BltTasks {
     OutputInterface $output,
     AnnotationData $annotationData
   ) {
-    if ($this->getConfigValue('cm.strategy') == 'config-split') {
-      $drupal_installed = $this->getInspector()->isDrupalInstalled();
-      $config_identical = $this->getInspector()->isActiveConfigIdentical();
-      if (!$config_identical) {
-        $this->logger->warning("The site's active config does not match the config in the sync directory.");
+    $cm_strategies = [
+      'config-split',
+      'core-only',
+    ];
+    if (in_array($this->getConfigValue('cm.strategy'), $cm_strategies)) {
+      if (!$this->getInspector()->isActiveConfigIdentical()) {
+        $this->logger->warning("The active configuration is not identical to the configuration in the export directory.");
         if (!$input->isInteractive()) {
           $this->logger->warning("Run `drush cex` to export the active config to the sync directory.");
         }
         $confirm = $this->confirm("Would you like to proceed anyway?");
         if (!$confirm) {
-          throw new BltException("The site's active config does not match the config in the sync directory.");
+          throw new BltException("The active configuration is not identical to the configuration in the export directory.");
         }
 
       }
