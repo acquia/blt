@@ -17,90 +17,10 @@ The below has been tested with DrupalVM as configured through BLT's `blt vm` com
 Add the below statements to an environment's `local.settings.php` to use memcache as the default backend for Drupal's caching and locking systems. The memcache module does not need to be enabled with the snippet below, but may need to be if this configuration is removed. Note that the below configuration explicitly overrides the default bins for the discovery, bootstrap, and config cache bins because Drupal core permanently caches these static bins by default.
 
 ```
-/**
- * Use memcache as cache backend.
- *
- * Autoload memcache classes and service container in case module is not installed.
- * Avoids the need to patch core and allows for overriding the default backend
- * when installing Drupal: See https://www.drupal.org/node/2766509.
- */
-
 // Include a unique prefix for each local Drupal installation.
 if ($is_local_env) {
   $settings['memcache']['key_prefix'] = $site_dir;
 }
 
-// Check for PHP Memcached libraries.
-$memcache_exists = class_exists('Memcache', FALSE);
-$memcached_exists = class_exists('Memcached', FALSE);
-if ($memcache_exists || $memcached_exists) {
-  // Use Memcached extension if available.
-  if ($memcached_exists) {
-    $settings['memcache']['extension'] = 'Memcached';
-  }
-
-  if (class_exists(\Composer\Autoload\ClassLoader::class)) {
-    $class_loader = new \Composer\Autoload\ClassLoader();
-    $class_loader->addPsr4('Drupal\\memcache\\', 'modules/contrib/memcache/src');
-    $class_loader->register();
-
-    $settings['container_yamls'][] = DRUPAL_ROOT . '/modules/contrib/memcache/memcache.services.yml';
-
-    // Bootstrap cache.container with memcache rather than database.
-    $settings['bootstrap_container_definition'] = [
-      'parameters' => [],
-      'services' => [
-        'database' => [
-          'class' => 'Drupal\Core\Database\Connection',
-          'factory' => 'Drupal\Core\Database\Database::getConnection',
-          'arguments' => ['default'],
-        ],
-        'settings' => [
-          'class' => 'Drupal\Core\Site\Settings',
-          'factory' => 'Drupal\Core\Site\Settings::getInstance',
-        ],
-        'memcache.config' => [
-          'class' => 'Drupal\memcache\DrupalMemcacheConfig',
-          'arguments' => ['@settings'],
-        ],
-        'memcache.backend.cache.factory' => [
-          'class' => 'Drupal\memcache\DrupalMemcacheFactory',
-          'arguments' => ['@memcache.config']
-        ],
-        'memcache.backend.cache.container' => [
-          'class' => 'Drupal\memcache\DrupalMemcacheFactory',
-          'factory' => ['@memcache.backend.cache.factory', 'get'],
-          'arguments' => ['container'],
-        ],
-        'lock.container' => [
-          'class' => 'Drupal\memcache\Lock\MemcacheLockBackend',
-          'arguments' => ['container', '@memcache.backend.cache.container'],
-        ],
-        'cache_tags_provider.container' => [
-          'class' => 'Drupal\Core\Cache\DatabaseCacheTagsChecksum',
-          'arguments' => ['@database'],
-        ],
-        'cache.container' => [
-          'class' => 'Drupal\memcache\MemcacheBackend',
-          'arguments' => ['container', '@memcache.backend.cache.container', '@lock.container', '@memcache.config', '@cache_tags_provider.container'],
-        ],
-      ],
-    ];
-
-    // Override default fastchained backend for static bins.
-    // See https://www.drupal.org/node/2754947
-    $settings['cache']['bins']['bootstrap'] = 'cache.backend.memcache';
-    $settings['cache']['bins']['discovery'] = 'cache.backend.memcache';
-    $settings['cache']['bins']['config'] = 'cache.backend.memcache';
-
-    // Use memcache as the default bin.
-    $settings['cache']['default'] = 'cache.backend.memcache';
-
-    // Enable stampede protection.
-    $settings['memcache']['stampede_protection'] = TRUE;
-
-    // Move locks to memcache.
-    $settings['container_yamls'][] = DRUPAL_ROOT . '/sites/default/settings/memcache.yml';
-  }
-}
+require DRUPAL_ROOT . "/../vendor/acquia/blt/settings/memcache.settings.php";
 ```
