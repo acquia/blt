@@ -80,6 +80,7 @@ class UpdateCommand extends BltTasks {
    * @return \Robo\Result
    */
   public function addToProject() {
+    $this->updateRootProjectFiles();
     $this->reInstallComposerPackages();
     $this->displayArt();
     $this->yell("BLT has been added to your project.");
