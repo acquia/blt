@@ -212,13 +212,14 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
       $this->io->write('<info>Creating BLT templated files...</info>');
       if ($this->isNewProject()) {
         // The BLT command will not work at this point because the .git dir doesn't exist yet.
-        $success = $this->executeCommand($this->getVendorPath() . '/acquia/blt/bin/blt internal:create-project --ansi', [], TRUE);
+        $command = $this->getVendorPath() . '/acquia/blt/bin/blt internal:create-project --ansi';
       }
       else {
-        $success = $this->executeCommand($this->getVendorPath() . '/acquia/blt/bin/blt internal:add-to-project --ansi', [], TRUE);
+        $command = $this->getVendorPath() . '/acquia/blt/bin/blt internal:add-to-project --ansi -y';
       }
+      $success = $this->executeCommand($command, [], TRUE);
       if (!$success) {
-        $this->io->write("<error>BLT installation failed! Please retry with --verbose flag to debug the issue.</error>");
+        $this->io->write("<error>BLT installation failed! Please execute <comment>$command --verbose</comment> to debug the issue.</error>");
       }
     }
     elseif ($options['blt']['update']) {
