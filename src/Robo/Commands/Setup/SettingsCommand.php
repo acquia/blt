@@ -69,9 +69,9 @@ class SettingsCommand extends BltTasks {
       $project_local_settings_file = "$multisite_dir/settings/local.settings.php";
 
       // Generate local.drushrc.php.
-      $blt_local_drush_file = $this->getConfigValue('blt.root') . '/settings/default.local.drushrc.php';
-      $default_local_drush_file = "$multisite_dir/default.local.drushrc.php";
-      $project_local_drush_file = "$multisite_dir/local.drushrc.php";
+      $blt_local_drush_file = $this->getConfigValue('blt.root') . '/settings/default.site.drush.yml';
+      $default_local_drush_file = "$multisite_dir/default.site.drush.yml";
+      $project_local_drush_file = "$multisite_dir/drush.yml";
 
       $copy_map = [
         $blt_local_settings_file => $default_local_settings_file,

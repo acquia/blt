@@ -2,7 +2,11 @@
 
 namespace Acquia\Blt\Drush\Command;
 
+use Acquia\Blt\Robo\Config\YamlConfigProcessor;
+use Consolidation\Config\Loader\YamlConfigLoader;
 use Dflydev\DotAccessData\Data;
+use function ob_start;
+use Robo\Config\Config;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -22,16 +26,10 @@ class BltDoctor {
   protected $localSettingsPath;
   /**
    * @var array*/
-  protected $statusTable = [];
+  public $statusTable = [];
   /**
    * @var bool*/
   protected $ciEnabled = FALSE;
-  /**
-   * @var array*/
-  protected $composerJson = [];
-  /**
-   * @var array*/
-  protected $composerLock = [];
   /**
    * @var bool*/
   protected $drupalVmEnabled = FALSE;
@@ -63,6 +61,22 @@ class BltDoctor {
    * @var array*/
   protected $outputTable = [];
 
+  protected $repoRoot;
+
+  /**
+   * @return string
+   */
+  public function getRepoRoot() {
+    return $this->repoRoot;
+  }
+
+  /**
+   * @param string $repoRoot
+   */
+  public function setRepoRoot($repoRoot) {
+    $this->repoRoot = $repoRoot;
+  }
+
   /**
    * BoltDoctor constructor.
    */
@@ -87,8 +101,9 @@ class BltDoctor {
     $this->uri = $this->getUri();
     $this->localSettingsPath = $this->siteRoot . '/settings/' . 'local.settings.php';
     $this->localDrushRcPath = $this->siteRoot . '/local.drushrc.php';
-    $this->setComposerJson();
-    $this->setComposerLock();
+
+    $this->composerCheck = new ComposerCheck($this);
+
     $this->setBltVersion();
     $this->statusTable['blt-version'] = $this->bltVersion;
     $this->statusTable['php-mysql'] = ini_get('pdo_mysql.default_socket');
@@ -113,10 +128,11 @@ class BltDoctor {
   }
 
   /**
-   *
+   * Sets $this->bltVersion.
    */
   protected function setBltVersion() {
-    foreach ($this->composerLock['packages'] as $package) {
+    $composerLock = $this->composerCheck->getComposerLock();
+    foreach ($composerLock['packages'] as $package) {
       if ($package['name'] == 'acquia/blt') {
         $this->bltVersion = $package['version'];
 
@@ -146,39 +162,6 @@ class BltDoctor {
     }
 
     return $this->config;
-  }
-
-  /**
-   * Sets $this->composerJson using root composer.json file.
-   *
-   * @return array
-   */
-  protected function setComposerJson() {
-
-    if (file_exists($this->repoRoot . '/composer.json')) {
-      $composer_json = json_decode(file_get_contents($this->repoRoot . '/composer.json'), TRUE);
-      $this->composerJson = $composer_json;
-
-      return $composer_json;
-    }
-
-    return [];
-  }
-
-  /**
-   * Sets $this->composerJson using root composer.lock file.
-   *
-   * @return array
-   */
-  protected function setComposerLock() {
-    if (file_exists($this->repoRoot . '/composer.lock')) {
-      $composer_lock = json_decode(file_get_contents($this->repoRoot . '/composer.lock'), TRUE);
-      $this->composerLock = $composer_lock;
-
-      return $composer_lock;
-    }
-
-    return [];
   }
 
   /**
@@ -264,7 +247,7 @@ class BltDoctor {
     $this->checkCaching();
     $this->checkDevDesktop();
     $this->checkCiConfig();
-    $this->checkComposer();
+    $this->composerCheck->checkComposer();
     $this->checkBehat();
     $this->checkProjectYml();
     $this->checkAcsfConfig();
@@ -290,7 +273,7 @@ class BltDoctor {
   /**
    *
    */
-  protected function logOutcome($check, $outcome, $type) {
+  public function logOutcome($check, $outcome, $type) {
     $this->outputTable["<$type>$check</$type>"] = $outcome;
     if ($type == 'error') {
       $this->passed = FALSE;
@@ -727,7 +710,6 @@ class BltDoctor {
       $drupal_vm_config = $this->getDrupalVmConfigFile();
       if (!file_exists($this->repoRoot . '/' . $drupal_vm_config)) {
         $this->logOutcome(__FUNCTION__ . ':init', "You have DrupalVM initialized, but $drupal_vm_config is missing.", 'error');
-
         $passed = FALSE;
       }
       else {
@@ -745,12 +727,12 @@ class BltDoctor {
         else {
           $this->logOutcome(__FUNCTION__ . ':alias', "drush.aliases.local exists your drush aliases file.", 'info');
           $local_alias = $this->drushAliases[$local_alias_id];
-          if ('vagrant' != $_SERVER['USER'] && $local_alias['remote-host'] != $this->drupalVmConfig['vagrant_hostname']) {
-            $this->logOutcome(__FUNCTION__ . ":remote-host", [
-              "remote-host for @$local_alias_id drush alias does not match vagrant_hostname for DrupalVM.",
-              "  remote-host is set to {$local_alias['remote-host']} for @$local_alias_id",
+          if ('vagrant' != $_SERVER['USER'] && $local_alias['host'] != $this->drupalVmConfig['vagrant_hostname']) {
+            $this->logOutcome(__FUNCTION__ . ":host", [
+              "host for @$local_alias_id drush alias does not match vagrant_hostname for DrupalVM.",
+              "  host is set to {$local_alias['host']} for @$local_alias_id",
               "  vagrant_hostname is set to {$this->drupalVmConfig['vagrant_hostname']} for DrupalVM.",
-              "  {$local_alias['remote-host']} != {$this->drupalVmConfig['vagrant_hostname']}",
+              "  {$local_alias['host']} != {$this->drupalVmConfig['vagrant_hostname']}",
             ], 'error');
             $passed = FALSE;
           }
@@ -806,7 +788,7 @@ class BltDoctor {
    *
    */
   protected function checkDrushAliases() {
-    $return = drush_invoke_process(null, 'sa', null, array('format'=>'json'), array('integrate', FALSE));
+    $return = drush_invoke_process(null, 'sa', null, array('format' => 'json'), array('integrate' => FALSE));
     if ($return['error_status']) {
       $this->logOutcome(__FUNCTION__, [
         "Cannot find any valid drush aliases.",
@@ -828,14 +810,18 @@ class BltDoctor {
         "tests/behat/local.yml is missing!",
         "  Run `blt setup:behat` to generate it from example.local.yml.",
       ], 'error');
-
       return FALSE;
     }
     else {
       $this->logOutcome(__FUNCTION__ . ':exists', "Behat local settings file exists.", 'info');
     }
 
-    $this->behatDefaultLocalConfig = Yaml::parse(file_get_contents($this->repoRoot . '/tests/behat/local.yml'));
+    $loader = new YamlConfigLoader();
+    $processor = new YamlConfigProcessor();
+    $processor->extend($loader->load($this->repoRoot . '/tests/behat/behat.yml'));
+    $processor->extend($loader->load($this->repoRoot . '/tests/behat/local.yml'));
+    $this->behatDefaultLocalConfig = $processor->export();
+
     if ($this->drupalVmEnabled) {
       $behat_drupal_root = $this->behatDefaultLocalConfig['local']['extensions']['Drupal\DrupalExtension']['drupal']['drupal_root'];
       if (!strstr($behat_drupal_root, '/var/www/')) {
@@ -886,43 +872,6 @@ class BltDoctor {
         $this->logOutcome(__FUNCTION__, "Git remotes are set in project.yml.", 'info');
       }
     }
-  }
-
-  /**
-   * Checks that composer.json is configured correctly.
-   */
-  protected function checkComposer() {
-    if (!empty($this->composerJson['require-dev']['acquia/blt'])) {
-      $this->logOutcome(__FUNCTION__ . ':require', [
-        "acquia/blt is defined as a development dependency in composer.json",
-        "  Move acquia/blt out of the require-dev object and into the require object in composer.json.",
-        "  This is necessary for BLT settings files to be available at runtime in production.",
-      ], 'error');
-    }
-    else {
-      $this->logOutcome(__FUNCTION__ . ':require', [
-        "acquia/blt is in composer.json's require object.",
-      ], 'info');
-    }
-
-    if ('vagrant' != $_SERVER['USER']) {
-      $prestissimo_intalled = drush_shell_exec("composer global show | grep hirak/prestissimo");
-      if (!$prestissimo_intalled) {
-        $this->logOutcome(__FUNCTION__ . ":plugins", [
-          "hirak/prestissimo plugin for composer is not installed.",
-          "  Run `composer global require hirak/prestissimo:^0.3` to install it.",
-          "  This will improve composer install/update performance by parallelizing the download of dependency information.",
-        ], 'comment');
-      }
-      else {
-        $this->logOutcome(__FUNCTION__ . ':plugins', [
-          "hirak/prestissimo plugin for composer is installed.",
-        ], 'info');
-      }
-    }
-    drush_shell_exec("composer --version");
-    $composer_version = drush_shell_exec_output();
-    $this->statusTable['composer-version'] = $composer_version;
   }
 
   /**
@@ -1119,7 +1068,7 @@ class BltDoctor {
       $this->logOutcome(__FUNCTION__, ".node-version file exists", 'info');
     }
     else {
-      $this->logOutcome(__FUNCTION__, "Neither .nvmrc nor .node-version file found in repo root.", 'error');
+      $this->logOutcome(__FUNCTION__, "Neither .nvmrc nor .node-version file found in repo root.", 'comment');
     }
   }
 

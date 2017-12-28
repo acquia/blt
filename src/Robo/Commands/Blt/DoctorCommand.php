@@ -16,14 +16,13 @@ class DoctorCommand extends BltTasks {
    * Inspects your local blt configuration for possible issues.
    *
    * @command doctor
-   *
-   * @validateDrushConfig
    */
   public function doctor() {
 
     // @codingStandardsIgnoreStart
     $this->taskDrush()
       ->drush('cc drush')
+      ->alias("")
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
@@ -39,26 +38,33 @@ class DoctorCommand extends BltTasks {
 
     // Try BLT doctor with default alias. This might be a Drupal VM alias.
     $alias = $this->getConfigValue('drush.alias');
-    $this->say('Attempting to run doctor on host machine...');
-    $result = $this->executeDoctorOnHost($alias);
+    if ($this->getInspector()->isDrushAliasValid($alias)) {
+      $this->say("Attempting to run doctor on host machine using alias <comment>@$alias</comment>.");
+      $result = $this->executeDoctorOnHost($alias);
+      if ($result->wasSuccessful()) {
+        return $result->getMessage();
+      }
+    }
 
     // If default alias failed, try again using @self alias.
-    if (!$result->wasSuccessful() && $alias != 'self') {
+    if ($alias != 'self') {
       $this->logger->warning("Unable to run the doctor using alias '@$alias'. Trying with '@self'...");
-      $this->executeDoctorOnHost('self');
+      $result = $this->executeDoctorOnHost('self');
+      if ($result->wasSuccessful()) {
+        return $result->getMessage();
+      }
     }
 
     // If @self fails, try without any alias.
-    if (!$result->wasSuccessful() && $alias != '') {
+    if ($alias != '') {
       $this->logger->warning("Unable to run the doctor using alias '@self'. Trying without alias...");
-      $this->executeDoctorOnHost('');
+      $result = $this->executeDoctorOnHost('');
+      if ($result->wasSuccessful()) {
+        return $result->getMessage();
+      }
     }
 
-    if (!$result->wasSuccessful()) {
-      throw new BltException("Unable to execute the `blt doctor` command.");
-    }
-
-    return $result->getMessage();
+    throw new BltException("Unable to execute the `blt doctor` command.");
     // @codingStandardsIgnoreEnd
   }
 

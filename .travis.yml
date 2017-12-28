@@ -49,7 +49,9 @@ before_install:
   - composer install
 
 install:
-  - source ${BLT_DIR}/scripts/travis/setup_environment
+  - source ${BLT_DIR}/scripts/travis/setup_environment# Create MySQL DB.
+  # Create second db for multisite testing.
+  - mysql -u root -e "CREATE DATABASE drupal2; GRANT ALL ON drupal2.* TO 'drupal'@'localhost';"
   - source ${BLT_DIR}/scripts/travis/setup_project
 
 script:

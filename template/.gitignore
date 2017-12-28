@@ -1,6 +1,7 @@
 # Ignore configuration files that may contain sensitive information.
 local.settings.php
 local.drushrc.php
+local.drush.yml
 local.aliases.drushrc.php
 local.services.yml
 tests/behat/local.yml

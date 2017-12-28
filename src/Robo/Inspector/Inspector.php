@@ -17,6 +17,7 @@ use Psr\Log\LoggerAwareTrait;
 use Robo\Common\BuilderAwareTrait;
 use Robo\Contract\BuilderAwareInterface;
 use Robo\Contract\ConfigAwareInterface;
+use Robo\Robo;
 use function substr;
 use Symfony\Component\Filesystem\Filesystem;
 use Robo\Contract\VerbosityThresholdInterface;
@@ -257,7 +258,11 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *   TRUE if alias is valid.
    */
   public function isDrushAliasValid($alias) {
-    return $this->executor->drush("site:alias $alias --format=json")->run()->wasSuccessful();
+    $bin = $this->getConfigValue('composer.bin');
+    $this->executor->execute("'$bin/drush' site:alias @$alias --format=json")
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERY_VERBOSE)
+      ->run()
+      ->wasSuccessful();
   }
 
   /**
