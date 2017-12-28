@@ -4,7 +4,6 @@ namespace Acquia\Blt\Robo\Inspector;
 
 use Acquia\Blt\Robo\Config\YamlConfigProcessor;
 use Acquia\Blt\Robo\Exceptions\BltException;
-use function file_exists;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 use Consolidation\Config\Loader\YamlConfigLoader;
@@ -17,8 +16,6 @@ use Psr\Log\LoggerAwareTrait;
 use Robo\Common\BuilderAwareTrait;
 use Robo\Contract\BuilderAwareInterface;
 use Robo\Contract\ConfigAwareInterface;
-use Robo\Robo;
-use function substr;
 use Symfony\Component\Filesystem\Filesystem;
 use Robo\Contract\VerbosityThresholdInterface;
 use Tivie\OS\Detector;
@@ -432,6 +429,29 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
     return $installed;
   }
 
+  public function isDevDesktopInitialized() {
+    $file_contents = file_get_contents($this->getConfigValue('drupal.settings_file'));
+    if (strstr($file_contents, 'DDSETTINGS')) {
+      return TRUE;
+    }
+  }
+
+  /**
+   * Gets Composer version.
+   *
+   * @return string
+   *   The version of Composer.
+   */
+  public function getComposerVersion() {
+    $version = $this->executor->execute("composer --version")
+      ->interactive(FALSE)
+      ->silent(TRUE)
+      ->run()
+      ->getMessage();
+
+    return $version;
+  }
+
   /**
    * Checks to see if BLT alias is installed on CLI.
    *
@@ -524,6 +544,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
     $loader = new YamlConfigLoader();
     $processor = new YamlConfigProcessor();
     $processor->extend($loader->load($behat_local_config_file));
+    $processor->extend($loader->load($this->getConfigValue('repo.root') . '/tests/behat/behat.yml'));
     $behat_local_config->import($processor->export());
 
     return $behat_local_config;
