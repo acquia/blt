@@ -2,6 +2,9 @@
 
 namespace Acquia\Blt\Robo\Commands\Doctor;
 
+/**
+ *
+ */
 class PhpCheck extends DoctorCheck {
 
   public function performAllChecks() {
@@ -21,4 +24,5 @@ class PhpCheck extends DoctorCheck {
       ], 'error');
     }
   }
+
 }

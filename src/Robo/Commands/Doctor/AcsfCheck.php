@@ -2,6 +2,9 @@
 
 namespace Acquia\Blt\Robo\Commands\Doctor;
 
+/**
+ *
+ */
 class AcsfCheck extends DoctorCheck {
 
   public function performAllChecks() {
@@ -25,4 +28,5 @@ class AcsfCheck extends DoctorCheck {
       }
     }
   }
+
 }

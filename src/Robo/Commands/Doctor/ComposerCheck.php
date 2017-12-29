@@ -6,6 +6,9 @@ use Acquia\Blt\Robo\Common\Executor;
 use Acquia\Blt\Robo\Inspector\Inspector;
 use Robo\Config\Config;
 
+/**
+ *
+ */
 class ComposerCheck extends DoctorCheck {
 
   /**

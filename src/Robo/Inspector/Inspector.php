@@ -431,9 +431,8 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
 
   public function isDevDesktopInitialized() {
     $file_contents = file_get_contents($this->getConfigValue('drupal.settings_file'));
-    if (strstr($file_contents, 'DDSETTINGS')) {
-      return TRUE;
-    }
+
+    return strstr($file_contents, 'DDSETTINGS');
   }
 
   /**

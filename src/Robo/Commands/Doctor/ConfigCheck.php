@@ -2,6 +2,9 @@
 
 namespace Acquia\Blt\Robo\Commands\Doctor;
 
+/**
+ *
+ */
 class ConfigCheck extends DoctorCheck {
 
   public function performAllChecks() {
@@ -17,7 +20,7 @@ class ConfigCheck extends DoctorCheck {
       $this->logProblem(__FUNCTION__, [
         "Git repositories are not defined in project.yml.",
         "  Add values for git.remotes to project.yml to enabled automated deployment.",
-      ], 'error');
+      ], 'comment');
     }
   }
 
@@ -46,4 +49,5 @@ class ConfigCheck extends DoctorCheck {
       $this->logProblem(__FUNCTION__ . ':keys', $outcome, 'comment');
     }
   }
+
 }

@@ -4,6 +4,9 @@ namespace Acquia\Blt\Robo\Commands\Doctor;
 
 use function json_decode;
 
+/**
+ *
+ */
 class DrupalVmCheck extends DoctorCheck {
 
   public function performAllChecks() {
@@ -102,4 +105,5 @@ class DrupalVmCheck extends DoctorCheck {
       ], 'error');
     }
   }
+
 }

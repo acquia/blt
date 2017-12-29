@@ -2,11 +2,16 @@
 
 namespace Acquia\Blt\Robo\Commands\Doctor;
 
+/**
+ *
+ */
 class WebUriCheck extends DoctorCheck {
 
-  public function performAllChecks() {
+  protected $localSiteDrushYml;
 
-    $uri_isset =$this->checkUri();
+  public function performAllChecks() {
+    $this->localSiteDrushYml = $this->getConfigValue('docroot') . "/sites/" . $this->getConfigValue('site') . "/local.drush.yml";
+    $uri_isset = $this->checkUri();
     if ($uri_isset) {
       $this->checkUriResponse();
       $this->checkHttps();
@@ -21,8 +26,7 @@ class WebUriCheck extends DoctorCheck {
       $this->logProblem(__FUNCTION__, [
         "Site URI is not set",
         "",
-        "Is options.uri set correctly in {$this->getConfigValue('docroot')}/sites/default/local.site.yml?",
-        "",
+        "Is options.uri set correctly in {$this->localSiteDrushYml}?",
       ], 'error');
 
       return FALSE;
@@ -38,14 +42,11 @@ class WebUriCheck extends DoctorCheck {
     $site_available = $this->getExecutor()->execute("curl -I --insecure " . $this->drushStatus['uri'])->run()->wasSuccessful();
     if (!$site_available) {
       $this->logProblem(__FUNCTION__, [
-        "Did not get a response from $this->drushStatus['uri']",
+        "Did not get a response from {$this->drushStatus['uri']}",
         "",
         "Is your *AMP stack running?",
-        "Is your web server configured to serve this URI from $this->docroot?",
-        "Is \$options['uri'] set correctly in $this->localDrushRcPath?",
-        "",
-        "To generate settings files and install Drupal, run `blt local:setup`",
-        "",
+        "Is your web server configured to serve this URI from {$this->drushStatus['root']}?",
+        "Is options.uri set correctly in {$this->localSiteDrushYml}?",
       ], 'error');
     }
   }
@@ -62,4 +63,5 @@ class WebUriCheck extends DoctorCheck {
       }
     }
   }
+
 }

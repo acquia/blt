@@ -2,6 +2,9 @@
 
 namespace Acquia\Blt\Robo\Commands\Doctor;
 
+/**
+ *
+ */
 class SettingsFilesCheck extends DoctorCheck {
 
   public function performAllChecks() {
@@ -12,7 +15,7 @@ class SettingsFilesCheck extends DoctorCheck {
   }
 
   protected function checkLocalSettingsFile() {
-    $localSettingsPath = $this->drushStatus['root'] . '/settings/' . 'local.settings.php';
+    $localSettingsPath = $this->drushStatus['root'] . "/sites/" . $this->getConfigValue('site') . '/settings/local.settings.php';
     if (!file_exists($localSettingsPath)) {
       $this->logProblem('local-settings', [
         'Could not find local settings file.',

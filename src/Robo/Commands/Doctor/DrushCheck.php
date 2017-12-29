@@ -2,11 +2,11 @@
 
 namespace Acquia\Blt\Robo\Commands\Doctor;
 
-use function drush_json_decode;
 use function file_exists;
-use function json_decode;
-use function json_encode;
 
+/**
+ *
+ */
 class DrushCheck extends DoctorCheck {
 
   public function performAllChecks() {
@@ -38,4 +38,5 @@ class DrushCheck extends DoctorCheck {
       ], 'error');
     }
   }
+
 }

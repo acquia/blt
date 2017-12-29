@@ -2,6 +2,9 @@
 
 namespace Acquia\Blt\Robo\Commands\Doctor;
 
+/**
+ *
+ */
 class BehatCheck extends DoctorCheck {
 
   public function performAllChecks() {
@@ -39,8 +42,8 @@ class BehatCheck extends DoctorCheck {
    */
   protected function checkDrupalVm($behatDefaultLocalConfig) {
     if ($this->getInspector()
-        ->isDrupalVmLocallyInitialized() && $this->getInspector()
-        ->isDrupalVmBooted()) {
+      ->isDrupalVmLocallyInitialized() && $this->getInspector()
+      ->isDrupalVmBooted()) {
       $behat_drupal_root = $behatDefaultLocalConfig['local']['extensions']['Drupal\DrupalExtension']['drupal']['drupal_root'];
       if (!strstr($behat_drupal_root, '/var/www/')) {
         $this->logProblem(__FUNCTION__ . ':root', [
@@ -60,4 +63,5 @@ class BehatCheck extends DoctorCheck {
       ], 'error');
     }
   }
+
 }

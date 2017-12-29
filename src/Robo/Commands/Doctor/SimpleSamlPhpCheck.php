@@ -2,6 +2,9 @@
 
 namespace Acquia\Blt\Robo\Commands\Doctor;
 
+/**
+ *
+ */
 class SimpleSamlPhpCheck extends DoctorCheck {
 
   public function performAllChecks() {

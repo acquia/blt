@@ -91,14 +91,21 @@ class DoctorCommand extends BltTasks {
       WebUriCheck::class,
     ];
 
+    $success = TRUE;
     foreach ($checks as $class) {
       /** @var \Acquia\Blt\Robo\Commands\Doctor\DoctorCheck $object */
       $object = new $class($this->getConfig(), $this->getInspector(), $this->getContainer()->get('executor'), $this->drushStatus);
       $object->performAllChecks();
       $this->problems = array_merge($this->problems, $object->getProblems());
+      if ($object->wasErrorLogged()) {
+        $success = FALSE;
+      }
     }
 
     $this->printArrayAsTable($this->problems, ['Check', "Problem"]);
+    if (!$success) {
+      throw new BltException("BLT Doctor discovered one or more critical issues.");
+    }
   }
 
   /**
@@ -108,19 +115,18 @@ class DoctorCommand extends BltTasks {
    */
   public function setDrushStatus() {
     $task = $this->taskDrush()
-      ->drush("core-status")
+      ->drush("status")
       ->option('format', 'json')
       ->option('fields', '*')
-      ->printOutput(FALSE)
-      ->printMetadata(FALSE)
+      ->silent(TRUE)
       ->interactive(FALSE)
       ->run();
     $output = $task->getMessage();
     $this->drushStatus = json_decode($output, TRUE);
     $this->drushStatus['composer-version'] = $this->getInspector()->getComposerVersion();
     $this->drushStatus['blt-version'] = Blt::VERSION;
-    $this->drushStatus['drupal-vm-inited'] = $this->getInspector()->isDrupalVmLocallyInitialized();
-    $this->drushStatus['dev-desktop-inited'] =  $this->getInspector()->isDevDesktopInitialized();
+    $this->drushStatus['stacks']['drupal-vm']['inited'] = $this->getInspector()->isDrupalVmLocallyInitialized();
+    $this->drushStatus['stacks']['dev-desktop']['inited'] = $this->getInspector()->isDevDesktopInitialized();
     ksort($this->drushStatus);
 
     return $this->drushStatus;
