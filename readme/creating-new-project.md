@@ -2,7 +2,7 @@
 
 *Do not clone BLT or BLT Project as a means of using them. Just follow the directions below.*
 
-1. Pick a machine name for your new project, i.e. *my-project*. For compatibility with third-party tools, it's best to only use letters, numbers, and hyphens.
+1. Pick a machine name for your new project, e.g., *my-project*. For compatibility with third-party tools, it's best to only use letters, numbers, and hyphens.
 
 1. Run the following command to create your new project and download all dependencies (including BLT).
 
