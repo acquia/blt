@@ -79,6 +79,11 @@ class SettingsCommand extends BltTasks {
         $blt_local_drush_file => $default_local_drush_file,
         $default_local_drush_file => $project_local_drush_file,
       ];
+      // Define an array of files that require property expansion.
+      $expand_map = [
+        $default_local_settings_file => $project_local_settings_file,
+        $default_local_drush_file => $project_local_drush_file,
+      ];
 
       // Only add the settings file if the default exists.
       if (file_exists($default_project_default_settings_file)) {
@@ -99,7 +104,7 @@ class SettingsCommand extends BltTasks {
       }
 
       // Copy files without overwriting.
-      foreach ($copy_map as $from => $to) {
+      foreach ($expand_map as $from => $to) {
         if (!file_exists($to)) {
           $task->copy($from, $to);
         }

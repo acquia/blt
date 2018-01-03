@@ -64,7 +64,7 @@ class SimpleSamlPhpCheck extends DoctorCheck {
       }
 
       // Check that the library's www dirctory is symlinked in the docroot.
-      if (!file_exists($this->docroot . '/simplesaml')) {
+      if (!file_exists($this->getConfigValue('docroot') . '/simplesaml')) {
         $this->logProblem(__FUNCTION__, [
           "The symlink to the SimpleSAMLphp library is missing from your docroot.",
           "  Run `blt simplesamlphp:init`",
@@ -72,10 +72,10 @@ class SimpleSamlPhpCheck extends DoctorCheck {
       }
 
       // Check that access to the symlinked directory is not blocked.
-      $htaccess = file_get_contents($this->docroot . '/.htaccess');
+      $htaccess = file_get_contents($this->getConfigValue('docroot') . '/.htaccess');
       if (!strstr($htaccess, 'simplesaml')) {
         $this->logProblem(__FUNCTION__, [
-          "Access to $this->docroot/simplesaml is blocked by .htaccess",
+          "Access to $this->getConfigValue('docroot')/simplesaml is blocked by .htaccess",
           "  Add the snippet in simplesamlphp-setup.md readme to your .htaccess file.",
         ], 'error');
       }

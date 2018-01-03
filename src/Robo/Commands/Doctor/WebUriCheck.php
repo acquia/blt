@@ -25,7 +25,6 @@ class WebUriCheck extends DoctorCheck {
     if (!$this->drushStatus['uri'] || $this->drushStatus['uri'] == 'default') {
       $this->logProblem(__FUNCTION__, [
         "Site URI is not set",
-        "",
         "Is options.uri set correctly in {$this->localSiteDrushYml}?",
       ], 'error');
 
@@ -43,7 +42,6 @@ class WebUriCheck extends DoctorCheck {
     if (!$site_available) {
       $this->logProblem(__FUNCTION__, [
         "Did not get a response from {$this->drushStatus['uri']}",
-        "",
         "Is your *AMP stack running?",
         "Is your web server configured to serve this URI from {$this->drushStatus['root']}?",
         "Is options.uri set correctly in {$this->localSiteDrushYml}?",

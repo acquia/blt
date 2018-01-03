@@ -31,8 +31,8 @@ class BehatCheck extends DoctorCheck {
     if ($behat_base_url != $this->drushStatus['uri']) {
       $this->logProblem(__FUNCTION__ . ':uri', [
         "base_url in tests/behat/local.yml does not match the site URI.",
-        "  Behat base_url is set to \"$behat_base_url\".",
-        "  Drush site URI is set to {$this->drushStatus['uri']}.",
+        "  Behat base_url is set to <comment>$behat_base_url</comment>.",
+        "  Drush site URI is set to <comment>{$this->drushStatus['uri']}</comment>.",
       ], 'error');
     }
   }
