@@ -57,7 +57,8 @@
         "drupal/core": "7.*"
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "php": "5.6"
     },
     "suggest": {
         "hirak/prestissimo": "^0.3",

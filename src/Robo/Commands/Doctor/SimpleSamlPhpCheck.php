@@ -75,7 +75,7 @@ class SimpleSamlPhpCheck extends DoctorCheck {
       $htaccess = file_get_contents($this->getConfigValue('docroot') . '/.htaccess');
       if (!strstr($htaccess, 'simplesaml')) {
         $this->logProblem(__FUNCTION__, [
-          "Access to $this->getConfigValue('docroot')/simplesaml is blocked by .htaccess",
+          "Access to {$this->getConfigValue('docroot')}/simplesaml is blocked by .htaccess",
           "  Add the snippet in simplesamlphp-setup.md readme to your .htaccess file.",
         ], 'error');
       }
