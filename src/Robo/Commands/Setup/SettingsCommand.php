@@ -104,7 +104,7 @@ class SettingsCommand extends BltTasks {
       }
 
       // Copy files without overwriting.
-      foreach ($expand_map as $from => $to) {
+      foreach ($copy_map as $from => $to) {
         if (!file_exists($to)) {
           $task->copy($from, $to);
         }
@@ -112,7 +112,7 @@ class SettingsCommand extends BltTasks {
 
       $result = $task->run();
 
-      foreach ($copy_map as $from => $to) {
+      foreach ($expand_map as $from => $to) {
         $this->getConfig()->expandFileProperties($to);
       }
 
