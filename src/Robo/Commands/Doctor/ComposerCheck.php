@@ -103,7 +103,7 @@ class ComposerCheck extends DoctorCheck {
     if (!$prestissimo_intalled) {
       $this->logProblem(__FUNCTION__ . ":plugins", [
         "hirak/prestissimo plugin for composer is not installed.",
-        "  Run <comment>composer global require hirak/prestissimo:^0.3</comment> to install it.",
+        "  Run <comment>composer global require hirak/prestissimo</comment> to install it.",
         "  This will improve composer install/update performance by parallelizing the download of dependency information.",
       ], 'comment');
     }
