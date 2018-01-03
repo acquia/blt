@@ -119,7 +119,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
         $composer_required_json = json_decode(file_get_contents($composer_required_json_filename), TRUE);
         if ($composer_required_json['extra']['installer-paths'] != $extra['installer-paths']) {
           $this->io->write('<warning>Warning: The value for extra.installer-paths in composer.json differs from BLT\'s recommended values.</warning>');
-          $this->io->write('<warning>See https://github.com/acquia/blt/blob/8.x/template/composer.json</warning>');
+          $this->io->write('<warning>See ' . $composer_required_json_filename . '</warning>');
         }
       }
     }
