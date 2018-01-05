@@ -2,10 +2,8 @@
 
 namespace Acquia\Blt\Robo\Commands\Doctor;
 
-use Acquia\Blt\Robo\Blt;
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
-use function ksort;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -15,7 +13,6 @@ class DoctorCommand extends BltTasks {
 
   protected $outputTable;
   protected $passed;
-  protected $drushStatus;
   protected $problems = [];
 
   /**
@@ -70,8 +67,8 @@ class DoctorCommand extends BltTasks {
    * @hidden
    */
   public function doctorCheck() {
-    $this->setDrushStatus();
-    $this->printArrayAsTable($this->drushStatus);
+    $status = $this->getStatus();
+    $this->printArrayAsTable($status);
 
     $checks = [
       AcsfCheck::class,
@@ -94,7 +91,7 @@ class DoctorCommand extends BltTasks {
     $success = TRUE;
     foreach ($checks as $class) {
       /** @var \Acquia\Blt\Robo\Commands\Doctor\DoctorCheck $object */
-      $object = new $class($this->getConfig(), $this->getInspector(), $this->getContainer()->get('executor'), $this->drushStatus);
+      $object = new $class($this->getConfig(), $this->getInspector(), $this->getContainer()->get('executor'), $status);
       $object->performAllChecks();
       $this->problems = array_merge($this->problems, $object->getProblems());
       if ($object->wasErrorLogged()) {
@@ -106,30 +103,6 @@ class DoctorCommand extends BltTasks {
     if (!$success) {
       throw new BltException("BLT Doctor discovered one or more critical issues.");
     }
-  }
-
-  /**
-   * Sets $this->drushStatus using drush internals.
-   *
-   * @return array
-   */
-  public function setDrushStatus() {
-    $task = $this->taskDrush()
-      ->drush("status")
-      ->option('format', 'json')
-      ->option('fields', '*')
-      ->silent(TRUE)
-      ->interactive(FALSE)
-      ->run();
-    $output = $task->getMessage();
-    $this->drushStatus = json_decode($output, TRUE);
-    $this->drushStatus['composer-version'] = $this->getInspector()->getComposerVersion();
-    $this->drushStatus['blt-version'] = Blt::VERSION;
-    $this->drushStatus['stacks']['drupal-vm']['inited'] = $this->getInspector()->isDrupalVmLocallyInitialized();
-    $this->drushStatus['stacks']['dev-desktop']['inited'] = $this->getInspector()->isDevDesktopInitialized();
-    ksort($this->drushStatus);
-
-    return $this->drushStatus;
   }
 
 }

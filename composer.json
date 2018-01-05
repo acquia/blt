@@ -48,7 +48,8 @@
         }
     },
     "extra": {
-        "class": "Acquia\\Blt\\Composer\\Plugin"
+        "class": "Acquia\\Blt\\Composer\\Plugin",
+        "composer-exit-on-patch-failure": true
     },
     "bin": [
         "bin/blt"
