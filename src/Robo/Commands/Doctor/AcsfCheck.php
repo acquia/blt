@@ -21,11 +21,6 @@ class AcsfCheck extends DoctorCheck {
           "  Add a require statement for \"/../vendor/acquia/blt/settings/blt.settings.php\" to $file_path",
         ], 'error');
       }
-      else {
-        $this->logProblem(__FUNCTION__, [
-          "BLT settings are included in your pre-settings-php include.",
-        ], 'info');
-      }
     }
   }
 

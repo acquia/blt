@@ -19,9 +19,10 @@ class DoctorCommand extends BltTasks {
    * Inspects your local blt configuration for possible issues.
    *
    * @command doctor
+   *
+   * @launchWebServer
    */
   public function doctor() {
-
     // Attempt to run BLT doctor inside of a VM.
     if ($this->getInspector()->isDrupalVmLocallyInitialized()
       && $this->getInspector()->isDrupalVmBooted()

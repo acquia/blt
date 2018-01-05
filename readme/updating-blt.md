@@ -6,13 +6,7 @@ If you are already using BLT via Composer, you can update to the latest version 
 
 1. To update to the latest version of BLT that is compatible with your existing dependencies, run the following commands:
 
-        composer update acquia/blt --with-dependencies
-
-1. Sometimes, the first command will fail to update to the latest version of BLT. This is typically because some other dependency prevents it. If this happens, run:
-
-        rm -rf vendor && composer require acquia/blt:^[latest-version] --no-update && composer update
-
-   Where `[latest-version]` is the latest version of BLT. E.g., `8.7.0`.
+        composer update acquia/blt --with-all-dependencies
 
    This will cause Composer to update all of your dependencies (in accordance with your version constraints) and permit the latest version of BLT to be installed.
 
