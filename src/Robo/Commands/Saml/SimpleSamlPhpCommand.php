@@ -43,6 +43,7 @@ class SimpleSamlPhpCommand extends BltTasks {
       $this->initializeConfig();
       $this->setSimpleSamlPhpInstalled();
       $this->symlinkDocrootToLibDir();
+      $this->addHtaccessPatch();
     }
     else {
       $this->say('SimpleSAMLphp has already been initialized by BLT.');
@@ -199,11 +200,9 @@ class SimpleSamlPhpCommand extends BltTasks {
    * Outputs a message to edit the new config files.
    */
   protected function outputCompleteSetupInstructions() {
-    $docroot = $this->getConfigValue('docroot');
     $instructions = [
       'To complete the setup you must manually modify several files:',
       '',
-      "* ${docroot}/.htaccess",
       "* {$this->repoRoot}/simplesamlphp/config/acquia_config.php",
       "* {$this->repoRoot}/simplesamlphp/config/authsources.php",
       "* {$this->repoRoot}/simplesamlphp/metadata/saml20-idp-remote.php",
@@ -216,6 +215,21 @@ class SimpleSamlPhpCommand extends BltTasks {
     ];
     $formattedBlock = $this->formatter->formatBlock($instructions, 'comment', TRUE);
     $this->writeln($formattedBlock);
+  }
+
+  /**
+   * Add a patch to .htaccess.
+   */
+  protected function addHtaccessPatch() {
+    $this->taskFilesystemStack()
+      ->copy($this->bltRoot . "/scripts/simplesamlphp/htaccess-saml.patch",
+        $this->repoRoot . "/patches/htaccess-saml.patch")
+      ->run();
+    $composer_json = json_decode(file_get_contents($this->getConfigValue('repo.root') . '/composer.json'));
+    $composer_json->scripts->{"post-drupal-scaffold-cmd"}[] = "cd docroot && patch -p1 <../patches/htaccess-saml.patch";
+    file_put_contents($this->getConfigValue('repo.root') . '/composer.json',
+      json_encode($composer_json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
   }
 
 }
