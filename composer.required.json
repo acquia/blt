@@ -52,9 +52,6 @@
     "patches": {
       "drupal/core": {
         "Clear Twig caches on deploys": "https://www.drupal.org/files/issues/2752961-90.patch"
-      },
-      "drush/drush": {
-        "Processing configuration files recursively.": "https://patch-diff.githubusercontent.com/raw/drush-ops/drush/pull/3288.patch"
       }
     }
   },
