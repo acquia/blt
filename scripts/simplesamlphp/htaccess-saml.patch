@@ -1,11 +1,13 @@
---- .htaccess 2016-09-09 15:47:33.680640601 -0400
-+++ .htaccess-saml 2016-09-09 15:40:08.000000000 -0400
-@@ -150,6 +150,8 @@
-# Copy and adapt this rule to directly execute PHP files in contributed or
-# custom modules or to run another PHP application in the same directory.
-RewriteCond %{REQUEST_URI} !/core/modules/statistics/statistics.php$
+diff --git docroot/.htaccess docroot/.htaccess
+index 4716fa1..93f9ab6 100644
+--- docroot/.htaccess
++++ docroot/.htaccess
+@@ -150,6 +150,8 @@ AddEncoding gzip svgz
+   # Copy and adapt this rule to directly execute PHP files in contributed or
+   # custom modules or to run another PHP application in the same directory.
+   RewriteCond %{REQUEST_URI} !/core/modules/statistics/statistics.php$
 +  # Allow access to simplesaml paths
 +  RewriteCond %{REQUEST_URI} !^/simplesaml
-# Deny access to any other PHP files that do not match the rules above.
-# Specifically, disallow autoload.php from being served directly.
-RewriteRule "^(.+/.*|autoload)\.php($|/)" - [F]
+   # Deny access to any other PHP files that do not match the rules above.
+   # Specifically, disallow autoload.php from being served directly.
+   RewriteRule "^(.+/.*|autoload)\.php($|/)" - [F]
