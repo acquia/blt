@@ -1,0 +1,2 @@
+options:
+  uri: '${project.local.uri}'
