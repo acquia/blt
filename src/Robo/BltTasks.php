@@ -379,4 +379,27 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
     $this->getConfig()->import($new_config->export());
   }
 
+  /**
+   * @return mixed
+   */
+  protected function getStatus() {
+    $task = $this->taskDrush()
+      ->drush("status")
+      ->option('format', 'json')
+      ->option('fields', '*')
+      ->silent(TRUE)
+      ->interactive(FALSE)
+      ->run();
+    $output = $task->getMessage();
+
+    $status = json_decode($output, TRUE);
+    $status['composer-version'] = $this->getInspector()->getComposerVersion();
+    $status['blt-version'] = Blt::VERSION;
+    $status['stacks']['drupal-vm']['inited'] = $this->getInspector()->isDrupalVmLocallyInitialized();
+    $status['stacks']['dev-desktop']['inited'] = $this->getInspector()->isDevDesktopInitialized();
+    ksort($status);
+
+    return $status;
+  }
+
 }

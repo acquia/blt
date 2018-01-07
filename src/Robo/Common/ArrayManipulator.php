@@ -126,6 +126,12 @@ class ArrayManipulator {
       if (is_array($value)) {
         $flattened_array = self::flattenToDotNotatedKeys($value);
         foreach ($flattened_array as $sub_key => $sub_value) {
+          if ($sub_value === TRUE) {
+            $sub_value = 'true';
+          }
+          elseif ($sub_value === FALSE) {
+            $sub_value = 'false';
+          }
           $rows[] = [
             "$key.$sub_key",
             wordwrap($sub_value, $max_line_length, "\n", TRUE),

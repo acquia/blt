@@ -340,10 +340,11 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       ->exec("$bin/blt deploy:update $blt_suffix")
       // Test SAML.
       ->exec("$bin/blt simplesamlphp:init $blt_suffix")
+      ->exec("$bin/blt simplesamlphp:build:config $blt_suffix")
       // Test that custom commands are loaded.
       ->exec("$bin/blt custom:hello $blt_suffix")
       // Test the doctor.
-      ->exec("$bin/blt doctor")
+      ->exec("$bin/blt doctor $blt_suffix")
       // Create a test multisite.
       ->exec("$bin/blt generate:multisite --site-name=site2 $blt_suffix");
 

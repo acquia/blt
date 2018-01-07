@@ -4,7 +4,6 @@ namespace Acquia\Blt\Robo\Inspector;
 
 use Acquia\Blt\Robo\Config\YamlConfigProcessor;
 use Acquia\Blt\Robo\Exceptions\BltException;
-use function file_exists;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 use Consolidation\Config\Loader\YamlConfigLoader;
@@ -17,7 +16,6 @@ use Psr\Log\LoggerAwareTrait;
 use Robo\Common\BuilderAwareTrait;
 use Robo\Contract\BuilderAwareInterface;
 use Robo\Contract\ConfigAwareInterface;
-use function substr;
 use Symfony\Component\Filesystem\Filesystem;
 use Robo\Contract\VerbosityThresholdInterface;
 use Tivie\OS\Detector;
@@ -257,7 +255,11 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *   TRUE if alias is valid.
    */
   public function isDrushAliasValid($alias) {
-    return $this->executor->drush("site:alias $alias --format=json")->run()->wasSuccessful();
+    $bin = $this->getConfigValue('composer.bin');
+    $this->executor->execute("'$bin/drush' site:alias @$alias --format=json")
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERY_VERBOSE)
+      ->run()
+      ->wasSuccessful();
   }
 
   /**
@@ -427,6 +429,28 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
     return $installed;
   }
 
+  public function isDevDesktopInitialized() {
+    $file_contents = file_get_contents($this->getConfigValue('drupal.settings_file'));
+
+    return strstr($file_contents, 'DDSETTINGS');
+  }
+
+  /**
+   * Gets Composer version.
+   *
+   * @return string
+   *   The version of Composer.
+   */
+  public function getComposerVersion() {
+    $version = $this->executor->execute("composer --version")
+      ->interactive(FALSE)
+      ->silent(TRUE)
+      ->run()
+      ->getMessage();
+
+    return $version;
+  }
+
   /**
    * Checks to see if BLT alias is installed on CLI.
    *
@@ -519,6 +543,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
     $loader = new YamlConfigLoader();
     $processor = new YamlConfigProcessor();
     $processor->extend($loader->load($behat_local_config_file));
+    $processor->extend($loader->load($this->getConfigValue('repo.root') . '/tests/behat/behat.yml'));
     $behat_local_config->import($processor->export());
 
     return $behat_local_config;
