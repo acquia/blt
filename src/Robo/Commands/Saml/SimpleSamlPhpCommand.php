@@ -233,6 +233,7 @@ class SimpleSamlPhpCommand extends BltTasks {
       ->dir($this->getConfigValue('repo.roou'))
       ->exec("composer post-drupal-scaffold-cmd")
       ->run();
+    // @todo throw exceptions.
   }
 
 }
