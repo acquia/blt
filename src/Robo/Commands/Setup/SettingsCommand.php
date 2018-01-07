@@ -50,11 +50,12 @@ class SettingsCommand extends BltTasks {
 
     $multisites = $this->getConfigValue('multisites');
     $initial_site = $this->getConfigValue('site');
+    $current_site = $initial_site;
 
     foreach ($multisites as $multisite) {
-      $current_site = $this->getConfigValue('site');
       if ($current_site != $multisite) {
         $this->switchSiteContext($multisite);
+        $current_site = $multisite;
       }
 
       // Generate settings.php.
@@ -67,15 +68,20 @@ class SettingsCommand extends BltTasks {
       $default_local_settings_file = "$multisite_dir/settings/default.local.settings.php";
       $project_local_settings_file = "$multisite_dir/settings/local.settings.php";
 
-      // Generate local.drushrc.php.
-      $blt_local_drush_file = $this->getConfigValue('blt.root') . '/settings/default.local.drushrc.php';
-      $default_local_drush_file = "$multisite_dir/default.local.drushrc.php";
-      $project_local_drush_file = "$multisite_dir/local.drushrc.php";
+      // Generate local.drush.yml.
+      $blt_local_drush_file = $this->getConfigValue('blt.root') . '/settings/default.local.drush.yml';
+      $default_local_drush_file = "$multisite_dir/default.local.drush.yml";
+      $project_local_drush_file = "$multisite_dir/local.drush.yml";
 
       $copy_map = [
         $blt_local_settings_file => $default_local_settings_file,
         $default_local_settings_file => $project_local_settings_file,
         $blt_local_drush_file => $default_local_drush_file,
+        $default_local_drush_file => $project_local_drush_file,
+      ];
+      // Define an array of files that require property expansion.
+      $expand_map = [
+        $default_local_settings_file => $project_local_settings_file,
         $default_local_drush_file => $project_local_drush_file,
       ];
 
@@ -106,7 +112,7 @@ class SettingsCommand extends BltTasks {
 
       $result = $task->run();
 
-      foreach ($copy_map as $from => $to) {
+      foreach ($expand_map as $from => $to) {
         $this->getConfig()->expandFileProperties($to);
       }
 
@@ -136,7 +142,6 @@ class SettingsCommand extends BltTasks {
       }
     }
 
-    $current_site = $this->getConfigValue('site');
     if ($current_site != $initial_site) {
       $this->switchSiteContext($initial_site);
     }

@@ -5,6 +5,7 @@ This covers common use cases for using configuration splits as a strategy for co
 - Default application configuration
 - Environment specific configuration (e.g., local, data, test, prod, etc.)
 - Site-specific configuration (when multisite is used)
+- Profile-specific split (when multisite and multiple profiles are used)
 - "Feature" specific configuration (e.g. a distinct blog feature that is shared across multiple sites). Not to be confused with the features module.
 - Miscellaneous troubleshooting information
 
@@ -83,16 +84,16 @@ To accomplish this, we will create a "local" configuration split.
 
 #### Supported environment splits
 
-BLT has built-in support for the following splits on the following environments:
+BLT has built-in support for the following environment splits:
 
-| Split    | Environment                                  | File path          |
-|----------|----------------------------------------------|--------------------|
-| local    | any non-Acquia, non-Travis environment       | ../config/local    |
-| ci       | Acquia Pipelines OR Travis CI                | ../config/ci       |
-| dev      | Acquia Dev                                   | ../config/dev      |
-| stage    | Acquia Staging                               | ../config/stage    |
-| prod     | Acquia Prod                                  | ../config/prod     |
-| ah_other | any Acquia environment not listed above      | ../config/ah_other |
+| Split    | Environment                                  | File path               |
+|----------|----------------------------------------------|-------------------------|
+| local    | any non-Acquia, non-Travis environment       | ../config/envs/local    |
+| ci       | Acquia Pipelines OR Travis CI                | ../config/envs/ci       |
+| dev      | Acquia Dev                                   | ../config/envs/dev      |
+| stage    | Acquia Staging                               | ../config/envs/stage    |
+| prod     | Acquia Prod                                  | ../config/envs/prod     |
+| ah_other | any Acquia environment not listed above      | ../config/envs/ah_other |
 
 However, BLT will only mark these splits as enabled _if they exist_. It will not create the splits for you.
 
@@ -183,6 +184,12 @@ Consider that we would like site to to have different cache lifetimes then the d
 
 - When executing a drush command against a multisite, include the `uri` option. For instance, `drush --uri=site2`.
 - When executing a BLT command against a multisite, include the site config value. For instance, `blt setup --define site=site2`. BLT also allows you to create site-specific configuration, see [BLT multisite documentation](http://blt.readthedocs.io/en/8.x/readme/multisite/) for more information.
+
+# Profile split
+
+If you are using multisite, you may wish to use multiple installation profiles for your application. BLT will automatically check to see if a split exists that has the same name as your active installation profile.
+
+E.g., if a given site on your application uses the `lightning` profile, BLT will set the `lightning` config split to active, if that split exists. Typically profile splits are stored in `config/profiles/[profile_name]`.
 
 # Misc
 

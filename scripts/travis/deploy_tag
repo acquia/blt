@@ -2,6 +2,6 @@
 
 set -ev
 
-blt deploy --commit-msg "Automated commit by Travis CI for Build ${TRAVIS_TAG}" --tag "${TRAVIS_TAG}-build" --ignore-dirty -v
+blt deploy --commit-msg "Automated commit by Travis CI for Build ${TRAVIS_TAG}" --tag "${TRAVIS_TAG}-build" --ignore-dirty --verbose
 
 set +v

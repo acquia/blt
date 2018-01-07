@@ -18,6 +18,42 @@ class Filesets implements ConfigAwareInterface {
   use ConfigAwareTrait;
 
   /**
+   * @fileset(id="files.php.custom.modules")
+   *
+   * @return \Symfony\Component\Finder\Finder
+   */
+  public function getFilesetPhpCustomModules() {
+    $finder = $this->getPhpFilesetFinder();
+    $finder->in([$this->getConfigValue('docroot') . '/modules/custom']);
+
+    return $finder;
+  }
+
+  /**
+   * @fileset(id="files.php.custom.themes")
+   *
+   * @return \Symfony\Component\Finder\Finder
+   */
+  public function getFilesetPhpCustomThemes() {
+    $finder = $this->getPhpFilesetFinder();
+    $finder->in([$this->getConfigValue('docroot') . '/themes/custom']);
+
+    return $finder;
+  }
+
+  /**
+   * @fileset(id="files.php.tests")
+   *
+   * @return \Symfony\Component\Finder\Finder
+   */
+  public function getFilesetPhpTests() {
+    $finder = $this->getPhpFilesetFinder();
+    $finder->in([$this->getConfigValue('repo.root') . '/tests']);
+
+    return $finder;
+  }
+
+  /**
    * @fileset(id="files.frontend.custom.themes")
    *
    * @return \Symfony\Component\Finder\Finder
@@ -54,6 +90,31 @@ class Filesets implements ConfigAwareInterface {
       $this->getConfigValue('docroot') . '/modules/custom',
     ]);
 
+    return $finder;
+  }
+
+  /**
+   * Adds Drupalistic PHP patterns to a Symfony finder object.
+   *
+   * @return \Symfony\Component\Finder\Finder
+   *   The finder object.
+   */
+  protected function getPhpFilesetFinder() {
+    $finder = new Finder();
+    $finder
+      ->files()
+      ->name("*.inc")
+      ->name("*.install")
+      ->name("*.module")
+      ->name("*.php")
+      ->name("*.profile")
+      ->name("*.test")
+      ->name("*.theme")
+      // Behat php files are ignored because method names and comments do not
+      // conform to Drupal coding standards by default.
+      ->notPath('behat')
+      ->notPath('node_modules')
+      ->notPath('vendor');
     return $finder;
   }
 

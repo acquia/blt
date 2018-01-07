@@ -8,6 +8,7 @@ use Acquia\Blt\Robo\Wizards\TestsWizard;
 use Consolidation\AnnotatedCommand\AnnotationData;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Acquia\Blt\Robo\Exceptions\BltException;
 
 /**
  * This class defines hooks that provide user interaction.
@@ -94,6 +95,36 @@ class InteractHook extends BltTasks {
       $confirm = $this->confirm("Would you like to run outstanding updates?");
       if ($confirm) {
         $this->invokeCommand('update');
+      }
+    }
+  }
+
+  /**
+   * Prompts user to confirm overwrite of active config on blt setup.
+   *
+   * @hook interact @interactConfigIdentical
+   */
+  public function interactConfigIdentical(
+    InputInterface $input,
+    OutputInterface $output,
+    AnnotationData $annotationData
+  ) {
+    $cm_strategies = [
+      'config-split',
+      'core-only',
+    ];
+    if (in_array($this->getConfigValue('cm.strategy'), $cm_strategies) && $this->getInspector()->isDrupalInstalled()) {
+      if (!$this->getInspector()->isActiveConfigIdentical()) {
+        $this->logger->warning("The active configuration is not identical to the configuration in the export directory.");
+        $this->logger->warning("Continuing will overwrite the active configuration.");
+        if (!$input->isInteractive()) {
+          $this->logger->warning("Run `drush cex` to export the active config to the sync directory.");
+        }
+        $confirm = $this->confirm("Continue?");
+        if (!$confirm) {
+          throw new BltException("The active configuration is not identical to the configuration in the export directory.");
+        }
+
       }
     }
   }

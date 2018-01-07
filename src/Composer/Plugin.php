@@ -119,7 +119,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
         $composer_required_json = json_decode(file_get_contents($composer_required_json_filename), TRUE);
         if ($composer_required_json['extra']['installer-paths'] != $extra['installer-paths']) {
           $this->io->write('<warning>Warning: The value for extra.installer-paths in composer.json differs from BLT\'s recommended values.</warning>');
-          $this->io->write('<warning>See https://github.com/acquia/blt/blob/8.x/template/composer.json</warning>');
+          $this->io->write('<warning>See ' . $composer_required_json_filename . '</warning>');
         }
       }
     }
@@ -212,17 +212,21 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
       $this->io->write('<info>Creating BLT templated files...</info>');
       if ($this->isNewProject()) {
         // The BLT command will not work at this point because the .git dir doesn't exist yet.
-        $success = $this->executeCommand($this->getVendorPath() . '/acquia/blt/bin/blt internal:create-project --ansi', [], TRUE);
+        $command = $this->getVendorPath() . '/acquia/blt/bin/blt internal:create-project --ansi';
       }
       else {
-        $success = $this->executeCommand($this->getVendorPath() . '/acquia/blt/bin/blt internal:add-to-project --ansi', [], TRUE);
+        $command = $this->getVendorPath() . '/acquia/blt/bin/blt internal:add-to-project --ansi -y';
+      }
+      $success = $this->executeCommand($command, [], TRUE);
+      if (!$success) {
+        $this->io->write("<error>BLT installation failed! Please execute <comment>$command --verbose</comment> to debug the issue.</error>");
       }
     }
     elseif ($options['blt']['update']) {
       $this->io->write('<info>Updating BLT templated files...</info>');
       $success = $this->executeCommand('blt update --ansi -y', [], TRUE);
       if (!$success) {
-        $this->io->write("<error>BLT update script failed! Run `blt update -verbose` to retry.</error>");
+        $this->io->write("<error>BLT update script failed! Run `blt update --verbose` to retry.</error>");
       }
     }
     else {

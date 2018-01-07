@@ -96,3 +96,11 @@ if (file_exists("$split_filepath_prefix.$site_dir.yml")) {
 if (isset($acsf_site_name) && file_exists("$split_filepath_prefix.$acsf_site_name.yml")) {
   $config["$split_filename_prefix.$acsf_site_name"]['status'] = TRUE;
 }
+
+// Set profile split.
+if (array_key_exists('install_profile', $settings)) {
+  $active_profile = $settings['install_profile'];
+  if (file_exists("$split_filepath_prefix.$active_profile.yml")) {
+    $config["$split_filename_prefix.$active_profile"]['status'] = TRUE;
+  }
+}

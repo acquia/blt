@@ -20,12 +20,12 @@ build:
   script:
     - composer validate --no-check-all --ansi
     - composer install --ansi
-    - blt setup:build
+    - blt setup:build --ansi --verbose
 
 test:
   stage: test
   script:
-    - blt tests --define tests.run-server=true --yes -v
+    - blt tests --define tests.run-server=true --ansi --yes --verbose
 
 production:
   stage: deploy

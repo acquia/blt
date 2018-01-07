@@ -48,25 +48,32 @@ class ConfigInitializer {
   /**
    * @param mixed $site
    */
-  public function setSite($site = '') {
-    if (!$site) {
-      if ($this->input->hasParameterOption('site')) {
-        $site = $this->input->getParameterOption('site');
-      }
-      else {
-        $site = 'default';
-      }
-    }
-
+  public function setSite($site) {
     $this->site = $site;
     $this->config->setSite($site);
+  }
+
+  /**
+   * @return mixed|string
+   */
+  protected function getDefaultSite() {
+    if ($this->input->hasParameterOption('site')) {
+      $site = $this->input->getParameterOption('site');
+    }
+    else {
+      $site = 'default';
+    }
+    return $site;
   }
 
   /**
    * @return \Acquia\Blt\Robo\Config\DefaultConfig
    */
   public function initialize() {
-    $this->setSite();
+    if (!$this->site) {
+      $site = $this->getDefaultSite();
+      $this->setSite($site);
+    }
     $this->loadConfigFiles();
     $this->processConfigFiles();
 

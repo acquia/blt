@@ -1,7 +1,11 @@
+# This file defines drush configuration that applies to drush commands
+# for the entire application. For site-specific settings, like URI, use
+# ../docroot/sites/[site]/drush.yml
 drush:
   paths:
     # Load a drush.yml configuration file from the current working directory.
-    config: ../vendor/acquia/blt/drush/drushrc.php
+    config:
+      - ../docroot/sites/default/local.drush.yml
     include:
       - '${env.home}/.drush'
       - /usr/share/drush/commands

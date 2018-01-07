@@ -3,10 +3,8 @@ language: php
 dist: trusty
 
 php:
+  - 7.0
   - 7.1
-
-matrix:
-  fast_finish: true
 
 env:
   global:
@@ -15,6 +13,15 @@ env:
     - BLT_DIR=$TRAVIS_BUILD_DIR
     - IS_PULL_REQUEST=$TRAVIS_PULL_REQUEST
     - BUILD_DIR=$TRAVIS_BUILD_DIR
+    - DRUPAL_CORE_HEAD=8.5.x-dev
+  matrix:
+    - DRUPAL_CORE_VERSION=default
+    - DRUPAL_CORE_VERSION=$DRUPAL_CORE_HEAD
+
+matrix:
+  allow_failures:
+    - env: DRUPAL_CORE_VERSION=$DRUPAL_CORE_HEAD
+  fast_finish: true
 
 cache:
   bundler: true
@@ -43,6 +50,8 @@ before_install:
 
 install:
   - source ${BLT_DIR}/scripts/travis/setup_environment
+  # Create second db for multisite testing.
+  - mysql -u root -e "CREATE DATABASE drupal2; GRANT ALL ON drupal2.* TO 'drupal'@'localhost';"
   - source ${BLT_DIR}/scripts/travis/setup_project
 
 script:
@@ -75,6 +84,7 @@ deploy:
     on:
       branch: $DEPLOY_SOURCE_BRANCH
       php: 7.1
+      condition: $DRUPAL_CORE_VERSION = default
   - provider: script
     # Deploys build artifact's source branch to acquia-pso/blted8 on GitHub.
     script: ${BLT_DIR}/scripts/blt/ci/internal/deploy_blted8.sh
@@ -82,3 +92,4 @@ deploy:
     on:
       branch: $DEPLOY_SOURCE_BRANCH
       php: 7.1
+      condition: $DRUPAL_CORE_VERSION = default
