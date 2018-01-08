@@ -23,7 +23,7 @@ class CloudHookTest extends BltProjectTestBase {
     $this->assertFileExists($commonPostCodeDeployScript);
 
     $filePermissions = substr(sprintf('%o', fileperms($commonPostCodeDeployScript)), -4);
-    $this->assertEquals('0755', $filePermissions);
+    $this->assertEquals('0775', $filePermissions);
   }
 
 }
