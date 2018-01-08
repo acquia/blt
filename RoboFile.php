@@ -312,6 +312,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       // Test default setup strategy "install".
       ->exec("{$this->bltRoot}/scripts/blt/ci/tick-tock.sh $bin/blt setup $blt_suffix")
       // Test setup strategy "import".
+      ->exec("mkdir $test_project_dir/tmp")
       ->exec("$bin/drush sql-dump --result-file=$test_project_dir/tmp/blted8.sql")
       ->exec("{$this->bltRoot}/scripts/blt/ci/tick-tock.sh $bin/blt setup $blt_suffix -D setup.strategy=import -D setup.dump-file=\"$test_project_dir/tmp/blted8.sql\"")
       // @todo Test setup strategy "sync".
