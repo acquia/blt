@@ -67,28 +67,24 @@ class AcsfCommand extends BltTasks {
    * @command acsf:init:drush
    */
   public function acsfDrushInitialize() {
-
-    $this->logger->error("This command has been temporarily deprecated due to breaking changes in Drush 9.");
-    $this->logger->warning("Please follow the instructions in the acsf module for information on the initialization process.");
-    return 1;
-
-    // @codingStandardsIgnoreStart
+    $drush8 = $this->getConfigValue('repo.root') . '/tmp/drush.phar';
+    // @todo Remove when ACSF module supports Drush 9.
+    $this->downloadDrush8($drush8);
     $this->say('Executing initialization command provided acsf module...');
 
-    $result = $this->taskDrush()
-      ->drush('acsf-init')
-      ->alias("")
-      ->includePath("{$this->getConfigValue('docroot')}/modules/contrib/acsf/acsf_init")
+    // Rename vendor/bin/drush to prevent re-dispatch to site local drush bin.
+    $this->_rename('vendor/bin/drush', 'vendor/bin/drush.bak', TRUE);
+    $acsf_include = $this->getConfigValue('docroot') . '/modules/contrib/acsf/acsf_init';
+    $result = $this->taskExecStack()
+      ->exec("$drush8 acsf-init --include=\"$acsf_include\" --root=\"{$this->getConfigValue('docroot')}\" -y")
       ->run();
+    $this->_rename('vendor/bin/drush.bak', 'vendor/bin/drush', TRUE);
 
     if (!$result->wasSuccessful()) {
       throw new BltException("Unable to copy ACSF scripts.");
     }
 
-    $this->say('<comment>Please add acsf_init as a dependency for your installation profile to ensure that it remains enabled.</comment>');
-
     return $result;
-    // @codingStandardsIgnoreEnd
   }
 
   /**
@@ -111,6 +107,27 @@ class AcsfCommand extends BltTasks {
     $this->say('New "factory-hooks/" directory created in repo root. Please commit this to your project.');
 
     return $result;
+  }
+
+  /**
+   * Download drush 8 binary.
+   *
+   * @param string $destination
+   *   Download destination.
+   */
+  protected function downloadDrush8($destination) {
+    $file = fopen($destination, 'w');
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL,
+      'https://github.com/drush-ops/drush/releases/download/8.1.15/drush.phar');
+    curl_setopt($ch, CURLOPT_FAILONERROR, TRUE);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($ch, CURLOPT_FILE, $file);
+    curl_exec($ch);
+    curl_close($ch);
+    fclose($file);
+    $this->_chmod($destination, 0755);
   }
 
 }
