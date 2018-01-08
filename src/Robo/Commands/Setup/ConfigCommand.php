@@ -185,15 +185,13 @@ class ConfigCommand extends BltTasks {
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function checkConfigOverrides($cm_core_key) {
-    // Check for configuration overrides.
-    if (!$this->getConfigValue('cm.allow-overrides')) {
-      $this->say("Checking for config overrides...");
-      $config_overrides = $this->taskDrush()
-        ->drush("cex")
-        ->arg($cm_core_key);
-      if (!$config_overrides->run()->wasSuccessful()) {
-        throw new BltException("Configuration in the database does not match configuration on disk. BLT has attempted to automatically fix this by re-exporting configuration to disk. Please read https://github.com/acquia/blt/wiki/Configuration-overrides");
-      }
+    $this->say("Checking for config overrides...");
+    $task = $this->taskDrush()
+      ->drush("cex")
+      ->arg($cm_core_key);
+    $result = $task->run();
+    if (!$this->getConfigValue('cm.allow-overrides') && !$result->wasSuccessful()) {
+      throw new BltException("Configuration in the database does not match configuration on disk. BLT has attempted to automatically fix this by re-exporting configuration to disk. Please read https://github.com/acquia/blt/wiki/Configuration-overrides");
     }
   }
 
