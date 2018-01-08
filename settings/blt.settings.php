@@ -111,12 +111,12 @@ if ($is_acsf_inited) {
     // under the multisites key.
     $input = new ArgvInput($_SERVER['argv']);
     $config_initializer = new ConfigInitializer($repo_root, $input);
-    $config = $config_initializer->initialize();
+    $blt_config = $config_initializer->initialize();
 
     // The hostname must match the pattern [sitename].local, where [sitename]
     // is a value in the multisites array.
     $name = substr($_SERVER['HTTP_HOST'], 0, strpos($_SERVER['HTTP_HOST'], '.local'));
-    $acsf_sites = $config->get('multisites');
+    $acsf_sites = $blt_config->get('multisites');
     if (in_array($name, $acsf_sites)) {
       $acsf_site_name = $name;
     }
