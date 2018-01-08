@@ -48,6 +48,13 @@ class DrushTask extends CommandStack {
   protected $uri;
 
   /**
+   * Path to drush executable file.
+   *
+   * @var string
+   */
+  protected $executable;
+
+  /**
    * Indicates if the command output should be verbose.
    *
    * @var bool
@@ -173,14 +180,29 @@ class DrushTask extends CommandStack {
   }
 
   /**
+   * Set drush executable.
+   *
+   * @param string $bin
+   *   File path to drush binary file (executable).
+   *
+   * @return $this
+   */
+  public function bin($bin) {
+    $this->executable = $bin;
+    return $this;
+  }
+
+  /**
    * Sets up drush defaults using config.
    */
   protected function init() {
-    if ($this->getConfig()->get('drush.bin')) {
-      $this->executable = str_replace(' ', '\\ ', $this->getConfig()->get('drush.bin'));
-    }
-    else {
-      $this->executable = 'drush';
+    if (empty($this->executable)) {
+      if ($this->getConfig()->get('drush.bin')) {
+        $this->executable = str_replace(' ', '\\ ', $this->getConfig()->get('drush.bin'));
+      }
+      else {
+        $this->executable = 'drush';
+      }
     }
 
     if (!isset($this->dir)) {
