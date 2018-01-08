@@ -70,7 +70,9 @@ class AcsfCommand extends BltTasks {
   public function acsfDrushInitialize() {
     $drush8 = $this->getConfigValue('repo.root') . '/vendor/bin/drush8.phar';
     // @todo Remove when ACSF module supports Drush 9.
-    $this->downloadDrush8($drush8);
+    if (!file_exists($drush8)) {
+      $this->downloadDrush8($drush8);
+    }
     $this->say('Executing initialization command provided acsf module...');
 
     // Rename vendor/bin/drush to prevent re-dispatch to site local drush bin.
