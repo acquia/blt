@@ -311,8 +311,10 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       // The tick-tock.sh script is used to prevent timeout.
       // Test default setup strategy "install".
       ->exec("{$this->bltRoot}/scripts/blt/ci/tick-tock.sh $bin/blt setup $blt_suffix")
+      // Test setup strategy "import".
       ->exec("$bin/drush sql-dump --result-file=$test_project_dir/tmp/blted8.sql")
       ->exec("{$this->bltRoot}/scripts/blt/ci/tick-tock.sh $bin/blt setup $blt_suffix -D setup.strategy=import -D setup.dump-file=\"$test_project_dir/tmp/blted8.sql\"")
+      // @todo Test setup strategy "sync".
 
       ->exec("$bin/blt tests {$blt_suffix}vv")
       ->exec("$bin/blt tests:behat:definitions $blt_suffix")
