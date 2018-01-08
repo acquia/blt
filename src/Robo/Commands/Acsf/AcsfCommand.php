@@ -31,6 +31,7 @@ class AcsfCommand extends BltTasks {
    *
    * @command acsf:init
    *
+   * @aliases acsf
    * @options acsf-version
    */
   public function acsfInitialize($options = ['acsf-version' => '^1.33.0']) {
@@ -67,7 +68,7 @@ class AcsfCommand extends BltTasks {
    * @command acsf:init:drush
    */
   public function acsfDrushInitialize() {
-    $drush8 = $this->getConfigValue('repo.root') . '/tmp/drush.phar';
+    $drush8 = $this->getConfigValue('repo.root') . '/vendor/bin/drush8.phar';
     // @todo Remove when ACSF module supports Drush 9.
     $this->downloadDrush8($drush8);
     $this->say('Executing initialization command provided acsf module...');
