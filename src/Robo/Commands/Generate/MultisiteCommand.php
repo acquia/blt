@@ -22,6 +22,7 @@ class MultisiteCommand extends BltTasks {
    */
   public function generate($options = [
     'site-name' => InputOption::VALUE_REQUIRED,
+    'site-uri' => InputOption::VALUE_REQUIRED,
   ]) {
     $this->say("This will generate a new site in the docroot/sites directory.");
     $site_yml = [];
@@ -38,7 +39,12 @@ class MultisiteCommand extends BltTasks {
       throw new BltException("Cannot generate new multisite, $new_site_dir already exists!");
     }
 
-    $domain = $this->askDefault("Local domain name", "http://local.$site_name.com");
+    if (empty($options['site-uri'])) {
+      $domain = $this->askDefault("Local domain name", "http://local.$site_name.com");
+    }
+    else {
+      $domain = $options['site-uri'];
+    }
     $url = parse_url($domain);
     $site_yml['project']['machine_name'] = $site_name;
     $site_yml['project']['human_name'] = $site_name;
