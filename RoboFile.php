@@ -186,6 +186,8 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $site2_local_uri = 'local.blted8.site2.com';
     $site1_local_db_name = 'drupal';
     $site2_local_db_name = 'drupal2';
+    $site1_local_human_name = "Site 1 Local";
+    $site2_local_human_name = "Site 2 Local";
 
     // Create test project clone vars.
     $test_project_clone_dir = $test_project_dir . "2";
@@ -193,6 +195,8 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $site2_clone_uri = 'local.blted82.site2.com';
     $site1_clone_db_name = 'drupal3';
     $site2_clone_db_name = 'drupal4';
+    $site1_clone_human_name = "Site 1 Clone";
+    $site2_clone_human_name = "Site 2 Clone";
 
     $this->prepareTestProjectDir($test_project_clone_dir);
     $this->createTestApp($options);
@@ -239,24 +243,26 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       )
       ->run();
 
-    // Replace project.local.hostname, drupal.db.database for local app.
-    $this->setMultisiteConfigFile($test_project_dir, $site1_dir, $site1_local_uri, $site1_local_db_name);
-    $this->setMultisiteConfigFile($test_project_dir, $site2_dir, $site2_local_uri, $site2_local_db_name);
+    // Replace project.local.hostname, drupal.db.database, project.human_name
+    // for local app.
+    $this->setMultisiteConfigFile($test_project_dir, $site1_dir, $site1_local_uri, $site1_local_human_name, $site1_local_db_name);
+    $this->setMultisiteConfigFile($test_project_dir, $site2_dir, $site2_local_uri, $site2_local_human_name, $site2_local_db_name);
 
-    // Replace project.local.hostname, drupal.db.database for clone app.
-    $this->setMultisiteConfigFile($test_project_clone_dir, $site1_dir, $site1_clone_uri, $site1_clone_db_name);
-    $this->setMultisiteConfigFile($test_project_clone_dir, $site2_dir, $site2_clone_uri, $site2_clone_db_name);
+    // Replace project.local.hostname, drupal.db.database, project.human_name
+    // for clone app.
+    $this->setMultisiteConfigFile($test_project_clone_dir, $site1_dir, $site1_clone_uri, $site1_clone_human_name, $site1_clone_db_name);
+    $this->setMultisiteConfigFile($test_project_clone_dir, $site2_dir, $site2_clone_uri, $site2_clone_human_name, $site2_clone_db_name);
 
     // Generate sites.php for local app.
     $sites[$site1_local_uri] = $site1_dir;
     $sites[$site2_local_uri] = $site2_dir;
-    $contents = "<?php\n" . var_export($sites, TRUE);
+    $contents = "<?php\n \$sites = " . var_export($sites, TRUE) . ";";
     file_put_contents($test_project_dir . "/docroot/sites/sites.php", $contents);
 
     // Generate sites.php for clone app.
     $sites[$site1_clone_uri] = $site1_dir;
     $sites[$site2_clone_uri] = $site2_dir;
-    $contents = "<?php\n" . var_export($sites, TRUE);
+    $contents = "<?php\n \$sites = " . var_export($sites, TRUE) . ";";
     file_put_contents($test_project_clone_dir . "/docroot/sites/sites.php", $contents);
 
     // Delete local.settings.php files so they can be regenerated with new
@@ -269,25 +275,27 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     ])->run();
 
     $this->say("The following applications were created:");
-    $this->say("* $test_project_dir");
+    $this->say("* (local) $test_project_dir");
     $this->say("  * $site1_dir ");
     $this->say("      * dir: $test_project_dir/docroot/sites/$site1_dir");
     $this->say("      * url: $site1_local_uri");
+    $this->say("            * alias: @$site1_dir.local");
     $this->say("      * db config: $test_project_dir/docroot/sites/$site1_dir/settings/local.settings.php");
     $this->say("  * site2 ");
     $this->say("      * dir: $test_project_dir/docroot/sites/$site2_dir");
     $this->say("      * url: $site2_local_uri");
+    $this->say("           * alias: @$site2_dir.local");
     $this->say("      * db config: $test_project_dir/docroot/sites/$site2_dir/settings/local.settings.php");
     $this->say("* (clone) $test_project_clone_dir");
     $this->say("  * $site1_dir ");
     $this->say("      * dir: $test_project_clone_dir/docroot/sites/$site1_dir");
     $this->say("      * url: $site1_clone_uri");
-    $this->say("      * alias: @site1.clone");
+    $this->say("      * alias: @$site1_dir.clone");
     $this->say("      * db config: $test_project_clone_dir/docroot/sites/$site1_dir/settings/local.settings.php");
-    $this->say("  * site2 ");
+    $this->say("  * $site2_dir ");
     $this->say("      * dir: $test_project_clone_dir/docroot/sites/$site2_dir");
     $this->say("      * url: $site2_clone_uri");
-    $this->say("      * alias: @site2.clone");
+    $this->say("      * alias: @$site2_dir.clone");
     $this->say("      * db config: $test_project_clone_dir/docroot/sites/$site2_dir/settings/local.settings.php");
     $this->say("");
     $this->say("<comment>Please configure DB settings. You will need 4 databases.</comment>");
@@ -359,11 +367,12 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       // The tick-tock.sh script is used to prevent timeout.
       // Test default setup strategy "install".
       ->exec("{$this->bltRoot}/scripts/blt/ci/tick-tock.sh $bin/blt setup $blt_suffix")
-      // Test setup strategy "import".
+      // Test setup strategy "import". Dump and re-import.
       ->exec("$bin/drush sql-dump --result-file=/tmp/blted8.sql")
-      ->exec("$bin/blt setup $blt_suffix -D setup.strategy=import -D setup.dump-file=\"/tmp/blted8.sql\"")
-      // @todo Test setup strategy "sync".
+      ->exec("$bin/drush sql-drop -y")
+      ->exec("$bin/blt setup $blt_suffix --define setup.strategy=import --define setup.dump-file=\"/tmp/blted8.sql\"")
 
+      // Execute project tests.
       ->exec("$bin/blt tests {$blt_suffix}vv")
       ->exec("$bin/blt tests:behat:definitions $blt_suffix")
 
@@ -398,9 +407,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       // Test that custom commands are loaded.
       ->exec("$bin/blt custom:hello $blt_suffix")
       // Test the doctor.
-      ->exec("$bin/blt doctor $blt_suffix")
-      // Create a test multisite.
-      ->exec("$bin/blt generate:multisite --site-name=site2 $blt_suffix");
+      ->exec("$bin/blt doctor $blt_suffix");
 
     if (!$use_vm) {
       // Add Drupal VM config to repo without booting.
@@ -408,11 +415,17 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     }
 
     $task->exec("$bin/blt deploy:build $blt_suffix");
+    $task
+      // Execute PHP Unit tests.
+      ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group blt -c {$this->bltRoot}/tests/phpunit/phpunit.xml -v")
+      ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group blted8 --exclude-group post-sync -c {$this->bltRoot}/tests/phpunit/phpunit.xml -v")
+      // Test setup strategy "sync".
+      ->exec("$bin/blt setup $blt_suffix --define setup.strategy=sync")
+      ->exec("$bin/blt sync:all:db $blt_suffix --define setup.strategy=sync")
+      ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group post-sync -c {$this->bltRoot}/tests/phpunit/phpunit.xml -v");
 
-    // Execute PHP Unit tests.
-    $task->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group blt -c {$this->bltRoot}/tests/phpunit/phpunit.xml -v")
-      ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group blted8 -c {$this->bltRoot}/tests/phpunit/phpunit.xml -v")
-      ->run();
+    $task->run();
+
     $this->say("<info>Completed testing.</info>");
     if ($use_vm) {
       $continue = $this->confirm("Destroy VM?");
@@ -898,8 +911,9 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    *
    * @return array
    */
-  protected function setMultisiteConfigFile($project_dir, $site_dir, $uri, $db_name) {
+  protected function setMultisiteConfigFile($project_dir, $site_dir, $uri, $site_name, $db_name) {
     $project_yml = YamlMunge::parseFile($project_dir . "/docroot/sites/$site_dir/blt.site.yml");
+    $project_yml['project']['human_name'] = $site_name;
     $project_yml['project']['local']['hostname'] = $uri;
     $project_yml['drupal']['db']['database'] = $db_name;
     YamlMunge::writeFile($project_dir . "/docroot/sites/$site_dir/blt.site.yml", $project_yml);

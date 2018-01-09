@@ -68,7 +68,7 @@ class DoctorCommand extends BltTasks {
    * @hidden
    */
   public function doctorCheck() {
-    $status = $this->getStatus();
+    $status = $this->getInspector()->getStatus();
     $this->printArrayAsTable($status);
 
     $checks = [

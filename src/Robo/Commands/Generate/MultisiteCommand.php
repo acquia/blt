@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Generate;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Common\YamlMunge;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use function file_exists;
 use function file_put_contents;
@@ -69,11 +70,14 @@ class MultisiteCommand extends BltTasks {
 
     $default_site_dir = $this->getConfigValue('docroot') . '/sites/default';
     if (!file_exists($default_site_dir . "/blt.site.yml")) {
+      // Move project.local.hostname from project.yml to
+      // sites/default/blt.site.yml.
       $default_site_yml = [];
       $default_site_yml['project']['local']['hostname'] = $this->getConfigValue('project.local.hostname');
-      $this->taskWriteToFile($default_site_dir . "/blt.site.yml")
-        ->text(Yaml::dump($site_yml, 4))
-        ->run();
+      YamlMunge::writeFile($default_site_dir . "/blt.site.yml", $default_site_yml);
+      $project_yml = YamlMunge::parseFile($this->getConfigValue('blt.config-files.project'));
+      unset($project_yml['project']['local']['hostname']);
+      YamlMunge::writeFile($this->getConfigValue('blt.config-files.project'), $project_yml);
     }
 
     $this->taskCopyDir([$default_site_dir => $new_site_dir]);
