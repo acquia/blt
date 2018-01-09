@@ -174,7 +174,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   public function createMultisites($options = [
     'project-type' => 'symlink',
     'project-dir' => self::BLT_PROJECT_DIR,
-    'vm' => FALSE,
+    'vm' => TRUE,
   ]) {
     // Set site dirs.
     $site1_dir = 'default';
