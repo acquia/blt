@@ -62,4 +62,18 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
     $this->sites = !empty($this->config['multisite']['name']) ? $this->config['multisite']['name'] : ['default'];
   }
 
+  /**
+   * @param $command
+   *
+   * @return mixed
+   */
+  protected function drush($command) {
+    chdir($this->drupalRoot);
+    $drush_bin = $this->projectDirectory . '/vendor/bin/drush';
+    $command_string = "$drush_bin $command --format=json --no-interaction --no-ansi";
+    $output = shell_exec($command_string);
+
+    return json_decode($output, TRUE);
+  }
+
 }

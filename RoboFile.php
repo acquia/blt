@@ -8,6 +8,7 @@ use Robo\Tasks;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Symfony\Component\Yaml\Yaml;
+use Acquia\Blt\Robo\Common\YamlMunge;
 
 /**
  * This is project's console commands configuration for Robo task runner.
@@ -24,6 +25,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   protected $phpcsPaths;
 
   const BLT_DEV_BRANCH = "9.1.x";
+  const BLT_PROJECT_DIR = "../blted8";
 
   /**
    * This hook will fire for all commands in this command file.
@@ -40,7 +42,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    */
   protected function createTestApp($options = [
     'project-type' => 'standalone',
-    'project-dir' => '../blted8',
+    'project-dir' => self::BLT_PROJECT_DIR,
     'vm' => TRUE,
   ]) {
     switch ($options['project-type']) {
@@ -64,7 +66,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    * @option vm Whether a VM will be booted.
    */
   public function createFromSymlink($options = [
-    'project-dir' => '../blted8',
+    'project-dir' => self::BLT_PROJECT_DIR,
     'vm' => TRUE,
   ]) {
     $test_project_dir = $this->bltRoot . "/" . $options['project-dir'];
@@ -111,7 +113,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    */
   public function createFromBltProject($options = [
     'base-branch' => self::BLT_DEV_BRANCH,
-    'project-dir' => '../blted8',
+    'project-dir' => self::BLT_PROJECT_DIR,
   ]) {
     $test_project_dir = $this->bltRoot . "/" . $options['project-dir'];
     $this->prepareTestProjectDir($test_project_dir);
@@ -132,7 +134,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    */
   public function createFromScratch($options = [
     'base-branch' => self::BLT_DEV_BRANCH,
-    'project-dir' => '../blted8',
+    'project-dir' => self::BLT_PROJECT_DIR,
     'vm' => TRUE,
   ]) {
     $test_project_dir = $this->bltRoot . "/" . $options['project-dir'];
@@ -170,84 +172,143 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    * @option vm Whether a VM will be booted.
    */
   public function createMultisites($options = [
-    'project-dir' => '../blted8',
-    'vm' => FALSE,
+    'project-type' => 'symlink',
+    'project-dir' => self::BLT_PROJECT_DIR,
+    'vm' => TRUE,
   ]) {
+    // Set site dirs.
+    $site1_dir = 'default';
+    $site2_dir = 'site2';
 
-    // Create test project.
-    $options['project-type'] = 'symlink';
+    // Set test project vars.
     $test_project_dir = $this->bltRoot . "/" . $options['project-dir'];
-    $project_dir2 = $options['project-dir'] . "2";
-    $test_project_dir2 = $this->bltRoot . "/" . $project_dir2;
-    $this->prepareTestProjectDir($test_project_dir2);
+    $site1_local_uri = 'local.blted8.site1.com';
+    $site2_local_uri = 'local.blted8.site2.com';
+    $site1_local_db_name = 'drupal';
+    $site2_local_db_name = 'drupal2';
+    $site1_local_human_name = "Site 1 Local";
+    $site2_local_human_name = "Site 2 Local";
+
+    // Create test project clone vars.
+    $test_project_clone_dir = $test_project_dir . "2";
+    $site1_clone_uri = 'local.blted82.site1.com';
+    $site2_clone_uri = 'local.blted82.site2.com';
+    $site1_clone_db_name = 'drupal3';
+    $site2_clone_db_name = 'drupal4';
+    $site1_clone_human_name = "Site 1 Clone";
+    $site2_clone_human_name = "Site 2 Clone";
+
+    $this->prepareTestProjectDir($test_project_clone_dir);
     $this->createTestApp($options);
 
-    // Create drush alias.
+    // Create drush alias for site1.
     $aliases = [
-      'remote' => [
-        'root' => $test_project_dir2,
+      'local' => [
+        'root' => $test_project_dir,
+        'uri' => $site1_dir,
+      ],
+      'clone' => [
+        'root' => $test_project_clone_dir,
+        'uri' => $site1_dir,
       ],
     ];
-    file_put_contents($test_project_dir . '/drush/sites/blted82.site.yml', Yaml::dump($aliases));
+    file_put_contents("$test_project_dir/drush/sites/$site1_dir.site.yml",
+      Yaml::dump($aliases));
+    // Create drush alias for site2.
+    $aliases = [
+      'local' => [
+        'root' => $test_project_dir,
+        'uri' => $site2_dir,
+      ],
+      'clone' => [
+        'root' => $test_project_clone_dir,
+        'uri' => $site2_dir,
+      ],
+    ];
+    file_put_contents("$test_project_dir/drush/sites/$site2_dir.site.yml",
+      Yaml::dump($aliases));
 
     // Generate multisite in test project.
     $bin = $test_project_dir . "/vendor/bin";
     $this->taskExecStack()
       ->dir($test_project_dir)
-      ->exec("$bin/blt generate:multisite --site-name=site2 --yes --no-interaction")
+      ->exec("$bin/blt generate:multisite --site-name=$site2_dir --site-uri=http://$site2_local_uri --yes --no-interaction")
       ->run();
 
     // Make a local clone of new project.
     $this->taskFilesystemStack()
       ->mirror(
         $test_project_dir,
-        $test_project_dir2
+        $test_project_clone_dir
       )
       ->run();
 
-    // Generate sites.php for site1.
-    $sites['local.blted8.site1.com'] = 'default';
-    $sites['local.blted8.site2.com'] = 'site2';
-    $contents = "<?php\n" . var_dump($sites);
+    // Replace project.local.hostname, drupal.db.database, project.human_name
+    // for local app.
+    $this->setMultisiteConfigFile($test_project_dir, $site1_dir, $site1_local_uri, $site1_local_human_name, $site1_local_db_name);
+    $this->setMultisiteConfigFile($test_project_dir, $site2_dir, $site2_local_uri, $site2_local_human_name, $site2_local_db_name);
+
+    // Replace project.local.hostname, drupal.db.database, project.human_name
+    // for clone app.
+    $this->setMultisiteConfigFile($test_project_clone_dir, $site1_dir, $site1_clone_uri, $site1_clone_human_name, $site1_clone_db_name);
+    $this->setMultisiteConfigFile($test_project_clone_dir, $site2_dir, $site2_clone_uri, $site2_clone_human_name, $site2_clone_db_name);
+
+    // Generate sites.php for local app.
+    $sites[$site1_local_uri] = $site1_dir;
+    $sites[$site2_local_uri] = $site2_dir;
+    $contents = "<?php\n \$sites = " . var_export($sites, TRUE) . ";";
     file_put_contents($test_project_dir . "/docroot/sites/sites.php", $contents);
 
-    // Generate sites.php for site2.
-    $sites['local.blted82.site1.com'] = 'default';
-    $sites['local.blted82.site2.com'] = 'site2';
-    $contents = "<?php\n" . var_dump($sites);
-    file_put_contents($test_project_dir2 . "/docroot/sites/sites.php", $contents);
+    // Generate sites.php for clone app.
+    $sites[$site1_clone_uri] = $site1_dir;
+    $sites[$site2_clone_uri] = $site2_dir;
+    $contents = "<?php\n \$sites = " . var_export($sites, TRUE) . ";";
+    file_put_contents($test_project_clone_dir . "/docroot/sites/sites.php", $contents);
+
+    // Delete local.settings.php files so they can be regenerated with new
+    // values in blt.site.yml files.
+    $this->taskFilesystemStack()->remove([
+      "$test_project_dir/docroot/sites/$site1_dir/settings/local.settings.php",
+      "$test_project_dir/docroot/sites/$site2_dir/settings/local.settings.php",
+      "$test_project_clone_dir/docroot/sites/$site1_dir/settings/local.settings.php",
+      "$test_project_clone_dir/docroot/sites/$site2_dir/settings/local.settings.php",
+    ])->run();
 
     $this->say("The following applications were created:");
-    $this->say("* $test_project_dir");
-    $this->say("  * site1 ");
-    $this->say("      * dir: $test_project_dir/docroot/sites/default");
-    $this->say("      * url: local.blted8.site1.com");
-    $this->say("      * db config: $test_project_dir/docroot/sites/default/settings/local.settings.php");
+    $this->say("* (local) $test_project_dir");
+    $this->say("  * $site1_dir ");
+    $this->say("      * dir: $test_project_dir/docroot/sites/$site1_dir");
+    $this->say("      * url: $site1_local_uri");
+    $this->say("            * alias: @$site1_dir.local");
+    $this->say("      * db config: $test_project_dir/docroot/sites/$site1_dir/settings/local.settings.php");
     $this->say("  * site2 ");
-    $this->say("      * dir: $test_project_dir/docroot/sites/site2");
-    $this->say("      * url: local.blted8.site2.com");
-    $this->say("      * db config: $test_project_dir/docroot/sites/site2/settings/local.settings.php");
-    $this->say("* (pseudo remote) $test_project_dir2");
-    $this->say("  * site1 ");
-    $this->say("      * dir: $test_project_dir2/docroot/sites/default");
-    $this->say("      * url: local.blted82.site1.com");
-    $this->say("      * alias: @blted82.remote");
-    $this->say("      * db config: $test_project_dir2/docroot/sites/default/settings/local.settings.php");
-    $this->say("  * site2 ");
-    $this->say("      * dir: $test_project_dir2/docroot/sites/site2");
-    $this->say("      * url: local.blted82.site2.com");
-    $this->say("      * alias: @blted82.remote --uri=site2");
-    $this->say("      * db config: $test_project_dir2/docroot/sites/site2/settings/local.settings.php");
+    $this->say("      * dir: $test_project_dir/docroot/sites/$site2_dir");
+    $this->say("      * url: $site2_local_uri");
+    $this->say("           * alias: @$site2_dir.local");
+    $this->say("      * db config: $test_project_dir/docroot/sites/$site2_dir/settings/local.settings.php");
+    $this->say("* (clone) $test_project_clone_dir");
+    $this->say("  * $site1_dir ");
+    $this->say("      * dir: $test_project_clone_dir/docroot/sites/$site1_dir");
+    $this->say("      * url: $site1_clone_uri");
+    $this->say("      * alias: @$site1_dir.clone");
+    $this->say("      * db config: $test_project_clone_dir/docroot/sites/$site1_dir/settings/local.settings.php");
+    $this->say("  * $site2_dir ");
+    $this->say("      * dir: $test_project_clone_dir/docroot/sites/$site2_dir");
+    $this->say("      * url: $site2_clone_uri");
+    $this->say("      * alias: @$site2_dir.clone");
+    $this->say("      * db config: $test_project_clone_dir/docroot/sites/$site2_dir/settings/local.settings.php");
+    $this->say("");
     $this->say("<comment>Please configure DB settings. You will need 4 databases.</comment>");
     $this->say("<comment>Please configure hosts settings. You will need 4 host entries.</comment>");
+    $this->say("");
     $this->say("You may setup sites via:");
-    $this->say("* cd $test_project_dir2");
-    $this->say("* blt setup -D site=site1");
-    $this->say("* blt setup -D site=site2");
-    $this->say("* cd $test_project_dir");
-    $this->say("* drush @blted82.remote status");
-    $this->say("* drush @blted82.remote --uri=site2 status");
-    $this->say("* blt sync:db:all");
+    $this->say("  cd $test_project_clone_dir");
+    $this->say("  blt setup -D site=$site1_dir");
+    $this->say("  blt setup -D site=$site2_dir");
+    $this->say("  cd $test_project_dir");
+    $this->say("  drush @$site1_dir.clone status");
+    $this->say("  drush @$site2_dir.clone status");
+    $this->say("  blt sync:db:all");
   }
 
   /**
@@ -268,20 +329,15 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     'base-branch' => self::BLT_DEV_BRANCH,
     'environment' => 'ci',
     'create-project' => TRUE,
-    'project-dir' => '../blted8',
-    'project-type' => 'standalone',
+    'project-dir' => self::BLT_PROJECT_DIR,
+    'project-type' => 'symlink',
     'vm' => TRUE,
   ]) {
     $this->stopOnFail();
     $use_vm = $options['vm'];
     $test_project_dir = $this->bltRoot . "/" . $options['project-dir'];
     if ($options['create-project']) {
-      if ($options['project-type'] == 'symlink') {
-        $this->createFromSymlink($options);
-      }
-      else {
-        $this->createFromBltProject($options);
-      }
+      $this->createMultisites($options);
     }
     $bin = $test_project_dir . "/vendor/bin";
     $blt_suffix = "--define environment={$options['environment']} --yes --no-interaction -v";
@@ -307,8 +363,16 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       // Ensure that at least one module gets enabled in CI env.
       ->exec("$bin/yaml-cli update:value blt/project.yml modules.ci.enable.0 views_ui")
       ->exec("$bin/yaml-cli update:value blt/project.yml cm.strategy none")
+
       // The tick-tock.sh script is used to prevent timeout.
+      // Test default setup strategy "install".
       ->exec("{$this->bltRoot}/scripts/blt/ci/tick-tock.sh $bin/blt setup $blt_suffix")
+      // Test setup strategy "import". Dump and re-import.
+      ->exec("$bin/drush sql-dump --result-file=/tmp/blted8.sql")
+      ->exec("$bin/drush sql-drop -y")
+      ->exec("$bin/blt setup $blt_suffix --define setup.strategy=import --define setup.dump-file=\"/tmp/blted8.sql\"")
+
+      // Execute project tests.
       ->exec("$bin/blt tests {$blt_suffix}vv")
       ->exec("$bin/blt tests:behat:definitions $blt_suffix")
 
@@ -343,9 +407,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       // Test that custom commands are loaded.
       ->exec("$bin/blt custom:hello $blt_suffix")
       // Test the doctor.
-      ->exec("$bin/blt doctor $blt_suffix")
-      // Create a test multisite.
-      ->exec("$bin/blt generate:multisite --site-name=site2 $blt_suffix");
+      ->exec("$bin/blt doctor $blt_suffix");
 
     if (!$use_vm) {
       // Add Drupal VM config to repo without booting.
@@ -353,11 +415,17 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     }
 
     $task->exec("$bin/blt deploy:build $blt_suffix");
+    $task
+      // Execute PHP Unit tests.
+      ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group blt -c {$this->bltRoot}/tests/phpunit/phpunit.xml -v")
+      ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group blted8 --exclude-group post-sync -c {$this->bltRoot}/tests/phpunit/phpunit.xml -v")
+      // Test setup strategy "sync".
+      ->exec("$bin/blt setup $blt_suffix --define setup.strategy=sync")
+      ->exec("$bin/blt sync:all:db $blt_suffix --define setup.strategy=sync")
+      ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group post-sync -c {$this->bltRoot}/tests/phpunit/phpunit.xml -v");
 
-    // Execute PHP Unit tests.
-    $task->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group blt -c {$this->bltRoot}/tests/phpunit/phpunit.xml -v")
-      ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group blted8 -c {$this->bltRoot}/tests/phpunit/phpunit.xml -v")
-      ->run();
+    $task->run();
+
     $this->say("<info>Completed testing.</info>");
     if ($use_vm) {
       $continue = $this->confirm("Destroy VM?");
@@ -835,6 +903,20 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
         throw new BltException("Release terminated by user.");
       }
     }
+  }
+
+  /**
+   * @param $project_dir
+   * @param $uri
+   *
+   * @return array
+   */
+  protected function setMultisiteConfigFile($project_dir, $site_dir, $uri, $site_name, $db_name) {
+    $project_yml = YamlMunge::parseFile($project_dir . "/docroot/sites/$site_dir/blt.site.yml");
+    $project_yml['project']['human_name'] = $site_name;
+    $project_yml['project']['local']['hostname'] = $uri;
+    $project_yml['drupal']['db']['database'] = $db_name;
+    YamlMunge::writeFile($project_dir . "/docroot/sites/$site_dir/blt.site.yml", $project_yml);
   }
 
 }

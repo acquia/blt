@@ -20,6 +20,22 @@ class DbCommand extends BltTasks {
   public function syncDbAll() {
     $exit_code = 0;
     $multisites = $this->getConfigValue('multisites');
+
+    $this->say("A sql-sync will be performed for the following drush aliases:");
+    $sync_map = [];
+    foreach ($multisites as $multisite) {
+      $this->switchSiteContext($multisite);
+      $sync_map[$multisite]['local'] = '@' . $this->getConfigValue('drush.aliases.local');
+      $sync_map[$multisite]['remote'] = '@' . $this->getConfigValue('drush.aliases.remote');
+
+      $this->say($sync_map[$multisite]['remote'] . " => " . $sync_map[$multisite]['local']);
+    }
+    $this->say("To modify the set of aliases for syncing, set the values for drush.aliases.local and drush.aliases.remote in docroot/sites/[site]/site.yml");
+    $continue = $this->confirm("Continue?");
+    if (!$continue) {
+      return $exit_code;
+    }
+
     foreach ($multisites as $multisite) {
       $this->switchSiteContext($multisite);
       $result = $this->syncDbDefault();

@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Generate;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Common\YamlMunge;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use function file_exists;
 use function file_put_contents;
@@ -22,6 +23,7 @@ class MultisiteCommand extends BltTasks {
    */
   public function generate($options = [
     'site-name' => InputOption::VALUE_REQUIRED,
+    'site-uri' => InputOption::VALUE_REQUIRED,
   ]) {
     $this->say("This will generate a new site in the docroot/sites directory.");
     $site_yml = [];
@@ -38,11 +40,16 @@ class MultisiteCommand extends BltTasks {
       throw new BltException("Cannot generate new multisite, $new_site_dir already exists!");
     }
 
-    $domain = $this->askDefault("Local domain name", "http://local.$site_name.com");
+    if (empty($options['site-uri'])) {
+      $domain = $this->askDefault("Local domain name", "http://local.$site_name.com");
+    }
+    else {
+      $domain = $options['site-uri'];
+    }
     $url = parse_url($domain);
     $site_yml['project']['machine_name'] = $site_name;
     $site_yml['project']['human_name'] = $site_name;
-    $site_yml['project']['local']['hostname'] = $url['host'];
+    $site_yml['project']['local']['protocol'] = $url['scheme'];
     $site_yml['project']['local']['hostname'] = $url['host'];
 
     $config_local_db = $this->confirm("Would you like to configure the local database credentials?");
@@ -62,6 +69,17 @@ class MultisiteCommand extends BltTasks {
     }
 
     $default_site_dir = $this->getConfigValue('docroot') . '/sites/default';
+    if (!file_exists($default_site_dir . "/blt.site.yml")) {
+      // Move project.local.hostname from project.yml to
+      // sites/default/blt.site.yml.
+      $default_site_yml = [];
+      $default_site_yml['project']['local']['hostname'] = $this->getConfigValue('project.local.hostname');
+      YamlMunge::writeFile($default_site_dir . "/blt.site.yml", $default_site_yml);
+      $project_yml = YamlMunge::parseFile($this->getConfigValue('blt.config-files.project'));
+      unset($project_yml['project']['local']['hostname']);
+      YamlMunge::writeFile($this->getConfigValue('blt.config-files.project'), $project_yml);
+    }
+
     $this->taskCopyDir([$default_site_dir => $new_site_dir]);
     $result = $this->taskFilesystemStack()
       ->mkdir($this->getConfigValue('docroot') . '/' . $this->getConfigValue('cm.core.path') . '/' . $site_name)
@@ -70,7 +88,7 @@ class MultisiteCommand extends BltTasks {
       throw new BltException("Unable to create $new_site_dir.");
     }
 
-    $site_yml_filename = $new_site_dir . '/site.yml';
+    $site_yml_filename = $new_site_dir . '/blt.site.yml';
     $result = $this->taskWriteToFile($site_yml_filename)
       ->text(Yaml::dump($site_yml, 4))
       ->run();
