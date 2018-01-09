@@ -442,7 +442,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
     $user = posix_getpwuid(posix_getuid());
     $home_dir = $user['dir'];
 
-    if (!empty($_ENV['SHELL']) && strstr($_ENV['SHELL'], 'zsh')) {
+    if (strstr(getenv('SHELL'), 'zsh')) {
       $file = $home_dir . '/.zshrc';
     }
     elseif (file_exists($home_dir . '/.bash_profile')) {
