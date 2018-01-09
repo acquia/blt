@@ -176,86 +176,129 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     'project-dir' => self::BLT_PROJECT_DIR,
     'vm' => FALSE,
   ]) {
+    // Set site dirs.
+    $site1_dir = 'default';
+    $site2_dir = 'site2';
 
-    // Create test project.
+    // Set test project vars.
     $test_project_dir = $this->bltRoot . "/" . $options['project-dir'];
     $site1_local_uri = 'local.blted8.site1.com';
-
-    // Create test project 2.
-    $test_project_dir2 = $this->bltRoot . "/" . $options['project-dir'] . "2";
     $site2_local_uri = 'local.blted8.site2.com';
+    $site1_local_db_name = 'drupal';
+    $site2_local_db_name = 'drupal2';
 
-    $this->prepareTestProjectDir($test_project_dir2);
+    // Create test project clone vars.
+    $test_project_clone_dir = $test_project_dir . "2";
+    $site1_clone_uri = 'local.blted82.site1.com';
+    $site2_clone_uri = 'local.blted82.site2.com';
+    $site1_clone_db_name = 'drupal3';
+    $site2_clone_db_name = 'drupal4';
+
+    $this->prepareTestProjectDir($test_project_clone_dir);
     $this->createTestApp($options);
 
-    // Replace project.local.hostname for default site.
-    $project_yml = YamlMunge::parseFile($test_project_dir . "/blt/project.yml");
-    $project_yml['project.local.hostname'] = $site1_local_uri;
-    YamlMunge::writeFile($test_project_dir . "/blt/project.yml", $project_yml);
-
-    $this->createMultisiteAliases($test_project_dir2, $test_project_dir);
+    // Create drush alias for site1.
+    $aliases = [
+      'local' => [
+        'root' => $test_project_dir,
+        'uri' => $site1_dir,
+      ],
+      'clone' => [
+        'root' => $test_project_clone_dir,
+        'uri' => $site1_dir,
+      ],
+    ];
+    file_put_contents("$test_project_dir/drush/sites/$site1_dir.site.yml",
+      Yaml::dump($aliases));
+    // Create drush alias for site2.
+    $aliases = [
+      'local' => [
+        'root' => $test_project_dir,
+        'uri' => $site2_dir,
+      ],
+      'clone' => [
+        'root' => $test_project_clone_dir,
+        'uri' => $site2_dir,
+      ],
+    ];
+    file_put_contents("$test_project_dir/drush/sites/$site2_dir.site.yml",
+      Yaml::dump($aliases));
 
     // Generate multisite in test project.
     $bin = $test_project_dir . "/vendor/bin";
     $this->taskExecStack()
       ->dir($test_project_dir)
-      ->exec("$bin/blt generate:multisite --site-name=site2 --site-uri=http://$site2_local_uri --define default.db.database=drupal2 --yes --no-interaction")
+      ->exec("$bin/blt generate:multisite --site-name=$site2_dir --site-uri=http://$site2_local_uri --yes --no-interaction")
       ->run();
 
     // Make a local clone of new project.
     $this->taskFilesystemStack()
       ->mirror(
         $test_project_dir,
-        $test_project_dir2
+        $test_project_clone_dir
       )
       ->run();
 
-    // Generate sites.php for site1.
-    $sites[$site1_local_uri] = 'default';
-    $sites[$site2_local_uri] = 'site2';
+    // Replace project.local.hostname, drupal.db.database for local app.
+    $this->setMultisiteConfigFile($test_project_dir, $site1_dir, $site1_local_uri, $site1_local_db_name);
+    $this->setMultisiteConfigFile($test_project_dir, $site2_dir, $site2_local_uri, $site2_local_db_name);
+
+    // Replace project.local.hostname, drupal.db.database for clone app.
+    $this->setMultisiteConfigFile($test_project_clone_dir, $site1_dir, $site1_clone_uri, $site1_clone_db_name);
+    $this->setMultisiteConfigFile($test_project_clone_dir, $site2_dir, $site2_clone_uri, $site2_clone_db_name);
+
+    // Generate sites.php for local app.
+    $sites[$site1_local_uri] = $site1_dir;
+    $sites[$site2_local_uri] = $site2_dir;
     $contents = "<?php\n" . var_export($sites, TRUE);
     file_put_contents($test_project_dir . "/docroot/sites/sites.php", $contents);
 
-    // Generate sites.php for site2.
-    $site1_clone_uri = 'local.blted82.site1.com';
-    $site2_clone_uri = 'local.blted82.site2.com';
-    $sites[$site1_clone_uri] = 'default';
-    $sites[$site2_clone_uri] = 'site2';
+    // Generate sites.php for clone app.
+    $sites[$site1_clone_uri] = $site1_dir;
+    $sites[$site2_clone_uri] = $site2_dir;
     $contents = "<?php\n" . var_export($sites, TRUE);
-    file_put_contents($test_project_dir2 . "/docroot/sites/sites.php", $contents);
+    file_put_contents($test_project_clone_dir . "/docroot/sites/sites.php", $contents);
+
+    // Delete local.settings.php files so they can be regenerated with new values in blt.site.yml files.
+    $this->taskFilesystemStack()->remove([
+      "$test_project_dir/docroot/sites/$site1_dir/settings/local.settings.php",
+      "$test_project_dir/docroot/sites/$site2_dir/settings/local.settings.php",
+      "$test_project_clone_dir/docroot/sites/$site1_dir/settings/local.settings.php",
+      "$test_project_clone_dir/docroot/sites/$site2_dir/settings/local.settings.php",
+    ])->run();
 
     $this->say("The following applications were created:");
     $this->say("* $test_project_dir");
-    $this->say("  * site1 ");
-    $this->say("      * dir: $test_project_dir/docroot/sites/default");
+    $this->say("  * $site1_dir ");
+    $this->say("      * dir: $test_project_dir/docroot/sites/$site1_dir");
     $this->say("      * url: $site1_local_uri");
-    $this->say("      * db config: $test_project_dir/docroot/sites/default/settings/local.settings.php");
+    $this->say("      * db config: $test_project_dir/docroot/sites/$site1_dir/settings/local.settings.php");
     $this->say("  * site2 ");
-    $this->say("      * dir: $test_project_dir/docroot/sites/site2");
+    $this->say("      * dir: $test_project_dir/docroot/sites/$site2_dir");
     $this->say("      * url: $site2_local_uri");
-    $this->say("      * db config: $test_project_dir/docroot/sites/site2/settings/local.settings.php");
-    $this->say("* (clone) $test_project_dir2");
-    $this->say("  * site1 ");
-    $this->say("      * dir: $test_project_dir2/docroot/sites/default");
+    $this->say("      * db config: $test_project_dir/docroot/sites/$site2_dir/settings/local.settings.php");
+    $this->say("* (clone) $test_project_clone_dir");
+    $this->say("  * $site1_dir ");
+    $this->say("      * dir: $test_project_clone_dir/docroot/sites/$site1_dir");
     $this->say("      * url: $site1_clone_uri");
     $this->say("      * alias: @site1.clone");
-    $this->say("      * db config: $test_project_dir2/docroot/sites/default/settings/local.settings.php");
+    $this->say("      * db config: $test_project_clone_dir/docroot/sites/$site1_dir/settings/local.settings.php");
     $this->say("  * site2 ");
-    $this->say("      * dir: $test_project_dir2/docroot/sites/site2");
+    $this->say("      * dir: $test_project_clone_dir/docroot/sites/$site2_dir");
     $this->say("      * url: $site2_clone_uri");
     $this->say("      * alias: @site2.clone");
-    $this->say("      * db config: $test_project_dir2/docroot/sites/site2/settings/local.settings.php");
+    $this->say("      * db config: $test_project_clone_dir/docroot/sites/$site2_dir/settings/local.settings.php");
     $this->say("");
     $this->say("<comment>Please configure DB settings. You will need 4 databases.</comment>");
     $this->say("<comment>Please configure hosts settings. You will need 4 host entries.</comment>");
     $this->say("");
     $this->say("You may setup sites via:");
-    $this->say("  cd $test_project_dir2");
-    $this->say("  blt setup -D site=site1");
-    $this->say("  blt setup -D site=site2");
+    $this->say("  cd $test_project_clone_dir");
+    $this->say("  blt setup -D site=$site1_dir");
+    $this->say("  blt setup -D site=$site2_dir");
     $this->say("  cd $test_project_dir");
-    $this->say("  drush @site1.clone status");
-    $this->say("  drush @site2.clone status");
+    $this->say("  drush @$site1_dir.clone status");
+    $this->say("  drush @$site2_dir.clone status");
     $this->say("  blt sync:db:all");
   }
 
@@ -854,31 +897,16 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   }
 
   /**
-   * @param $test_project_dir2
-   * @param $test_project_dir
+   * @param $project_dir
+   * @param $uri
+   *
+   * @return array
    */
-  protected function createMultisiteAliases(
-    $test_project_dir2,
-    $test_project_dir
-  ) {
-    // Create drush alias for site1.
-    $aliases = [
-      'clone' => [
-        'root' => $test_project_dir2,
-        'uri' => 'default',
-      ],
-    ];
-    file_put_contents($test_project_dir . '/drush/sites/site1.site.yml',
-      Yaml::dump($aliases));
-    // Create drush alias for site2.
-    $aliases = [
-      'clone' => [
-        'root' => $test_project_dir2,
-        'uri' => 'site2',
-      ],
-    ];
-    file_put_contents($test_project_dir . '/drush/sites/site2.site.yml',
-      Yaml::dump($aliases));
+  protected function setMultisiteConfigFile($project_dir, $site_dir, $uri, $db_name) {
+    $project_yml = YamlMunge::parseFile($project_dir . "/docroot/sites/$site_dir/blt.site.yml");
+    $project_yml['project']['local']['hostname'] = $uri;
+    $project_yml['drupal']['db']['database'] = $db_name;
+    YamlMunge::writeFile($project_dir . "/docroot/sites/$site_dir/blt.site.yml", $project_yml);
   }
 
 }

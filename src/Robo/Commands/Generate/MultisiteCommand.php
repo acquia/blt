@@ -48,7 +48,7 @@ class MultisiteCommand extends BltTasks {
     $url = parse_url($domain);
     $site_yml['project']['machine_name'] = $site_name;
     $site_yml['project']['human_name'] = $site_name;
-    $site_yml['project']['local']['hostname'] = $url['host'];
+    $site_yml['project']['local']['protocol'] = $url['scheme'];
     $site_yml['project']['local']['hostname'] = $url['host'];
 
     $config_local_db = $this->confirm("Would you like to configure the local database credentials?");
@@ -68,6 +68,14 @@ class MultisiteCommand extends BltTasks {
     }
 
     $default_site_dir = $this->getConfigValue('docroot') . '/sites/default';
+    if (!file_exists($default_site_dir . "/blt.site.yml")) {
+      $default_site_yml = [];
+      $default_site_yml['project']['local']['hostname'] = $this->getConfigValue('project.local.hostname');
+      $this->taskWriteToFile($default_site_dir . "/blt.site.yml")
+        ->text(Yaml::dump($site_yml, 4))
+        ->run();
+    }
+
     $this->taskCopyDir([$default_site_dir => $new_site_dir]);
     $result = $this->taskFilesystemStack()
       ->mkdir($this->getConfigValue('docroot') . '/' . $this->getConfigValue('cm.core.path') . '/' . $site_name)
@@ -76,7 +84,7 @@ class MultisiteCommand extends BltTasks {
       throw new BltException("Unable to create $new_site_dir.");
     }
 
-    $site_yml_filename = $new_site_dir . '/site.yml';
+    $site_yml_filename = $new_site_dir . '/blt.site.yml';
     $result = $this->taskWriteToFile($site_yml_filename)
       ->text(Yaml::dump($site_yml, 4))
       ->run();
