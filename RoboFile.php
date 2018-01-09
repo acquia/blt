@@ -42,7 +42,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    */
   protected function createTestApp($options = [
     'project-type' => 'standalone',
-    'project-dir' => 'self::BLT_PROJECT_DIR',
+    'project-dir' => self::BLT_PROJECT_DIR,
     'vm' => TRUE,
   ]) {
     switch ($options['project-type']) {
@@ -259,7 +259,8 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $contents = "<?php\n" . var_export($sites, TRUE);
     file_put_contents($test_project_clone_dir . "/docroot/sites/sites.php", $contents);
 
-    // Delete local.settings.php files so they can be regenerated with new values in blt.site.yml files.
+    // Delete local.settings.php files so they can be regenerated with new
+    // values in blt.site.yml files.
     $this->taskFilesystemStack()->remove([
       "$test_project_dir/docroot/sites/$site1_dir/settings/local.settings.php",
       "$test_project_dir/docroot/sites/$site2_dir/settings/local.settings.php",
@@ -328,12 +329,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $use_vm = $options['vm'];
     $test_project_dir = $this->bltRoot . "/" . $options['project-dir'];
     if ($options['create-project']) {
-      if ($options['project-type'] == 'symlink') {
-        $this->createFromSymlink($options);
-      }
-      else {
-        $this->createFromBltProject($options);
-      }
+      $this->createMultisites($options);
     }
     $bin = $test_project_dir . "/vendor/bin";
     $blt_suffix = "--define environment={$options['environment']} --yes --no-interaction -v";
