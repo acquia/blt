@@ -330,7 +330,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     'environment' => 'ci',
     'create-project' => TRUE,
     'project-dir' => self::BLT_PROJECT_DIR,
-    'project-type' => 'standalone',
+    'project-type' => 'symlink',
     'vm' => TRUE,
   ]) {
     $this->stopOnFail();
