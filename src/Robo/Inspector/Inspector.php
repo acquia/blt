@@ -243,7 +243,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *   The result of `drush status`.
    */
   public function getDrushStatus() {
-    $status_info = (array) json_decode($this->executor->drush('status --format=json --show-passwords --fields=*')->run()->getMessage(), TRUE);
+    $status_info = (array) json_decode($this->executor->drush('status --format=json --fields=*')->run()->getMessage(), TRUE);
 
     return $status_info;
   }
