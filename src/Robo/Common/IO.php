@@ -2,6 +2,8 @@
 
 namespace Acquia\Blt\Robo\Common;
 
+use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
@@ -110,6 +112,47 @@ trait IO {
       return $answer;
     });
     return $this->doAsk($question);
+  }
+
+  /**
+   * Writes an array to the screen as a formatted table.
+   *
+   * @param array $array
+   *   The unformatted array.
+   * @param array $headers
+   *   The headers for the array. Defaults to ['Property','Value'].
+   */
+  protected function printArrayAsTable(
+    array $array,
+    array $headers = ['Property', 'Value']
+  ) {
+    $table = new Table($this->output);
+    $table->setHeaders($headers)
+      ->setRows(ArrayManipulator::convertArrayToFlatTextArray($array))
+      ->render();
+  }
+
+  /**
+   * Writes a particular configuration key's value to the log.
+   *
+   * @param array $array
+   *   The configuration.
+   * @param string $prefix
+   *   A prefix to add to each row in the configuration.
+   * @param int $verbosity
+   *   The verbosity level at which to display the logged message.
+   */
+  protected function logConfig(array $array, $prefix = '', $verbosity = OutputInterface::VERBOSITY_VERY_VERBOSE) {
+    if ($this->output()->getVerbosity() >= $verbosity) {
+      if ($prefix) {
+        $this->output()->writeln("<comment>Configuration for $prefix:</comment>");
+        foreach ($array as $key => $value) {
+          $array["$prefix.$key"] = $value;
+          unset($array[$key]);
+        }
+      }
+      $this->printArrayAsTable($array);
+    }
   }
 
 }

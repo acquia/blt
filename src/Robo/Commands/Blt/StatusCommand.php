@@ -15,7 +15,7 @@ class StatusCommand extends BltTasks {
    * @command status
    */
   public function status() {
-    $status = $this->getStatus();
+    $status = $this->getInspector()->getStatus();
     $this->printArrayAsTable($status);
   }
 

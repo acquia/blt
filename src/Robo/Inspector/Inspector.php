@@ -2,6 +2,8 @@
 
 namespace Acquia\Blt\Robo\Inspector;
 
+use Acquia\Blt\Robo\Blt;
+use Acquia\Blt\Robo\Common\ArrayManipulator;
 use Acquia\Blt\Robo\Config\YamlConfigProcessor;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use League\Container\ContainerAwareInterface;
@@ -241,9 +243,30 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *   The result of `drush status`.
    */
   public function getDrushStatus() {
-    $status_info = json_decode($this->executor->drush('status --format=json --show-passwords')->run()->getMessage(), TRUE);
+    $status_info = (array) json_decode($this->executor->drush('status --format=json --fields=*')->run()->getMessage(), TRUE);
 
     return $status_info;
+  }
+
+  /**
+   * @return mixed
+   */
+  public function getStatus() {
+    $status = $this->getDrushStatus();
+    $defaults = [
+      'root' => $this->getConfigValue('docroot'),
+      'uri' => $this->getConfigValue('site'),
+    ];
+
+    $status['composer-version'] = $this->getComposerVersion();
+    $status['blt-version'] = Blt::VERSION;
+    $status['stacks']['drupal-vm']['inited'] = $this->isDrupalVmLocallyInitialized();
+    $status['stacks']['dev-desktop']['inited'] = $this->isDevDesktopInitialized();
+
+    $status = ArrayManipulator::arrayMergeRecursiveDistinct($defaults, $status);
+    ksort($status);
+
+    return $status;
   }
 
   /**
