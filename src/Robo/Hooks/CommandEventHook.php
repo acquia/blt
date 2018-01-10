@@ -95,11 +95,11 @@ class CommandEventHook extends BltTasks {
           if (gettype($value) === 'string') {
             $command_string .= " --$name=$value";
           }
-         else {
-           foreach ($value as $sub_value) {
-             $command_string .= " --$name=$sub_value";
-           }
-         }
+          else {
+            foreach ($value as $sub_value) {
+              $command_string .= " --$name=$sub_value";
+            }
+          }
         }
         else {
           $command_string .= " --$name";
