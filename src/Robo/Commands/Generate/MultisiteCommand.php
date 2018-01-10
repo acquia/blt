@@ -5,8 +5,6 @@ namespace Acquia\Blt\Robo\Commands\Generate;
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\YamlMunge;
 use Acquia\Blt\Robo\Exceptions\BltException;
-use function file_exists;
-use function file_put_contents;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Yaml\Yaml;
 
@@ -26,78 +24,28 @@ class MultisiteCommand extends BltTasks {
     'site-uri' => InputOption::VALUE_REQUIRED,
   ]) {
     $this->say("This will generate a new site in the docroot/sites directory.");
-    $site_yml = [];
 
-    if (empty($options['site-name'])) {
-      $site_name = $this->askRequired("Site machine name");
-    }
-    else {
-      $site_name = $options['site-name'];
-    }
+    $site_name = $this->getNewSiteName($options);
     $new_site_dir = $this->getConfigValue('docroot') . '/sites/' . $site_name;
 
     if (file_exists($new_site_dir)) {
       throw new BltException("Cannot generate new multisite, $new_site_dir already exists!");
     }
 
-    if (empty($options['site-uri'])) {
-      $domain = $this->askDefault("Local domain name", "http://local.$site_name.com");
-    }
-    else {
-      $domain = $options['site-uri'];
-    }
+    $domain = $this->getNewSiteDoman($options, $site_name);
     $url = parse_url($domain);
-    $site_yml['project']['machine_name'] = $site_name;
-    $site_yml['project']['human_name'] = $site_name;
-    $site_yml['project']['local']['protocol'] = $url['scheme'];
-    $site_yml['project']['local']['hostname'] = $url['host'];
 
-    $config_local_db = $this->confirm("Would you like to configure the local database credentials?");
-    if ($config_local_db) {
-      $default_db = $this->getConfigValue('drupal.db');
-      $db = [];
-      $db['database'] = $this->askDefault("Local database name", $default_db['database']);
-      $db['username'] = $this->askDefault("Local database user", $default_db['username']);
-      $db['password'] = $this->askDefault("Local database password", $default_db['password']);
-      $db['host'] = $this->askDefault("Local database host", $default_db['host']);
-      $db['port'] = $this->askDefault("Local database port", $default_db['port']);
-      $this->getConfig()->set('drupal.db', $db);
-    }
-
+    $this->setLocalDbConfig();
     if ($this->getInspector()->isDrupalVmConfigPresent()) {
       $this->configureDrupalVm($url, $site_name);
     }
-
     $default_site_dir = $this->getConfigValue('docroot') . '/sites/default';
-    if (!file_exists($default_site_dir . "/blt.site.yml")) {
-      // Move project.local.hostname from project.yml to
-      // sites/default/blt.site.yml.
-      $default_site_yml = [];
-      $default_site_yml['project']['local']['hostname'] = $this->getConfigValue('project.local.hostname');
-      YamlMunge::writeFile($default_site_dir . "/blt.site.yml", $default_site_yml);
-      $project_yml = YamlMunge::parseFile($this->getConfigValue('blt.config-files.project'));
-      unset($project_yml['project']['local']['hostname']);
-      YamlMunge::writeFile($this->getConfigValue('blt.config-files.project'), $project_yml);
-    }
+    $this->createDefaultBltSiteYml($default_site_dir);
+    $this->createNewSiteDir($default_site_dir, $new_site_dir);
+    $this->createNewSiteConfigDir($site_name);
+    $this->createNewBltSiteYml($new_site_dir, $site_name, $url);
+    $this->resetMultisiteConfig();
 
-    $this->taskCopyDir([$default_site_dir => $new_site_dir]);
-    $result = $this->taskFilesystemStack()
-      ->mkdir($this->getConfigValue('docroot') . '/' . $this->getConfigValue('cm.core.path') . '/' . $site_name)
-      ->run();
-    if (!$result->wasSuccessful()) {
-      throw new BltException("Unable to create $new_site_dir.");
-    }
-
-    $site_yml_filename = $new_site_dir . '/blt.site.yml';
-    $result = $this->taskWriteToFile($site_yml_filename)
-      ->text(Yaml::dump($site_yml, 4))
-      ->run();
-    if (!$result->wasSuccessful()) {
-      throw new BltException("Unable to write $site_yml_filename.");
-    }
-
-    $this->getConfig()->set('multisites', []);
-    $this->getConfig()->populateHelperConfig();
     $this->invokeCommand('setup:settings');
   }
 
@@ -128,6 +76,134 @@ class MultisiteCommand extends BltTasks {
       file_put_contents($this->projectDrupalVmConfigFile,
         Yaml::dump($vm_config, 4));
     }
+  }
+
+  protected function setLocalDbConfig() {
+    $config_local_db = $this->confirm("Would you like to configure the local database credentials?");
+    if ($config_local_db) {
+      $default_db = $this->getConfigValue('drupal.db');
+      $db = [];
+      $db['database'] = $this->askDefault("Local database name",
+        $default_db['database']);
+      $db['username'] = $this->askDefault("Local database user",
+        $default_db['username']);
+      $db['password'] = $this->askDefault("Local database password",
+        $default_db['password']);
+      $db['host'] = $this->askDefault("Local database host",
+        $default_db['host']);
+      $db['port'] = $this->askDefault("Local database port",
+        $default_db['port']);
+      $this->getConfig()->set('drupal.db', $db);
+    }
+  }
+
+  /**
+   * @return string
+   */
+  protected function createDefaultBltSiteYml($default_site_dir) {
+    if (!file_exists($default_site_dir . "/blt.site.yml")) {
+      // Move project.local.hostname from project.yml to
+      // sites/default/blt.site.yml.
+      $default_site_yml = [];
+      $default_site_yml['project']['local']['hostname'] = $this->getConfigValue('project.local.hostname');
+      YamlMunge::writeFile($default_site_dir . "/blt.site.yml",
+        $default_site_yml);
+      $project_yml = YamlMunge::parseFile($this->getConfigValue('blt.config-files.project'));
+      unset($project_yml['project']['local']['hostname']);
+      YamlMunge::writeFile($this->getConfigValue('blt.config-files.project'),
+        $project_yml);
+    }
+    return $default_site_dir;
+  }
+
+  /**
+   * @param $new_site_dir
+   * @param $site_name
+   * @param $url
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   */
+  protected function createNewBltSiteYml(
+    $new_site_dir,
+    $site_name,
+    $url
+  ) {
+    $site_yml_filename = $new_site_dir . '/blt.site.yml';
+    $site_yml['project']['machine_name'] = $site_name;
+    $site_yml['project']['human_name'] = $site_name;
+    $site_yml['project']['local']['protocol'] = $url['scheme'];
+    $site_yml['project']['local']['hostname'] = $url['host'];
+    $result = $this->taskWriteToFile($site_yml_filename)
+      ->text(Yaml::dump($site_yml, 4))
+      ->run();
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Unable to write $site_yml_filename.");
+    }
+  }
+
+  /**
+   * @param $default_site_dir
+   * @param $new_site_dir
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   */
+  protected function createNewSiteDir($default_site_dir, $new_site_dir) {
+    $result = $this->taskCopyDir([$default_site_dir => $new_site_dir])->run();
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Unable to create $new_site_dir.");
+    }
+  }
+
+  /**
+   * @param $site_name
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   */
+  protected function createNewSiteConfigDir($site_name) {
+    $config_dir = $this->getConfigValue('docroot') . '/' . $this->getConfigValue('cm.core.path') . '/' . $site_name;
+    $result = $this->taskFilesystemStack()
+      ->mkdir($config_dir)
+      ->run();
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Unable to create $config_dir.");
+    }
+  }
+
+  protected function resetMultisiteConfig() {
+    $this->getConfig()->set('multisites', []);
+    $this->getConfig()->populateHelperConfig();
+  }
+
+  /**
+   * @param $options
+   * @param $site_name
+   *
+   * @return string
+   */
+  protected function getNewSiteDoman($options, $site_name) {
+    if (empty($options['site-uri'])) {
+      $domain = $this->askDefault("Local domain name",
+        "http://local.$site_name.com");
+    }
+    else {
+      $domain = $options['site-uri'];
+    }
+    return $domain;
+  }
+
+  /**
+   * @param $options
+   *
+   * @return string
+   */
+  protected function getNewSiteName($options) {
+    if (empty($options['site-name'])) {
+      $site_name = $this->askRequired("Site machine name");
+    }
+    else {
+      $site_name = $options['site-name'];
+    }
+    return $site_name;
   }
 
 }
