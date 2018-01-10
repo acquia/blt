@@ -102,6 +102,8 @@ class MultisiteCommand extends BltTasks {
    */
   protected function createDefaultBltSiteYml($default_site_dir) {
     if (!file_exists($default_site_dir . "/blt.site.yml")) {
+      $initial_perms = fileperms($default_site_dir);
+      chmod($default_site_dir, 0777);
       // Move project.local.hostname from project.yml to
       // sites/default/blt.site.yml.
       $default_site_yml = [];
@@ -112,6 +114,7 @@ class MultisiteCommand extends BltTasks {
       unset($project_yml['project']['local']['hostname']);
       YamlMunge::writeFile($this->getConfigValue('blt.config-files.project'),
         $project_yml);
+      chmod($default_site_dir, $initial_perms);
     }
     return $default_site_dir;
   }
