@@ -92,8 +92,13 @@ class CommandEventHook extends BltTasks {
     foreach ($new_input->getOptions() as $name => $value) {
       if ($new_input->getOption($name)) {
         if ($command_definition->getOption($name)->acceptValue()) {
-          foreach ($value as $sub_value) {
-            $command_string .= " --$name=$sub_value";
+          if (gettype($value) === 'string') {
+            $command_string .= " --$name=$value";
+          }
+          else {
+            foreach ($value as $sub_value) {
+              $command_string .= " --$name=$sub_value";
+            }
           }
         }
         else {
