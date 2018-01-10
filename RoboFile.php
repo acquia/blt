@@ -284,7 +284,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       }
     }
     $bin = $test_project_dir . "/vendor/bin";
-    $blt_suffix = "--define environment={$options['environment']} --yes --no-interaction -v";
+    $blt_suffix = "--define environment={$options['environment']} --yes --no-interaction -vvv";
     $task = $this->taskExecStack()
       ->dir($test_project_dir)
       ->printMetadata(TRUE)
