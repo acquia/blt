@@ -8,7 +8,7 @@ set -ev
 
 export PATH=${COMPOSER_BIN}:${PATH}
 
-${BLT_DIR}/vendor/bin/robo create:from-symlink --no-vm
+${BLT_DIR}/vendor/bin/robo create:multisites --no-vm
 
 if [ "${DRUPAL_CORE_VERSION}" != "default" ]; then
   composer require "drupal/core:${DRUPAL_CORE_VERSION}" --no-update --no-interaction

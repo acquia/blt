@@ -33,7 +33,37 @@ class MultiSiteTest extends BltProjectTestBase {
     $this->assertNotContains('${drupal.db.database}', file_get_contents($site_dir . '/settings/local.settings.php'));
     $this->assertFileExists($site_dir . '/settings/local.settings.php');
     $this->assertFileExists($this->projectDirectory . '/config/site2');
-    // @todo Test that -D site=x sets uri and other config.
+
+    $output_array = $this->drush("@default.local config-get system.site");
+    $this->assertEquals('Site 1 Local', $output_array['name']);
+
+    $output_array = $this->drush("@site2.local config-get system.site");
+    $this->assertEquals('Site 2 Local', $output_array['name']);
+
+    $output_array = $this->drush("@default.clone config-get system.site");
+    $this->assertEquals('Site 1 Clone', $output_array['name']);
+
+    $output_array = $this->drush("@site2.clone config-get system.site");
+    $this->assertEquals('Site 2 Clone', $output_array['name']);
+  }
+
+  /**
+   * Tests multisite, after `blt sync:db:all` execution.
+   *
+   * @group blted8 post-sync
+   */
+  public function testMultisiteSync() {
+    $output_array = $this->drush("@default.local config-get system.site");
+    $this->assertEquals('Site 1 Clone', $output_array['name']);
+
+    $output_array = $this->drush("@site2.local config-get system.site");
+    $this->assertEquals('Site 2 Clone', $output_array['name']);
+
+    $output_array = $this->drush("@default.clone config-get system.site");
+    $this->assertEquals('Site 1 Clone', $output_array['name']);
+
+    $output_array = $this->drush("@site2.clone config-get system.site");
+    $this->assertEquals('Site 2 Clone', $output_array['name']);
   }
 
 }
