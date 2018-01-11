@@ -5,6 +5,7 @@ namespace Acquia\Blt\Update;
 use Acquia\Blt\Annotations\Update;
 use Acquia\Blt\Robo\Common\ArrayManipulator;
 use function file_exists;
+use Symfony\Component\Process\Process;
 
 /**
  * Defines scripted updates for specific version deltas of BLT.
@@ -445,5 +446,25 @@ class Updates {
       $this->updater->writeProjectYml($project_yml);
     }
 
+  }
+
+  /**
+   * 9.0.0.
+   *
+   * @Update(
+   *    version = "9000000",
+   *    description = "Convert Drush 8 files to Drush 9."
+   * )
+   */
+  public function update_9000000() {
+    $this->updater->moveFile('drush/site-aliases/aliases.drushrc.php', 'drush/site-aliases/legacy.aliases.drushrc.php');
+    $process = new Process('./vendor/bin/drush site:alias-convert $(pwd)/drush/site --sources=$(pwd)/drush/site-aliases', $this->updater->getRepoRoot());
+    $process->run();
+    $this->updater->deleteFile('docroot/sites/default/local.drushrc.php');
+    $this->updater->deleteFile('drush/site-aliases/legacy.aliases.drushrc.php');
+    $this->updater->deleteFile('drush/drushrc.php');
+    $this->updater->getFileSystem()->rename('drush/site-aliases', 'drush/sites');
+    $process = new Process("blt setup:settings", $this->updater->getRepoRoot());
+    $process->run();
   }
 }
