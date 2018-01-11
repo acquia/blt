@@ -282,7 +282,11 @@ class VmCommand extends BltTasks {
     switch ($base_box) {
       case 'beet/box':
         $config->set('workspace', '/beetbox/workspace/{{ php_version }}');
-        $config->set('installed_extras', ['drush']);
+        $config->set('installed_extras', [
+          'drush',
+          'nodejs',
+          'xdebug',
+        ]);
         break;
 
       case 'geerlingguy/ubuntu1604':

@@ -1,13 +1,13 @@
 diff --git docroot/.htaccess docroot/.htaccess
-index 4716fa1..93f9ab6 100644
+index 27e18a0..03eabf5 100644
 --- docroot/.htaccess
 +++ docroot/.htaccess
-@@ -150,6 +150,8 @@ AddEncoding gzip svgz
+@@ -149,6 +149,8 @@ AddEncoding gzip svgz
+   RewriteCond %{REQUEST_URI} !/core/[^/]*\.php$
+   # Allow access to test-specific PHP files:
+   RewriteCond %{REQUEST_URI} !/core/modules/system/tests/https?.php
++  # Allow access to simplesaml paths.
++  RewriteCond %{REQUEST_URI} !^/simplesaml
+   # Allow access to Statistics module's custom front controller.
    # Copy and adapt this rule to directly execute PHP files in contributed or
    # custom modules or to run another PHP application in the same directory.
-   RewriteCond %{REQUEST_URI} !/core/modules/statistics/statistics.php$
-+  # Allow access to simplesaml paths
-+  RewriteCond %{REQUEST_URI} !^/simplesaml
-   # Deny access to any other PHP files that do not match the rules above.
-   # Specifically, disallow autoload.php from being served directly.
-   RewriteRule "^(.+/.*|autoload)\.php($|/)" - [F]

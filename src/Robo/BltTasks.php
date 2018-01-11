@@ -19,9 +19,7 @@ use Robo\Contract\ConfigAwareInterface;
 use Robo\Contract\IOAwareInterface;
 use Robo\Contract\VerbosityThresholdInterface;
 use Robo\LoadAllTasks;
-use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -322,47 +320,6 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
   }
 
   /**
-   * Writes a particular configuration key's value to the log.
-   *
-   * @param array $array
-   *   The configuration.
-   * @param string $prefix
-   *   A prefix to add to each row in the configuration.
-   * @param int $verbosity
-   *   The verbosity level at which to display the logged message.
-   */
-  protected function logConfig(array $array, $prefix = '', $verbosity = OutputInterface::VERBOSITY_VERY_VERBOSE) {
-    if ($this->output()->getVerbosity() >= $verbosity) {
-      if ($prefix) {
-        $this->output()->writeln("<comment>Configuration for $prefix:</comment>");
-        foreach ($array as $key => $value) {
-          $array["$prefix.$key"] = $value;
-          unset($array[$key]);
-        }
-      }
-      $this->printArrayAsTable($array);
-    }
-  }
-
-  /**
-   * Writes an array to the screen as a formatted table.
-   *
-   * @param array $array
-   *   The unformatted array.
-   * @param array $headers
-   *   The headers for the array. Defaults to ['Property','Value'].
-   */
-  protected function printArrayAsTable(
-    array $array,
-    array $headers = ['Property', 'Value']
-  ) {
-    $table = new Table($this->output);
-    $table->setHeaders($headers)
-      ->setRows(ArrayManipulator::convertArrayToFlatTextArray($array))
-      ->render();
-  }
-
-  /**
    * Sets multisite context by settings site-specific config values.
    *
    * @param string $site_name
@@ -377,36 +334,6 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
 
     // Replaces config.
     $this->getConfig()->import($new_config->export());
-  }
-
-  /**
-   * @return mixed
-   */
-  protected function getStatus() {
-    $task = $this->taskDrush()
-      ->drush("status")
-      ->option('format', 'json')
-      ->option('fields', '*')
-      ->silent(TRUE)
-      ->interactive(FALSE)
-      ->run();
-    $output = $task->getMessage();
-
-    $defaults = [
-      'root' => $this->getConfigValue('docroot'),
-      'uri' => $this->getConfigValue('site'),
-    ];
-
-    $status = json_decode($output, TRUE);
-    $status['composer-version'] = $this->getInspector()->getComposerVersion();
-    $status['blt-version'] = Blt::VERSION;
-    $status['stacks']['drupal-vm']['inited'] = $this->getInspector()->isDrupalVmLocallyInitialized();
-    $status['stacks']['dev-desktop']['inited'] = $this->getInspector()->isDevDesktopInitialized();
-
-    $status = ArrayManipulator::arrayMergeRecursiveDistinct($defaults, $status);
-    ksort($status);
-
-    return $status;
   }
 
 }

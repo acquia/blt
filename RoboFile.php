@@ -284,17 +284,16 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       }
     }
     $bin = $test_project_dir . "/vendor/bin";
-    $blt_suffix = "--define environment={$options['environment']} --yes --no-interaction -v";
+    $blt_suffix = "--define environment={$options['environment']} --yes --no-interaction -vvv";
     $task = $this->taskExecStack()
       ->dir($test_project_dir)
       ->printMetadata(TRUE)
       ->exec("$bin/blt ci:travis:init $blt_suffix")
       ->exec("$bin/blt ci:pipelines:init $blt_suffix")
-      ->exec("$bin/blt acsf:init:hooks $blt_suffix")
       ->exec("$bin/blt setup:cloud-hooks $blt_suffix")
       // Dump all config values to screen.
       ->exec("$bin/blt config:dump $blt_suffix")
-      // ->exec("$bin/blt acsf:init --yes")
+      ->exec("$bin/blt acsf:init --yes")
       ->exec("{$this->bltRoot}/vendor/bin/robo sniff-code --load-from {$this->bltRoot}");
     if ($use_vm) {
       $task->exec("$bin/blt vm $blt_suffix");
