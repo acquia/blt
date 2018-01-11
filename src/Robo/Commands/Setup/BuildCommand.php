@@ -112,7 +112,7 @@ class BuildCommand extends BltTasks {
    * @command setup:composer:install
    */
   public function composerInstall() {
-    $result = $this->taskExec("export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --ansi --no-interaction")
+    $result = $this->taskExec("composer install --ansi --no-interaction")
       ->dir($this->getConfigValue('repo.root'))
       ->detectInteractive()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
