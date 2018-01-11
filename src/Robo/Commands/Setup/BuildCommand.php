@@ -15,9 +15,7 @@ class BuildCommand extends BltTasks {
   /**
    * Install dependencies, builds docroot, installs Drupal.
    *
-   * @command setup
-   *
-   * @aliases setup:all
+   * @command setup:build
    */
   public function setup() {
     $this->say("Setting up local environment for site '{$this->getConfigValue('site')}' using drush alias @{$this->getConfigValue('drush.alias')}");
