@@ -4,7 +4,6 @@ namespace Acquia\Blt\Update;
 
 use Acquia\Blt\Annotations\Update;
 use Acquia\Blt\Robo\Common\ArrayManipulator;
-use function file_exists;
 use Symfony\Component\Process\Process;
 
 /**
@@ -463,7 +462,7 @@ class Updates {
     $this->updater->deleteFile('docroot/sites/default/local.drushrc.php');
     $this->updater->deleteFile('drush/site-aliases/legacy.aliases.drushrc.php');
     $this->updater->deleteFile('drush/drushrc.php');
-    $this->updater->getFileSystem()->rename('drush/site-aliases', 'drush/sites');
+    $this->updater->getFileSystem()->mirror('drush/site-aliases', 'drush/sites');
     $process = new Process("blt setup:settings", $this->updater->getRepoRoot());
     $process->run();
   }

@@ -272,6 +272,7 @@ class UpdateCommand extends BltTasks {
           return TRUE;
         }
         catch (\Exception $e) {
+          $this->logger->error($e->getMessage());
           return FALSE;
         }
       }
