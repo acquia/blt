@@ -309,7 +309,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       ->exec("$bin/yaml-cli update:value blt/project.yml cm.strategy none")
       // The tick-tock.sh script is used to prevent timeout.
       ->exec("{$this->bltRoot}/scripts/blt/ci/tick-tock.sh $bin/blt setup $blt_suffix")
-      ->exec("$bin/blt tests {$blt_suffix}vv")
+      ->exec("$bin/blt tests {$blt_suffix}")
       ->exec("$bin/blt tests:behat:definitions $blt_suffix")
 
       // Test core-only config management.
