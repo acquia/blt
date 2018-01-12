@@ -104,7 +104,6 @@ class VmCommand extends BltTasks {
         // @todo More surgically remove drush.default_alias and drush.aliases.local values from this file
         // rather than overwriting it.
         ->remove($this->getConfigValue('blt.config-files.local'))
-        ->copy($this->defaultDrushAliasesFile, $this->projectDrushAliasesFile, TRUE)
         ->run();
       $this->say("Your Drupal VM instance has been obliterated.");
       $this->say("Please run `blt vm` to create a new one.");
