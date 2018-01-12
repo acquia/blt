@@ -336,10 +336,24 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $this->stopOnFail();
     $use_vm = $options['vm'];
     $test_project_dir = $this->bltRoot . "/" . $options['project-dir'];
+    $bin = $test_project_dir . "/vendor/bin";
+
     if ($options['create-project']) {
       $this->createMultisites($options);
+      // Set drush's URI to match special CI URI.
+      if ($options['environment']) {
+        $uri = $this->taskExecStack()
+          ->dir($test_project_dir)
+          ->printMetadata(TRUE)
+          ->exec("$bin/blt config:get project.local.uri --no-interaction --define environment=" . $options['environment'])
+          ->run()
+          ->getMessage();
+        $drush_yml_file_path = $test_project_dir . "/docroot/sites/default/local.drush.yml";
+        $drush_yml_contents = YamlMunge::parseFile($drush_yml_file_path);
+        $drush_yml_contents['options']['uri'] = $uri;
+        YamlMunge::writeFile($drush_yml_file_path, $drush_yml_contents);
+      }
     }
-    $bin = $test_project_dir . "/vendor/bin";
     $blt_suffix = "--define environment={$options['environment']} --yes --no-interaction -vvv";
     $task = $this->taskExecStack()
       ->dir($test_project_dir)
@@ -370,11 +384,9 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       ->exec("$bin/blt tests {$blt_suffix}")
 
       // Test setup strategy "import". Dump and re-import.
-      // @codingStandardsIgnoreStart
-      //->exec("$bin/drush sql-dump --result-file=/tmp/blted8.sql")
-      //->exec("$bin/drush sql-drop -y")
-      //->exec("$bin/blt setup $blt_suffix --define setup.strategy=import --define setup.dump-file=\"/tmp/blted8.sql\"")
-      // @codingStandardsIgnoreEnd
+      ->exec("$bin/drush sql-dump --result-file=/tmp/blted8.sql")
+      ->exec("$bin/drush sql-drop -y")
+      ->exec("$bin/blt setup $blt_suffix --define setup.strategy=import --define setup.dump-file=\"/tmp/blted8.sql\"")
 
       // Execute project tests.
       ->exec("$bin/blt tests:behat:definitions $blt_suffix")
