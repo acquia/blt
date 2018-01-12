@@ -342,12 +342,14 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       $this->createMultisites($options);
       // Set drush's URI to match special CI URI.
       if ($options['environment']) {
-        $uri = $this->taskExecStack()
+        $result = $this->taskExecStack()
           ->dir($test_project_dir)
           ->printMetadata(TRUE)
+          ->printOutput(TRUE)
+          ->interactive(FALSE)
           ->exec("$bin/blt config:get project.local.uri --no-interaction --define environment=" . $options['environment'])
-          ->run()
-          ->getMessage();
+          ->run();
+        $uri = $result->getMessage();
         $drush_yml_file_path = $test_project_dir . "/docroot/sites/default/local.drush.yml";
         $drush_yml_contents = YamlMunge::parseFile($drush_yml_file_path);
         $drush_yml_contents['options']['uri'] = $uri;
