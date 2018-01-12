@@ -167,7 +167,7 @@ class BehatCommand extends TestsCommandBase {
     $this->killChrome();
     $chrome_bin = $this->findChrome();
     $this->checkChromeVersion($chrome_bin);
-    $chrome_host = 'http://localhost';
+    $chrome_host = 'http://127.0.0.1';
     $this->logger->info("Launching headless chrome...");
     $this->getContainer()
       ->get('executor')
