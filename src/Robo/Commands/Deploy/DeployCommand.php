@@ -561,19 +561,39 @@ class DeployCommand extends BltTasks {
    *
    * @command deploy:update
    */
-  public function updateSites() {
+  public function update() {
+    // Disable alias since we are targeting specific uri.
+    $this->config->set('drush.alias', '');
+    $this->updateSite($this->getConfigValue('site'));
+  }
+
+  /**
+   * Update the database to reflect the state of the Drupal file system.
+   *
+   * @command deploy:update:all
+   */
+  public function updateAll() {
     // Disable alias since we are targeting specific uri.
     $this->config->set('drush.alias', '');
 
     foreach ($this->getConfigValue('multisites') as $multisite) {
-      $this->say("Deploying updates to $multisite...");
-      $this->config->set('drush.uri', $multisite);
-
-      $this->invokeCommand('setup:config-import');
-      $this->invokeCommand('setup:toggle-modules');
-
-      $this->say("Finished deploying updates to $multisite.");
+      $this->updateSite($multisite);
     }
+  }
+
+  /**
+   * Execute updates on a specific site.
+   * @param string $multisite
+   *
+   */
+  protected function updateSite($multisite) {
+    $this->say("Deploying updates to <comment>$multisite</comment>...");
+    $this->switchSiteContext($multisite);
+
+    $this->invokeCommand('setup:config-import');
+    $this->invokeCommand('setup:toggle-modules');
+
+    $this->say("Finished deploying updates to $multisite.");
   }
 
   /**
@@ -611,7 +631,7 @@ class DeployCommand extends BltTasks {
   public function installDrupal() {
     $this->invokeCommands([
       'internal:drupal:install',
-      'deploy:update',
+      'deploy:update:all',
     ]);
 
     $this->updateSites();

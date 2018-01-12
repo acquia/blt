@@ -104,7 +104,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   }
 
   /**
-   * Create a new project using `composer create-project acquia/blt-project'.
+   * Create a new project using `composer create-project acquia/blt-project`.
    *
    * @option base-branch The blt-project (NOT blt) branch to test.
    * @option project-dir The directory in which the test project will be
@@ -125,7 +125,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   }
 
   /**
-   * Create a new project using `composer require acquia/blt'.
+   * Create a new project using `composer require acquia/blt`.
    *
    * @option base-branch The blt-project (NOT blt) branch to test.
    * @option project-dir The directory in which the test project will be
@@ -160,7 +160,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   }
 
   /**
-   * Create a new project with one multisite.
+   * Create a new project with two sites: sites/default and sites/site2.
    *
    * The project will be duplicated such that you may refer to the duplicate as
    * a remote instance of the site via a drush alias.
