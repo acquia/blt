@@ -370,9 +370,11 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       ->exec("$bin/blt tests {$blt_suffix}")
 
       // Test setup strategy "import". Dump and re-import.
-      ->exec("$bin/drush sql-dump --result-file=/tmp/blted8.sql")
-      ->exec("$bin/drush sql-drop -y")
-      ->exec("$bin/blt setup $blt_suffix --define setup.strategy=import --define setup.dump-file=\"/tmp/blted8.sql\"")
+      // @codingStandardsIgnoreStart
+      //->exec("$bin/drush sql-dump --result-file=/tmp/blted8.sql")
+      //->exec("$bin/drush sql-drop -y")
+      //->exec("$bin/blt setup $blt_suffix --define setup.strategy=import --define setup.dump-file=\"/tmp/blted8.sql\"")
+      // @codingStandardsIgnoreEnd
 
       // Execute project tests.
       ->exec("$bin/blt tests:behat:definitions $blt_suffix")
