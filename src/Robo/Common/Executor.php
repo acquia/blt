@@ -226,7 +226,7 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
       }
     }
     catch (\Exception $e) {
-
+      $this->logger->debug($e->getMessage());
     }
     return FALSE;
   }
