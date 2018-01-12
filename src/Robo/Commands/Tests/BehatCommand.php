@@ -176,7 +176,7 @@ class BehatCommand extends TestsCommandBase {
       ->printOutput(TRUE)
       ->printMetadata(TRUE)
       ->run();
-    $this->getContainer()->get('executor')->waitForUrlAvailable("$chrome_host:{$this->chromePort}");
+    sleep(10);
   }
 
   /**
