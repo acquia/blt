@@ -266,7 +266,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     file_put_contents($test_project_clone_dir . "/docroot/sites/sites.php", $contents);
 
     // Delete local.settings.php files so they can be regenerated with new
-    // values in blt.site.yml files.
+    // values in blt.yml files.
     $this->taskFilesystemStack()->remove([
       "$test_project_dir/docroot/sites/$site1_dir/settings/local.settings.php",
       "$test_project_dir/docroot/sites/$site2_dir/settings/local.settings.php",
@@ -915,11 +915,11 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    * @return array
    */
   protected function setMultisiteConfigFile($project_dir, $site_dir, $uri, $site_name, $db_name) {
-    $project_yml = YamlMunge::parseFile($project_dir . "/docroot/sites/$site_dir/blt.site.yml");
+    $project_yml = YamlMunge::parseFile($project_dir . "/docroot/sites/$site_dir/blt.yml");
     $project_yml['project']['human_name'] = $site_name;
     $project_yml['project']['local']['hostname'] = $uri;
     $project_yml['drupal']['db']['database'] = $db_name;
-    YamlMunge::writeFile($project_dir . "/docroot/sites/$site_dir/blt.site.yml", $project_yml);
+    YamlMunge::writeFile($project_dir . "/docroot/sites/$site_dir/blt.yml", $project_yml);
   }
 
 }

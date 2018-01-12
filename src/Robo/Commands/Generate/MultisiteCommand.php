@@ -101,14 +101,14 @@ class MultisiteCommand extends BltTasks {
    * @return string
    */
   protected function createDefaultBltSiteYml($default_site_dir) {
-    if (!file_exists($default_site_dir . "/blt.site.yml")) {
+    if (!file_exists($default_site_dir . "/blt.yml")) {
       $initial_perms = fileperms($default_site_dir);
       chmod($default_site_dir, 0777);
       // Move project.local.hostname from project.yml to
-      // sites/default/blt.site.yml.
+      // sites/default/blt.yml.
       $default_site_yml = [];
       $default_site_yml['project']['local']['hostname'] = $this->getConfigValue('project.local.hostname');
-      YamlMunge::writeFile($default_site_dir . "/blt.site.yml",
+      YamlMunge::writeFile($default_site_dir . "/blt.yml",
         $default_site_yml);
       $project_yml = YamlMunge::parseFile($this->getConfigValue('blt.config-files.project'));
       unset($project_yml['project']['local']['hostname']);
@@ -131,7 +131,7 @@ class MultisiteCommand extends BltTasks {
     $site_name,
     $url
   ) {
-    $site_yml_filename = $new_site_dir . '/blt.site.yml';
+    $site_yml_filename = $new_site_dir . '/blt.yml';
     $site_yml['project']['machine_name'] = $site_name;
     $site_yml['project']['human_name'] = $site_name;
     $site_yml['project']['local']['protocol'] = $url['scheme'];

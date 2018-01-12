@@ -17,9 +17,9 @@ class MultiSiteTest extends BltProjectTestBase {
   public function testMultisiteGenerate() {
     $site_dir = $this->projectDirectory . '/docroot/sites/site2';
     $this->assertFileExists($site_dir);
-    $this->assertFileExists($this->projectDirectory . '/docroot/sites/site2/blt.site.yml');
+    $this->assertFileExists($this->projectDirectory . '/docroot/sites/site2/blt.yml');
     // @codingStandardsIgnoreStart
-    // $site2_config = ArrayManipulator::flattenToDotNotatedKeys(YamlMunge::parseFile($site_dir . '/blt.site.yml'));
+    // $site2_config = ArrayManipulator::flattenToDotNotatedKeys(YamlMunge::parseFile($site_dir . '/blt.yml'));
     // $this->assertContains('local.blted8.site2.com', $site2_config);
     // $this->assertContains('drupal2', $site2_config);
     // $this->assertContains('site2', $site2_config);

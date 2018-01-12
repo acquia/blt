@@ -30,7 +30,7 @@ class DbCommand extends BltTasks {
 
       $this->say($sync_map[$multisite]['remote'] . " => " . $sync_map[$multisite]['local']);
     }
-    $this->say("To modify the set of aliases for syncing, set the values for drush.aliases.local and drush.aliases.remote in docroot/sites/[site]/blt.site.yml");
+    $this->say("To modify the set of aliases for syncing, set the values for drush.aliases.local and drush.aliases.remote in docroot/sites/[site]/blt.yml");
     $continue = $this->confirm("Continue?");
     if (!$continue) {
       return $exit_code;

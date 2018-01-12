@@ -118,7 +118,7 @@ class ConfigInitializer {
    */
   public function loadSiteConfig() {
     if ($this->site) {
-      $this->processor->extend($this->loader->load($this->config->get('docroot') . '/sites/' . $this->site . '/blt.site.yml'));
+      $this->processor->extend($this->loader->load($this->config->get('docroot') . '/sites/' . $this->site . '/blt.yml'));
     }
 
     return $this;
