@@ -380,18 +380,18 @@ class DeployCommand extends BltTasks {
    */
   protected function composerInstall() {
     $this->say("Rebuilding composer dependencies for production...");
+
     $this->taskDeleteDir([$this->deployDir . '/vendor'])
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
+
     $this->taskFilesystemStack()
       ->copy($this->getConfigValue('repo.root') . '/composer.json', $this->deployDir . '/composer.json', TRUE)
       ->copy($this->getConfigValue('repo.root') . '/composer.lock', $this->deployDir . '/composer.lock', TRUE)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
-    $this->taskExecStack()->exec("composer install --no-dev --no-interaction --optimize-autoloader")
-      ->stopOnFail()
-      ->dir($this->deployDir)
-      ->run();
+
+    $this->invokeCommand('composer:install', ['dev' => FALSE]);
   }
 
   /**
