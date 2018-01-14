@@ -153,7 +153,8 @@ sync:
     - js
   commands:
     - setup:composer:install
-    - sync
+    - setup:settings
+    - sync:db
     - setup:update
     - frontend
 

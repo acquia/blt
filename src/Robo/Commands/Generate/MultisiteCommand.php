@@ -5,6 +5,8 @@ namespace Acquia\Blt\Robo\Commands\Generate;
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\YamlMunge;
 use Acquia\Blt\Robo\Exceptions\BltException;
+use function array_merge;
+use Grasmash\YamlExpander\Expander;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Yaml\Yaml;
 
@@ -41,9 +43,11 @@ class MultisiteCommand extends BltTasks {
     }
     $default_site_dir = $this->getConfigValue('docroot') . '/sites/default';
     $this->createDefaultBltSiteYml($default_site_dir);
+    // @todo Create drush alias for default site.
     $this->createNewSiteDir($default_site_dir, $new_site_dir);
-    $this->createNewSiteConfigDir($site_name);
     $this->createNewBltSiteYml($new_site_dir, $site_name, $url);
+    $this->createNewSiteConfigDir($site_name);
+    $this->createNewSiteDrushAliases($site_name);
     $this->resetMultisiteConfig();
 
     $this->invokeCommand('setup:settings');
@@ -52,7 +56,7 @@ class MultisiteCommand extends BltTasks {
   /**
    * Updates box/config.yml with settings for new multisite.
    *
-   * @param string $url
+   * @param array $url
    *   The local URL for the site.
    * @param string $site_name
    *   The machine name of the site.
@@ -108,6 +112,8 @@ class MultisiteCommand extends BltTasks {
       // sites/default/blt.yml.
       $default_site_yml = [];
       $default_site_yml['project']['local']['hostname'] = $this->getConfigValue('project.local.hostname');
+      $default_site_yml['drush']['aliases']['local'] = $this->getConfigValue('drush.aliases.local');
+      $default_site_yml['drush']['aliases']['remote'] = $this->getConfigValue('drush.aliases.remote');
       YamlMunge::writeFile($default_site_dir . "/blt.yml",
         $default_site_yml);
       $project_yml = YamlMunge::parseFile($this->getConfigValue('blt.config-files.project'));
@@ -136,6 +142,7 @@ class MultisiteCommand extends BltTasks {
     $site_yml['project']['human_name'] = $site_name;
     $site_yml['project']['local']['protocol'] = $url['scheme'];
     $site_yml['project']['local']['hostname'] = $url['host'];
+    $site_yml['drush']['aliases']['local'] = "$site_name.local";
     $result = $this->taskWriteToFile($site_yml_filename)
       ->text(Yaml::dump($site_yml, 4))
       ->run();
@@ -207,6 +214,25 @@ class MultisiteCommand extends BltTasks {
       $site_name = $options['site-name'];
     }
     return $site_name;
+  }
+
+  /**
+   * @param $site_name
+   */
+  protected function createNewSiteDrushAliases($site_name) {
+    $aliases = [
+      'local' => [
+        'uri' => $site_name,
+      ],
+    ];
+    if ($this->getInspector()->isDrupalVmConfigPresent()) {
+      $this->defaultDrupalVmDrushAliasesFile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/drupal-vm.site.yml';
+      $new_aliases = Expander::parse(file_get_contents($this->defaultDrupalVmDrushAliasesFile), $this->getConfig()->export());
+      $aliases = array_merge($new_aliases, $aliases);
+    }
+
+    YamlMunge::writeFile($this->getConfigValue('docroot') . "/drush/sites/$site_name.site.yml",
+      $aliases);
   }
 
 }

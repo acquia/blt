@@ -23,6 +23,8 @@ class CloudHooksCommand extends BltTasks {
     ])
       ->run();
 
+    // @todo Set permissions to 0755.
+
     return $result;
   }
 

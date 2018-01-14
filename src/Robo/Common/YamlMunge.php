@@ -2,7 +2,7 @@
 
 namespace Acquia\Blt\Robo\Common;
 
-use Acquia\Blt\Robo\Exceptions\BltException;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -43,10 +43,14 @@ class YamlMunge {
     return Yaml::parse(file_get_contents($file));
   }
 
+  /**
+   * @params string $file
+   * @param array $contents
+   */
   public static function writeFile($file, $contents) {
-    if (!file_put_contents($file, Yaml::dump($contents, 3, 2))) {
-      throw new BltException('Unable to write file.');
-    }
+    $fs = new Filesystem();
+    $yaml_string = Yaml::dump($contents, 3, 2);
+    $fs->dumpFile($file, $yaml_string);
   }
 
   /**

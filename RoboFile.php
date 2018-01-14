@@ -7,7 +7,6 @@ use Github\Client;
 use Robo\Tasks;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
-use Symfony\Component\Yaml\Yaml;
 use Acquia\Blt\Robo\Common\YamlMunge;
 
 /**
@@ -201,39 +200,28 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $this->prepareTestProjectDir($test_project_clone_dir);
     $this->createTestApp($options);
 
-    // Create drush alias for site1.
-    $aliases = [
-      'local' => [
-        'root' => $test_project_dir,
-        'uri' => $site1_dir,
-      ],
-      'clone' => [
-        'root' => $test_project_clone_dir,
-        'uri' => $site1_dir,
-      ],
-    ];
-    file_put_contents("$test_project_dir/drush/sites/$site1_dir.site.yml",
-      Yaml::dump($aliases));
-    // Create drush alias for site2.
-    $aliases = [
-      'local' => [
-        'root' => $test_project_dir,
-        'uri' => $site2_dir,
-      ],
-      'clone' => [
-        'root' => $test_project_clone_dir,
-        'uri' => $site2_dir,
-      ],
-    ];
-    file_put_contents("$test_project_dir/drush/sites/$site2_dir.site.yml",
-      Yaml::dump($aliases));
-
     // Generate multisite in test project.
     $bin = $test_project_dir . "/vendor/bin";
     $this->taskExecStack()
       ->dir($test_project_dir)
       ->exec("$bin/blt generate:multisite --site-name=$site2_dir --site-uri=http://$site2_local_uri --yes --no-interaction")
       ->run();
+
+    // Create drush alias for site1.
+    $aliases = YamlMunge::parseFile("$test_project_dir/drush/sites/$site1_dir.site.yml");
+    $aliases['clone'] = [
+      'root' => $test_project_clone_dir,
+      'uri' => $site1_dir,
+    ];
+    YamlMunge::writeFile("$test_project_dir/drush/sites/$site1_dir.site.yml", $aliases);
+
+    // Create drush alias for site2.
+    $aliases = YamlMunge::parseFile("$test_project_dir/drush/sites/$site2_dir.site.yml");
+    $aliases['clone'] = [
+      'root' => $test_project_clone_dir,
+      'uri' => $site2_dir,
+    ];
+    YamlMunge::writeFile("$test_project_dir/drush/sites/$site2_dir.site.yml", $aliases);
 
     // Make a local clone of new project.
     $this->taskFilesystemStack()
@@ -349,7 +337,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
           ->interactive(FALSE)
           ->exec("$bin/blt config:get project.local.uri --no-interaction --define environment=" . $options['environment'])
           ->run();
-        $uri = $result->getMessage();
+        $uri = trim($result->getMessage());
         $drush_yml_file_path = $test_project_dir . "/docroot/sites/default/local.drush.yml";
         $drush_yml_contents = YamlMunge::parseFile($drush_yml_file_path);
         $drush_yml_contents['options']['uri'] = $uri;
@@ -435,6 +423,8 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $task
       // Execute PHP Unit tests.
       ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group blt -c {$this->bltRoot}/tests/phpunit/phpunit.xml -v")
+      ->exec("$bin/blt vm:nuke $blt_suffix")
+      ->exec("$bin/blt setup $blt_suffix --define setup.strategy=sync --define site=site2")
       ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group blted8 --exclude-group post-sync -c {$this->bltRoot}/tests/phpunit/phpunit.xml -v")
       // Test setup strategy "sync".
       ->exec("$bin/blt setup $blt_suffix --define setup.strategy=sync")
@@ -930,8 +920,8 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    */
   protected function setMultisiteConfigFile($project_dir, $site_dir, $uri, $site_name, $db_name) {
     $project_yml = YamlMunge::parseFile($project_dir . "/docroot/sites/$site_dir/blt.yml");
-    $project_yml['project']['human_name'] = $site_name;
-    $project_yml['project']['local']['hostname'] = $uri;
+    // $project_yml['project']['human_name'] = $site_name;
+    // $project_yml['project']['local']['hostname'] = $uri;.
     $project_yml['drupal']['db']['database'] = $db_name;
     YamlMunge::writeFile($project_dir . "/docroot/sites/$site_dir/blt.yml", $project_yml);
   }

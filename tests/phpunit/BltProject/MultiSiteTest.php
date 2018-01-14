@@ -38,6 +38,7 @@ class MultiSiteTest extends BltProjectTestBase {
     $this->assertEquals('Site 1 Local', $output_array['name']);
 
     $output_array = $this->drush("@site2.local config-get system.site");
+    // Site2 is not installed!
     $this->assertEquals('Site 2 Local', $output_array['name']);
 
     $output_array = $this->drush("@default.clone config-get system.site");
