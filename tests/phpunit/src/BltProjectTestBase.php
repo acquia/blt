@@ -2,7 +2,8 @@
 
 namespace Acquia\Blt\Tests;
 
-use Symfony\Component\Yaml\Yaml;
+use Acquia\Blt\Robo\Config\ConfigInitializer;
+use Symfony\Component\Console\Input\ArrayInput;
 
 /**
  * Class BltProjectTestBase.
@@ -48,18 +49,26 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
     }
 
     $this->drupalRoot = $this->projectDirectory . '/docroot';
-    if (file_exists("{$this->projectDirectory}/blt/project.yml")) {
-      $this->config = Yaml::parse(file_get_contents("{$this->projectDirectory}/blt/project.yml"));
-    }
-    else {
-      throw new \Exception("Could not find project.yml!");
-    }
-    if (file_exists("{$this->projectDirectory}/blt/project.local.yml")) {
-      $this->config = array_replace_recursive($this->config, (array) Yaml::parse(file_get_contents("{$this->projectDirectory}/blt/project.local.yml")));
-    }
+    // Initialize configuration.
+    $config_initializer = new ConfigInitializer($this->projectDirectory, new ArrayInput([]));
+    $this->config = $config_initializer->initialize()->export();
 
     // Build sites list.
     $this->sites = !empty($this->config['multisite']['name']) ? $this->config['multisite']['name'] : ['default'];
+  }
+
+  /**
+   * @param $command
+   *
+   * @return mixed
+   */
+  protected function drush($command) {
+    chdir($this->drupalRoot);
+    $drush_bin = $this->projectDirectory . '/vendor/bin/drush';
+    $command_string = "$drush_bin $command --format=json --no-interaction --no-ansi";
+    $output = shell_exec($command_string);
+
+    return json_decode($output, TRUE);
   }
 
 }

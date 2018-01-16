@@ -34,7 +34,7 @@ class AllCommand extends BltTasks {
         break;
 
       case 'sync':
-        $commands[] = 'sync:refresh';
+        $commands[] = 'sync';
         break;
 
       case 'import':

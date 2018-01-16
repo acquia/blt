@@ -2,7 +2,7 @@
 
 namespace Acquia\Blt\Robo\Common;
 
-use Acquia\Blt\Robo\Exceptions\BltException;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -18,14 +18,36 @@ class YamlMunge {
    * @param string $file2
    *   The file path of the second file.
    *
-   * @return string
+   * @return array
    *   The merged arrays.
    */
-  public static function munge($file1, $file2) {
+  public static function mungeFiles($file1, $file2) {
     $file1_contents = (array) self::parseFile($file1);
     $file2_contents = (array) self::parseFile($file2);
 
     return self::arrayMergeRecursiveExceptEmpty($file1_contents, $file2_contents);
+  }
+
+  /**
+   * @param $array
+   * @param $file
+   * @param bool $overwrite
+   */
+  public static function mergeArrayIntoFile($array, $file, $overwrite = TRUE) {
+    if (file_exists($file)) {
+      $file_contents = (array) self::parseFile($file);
+      if ($overwrite) {
+        $new_contents = ArrayManipulator::arrayMergeRecursiveDistinct($file_contents, $array);
+      }
+      else {
+        $new_contents = ArrayManipulator::arrayMergeRecursiveDistinct($array, $file_contents);
+      }
+    }
+    else {
+      $new_contents = $array;
+    }
+
+    self::writeFile($file, $new_contents);
   }
 
   /**
@@ -43,10 +65,14 @@ class YamlMunge {
     return Yaml::parse(file_get_contents($file));
   }
 
+  /**
+   * @params string $file
+   * @param array $contents
+   */
   public static function writeFile($file, $contents) {
-    if (!file_put_contents($file, Yaml::dump($contents, 3, 2))) {
-      throw new BltException('Unable to write file.');
-    }
+    $fs = new Filesystem();
+    $yaml_string = Yaml::dump($contents, 3, 2);
+    $fs->dumpFile($file, $yaml_string);
   }
 
   /**

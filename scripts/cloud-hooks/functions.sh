@@ -11,7 +11,7 @@ deploy_updates() {
     01dev|01test)
       acsf_deploy
       ;;
-    # Do not run deploy updates on 01live in case a branch is deployed in prod. 
+    # Do not run deploy updates on 01live in case a branch is deployed in prod.
     01devup|01testup|01update|01live)
       ;;
     ode[[:digit:]]*)
@@ -45,7 +45,7 @@ acsf_deploy() {
   # Loop through each available site uri and run BLT deploy updates.
   for uri in "${sites[@]}"; do
   #Override BLT default deploy uri.
-  blt deploy:update --define environment=$target_env --define drush.uri="$uri" -v -y
+  blt deploy:update:all --define environment=$target_env --define drush.uri="$uri" -v -y
   if [ $? -ne 0 ]; then
       echo "Update errored for site $uri."
       exit 1
@@ -66,7 +66,7 @@ ace_deploy() {
   export PATH=$repo_root/vendor/bin:$PATH
   cd $repo_root
 
-  blt deploy:update --define environment=$target_env -v -y
+  blt deploy:update:all --define environment=$target_env -v -y
   if [ $? -ne 0 ]; then
       echo "Update errored."
       exit 1

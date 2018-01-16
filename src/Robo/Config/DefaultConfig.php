@@ -103,7 +103,8 @@ class DefaultConfig extends BltConfig {
       ->in($sites_dir)
       ->directories()
       ->depth('< 1')
-      ->exclude(['g']);
+      ->exclude(['g'])
+      ->sortByName();
     foreach ($dirs->getIterator() as $dir) {
       $sites[] = $dir->getRelativePathname();
     }

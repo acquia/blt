@@ -81,6 +81,7 @@ drupal:
 drush:
   bin: ${composer.bin}/drush
   dir: ${docroot}
+  alias-dir: ${repo.root}/drush/sites
   sanitize: true
 
 git:
@@ -153,7 +154,8 @@ sync:
     - js
   commands:
     - setup:composer:install
-    - sync
+    - setup:settings
+    - sync:db
     - setup:update
     - frontend
 

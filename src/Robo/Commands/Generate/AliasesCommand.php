@@ -54,7 +54,7 @@ class AliasesCommand extends BltTasks {
     $this->setAppId();
     $this->cloudConfFileName = 'cloud_api.conf';
     $this->cloudConfFilePath = $this->cloudConfDir . '/' . $this->cloudConfFileName;
-    $this->siteAliasDir = $this->getConfigValue('repo.root') . '/drush/sites';
+    $this->siteAliasDir = $this->getConfigValue('drush.alias-dir');
 
     $cloudApiConfig = $this->loadCloudApiConfig();
     $this->setCloudApiClient($cloudApiConfig['key'], $cloudApiConfig['secret']);
