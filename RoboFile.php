@@ -8,6 +8,7 @@ use Robo\Tasks;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Acquia\Blt\Robo\Common\YamlMunge;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * This is project's console commands configuration for Robo task runner.
@@ -187,6 +188,8 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $site2_local_db_name = 'drupal2';
     $site1_local_human_name = "Site 1 Local";
     $site2_local_human_name = "Site 2 Local";
+    $site1_remote_drush_alias = "$site1_dir.clone";
+    $site2_remote_drush_alias = "$site2_dir.clone";
 
     // Create test project clone vars.
     $test_project_clone_dir = $test_project_dir . "2";
@@ -204,24 +207,8 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $bin = $test_project_dir . "/vendor/bin";
     $this->taskExecStack()
       ->dir($test_project_dir)
-      ->exec("$bin/blt generate:multisite --site-name=$site2_dir --site-uri=http://$site2_local_uri --yes --no-interaction")
+      ->exec("$bin/blt generate:multisite --site-dir=$site2_dir --site-uri=http://$site2_local_uri --remote-alias=$site2_remote_drush_alias --yes --no-interaction")
       ->run();
-
-    // Create drush alias for site1.
-    $aliases = YamlMunge::parseFile("$test_project_dir/drush/sites/$site1_dir.site.yml");
-    $aliases['clone'] = [
-      'root' => $test_project_clone_dir,
-      'uri' => $site1_dir,
-    ];
-    YamlMunge::writeFile("$test_project_dir/drush/sites/$site1_dir.site.yml", $aliases);
-
-    // Create drush alias for site2.
-    $aliases = YamlMunge::parseFile("$test_project_dir/drush/sites/$site2_dir.site.yml");
-    $aliases['clone'] = [
-      'root' => $test_project_clone_dir,
-      'uri' => $site2_dir,
-    ];
-    YamlMunge::writeFile("$test_project_dir/drush/sites/$site2_dir.site.yml", $aliases);
 
     // Make a local clone of new project.
     $this->taskFilesystemStack()
@@ -231,15 +218,42 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       )
       ->run();
 
-    // Replace project.local.hostname, drupal.db.database, project.human_name
-    // for local app.
-    $this->setMultisiteConfigFile($test_project_dir, $site1_dir, $site1_local_uri, $site1_local_human_name, $site1_local_db_name);
-    $this->setMultisiteConfigFile($test_project_dir, $site2_dir, $site2_local_uri, $site2_local_human_name, $site2_local_db_name);
+    // Create drush alias for site1.
+    $aliases['clone'] = [
+      'root' => $test_project_clone_dir,
+      'uri' => $site1_dir,
+    ];
+    YamlMunge::mergeArrayIntoFile($aliases, "$test_project_dir/drush/sites/$site1_dir.site.yml");
 
-    // Replace project.local.hostname, drupal.db.database, project.human_name
-    // for clone app.
-    $this->setMultisiteConfigFile($test_project_clone_dir, $site1_dir, $site1_clone_uri, $site1_clone_human_name, $site1_clone_db_name);
-    $this->setMultisiteConfigFile($test_project_clone_dir, $site2_dir, $site2_clone_uri, $site2_clone_human_name, $site2_clone_db_name);
+    // Create drush alias for site2.
+    $aliases['clone'] = [
+      'root' => $test_project_clone_dir,
+      'uri' => $site2_dir,
+    ];
+    YamlMunge::mergeArrayIntoFile($aliases, "$test_project_dir/drush/sites/$site2_dir.site.yml");
+
+    // Site 1 local.
+    $project_yml['project']['local']['hostname'] = $site1_local_uri;
+    $project_yml['project']['human_name'] = $site1_local_human_name;
+    $project_yml['drupal']['db']['database'] = $site1_local_db_name;
+    $project_yml['drush']['aliases']['remote'] = $site1_remote_drush_alias;
+    YamlMunge::mergeArrayIntoFile($project_yml, $test_project_dir . "/docroot/sites/$site1_dir/blt.yml");
+
+    // Site 2 local.
+    $project_yml['project']['human_name'] = $site2_local_human_name;
+    $project_yml['drupal']['db']['database'] = $site2_local_db_name;
+    // drush.aliases.remote should already have been set via generate command.
+    YamlMunge::mergeArrayIntoFile($project_yml, $test_project_dir . "/docroot/sites/$site2_dir/blt.yml");
+
+    // Site 1 clone.
+    $project_yml['project']['human_name'] = $site1_clone_human_name;
+    $project_yml['drupal']['db']['database'] = $site1_clone_db_name;
+    YamlMunge::mergeArrayIntoFile($project_yml, $test_project_clone_dir . "/docroot/sites/$site1_dir/blt.yml");
+
+    // Site 2 clone.
+    $project_yml['project']['human_name'] = $site2_clone_human_name;
+    $project_yml['drupal']['db']['database'] = $site2_clone_db_name;
+    YamlMunge::mergeArrayIntoFile($project_yml, $test_project_clone_dir . "/docroot/sites/$site2_dir/blt.yml");
 
     // Generate sites.php for local app.
     $sites[$site1_local_uri] = $site1_dir;
@@ -258,8 +272,10 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $this->taskFilesystemStack()->remove([
       "$test_project_dir/docroot/sites/$site1_dir/settings/local.settings.php",
       "$test_project_dir/docroot/sites/$site2_dir/settings/local.settings.php",
+      "$test_project_dir/docroot/sites/$site1_dir/local.drush.yml",
       "$test_project_clone_dir/docroot/sites/$site1_dir/settings/local.settings.php",
       "$test_project_clone_dir/docroot/sites/$site2_dir/settings/local.settings.php",
+      "$test_project_clone_dir/docroot/sites/$site1_dir/local.drush.yml",
     ])->run();
 
     $this->say("The following applications were created:");
@@ -315,7 +331,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    */
   public function releaseTest($options = [
     'base-branch' => self::BLT_DEV_BRANCH,
-    'environment' => 'ci',
+    'environment' => InputOption::VALUE_REQUIRED,
     'create-project' => TRUE,
     'project-dir' => self::BLT_PROJECT_DIR,
     'project-type' => 'symlink',
@@ -325,25 +341,27 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $use_vm = $options['vm'];
     $test_project_dir = $this->bltRoot . "/" . $options['project-dir'];
     $bin = $test_project_dir . "/vendor/bin";
+    $clone_bin = $test_project_dir . "2/vendor/bin";
 
     if ($options['create-project']) {
       $this->createMultisites($options);
-      // Set drush's URI to match special CI URI.
-      if ($options['environment']) {
-        $result = $this->taskExecStack()
-          ->dir($test_project_dir)
-          ->printMetadata(TRUE)
-          ->printOutput(TRUE)
-          ->interactive(FALSE)
-          ->exec("$bin/blt config:get project.local.uri --no-interaction --define environment=" . $options['environment'])
-          ->run();
-        $uri = trim($result->getMessage());
-        $drush_yml_file_path = $test_project_dir . "/docroot/sites/default/local.drush.yml";
-        $drush_yml_contents = YamlMunge::parseFile($drush_yml_file_path);
-        $drush_yml_contents['options']['uri'] = $uri;
-        YamlMunge::writeFile($drush_yml_file_path, $drush_yml_contents);
-      }
     }
+
+    // Set drush's URI to match special CI URI.
+    if ($options['environment']) {
+      $result = $this->taskExecStack()
+        ->dir($test_project_dir)
+        ->printMetadata(TRUE)
+        ->printOutput(TRUE)
+        ->interactive(FALSE)
+        ->exec("$bin/blt config:get project.local.uri --no-interaction --define environment=" . $options['environment'])
+        ->run();
+      $uri = trim($result->getMessage());
+      $drush_yml_file_path = $test_project_dir . "/docroot/sites/default/local.drush.yml";
+      $drush_yml_contents['options']['uri'] = $uri;
+      YamlMunge::mergeArrayIntoFile($drush_yml_contents, $drush_yml_file_path);
+    }
+
     $blt_suffix = "--define environment={$options['environment']} --yes --no-interaction -vvv";
     $task = $this->taskExecStack()
       ->dir($test_project_dir)
@@ -423,12 +441,14 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $task
       // Execute PHP Unit tests.
       ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group blt -c {$this->bltRoot}/tests/phpunit/phpunit.xml -v")
-      ->exec("$bin/blt vm:nuke $blt_suffix")
-      ->exec("$bin/blt setup $blt_suffix --define setup.strategy=sync --define site=site2")
+      // Set up clone sites.
+      ->exec("$bin/blt setup $blt_suffix --define profile.name=minimal --define site=site2")
+      ->exec("$clone_bin/blt setup $blt_suffix --define profile.name=minimal")
+      ->exec("$clone_bin/blt setup $blt_suffix --define profile.name=minimal --define site=site2")
       ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group blted8 --exclude-group post-sync -c {$this->bltRoot}/tests/phpunit/phpunit.xml -v")
-      // Test setup strategy "sync".
-      ->exec("$bin/blt setup $blt_suffix --define setup.strategy=sync")
-      ->exec("$bin/blt sync:all:db $blt_suffix --define setup.strategy=sync")
+      ->exec("$bin/blt vm:nuke $blt_suffix")
+      // Sync sites.
+      ->exec("$bin/blt sync:all:db $blt_suffix")
       ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group post-sync -c {$this->bltRoot}/tests/phpunit/phpunit.xml -v");
 
     $task->run();
@@ -910,20 +930,6 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
         throw new BltException("Release terminated by user.");
       }
     }
-  }
-
-  /**
-   * @param $project_dir
-   * @param $uri
-   *
-   * @return array
-   */
-  protected function setMultisiteConfigFile($project_dir, $site_dir, $uri, $site_name, $db_name) {
-    $project_yml = YamlMunge::parseFile($project_dir . "/docroot/sites/$site_dir/blt.yml");
-    // $project_yml['project']['human_name'] = $site_name;
-    // $project_yml['project']['local']['hostname'] = $uri;.
-    $project_yml['drupal']['db']['database'] = $db_name;
-    YamlMunge::writeFile($project_dir . "/docroot/sites/$site_dir/blt.yml", $project_yml);
   }
 
 }

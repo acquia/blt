@@ -18,14 +18,36 @@ class YamlMunge {
    * @param string $file2
    *   The file path of the second file.
    *
-   * @return string
+   * @return array
    *   The merged arrays.
    */
-  public static function munge($file1, $file2) {
+  public static function mungeFiles($file1, $file2) {
     $file1_contents = (array) self::parseFile($file1);
     $file2_contents = (array) self::parseFile($file2);
 
     return self::arrayMergeRecursiveExceptEmpty($file1_contents, $file2_contents);
+  }
+
+  /**
+   * @param $array
+   * @param $file
+   * @param bool $overwrite
+   */
+  public static function mergeArrayIntoFile($array, $file, $overwrite = TRUE) {
+    if (file_exists($file)) {
+      $file_contents = (array) self::parseFile($file);
+      if ($overwrite) {
+        $new_contents = ArrayManipulator::arrayMergeRecursiveDistinct($file_contents, $array);
+      }
+      else {
+        $new_contents = ArrayManipulator::arrayMergeRecursiveDistinct($array, $file_contents);
+      }
+    }
+    else {
+      $new_contents = $array;
+    }
+
+    self::writeFile($file, $new_contents);
   }
 
   /**

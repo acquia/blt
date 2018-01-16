@@ -336,7 +336,7 @@ class UpdateCommand extends BltTasks {
     $this->say("Merging default configuration into composer.json...");
     $project_composer_json = $this->getConfigValue('repo.root') . '/composer.json';
     $template_composer_json = $this->getConfigValue('blt.root') . '/template/composer.json';
-    $munged_json = ComposerMunge::munge($project_composer_json, $template_composer_json);
+    $munged_json = ComposerMunge::mungeFiles($project_composer_json, $template_composer_json);
     $bytes = file_put_contents($project_composer_json, $munged_json);
     if (!$bytes) {
       throw new BltException("Could not update $project_composer_json.");
@@ -354,7 +354,7 @@ class UpdateCommand extends BltTasks {
     // not overridden.
     $repo_project_yml = $this->getConfigValue('blt.config-files.project');
     $template_project_yml = $this->getConfigValue('blt.root') . '/template/blt/project.yml';
-    $munged_yml = YamlMunge::munge($template_project_yml, $repo_project_yml);
+    $munged_yml = YamlMunge::mungeFiles($template_project_yml, $repo_project_yml);
     try {
       YamlMunge::writeFile($repo_project_yml, $munged_yml);
     }

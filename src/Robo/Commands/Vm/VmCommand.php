@@ -38,7 +38,7 @@ class VmCommand extends BltTasks {
     $this->defaultDrupalVmDrushAliasesFile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/drupal-vm.site.yml';
     $this->defaultDrupalVmConfigFile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/config.yml';
     $this->defaultDrupalVmVagrantfile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/Vagrantfile';
-    $this->projectDrushAliasesFile = $this->getConfigValue('repo.root') . '/drush/sites/' . $this->getConfigValue('project.machine_name') . '.site.yml';
+    $this->projectDrushAliasesFile = $this->getConfigValue('drush.alias-dir') . '/' . $this->getConfigValue('project.machine_name') . '.site.yml';
     $this->projectDrupalVmVagrantfile = $this->getConfigValue('repo.root') . '/Vagrantfile';
     $this->projectDrupalVmConfigFile = $this->getConfigValue('vm.config');
     $this->vmDir = dirname($this->projectDrupalVmConfigFile);

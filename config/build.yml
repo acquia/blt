@@ -81,6 +81,7 @@ drupal:
 drush:
   bin: ${composer.bin}/drush
   dir: ${docroot}
+  alias-dir: ${repo.root}/drush/sites
   sanitize: true
 
 git:

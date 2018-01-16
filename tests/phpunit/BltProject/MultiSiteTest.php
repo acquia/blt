@@ -51,7 +51,8 @@ class MultiSiteTest extends BltProjectTestBase {
   /**
    * Tests multisite, after `blt sync:db:all` execution.
    *
-   * @group blted8 post-sync
+   * @group blted8
+   * @group post-sync
    */
   public function testMultisiteSync() {
     $output_array = $this->drush("@default.local config-get system.site");
