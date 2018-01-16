@@ -440,13 +440,14 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $task->exec("$bin/blt deploy:build $blt_suffix");
     $task
       // Execute PHP Unit tests.
-      ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group blt -c {$this->bltRoot}/tests/phpunit/phpunit.xml -v")
+      ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group vm -c {$this->bltRoot}/tests/phpunit/phpunit.xml -v")
+      ->exec("$bin/blt vm:nuke $blt_suffix")
+      ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group blt --exclude-group deploy-push -c {$this->bltRoot}/tests/phpunit/phpunit.xml -v")
       // Set up clone sites.
       ->exec("$bin/blt setup $blt_suffix --define profile.name=minimal --define site=site2")
-      ->exec("$clone_bin/blt setup $blt_suffix --define profile.name=minimal")
-      ->exec("$clone_bin/blt setup $blt_suffix --define profile.name=minimal --define site=site2")
-      ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group blted8 --exclude-group post-sync -c {$this->bltRoot}/tests/phpunit/phpunit.xml -v")
-      ->exec("$bin/blt vm:nuke $blt_suffix")
+      ->exec("$clone_bin/blt setup $blt_suffix --define project.profile.name=minimal")
+      ->exec("$clone_bin/blt setup $blt_suffix --define project.profile.name=minimal --define site=site2")
+      ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group blted8 --exclude-group post-sync --exclude-group vm -c {$this->bltRoot}/tests/phpunit/phpunit.xml -v")
       // Sync sites.
       ->exec("$bin/blt sync:all:db $blt_suffix")
       ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group post-sync -c {$this->bltRoot}/tests/phpunit/phpunit.xml -v");

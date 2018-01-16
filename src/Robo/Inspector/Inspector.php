@@ -279,7 +279,8 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    */
   public function isDrushAliasValid($alias) {
     $bin = $this->getConfigValue('composer.bin');
-    $this->executor->execute("'$bin/drush' site:alias @$alias --format=json")
+    $command = "'$bin/drush' site:alias @$alias --format=json";
+    return $this->executor->execute($command)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERY_VERBOSE)
       ->run()
       ->wasSuccessful();
