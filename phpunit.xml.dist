@@ -1,13 +1,27 @@
-<!-- phpunit.xml.dist -->
-<phpunit>
+<phpunit
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.6/phpunit.xsd"
+  colors="true"
+  bootstrap="tests/phpunit/bootstrap.php">
+
   <testsuites>
     <testsuite name="BLT Test Suite">
       <directory>tests/phpunit</directory>
     </testsuite>
   </testsuites>
-  <filter>
-    <whitelist processUncoveredFilesFromWhitelist="true">
-      <directory suffix=".php">src/Robo</directory>
-    </whitelist>
-  </filter>
+
+  <php>
+    <const name="BLT_ENV" value="ci"/>
+    <const name="BLT_ALIAS" value="self"/>
+    <const name="BLT_MULTISITE_NAME" value="default"/>
+
+    <!-- These variables may alternatively be set as environment variables. -->
+    <env name="BLT_RECREATE_SANDBOX_MASTER" value="1"/>
+    <env name="BLT_PRINT_COMMAND_OUTPUT" value="0"/>
+
+    <!--Uncomment and edit one of the lines below depending on DB platform.-->
+    <!--DB User must have create/drop permissions-->
+    <!-- <var name="BLT_MYSQL_URL" value="mysql://root:@127.0.0.1"/> -->
+  </php>
+
 </phpunit>

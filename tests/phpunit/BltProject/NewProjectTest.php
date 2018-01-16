@@ -18,13 +18,13 @@ class NewProjectTest extends BltProjectTestBase {
    * @group blted8
    */
   public function testBltCreate() {
-    $this->assertFileExists($this->projectDirectory);
-    $this->assertFileNotExists($this->projectDirectory . '/install');
-    $this->assertFileNotExists($this->projectDirectory . '/tests/phpunit/BltTest.php');
-    $this->assertFileExists($this->projectDirectory . '/vendor');
+    $this->assertFileExists($this->sandboxInstance);
+    $this->assertFileNotExists($this->sandboxInstance . '/install');
+    $this->assertFileNotExists($this->sandboxInstance . '/tests/phpunit/BltTest.php');
+    $this->assertFileExists($this->sandboxInstance . '/vendor');
     $this->assertNotContains(
           '${project.machine_name}',
-          file_get_contents($this->projectDirectory . '/docroot/sites/default/settings.php')
+          file_get_contents($this->sandboxInstance . '/docroot/sites/default/settings.php')
       );
   }
 

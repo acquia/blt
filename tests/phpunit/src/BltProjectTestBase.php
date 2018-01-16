@@ -3,7 +3,9 @@
 namespace Acquia\Blt\Tests;
 
 use Acquia\Blt\Robo\Config\ConfigInitializer;
+use function getenv;
 use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Process\Process;
 
 /**
  * Class BltProjectTestBase.
@@ -12,49 +14,20 @@ use Symfony\Component\Console\Input\ArrayInput;
  */
 abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
 
-  protected $projectDirectory;
-  protected $drupalRoot;
+  protected $sandboxInstance;
   protected $sites = [];
+  /**
+   * @var \Acquia\Blt\Robo\Config\DefaultConfig
+   */
   protected $config = [];
 
-  /**
-   * BltProjectTestBase constructor.
-   *
-   * @inheritdoc
-   */
-  public function __construct($name = NULL, array $data = [], $dataName = '') {
-    parent::__construct($name, $data, $dataName);
-
-    // We must consider that this package may be symlinked into its location.
-    $repo_root_locations = [
-      dirname($_SERVER['SCRIPT_FILENAME']) . '/../..',
-      getcwd(),
-    ];
-
-    foreach ($repo_root_locations as $location) {
-      if (file_exists($location . '/vendor/bin/blt')
-        && file_exists($location . '/composer.json')) {
-        if ($path = realpath($location)) {
-          $this->projectDirectory = $path;
-        }
-        else {
-          $this->projectDirectory = $location;
-        }
-        break;
-      }
-    }
-
-    if (empty($this->projectDirectory)) {
-      throw new \Exception("Could not find project root directory!");
-    }
-
-    $this->drupalRoot = $this->projectDirectory . '/docroot';
-    // Initialize configuration.
-    $config_initializer = new ConfigInitializer($this->projectDirectory, new ArrayInput([]));
-    $this->config = $config_initializer->initialize()->export();
-
-    // Build sites list.
-    $this->sites = !empty($this->config['multisite']['name']) ? $this->config['multisite']['name'] : ['default'];
+  public function setUp() {
+    parent::setUp();
+    $bootstrapper = new BltPhpunitBootstrapper();
+    $bootstrapper->createSandboxInstance();
+    $this->sandboxInstance = $bootstrapper->getSandboxInstance();
+    $config_initializer = new ConfigInitializer($this->sandboxInstance, new ArrayInput([]));
+    $this->config = $config_initializer->initialize();
   }
 
   /**
@@ -63,12 +36,45 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
    * @return mixed
    */
   protected function drush($command) {
-    chdir($this->drupalRoot);
-    $drush_bin = $this->projectDirectory . '/vendor/bin/drush';
+    chdir($this->config->get('docroot'));
+    $drush_bin = $this->sandboxInstance . '/vendor/bin/drush';
     $command_string = "$drush_bin $command --format=json --no-interaction --no-ansi";
-    $output = shell_exec($command_string);
+    $process = new Process($command_string);
+    $process->setTimeout(null);
+    if (getenv('BLT_PRINT_COMMAND_OUTPUT')) {
+      $process->run(function ($type, $buffer) {
+        echo $buffer;
+      });
+    }
+    else {
+      $process->run();
+    }
+    $output = $process->getOutput();
 
     return json_decode($output, TRUE);
+  }
+
+  /**
+   * @param $command
+   *
+   * @return Process
+   */
+  protected function blt($command) {
+    chdir($this->config->get('repo.root'));
+    $blt_bin = $this->sandboxInstance . '/vendor/bin/blt';
+    $command_string = "$blt_bin $command --no-interaction --no-ansi";
+    $process = new Process($command_string);
+    $process->setTimeout(null);
+    if (getenv('BLT_PRINT_COMMAND_OUTPUT')) {
+      $process->run(function ($type, $buffer) {
+        echo $buffer;
+      });
+    }
+    else {
+      $process->run();
+    }
+
+    return $process;
   }
 
 }

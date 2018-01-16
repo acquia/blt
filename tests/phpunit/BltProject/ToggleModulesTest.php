@@ -19,7 +19,7 @@ class ToggleModulesTest extends BltProjectTestBase {
    * @group blted8
    */
   public function testModulesEnabled() {
-    $modules = $this->config['modules'][BLT_ENV]['enable'];
+    $modules = $this->config->get('modules.' . BLT_ENV . '.enable');
     foreach ($modules as $module) {
       $this->assertModuleEnabled($module, BLT_ALIAS);
     }
@@ -33,7 +33,7 @@ class ToggleModulesTest extends BltProjectTestBase {
    * @group blted8
    */
   public function testModulesNotEnabled() {
-    $modules = $this->config['modules'][BLT_ENV]['uninstall'];
+    $modules = $this->config->get('modules.' . BLT_ENV . '.uninstall');
     foreach ($modules as $module) {
       $this->assertModuleNotEnabled($module, BLT_ALIAS);
     }
@@ -84,11 +84,11 @@ class ToggleModulesTest extends BltProjectTestBase {
    */
   private function getModuleEnabledStatus($module, $alias = '') {
     $output = [];
-    $drush_bin = $this->projectDirectory . '/vendor/bin/drush';
+    $drush_bin = $this->sandboxInstance . '/vendor/bin/drush';
 
     // Get module status, it will be on the first line of output.
-    chdir($this->drupalRoot);
-    $command = "$drush_bin pm:list --fields=name,status --root=$this->drupalRoot | grep $module";
+    chdir($this->config->get('docroot'));
+    $command = "$drush_bin pm:list --fields=name,status --root={$this->config->get('docroot')} | grep $module";
     exec($command, $output);
     $status = $output[0];
 

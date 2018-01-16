@@ -17,7 +17,7 @@ class PipelinesTest extends BltProjectTestBase {
    * @group blted8
    */
   public function testPipelinesInit() {
-    $this->assertFileExists($this->projectDirectory . '/acquia-pipelines.yml');
+    $this->assertFileExists($this->sandboxInstance . '/acquia-pipelines.yml');
   }
 
 }

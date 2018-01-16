@@ -19,8 +19,8 @@ class SimpleSamlPhpTest extends BltProjectTestBase {
    * @group blted8
    */
   public function testSimpleSamlPhpConfigInit() {
-    $simpleSamlPhpConfigDirectory = "{$this->projectDirectory}/simplesamlphp/config";
-    $simpleSamlPhpMetadataDirectory = "{$this->projectDirectory}/simplesamlphp/metadata";
+    $simpleSamlPhpConfigDirectory = "{$this->sandboxInstance}/simplesamlphp/config";
+    $simpleSamlPhpMetadataDirectory = "{$this->sandboxInstance}/simplesamlphp/metadata";
 
     $this->assertFileExists("${simpleSamlPhpConfigDirectory}/authsources.php");
     $this->assertFileExists("${simpleSamlPhpConfigDirectory}/config.php");
@@ -54,7 +54,7 @@ class SimpleSamlPhpTest extends BltProjectTestBase {
    * @group blted8
    */
   public function testSymlinkDocrootToLibDir() {
-    $this->assertFileExists("{$this->drupalRoot}/simplesaml/saml2");
+    $this->assertFileExists("{$this->config->get('docroot')}/simplesaml/saml2");
   }
 
 }

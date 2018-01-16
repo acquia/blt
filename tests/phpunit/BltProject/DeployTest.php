@@ -16,7 +16,7 @@ class DeployTest extends BltProjectTestBase {
    */
   public function setUp() {
     parent::setUp();
-    $this->deploy_dir = $this->projectDirectory . '/deploy';
+    $this->deploy_dir = $this->sandboxInstance . '/deploy';
   }
 
   /**
@@ -69,7 +69,7 @@ class DeployTest extends BltProjectTestBase {
     global $_ENV;
     $deploy_branch = '8.x-build';
 
-    foreach ($this->config['git']['remotes'] as $remote) {
+    foreach ($this->config->get('git.remotes') as $remote) {
       $commands = [
         "git remote add temp $remote",
         "git fetch temp $deploy_branch",

@@ -15,9 +15,9 @@ class MultiSiteTest extends BltProjectTestBase {
    * @group blted8
    */
   public function testMultisiteGenerate() {
-    $site_dir = $this->projectDirectory . '/docroot/sites/site2';
+    $site_dir = $this->sandboxInstance . '/docroot/sites/site2';
     $this->assertFileExists($site_dir);
-    $this->assertFileExists($this->projectDirectory . '/docroot/sites/site2/blt.yml');
+    $this->assertFileExists($this->sandboxInstance . '/docroot/sites/site2/blt.yml');
     // @codingStandardsIgnoreStart
     // $site2_config = ArrayManipulator::flattenToDotNotatedKeys(YamlMunge::parseFile($site_dir . '/blt.yml'));
     // $this->assertContains('local.blted8.site2.com', $site2_config);
@@ -32,7 +32,7 @@ class MultiSiteTest extends BltProjectTestBase {
     $this->assertFileExists($site_dir . '/settings/default.local.settings.php');
     $this->assertNotContains('${drupal.db.database}', file_get_contents($site_dir . '/settings/local.settings.php'));
     $this->assertFileExists($site_dir . '/settings/local.settings.php');
-    $this->assertFileExists($this->projectDirectory . '/config/site2');
+    $this->assertFileExists($this->sandboxInstance . '/config/site2');
 
     $output_array = $this->drush("@default.local config-get system.site");
     $this->assertEquals('Site 1 Local', $output_array['name']);

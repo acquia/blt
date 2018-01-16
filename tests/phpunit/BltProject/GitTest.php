@@ -17,9 +17,9 @@ class GitTasksTest extends BltProjectTestBase {
    * @group blted8
    */
   public function testGitConfig() {
-    $this->assertFileExists($this->projectDirectory . '/.git');
-    $this->assertFileExists($this->projectDirectory . '/.git/hooks/commit-msg');
-    $this->assertFileExists($this->projectDirectory . '/.git/hooks/pre-commit');
+    $this->assertFileExists($this->sandboxInstance . '/.git');
+    $this->assertFileExists($this->sandboxInstance . '/.git/hooks/commit-msg');
+    $this->assertFileExists($this->sandboxInstance . '/.git/hooks/pre-commit');
   }
 
   /**
@@ -44,7 +44,7 @@ class GitTasksTest extends BltProjectTestBase {
    * Data provider.
    */
   public function providerTestGitHookCommitMsg() {
-    $prefix = isset($this->config['project']) ? $this->config['project']['prefix'] : '';
+    $prefix = $this->config->get('project.prefix');
     return array(
       array(FALSE, "This is a bad commit.", 'Missing prefix and ticket number.'),
       array(FALSE, "123: This is a bad commit.", 'Missing project prefix.'),
@@ -69,8 +69,7 @@ class GitTasksTest extends BltProjectTestBase {
    */
   public function testGitPreCommitHook() {
     // Commits must be executed inside of new project directory.
-    chdir($this->projectDirectory);
-    $prefix = $this->config['project']['prefix'];
+    chdir($this->sandboxInstance);
     $command = "./.git/hooks/pre-commit";
     $output = shell_exec($command);
     // @todo Assert only changed files are validated.
@@ -91,10 +90,10 @@ class GitTasksTest extends BltProjectTestBase {
    */
   protected function assertCommitMessageValidity($is_valid, $commit_message, $message = '') {
     // Commits must be executed inside of new project directory.
-    chdir($this->projectDirectory);
+    chdir($this->sandboxInstance);
 
     // "2>&1" redirects standard error output to standard output.
-    $command = "mkdir -p {$this->projectDirectory}/tmp && echo '$commit_message' > {$this->projectDirectory}/tmp/blt_commit_msg && {$this->projectDirectory}/.git/hooks/commit-msg {$this->projectDirectory}/tmp/blt_commit_msg 2>&1";
+    $command = "mkdir -p {$this->sandboxInstance}/tmp && echo '$commit_message' > {$this->sandboxInstance}/tmp/blt_commit_msg && {$this->sandboxInstance}/.git/hooks/commit-msg {$this->sandboxInstance}/tmp/blt_commit_msg 2>&1";
 
     exec($command, $output, $return);
     $this->assertNotSame($is_valid, (bool) $return, $message);

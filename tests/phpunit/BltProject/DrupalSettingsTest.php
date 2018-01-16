@@ -20,7 +20,7 @@ class DrupalSettingsTest extends BltProjectTestBase {
    */
   public function testSetupDefaultLocalSettings() {
     foreach ($this->sites as $site) {
-      $this->assertFileExists("$this->projectDirectory/docroot/sites/$site/settings/default.local.settings.php");
+      $this->assertFileExists("$this->sandboxInstance/docroot/sites/$site/settings/default.local.settings.php");
     }
   }
 
@@ -33,7 +33,7 @@ class DrupalSettingsTest extends BltProjectTestBase {
    */
   public function testSetupLocalSettings() {
     foreach ($this->sites as $site) {
-      $this->assertFileExists("$this->projectDirectory/docroot/sites/$site/settings/local.settings.php");
+      $this->assertFileExists("$this->sandboxInstance/docroot/sites/$site/settings/local.settings.php");
     }
   }
 
@@ -46,7 +46,7 @@ class DrupalSettingsTest extends BltProjectTestBase {
    * @group blted8
    */
   public function testSetupDefaultSettings() {
-    $this->assertFileExists("$this->projectDirectory/docroot/sites/default/default.settings.php");
+    $this->assertFileExists("$this->sandboxInstance/docroot/sites/default/default.settings.php");
   }
 
   /**
@@ -58,7 +58,7 @@ class DrupalSettingsTest extends BltProjectTestBase {
    */
   public function testSetupSettings() {
     foreach ($this->sites as $site) {
-      $this->assertFileExists("$this->projectDirectory/docroot/sites/$site/settings.php");
+      $this->assertFileExists("$this->sandboxInstance/docroot/sites/$site/settings.php");
     }
   }
 
@@ -71,7 +71,7 @@ class DrupalSettingsTest extends BltProjectTestBase {
    */
   public function testSetupBltSettings() {
     foreach ($this->sites as $site) {
-      $file = "$this->projectDirectory/docroot/sites/$site/settings.php";
+      $file = "$this->sandboxInstance/docroot/sites/$site/settings.php";
       if (file_exists($file)) {
         $this->assertContains(
           'require DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php"',

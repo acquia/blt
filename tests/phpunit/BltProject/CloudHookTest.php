@@ -17,9 +17,9 @@ class CloudHookTest extends BltProjectTestBase {
    * @group blted8
    */
   public function testSetupCloudHooks() {
-    $this->assertFileExists($this->projectDirectory . '/hooks');
+    $this->assertFileExists($this->sandboxInstance . '/hooks');
 
-    $commonPostCodeDeployScript = $this->projectDirectory . '/hooks/common/post-code-deploy/post-code-deploy.sh';
+    $commonPostCodeDeployScript = $this->sandboxInstance . '/hooks/common/post-code-deploy/post-code-deploy.sh';
     $this->assertFileExists($commonPostCodeDeployScript);
 
     $filePermissions = substr(sprintf('%o', fileperms($commonPostCodeDeployScript)), -4);

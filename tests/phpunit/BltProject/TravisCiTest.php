@@ -17,7 +17,7 @@ class TravisCiTest extends BltProjectTestBase {
    * @group blted8
    */
   public function testTravisInit() {
-    $this->assertFileExists($this->projectDirectory . '/.travis.yml');
+    $this->assertFileExists($this->sandboxInstance . '/.travis.yml');
   }
 
 }
