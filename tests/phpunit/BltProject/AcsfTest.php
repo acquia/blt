@@ -13,11 +13,9 @@ class AcsfTest extends BltProjectTestBase {
 
   /**
    * Tests acsf:init command.
-   *
-   * @group blted8
    */
   public function testAcsfInit() {
-    $process = $this->blt("acsf:init");
+    $this->blt("acsf:init");
     $this->assertFileExists($this->sandboxInstance . '/docroot/modules/contrib/acsf');
     $this->assertFileExists($this->sandboxInstance . '/factory-hooks');
   }

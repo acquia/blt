@@ -6,55 +6,39 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
  * Class SimpleSamlPhpTest.
- *
- * Verifies simplesamlphp configuration.
  */
 class SimpleSamlPhpTest extends BltProjectTestBase {
 
   /**
-   * Tests simplesamlphp:config:init target.
+   * Tests simplesamlphp:init target.
    *
    * Ensures simplesamlphp config files were copied to project.
-   *
-   * @group blted8
    */
   public function testSimpleSamlPhpConfigInit() {
+    $this->blt("simplesamlphp:init");
+    $this->blt("simplesamlphp:build:config");
+    // These commands altered config files, so we mush re-initialize.
+    $this->initializeConfig();
+
     $simpleSamlPhpConfigDirectory = "{$this->sandboxInstance}/simplesamlphp/config";
     $simpleSamlPhpMetadataDirectory = "{$this->sandboxInstance}/simplesamlphp/metadata";
 
-    $this->assertFileExists("${simpleSamlPhpConfigDirectory}/authsources.php");
-    $this->assertFileExists("${simpleSamlPhpConfigDirectory}/config.php");
-    $this->assertFileExists("${simpleSamlPhpConfigDirectory}/acquia_config.php");
+    $this->assertFileExists("$simpleSamlPhpConfigDirectory/authsources.php");
+    $this->assertFileExists("$simpleSamlPhpConfigDirectory/config.php");
+    $this->assertFileExists("$simpleSamlPhpConfigDirectory/acquia_config.php");
 
-    $configFilePath = "${simpleSamlPhpConfigDirectory}/config.php";
-    if (file_exists($configFilePath)) {
-      $configFile = file_get_contents($configFilePath);
-      $this->assertContains("include 'acquia_config.php';", $configFile);
-    }
+    $configFilePath = "$simpleSamlPhpConfigDirectory/config.php";
+    $configFile = file_get_contents($configFilePath);
+    $this->assertContains("include 'acquia_config.php';", $configFile);
 
     $this->assertFileExists("${simpleSamlPhpMetadataDirectory}/saml20-idp-remote.php");
-  }
-
-  /**
-   * Tests setSimpleSamlPhpInstalled.
-   *
-   * Ensures project.yml was updated with simplesamlphp key.
-   *
-   * @group blted8
-   */
-  public function testSetSimpleSamlPhpInstalled() {
-    $this->assertArrayHasKey('simplesamlphp', $this->config);
-  }
-
-  /**
-   * Tests symlinkDocrootToLibDir.
-   *
-   * Ensures a symlink from the docroot to web accessible lib dir was created.
-   *
-   * @group blted8
-   */
-  public function testSymlinkDocrootToLibDir() {
+    $this->assertArrayHasKey('simplesamlphp', $this->config->export());
     $this->assertFileExists("{$this->config->get('docroot')}/simplesaml/saml2");
+  }
+
+  public function tearDown() {
+    $this->bootstrapper->removeSandboxInstance();
+    parent::tearDown();
   }
 
 }

@@ -6,8 +6,6 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
  * Class DeployTest.
- *
- * Verifies that build artifact matches standards.
  */
 class DeployTest extends BltProjectTestBase {
 
@@ -26,6 +24,7 @@ class DeployTest extends BltProjectTestBase {
    * @group blted8
    */
   public function testBltDeployBuild() {
+    $this->blt('deploy:build');
 
     // Ensure deploy directory exists.
     $this->assertFileExists($this->deploy_dir);
@@ -92,5 +91,7 @@ class DeployTest extends BltProjectTestBase {
       }
     }
   }
+
+  // @todo add deploy:update test.
 
 }

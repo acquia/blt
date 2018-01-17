@@ -6,23 +6,29 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
  * Class BehatTest.
- *
- * Verifies that behat configuration is as expected.
  */
 class BehatTest extends BltProjectTestBase {
 
   /**
    * Tests setup:behat command.
-   *
-   * @group blted8
    */
   public function testSetupBehat() {
+    $this->blt("setup:behat");
     // Assert that a local.yml file was created in the new project.
     $this->assertFileExists($this->sandboxInstance . '/tests/behat/local.yml');
     $this->assertNotContains(
           '${local_url}',
           file_get_contents("{$this->sandboxInstance}/tests/behat/local.yml")
       );
+  }
+
+  /**
+   *
+   */
+  public function testBehatCommand() {
+    $this->installDrupalMinimal();
+    $this->blt("tests:behat");
+    $this->blt("tests:behat:definitions");
   }
 
 }

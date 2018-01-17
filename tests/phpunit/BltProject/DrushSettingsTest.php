@@ -6,8 +6,6 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
  * Class DrushSettingsTest.
- *
- * Verifies Drush configuration.
  */
 class DrushSettingsTest extends BltProjectTestBase {
 

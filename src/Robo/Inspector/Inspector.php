@@ -817,13 +817,10 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *   TRUE if config is identical.
    */
   public function isActiveConfigIdentical() {
-    $identical = FALSE;
-    $result = $this->executor->drush("cex --no")
-      ->run();
+    $result = $this->executor->drush("config:status")->run();
     $message = trim($result->getMessage());
-    if (strpos($message, 'The active configuration is identical to the configuration in the export directory')) {
-      $identical = TRUE;
-    }
+    $identical = strstr($message, 'No differences between DB and sync directory') !== FALSE;
+
     return $identical;
   }
 

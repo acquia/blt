@@ -155,7 +155,7 @@ class SyncCommand extends BltTasks {
       $this->switchSiteContext($multisite);
       $sync_map[$multisite]['local'] = '@' . $this->getConfigValue('drush.aliases.local');
       $sync_map[$multisite]['remote'] = '@' . $this->getConfigValue('drush.aliases.remote');
-      $this->say($sync_map[$multisite]['remote'] . " => " . $sync_map[$multisite]['local']);
+      $this->say("  * <comment>" . $sync_map[$multisite]['remote'] . "</comment> => <comment>" . $sync_map[$multisite]['local'] . "</comment>");
     }
     $this->say("To modify the set of aliases for syncing, set the values for drush.aliases.local and drush.aliases.remote in docroot/sites/[site]/blt.yml");
   }

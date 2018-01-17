@@ -6,9 +6,6 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
  * Class BLTTest.
- *
- * Verifies that project structure and configuration matches BLT
- * standards.
  */
 class NewProjectTest extends BltProjectTestBase {
 

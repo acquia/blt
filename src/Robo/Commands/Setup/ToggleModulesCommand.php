@@ -67,6 +67,7 @@ class ToggleModulesCommand extends BltTasks {
    */
   protected function doToggleModules($command, $config_key) {
     if ($this->getConfig()->has($config_key)) {
+      $this->say("Executing <comment>drush $command</comment> for modules defined in <comment>$config_key</comment>...");
       $modules = (array) $this->getConfigValue($config_key);
       $modules_list = implode(' ', $modules);
       $result = $this->taskDrush()

@@ -6,8 +6,6 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
  * Class DrupalSettingsTest.
- *
- * Verifies $settings.php configuration.
  */
 class DrupalSettingsTest extends BltProjectTestBase {
 

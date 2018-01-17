@@ -43,6 +43,10 @@ class AcsfCommand extends BltTasks {
       'package_version' => $options['acsf-version'],
     ];
     $this->invokeCommand('composer:require', $package_options);
+    // For some reason, the initial composer require does not download a
+    // required .gitignore file in the acsf module.
+    $this->_remove($this->getConfigValue('docroot') . "/modules/contrib/acsf");
+    $this->taskComposerInstall()->run();
     $this->say("In the future, you may pass in a custom value for acsf-version to override the default version. E.g., blt acsf:init --acsf-version='8.1.x-dev'");
     $this->acsfDrushInitialize();
     $this->say('Adding acsf-tools drush module as a dependency...');
@@ -77,11 +81,13 @@ class AcsfCommand extends BltTasks {
 
     // Rename vendor/bin/drush to prevent re-dispatch to site local drush bin.
     $this->_rename('vendor/bin/drush', 'vendor/bin/drush.bak', TRUE);
+    $this->_rename('vendor/bin/drush.launcher', 'vendor/bin/drush.launcher.bak', TRUE);
     $acsf_include = $this->getConfigValue('docroot') . '/modules/contrib/acsf/acsf_init';
     $result = $this->taskExecStack()
       ->exec("$drush8 acsf-init --include=\"$acsf_include\" --root=\"{$this->getConfigValue('docroot')}\" -y")
       ->run();
     $this->_rename('vendor/bin/drush.bak', 'vendor/bin/drush', TRUE);
+    $this->_rename('vendor/bin/drush.launcher.bak', 'vendor/bin/drush.launcher', TRUE);
 
     if (!$result->wasSuccessful()) {
       throw new BltException("Unable to copy ACSF scripts.");

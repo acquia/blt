@@ -35,19 +35,13 @@ class SimpleSamlPhpCommand extends BltTasks {
    * Initializes SimpleSAMLphp for project.
    *
    * @command simplesamlphp:init
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function initializeSimpleSamlPhp() {
-    if (!$this->getInspector()->isSimpleSamlPhpInstalled()) {
-      $this->requireModule();
-      $this->initializeConfig();
-      $this->setSimpleSamlPhpInstalled();
-      $this->symlinkDocrootToLibDir();
-      $this->addHtaccessPatch();
-    }
-    else {
-      $this->say('SimpleSAMLphp has already been initialized by BLT.');
-    }
+    $this->requireModule();
+    $this->initializeConfig();
+    $this->setSimpleSamlPhpInstalled();
+    $this->symlinkDocrootToLibDir();
+    $this->addHtaccessPatch();
     $this->outputCompleteSetupInstructions();
   }
 
@@ -58,7 +52,6 @@ class SimpleSamlPhpCommand extends BltTasks {
    */
   protected function requireModule() {
     $this->say('Adding SimpleSAMLphp Auth module as a dependency...');
-
     $package_options = [
       'package_name' => 'drupal/simplesamlphp_auth',
       'package_version' => '^3.0',
@@ -69,7 +62,6 @@ class SimpleSamlPhpCommand extends BltTasks {
   /**
    * Copies configuration templates from SimpleSamlPHP to the repo root.
    *
-   * @command simplesamlphp:config:init
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function initializeConfig() {

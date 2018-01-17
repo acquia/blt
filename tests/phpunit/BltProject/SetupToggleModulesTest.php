@@ -6,8 +6,6 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
  * Class ToggleModulesTest.
- *
- * Verifies that setup:toggle-modules behaves as expected.
  */
 class ToggleModulesTest extends BltProjectTestBase {
 
@@ -15,27 +13,19 @@ class ToggleModulesTest extends BltProjectTestBase {
    * Verifies the modules for a given environment were enabled as expected.
    *
    * In the event no environment is specified, this test will be skipped.
-   *
-   * @group blted8
    */
   public function testModulesEnabled() {
-    $modules = $this->config->get('modules.' . BLT_ENV . '.enable');
-    foreach ($modules as $module) {
-      $this->assertModuleEnabled($module, BLT_ALIAS);
-    }
-  }
+    $this->installDrupalMinimal();
+    $env = $this->config->get('environment');
+    $modules = (array) $this->config->get("modules.$env.enable");
+    $pm_list = $this->drushJson("pm:list --fields=name,status");
 
-  /**
-   * Verifies the modules for a given environment were disabled or not found.
-   *
-   * In the event no environment is specified, this test will be skipped.
-   *
-   * @group blted8
-   */
-  public function testModulesNotEnabled() {
-    $modules = $this->config->get('modules.' . BLT_ENV . '.uninstall');
     foreach ($modules as $module) {
-      $this->assertModuleNotEnabled($module, BLT_ALIAS);
+      $this->assertModuleEnabled($module, $pm_list);
+    }
+    $modules = $this->config->get("modules.$env.uninstall");
+    foreach ($modules as $module) {
+      $this->assertModuleNotEnabled($module, $pm_list);
     }
   }
 
@@ -44,11 +34,9 @@ class ToggleModulesTest extends BltProjectTestBase {
    *
    * @param string $module
    *   The module to test.
-   * @param string $alias
-   *   An optional Drush alias string.
    */
-  protected function assertModuleNotEnabled($module, $alias = '') {
-    $enabled = $this->getModuleEnabledStatus($module, $alias);
+  protected function assertModuleNotEnabled($module, $pm_list) {
+    $enabled = $this->getModuleEnabledStatus($module, $pm_list);
     $this->assertFalse($enabled,
       "Expected $module to be either 'disabled,' 'not installed' or 'not found.'"
     );
@@ -59,11 +47,9 @@ class ToggleModulesTest extends BltProjectTestBase {
    *
    * @param string $module
    *   The module to test.
-   * @param string $alias
-   *   An optional Drush alias string.
    */
-  protected function assertModuleEnabled($module, $alias = '') {
-    $enabled = $this->getModuleEnabledStatus($module, $alias);
+  protected function assertModuleEnabled($module, $pm_list) {
+    $enabled = $this->getModuleEnabledStatus($module, $pm_list);
     $this->assertTrue($enabled, "Expected $module to be enabled.");
   }
 
@@ -72,8 +58,6 @@ class ToggleModulesTest extends BltProjectTestBase {
    *
    * @param string $module
    *   The module to test.
-   * @param string $alias
-   *   An optional Drush alias string.
    *
    * @throws \Exception
    *    If a module's status string cannot be parsed.
@@ -82,16 +66,12 @@ class ToggleModulesTest extends BltProjectTestBase {
    *   TRUE if $module is enabled, FALSE if a module is either 'disabled,'
    *    'not installed' or 'not found.'
    */
-  private function getModuleEnabledStatus($module, $alias = '') {
-    $output = [];
-    $drush_bin = $this->sandboxInstance . '/vendor/bin/drush';
+  private function getModuleEnabledStatus($module, $pm_list) {
+    if (!array_key_exists($module, $pm_list)) {
+      return FALSE;
+    }
 
-    // Get module status, it will be on the first line of output.
-    chdir($this->config->get('docroot'));
-    $command = "$drush_bin pm:list --fields=name,status --root={$this->config->get('docroot')} | grep $module";
-    exec($command, $output);
-    $status = $output[0];
-
+    $status = $pm_list[$module]['status'];
     // Parse status strings, throw if parsing fails.
     if (preg_match('/enabled/i', $status)) {
       $enabled = TRUE;

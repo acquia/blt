@@ -6,8 +6,6 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
  * Class DrushTest.
- *
- * Verifies that git related tasks work as expected.
  */
 class DrushTest extends BltProjectTestBase {
 
@@ -31,13 +29,13 @@ class DrushTest extends BltProjectTestBase {
       $this->sandboxInstance . '/docroot',
       $this->sandboxInstance . '/docroot/sites/default',
     );
+    $config_file = $this->sandboxInstance . '/vendor/drush/drush/drush.yml';
 
     foreach ($dirs as $dir) {
       chdir($dir);
       $json_output = shell_exec($command);
       $drush_output = json_decode($json_output, TRUE);
 
-      $config_file = $this->sandboxInstance . '/vendor/drush/drush/drush.yml';
       $message = "Failed asserting that the output of `$command` contains $config_file when executed from $dir.";
       $this->assertContains($config_file, $drush_output['drush-conf'][0], $message);
 

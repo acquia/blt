@@ -37,6 +37,7 @@ class MultisiteCommand extends BltTasks {
 
     $domain = $this->getNewSiteDoman($options, $site_name);
     $url = parse_url($domain);
+    // @todo Validate uri, ensure includes scheme.
 
     $this->setLocalDbConfig();
     if ($this->getInspector()->isDrupalVmConfigPresent()) {
