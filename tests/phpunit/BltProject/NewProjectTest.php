@@ -15,6 +15,7 @@ class NewProjectTest extends BltProjectTestBase {
   public function testBltCreate() {
     $this->assertFileExists($this->sandboxInstance);
     $this->assertFileExists($this->sandboxInstance . '/vendor');
+    $this->assertFileExists($this->sandboxInstance . '/docroot/sites/default/settings/local.settings.php');
   }
 
 }

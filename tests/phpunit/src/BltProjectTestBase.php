@@ -103,6 +103,9 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
       $output = new ConsoleOutput();
       $output->writeln("");
       $output->writeln("Executing <comment>$command</comment>...");
+      if (!$stop_on_error) {
+        $output->writeln("Command failure is permitted.");
+      }
       $output->writeln("<comment>------Begin command output-------</comment>");
       $process->run(function ($type, $buffer) use ($output) {
         $output->write($buffer);
@@ -167,7 +170,7 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
     }
 
     $drush_bin = $this->sandboxInstance . '/vendor/bin/drush';
-    $this->execute("$drush_bin sql-drop --root=$root --uri=$uri");
+    $this->execute("$drush_bin sql-drop --root=$root --uri=$uri", NULL, FALSE);
     $this->execute("$drush_bin sqlc --root=$root --uri=$uri < {$this->dbDump}");
   }
 

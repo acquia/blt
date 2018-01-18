@@ -113,7 +113,7 @@ class InteractHook extends BltTasks {
       'config-split',
       'core-only',
     ];
-    if (in_array($this->getConfigValue('cm.strategy'), $cm_strategies) && $this->getInspector()->isDrupalInstalled()) {
+    if ($input->isInteractive() && in_array($this->getConfigValue('cm.strategy'), $cm_strategies) && $this->getInspector()->isDrupalInstalled()) {
       if (!$this->getInspector()->isActiveConfigIdentical()) {
         $this->logger->warning("The active configuration is not identical to the configuration in the export directory.");
         $this->logger->warning("This means that you have not exported all of your active configuration.");
@@ -123,7 +123,6 @@ class InteractHook extends BltTasks {
         if (!$confirm) {
           throw new BltException("The active configuration is not identical to the configuration in the export directory.");
         }
-
       }
     }
   }

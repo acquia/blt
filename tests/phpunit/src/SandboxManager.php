@@ -153,7 +153,7 @@ class SandboxManager {
   protected function installSandboxMasterDependencies() {
     $command = '';
     $drupal_core_version = getenv('DRUPAL_CORE_VERSION');
-    if ($drupal_core_version != 'default') {
+    if ($drupal_core_version && $drupal_core_version != 'default') {
       $command .= 'composer require "drupal/core:' . $drupal_core_version . '" --no-update --no-interaction && ';
     }
     $command .= 'composer install --prefer-dist --no-progress --no-suggest';

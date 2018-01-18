@@ -5,6 +5,7 @@ namespace Acquia\Blt\Robo\Commands\Blt;
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\ComposerMunge;
 use Acquia\Blt\Robo\Common\YamlMunge;
+use Acquia\Blt\Robo\Config\ConfigInitializer;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Acquia\Blt\Update\Updater;
 use Robo\Contract\VerbosityThresholdInterface;
@@ -79,6 +80,12 @@ class UpdateCommand extends BltTasks {
   protected function initializeBlt() {
     $this->updateRootProjectFiles();
     $this->reInstallComposerPackages();
+
+    // Reinitialize configuration now that project files exist.
+    $config_initializer = new ConfigInitializer($this->getConfigValue('repo.root'), $this->input());
+    $new_config = $config_initializer->initialize();
+    $this->getConfig()->import($new_config->export());
+
     $this->invokeCommand('setup:settings');
     $this->invokeCommand('examples:init');
     $this->invokeCommand('install-alias');
