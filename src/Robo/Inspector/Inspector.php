@@ -819,9 +819,10 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   public function isActiveConfigIdentical() {
     $result = $this->executor->drush("config:status")->run();
     $message = trim($result->getMessage());
+    $site_found = strstr($message, "The Drush launcher could not find a Drupal site to operate on") !== FALSE;
     $identical = strstr($message, 'No differences between DB and sync directory') !== FALSE;
 
-    return $identical;
+    return $site_found && $identical;
   }
 
 }
