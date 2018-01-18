@@ -23,6 +23,7 @@ class ComposerCommand extends BltTasks {
     /** @var \Robo\Task\Composer\RequireDependency $task */
     $task = $this->taskComposerRequire()
       ->printOutput(TRUE)
+      ->printMetadata(TRUE)
       ->dir($this->getConfigValue('repo.root'))
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE);
     if ($options['dev']) {
@@ -48,7 +49,9 @@ class ComposerCommand extends BltTasks {
         $command .= "&& composer update";
         $task = $this->taskExec($command)
           ->printOutput(TRUE)
+          ->printMetadata(TRUE)
           ->dir($this->getConfigValue('repo.root'))
+          ->interactive($this->input()->isInteractive())
           ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE);
         ;
         $result = $task->run();

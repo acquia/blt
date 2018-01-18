@@ -54,7 +54,7 @@ class SandboxManager {
     $this->removeSandboxInstance();
     $this->fs->mirror($fixture, $this->sandboxMaster);
     $this->updateSandboxMasterBltRepoSymlink();
-    $this->installSandboxMasterDepdendencies();
+    $this->installSandboxMasterDependencies();
   }
 
   /**
@@ -150,13 +150,13 @@ class SandboxManager {
       json_encode($composer_json_contents, JSON_PRETTY_PRINT));
   }
 
-  protected function installSandboxMasterDepdendencies() {
+  protected function installSandboxMasterDependencies() {
     $command = '';
     $drupal_core_version = getenv('DRUPAL_CORE_VERSION');
     if ($drupal_core_version != 'default') {
       $command .= 'composer require "drupal/core:' . $drupal_core_version . '" --no-update --no-interaction && ';
     }
-    $command .= 'composer install --prefer-dist --no-progress --no-suggest && git init && git add -A && git commit -m "Initial commit."';
+    $command .= 'composer install --prefer-dist --no-progress --no-suggest';
 
     $process = new Process($command, $this->sandboxMaster);
     $process->setTimeout(60 * 60);
