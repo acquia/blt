@@ -10,7 +10,7 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 class DoctorTest extends BltProjectTestBase {
 
   public function testDoctorCommand() {
-    $this->importDbFromFixture();
+    $this->installDrupalMinimal();
     $this->blt("doctor");
   }
 

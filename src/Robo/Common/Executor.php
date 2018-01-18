@@ -174,7 +174,7 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
    * @throws \Exception
    */
   public function wait(callable $callable, array $args, $message = '') {
-    $maxWait = 60 * 1000;
+    $maxWait = 10 * 1000;
     $checkEvery = 1 * 1000;
     $start = microtime(TRUE) * 1000;
     $end = $start + $maxWait;
@@ -222,6 +222,7 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
         return TRUE;
       }
       else {
+        $this->logger->debug($res->getBody());
         return FALSE;
       }
     }

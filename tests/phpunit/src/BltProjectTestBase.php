@@ -7,6 +7,7 @@ use Acquia\Blt\Robo\Config\ConfigInitializer;
 use Acquia\Blt\Robo\Commands\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Terminal;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
 
@@ -106,7 +107,8 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
       if (!$stop_on_error) {
         $output->writeln("Command failure is permitted.");
       }
-      $output->writeln("<comment>------Begin command output-------</comment>");
+      $message = "Begin command output";
+      $this->writeFullWidthLine($message, $output);
       $process->run(function ($type, $buffer) use ($output) {
         $output->write($buffer);
       });
@@ -115,7 +117,7 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
       $process->run();
     }
     if (getenv('BLT_PRINT_COMMAND_OUTPUT')) {
-      $output->writeln("<comment>------End command output---------</comment>");
+      $this->writeFullWidthLine("End command output", $output);
       $output->writeln("");
     }
 
@@ -171,6 +173,7 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
 
     $drush_bin = $this->sandboxInstance . '/vendor/bin/drush';
     $this->execute("$drush_bin sql-drop --root=$root --uri=$uri", NULL, FALSE);
+    $this->blt('setup:hash-salt');
     $this->execute("$drush_bin sqlc --root=$root --uri=$uri < {$this->dbDump}");
   }
 
@@ -239,6 +242,17 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
     }
 
     return [$status_code, $output->fetch()];
+  }
+
+  /**
+   * @param $message
+   * @param $output
+   */
+  protected function writeFullWidthLine($message, $output) {
+    $terminal_width = (new Terminal())->getWidth();
+    $padding_len = ($terminal_width - strlen($message)) / 2;
+    $pad = str_repeat('-', $padding_len);
+    $output->writeln("<comment>{$pad}{$message}{$pad}</comment>");
   }
 
 }
