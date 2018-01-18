@@ -1,3 +1,5 @@
+composer.lock
+
 # Ignore blted8 files
 blted8/composer.lock
 blted8/vendor
