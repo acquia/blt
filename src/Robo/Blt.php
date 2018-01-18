@@ -163,8 +163,9 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
    *   The Symfony application.
    */
   private function addDefaultArgumentsAndOptions(Application $app) {
-    $app->getDefinition()->addOption(new InputOption('--yes', '-y',
-      InputOption::VALUE_NONE, 'Answer all confirmations with "yes"'));
+    $app->getDefinition()
+      ->addOption(
+        new InputOption('--yes', '-y', InputOption::VALUE_NONE, 'Answer all confirmations with "yes"'));
     $app->getDefinition()
       ->addOption(
         new InputOption('--define', '-D', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Define a configuration item value.', [])
