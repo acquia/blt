@@ -212,7 +212,7 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
     chdir($this->sandboxInstance);
 
     $args['command'] = $command;
-    $args['-v'] = TRUE;
+    $args['-vvv'] = TRUE;
     $args['--no-interaction'] = TRUE;
     $input = new ArrayInput($args);
     $input->setInteractive(FALSE);
