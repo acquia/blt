@@ -2,6 +2,7 @@
 
 namespace Acquia\Blt\Tests\BltProject;
 
+use Acquia\Blt\Robo\Common\YamlMunge;
 use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
@@ -10,72 +11,35 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 class DrupalSettingsTest extends BltProjectTestBase {
 
   /**
-   * Tests setup:drupal:settings command.
-   *
-   * Ensures each site has a default.local.settings.php file.
-   *
-   * @group blted8
+   * Tests setup:settings command.
    */
   public function testSetupDefaultLocalSettings() {
-    foreach ($this->sites as $site) {
+    $sites = $this->config->get("multisites");
+    $this->blt("setup:settings");
+
+    foreach ($sites as $site) {
       $this->assertFileExists("$this->sandboxInstance/docroot/sites/$site/settings/default.local.settings.php");
-    }
-  }
-
-  /**
-   * Tests setup:drupal:settings command.
-   *
-   * Ensures each site has a local.settings.php file.
-   *
-   * @group blted8
-   */
-  public function testSetupLocalSettings() {
-    foreach ($this->sites as $site) {
+      $this->assertFileExists("$this->sandboxInstance/docroot/sites/$site/default.settings.php");
       $this->assertFileExists("$this->sandboxInstance/docroot/sites/$site/settings/local.settings.php");
-    }
-  }
 
-  /**
-   * Tests setup:drupal:settings command.
-   *
-   * Ensures the default site has a default.settings.php file, which is used
-   * as the basis for new settings.php files.
-   *
-   * @group blted8
-   */
-  public function testSetupDefaultSettings() {
-    $this->assertFileExists("$this->sandboxInstance/docroot/sites/default/default.settings.php");
-  }
+      $this->assertContains('${drupal.db.database}', file_get_contents("$this->sandboxInstance/docroot/sites/$site/settings/default.local.settings.php"));
+      $this->assertContains($this->config->get("drupal.db.database"), file_get_contents("$this->sandboxInstance/docroot/sites/$site/settings/local.settings.php"));
+      $this->assertNotContains('${drupal.db.database}', file_get_contents("$this->sandboxInstance/docroot/sites/$site/settings/local.settings.php"));
 
-  /**
-   * Tests setup:drupal:settings command.
-   *
-   * Ensures each site has a settings.php file.
-   *
-   * @group blted8
-   */
-  public function testSetupSettings() {
-    foreach ($this->sites as $site) {
       $this->assertFileExists("$this->sandboxInstance/docroot/sites/$site/settings.php");
-    }
-  }
 
-  /**
-   * Tests setup:drupal:settings command.
-   *
-   * Ensures BLT's settings are included in each site's settings.php file.
-   *
-   * @group blted8
-   */
-  public function testSetupBltSettings() {
-    foreach ($this->sites as $site) {
-      $file = "$this->sandboxInstance/docroot/sites/$site/settings.php";
-      if (file_exists($file)) {
-        $this->assertContains(
-          'require DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php"',
-          file_get_contents($file)
-        );
-      }
+      $this->assertContains(
+        'require DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php"',
+        file_get_contents("$this->sandboxInstance/docroot/sites/$site/settings.php")
+      );
+
+      $this->assertFileExists("$this->sandboxInstance/docroot/sites/$site/local.drush.yml");
+      $this->assertFileExists("$this->sandboxInstance/docroot/sites/$site/default.local.drush.yml");
+
+      $output_array = $this->drushJson('status');
+      $this->assertEquals($output_array['uri'], $this->config->get('project.local.uri'));
+      $drush_local_site_yml = YamlMunge::parseFile("$this->sandboxInstance/docroot/sites/$site/local.drush.yml");
+      $this->assertEquals($output_array['uri'], $drush_local_site_yml['options']['uri']);
     }
   }
 

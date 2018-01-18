@@ -9,16 +9,18 @@ use Acquia\Blt\Tests\BltProjectTestBase;
  */
 class SetupCommandTest extends BltProjectTestBase {
 
-  public function testNoConfig() {
+  public function testInstallStrategy() {
     $this->blt("setup", [
       '--define' => [
-        'setup.strategy=none',
+        'setup.strategy=install',
+        'project.profile.name=minimal',
       ],
     ]);
   }
 
-  public function testSqlImport() {
+  public function testImportStrategy() {
     $this->createDatabaseDumpFixture();
+    $this->dropDatabase();
     $this->blt("setup", [
       '--define' => [
         'setup.strategy=import',

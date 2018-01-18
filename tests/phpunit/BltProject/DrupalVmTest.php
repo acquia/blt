@@ -17,7 +17,9 @@ class DrupalVmTest extends BltProjectTestBase {
    * Tests vm:init command.
    */
   public function testVmInit() {
-    $this->blt('vm --no-boot');
+    $this->blt('vm', [
+      '--no-boot' => TRUE,
+    ]);
     $this->assertFileExists($this->sandboxInstance . '/Vagrantfile');
     $this->assertFileExists($this->sandboxInstance . '/box/config.yml');
     $this->assertFileExists($this->sandboxInstance . '/blt/project.local.yml');
@@ -39,7 +41,7 @@ class DrupalVmTest extends BltProjectTestBase {
 
   public function tearDown() {
     // We modified existing sandbox files, so it needs to be recreated.
-    $this->bootstrapper->removeSandboxInstance();
+    $this->sandboxManager->removeSandboxInstance();
     parent::tearDown();
   }
 

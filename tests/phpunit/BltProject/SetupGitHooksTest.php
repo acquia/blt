@@ -11,9 +11,7 @@ use Symfony\Component\Process\Process;
 class GitTasksTest extends BltProjectTestBase {
 
   /**
-   * Tests  setup:git-hooks command.
-   *
-   * @group blted8
+   * Tests setup:git-hooks command.
    */
   public function testGitConfig() {
     $this->blt("setup:git-hooks");
@@ -33,8 +31,6 @@ class GitTasksTest extends BltProjectTestBase {
    *   The PHPUnit message to be output for this datapoint.
    *
    * @dataProvider providerTestGitHookCommitMsg
-   *
-   * @group blted8
    */
   public function testGitHookCommitMsg($is_valid, $commit_message, $message = NULL) {
     $prefix = $this->config->get('project.prefix');
@@ -65,8 +61,6 @@ class GitTasksTest extends BltProjectTestBase {
    * Tests operation of scripts/git-hooks/pre-commit.
    *
    * Should assert that code validation via phpcs is functioning.
-   *
-   * @group blted8
    */
   public function testGitPreCommitHook() {
     $this->blt("setup:git-hooks");

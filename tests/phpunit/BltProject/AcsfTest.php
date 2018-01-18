@@ -20,4 +20,10 @@ class AcsfTest extends BltProjectTestBase {
     $this->assertFileExists($this->sandboxInstance . '/factory-hooks');
   }
 
+  public function tearDown() {
+    // We modified existing sandbox files, so it needs to be recreated.
+    $this->sandboxManager->removeSandboxInstance();
+    parent::tearDown();
+  }
+
 }

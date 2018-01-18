@@ -184,7 +184,7 @@ class MultiSiteTest extends BltProjectTestBase {
   }
 
   public function tearDown() {
-    $this->bootstrapper->removeSandboxInstance();
+    $this->sandboxManager->removeSandboxInstance();
     parent::tearDown();
   }
 

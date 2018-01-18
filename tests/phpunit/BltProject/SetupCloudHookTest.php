@@ -11,8 +11,6 @@ class CloudHookTest extends BltProjectTestBase {
 
   /**
    * Tests setup:cloud-hooks command.
-   *
-   * @group blted8
    */
   public function testSetupCloudHooks() {
     $this->blt('setup:cloud-hooks');

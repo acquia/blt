@@ -4,7 +4,7 @@
  * @file
  */
 
-use Acquia\Blt\Tests\BltPhpunitBootstrapper;
+use Acquia\Blt\Tests\SandboxManager;
 
-$bootstrapper = new BltPhpunitBootstrapper();
-$bootstrapper->bootstrap();
+$sandbox_manager = new SandboxManager();
+$sandbox_manager->bootstrap();

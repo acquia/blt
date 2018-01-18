@@ -19,11 +19,9 @@ class DeployTest extends BltProjectTestBase {
 
   /**
    * Tests deploy:build command.
-   *
-   * @group deploy
-   * @group blted8
    */
   public function testBltDeployBuild() {
+    $this->blt('setup:cloud-hooks');
     $this->blt('deploy:build');
 
     // Ensure deploy directory exists.
@@ -50,48 +48,12 @@ class DeployTest extends BltProjectTestBase {
     $this->assertFileNotExists($this->deploy_dir . '/docroot/LICENSE.txt');
 
     // Ensure non-required files are not in deploy dir.
-    $this->assertFileNotExists($this->deploy_dir . '/blt.sh');
-    $this->assertFileNotExists($this->deploy_dir . '/build');
     $this->assertFileExists($this->deploy_dir . '/blt/project.yml');
     $this->assertFileNotExists($this->deploy_dir . '/tests');
   }
 
-  /**
-   * Tests deploy:build:push command.
-   *
-   * @group deploy
-   * @group deploy-push
-   * @group blt
-   */
-  public function testBltDeployPush() {
-
-    global $_ENV;
-    $deploy_branch = '8.x-build';
-
-    foreach ($this->config->get('git.remotes') as $remote) {
-      $commands = [
-        "git remote add temp $remote",
-        "git fetch temp $deploy_branch",
-        "git log temp/$deploy_branch",
-        "git remote rm temp",
-      ];
-
-      $log = '';
-      foreach ($commands as $command) {
-        print "Executing \"$command\" \n";
-        $log .= shell_exec($command);
-      }
-
-      // We expect the remote git log to contain a commit message matching
-      // the current build number, unless this build has not introduced
-      // any new changes. Example message:
-      // "Automated commit by Travis CI for Build #$travis_build_id".
-      if (!empty($_ENV['DEPLOY_UPTODATE'])) {
-        $this->assertContains('#' . $_ENV['TRAVIS_BUILD_ID'], $log);
-      }
-    }
-  }
-
+  // @todo add deploy:build:push test.
+  // git.remotes.1 git@github.com:acquia-pso/blted8.git
   // @todo add deploy:update test.
 
 }

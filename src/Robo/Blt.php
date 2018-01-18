@@ -169,6 +169,10 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
       ->addOption(
         new InputOption('--define', '-D', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Define a configuration item value.', [])
       );
+    $app->getDefinition()
+      ->addOption(
+        new InputOption('--environment', '-e', InputOption::VALUE_REQUIRED, 'Set the environment to load config from blt/[env].yml file.', [])
+      );
   }
 
   /**

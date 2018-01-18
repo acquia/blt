@@ -7,7 +7,6 @@
   },
   "require": {
     "drupal/core": "^8.4.0",
-    "drupal/features": "^3.0.0",
     "drupal/config_split": "^1.0.0"
   },
   "require-dev": {
