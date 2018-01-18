@@ -51,10 +51,7 @@ class DrupalCommand extends BltTasks {
       ->printOutput(TRUE);
 
     $result = $task->detectInteractive()->run();
-    if ($result->wasSuccessful()) {
-      $this->getConfig()->set('state.drupal.installed', TRUE);
-    }
-    else {
+    if (!$result->wasSuccessful()) {
       throw new BltException("Failed to install Drupal!");
     }
 

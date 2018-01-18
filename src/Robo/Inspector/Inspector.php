@@ -46,11 +46,6 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   /**
    * @var null
    */
-  protected $isDrupalInstalled = NULL;
-
-  /**
-   * @var null
-   */
   protected $isDrupalVmLocallyInitialized = NULL;
 
   /**
@@ -107,7 +102,6 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *
    */
   public function clearState() {
-    $this->isDrupalInstalled = NULL;
     $this->isMySqlAvailable = NULL;
     $this->drupalVmStatus = [];
     $this->isDrupalVmLocallyInitialized = NULL;
@@ -210,24 +204,6 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *   TRUE if Drupal is installed.
    */
   public function isDrupalInstalled() {
-    // This will only run once per command. If Drupal is installed mid-command,
-    // this value needs to be changed.
-    if (is_null($this->isDrupalInstalled)) {
-      $this->isDrupalInstalled = $this->getDrupalInstalled();
-    }
-
-    return $this->isDrupalInstalled;
-  }
-
-  /**
-   * Determines if Drupal is installed.
-   *
-   * This method does not cache its result.
-   *
-   * @return bool
-   *   TRUE if Drupal is installed.
-   */
-  protected function getDrupalInstalled() {
     $this->logger->debug("Verifying that Drupal is installed...");
     $result = $this->executor->drush("sqlq \"SHOW TABLES LIKE 'config'\"")->run();
     $output = trim($result->getMessage());
