@@ -17,11 +17,11 @@ class ClearLocalSolrIndexCommand extends BltTasks {
    */
   public function clearSolr() {
     $this->taskExecStack()
-      ->exec("curl -s http://local.ebsco.com:8983/solr/d8/update --data '<delete><query>*:*</query></delete>' -H 'Content-type:text/xml; charset=utf-8' > /dev/null")
+      ->exec("curl -s {$this->getConfigValue('project.local.uri')}:8983/solr/d8/update --data '<delete><query>*:*</query></delete>' -H 'Content-type:text/xml; charset=utf-8' > /dev/null")
       ->run();
 
     $this->taskExecStack()
-      ->exec("curl -s http://local.ebsco.com:8983/solr/d8/update --data '<commit/>' -H 'Content-type:text/xml; charset=utf-8' > /dev/null")
+      ->exec("curl -s {$this->getConfigValue('project.local.uri')}:8983/solr/d8/update --data '<commit/>' -H 'Content-type:text/xml; charset=utf-8' > /dev/null")
       ->run();
 
     $this->say('<info>Cleared local solr index</info>');
