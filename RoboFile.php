@@ -166,8 +166,9 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       ->printMetadata(TRUE)
       ->exec("{$this->bltRoot}/vendor/bin/robo sniff-code --load-from {$this->bltRoot}")
       ->exec("{$this->bltRoot}/vendor/bin/phpunit");
+    $result = $task->run();
 
-    $task->run();
+    return $result;
   }
 
   /**

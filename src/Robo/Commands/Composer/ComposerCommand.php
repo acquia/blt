@@ -4,6 +4,7 @@ namespace Acquia\Blt\Robo\Commands\Composer;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
+use Robo\Contract\VerbosityThresholdInterface;
 
 /**
  * Defines commands in the "composer:*" namespace.
@@ -22,7 +23,8 @@ class ComposerCommand extends BltTasks {
     /** @var \Robo\Task\Composer\RequireDependency $task */
     $task = $this->taskComposerRequire()
       ->printOutput(TRUE)
-      ->dir($this->getConfigValue('repo.root'));
+      ->dir($this->getConfigValue('repo.root'))
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE);
     if ($options['dev']) {
       $task->dev(TRUE);
     }
@@ -46,7 +48,9 @@ class ComposerCommand extends BltTasks {
         $command .= "&& composer update";
         $task = $this->taskExec($command)
           ->printOutput(TRUE)
-          ->dir($this->getConfigValue('repo.root'));
+          ->dir($this->getConfigValue('repo.root'))
+          ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE);
+        ;
         $result = $task->run();
         if (!$result->wasSuccessful()) {
           throw new BltException("Unable to install {$package_name} package.");
