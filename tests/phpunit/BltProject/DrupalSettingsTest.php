@@ -12,10 +12,11 @@ class DrupalSettingsTest extends BltProjectTestBase {
 
   /**
    * Tests setup:settings command.
+   *
+   * This command should have been run during sandbox master creation.
    */
   public function testSetupDefaultLocalSettings() {
     $sites = $this->config->get("multisites");
-    $this->blt("setup:settings");
 
     foreach ($sites as $site) {
       $this->assertFileExists("$this->sandboxInstance/docroot/sites/$site/settings/default.local.settings.php");

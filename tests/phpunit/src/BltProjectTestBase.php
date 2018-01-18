@@ -139,7 +139,7 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
       $root = $this->config->get('docroot');
     }
     $drush_bin = $this->sandboxInstance . '/vendor/bin/drush';
-    $command_string = "$drush_bin $command --root=$root --no-interaction --no-ansi";
+    $command_string = "$drush_bin $command --root=$root --no-interaction --ansi";
     $process = $this->execute($command_string, $root, $stop_on_error);
     $output = $process->getOutput();
 
@@ -212,8 +212,8 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
     chdir($this->sandboxInstance);
 
     $args['command'] = $command;
-    $args['-v'] = TRUE;
-    $args['--no-interaction'] = TRUE;
+    $args[] = '-v';
+    $args[] = '--no-interaction';
     $input = new ArrayInput($args);
     $input->setInteractive(FALSE);
 
