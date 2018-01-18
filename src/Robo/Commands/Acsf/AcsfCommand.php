@@ -43,10 +43,6 @@ class AcsfCommand extends BltTasks {
       'package_version' => $options['acsf-version'],
     ];
     $this->invokeCommand('composer:require', $package_options);
-    // For some reason, the initial composer require does not download a
-    // required .gitignore file in the acsf module.
-    $this->_remove($this->getConfigValue('docroot') . "/modules/contrib/acsf");
-    $this->taskComposerInstall()->run();
     $this->say("In the future, you may pass in a custom value for acsf-version to override the default version. E.g., blt acsf:init --acsf-version='8.1.x-dev'");
     $this->acsfDrushInitialize();
     $this->say('Adding acsf-tools drush module as a dependency...');

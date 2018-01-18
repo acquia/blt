@@ -5,7 +5,6 @@ namespace Acquia\Blt\Robo\Commands\Generate;
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\YamlMunge;
 use Acquia\Blt\Robo\Exceptions\BltException;
-use function array_merge;
 use Grasmash\YamlExpander\Expander;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Yaml\Yaml;

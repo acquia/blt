@@ -154,7 +154,7 @@ class SandboxManager {
     $command = '';
     $drupal_core_version = getenv('DRUPAL_CORE_VERSION');
     if ($drupal_core_version != 'default') {
-      $command .= 'composer require "drupal/core:' . $drupal_core_version . '" --no-update --no-interaction';
+      $command .= 'composer require "drupal/core:' . $drupal_core_version . '" --no-update --no-interaction && ';
     }
     $command .= 'composer install --prefer-dist --no-progress --no-suggest && git init && git add -A && git commit -m "Initial commit."';
 
