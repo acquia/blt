@@ -20,13 +20,6 @@
     <env name="BLT_PRINT_COMMAND_OUTPUT" value="1"/>
     <env name="BLT_REPLACE_SANDBOX_INSTANCE" value="1"/>
     <env name="BLT_ENV" value="ci"/>
-
-    <!--Uncomment and edit one of the lines below depending on DB platform.-->
-    <!--DB User must have create/drop permissions-->
-    <!-- <var name="BLT_MYSQL1_URL" value="mysql://drupal:drupal@127.0.0.1"/> -->
-    <!-- <var name="BLT_MYSQL2_URL" value="mysql://drupal:drupal@127.0.0.1"/> -->
-    <!-- <var name="BLT_MYSQL3_URL" value="mysql://drupal:drupal@127.0.0.1"/> -->
-    <!-- <var name="BLT_MYSQL4_URL" value="mysql://drupal:drupal@127.0.0.1"/> -->
   </php>
 
 </phpunit>

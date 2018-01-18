@@ -128,6 +128,10 @@ class ConfigInitializer {
    * @return $this
    */
   public function loadEnvironmentConfig() {
+    if (getenv("BLT_ENV")) {
+      $environment = getenv("BLT_ENV");
+      $this->processor->extend($this->loader->load($this->config->get('repo.root') . '/blt/' . $environment . '.yml'));
+    }
     if ($this->input->hasParameterOption('environment')) {
       $this->processor->extend($this->loader->load($this->config->get('repo.root') . '/blt/' . $this->input->getParameterOption('environment') . '.yml'));
     }
