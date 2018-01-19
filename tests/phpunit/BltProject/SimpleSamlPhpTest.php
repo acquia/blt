@@ -17,8 +17,6 @@ class SimpleSamlPhpTest extends BltProjectTestBase {
   public function testSimpleSamlPhpConfigInit() {
     $this->blt("simplesamlphp:init");
     $this->blt("simplesamlphp:build:config");
-    // These commands altered config files, so we mush re-initialize.
-    $this->initializeConfig();
 
     $simpleSamlPhpConfigDirectory = "{$this->sandboxInstance}/simplesamlphp/config";
     $simpleSamlPhpMetadataDirectory = "{$this->sandboxInstance}/simplesamlphp/metadata";
