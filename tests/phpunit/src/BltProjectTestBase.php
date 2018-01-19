@@ -15,11 +15,6 @@ use Symfony\Component\Process\Process;
  * Class BltProjectTestBase.
  *
  * Base class for all tests that are executed within a blt project.
- *
- * Somehow config appears to be shared between tests unless they are run in
- * separate processes.
- *
- * @runTestsInSeparateProcesses
  */
 abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
 
@@ -30,7 +25,7 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
   /**
    * @var \Acquia\Blt\Robo\Config\DefaultConfig
    */
-  protected $config;
+  protected $config = NULL;
   /**
    * @var \Acquia\Blt\Tests\SandboxManager
    */
@@ -95,6 +90,7 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
    *
    */
   protected function reInitializeConfig($input) {
+    unset($this->config);
     $config_initializer = new ConfigInitializer($this->sandboxInstance, $input);
     $new_config = $config_initializer->initialize();
     $this->config->import($new_config->export());
