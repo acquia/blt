@@ -54,13 +54,13 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
    * {@inheritdoc}
    */
   public function setUp() {
+    $this->output = new ConsoleOutput();
     $this->printTestName();
 
     // Prevent config from being shared between tests.
     $this->config = NULL;
     $this->bltDirectory = realpath(dirname(__FILE__) . '/../../../');
     $this->fs = new Filesystem();
-    $this->output = new ConsoleOutput();
     // @todo Use the same Sandbox manager instance created in bootstrap.php.
     $this->sandboxManager = new SandboxManager();
 
@@ -304,7 +304,6 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
 
   protected function tearDown() {
     $this->dropDatabase();
-    parent::tearDown();
   }
 
   protected function printTestName() {
