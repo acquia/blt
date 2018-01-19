@@ -15,6 +15,7 @@ class SimpleSamlPhpCommand extends BltTasks {
 
   protected $bltRoot;
   protected $repoRoot;
+  protected $deployDir;
   /**
    * @var \Symfony\Component\Console\Helper\FormatterHelper
    */
@@ -28,6 +29,7 @@ class SimpleSamlPhpCommand extends BltTasks {
   public function initialize() {
     $this->bltRoot = $this->getConfigValue('blt.root');
     $this->repoRoot = $this->getConfigValue('repo.root');
+    $this->deployDir = $this->getConfigValue('deploy.dir');
     $this->formatter = new FormatterHelper();
   }
 
@@ -115,7 +117,7 @@ class SimpleSamlPhpCommand extends BltTasks {
    */
   public function simpleSamlPhpDeployConfig() {
     $this->say('Copying config files to the appropriate place in simplesamlphp library in the deploy artifact...');
-    $result = $this->taskCopyDir(["{$this->repoRoot}/simplesamlphp" => "{$this->repoRoot}/deploy/vendor/simplesamlphp/simplesamlphp"])
+    $result = $this->taskCopyDir(["{$this->repoRoot}/simplesamlphp" => "{$this->deployDir}/vendor/simplesamlphp/simplesamlphp"])
       ->overwrite(TRUE)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
@@ -124,7 +126,7 @@ class SimpleSamlPhpCommand extends BltTasks {
     }
 
     $result = $this->taskFileSystemStack()
-      ->copy("{$this->bltRoot}/scripts/simplesamlphp/gitignore.txt", "{$this->repoRoot}/deploy/vendor/simplesamlphp/simplesamlphp/.gitignore", TRUE)
+      ->copy("{$this->bltRoot}/scripts/simplesamlphp/gitignore.txt", "{$this->deployDir}/vendor/simplesamlphp/simplesamlphp/.gitignore", TRUE)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
