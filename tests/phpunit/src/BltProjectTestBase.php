@@ -15,6 +15,11 @@ use Symfony\Component\Process\Process;
  * Class BltProjectTestBase.
  *
  * Base class for all tests that are executed within a blt project.
+ *
+ * Somehow config appears to be shared between tests unless they are run in
+ * separate processes.
+ *
+ * @runTestsInSeparateProcesses
  */
 abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
 
@@ -56,12 +61,8 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
   public function setUp() {
     $this->output = new ConsoleOutput();
     $this->printTestName();
-
-    // Prevent config from being shared between tests.
-    $this->config = NULL;
     $this->bltDirectory = realpath(dirname(__FILE__) . '/../../../');
     $this->fs = new Filesystem();
-    // @todo Use the same Sandbox manager instance created in bootstrap.php.
     $this->sandboxManager = new SandboxManager();
 
     // We use tearDown methods to call overwriteSandboxInstance() after
@@ -79,7 +80,7 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
 
     $this->sandboxInstance = $this->sandboxManager->getSandboxInstance();
     // Config is overwritten for each $this->blt execution.
-    $this->initializeConfig($this->createBltInput(NULL, []));
+    $this->reInitializeConfig($this->createBltInput(NULL, []));
     $this->drush('cache-rebuild', NULL, FALSE);
     $this->dbDump = $this->sandboxInstance . "/bltDbDump.sql";
   }
@@ -88,14 +89,6 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
     if (getenv('BLT_PRINT_COMMAND_OUTPUT')) {
       $this->output->writeln($message);
     }
-  }
-
-  /**
-   *
-   */
-  protected function initializeConfig($input) {
-    $config_initializer = new ConfigInitializer($this->sandboxInstance, $input);
-    $this->config = $config_initializer->initialize();
   }
 
   /**
