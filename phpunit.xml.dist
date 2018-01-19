@@ -5,7 +5,6 @@
   bootstrap="tests/phpunit/bootstrap.php"
   backupGlobals="true"
   backupStaticAttributes="true"
-  processIsolation="true"
   stopOnFailure="true"
   stopOnError="true"
   verbose="true">
