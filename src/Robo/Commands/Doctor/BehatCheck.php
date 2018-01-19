@@ -18,9 +18,11 @@ class BehatCheck extends DoctorCheck {
    */
   protected function checkBehat() {
     $this->checkLocalConfig();
-    $behatDefaultLocalConfig = $this->getInspector()->getLocalBehatConfig()->export();
-    $this->checkDrupalVm($behatDefaultLocalConfig);
-    $this->checkBaseUrl($behatDefaultLocalConfig);
+    if ($this->behatLocalYmlExists()) {
+      $behatDefaultLocalConfig = $this->getInspector()->getLocalBehatConfig()->export();
+      $this->checkDrupalVm($behatDefaultLocalConfig);
+      $this->checkBaseUrl($behatDefaultLocalConfig);
+    }
   }
 
   /**
@@ -56,12 +58,19 @@ class BehatCheck extends DoctorCheck {
   }
 
   protected function checkLocalConfig() {
-    if (!file_exists($this->getConfigValue('repo.root') . '/tests/behat/local.yml')) {
+    if (!$this->behatLocalYmlExists()) {
       $this->logProblem(__FUNCTION__ . ':exists', [
         "tests/behat/local.yml is missing!",
         "  Run `blt setup:behat` to generate it from example.local.yml.",
       ], 'error');
     }
+  }
+
+  /**
+   * @return bool
+   */
+  protected function behatLocalYmlExists() {
+    return file_exists($this->getConfigValue('repo.root') . '/tests/behat/local.yml');
   }
 
 }

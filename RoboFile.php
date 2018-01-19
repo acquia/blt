@@ -7,7 +7,6 @@ use Github\Client;
 use Robo\Tasks;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * This is project's console commands configuration for Robo task runner.
@@ -24,6 +23,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   protected $phpcsPaths;
 
   const BLT_DEV_BRANCH = "9.1.x";
+  const BLT_PROJECT_DIR = "../blted8";
 
   /**
    * This hook will fire for all commands in this command file.
@@ -40,7 +40,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    */
   protected function createTestApp($options = [
     'project-type' => 'standalone',
-    'project-dir' => '../blted8',
+    'project-dir' => self::BLT_PROJECT_DIR,
     'vm' => TRUE,
   ]) {
     switch ($options['project-type']) {
@@ -64,7 +64,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    * @option vm Whether a VM will be booted.
    */
   public function createFromSymlink($options = [
-    'project-dir' => '../blted8',
+    'project-dir' => self::BLT_PROJECT_DIR,
     'vm' => TRUE,
   ]) {
     $test_project_dir = $this->bltRoot . "/" . $options['project-dir'];
@@ -102,7 +102,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   }
 
   /**
-   * Create a new project using `composer create-project acquia/blt-project'.
+   * Create a new project using `composer create-project acquia/blt-project`.
    *
    * @option base-branch The blt-project (NOT blt) branch to test.
    * @option project-dir The directory in which the test project will be
@@ -111,7 +111,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    */
   public function createFromBltProject($options = [
     'base-branch' => self::BLT_DEV_BRANCH,
-    'project-dir' => '../blted8',
+    'project-dir' => self::BLT_PROJECT_DIR,
   ]) {
     $test_project_dir = $this->bltRoot . "/" . $options['project-dir'];
     $this->prepareTestProjectDir($test_project_dir);
@@ -123,7 +123,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   }
 
   /**
-   * Create a new project using `composer require acquia/blt'.
+   * Create a new project using `composer require acquia/blt`.
    *
    * @option base-branch The blt-project (NOT blt) branch to test.
    * @option project-dir The directory in which the test project will be
@@ -132,7 +132,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    */
   public function createFromScratch($options = [
     'base-branch' => self::BLT_DEV_BRANCH,
-    'project-dir' => '../blted8',
+    'project-dir' => self::BLT_PROJECT_DIR,
     'vm' => TRUE,
   ]) {
     $test_project_dir = $this->bltRoot . "/" . $options['project-dir'];
@@ -158,218 +158,17 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   }
 
   /**
-   * Create a new project with one multisite.
-   *
-   * The project will be duplicated such that you may refer to the duplicate as
-   * a remote instance of the site via a drush alias.
-   *
-   * This allows us to internally test syncing between multisite applications.
-   *
-   * @option project-dir The directory in which the test project will be
-   *   created.
-   * @option vm Whether a VM will be booted.
-   */
-  public function createMultisites($options = [
-    'project-dir' => '../blted8',
-    'vm' => FALSE,
-  ]) {
-
-    // Create test project.
-    $options['project-type'] = 'symlink';
-    $test_project_dir = $this->bltRoot . "/" . $options['project-dir'];
-    $project_dir2 = $options['project-dir'] . "2";
-    $test_project_dir2 = $this->bltRoot . "/" . $project_dir2;
-    $this->prepareTestProjectDir($test_project_dir2);
-    $this->createTestApp($options);
-
-    // Create drush alias.
-    $aliases = [
-      'remote' => [
-        'root' => $test_project_dir2,
-      ],
-    ];
-    file_put_contents($test_project_dir . '/drush/sites/blted82.site.yml', Yaml::dump($aliases));
-
-    // Generate multisite in test project.
-    $bin = $test_project_dir . "/vendor/bin";
-    $this->taskExecStack()
-      ->dir($test_project_dir)
-      ->exec("$bin/blt generate:multisite --site-name=site2 --yes --no-interaction")
-      ->run();
-
-    // Make a local clone of new project.
-    $this->taskFilesystemStack()
-      ->mirror(
-        $test_project_dir,
-        $test_project_dir2
-      )
-      ->run();
-
-    // Generate sites.php for site1.
-    $sites['local.blted8.site1.com'] = 'default';
-    $sites['local.blted8.site2.com'] = 'site2';
-    $contents = "<?php\n" . var_dump($sites);
-    file_put_contents($test_project_dir . "/docroot/sites/sites.php", $contents);
-
-    // Generate sites.php for site2.
-    $sites['local.blted82.site1.com'] = 'default';
-    $sites['local.blted82.site2.com'] = 'site2';
-    $contents = "<?php\n" . var_dump($sites);
-    file_put_contents($test_project_dir2 . "/docroot/sites/sites.php", $contents);
-
-    $this->say("The following applications were created:");
-    $this->say("* $test_project_dir");
-    $this->say("  * site1 ");
-    $this->say("      * dir: $test_project_dir/docroot/sites/default");
-    $this->say("      * url: local.blted8.site1.com");
-    $this->say("      * db config: $test_project_dir/docroot/sites/default/settings/local.settings.php");
-    $this->say("  * site2 ");
-    $this->say("      * dir: $test_project_dir/docroot/sites/site2");
-    $this->say("      * url: local.blted8.site2.com");
-    $this->say("      * db config: $test_project_dir/docroot/sites/site2/settings/local.settings.php");
-    $this->say("* (pseudo remote) $test_project_dir2");
-    $this->say("  * site1 ");
-    $this->say("      * dir: $test_project_dir2/docroot/sites/default");
-    $this->say("      * url: local.blted82.site1.com");
-    $this->say("      * alias: @blted82.remote");
-    $this->say("      * db config: $test_project_dir2/docroot/sites/default/settings/local.settings.php");
-    $this->say("  * site2 ");
-    $this->say("      * dir: $test_project_dir2/docroot/sites/site2");
-    $this->say("      * url: local.blted82.site2.com");
-    $this->say("      * alias: @blted82.remote --uri=site2");
-    $this->say("      * db config: $test_project_dir2/docroot/sites/site2/settings/local.settings.php");
-    $this->say("<comment>Please configure DB settings. You will need 4 databases.</comment>");
-    $this->say("<comment>Please configure hosts settings. You will need 4 host entries.</comment>");
-    $this->say("You may setup sites via:");
-    $this->say("* cd $test_project_dir2");
-    $this->say("* blt setup -D site=site1");
-    $this->say("* blt setup -D site=site2");
-    $this->say("* cd $test_project_dir");
-    $this->say("* drush @blted82.remote status");
-    $this->say("* drush @blted82.remote --uri=site2 status");
-    $this->say("* blt sync:db:all");
-  }
-
-  /**
    * Executes pre-release tests against blt-project self::BLT_DEV_BRANCH.
-   *
-   * @option base-branch The blt-project (NOT blt) branch to test.
-   * @option project-dir The directory in which the test project will be
-   * @option environment The environment config var used for running Blt
-   * commands against the test site.
-   * @option create-project Whether to create a new blted8 site for testing.
-   * @option project-dir The directory where the test site will be created.
-   *   created.
-   * @option project-type The type of test project that will be created. Valid
-   *   values are standalone or symlink.
-   * @option vm Whether a VM will be booted.
    */
-  public function releaseTest($options = [
-    'base-branch' => self::BLT_DEV_BRANCH,
-    'environment' => 'ci',
-    'create-project' => TRUE,
-    'project-dir' => '../blted8',
-    'project-type' => 'standalone',
-    'vm' => TRUE,
-  ]) {
-    $this->stopOnFail();
-    $use_vm = $options['vm'];
-    $test_project_dir = $this->bltRoot . "/" . $options['project-dir'];
-    if ($options['create-project']) {
-      if ($options['project-type'] == 'symlink') {
-        $this->createFromSymlink($options);
-      }
-      else {
-        $this->createFromBltProject($options);
-      }
-    }
-    $bin = $test_project_dir . "/vendor/bin";
-    $blt_suffix = "--define environment={$options['environment']} --yes --no-interaction -vvv";
+  public function releaseTest() {
+    // @todo munge scripts/blt/ci/internal/ci.yml with blt/ci.yml
     $task = $this->taskExecStack()
-      ->dir($test_project_dir)
       ->printMetadata(TRUE)
-      ->exec("$bin/blt ci:travis:init $blt_suffix")
-      ->exec("$bin/blt ci:pipelines:init $blt_suffix")
-      ->exec("$bin/blt setup:cloud-hooks $blt_suffix")
-      // Dump all config values to screen.
-      ->exec("$bin/blt config:dump $blt_suffix")
-      ->exec("$bin/blt acsf:init --yes")
-      ->exec("{$this->bltRoot}/vendor/bin/robo sniff-code --load-from {$this->bltRoot}");
-    if ($use_vm) {
-      $task->exec("$bin/blt vm $blt_suffix");
-      $drush_alias = '@blted8.local';
-    }
-    else {
-      $drush_alias = '@self';
-    }
-    $task
-      ->exec("$bin/blt validate $blt_suffix")
-      // Ensure that at least one module gets enabled in CI env.
-      ->exec("$bin/yaml-cli update:value blt/project.yml modules.ci.enable.0 views_ui")
-      ->exec("$bin/yaml-cli update:value blt/project.yml cm.strategy none")
-      // The tick-tock.sh script is used to prevent timeout.
-      ->exec("{$this->bltRoot}/scripts/blt/ci/tick-tock.sh $bin/blt setup $blt_suffix")
-      ->exec("$bin/blt tests {$blt_suffix}")
-      ->exec("$bin/blt tests:behat:definitions $blt_suffix")
+      ->exec("{$this->bltRoot}/vendor/bin/robo sniff-code --load-from {$this->bltRoot}")
+      ->exec("{$this->bltRoot}/vendor/bin/phpunit");
+    $result = $task->run();
 
-      // Test core-only config management.
-      ->exec("$bin/drush $drush_alias config-export --root={$test_project_dir}/docroot --yes")
-      ->exec("$bin/yaml-cli update:value blt/project.yml cm.strategy core-only")
-      ->exec("$bin/blt setup:config-import $blt_suffix")
-
-      // Test features config management.
-      ->exec("$bin/yaml-cli update:value blt/project.yml cm.strategy features")
-      ->exec("$bin/drush $drush_alias pm-enable features --root={$test_project_dir}/docroot --yes")
-      ->exec("rm -rf {$test_project_dir}/config/default/*")
-      ->exec("$bin/drush $drush_alias config-export --root={$test_project_dir}/docroot --yes")
-      ->exec("$bin/blt setup:config-import $blt_suffix")
-      ->exec("$bin/drush $drush_alias pm-uninstall features --root={$test_project_dir}/docroot --yes")
-
-      // Test config split.
-      ->exec("$bin/yaml-cli update:value blt/project.yml cm.strategy config-split")
-      ->exec("$bin/drush $drush_alias pm-enable config_split --root={$test_project_dir}/docroot --yes")
-      ->exec("rm -rf {$test_project_dir}/config/default/*")
-      ->exec("$bin/drush $drush_alias config-export --root={$test_project_dir}/docroot --yes")
-      ->exec("cp {$this->bltRoot}/scripts/blt/ci/internal/config_split.config_split.ci.yml {$test_project_dir}/config/default/")
-      ->exec("$bin/blt setup:config-import $blt_suffix")
-      ->exec("$bin/drush $drush_alias pm-uninstall config_split --root={$test_project_dir}/docroot --yes")
-      ->exec("rm -rf {$test_project_dir}/config/default/*")
-
-      // Test deploy.
-      ->exec("$bin/blt deploy:update $blt_suffix")
-      // Test SAML.
-      ->exec("$bin/blt simplesamlphp:init $blt_suffix")
-      ->exec("$bin/blt simplesamlphp:build:config $blt_suffix")
-      // Test that custom commands are loaded.
-      ->exec("$bin/blt custom:hello $blt_suffix")
-      // Test the doctor.
-      ->exec("$bin/blt doctor $blt_suffix")
-      // Create a test multisite.
-      ->exec("$bin/blt generate:multisite --site-name=site2 $blt_suffix");
-
-    if (!$use_vm) {
-      // Add Drupal VM config to repo without booting.
-      $task->exec("$bin/blt vm --no-boot $blt_suffix");
-    }
-
-    $task->exec("$bin/blt deploy:build $blt_suffix");
-
-    // Execute PHP Unit tests.
-    $task->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group blt -c {$this->bltRoot}/tests/phpunit/phpunit.xml -v")
-      ->exec("$bin/phpunit {$this->bltRoot}/tests/phpunit --group blted8 -c {$this->bltRoot}/tests/phpunit/phpunit.xml -v")
-      ->run();
-    $this->say("<info>Completed testing.</info>");
-    if ($use_vm) {
-      $continue = $this->confirm("Destroy VM?");
-      if (!$continue) {
-        // Not really a failure.
-        return 0;
-      }
-      $this->taskExecStack()
-        ->dir($test_project_dir)
-        ->exec("$bin/blt vm:nuke $blt_suffix")
-        ->run();
-    }
+    return $result;
   }
 
   /**

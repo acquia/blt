@@ -116,15 +116,15 @@ class InteractHook extends BltTasks {
     if (in_array($this->getConfigValue('cm.strategy'), $cm_strategies) && $this->getInspector()->isDrupalInstalled()) {
       if (!$this->getInspector()->isActiveConfigIdentical()) {
         $this->logger->warning("The active configuration is not identical to the configuration in the export directory.");
-        $this->logger->warning("Continuing will overwrite the active configuration.");
-        if (!$input->isInteractive()) {
-          $this->logger->warning("Run `drush cex` to export the active config to the sync directory.");
+        $this->logger->warning("This means that you have not exported all of your active configuration.");
+        $this->logger->warning("Run <comment>drush cex</comment> to export the active config to the sync directory.");
+        if ($this->input()->isInteractive()) {
+          $this->logger->warning("Continuing will overwrite the active configuration.");
+          $confirm = $this->confirm("Continue?");
+          if (!$confirm) {
+            throw new BltException("The active configuration is not identical to the configuration in the export directory.");
+          }
         }
-        $confirm = $this->confirm("Continue?");
-        if (!$confirm) {
-          throw new BltException("The active configuration is not identical to the configuration in the export directory.");
-        }
-
       }
     }
   }

@@ -79,14 +79,16 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
     $bin = $this->getConfigValue('composer.bin');
     /** @var \Robo\Common\ProcessExecutor $process_executor */
     $drush_alias = $this->getConfigValue('drush.alias');
-    if (!empty($drush_alias)) {
-      $drush_alias = "@$drush_alias";
-    }
-
-    $command_string = "'$bin/drush' $drush_alias $command";
+    $command_string = "'$bin/drush' @$drush_alias $command";
 
     if ($this->input()->hasOption('yes') && $this->input()->getOption('yes')) {
       $command_string .= ' -y';
+    }
+
+    // URIs do not work on remote drush aliases in Drush 9. Instead, it is
+    // expected that the alias define the uri in its configuration.
+    if ($drush_alias != 'self') {
+      $command_string .= ' --uri=' . $this->getConfigValue('site');
     }
 
     $process_executor = Robo::process(new Process($command_string));
@@ -174,7 +176,7 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
    * @throws \Exception
    */
   public function wait(callable $callable, array $args, $message = '') {
-    $maxWait = 60 * 1000;
+    $maxWait = 10 * 1000;
     $checkEvery = 1 * 1000;
     $start = microtime(TRUE) * 1000;
     $end = $start + $maxWait;
@@ -222,6 +224,7 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
         return TRUE;
       }
       else {
+        $this->logger->debug($res->getBody());
         return FALSE;
       }
     }

@@ -5,6 +5,7 @@ namespace Acquia\Blt\Robo\Commands\Blt;
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\ComposerMunge;
 use Acquia\Blt\Robo\Common\YamlMunge;
+use Acquia\Blt\Robo\Config\ConfigInitializer;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Acquia\Blt\Update\Updater;
 use Robo\Contract\VerbosityThresholdInterface;
@@ -79,6 +80,12 @@ class UpdateCommand extends BltTasks {
   protected function initializeBlt() {
     $this->updateRootProjectFiles();
     $this->reInstallComposerPackages();
+
+    // Reinitialize configuration now that project files exist.
+    $config_initializer = new ConfigInitializer($this->getConfigValue('repo.root'), $this->input());
+    $new_config = $config_initializer->initialize();
+    $this->getConfig()->import($new_config->export());
+
     $this->invokeCommand('setup:settings');
     $this->invokeCommand('examples:init');
     $this->invokeCommand('install-alias');
@@ -336,7 +343,7 @@ class UpdateCommand extends BltTasks {
     $this->say("Merging default configuration into composer.json...");
     $project_composer_json = $this->getConfigValue('repo.root') . '/composer.json';
     $template_composer_json = $this->getConfigValue('blt.root') . '/template/composer.json';
-    $munged_json = ComposerMunge::munge($project_composer_json, $template_composer_json);
+    $munged_json = ComposerMunge::mungeFiles($project_composer_json, $template_composer_json);
     $bytes = file_put_contents($project_composer_json, $munged_json);
     if (!$bytes) {
       throw new BltException("Could not update $project_composer_json.");
@@ -354,7 +361,7 @@ class UpdateCommand extends BltTasks {
     // not overridden.
     $repo_project_yml = $this->getConfigValue('blt.config-files.project');
     $template_project_yml = $this->getConfigValue('blt.root') . '/template/blt/project.yml';
-    $munged_yml = YamlMunge::munge($template_project_yml, $repo_project_yml);
+    $munged_yml = YamlMunge::mungeFiles($template_project_yml, $repo_project_yml);
     try {
       YamlMunge::writeFile($repo_project_yml, $munged_yml);
     }

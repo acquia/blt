@@ -22,7 +22,7 @@ class ExecuteInDrupalVmHook extends BltTasks {
     // @todo Create global option to opt-out of this. E.g., --execute-on-host.
     $command = $event->getCommand();
     if ($this->getInspector()->isVmCli()) {
-      $this->getConfig()->set('drush.alias', '');
+      $this->getConfig()->set('drush.alias', 'self');
     }
     elseif (method_exists($command, 'getAnnotationData')) {
       /* @var \Consolidation\AnnotatedCommand\AnnotationData */

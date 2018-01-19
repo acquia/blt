@@ -81,6 +81,7 @@ drupal:
 drush:
   bin: ${composer.bin}/drush
   dir: ${docroot}
+  alias-dir: ${repo.root}/drush/sites
   sanitize: true
 
 git:
@@ -138,7 +139,8 @@ project:
 setup:
   # Valid values are install, sync, import.
   strategy: install
-  # If setup.strategy is import, this file will be imported.
+  # If setup.strategy is import, this file will be imported. File path is
+  # relative to drupal docroot directory.
   dump-file: null
 
 sync:
@@ -153,7 +155,8 @@ sync:
     - js
   commands:
     - setup:composer:install
-    - sync
+    - setup:settings
+    - sync:db
     - setup:update
     - frontend
 

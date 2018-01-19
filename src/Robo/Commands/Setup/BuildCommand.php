@@ -35,7 +35,7 @@ class BuildCommand extends BltTasks {
     }
     $this->invokeCommands($commands);
     $this->setSitePermissions();
-    $this->createDeployId(RandomString::string(8));
+    $this->createDeployId(RandomString::string(8, FALSE, NULL, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!#%^&*()_?/.,+=><'));
   }
 
   /**

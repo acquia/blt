@@ -17,7 +17,6 @@ abstract class BltTestBase extends \PHPUnit_Framework_TestCase {
   public function setUp() {
     parent::setUp();
     $this->bltDirectory = realpath(dirname(__FILE__) . '/../../../');
-
   }
 
 }

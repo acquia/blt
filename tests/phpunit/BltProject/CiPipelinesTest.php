@@ -6,8 +6,6 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
  * Class PipelinesTest.
- *
- * Verifies that Pipelines support has been initialized.
  */
 class PipelinesTest extends BltProjectTestBase {
 
@@ -17,7 +15,8 @@ class PipelinesTest extends BltProjectTestBase {
    * @group blted8
    */
   public function testPipelinesInit() {
-    $this->assertFileExists($this->projectDirectory . '/acquia-pipelines.yml');
+    $this->blt('ci:pipelines:init');
+    $this->assertFileExists($this->sandboxInstance . '/acquia-pipelines.yml');
   }
 
 }
