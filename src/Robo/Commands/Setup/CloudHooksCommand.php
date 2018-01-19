@@ -22,8 +22,9 @@ class CloudHooksCommand extends BltTasks {
       $this->getConfigValue('blt.root') . '/scripts/cloud-hooks/hooks' => $destination,
     ])
       ->run();
-
-    // @todo Set permissions to 0755.
+    $this->taskFilesystemStack()
+      ->chmod($destination, 0755, 0000, TRUE)
+      ->run();
 
     return $result;
   }
