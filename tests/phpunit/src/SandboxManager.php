@@ -7,7 +7,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
 
 /**
- *
+ * Manage BLT testing sandbox.
  */
 class SandboxManager {
 

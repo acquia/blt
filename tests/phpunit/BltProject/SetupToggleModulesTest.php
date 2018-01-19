@@ -19,7 +19,6 @@ class ToggleModulesTest extends BltProjectTestBase {
     $env = $this->config->get('environment');
     $modules = (array) $this->config->get("modules.$env.enable");
     $pm_list = $this->drushJson("pm:list --fields=name,status");
-
     foreach ($modules as $module) {
       $this->assertModuleEnabled($module, $pm_list);
     }

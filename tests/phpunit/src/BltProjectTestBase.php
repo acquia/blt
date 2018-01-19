@@ -92,8 +92,7 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
   protected function reInitializeConfig($input) {
     unset($this->config);
     $config_initializer = new ConfigInitializer($this->sandboxInstance, $input);
-    $new_config = $config_initializer->initialize();
-    $this->config->import($new_config->export());
+    $this->config = $config_initializer->initialize();
   }
 
   protected function dropDatabase() {
