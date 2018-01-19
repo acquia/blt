@@ -68,7 +68,7 @@ trait IO {
    *   The response.
    */
   protected function confirm($question, $default = FALSE) {
-    if ($this->input()->hasOption('yes') && $this->input()->getOption('yes')) {
+    if ($this->input()->hasOption('yes') && $this->input()->getOption('yes') !== FALSE) {
       return TRUE;
     }
 

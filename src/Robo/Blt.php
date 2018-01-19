@@ -174,6 +174,10 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
       ->addOption(
         new InputOption('--environment', '-e', InputOption::VALUE_REQUIRED, 'Set the environment to load config from blt/[env].yml file.', [])
       );
+    $app->getDefinition()
+      ->addOption(
+        new InputOption('--site', '-s', InputOption::VALUE_REQUIRED, 'The multisite to execute this command against.', [])
+      );
   }
 
   /**

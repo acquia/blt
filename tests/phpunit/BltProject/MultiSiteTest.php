@@ -27,9 +27,9 @@ class MultiSiteTest extends BltProjectTestBase {
     list($status_code, $output) = $this->blt("setup", [
       '--define' => [
         'project.profile.name=minimal',
-        'site=site2',
       ],
-      '--yes' => TRUE,
+      '--site' => 'site2',
+      '--yes' => '',
     ]);
 
     $this->importDbFromFixture($test_project_clone_dir, $site1_dir);
@@ -63,7 +63,9 @@ class MultiSiteTest extends BltProjectTestBase {
     $output_array = $this->drushJson("@site2.clone config:get system.site");
     $this->assertEquals('Site 2 Clone', $output_array['name']);
 
-    list($status_code, $output) = $this->blt("sync:db:all");
+    list($status_code, $output) = $this->blt("sync:db:all", [
+      '--yes' => '',
+    ]);
     $this->assertContains("You will destroy data in drupal and replace with data from drupal3", $output);
     $this->assertContains("You will destroy data in drupal2 and replace with data from drupal4", $output);
 
@@ -102,7 +104,7 @@ class MultiSiteTest extends BltProjectTestBase {
       '--site-dir' => $site2_dir,
       '--site-uri' => "http://" . $site2_local_uri,
       '--remote-alias' => $site2_remote_drush_alias,
-      '--yes' => TRUE,
+      '--yes' => '',
     ]);
 
     $this->fs->mirror($test_project_dir, $test_project_clone_dir);

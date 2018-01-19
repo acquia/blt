@@ -38,7 +38,7 @@ class DrushHook extends BltTasks {
    */
   public function drushVmAlias(ConsoleCommandEvent $commandData) {
     if ($this->getInspector()->isVmCli()) {
-      $this->getConfig()->set('drush.alias', '');
+      $this->getConfig()->set('drush.alias', 'self');
       $this->getConfig()->set('drush.aliases.local', 'self');
     }
   }

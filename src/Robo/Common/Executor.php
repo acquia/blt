@@ -79,14 +79,14 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
     $bin = $this->getConfigValue('composer.bin');
     /** @var \Robo\Common\ProcessExecutor $process_executor */
     $drush_alias = $this->getConfigValue('drush.alias');
-    if (!empty($drush_alias)) {
-      $drush_alias = "@$drush_alias";
-    }
-
-    $command_string = "'$bin/drush' $drush_alias $command";
+    $command_string = "'$bin/drush' @$drush_alias $command";
 
     if ($this->input()->hasOption('yes') && $this->input()->getOption('yes')) {
       $command_string .= ' -y';
+    }
+
+    if ($this->getConfigValue('site') != 'default') {
+      $command_string .= ' --uri=' . $this->getConfigValue('site');
     }
 
     $process_executor = Robo::process(new Process($command_string));

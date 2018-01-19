@@ -60,6 +60,9 @@ class ConfigInitializer {
     if ($this->input->hasParameterOption('site')) {
       $site = $this->input->getParameterOption('site');
     }
+    elseif ($this->input->hasParameterOption('--site')) {
+      $site = $this->input->getParameterOption('--site');
+    }
     else {
       $site = 'default';
     }

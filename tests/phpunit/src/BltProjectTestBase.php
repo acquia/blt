@@ -65,7 +65,8 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
     }
 
     $this->sandboxInstance = $this->sandboxManager->getSandboxInstance();
-    $this->initializeConfig();
+    // Config is overwritten for each $this->blt execution.
+    $this->initializeConfig($this->createBltInput(NULL, []));
     $this->dropDatabase();
     $this->drush('cache-rebuild', NULL, FALSE);
     $this->dbDump = $this->sandboxManager->getDbDumpDir() . "/bltDbDump.sql";
@@ -74,10 +75,18 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
   /**
    *
    */
-  protected function initializeConfig() {
-    $config_initializer = new ConfigInitializer($this->sandboxInstance,
-      new ArrayInput(['environment' => getenv('BLT_ENV')]));
+  protected function initializeConfig($input) {
+    $config_initializer = new ConfigInitializer($this->sandboxInstance, $input);
     $this->config = $config_initializer->initialize();
+  }
+
+  /**
+   *
+   */
+  protected function reInitializeConfig($input) {
+    $config_initializer = new ConfigInitializer($this->sandboxInstance, $input);
+    $new_config = $config_initializer->initialize();
+    $this->config->import($new_config->export());
   }
 
   protected function dropDatabase() {
@@ -210,12 +219,7 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
    */
   protected function blt($command, $args = [], $stop_on_error = TRUE) {
     chdir($this->sandboxInstance);
-
-    $args['command'] = $command;
-    $args['-vvv'] = TRUE;
-    $args['--no-interaction'] = TRUE;
-    $input = new ArrayInput($args);
-    $input->setInteractive(FALSE);
+    $input = $this->createBltInput($command, $args);
 
     if (getenv('BLT_PRINT_COMMAND_OUTPUT')) {
       $command_string = (string) $input;
@@ -227,6 +231,9 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
     else {
       $output = new BufferedOutput();
     }
+
+    // Re-initialize config.
+    $this->reInitializeConfig($input);
 
     // Execute command.
     $blt = new Blt($this->config, $input, $output);
@@ -246,13 +253,36 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
 
   /**
    * @param $message
-   * @param $output
+   * @param \Symfony\Component\Console\Output\OutputInterface $output
    */
   protected function writeFullWidthLine($message, $output) {
     $terminal_width = (new Terminal())->getWidth();
     $padding_len = ($terminal_width - strlen($message)) / 2;
     $pad = str_repeat('-', $padding_len);
     $output->writeln("<comment>{$pad}{$message}{$pad}</comment>");
+  }
+
+  /**
+   * @param $command
+   * @param $args
+   *
+   * @return \Symfony\Component\Console\Input\InputInterface
+   */
+  protected function createBltInput($command = '', $args = []) {
+    $defaults = [
+      '--environment' => getenv('BLT_ENV'),
+      '-vvv' => '',
+      '--no-interaction' => '',
+    ];
+    $args = array_merge($args, $defaults);
+    $prepend = [
+      'command' => $command,
+    ];
+    $args = $prepend + $args;
+    $input = new ArrayInput($args);
+    $input->setInteractive(FALSE);
+
+    return $input;
   }
 
 }

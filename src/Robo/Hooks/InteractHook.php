@@ -117,11 +117,13 @@ class InteractHook extends BltTasks {
       if (!$this->getInspector()->isActiveConfigIdentical()) {
         $this->logger->warning("The active configuration is not identical to the configuration in the export directory.");
         $this->logger->warning("This means that you have not exported all of your active configuration.");
-        $this->logger->warning("Continuing will overwrite the active configuration.");
-        $confirm = $this->confirm("Continue?");
         $this->logger->warning("Run <comment>drush cex</comment> to export the active config to the sync directory.");
-        if (!$confirm) {
-          throw new BltException("The active configuration is not identical to the configuration in the export directory.");
+        if ($this->input()->isInteractive()) {
+          $this->logger->warning("Continuing will overwrite the active configuration.");
+          $confirm = $this->confirm("Continue?");
+          if (!$confirm) {
+            throw new BltException("The active configuration is not identical to the configuration in the export directory.");
+          }
         }
       }
     }

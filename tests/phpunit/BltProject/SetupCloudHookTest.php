@@ -23,4 +23,5 @@ class CloudHookTest extends BltProjectTestBase {
     $this->assertEquals('0755', $filePermissions);
   }
 
+  // @todo Test Cloud hook execution.
 }
