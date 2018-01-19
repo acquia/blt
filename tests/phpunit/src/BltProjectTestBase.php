@@ -42,9 +42,21 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
    */
   protected $dbDump;
 
+  /**
+   * @var \Symfony\Component\Console\Output\ConsoleOutput
+   */
+  protected $output;
+
   protected $bltDirectory;
 
   public function setUp() {
+    $this->output = new ConsoleOutput();
+
+    if (getenv('BLT_PRINT_COMMAND_OUTPUT')) {
+      $this->output->writeln("");
+      $this->writeFullWidthLine(get_class($this) . "::" . $this->getName(), $this->output);
+    }
+
     parent::setUp();
     $this->bltDirectory = realpath(dirname(__FILE__) . '/../../../');
     $this->fs = new Filesystem();
@@ -67,9 +79,14 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
     $this->sandboxInstance = $this->sandboxManager->getSandboxInstance();
     // Config is overwritten for each $this->blt execution.
     $this->initializeConfig($this->createBltInput(NULL, []));
-    $this->dropDatabase();
     $this->drush('cache-rebuild', NULL, FALSE);
-    $this->dbDump = $this->sandboxManager->getDbDumpDir() . "/bltDbDump.sql";
+    $this->dbDump = $this->sandboxInstance . "/bltDbDump.sql";
+  }
+
+  public function debug($message) {
+    if (getenv('BLT_PRINT_COMMAND_OUTPUT')) {
+      $this->output->writeln($message);
+    }
   }
 
   /**
@@ -116,8 +133,7 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
       if (!$stop_on_error) {
         $output->writeln("Command failure is permitted.");
       }
-      $message = "Begin command output";
-      $this->writeFullWidthLine($message, $output);
+      $output->writeln("<comment>------Begin command output-------</comment>");
       $process->run(function ($type, $buffer) use ($output) {
         $output->write($buffer);
       });
@@ -126,7 +142,7 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
       $process->run();
     }
     if (getenv('BLT_PRINT_COMMAND_OUTPUT')) {
-      $this->writeFullWidthLine("End command output", $output);
+      $output->writeln("<comment>------End command output---------</comment>");
       $output->writeln("");
     }
 
@@ -283,6 +299,11 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
     $input->setInteractive(FALSE);
 
     return $input;
+  }
+
+  protected function tearDown() {
+    $this->dropDatabase();
+    parent::tearDown();
   }
 
 }

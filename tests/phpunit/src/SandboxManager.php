@@ -16,7 +16,6 @@ class SandboxManager {
   protected $bltDir;
   protected $sandboxMaster;
   protected $sandboxInstance;
-  protected $dbDumpDir;
   /** @var \Symfony\Component\Console\Output\ConsoleOutput*/
   protected $output;
   protected $tmp;
@@ -28,7 +27,6 @@ class SandboxManager {
     $this->sandboxMaster = $this->tmp . "/blt-sandbox-master";
     $this->sandboxInstance = $this->tmp . "/blt-sandbox-instance";
     $this->bltDir = realpath(dirname(__FILE__) . '/../../../');
-    $this->dbDumpDir = $this->tmp . "/blt-sandbox-dumps";
   }
 
   public function bootstrap() {
@@ -37,7 +35,6 @@ class SandboxManager {
     if ($recreate_master) {
       $this->output->writeln("<comment>To prevent recreation of sandbox master on each bootstrap, set BLT_RECREATE_SANDBOX_MASTER=0</comment>");
       $this->createSandboxMaster();
-      $this->createDbDumpDir();
     }
     else {
       $this->output->writeln("<comment>Skipping master sandbox creation, BLT_RECREATE_SANDBOX_MASTER is disabled.");
@@ -61,7 +58,7 @@ class SandboxManager {
    *
    */
   public function removeSandboxInstance() {
-    $this->debug("\nRemoving sandbox instance...");
+    $this->debug("Removing sandbox instance...");
     $this->makeSandboxInstanceWritable();
     $this->fs->remove($this->sandboxInstance);
   }
@@ -77,13 +74,6 @@ class SandboxManager {
     if (file_exists($sites_dir)) {
       $this->fs->chmod($sites_dir, 0755, 0000, TRUE);
     }
-  }
-
-  /**
-   * @return string
-   */
-  public function getDbDumpDir() {
-    return $this->dbDumpDir;
   }
 
   /**
@@ -110,7 +100,7 @@ class SandboxManager {
     'delete' => TRUE,
     'override' => FALSE,
   ]) {
-    $this->debug("\nCopying sandbox master to sandbox instance...");
+    $this->debug("Copying sandbox master to sandbox instance...");
     $this->fs->mirror($this->sandboxMaster, $this->sandboxInstance, NULL,
       $options);
   }
@@ -128,11 +118,6 @@ class SandboxManager {
    */
   public function getSandboxInstance() {
     return $this->sandboxInstance;
-  }
-
-  protected function createDbDumpDir() {
-    $this->fs->remove($this->dbDumpDir);
-    $this->fs->mkdir($this->dbDumpDir);
   }
 
   protected function updateSandboxMasterBltRepoSymlink() {
