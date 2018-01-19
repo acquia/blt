@@ -23,19 +23,33 @@ class MultiSiteTest extends BltProjectTestBase {
     $this->prepareMultisites($site1_dir, $site2_dir, $test_project_dir, $test_project_clone_dir);
 
     // Make sure we prepared thing correctly.
-    $this->assertFileExists("$test_project_dir/docroot/sites/$site1_dir/settings/local.settings.php");
-    $this->assertFileExists("$test_project_dir/docroot/sites/$site2_dir/settings/local.settings.php");
-    $this->assertFileExists("$test_project_dir/docroot/sites/$site1_dir/local.drush.yml");
+    // Local.
+    $this->assertFileNotExists("$test_project_dir/docroot/sites/$site1_dir/settings/local.settings.php");
+    $this->assertFileNotExists("$test_project_dir/docroot/sites/$site2_dir/settings/local.settings.php");
+    $this->assertFileNotExists("$test_project_dir/docroot/sites/$site1_dir/local.drush.yml");
+    $this->assertFileNotExists("$test_project_dir/docroot/sites/$site2_dir/local.drush.yml");
     $this->assertFileExists("$test_project_dir/docroot/sites/$site1_dir/blt.yml");
+    $this->assertFileExists("$test_project_dir/docroot/sites/$site2_dir/blt.yml");
     $this->assertFileExists("$test_project_dir/docroot/sites/sites.php");
-    $this->assertFileExists("$test_project_clone_dir/docroot/sites/$site1_dir/settings/local.settings.php");
-    $this->assertFileExists("$test_project_clone_dir/docroot/sites/$site2_dir/settings/local.settings.php");
-    $this->assertFileExists("$test_project_clone_dir/docroot/sites/$site1_dir/local.drush.yml");
-    $this->assertFileExists("$test_project_clone_dir/docroot/sites/$site1_dir/blt.yml");
-    $this->assertFileExists("$test_project_clone_dir/docroot/sites/sites.php");
+    $this->assertFileExists($test_project_dir . '/config/site2');
 
-    // Generate fixture. Sets up site1 locally too.
+    // Clone.
+    $this->assertFileNotExists("$test_project_clone_dir/docroot/sites/$site1_dir/settings/local.settings.php");
+    $this->assertFileNotExists("$test_project_clone_dir/docroot/sites/$site2_dir/settings/local.settings.php");
+    $this->assertFileNotExists("$test_project_clone_dir/docroot/sites/$site1_dir/local.drush.yml");
+    $this->assertFileNotExists("$test_project_clone_dir/docroot/sites/$site2_dir/local.drush.yml");
+    $this->assertFileExists("$test_project_clone_dir/docroot/sites/$site1_dir/blt.yml");
+    $this->assertFileExists("$test_project_clone_dir/docroot/sites/$site2_dir/blt.yml");
+    $this->assertFileExists("$test_project_clone_dir/docroot/sites/sites.php");
+    $this->assertFileExists($test_project_clone_dir . '/config/site2');
+
+    // We cannot use $this->blt because we are not executing in sandbox.
+    $this->execute('./vendor/bin/blt setup:settings', $test_project_clone_dir);
+
+    // Generate fixture.
+    // Sets up site1 locally too.
     $this->createDatabaseDumpFixture();
+    // Set up site 2.
     list($status_code, $output) = $this->blt("setup", [
       '--define' => [
         'project.profile.name=minimal',
@@ -43,24 +57,24 @@ class MultiSiteTest extends BltProjectTestBase {
       '--site' => 'site2',
       '--yes' => '',
     ]);
+    // Assert setup.
+    $this->assertFileExists("$test_project_dir/docroot/sites/$site1_dir/settings/local.settings.php");
+    $this->assertFileExists("$test_project_dir/docroot/sites/$site2_dir/settings/local.settings.php");
+    $this->assertFileExists("$test_project_dir/docroot/sites/$site1_dir/local.drush.yml");
+    $this->assertFileExists("$test_project_dir/docroot/sites/$site2_dir/local.drush.yml");
+    $this->assertNotContains('${drupal.db.database}', file_get_contents("$test_project_dir/docroot/sites/$site1_dir/settings/local.settings.php"));
 
+    // Setup Site1 clone.
     $this->importDbFromFixture($test_project_clone_dir, $site1_dir);
     $this->drush("config:set system.site name 'Site 1 Clone' --yes --uri=$site1_dir", $test_project_clone_dir);
+    // Setup Site2 clone.
     $this->importDbFromFixture($test_project_clone_dir, $site2_dir);
     $this->drush("config:set system.site name 'Site 2 Clone' --yes --uri=$site2_dir", $test_project_clone_dir);
-
-    $site_dir = $this->sandboxInstance . '/docroot/sites/site2';
-    $this->assertFileExists($site_dir);
-    $this->assertFileExists($this->sandboxInstance . '/docroot/sites/site2/blt.yml');
-    $this->assertFileExists($site_dir . '/settings.php');
-    $this->assertFileExists($site_dir . '/default.settings.php');
-    $this->assertFileExists($site_dir . '/local.drush.yml');
-    $this->assertFileExists($site_dir . '/default.local.drush.yml');
-    $this->assertFileExists($site_dir . '/settings');
-    $this->assertFileExists($site_dir . '/settings/default.local.settings.php');
-    $this->assertNotContains('${drupal.db.database}', file_get_contents($site_dir . '/settings/local.settings.php'));
-    $this->assertFileExists($site_dir . '/settings/local.settings.php');
-    $this->assertFileExists($this->sandboxInstance . '/config/site2');
+    // Assert setup.
+    $this->assertFileExists("$test_project_clone_dir/docroot/sites/$site1_dir/settings/local.settings.php");
+    $this->assertFileExists("$test_project_clone_dir/docroot/sites/$site2_dir/settings/local.settings.php");
+    $this->assertFileExists("$test_project_clone_dir/docroot/sites/$site1_dir/local.drush.yml");
+    $this->assertFileExists("$test_project_clone_dir/docroot/sites/$site2_dir/local.drush.yml");
 
     $output_array = $this->drushJson("@default.local config:get system.site");
     $this->assertEquals('Site 1 Local', $output_array['name']);
@@ -119,6 +133,7 @@ class MultiSiteTest extends BltProjectTestBase {
       '--yes' => '',
     ]);
 
+    $this->fs->remove($test_project_clone_dir);
     $this->fs->mirror($test_project_dir, $test_project_clone_dir);
 
     // Create drush alias for site1.
@@ -188,13 +203,13 @@ class MultiSiteTest extends BltProjectTestBase {
       "$test_project_dir/docroot/sites/$site1_dir/settings/local.settings.php",
       "$test_project_dir/docroot/sites/$site2_dir/settings/local.settings.php",
       "$test_project_dir/docroot/sites/$site1_dir/local.drush.yml",
+      "$test_project_dir/docroot/sites/$site2_dir/local.drush.yml",
       "$test_project_clone_dir/docroot/sites/$site1_dir/settings/local.settings.php",
       "$test_project_clone_dir/docroot/sites/$site2_dir/settings/local.settings.php",
       "$test_project_clone_dir/docroot/sites/$site1_dir/local.drush.yml",
+      "$test_project_clone_dir/docroot/sites/$site2_dir/local.drush.yml",
     ]);
 
-    // We cannot use $this->blt because we are not executing in sandbox.
-    $this->execute('./vendor/bin/blt setup:settings', $test_project_clone_dir);
   }
 
 }
