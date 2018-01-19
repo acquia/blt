@@ -88,7 +88,7 @@ To install Acquia Cloud hooks for your BLT project:
         git commit -m 'Initializing Acquia Cloud hooks.'
         git push origin
 
-For consistency and reliability, you should run the same updates on deployment as you would run locally or in CI testing. BLT provides aliases for the `setup:update` task to support this, such as `local:update` and `deploy:update`. These aliases all run the same updates, but with the appropriate aliases and configuration directories for each environment.
+For consistency and reliability, you should run the same updates on deployment as you would run locally or in CI testing. BLT provides aliases for the `setup:update` task to support this in a local environment and `deploy:update` to execute against an artifact.
 
 If your team uses Slack, you can also be notified of each successful or failed deployment. Simply set up an incoming webhook in your Slack team to receive the notification (see the API documentation at https://api.slack.com/), and then store the webhook URL in a `$HOME/slack_settings` file on your Acquia Cloud servers:
 

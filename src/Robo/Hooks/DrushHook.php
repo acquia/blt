@@ -19,7 +19,7 @@ class DrushHook extends BltTasks {
    */
   public function validateDrushConfig(CommandData $commandData) {
     $alias = $this->getConfigValue('drush.alias');
-    if ($alias && !$this->getInspector()->isDrushAliasValid("@$alias")) {
+    if ($alias && !$this->getInspector()->isDrushAliasValid("$alias")) {
       $this->logger->error("Invalid drush alias '@$alias'.");
       $this->logger->info('Troubleshooting suggestions:');
       $this->logger->info('Execute `drush site-alias` from within the docroot to see a list of available aliases.');
@@ -38,7 +38,7 @@ class DrushHook extends BltTasks {
    */
   public function drushVmAlias(ConsoleCommandEvent $commandData) {
     if ($this->getInspector()->isVmCli()) {
-      $this->getConfig()->set('drush.alias', '');
+      $this->getConfig()->set('drush.alias', 'self');
       $this->getConfig()->set('drush.aliases.local', 'self');
     }
   }

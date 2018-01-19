@@ -3,7 +3,6 @@
 namespace Acquia\Blt\Robo;
 
 use Acquia\Blt\Robo\Common\Executor;
-use Acquia\Blt\Robo\Datastore\FileStore;
 use Acquia\Blt\Robo\Filesets\FilesetManager;
 use Acquia\Blt\Robo\Inspector\Inspector;
 use Acquia\Blt\Robo\Inspector\InspectorAwareInterface;
@@ -163,11 +162,20 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
    *   The Symfony application.
    */
   private function addDefaultArgumentsAndOptions(Application $app) {
-    $app->getDefinition()->addOption(new InputOption('--yes', '-y',
-      InputOption::VALUE_NONE, 'Answer all confirmations with "yes"'));
+    $app->getDefinition()
+      ->addOption(
+        new InputOption('--yes', '-y', InputOption::VALUE_NONE, 'Answer all confirmations with "yes"'));
     $app->getDefinition()
       ->addOption(
         new InputOption('--define', '-D', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Define a configuration item value.', [])
+      );
+    $app->getDefinition()
+      ->addOption(
+        new InputOption('--environment', NULL, InputOption::VALUE_REQUIRED, 'Set the environment to load config from blt/[env].yml file.', [])
+      );
+    $app->getDefinition()
+      ->addOption(
+        new InputOption('--site', NULL, InputOption::VALUE_REQUIRED, 'The multisite to execute this command against.', [])
       );
   }
 
@@ -210,13 +218,6 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     // name/alias.
     $factory->setIncludeAllPublicMethods(FALSE);
     $factory->addCommandInfoAlterer(new BltCommandInfoAlterer());
-
-    // Install our command cache into the command factory.
-    $commandCacheDir = $this->getConfig()->get('blt.command-cache-dir');
-    if (file_exists($commandCacheDir) && is_writable($commandCacheDir)) {
-      $commandCacheDataStore = new FileStore($commandCacheDir);
-      $factory->setDataStore($commandCacheDataStore);
-    }
   }
 
   /**

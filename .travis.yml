@@ -13,7 +13,7 @@ env:
     - BLT_DIR=$TRAVIS_BUILD_DIR
     - IS_PULL_REQUEST=$TRAVIS_PULL_REQUEST
     - BUILD_DIR=$TRAVIS_BUILD_DIR
-    - DRUPAL_CORE_HEAD=8.5.x-dev
+    - DRUPAL_CORE_HEAD=8.4.x-dev
   matrix:
     - DRUPAL_CORE_VERSION=default
     - DRUPAL_CORE_VERSION=$DRUPAL_CORE_HEAD
@@ -33,8 +33,7 @@ cache:
   - "$HOME/.nvm"
 
 addons:
-  ssh_known_hosts:
-    - svn-5223.devcloud.hosting.acquia.com
+  ssh_known_hosts: []
   chrome: stable
 
 before_install:
@@ -54,12 +53,9 @@ install:
   - mysql -u root -e "CREATE DATABASE drupal2; GRANT ALL ON drupal2.* TO 'drupal'@'localhost';"
   - mysql -u root -e "CREATE DATABASE drupal3; GRANT ALL ON drupal3.* TO 'drupal'@'localhost';"
   - mysql -u root -e "CREATE DATABASE drupal4; GRANT ALL ON drupal4.* TO 'drupal'@'localhost';"
-  - source ${BLT_DIR}/scripts/travis/setup_project
 
 script:
-  - source ${BLT_DIR}/scripts/blt/ci/internal/create_blt_project.sh
-  - ${BLT_DIR}/vendor/bin/robo release:test --no-vm --environment=ci --no-create-project
-
+  - ${BLT_DIR}/vendor/bin/robo release:test
 before_deploy:
   - cd ${TRAVIS_BUILD_DIR}/../blted8
   # The BLTed8 project will need its ssh_known_hosts configured to push to ACF.
@@ -79,14 +75,6 @@ after_success:
   # - ./vendor/bin/coveralls -vvv
 
 deploy:
-  - provider: script
-    # Deploys build artifact for generated `blted8` to acquia-pso/blted8 on GitHub and also to bolt8 sub on ACF.
-    script: ${BLT_DIR}/scripts/travis/deploy_branch && $COMPOSER_BIN/phpunit $BLT_DIR/tests/phpunit --group=deploy -v
-    skip_cleanup: true
-    on:
-      branch: $DEPLOY_SOURCE_BRANCH
-      php: 7.1
-      condition: $DRUPAL_CORE_VERSION = default
   - provider: script
     # Deploys build artifact's source branch to acquia-pso/blted8 on GitHub.
     script: ${BLT_DIR}/scripts/blt/ci/internal/deploy_blted8.sh

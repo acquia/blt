@@ -51,23 +51,16 @@ class DefaultConfig extends BltConfig {
    * Populates configuration settings not available during construction.
    */
   public function populateHelperConfig() {
-    $defaultAlias = $this->get('drush.default_alias');
-    $alias = $defaultAlias == 'self' ? '' : $defaultAlias;
-    $this->set('drush.alias', $alias);
+    $this->set('drush.alias', $this->get('drush.default_alias'));
 
     if (!$this->get('multisites')) {
       $this->set('multisites', $this->getSiteDirs());
     }
+
     $multisites = $this->get('multisites');
     $first_multisite = reset($multisites);
     $site = $this->get('site', $first_multisite);
     $this->setSite($site);
-
-    // Adapt remote alias for the multisite.
-    if ($environment = $this->get('drush.aliases.remote_env')) {
-      $machine_name = $this->get('project.machine_name');
-      $this->config->set('drush.aliases.remote', $machine_name . '.' . $site . '.' . $environment);
-    }
   }
 
   /**
@@ -78,6 +71,7 @@ class DefaultConfig extends BltConfig {
     if (!$this->get('drush.uri') && $site != 'default') {
       $this->set('drush.uri', $site);
     }
+
   }
 
   /**
@@ -103,7 +97,8 @@ class DefaultConfig extends BltConfig {
       ->in($sites_dir)
       ->directories()
       ->depth('< 1')
-      ->exclude(['g']);
+      ->exclude(['g'])
+      ->sortByName();
     foreach ($dirs->getIterator() as $dir) {
       $sites[] = $dir->getRelativePathname();
     }

@@ -3,6 +3,8 @@
 namespace Acquia\Blt\Tests\Blt;
 
 use Acquia\Blt\Tests\BltProjectTestBase;
+use Acquia\Blt\Robo\Common\YamlMunge;
+use function print_r;
 
 /**
  * Class DrupalVM.
@@ -13,29 +15,27 @@ class DrupalVmTest extends BltProjectTestBase {
 
   /**
    * Tests vm:init command.
-   *
-   * @group blted8
    */
   public function testVmInit() {
-    $this->assertFileExists($this->projectDirectory . '/Vagrantfile');
-    $this->assertFileExists($this->projectDirectory . '/box/config.yml');
-    $this->assertFileExists($this->projectDirectory . '/blt/project.local.yml');
+    $this->blt('vm', [
+      '--no-boot' => TRUE,
+    ]);
+    $this->assertFileExists($this->sandboxInstance . '/Vagrantfile');
+    $this->assertFileExists($this->sandboxInstance . '/box/config.yml');
+    $this->assertFileExists($this->sandboxInstance . '/blt/project.local.yml');
+
+    $drush_alias_file = $this->sandboxInstance . '/drush/sites/' . $this->config->get('project.machine_name') . '.site.yml';
+    $drush_alias_contents = YamlMunge::parseFile($drush_alias_file);
 
     $this->assertNotContains(
       '${project.machine_name}',
-      file_get_contents($this->projectDirectory . '/box/config.yml')
+      file_get_contents($this->sandboxInstance . '/box/config.yml')
     );
+    $this->assertArrayHasKey('local', $drush_alias_contents, print_r($drush_alias_contents, TRUE));
+    $this->assertEquals($this->config->get('project.local.uri'), $drush_alias_contents['local']['uri']);
     $this->assertContains(
-      'local',
-      file_get_contents($this->projectDirectory . '/drush/sites/' . $this->config['project']['machine_name'] . '.site.yml')
-    );
-    $this->assertContains(
-      'http://127.0.0.1:8888',
-      file_get_contents($this->projectDirectory . '/drush/sites/' . $this->config['project']['machine_name'] . '.site.yml')
-    );
-    $this->assertContains(
-      $this->config['project']['machine_name'] . '.local',
-      file_get_contents($this->projectDirectory . '/blt/project.local.yml')
+      $this->config->get('project.machine_name') . '.local',
+      file_get_contents($this->sandboxInstance . '/blt/project.local.yml')
     );
   }
 

@@ -138,7 +138,7 @@ class ArrayManipulatorTest extends \PHPUnit_Framework_TestCase {
       ],
       3 => [
         0 => 'first.sixth',
-        1 => '1',
+        1 => 'true',
       ],
     ];
     $this->assertEquals($expected,

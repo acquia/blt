@@ -44,7 +44,8 @@ class TestsWizard extends Wizard {
         if (file_exists($behat_local_config_file)) {
           $this->fs->remove($behat_local_config_file);
         }
-        $this->executor->execute("$bin/blt setup:behat")->run();
+        // @todo Pass all config!
+        $this->executor->execute("$bin/blt setup:behat --define environment=" . $this->getConfigValue('environment'))->run();
       }
     }
   }

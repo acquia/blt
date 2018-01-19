@@ -5,6 +5,7 @@ namespace Acquia\Blt\Robo\Commands\Generate;
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\YamlMunge;
 use Acquia\Blt\Robo\Exceptions\BltException;
+use Grasmash\YamlExpander\Expander;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Yaml\Yaml;
 
@@ -20,8 +21,9 @@ class MultisiteCommand extends BltTasks {
    *
    */
   public function generate($options = [
-    'site-name' => InputOption::VALUE_REQUIRED,
+    'site-dir' => InputOption::VALUE_REQUIRED,
     'site-uri' => InputOption::VALUE_REQUIRED,
+    'remote-alias' => InputOption::VALUE_REQUIRED,
   ]) {
     $this->say("This will generate a new site in the docroot/sites directory.");
 
@@ -34,6 +36,7 @@ class MultisiteCommand extends BltTasks {
 
     $domain = $this->getNewSiteDoman($options, $site_name);
     $url = parse_url($domain);
+    // @todo Validate uri, ensure includes scheme.
 
     $this->setLocalDbConfig();
     if ($this->getInspector()->isDrupalVmConfigPresent()) {
@@ -41,9 +44,13 @@ class MultisiteCommand extends BltTasks {
     }
     $default_site_dir = $this->getConfigValue('docroot') . '/sites/default';
     $this->createDefaultBltSiteYml($default_site_dir);
+    $this->createSiteDrushAlias('default');
     $this->createNewSiteDir($default_site_dir, $new_site_dir);
+
+    $remote_alias = $this->getNewSiteRemoteAlias($options);
+    $this->createNewBltSiteYml($new_site_dir, $site_name, $url, $remote_alias);
     $this->createNewSiteConfigDir($site_name);
-    $this->createNewBltSiteYml($new_site_dir, $site_name, $url);
+    $this->createSiteDrushAlias($site_name);
     $this->resetMultisiteConfig();
 
     $this->invokeCommand('setup:settings');
@@ -52,7 +59,7 @@ class MultisiteCommand extends BltTasks {
   /**
    * Updates box/config.yml with settings for new multisite.
    *
-   * @param string $url
+   * @param array $url
    *   The local URL for the site.
    * @param string $site_name
    *   The machine name of the site.
@@ -101,17 +108,25 @@ class MultisiteCommand extends BltTasks {
    * @return string
    */
   protected function createDefaultBltSiteYml($default_site_dir) {
-    if (!file_exists($default_site_dir . "/blt.site.yml")) {
+    if (!file_exists($default_site_dir . "/blt.yml")) {
       $initial_perms = fileperms($default_site_dir);
       chmod($default_site_dir, 0777);
       // Move project.local.hostname from project.yml to
-      // sites/default/blt.site.yml.
+      // sites/default/blt.yml.
       $default_site_yml = [];
       $default_site_yml['project']['local']['hostname'] = $this->getConfigValue('project.local.hostname');
-      YamlMunge::writeFile($default_site_dir . "/blt.site.yml",
+      $default_site_yml['project']['local']['protocol'] = $this->getConfigValue('project.local.protocol');
+      $default_site_yml['project']['machine_name'] = $this->getConfigValue('project.machine_name');
+      $default_site_yml['drush']['aliases']['local'] = $this->getConfigValue('drush.aliases.local');
+      $default_site_yml['drush']['aliases']['remote'] = $this->getConfigValue('drush.aliases.remote');
+      YamlMunge::writeFile($default_site_dir . "/blt.yml",
         $default_site_yml);
       $project_yml = YamlMunge::parseFile($this->getConfigValue('blt.config-files.project'));
       unset($project_yml['project']['local']['hostname']);
+      unset($project_yml['project']['local']['protocol']);
+      unset($project_yml['project']['machine_name']);
+      unset($project_yml['drush']['aliases']['local']);
+      unset($project_yml['drush']['aliases']['remote']);
       YamlMunge::writeFile($this->getConfigValue('blt.config-files.project'),
         $project_yml);
       chmod($default_site_dir, $initial_perms);
@@ -129,19 +144,17 @@ class MultisiteCommand extends BltTasks {
   protected function createNewBltSiteYml(
     $new_site_dir,
     $site_name,
-    $url
+    $url,
+    $remote_alias
   ) {
-    $site_yml_filename = $new_site_dir . '/blt.site.yml';
+    $site_yml_filename = $new_site_dir . '/blt.yml';
     $site_yml['project']['machine_name'] = $site_name;
     $site_yml['project']['human_name'] = $site_name;
     $site_yml['project']['local']['protocol'] = $url['scheme'];
     $site_yml['project']['local']['hostname'] = $url['host'];
-    $result = $this->taskWriteToFile($site_yml_filename)
-      ->text(Yaml::dump($site_yml, 4))
-      ->run();
-    if (!$result->wasSuccessful()) {
-      throw new BltException("Unable to write $site_yml_filename.");
-    }
+    $site_yml['drush']['aliases']['local'] = "$site_name.local";
+    $site_yml['drush']['aliases']['remote'] = $remote_alias;
+    YamlMunge::mergeArrayIntoFile($site_yml, $site_yml_filename);
   }
 
   /**
@@ -200,13 +213,48 @@ class MultisiteCommand extends BltTasks {
    * @return string
    */
   protected function getNewSiteName($options) {
-    if (empty($options['site-name'])) {
+    if (empty($options['site-dir'])) {
       $site_name = $this->askRequired("Site machine name");
     }
     else {
-      $site_name = $options['site-name'];
+      $site_name = $options['site-dir'];
     }
     return $site_name;
+  }
+
+  /**
+   * @param $options
+   *
+   * @return string
+   */
+  protected function getNewSiteRemoteAlias($options) {
+    if (empty($options['remote-alias'])) {
+      $default = $options['site-dir'] . '.test';
+      $alias = $this->askDefault("Default remote drush alias", $default);
+    }
+    else {
+      $alias = $options['remote-alias'];
+    }
+    return $alias;
+  }
+
+  /**
+   * @param $site_name
+   */
+  protected function createSiteDrushAlias($site_name) {
+    $aliases = [
+      'local' => [
+        'uri' => $site_name,
+      ],
+    ];
+    if ($this->getInspector()->isDrupalVmConfigPresent()) {
+      $this->defaultDrupalVmDrushAliasesFile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/drupal-vm.site.yml';
+      $new_aliases = Expander::parse(file_get_contents($this->defaultDrupalVmDrushAliasesFile), $this->getConfig()->export());
+      $aliases = array_merge($new_aliases, $aliases);
+    }
+
+    $filename = $this->getConfigValue('drush.alias-dir') . "/$site_name.site.yml";
+    YamlMunge::mergeArrayIntoFile($aliases, $filename);
   }
 
 }

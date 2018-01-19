@@ -60,9 +60,13 @@ class ConfigInitializer {
     if ($this->input->hasParameterOption('site')) {
       $site = $this->input->getParameterOption('site');
     }
+    elseif ($this->input->hasParameterOption('--site')) {
+      $site = $this->input->getParameterOption('--site');
+    }
     else {
       $site = 'default';
     }
+
     return $site;
   }
 
@@ -118,7 +122,7 @@ class ConfigInitializer {
    */
   public function loadSiteConfig() {
     if ($this->site) {
-      $this->processor->extend($this->loader->load($this->config->get('docroot') . '/sites/' . $this->site . '/blt.site.yml'));
+      $this->processor->extend($this->loader->load($this->config->get('docroot') . '/sites/' . $this->site . '/blt.yml'));
     }
 
     return $this;
@@ -128,8 +132,18 @@ class ConfigInitializer {
    * @return $this
    */
   public function loadEnvironmentConfig() {
+    // Support BLT_ENV=ci.
+    if (getenv("BLT_ENV")) {
+      $environment = getenv("BLT_ENV");
+      $this->processor->extend($this->loader->load($this->config->get('repo.root') . '/blt/' . $environment . '.yml'));
+    }
+    // Support --define environment=ci.
     if ($this->input->hasParameterOption('environment')) {
       $this->processor->extend($this->loader->load($this->config->get('repo.root') . '/blt/' . $this->input->getParameterOption('environment') . '.yml'));
+    }
+    // Support --environment=ci.
+    if ($this->input->hasParameterOption('--environment')) {
+      $this->processor->extend($this->loader->load($this->config->get('repo.root') . '/blt/' . $this->input->getParameterOption('--environment') . '.yml'));
     }
 
     return $this;

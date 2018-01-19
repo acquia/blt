@@ -6,8 +6,6 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
  * Class TravisCiTest.
- *
- * Verifies that Travis CI support has been initialized.
  */
 class TravisCiTest extends BltProjectTestBase {
 
@@ -17,7 +15,8 @@ class TravisCiTest extends BltProjectTestBase {
    * @group blted8
    */
   public function testTravisInit() {
-    $this->assertFileExists($this->projectDirectory . '/.travis.yml');
+    $this->blt('ci:travis:init');
+    $this->assertFileExists($this->sandboxInstance . '/.travis.yml');
   }
 
 }

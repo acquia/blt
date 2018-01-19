@@ -4,7 +4,6 @@ namespace Acquia\Blt\Robo\Commands\Setup;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
-use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Defines commands in the "setup:toggle-modules" namespace.
@@ -21,18 +20,12 @@ class ToggleModulesCommand extends BltTasks {
    *
    * @command setup:toggle-modules
    *
-   * @option environment The environment key for which modules should be
-   *   toggled. This should correspond with a modules.[environment].* key in
-   *   your configuration.
-   *
    * @executeInDrupalVm
    * @validateDrushConfig
    */
-  public function toggleModules($options = [
-    'environment' => InputOption::VALUE_REQUIRED,
-  ]) {
-    if ($options['environment']) {
-      $environment = $options['environment'];
+  public function toggleModules() {
+    if ($this->input()->hasArgument('environment')) {
+      $environment = $this->input()->getArgument('environment');
     }
     elseif ($this->getConfig()->has('environment')) {
       $environment = $this->getConfigValue('environment');
@@ -67,6 +60,7 @@ class ToggleModulesCommand extends BltTasks {
    */
   protected function doToggleModules($command, $config_key) {
     if ($this->getConfig()->has($config_key)) {
+      $this->say("Executing <comment>drush $command</comment> for modules defined in <comment>$config_key</comment>...");
       $modules = (array) $this->getConfigValue($config_key);
       $modules_list = implode(' ', $modules);
       $result = $this->taskDrush()
