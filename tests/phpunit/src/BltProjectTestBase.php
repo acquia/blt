@@ -237,11 +237,11 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
       $output = new BufferedOutput();
     }
 
-    // Re-initialize config.
-    $this->reInitializeConfig($input);
+    $config_initializer = new ConfigInitializer($this->sandboxInstance, $input);
+    $config = $config_initializer->initialize();
 
     // Execute command.
-    $blt = new Blt($this->config, $input, $output);
+    $blt = new Blt($config, $input, $output);
     $status_code = (int) $blt->run($input, $output);
 
     if (getenv('BLT_PRINT_COMMAND_OUTPUT')) {
@@ -292,6 +292,7 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
 
   protected function tearDown() {
     $this->dropDatabase();
+    unset($this->config);
   }
 
   protected function printTestName() {

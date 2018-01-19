@@ -84,6 +84,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
       $command = $application->find($command_name);
 
       $input = new ArrayInput($args);
+      $input->setInteractive($this->input()->isInteractive());
       $prefix = str_repeat(">", $this->invokeDepth);
       $this->output->writeln("<comment>$prefix $command_name</comment>");
       $exit_code = $application->runCommand($command, $input, $this->output());
