@@ -11,6 +11,7 @@
     <testsuite name="BLT Test Suite">
       <directory>tests/phpunit</directory>
       <exclude>tests/phpunit/BltProject/MultiSiteTest.php</exclude>
+      <exclude>tests/phpunit/BltProject/SetupCommandTest.php</exclude>
     </testsuite>
   </testsuites>
 
