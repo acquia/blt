@@ -47,19 +47,20 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
    */
   protected $output;
 
+  /** @var string*/
   protected $bltDirectory;
 
+  /**
+   * {@inheritdoc}
+   */
   public function setUp() {
-    $this->output = new ConsoleOutput();
+    $this->printTestName();
 
-    if (getenv('BLT_PRINT_COMMAND_OUTPUT')) {
-      $this->output->writeln("");
-      $this->writeFullWidthLine(get_class($this) . "::" . $this->getName(), $this->output);
-    }
-
-    parent::setUp();
+    // Prevent config from being shared between tests.
+    $this->config = NULL;
     $this->bltDirectory = realpath(dirname(__FILE__) . '/../../../');
     $this->fs = new Filesystem();
+    $this->output = new ConsoleOutput();
     // @todo Use the same Sandbox manager instance created in bootstrap.php.
     $this->sandboxManager = new SandboxManager();
 
@@ -199,7 +200,7 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
     $drush_bin = $this->sandboxInstance . '/vendor/bin/drush';
     $this->execute("$drush_bin sql-drop --root=$root --uri=$uri", NULL, FALSE);
     $this->blt('setup:hash-salt');
-    $this->execute("$drush_bin sqlc --root=$root --uri=$uri < {$this->dbDump}");
+    $this->execute("$drush_bin sql-cli --root=$root --uri=$uri < {$this->dbDump}");
   }
 
   /**
@@ -304,6 +305,14 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
   protected function tearDown() {
     $this->dropDatabase();
     parent::tearDown();
+  }
+
+  protected function printTestName() {
+    if (getenv('BLT_PRINT_COMMAND_OUTPUT')) {
+      $this->output->writeln("");
+      $this->writeFullWidthLine(get_class($this) . "::" . $this->getName(),
+        $this->output);
+    }
   }
 
 }
