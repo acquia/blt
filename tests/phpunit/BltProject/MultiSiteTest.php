@@ -197,9 +197,4 @@ class MultiSiteTest extends BltProjectTestBase {
     $this->execute('./vendor/bin/blt setup:settings', $test_project_clone_dir);
   }
 
-  public function tearDown() {
-    $this->sandboxManager->removeSandboxInstance();
-    parent::tearDown();
-  }
-
 }

@@ -39,10 +39,4 @@ class DrupalVmTest extends BltProjectTestBase {
     );
   }
 
-  public function tearDown() {
-    // We modified existing sandbox files, so it needs to be recreated.
-    $this->sandboxManager->removeSandboxInstance();
-    parent::tearDown();
-  }
-
 }

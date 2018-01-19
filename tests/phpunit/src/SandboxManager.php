@@ -130,13 +130,6 @@ class SandboxManager {
     return $this->sandboxInstance;
   }
 
-  /**
-   * @return string
-   */
-  public function getSandboxMaster() {
-    return $this->sandboxMaster;
-  }
-
   protected function createDbDumpDir() {
     $this->fs->remove($this->dbDumpDir);
     $this->fs->mkdir($this->dbDumpDir);

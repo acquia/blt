@@ -36,9 +36,4 @@ class SimpleSamlPhpTest extends BltProjectTestBase {
     $this->assertFileExists("{$this->config->get('docroot')}/simplesaml/saml2");
   }
 
-  public function tearDown() {
-    $this->sandboxManager->removeSandboxInstance();
-    parent::tearDown();
-  }
-
 }
