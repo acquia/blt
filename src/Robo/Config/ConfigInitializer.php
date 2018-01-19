@@ -66,6 +66,7 @@ class ConfigInitializer {
     else {
       $site = 'default';
     }
+
     return $site;
   }
 

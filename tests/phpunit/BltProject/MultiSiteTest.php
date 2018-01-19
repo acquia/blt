@@ -22,6 +22,18 @@ class MultiSiteTest extends BltProjectTestBase {
 
     $this->prepareMultisites($site1_dir, $site2_dir, $test_project_dir, $test_project_clone_dir);
 
+    // Make sure we prepared thing correctly.
+    $this->assertFileExists("$test_project_dir/docroot/sites/$site1_dir/settings/local.settings.php");
+    $this->assertFileExists("$test_project_dir/docroot/sites/$site2_dir/settings/local.settings.php");
+    $this->assertFileExists("$test_project_dir/docroot/sites/$site1_dir/local.drush.yml");
+    $this->assertFileExists("$test_project_dir/docroot/sites/$site1_dir/blt.yml");
+    $this->assertFileExists("$test_project_dir/docroot/sites/sites.php");
+    $this->assertFileExists("$test_project_clone_dir/docroot/sites/$site1_dir/settings/local.settings.php");
+    $this->assertFileExists("$test_project_clone_dir/docroot/sites/$site2_dir/settings/local.settings.php");
+    $this->assertFileExists("$test_project_clone_dir/docroot/sites/$site1_dir/local.drush.yml");
+    $this->assertFileExists("$test_project_clone_dir/docroot/sites/$site1_dir/blt.yml");
+    $this->assertFileExists("$test_project_clone_dir/docroot/sites/sites.php");
+
     // Generate fixture. Sets up site1 locally too.
     $this->createDatabaseDumpFixture();
     list($status_code, $output) = $this->blt("setup", [
