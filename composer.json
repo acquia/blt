@@ -12,7 +12,7 @@
         "docs": "http://blt.readthedocs.io/en/stable"
     },
     "type": "composer-plugin",
-    "license": "GPL-2.0",
+    "license": "GPL-2.0-only",
     "require": {
         "cweagans/composer-patches":        "^1.6.4",
         "asm89/twig-lint":                  "^1.0.2",
