@@ -244,6 +244,7 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
     // Execute command.
     $blt = new Blt($config, $input, $output);
     $status_code = (int) $blt->run($input, $output);
+    Robo::unsetContainer();
 
     if (getenv('BLT_PRINT_COMMAND_OUTPUT')) {
       $output->writeln("<comment>------End BLT output---------</comment>");
@@ -294,7 +295,6 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
   protected function tearDown() {
     $this->dropDatabase();
     unset($this->config);
-    Robo::unsetContainer();
   }
 
   protected function printTestName() {
