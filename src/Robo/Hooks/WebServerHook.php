@@ -6,6 +6,7 @@ use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\IO;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
 use Acquia\Blt\Robo\Inspector\InspectorAwareTrait;
+use Consolidation\AnnotatedCommand\CommandData;
 use League\Container\ContainerAwareTrait;
 use Psr\Log\LoggerAwareTrait;
 
@@ -26,7 +27,7 @@ class WebServerHook extends BltTasks {
   /**
    * @hook pre-command @launchWebServer
    */
-  public function launchWebServer() {
+  public function launchWebServer(CommandData $commandData) {
     if ($this->getConfigValue('tests.run-server')) {
       $this->invokeCommand('tests:server:start');
     }
@@ -35,7 +36,7 @@ class WebServerHook extends BltTasks {
   /**
    * @hook post-command @launchWebServer
    */
-  public function killWebServer() {
+  public function killWebServer($result, CommandData $commandData) {
     if ($this->getConfigValue('tests.run-server')) {
       $this->invokeCommand('tests:server:kill');
     }

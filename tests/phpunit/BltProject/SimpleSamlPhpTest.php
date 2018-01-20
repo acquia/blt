@@ -16,7 +16,7 @@ class SimpleSamlPhpTest extends BltProjectTestBase {
    */
   public function testSimpleSamlPhpConfigInit() {
     $this->blt("simplesamlphp:init");
-    $this->blt("simplesamlphp:build:config");
+    list($status_code, $output, $config) = $this->blt("simplesamlphp:build:config");
 
     $simpleSamlPhpConfigDirectory = "{$this->sandboxInstance}/simplesamlphp/config";
     $simpleSamlPhpMetadataDirectory = "{$this->sandboxInstance}/simplesamlphp/metadata";
@@ -30,7 +30,7 @@ class SimpleSamlPhpTest extends BltProjectTestBase {
     $this->assertContains("include 'acquia_config.php';", $configFile);
 
     $this->assertFileExists("${simpleSamlPhpMetadataDirectory}/saml20-idp-remote.php");
-    $this->assertArrayHasKey('simplesamlphp', $this->config->export());
+    $this->assertArrayHasKey('simplesamlphp', $config->export());
     $this->assertFileExists("{$this->config->get('docroot')}/simplesaml/saml2");
   }
 
