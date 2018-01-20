@@ -10,7 +10,6 @@
   <testsuites>
     <testsuite name="BLT Test Suite">
       <directory>tests/phpunit</directory>
-      <exclude>tests/phpunit/BltProject/ConfigImportTest.php</exclude>
       <exclude>tests/phpunit/BltProject/MultiSiteTest.php</exclude>
     </testsuite>
   </testsuites>
