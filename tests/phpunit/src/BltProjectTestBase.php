@@ -5,6 +5,7 @@ namespace Acquia\Blt\Tests;
 use Acquia\Blt\Robo\Blt;
 use Acquia\Blt\Robo\Config\ConfigInitializer;
 use Acquia\Blt\Robo\Commands\Input\ArrayInput;
+use Robo\Robo;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Terminal;
@@ -293,6 +294,7 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
   protected function tearDown() {
     $this->dropDatabase();
     unset($this->config);
+    Robo::unsetContainer();
   }
 
   protected function printTestName() {
