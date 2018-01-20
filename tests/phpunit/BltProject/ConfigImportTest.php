@@ -47,7 +47,7 @@ class ConfigImportTest extends BltProjectTestBase {
     $this->drush("config-export --yes");
     $this->fs->copy(
       $this->bltDirectory . "/scripts/blt/ci/internal/config_split.config_split.ci.yml",
-      $this->sandboxInstance . "/config/default/"
+      $this->sandboxInstance . "/config/default/config_split.config_split.ci.yml"
       );
     $this->blt("setup:config-import", [
       '--define' => [
