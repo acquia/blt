@@ -254,7 +254,7 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
       throw new \Exception("BLT command exited with non-zero exit code.");
     }
 
-    return [$status_code, $output->fetch()];
+    return [$status_code, $output->fetch(), $config];
   }
 
   /**

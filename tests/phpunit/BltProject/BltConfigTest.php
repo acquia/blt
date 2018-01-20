@@ -13,15 +13,15 @@ class BltConfigTest extends BltProjectTestBase {
    * Tests config:dump command.
    */
   public function testPipelinesInit() {
-    list($status_code, $output) = $this->blt('config:dump', []);
-    list($status_code, $output) = $this->blt('config:dump', [
+    list($status_code, $output, $config) = $this->blt('config:dump', []);
+    list($status_code, $output, $config) = $this->blt('config:dump', [
       '--site' => 'site2',
     ]);
     $this->assertContains('site2', $output);
-    list($status_code, $output) = $this->blt('config:dump', [
+    list($status_code, $output, $config) = $this->blt('config:dump', [
       '--environment' => 'local',
     ]);
-    list($status_code, $output) = $this->blt('config:dump', [
+    list($status_code, $output, $config) = $this->blt('config:dump', [
       '--environment' => 'ci',
     ]);
   }
