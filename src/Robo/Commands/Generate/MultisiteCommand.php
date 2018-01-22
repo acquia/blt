@@ -111,7 +111,7 @@ class MultisiteCommand extends BltTasks {
     if (!file_exists($default_site_dir . "/blt.yml")) {
       $initial_perms = fileperms($default_site_dir);
       chmod($default_site_dir, 0777);
-      // Move project.local.hostname from project.yml to
+      // Move project.local.hostname from blt.yml to
       // sites/default/blt.yml.
       $default_site_yml = [];
       $default_site_yml['project']['local']['hostname'] = $this->getConfigValue('project.local.hostname');

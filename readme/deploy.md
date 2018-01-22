@@ -16,7 +16,7 @@ You should have your Github repository (where this document is stored) checked o
 
 Check out a new branch to match whatever branch you are working on in Github (typically `develop`).
 
-Ensure your Acquia Cloud remote is listed in project.yml under git:remotes.
+Ensure your Acquia Cloud remote is listed in blt.yml under git:remotes.
 
 ## Creating the build artifact
 
@@ -39,13 +39,13 @@ To both create and deploy the build artifact in a single command, run the follow
 
     blt deploy --commit-msg "BLT-000: Example deploy to branch" --branch "develop-build" --no-interaction
 
-This command will commit the artifact to the `develop-build` branch with the specified commit message and push it to the remotes defined in project.yml.
+This command will commit the artifact to the `develop-build` branch with the specified commit message and push it to the remotes defined in blt.yml.
 
 To create a new git tag for the artifact (rather than committing to a branch) run:
 
     blt deploy --commit-msg "Creating release 1.0.0." --tag "1.0.0"
 
-This will generate the artifact, tag it with `1.0.0`, and push it to the remotes defined in project.yml.
+This will generate the artifact, tag it with `1.0.0`, and push it to the remotes defined in blt.yml.
 
 ## Modifying the artifact
 
@@ -54,7 +54,7 @@ The artifact is built by running the `deploy:build` target, which does the follo
 * Rsyncs files from the repository root
 * Re-builds dependencies directly in the deploy directory. E.g., `composer install`
 
-The rsync and re-build processes can be configured by modifying the values of variables under the top-level `deploy` key in your project.yml file.
+The rsync and re-build processes can be configured by modifying the values of variables under the top-level `deploy` key in your blt.yml file.
 
 See [Extending BLT](extending-blt.md) for more information on overriding default configuration.
 

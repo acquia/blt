@@ -175,9 +175,9 @@ abstract class CommandTestCase extends \PHPUnit_Framework_TestCase {
     $this->config = new DefaultConfig();
     $this->config->extend(new YamlConfig($this->config->get('blt.root') . '/phing/build.yml',
       $this->config->toArray()));
-    $this->config->extend(new YamlConfig($this->config->get('blt.root') . '/template/blt/project.yml',
+    $this->config->extend(new YamlConfig($this->config->get('blt.root') . '/template/blt/blt.yml',
       $this->config->toArray()));
-    $this->config->extend(new YamlConfig($this->config->get('blt.root') . '/template/blt/project.local.yml',
+    $this->config->extend(new YamlConfig($this->config->get('blt.root') . '/template/blt/local.yml',
       $this->config->toArray()));
     $this->config->set(Config::SIMULATE, TRUE);
   }

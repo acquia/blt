@@ -17,7 +17,7 @@ Here are tasks that are typically performed at this stage:
         git remote add origin [something]
         git push origin
 
-* Ensure that you have entered a value for `git.remotes` in `blt/project.yml`. E.g.,
+* Ensure that you have entered a value for `git.remotes` in `blt/blt.yml`. E.g.,
 
         git:
           remotes:
