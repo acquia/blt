@@ -11,10 +11,10 @@ use Symfony\Component\Process\Process;
 class GitTasksTest extends BltProjectTestBase {
 
   /**
-   * Tests setup:git-hooks command.
+   * Tests blt:init:git-hooks command.
    */
   public function testGitConfig() {
-    $this->blt("setup:git-hooks");
+    $this->blt("blt:init:git-hooks");
     $this->assertFileExists($this->sandboxInstance . '/.git');
     $this->assertFileExists($this->sandboxInstance . '/.git/hooks/commit-msg');
     $this->assertFileExists($this->sandboxInstance . '/.git/hooks/pre-commit');
@@ -63,7 +63,7 @@ class GitTasksTest extends BltProjectTestBase {
    * Should assert that code validation via phpcs is functioning.
    */
   public function testGitPreCommitHook() {
-    $this->blt("setup:git-hooks");
+    $this->blt("blt:init:git-hooks");
     // Commits must be executed inside of new project directory.
     $process = new Process("./.git/hooks/pre-commit", $this->sandboxInstance);
     $process->run();

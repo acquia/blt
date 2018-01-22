@@ -155,7 +155,7 @@ sync:
     - js
   commands:
     - setup:composer:install
-    - setup:settings
+    - blt:init:settings
     - sync:db
     - setup:update
     - frontend

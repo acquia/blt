@@ -53,7 +53,7 @@ class MultisiteCommand extends BltTasks {
     $this->createSiteDrushAlias($site_name);
     $this->resetMultisiteConfig();
 
-    $this->invokeCommand('setup:settings');
+    $this->invokeCommand('blt:init:settings');
   }
 
   /**

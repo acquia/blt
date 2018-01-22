@@ -9,7 +9,7 @@ use function file_exists;
 use Robo\Contract\VerbosityThresholdInterface;
 
 /**
- * Defines commands in the "setup:settings" namespace.
+ * Defines commands in the "blt:init:settings" namespace.
  */
 class SettingsCommand extends BltTasks {
 
@@ -29,7 +29,7 @@ class SettingsCommand extends BltTasks {
   /**
    * Generates default settings files for Drupal and drush.
    *
-   * @command setup:settings
+   * @command blt:init:settings
    */
   public function generateSiteConfigFiles() {
     if (!file_exists($this->getConfigValue('blt.config-files.local'))) {
@@ -192,7 +192,7 @@ class SettingsCommand extends BltTasks {
   /**
    * Installs BLT git hooks to local .git/hooks directory.
    *
-   * @command setup:git-hooks
+   * @command blt:init:git-hooks
    */
   public function gitHooks() {
     foreach (['pre-commit', 'commit-msg'] as $hook) {
@@ -236,7 +236,7 @@ class SettingsCommand extends BltTasks {
   /**
    * Writes a hash salt to ${repo.root}/salt.txt if one does not exist.
    *
-   * @command setup:hash-salt
+   * @command drupal:init:hash-salt
    *
    * @return int
    *   A CLI exit code.

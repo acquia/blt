@@ -26,7 +26,7 @@
 
     1. **Alternative**: To set up your own LAMP stack, please review [Local Development](http://blt.readthedocs.io/en/8.x/readme/local-development/), then execute the following command to generate default local settings files:
 
-             blt setup:settings
+             blt blt:init:settings
 
        Modify the generated *docroot/sites/default/settings/local.settings.php* file by adding your custom MySql credentials.
 

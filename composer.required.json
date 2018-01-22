@@ -55,7 +55,7 @@
     }
   },
   "scripts": {
-    "blt-alias": "blt install-alias -y --ansi",
+    "blt-alias": "blt blt:init:shell-alias -y --ansi",
     "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
     "nuke": [
       "rm -rf vendor composer.lock docroot/core docroot/modules/contrib docroot/profiles/contrib docroot/themes/contrib",

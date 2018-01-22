@@ -57,7 +57,7 @@ class Updates {
     // Delete symlink to hooks directory. Individual git hooks are now symlinked, not the entire directory.
     $this->updater->deleteFile('.git/hooks');
     $this->updater->getOutput()
-      ->writeln('.git/hooks was deleted. Please re-run setup:git-hooks to install git hooks locally.');
+      ->writeln('.git/hooks was deleted. Please re-run blt:init:git-hooks to install git hooks locally.');
 
     $this->updater->removeComposerRepository('https://github.com/mortenson/composer-patches');
     $this->updater->removeComposerScript('post-create-project-cmd');
@@ -463,7 +463,7 @@ class Updates {
     $this->updater->deleteFile('drush/site-aliases/legacy.aliases.drushrc.php');
     $this->updater->deleteFile('drush/drushrc.php');
     $this->updater->getFileSystem()->mirror('drush/site-aliases', 'drush/sites');
-    $process = new Process("blt setup:settings", $this->updater->getRepoRoot());
+    $process = new Process("blt blt:init:settings", $this->updater->getRepoRoot());
     $process->run();
   }
 }

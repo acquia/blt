@@ -168,7 +168,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
   }
 
   /**
-   * Execute blt update after update command has been executed, if applicable.
+   * Execute blt blt:update after update command has been executed, if applicable.
    *
    * @param \Composer\Script\Event $event
    */
@@ -201,7 +201,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
   }
 
   /**
-   * Executes `blt update` and `blt-console blt:update` commands.
+   * Executes `blt blt:update` and `blt-console blt:update` commands.
    *
    * @param $version
    */
@@ -224,9 +224,9 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     }
     elseif ($options['blt']['update']) {
       $this->io->write('<info>Updating BLT templated files...</info>');
-      $success = $this->executeCommand('blt update --ansi -y', [], TRUE);
+      $success = $this->executeCommand('blt blt:update --ansi -y', [], TRUE);
       if (!$success) {
-        $this->io->write("<error>BLT update script failed! Run `blt update --verbose` to retry.</error>");
+        $this->io->write("<error>BLT update script failed! Run `blt blt:update --verbose` to retry.</error>");
       }
     }
     else {

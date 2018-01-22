@@ -24,7 +24,7 @@ class AllCommand extends BltTasks {
 
     $commands = [
       'setup:build',
-      'setup:hash-salt',
+      'drupal:init:hash-salt',
     ];
 
     switch ($this->getConfigValue('setup.strategy')) {
@@ -43,7 +43,7 @@ class AllCommand extends BltTasks {
         break;
     }
 
-    $commands[] = 'install-alias';
+    $commands[] = 'blt:init:shell-alias';
 
     $this->invokeCommands($commands);
   }
