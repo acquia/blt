@@ -102,7 +102,7 @@ deploy_install() {
   export PATH=$repo_root/vendor/bin:$PATH
   cd $repo_root
 
-  blt artifact::install:drupal --define environment=$target_env -v -y
+  blt artifact:install:drupal --define environment=$target_env -v -y
   if [ $? -ne 0 ]; then
       echo "Install errored."
       exit 1

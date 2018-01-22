@@ -626,7 +626,7 @@ class DeployCommand extends BltTasks {
   /**
    * Installs Drupal, imports config, and executes updates.
    *
-   * @command artifact::install:drupal
+   * @command artifact:install:drupal
    */
   public function installDrupal() {
     $this->invokeCommands([
