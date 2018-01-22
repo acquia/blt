@@ -538,11 +538,15 @@ class Updater {
   }
 
   /**
-   * @param $filepath
+   * @param string|array $filepaths
    */
-  public function deleteFile($filepath) {
-    $abs_path = $this->getRepoRoot() . '/' . $filepath;
-    $this->getFileSystem()->remove($abs_path);
+  public function deleteFile($filepaths) {
+    $filepaths = (array) $filepaths;
+    $files = [];
+    foreach ($filepaths as $filepath) {
+      $files[] = $this->getRepoRoot() . '/' . $filepath;
+    }
+    $this->getFileSystem()->remove($files);
   }
 
 }
