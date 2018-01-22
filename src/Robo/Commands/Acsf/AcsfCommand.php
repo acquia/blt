@@ -20,7 +20,7 @@ class AcsfCommand extends BltTasks {
     $this->logger->notice("  * Adding drupal/acsf and acquia/acsf-tools the require array in your composer.json file.");
     $this->logger->notice("  * Executing the `acsf-init` command, provided by the drupal/acsf module.");
     $this->logger->notice("  * Adding default factory-hooks to your application.");
-    $this->logger->notice("  * Adding `acsf` to `modules.local.uninstall` in your project.yml");
+    $this->logger->notice("  * Adding `acsf` to `modules.local.uninstall` in your blt.yml");
     $this->logger->notice("");
     $this->logger->notice("For more information, see:");
     $this->logger->notice("<comment>http://blt.readthedocs.io/en/8.x/readme/acsf-setup</comment>");

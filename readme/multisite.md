@@ -19,7 +19,7 @@ Start by following the [Acquia Cloud multisite instructions](https://docs.acquia
 
 ## BLT setup
 
-You have the option to define your multisites in `blt/project.yml` by creating a `multisites` array. This allows BLT to run setup and deployment tasks for each site in the codebase. If you don't manually define this variable, BLT will automatically set it based on discovered multisite directories.
+You have the option to define your multisites in `blt/blt.yml` by creating a `multisites` array. This allows BLT to run setup and deployment tasks for each site in the codebase. If you don't manually define this variable, BLT will automatically set it based on discovered multisite directories.
 
     multisites:
       - default

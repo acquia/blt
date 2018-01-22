@@ -10,7 +10,7 @@ BLT does not directly manage any of your front end dependencies or assets, but i
 
 Out-of-the-box, BLT provides an opportunity for your frontend commands to run at three different stages of the build process.
 
-You must let BLT know which commands should be run in which directories. You can do this by specifying values in `blt/project.yml` file under the `target-hooks` key.
+You must let BLT know which commands should be run in which directories. You can do this by specifying values in `blt/blt.yml` file under the `target-hooks` key.
 
 These commands will run inside of the virtual machine, if available. This obviates the need to install frontend dependencies on the host machine.
 
@@ -19,7 +19,7 @@ The three following target hooks are available for frontend commands: setup, bui
 ### Setup
 
 During the execution of `blt setup`, BLT will execute `target-hooks.frontend-setup.command`. This hook is intended to provide an opportunity to install the tools required for your frontend build process. For instance, you may use this hook to install dependencies via NPM or Bower. E.g.,
-    
+
     target-hooks:
       frontend-setup:
         dir: ${docroot}/sites/all/themes/custom/mytheme.

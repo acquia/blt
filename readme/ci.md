@@ -109,7 +109,7 @@ To set up the [workflow described earlier](#workflow), you must configure Acquia
 1. Login to the new Acquia Cloud account and add the public SSH key from the key pair that was generated in step 1 by editing the profile and choosing the "credentials" tab.
 1. Add the same public SSH key to the "Deployment Keys" section on your project's GitHub settings page, located at `https://github.com/acquia-pso/[project-name]/settings/keys`. **Note: You may not have direct access to these settings if you do not have administrative control over your repository.**
 1. Add the _private SSH key_ to your project's Travis CI settings located at `https://magnum.travis-ci.com/acquia-pso/[project-name]/settings`.
-1. Add your cloud git repository to the remotes section of your project.yml file:
+1. Add your cloud git repository to the remotes section of your blt.yml file:
 
         remotes:
            - example@svn-14671.prod.hosting.acquia.com:example.git`

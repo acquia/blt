@@ -32,7 +32,7 @@ class DeployCommand extends BltTasks {
   }
 
   /**
-   * Builds separate artifact and pushes to git.remotes defined project.yml.
+   * Builds separate artifact and pushes to git.remotes defined blt.yml.
    *
    * @command deploy
    */
@@ -248,7 +248,7 @@ class DeployCommand extends BltTasks {
     // Add remotes and fetch upstream refs.
     $git_remotes = $this->getConfigValue('git.remotes');
     if (empty($git_remotes)) {
-      throw new BltException("git.remotes is empty. Please define at least one value for git.remotes in blt/project.yml.");
+      throw new BltException("git.remotes is empty. Please define at least one value for git.remotes in blt/blt.yml.");
     }
     foreach ($git_remotes as $remote_url) {
       $this->addGitRemote($remote_url);

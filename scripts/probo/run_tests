@@ -3,7 +3,7 @@
 set -ev
 
 #  The local.hostname must be set to localhost on probo CI.
-$SRC_DIR/vendor/bin/yaml-cli update:value $SRC_DIR/blt/project.yml project.local.hostname 'localhost'
+$SRC_DIR/vendor/bin/yaml-cli update:value $SRC_DIR/blt/blt.yml project.local.hostname 'localhost'
 
 $SRC_DIR/vendor/bin/blt validate:all --verbose
 $SRC_DIR/vendor/bin/blt setup:behat -D drush.alias='${drush.aliases.ci}' --no-interaction --verbose

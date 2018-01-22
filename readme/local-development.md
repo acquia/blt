@@ -29,7 +29,7 @@ To use [Drupal VM](http://www.drupalvm.com/) with a Drupal project that is gener
         blt vm
         blt setup
 
-1. Login to Drupal `drush @[project.machine_name].local uli`, where [project.machine_name] is the value that you set in project.yml.
+1. Login to Drupal `drush @[project.machine_name].local uli`, where [project.machine_name] is the value that you set in blt.yml.
 
 There are also other changes you can make if you choose to match the Acquia Cloud server configuration more closely. See Drupal VM's example configuration changes in Drupal VM's `examples/acquia/acquia.overrides.yml` file.
 
@@ -41,7 +41,7 @@ The Drupal Extension for Behat has an [inherent limitation](https://behat-drupal
 
 To execute Behat tests using the 'drupal' driver on a Drupal VM environment, you must do the following:
 
-1. SSH into the VM `drush @[project.machine_name].local ssh`, where [project.machine_name] is the value that you set in project.yml.
+1. SSH into the VM `drush @[project.machine_name].local ssh`, where [project.machine_name] is the value that you set in blt.yml.
 1. Execute behat tests `blt tests:behat`.
 
 Alternatively, you may choose to write only behat tests that utilize the Drupal Extension's "drush" driver. Doing this will allow you to run `blt tests:behat` from the host machine.

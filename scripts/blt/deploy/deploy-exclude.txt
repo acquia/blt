@@ -31,4 +31,4 @@ local.settings.php
 local.drushrc.php
 node_modules
 /vendor
-project.local.yml
+local.blt.yml

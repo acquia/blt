@@ -7,7 +7,7 @@ local.services.yml
 tests/behat/local.yml
 box/local.config.yml
 *.local
-project.local.yml
+local.blt.yml
 
 # Ignore drupal core.
 docroot/core

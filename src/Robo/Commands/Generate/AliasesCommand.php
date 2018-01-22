@@ -81,7 +81,7 @@ class AliasesCommand extends BltTasks {
     }
     else {
       $this->appId = $this->askRequired('Please enter your Acquia Cloud application ID');
-      // @TODO write the app ID to project.yml.
+      // @TODO write the app ID to blt.yml.
     }
   }
 
