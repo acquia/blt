@@ -356,11 +356,11 @@ class UpdateCommand extends BltTasks {
    * This WILL NOT overwrite existing values.
    */
   protected function mungeProjectYml() {
-    $this->say("Merging BLT's <comment>project.yml</comment> template with your project's <comment>blt/project.yml</comment>...");
-    // Values in the project's existing project.yml file will be preserved and
+    $this->say("Merging BLT's <comment>blt.yml</comment> template with your project's <comment>blt/blt.yml</comment>...");
+    // Values in the project's existing blt.yml file will be preserved and
     // not overridden.
     $repo_project_yml = $this->getConfigValue('blt.config-files.project');
-    $template_project_yml = $this->getConfigValue('blt.root') . '/template/blt/project.yml';
+    $template_project_yml = $this->getConfigValue('blt.root') . '/template/blt/blt.yml';
     $munged_yml = YamlMunge::mungeFiles($template_project_yml, $repo_project_yml);
     try {
       YamlMunge::writeFile($repo_project_yml, $munged_yml);

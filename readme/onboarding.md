@@ -59,7 +59,7 @@ Ensure that your local email address correctly matches the email address for you
 
 ## Updating your local environment
 
-The project is configured to update the local environment with a local drush alias and a remote alias as defined in `blt/project.yml` or `blt/project.local.yml`. Given that these aliases match those in `drush/sites/`, you can update the site with BLT.
+The project is configured to update the local environment with a local drush alias and a remote alias as defined in `blt/blt.yml` or `blt/local.blt.yml`. Given that these aliases match those in `drush/sites/`, you can update the site with BLT.
 
 [Local Development Tasks](project-tasks.md#local-tasks)
 

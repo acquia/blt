@@ -128,7 +128,7 @@ class SimpleSamlPhpCommand extends BltTasks {
   }
 
   /**
-   * Sets value in project.yml to let targets know simplesamlphp is installed.
+   * Sets value in blt.yml to let targets know simplesamlphp is installed.
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function setSimpleSamlPhpInstalled() {

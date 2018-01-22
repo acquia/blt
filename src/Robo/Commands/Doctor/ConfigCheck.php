@@ -18,8 +18,8 @@ class ConfigCheck extends DoctorCheck {
   protected function checkGitConfig() {
     if (empty($this->getConfigValue('git.remotes'))) {
       $this->logProblem(__FUNCTION__, [
-        "Git repositories are not defined in project.yml.",
-        "  Add values for git.remotes to project.yml to enabled automated deployment.",
+        "Git repositories are not defined in blt.yml.",
+        "  Add values for git.remotes to blt.yml to enabled automated deployment.",
       ], 'comment');
     }
   }
@@ -40,7 +40,7 @@ class ConfigCheck extends DoctorCheck {
     $outcome = [];
     foreach ($deprecated_keys as $deprecated_key) {
       if ($this->getConfigValue($deprecated_key)) {
-        $outcome[] = "The '$deprecated_key' key is deprecated. Please remove it from project.yml.";
+        $outcome[] = "The '$deprecated_key' key is deprecated. Please remove it from blt.yml.";
         $deprecated_keys_exist = TRUE;
       }
     }

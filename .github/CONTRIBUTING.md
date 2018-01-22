@@ -39,3 +39,13 @@ cd blt
 ```
 
 The new `blted8` directory will have a composer dependency on your local clone of BLT via a `../blt` symlink. You can therefore make changes to files in `blt` and see them immediately reflected in `blted8/vendor/acquia/blt`.
+
+# Testing
+
+```
+./vendor/bin/robo release:test
+```
+
+## PHPUnit
+
+See [../tests/phpunit/README.md](../tests/phpunit/README.md)

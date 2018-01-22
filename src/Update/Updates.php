@@ -456,7 +456,15 @@ class Updates {
    * )
    */
   public function update_9000000() {
+    $this->updater->moveFile('blt/project.local.yml', 'blt/local.yml');
+    $this->updater->moveFile('blt/project.yml', 'blt/blt.yml');
     $this->updater->moveFile('drush/site-aliases/aliases.drushrc.php', 'drush/site-aliases/legacy.aliases.drushrc.php');
+
+    // @see https://github.com/acquia/blt/issues/2466
+    $contents = file_get_contents($this->updater->getRepoRoot() . "/drush/site-aliases/legacy.aliases.drushrc.php");
+    $contents = preg_replace("#\' (\. drush_server_home\(\) \.) \'#", '', $contents);
+    file_put_contents($this->updater->getRepoRoot() . "/drush/site-aliases/legacy.aliases.drushrc.php", $contents);
+
     $process = new Process(
       './vendor/bin/drush site:alias-convert $(pwd)/drush/site --sources=$(pwd)/drush/site-aliases',
       $this->updater->getRepoRoot()

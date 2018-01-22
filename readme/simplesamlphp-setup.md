@@ -12,7 +12,7 @@ Request the remote IdP metadata (XML) from the customer. Note that each environm
 
       * Adds the [simpleSAMLphp Authentication](https://www.drupal.org/project/simplesamlphp_auth) `simplesamlphp_auth` module as a project dependency in your `composer.json` file.
       * Copies configuration files to `${project.root}/simplesamlphp/config`.
-      * Adds a `simplesamlphp` property to `blt/project.yml`.
+      * Adds a `simplesamlphp` property to `blt/blt.yml`.
       * Creates a symbolic link in the docroot to the web accessible directory of the `simplesamlphp` library.
 
 1. Add the following two lines to `docroot/.htaccess`:
@@ -112,7 +112,7 @@ Request the remote IdP metadata (XML) from the customer. Note that each environm
                     'signature.algorithm' => 'http://www.w3.org/2001/04/xmldsig-more#rsa-sha256',
                   ),
 
-1. Review `${project.root}/simplesamlphp/config/config.php` and set any values called for by your project requirements. 
+1. Review `${project.root}/simplesamlphp/config/config.php` and set any values called for by your project requirements.
 
 1. Commit your changes to your Git repository.
 

@@ -241,7 +241,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    *   TRUE if this is the initial install of BLT.
    */
   protected function isInitialInstall() {
-    if (!file_exists($this->getRepoRoot() . '/blt/project.yml')
+    if (!file_exists($this->getRepoRoot() . '/blt/blt.yml')
       && !file_exists($this->getRepoRoot() . '/blt/.schema-version')
       ) {
       return TRUE;
