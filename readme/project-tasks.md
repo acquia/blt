@@ -34,7 +34,7 @@ Please see [Frontend](frontend.md) for information about compiling front end ass
 
 ## Updating your local environment
 
-The project is configured to update the local environment with a local drush alias and a remote alias as defined in `blt/project.yml` or `blt/project.local.yml`. Given that these aliases match, those in `drush/sites/`, you can update the site with BLT. Please see [drush/README.md](../template/drush/README.md) for details on how to create these aliases.
+The project is configured to update the local environment with a local drush alias and a remote alias as defined in `blt/blt.yml` or `blt/local.yml`. Given that these aliases match, those in `drush/sites/`, you can update the site with BLT. Please see [drush/README.md](../template/drush/README.md) for details on how to create these aliases.
 
 ### Refresh: Rebuild the codebase, copy the database, and run updates
 
@@ -44,7 +44,7 @@ This all in one command will make sure your local is in sync with the remote sit
 
 This will sync your site and execute all necessary updates afterwards (cache clears, database updates, config imports).
 
-By default, BLT will not sync your public and private files directories. However, you may set `sync.files` to `true` in your `project.yml` file to perform a file sync during `sync:refresh` tasks by default
+By default, BLT will not sync your public and private files directories. However, you may set `sync.files` to `true` in your `blt.yml` file to perform a file sync during `sync:refresh` tasks by default
 within your project.
 
 ### Multisite

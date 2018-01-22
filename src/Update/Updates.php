@@ -456,13 +456,30 @@ class Updates {
    * )
    */
   public function update_9000000() {
+    $this->updater->moveFile('blt/project.local.yml', 'blt/local.yml');
+    $this->updater->moveFile('blt/project.yml', 'blt/blt.yml');
     $this->updater->moveFile('drush/site-aliases/aliases.drushrc.php', 'drush/site-aliases/legacy.aliases.drushrc.php');
-    $process = new Process('./vendor/bin/drush site:alias-convert $(pwd)/drush/site --sources=$(pwd)/drush/site-aliases', $this->updater->getRepoRoot());
+
+    // @see https://github.com/acquia/blt/issues/2466
+    $contents = file_get_contents($this->updater->getRepoRoot() . "/drush/site-aliases/legacy.aliases.drushrc.php");
+    $contents = preg_replace("#\' (\. drush_server_home\(\) \.) \'#", '', $contents);
+    file_put_contents($this->updater->getRepoRoot() . "/drush/site-aliases/legacy.aliases.drushrc.php", $contents);
+
+    $process = new Process(
+      './vendor/bin/drush site:alias-convert $(pwd)/drush/site --sources=$(pwd)/drush/site-aliases',
+      $this->updater->getRepoRoot()
+    );
     $process->run();
-    $this->updater->deleteFile('docroot/sites/default/local.drushrc.php');
-    $this->updater->deleteFile('drush/site-aliases/legacy.aliases.drushrc.php');
-    $this->updater->deleteFile('drush/drushrc.php');
+
+    $files = [
+      'docroot/sites/default/local.drushrc.php',
+      'legacy.aliases.drushrc.php',
+      'drush/drushrc.php',
+    ];
+    $this->updater->getFileSystem()->chmod($files, 0777);
+    $this->updater->deleteFile($files);
     $this->updater->getFileSystem()->mirror('drush/site-aliases', 'drush/sites');
+    $this->updater->getFileSystem()->remove('drush/site-aliases');
     $process = new Process("blt blt:init:settings", $this->updater->getRepoRoot());
     $process->run();
   }

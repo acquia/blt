@@ -134,7 +134,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
   }
 
   /**
-   * Invokes a given 'target-hooks' hook, typically defined in project.yml.
+   * Invokes a given 'target-hooks' hook, typically defined in blt.yml.
    *
    * @param string $hook
    *   The hook name.
@@ -198,6 +198,10 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
       ->detectInteractive()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
+
+    if (!$result->wasSuccessful()) {
+      throw new \Exception("Executing command inside VM failed!");
+    }
 
     return $result;
   }

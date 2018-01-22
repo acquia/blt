@@ -31,7 +31,7 @@ Please note that when you do this, you take responsibility for maintaining your 
 
 ## Disabling a command
 
-You may disable any BLT command. This will cause the target to be skipped during the normal build process. To disable a target, add a `disable-targets` key to your project.yml file:
+You may disable any BLT command. This will cause the target to be skipped during the normal build process. To disable a target, add a `disable-targets` key to your blt.yml file:
 
       disable-targets:
         validate:
@@ -54,7 +54,7 @@ To modify the filesets that are used in other commands, such as `validate:twig`,
         @fileset(id="files.yaml.custom")
 
 1. Instantiate and return a `Symfony\Component\Finder\Finder` object. The files found by the finder comprise the fileset.
-1. You may use the Fileset id in various configuration values in your `blt/project.yml` file. E.g., modify `validate:yaml` such that it scans only your custom fileset, you would add the following to `blt/project.yml`:
+1. You may use the Fileset id in various configuration values in your `blt/blt.yml` file. E.g., modify `validate:yaml` such that it scans only your custom fileset, you would add the following to `blt/blt.yml`:
 
         validate:
           yaml:
@@ -69,25 +69,25 @@ BLT configuration can be customized by overriding the value of default variable 
 
 Configuration values are loaded, in this order, from the following list of YAML files:
 
--  blt/project.yml
+-  blt/blt.yml
 -  blt/[environment].yml
--  blt/project.local.yml
+-  blt/local.yml
 
 Values loaded from the later files will overwrite values in earlier files. Note, if you would like to override a non-empty value with an empty value, the override value must be set to `null` and not `''` or `[]`.
 
 ### Overriding project-wide
 
-You can override any variable value by adding an entry for that variable to your `project.yml` file. This change will be committed to your repository and shared by all developers for the project. For example:
+You can override any variable value by adding an entry for that variable to your `blt.yml` file. This change will be committed to your repository and shared by all developers for the project. For example:
 
         behat.tags: @mytags
 
 ### Overriding locally
 
-You can override a variable value for your local machine by adding an entry for that variable to your `project.local.yml file`.  This change will not be committed to your repository.
+You can override a variable value for your local machine by adding an entry for that variable to your `local.yml file`.  This change will not be committed to your repository.
 
 ### Overriding in specific environments
 
-You may override a variable value for specific environments, such as a the `ci` environment, by adding an entry for that variable to a file named in the pattern [environment].yml. For instance, ci.yml.
+You may override a variable value for specific environments, such as a the `ci` environment, by adding an entry for that variable to a file named in the pattern [environment].yml. For instance, ci.blt.yml.
 
 At present, only the CI environment is automatically detected.
 
@@ -120,7 +120,7 @@ To modify the behavior of the `deploy:build` target, you may override BLT's `dep
 
 More specifically, you can modify the build artifact in the following key ways:
 
-1. Change which files are rsynced to the artifact by providing your own `deploy.exclude_file` value in project.yml. See [upstream deploy-exclude.txt](https://github.com/acquia/blt/blob/8.x/scripts/blt/deploy/deploy-exclude.txt) for example contents.  E.g.,
+1. Change which files are rsynced to the artifact by providing your own `deploy.exclude_file` value in blt.yml. See [upstream deploy-exclude.txt](https://github.com/acquia/blt/blob/8.x/scripts/blt/deploy/deploy-exclude.txt) for example contents.  E.g.,
 
           deploy:
             exclude_file: ${repo.root}/blt/deploy/rsync-exclude.txt
@@ -130,12 +130,12 @@ More specifically, you can modify the build artifact in the following key ways:
           /directorytoexclude
           excludeme.txt
 
-1. Change which files are gitignored in the artifact by providing your own `deploy.gitignore_file` value in project.yml. See [upstream .gitignore](https://github.com/acquia/blt/blob/8.x/scripts/blt/deploy/.gitignore) for example contents. E.g.,
+1. Change which files are gitignored in the artifact by providing your own `deploy.gitignore_file` value in blt.yml. See [upstream .gitignore](https://github.com/acquia/blt/blob/8.x/scripts/blt/deploy/.gitignore) for example contents. E.g.,
 
           deploy:
             gitignore_file: ${repo.root}/blt/deploy/.gitignore
 
-1. Execute a custom command after the artifact by providing your own `target-hooks.post-deploy-build.dir` and `target-hooks.post-deploy-build.command` values in project.yml. E.g.,
+1. Execute a custom command after the artifact by providing your own `target-hooks.post-deploy-build.dir` and `target-hooks.post-deploy-build.command` values in blt.yml. E.g.,
 
           # Executed after deployment artifact is created.
           post-deploy-build:

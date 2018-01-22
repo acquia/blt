@@ -83,8 +83,8 @@ class Updater {
     $this->composerRequiredJsonFilepath = $this->getBltRoot() . '/composer.required.json';
     $this->composerSuggestedJsonFilepath = $this->getBltRoot() . '/composer.suggested.json';
     $this->templateComposerJsonFilepath = $this->getBltRoot() . '/template/composer.json';
-    $this->projectYmlFilepath = $this->repoRoot . '/blt/project.yml';
-    $this->projectLocalYmlFilepath = $this->repoRoot . '/blt/project.local.yml';
+    $this->projectYmlFilepath = $this->repoRoot . '/blt/blt.yml';
+    $this->projectLocalYmlFilepath = $this->repoRoot . '/blt/local.blt.yml';
     $this->formatter = new FormatterHelper();
 
     // Create "ice" style.
@@ -538,11 +538,15 @@ class Updater {
   }
 
   /**
-   * @param $filepath
+   * @param string|array $filepaths
    */
-  public function deleteFile($filepath) {
-    $abs_path = $this->getRepoRoot() . '/' . $filepath;
-    $this->getFileSystem()->remove($abs_path);
+  public function deleteFile($filepaths) {
+    $filepaths = (array) $filepaths;
+    $files = [];
+    foreach ($filepaths as $filepath) {
+      $files[] = $this->getRepoRoot() . '/' . $filepath;
+    }
+    $this->getFileSystem()->remove($files);
   }
 
 }

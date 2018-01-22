@@ -8,3 +8,5 @@
 tests.run-server: true
 # The local.hostname must be set to 127.0.0.1:8888 because we are using drush runserver to test the site.
 project.local.hostname: 127.0.0.1:8888
+# We cannot use 127.0.0.1:8888 for vm hostname due to vagrant restrictions.
+vm.vagrant.hostname: local.${project.machine_name}.com

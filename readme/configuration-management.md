@@ -35,7 +35,7 @@ When you run one of these update commands, they perform the following updates (s
 
 - Database updates: the equivalent of running `drush updb` or hitting `update.php`, this applies any pending database updates.
 - Config import: runs the core configuration-import command to import any configuration stored in the root `config` directory. This is either a full or partial import, depending on how BLT is configured.
-- Features import (optional): runs features-import-all, which imports any configuration stored in a feature module's `config/install` directory. Note that this only runs if you've configured the `cm.features.bundle` property in `blt/project.yml`.
+- Features import (optional): runs features-import-all, which imports any configuration stored in a feature module's `config/install` directory. Note that this only runs if you've configured the `cm.features.bundle` property in `blt/blt.yml`.
 
 There are also pre- and post-config import hooks that you can use to run custom commands.
 
@@ -97,7 +97,7 @@ However, BLT does not create any configuration splits for you. For detailed info
 
 #### Troubleshooting
 
-If for some reason BLT is not working with Config Split, ensure that you are using Drush version 8.1.10 or higher, Config Split version 8.1.0-beta4 or higher, and that `cm.strategy` is set to `config-split` in `blt/project.yml`.
+If for some reason BLT is not working with Config Split, ensure that you are using Drush version 8.1.10 or higher, Config Split version 8.1.0-beta4 or higher, and that `cm.strategy` is set to `config-split` in `blt/blt.yml`.
 
 ### Using update hooks to importing individual config files
 
@@ -155,7 +155,7 @@ Because of this more modular architecture, Features can be a better solution for
 
 However, the downside to this more granular approach is that Features cannot make some of the same assumptions as the core configuration system, and relies much more heavily on the developer to manage the architecture and handle configuration changes that it can't. This makes the overall system much more error-prone and more of a burden to maintain.
 
-To set up a Features-based workflow, you'll need to set `cm.strategy` to `features` in `blt/project.yml`.
+To set up a Features-based workflow, you'll need to set `cm.strategy` to `features` in `blt/blt.yml`.
 
 ### Using bundles
 Features lets you define custom "bundles" that essentially let you train Features to support your project's individual workflow. At the most basic level, they are a way to namespace your features, so you'd want to choose a bundle name based on your project name (an "Acme" bundle would prefix all of your feature machine names with "acme_").

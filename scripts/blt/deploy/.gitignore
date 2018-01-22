@@ -1,7 +1,7 @@
 # This file will be copied into the docroot of the build artifact.
 local.*
 *.local
-project.local.yml
+local.blt.yml
 
 # Ignore paths that contain user-generated content.
 docroot/sites/*/files
