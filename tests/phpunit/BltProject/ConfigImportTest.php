@@ -14,6 +14,9 @@ class ConfigImportTest extends BltProjectTestBase {
     $this->importDbFromFixture();
   }
 
+  /**
+   * @group requires-db
+   */
   public function testNoConfig() {
     $this->drush("config-export --yes");
     $this->blt("setup:config-import", [
@@ -23,6 +26,9 @@ class ConfigImportTest extends BltProjectTestBase {
     ]);
   }
 
+  /**
+   * @group requires-db
+   */
   public function testFeatures() {
     $this->drush("pm-enable features --yes");
     $this->drush("config-export --yes");
@@ -33,6 +39,9 @@ class ConfigImportTest extends BltProjectTestBase {
     ]);
   }
 
+  /**
+   * @group requires-db
+   */
   public function testCoreOnly() {
     $this->drush("config-export --yes");
     $this->blt("setup:config-import", [
@@ -42,6 +51,9 @@ class ConfigImportTest extends BltProjectTestBase {
     ]);
   }
 
+  /**
+   * @group requires-db
+   */
   public function testConfigSplit() {
     $this->drush("pm-enable config_split --yes");
     $this->drush("config-export --yes");

@@ -6,6 +6,8 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
  * Class MultiSiteTest.
+ *
+ * @group requires-db
  */
 class MultiSiteTest extends BltProjectTestBase {
 
