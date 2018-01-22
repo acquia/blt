@@ -84,7 +84,7 @@ class MultiSiteTest extends BltProjectTestBase {
     $output_array = $this->drushJson("@site2.clone config:get system.site");
     $this->assertEquals('Site 2 Clone', $output_array['name']);
 
-    list($status_code, $output, $config) = $this->blt("sync:db:all", [
+    list($status_code, $output, $config) = $this->blt("drupal:sync:db:all", [
       '--yes' => '',
     ]);
     $this->assertContains("You will destroy data in drupal and replace with data from drupal3", $output);

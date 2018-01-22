@@ -19,7 +19,7 @@ class ConfigImportTest extends BltProjectTestBase {
    */
   public function testNoConfig() {
     $this->drush("config-export --yes");
-    $this->blt("setup:config-import", [
+    $this->blt("drupal:config:import", [
       '--define' => [
         'cm.strategy=none',
       ],
@@ -32,7 +32,7 @@ class ConfigImportTest extends BltProjectTestBase {
   public function testFeatures() {
     $this->drush("pm-enable features --yes");
     $this->drush("config-export --yes");
-    $this->blt("setup:config-import", [
+    $this->blt("drupal:config:import", [
       '--define' => [
         'cm.strategy=features',
       ],
@@ -44,7 +44,7 @@ class ConfigImportTest extends BltProjectTestBase {
    */
   public function testCoreOnly() {
     $this->drush("config-export --yes");
-    $this->blt("setup:config-import", [
+    $this->blt("drupal:config:import", [
       '--define' => [
         'cm.strategy=core-only',
       ],
@@ -61,7 +61,7 @@ class ConfigImportTest extends BltProjectTestBase {
       $this->bltDirectory . "/scripts/blt/ci/internal/config_split.config_split.ci.yml",
       $this->sandboxInstance . "/config/default/config_split.config_split.ci.yml"
       );
-    $this->blt("setup:config-import", [
+    $this->blt("drupal:config:import", [
       '--define' => [
         'cm.strategy=config-split',
       ],

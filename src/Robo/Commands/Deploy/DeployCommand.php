@@ -590,8 +590,8 @@ class DeployCommand extends BltTasks {
     $this->say("Deploying updates to <comment>$multisite</comment>...");
     $this->switchSiteContext($multisite);
 
-    $this->invokeCommand('setup:config-import');
-    $this->invokeCommand('setup:toggle-modules');
+    $this->invokeCommand('drupal:config:import');
+    $this->invokeCommand('drupal:toggle:modules');
 
     $this->say("Finished deploying updates to $multisite.");
   }
@@ -614,10 +614,10 @@ class DeployCommand extends BltTasks {
         $this->config->set('drush.uri', $multisite);
       }
 
-      $this->invokeCommand('sync:db');
-      $this->invokeCommand('sync:files');
-      $this->invokeCommand('setup:config-import');
-      $this->invokeCommand('setup:toggle-modules');
+      $this->invokeCommand('drupal:sync:db');
+      $this->invokeCommand('drupal:sync:files');
+      $this->invokeCommand('drupal:config:import');
+      $this->invokeCommand('drupal:toggle:modules');
 
       $this->say("Finished syncing $multisite.");
     }
@@ -626,15 +626,13 @@ class DeployCommand extends BltTasks {
   /**
    * Installs Drupal, imports config, and executes updates.
    *
-   * @command deploy:drupal:install
+   * @command artifact::install:drupal
    */
   public function installDrupal() {
     $this->invokeCommands([
       'internal:drupal:install',
       'deploy:update:all',
     ]);
-
-    $this->updateSites();
   }
 
 }
