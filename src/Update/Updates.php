@@ -457,12 +457,21 @@ class Updates {
    */
   public function update_9000000() {
     $this->updater->moveFile('drush/site-aliases/aliases.drushrc.php', 'drush/site-aliases/legacy.aliases.drushrc.php');
-    $process = new Process('./vendor/bin/drush site:alias-convert $(pwd)/drush/site --sources=$(pwd)/drush/site-aliases', $this->updater->getRepoRoot());
+    $process = new Process(
+      './vendor/bin/drush site:alias-convert $(pwd)/drush/site --sources=$(pwd)/drush/site-aliases',
+      $this->updater->getRepoRoot()
+    );
     $process->run();
-    $this->updater->deleteFile('docroot/sites/default/local.drushrc.php');
-    $this->updater->deleteFile('drush/site-aliases/legacy.aliases.drushrc.php');
-    $this->updater->deleteFile('drush/drushrc.php');
+
+    $files = [
+      'docroot/sites/default/local.drushrc.php',
+      'legacy.aliases.drushrc.php',
+      'drush/drushrc.php',
+    ];
+    $this->updater->getFileSystem()->chmod($files, 0777);
+    $this->updater->deleteFile($files);
     $this->updater->getFileSystem()->mirror('drush/site-aliases', 'drush/sites');
+    $this->updater->getFileSystem()->remove('drush/site-aliases');
     $process = new Process("blt setup:settings", $this->updater->getRepoRoot());
     $process->run();
   }
