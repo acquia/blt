@@ -46,7 +46,7 @@ As development progresses, you can use the following commands to keep your local
 - Run `blt setup` to rebuild the codebase and reinstall your Drupal site (most commonly used early in development).
 - Run `blt drupal:sync` to rebuild the codebase, import a fresh DB from a remote environment, and run schema/configuration updates (most commonly used later in development).
 
-Each of these commands is simply a wrapper for a number of more granular commands that can be run individually if desired (for instance, `blt drupal:update` just runs database updates and imports configuration changes). For a full list of available project tasks, run `blt -l`. See [Project Tasks](project-tasks.md) for more information.
+Each of these commands is simply a wrapper for a number of more granular commands that can be run individually if desired (for instance, `blt drupal:update` just runs database updates and imports configuration changes). For a full list of available project tasks, run `blt`. See [Project Tasks](project-tasks.md) for more information.
 
 ### Local Git Configuration
 
