@@ -5,7 +5,8 @@ namespace Acquia\Blt\Robo\Commands\Setup;
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\StringManipulator;
 use Acquia\Blt\Robo\Common\YamlMunge;
-use Acquia\Club\Configuration\ProjectConfiguration;
+use Acquia\Blt\Robo\Config\ProjectConfiguration;
+use function file_put_contents;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Filesystem\Exception\FileNotFoundException;
@@ -44,7 +45,7 @@ class WizardCommand extends BltTasks {
     $this->updateProjectYml($answers);
 
     if (!empty($answers['ci']['provider'])) {
-      $this->invokeCommand("ci:{$answers['ci']['provider']}:init");
+      $this->invokeCommand("recipes:ci:{$answers['ci']['provider']}:init");
     }
 
     if ($answers['vm']) {

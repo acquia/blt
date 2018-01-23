@@ -1,6 +1,6 @@
 <?php
 
-namespace Acquia\Club\Configuration;
+namespace Acquia\Blt\Robo\Config;
 
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
