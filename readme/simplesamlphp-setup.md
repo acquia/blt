@@ -82,7 +82,7 @@ Request the remote IdP metadata (XML) from the customer. Note that each environm
 
 1. Configure IdP Remote Metadata.
 
-      1. Execute `blt simplesamlphp:build:config` to copy these configuration files to the SimpleSAMLphp library locally. (This is strictly for local use. It will make no change visible to Git, because it overwrites vendor files. BLT's build process will handle this for the deployable build artifact.)
+      1. Execute `blt source:build:simplesamlphp-config` to copy these configuration files to the SimpleSAMLphp library locally. (This is strictly for local use. It will make no change visible to Git, because it overwrites vendor files. BLT's build process will handle this for the deployable build artifact.)
 
       1. Log into the SimpleSAMLphp installation page on your local site at `/simplesaml/` using the password you defined in `$config['auth.adminpassword']`.
 

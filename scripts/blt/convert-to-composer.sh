@@ -59,7 +59,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
   echo "* Review your codebase and commit the desired changes."
   echo "    * If you have a custom Phing build file, you will likely need to update it and add it to blt.yml under the 'import' key. See readme/extending-blt.md."
   echo "    * If you had custom files in docroot/sites/default/settings, you will need to restore them."
-  echo "    * If you are not using Lightning, remove lightning-specific target-hooks from blt.yml."
+  echo "    * If you are not using Lightning, remove lightning-specific command-hooks from blt.yml."
   # link to online docs
 
   ./vendor/bin/drupal yaml:get:value blt.yml project.hash_salt > salt.txt

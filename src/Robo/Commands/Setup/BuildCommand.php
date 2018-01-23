@@ -96,11 +96,11 @@ class BuildCommand extends BltTasks {
       'source:build:composer',
       'blt:init:git-hooks',
       'blt:init:settings',
-      'frontend',
+      'source:build:frontend',
     ]);
 
     if ($this->getConfig()->has('simplesamlphp') && $this->getConfigValue('simplesamlphp')) {
-      $this->invokeCommand('simplesamlphp:build:config');
+      $this->invokeCommand('source:build:simplesamlphp-config');
     }
 
     $this->invokeHook("post-setup-build");

@@ -12,34 +12,34 @@ class FrontendCommand extends BltTasks {
   /**
    * Runs all frontend targets.
    *
-   * @command frontend
+   * @command source:build:frontend
    * @executeInDrupalVm
    */
   public function frontend() {
     $this->invokeCommands([
-      'frontend:setup',
-      'frontend:build',
+      'source:build:frontend-reqs',
+      'source:build:frontend-assets',
     ]);
   }
 
   /**
-   * Executes frontend-build target hook.
+   * Executes source:build:frontend-assets target hook.
    *
-   * @command frontend:build
+   * @command source:build:frontend-assets
    * @executeInDrupalVm
    */
   public function build() {
-    return $this->invokeHook('frontend-build');
+    return $this->invokeHook('source:build:frontend-assets');
   }
 
   /**
-   * Executes frontend-setup target hook.
+   * Executes source:build:frontend-reqs target hook.
    *
-   * @command frontend:setup
+   * @command source:build:frontend-reqs
    * @executeInDrupalVm
    */
   public function setup() {
-    return $this->invokeHook('frontend-setup');
+    return $this->invokeHook('source:build:frontend-reqs');
   }
 
   /**

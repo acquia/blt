@@ -134,7 +134,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
   }
 
   /**
-   * Invokes a given 'target-hooks' hook, typically defined in blt.yml.
+   * Invokes a given 'command-hooks' hook, typically defined in blt.yml.
    *
    * @param string $hook
    *   The hook name.
@@ -144,12 +144,12 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function invokeHook($hook) {
-    if ($this->getConfig()->has("target-hooks.$hook.command")
-      && $this->getConfigValue("target-hooks.$hook.command")) {
+    if ($this->getConfig()->has("command-hooks.$hook.command")
+      && $this->getConfigValue("command-hooks.$hook.command")) {
       $this->say("Executing $hook target hook...");
       $result = $this->taskExecStack()
-        ->exec($this->getConfigValue("target-hooks.$hook.command"))
-        ->dir($this->getConfigValue("target-hooks.$hook.dir"))
+        ->exec($this->getConfigValue("command-hooks.$hook.command"))
+        ->dir($this->getConfigValue("command-hooks.$hook.dir"))
         ->detectInteractive()
         ->printOutput(TRUE)
         ->printMetadata(TRUE)
