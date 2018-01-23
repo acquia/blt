@@ -7,14 +7,14 @@ use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
 
 /**
- * Defines commands in the "validate:composer*" namespace.
+ * Defines commands in the "tests:composer:validate*" namespace.
  */
 class ComposerCommand extends BltTasks {
 
   /**
    * Validates root composer.json and composer.lock files.
    *
-   * @command validate:composer
+   * @command tests:composer:validate
    */
   public function validate() {
     $this->say("Validating composer.json and composer.lock...");

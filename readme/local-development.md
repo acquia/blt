@@ -42,9 +42,9 @@ The Drupal Extension for Behat has an [inherent limitation](https://behat-drupal
 To execute Behat tests using the 'drupal' driver on a Drupal VM environment, you must do the following:
 
 1. SSH into the VM `drush @[project.machine_name].local ssh`, where [project.machine_name] is the value that you set in blt.yml.
-1. Execute behat tests `blt tests:behat`.
+1. Execute behat tests `blt tests:behat:run`.
 
-Alternatively, you may choose to write only behat tests that utilize the Drupal Extension's "drush" driver. Doing this will allow you to run `blt tests:behat` from the host machine.
+Alternatively, you may choose to write only behat tests that utilize the Drupal Extension's "drush" driver. Doing this will allow you to run `blt tests:behat:run` from the host machine.
 
 ## Using Acquia Dev Desktop for BLT-generated projects
 

@@ -69,9 +69,9 @@ class GitTasksTest extends BltProjectTestBase {
     $process->run();
     $output = $process->getOutput();
     // @todo Assert only changed files are validated.
-    $this->assertContains('validate:phpcs:files', $output);
-    $this->assertContains('validate:yaml:files', $output);
-    $this->assertContains('validate:twig:files', $output);
+    $this->assertContains('tests:phpcs:sniff:files', $output);
+    $this->assertContains('tests:yaml:lint:files', $output);
+    $this->assertContains('tests:twig:lint:files', $output);
   }
 
   /**

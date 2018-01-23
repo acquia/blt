@@ -13,7 +13,7 @@ class TestPhpUnitCommandTest extends BltProjectTestBase {
    *
    */
   public function testPhpUnitCommand() {
-    $this->blt("tests:phpunit");
+    $this->blt("tests:phpunit:run");
   }
 
 }

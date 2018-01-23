@@ -51,7 +51,7 @@ class BehatCheck extends DoctorCheck {
         $this->logProblem(__FUNCTION__ . ':root', [
           "You have DrupalVM initialized, but drupal_root in tests/behat/local.yml does not reference the DrupalVM docroot.",
           "  Behat drupal_root is $behat_drupal_root.",
-          "  To resolve, run blt setup:behat.",
+          "  To resolve, run blt tests:behat:init:config.",
         ], 'error');
       }
     }
@@ -61,7 +61,7 @@ class BehatCheck extends DoctorCheck {
     if (!$this->behatLocalYmlExists()) {
       $this->logProblem(__FUNCTION__ . ':exists', [
         "tests/behat/local.yml is missing!",
-        "  Run `blt setup:behat` to generate it from example.local.yml.",
+        "  Run `blt tests:behat:init:config` to generate it from example.local.yml.",
       ], 'error');
     }
   }
