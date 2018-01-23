@@ -153,7 +153,7 @@ class VmCommand extends BltTasks {
    */
   protected function localInitialize() {
     if (!$this->getInspector()->isBltLocalConfigFilePresent()) {
-      $this->invokeCommands(['setup:settings']);
+      $this->invokeCommands(['blt:init:settings']);
     }
 
     $filename = $this->getConfigValue('blt.config-files.local');

@@ -91,11 +91,11 @@ class BuildCommand extends BltTasks {
   public function build() {
     $this->invokeCommands([
       'setup:behat',
-      // setup:composer:install must run prior to setup:settings to ensure that
-      // scaffold files are present.
+      // setup:composer:install must run prior to blt:init:settings to ensure
+      // that scaffold files are present.
       'setup:composer:install',
-      'setup:git-hooks',
-      'setup:settings',
+      'blt:init:git-hooks',
+      'blt:init:settings',
       'frontend',
     ]);
 

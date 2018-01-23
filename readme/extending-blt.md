@@ -144,7 +144,7 @@ More specifically, you can modify the build artifact in the following key ways:
 
 ### setup:*
 
-#### setup:git-hooks
+#### blt:init:git-hooks
 
 You may disable a git hook by setting its value under `git.hooks` to false:
 
@@ -160,7 +160,7 @@ You may use a custom git hook in place of BLT's default git hooks by setting its
 
 In this example, an executable file named `pre-commit` should exist in `${repo.root}/my-custom-git-hooks`.
 
-You should execute `blt setup:git-hooks` after modifying these values in order for changes to take effect.
+You should execute `blt blt:init:git-hooks` after modifying these values in order for changes to take effect.
 
 #### git:commit-msg
 

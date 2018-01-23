@@ -112,7 +112,7 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
    */
   public function validateSettingsFilesPresent() {
     if (!$this->getInspector()->isHashSaltPresent()) {
-      throw new BltException("salt.txt is not present. Please run `blt setup:settings` to generate it.");
+      throw new BltException("salt.txt is not present. Please run `blt blt:init:settings` to generate it.");
     }
     if (!$this->getInspector()->isDrupalLocalSettingsFilePresent()) {
       throw new BltException("Could not find settings.php for this site.");
