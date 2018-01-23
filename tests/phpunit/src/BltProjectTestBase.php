@@ -339,7 +339,7 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
     $site2_clone_db_name = 'drupal4';
     $site1_clone_human_name = "Site 1 Clone";
     $site2_clone_human_name = "Site 2 Clone";
-    $this->blt("generate:multisite", [
+    $this->blt("recipes:multisite:init", [
       '--site-dir' => $site2_dir,
       '--site-uri' => "http://" . $site2_local_uri,
       '--remote-alias' => $site2_remote_drush_alias,

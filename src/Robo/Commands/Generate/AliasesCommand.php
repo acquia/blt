@@ -45,7 +45,7 @@ class AliasesCommand extends BltTasks {
   /**
    * Generates new Acquia site aliases for Drush.
    *
-   * @command generate:aliases:acquia
+   * @command recipes:aliases:init:acquia
    *
    */
   public function generateAliasesAcquia() {

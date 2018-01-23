@@ -86,7 +86,7 @@ class VmCommand extends BltTasks {
   /**
    * Destroys existing VM and all related configuration.
    *
-   * @command vm:nuke
+   * @command recipes:drupalvm:destroy
    * @throws \Exception
    */
   public function nuke() {
@@ -124,7 +124,7 @@ class VmCommand extends BltTasks {
   /**
    * Generates default configuration for Drupal VM.
    *
-   * @command vm:config
+   * @command recipes:drupalvm:init
    */
   public function config() {
     $this->say("Generating default configuration for Drupal VM...");

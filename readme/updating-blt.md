@@ -59,7 +59,7 @@ If you are using an older version of BLT that was not installed using Composer, 
 
 1. If using Travis CI, re-initialize .travis.yml and re-apply customizations:
 
-        rm .travis.yml && blt ci:travis:init
+        rm .travis.yml && blt recipes:ci:travis:init
 
 1. Cleanup deprecated files
 
@@ -68,7 +68,7 @@ If you are using an older version of BLT that was not installed using Composer, 
 
 1. If using Drupal VM, re-create VM:
 
-        blt vm:nuke
+        blt recipes:drupalvm:destroy
         blt vm
 
 Review and commit changes to your project files. For customized files like `.travis.yml` or `docroot/sites/default/settings.php` it is recommended that you use `git add -p` to select which specific line changes you'd like to stage and commit.
