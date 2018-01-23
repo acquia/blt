@@ -64,7 +64,7 @@ If you are using an older version of BLT that was not installed using Composer, 
 1. Cleanup deprecated files
 
         rm -rf .git/hooks && mkdir .git/hooks
-        blt cleanup
+        blt blt:source:cleanup
 
 1. If using Drupal VM, re-create VM:
 

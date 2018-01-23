@@ -86,9 +86,9 @@ class UpdateCommand extends BltTasks {
     $new_config = $config_initializer->initialize();
     $this->getConfig()->import($new_config->export());
 
-    $this->invokeCommand('setup:settings');
+    $this->invokeCommand('blt:init:settings');
     $this->invokeCommand('examples:init');
-    $this->invokeCommand('install-alias');
+    $this->invokeCommand('blt:init:shell-alias');
     if ($this->input()->isInteractive()) {
       $this->invokeCommand('setup:wizard');
     }
@@ -97,7 +97,7 @@ class UpdateCommand extends BltTasks {
   /**
    * Updates files from BLT's template and executes scripted updates.
    *
-   * @command update
+   * @command blt:update
    */
   public function update() {
     $this->rsyncTemplate();
@@ -106,13 +106,13 @@ class UpdateCommand extends BltTasks {
       $this->updateSchemaVersionFile();
     }
     $this->cleanup();
-    $this->invokeCommand('install-alias');
+    $this->invokeCommand('blt:init:shell-alias');
   }
 
   /**
    * Removes deprecated BLT files and directories.
    *
-   * @command cleanup
+   * @command blt:source:cleanup
    */
   public function cleanup() {
     $this->say("Removing deprecated files and directories...");

@@ -39,7 +39,7 @@ class MultiSiteTest extends BltProjectTestBase {
     $this->assertFileExists($this->sandboxInstanceClone . '/config/site2');
 
     // We cannot use $this->blt because we are not executing in sandbox.
-    $this->execute('./vendor/bin/blt setup:settings', $this->sandboxInstanceClone);
+    $this->execute('./vendor/bin/blt blt:init:settings', $this->sandboxInstanceClone);
 
     // Generate fixture.
     // Sets up site1 locally too.

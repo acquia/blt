@@ -318,9 +318,9 @@ class DeployCommand extends BltTasks {
       // Execute `blt frontend` to ensure that frontend artifact are generated
       // in source repo.
       'frontend',
-      // Execute `setup:hash-salt` to ensure that salt.txt exists. There's a
-      // slim chance this has never been generated.
-      'setup:hash-salt',
+      // Execute `drupal:init:hash-salt` to ensure that salt.txt exists.
+      // There's a slim chance this has never been generated.
+      'drupal:init:hash-salt',
     ]);
 
     $this->buildCopy();

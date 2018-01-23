@@ -198,7 +198,7 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
 
     $drush_bin = $this->sandboxInstance . '/vendor/bin/drush';
     $this->execute("$drush_bin sql-drop --root=$root --uri=$uri", NULL, FALSE);
-    $this->blt('setup:hash-salt');
+    $this->blt('drupal:init:hash-salt');
     $this->execute("$drush_bin sql-cli --root=$root --uri=$uri < {$this->dbDump}");
   }
 

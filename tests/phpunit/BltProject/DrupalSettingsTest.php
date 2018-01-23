@@ -11,7 +11,7 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 class DrupalSettingsTest extends BltProjectTestBase {
 
   /**
-   * Tests setup:settings command.
+   * Tests blt:init:settings command.
    *
    * This command should have been run during sandbox master creation.
    */

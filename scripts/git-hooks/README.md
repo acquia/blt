@@ -1,10 +1,10 @@
 # Git Configuration
 
-This directory contains 
-[git hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks) 
-These should be symlinked into your local repository's `.git` directory using 
-the `setup:git-hooks` task during the 
-[onboarding process](../../readme/onboarding.md). 
+This directory contains
+[git hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks)
+These should be symlinked into your local repository's `.git` directory using
+the `blt:init:git-hooks` task during the
+[onboarding process](../../readme/onboarding.md).
 
 ## Provided Hooks
 

@@ -12,7 +12,7 @@ class SetupWizard extends Wizard {
   /**
    * Wizard for generating setup files.
    *
-   * Executes blt setup:settings command.
+   * Executes blt blt:init:settings command.
    */
   public function wizardGenerateSettingsFiles() {
     $missing = FALSE;
@@ -29,7 +29,7 @@ class SetupWizard extends Wizard {
       if ($confirm) {
         $bin = $this->getConfigValue('composer.bin');
         $this->executor
-          ->execute("$bin/blt setup:settings")->printOutput(TRUE)->run();
+          ->execute("$bin/blt blt:init:settings")->printOutput(TRUE)->run();
       }
     }
   }
