@@ -21,7 +21,7 @@ class DeployTest extends BltProjectTestBase {
    * Tests artifact:build command.
    */
   public function testBltDeployBuild() {
-    $this->blt('setup:cloud-hooks');
+    $this->blt('recipes:cloud-hooks:init');
     $this->blt('artifact:build');
 
     // Ensure deploy directory exists.

@@ -42,7 +42,7 @@ To initialize Pipelines support for your BLT project:
 1. [Configure the Pipelines client](https://docs.acquia.com/pipelines/install#authenticate)
 1. Initialize Pipelines for your project
 
-        blt ci:pipelines:init
+        blt recipes:ci:pipelines:init
 
     This will generate an [acquia-pipelines.yml file](https://docs.acquia.com/pipelines/yaml) in your project root based on [BLT's default acquia-pipelines.yml file](https://github.com/acquia/blt/blob/8.x/scripts/pipelines/acquia-pipelines.yml).
 
@@ -95,7 +95,7 @@ To set up the [workflow described earlier](#workflow), you must configure Acquia
 
 1. Initialize Travis CI support for your project
 
-         blt ci:travis:init
+         blt recipes:ci:travis:init
 
 1. Generate an SSH key locally that will allow Travis to authenticate to Acquia Cloud:
 

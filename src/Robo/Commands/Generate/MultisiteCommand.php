@@ -10,14 +10,14 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Defines commands in the "generate:multisite" namespace.
+ * Defines commands in the "recipes:multisite:init" namespace.
  */
 class MultisiteCommand extends BltTasks {
 
   /**
    * Generates a new multisite.
    *
-   * @command generate:multisite
+   * @command recipes:multisite:init
    *
    */
   public function generate($options = [

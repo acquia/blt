@@ -71,7 +71,7 @@ class Updates {
     }
 
     $this->updater->getOutput()
-      ->writeln("<comment>You MUST remove .travis.yml and re-initialize Travis CI support with `blt ci:travis:init`.</comment>");
+      ->writeln("<comment>You MUST remove .travis.yml and re-initialize Travis CI support with `blt recipes:ci:travis:init`.</comment>");
   }
 
   /**
@@ -319,9 +319,9 @@ class Updates {
       "You have updated to a new major version of BLT, which introduces backwards-incompatible changes.",
       "You may need to perform the following manual update steps:",
       "  - View the full list of commands via `blt list`, <comment>BLT commands have changed</comment>",
-      "  - Re-initialize default Drupal VM configuration via `blt vm:config`.",
-      "  - Re-initialize default Travis CI configuration via `blt ci:travis:init`.
-         - Re-initialize default Acquia Pipelines configuration via `blt ci:pipelines:init`.",
+      "  - Re-initialize default Drupal VM configuration via `blt recipes:drupalvm:init`.",
+      "  - Re-initialize default Travis CI configuration via `blt recipes:ci:travis:init`.
+         - Re-initialize default Acquia Pipelines configuration via `blt recipes:ci:pipelines:init`.",
       "  - Port custom Phing commands to Robo. All Phing commands are now obsolete. See:",
       "    http://blt.readthedocs.io/en/8.x/readme/extending-blt/",
     ];

@@ -9,7 +9,7 @@
 1. Create a new branch in your repository.
 2. Run the following command from the project root:
   ```
-  blt ci:probo:init
+  blt recipes:ci:probo:init
   ```
 3. Commit and push the generated `.probo.yaml` file.
 4. Create a pull request for your branch.

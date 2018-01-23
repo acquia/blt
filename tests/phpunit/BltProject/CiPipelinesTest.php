@@ -10,12 +10,12 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 class PipelinesTest extends BltProjectTestBase {
 
   /**
-   * Tests ci:pipelines:init command.
+   * Tests recipes:ci:pipelines:init command.
    *
    * @group blted8
    */
   public function testPipelinesInit() {
-    $this->blt('ci:pipelines:init');
+    $this->blt('recipes:ci:pipelines:init');
     $this->assertFileExists($this->sandboxInstance . '/acquia-pipelines.yml');
   }
 
