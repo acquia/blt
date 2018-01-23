@@ -28,8 +28,8 @@ class FrontendCommand extends BltTasks {
    * @command source:build:frontend-assets
    * @executeInDrupalVm
    */
-  public function build() {
-    return $this->invokeHook('source:build:frontend-assets');
+  public function assets() {
+    return $this->invokeHook('frontend-assets');
   }
 
   /**
@@ -38,8 +38,8 @@ class FrontendCommand extends BltTasks {
    * @command source:build:frontend-reqs
    * @executeInDrupalVm
    */
-  public function setup() {
-    return $this->invokeHook('source:build:frontend-reqs');
+  public function reqs() {
+    return $this->invokeHook('frontend-reqs');
   }
 
   /**

@@ -132,7 +132,7 @@ class BehatCommand extends TestsCommandBase {
       ->option('definitions', $options['mode'])
       ->option('config', $this->getConfigValue('behat.config'))
       ->option('profile', $this->getConfigValue('behat.profile'))
-      ->detectInteractive();
+      ->interactive($this->input()->isInteractive());
     if ($this->output()->getVerbosity() >= OutputInterface::VERBOSITY_NORMAL) {
       $task->verbose();
     }
@@ -354,7 +354,7 @@ class BehatCommand extends TestsCommandBase {
         ->option('config', $this->getConfigValue('behat.config'))
         ->option('profile', $this->getConfigValue('behat.profile'))
         ->option('tags', $this->getConfigValue('behat.tags'))
-        ->detectInteractive();
+        ->interactive($this->input()->isInteractive());
 
       if ($this->output()->getVerbosity() >= OutputInterface::VERBOSITY_NORMAL) {
         $task->verbose();

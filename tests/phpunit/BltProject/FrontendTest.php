@@ -2,6 +2,7 @@
 
 namespace Acquia\Blt\Tests\BltProject;
 
+use Acquia\Blt\Robo\Common\YamlMunge;
 use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
@@ -10,25 +11,27 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 class FrontendTest extends BltProjectTestBase {
 
   public function testFrontendHooks() {
-    list($status_code, $output, $config) = $this->blt('source:build:frontend-reqs', [
-      '--define' => [
-        'command-hooks.frontend-reqs.command=\'echo "hello reqs"\'',
+    YamlMunge::mergeArrayIntoFile([
+      'command-hooks' => [
+        'frontend-reqs' => [
+          'command' => 'echo "hello reqs"',
+        ],
+        'frontend-assets' => [
+          'command' => 'echo "hello assets"',
+        ],
+        'frontend-test' => [
+          'command' => 'echo "hello test"',
+        ],
       ],
-    ]);
+    ], $this->sandboxInstance . "/blt/" . getenv("BLT_ENV") . ".blt.yml");
+
+    list($status_code, $output, $config) = $this->blt('source:build:frontend-reqs');
     $this->assertContains('hello reqs', $output);
 
-    list($status_code, $output, $config) = $this->blt('source:build:frontend-assets', [
-      '--define' => [
-        'command-hooks.frontend-assets.command=\'echo "hello assets"\'',
-      ],
-    ]);
+    list($status_code, $output, $config) = $this->blt('source:build:frontend-assets');
     $this->assertContains('hello assets', $output);
 
-    list($status_code, $output, $config) = $this->blt('frontend:test', [
-      '--define' => [
-        'command-hooks.frontend-test.command=\'echo "hello test"\'',
-      ],
-    ]);
+    list($status_code, $output, $config) = $this->blt('frontend:test');
     $this->assertContains('hello test', $output);
   }
 

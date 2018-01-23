@@ -150,7 +150,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
       $result = $this->taskExecStack()
         ->exec($this->getConfigValue("command-hooks.$hook.command"))
         ->dir($this->getConfigValue("command-hooks.$hook.dir"))
-        ->detectInteractive()
+        ->interactive($this->input()->isInteractive())
         ->printOutput(TRUE)
         ->printMetadata(TRUE)
         ->stopOnFail()
@@ -195,7 +195,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
     $result = $this->taskExecStack()
       ->exec("vagrant ssh --command 'cd {$vm_config['ssh_home']}; $command'")
       ->dir($this->getConfigValue('repo.root'))
-      ->detectInteractive()
+      ->interactive($this->input()->isInteractive())
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 

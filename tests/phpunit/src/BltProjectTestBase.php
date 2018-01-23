@@ -91,6 +91,11 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
     $this->sandboxInstanceClone = $this->sandboxInstance . "2";
   }
 
+  /**
+   * Outputs debugging message.
+   *
+   * @param $message
+   */
   public function debug($message) {
     if (getenv('BLT_PRINT_COMMAND_OUTPUT')) {
       $this->output->writeln($message);
