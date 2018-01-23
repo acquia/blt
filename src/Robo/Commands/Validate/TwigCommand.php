@@ -10,14 +10,14 @@ use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
 /**
- * Defines commands in the "validate:twig*" namespace.
+ * Defines commands in the "tests:twig:lint:all*" namespace.
  */
 class TwigCommand extends BltTasks {
 
   /**
    * Executes Twig validator against all validate.twig.filesets files.
    *
-   * @command validate:twig
+   * @command tests:twig:lint:all
    */
   public function lintFileSets() {
     $this->say("Validating twig syntax for all custom modules and themes...");
@@ -32,7 +32,7 @@ class TwigCommand extends BltTasks {
   /**
    * Executes Twig validator against a list of files, if in twig.filesets.
    *
-   * @command validate:twig:files
+   * @command tests:twig:lint:files
    *
    * @param string $file_list
    *   A list of files to scan, separated by \n.

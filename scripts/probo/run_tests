@@ -6,7 +6,7 @@ set -ev
 $SRC_DIR/vendor/bin/yaml-cli update:value $SRC_DIR/blt/blt.yml project.local.hostname 'localhost'
 
 $SRC_DIR/vendor/bin/blt validate:all --verbose
-$SRC_DIR/vendor/bin/blt setup:behat -D drush.alias='${drush.aliases.ci}' --no-interaction --verbose
+$SRC_DIR/vendor/bin/blt tests:behat:init:config -D drush.alias='${drush.aliases.ci}' --no-interaction --verbose
 $SRC_DIR/vendor/bin/blt tests:all -D drush.alias='${drush.aliases.ci}' --yes --verbose
 
 set +v
