@@ -91,16 +91,16 @@ class BuildCommand extends BltTasks {
   public function build() {
     $this->invokeCommands([
       'tests:behat:init:config',
-      // setup:composer:install must run prior to blt:init:settings to ensure
+      // source:build:composer must run prior to blt:init:settings to ensure
       // that scaffold files are present.
-      'setup:composer:install',
+      'source:build:composer',
       'blt:init:git-hooks',
       'blt:init:settings',
-      'frontend',
+      'source:build:frontend',
     ]);
 
     if ($this->getConfig()->has('simplesamlphp') && $this->getConfigValue('simplesamlphp')) {
-      $this->invokeCommand('simplesamlphp:build:config');
+      $this->invokeCommand('source:build:simplesamlphp-config');
     }
 
     $this->invokeHook("post-setup-build");
@@ -109,12 +109,12 @@ class BuildCommand extends BltTasks {
   /**
    * Installs Composer dependencies.
    *
-   * @command setup:composer:install
+   * @command source:build:composer
    */
   public function composerInstall() {
     $result = $this->taskExec("export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --ansi --no-interaction")
       ->dir($this->getConfigValue('repo.root'))
-      ->detectInteractive()
+      ->interactive($this->input()->isInteractive())
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 

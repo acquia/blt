@@ -168,7 +168,7 @@ class SimpleSamlPhpCommand extends BltTasks {
   /**
    * Copies customized config files into vendored SimpleSamlPHP.
    *
-   * @command simplesamlphp:build:config
+   * @command source:build:simplesamlphp-config
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function simpleSamlPhpBuildConfig() {
@@ -203,7 +203,7 @@ class SimpleSamlPhpCommand extends BltTasks {
       '',
       'After editing these files execute the following command to copy the modified files to the correct location in the SimpleSAMLphp library:',
       '',
-      "'blt simplesamlphp:build:config'",
+      "'blt source:build:simplesamlphp-config'",
       '',
       "See http://blt.readthedocs.io/en/latest/readme/simplesamlphp-setup/ for details on how to modify the files.",
     ];

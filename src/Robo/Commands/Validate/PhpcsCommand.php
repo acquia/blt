@@ -30,7 +30,7 @@ class PhpcsCommand extends BltTasks {
         throw new BltException("Initial execution of PHPCS failed. Re-run now that PHPCBF has fixed some violations.");
       }
       else {
-        $this->logger->notice('Try running `blt fix:phpcbf` to automatically fix standards violations.');
+        $this->logger->notice('Try running `blt source:fix:php-standards` to automatically fix standards violations.');
         throw new BltException("PHPCS failed.");
       }
     }
@@ -42,7 +42,7 @@ class PhpcsCommand extends BltTasks {
   protected function fixViolationsInteractively() {
     $continue = $this->confirm("Attempt to fix violations automatically via PHPCBF?");
     if ($continue) {
-      $this->invokeCommand('fix:phpcbf');
+      $this->invokeCommand('source:fix:php-standards');
       $this->logger->warning("You must stage any new changes to files before committing.");
     }
   }
