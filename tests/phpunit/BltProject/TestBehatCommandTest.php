@@ -23,7 +23,7 @@ class BehatTest extends BltProjectTestBase {
   }
 
   /**
-   *
+   * @group requires-db
    */
   public function testBehatCommand() {
     $this->installDrupalMinimal();
