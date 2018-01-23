@@ -15,9 +15,8 @@ class SimpleSamlPhpTest extends BltProjectTestBase {
    * Ensures simplesamlphp config files were copied to project.
    */
   public function testSimpleSamlPhpConfigInit() {
-
     $this->blt("recipes:simplesamlphp:init");
-    list($status_code, $output, $config) = $this->blt("simplesamlphp:build:config");
+    list($status_code, $output, $config) = $this->blt("source:build:simplesamlphp-config");
 
     $simpleSamlPhpConfigDirectory = "{$this->sandboxInstance}/simplesamlphp/config";
     $simpleSamlPhpMetadataDirectory = "{$this->sandboxInstance}/simplesamlphp/metadata";

@@ -50,7 +50,7 @@ class SetupWizard extends Wizard {
         $bin = $this->getConfigValue('composer.bin');
         $this->executor
           ->execute("$bin/blt setup")
-          ->detectInteractive()
+          ->interactive($this->input()->isInteractive())
           ->run();
         $this->getInspector()->clearState();
       }

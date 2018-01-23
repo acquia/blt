@@ -154,23 +154,23 @@ sync:
     - css
     - js
   commands:
-    - setup:composer:install
+    - source:build:composer
     - blt:init:settings
     - drupal:sync:db
     - drupal:update
-    - frontend
+    - source:build:frontend
 
 # Custom tasks that are triggered at pre-defined times in the build process.
 # The tasks hook into BLT's existing commands.
-target-hooks:
+command-hooks:
   # Executed when front end dependencies should be installed.
-  frontend-setup:
+  frontend-reqs:
     # E.g., ${docroot}/sites/all/themes/custom/mytheme.
     dir: ${docroot}
     # E.g., '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use 4.4.4 && npm install'
     command: null
   # Executed when front end assets should be generated.
-  frontend-build:
+  frontend-assets:
     # E.g., ${docroot}/sites/all/themes/custom/mytheme.
     dir: ${docroot}
     # E.g., '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use 4.4.4 && npm build'

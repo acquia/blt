@@ -135,7 +135,7 @@ More specifically, you can modify the build artifact in the following key ways:
           deploy:
             gitignore_file: ${repo.root}/blt/deploy/.gitignore
 
-1. Execute a custom command after the artifact by providing your own `target-hooks.post-deploy-build.dir` and `target-hooks.post-deploy-build.command` values in blt.yml. E.g.,
+1. Execute a custom command after the artifact by providing your own `command-hooks.post-deploy-build.dir` and `command-hooks.post-deploy-build.command` values in blt.yml. E.g.,
 
           # Executed after deployment artifact is created.
           post-deploy-build:

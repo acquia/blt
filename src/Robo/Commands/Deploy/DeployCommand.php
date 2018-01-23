@@ -315,9 +315,9 @@ class DeployCommand extends BltTasks {
     $this->say("Generating build artifact...");
     $this->say("For more detailed output, use the -v flag.");
     $this->invokeCommands([
-      // Execute `blt frontend` to ensure that frontend artifact are generated
-      // in source repo.
-      'frontend',
+      // Execute `blt source:build:frontend` to ensure that frontend artifact
+      // are generated in source repo.
+      'source:build:frontend',
       // Execute `drupal:init:hash-salt` to ensure that salt.txt exists.
       // There's a slim chance this has never been generated.
       'drupal:init:hash-salt',

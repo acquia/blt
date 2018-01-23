@@ -50,7 +50,7 @@ class DrupalCommand extends BltTasks {
       ->verbose(TRUE)
       ->printOutput(TRUE);
 
-    $result = $task->detectInteractive()->run();
+    $result = $task->interactive($this->input()->isInteractive())->run();
     if (!$result->wasSuccessful()) {
       throw new BltException("Failed to install Drupal!");
     }

@@ -4,6 +4,7 @@ namespace Acquia\Blt\Update;
 
 use Acquia\Blt\Annotations\Update;
 use Acquia\Blt\Robo\Common\ArrayManipulator;
+use Dflydev\DotAccessData\Data;
 use Symfony\Component\Process\Process;
 
 /**
@@ -458,6 +459,21 @@ class Updates {
   public function update_9000000() {
     $this->updater->moveFile('blt/project.local.yml', 'blt/local.yml');
     $this->updater->moveFile('blt/project.yml', 'blt/blt.yml');
+
+    $rekey_map = [
+      'target-hooks.frontend-setup' => 'target-hooks.frontend-reqs',
+      'target-hooks.frontend-build' => 'target-hooks.frontend-assets',
+      'target-hooks' => 'command-hooks',
+    ];
+
+    $project_yml = $this->updater->getProjectYml();
+    $project_config = new Data($project_yml);
+    foreach ($rekey_map as $original => $new) {
+      $value = $project_config->get($original);
+      $project_config->set($new, $value);
+      $project_config->remove($original);
+    }
+
     $this->updater->moveFile('drush/site-aliases/aliases.drushrc.php', 'drush/site-aliases/legacy.aliases.drushrc.php');
 
     // @see https://github.com/acquia/blt/issues/2466
