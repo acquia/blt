@@ -9,7 +9,7 @@ use Acquia\Blt\Robo\Config\ConfigAwareTrait;
 /**
  * Class BltConfigurationWizard.
  */
-class BltConfigurationWizard extends BltProjectTestBase {
+class BltConfigurationWizardTest extends BltProjectTestBase {
 
   use ConfigAwareTrait;
 
