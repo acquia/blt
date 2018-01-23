@@ -29,7 +29,7 @@ If you are using a sub theme of Cog, executing `npm install` in your theme direc
 
 ### Build
 
-During the execution of `blt setup` and `blt deploy`, BLT will execute `target-hooks.frontend-build.command`. This is always executed after `target-hooks.frontend-setup.command`. This hook is intended to provide an opportunity to compile your frontend assets, such as compiling SCSS to CSS or generating a style guide.
+During the execution of `blt setup` and `blt artifact:deploy`, BLT will execute `target-hooks.frontend-build.command`. This is always executed after `target-hooks.frontend-setup.command`. This hook is intended to provide an opportunity to compile your frontend assets, such as compiling SCSS to CSS or generating a style guide.
 
     target-hooks:
       frontend-build:

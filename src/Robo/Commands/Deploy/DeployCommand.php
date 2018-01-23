@@ -309,7 +309,7 @@ class DeployCommand extends BltTasks {
   /**
    * Builds deployment artifact.
    *
-   * @command deploy:build
+   * @command artifact:build
    */
   public function build() {
     $this->say("Generating build artifact...");
@@ -548,18 +548,18 @@ class DeployCommand extends BltTasks {
   }
 
   /**
-   * Executes simplesamlphp:deploy:config command.
+   * Executes artifact:build:simplesamlphp-config command.
    */
   protected function deploySamlConfig() {
     if ($this->getConfigValue('simplesamlphp')) {
-      $this->invokeCommand('simplesamlphp:deploy:config');
+      $this->invokeCommand('artifact:build:simplesamlphp-config');
     }
   }
 
   /**
    * Update the database to reflect the state of the Drupal file system.
    *
-   * @command deploy:update
+   * @command artifact:update:drupal
    */
   public function update() {
     // Disable alias since we are targeting specific uri.
@@ -570,7 +570,7 @@ class DeployCommand extends BltTasks {
   /**
    * Update the database to reflect the state of the Drupal file system.
    *
-   * @command deploy:update:all
+   * @command artifact:update:drupal:all
    */
   public function updateAll() {
     // Disable alias since we are targeting specific uri.
@@ -631,7 +631,7 @@ class DeployCommand extends BltTasks {
   public function installDrupal() {
     $this->invokeCommands([
       'internal:drupal:install',
-      'deploy:update:all',
+      'artifact:update:drupal:all',
     ]);
   }
 

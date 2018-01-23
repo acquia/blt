@@ -18,11 +18,11 @@ class DeployTest extends BltProjectTestBase {
   }
 
   /**
-   * Tests deploy:build command.
+   * Tests artifact:build command.
    */
   public function testBltDeployBuild() {
     $this->blt('setup:cloud-hooks');
-    $this->blt('deploy:build');
+    $this->blt('artifact:build');
 
     // Ensure deploy directory exists.
     $this->assertFileExists($this->deploy_dir);
@@ -52,8 +52,8 @@ class DeployTest extends BltProjectTestBase {
     $this->assertFileNotExists($this->deploy_dir . '/tests');
   }
 
-  // @todo add deploy:build:push test.
+  // @todo add artifact:build:push test.
   // git.remotes.1 git@github.com:acquia-pso/blted8.git
-  // @todo add deploy:update test.
+  // @todo add artifact:update:drupal test.
 
 }
