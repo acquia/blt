@@ -154,7 +154,7 @@ sync:
     - css
     - js
   commands:
-    - setup:composer:install
+    - source:build:composer
     - blt:init:settings
     - drupal:sync:db
     - drupal:update

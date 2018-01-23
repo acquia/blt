@@ -91,9 +91,9 @@ class BuildCommand extends BltTasks {
   public function build() {
     $this->invokeCommands([
       'setup:behat',
-      // setup:composer:install must run prior to blt:init:settings to ensure
+      // source:build:composer must run prior to blt:init:settings to ensure
       // that scaffold files are present.
-      'setup:composer:install',
+      'source:build:composer',
       'blt:init:git-hooks',
       'blt:init:settings',
       'frontend',
@@ -109,7 +109,7 @@ class BuildCommand extends BltTasks {
   /**
    * Installs Composer dependencies.
    *
-   * @command setup:composer:install
+   * @command source:build:composer
    */
   public function composerInstall() {
     $result = $this->taskExec("export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --ansi --no-interaction")
