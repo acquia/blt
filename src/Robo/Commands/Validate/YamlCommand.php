@@ -13,6 +13,8 @@ class YamlCommand extends BltTasks {
    * Executes YAML validator against all validate.yaml.filesets files.
    *
    * @command tests:yaml:lint:all
+   *
+   * @aliases tests:yaml:lint tyla tests:yaml:lint yaml
    */
   public function lintFileSets() {
     $this->say("Validating yaml syntax for all custom modules and exported config...");

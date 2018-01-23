@@ -18,6 +18,8 @@ class TwigCommand extends BltTasks {
    * Executes Twig validator against all validate.twig.filesets files.
    *
    * @command tests:twig:lint:all
+   *
+   * @aliases tests:twig:lint twig
    */
   public function lintFileSets() {
     $this->say("Validating twig syntax for all custom modules and themes...");

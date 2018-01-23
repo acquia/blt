@@ -20,6 +20,8 @@ class ToggleModulesCommand extends BltTasks {
    *
    * @command drupal:toggle:modules
    *
+   * @aliases setup:toggle-modules toggle
+   *
    * @executeInDrupalVm
    * @validateDrushConfig
    */

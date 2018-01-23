@@ -47,6 +47,8 @@ class AliasesCommand extends BltTasks {
    *
    * @command recipes:aliases:init:acquia
    *
+   * @aliases raia aliases
+   *
    */
   public function generateAliasesAcquia() {
 

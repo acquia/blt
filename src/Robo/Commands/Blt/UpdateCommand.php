@@ -87,7 +87,7 @@ class UpdateCommand extends BltTasks {
     $this->getConfig()->import($new_config->export());
 
     $this->invokeCommand('blt:init:settings');
-    $this->invokeCommand('examples:init');
+    $this->invokeCommand('recipes:blt:init:command');
     $this->invokeCommand('blt:init:shell-alias');
     if ($this->input()->isInteractive()) {
       $this->invokeCommand('setup:wizard');
@@ -98,6 +98,8 @@ class UpdateCommand extends BltTasks {
    * Updates files from BLT's template and executes scripted updates.
    *
    * @command blt:update
+   *
+   * @aliases update
    */
   public function update() {
     $this->rsyncTemplate();

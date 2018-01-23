@@ -13,6 +13,7 @@ class FrontendCommand extends BltTasks {
    * Runs all frontend targets.
    *
    * @command source:build:frontend
+   * @aliases frontend
    * @executeInDrupalVm
    */
   public function frontend() {
@@ -46,6 +47,8 @@ class FrontendCommand extends BltTasks {
    * Executes frontend-test target hook.
    *
    * @command tests:frontend:run
+   *
+   * @todo add alias for tests:frontend.
    *
    * @launchWebServer
    * @executeInDrupalVm

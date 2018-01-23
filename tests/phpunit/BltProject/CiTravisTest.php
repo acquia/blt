@@ -11,8 +11,6 @@ class TravisCiTest extends BltProjectTestBase {
 
   /**
    * Tests recipes:ci:travis:init command.
-   *
-   * @group blted8
    */
   public function testTravisInit() {
     $this->blt('recipes:ci:travis:init');

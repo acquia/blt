@@ -15,6 +15,8 @@ class CiCommand extends BltTasks {
    * Initializes default Acquia Pipelines configuration for this project.
    *
    * @command recipes:ci:pipelines:init
+   *
+   * @aliases ci:pipelines:init rcpi
    */
   public function pipelinesInit() {
     $result = $this->taskFilesystemStack()
@@ -34,6 +36,8 @@ class CiCommand extends BltTasks {
    * Initializes default Travis CI configuration for this project.
    *
    * @command recipes:ci:travis:init
+   *
+   * @aliases ci:travis:init rcti
    */
   public function travisInit() {
     $result = $this->taskFilesystemStack()
@@ -53,6 +57,8 @@ class CiCommand extends BltTasks {
    * Initializes default Probo CI configuration for this project.
    *
    * @command recipes:ci:probo:init
+   *
+   * @aliases ci:probo:init rcpri
    */
   public function proboInit() {
     $result = $this->taskFilesystemStack()
@@ -72,6 +78,8 @@ class CiCommand extends BltTasks {
    * Initializes default GitLab Pipelines configuration for this project.
    *
    * @command recipes:ci:gitlab:init
+   *
+   * @aliases ci:gitlab:init rcgi
    */
   public function gitlabInit() {
     $result = $this->taskFilesystemStack()

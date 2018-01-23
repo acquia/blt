@@ -10,7 +10,7 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 class CustomCommandTest extends BltProjectTestBase {
 
   public function testExampleCustomCommand() {
-    $this->blt("examples:init");
+    $this->blt("recipes:blt:init:command");
     // For some reason, using $this->blt does not work. Guessing related to
     // symlinking blt.
     $process = $this->execute("./vendor/bin/blt custom:hello");

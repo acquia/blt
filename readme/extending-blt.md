@@ -39,7 +39,7 @@ You may disable any BLT command. This will cause the target to be skipped during
         git:
           commit-msg: true
 
-This snippet would cause the `tests:phpcs:sniff:all` and `git:commit-msg` targets to be skipped during BLT builds.
+This snippet would cause the `tests:phpcs:sniff:all` and `internal:git-hook:execute:commit-msg` targets to be skipped during BLT builds.
 
 ## Adding / overriding filesets
 
@@ -162,9 +162,9 @@ In this example, an executable file named `pre-commit` should exist in `${repo.r
 
 You should execute `blt blt:init:git-hooks` after modifying these values in order for changes to take effect.
 
-#### git:commit-msg
+#### internal:git-hook:execute:commit-msg
 
-By default, BLT will execute the `git:commit-msg` command when new git commits are made. This command validates that the commit message matches the regular expression defined in `git.commit-msg.pattern`. You may [override the default configuration](#modifying-blt-configuration).
+By default, BLT will execute the `internal:git-hook:execute:commit-msg` command when new git commits are made. This command validates that the commit message matches the regular expression defined in `git.commit-msg.pattern`. You may [override the default configuration](#modifying-blt-configuration).
 
 ### tests:*
 

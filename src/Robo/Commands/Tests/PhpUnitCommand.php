@@ -47,7 +47,7 @@ class PhpUnitCommand extends BltTasks {
    * Executes all PHPUnit tests.
    *
    * @command tests:phpunit:run
-   * @description Executes all PHPUnit tests.
+   * @aliases tpr tp tests:phpunit
    */
   public function testsPhpUnit() {
     $this->createLogs();

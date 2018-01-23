@@ -19,6 +19,8 @@ class MultisiteCommand extends BltTasks {
    *
    * @command recipes:multisite:init
    *
+   * @aliases multisite
+   *
    */
   public function generate($options = [
     'site-dir' => InputOption::VALUE_REQUIRED,

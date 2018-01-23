@@ -13,7 +13,7 @@ class SecurityUpdatesCommand extends BltTasks {
    * Check local Drupal installation for security updates.
    *
    * @command tests:security:check:updates
-   * @description Check local Drupal installation for security updates.
+   * @aliases tests:security-updates security ts
    */
   public function testsSecurityUpdates() {
     $result = $this->taskDrush()

@@ -30,6 +30,8 @@ class SettingsCommand extends BltTasks {
    * Generates default settings files for Drupal and drush.
    *
    * @command blt:init:settings
+   *
+   * @aliases setup:settings settings
    */
   public function generateSiteConfigFiles() {
     if (!file_exists($this->getConfigValue('blt.config-files.local'))) {
@@ -236,7 +238,7 @@ class SettingsCommand extends BltTasks {
   /**
    * Writes a hash salt to ${repo.root}/salt.txt if one does not exist.
    *
-   * @command drupal:init:hash-salt
+   * @command drupal:hash-salt:init
    *
    * @return int
    *   A CLI exit code.

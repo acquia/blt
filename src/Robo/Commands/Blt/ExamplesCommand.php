@@ -14,7 +14,9 @@ class ExamplesCommand extends BltTasks {
   /**
    * Generates example files for writing custom commands and hooks.
    *
-   * @command examples:init
+   * @command recipes:blt:init:command
+   *
+   * @aliases examples:init rbic
    */
   public function init() {
     $result = $this->taskFilesystemStack()

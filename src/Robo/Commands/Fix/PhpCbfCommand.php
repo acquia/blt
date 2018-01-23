@@ -14,6 +14,8 @@ class PhpCbfCommand extends BltTasks {
    * Fixes and beautifies custom code according to Drupal Coding standards.
    *
    * @command source:fix:php-standards
+   *
+   * @aliases fix:phpcbf sfps fix
    */
   public function phpcbfFileSet() {
     $this->say('Fixing and beautifying code...');

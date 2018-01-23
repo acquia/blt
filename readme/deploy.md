@@ -24,7 +24,7 @@ In order to create the build artifact in `/deploy`, simply run
 
     blt artifact:build
 
-This task is analogous to `setup:build` but with a few critical differences:
+This task is analogous to `source:build` but with a few critical differences:
 
 * The docroot is created at `/deploy/docroot`.
 * Only production required to the docroot

@@ -15,6 +15,8 @@ class ConfigCommand extends BltTasks {
    *
    * @command blt:config:get
    *
+   * @aliases config:get bcg
+   *
    * @param string $key
    *   The key for the configuration item to get.
    *
@@ -32,6 +34,8 @@ class ConfigCommand extends BltTasks {
    * Dumps all configuration values.
    *
    * @command blt:config:dump
+   *
+   * @aliases config:dump bcd
    */
   public function dump() {
     $config = $this->getConfig()->export();

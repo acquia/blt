@@ -15,6 +15,8 @@ class ComposerCommand extends BltTasks {
    * Validates root composer.json and composer.lock files.
    *
    * @command tests:composer:validate
+   *
+   * @aliases validate:composer
    */
   public function validate() {
     $this->say("Validating composer.json and composer.lock...");

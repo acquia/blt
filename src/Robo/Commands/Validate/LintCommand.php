@@ -13,6 +13,8 @@ class LintCommand extends BltTasks {
    * Runs a PHP Lint against all validate.lint.filesets files.
    *
    * @command tests:php:lint
+   *
+   * @aliases validate:lint lint tpl
    */
   public function lint() {
     $this->say("Linting PHP files...");

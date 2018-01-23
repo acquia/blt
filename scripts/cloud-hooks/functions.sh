@@ -45,7 +45,7 @@ acsf_deploy() {
   # Loop through each available site uri and run BLT deploy updates.
   for uri in "${sites[@]}"; do
   #Override BLT default deploy uri.
-  blt artifact:update:drupal:all --define environment=$target_env --define drush.uri="$uri" -v -y
+  blt artifact:update:drupal:all-sites --define environment=$target_env --define drush.uri="$uri" -v -y
   if [ $? -ne 0 ]; then
       echo "Update errored for site $uri."
       exit 1
@@ -66,7 +66,7 @@ ace_deploy() {
   export PATH=$repo_root/vendor/bin:$PATH
   cd $repo_root
 
-  blt artifact:update:drupal:all --define environment=$target_env -v -y
+  blt artifact:update:drupal:all-sites --define environment=$target_env -v -y
   if [ $? -ne 0 ]; then
       echo "Update errored."
       exit 1
@@ -84,7 +84,7 @@ deploy_sync() {
   export PATH=$repo_root/vendor/bin:$PATH
   cd $repo_root
 
-  blt deploy:sync:refresh --define environment=$target_env -v -y
+  blt artifact:sync:all-sites --define environment=$target_env -v -y
   if [ $? -ne 0 ]; then
       echo "Sync errored."
       exit 1

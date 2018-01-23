@@ -57,6 +57,8 @@ class ConfigSplitCommand extends BltTasks {
    * Generates empty config_split splits for the selected environments.
    *
    * @command recipes:config:init:splits
+   *
+   * @aliases rcis splits
    */
   public function generateConfigSplits() {
     $this->say("This command will generate configuration and directories for the following environment based splits: Local, CI, Dev, Stage, and Prod.");
