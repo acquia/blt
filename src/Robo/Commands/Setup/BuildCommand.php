@@ -16,7 +16,7 @@ class BuildCommand extends BltTasks {
   /**
    * Installs Drupal and sets correct file/directory permissions.
    *
-   * @command setup:drupal:install
+   * @command drupal:install
    *
    * @interactGenerateSettingsFiles
    *
@@ -31,7 +31,7 @@ class BuildCommand extends BltTasks {
     $commands = ['internal:drupal:install'];
     $strategy = $this->getConfigValue('cm.strategy');
     if (in_array($strategy, ['config-split', 'features'])) {
-      $commands[] = 'setup:config-import';
+      $commands[] = 'drupal:config:import';
     }
     $this->invokeCommands($commands);
     $this->setSitePermissions();

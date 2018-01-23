@@ -22,7 +22,7 @@ Ensure your Acquia Cloud remote is listed in blt.yml under git:remotes.
 
 In order to create the build artifact in `/deploy`, simply run
 
-    blt deploy:build
+    blt artifact:build
 
 This task is analogous to `setup:build` but with a few critical differences:
 
@@ -37,19 +37,19 @@ After the artifact is created, you can inspect it or even run it as a website lo
 
 To both create and deploy the build artifact in a single command, run the following command
 
-    blt deploy --commit-msg "BLT-000: Example deploy to branch" --branch "develop-build" --no-interaction
+    blt artifact:deploy --commit-msg "BLT-000: Example deploy to branch" --branch "develop-build" --no-interaction
 
 This command will commit the artifact to the `develop-build` branch with the specified commit message and push it to the remotes defined in blt.yml.
 
 To create a new git tag for the artifact (rather than committing to a branch) run:
 
-    blt deploy --commit-msg "Creating release 1.0.0." --tag "1.0.0"
+    blt artifact:deploy --commit-msg "Creating release 1.0.0." --tag "1.0.0"
 
 This will generate the artifact, tag it with `1.0.0`, and push it to the remotes defined in blt.yml.
 
 ## Modifying the artifact
 
-The artifact is built by running the `deploy:build` target, which does the following:
+The artifact is built by running the `artifact:build` target, which does the following:
 
 * Rsyncs files from the repository root
 * Re-builds dependencies directly in the deploy directory. E.g., `composer install`
@@ -62,7 +62,7 @@ See [Extending BLT](extending-blt.md) for more information on overriding default
 
 If you would like to create, commit, but _not push_ the artifact, you may do a dry run:
 
-    blt deploy -D deploy.dryRun=true
+    blt artifact:deploy -D deploy.dryRun=true
 
 This is helpful for debugging deployment artifacts.
 
@@ -88,7 +88,7 @@ To install Acquia Cloud hooks for your BLT project:
         git commit -m 'Initializing Acquia Cloud hooks.'
         git push origin
 
-For consistency and reliability, you should run the same updates on deployment as you would run locally or in CI testing. BLT provides aliases for the `setup:update` task to support this in a local environment and `deploy:update` to execute against an artifact.
+For consistency and reliability, you should run the same updates on deployment as you would run locally or in CI testing. BLT provides aliases for the `drupal:update` task to support this in a local environment and `artifact:update:drupal` to execute against an artifact.
 
 If your team uses Slack, you can also be notified of each successful or failed deployment. Simply set up an incoming webhook in your Slack team to receive the notification (see the API documentation at https://api.slack.com/), and then store the webhook URL in a `$HOME/slack_settings` file on your Acquia Cloud servers:
 

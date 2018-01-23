@@ -16,7 +16,7 @@ To configure a project to run on ACSF, perform the following steps after initial
           profile:
             name: mycustomprofile
 
-1. Deploy to Cloud using `blt deploy`. (Code can also be deployed via a [Continuous Integration setup](http://blt.readthedocs.io/en/stable/readme/deploy/#continuous-integration)
+1. Deploy to Cloud using `blt artifact:deploy`. (Code can also be deployed via a [Continuous Integration setup](http://blt.readthedocs.io/en/stable/readme/deploy/#continuous-integration)
 1. Use ACSF's "update code" feature to push the artifact out to sites.
 1. When creating a new site, select your custom profile as the profile.
 

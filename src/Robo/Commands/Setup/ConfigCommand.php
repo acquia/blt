@@ -13,17 +13,17 @@ class ConfigCommand extends BltTasks {
   /**
    * Update current database to reflect the state of the Drupal file system.
    *
-   * @command setup:update
+   * @command drupal:update
    * @aliases su
    */
   public function update() {
-    $this->invokeCommands(['setup:config-import', 'setup:toggle-modules']);
+    $this->invokeCommands(['drupal:config:import', 'drupal:toggle:modules']);
   }
 
   /**
    * Imports configuration from the config directory according to cm.strategy.
    *
-   * @command setup:config-import
+   * @command drupal:config:import
    * @aliases sci
    *
    * @validateDrushConfig

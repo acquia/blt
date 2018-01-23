@@ -29,17 +29,17 @@ class AllCommand extends BltTasks {
 
     switch ($this->getConfigValue('setup.strategy')) {
       case 'install':
-        $commands[] = 'setup:drupal:install';
-        $commands[] = 'setup:toggle-modules';
+        $commands[] = 'drupal:install';
+        $commands[] = 'drupal:toggle:modules';
         break;
 
       case 'sync':
-        $commands[] = 'sync';
+        $commands[] = 'drupal:sync';
         break;
 
       case 'import':
-        $commands[] = 'setup:import';
-        $commands[] = 'setup:update';
+        $commands[] = 'drupal:sql:import';
+        $commands[] = 'drupal:update';
         break;
     }
 

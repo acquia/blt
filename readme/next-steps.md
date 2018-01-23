@@ -25,7 +25,7 @@ Here are tasks that are typically performed at this stage:
 
 * Create and deploy an artifact. See [Deployment workflow](deploy.md).
 
-        blt deploy
+        blt artifact:deploy
 
 Other commonly used commands:
 
@@ -48,10 +48,10 @@ Other commonly used commands:
         composer require drupal/ctools:^8.3.0
 
         # build a deployment artifact
-        blt deploy:build
+        blt artifact:build
 
         # build artifact and deploy to git.remotes
-        blt deploy
+        blt artifact:deploy
 
         # update BLT
         composer update acquia/blt --with-dependencies

@@ -16,7 +16,7 @@ class SyncCommand extends BltTasks {
    * This command does not use @executeInDrupalVm because it would require
    * SSH forwarding.
    *
-   * @command sync:all
+   * @command drupal:sync:all
    *
    * @see https://github.com/acquia/blt/issues/1875
    */
@@ -40,7 +40,7 @@ class SyncCommand extends BltTasks {
    * Copies remote db to local db, re-imports config, and executes db updates
    * for each multisite.
    *
-   * @command sync
+   * @command drupal:sync
    */
   public function sync($options = [
     'sync-files' => FALSE,
@@ -48,7 +48,7 @@ class SyncCommand extends BltTasks {
 
     $commands = $this->getConfigValue('sync.commands');
     if ($options['sync-files'] || $this->getConfigValue('sync.files')) {
-      $commands[] = 'sync:files';
+      $commands[] = 'drupal:sync:files';
     }
     $this->invokeCommands($commands);
   }
@@ -56,7 +56,7 @@ class SyncCommand extends BltTasks {
   /**
    * Copies remote files to local machine.
    *
-   * @command sync:files
+   * @command drupal:sync:files
    *
    * @validateDrushConfig
    *
@@ -83,7 +83,7 @@ class SyncCommand extends BltTasks {
   /**
    * Iteratively copies remote db to local db for each multisite.
    *
-   * @command sync:db:all
+   * @command drupal:sync:db:all
    *
    * @executeInDrupalVm
    */
@@ -113,7 +113,7 @@ class SyncCommand extends BltTasks {
   /**
    * Copies remote db to local db for default site.
    *
-   * @command sync:db
+   * @command drupal:sync:db
    *
    * @validateDrushConfig
    * @executeInDrupalVm

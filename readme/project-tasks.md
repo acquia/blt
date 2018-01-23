@@ -10,7 +10,7 @@ Pre-requisites to installation:
 1. Verify that correct local database credentials are set in `local.settings.php`.
 1. Ensure that project dependencies have already been built via `blt setup:build`
 
-To re-install Drupal, execute: `blt setup:drupal:install`. Note that this will drop the existing database tables and install Drupal from scratch!
+To re-install Drupal, execute: `blt drupal:install`. Note that this will drop the existing database tables and install Drupal from scratch!
 
 ## Add, update, or patch a dependency
 
@@ -40,7 +40,7 @@ The project is configured to update the local environment with a local drush ali
 
 This all in one command will make sure your local is in sync with the remote site.
 
-    blt sync:refresh
+    blt drupal:sync
 
 This will sync your site and execute all necessary updates afterwards (cache clears, database updates, config imports).
 
@@ -51,16 +51,16 @@ within your project.
 
 If you are using multisite, you may refresh every single multisite on your local machine by running:
 
-    blt sync:refresh:all
+    blt drupal:sync:all
 
 ### Sync: Copy the database from the remote site
 
-    blt sync
+    blt drupal:sync:db
 
 This will copy and database (and files if sync.files is set to true) but will not execute any updates afterwards.
 
 ### Update: Run update tasks locally
 
-    blt setup:update
+    blt drupal:update
 
 This will execute various update commands (cache clears, db updates, config imports) to bring the local database in light with your codebase (i.e., exported config).
