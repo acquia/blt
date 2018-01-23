@@ -8,7 +8,7 @@ Request the remote IdP metadata (XML) from the customer. Note that each environm
 
 ## Code Changes
 
-1. Execute `blt simplesamlphp:init`. This performs the following initial setup tasks:
+1. Execute `blt recipes:simplesamlphp:init`. This performs the following initial setup tasks:
 
       * Adds the [simpleSAMLphp Authentication](https://www.drupal.org/project/simplesamlphp_auth) `simplesamlphp_auth` module as a project dependency in your `composer.json` file.
       * Copies configuration files to `${project.root}/simplesamlphp/config`.

@@ -2,7 +2,7 @@
 
 To configure a project to run on ACSF, perform the following steps after initially setting up BLT:
 
-1. Execute `blt acsf:init` from the project root.
+1. Execute `blt recipes:acsf:init` from the project root.
 1. Create a custom profile:
     - If you are using Lightning, create a custom sub-profile as described [here](https://docs.acquia.com/lightning/subprofile).
     - For non-Lightning use cases, a profile can be generated [via Drupal Console](https://hechoendrupal.gitbooks.io/drupal-console/content/en/commands/generate-profile.html).

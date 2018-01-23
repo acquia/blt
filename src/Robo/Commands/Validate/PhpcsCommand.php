@@ -6,7 +6,7 @@ use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
 
 /**
- * Defines commands in the "validate:phpcs*" namespace.
+ * Defines commands in the "tests:phpcs:sniff:all*" namespace.
  */
 class PhpcsCommand extends BltTasks {
 
@@ -15,7 +15,7 @@ class PhpcsCommand extends BltTasks {
    *
    * By default, these include custom themes, modules, and tests.
    *
-   * @command validate:phpcs
+   * @command tests:phpcs:sniff:all
    */
   public function sniffFileSets() {
     $bin = $this->getConfigValue('composer.bin');
@@ -53,7 +53,7 @@ class PhpcsCommand extends BltTasks {
    * This command will execute PHP Codesniffer against a list of files if those
    * files are a subset of the phpcs.filesets filesets.
    *
-   * @command validate:phpcs:files
+   * @command tests:phpcs:sniff:files
    *
    * @param string $file_list
    *   A list of files to scan, separated by \n.

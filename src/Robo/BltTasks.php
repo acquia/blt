@@ -49,7 +49,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    * Invokes an array of Symfony commands.
    *
    * @param array $commands
-   *   An array of Symfony commands to invoke. E.g., 'tests:behat'.
+   *   An array of Symfony commands to invoke. E.g., 'tests:behat:run'.
    */
   protected function invokeCommands(array $commands) {
     foreach ($commands as $key => $value) {
@@ -69,7 +69,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    * Invokes a single Symfony command.
    *
    * @param string $command_name
-   *   The name of the command. E.g., 'tests:behat'.
+   *   The name of the command. E.g., 'tests:behat:run'.
    * @param array $args
    *   An array of arguments to pass to the command.
    *

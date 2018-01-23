@@ -39,13 +39,13 @@ You may disable any BLT command. This will cause the target to be skipped during
         git:
           commit-msg: true
 
-This snippet would cause the `validate:phpcs` and `git:commit-msg` targets to be skipped during BLT builds.
+This snippet would cause the `tests:phpcs:sniff:all` and `git:commit-msg` targets to be skipped during BLT builds.
 
 ## Adding / overriding filesets
 
-To modify the behavior of PHPCS, see [validate:phpcs](#validatephpcs) documentation.
+To modify the behavior of PHPCS, see [tests:phpcs:sniff:all](#validatephpcs) documentation.
 
-To modify the filesets that are used in other commands, such as `validate:twig`, `validate:yaml`, and `validate:lint`:
+To modify the filesets that are used in other commands, such as `tests:twig:lint:all`, `tests:yaml:lint:all`, and `tests:php:lint`:
 
 1. Generate an example `Filesets.php` file by executing `blt example:init`. You may use the generated file as a guide for writing your own filesite.
 1. Create a public method in the `Filesets` class in the generated file.
@@ -54,7 +54,7 @@ To modify the filesets that are used in other commands, such as `validate:twig`,
         @fileset(id="files.yaml.custom")
 
 1. Instantiate and return a `Symfony\Component\Finder\Finder` object. The files found by the finder comprise the fileset.
-1. You may use the Fileset id in various configuration values in your `blt/blt.yml` file. E.g., modify `validate:yaml` such that it scans only your custom fileset, you would add the following to `blt/blt.yml`:
+1. You may use the Fileset id in various configuration values in your `blt/blt.yml` file. E.g., modify `tests:yaml:lint:all` such that it scans only your custom fileset, you would add the following to `blt/blt.yml`:
 
         validate:
           yaml:
@@ -95,7 +95,7 @@ At present, only the CI environment is automatically detected.
 
 You may overwrite a variable value at runtime by specifying the variable value in your `blt` command using argument syntax `-D [key]=[value]`, e.g.,
 
-        blt tests:behat -D behat.tags='@mytags'
+        blt tests:behat:run -D behat.tags='@mytags'
 
 For configuration values that are indexed arrays, you can override individual values using the numeric index, such as `git.remotes.0`.
 
@@ -168,9 +168,9 @@ By default, BLT will execute the `git:commit-msg` command when new git commits a
 
 ### tests:*
 
-#### tests:behat
+#### tests:behat:run
 
-To modify the behavior of the tests:behat target, you may override BLT's `behat` configuration.
+To modify the behavior of the tests:behat:run target, you may override BLT's `behat` configuration.
 
         behat:
           config: ${repo.root}/tests/behat/local.yml
@@ -191,11 +191,11 @@ To modify the behavior of the tests:behat target, you may override BLT's `behat`
 
 ### validate:*
 
-#### validate:phpcs
+#### tests:phpcs:sniff:all
 
-To modify the behavior of the validate:phpcs target, you may copy `phpcs.xml.dist` to `phpcs.xml` in your repository root directory and modify the XML. Please see the [official PHPCS documentation](https://github.com/squizlabs/PHP_CodeSniffer/wiki/Advanced-Usage#using-a-default-configuration-file) for more information.
+To modify the behavior of the tests:phpcs:sniff:all target, you may copy `phpcs.xml.dist` to `phpcs.xml` in your repository root directory and modify the XML. Please see the [official PHPCS documentation](https://github.com/squizlabs/PHP_CodeSniffer/wiki/Advanced-Usage#using-a-default-configuration-file) for more information.
 
-#### validate:twig
+#### tests:twig:lint:all
 
 To prevent validation failures on any Twig filters or functions created in custom or contrib module `twig.extension` services, add `filters` and `functions` like so:
 

@@ -77,7 +77,7 @@ class BehatCommand extends TestsCommandBase {
   /**
    * Executes all behat tests.
    *
-   * @command tests:behat
+   * @command tests:behat:run
    * @description Executes all behat tests. This optionally launch PhantomJS or Selenium prior to execution.
    * @usage
    *   Executes all configured tests.
@@ -117,7 +117,7 @@ class BehatCommand extends TestsCommandBase {
   /**
    * Lists available Behat step definitions.
    *
-   * @command tests:behat:definitions
+   * @command tests:behat:list:definitions
    *
    * @option mode l (default), i, or needle. Use l to just list definition expressions, i to show definitions with extended info, or needle to find specific definitions.
    *
@@ -315,7 +315,7 @@ class BehatCommand extends TestsCommandBase {
    *
    * Sometimes the download fails during `composer install`.
    *
-   * @command tests:configure-phantomjs
+   * @command tests:behat:init:phantomjs
    */
   public function setupPhantomJs() {
     /** @var \Acquia\Blt\Robo\Wizards\TestsWizard $tests_wizard */

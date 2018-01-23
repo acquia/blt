@@ -6,9 +6,9 @@ Here are tasks that are typically performed at this stage:
 
 * Initialize CI integration. See [Continuous Integration](ci.md).
 
-        blt ci:pipelines:init
+        blt recipes:ci:pipelines:init
         # OR
-        blt ci:travis:init
+        blt recipes:ci:travis:init
 
 * Push to your upstream repo.
 
@@ -36,10 +36,10 @@ Other commonly used commands:
         blt validate
 
         # run phpunit tests
-        blt tests:phpunit
+        blt tests:phpunit:run
 
         # ssh into vm & run behat tests
-        blt tests:behat
+        blt tests:behat:run
 
         # diagnose issues
         blt doctor

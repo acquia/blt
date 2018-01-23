@@ -150,7 +150,7 @@ class SettingsCommand extends BltTasks {
   /**
    * Generates tests/behat/local.yml file for executing Behat tests locally.
    *
-   * @command setup:behat
+   * @command tests:behat:init:config
    *
    * @executeInDrupalVm
    */

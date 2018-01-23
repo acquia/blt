@@ -29,7 +29,7 @@ class AcsfCommand extends BltTasks {
   /**
    * Initializes ACSF support for project.
    *
-   * @command acsf:init
+   * @command recipes:acsf:init
    *
    * @aliases acsf
    * @options acsf-version
@@ -43,7 +43,7 @@ class AcsfCommand extends BltTasks {
       'package_version' => $options['acsf-version'],
     ];
     $this->invokeCommand('composer:require', $package_options);
-    $this->say("In the future, you may pass in a custom value for acsf-version to override the default version. E.g., blt acsf:init --acsf-version='8.1.x-dev'");
+    $this->say("In the future, you may pass in a custom value for acsf-version to override the default version. E.g., blt recipes:acsf:init --acsf-version='8.1.x-dev'");
     $this->acsfDrushInitialize();
     $this->say('Adding acsf-tools drush module as a dependency...');
     $package_options = [
@@ -65,7 +65,7 @@ class AcsfCommand extends BltTasks {
   /**
    * Refreshes the ACSF settings and hook files.
    *
-   * @command acsf:init:drush
+   * @command recipes:recipes:acsf:init:drush
    */
   public function acsfDrushInitialize() {
     $drush8 = $this->getConfigValue('repo.root') . '/vendor/bin/drush8.phar';
@@ -100,7 +100,7 @@ class AcsfCommand extends BltTasks {
   /**
    * Creates "factory-hooks/" directory in project's repo root.
    *
-   * @command acsf:init:hooks
+   * @command recipes:acsf:init:hooks
    */
   public function acsfHooksInitialize() {
     $defaultAcsfHooks = $this->getConfigValue('blt.root') . '/settings/acsf';

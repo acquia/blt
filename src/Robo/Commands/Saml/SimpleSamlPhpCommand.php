@@ -36,7 +36,7 @@ class SimpleSamlPhpCommand extends BltTasks {
   /**
    * Initializes SimpleSAMLphp for project.
    *
-   * @command simplesamlphp:init
+   * @command recipes:simplesamlphp:init
    */
   public function initializeSimpleSamlPhp() {
     $this->requireModule();
