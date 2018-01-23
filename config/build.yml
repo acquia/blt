@@ -156,8 +156,8 @@ sync:
   commands:
     - setup:composer:install
     - blt:init:settings
-    - sync:db
-    - setup:update
+    - drupal:sync:db
+    - drupal:update
     - frontend
 
 # Custom tasks that are triggered at pre-defined times in the build process.

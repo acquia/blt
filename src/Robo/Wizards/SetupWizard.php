@@ -37,7 +37,7 @@ class SetupWizard extends Wizard {
   /**
    * Wizard for installing Drupal.
    *
-   * Executes blt setup:drupal:install.
+   * Executes blt drupal:install.
    */
   public function wizardInstallDrupal() {
     if (!$this->getInspector()->isMySqlAvailable()) {

@@ -103,9 +103,9 @@ Listed below are some of the more commonly customized BLT targets.
 
 ### deploy:*
 
-#### deploy:build
+#### artifact:build
 
-To modify the behavior of the `deploy:build` target, you may override BLT's `deploy` configuration:
+To modify the behavior of the `artifact:build` target, you may override BLT's `deploy` configuration:
 
       deploy:
         # If true, dependencies will be built during deploy. If false, you should commit dependencies directly.

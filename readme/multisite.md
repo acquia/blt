@@ -49,7 +49,7 @@ drush:
     remote: mysite.test
 ```
 
-Then, to refresh your local site, you could run: `blt sync:refresh -D site=mysite`.
+Then, to refresh your local site, you could run: `blt drupal:sync --site=mysite`.
 
 ## DrupalVM
 
