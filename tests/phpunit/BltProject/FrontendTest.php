@@ -31,7 +31,7 @@ class FrontendTest extends BltProjectTestBase {
     list($status_code, $output, $config) = $this->blt('source:build:frontend-assets');
     $this->assertContains('hello assets', $output);
 
-    list($status_code, $output, $config) = $this->blt('frontend:test');
+    list($status_code, $output, $config) = $this->blt('tests:frontend');
     $this->assertContains('hello test', $output);
   }
 
