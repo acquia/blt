@@ -112,7 +112,7 @@ Code snippet for importing a taxonomy vocabulary config first before creating te
     $vocab_config_id = "taxonomy.vocabulary.$vid";
     $vocab_config_data = foo_read_config_from_sync($vocab_config_id);
     \Drupal::service('config.storage')->write($vocab_config_id, $vocab_config_data);
-    
+
     Term::create([
       'name' => 'Foo Term 1',
       'vid' => $vid',
