@@ -1,0 +1,3 @@
+# This file is included as a placeholder and copied over during the testing.
+# TODO: Determine if this should be managed differently during PHPUnit
+# test setup.
