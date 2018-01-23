@@ -46,7 +46,7 @@ class PhpUnitCommand extends BltTasks {
   /**
    * Executes all PHPUnit tests.
    *
-   * @command tests:phpunit
+   * @command tests:phpunit:run
    * @description Executes all PHPUnit tests.
    */
   public function testsPhpUnit() {

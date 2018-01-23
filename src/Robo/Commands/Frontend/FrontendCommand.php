@@ -45,7 +45,7 @@ class FrontendCommand extends BltTasks {
   /**
    * Executes frontend-test target hook.
    *
-   * @command frontend:test
+   * @command tests:frontend:run
    *
    * @launchWebServer
    * @executeInDrupalVm

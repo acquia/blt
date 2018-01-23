@@ -36,10 +36,10 @@ Other commonly used commands:
         blt validate
 
         # run phpunit tests
-        blt tests:phpunit
+        blt tests:phpunit:run
 
         # ssh into vm & run behat tests
-        blt tests:behat
+        blt tests:behat:run
 
         # diagnose issues
         blt doctor
