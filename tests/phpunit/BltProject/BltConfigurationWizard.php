@@ -26,7 +26,7 @@ class BltConfigurationWizard extends BltProjectTestBase {
    * Tests setup:wizard with recipe file option
    */
   public function testWizardUsingRecipe() {
-    $this->blt("setup:wizard", ['--recipe' => 'recipe.yml', '--yes' => '']);
+    $this->blt("setup:wizard", ['--recipe' => 'recipe.yml']);
 
     $recipe = Yaml::parse(
       file_get_contents('recipe.yml')

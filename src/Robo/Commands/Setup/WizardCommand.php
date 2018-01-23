@@ -33,13 +33,13 @@ class WizardCommand extends BltTasks {
     }
     else {
       $answers = $this->askForAnswers();
-    }
 
-    $this->say("<comment>You have entered the following values:</comment>");
-    $this->printArrayAsTable($answers);
-    $continue = $this->confirm("Continue?");
-    if (!$continue) {
-      return 1;
+      $this->say("<comment>You have entered the following values:</comment>");
+      $this->printArrayAsTable($answers);
+      $continue = $this->confirm("Continue?");
+      if (!$continue) {
+        return 1;
+      }
     }
 
     $this->updateProjectYml($answers);
