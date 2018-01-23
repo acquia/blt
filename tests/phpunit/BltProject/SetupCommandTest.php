@@ -6,6 +6,8 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
  * Class SetupCommandTest.
+ *
+ * @group requires-db
  */
 class SetupCommandTest extends BltProjectTestBase {
 

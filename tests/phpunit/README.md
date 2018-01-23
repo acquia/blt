@@ -8,11 +8,26 @@
 
 ## Customize PHPUnit execution
 
+PHPUnit can be configured either through a configuration file or through command line options. Depending on how often you rerun tests, one may be an easier approach than another.
+
+### XML configuration
 ```
 cp phpunit.xml.dist phpunit.xml
 ```
 
 Edit phpunit.xml.
+
+### CLI options
+
+```
+./vendor/bin/phpunit -my-options
+```
+
+For example, to exclude certain groups of tests,
+
+```
+./vendor/bin/phpunit --exclude-group requires-db
+```
 
 ## Sandbox
 
