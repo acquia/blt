@@ -12,7 +12,7 @@ class CloudHooksCommand extends BltTasks {
   /**
    * Installs Acquia cloud hooks.
    *
-   * @command setup:cloud-hooks
+   * @command recipes:cloud-hooks:init
    */
   public function copy() {
     $destination = $this->getConfigValue('repo.root') . '/hooks';

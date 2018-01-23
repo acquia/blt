@@ -10,10 +10,10 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 class CloudHookTest extends BltProjectTestBase {
 
   /**
-   * Tests setup:cloud-hooks command.
+   * Tests recipes:cloud-hooks:init command.
    */
   public function testSetupCloudHooks() {
-    $this->blt('setup:cloud-hooks');
+    $this->blt('recipes:cloud-hooks:init');
     $this->assertFileExists($this->sandboxInstance . '/hooks');
 
     $commonPostCodeDeployScript = $this->sandboxInstance . '/hooks/common/post-code-deploy/post-code-deploy.sh';

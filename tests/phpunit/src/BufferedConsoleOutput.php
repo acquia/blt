@@ -24,8 +24,8 @@ class BufferedConsoleOutput extends ConsoleOutput {
    */
   public function fetch() {
     // For some reason, some blt commands do not appear to always use the same
-    // output buffer that is passed to it. generate:multisite works, setup does
-    // not. Moving buffer to global namespace works around this.
+    // output buffer that is passed to it. recipes:multisite:init works, setup
+    // does not. Moving buffer to global namespace works around this.
     $content = $GLOBALS['blt_phpunit_buffer_output'];
     $GLOBALS['blt_phpunit_buffer_output'] = '';
 

@@ -67,7 +67,7 @@ class SimpleSamlPhpCheck extends DoctorCheck {
       if (!file_exists($this->getConfigValue('docroot') . '/simplesaml')) {
         $this->logProblem(__FUNCTION__, [
           "The symlink to the SimpleSAMLphp library is missing from your docroot.",
-          "  Run `blt simplesamlphp:init`",
+          "  Run `blt recipes:simplesamlphp:init`",
         ], 'error');
       }
 
