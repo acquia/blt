@@ -128,3 +128,6 @@ atlassian-ide-plugin.xml
 
 #NPM
 npm-debug.log
+
+# Drush 9 Checksums
+drush/sites/.checksums
