@@ -55,7 +55,7 @@ By default, we want caching and CSS and JavaScript aggregation enabled on all of
 To accomplish this, we will create a "local" configuration split.
 
 1. `mkdir -p ../config/envs/local`
-1. `/admin/config/development/configuration/config-split/add`
+1. Navigate to `/admin/config/development/configuration/config-split/add`
 1. In the UI, fill in the following fields and then save:
     * label: Local
     * folder: ../config/envs/local
