@@ -9,7 +9,7 @@ use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Finder\Finder;
 
 /**
- * Defines commands in the "setup:build" namespace.
+ * Defines commands in the "source:build" namespace.
  */
 class BuildCommand extends BltTasks {
 
@@ -17,6 +17,8 @@ class BuildCommand extends BltTasks {
    * Installs Drupal and sets correct file/directory permissions.
    *
    * @command drupal:install
+   *
+   * @aliases setup:drupal:instal di
    *
    * @interactGenerateSettingsFiles
    *
@@ -84,7 +86,9 @@ class BuildCommand extends BltTasks {
   /**
    * Generates all required files for a full build.
    *
-   * @command setup:build
+   * @command source:build
+   *
+   * @aliases sb setup:build
    *
    * @interactConfigIdentical
    */
@@ -110,6 +114,7 @@ class BuildCommand extends BltTasks {
    * Installs Composer dependencies.
    *
    * @command source:build:composer
+   * @aliases setup:composer:install sbc
    */
   public function composerInstall() {
     $result = $this->taskExec("export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --ansi --no-interaction")

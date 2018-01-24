@@ -13,6 +13,7 @@ class FrontendCommand extends BltTasks {
    * Runs all frontend targets.
    *
    * @command source:build:frontend
+   * @aliases sbf frontend
    * @executeInDrupalVm
    */
   public function frontend() {
@@ -26,6 +27,7 @@ class FrontendCommand extends BltTasks {
    * Executes source:build:frontend-assets target hook.
    *
    * @command source:build:frontend-assets
+   * @aliases sbfa frontend:build
    * @executeInDrupalVm
    */
   public function assets() {
@@ -36,6 +38,7 @@ class FrontendCommand extends BltTasks {
    * Executes source:build:frontend-reqs target hook.
    *
    * @command source:build:frontend-reqs
+   * @aliases sbfr frontend:setup
    * @executeInDrupalVm
    */
   public function reqs() {
@@ -46,6 +49,9 @@ class FrontendCommand extends BltTasks {
    * Executes frontend-test target hook.
    *
    * @command tests:frontend:run
+   * @aliases tfr tests:frontend frontend:test
+   *
+   * @todo add alias for tests:frontend.
    *
    * @launchWebServer
    * @executeInDrupalVm

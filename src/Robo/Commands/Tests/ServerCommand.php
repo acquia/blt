@@ -17,6 +17,7 @@ class ServerCommand extends TestsCommandBase {
    * Starts a temporary PHP web server.
    *
    * @command tests:server:start
+   * @aliases tss
    */
   public function launchWebServer() {
     $this->serverUrl = $this->getConfigValue('tests.server.url');
@@ -53,6 +54,7 @@ class ServerCommand extends TestsCommandBase {
    * Kills running PHP web server.
    *
    * @command tests:server:kill
+   * @aliases tsk
    */
   public function killWebServer() {
     $this->getContainer()->get('executor')->killProcessByName('runserver');

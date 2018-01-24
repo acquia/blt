@@ -50,9 +50,9 @@ class VmCommand extends BltTasks {
   /**
    * Configures and boots a Drupal VM.
    *
-   * @command vm
+   * @command recipes:drupalvm:init
    *
-   * @aliases vm:all
+   * @aliases vm
    *
    * @options no-boot
    *
@@ -87,6 +87,7 @@ class VmCommand extends BltTasks {
    * Destroys existing VM and all related configuration.
    *
    * @command recipes:drupalvm:destroy
+   * @aliases vm:nuke
    * @throws \Exception
    */
   public function nuke() {
@@ -123,10 +124,8 @@ class VmCommand extends BltTasks {
 
   /**
    * Generates default configuration for Drupal VM.
-   *
-   * @command recipes:drupalvm:init
    */
-  public function config() {
+  protected function config() {
     $this->say("Generating default configuration for Drupal VM...");
 
     $this->createDrushAlias();
@@ -219,7 +218,7 @@ class VmCommand extends BltTasks {
       'package_version' => $this->drupalVmVersionConstraint,
       ['dev' => TRUE],
     ];
-    return $this->invokeCommand('composer:require', $package_options);
+    return $this->invokeCommand('internal:composer:require', $package_options);
   }
 
   /**

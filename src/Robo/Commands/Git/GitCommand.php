@@ -12,7 +12,9 @@ class GitCommand extends BltTasks {
   /**
    * Validates a git commit message.
    *
-   * @command git:commit-msg
+   * @command internal:git-hook:execute:commit-msg
+   * @aliases git:commit-msg
+   * @hidden
    *
    * @return int
    */
@@ -34,7 +36,9 @@ class GitCommand extends BltTasks {
   /**
    * Validates staged files.
    *
-   * @command git:pre-commit
+   * @command internal:git-hook:execute:pre-commit
+   * @aliases git:pre-commit
+   * @hidden
    *
    * @param string $changed_files
    *   A list of staged files, separated by \n.

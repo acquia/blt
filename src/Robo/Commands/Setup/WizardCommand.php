@@ -4,8 +4,8 @@ namespace Acquia\Blt\Robo\Commands\Setup;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\StringManipulator;
+use Acquia\Blt\Robo\Common\YamlMunge;
 use Acquia\Club\Configuration\ProjectConfiguration;
-use function file_put_contents;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Filesystem\Exception\FileNotFoundException;
@@ -21,7 +21,7 @@ class WizardCommand extends BltTasks {
   /**
    * Wizard for setting initial configuration.
    *
-   * @command setup:wizard
+   * @command wizard
    */
   public function wizard($options = [
     'recipe' => InputOption::VALUE_REQUIRED,
@@ -48,7 +48,7 @@ class WizardCommand extends BltTasks {
     }
 
     if ($answers['vm']) {
-      $this->invokeCommand('vm');
+      $this->invokeCommand('vm', '--yes');
     }
   }
 
@@ -100,8 +100,29 @@ class WizardCommand extends BltTasks {
         'pipelines' => 'Acquia Pipelines',
         'travis' => 'Travis CI',
       ];
-      $answers['ci']['provider'] = $this->askChoice('Choose a Continuous Integration provider:', $provider_options, [1]);
+      $answers['ci']['provider'] = $this->askChoice('Choose a Continuous Integration provider:', $provider_options, 'travis');
     }
+
+    $cm = $this->confirm('Do you want use Drupal core configuration management?');
+    if ($cm) {
+      $strategy_options = [
+        'config-split' => 'Config Split (recommended)',
+        'features' => 'Features',
+        'core-only' => 'Core only',
+      ];
+      $answers['cm']['strategy'] = $this->askChoice('Choose a configuration management strategy:', $strategy_options, 'config-split');
+    }
+    else {
+      $answers['cm']['strategy'] = 'none';
+    }
+
+    $profile_options = [
+      'lightning' => 'Lightning',
+      'minimal' => 'Minimal',
+      'standard' => 'Standard',
+    ];
+    $this->say("You may change the installation profile later.");
+    $answers['project']['profile']['name'] = $this->askChoice('Choose an installation profile:', $profile_options, 'lightning');
 
     return $answers;
   }
@@ -113,15 +134,21 @@ class WizardCommand extends BltTasks {
    *   Answers from $this->askForAnswers().
    */
   protected function updateProjectYml($answers) {
-    $config_file = $this->getConfigValue('repo.root') . '/blt/project.yml';
-    $config = Yaml::parse(file_get_contents($config_file));
+    $config_file = $this->getConfigValue('blt.config-files.project');
+    $config = YamlMunge::parseFile($config_file);
     $config['project']['prefix'] = $answers['prefix'];
     $config['project']['machine_name'] = $answers['machine_name'];
     $config['project']['human_name'] = $answers['human_name'];
+    $config['project']['profile']['name'] = $answers['project']['profile']['name'];
     // Hostname cannot contain underscores.
     $machine_name_safe = str_replace('_', '-', $answers['machine_name']);
     $config['project']['local']['hostname'] = str_replace('${project.machine_name}', $machine_name_safe, $config['project']['local']['hostname']);
-    file_put_contents($config_file, Yaml::dump($config));
+
+    if (isset($answers['cm']['strategy'])) {
+      $config['cm']['strategy'] = $answers['cm']['strategy'];
+    }
+
+    YamlMunge::writeFile($config_file, $config);
     $this->say("<info>$config_file updated.</info>");
   }
 
