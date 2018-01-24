@@ -222,21 +222,21 @@ If you would like to export configuration that is blacklisted in more than one s
 
 ### Terminology
 
-**COMPLETE SPLIT (blacklist)**
+**Complete Split (blacklist)**
 
 Blacklisted splits are blacklisted from `config/default`. If a given split is active, and that Split defines a configuration setting in its blacklist, that configuration setting will not be exported to `config/default` when `drush config-export` is executed:
 
 - Exported to split
 - *Not* exported to default configuration
 
-**CONDITIONAL SPLIT (graylist)**
+**Conditional Split (graylist)**
 
 Graylist splits allow a given configuration setting to be exported to both the default configuration and also to a split's configuration (overriding default when active):
 
 - Exported to split
 - Also exported to default configuration
 
-Graylists may also be used for configuration that's intended to be "unlocked" in production (such as webforms). If you need to customize this behavior, you can use the grAylist functionality described in [this blog post](https://blog.liip.ch/archive/2017/04/07/advanced-drupal-8-cmi-workflows.html).
+Graylists may also be used for configuration that's intended to be "unlocked" in production (such as webforms). If you need to customize this behavior, you can use the graylist functionality described in [this blog post](https://blog.liip.ch/archive/2017/04/07/advanced-drupal-8-cmi-workflows.html).
 
 ### Development settings
 
