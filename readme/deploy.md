@@ -16,7 +16,14 @@ You should have your Github repository (where this document is stored) checked o
 
 Check out a new branch to match whatever branch you are working on in Github (typically `develop`).
 
-Ensure your Acquia Cloud remote is listed in blt.yml under git:remotes.
+Ensure your Acquia Cloud remote is listed in `blt.yml` under `git:remotes`, e.g.:
+
+```yaml
+git:
+  default_branch: master
+  remotes:
+    cloud: 'project@svn-1234.devcloud.hosting.acquia.com:project.git'
+```
 
 ## Creating the build artifact
 
