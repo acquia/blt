@@ -106,6 +106,7 @@ class SimpleSamlPhpCommand extends BltTasks {
    * Copies custom config files to SimpleSamlPHP in deploy artifact.
    *
    * @command artifact:build:simplesamlphp-config
+   * @aliases absc
    * @throws BltException
    */
   public function simpleSamlPhpDeployConfig() {
@@ -170,6 +171,7 @@ class SimpleSamlPhpCommand extends BltTasks {
    * Copies customized config files into vendored SimpleSamlPHP.
    *
    * @command source:build:simplesamlphp-config
+   * @aliases sbsc
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function simpleSamlPhpBuildConfig() {

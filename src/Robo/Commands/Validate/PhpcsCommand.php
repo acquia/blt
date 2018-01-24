@@ -56,6 +56,7 @@ class PhpcsCommand extends BltTasks {
    * files are a subset of the phpcs.filesets filesets.
    *
    * @command tests:phpcs:sniff:files
+   * @aliases tpsf
    *
    * @param string $file_list
    *   A list of files to scan, separated by \n.
