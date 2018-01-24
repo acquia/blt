@@ -18,12 +18,12 @@ class AllCommand extends BltTasks {
    */
   public function all() {
     $status_code = $this->invokeCommands([
-      'validate:composer',
-      'validate:lint',
-      'validate:phpcs',
-      'validate:yaml',
-      'validate:twig',
-      'validate:deprecated',
+      'tests:composer:validate',
+      'tests:php:lint',
+      'tests:phpcs:sniff:all',
+      'tests:yaml:lint:all',
+      'tests:twig:lint:all',
+      'tests:php:sniff:deprecated',
     ]);
 
     return $status_code;
