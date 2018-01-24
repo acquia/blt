@@ -6,7 +6,7 @@ blted8/composer.lock
 blted8/vendor
 
 # Ignore config files
-/project.yml
+/blt.yml
 local.*
 
 build

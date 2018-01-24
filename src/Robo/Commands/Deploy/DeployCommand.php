@@ -32,9 +32,11 @@ class DeployCommand extends BltTasks {
   }
 
   /**
-   * Builds separate artifact and pushes to git.remotes defined project.yml.
+   * Builds separate artifact and pushes to git.remotes defined blt.yml.
    *
-   * @command deploy
+   * @command artifact:deploy
+   *
+   * @aliases ad deploy
    */
   public function deploy($options = [
     'branch' => InputOption::VALUE_REQUIRED,
@@ -248,7 +250,7 @@ class DeployCommand extends BltTasks {
     // Add remotes and fetch upstream refs.
     $git_remotes = $this->getConfigValue('git.remotes');
     if (empty($git_remotes)) {
-      throw new BltException("git.remotes is empty. Please define at least one value for git.remotes in blt/project.yml.");
+      throw new BltException("git.remotes is empty. Please define at least one value for git.remotes in blt/blt.yml.");
     }
     foreach ($git_remotes as $remote_url) {
       $this->addGitRemote($remote_url);
@@ -309,18 +311,18 @@ class DeployCommand extends BltTasks {
   /**
    * Builds deployment artifact.
    *
-   * @command deploy:build
+   * @command artifact:build
    */
   public function build() {
     $this->say("Generating build artifact...");
     $this->say("For more detailed output, use the -v flag.");
     $this->invokeCommands([
-      // Execute `blt frontend` to ensure that frontend artifact are generated
-      // in source repo.
-      'frontend',
-      // Execute `setup:hash-salt` to ensure that salt.txt exists. There's a
-      // slim chance this has never been generated.
-      'setup:hash-salt',
+      // Execute `blt source:build:frontend` to ensure that frontend artifact
+      // are generated in source repo.
+      'source:build:frontend',
+      // Execute `drupal:hash-salt:init` to ensure that salt.txt exists.
+      // There's a slim chance this has never been generated.
+      'drupal:hash-salt:init',
     ]);
 
     $this->buildCopy();
@@ -548,18 +550,18 @@ class DeployCommand extends BltTasks {
   }
 
   /**
-   * Executes simplesamlphp:deploy:config command.
+   * Executes artifact:build:simplesamlphp-config command.
    */
   protected function deploySamlConfig() {
     if ($this->getConfigValue('simplesamlphp')) {
-      $this->invokeCommand('simplesamlphp:deploy:config');
+      $this->invokeCommand('artifact:build:simplesamlphp-config');
     }
   }
 
   /**
    * Update the database to reflect the state of the Drupal file system.
    *
-   * @command deploy:update
+   * @command artifact:update:drupal
    */
   public function update() {
     // Disable alias since we are targeting specific uri.
@@ -570,7 +572,7 @@ class DeployCommand extends BltTasks {
   /**
    * Update the database to reflect the state of the Drupal file system.
    *
-   * @command deploy:update:all
+   * @command artifact:update:drupal:all-sites
    */
   public function updateAll() {
     // Disable alias since we are targeting specific uri.
@@ -590,8 +592,8 @@ class DeployCommand extends BltTasks {
     $this->say("Deploying updates to <comment>$multisite</comment>...");
     $this->switchSiteContext($multisite);
 
-    $this->invokeCommand('setup:config-import');
-    $this->invokeCommand('setup:toggle-modules');
+    $this->invokeCommand('drupal:config:import');
+    $this->invokeCommand('drupal:toggle:modules');
 
     $this->say("Finished deploying updates to $multisite.");
   }
@@ -599,7 +601,7 @@ class DeployCommand extends BltTasks {
   /**
    * Syncs database and files and runs updates.
    *
-   * @command deploy:sync:refresh
+   * @command artifact:sync:all-sites
    */
   public function syncRefresh() {
     // Disable alias since we are targeting specific uri.
@@ -614,10 +616,10 @@ class DeployCommand extends BltTasks {
         $this->config->set('drush.uri', $multisite);
       }
 
-      $this->invokeCommand('sync:db');
-      $this->invokeCommand('sync:files');
-      $this->invokeCommand('setup:config-import');
-      $this->invokeCommand('setup:toggle-modules');
+      $this->invokeCommand('drupal:sync:db');
+      $this->invokeCommand('drupal:sync:files');
+      $this->invokeCommand('drupal:config:import');
+      $this->invokeCommand('drupal:toggle:modules');
 
       $this->say("Finished syncing $multisite.");
     }
@@ -626,15 +628,13 @@ class DeployCommand extends BltTasks {
   /**
    * Installs Drupal, imports config, and executes updates.
    *
-   * @command deploy:drupal:install
+   * @command artifact:install:drupal
    */
   public function installDrupal() {
     $this->invokeCommands([
       'internal:drupal:install',
-      'deploy:update:all',
+      'artifact:update:drupal:all-sites',
     ]);
-
-    $this->updateSites();
   }
 
 }

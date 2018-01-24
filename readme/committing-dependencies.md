@@ -14,7 +14,7 @@ However, there are sometimes extenuating circumstances that require you to commi
         drush/contrib
         vendor
 
-* Create a custom deploy.exclude_file and reference its location in your project.yml
+* Create a custom deploy.exclude_file and reference its location in your blt.yml
 
         mkdir blt/deploy && cp vendor/acquia/blt/scripts/blt/deploy/deploy-exclude.txt blt/deploy/deploy-exclude.txt
         
@@ -32,7 +32,7 @@ However, there are sometimes extenuating circumstances that require you to commi
         /drush/contrib
         /vendor
 
-* Set `deploy.build-dependencies` to `false` in your `blt/project.yml` file:
+* Set `deploy.build-dependencies` to `false` in your `blt/blt.yml` file:
 
         deploy:
           build-dependencies: false

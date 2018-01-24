@@ -29,13 +29,13 @@ This document addresses the challenge of capturing ("exporting") and deploying (
 
 ### How BLT handles configuration updates
 
-BLT-based projects already support this workflow, including automatic imports of configuration updates. BLT defines a generic `setup:update` task that applies any pending database and configuration updates. This same task can be re-used locally or remotely (via the `setup:update`, and `deploy:update` wrappers, respectively) to ensure that configuration changes and database updates behave identically in all environments.
+BLT-based projects already support this workflow, including automatic imports of configuration updates. BLT defines a generic `drupal:update` task that applies any pending database and configuration updates. This same task can be re-used locally or remotely (via the `drupal:update`, and `artifact:update:drupal` wrappers, respectively) to ensure that configuration changes and database updates behave identically in all environments.
 
-When you run one of these update commands, they perform the following updates (see `setup:config-import`):
+When you run one of these update commands, they perform the following updates (see `drupal:config:import`):
 
 - Database updates: the equivalent of running `drush updb` or hitting `update.php`, this applies any pending database updates.
 - Config import: runs the core configuration-import command to import any configuration stored in the root `config` directory. This is either a full or partial import, depending on how BLT is configured.
-- Features import (optional): runs features-import-all, which imports any configuration stored in a feature module's `config/install` directory. Note that this only runs if you've configured the `cm.features.bundle` property in `blt/project.yml`.
+- Features import (optional): runs features-import-all, which imports any configuration stored in a feature module's `config/install` directory. Note that this only runs if you've configured the `cm.features.bundle` property in `blt/blt.yml`.
 
 There are also pre- and post-config import hooks that you can use to run custom commands.
 
@@ -58,7 +58,7 @@ Caution must be taken when updating core and contributed modules when using any 
 
 The best way to prevent such problems is to always follow these steps when updating contributed and core modules:
 
-1. Start from a clean install or database sync, including config import (`blt setup` or `blt sync:refresh`). Verify that active and exported configuration are in sync by running `drush config-export` (if using core CM) or using the Features UI (if using Features).
+1. Start from a clean install or database sync, including config import (`blt setup` or `blt drupal:sync`). Verify that active and exported configuration are in sync by running `drush config-export` (if using core CM) or using the Features UI (if using Features).
 2. Use `composer update drupal/[module_name] --with-dependencies` to download the new module version(s).
 3. Run `drush updb` to apply any pending updates locally.
 4. Export any configuration that changed as part of the database updates or new module versions. If using Features, check for overridden features and export them. If using core CM, export all configuration (`drush config-export`) and check for any changes on disk using `git status`.
@@ -72,7 +72,7 @@ We need to find a better way of preventing this than manually monitoring module 
 
 Configuration stored on disk, whether via the core configuration system or features, is essentially a flat-file database and must be treated as such. For instance, all changes to configuration should be made via the UI or an appopriate API and then exported to disk. You should never make changes to individual config files by hand, just as you would never write a raw SQL query to add a Drupal content type. Even seemingly small changes to one part of the configuration can have sweeping and unanticipated changes. For instance, enabling the Panelizer or Workbench modules will modify the configuration of every content type on the site.
 
-BLT has a built-in test that will help protect against some of these mistakes. After configuration is imported (i.e. during `setup:update` or `deploy:update`), it will check if any configuration remains overridden. If so, the build will fail, alerting you to the fact that there are uncaptured configuration changes or possibly a corrupt configuration export. This test acts as a canary and should not be disabled, but if you need to temporarily disable it in an emergency (i.e. if deploys to a cloud environment are failing), you can do so by settings `cm.allow-overrides` to `true`.
+BLT has a built-in test that will help protect against some of these mistakes. After configuration is imported (i.e. during `drupal:update` or `artifact:update:drupal`), it will check if any configuration remains overridden. If so, the build will fail, alerting you to the fact that there are uncaptured configuration changes or possibly a corrupt configuration export. This test acts as a canary and should not be disabled, but if you need to temporarily disable it in an emergency (i.e. if deploys to a cloud environment are failing), you can do so by settings `cm.allow-overrides` to `true`.
 
 Finally, you should enable protected branches in GitHub to ensure that pull requests can only be merged if they are up to date with the target branch. This protects against a scenario where, for instance, one PR adds a new content type, while another PR enables Workbench (which would modify that content type). Individually, each of these PRs is perfectly valid, but once they are both merged they produce a corrupt configuration (where the new content type is lacking Workbench configuration). When used with BLT’s built-in test for configuration overrides, protected branches can quite effectively prevent some forms of configuration corruption.
 
@@ -97,7 +97,7 @@ However, BLT does not create any configuration splits for you. For detailed info
 
 #### Troubleshooting
 
-If for some reason BLT is not working with Config Split, ensure that you are using Drush version 8.1.10 or higher, Config Split version 8.1.0-beta4 or higher, and that `cm.strategy` is set to `config-split` in `blt/project.yml`.
+If for some reason BLT is not working with Config Split, ensure that you are using Drush version 8.1.10 or higher, Config Split version 8.1.0-beta4 or higher, and that `cm.strategy` is set to `config-split` in `blt/blt.yml`.
 
 ### Using update hooks to importing individual config files
 
@@ -112,7 +112,7 @@ Code snippet for importing a taxonomy vocabulary config first before creating te
     $vocab_config_id = "taxonomy.vocabulary.$vid";
     $vocab_config_data = foo_read_config_from_sync($vocab_config_id);
     \Drupal::service('config.storage')->write($vocab_config_id, $vocab_config_data);
-    
+
     Term::create([
       'name' => 'Foo Term 1',
       'vid' => $vid',
@@ -155,7 +155,7 @@ Because of this more modular architecture, Features can be a better solution for
 
 However, the downside to this more granular approach is that Features cannot make some of the same assumptions as the core configuration system, and relies much more heavily on the developer to manage the architecture and handle configuration changes that it can't. This makes the overall system much more error-prone and more of a burden to maintain.
 
-To set up a Features-based workflow, you'll need to set `cm.strategy` to `features` in `blt/project.yml`.
+To set up a Features-based workflow, you'll need to set `cm.strategy` to `features` in `blt/blt.yml`.
 
 ### Using bundles
 Features lets you define custom "bundles" that essentially let you train Features to support your project's individual workflow. At the most basic level, they are a way to namespace your features, so you'd want to choose a bundle name based on your project name (an "Acme" bundle would prefix all of your feature machine names with "acme_").

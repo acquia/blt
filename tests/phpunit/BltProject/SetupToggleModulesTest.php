@@ -6,6 +6,8 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
  * Class ToggleModulesTest.
+ *
+ * @group requires-db
  */
 class ToggleModulesTest extends BltProjectTestBase {
 

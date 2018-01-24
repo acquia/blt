@@ -10,13 +10,13 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 class SimpleSamlPhpTest extends BltProjectTestBase {
 
   /**
-   * Tests simplesamlphp:init target.
+   * Tests recipes:simplesamlphp:init target.
    *
    * Ensures simplesamlphp config files were copied to project.
    */
   public function testSimpleSamlPhpConfigInit() {
-    $this->blt("simplesamlphp:init");
-    list($status_code, $output, $config) = $this->blt("simplesamlphp:build:config");
+    $this->blt("recipes:simplesamlphp:init");
+    list($status_code, $output, $config) = $this->blt("source:build:simplesamlphp-config");
 
     $simpleSamlPhpConfigDirectory = "{$this->sandboxInstance}/simplesamlphp/config";
     $simpleSamlPhpMetadataDirectory = "{$this->sandboxInstance}/simplesamlphp/metadata";

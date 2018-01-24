@@ -12,7 +12,7 @@
 
 1. If this is your first time using BLT on this machine, restart your shell so that Bash detects the new BLT alias.
 
-1. Customize *blt/project.yml* if desired, such as to choose an install profile.
+1. Customize *blt/blt.yml* if desired, such as to choose an install profile.
 
     By default, BLT will install sites using the [*lightning*](https://github.com/acquia/lightning) profile. You can change this to any other core, contributed, or custom profile in your codebase. Make sure to download the profile if necessary, e.g. `composer require acquia/headless_lightning:~1.1.0`
 
@@ -26,7 +26,7 @@
 
     1. **Alternative**: To set up your own LAMP stack, please review [Local Development](http://blt.readthedocs.io/en/8.x/readme/local-development/), then execute the following command to generate default local settings files:
 
-             blt setup:settings
+             blt blt:init:settings
 
        Modify the generated *docroot/sites/default/settings/local.settings.php* file by adding your custom MySql credentials.
 
@@ -34,7 +34,7 @@
 
         blt setup
 
-1. Log in to Drupal: `drush @my-project.local uli` (replace *my-project* with the name of your project, which should be the value of *project.machine_name* in *blt/project.yml*).
+1. Log in to Drupal: `drush @my-project.local uli` (replace *my-project* with the name of your project, which should be the value of *project.machine_name* in *blt/blt.yml*).
 
 1. Congratulations, you now have a running local Drupal site using BLT! See [Next steps](next-steps.md).
 

@@ -20,6 +20,9 @@ class SandboxManager {
   protected $output;
   protected $tmp;
 
+  /**
+   * SandboxManager constructor.
+   */
   public function __construct() {
     $this->output = new ConsoleOutput();
     $this->fs = new Filesystem();
@@ -29,10 +32,13 @@ class SandboxManager {
     $this->bltDir = realpath(dirname(__FILE__) . '/../../../');
   }
 
+  /**
+   * Ensures that sandbox master exists and is up to date.
+   */
   public function bootstrap() {
     $this->output->writeln("Bootstrapping BLT testing framework...");
     $recreate_master = getenv('BLT_RECREATE_SANDBOX_MASTER');
-    if ($recreate_master) {
+    if (!file_exists($this->sandboxMaster) || $recreate_master) {
       $this->output->writeln("<comment>To prevent recreation of sandbox master on each bootstrap, set BLT_RECREATE_SANDBOX_MASTER=0</comment>");
       $this->createSandboxMaster();
     }
@@ -55,20 +61,30 @@ class SandboxManager {
   }
 
   /**
-   *
+   * Removes an existing sandbox instance.
    */
   public function removeSandboxInstance() {
-    $this->debug("Removing sandbox instance...");
-    $this->makeSandboxInstanceWritable();
-    $this->fs->remove($this->sandboxInstance);
+    if (file_exists($this->sandboxInstance)) {
+      $this->debug("Removing sandbox instance...");
+      $this->makeSandboxInstanceWritable();
+      $this->fs->remove($this->sandboxInstance);
+    }
   }
 
+  /**
+   * Outputs debugging message.
+   *
+   * @param $message
+   */
   public function debug($message) {
     if (getenv('BLT_PRINT_COMMAND_OUTPUT')) {
       $this->output->writeln($message);
     }
   }
 
+  /**
+   * Makes sandbox instance writable.
+   */
   public function makeSandboxInstanceWritable() {
     $sites_dir = $this->sandboxInstance . "/docroot/sites";
     if (file_exists($sites_dir)) {
@@ -94,6 +110,10 @@ class SandboxManager {
   }
 
   /**
+   * Copies all files and dirs from master sandbox to instance.
+   *
+   * Will not overwrite existing files!
+   *
    * @param $options
    */
   protected function copySandboxMasterToInstance($options = [
@@ -120,6 +140,9 @@ class SandboxManager {
     return $this->sandboxInstance;
   }
 
+  /**
+   * Updates composer.json in sandbox master to reference BLT via symlink.
+   */
   protected function updateSandboxMasterBltRepoSymlink() {
     $composer_json_path = $this->sandboxMaster . "/composer.json";
     $composer_json_contents = json_decode(file_get_contents($composer_json_path));
@@ -128,6 +151,9 @@ class SandboxManager {
       json_encode($composer_json_contents, JSON_PRETTY_PRINT));
   }
 
+  /**
+   * Installs composer dependencies in sandbox master dir.
+   */
   protected function installSandboxMasterDependencies() {
     $command = '';
     $drupal_core_version = getenv('DRUPAL_CORE_VERSION');

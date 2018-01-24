@@ -36,7 +36,8 @@ class SimpleSamlPhpCommand extends BltTasks {
   /**
    * Initializes SimpleSAMLphp for project.
    *
-   * @command simplesamlphp:init
+   * @command recipes:simplesamlphp:init
+   * @aliases rsi saml simplesamlphp:init
    */
   public function initializeSimpleSamlPhp() {
     $this->requireModule();
@@ -58,7 +59,7 @@ class SimpleSamlPhpCommand extends BltTasks {
       'package_name' => 'drupal/simplesamlphp_auth',
       'package_version' => '^3.0',
     ];
-    $this->invokeCommand('composer:require', $package_options);
+    $this->invokeCommand('internal:composer:require', $package_options);
   }
 
   /**
@@ -104,7 +105,7 @@ class SimpleSamlPhpCommand extends BltTasks {
   /**
    * Copies custom config files to SimpleSamlPHP in deploy artifact.
    *
-   * @command simplesamlphp:deploy:config
+   * @command artifact:build:simplesamlphp-config
    * @throws BltException
    */
   public function simpleSamlPhpDeployConfig() {
@@ -128,7 +129,7 @@ class SimpleSamlPhpCommand extends BltTasks {
   }
 
   /**
-   * Sets value in project.yml to let targets know simplesamlphp is installed.
+   * Sets value in blt.yml to let targets know simplesamlphp is installed.
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function setSimpleSamlPhpInstalled() {
@@ -168,7 +169,7 @@ class SimpleSamlPhpCommand extends BltTasks {
   /**
    * Copies customized config files into vendored SimpleSamlPHP.
    *
-   * @command simplesamlphp:build:config
+   * @command source:build:simplesamlphp-config
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function simpleSamlPhpBuildConfig() {
@@ -203,7 +204,7 @@ class SimpleSamlPhpCommand extends BltTasks {
       '',
       'After editing these files execute the following command to copy the modified files to the correct location in the SimpleSAMLphp library:',
       '',
-      "'blt simplesamlphp:build:config'",
+      "'blt source:build:simplesamlphp-config'",
       '',
       "See http://blt.readthedocs.io/en/latest/readme/simplesamlphp-setup/ for details on how to modify the files.",
     ];

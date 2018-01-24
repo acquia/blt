@@ -14,7 +14,8 @@ class ComposerCommand extends BltTasks {
   /**
    * Requires a composer package.
    *
-   * @command composer:require
+   * @command internal:composer:require
+   * @hidden
    *
    * @option dev Whether package should be added to require-dev.
    */

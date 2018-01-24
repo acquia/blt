@@ -24,7 +24,7 @@ The following is an overview of the purpose of each top level directory in the p
       ├── config   - Contains Drupal 8 configuration files.
       ├── drush    - Contain drush configuration that is not site or environment specific.
       ├── docroot  - The drupal docroot.
-      ├── hooks    - Contains Acquia Cloud hooks (optional, created by `blt setup:cloud-hooks`)
+      ├── hooks    - Contains Acquia Cloud hooks (optional, created by `blt recipes:cloud-hooks:init`)
       ├── patches  - Contains private patches to be used by composer.json.
       ├── reports  - Contains output of automated tests; is .gitignored.
       ├── tests    - Contains project-level test files and configuration.

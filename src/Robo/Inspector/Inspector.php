@@ -129,7 +129,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   }
 
   /**
-   * Determines if BLT configuration file exists, typically project.yml.
+   * Determines if BLT configuration file exists, typically blt.yml.
    *
    * @return bool
    *   TRUE if file exists.
@@ -139,7 +139,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   }
 
   /**
-   * Determines if BLT configuration file exists, typically project.local.yml.
+   * Determines if BLT configuration file exists, typically local.blt.yml.
    *
    * @return bool
    *   TRUE if file exists.
@@ -610,7 +610,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
     // Verify that URIs required for Drupal and Behat are configured correctly.
     $local_behat_config = $this->getLocalBehatConfig();
     if ($this->getConfigValue('project.local.uri') != $local_behat_config->get('local.extensions.Behat\MinkExtension.base_url')) {
-      $this->logger->warning('project.local.uri in project.yml does not match local.extensions.Behat\MinkExtension.base_url in local.yml.');
+      $this->logger->warning('project.local.uri in blt.yml does not match local.extensions.Behat\MinkExtension.base_url in local.yml.');
       $this->logger->warning('project.local.uri = ' . $this->getConfigValue('project.local.uri'));
       $this->logger->warning('local.extensions.Behat\MinkExtension.base_url = ' . $local_behat_config->get('local.extensions.Behat\MinkExtension.base_url'));
       return FALSE;

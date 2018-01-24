@@ -10,7 +10,7 @@ BLT does not directly manage any of your front end dependencies or assets, but i
 
 Out-of-the-box, BLT provides an opportunity for your frontend commands to run at three different stages of the build process.
 
-You must let BLT know which commands should be run in which directories. You can do this by specifying values in `blt/project.yml` file under the `target-hooks` key.
+You must let BLT know which commands should be run in which directories. You can do this by specifying values in `blt/blt.yml` file under the `command-hooks` key.
 
 These commands will run inside of the virtual machine, if available. This obviates the need to install frontend dependencies on the host machine.
 
@@ -18,10 +18,10 @@ The three following target hooks are available for frontend commands: setup, bui
 
 ### Setup
 
-During the execution of `blt setup`, BLT will execute `target-hooks.frontend-setup.command`. This hook is intended to provide an opportunity to install the tools required for your frontend build process. For instance, you may use this hook to install dependencies via NPM or Bower. E.g.,
-    
-    target-hooks:
-      frontend-setup:
+During the execution of `blt setup`, BLT will execute `command-hooks.source:build:frontend-reqs.command`. This hook is intended to provide an opportunity to install the tools required for your frontend build process. For instance, you may use this hook to install dependencies via NPM or Bower. E.g.,
+
+    command-hooks:
+      source:build:frontend-reqs:
         dir: ${docroot}/sites/all/themes/custom/mytheme.
         command: '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use 4.4.4 && npm install'
 
@@ -29,10 +29,10 @@ If you are using a sub theme of Cog, executing `npm install` in your theme direc
 
 ### Build
 
-During the execution of `blt setup` and `blt deploy`, BLT will execute `target-hooks.frontend-build.command`. This is always executed after `target-hooks.frontend-setup.command`. This hook is intended to provide an opportunity to compile your frontend assets, such as compiling SCSS to CSS or generating a style guide.
+During the execution of `blt setup` and `blt artifact:deploy`, BLT will execute `command-hooks.source:build:frontend-assets.command`. This is always executed after `command-hooks.source:build:frontend-reqs.command`. This hook is intended to provide an opportunity to compile your frontend assets, such as compiling SCSS to CSS or generating a style guide.
 
-    target-hooks:
-      frontend-build:
+    command-hooks:
+      source:build:frontend-assets:
         dir: ${docroot}/sites/all/themes/custom/mytheme.
         command: '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use 4.4.4 && npm run build'
 
@@ -40,9 +40,9 @@ If you are using a sub theme of Cog, executing `npm run build` in your theme dir
 
 ### Test
 
-During the execution of `blt tests`, BLT will execute `target-hooks.frontend-test.command`. This hook is intended to provide an opportunity execute frontend tests, like JavaScript linting and visual regression testing. E.g.,
+During the execution of `blt tests`, BLT will execute `command-hooks.frontend-test.command`. This hook is intended to provide an opportunity execute frontend tests, like JavaScript linting and visual regression testing. E.g.,
 
-    target-hooks:
+    command-hooks:
       frontend-test:
         dir: ${docroot}/sites/all/themes/custom/mytheme.
         command: '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use 4.4.4 && npm test'
@@ -53,8 +53,8 @@ If you are using a sub theme of Cog, executing `npm test` in your theme director
 
 If you need to execute something more complex, you may call a custom script rather than direct the embedding your commands in the yaml file:
 
-    target-hooks:
-      frontend-build:
+    command-hooks:
+      source:build:frontend-assets:
         dir: ${repo.root}
         command: ./scripts/custom/my-script.sh
 

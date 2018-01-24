@@ -2,9 +2,9 @@
 
 behat:
   # @see http://docs.behat.org/en/v2.5/guides/6.cli.html#gherkin-filters
-  # When tests:behat target is executed, these tags will be passed to Behat.
+  # When tests:behat:run target is executed, these tags will be passed to Behat.
   tags: ~@example-multisite
-  # When tests:behat target is executed, this Behat profile will be used.
+  # When tests:behat:run target is executed, this Behat profile will be used.
   # @see tests/behat/example.local.yml for Behat profile definition.
   profile: example-multisite
 

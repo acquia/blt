@@ -6,9 +6,9 @@ Here are tasks that are typically performed at this stage:
 
 * Initialize CI integration. See [Continuous Integration](ci.md).
 
-        blt ci:pipelines:init
+        blt recipes:ci:pipelines:init
         # OR
-        blt ci:travis:init
+        blt recipes:ci:travis:init
 
 * Push to your upstream repo.
 
@@ -17,7 +17,7 @@ Here are tasks that are typically performed at this stage:
         git remote add origin [something]
         git push origin
 
-* Ensure that you have entered a value for `git.remotes` in `blt/project.yml`. E.g.,
+* Ensure that you have entered a value for `git.remotes` in `blt/blt.yml`. E.g.,
 
         git:
           remotes:
@@ -25,7 +25,7 @@ Here are tasks that are typically performed at this stage:
 
 * Create and deploy an artifact. See [Deployment workflow](deploy.md).
 
-        blt deploy
+        blt artifact:deploy
 
 Other commonly used commands:
 
@@ -36,10 +36,10 @@ Other commonly used commands:
         blt validate
 
         # run phpunit tests
-        blt tests:phpunit
+        blt tests:phpunit:run
 
         # ssh into vm & run behat tests
-        blt tests:behat
+        blt tests:behat:run
 
         # diagnose issues
         blt doctor
@@ -48,10 +48,10 @@ Other commonly used commands:
         composer require drupal/ctools:^8.3.0
 
         # build a deployment artifact
-        blt deploy:build
+        blt artifact:build
 
         # build artifact and deploy to git.remotes
-        blt deploy
+        blt artifact:deploy
 
         # update BLT
         composer update acquia/blt --with-dependencies

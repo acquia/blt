@@ -1,5 +1,5 @@
 # To generate a local.yml file using this the example template, execute:
-# `blt setup:behat` from the project root.
+# `blt tests:behat:init:config` from the project root.
 imports:
   - behat.yml
 

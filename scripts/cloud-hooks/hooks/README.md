@@ -12,7 +12,7 @@ This directory contains [Acquia Cloud hooks](https://docs.acquia.com/cloud/manag
 
 ### Default hooks
 
-By default, BLT provides a post-code-update and post-code-deploy hook that runs the `deploy:update` target in all environments following a code deployment or update.
+By default, BLT provides a post-code-update and post-code-deploy hook that runs the `artifact:update:drupal` target in all environments following a code deployment or update.
 
 ### Documentation and additional examples
 

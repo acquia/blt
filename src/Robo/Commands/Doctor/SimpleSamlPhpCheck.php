@@ -50,14 +50,14 @@ class SimpleSamlPhpCheck extends DoctorCheck {
             if (strcmp($config_file_content, $lib_file_content) !== 0) {
               $this->logProblem(__FUNCTION__, [
                 "The configuration file: $config_file in $config_root does not match the one in $lib_root.",
-                "  Run `blt simplesamlphp:build:config` to copy the files from the repo root to the library.",
+                "  Run `blt source:build:simplesamlphp-config` to copy the files from the repo root to the library.",
               ], 'error');
             }
           }
           else {
             $lib_file_path = $lib_root . $config_file;
             $this->logProblem(__FUNCTION__, [
-              "$lib_file_path is missing. Run `blt simplesamlphp:build:config`.",
+              "$lib_file_path is missing. Run `blt source:build:simplesamlphp-config`.",
             ], 'error');
           }
         }
@@ -67,7 +67,7 @@ class SimpleSamlPhpCheck extends DoctorCheck {
       if (!file_exists($this->getConfigValue('docroot') . '/simplesaml')) {
         $this->logProblem(__FUNCTION__, [
           "The symlink to the SimpleSAMLphp library is missing from your docroot.",
-          "  Run `blt simplesamlphp:init`",
+          "  Run `blt recipes:simplesamlphp:init`",
         ], 'error');
       }
 

@@ -51,9 +51,9 @@ Before attempting to execute any tests, verify that composer dependencies are bu
 The following testing commands are available:
 
 * `blt tests:all`
-* `blt tests:behat`
-* `blt tests:phpunit`
-* `blt tests:security-updates`
+* `blt tests:behat:run`
+* `blt tests:phpunit:run`
+* `blt tests:security:check:updates`
 
 ### Modifying test targets
 
@@ -76,15 +76,15 @@ See referenced materials for more information on BDD best practices.
 
 To execute a single feature:
 
-    blt tests:behat -D behat.paths=${PWD}/tests/behat/features/Examples.feature
+    blt tests:behat:run -D behat.paths=${PWD}/tests/behat/features/Examples.feature
     # Relative paths are assumed to be relative to tests/behat/features.
-    blt tests:behat -D behat.paths=Examples.feature
+    blt tests:behat:run -D behat.paths=Examples.feature
 
 To execute a single scenario:
 
-    blt tests:behat -D behat.paths=${PWD}/tests/behat/features/Examples.feature:4
+    blt tests:behat:run -D behat.paths=${PWD}/tests/behat/features/Examples.feature:4
     # Relative paths are assumed to be relative to tests/behat/features.
-    blt tests:behat -D behat.paths=Examples.feature:4
+    blt tests:behat:run -D behat.paths=Examples.feature:4
 
 Where "4" is the line number of the scenario in the feature file.
 
@@ -94,7 +94,7 @@ To execute the tests directly (without BLT) see the following examples:
 
 ### Configuration
 
-Configuration for the BLT Behat commands is stored in the `behat` configuration variable. You can modify the behavior of the BLT `tests:behat` target by customizing this configuration. See [Extending BLT](extending-blt.md) for more information on overriding configuration variables.
+Configuration for the BLT Behat commands is stored in the `behat` configuration variable. You can modify the behavior of the BLT `tests:behat:run` target by customizing this configuration. See [Extending BLT](extending-blt.md) for more information on overriding configuration variables.
 
 Behat's own configuration is defined in the following files:
 
@@ -156,7 +156,7 @@ Project level, functional PHPUnit tests are included in `tests/phpunit`. Any PHP
 
 ### Configuration
 
-You can customize the `tests:phpunit` command by [customize the configuration values](extending-blt.md#modifying-blt-configuration) for the `phpunit` key.
+You can customize the `tests:phpunit:run` command by [customize the configuration values](extending-blt.md#modifying-blt-configuration) for the `phpunit` key.
 
 Each row under the `phpunit` key should contain a combination of the following properties:
 

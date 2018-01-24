@@ -20,7 +20,7 @@ class AcsfCommand extends BltTasks {
     $this->logger->notice("  * Adding drupal/acsf and acquia/acsf-tools the require array in your composer.json file.");
     $this->logger->notice("  * Executing the `acsf-init` command, provided by the drupal/acsf module.");
     $this->logger->notice("  * Adding default factory-hooks to your application.");
-    $this->logger->notice("  * Adding `acsf` to `modules.local.uninstall` in your project.yml");
+    $this->logger->notice("  * Adding `acsf` to `modules.local.uninstall` in your blt.yml");
     $this->logger->notice("");
     $this->logger->notice("For more information, see:");
     $this->logger->notice("<comment>http://blt.readthedocs.io/en/8.x/readme/acsf-setup</comment>");
@@ -29,9 +29,9 @@ class AcsfCommand extends BltTasks {
   /**
    * Initializes ACSF support for project.
    *
-   * @command acsf:init
+   * @command recipes:acsf:init:all
    *
-   * @aliases acsf
+   * @aliases acsf acsf:init
    * @options acsf-version
    */
   public function acsfInitialize($options = ['acsf-version' => '^1.33.0']) {
@@ -42,15 +42,15 @@ class AcsfCommand extends BltTasks {
       'package_name' => 'drupal/acsf',
       'package_version' => $options['acsf-version'],
     ];
-    $this->invokeCommand('composer:require', $package_options);
-    $this->say("In the future, you may pass in a custom value for acsf-version to override the default version. E.g., blt acsf:init --acsf-version='8.1.x-dev'");
+    $this->invokeCommand('internal:composer:require', $package_options);
+    $this->say("In the future, you may pass in a custom value for acsf-version to override the default version. E.g., blt recipes:acsf:init:all --acsf-version='8.1.x-dev'");
     $this->acsfDrushInitialize();
     $this->say('Adding acsf-tools drush module as a dependency...');
     $package_options = [
       'package_name' => 'acquia/acsf-tools',
       'package_version' => '^8.1',
     ];
-    $this->invokeCommand('composer:require', $package_options);
+    $this->invokeCommand('internal:composer:require', $package_options);
     $this->say('<comment>ACSF Tools has been added. Some post-install configuration is necessary.</comment>');
     $this->say('<comment>See /drush/contrib/acsf-tools/README.md. </comment>');
     $this->say('<info>ACSF was successfully initialized.</info>');
@@ -65,7 +65,9 @@ class AcsfCommand extends BltTasks {
   /**
    * Refreshes the ACSF settings and hook files.
    *
-   * @command acsf:init:drush
+   * @command recipes:acsf:init:drush
+   *
+   * @aliases acsf:init:drush
    */
   public function acsfDrushInitialize() {
     $drush8 = $this->getConfigValue('repo.root') . '/vendor/bin/drush8.phar';
@@ -100,7 +102,7 @@ class AcsfCommand extends BltTasks {
   /**
    * Creates "factory-hooks/" directory in project's repo root.
    *
-   * @command acsf:init:hooks
+   * @command recipes:acsf:init:hooks
    */
   public function acsfHooksInitialize() {
     $defaultAcsfHooks = $this->getConfigValue('blt.root') . '/settings/acsf';
