@@ -55,22 +55,32 @@ By default, we want caching and CSS and JavaScript aggregation enabled on all of
 To accomplish this, we will create a "local" configuration split.
 
 1. `mkdir -p ../config/envs/local`
-1. `/admin/config/development/configuration/config-split/add`:
+1. `/admin/config/development/configuration/config-split/add`
+1. In the UI, fill in the following fields and then save:
+    * label: Local
+    * folder: ../config/envs/local
+    * Conditional Split > Configuration items > Select "system.performance"
+1. `drush config-export -y`. This will export the configuration definition for the split itself,  which is stored in `config/default/config_split.config_split.local.yml`. The file should contain the following settings:
 
-        status: false
+        uuid: ...
+        langcode: en
+        status: true
+        dependencies: {  }
+        id: local
         label: Local
         folder: ../config/envs/local
+        module: {  }
+        theme: {  }
         blacklist: {  }
-        greylist:
+        graylist:
           - system.performance
-        greylist_dependents: true
-        greylist_skip_equal: true
+        graylist_dependents: true
+        graylist_skip_equal: true
         weight: 0
 
-1. `drush config-export -y`. This will export the configuration definition for the split itself,  which is stored in `config/default/config_split.config_split.local.yml`.
 1. `drush cr`. Doing this will allow configuration split to recognize that the local split is active. We rely on BLT to designate this split as active on local machines via a [settings.php include](https://github.com/acquia/blt/blob/8.x/settings/config.settings.php#L22).
 1.  Navigate to `/admin/config/development/performance` and disable caching and aggregation.
-1. `drush config-export -y`. Because the local split is active, this will export the local split  `system.performance` settings to `../config/envs/local/system.performance.yml`. It should contain the following configuration:
+1. `drush csex`. Because the local split is active, this will export the local split  `system.performance` settings to `../config/envs/local/system.performance.yml`. It should contain the following configuration:
 
         cache:
         page:
@@ -131,9 +141,9 @@ To accomplish this, we will create a "blog" configuration split. That split will
           - system.action.user_remove_role_action.blog_entry_reviewer
           - user.role.blog_entry_creator
           - user.role.blog_entry_reviewer
-        greylist: {  }
-        greylist_dependents: true
-        greylist_skip_equal: true
+        graylist: {  }
+        graylist_dependents: true
+        graylist_skip_equal: true
         weight: 0
 
 1. Visit `/admin/config/development/configuration/ignore` and add the following line to "Configuration entity names to ignore":
@@ -175,9 +185,9 @@ Consider that we would like site to to have different cache lifetimes then the d
         label: Site 2
         folder: ../config/site2
         blacklist: {  }
-        greylist: {  }
-        greylist_dependents: true
-        greylist_skip_equal: true
+        graylist: {  }
+        graylist_dependents: true
+        graylist_skip_equal: true
         weight: 0
 
 ## Executing commands against multisites
@@ -212,21 +222,21 @@ If you would like to export configuration that is blacklisted in more than one s
 
 ### Terminology
 
-**blacklist**
+**COMPLETE SPLIT (blacklist)**
 
 Blacklisted splits are blacklisted from `config/default`. If a given split is active, and that Split defines a configuration setting in its blacklist, that configuration setting will not be exported to `config/default` when `drush config-export` is executed:
 
 - Exported to split
 - *Not* exported to default configuration
 
-**greylist**
+**CONDITIONAL SPLIT (graylist)**
 
 Graylist splits allow a given configuration setting to be exported to both the default configuration and also to a split's configuration (overriding default when active):
 
 - Exported to split
 - Also exported to default configuration
 
-Graylists may also be used for configuration that's intended to be "unlocked" in production (such as webforms). If you need to customize this behavior, you can use the greylist functionality described in [this blog post](https://blog.liip.ch/archive/2017/04/07/advanced-drupal-8-cmi-workflows.html).
+Graylists may also be used for configuration that's intended to be "unlocked" in production (such as webforms). If you need to customize this behavior, you can use the grAylist functionality described in [this blog post](https://blog.liip.ch/archive/2017/04/07/advanced-drupal-8-cmi-workflows.html).
 
 ### Development settings
 
