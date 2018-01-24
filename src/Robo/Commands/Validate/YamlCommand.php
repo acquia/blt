@@ -31,7 +31,8 @@ class YamlCommand extends BltTasks {
   /**
    * Executes YAML validator against files, if in validate.yaml.filesets.
    *
-   * @command tylf tests:yaml:lint:files
+   * @command tests:yaml:lint:files
+   * @aliases tylf
    *
    * @param string $file_list
    *   A list of files to scan, separated by \n.
