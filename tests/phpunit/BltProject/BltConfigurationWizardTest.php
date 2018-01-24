@@ -14,7 +14,7 @@ class BltConfigurationWizardTest extends BltProjectTestBase {
   use ConfigAwareTrait;
 
   /**
-   * Tests setup:wizard command.
+   * Tests wizard command.
    */
   public function testWizard() {
     $this->markTestIncomplete(
@@ -23,10 +23,10 @@ class BltConfigurationWizardTest extends BltProjectTestBase {
   }
 
   /**
-   * Tests setup:wizard with recipe file option
+   * Tests wizard with recipe file option
    */
   public function testWizardUsingRecipe() {
-    $this->blt("setup:wizard", ['--recipe' => 'recipe.yml']);
+    $this->blt("wizard", ['--recipe' => 'recipe.yml']);
 
     $recipe = Yaml::parse(
       file_get_contents('recipe.yml')
