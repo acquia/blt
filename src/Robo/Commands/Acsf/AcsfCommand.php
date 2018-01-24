@@ -67,7 +67,7 @@ class AcsfCommand extends BltTasks {
    *
    * @command recipes:acsf:init:drush
    *
-   * @aliases acsf:init:drush
+   * @aliases raid acsf:init:drush
    */
   public function acsfDrushInitialize() {
     $drush8 = $this->getConfigValue('repo.root') . '/vendor/bin/drush8.phar';
@@ -103,6 +103,7 @@ class AcsfCommand extends BltTasks {
    * Creates "factory-hooks/" directory in project's repo root.
    *
    * @command recipes:acsf:init:hooks
+   * @aliases raih
    */
   public function acsfHooksInitialize() {
     $defaultAcsfHooks = $this->getConfigValue('blt.root') . '/settings/acsf';

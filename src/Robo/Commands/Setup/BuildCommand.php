@@ -18,7 +18,7 @@ class BuildCommand extends BltTasks {
    *
    * @command drupal:install
    *
-   * @aliases setup:drupal:instal di
+   * @aliases di setup:drupal:install
    *
    * @interactGenerateSettingsFiles
    *
@@ -114,7 +114,7 @@ class BuildCommand extends BltTasks {
    * Installs Composer dependencies.
    *
    * @command source:build:composer
-   * @aliases setup:composer:install sbc
+   * @aliases sbc setup:composer:install
    */
   public function composerInstall() {
     $result = $this->taskExec("export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --ansi --no-interaction")

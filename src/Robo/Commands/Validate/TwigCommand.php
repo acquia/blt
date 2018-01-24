@@ -35,6 +35,7 @@ class TwigCommand extends BltTasks {
    * Executes Twig validator against a list of files, if in twig.filesets.
    *
    * @command tests:twig:lint:files
+   * @aliases ttlf
    *
    * @param string $file_list
    *   A list of files to scan, separated by \n.

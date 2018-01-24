@@ -320,6 +320,7 @@ class BehatCommand extends TestsCommandBase {
    * Sometimes the download fails during `composer install`.
    *
    * @command tests:behat:init:phantomjs
+   * @aliases tbip
    */
   public function setupPhantomJs() {
     /** @var \Acquia\Blt\Robo\Wizards\TestsWizard $tests_wizard */

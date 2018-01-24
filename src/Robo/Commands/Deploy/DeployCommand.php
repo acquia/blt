@@ -312,6 +312,7 @@ class DeployCommand extends BltTasks {
    * Builds deployment artifact.
    *
    * @command artifact:build
+   * @aliases ab deploy:build
    */
   public function build() {
     $this->say("Generating build artifact...");
@@ -562,6 +563,7 @@ class DeployCommand extends BltTasks {
    * Update the database to reflect the state of the Drupal file system.
    *
    * @command artifact:update:drupal
+   * @aliases aud deploy:update
    */
   public function update() {
     // Disable alias since we are targeting specific uri.
@@ -573,6 +575,7 @@ class DeployCommand extends BltTasks {
    * Update the database to reflect the state of the Drupal file system.
    *
    * @command artifact:update:drupal:all-sites
+   * @aliases auda
    */
   public function updateAll() {
     // Disable alias since we are targeting specific uri.
@@ -602,6 +605,7 @@ class DeployCommand extends BltTasks {
    * Syncs database and files and runs updates.
    *
    * @command artifact:sync:all-sites
+   * @aliases asas
    */
   public function syncRefresh() {
     // Disable alias since we are targeting specific uri.
@@ -629,6 +633,7 @@ class DeployCommand extends BltTasks {
    * Installs Drupal, imports config, and executes updates.
    *
    * @command artifact:install:drupal
+   * @aliases aid deploy:drupal:install
    */
   public function installDrupal() {
     $this->invokeCommands([
