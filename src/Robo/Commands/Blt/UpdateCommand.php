@@ -87,7 +87,7 @@ class UpdateCommand extends BltTasks {
     $this->getConfig()->import($new_config->export());
 
     $this->invokeCommand('blt:init:settings');
-    $this->invokeCommand('examples:init');
+    $this->invokeCommand('recipes:blt:init:command');
     $this->invokeCommand('blt:init:shell-alias');
     if ($this->input()->isInteractive()) {
       $this->invokeCommand('setup:wizard');
@@ -98,6 +98,8 @@ class UpdateCommand extends BltTasks {
    * Updates files from BLT's template and executes scripted updates.
    *
    * @command blt:update
+   *
+   * @aliases bu update
    */
   public function update() {
     $this->rsyncTemplate();
@@ -113,6 +115,7 @@ class UpdateCommand extends BltTasks {
    * Removes deprecated BLT files and directories.
    *
    * @command blt:source:cleanup
+   * @aliases bsc cleanup
    */
   public function cleanup() {
     $this->say("Removing deprecated files and directories...");
@@ -183,8 +186,11 @@ class UpdateCommand extends BltTasks {
 
   /**
    * Displays BLT ASCII art.
+   *
+   * @command art
+   * @hidden
    */
-  protected function displayArt() {
+  public function displayArt() {
     $this->say(file_get_contents($this->getConfigValue('blt.root') . '/scripts/blt/ascii-art.txt'));
   }
 

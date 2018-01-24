@@ -37,6 +37,7 @@ class SimpleSamlPhpCommand extends BltTasks {
    * Initializes SimpleSAMLphp for project.
    *
    * @command recipes:simplesamlphp:init
+   * @aliases rsi saml simplesamlphp:init
    */
   public function initializeSimpleSamlPhp() {
     $this->requireModule();
@@ -58,7 +59,7 @@ class SimpleSamlPhpCommand extends BltTasks {
       'package_name' => 'drupal/simplesamlphp_auth',
       'package_version' => '^3.0',
     ];
-    $this->invokeCommand('composer:require', $package_options);
+    $this->invokeCommand('internal:composer:require', $package_options);
   }
 
   /**

@@ -86,6 +86,8 @@ class BehatCommand extends TestsCommandBase {
    * @usage -D behat.paths=${PWD}/tests/behat/features/Examples.feature:4
    *   Executes only the scenario on line 4 of Examples.feature.
    *
+   * @aliases tbr behat tests:behat
+   *
    * @interactGenerateSettingsFiles
    * @interactInstallDrupal
    * @interactConfigureBehat
@@ -120,6 +122,8 @@ class BehatCommand extends TestsCommandBase {
    * @command tests:behat:list:definitions
    *
    * @option mode l (default), i, or needle. Use l to just list definition expressions, i to show definitions with extended info, or needle to find specific definitions.
+   *
+   * @aliases tbd tests:behat:definitions
    *
    * @validateMySqlAvailable
    * @executeInDrupalVm

@@ -15,6 +15,8 @@ class ImportCommand extends BltTasks {
    *
    * @command drupal:sql:import
    *
+   * @aliases dsi
+   *
    * @validateDrushConfig
    */
   public function import() {

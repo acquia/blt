@@ -11,6 +11,7 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 class FrontendTest extends BltProjectTestBase {
 
   public function testFrontendHooks() {
+
     YamlMunge::mergeArrayIntoFile([
       'command-hooks' => [
         'frontend-reqs' => [

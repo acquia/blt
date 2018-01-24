@@ -193,7 +193,7 @@ command-hooks:
   post-deploy-build:
     dir: '${deploy.dir}/docroot'
     command: null
-  # Executed after setup:build is run.
+  # Executed after source:build is run.
   post-setup-build:
     dir: ${docroot}
     command: null

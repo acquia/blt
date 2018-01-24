@@ -20,7 +20,7 @@ build:
   script:
     - composer validate --no-check-all --ansi
     - composer install --ansi
-    - blt setup:build --ansi --verbose
+    - blt source:build --ansi --verbose
 
 test:
   stage: test
