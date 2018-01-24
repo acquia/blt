@@ -17,7 +17,7 @@ class PhpcsCommand extends BltTasks {
    *
    * @command tests:phpcs:sniff:all
    *
-   * @aliases tpsa validate:phpcs tests:phpcs:sniff sniff phpcs
+   * @aliases tpsa phpcs tests:phpcs:sniff validate:phpcs
    */
   public function sniffFileSets() {
     $bin = $this->getConfigValue('composer.bin');

@@ -18,7 +18,7 @@ class SyncCommand extends BltTasks {
    *
    * @command drupal:sync:all-sites
    *
-   * @aliases sync:all sa
+   * @aliases dsa sync:all
    *
    * @see https://github.com/acquia/blt/issues/1875
    */
@@ -44,7 +44,7 @@ class SyncCommand extends BltTasks {
    *
    * @command drupal:sync
    *
-   * @aliases sync ds
+   * @aliases ds sync
    */
   public function sync($options = [
     'sync-files' => FALSE,
@@ -62,7 +62,7 @@ class SyncCommand extends BltTasks {
    *
    * @command drupal:sync:files
    *
-   * @aliases sync:files dsf
+   * @aliases dsf sync:files
    *
    * @validateDrushConfig
    *
@@ -91,7 +91,7 @@ class SyncCommand extends BltTasks {
    *
    * @command drupal:sync:db:all-sites
    *
-   * @aliases sync:all:db dsba
+   * @aliases dsba sync:all:db
    *
    * @executeInDrupalVm
    */
@@ -123,7 +123,7 @@ class SyncCommand extends BltTasks {
    *
    * @command drupal:sync:db
    *
-   * @aliases sync:db dsb
+   * @aliases dsb sync:db
    *
    * @validateDrushConfig
    * @executeInDrupalVm

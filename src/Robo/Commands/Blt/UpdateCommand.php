@@ -99,7 +99,7 @@ class UpdateCommand extends BltTasks {
    *
    * @command blt:update
    *
-   * @aliases update
+   * @aliases bu update
    */
   public function update() {
     $this->rsyncTemplate();
@@ -115,6 +115,7 @@ class UpdateCommand extends BltTasks {
    * Removes deprecated BLT files and directories.
    *
    * @command blt:source:cleanup
+   * @aliases bsc cleanup
    */
   public function cleanup() {
     $this->say("Removing deprecated files and directories...");
@@ -185,8 +186,11 @@ class UpdateCommand extends BltTasks {
 
   /**
    * Displays BLT ASCII art.
+   *
+   * @command art
+   * @hidden
    */
-  protected function displayArt() {
+  public function displayArt() {
     $this->say(file_get_contents($this->getConfigValue('blt.root') . '/scripts/blt/ascii-art.txt'));
   }
 

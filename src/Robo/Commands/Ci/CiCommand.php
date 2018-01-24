@@ -16,7 +16,7 @@ class CiCommand extends BltTasks {
    *
    * @command recipes:ci:pipelines:init
    *
-   * @aliases ci:pipelines:init rcpi
+   * @aliases rcpi ci:pipelines:init
    */
   public function pipelinesInit() {
     $result = $this->taskFilesystemStack()
@@ -37,7 +37,7 @@ class CiCommand extends BltTasks {
    *
    * @command recipes:ci:travis:init
    *
-   * @aliases ci:travis:init rcti
+   * @aliases rcti ci:travis:init
    */
   public function travisInit() {
     $result = $this->taskFilesystemStack()
@@ -58,7 +58,7 @@ class CiCommand extends BltTasks {
    *
    * @command recipes:ci:probo:init
    *
-   * @aliases ci:probo:init rcpri
+   * @aliases rcpri ci:probo:init
    */
   public function proboInit() {
     $result = $this->taskFilesystemStack()
@@ -79,7 +79,7 @@ class CiCommand extends BltTasks {
    *
    * @command recipes:ci:gitlab:init
    *
-   * @aliases ci:gitlab:init rcgi
+   * @aliases rcgi ci:gitlab:init
    */
   public function gitlabInit() {
     $result = $this->taskFilesystemStack()

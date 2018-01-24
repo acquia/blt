@@ -24,7 +24,7 @@ class ConfigCommand extends BltTasks {
    * Imports configuration from the config directory according to cm.strategy.
    *
    * @command drupal:config:import
-   * @aliases setup:config-import dci
+   * @aliases dci setup:config-import
    *
    * @validateDrushConfig
    */

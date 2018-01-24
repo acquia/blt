@@ -16,7 +16,7 @@ class AliasCommand extends BltTasks {
    *
    * @command blt:init:shell-alias
    *
-   * @aliases install-alias
+   * @aliases alias install-alias
    */
   public function installBltAlias() {
     if (!$this->getInspector()->isBltAliasInstalled()) {

@@ -88,7 +88,7 @@ class BuildCommand extends BltTasks {
    *
    * @command source:build
    *
-   * @aliases setup:build sb
+   * @aliases sb setup:build
    *
    * @interactConfigIdentical
    */

@@ -31,7 +31,7 @@ class SettingsCommand extends BltTasks {
    *
    * @command blt:init:settings
    *
-   * @aliases setup:settings settings
+   * @aliases ss settings setup:settings
    */
   public function generateSiteConfigFiles() {
     if (!file_exists($this->getConfigValue('blt.config-files.local'))) {

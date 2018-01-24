@@ -36,7 +36,7 @@ class DeployCommand extends BltTasks {
    *
    * @command artifact:deploy
    *
-   * @aliases deploy
+   * @aliases ad deploy
    */
   public function deploy($options = [
     'branch' => InputOption::VALUE_REQUIRED,

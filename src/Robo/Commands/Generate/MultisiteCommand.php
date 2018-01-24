@@ -19,7 +19,7 @@ class MultisiteCommand extends BltTasks {
    *
    * @command recipes:multisite:init
    *
-   * @aliases multisite
+   * @aliases rmi multisite
    *
    */
   public function generate($options = [

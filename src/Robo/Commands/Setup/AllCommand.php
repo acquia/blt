@@ -14,7 +14,7 @@ class AllCommand extends BltTasks {
    *
    * @command source
    *
-   * @aliases source:all setup
+   * @aliases sa source:all setup
    */
   public function setup() {
     $this->say("Setting up local environment for site <comment>{$this->getConfigValue('site')}</comment>.");

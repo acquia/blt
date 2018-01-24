@@ -16,7 +16,7 @@ class ExamplesCommand extends BltTasks {
    *
    * @command recipes:blt:init:command
    *
-   * @aliases examples:init rbic
+   * @aliases rbic examples:init
    */
   public function init() {
     $result = $this->taskFilesystemStack()
