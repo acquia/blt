@@ -122,7 +122,7 @@ class WizardCommand extends BltTasks {
       'standard' => 'Standard',
     ];
     $this->say("You may change the installation profile later.");
-    $answers['project']['profile']['name'] = $this->askChoice('Choose an installation profile:', $profile_options, 'lightning');
+    $answers['profile'] = $this->askChoice('Choose an installation profile:', $profile_options, 'lightning');
 
     return $answers;
   }
@@ -139,7 +139,7 @@ class WizardCommand extends BltTasks {
     $config['project']['prefix'] = $answers['prefix'];
     $config['project']['machine_name'] = $answers['machine_name'];
     $config['project']['human_name'] = $answers['human_name'];
-    $config['project']['profile']['name'] = $answers['project']['profile']['name'];
+    $config['project']['profile']['name'] = $answers['profile'];
     // Hostname cannot contain underscores.
     $machine_name_safe = str_replace('_', '-', $answers['machine_name']);
     $config['project']['local']['hostname'] = str_replace('${project.machine_name}', $machine_name_safe, $config['project']['local']['hostname']);
