@@ -5,7 +5,7 @@ namespace Acquia\Blt\Robo\Commands\Setup;
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\StringManipulator;
 use Acquia\Blt\Robo\Common\YamlMunge;
-use Acquia\Club\Configuration\ProjectConfiguration;
+use Acquia\Blt\Robo\Config\ProjectConfiguration;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Filesystem\Exception\FileNotFoundException;
