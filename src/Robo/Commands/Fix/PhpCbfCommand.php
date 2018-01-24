@@ -15,7 +15,7 @@ class PhpCbfCommand extends BltTasks {
    *
    * @command source:fix:php-standards
    *
-   * @aliases fps fix phpcbf fix:phpcbf
+   * @aliases sfps fix phpcbf fix:phpcbf
    */
   public function phpcbfFileSet() {
     $this->say('Fixing and beautifying code...');

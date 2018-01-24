@@ -52,7 +52,7 @@ class VmCommand extends BltTasks {
    *
    * @command recipes:drupalvm:init
    *
-   * @aliases vm
+   * @aliases rdi vm
    *
    * @options no-boot
    *
@@ -87,7 +87,7 @@ class VmCommand extends BltTasks {
    * Destroys existing VM and all related configuration.
    *
    * @command recipes:drupalvm:destroy
-   * @aliases vm:nuke
+   * @aliases rdd vm:nuke
    * @throws \Exception
    */
   public function nuke() {

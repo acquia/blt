@@ -31,7 +31,7 @@ class SettingsCommand extends BltTasks {
    *
    * @command blt:init:settings
    *
-   * @aliases ss settings setup:settings
+   * @aliases bis settings setup:settings
    */
   public function generateSiteConfigFiles() {
     if (!file_exists($this->getConfigValue('blt.config-files.local'))) {
@@ -153,6 +153,7 @@ class SettingsCommand extends BltTasks {
    * Generates tests/behat/local.yml file for executing Behat tests locally.
    *
    * @command tests:behat:init:config
+   * @aliases tbic setup:behat
    *
    * @executeInDrupalVm
    */
@@ -195,6 +196,7 @@ class SettingsCommand extends BltTasks {
    * Installs BLT git hooks to local .git/hooks directory.
    *
    * @command blt:init:git-hooks
+   * @aliases big setup:git-hooks
    */
   public function gitHooks() {
     foreach (['pre-commit', 'commit-msg'] as $hook) {
@@ -239,6 +241,7 @@ class SettingsCommand extends BltTasks {
    * Writes a hash salt to ${repo.root}/salt.txt if one does not exist.
    *
    * @command drupal:hash-salt:init
+   * @aliases dhsi setup:hash-salt
    *
    * @return int
    *   A CLI exit code.

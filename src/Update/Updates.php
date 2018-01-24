@@ -460,7 +460,7 @@ class Updates {
     $this->updater->moveFile('drush/site-aliases/aliases.drushrc.php', 'drush/site-aliases/legacy.aliases.drushrc.php');
     $this->updater->replaceInFile('drush/site-aliases/legacy.aliases.drushrc.php', "' . drush_server_home() . '", '$HOME');
     $process = new Process(
-      './vendor/bin/drush site:alias-convert $(pwd)/drush/site --sources=$(pwd)/drush/site-aliases',
+      './vendor/bin/drush site:alias-convert $(pwd)/drush/sites --sources=$(pwd)/drush/site-aliases',
       $this->updater->getRepoRoot()
     );
     $process->run();
@@ -470,7 +470,13 @@ class Updates {
       'legacy.aliases.drushrc.php',
       'drush/drushrc.php',
       'drush/site-aliases/legacy.aliases.drushrc.php',
+      'drush/.checksums'
     ];
+    foreach ($files as $key => $file) {
+      if (!file_exists($file)) {
+        unset($files[$key]);
+      }
+    }
     $this->updater->getFileSystem()->chmod($files, 0777);
     $this->updater->deleteFile($files);
     $this->updater->getFileSystem()->mirror('drush/site-aliases', 'drush/sites');
