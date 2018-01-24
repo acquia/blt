@@ -54,10 +54,10 @@ class SandboxManager {
     $this->output->writeln("Creating master sandbox in <comment>{$this->sandboxMaster}</comment>...");
     $fixture = $this->bltDir . "/tests/phpunit/fixtures/sandbox";
     $this->fs->remove($this->sandboxMaster);
-    $this->removeSandboxInstance();
     $this->fs->mirror($fixture, $this->sandboxMaster);
     $this->updateSandboxMasterBltRepoSymlink();
     $this->installSandboxMasterDependencies();
+    $this->removeSandboxInstance();
   }
 
   /**
