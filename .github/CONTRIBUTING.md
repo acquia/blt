@@ -35,12 +35,14 @@ git clone https://github.com/acquia/blt.git
 rm -rf blted8
 composer install --working-dir=blt
 cd blt
-./vendor/bin/robo create:symlinked-project
+./vendor/bin/robo create:from-symlink
 ```
 
 The new `blted8` directory will have a composer dependency on your local clone of BLT via a `../blt` symlink. You can therefore make changes to files in `blt` and see them immediately reflected in `blted8/vendor/acquia/blt`.
 
 # Testing
+
+To execute the same "release" testing that is performed during CI execution, run:
 
 ```
 ./vendor/bin/robo release:test
