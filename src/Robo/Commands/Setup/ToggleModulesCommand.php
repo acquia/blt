@@ -6,7 +6,7 @@ use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
 
 /**
- * Defines commands in the "setup:toggle-modules" namespace.
+ * Defines commands in the "drupal:toggle:modules" namespace.
  */
 class ToggleModulesCommand extends BltTasks {
 
@@ -18,7 +18,9 @@ class ToggleModulesCommand extends BltTasks {
    * $_ENV['environment'] via the CLI, or defining environment in one of your
    * BLT configuration files.
    *
-   * @command setup:toggle-modules
+   * @command drupal:toggle:modules
+   *
+   * @aliases dtm toggle setup:toggle-modules
    *
    * @executeInDrupalVm
    * @validateDrushConfig
@@ -44,7 +46,7 @@ class ToggleModulesCommand extends BltTasks {
       $this->doToggleModules('pm-uninstall', $disable_key);
     }
     else {
-      $this->say("Environment is unset. Skipping setup:toggle-modules...");
+      $this->say("Environment is unset. Skipping drupal:toggle:modules...");
     }
   }
 

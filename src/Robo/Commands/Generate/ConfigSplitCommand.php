@@ -6,7 +6,7 @@ use Acquia\Blt\Robo\BltTasks;
 use Drupal\Component\Uuid\Php;
 
 /**
- * Defines commands in the generate:config-splits namespace.
+ * Defines commands in the recipes:config:init:splits namespace.
  */
 class ConfigSplitCommand extends BltTasks {
 
@@ -56,7 +56,9 @@ class ConfigSplitCommand extends BltTasks {
   /**
    * Generates empty config_split splits for the selected environments.
    *
-   * @command generate:config-splits
+   * @command recipes:config:init:splits
+   *
+   * @aliases rcis splits
    */
   public function generateConfigSplits() {
     $this->say("This command will generate configuration and directories for the following environment based splits: Local, CI, Dev, Stage, and Prod.");

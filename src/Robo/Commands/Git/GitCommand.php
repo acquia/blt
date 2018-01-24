@@ -12,7 +12,9 @@ class GitCommand extends BltTasks {
   /**
    * Validates a git commit message.
    *
-   * @command git:commit-msg
+   * @command internal:git-hook:execute:commit-msg
+   * @aliases git:commit-msg
+   * @hidden
    *
    * @return int
    */
@@ -34,7 +36,9 @@ class GitCommand extends BltTasks {
   /**
    * Validates staged files.
    *
-   * @command git:pre-commit
+   * @command internal:git-hook:execute:pre-commit
+   * @aliases git:pre-commit
+   * @hidden
    *
    * @param string $changed_files
    *   A list of staged files, separated by \n.
@@ -47,9 +51,9 @@ class GitCommand extends BltTasks {
     $collection->addCode(
       function () use ($changed_files) {
         return $this->invokeCommands([
-          'validate:phpcs:files' => ['file_list' => $changed_files],
-          'validate:twig:files' => ['file_list' => $changed_files],
-          'validate:yaml:files' => ['file_list' => $changed_files],
+          'tests:phpcs:sniff:files' => ['file_list' => $changed_files],
+          'tests:twig:lint:files' => ['file_list' => $changed_files],
+          'tests:yaml:lint:files' => ['file_list' => $changed_files],
         ]);
       }
     );
@@ -59,7 +63,7 @@ class GitCommand extends BltTasks {
       || in_array('composer.lock', $changed_files_list)) {
       $collection->addCode(
         function () use ($changed_files) {
-          return $this->invokeCommand('validate:composer');
+          return $this->invokeCommand('tests:composer:validate');
         }
       );
     }

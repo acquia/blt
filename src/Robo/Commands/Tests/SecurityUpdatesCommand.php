@@ -12,8 +12,8 @@ class SecurityUpdatesCommand extends BltTasks {
   /**
    * Check local Drupal installation for security updates.
    *
-   * @command tests:security-updates
-   * @description Check local Drupal installation for security updates.
+   * @command tests:security:check:updates
+   * @aliases tscu security tests:security-updates
    */
   public function testsSecurityUpdates() {
     $result = $this->taskDrush()
@@ -21,7 +21,7 @@ class SecurityUpdatesCommand extends BltTasks {
       ->run();
 
     if ($result->getExitCode()) {
-      $this->logger->notice('To disable security checks, set disable-targets.tests.security-updates to false in project.yml.');
+      $this->logger->notice('To disable security checks, set disable-targets.tests.security-updates to false in blt.yml.');
       return 1;
     }
     else {

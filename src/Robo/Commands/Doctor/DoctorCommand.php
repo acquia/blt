@@ -28,9 +28,12 @@ class DoctorCommand extends BltTasks {
       && $this->getInspector()->isDrupalVmBooted()
       && !$this->getInspector()->isVmCli()) {
       $this->logger->debug("Executing doctor inside Drupal VM.");
-      $result = $this->executeDoctorInsideVm();
-      if ($result->wasSuccessful()) {
+      try {
+        $result = $this->executeDoctorInsideVm();
         return $result->getExitCode();
+      }
+      catch (\Exception $e) {
+
       }
     }
 

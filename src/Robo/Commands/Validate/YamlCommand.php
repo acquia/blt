@@ -5,14 +5,16 @@ namespace Acquia\Blt\Robo\Commands\Validate;
 use Acquia\Blt\Robo\BltTasks;
 
 /**
- * Defines commands in the "validate:yaml*" namespace.
+ * Defines commands in the "tests:yaml:lint:all*" namespace.
  */
 class YamlCommand extends BltTasks {
 
   /**
    * Executes YAML validator against all validate.yaml.filesets files.
    *
-   * @command validate:yaml
+   * @command tests:yaml:lint:all
+   *
+   * @aliases tyla yaml tests:yaml:lint validate:yaml
    */
   public function lintFileSets() {
     $this->say("Validating yaml syntax for all custom modules and exported config...");
@@ -29,7 +31,7 @@ class YamlCommand extends BltTasks {
   /**
    * Executes YAML validator against files, if in validate.yaml.filesets.
    *
-   * @command validate:yaml:files
+   * @command tests:yaml:lint:files
    *
    * @param string $file_list
    *   A list of files to scan, separated by \n.

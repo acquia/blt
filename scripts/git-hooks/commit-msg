@@ -9,7 +9,7 @@ $commit_msg = rtrim(file_get_contents($original_argv[1]), "\n");
 // Construct pseudo `blt commit-msg $commit_msg` call.
 $_SERVER['argv'] = [
   $repo_root . '/bin/blt',
-  'git:commit-msg',
+  'internal:git-hook:execute:commit-msg',
   $commit_msg,
 ];
 $_SERVER['argc'] = count($_SERVER['argv']);

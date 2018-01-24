@@ -6,14 +6,16 @@ use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
 
 /**
- * Defines commands in the "fix:phpcbf*" namespace.
+ * Defines commands in the "source:fix:php-standards*" namespace.
  */
 class PhpCbfCommand extends BltTasks {
 
   /**
    * Fixes and beautifies custom code according to Drupal Coding standards.
    *
-   * @command fix:phpcbf
+   * @command source:fix:php-standards
+   *
+   * @aliases fps fix phpcbf fix:phpcbf
    */
   public function phpcbfFileSet() {
     $this->say('Fixing and beautifying code...');

@@ -16,11 +16,13 @@ class SyncCommand extends BltTasks {
    * This command does not use @executeInDrupalVm because it would require
    * SSH forwarding.
    *
-   * @command sync:all
+   * @command drupal:sync:all-sites
+   *
+   * @aliases dsa sync:all
    *
    * @see https://github.com/acquia/blt/issues/1875
    */
-  public function all() {
+  public function allSites() {
     $multisites = $this->getConfigValue('multisites');
     $this->printSyncMap($multisites);
     $continue = $this->confirm("Continue?");
@@ -40,7 +42,9 @@ class SyncCommand extends BltTasks {
    * Copies remote db to local db, re-imports config, and executes db updates
    * for each multisite.
    *
-   * @command sync
+   * @command drupal:sync
+   *
+   * @aliases ds sync
    */
   public function sync($options = [
     'sync-files' => FALSE,
@@ -48,7 +52,7 @@ class SyncCommand extends BltTasks {
 
     $commands = $this->getConfigValue('sync.commands');
     if ($options['sync-files'] || $this->getConfigValue('sync.files')) {
-      $commands[] = 'sync:files';
+      $commands[] = 'drupal:sync:files';
     }
     $this->invokeCommands($commands);
   }
@@ -56,7 +60,9 @@ class SyncCommand extends BltTasks {
   /**
    * Copies remote files to local machine.
    *
-   * @command sync:files
+   * @command drupal:sync:files
+   *
+   * @aliases dsf sync:files
    *
    * @validateDrushConfig
    *
@@ -83,11 +89,13 @@ class SyncCommand extends BltTasks {
   /**
    * Iteratively copies remote db to local db for each multisite.
    *
-   * @command sync:db:all
+   * @command drupal:sync:db:all-sites
+   *
+   * @aliases dsba sync:all:db
    *
    * @executeInDrupalVm
    */
-  public function syncDbAll() {
+  public function syncDbAllSites() {
     $exit_code = 0;
     $multisites = $this->getConfigValue('multisites');
 
@@ -113,7 +121,9 @@ class SyncCommand extends BltTasks {
   /**
    * Copies remote db to local db for default site.
    *
-   * @command sync:db
+   * @command drupal:sync:db
+   *
+   * @aliases dsb sync:db
    *
    * @validateDrushConfig
    * @executeInDrupalVm

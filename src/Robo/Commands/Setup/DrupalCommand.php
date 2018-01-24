@@ -18,11 +18,11 @@ class DrupalCommand extends BltTasks {
    *
    * @validateMySqlAvailable
    * @validateDrushConfig
+   * @hidden
    *
    * @return \Robo\Result
    *   The `drush site-install` command result.
-   *
-   * @hidden
+   * @throws BltException
    */
   public function install() {
 
@@ -50,7 +50,7 @@ class DrupalCommand extends BltTasks {
       ->verbose(TRUE)
       ->printOutput(TRUE);
 
-    $result = $task->detectInteractive()->run();
+    $result = $task->interactive($this->input()->isInteractive())->run();
     if (!$result->wasSuccessful()) {
       throw new BltException("Failed to install Drupal!");
     }

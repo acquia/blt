@@ -125,7 +125,7 @@ In situations where you have local projects, e.g. a custom module, that have the
 Drupal 8 does not have a definitive solution for downloading front end dependencies. The following solutions are suggested:
 
 * Load the library as an external library. See [Adding stylesheets (CSS) and JavaScript (JS) to a Drupal 8 module](https://www.drupal.org/developing/api/8/assets).
-* Use a front end package manager (e.g., [NPM](https://www.npmjs.com/)) to download your dependencies. Then use BLT's `frontend-build` target-hook to trigger building those dependencies. E.g., call `npm install` in your theme directory via these hooks. See [Frontend management](frontend.md) for more information.
+* Use a front end package manager (e.g., [NPM](https://www.npmjs.com/)) to download your dependencies. Then use BLT's `source:build:frontend-assets` target-hook to trigger building those dependencies. E.g., call `npm install` in your theme directory via these hooks. See [Frontend management](frontend.md) for more information.
 * Commit the library to the repository, typically in `docroot/librares`.
 *  Add the library to composer.json via a [custom repository](https://getcomposer.org/doc/05-repositories.md). Designate the package as a `drupal-library` and define a `installer-paths` path for that package type to ensure that it is installed to `docroot/libraries.` Ensure that it can be discovered in that location. See [example composer.json](https://gist.github.com/mortenson/a5390d99013b5b8c0254081e89bb4d47).
 

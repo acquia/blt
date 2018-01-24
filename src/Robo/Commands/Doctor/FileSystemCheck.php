@@ -55,7 +55,7 @@ class FileSystemCheck extends DoctorCheck {
 
         if (in_array($key, ['%files', '%private'])) {
           $outcome[] = "Installing Drupal will create this directory for you.";
-          $outcome[] = "Run `blt setup:drupal:install` to install Drupal, or run `blt setup` to run the entire setup process.";
+          $outcome[] = "Run `blt drupal:install` to install Drupal, or run `blt setup` to run the entire setup process.";
           $outcome[] = "Otherwise, run `mkdir -p $full_path`.";
           $outcome[] = "";
         }

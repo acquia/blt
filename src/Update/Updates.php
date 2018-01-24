@@ -4,6 +4,7 @@ namespace Acquia\Blt\Update;
 
 use Acquia\Blt\Annotations\Update;
 use Acquia\Blt\Robo\Common\ArrayManipulator;
+use Dflydev\DotAccessData\Data;
 use Symfony\Component\Process\Process;
 
 /**
@@ -57,7 +58,7 @@ class Updates {
     // Delete symlink to hooks directory. Individual git hooks are now symlinked, not the entire directory.
     $this->updater->deleteFile('.git/hooks');
     $this->updater->getOutput()
-      ->writeln('.git/hooks was deleted. Please re-run setup:git-hooks to install git hooks locally.');
+      ->writeln('.git/hooks was deleted. Please re-run blt:init:git-hooks to install git hooks locally.');
 
     $this->updater->removeComposerRepository('https://github.com/mortenson/composer-patches');
     $this->updater->removeComposerScript('post-create-project-cmd');
@@ -71,7 +72,7 @@ class Updates {
     }
 
     $this->updater->getOutput()
-      ->writeln("<comment>You MUST remove .travis.yml and re-initialize Travis CI support with `blt ci:travis:init`.</comment>");
+      ->writeln("<comment>You MUST remove .travis.yml and re-initialize Travis CI support with `blt recipes:ci:travis:init`.</comment>");
   }
 
   /**
@@ -319,9 +320,8 @@ class Updates {
       "You have updated to a new major version of BLT, which introduces backwards-incompatible changes.",
       "You may need to perform the following manual update steps:",
       "  - View the full list of commands via `blt list`, <comment>BLT commands have changed</comment>",
-      "  - Re-initialize default Drupal VM configuration via `blt vm:config`.",
-      "  - Re-initialize default Travis CI configuration via `blt ci:travis:init`.
-         - Re-initialize default Acquia Pipelines configuration via `blt ci:pipelines:init`.",
+      "  - Re-initialize default Travis CI configuration via `blt recipes:ci:travis:init`.
+         - Re-initialize default Acquia Pipelines configuration via `blt recipes:ci:pipelines:init`.",
       "  - Port custom Phing commands to Robo. All Phing commands are now obsolete. See:",
       "    http://blt.readthedocs.io/en/8.x/readme/extending-blt/",
     ];
@@ -460,7 +460,7 @@ class Updates {
     $this->updater->moveFile('drush/site-aliases/aliases.drushrc.php', 'drush/site-aliases/legacy.aliases.drushrc.php');
     $this->updater->replaceInFile('drush/site-aliases/legacy.aliases.drushrc.php', "' . drush_server_home() . '", '$HOME');
     $process = new Process(
-      './vendor/bin/drush site:alias-convert $(pwd)/drush/sites --sources=$(pwd)/drush/site-aliases',
+      './vendor/bin/drush site:alias-convert $(pwd)/drush/site --sources=$(pwd)/drush/site-aliases',
       $this->updater->getRepoRoot()
     );
     $process->run();
@@ -469,12 +469,31 @@ class Updates {
       'docroot/sites/default/local.drushrc.php',
       'legacy.aliases.drushrc.php',
       'drush/drushrc.php',
+      'drush/site-aliases/legacy.aliases.drushrc.php',
     ];
     $this->updater->getFileSystem()->chmod($files, 0777);
     $this->updater->deleteFile($files);
     $this->updater->getFileSystem()->mirror('drush/site-aliases', 'drush/sites');
     $this->updater->getFileSystem()->remove('drush/site-aliases');
-    $process = new Process("blt setup:settings", $this->updater->getRepoRoot());
+
+    $this->updater->moveFile('blt/project.local.yml', 'blt/local.yml');
+    $this->updater->moveFile('blt/project.yml', 'blt/blt.yml');
+
+    $rekey_map = [
+      'target-hooks.frontend-setup' => 'target-hooks.frontend-reqs',
+      'target-hooks.frontend-build' => 'target-hooks.frontend-assets',
+      'target-hooks' => 'command-hooks',
+    ];
+
+    $project_yml = $this->updater->getProjectYml();
+    $project_config = new Data($project_yml);
+    foreach ($rekey_map as $original => $new) {
+      $value = $project_config->get($original);
+      $project_config->set($new, $value);
+      $project_config->remove($original);
+    }
+
+    $process = new Process("blt blt:init:settings", $this->updater->getRepoRoot());
     $process->run();
   }
 }

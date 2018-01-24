@@ -12,10 +12,10 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 class AcsfTest extends BltProjectTestBase {
 
   /**
-   * Tests acsf:init command.
+   * Tests recipes:acsf:init:all command.
    */
   public function testAcsfInit() {
-    $this->blt("acsf:init");
+    $this->blt("recipes:acsf:init:all");
     $this->assertFileExists($this->sandboxInstance . '/docroot/modules/contrib/acsf');
     $this->assertFileExists($this->sandboxInstance . '/factory-hooks');
   }

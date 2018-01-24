@@ -30,12 +30,12 @@ echo ""
 if [[ $REPLY =~ ^[Yy]$ ]]; then
   # composer require acquia/blt:~8
 
-  # Move values from custom/build.yml to project.yml.
+  # Move values from custom/build.yml to blt.yml.
   # @todo Check if this exists and if it exactly matches core value.
   if [[ ! -z build/custom/phing/build.yml ]]; then
-    echo "Moving custom Phing properties to project.yml."
-    echo "" >> project.yml
-    cat build/custom/phing/build.yml >> project.yml
+    echo "Moving custom Phing properties to blt.yml."
+    echo "" >> blt.yml
+    cat build/custom/phing/build.yml >> blt.yml
   fi
 
   # Move build/custom/files to new locations (e.g., deploy excludes or .gitignores).
@@ -49,7 +49,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 
   # Install (new) alias
   echo "Installing blt alias"
-  yes | ./vendor/acquia/blt/blt.sh install-alias
+  yes | ./vendor/acquia/blt/blt.sh blt:init:shell-alias
   ./vendor/acquia/blt/blt.sh init
   composer update
 
@@ -57,13 +57,13 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
   echo ""
   echo "* Restart your terminal session to register your new blt alias."
   echo "* Review your codebase and commit the desired changes."
-  echo "    * If you have a custom Phing build file, you will likely need to update it and add it to project.yml under the 'import' key. See readme/extending-blt.md."
+  echo "    * If you have a custom Phing build file, you will likely need to update it and add it to blt.yml under the 'import' key. See readme/extending-blt.md."
   echo "    * If you had custom files in docroot/sites/default/settings, you will need to restore them."
-  echo "    * If you are not using Lightning, remove lightning-specific target-hooks from project.yml."
+  echo "    * If you are not using Lightning, remove lightning-specific command-hooks from blt.yml."
   # link to online docs
 
-  ./vendor/bin/drupal yaml:get:value project.yml project.hash_salt > salt.txt
-  # remove project.hash_salt, project.themes, project.vendor from project.yml
+  ./vendor/bin/drupal yaml:get:value blt.yml project.hash_salt > salt.txt
+  # remove project.hash_salt, project.themes, project.vendor from blt.yml
 
 else
   exit 1

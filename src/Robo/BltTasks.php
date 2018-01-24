@@ -49,7 +49,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    * Invokes an array of Symfony commands.
    *
    * @param array $commands
-   *   An array of Symfony commands to invoke. E.g., 'tests:behat'.
+   *   An array of Symfony commands to invoke. E.g., 'tests:behat:run'.
    */
   protected function invokeCommands(array $commands) {
     foreach ($commands as $key => $value) {
@@ -69,7 +69,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    * Invokes a single Symfony command.
    *
    * @param string $command_name
-   *   The name of the command. E.g., 'tests:behat'.
+   *   The name of the command. E.g., 'tests:behat:run'.
    * @param array $args
    *   An array of arguments to pass to the command.
    *
@@ -134,7 +134,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
   }
 
   /**
-   * Invokes a given 'target-hooks' hook, typically defined in project.yml.
+   * Invokes a given 'command-hooks' hook, typically defined in blt.yml.
    *
    * @param string $hook
    *   The hook name.
@@ -144,13 +144,13 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function invokeHook($hook) {
-    if ($this->getConfig()->has("target-hooks.$hook.command")
-      && $this->getConfigValue("target-hooks.$hook.command")) {
+    if ($this->getConfig()->has("command-hooks.$hook.command")
+      && $this->getConfigValue("command-hooks.$hook.command")) {
       $this->say("Executing $hook target hook...");
       $result = $this->taskExecStack()
-        ->exec($this->getConfigValue("target-hooks.$hook.command"))
-        ->dir($this->getConfigValue("target-hooks.$hook.dir"))
-        ->detectInteractive()
+        ->exec($this->getConfigValue("command-hooks.$hook.command"))
+        ->dir($this->getConfigValue("command-hooks.$hook.dir"))
+        ->interactive($this->input()->isInteractive())
         ->printOutput(TRUE)
         ->printMetadata(TRUE)
         ->stopOnFail()
@@ -195,9 +195,13 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
     $result = $this->taskExecStack()
       ->exec("vagrant ssh --command 'cd {$vm_config['ssh_home']}; $command'")
       ->dir($this->getConfigValue('repo.root'))
-      ->detectInteractive()
+      ->interactive($this->input()->isInteractive())
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
+
+    if (!$result->wasSuccessful()) {
+      throw new \Exception("Executing command inside VM failed!");
+    }
 
     return $result;
   }

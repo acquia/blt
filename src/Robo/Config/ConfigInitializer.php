@@ -33,6 +33,11 @@ class ConfigInitializer {
   protected $site;
 
   /**
+   * @var string
+   */
+  protected $environment;
+
+  /**
    * ConfigInitializer constructor.
    *
    * @param string $repo_root
@@ -56,7 +61,7 @@ class ConfigInitializer {
   /**
    * @return mixed|string
    */
-  protected function getDefaultSite() {
+  protected function determineSite() {
     if ($this->input->hasParameterOption('site')) {
       $site = $this->input->getParameterOption('site');
     }
@@ -75,9 +80,10 @@ class ConfigInitializer {
    */
   public function initialize() {
     if (!$this->site) {
-      $site = $this->getDefaultSite();
+      $site = $this->determineSite();
       $this->setSite($site);
     }
+    $this->determineEnvironment();
     $this->loadConfigFiles();
     $this->processConfigFiles();
 
@@ -91,7 +97,6 @@ class ConfigInitializer {
     $this->loadDefaultConfig();
     $this->loadProjectConfig();
     $this->loadSiteConfig();
-    $this->loadEnvironmentConfig();
 
     return $this;
   }
@@ -110,8 +115,8 @@ class ConfigInitializer {
    * @return $this
    */
   public function loadProjectConfig() {
-    $this->processor->extend($this->loader->load($this->config->get('repo.root') . '/blt/project.yml'));
-    $this->processor->extend($this->loader->load($this->config->get('repo.root') . '/blt/project.local.yml'));
+    $this->processor->extend($this->loader->load($this->config->get('repo.root') . '/blt/blt.yml'));
+    $this->processor->extend($this->loader->load($this->config->get('repo.root') . "/blt/{$this->environment}.blt.yml"));
 
     return $this;
   }
@@ -122,7 +127,8 @@ class ConfigInitializer {
    */
   public function loadSiteConfig() {
     if ($this->site) {
-      $this->processor->extend($this->loader->load($this->config->get('docroot') . '/sites/' . $this->site . '/blt.yml'));
+      $this->processor->extend($this->loader->load($this->config->get('docroot') . "/sites/{$this->site}/blt.yml"));
+      $this->processor->extend($this->loader->load($this->config->get('docroot') . "/sites/{$this->site}/{$this->environment}.blt.yml"));
     }
 
     return $this;
@@ -131,20 +137,25 @@ class ConfigInitializer {
   /**
    * @return $this
    */
-  public function loadEnvironmentConfig() {
+  public function determineEnvironment() {
     // Support BLT_ENV=ci.
     if (getenv("BLT_ENV")) {
       $environment = getenv("BLT_ENV");
-      $this->processor->extend($this->loader->load($this->config->get('repo.root') . '/blt/' . $environment . '.yml'));
-    }
-    // Support --define environment=ci.
-    if ($this->input->hasParameterOption('environment')) {
-      $this->processor->extend($this->loader->load($this->config->get('repo.root') . '/blt/' . $this->input->getParameterOption('environment') . '.yml'));
     }
     // Support --environment=ci.
-    if ($this->input->hasParameterOption('--environment')) {
-      $this->processor->extend($this->loader->load($this->config->get('repo.root') . '/blt/' . $this->input->getParameterOption('--environment') . '.yml'));
+    elseif ($this->input->hasParameterOption('--environment')) {
+      $environment = $this->input->getParameterOption('--environment');
     }
+    // Support --define environment=ci.
+    elseif ($this->input->hasParameterOption('environment')) {
+      $environment = $this->input->getParameterOption('environment');
+    }
+    else {
+      $environment = 'local';
+    }
+
+    $this->environment = $environment;
+    $this->config->set('environment', $environment);
 
     return $this;
   }

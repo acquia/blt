@@ -6,14 +6,16 @@ use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
 
 /**
- * Defines commands in the "setup:import" namespace.
+ * Defines commands in the "drupal:sql:import" namespace.
  */
 class ImportCommand extends BltTasks {
 
   /**
    * Imports a .sql file into the Drupal database.
    *
-   * @command setup:import
+   * @command drupal:sql:import
+   *
+   * @aliases dsi
    *
    * @validateDrushConfig
    */

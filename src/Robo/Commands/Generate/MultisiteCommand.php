@@ -10,14 +10,16 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Defines commands in the "generate:multisite" namespace.
+ * Defines commands in the "recipes:multisite:init" namespace.
  */
 class MultisiteCommand extends BltTasks {
 
   /**
    * Generates a new multisite.
    *
-   * @command generate:multisite
+   * @command recipes:multisite:init
+   *
+   * @aliases rmi multisite
    *
    */
   public function generate($options = [
@@ -53,7 +55,7 @@ class MultisiteCommand extends BltTasks {
     $this->createSiteDrushAlias($site_name);
     $this->resetMultisiteConfig();
 
-    $this->invokeCommand('setup:settings');
+    $this->invokeCommand('blt:init:settings');
   }
 
   /**
@@ -111,7 +113,7 @@ class MultisiteCommand extends BltTasks {
     if (!file_exists($default_site_dir . "/blt.yml")) {
       $initial_perms = fileperms($default_site_dir);
       chmod($default_site_dir, 0777);
-      // Move project.local.hostname from project.yml to
+      // Move project.local.hostname from blt.yml to
       // sites/default/blt.yml.
       $default_site_yml = [];
       $default_site_yml['project']['local']['hostname'] = $this->getConfigValue('project.local.hostname');

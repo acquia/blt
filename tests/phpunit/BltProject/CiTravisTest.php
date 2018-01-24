@@ -10,12 +10,10 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 class TravisCiTest extends BltProjectTestBase {
 
   /**
-   * Tests ci:travis:init command.
-   *
-   * @group blted8
+   * Tests recipes:ci:travis:init command.
    */
   public function testTravisInit() {
-    $this->blt('ci:travis:init');
+    $this->blt('recipes:ci:travis:init');
     $this->assertFileExists($this->sandboxInstance . '/.travis.yml');
   }
 

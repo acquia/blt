@@ -6,6 +6,8 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
  * Class DoctorTest.
+ *
+ * @group requires-db
  */
 class DoctorTest extends BltProjectTestBase {
 

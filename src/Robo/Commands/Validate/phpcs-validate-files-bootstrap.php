@@ -2,7 +2,7 @@
 
 /**
  * @file
- * This bootstrap file should be used only with validate:phpcs:files.
+ * This bootstrap file should be used only with tests:phpcs:sniff:files.
  *
  * Its purpose is to take a list of files specified for sniffing, and filter it
  * according to the file patterns established in phpcs.xml. By default, phpcs
