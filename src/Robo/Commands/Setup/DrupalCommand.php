@@ -18,11 +18,11 @@ class DrupalCommand extends BltTasks {
    *
    * @validateMySqlAvailable
    * @validateDrushConfig
+   * @hidden
    *
    * @return \Robo\Result
    *   The `drush site-install` command result.
-   *
-   * @hidden
+   * @throws BltException
    */
   public function install() {
 

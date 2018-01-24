@@ -34,7 +34,9 @@ class DeployCommand extends BltTasks {
   /**
    * Builds separate artifact and pushes to git.remotes defined blt.yml.
    *
-   * @command deploy
+   * @command artifact:deploy
+   *
+   * @aliases ad deploy
    */
   public function deploy($options = [
     'branch' => InputOption::VALUE_REQUIRED,
@@ -318,9 +320,9 @@ class DeployCommand extends BltTasks {
       // Execute `blt source:build:frontend` to ensure that frontend artifact
       // are generated in source repo.
       'source:build:frontend',
-      // Execute `drupal:init:hash-salt` to ensure that salt.txt exists.
+      // Execute `drupal:hash-salt:init` to ensure that salt.txt exists.
       // There's a slim chance this has never been generated.
-      'drupal:init:hash-salt',
+      'drupal:hash-salt:init',
     ]);
 
     $this->buildCopy();
@@ -570,7 +572,7 @@ class DeployCommand extends BltTasks {
   /**
    * Update the database to reflect the state of the Drupal file system.
    *
-   * @command artifact:update:drupal:all
+   * @command artifact:update:drupal:all-sites
    */
   public function updateAll() {
     // Disable alias since we are targeting specific uri.
@@ -599,7 +601,7 @@ class DeployCommand extends BltTasks {
   /**
    * Syncs database and files and runs updates.
    *
-   * @command deploy:sync:refresh
+   * @command artifact:sync:all-sites
    */
   public function syncRefresh() {
     // Disable alias since we are targeting specific uri.
@@ -631,7 +633,7 @@ class DeployCommand extends BltTasks {
   public function installDrupal() {
     $this->invokeCommands([
       'internal:drupal:install',
-      'artifact:update:drupal:all',
+      'artifact:update:drupal:all-sites',
     ]);
   }
 

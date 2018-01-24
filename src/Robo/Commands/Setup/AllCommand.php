@@ -12,9 +12,9 @@ class AllCommand extends BltTasks {
   /**
    * Install dependencies, builds docroot, installs Drupal.
    *
-   * @command setup
+   * @command source
    *
-   * @aliases setup:all
+   * @aliases sa source:all setup
    */
   public function setup() {
     $this->say("Setting up local environment for site <comment>{$this->getConfigValue('site')}</comment>.");
@@ -23,8 +23,8 @@ class AllCommand extends BltTasks {
     }
 
     $commands = [
-      'setup:build',
-      'drupal:init:hash-salt',
+      'source:build',
+      'drupal:hash-salt:init',
     ];
 
     switch ($this->getConfigValue('setup.strategy')) {

@@ -5,14 +5,16 @@ namespace Acquia\Blt\Robo\Commands\Validate;
 use Acquia\Blt\Robo\BltTasks;
 
 /**
- * Defines commands in the "validate:deprecated*" namespace.
+ * Defines commands in the "tests:php:sniff:deprecated*" namespace.
  */
 class DeprecatedCommand extends BltTasks {
 
   /**
    * Detects usage of deprecated custom code.
    *
-   * @command validate:deprecated
+   * @command tests:php:sniff:deprecated
+   *
+   * @aliases tpsd deprecated
    */
   public function detect() {
     $this->say("Checking for deprecated code...");
