@@ -229,6 +229,11 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    */
   public function getStatus() {
     $status = $this->getDrushStatus();
+    foreach ($status['php-conf'] as $key => $conf) {
+      unset($status['php-conf'][$key]);
+      $status['php-conf'][] = $conf;
+    }
+
     $defaults = [
       'root' => $this->getConfigValue('docroot'),
       'uri' => $this->getConfigValue('site'),

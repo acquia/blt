@@ -2,6 +2,7 @@
 
 namespace Acquia\Blt\Tests\Blt;
 
+use Acquia\Blt\Robo\Common\YamlMunge;
 use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
@@ -27,6 +28,22 @@ class MultiSiteTest extends BltProjectTestBase {
     $this->assertFileExists("$this->sandboxInstance/docroot/sites/$this->site2Dir/blt.yml");
     $this->assertFileExists("$this->sandboxInstance/docroot/sites/sites.php");
     $this->assertFileExists($this->sandboxInstance . '/config/site2');
+    $this->assertFileExists($this->sandboxInstance . "/drush/sites/$this->site1Dir.site.yml");
+    $this->assertFileExists($this->sandboxInstance . "/drush/sites/$this->site2Dir.site.yml");
+
+    $site1_alias = YamlMunge::parseFile($this->sandboxInstance . "/drush/sites/$this->site1Dir.site.yml");
+    $this->assertEquals($this->site1Dir, $site1_alias['local']['uri']);
+
+    $site2_alias = YamlMunge::parseFile($this->sandboxInstance . "/drush/sites/$this->site2Dir.site.yml");
+    $this->assertEquals($this->site2Dir, $site2_alias['local']['uri']);
+
+    $site1_blt_yml = YamlMunge::parseFile("$this->sandboxInstance/docroot/sites/$this->site1Dir/blt.yml");
+    $this->assertEquals("self", $site1_blt_yml['drush']['aliases']['local']);
+    $this->assertEquals("$this->site1Dir.clone", $site1_blt_yml['drush']['aliases']['remote']);
+
+    $site2_blt_yml = YamlMunge::parseFile("$this->sandboxInstance/docroot/sites/$this->site2Dir/blt.yml");
+    $this->assertEquals("$this->site2Dir.local", $site2_blt_yml['drush']['aliases']['local']);
+    $this->assertEquals("$this->site2Dir.clone", $site2_blt_yml['drush']['aliases']['remote']);
 
     // Clone.
     $this->assertFileNotExists("$this->sandboxInstanceClone/docroot/sites/$this->site1Dir/settings/local.settings.php");
@@ -75,7 +92,7 @@ class MultiSiteTest extends BltProjectTestBase {
     $this->assertEquals('Site 1 Local', $output_array['name']);
 
     $output_array = $this->drushJson("@site2.local config:get system.site");
-    // Site2 is not installed!
+
     $this->assertEquals('Site 2 Local', $output_array['name']);
 
     $output_array = $this->drushJson("@default.clone config:get system.site");

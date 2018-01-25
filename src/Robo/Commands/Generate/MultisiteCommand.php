@@ -6,6 +6,7 @@ use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\YamlMunge;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Grasmash\YamlExpander\Expander;
+use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Yaml\Yaml;
 
@@ -49,13 +50,21 @@ class MultisiteCommand extends BltTasks {
     $this->createSiteDrushAlias('default');
     $this->createNewSiteDir($default_site_dir, $new_site_dir);
 
-    $remote_alias = $this->getNewSiteRemoteAlias($options);
+    $remote_alias = $this->getNewSiteRemoteAlias($site_name, $options);
     $this->createNewBltSiteYml($new_site_dir, $site_name, $url, $remote_alias);
     $this->createNewSiteConfigDir($site_name);
     $this->createSiteDrushAlias($site_name);
     $this->resetMultisiteConfig();
 
     $this->invokeCommand('blt:init:settings');
+
+    $this->say("New site generated at <comment>$new_site_dir</comment>");
+    $this->say("Drush aliases generated:");
+    if (!file_exists($default_site_dir . "/blt.yml")) {
+      $this->say("  * @default.local");
+    }
+    $this->say("  * @$remote_alias");
+    $this->say("Config directory created for new site at <comment>config/$site_name</comment>");
   }
 
   /**
@@ -154,7 +163,7 @@ class MultisiteCommand extends BltTasks {
     $site_yml['project']['human_name'] = $site_name;
     $site_yml['project']['local']['protocol'] = $url['scheme'];
     $site_yml['project']['local']['hostname'] = $url['host'];
-    $site_yml['drush']['aliases']['local'] = "$site_name.local";
+    $site_yml['drush']['aliases']['local'] = $site_name . ".local";
     $site_yml['drush']['aliases']['remote'] = $remote_alias;
     YamlMunge::mergeArrayIntoFile($site_yml, $site_yml_filename);
   }
@@ -166,7 +175,11 @@ class MultisiteCommand extends BltTasks {
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function createNewSiteDir($default_site_dir, $new_site_dir) {
-    $result = $this->taskCopyDir([$default_site_dir => $new_site_dir])->run();
+    $result = $this->taskCopyDir([
+      $default_site_dir => $new_site_dir,
+    ])
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->run();
     if (!$result->wasSuccessful()) {
       throw new BltException("Unable to create $new_site_dir.");
     }
@@ -181,6 +194,7 @@ class MultisiteCommand extends BltTasks {
     $config_dir = $this->getConfigValue('docroot') . '/' . $this->getConfigValue('cm.core.path') . '/' . $site_name;
     $result = $this->taskFilesystemStack()
       ->mkdir($config_dir)
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
     if (!$result->wasSuccessful()) {
       throw new BltException("Unable to create $config_dir.");
@@ -229,9 +243,9 @@ class MultisiteCommand extends BltTasks {
    *
    * @return string
    */
-  protected function getNewSiteRemoteAlias($options) {
+  protected function getNewSiteRemoteAlias($site_name, $options) {
     if (empty($options['remote-alias'])) {
-      $default = $options['site-dir'] . '.test';
+      $default = $site_name . '.local';
       $alias = $this->askDefault("Default remote drush alias", $default);
     }
     else {
