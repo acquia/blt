@@ -33,12 +33,17 @@ class MultiSiteTest extends BltProjectTestBase {
 
     $site1_alias = YamlMunge::parseFile($this->sandboxInstance . "/drush/sites/$this->site1Dir.site.yml");
     $this->assertEquals($this->site1Dir, $site1_alias['local']['uri']);
+
     $site2_alias = YamlMunge::parseFile($this->sandboxInstance . "/drush/sites/$this->site2Dir.site.yml");
     $this->assertEquals($this->site2Dir, $site2_alias['local']['uri']);
 
     $site1_blt_yml = YamlMunge::parseFile("$this->sandboxInstance/docroot/sites/$this->site1Dir/blt.yml");
-    $this->assertEquals("$this->site1Dir.local", $site1_blt_yml['drush']['aliases']['local']);
-    $this->assertEquals("$this->site1Dir.test", $site1_blt_yml['drush']['aliases']['remote']);
+    $this->assertEquals("self", $site1_blt_yml['drush']['aliases']['local']);
+    $this->assertEquals("$this->site1Dir.clone", $site1_blt_yml['drush']['aliases']['remote']);
+
+    $site2_blt_yml = YamlMunge::parseFile("$this->sandboxInstance/docroot/sites/$this->site2Dir/blt.yml");
+    $this->assertEquals("self", $site2_blt_yml['drush']['aliases']['local']);
+    $this->assertEquals("$this->site2Dir.clone", $site2_blt_yml['drush']['aliases']['remote']);
 
     // Clone.
     $this->assertFileNotExists("$this->sandboxInstanceClone/docroot/sites/$this->site1Dir/settings/local.settings.php");
