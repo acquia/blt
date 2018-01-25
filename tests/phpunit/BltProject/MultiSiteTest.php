@@ -42,7 +42,7 @@ class MultiSiteTest extends BltProjectTestBase {
     $this->assertEquals("$this->site1Dir.clone", $site1_blt_yml['drush']['aliases']['remote']);
 
     $site2_blt_yml = YamlMunge::parseFile("$this->sandboxInstance/docroot/sites/$this->site2Dir/blt.yml");
-    $this->assertEquals("self", $site2_blt_yml['drush']['aliases']['local']);
+    $this->assertEquals("$this->site2Dir.local", $site2_blt_yml['drush']['aliases']['local']);
     $this->assertEquals("$this->site2Dir.clone", $site2_blt_yml['drush']['aliases']['remote']);
 
     // Clone.
@@ -92,7 +92,7 @@ class MultiSiteTest extends BltProjectTestBase {
     $this->assertEquals('Site 1 Local', $output_array['name']);
 
     $output_array = $this->drushJson("@site2.local config:get system.site");
-    // Site2 is not installed!
+
     $this->assertEquals('Site 2 Local', $output_array['name']);
 
     $output_array = $this->drushJson("@default.clone config:get system.site");
