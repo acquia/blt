@@ -482,8 +482,10 @@ class Updates {
     $this->updater->getFileSystem()->mirror('drush/site-aliases', 'drush/sites');
     $this->updater->getFileSystem()->remove('drush/site-aliases');
 
-    $this->updater->moveFile('blt/project.local.yml', 'blt/local.yml');
-    $this->updater->moveFile('blt/project.yml', 'blt/blt.yml');
+    $this->updater->moveFile('blt/example.project.local.yml', 'blt/example.local.blt.yml', TRUE);
+    $this->updater->moveFile('blt/project.local.yml', 'blt/local.yml', TRUE);
+    $this->updater->moveFile('blt/project.yml', 'blt/blt.yml', TRUE);
+    $this->updater->moveFile('blt/ci.yml', 'blt/ci.blt.yml', TRUE);
 
     $rekey_map = [
       'target-hooks.frontend-setup' => 'target-hooks.frontend-reqs',
