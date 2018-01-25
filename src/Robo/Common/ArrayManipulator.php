@@ -121,7 +121,7 @@ class ArrayManipulator {
    */
   public static function convertArrayToFlatTextArray(array $array) {
     $rows = [];
-    $max_line_length = 80;
+    $max_line_length = 60;
     foreach ($array as $key => $value) {
       if (is_array($value)) {
         $flattened_array = self::flattenToDotNotatedKeys($value);

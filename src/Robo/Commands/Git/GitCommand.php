@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Git;
 
 use Acquia\Blt\Robo\BltTasks;
+use Robo\Contract\VerbosityThresholdInterface;
 
 /**
  * Defines commands in the "git:*" namespace.
@@ -68,7 +69,9 @@ class GitCommand extends BltTasks {
       );
     }
 
-    $result = $collection->run();
+    $result = $collection
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->run();
 
     if ($result->wasSuccessful()) {
       $this->say("<info>Your local code has passed git pre-commit validation.</info>");
