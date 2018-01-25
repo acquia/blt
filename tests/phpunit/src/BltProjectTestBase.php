@@ -80,6 +80,10 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
     }
 
     $this->sandboxInstance = $this->sandboxManager->getSandboxInstance();
+
+    $ci_config = YamlMunge::mungeFiles($this->sandboxInstance . "/blt/ci.blt.yml", $this->bltDirectory . "/scripts/blt/ci/internal/ci.yml");
+    YamlMunge::writeFile($this->sandboxInstance . "/blt/ci.blt.yml", $ci_config);
+
     // Config is overwritten for each $this->blt execution.
     $this->reInitializeConfig($this->createBltInput(NULL, []));
     $this->drush('cache-rebuild', NULL, FALSE);
