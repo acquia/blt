@@ -10,11 +10,9 @@ use Acquia\Blt\Robo\BltTasks;
 class AllCommand extends BltTasks {
 
   /**
-   * Install dependencies, builds docroot, installs Drupal.
+   * Executes source:build:* and installs Drupal via setup.strategy.
    *
-   * @command source
-   *
-   * @aliases sa source:all setup
+   * @command setup
    */
   public function setup() {
     $this->say("Setting up local environment for site <comment>{$this->getConfigValue('site')}</comment>.");

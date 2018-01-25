@@ -57,7 +57,7 @@ class DrupalCheck extends DoctorCheck {
       $this->logProblem(__FUNCTION__, [
         "Drupal is not installed.",
         "",
-        'Run `blt setup` to install Drupal locally.',
+        'Run `blt drupal:install` to install Drupal locally.',
       ], 'error');
     }
   }

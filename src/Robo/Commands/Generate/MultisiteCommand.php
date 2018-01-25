@@ -176,8 +176,8 @@ class MultisiteCommand extends BltTasks {
    */
   protected function createNewSiteDir($default_site_dir, $new_site_dir) {
     $result = $this->taskCopyDir([
-        $default_site_dir => $new_site_dir,
-      ])
+      $default_site_dir => $new_site_dir,
+    ])
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
     if (!$result->wasSuccessful()) {
