@@ -52,19 +52,16 @@ class CommandEventHook extends BltTasks {
       if ($annotation_data->has('executeInDrupalVm') && $this->shouldExecuteInDrupalVm()) {
         $event->disableCommand();
         $command = $event->getCommand();
-        $new_input = $this->createCommandInputFromCurrentParams($command);
+        $new_input = $this->createCommandInputFromCurrentParams($command, $event->getInput());
         $defines = $new_input->getOption('define');
         $defines[] = 'drush.alias=self';
         $new_input->setOption('define', $defines);
-
         // We cannot return an exit code directly, because disabled commands
         // always return ConsoleCommandEvent::RETURN_CODE_DISABLED.
         $command_string = $this->convertInputToCommandString($new_input, $command);
         $result = $this->executeCommandInDrupalVm($command_string);
       }
     }
-
-    // @todo Transmit analytics on command execution. Do the same in status hook.
   }
 
   /**
@@ -114,30 +111,32 @@ class CommandEventHook extends BltTasks {
    *
    * @param \Symfony\Component\Console\Command\Command $command
    *   The command.
+   * @param \Symfony\Component\Console\Input\InputInterface $input
+   *   The command input from the ConsoleCommandEvent.
    *
    * @return \Symfony\Component\Console\Input\ArrayInput
    */
-  protected function createCommandInputFromCurrentParams(Command $command) {
+  protected function createCommandInputFromCurrentParams(Command $command, InputInterface $input) {
     $command_definition = $command->getDefinition();
     $command_name = $command->getName();
     $options = $this->input->getOptions();
     $args = $this->input->getArguments();
     unset($args['command']);
-    $new_input = new ArrayInput(['blt', 'command' => $command_name],
-      $command_definition);
-
+    // Filter out any invalid arguments.
     foreach ($args as $name => $value) {
-      if ($command_definition->hasArgument($name)) {
-        $new_input->setArgument($name, $value);
+      if (is_null($value) || !$command_definition->hasArgument($name)) {
+        unset($args[$name]);
       }
     }
-
+    // Pass in all the arguments so that ArrayInput constructor will not be
+    // missing necessary arguments in validation.
+    $new_input = new ArrayInput(array_merge(['blt', 'command' => $command_name], $args),
+      $command_definition);
     foreach ($options as $name => $value) {
       if ($command_definition->hasOption($name)) {
         $new_input->setOption($name, $value);
       }
     }
-
     return $new_input;
   }
 
