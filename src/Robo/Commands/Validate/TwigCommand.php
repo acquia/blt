@@ -5,7 +5,7 @@ namespace Acquia\Blt\Robo\Commands\Validate;
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Commands\Input\ArrayInput;
 use Acquia\Blt\Robo\Exceptions\BltException;
-use Symfony\Bridge\Twig\Command\LintCommand;
+use Symfony\Bridge\Twig\Command\LintCommand as TwigLintCommand;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
@@ -133,7 +133,7 @@ class TwigCommand extends BltTasks {
       $twig->addFunction(new \Twig_SimpleFunction($function, function () {}));
     }
 
-    $command = new LintCommand();
+    $command = new TwigLintCommand();
     $command->setTwigEnvironment($twig);
 
     return $command;

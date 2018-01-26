@@ -8,7 +8,35 @@ namespace Acquia\Blt\Robo\Commands\Doctor;
 class DbCheck extends DoctorCheck {
 
   public function performAllChecks() {
-    $this->checkDbConnection();
+    if ($this->checkRequiredKeys()) {
+      $this->checkDbConnection();
+    }
+  }
+
+  /**
+   * Check that required drush status keys exist.
+   *
+   * @return bool
+   */
+  protected function checkRequiredKeys() {
+    $keys = [
+      'db-hostname',
+      'db-username',
+      'db-password',
+      'db-name',
+      'db-port',
+    ];
+    $outcome = [];
+    foreach ($keys as $key) {
+      if (!array_key_exists($key, $this->drushStatus)) {
+        $outcome[] = "drush status is missing the '$key' key.";
+        $this->logProblem(__FUNCTION__, $outcome, 'error');
+
+        return FALSE;
+      }
+    }
+
+    return TRUE;
   }
 
   /**

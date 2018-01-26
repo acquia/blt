@@ -229,9 +229,11 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    */
   public function getStatus() {
     $status = $this->getDrushStatus();
-    foreach ($status['php-conf'] as $key => $conf) {
-      unset($status['php-conf'][$key]);
-      $status['php-conf'][] = $conf;
+    if (array_key_exists('php-conf', $status)) {
+      foreach ($status['php-conf'] as $key => $conf) {
+        unset($status['php-conf'][$key]);
+        $status['php-conf'][] = $conf;
+      }
     }
 
     $defaults = [

@@ -471,7 +471,7 @@ class Updates {
       'legacy.aliases.drushrc.php',
       'drush/drushrc.php',
       'drush/site-aliases/legacy.aliases.drushrc.php',
-      'drush/.checksums',
+      'drush/sites/.checksums',
       'example.acsf.aliases.yml',
       'example.local.aliases.yml',
     ];
