@@ -378,6 +378,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   protected function updateChangelog($tag, $changes) {
     $this->taskChangelog('CHANGELOG.md')
       ->setHeader("#### $tag (" . date("Y-m-d") . ")\n\n")
+      ->anchor("# Change Log")
       ->setBody($changes)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
