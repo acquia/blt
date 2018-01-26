@@ -1,0 +1,31 @@
+<phpunit
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.6/phpunit.xsd"
+  colors="true"
+  bootstrap="tests/phpunit/bootstrap.php"
+  stopOnFailure="true"
+  stopOnError="true"
+  verbose="true">
+
+  <testsuites>
+    <testsuite name="BLT Test Suite">
+      <directory>tests/phpunit</directory>
+    </testsuite>
+  </testsuites>
+
+  <groups>
+    <exclude>
+      <group>requires-vm</group>
+    </exclude>
+  </groups>
+
+  <php>
+    <!-- These variables may alternatively be set as environment variables. -->
+    <!-- E.g., `BLT_PRINT_COMMAND_OUTPUT=1 ./vendor/bin/phpunit` -->
+    <env name="BLT_RECREATE_SANDBOX_MASTER" value="0"/>
+    <env name="BLT_PRINT_COMMAND_OUTPUT" value="1"/>
+    <env name="BLT_REPLACE_SANDBOX_INSTANCE" value="1"/>
+    <env name="BLT_ENV" value="ci"/>
+  </php>
+
+</phpunit>
