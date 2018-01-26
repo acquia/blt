@@ -206,7 +206,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
 
     // Push the change upstream.
     $this->_exec("git add CHANGELOG.md $this->bltRoot/src/Robo/Blt.php");
-    $this->_exec("git commit -m 'Updating CHANGELOG.md for $tag.' -n");
+    $this->_exec("git commit -m 'Updating CHANGELOG.md and setting version for $tag.' -n");
     $this->_exec("git push origin $current_branch");
     $this->createGitHubRelease($current_branch, $tag, $release_notes, $github_token);
 
