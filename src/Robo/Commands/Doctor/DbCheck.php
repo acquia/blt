@@ -30,11 +30,13 @@ class DbCheck extends DoctorCheck {
     foreach ($keys as $key) {
       if (!array_key_exists($key, $this->drushStatus)) {
         $outcome[] = "drush status is missing the '$key' key.";
+        $this->logProblem(__FUNCTION__, $outcome, 'error');
+
+        return FALSE;
       }
     }
-    $this->logProblem(__FUNCTION__, $outcome, 'error');
 
-    return FALSE;
+    return TRUE;
   }
 
   /**
