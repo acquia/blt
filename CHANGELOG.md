@@ -1,5 +1,26 @@
 # Change Log
 
+#### 9.0.0-beta2 (2018-01-26)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.0.0-beta1...9.0.0-beta2)
+
+
+**Fixed bugs**
+
+- Upgrade path fixes. (#2500)
+- Leaving vendor in place during reinstall. (#2497)
+- Upgrade path fixes. (#2499)
+
+**Miscellaneous**
+
+- Add correct anchor to release command.
+- Fix release command.
+- Fix syntax errer.
+- Fix version.
+- Updating CHANGELOG.md for 9.0.0-beta2.
+- Update version to 9.x-dev.
+
+
 ## [8.9.1](https://github.com/acquia/blt/tree/8.9.1) (2017-08-08)
 [Full Changelog](https://github.com/acquia/blt/compare/8.9.0...8.9.1)
 
