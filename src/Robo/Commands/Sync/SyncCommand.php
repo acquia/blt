@@ -42,9 +42,9 @@ class SyncCommand extends BltTasks {
    * Copies remote db to local db, re-imports config, and executes db updates
    * for each multisite.
    *
-   * @command drupal:sync
+   * @command drupal:sync:default:site
    *
-   * @aliases ds sync
+   * @aliases ds drupal:sync:default sync sync:refresh
    */
   public function sync($options = [
     'sync-files' => FALSE,
@@ -121,9 +121,9 @@ class SyncCommand extends BltTasks {
   /**
    * Copies remote db to local db for default site.
    *
-   * @command drupal:sync:db
+   * @command drupal:sync:default:db
    *
-   * @aliases dsb sync:db
+   * @aliases dsb drupal:sync:db sync:db
    *
    * @validateDrushConfig
    * @executeInDrupalVm

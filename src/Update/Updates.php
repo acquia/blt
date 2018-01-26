@@ -5,6 +5,7 @@ namespace Acquia\Blt\Update;
 use Acquia\Blt\Annotations\Update;
 use Acquia\Blt\Robo\Common\ArrayManipulator;
 use Dflydev\DotAccessData\Data;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
 
 /**
@@ -460,7 +461,7 @@ class Updates {
     $this->updater->moveFile('drush/site-aliases/aliases.drushrc.php', 'drush/site-aliases/legacy.aliases.drushrc.php');
     $this->updater->replaceInFile('drush/site-aliases/legacy.aliases.drushrc.php', "' . drush_server_home() . '", '$HOME');
     $process = new Process(
-      './vendor/bin/drush site:alias-convert $(pwd)/drush/sites --sources=$(pwd)/drush/site-aliases',
+      "./vendor/bin/drush site:alias-convert {$this->updater->getRepoRoot()}/drush/sites --sources={$this->updater->getRepoRoot()}/drush/site-aliases",
       $this->updater->getRepoRoot()
     );
     $process->run();
@@ -470,7 +471,9 @@ class Updates {
       'legacy.aliases.drushrc.php',
       'drush/drushrc.php',
       'drush/site-aliases/legacy.aliases.drushrc.php',
-      'drush/.checksums'
+      'drush/.checksums',
+      'example.acsf.aliases.yml',
+      'example.local.aliases.yml',
     ];
     foreach ($files as $key => $file) {
       if (!file_exists($file)) {
@@ -481,6 +484,10 @@ class Updates {
     $this->updater->deleteFile($files);
     $this->updater->getFileSystem()->mirror('drush/site-aliases', 'drush/sites');
     $this->updater->getFileSystem()->remove('drush/site-aliases');
+
+    $finder = new Finder();
+    $finder->files()->in(['drush/sites'])->name('*.md5');
+    $this->updater->getFileSystem()->remove([iterator_to_array($finder->getIterator())]);
 
     $this->updater->moveFile('blt/example.project.local.yml', 'blt/example.local.blt.yml', TRUE);
     $this->updater->moveFile('blt/project.local.yml', 'blt/local.yml', TRUE);
@@ -500,6 +507,7 @@ class Updates {
       $project_config->set($new, $value);
       $project_config->remove($original);
     }
+    $this->updater->writeProjectYml($project_yml);
 
     $process = new Process("blt blt:init:settings", $this->updater->getRepoRoot());
     $process->run();
