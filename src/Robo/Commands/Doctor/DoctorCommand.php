@@ -24,9 +24,9 @@ class DoctorCommand extends BltTasks {
    */
   public function doctor() {
     // Attempt to run BLT doctor inside of a VM.
-    if ($this->getInspector()->isDrupalVmLocallyInitialized()
-      && $this->getInspector()->isDrupalVmBooted()
-      && !$this->getInspector()->isVmCli()) {
+    if (!$this->getInspector()->isVmCli()
+      && $this->getInspector()->isDrupalVmLocallyInitialized()
+      && $this->getInspector()->isDrupalVmBooted()) {
       $this->logger->debug("Executing doctor inside Drupal VM.");
       try {
         $result = $this->executeDoctorInsideVm();
