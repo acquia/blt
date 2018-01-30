@@ -140,9 +140,9 @@ For example, let's say you want to install and configure the Stage File Proxy mo
 
 At this point, you should see a new file `config/local/stage_file_proxy.settings.yml` as well as a modified file `config/default/config_split.config_split.local.yml`. Commit these changes as well as your changes to `composer.json` and `composer.lock`.
 
-### Greylisting modules and configuration
+### Graylisting modules and configuration
 
-Some configuration that's intended to be "unlocked" in production might also be excluded (such as webforms). If you need to customize this behavior, you can use the greylist functionality described in [this blog post](https://blog.liip.ch/archive/2017/04/07/advanced-drupal-8-cmi-workflows.html).
+Some configuration that's intended to be "unlocked" in production might also be excluded (such as webforms). If you need to customize this behavior, you can use the graylist functionality described in [this blog post](https://blog.liip.ch/archive/2017/04/07/advanced-drupal-8-cmi-workflows.html).
 
 ### Exporting configuration
 
