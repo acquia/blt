@@ -15,7 +15,7 @@ When I run this command:
 
 I get the following output:
 ```
-[replace with ENTIRE command output]
+[replace with ENTIRE command output. DO NOT enter partial output.]
 ```
 
 And I expected this to happen:
