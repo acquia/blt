@@ -25,7 +25,7 @@ You have probably been linked to this documentation by a project that is using B
 1. Run `composer install` (you must already have Composer installed).
 1. Install `blt` alias: `composer run-script blt-alias`. At this point you might need restart your shell in order for the alias work.
 
-If your project uses a virtual development environment such as DrupalVM:
+If your project has an existing virtual development environment configured, such as DrupalVM:
 
 1. Make sure you have installed any prerequisites. For DrupalVM, see the [quick start guide](https://github.com/geerlingguy/drupal-vm#quick-start-guide).
 1. Start your virtual machine: `blt vm`
