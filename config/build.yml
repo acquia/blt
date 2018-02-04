@@ -48,7 +48,7 @@ cm:
     dirs:
       # Corresponding value is defined in config.settings.php.
       sync:
-        path: ${cm.core.path}/default
+        path: ${cm.core.path}/${site}
   features:
     no-overrides: true
 
