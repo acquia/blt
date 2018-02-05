@@ -38,4 +38,4 @@ sh -e /etc/init.d/xvfb start
 # Installs chromedriver to vendor/bin.
 ${BLT_DIR}/scripts/linux/install-chrome.sh ${COMPOSER_BIN}
 
-set +v
+set +ev
