@@ -538,7 +538,7 @@ class DeployCommand extends BltTasks {
   }
 
   /**
-   * Creates a tag on the source repository.
+   * Creates a tag on the build repository.
    */
   protected function cutTag() {
     $this->taskExecStack()
