@@ -26,7 +26,7 @@
     <exclude name="DrupalPractice.InfoFiles.NamespacedDependency"/>
   </rule>
 
-  <file>blt</file>
+  <file>blt/src</file>
   <file>docroot/modules/custom</file>
   <file>docroot/themes/custom</file>
   <file>tests</file>
