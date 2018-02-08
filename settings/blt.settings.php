@@ -151,8 +151,8 @@ if ($is_acsf_inited) {
  ******************************************************************************/
 
 if ($is_ah_env) {
-  // Tempoary fix for CL-21595
-  $_SERVER['PWD']=DRUPAL_ROOT;
+  // Tempoary fix for CL-21595.
+  $_SERVER['PWD'] = DRUPAL_ROOT;
   $group_settings_file = "/var/www/site-php/$ah_group/$ah_group-settings.inc";
   $site_settings_file = "/var/www/site-php/$ah_group/$site_dir-settings.inc";
   if (!$is_acsf_env && file_exists($group_settings_file)) {
