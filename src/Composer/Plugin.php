@@ -242,6 +242,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    */
   protected function isInitialInstall() {
     if (!file_exists($this->getRepoRoot() . '/blt/blt.yml')
+      && !file_exists($this->getRepoRoot() . '/blt/project.yml')
       && !file_exists($this->getRepoRoot() . '/blt/.schema-version')
       ) {
       return TRUE;
