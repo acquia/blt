@@ -199,6 +199,10 @@ class BehatCommand extends TestsCommandBase {
       return 'google-chrome';
     }
 
+    if ($this->getInspector()->commandExists('chromium')) {
+      return 'chromium';
+    }
+
     $osx_path = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
     if ($this->getInspector()->isOsx() && file_exists($osx_path)) {
       return $osx_path;
@@ -217,8 +221,14 @@ class BehatCommand extends TestsCommandBase {
    *   Throws exception if minimum version is not met.
    */
   protected function checkChromeVersion($bin) {
+    $field = 3;
+
+    if ($bin == "chromium") {
+      $field = 2;
+    }
+
     $version = (int) $this->getContainer()->get('executor')
-      ->execute("'$bin' --version | cut -f3 -d' ' | cut -f1 -d'.'")
+      ->execute("'$bin' --version | cut -f$field -d' ' | cut -f1 -d'.'")
       ->run()
       ->getMessage();
 
