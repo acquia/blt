@@ -18,14 +18,28 @@ class DeprecatedCommand extends BltTasks {
    */
   public function detect() {
     $this->say("Checking for deprecated code...");
+    $task = $this->taskExecStack()
+      ->dir($this->getConfigValue('repo.root'));
 
-    /** @var \Acquia\Blt\Robo\Filesets\FilesetManager $fileset_manager */
-    $fileset_manager = $this->getContainer()->get('filesetManager');
-    $fileset_ids = $this->getConfigValue('validate.deprecated.filesets');
-    $filesets = $fileset_manager->getFilesets($fileset_ids);
-    $bin = $this->getConfigValue('composer.bin');
-    $command = "'$bin/deprecation-detector' check '%s'";
-    $this->executeCommandAgainstFilesets($filesets, $command);
+    $dirs = [
+      'blt/src',
+      'docroot/modules/custom',
+      'tests/phpunit',
+      'tests/behat',
+    ];
+
+    foreach ($dirs as $dir) {
+      if (file_exists($dir)) {
+        $bin = $this->getConfigValue('composer.bin');
+        $command = "$bin/deprecation-detector check '$dir'";
+        if ($this->output()->isVerbose()) {
+          $command .= " --verbose";
+        }
+        $task->exec($command);
+      }
+    }
+    $task->run();
+    // We intentionally do not fail for deprecated code.
   }
 
 }
