@@ -31,7 +31,7 @@ class DeprecatedCommand extends BltTasks {
     foreach ($dirs as $dir) {
       if (file_exists($dir)) {
         $bin = $this->getConfigValue('composer.bin');
-        $task->exec("$bin/deprecation-detector check '$dir'");
+        $task->exec("$bin/deprecation-detector check '$dir' --verbose");
       }
     }
     $task->run();
