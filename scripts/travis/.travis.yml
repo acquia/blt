@@ -26,6 +26,7 @@ cache:
   - "$HOME/.npm"
   - "$HOME/.nvm"
   - "vendor"
+  - ".rules"
   # Cache front end dependencies to dramatically improve build time.
   # - "docroot/themes/custom/mytheme/node_modules"
   # - "docroot/themes/custom/mytheme/bower_components"

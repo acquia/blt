@@ -9,6 +9,7 @@ use Acquia\Blt\Robo\Config\ConfigInitializer;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Acquia\Blt\Update\Updater;
 use Robo\Contract\VerbosityThresholdInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -101,10 +102,14 @@ class UpdateCommand extends BltTasks {
    *
    * @aliases bu update
    */
-  public function update() {
+  public function update($options = [
+    'since' => InputOption::VALUE_REQUIRED,
+  ]) {
     $this->rsyncTemplate();
     $this->mungeProjectYml();
-    if ($this->executeSchemaUpdates($this->currentSchemaVersion)) {
+
+    $starting_version = $options['since'] ?: $this->currentSchemaVersion;
+    if ($this->executeSchemaUpdates($starting_version)) {
       $this->updateSchemaVersionFile();
     }
     $this->cleanup();

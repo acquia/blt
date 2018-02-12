@@ -23,7 +23,6 @@ class AllCommand extends BltTasks {
       'tests:phpcs:sniff:all',
       'tests:yaml:lint:all',
       'tests:twig:lint:all',
-      'tests:php:sniff:deprecated',
     ]);
 
     return $status_code;

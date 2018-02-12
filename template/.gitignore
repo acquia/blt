@@ -131,3 +131,6 @@ npm-debug.log
 
 # Drush 9 Checksums
 drush/sites/.checksums
+
+# Deprecation detector rules
+.rules
