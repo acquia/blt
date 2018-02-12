@@ -79,7 +79,7 @@ $is_pantheon_prod_env = $pantheon_env == 'live';
 /**
  * Local envs.
  */
-$is_local_env = !$is_ah_env && !$is_pantheon_env;
+$is_local_env = !$is_ah_env && !$is_pantheon_env && !$is_ci_env;
 
 /**
  * Common variables.
