@@ -14,8 +14,8 @@ env:
     - BUILD_DIR=$TRAVIS_BUILD_DIR
     - DRUPAL_CORE_HEAD=8.5.x-dev
   matrix:
-    - DRUPAL_CORE_VERSION=default PHPUNIT_EXCLUDE_GROUP='long'
-    - DRUPAL_CORE_VERSION=default PHPUNIT_GROUP='long'
+    - DRUPAL_CORE_VERSION=default PHPUNIT_EXCLUDE_GROUP='long,requires-vm'
+    - DRUPAL_CORE_VERSION=default PHPUNIT_GROUP='long' PHPUNIT_EXCLUDE_GROUP='requires-vm'
     - DRUPAL_CORE_VERSION=$DRUPAL_CORE_HEAD
 
 matrix:
@@ -31,7 +31,7 @@ cache:
   - "$HOME/.console"
   - "$HOME/.drush/cache"
   - "$HOME/.nvm"
-  - ".rules"
+  -  "/tmp/blt-sandbox-instance/.rules"
 
 addons:
   ssh_known_hosts: []
