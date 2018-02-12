@@ -161,11 +161,21 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    * Executes pre-release tests against blt-project self::BLT_DEV_BRANCH.
    */
   public function releaseTest() {
-    // @todo munge scripts/blt/ci/internal/ci.yml with blt/ci.yml
     $task = $this->taskExecStack()
       ->printMetadata(TRUE)
-      ->exec("{$this->bltRoot}/vendor/bin/robo sniff-code --load-from {$this->bltRoot}")
-      ->exec("{$this->bltRoot}/vendor/bin/phpunit");
+      ->exec("{$this->bltRoot}/vendor/bin/robo sniff-code --load-from {$this->bltRoot}");
+
+    $phpunit_group = getenv('PHPUNIT_GROUP');
+    $phpunit_exclude_group = getenv('PHPUNIT_EXCLUDE_GROUP');
+    $phpunit_command_string = "{$this->bltRoot}/vendor/bin/phpunit";
+    if ($phpunit_group) {
+      $phpunit_command_string .= " --group=" . $phpunit_group;
+    }
+    if ($phpunit_exclude_group) {
+      $phpunit_command_string .= " --exclude-group=" . $phpunit_exclude_group;
+    }
+    $task->exec($phpunit_command_string);
+
     $result = $task->run();
 
     return $result;

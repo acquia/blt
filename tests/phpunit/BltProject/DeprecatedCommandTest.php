@@ -9,6 +9,9 @@ use Acquia\Blt\Tests\BltProjectTestBase;
  */
 class DeprecatedCommandTest extends BltProjectTestBase {
 
+  /**
+   * @group long
+   */
   public function testValidateCommand() {
     $this->blt("tests:php:sniff:deprecated");
   }
