@@ -487,7 +487,7 @@ class Updates {
 
     $finder = new Finder();
     $finder->files()->in(['drush/sites'])->name('*.md5');
-    $this->updater->getFileSystem()->remove([iterator_to_array($finder->getIterator())]);
+    $this->updater->getFileSystem()->remove(iterator_to_array($finder->getIterator()));
 
     $this->updater->moveFile('blt/example.project.local.yml', 'blt/example.local.blt.yml', TRUE);
     $this->updater->moveFile('blt/project.local.yml', 'blt/local.yml', TRUE);

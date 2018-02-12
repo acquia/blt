@@ -13,7 +13,7 @@ env:
     - BLT_DIR=$TRAVIS_BUILD_DIR
     - IS_PULL_REQUEST=$TRAVIS_PULL_REQUEST
     - BUILD_DIR=$TRAVIS_BUILD_DIR
-    - DRUPAL_CORE_HEAD=8.4.x-dev
+    - DRUPAL_CORE_HEAD=8.5.x-dev
   matrix:
     - DRUPAL_CORE_VERSION=default
     - DRUPAL_CORE_VERSION=$DRUPAL_CORE_HEAD
@@ -31,6 +31,7 @@ cache:
   - "$HOME/.console"
   - "$HOME/.drush/cache"
   - "$HOME/.nvm"
+  - ".rules"
 
 addons:
   ssh_known_hosts: []
