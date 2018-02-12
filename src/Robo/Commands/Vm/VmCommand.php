@@ -275,7 +275,7 @@ class VmCommand extends BltTasks {
         'geerlingguy/ubuntu1604',
         'beet/box',
       ],
-      'geerlingguy/ubuntu1604');
+      0);
 
     switch ($base_box) {
       case 'beet/box':
