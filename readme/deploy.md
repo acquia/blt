@@ -98,8 +98,6 @@ To install Acquia Cloud hooks for your BLT project:
 
 For consistency and reliability, you should run the same updates on deployment as you would run locally or in CI testing. BLT provides aliases for the `drupal:update` task to support this in a local environment and `artifact:update:drupal` to execute against an artifact.
 
-If your team uses Slack, you can also be notified of each successful or failed deployment. Simply set up an incoming webhook in your Slack team to receive the notification (see the API documentation at https://api.slack.com/), and then store the webhook URL in a `$HOME/slack_settings` file on your Acquia Cloud servers:
-
-    SLACK_WEBHOOK_URL=https://hooks.slack.com/services/xxx/yyy/zzz
+If your team uses Slack, you can also be notified of each successful or failed deployment. Simply set up an incoming webhook in your Slack team to receive the notification (see the API documentation at https://api.slack.com/), and then store the webhook URL in `slack.webhook-url` in `blt/blt.yml`. You may also set it as an environmental variable `SLACK_WEBHOOK_URL`.
 
 For more information, see the [Acquia Cloud Hooks Slack example](https://github.com/acquia/cloud-hooks/tree/master/samples/slack).

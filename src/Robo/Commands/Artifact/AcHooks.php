@@ -13,25 +13,58 @@ class AcHooks extends BltTasks {
   /**
    * Execute updates against an artifact hosted in AC Cloud.
    *
-   * @command artifact:ac-hooks:post-code-update
+   * This is intended to be called from post-code-deploy.sh cloud hook.
    *
-   * @see https://github.com/acquia/blt/issues/1875
+   * @param string $site
+   *   The site name. E.g., site1.
+   * @param string $target_env
+   *   The cloud env. E.g., dev
+   * @param string $source_branch
+   *   The source branch. E.g., master.
+   * @param string $deployed_tag
+   *   The tag or branch to which the source was deployed. E.g., master or
+   * 1.0.0.
+   * @param string $repo_url
+   *   The repo url. E.g., s1@svn-3.bjaspan.hosting.acquia.com:s1.git
+   * @param string $repo_type
+   *   The repo type. E.g., git.
+   *
+   * @command artifact:ac-hooks:post-code-deploy
+   */
+  public function postCodeDeploy($site, $target_env, $source_branch, $deployed_tag, $repo_url, $repo_type) {
+    $this->postCodeUpdate($site, $target_env, $source_branch, $deployed_tag, $repo_url, $repo_type);
+  }
+
+  /**
+   * Execute updates against an artifact hosted in AC Cloud.
+   *
+   * This is intended to be called from post-code-update.sh cloud hook.
+   *
+   * @param string $site
+   *   The site name. E.g., site1.
+   * @param string $target_env
+   *   The cloud env. E.g., dev
+   * @param string $source_branch
+   *   The source branch. E.g., master.
+   * @param string $deployed_tag
+   *   The tag or branch to which the source was deployed. E.g., master or
+   * 1.0.0.
+   * @param string $repo_url
+   *   The repo url. E.g., s1@svn-3.bjaspan.hosting.acquia.com:s1.git
+   * @param string $repo_type
+   *   The repo type. E.g., git.
+   *
+   * @command artifact:ac-hooks:post-code-update
    */
   public function postCodeUpdate($site, $target_env, $source_branch, $deployed_tag, $repo_url, $repo_type) {
-    if (preg_match('/01(dev|test)/', $target_env)) {
-      $this->updateAcsfSites($site, $target_env);
+    try {
+      $this->updateSites($site, $target_env);
+      $success = TRUE;
     }
-    elseif (preg_match('/01devup|01testup|01update|01live/', $target_env)) {
-      // Do not run deploy updates on 01live in case a branch is deployed in
-      // prod.
-      return FALSE;
+    catch (\Exception $e) {
+      $success = FALSE;
     }
-    elseif (preg_match('/ode[[:digit:]]/', $target_env)) {
-      $this->updateOdeSites();
-    }
-    else {
-      $this->updateAceSites($target_env);
-    }
+    $this->sendPostCodeUpdateNotifications($site, $target_env, $source_branch, $deployed_tag, $success);
   }
 
   /**
@@ -62,6 +95,13 @@ class AcHooks extends BltTasks {
   }
 
   /**
+   * Reinstalls Drupal in an ODE.
+   */
+  public function updateOdeSites() {
+    $this->invokeCommand('artifact:install:drupal');
+  }
+
+  /**
    * Executes updates against all ACE sites in the target environment.
    *
    * @param $target_env
@@ -73,13 +113,6 @@ class AcHooks extends BltTasks {
   }
 
   /**
-   * Reinstalls Drupal in an ODE.
-   */
-  public function updateOdeSites() {
-    $this->invokeCommand('artifact:install:drupal');
-  }
-
-  /**
    * Sends updates to notification endpoints.
    *
    * @param $site
@@ -88,8 +121,7 @@ class AcHooks extends BltTasks {
    * @param $deployed_tag
    * @param $success
    */
-  protected function sendNotifications($site, $target_env, $source_branch, $deployed_tag, $success) {
-    $url = "";
+  protected function sendPostCodeUpdateNotifications($site, $target_env, $source_branch, $deployed_tag, $success) {
     $is_tag = $source_branch != $deployed_tag;
 
     if ($success) {
@@ -99,23 +131,44 @@ class AcHooks extends BltTasks {
       else {
         $message = "An updated deployment has been made to *$site.$target_env* using branch *$source_branch* as *$deployed_tag*.";
       }
+    }
+    else {
+      $message = "Deployment has FAILED for environment *$site.$target_env*.";
+    }
 
+    $this->notifySlack($success, $message);
+  }
+
+  /**
+   * @param $success
+   * @param $message
+   */
+  protected function notifySlack($success, $message) {
+    $slack_webhook_url = $this->getSlackWebhookUrl();
+    if ($slack_webhook_url) {
       $payload = [
         'username' => 'Acquia Cloud',
         'text' => $message,
-        'icon_emoji' => ':mostly_sunny:',
+        'icon_emoji' => $success ? ':mostly_sunny:' : ':rain_cloud:',
       ];
+      $this->sendSlackNotification($slack_webhook_url, $payload);
     }
-    else {
-      $payload = [
-        'username' => 'Acquia Cloud',
-        'text' => "Deployment has FAILED for environment *$site.$target_env*.",
-        'icon_emoji' => ':rain_cloud:',
-      ];
+  }
+
+  /**
+   * Gets slack web url.
+   *
+   * @return array|false|mixed|null|string
+   */
+  protected function getSlackWebhookUrl() {
+    if ($this->getConfig()->has('slack.webhook-url')) {
+      return $this->getConfigValue('slack.webhook-url');
+    }
+    elseif (getenv('SLACK_WEBHOOK_URL')) {
+      return getenv('SLACK_WEBHOOK_URL');
     }
 
-    // @todo See if slack WEBHOOK URL is set first.
-    $this->sendSlackNotification($url, $payload);
+    return FALSE;
   }
 
   /**
@@ -132,6 +185,29 @@ class AcHooks extends BltTasks {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
     $result = curl_exec($ch);
     curl_close($ch);
+  }
+
+  /**
+   * Executes updates against all sites.
+   *
+   * @param $site
+   * @param $target_env
+   */
+  protected function updateSites($site, $target_env) {
+    if (preg_match('/01(dev|test)/', $target_env)) {
+      $this->updateAcsfSites($site, $target_env);
+    }
+    elseif (preg_match('/01devup|01testup|01update|01live/', $target_env)) {
+      // Do not run deploy updates on 01live in case a branch is deployed in
+      // prod.
+      return;
+    }
+    elseif (preg_match('/ode[[:digit:]]/', $target_env)) {
+      $this->updateOdeSites();
+    }
+    else {
+      $this->updateAceSites($target_env);
+    }
   }
 
 }
