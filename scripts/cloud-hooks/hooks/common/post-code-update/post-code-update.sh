@@ -22,8 +22,11 @@ deployed_tag="$4"
 repo_url="$5"
 repo_type="$6"
 
-  . /var/www/html/$site.$target_env/vendor/acquia/blt/scripts/cloud-hooks/functions.sh
-  deploy_updates
-  . `dirname $0`/../slack.sh
+# Prep for BLT commands.
+repo_root="/var/www/html/$site.$target_env"
+export PATH=$repo_root/vendor/bin:$PATH
+cd $repo_root
+
+blt artifact:ac-hooks:post-code-update $site $target_env $source_branch $deployed_tag $repo_url $repo_type --environment=$target_env -v --yes --no-interaction
 
 set +v
