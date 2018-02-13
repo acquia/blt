@@ -1,6 +1,6 @@
 <?php
 
-namespace Acquia\Blt\Robo\Commands\Sync;
+namespace Acquia\Blt\Robo\Commands\Artifact;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
@@ -8,7 +8,7 @@ use Acquia\Blt\Robo\Exceptions\BltException;
 /**
  * Defines commands in the "artifact:ac-hooks" namespace.
  */
-class AcHooks extends BltTasks {
+class AcHooksCommand extends BltTasks {
 
   /**
    * Execute updates against an artifact hosted in AC Cloud.

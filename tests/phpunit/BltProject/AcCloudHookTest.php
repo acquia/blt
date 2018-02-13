@@ -3,7 +3,6 @@
 namespace Acquia\Blt\Tests\Blt;
 
 use Acquia\Blt\Tests\BltProjectTestBase;
-use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Class AcCloudHookTest.
@@ -27,18 +26,29 @@ class AcCloudHookTest extends BltProjectTestBase {
   public function testCloudHooks() {
     $this->blt('recipes:cloud-hooks:init');
 
-    $fs = new Filesystem();
-    $fs->symlink($this->sandboxInstance, '/var/www/html/s1.dev');
+    list($status_code, $output, $config) = $this->blt("artifact:ac-hooks:post-code-update", [
+      's1',
+      'dev',
+      'master',
+      'master',
+      's1@svn-3.bjaspan.hosting.acquia.com:s1.git',
+      'git',
+    ]);
+    $this->assertEquals(0, $status_code);
+    $this->assertContains('Running updates for environment: dev', $output);
+    $this->assertContains('Finished updates for environment: dev', $output);
 
-    $process = $this->execute("./hooks/common/post-code-update/post-code-update.sh s1 dev master master s1@svn-3.bjaspan.hosting.acquia.com:s1.git git");
-    $this->assertContains('Running updates for environment: dev', $process->getOutput());
-    $this->assertContains('artifact:update:drupal:all-sites', $process->getOutput());
-    $this->assertContains('Finished updates for environment: dev', $process->getOutput());
-
-    $process = $this->execute("./hooks/common/post-code-deploy/post-code-deploy.sh s1 dev master master s1@svn-3.bjaspan.hosting.acquia.com:s1.git git");
-    $this->assertContains('Running updates for environment: dev', $process->getOutput());
-    $this->assertContains('artifact:update:drupal:all-sites', $process->getOutput());
-    $this->assertContains('Finished updates for environment: dev', $process->getOutput());
+    list($status_code, $output, $config) = $this->blt("artifact:ac-hooks:post-code-deploy", [
+      's1',
+      'dev',
+      'master',
+      'master',
+      's1@svn-3.bjaspan.hosting.acquia.com:s1.git',
+      'git',
+    ]);
+    $this->assertEquals(0, $status_code);
+    $this->assertContains('Running updates for environment: dev', $output);
+    $this->assertContains('Finished updates for environment: dev', $output);
   }
 
 }
