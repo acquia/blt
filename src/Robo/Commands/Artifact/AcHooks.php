@@ -168,6 +168,7 @@ class AcHooks extends BltTasks {
       return getenv('SLACK_WEBHOOK_URL');
     }
 
+    $this->say("Slack webhook url not found. To enable Slack notifications, set <comment>slack.webhook-url</comment>.");
     return FALSE;
   }
 
@@ -178,6 +179,7 @@ class AcHooks extends BltTasks {
    * @param $payload
    */
   protected function sendSlackNotification($url, $payload) {
+    $this->say("Sending slack notification...");
     $data = "payload=" . json_encode($payload);
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
