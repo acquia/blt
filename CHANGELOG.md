@@ -1,5 +1,35 @@
 # Change Log
 
+#### 9.0.0-beta3 (2018-02-13)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.0.0-beta2...9.0.0-beta3)
+
+**Implemented enhancements**
+
+- Run long PHPUnit tests separately. (#2545)
+- Fixes #2524: Improve output of deprecation validator on failure. (#2536)
+- Test Drupal 8.5.x. (#2516)
+- Require drush ^9.1.0. (#2530)
+- Override superglobals in AC settings includes. (#2528)
+
+**Fixed bugs**
+
+- 2546-fix-simplesamlphp-config-memcache-fatal-error (#2547)
+- Fixes #2510: 9.x Updates Fail. (#2535)
+- Fixes #2523: Failed Config Import Didn't Cause Failed Build. (#2533)
+- BLT-2512: adding execute in VM for config. (#2513)
+
+**Miscellaneous**
+
+- Require drupal/core ^8.5.0-beta1. (#2542)
+- Exclude .schema_version from sniffing. (#2534)
+- Increasing PHP memory limit.
+- Minor comment fix.
+- Fixes #2522: BLT Attempted to Reinitializ e existing Git repository. (#2529)
+- Update composer.json
+- Update ISSUE_TEMPLATE.md
+
+
 #### 9.0.0-beta2 (2018-01-26)
 
 [Full Changelog](https://github.com/acquia/blt/compare/9.0.0-beta1...9.0.0-beta2)
