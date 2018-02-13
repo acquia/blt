@@ -25,26 +25,27 @@ class AcCloudHookTest extends BltProjectTestBase {
 
   public function testCloudHooks() {
     $this->blt('recipes:cloud-hooks:init');
+    $this->installDrupalMinimal();
 
     list($status_code, $output, $config) = $this->blt("artifact:ac-hooks:post-code-update", [
-      's1',
-      'dev',
-      'master',
-      'master',
-      's1@svn-3.bjaspan.hosting.acquia.com:s1.git',
-      'git',
+      'site' => 's1',
+      'target_env' => 'dev',
+      'source_branch' => 'master',
+      'deployed_tag' => 'master',
+      'repo_url' => 's1@svn-3.bjaspan.hosting.acquia.com:s1.git',
+      'repo_type' => 'git',
     ]);
     $this->assertEquals(0, $status_code);
     $this->assertContains('Running updates for environment: dev', $output);
     $this->assertContains('Finished updates for environment: dev', $output);
 
     list($status_code, $output, $config) = $this->blt("artifact:ac-hooks:post-code-deploy", [
-      's1',
-      'dev',
-      'master',
-      'master',
-      's1@svn-3.bjaspan.hosting.acquia.com:s1.git',
-      'git',
+      'site' => 's1',
+      'target_env' => 'dev',
+      'source_branch' => 'master',
+      'deployed_tag' => 'master',
+      'repo_url' => 's1@svn-3.bjaspan.hosting.acquia.com:s1.git',
+      'repo_type' => 'git',
     ]);
     $this->assertEquals(0, $status_code);
     $this->assertContains('Running updates for environment: dev', $output);
