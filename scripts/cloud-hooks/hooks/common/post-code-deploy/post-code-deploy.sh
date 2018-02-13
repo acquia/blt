@@ -19,14 +19,11 @@ deployed_tag="$4"
 repo_url="$5"
 repo_type="$6"
 
+# Prep for BLT commands.
+repo_root="/var/www/html/$site.$target_env"
+export PATH=$repo_root/vendor/bin:$PATH
+cd $repo_root
 
-acsf_file="/mnt/files/$site.$target_env/files-private/sites.json"
-if [ ! -f $acsf_file ]; then
-  . /var/www/html/$site.$target_env/vendor/acquia/blt/scripts/cloud-hooks/functions.sh
-  deploy_updates
-fi
-  # Send notifications to Slack, if configured. See readme/deploy.md for setup instructions.
-  . `dirname $0`/../slack.sh
-
+blt artifact:ac-hooks:post-code-deploy $site $target_env $source_branch $deployed_tag $repo_url $repo_type --environment=$target_env -v --yes --no-interaction
 
 set +v
