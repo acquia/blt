@@ -11,7 +11,7 @@ use Acquia\Blt\Robo\Exceptions\BltException;
 class AcHooks extends BltTasks {
 
   /**
-   *
+   * Execute updates against an artifact hosted in AC Cloud.
    *
    * @command artifact:ac-hooks:post-code-update
    *
@@ -22,17 +22,26 @@ class AcHooks extends BltTasks {
       $this->updateAcsfSites($site, $target_env);
     }
     elseif (preg_match('/01devup|01testup|01update|01live/', $target_env)) {
-      // Do not run deploy updates on 01live in case a branch is deployed in prod.
+      // Do not run deploy updates on 01live in case a branch is deployed in
+      // prod.
       return FALSE;
     }
     elseif (preg_match('/ode[[:digit:]]/', $target_env)) {
-      $this->updateOde();
+      $this->updateOdeSites();
     }
     else {
-      $this->updateAce($target_env);
+      $this->updateAceSites($target_env);
     }
   }
 
+  /**
+   * Executes updates against all ACSF sites in the target environment.
+   *
+   * @param $site
+   * @param $target_env
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   */
   public function updateAcsfSites($site, $target_env) {
     $this->taskDrush()
       ->drush("cc drush")
@@ -52,17 +61,34 @@ class AcHooks extends BltTasks {
     $this->invokeCommand('artifact:update:drupal:all-sites');
   }
 
-  public function updateAce($target_env) {
+  /**
+   * Executes updates against all ACE sites in the target environment.
+   *
+   * @param $target_env
+   */
+  public function updateAceSites($target_env) {
     $this->say("Running updates for environment: $target_env");
     $this->invokeCommand('artifact:update:drupal:all-sites');
     $this->say("Finished updates for environment: $target_env");
   }
 
-  public function updateOde() {
+  /**
+   * Reinstalls Drupal in an ODE.
+   */
+  public function updateOdeSites() {
     $this->invokeCommand('artifact:install:drupal');
   }
 
-  public function sendDeploymentUpdates($site, $target_env, $source_branch, $deployed_tag, $success) {
+  /**
+   * Sends updates to notification endpoints.
+   *
+   * @param $site
+   * @param $target_env
+   * @param $source_branch
+   * @param $deployed_tag
+   * @param $success
+   */
+  protected function sendNotifications($site, $target_env, $source_branch, $deployed_tag, $success) {
     $url = "";
     $is_tag = $source_branch != $deployed_tag;
 
@@ -88,15 +114,22 @@ class AcHooks extends BltTasks {
       ];
     }
 
-    $this->sendSlackUpdate($url, $payload);
+    // @todo See if slack WEBHOOK URL is set first.
+    $this->sendSlackNotification($url, $payload);
   }
 
-  protected function sendSlackUpdate($url, $payload) {
+  /**
+   * Sends a message to a slack channel.
+   *
+   * @param $url
+   * @param $payload
+   */
+  protected function sendSlackNotification($url, $payload) {
     $data = "payload=" . json_encode($payload);
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
     $result = curl_exec($ch);
     curl_close($ch);
   }
