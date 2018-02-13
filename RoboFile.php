@@ -319,7 +319,15 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   protected function updateBltVersionConstant($tag) {
     // Change version constant in Blt.php.
     $this->taskReplaceInFile($this->bltRoot . '/src/Robo/Blt.php')
-      ->regex('/(const VERSION = \')([0-9]{1,2}\.[0-9]{1,2}\.[0-9x]{1,2}(-dev)?)(\';)/')
+      // Test group:
+      // @codingStandardsIgnoreStart
+      // const VERSION = '9.x-dev';
+      // const VERSION = '9.0.x-dev';
+      // const VERSION = '9.0.0-alpha1';
+      // const VERSION = '9.0.0-beta2';
+      // const VERSION = '9.0.0';
+      // @codingStandardsIgnoreEnd
+      ->regex('/(const VERSION = \')[0-9]{1,2}\.[0-9x]{1,2}(\.[0-9x](-(alpha|beta|rc|dev)[0-9]{0,2})?|-dev?)(\';)/')
       ->to('${1}' . $tag . '${4}')
       ->run();
   }
