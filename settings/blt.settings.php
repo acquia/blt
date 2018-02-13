@@ -263,6 +263,9 @@ if ($settings_files = glob(DRUPAL_ROOT . "/sites/settings/*.settings.php")) {
 /**
  * Load CI env includes.
  */
+if ($is_ci_env) {
+  require __DIR__ . '/ci.settings.php';
+}
 
 // Load Acquia Pipeline settings.
 if ($is_pipelines_env) {
