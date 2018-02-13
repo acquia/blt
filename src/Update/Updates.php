@@ -491,7 +491,7 @@ class Updates {
     $this->updater->getFileSystem()->remove(iterator_to_array($finder->getIterator()));
 
     $this->updater->moveFile('blt/example.project.local.yml', 'blt/example.local.blt.yml', TRUE);
-    $this->updater->moveFile('blt/project.local.yml', 'blt/local.yml', TRUE);
+    $this->updater->moveFile('blt/project.local.yml', 'blt/local.blt.yml', TRUE);
     $this->updater->moveFile('blt/project.yml', 'blt/blt.yml', TRUE);
     $this->updater->moveFile('blt/ci.yml', 'blt/ci.blt.yml', TRUE);
 
