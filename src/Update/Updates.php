@@ -480,6 +480,7 @@ class Updates {
         unset($files[$key]);
       }
     }
+    $this->updater->getFileSystem()->chmod('docroot/sites/default', 0755);
     $this->updater->getFileSystem()->chmod($files, 0777);
     $this->updater->deleteFile($files);
     $this->updater->getFileSystem()->mirror('drush/site-aliases', 'drush/sites');
