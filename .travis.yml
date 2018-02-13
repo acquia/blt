@@ -3,7 +3,6 @@ language: php
 dist: trusty
 
 php:
-  - 7.0
   - 7.1
 
 env:
@@ -15,7 +14,8 @@ env:
     - BUILD_DIR=$TRAVIS_BUILD_DIR
     - DRUPAL_CORE_HEAD=8.5.x-dev
   matrix:
-    - DRUPAL_CORE_VERSION=default
+    - DRUPAL_CORE_VERSION=default PHPUNIT_EXCLUDE_GROUP='long,requires-vm'
+    - DRUPAL_CORE_VERSION=default PHPUNIT_GROUP='long' PHPUNIT_EXCLUDE_GROUP='requires-vm'
     - DRUPAL_CORE_VERSION=$DRUPAL_CORE_HEAD
 
 matrix:
@@ -31,7 +31,7 @@ cache:
   - "$HOME/.console"
   - "$HOME/.drush/cache"
   - "$HOME/.nvm"
-  - ".rules"
+  -  "/tmp/blt-sandbox-instance/.rules"
 
 addons:
   ssh_known_hosts: []
@@ -57,6 +57,7 @@ install:
 
 script:
   - ${BLT_DIR}/vendor/bin/robo release:test
+
 before_deploy:
   - cd ${TRAVIS_BUILD_DIR}/../blted8
   # The BLTed8 project will need its ssh_known_hosts configured to push to ACF.
