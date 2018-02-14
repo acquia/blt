@@ -53,6 +53,9 @@ local:
         drupal_root: ${docroot}
       drush:
         alias: '@self'
+      subcontexts:
+        paths: [ ]
+        autoload: 0
 
 example-multisite:
   extensions:

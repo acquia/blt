@@ -6,7 +6,7 @@
     }
   },
   "require": {
-    "acquia/lightning": "^2.2.7 | ^3.0.1",
+    "acquia/lightning": "^2.2.7 | ^3.1.0",
     "drupal/acquia_connector": "^1.5.0",
     "drupal/cog": "^1.0.0",
     "drupal/qa_accounts": "^1.0.0-alpha1",
