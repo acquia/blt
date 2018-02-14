@@ -10,7 +10,7 @@ Output of `blt doctor`:
 
 When I run this command:
 ```
-[replace with command]
+[replace with command, add -vvv for very very verbose output.]
 ```
 
 I get the following output:
