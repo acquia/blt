@@ -39,7 +39,8 @@ $is_travis_env = isset($_ENV['TRAVIS']);
 $is_pipelines_env = isset($_ENV['PIPELINE_ENV']);
 $is_probo_env = isset($_ENV['PROBO_ENVIRONMENT']);
 $is_tugboat_env = isset($_ENV['TUGBOAT_URL']);
-$is_ci_env = $is_travis_env || $is_pipelines_env || $is_probo_env || $is_tugboat_env;
+$is_gitlab_env = isset($_ENV['GITLAB_CI']);
+$is_ci_env = $is_travis_env || $is_pipelines_env || $is_probo_env || $is_tugboat_env || $is_gitlab_env || isset($_ENV['CI']);
 
 /**
  * Acquia envs.
@@ -262,6 +263,9 @@ if ($settings_files = glob(DRUPAL_ROOT . "/sites/settings/*.settings.php")) {
 /**
  * Load CI env includes.
  */
+if ($is_ci_env) {
+  require __DIR__ . '/ci.settings.php';
+}
 
 // Load Acquia Pipeline settings.
 if ($is_pipelines_env) {
@@ -278,6 +282,10 @@ elseif ($is_tugboat_env) {
 // Load Probo settings.
 elseif ($is_probo_env) {
   require __DIR__ . '/probo.settings.php';
+}
+// Load GitLab settings.
+elseif ($is_gitlab_env) {
+  require __DIR__ . '/gitlab.settings.php';
 }
 
 /**
