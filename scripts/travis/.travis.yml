@@ -55,7 +55,7 @@ install:
   - source ${BLT_DIR}/scripts/travis/setup_project
 
 script:
-  - source ${BLT_DIR}/scripts/travis/run_tests
+  - ${BLT_DIR}/scripts/travis/run_tests
 
 deploy:
    - provider: script
