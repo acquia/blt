@@ -49,6 +49,7 @@ class GitCommand extends BltTasks {
       // be sniffed, regardless of the extensions or patterns defined in
       // phpcs.xml. So, we do not use validate:phpcs:files.
       'validate:phpcs' => [],
+      'validate:frontend' => [],
       'validate:twig:files' => ['file_list' => $changed_files],
       'validate:yaml:files' => ['file_list' => $changed_files],
     ]);

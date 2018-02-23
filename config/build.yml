@@ -160,6 +160,11 @@ target-hooks:
     dir: ${docroot}
     # E.g., '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use 4.4.4 && npm build'
     command: null
+  frontend-validate:
+      # E.g., ${docroot}/sites/all/themes/custom/mytheme.
+      dir: ${docroot}
+      # E.g., '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use 4.4.4 && npm build'
+      command: null
   frontend-test:
     # E.g., ${docroot}/sites/all/themes/custom/mytheme.
     dir: ${docroot}
