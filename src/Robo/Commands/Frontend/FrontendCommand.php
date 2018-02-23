@@ -47,6 +47,7 @@ class FrontendCommand extends BltTasks {
    *
    * @command validate:frontend
    * @executeInDrupalVm
+   * @shouldReturnExitCode
    */
   public function validate() {
     return $this->invokeHook('frontend-validate');

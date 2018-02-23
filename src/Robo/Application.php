@@ -2,6 +2,7 @@
 
 namespace Acquia\Blt\Robo;
 
+use Acquia\Blt\Robo\Hooks\CommandEventHook;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Input\InputInterface;
@@ -33,6 +34,14 @@ class Application extends ConsoleApplication {
     // Otherwise, we might disable a command, execute it in the VM via
     // executeInDrupalVm(), and return a false success.
     if ($exit_code == ConsoleCommandEvent::RETURN_CODE_DISABLED) {
+      if (method_exists($command, 'getAnnotationData')) {
+        $annotation_data = $command->getAnnotationData();
+        if ($annotation_data->has('executeInDrupalVm')
+            && $annotation_data->has('shouldReturnExitCode')
+            && isset(CommandEventHook::$exitCodesForCommandsExecutedInDrupalVm[$command->getName()])) {
+          return CommandEventHook::$exitCodesForCommandsExecutedInDrupalVm[$command->getName()];
+        }
+      }
       $exit_code = 0;
     }
 
