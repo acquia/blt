@@ -199,7 +199,7 @@ class SettingsCommand extends BltTasks {
    * @aliases big setup:git-hooks
    */
   public function gitHooks() {
-    foreach (['pre-commit', 'commit-msg'] as $hook) {
+    foreach ($this->getConfigValue('git.hooks') as $hook => $path) {
       $this->installGitHook($hook);
     }
   }
