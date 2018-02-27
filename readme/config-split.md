@@ -193,7 +193,7 @@ Consider that we would like site to to have different cache lifetimes then the d
 ## Executing commands against multisites
 
 - When executing a drush command against a multisite, include the `uri` option. For instance, `drush --uri=site2`.
-- When executing a BLT command against a multisite, include the site config value. For instance, `blt setup --define site=site2`. BLT also allows you to create site-specific configuration, see [BLT multisite documentation](http://blt.readthedocs.io/en/8.x/readme/multisite/) for more information.
+- When executing a BLT command against a multisite, include the site config value. For instance, `blt setup --define site=site2`. BLT also allows you to create site-specific configuration, see [BLT multisite documentation](http://blt.readthedocs.io/en/9.x/readme/multisite/) for more information.
 
 # Profile split
 
@@ -249,6 +249,6 @@ This will obviate the need to clear caches in order to register a status change 
 # Resources
 
 * [blog post by Jeff Geerling](https://www.jeffgeerling.com/blog/2017/adding-configuration-split-drupal-site-using-blt-and-acquia-cloud)
-* [BLT multisite documentation](http://blt.readthedocs.io/en/8.x/readme/multisite/)
+* [BLT multisite documentation](http://blt.readthedocs.io/en/9.x/readme/multisite/)
 * [Configuration split](https://www.drupal.org/project/config_split)
 * [Configuration ignore](https://www.drupal.org/project/config_ignore)
