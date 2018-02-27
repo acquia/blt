@@ -493,13 +493,16 @@ class DeployCommand extends BltTasks {
    */
   protected function commit() {
     $this->say("Committing artifact to <comment>{$this->branchName}</comment>...");
-    $this->taskExecStack()
+    $result = $this->taskExecStack()
       ->dir($this->deployDir)
       ->exec("git add -A")
       ->exec("git commit --quiet -m '{$this->commitMessage}'")
-      ->stopOnFail()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
+
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Failed to commit deployment artifact!");
+    }
   }
 
   /**
@@ -515,13 +518,16 @@ class DeployCommand extends BltTasks {
     }
 
     $task = $this->taskExecStack()
-      ->dir($this->deployDir)
-      ->stopOnFail();
+      ->dir($this->deployDir);
     foreach ($this->getConfigValue('git.remotes') as $remote) {
       $remote_name = md5($remote);
       $task->exec("git push $remote_name $identifier");
     }
-    $task->run();
+    $result = $task->run();
+
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Failed to push deployment artifact!");
+    }
   }
 
   /**
