@@ -55,6 +55,20 @@ class DrushTask extends CommandStack {
   protected $verbose;
 
   /**
+   * Indicates if the command output should be very verbose.
+   *
+   * @var bool
+   */
+  protected $veryVerbose;
+
+  /**
+   * Indicates if the command output should be debug verbosity.
+   *
+   * @var bool
+   */
+  protected $debug;
+
+  /**
    * @var bool
    */
   protected $defaultsInitialized;
@@ -160,6 +174,30 @@ class DrushTask extends CommandStack {
   }
 
   /**
+   * Indicates if the command output should be very verbose.
+   *
+   * @param string|bool $verbose
+   *
+   * @return $this
+   */
+  public function veryVerbose($verbose) {
+    $this->veryVerbose = $this->mixedToBool($verbose);
+    return $this;
+  }
+
+  /**
+   * Indicates if the command output should be debug verbosity.
+   *
+   * @param string|bool $verbose
+   *
+   * @return $this
+   */
+  public function debug($verbose) {
+    $this->debug = $this->mixedToBool($verbose);
+    return $this;
+  }
+
+  /**
    * Include additional directory paths to search for drush commands.
    *
    * @param string $path
@@ -245,13 +283,35 @@ class DrushTask extends CommandStack {
       $this->option('no-interaction');
     }
 
+    if ($this->verbose !== FALSE) {
+      $verbosity_threshold = $this->verbosityThreshold();
+      switch ($verbosity_threshold) {
+        case VerbosityThresholdInterface::VERBOSITY_VERBOSE:
+          $this->verbose(TRUE);
+          break;
+
+        case VerbosityThresholdInterface::VERBOSITY_VERY_VERBOSE:
+          $this->veryVerbose(TRUE);
+          break;
+
+        case VerbosityThresholdInterface::VERBOSITY_DEBUG:
+          $this->debug(TRUE);
+          break;
+      }
+    }
     if ($this->verbosityThreshold() >= VerbosityThresholdInterface::VERBOSITY_VERBOSE
       && $this->verbose !== FALSE) {
       $this->verbose(TRUE);
     }
 
-    if ($this->verbose) {
-      $this->option('verbose');
+    if ($this->debug) {
+      $this->option('-vvv');
+    }
+    elseif ($this->veryVerbose) {
+      $this->option('-vv');
+    }
+    elseif ($this->verbose) {
+      $this->option('-v');
     }
 
     if ($this->include) {
