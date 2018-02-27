@@ -4,6 +4,7 @@ namespace Acquia\Blt\Robo\Commands\Setup;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Defines commands in the "setup:config*" namespace.
@@ -65,6 +66,14 @@ class ConfigCommand extends BltTasks {
         // If a db update relies on updated configuration, you should import the
         // necessary configuration file(s) as part of the db update.
         ->drush("updb");
+
+      // If exported site UUID does not match site active site UUID, set active
+      // to equal exported.
+      // @see https://www.drupal.org/project/drupal/issues/1613424
+      $exported_site_uuid = $this->getExportedSiteUuid($cm_core_key);
+      if ($exported_site_uuid) {
+        $task->drush("config:set system.site uuid $exported_site_uuid");
+      }
 
       switch ($strategy) {
         case 'core-only':
@@ -192,6 +201,25 @@ class ConfigCommand extends BltTasks {
     if (!$this->getConfigValue('cm.allow-overrides') && !$result->wasSuccessful()) {
       throw new BltException("Configuration in the database does not match configuration on disk. BLT has attempted to automatically fix this by re-exporting configuration to disk. Please read https://github.com/acquia/blt/wiki/Configuration-overrides");
     }
+  }
+
+  /**
+   * Returns the site UUID stored in exported configuration.
+   *
+   * @param string $cm_core_key
+   *
+   * @return null
+   */
+  protected function getExportedSiteUuid($cm_core_key) {
+    $site_config_file = $this->getConfigValue('docroot') . '/' . $this->getConfigValue("cm.core.dirs.$cm_core_key.path") . '/core.site.yml';
+    if (file_exists($site_config_file)) {
+      $site_config = Yaml::parseFile($site_config_file);
+      $site_uuid = $site_config['uuid'];
+
+      return $site_uuid;
+    }
+
+    return NULL;
   }
 
 }

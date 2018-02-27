@@ -31,5 +31,17 @@ class SetupCommandTest extends BltProjectTestBase {
     ]);
   }
 
+  /**
+   * Test that config import when exported system UUID != installed UUID.
+   *
+   * @group requires-db
+   */
+  public function testChangedUuid() {
+    $this->importDbFromFixture();
+    $this->drush("config-export --yes");
+    $this->drush("sql-drop --yes");
+    $this->blt("setup", []);
+  }
+
   // Sync strategy is tested is MultisiteTest.php.
 }
