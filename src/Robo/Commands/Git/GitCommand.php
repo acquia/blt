@@ -22,7 +22,7 @@ class GitCommand extends BltTasks {
   public function commitMsgHook($message) {
     $this->say('Validating commit message syntax...');
     $pattern = $this->getConfigValue('git.commit-msg.pattern');
-    $this->logger->debug("Validing commit message with regex $pattern.");
+    $this->logger->debug("Validing commit message with regex <comment>$pattern</comment>.");
     if (!preg_match($pattern, $message)) {
       $this->logger->error("Invalid commit message!");
       $this->say("Commit messages must conform to the regex $pattern");
