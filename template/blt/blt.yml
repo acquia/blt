@@ -12,6 +12,11 @@ project:
     protocol: http
     hostname: local.${project.machine_name}.com
 
+cm:
+  # This will be used during config-imports to import existing configuration.
+  # Replace with the UUID from your system.site.yml after initial installation.
+  uuid: ''
+
 # Configuration settings for new git repository.
 git:
   default_branch: master

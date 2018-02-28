@@ -66,6 +66,14 @@ class ConfigCommand extends BltTasks {
         // necessary configuration file(s) as part of the db update.
         ->drush("updb");
 
+      // Retrieve the config UUID and set site UUID to allow config import
+      // for existing sites.
+      $cm_uuid = $this->getConfigValue('cm.uuid');
+      if ($cm_uuid != NULL) {
+        $task = $this->taskDrush()
+          ->drush("config:set system.site uuid $cm_uuid");
+      }
+
       switch ($strategy) {
         case 'core-only':
           $this->importCoreOnly($task, $cm_core_key);

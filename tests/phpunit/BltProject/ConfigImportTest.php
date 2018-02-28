@@ -68,4 +68,15 @@ class ConfigImportTest extends BltProjectTestBase {
     ]);
   }
 
+  /**
+   * @group requires-db
+   */
+  public function testExistingConfig() {
+    $this->blt("setup", [
+      '--define' => [
+        'project.profile.name=lightning',
+      ],
+    ]);
+  }
+  
 }
