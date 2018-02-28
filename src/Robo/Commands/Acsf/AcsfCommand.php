@@ -23,7 +23,7 @@ class AcsfCommand extends BltTasks {
     $this->logger->notice("  * Adding `acsf` to `modules.local.uninstall` in your blt.yml");
     $this->logger->notice("");
     $this->logger->notice("For more information, see:");
-    $this->logger->notice("<comment>http://blt.readthedocs.io/en/8.x/readme/acsf-setup</comment>");
+    $this->logger->notice("<comment>http://blt.readthedocs.io/en/9.x/readme/acsf-setup</comment>");
   }
 
   /**

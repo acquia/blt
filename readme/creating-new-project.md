@@ -24,7 +24,7 @@
 
        To customize your VM (such as to enable Solr or change the PHP version), respond *no* when BLT offers to boot your VM, and [make any necessary modifications](http://docs.drupalvm.com/en/latest/getting-started/configure-drupalvm/) to *box/config.yml* before starting your VM.
 
-    1. **Alternative**: To set up your own LAMP stack, please review [Local Development](http://blt.readthedocs.io/en/8.x/readme/local-development/), then execute the following command to generate default local settings files:
+    1. **Alternative**: To set up your own LAMP stack, please review [Local Development](http://blt.readthedocs.io/en/9.x/readme/local-development/), then execute the following command to generate default local settings files:
 
              blt blt:init:settings
 

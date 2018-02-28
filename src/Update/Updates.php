@@ -266,7 +266,7 @@ class Updates {
     $messages = [
       'BLT will no longer directly modify your composer.json requirements!',
       "Default composer.json values from BLT are now merged into your root composer.json via wikimedia/composer-merge-plugin. Please see the following documentation for more information:\n",
-      "  - http://blt.readthedocs.io/en/8.x/readme/updating-blt/#modifying-blts-default-composer-values\n   - https://github.com/wikimedia/composer-merge-plugin"
+      "  - http://blt.readthedocs.io/en/9.x/readme/updating-blt/#modifying-blts-default-composer-values\n   - https://github.com/wikimedia/composer-merge-plugin"
     ];
     $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
 
@@ -324,7 +324,7 @@ class Updates {
       "  - Re-initialize default Travis CI configuration via `blt recipes:ci:travis:init`.
          - Re-initialize default Acquia Pipelines configuration via `blt recipes:ci:pipelines:init`.",
       "  - Port custom Phing commands to Robo. All Phing commands are now obsolete. See:",
-      "    http://blt.readthedocs.io/en/8.x/readme/extending-blt/",
+      "    http://blt.readthedocs.io/en/9.x/readme/extending-blt/",
     ];
     if (file_exists($this->updater->getRepoRoot() . '/blt/composer.overrides.json')) {
       $messages[] = "  - <comment>blt/composer.overrides.json</comment> is no longer necessary.";
