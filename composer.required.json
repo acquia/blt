@@ -22,7 +22,7 @@
     "dmore/chrome-mink-driver": "2.4.0",
     "dmore/behat-chrome-extension": "^1.0.0",
     "mikey179/vfsStream": "~1.2",
-    "sensiolabs-de/deprecation-detector": "^0.1.0-alpha4"
+    "sensiolabs-de/deprecation-detector": "dev-master"
   },
   "autoload-dev": {
     "psr-4": {
