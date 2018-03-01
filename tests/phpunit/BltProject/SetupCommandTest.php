@@ -40,7 +40,7 @@ class SetupCommandTest extends BltProjectTestBase {
     $this->importDbFromFixture();
     $this->drush("config-export --yes");
     $this->drush("sql-drop --yes");
-    $this->blt("setup", []);
+    $this->installDrupalMinimal();
   }
 
   // Sync strategy is tested is MultisiteTest.php.
