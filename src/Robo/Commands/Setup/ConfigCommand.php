@@ -211,7 +211,7 @@ class ConfigCommand extends BltTasks {
    * @return null
    */
   protected function getExportedSiteUuid($cm_core_key) {
-    $site_config_file = $this->getConfigValue('docroot') . '/' . $this->getConfigValue("cm.core.dirs.$cm_core_key.path") . '/core.site.yml';
+    $site_config_file = $this->getConfigValue('docroot') . '/' . $this->getConfigValue("cm.core.dirs.$cm_core_key.path") . '/system.site.yml';
     if (file_exists($site_config_file)) {
       $site_config = Yaml::parseFile($site_config_file);
       $site_uuid = $site_config['uuid'];
