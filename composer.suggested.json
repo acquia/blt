@@ -16,7 +16,7 @@
     "drupal/seckit": "^1.0.0-alpha2",
     "drupal/security_review": "*",
     "drupal/shield": "^1.0.0",
-    "drupal/features": "3.x-dev#2e82a6ad751fc88f771be5b4e53b98a8c6eb66b5"
+    "drupal/features": "^3.7.0"
   },
   "extra": {
     "patches": {
