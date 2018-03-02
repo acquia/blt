@@ -18,6 +18,7 @@ class DrupalCommand extends BltTasks {
    *
    * @validateMySqlAvailable
    * @validateDrushConfig
+   * @executeInDrupalVm
    * @hidden
    *
    * @return \Robo\Result
