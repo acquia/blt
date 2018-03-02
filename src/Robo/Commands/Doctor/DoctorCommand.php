@@ -33,7 +33,9 @@ class DoctorCommand extends BltTasks {
         return $result->getExitCode();
       }
       catch (\Exception $e) {
-
+        // If VM is booted and running and doctor fails, stop here (don't try
+        // running outside VM.
+        return 1;
       }
     }
 

@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Doctor;
 
 use function json_decode;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  *
@@ -19,13 +20,14 @@ class DrupalVmCheck extends DoctorCheck {
    * Checks Drupal VM configuration.
    */
   protected function checkDrupalVm() {
-    $drupal_vm_config = $this->getConfigValue('vm.config');
-    if (!file_exists($drupal_vm_config)) {
-      $this->logProblem(__FUNCTION__ . ':init', "You have DrupalVM initialized, but $drupal_vm_config is missing.", 'error');
+    $drupal_vm_config_file = $this->getConfigValue('vm.config');
+    if (!file_exists($drupal_vm_config_file)) {
+      $this->logProblem(__FUNCTION__ . ':init', "You have DrupalVM initialized, but $drupal_vm_config_file is missing.", 'error');
       return FALSE;
     }
+    $drupal_vm_config = Yaml::parse(file_get_contents($drupal_vm_config_file));
 
-    $result = $this->getExecutor()->drush('site-alias --format=json')->silent(TRUE)->run();
+    $result = $this->getExecutor()->drush('site:alias --format=json')->silent(TRUE)->run();
     $drush_aliases = json_decode($result->getMessage(), TRUE);
     $local_alias_id = '@' . $this->getConfigValue('drush.aliases.local');
     if ($local_alias_id !== '@self') {

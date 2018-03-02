@@ -47,7 +47,7 @@ class DbCheck extends DoctorCheck {
       $this->drushStatus['db-hostname'],
       $this->drushStatus['db-username'],
       $this->drushStatus['db-password'],
-      $this->drushStatus['db-database'],
+      $this->drushStatus['db-name'],
       $this->drushStatus['db-port']
     );
 
@@ -82,7 +82,6 @@ class DbCheck extends DoctorCheck {
       "  php-os: {$this->drushStatus['php-os']}",
       "  php-bin: {$this->drushStatus['php-bin']}",
       "  php-conf: $php_conf",
-      "  php-mysql: {$this->drushStatus['php-mysql']}",
       '',
       'Are you using the correct site and settings.php file?',
       "  site: {$this->drushStatus["site"]}",
