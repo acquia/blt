@@ -343,7 +343,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    */
   public function isDrupalVmLocallyInitialized() {
     if (is_null($this->isDrupalVmLocallyInitialized)) {
-      $this->isDrupalVmLocallyInitialized = $this->getConfigValue('vm.enable') && $this->isDrupalVmConfigValid();
+      $this->isDrupalVmLocallyInitialized = $this->isVmCli() || ($this->getConfigValue('vm.enable') && $this->isDrupalVmConfigValid());
       $statement = $this->isDrupalVmLocallyInitialized ? "is" : "is not";
       $this->logger->debug("Drupal VM $statement initialized.");
     }

@@ -31,7 +31,7 @@ class DrushCheck extends DoctorCheck {
    *
    */
   protected function checkDrushAliases() {
-    $result = $this->getExecutor()->drush('site-alias --format=json')->silent(TRUE)->run();
+    $result = $this->getExecutor()->drush('site:alias --format=json')->silent(TRUE)->run();
     if (!$result->wasSuccessful()) {
       $this->logProblem(__FUNCTION__, [
         "Cannot find any valid drush aliases.",
