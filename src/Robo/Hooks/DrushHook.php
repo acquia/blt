@@ -22,8 +22,8 @@ class DrushHook extends BltTasks {
     if ($alias && !$this->getInspector()->isDrushAliasValid("$alias")) {
       $this->logger->error("Invalid drush alias '@$alias'.");
       $this->logger->info('Troubleshooting suggestions:');
-      $this->logger->info('Execute `drush site-alias` from within the docroot to see a list of available aliases.');
-      $this->logger->info("Execute `drush site-alias $alias` for information on the @$alias alias.");
+      $this->logger->info('Execute `drush site:alias` from within the docroot to see a list of available aliases.');
+      $this->logger->info("Execute `drush site:alias $alias` for information on the @$alias alias.");
       $this->logger->info("Execute `drush @$alias status` to determine the status of the application belonging to the alias.");
       throw new BltException("Invalid drush alias '@$alias'.");
     }
