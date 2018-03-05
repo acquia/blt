@@ -14,6 +14,7 @@ class FrontendCommand extends BltTasks {
    *
    * @command source:build:frontend
    * @aliases sbf frontend
+   * @executeInVm
    */
   public function frontend() {
     $this->invokeCommands([
@@ -27,6 +28,7 @@ class FrontendCommand extends BltTasks {
    *
    * @command source:build:frontend-assets
    * @aliases sbfa frontend:build
+   * @executeInVm
    */
   public function assets() {
     return $this->invokeHook('frontend-assets');
@@ -37,6 +39,7 @@ class FrontendCommand extends BltTasks {
    *
    * @command source:build:frontend-reqs
    * @aliases sbfr frontend:setup
+   * @executeInVm
    */
   public function reqs() {
     return $this->invokeHook('frontend-reqs');
@@ -51,6 +54,7 @@ class FrontendCommand extends BltTasks {
    * @todo add alias for tests:frontend.
    *
    * @launchWebServer
+   * @executeInVm
    */
   public function test() {
     return $this->invokeHook('frontend-test');

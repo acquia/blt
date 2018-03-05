@@ -13,6 +13,7 @@ class AllCommand extends BltTasks {
    * Executes source:build:* and installs Drupal via setup.strategy.
    *
    * @command setup
+   * @executeInVm
    */
   public function setup() {
     $this->say("Setting up local environment for site <comment>{$this->getConfigValue('site')}</comment>.");
