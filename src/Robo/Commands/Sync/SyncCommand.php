@@ -17,8 +17,8 @@ class SyncCommand extends BltTasks {
    * SSH forwarding.
    *
    * @command drupal:sync:all-sites
-   *
    * @aliases dsa sync:all
+   * @executeInVm
    *
    * @see https://github.com/acquia/blt/issues/1875
    */
@@ -43,8 +43,8 @@ class SyncCommand extends BltTasks {
    * for each multisite.
    *
    * @command drupal:sync:default:site
-   *
    * @aliases ds drupal:sync:default sync sync:refresh
+   * @executeInVm
    */
   public function sync($options = [
     'sync-files' => FALSE,
@@ -65,6 +65,7 @@ class SyncCommand extends BltTasks {
    * @aliases dsf sync:files
    *
    * @validateDrushConfig
+   * @executeInVm
    *
    * @todo Support multisite.
    */
@@ -90,8 +91,8 @@ class SyncCommand extends BltTasks {
    * Iteratively copies remote db to local db for each multisite.
    *
    * @command drupal:sync:db:all-sites
-   *
    * @aliases dsba sync:all:db
+   * @executeInVm
    */
   public function syncDbAllSites() {
     $exit_code = 0;
@@ -122,8 +123,8 @@ class SyncCommand extends BltTasks {
    * @command drupal:sync:default:db
    *
    * @aliases dsb drupal:sync:db sync:db
-   *
    * @validateDrushConfig
+   * @executeInVm
    */
   public function syncDb() {
     $local_alias = '@' . $this->getConfigValue('drush.aliases.local');

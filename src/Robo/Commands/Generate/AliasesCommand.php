@@ -51,7 +51,6 @@ class AliasesCommand extends BltTasks {
    *
    */
   public function generateAliasesAcquia() {
-
     $this->cloudConfDir = $_SERVER['HOME'] . '/.acquia';
     $this->setAppId();
     $this->cloudConfFileName = 'cloud_api.conf';

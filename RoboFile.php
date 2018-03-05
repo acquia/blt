@@ -80,10 +80,12 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       ->exec("git add -A")
       ->exec("git commit -m 'Initial commit.'")
       ->run();
-    $this->taskReplaceInFile($test_project_dir . "/composer.json")
-      ->from("../blt")
-      ->to($this->bltRoot)
-      ->run();
+    if (!$options['vm']) {
+      $this->taskReplaceInFile($test_project_dir . "/composer.json")
+        ->from("../blt")
+        ->to($this->bltRoot)
+        ->run();
+    }
     $task = $this->taskExecStack()
       ->dir($test_project_dir)
       // BLT is the only dependency at this point. Install it.
