@@ -279,6 +279,7 @@ class VmCommand extends BltTasks {
           'drush',
           'nodejs',
           'xdebug',
+          'selenium',
         ]);
         break;
 
@@ -286,7 +287,7 @@ class VmCommand extends BltTasks {
         $config->set('workspace', '/root');
         $config->set('installed_extras', [
           'adminer',
-          'chrome',
+          'selenium',
           'drush',
           'mailhog',
           'memcached',
