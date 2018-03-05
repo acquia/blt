@@ -16,6 +16,7 @@ class MultiSiteTest extends BltProjectTestBase {
    * Tests multisite.
    */
   public function testMultisiteGenerate() {
+    putenv("BLT_ENV=LOCAL");
     $this->prepareMultisites($this->site1Dir, $this->site2Dir, $this->sandboxInstance, $this->sandboxInstanceClone);
 
     // Make sure we prepared thing correctly.
