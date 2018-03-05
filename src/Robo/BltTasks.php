@@ -20,7 +20,6 @@ use Robo\Contract\IOAwareInterface;
 use Robo\Contract\VerbosityThresholdInterface;
 use Robo\LoadAllTasks;
 use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * Base class for BLT Robo commands.
@@ -178,32 +177,6 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
       $this->logger->warning("The $plugin plugin is not installed! Attempting to install it...");
       $this->taskExec("vagrant plugin install $plugin")->run();
     }
-  }
-
-  /**
-   * Executes a command inside of Drupal VM.
-   *
-   * @param string $command
-   *   The command to execute.
-   *
-   * @return \Robo\Result
-   *   The command result.
-   */
-  protected function executeCommandInDrupalVm($command) {
-    $this->say("Executing command <comment>$command</comment> inside of Drupal VM...");
-    $vm_config = Yaml::parse(file_get_contents($this->getConfigValue('vm.config')));
-    $result = $this->taskExecStack()
-      ->exec("vagrant ssh --command 'cd {$vm_config['ssh_home']}; $command'")
-      ->dir($this->getConfigValue('repo.root'))
-      ->interactive($this->input()->isInteractive())
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->run();
-
-    if (!$result->wasSuccessful()) {
-      throw new \Exception("Executing command inside VM failed!");
-    }
-
-    return $result;
   }
 
   /**

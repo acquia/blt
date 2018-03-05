@@ -92,8 +92,6 @@ class SyncCommand extends BltTasks {
    * @command drupal:sync:db:all-sites
    *
    * @aliases dsba sync:all:db
-   *
-   * @executeInDrupalVm
    */
   public function syncDbAllSites() {
     $exit_code = 0;
@@ -126,7 +124,6 @@ class SyncCommand extends BltTasks {
    * @aliases dsb drupal:sync:db sync:db
    *
    * @validateDrushConfig
-   * @executeInDrupalVm
    */
   public function syncDb() {
     $local_alias = '@' . $this->getConfigValue('drush.aliases.local');

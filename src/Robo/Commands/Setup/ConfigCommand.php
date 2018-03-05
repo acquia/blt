@@ -27,8 +27,6 @@ class ConfigCommand extends BltTasks {
    * @command drupal:config:import
    * @aliases dci setup:config-import
    *
-   * @executeInDrupalVm
-   *
    * @validateDrushConfig
    */
   public function import() {

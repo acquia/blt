@@ -155,7 +155,6 @@ class SettingsCommand extends BltTasks {
    * @command tests:behat:init:config
    * @aliases tbic setup:behat
    *
-   * @executeInDrupalVm
    */
   public function behat() {
     $copy_map = [
