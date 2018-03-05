@@ -96,7 +96,6 @@ class BehatCommand extends TestsCommandBase {
    * @validateBehatIsConfigured
    * @validateVmConfig
    * @launchWebServer
-   * @executeInDrupalVm
    */
   public function behat() {
     // Log config for debugging purposes.
@@ -126,7 +125,6 @@ class BehatCommand extends TestsCommandBase {
    * @aliases tbd tests:behat:definitions
    *
    * @validateMySqlAvailable
-   * @executeInDrupalVm
    */
   public function behatDefinitions($options = ['mode' => 'l']) {
     $task = $this->taskBehat($this->getConfigValue('composer.bin') . '/behat')
