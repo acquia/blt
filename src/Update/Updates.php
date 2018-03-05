@@ -475,6 +475,8 @@ class Updates {
       'drush/sites/.checksums',
       'example.acsf.aliases.yml',
       'example.local.aliases.yml',
+      'tests/behat/example.local.yml',
+      'tests/behat/local.yml',
     ];
     foreach ($files as $key => $file) {
       if (!file_exists($file)) {
@@ -510,6 +512,10 @@ class Updates {
       $project_config->remove($original);
     }
     $this->updater->writeProjectYml($project_yml);
+
+    $project_local_yml = $this->updater->getProjectLocalYml();
+    unset($project_local_yml['drush']['default_alias']);
+    unset($project_local_yml['drush']['aliases']['local']);
 
     $process = new Process("blt blt:init:settings", $this->updater->getRepoRoot());
     $process->run();

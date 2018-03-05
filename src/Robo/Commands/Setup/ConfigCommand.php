@@ -16,6 +16,7 @@ class ConfigCommand extends BltTasks {
    *
    * @command drupal:update
    * @aliases du setup:update
+   * @executeInVm
    */
   public function update() {
     $this->invokeCommands(['drupal:config:import', 'drupal:toggle:modules']);
@@ -28,6 +29,7 @@ class ConfigCommand extends BltTasks {
    * @aliases dci setup:config-import
    *
    * @validateDrushConfig
+   * @executeInVm
    */
   public function import() {
     $strategy = $this->getConfigValue('cm.strategy');

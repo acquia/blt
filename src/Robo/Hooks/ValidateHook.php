@@ -125,7 +125,7 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
    *
    * @hook validate validateVmConfig
    */
-  public function validateInsideVm() {
+  public function validateVmConfig() {
     if ($this->getInspector()->isDrupalVmLocallyInitialized() && $this->getInspector()->isDrupalVmBooted() && !$this->getInspector()->isDrupalVmConfigValid()) {
       throw new BltException("Drupal VM configuration is invalid.");
     }

@@ -20,6 +20,7 @@ class DoctorCommand extends BltTasks {
    * @command doctor
    *
    * @launchWebServer
+   * @executeInVm
    */
   public function doctor() {
     $this->doctorCheck();

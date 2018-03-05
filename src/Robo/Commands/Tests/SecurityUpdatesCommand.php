@@ -14,6 +14,7 @@ class SecurityUpdatesCommand extends BltTasks {
    *
    * @command tests:security:check:updates
    * @aliases tscu security tests:security-updates
+   * @executeInVm
    */
   public function testsSecurityUpdates() {
     $result = $this->taskDrush()
