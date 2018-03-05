@@ -55,8 +55,30 @@ class MultiSiteTest extends BltProjectTestBase {
     $this->assertFileExists("$this->sandboxInstanceClone/docroot/sites/sites.php");
     $this->assertFileExists($this->sandboxInstanceClone . '/config/site2');
 
+    // Generate local.setting.php, copy to includes.settings.php since
+    // local.settings.php is not loaded in CI env.
+    $this->blt("blt:init:settings");
+    $this->fs->copy(
+      "$this->sandboxInstance/docroot/sites/$this->site1Dir/settings/local.settings.php",
+      "$this->sandboxInstance/docroot/sites/$this->site1Dir/settings/includes.settings.php"
+    );
+    $this->fs->copy(
+      "$this->sandboxInstance/docroot/sites/$this->site2Dir/settings/local.settings.php",
+      "$this->sandboxInstance/docroot/sites/$this->site2Dir/settings/includes.settings.php"
+    );
+
+    // Generate local.setting.php, copy to includes.settings.php since
+    // local.settings.php is not loaded in CI env.
     // We cannot use $this->blt because we are not executing in sandbox.
     $this->execute('./vendor/bin/blt blt:init:settings', $this->sandboxInstanceClone);
+    $this->fs->copy(
+      "$this->sandboxInstanceClone/docroot/sites/$this->site1Dir/settings/local.settings.php",
+      "$this->sandboxInstanceClone/docroot/sites/$this->site1Dir/settings/includes.settings.php"
+    );
+    $this->fs->copy(
+      "$this->sandboxInstanceClone/docroot/sites/$this->site2Dir/settings/local.settings.php",
+      "$this->sandboxInstanceClone/docroot/sites/$this->site2Dir/settings/includes.settings.php"
+    );
 
     // Generate fixture.
     // Sets up site1 locally too.
@@ -77,17 +99,6 @@ class MultiSiteTest extends BltProjectTestBase {
     $this->assertFileExists("$this->sandboxInstance/docroot/sites/$this->site2Dir/local.drush.yml");
     $this->assertNotContains('${drupal.db.database}', file_get_contents("$this->sandboxInstance/docroot/sites/$this->site1Dir/settings/local.settings.php"));
 
-    // Copy local.setting.php to includes.settings.php since local.settings.php
-    // is not loaded in CI env.
-    $this->fs->copy(
-      "$this->sandboxInstance/docroot/sites/$this->site1Dir/settings/local.settings.php",
-      "$this->sandboxInstance/docroot/sites/$this->site1Dir/settings/includes.settings.php"
-    );
-    $this->fs->copy(
-      "$this->sandboxInstance/docroot/sites/$this->site2Dir/settings/local.settings.php",
-      "$this->sandboxInstance/docroot/sites/$this->site2Dir/settings/includes.settings.php"
-    );
-
     // Setup Site1 clone.
     $this->importDbFromFixture($this->sandboxInstanceClone, $this->site1Dir);
     $this->drush("config:set system.site name 'Site 1 Clone' --yes --uri=$this->site1Dir", $this->sandboxInstanceClone);
@@ -100,17 +111,6 @@ class MultiSiteTest extends BltProjectTestBase {
     $this->assertFileExists("$this->sandboxInstanceClone/docroot/sites/$this->site2Dir/settings/local.settings.php");
     $this->assertFileExists("$this->sandboxInstanceClone/docroot/sites/$this->site1Dir/local.drush.yml");
     $this->assertFileExists("$this->sandboxInstanceClone/docroot/sites/$this->site2Dir/local.drush.yml");
-
-    // Copy local.setting.php to includes.settings.php since local.settings.php
-    // is not loaded in CI env.
-    $this->fs->copy(
-      "$this->sandboxInstanceClone/docroot/sites/$this->site1Dir/settings/local.settings.php",
-      "$this->sandboxInstanceClone/docroot/sites/$this->site1Dir/settings/includes.settings.php"
-    );
-    $this->fs->copy(
-      "$this->sandboxInstanceClone/docroot/sites/$this->site2Dir/settings/local.settings.php",
-      "$this->sandboxInstanceClone/docroot/sites/$this->site2Dir/settings/includes.settings.php"
-    );
 
     $output_array = $this->drushJson("@default.local config:get system.site");
     $this->assertEquals('Site 1 Local', $output_array['name']);
