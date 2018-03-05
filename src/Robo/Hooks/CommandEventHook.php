@@ -33,9 +33,12 @@ class CommandEventHook extends BltTasks {
    * @hook command-event *
    */
   public function issueWarnings(ConsoleCommandEvent $event) {
+    $command = $event->getCommand();
+    $command_name = $command->getName();
+
     // The inspector tracks whether warnings have been issued because it is
     // shared in the container.
-    $this->getInspector()->issueEnvironmentWarnings();
+    $this->getInspector()->issueEnvironmentWarnings($command_name);
   }
 
 }

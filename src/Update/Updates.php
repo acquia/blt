@@ -475,6 +475,8 @@ class Updates {
       'drush/sites/.checksums',
       'example.acsf.aliases.yml',
       'example.local.aliases.yml',
+      'tests/behat/example.local.yml',
+      'tests/behat/local.yml',
     ];
     foreach ($files as $key => $file) {
       if (!file_exists($file)) {

@@ -343,7 +343,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    */
   public function isDrupalVmLocallyInitialized() {
     if (is_null($this->isDrupalVmLocallyInitialized)) {
-      $this->isDrupalVmLocallyInitialized = $this->isVmCli() || ($this->getConfigValue('vm.enable') && $this->isDrupalVmConfigValid());
+      $this->isDrupalVmLocallyInitialized = $this->isVmCli() || $this->getConfigValue('vm.enable');
       $statement = $this->isDrupalVmLocallyInitialized ? "is" : "is not";
       $this->logger->debug("Drupal VM $statement initialized.");
     }
@@ -769,13 +769,25 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
 
   /**
    * Issues warnings to user if their local environment is mis-configured.
+   *
+   * @param $command_name string
+   *   The name of the BLT Command being executed.
    */
-  public function issueEnvironmentWarnings() {
+  public function issueEnvironmentWarnings($command_name) {
     if (!$this->warningsIssued) {
       $this->warnIfPhpOutdated();
-      $this->warnIfDrupalVmNotRunning();
       $this->warnIfXdebugLoaded();
-      $this->warnIfNonInDrupalVm();
+
+      $exclude_commands = [
+        'list',
+        'recipes:drupalvm:init',
+        'recipes:drupalvm:destroy',
+      ];
+      if (!in_array($command_name, $exclude_commands)) {
+        $this->warnIfDrupalVmNotRunning();
+        $this->warnIfNonInDrupalVm();
+      }
+
       $this->warningsIssued = TRUE;
     }
   }
@@ -786,7 +798,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function warnIfPhpOutdated() {
-    $minimum_php_version = 5.6;
+    $minimum_php_version = 7;
     $current_php_version = phpversion();
     if ($current_php_version < $minimum_php_version) {
       throw new BltException("BLT requires PHP $minimum_php_version or greater. You are using $current_php_version.");
