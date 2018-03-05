@@ -759,6 +759,15 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   }
 
   /**
+   * Emits a warning if Drupal VM is initialized but user is not on VM CLI.
+   */
+  protected function warnIfNonInDrupalVm() {
+    if (!$this->isVmCli() && $this->isDrupalVmLocallyInitialized()) {
+      $this->logger->warning("Drupal VM is locally initialized, but you are not inside the VM. You should execute all BLT commands from within Drupal VM. Use <comment>vagrant ssh</comment> to enter the VM.");
+    }
+  }
+
+  /**
    * Issues warnings to user if their local environment is mis-configured.
    */
   public function issueEnvironmentWarnings() {
@@ -766,6 +775,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
       $this->warnIfPhpOutdated();
       $this->warnIfDrupalVmNotRunning();
       $this->warnIfXdebugLoaded();
+      $this->warnIfNonInDrupalVm();
       $this->warningsIssued = TRUE;
     }
   }

@@ -22,7 +22,6 @@ class ToggleModulesCommand extends BltTasks {
    *
    * @aliases dtm toggle setup:toggle-modules
    *
-   * @executeInDrupalVm
    * @validateDrushConfig
    */
   public function toggleModules() {

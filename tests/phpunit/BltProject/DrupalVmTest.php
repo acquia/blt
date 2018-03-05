@@ -4,7 +4,7 @@ namespace Acquia\Blt\Tests\Blt;
 
 use Acquia\Blt\Tests\BltProjectTestBase;
 use Acquia\Blt\Robo\Common\YamlMunge;
-use function print_r;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class DrupalVM.
@@ -33,10 +33,11 @@ class DrupalVmTest extends BltProjectTestBase {
     );
     $this->assertArrayHasKey('local', $drush_alias_contents, print_r($drush_alias_contents, TRUE));
     $this->assertEquals($this->config->get('project.local.uri'), $drush_alias_contents['local']['uri']);
-    $this->assertContains(
-      $this->config->get('project.machine_name') . '.local',
-      file_get_contents($this->sandboxInstance . '/blt/local.blt.yml')
-    );
+
+    $local_config = Yaml::parseFile($this->sandboxInstance . '/blt/local.blt.yml');
+    $this->assertArrayHasKey('vm', $local_config);
+    $this->assertArrayHasKey('enable', $local_config['vm']);
+    $this->assertEquals(TRUE, $local_config['vm']['enable']);
   }
 
   /**
