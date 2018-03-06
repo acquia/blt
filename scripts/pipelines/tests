@@ -4,6 +4,6 @@ set -ev
 
 export PATH=${COMPOSER_BIN}:${PATH}
 
-blt tests:all --define drush.alias='${drush.aliases.ci}' --define environment=ci --define tests.run-server=true -D behat.web-driver=chrome --yes --ansi --verbose
+blt tests:all --define drush.alias='${drush.aliases.ci}' --environment=ci --define tests.run-server=true -D behat.web-driver=chrome --yes --ansi --verbose
 
 set +v
