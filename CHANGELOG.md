@@ -1,5 +1,44 @@
 # Change Log
 
+#### 9.0.0-rc1 (2018-03-06)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.0.0-beta3...9.0.0-rc1)
+
+**Implemented enhancements**
+
+- Require PHP 7 minimum. (#2601)
+- Removing Drupal VM command proxy. (#2597)
+- Require drupal/features ^3.7.0. (#2595)
+- Use HEAD of main Lightning branch (#2592)
+- Update (again) the patch to clear Twig caches on deploys (#2579)
+- Add veryVerbose() and debug() methods to drush task. (#2591)
+- Refactoring how git hooks are installed so they are found from yml configuration. (#2575)
+- Add separate include for GitLab CI. (#2544)
+- Moving cloud hook logic to PHP. (#2552)
+
+**Fixed bugs**
+
+- Prevent warnings in update hook. (#2604)
+- Execute internal:drupal:install in VM. (#2596)
+- Fixes #2580: Recent Project Update throws intimidating error. (#2581)
+- Update patch to clear Twig caches on deploys (#2570)
+- Fix error message when security-updates test fails (#2568)
+- Overwrite phpcs.xml.dist from template. (#2562)
+- Fixes #2550: Rogue local.yml file following upgrade. (#2553)
+- Fixes #2549: File permission error during upgrade to 9.0.0-beta2. (#2551)
+
+**Miscellaneous**
+
+- Update README.md
+- Fixes from pre-release testing. (#2602)
+- Drush 9 blt doctor fixes (#2598)
+- Fixes #2566: Allow site to be installed from existing config. (#2590)
+- Connects to #2582: Disabling BLT commit message. (#2585)
+- Update doc references to 9.x. (#2586)
+- Fixes #2587: Use strict variable interpolation in git-hooks pre-commit. (#2588)
+- Update ISSUE_TEMPLATE.md
+
+
 #### 9.0.0-beta3 (2018-02-13)
 
 [Full Changelog](https://github.com/acquia/blt/compare/9.0.0-beta2...9.0.0-beta3)
