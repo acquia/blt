@@ -459,6 +459,7 @@ class Updates {
   public function update_9000000() {
     $this->updater->syncWithTemplate('.gitignore', TRUE);
     $this->updater->syncWithTemplate('phpcs.xml.dist', TRUE);
+    $this->updater->syncWithTemplate('tests/behat/example.local.yml', TRUE);
     $this->updater->moveFile('drush/site-aliases/aliases.drushrc.php', 'drush/site-aliases/legacy.aliases.drushrc.php');
     $this->updater->replaceInFile('drush/site-aliases/legacy.aliases.drushrc.php', "' . drush_server_home() . '", '$HOME');
     $process = new Process(
@@ -475,7 +476,6 @@ class Updates {
       'drush/sites/.checksums',
       'example.acsf.aliases.yml',
       'example.local.aliases.yml',
-      'tests/behat/example.local.yml',
       'tests/behat/local.yml',
     ];
     foreach ($files as $key => $file) {
@@ -513,9 +513,12 @@ class Updates {
     }
     $this->updater->writeProjectYml($project_yml);
 
-    $project_local_yml = $this->updater->getProjectLocalYml();
-    unset($project_local_yml['drush']['default_alias']);
-    unset($project_local_yml['drush']['aliases']['local']);
+    if (file_exists($this->updater->projectLocalYmlFilepath)) {
+      $project_local_yml = $this->updater->getProjectLocalYml();
+      unset($project_local_yml['drush']['default_alias']);
+      unset($project_local_yml['drush']['aliases']['local']);
+      $this->updater->writeProjectLocalYml($project_local_yml);;
+    }
 
     $process = new Process("blt blt:init:settings", $this->updater->getRepoRoot());
     $process->run();
