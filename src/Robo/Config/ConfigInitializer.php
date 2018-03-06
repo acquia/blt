@@ -148,7 +148,7 @@ class ConfigInitializer {
     }
     // Support --define environment=ci.
     elseif ($this->input->hasParameterOption('environment')) {
-      $environment = $this->input->getParameterOption('environment');
+      $environment = ltrim($this->input->getParameterOption('environment'), '=');
     }
     else {
       $environment = 'local';
