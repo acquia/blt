@@ -6,6 +6,7 @@ use Acquia\Blt\Robo\BltTasks;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Input\InputInterface;
 
 /**
  * This class defines hooks that provide user interaction.
