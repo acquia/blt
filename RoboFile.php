@@ -330,7 +330,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       // const VERSION = '9.0.0';
       // @codingStandardsIgnoreEnd
       ->regex('/(const VERSION = \')[0-9]{1,2}\.[0-9x]{1,2}(\.[0-9x](-(alpha|beta|rc|dev)[0-9]{0,2})?|-dev?)(\';)/')
-      ->to('${1}' . $tag . '${4}')
+      ->to('${1}' . $tag . '${5}')
       ->run();
   }
 
