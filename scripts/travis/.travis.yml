@@ -25,7 +25,6 @@ cache:
   - "$HOME/.drush/cache"
   - "$HOME/.npm"
   - "$HOME/.nvm"
-  - "vendor"
   - ".rules"
   # Cache front end dependencies to dramatically improve build time.
   # - "docroot/themes/custom/mytheme/node_modules"
@@ -63,16 +62,16 @@ deploy:
      skip_cleanup: true
      on:
        branch: develop
-       php: 5.6
+       php: 7.1
    - provider: script
      script: "${BLT_DIR}/scripts/travis/deploy_branch"
      skip_cleanup: true
      on:
        branch: master
-       php: 5.6
+       php: 7.1
    - provider: script
      script: "${BLT_DIR}/scripts/travis/deploy_tag"
      skip_cleanup: true
      on:
        tags: true
-       php: 5.6
+       php: 7.1
