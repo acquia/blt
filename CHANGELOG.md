@@ -1,5 +1,14 @@
 # Change Log
 
+#### 9.0.0 (2018-03-08)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.0.0-rc1...9.0.0)
+
+**Implemented enhancements**
+
+- Use --environment option rather than --define. (#2607)
+
+
 #### 9.0.0-rc1 (2018-03-06)
 
 [Full Changelog](https://github.com/acquia/blt/compare/9.0.0-beta3...9.0.0-rc1)
