@@ -55,16 +55,20 @@ class AcHooksCommand extends BltTasks {
    *   The repo type. E.g., git.
    *
    * @command artifact:ac-hooks:post-code-update
+   *
+   * @throws \Exception
    */
   public function postCodeUpdate($site, $target_env, $source_branch, $deployed_tag, $repo_url, $repo_type) {
     try {
       $this->updateSites($site, $target_env);
       $success = TRUE;
+      $this->sendPostCodeUpdateNotifications($site, $target_env, $source_branch, $deployed_tag, $success);
     }
     catch (\Exception $e) {
       $success = FALSE;
+      $this->sendPostCodeUpdateNotifications($site, $target_env, $source_branch, $deployed_tag, $success);
+      throw $e;
     }
-    $this->sendPostCodeUpdateNotifications($site, $target_env, $source_branch, $deployed_tag, $success);
   }
 
   /**
