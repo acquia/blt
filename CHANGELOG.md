@@ -1,5 +1,26 @@
 # Change Log
 
+#### 9.0.1 (2018-03-08)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.0.0-rc1...9.0.1)
+
+**Implemented enhancements**
+
+- Alias dev-master to 9.x-dev. (#2609)
+- Requiring drupal/core:^8.5.0, acquia/lightning:^3.1.0. (#2608)
+- Use --environment option rather than --define. (#2607)
+
+**Fixed bugs**
+
+- Require PHP 7.1 in all the right places. (#2611)
+
+**Miscellaneous**
+
+- Update internal deploy branch setting.
+- Set VERSION back to 9.x-dev.
+- Updating CHANGELOG.md and setting version for 9.0.0.
+
+
 #### 9.0.0 (2018-03-08)
 
 [Full Changelog](https://github.com/acquia/blt/compare/9.0.0-rc1...9.0.0)
