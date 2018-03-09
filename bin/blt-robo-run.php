@@ -31,7 +31,9 @@ $processor->extend($loader->load($config->get('repo.root') . '/blt/project.yml')
 $processor->extend($loader->load($config->get('repo.root') . '/blt/project.local.yml'));
 
 if ($input->hasParameterOption('environment')) {
-  $processor->extend($loader->load($config->get('repo.root') . '/blt/' . $input->getParameterOption('environment') . '.yml'));
+  // Symfony console 3.4 shim.
+  $env = ltrim($input->getParameterOption('environment'), '=');
+  $processor->extend($loader->load($config->get('repo.root') . '/blt/' . $env . '.yml'));
 }
 
 $config->import($processor->export());
