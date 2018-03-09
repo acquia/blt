@@ -11,11 +11,16 @@
  * override this selectively using configuration splits. However, some
  * applications may prefer to manage the configuration for each multisite
  * completely separately. If this is the case, they can set
- * $config_directories['sync'] = $dir . "/config/$site_dir" and we will not
- * overwrite it.
+ * $blt_override_config_directories to FALSE and
+ * $config_directories['sync'] = $dir . "/config/$site_dir" in settings.php,
+ * and we will not overwrite it.
  */
-if (!isset($config_directories['sync'])) {
-  // Configuration directories.
+if (!isset($blt_override_config_directories)) {
+  $blt_override_config_directories = TRUE;
+}
+
+// Configuration directories.
+if ($blt_override_config_directories) {
   $config_directories['sync'] = $repo_root . "/config/default";
 }
 
