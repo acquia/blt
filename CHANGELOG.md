@@ -1,5 +1,15 @@
 # Change Log
 
+#### 9.0.3 (2018-03-09)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.0.2...9.0.3)
+
+
+**Miscellaneous**
+
+- Fixes #2616: Config Splits not correctly activated. (#2617)
+
+
 #### 9.0.2 (2018-03-09)
 
 [Full Changelog](https://github.com/acquia/blt/compare/9.0.1...9.0.2)
