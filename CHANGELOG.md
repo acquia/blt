@@ -1,5 +1,21 @@
 # Change Log
 
+#### 9.0.2 (2018-03-09)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.0.1...9.0.2)
+
+
+**Fixed bugs**
+
+- Fix bug causing update failure. (#2615)
+- Correctly return failure in cloud hooks. (#2612)
+
+**Miscellaneous**
+
+- Update .travis.yml
+- Set VERSION back to 9.x-dev.
+
+
 #### 9.0.1 (2018-03-08)
 
 [Full Changelog](https://github.com/acquia/blt/compare/9.0.0-rc1...9.0.1)
