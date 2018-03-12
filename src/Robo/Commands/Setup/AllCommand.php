@@ -33,7 +33,7 @@ class AllCommand extends BltTasks {
         break;
 
       case 'sync':
-        $commands[] = 'drupal:sync';
+        $commands[] = 'drupal:sync:default:site';
         break;
 
       case 'import':
