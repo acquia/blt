@@ -43,7 +43,7 @@ class SyncCommand extends BltTasks {
    * for each multisite.
    *
    * @command drupal:sync:default:site
-   * @aliases ds drupal:sync:default sync sync:refresh
+   * @aliases ds drupal:sync drupal:sync:default sync sync:refresh
    * @executeInVm
    */
   public function sync($options = [
