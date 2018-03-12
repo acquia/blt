@@ -457,8 +457,12 @@ class Updates {
    * )
    */
   public function update_9000000() {
+    $messages = [];
     $this->updater->syncWithTemplate('.gitignore', TRUE);
     $this->updater->syncWithTemplate('phpcs.xml.dist', TRUE);
+    if (file_exists($this->updater->getRepoRoot() . '/phpcs.xml')) {
+      $messages[] = 'phpcs.xml.dist has been updated. Review it for changes that should be copied to your custom phpcs.xml';
+    }
     $this->updater->syncWithTemplate('tests/behat/example.local.yml', TRUE);
     $this->updater->moveFile('drush/site-aliases/aliases.drushrc.php', 'drush/site-aliases/legacy.aliases.drushrc.php');
     $this->updater->replaceInFile('drush/site-aliases/legacy.aliases.drushrc.php', "' . drush_server_home() . '", '$HOME');
@@ -492,11 +496,13 @@ class Updates {
     $finder = new Finder();
     $finder->files()->in(['drush/sites'])->name('*.md5');
     $this->updater->getFileSystem()->remove(iterator_to_array($finder->getIterator()));
+    $messages[] = "BLT attempted to upgrade your project-specific drush aliases. Please review and manually convert any that remain.";
 
     $this->updater->moveFile('blt/example.project.local.yml', 'blt/example.local.blt.yml', TRUE);
     $this->updater->moveFile('blt/project.local.yml', 'blt/local.blt.yml', TRUE);
     $this->updater->moveFile('blt/project.yml', 'blt/blt.yml', TRUE);
     $this->updater->moveFile('blt/ci.yml', 'blt/ci.blt.yml', TRUE);
+    $messages[] = "BLT configuration files have been renamed.";
 
     $rekey_map = [
       'target-hooks.frontend-setup' => 'target-hooks.frontend-reqs',
@@ -522,5 +528,10 @@ class Updates {
 
     $process = new Process("blt blt:init:settings", $this->updater->getRepoRoot());
     $process->run();
+
+    $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
+    $this->updater->getOutput()->writeln("");
+    $this->updater->getOutput()->writeln($formattedBlock);
+    $this->updater->getOutput()->writeln("");
   }
 }
