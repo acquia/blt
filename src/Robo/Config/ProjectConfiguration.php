@@ -12,7 +12,7 @@ class ProjectConfiguration implements ConfigurationInterface {
 
   public function getConfigTreeBuilder() {
     $treeBuilder = new TreeBuilder();
-    $rootNode = $treeBuilder->root('project');
+    $rootNode = $treeBuilder->root('recipe');
 
     // @codingStandardsIgnoreStart
     $rootNode
