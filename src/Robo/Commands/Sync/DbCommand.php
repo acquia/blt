@@ -80,7 +80,7 @@ class DbCommand extends BltTasks {
       }
     }
 
-    $task->drush('cache-clear drush');
+    $task->drush('cr');
 
     $result = $task->run();
 
