@@ -4,8 +4,8 @@ namespace Acquia\Blt\Robo\Tasks;
 
 use Robo\Exception\TaskException;
 use Robo\Task\CommandStack;
+use Robo\Contract\VerbosityThresholdInterface;
 use Robo\Common\CommandArguments;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Runs Drush commands in stack. You can use `stopOnFail()` to point that stack
@@ -286,20 +286,20 @@ class DrushTask extends CommandStack {
     if ($this->verbose !== FALSE) {
       $verbosity_threshold = $this->verbosityThreshold();
       switch ($verbosity_threshold) {
-        case OutputInterface::VERBOSITY_VERBOSE:
+        case VerbosityThresholdInterface::VERBOSITY_VERBOSE:
           $this->verbose(TRUE);
           break;
 
-        case OutputInterface::VERBOSITY_VERY_VERBOSE:
+        case VerbosityThresholdInterface::VERBOSITY_VERY_VERBOSE:
           $this->veryVerbose(TRUE);
           break;
 
-        case OutputInterface::VERBOSITY_DEBUG:
+        case VerbosityThresholdInterface::VERBOSITY_DEBUG:
           $this->debug(TRUE);
           break;
       }
     }
-    if ($this->verbosityThreshold() >= OutputInterface::VERBOSITY_VERBOSE
+    if ($this->verbosityThreshold() >= VerbosityThresholdInterface::VERBOSITY_VERBOSE
       && $this->verbose !== FALSE) {
       $this->verbose(TRUE);
     }
