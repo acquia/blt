@@ -7,6 +7,7 @@ use Acquia\Blt\Robo\Common\RandomString;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use function file_exists;
 use Robo\Contract\VerbosityThresholdInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Defines commands in the "blt:init:settings" namespace.
@@ -218,6 +219,8 @@ class SettingsCommand extends BltTasks {
       $this->say("Installing $hook git hook...");
       $source = $this->getConfigValue('git.hooks.' . $hook) . "/$hook";
       $dest = $this->getConfigValue('repo.root') . "/.git/hooks/$hook";
+      $fs = new Filesystem();
+      $source = rtrim($fs->makePathRelative($source, $dest), '/');
 
       $result = $this->taskFilesystemStack()
         ->mkdir($this->getConfigValue('repo.root') . '/.git/hooks')
