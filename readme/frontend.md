@@ -18,10 +18,10 @@ The three following target hooks are available for frontend commands: setup, bui
 
 ### Setup
 
-During the execution of `blt setup`, BLT will execute `command-hooks.source:build:frontend-reqs.command`. This hook is intended to provide an opportunity to install the tools required for your frontend build process. For instance, you may use this hook to install dependencies via NPM or Bower. E.g.,
+During the execution of `blt setup`, BLT will execute `command-hooks.frontend-reqs.command`. This hook is intended to provide an opportunity to install the tools required for your frontend build process. For instance, you may use this hook to install dependencies via NPM or Bower. E.g.,
 
     command-hooks:
-      source:build:frontend-reqs:
+      frontend-reqs:
         dir: ${docroot}/sites/all/themes/custom/mytheme.
         command: '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use 4.4.4 && npm install'
 
@@ -29,10 +29,10 @@ If you are using a sub theme of Cog, executing `npm install` in your theme direc
 
 ### Build
 
-During the execution of `blt setup` and `blt artifact:deploy`, BLT will execute `command-hooks.source:build:frontend-assets.command`. This is always executed after `command-hooks.source:build:frontend-reqs.command`. This hook is intended to provide an opportunity to compile your frontend assets, such as compiling SCSS to CSS or generating a style guide.
+During the execution of `blt setup` and `blt artifact:deploy`, BLT will execute `command-hooks.frontend-assets.command`. This is always executed after `command-hooks.frontend-reqs.command`. This hook is intended to provide an opportunity to compile your frontend assets, such as compiling SCSS to CSS or generating a style guide.
 
     command-hooks:
-      source:build:frontend-assets:
+      frontend-assets:
         dir: ${docroot}/sites/all/themes/custom/mytheme.
         command: '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use 4.4.4 && npm run build'
 
@@ -54,7 +54,7 @@ If you are using a sub theme of Cog, executing `npm test` in your theme director
 If you need to execute something more complex, you may call a custom script rather than direct the embedding your commands in the yaml file:
 
     command-hooks:
-      source:build:frontend-assets:
+      frontend-assets:
         dir: ${repo.root}
         command: ./scripts/custom/my-script.sh
 
