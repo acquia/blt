@@ -18,7 +18,7 @@ The three following target hooks are available for frontend commands: setup, bui
 
 ### Setup
 
-During the execution of `blt setup`, BLT will execute `command-hooks.source:build:frontend-reqs.command`. This hook is intended to provide an opportunity to install the tools required for your frontend build process. For instance, you may use this hook to install dependencies via NPM or Bower. E.g.,
+During the execution of `blt setup`, BLT will execute `command-hooks.frontend-reqs.command`. This hook is intended to provide an opportunity to install the tools required for your frontend build process. For instance, you may use this hook to install dependencies via NPM or Bower. E.g.,
 
     command-hooks:
       frontend-reqs:
@@ -29,7 +29,7 @@ If you are using a sub theme of Cog, executing `npm install` in your theme direc
 
 ### Build
 
-During the execution of `blt setup` and `blt artifact:deploy`, BLT will execute `command-hooks.source:build:frontend-assets.command`. This is always executed after `command-hooks.source:build:frontend-reqs.command`. This hook is intended to provide an opportunity to compile your frontend assets, such as compiling SCSS to CSS or generating a style guide.
+During the execution of `blt setup` and `blt artifact:deploy`, BLT will execute `command-hooks.frontend-assets.command`. This is always executed after `command-hooks.frontend-reqs.command`. This hook is intended to provide an opportunity to compile your frontend assets, such as compiling SCSS to CSS or generating a style guide.
 
     command-hooks:
       frontend-assets:
