@@ -304,13 +304,16 @@ class DrushTask extends CommandStack {
       $this->verbose(TRUE);
     }
 
-    if ($this->debug) {
+    if (($this->debug || $this->getConfig()->get('drush.debug'))
+      && $this->getConfig()->get('drush.debug') !== FALSE) {
       $this->option('-vvv');
     }
-    elseif ($this->veryVerbose) {
+    elseif (($this->veryVerbose || $this->getConfig()->get('drush.veryVerbose'))
+      && $this->getConfig()->get('drush.veryVerbose') !== FALSE) {
       $this->option('-vv');
     }
-    elseif ($this->verbose) {
+    elseif (($this->verbose || $this->getConfig()->get('drush.verbose'))
+      && $this->getConfig()->get('drush.verbose') !== FALSE) {
       $this->option('-v');
     }
 
