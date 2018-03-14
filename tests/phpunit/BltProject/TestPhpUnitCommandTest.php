@@ -18,4 +18,12 @@ class TestPhpUnitCommandTest extends BltProjectTestBase {
     $this->assertContains('OK (1 test, 1 assertion)', $output);
   }
 
+  /**
+   * Tests that removing ExampleTest.php doesn't cause failure for users.
+   */
+  public function testPhpUnitCommandNoTests() {
+    $this->fs->remove($this->sandboxInstance . "/tests/phpunit/ExampleTest.php");
+    list($status_code, $output, $config) = $this->blt("tests:phpunit:run");
+  }
+
 }
