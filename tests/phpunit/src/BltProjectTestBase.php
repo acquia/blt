@@ -284,7 +284,7 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
   protected function writeFullWidthLine($message, $output) {
     $terminal_width = (new Terminal())->getWidth();
     $padding_len = ($terminal_width - strlen($message)) / 2;
-    $pad = str_repeat('-', $padding_len);
+    $pad = $padding_len > 0 ? str_repeat('-', $padding_len) : '';
     $output->writeln("<comment>{$pad}{$message}{$pad}</comment>");
   }
 
