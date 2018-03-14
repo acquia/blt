@@ -48,7 +48,7 @@ class WizardCommand extends BltTasks {
     }
 
     if ($answers['vm']) {
-      $this->invokeCommand('vm', '--yes');
+      $this->invokeCommand('vm', ['--yes']);
     }
   }
 
