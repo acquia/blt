@@ -14,8 +14,9 @@ class TestPhpUnitCommandTest extends BltProjectTestBase {
    */
   public function testPhpUnitCommandExampleTests() {
     list($status_code, $output, $config) = $this->blt("tests:phpunit:run");
-    $this->assertContains('tests/phpunit/phpunit.xml', $output);
-    $this->assertContains('OK (1 test, 1 assertion)', $output);
+    $results = file_get_contents($this->sandboxInstance . '/reports/phpunit/results.xml');
+    $this->assertContains('tests="1" assertions="1"', $results);
+    $this->assertContains('name="testExample" class="My\Example\Project\Tests\ExampleTest"', $results);
   }
 
   /**
