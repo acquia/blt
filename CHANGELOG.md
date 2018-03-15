@@ -1,5 +1,36 @@
 # Change Log
 
+#### 9.0.4 (2018-03-15)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.0.3...9.0.4)
+
+**Implemented enhancements**
+
+- Executing all tests in tests/phpunit by default. (#2638)
+- Adding messages to 9.0.0 update hook. (#2625)
+- Run drush cr instead off cc-drush in SyncCommand. (#2623)
+
+**Fixed bugs**
+
+- Fixes #2639: Add blt/src dir. (#2643)
+- Fixes #2633: Make git hook symlinks relative. (#2635)
+- #2618: Use proper subcommand name. (#2624)
+- Add drupal:sync alias. (#2622)
+- Update composer.required.json (#2621)
+
+**Miscellaneous**
+
+- Remove 9.0.4 release notes.
+- Fixes #2641: Add workaround for Drush 9 sql:sync bug. (#2642)
+- Fixes #2613: Resolve error in BLT wizard. Add tests. (#2626)
+- Revert "Fixes #2628: Correctly pass verbosity to Drush." (#2634)
+- Update README.md
+- Fixes #2628: Correctly pass verbosity to Drush. (#2631)
+- Fixes #2629: Incorrect documentation of frontend hooks. (#2630)
+- Update adding-to-project.md
+- Updating CHANGELOG.md and setting version for 9.0.4.
+
+
 #### 9.0.3 (2018-03-09)
 
 [Full Changelog](https://github.com/acquia/blt/compare/9.0.2...9.0.3)
