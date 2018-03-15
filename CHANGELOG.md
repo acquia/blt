@@ -1,21 +1,5 @@
 # Change Log
 
-#### 9.0.4 (2018-03-12)
-
-[Full Changelog](https://github.com/acquia/blt/compare/9.0.3...9.0.4)
-
-**Implemented enhancements**
-
-- Adding messages to 9.0.0 update hook. (#2625)
-- Run drush cr instead off cc-drush in SyncCommand. (#2623)
-
-**Fixed bugs**
-
-- #2618: Use proper subcommand name. (#2624)
-- Add drupal:sync alias. (#2622)
-- Update composer.required.json (#2621)
-
-
 #### 9.0.3 (2018-03-09)
 
 [Full Changelog](https://github.com/acquia/blt/compare/9.0.2...9.0.3)
