@@ -16,8 +16,12 @@ class GitTasksTest extends BltProjectTestBase {
   public function testGitConfig() {
     $this->blt("blt:init:git-hooks");
     $this->assertFileExists($this->sandboxInstance . '/.git');
-    $this->assertFileExists($this->sandboxInstance . '/.git/hooks/commit-msg');
-    $this->assertFileExists($this->sandboxInstance . '/.git/hooks/pre-commit');
+    foreach ($this->config->get('git.hooks') as $hook => $path) {
+      $project_hook = $this->sandboxInstance . '/.git/hooks' . "/$hook";
+      $this->assertFileExists($project_hook);
+      $source_hook = readlink($project_hook);
+      $this->assertFileExists($source_hook);
+    }
   }
 
   /**

@@ -217,15 +217,16 @@ class SettingsCommand extends BltTasks {
   protected function installGitHook($hook) {
     if ($this->getConfigValue('git.hooks.' . $hook)) {
       $this->say("Installing $hook git hook...");
-      $source = $this->getConfigValue('git.hooks.' . $hook) . "/$hook";
-      $dest = $this->getConfigValue('repo.root') . "/.git/hooks/$hook";
+      $hook_source = $this->getConfigValue('git.hooks.' . $hook) . "/$hook";
+      $project_hook_directory = $this->getConfigValue('repo.root') . "/.git/hooks";
       $fs = new Filesystem();
-      $source = rtrim($fs->makePathRelative($source, $dest), '/');
+      $path_to_hook_source = rtrim($fs->makePathRelative($hook_source, $project_hook_directory), '/');
+      $project_hook = $project_hook_directory . "/$hook";
 
       $result = $this->taskFilesystemStack()
         ->mkdir($this->getConfigValue('repo.root') . '/.git/hooks')
-        ->remove($dest)
-        ->symlink($source, $dest)
+        ->remove($project_hook)
+        ->symlink($path_to_hook_source, $project_hook)
         ->stopOnFail()
         ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
         ->run();
