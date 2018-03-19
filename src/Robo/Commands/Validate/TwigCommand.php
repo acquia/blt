@@ -3,9 +3,9 @@
 namespace Acquia\Blt\Robo\Commands\Validate;
 
 use Acquia\Blt\Robo\BltTasks;
-use Acquia\Blt\Robo\Commands\Input\ArrayInput;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Symfony\Bridge\Twig\Command\LintCommand as TwigLintCommand;
+use Symfony\Component\Console\Input\ArrayInput;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
