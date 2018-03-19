@@ -1,5 +1,24 @@
 # Change Log
 
+#### 9.0.5 (2018-03-19)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.0.4...9.0.5)
+
+**Implemented enhancements**
+
+- checkUriResponse should better indicate whether /etc/hosts is correctly configured (#2655)
+
+**Fixed bugs**
+
+- Fixes #2633: Make git hook symlinks relative. (#2651)
+
+**Miscellaneous**
+
+- Remove custom ArrayInput now that BLT 9 requires Drupal 8.5 and Symfony 3.4. (#2654)
+- Fixes #2652: Readme Getting Started links 404. (#2653)
+- Fixes #2649: Require DrupalVM 4.8. (#2650)
+
+
 #### 9.0.4 (2018-03-15)
 
 [Full Changelog](https://github.com/acquia/blt/compare/9.0.3...9.0.4)
