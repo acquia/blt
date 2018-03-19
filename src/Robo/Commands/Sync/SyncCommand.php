@@ -13,14 +13,9 @@ class SyncCommand extends BltTasks {
   /**
    * Synchronize each multisite.
    *
-   * This command does not use @executeInDrupalVm because it would require
-   * SSH forwarding.
-   *
    * @command drupal:sync:all-sites
    * @aliases dsa sync:all
    * @executeInVm
-   *
-   * @see https://github.com/acquia/blt/issues/1875
    */
   public function allSites() {
     $multisites = $this->getConfigValue('multisites');

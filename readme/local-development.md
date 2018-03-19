@@ -24,14 +24,22 @@ To use [Drupal VM](http://www.drupalvm.com/) with a Drupal project that is gener
         brew install php56 git composer ansible drush
         brew cask install virtualbox vagrant
 
-1. Create & boot the VM, install Drupal.
+1. Create & boot the VM.
 
         blt vm
+
+1. Install Drupal.
+
+        vagrant ssh
         blt setup
 
-1. Login to Drupal `drush @[project.machine_name].local uli`, where [project.machine_name] is the value that you set in blt.yml.
+1. Login to Drupal.
+
+        drush uli
 
 There are also other changes you can make if you choose to match the Acquia Cloud server configuration more closely. See Drupal VM's example configuration changes in Drupal VM's `examples/acquia/acquia.overrides.yml` file.
+
+Note: With a Drupal VM setup, BLT expects all commands (with the exception of commands in the `blt vm` namespace), to be executed within the VM. To SSH into the VM, simply run `vagrant ssh` as you did in the "Install Drupal" step above.
 
 ### Drupal VM and Behat tests
 
@@ -41,7 +49,7 @@ The Drupal Extension for Behat has an [inherent limitation](https://behat-drupal
 
 To execute Behat tests using the 'drupal' driver on a Drupal VM environment, you must do the following:
 
-1. SSH into the VM `drush @[project.machine_name].local ssh`, where [project.machine_name] is the value that you set in blt.yml.
+1. SSH into the VM `vagrant ssh`.
 1. Execute behat tests `blt tests:behat:run`.
 
 Alternatively, you may choose to write only behat tests that utilize the Drupal Extension's "drush" driver. Doing this will allow you to run `blt tests:behat:run` from the host machine.
