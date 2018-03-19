@@ -43,6 +43,7 @@ class WebUriCheck extends DoctorCheck {
       $this->logProblem(__FUNCTION__, [
         "Did not get a response from {$this->drushStatus['uri']}",
         "Is your *AMP stack running?",
+        "Is your /etc/hosts file correctly configured?",
         "Is your web server configured to serve this URI from {$this->drushStatus['root']}?",
         "Is options.uri set correctly in {$this->localSiteDrushYml}?",
       ], 'error');
