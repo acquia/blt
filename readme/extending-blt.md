@@ -36,10 +36,16 @@ You may disable any BLT command. This will cause the target to be skipped during
       disable-targets:
         validate:
           phpcs: true
-        git:
-          commit-msg: true
 
-This snippet would cause the `tests:phpcs:sniff:all` and `internal:git-hook:execute:commit-msg` targets to be skipped during BLT builds.
+This snippet would cause the `tests:phpcs:sniff:all` target to be skipped during BLT builds.
+
+You may also disable some behaviors by overriding their value to `false`. For example, in order disable the Git commit message validation:
+
+      git:
+        hooks:
+          commit-msg: false
+
+Note: if you are attempting to disable Git commit message validation on a project that has already run `blt setup`, you will need to remove the existing `commit-msg` hook, located at `.git/hooks/commit-msg` and reinitialize hooks using `blt blt:init:git-hooks`
 
 ## Adding / overriding filesets
 
