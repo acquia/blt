@@ -15,7 +15,6 @@ use Psr\Log\LoggerAwareTrait;
  */
 class WebServerHook extends BltTasks {
 
-  use ConfigAwareTrait;
   use ContainerAwareTrait;
   use LoggerAwareTrait;
   use InspectorAwareTrait;
