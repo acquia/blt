@@ -34,12 +34,13 @@ Please note that when you do this, you take responsibility for maintaining your 
 You may disable any BLT command. This will cause the target to be skipped during the normal build process. To disable a target, add a `disable-targets` key to your blt.yml file:
 
       disable-targets:
-        validate:
-          phpcs: true
-        git:
-          commit-msg: true
-
-This snippet would cause the `tests:phpcs:sniff:all` and `internal:git-hook:execute:commit-msg` targets to be skipped during BLT builds.
+        tests:
+          phpcs:
+            sniff:
+              all: true
+              files: true
+              
+This snippet would cause the `tests:phpcs:sniff:all` and `tests:phpcs:sniff:files` targets to be skipped during BLT builds.
 
 ## Adding / overriding filesets
 
@@ -69,27 +70,29 @@ BLT configuration can be customized by overriding the value of default variable 
 
 Configuration values are loaded, in this order, from the following list of YAML files:
 
--  blt/blt.yml
--  blt/[environment].yml
--  blt/local.yml
+- vendor/acquia/blt/config/build.yml
+- blt/blt.yml
+- blt/[environment].blt.yml
+- docroot/sites/[site]/blt.yml
+- docroot/sites/[site]/[environment].blt.yml
 
 Values loaded from the later files will overwrite values in earlier files. Note, if you would like to override a non-empty value with an empty value, the override value must be set to `null` and not `''` or `[]`.
 
 ### Overriding project-wide
 
-You can override any variable value by adding an entry for that variable to your `blt.yml` file. This change will be committed to your repository and shared by all developers for the project. For example:
+You can override any variable value by adding an entry for that variable to your `blt/blt.yml` file. This change will be committed to your repository and shared by all developers for the project. For example:
 
         behat.tags: @mytags
 
 ### Overriding locally
 
-You can override a variable value for your local machine by adding an entry for that variable to your `local.yml file`.  This change will not be committed to your repository.
+You can override a variable value for your local machine in the same way that you can for specific environments. See next section, use "local" for environment value.
 
 ### Overriding in specific environments
 
-You may override a variable value for specific environments, such as a the `ci` environment, by adding an entry for that variable to a file named in the pattern [environment].yml. For instance, ci.blt.yml.
+You may override a variable value for specific environments, such as a the `local` or `ci` environments, by adding an entry for that variable to a file named in the pattern [environment].blt.yml. For instance, ci.blt.yml.
 
-At present, only the CI environment is automatically detected.
+At present, only the `local` and `ci` environment is automatically detected. You may pass `--environment` as an argument to BLT to specify the correct environmental configuration to load.
 
 ### Overriding at runtime
 
@@ -101,36 +104,25 @@ For configuration values that are indexed arrays, you can override individual va
 
 Listed below are some of the more commonly customized BLT targets.
 
-### deploy:*
+### artifact:*
 
 #### artifact:build
 
-To modify the behavior of the `artifact:build` target, you may override BLT's `deploy` configuration:
-
-      deploy:
-        # If true, dependencies will be built during deploy. If false, you should commit dependencies directly.
-        build-dependencies: true
-        dir: ${repo.root}/deploy
-        exclude_file: ${blt.root}/scripts/blt/scripts/deploy/deploy-exclude.txt
-        exclude_additions_file: ${repo.root}/blt/deploy-exclude-additions.txt
-        gitignore_file: ${blt.root}/blt/scripts/deploy/.gitignore
-        git:
-          # If true, deploys will fail if there are uncommitted changes.
-          failOnDirty: true
+To modify the behavior of the `artifact:build` target, you may override BLT's `deploy` configuration. See `deploy` key in https://github.com/acquia/blt/blob/9.x/config/build.yml#L54. 
 
 More specifically, you can modify the build artifact in the following key ways:
 
-1. Change which files are rsynced to the artifact by providing your own `deploy.exclude_file` value in blt.yml. See [upstream deploy-exclude.txt](https://github.com/acquia/blt/blob/8.x/scripts/blt/deploy/deploy-exclude.txt) for example contents.  E.g.,
+1. Change which files are rsynced to the artifact by providing your own `deploy.exclude_file` value in blt.yml. See [upstream deploy-exclude.txt](https://github.com/acquia/blt/blob/9.x/scripts/blt/deploy/deploy-exclude.txt) for example contents.  E.g.,
 
           deploy:
             exclude_file: ${repo.root}/blt/deploy/rsync-exclude.txt
 
-1. If you'd simply like to add onto the [upstream deploy-exclude.txt](https://github.com/acquia/blt/blob/8.x/scripts/blt/deploy/deploy-exclude.txt) instead of overriding it, you need not define your own `deploy.exclude_file`. Instead, simply leverage the `deploy-exclude-additions.txt` file found under the top-level `blt` directory by adding each file or directory you'd like to exclude on its own line. E.g.,
+1. If you'd simply like to add onto the [upstream deploy-exclude.txt](https://github.com/acquia/blt/blob/9.x/scripts/blt/deploy/deploy-exclude.txt) instead of overriding it, you need not define your own `deploy.exclude_file`. Instead, simply leverage the `deploy-exclude-additions.txt` file found under the top-level `blt` directory by adding each file or directory you'd like to exclude on its own line. E.g.,
 
           /directorytoexclude
           excludeme.txt
 
-1. Change which files are gitignored in the artifact by providing your own `deploy.gitignore_file` value in blt.yml. See [upstream .gitignore](https://github.com/acquia/blt/blob/8.x/scripts/blt/deploy/.gitignore) for example contents. E.g.,
+1. Change which files are gitignored in the artifact by providing your own `deploy.gitignore_file` value in blt.yml. See [upstream .gitignore](https://github.com/acquia/blt/blob/9.x/scripts/blt/deploy/.gitignore) for example contents. E.g.,
 
           deploy:
             gitignore_file: ${repo.root}/blt/deploy/.gitignore
@@ -141,10 +133,19 @@ More specifically, you can modify the build artifact in the following key ways:
           post-deploy-build:
             dir: ${deploy.dir}/docroot/profiles/contrib/lightning
             command: npm run install-libraries
+            
+   Or, use a Robo hook in a custom command file (see docs below).
+   
+       /**
+         * This will be called after the artifact:build command.
+         *
+         * @hook post-command artifact:build
+         */
+        public function postArtifactBuild() {
+          $this->doSomething();
+        }
 
-### setup:*
-
-#### blt:init:git-hooks
+### git hooks
 
 You may disable a git hook by setting its value under `git.hooks` to false:
 
@@ -162,7 +163,7 @@ In this example, an executable file named `pre-commit` should exist in `${repo.r
 
 You should execute `blt blt:init:git-hooks` after modifying these values in order for changes to take effect.
 
-#### internal:git-hook:execute:commit-msg
+#### commit-msg
 
 By default, BLT will execute the `internal:git-hook:execute:commit-msg` command when new git commits are made. This command validates that the commit message matches the regular expression defined in `git.commit-msg.pattern`. You may [override the default configuration](#modifying-blt-configuration).
 
@@ -170,26 +171,7 @@ By default, BLT will execute the `internal:git-hook:execute:commit-msg` command 
 
 #### tests:behat:run
 
-To modify the behavior of the tests:behat:run target, you may override BLT's `behat` configuration.
-
-        behat:
-          config: ${repo.root}/tests/behat/local.yml
-          profile: local
-          # The URL of selenium server. Must correspond with setting in behat's yaml config.
-          selenium:
-            port: 4444
-            url: http://127.0.0.1:${behat.selenium.port}/wd/hub
-          # An array of paths with behat tests that should be executed.
-          paths:
-            # - ${docroot}/modules
-            # - ${docroot}/profiles
-            - ${repo.root}/tests/behat
-          tags: '~ajax&&~experimental&&~lightningextension'
-          extra: ''
-          # May be selenium or phantomjs.
-          web-driver: selenium
-
-### validate:*
+To modify the behavior of the tests:behat:run target, you may override BLT's `behat` configuration. See https://github.com/acquia/blt/blob/9.x/config/build.yml#L2.
 
 #### tests:phpcs:sniff:all
 
