@@ -134,7 +134,7 @@ More specifically, you can modify the build artifact in the following key ways:
             dir: ${deploy.dir}/docroot/profiles/contrib/lightning
             command: npm run install-libraries
             
-   Or, use a Robo hook in a custom command file (see docs below).
+   Or, use a Robo hook in a custom file (see "Adding a custom Robo Hook" above).
    
        /**
          * This will be called after the artifact:build command.
