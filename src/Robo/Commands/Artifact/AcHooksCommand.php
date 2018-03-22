@@ -72,6 +72,30 @@ class AcHooksCommand extends BltTasks {
   }
 
   /**
+   * Execute sql-sanitize against a database hosted in AC Cloud.
+   *
+   * This is intended to be called from db-scrub.sh cloud hook.
+   *
+   * @param string $site
+   *   The site name. E.g., site1.
+   * @param string $target_env
+   *   The cloud env. E.g., dev
+   *
+   * @command artifact:ac-hooks:db-scrub
+   *
+   * @throws \Exception
+   */
+  public function dbScrub($site, $target_env) {
+    $this->taskDrush()
+      ->drush("sql-sanitize --sanitize-password=\"$(openssl rand -base64 32)\" --yes")
+      ->run();
+    $this->say("Scrubbing database in $target_env");
+    $this->taskDrush()
+      ->drush("cr")
+      ->run();
+  }
+
+  /**
    * Executes updates against all ACSF sites in the target environment.
    *
    * @param $site
