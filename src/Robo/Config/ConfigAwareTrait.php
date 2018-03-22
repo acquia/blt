@@ -9,7 +9,9 @@ use Robo\Common\ConfigAwareTrait as RoboConfigAwareTrait;
  */
 trait ConfigAwareTrait {
 
-  use RoboConfigAwareTrait;
+  use RoboConfigAwareTrait {
+    config as roboConfig;
+  }
 
   /**
    * Gets a config value for a given key.
