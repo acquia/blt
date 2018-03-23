@@ -40,7 +40,7 @@ It's recommended to copy the aliases file provided by Acquia Cloud or Club to cr
 
 You may override BLT variables on a per-site basis by creating a `site.yml` file in `docroot/sites/[site-name]/`. You may then run BLT with the `site` variable set at the command line to load the site's properties.
 
-For instance, if the `drush` aliases for your site in `docroot/sites/mysite` were `@mysite.local` and `@mysite.test`, you could define these in `docroot/sites/mysite/site.yml` as:
+For instance, if the `drush` aliases for your site in `docroot/sites/mysite` were `@mysite.local` and `@mysite.test`, you could define these in `docroot/sites/mysite/blt.yml` as:
 
 ```yaml
 drush:
