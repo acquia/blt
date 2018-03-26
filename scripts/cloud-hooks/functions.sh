@@ -7,12 +7,12 @@ drush_alias=${site}'.'${target_env}
 
 deploy_updates() {
 
-  case $target_env in
-    01dev|01test)
+  case $target_env in 
+    [0-9][1-9](dev|test))
       acsf_deploy
       ;;
-    # Do not run deploy updates on 01live in case a branch is deployed in prod. 
-    01devup|01testup|01update|01live)
+    # Do not run updates on update or live environments. 
+    [0-9][1-9](devup|testup|update)|[0-9][1-9](live))
       ;;
     ode[[:digit:]]*)
       deploy_install
