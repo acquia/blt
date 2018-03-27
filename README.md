@@ -8,7 +8,7 @@ You can find all BLT documentation on [Read the Docs](http://blt.readthedocs.io)
 
 * [Latest (stable) release documentation](http://blt.readthedocs.io/en/stable/)
 * [Latest documentation (8.x / 8.x-dev)](http://blt.readthedocs.io/en/latest/)
-* [8.8.x documentation](http://blt.readthedocs.io/en/8.8.x/)
+* [8.9.x documentation](http://blt.readthedocs.io/en/8.9.x/)
 
 ## Getting started
 
