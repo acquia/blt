@@ -1,4 +1,4 @@
-sudo: false
+sudo: true
 language: php
 dist: trusty
 
@@ -28,7 +28,6 @@ cache:
   - "$HOME/.drush/cache"
   - "$HOME/.npm"
   - "$HOME/.nvm"
-  - "vendor"
   - ".rules"
   # Cache front end dependencies to dramatically improve build time.
   # - "docroot/themes/custom/mytheme/node_modules"
