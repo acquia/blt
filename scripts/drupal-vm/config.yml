@@ -74,7 +74,7 @@ npm_config_prefix: "/home/{{ drupalvm_user }}/.npm-global"
 installed_extras: ${installed_extras}
 
 # PHP 7
-php_version: "7.1"
+php_version: "5.6"
 php_packages_extra:
   - "php{{ php_version }}-bz2"
   - "php{{ php_version }}-imagick"
