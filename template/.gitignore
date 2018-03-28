@@ -30,6 +30,7 @@ docroot/themes/custom/*/css
 docroot/themes/custom/*/styleguide
 
 # Ignore build artifacts
+deployment_identifier
 /deploy
 bin/*
 tmp

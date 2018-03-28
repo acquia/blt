@@ -534,4 +534,22 @@ class Updates {
     $this->updater->getOutput()->writeln($formattedBlock);
     $this->updater->getOutput()->writeln("");
   }
+
+  /**
+   * 9.1.0.
+   *
+   * @Update(
+   *    version = "9001000",
+   *    description = "Add deployment_identifier to project .gitignore."
+   * )
+   */
+  public function update_9001000() {
+    $this->updater->syncWithTemplate('.gitignore', TRUE);
+    $messages = ['.gitignore has been updated. Review it for any custom changes that may have been overwritten.'];
+
+    $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
+    $this->updater->getOutput()->writeln("");
+    $this->updater->getOutput()->writeln($formattedBlock);
+    $this->updater->getOutput()->writeln("");
+  }
 }
