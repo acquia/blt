@@ -500,8 +500,10 @@ class Updater {
   /**
    * Copies a file from the BLT template to the repository.
    *
-   * @param string $source
+   * @param string $filePath
    *   The filepath, relative to the BLT template directory.
+   * @param bool $overwrite
+   *   If true, target files newer than origin files are overwritten.
    */
   public function syncWithTemplate($filePath, $overwrite = FALSE) {
     $sourcePath = $this->getBltRoot() . '/template/' . $filePath;
