@@ -814,7 +814,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   public function isActiveConfigIdentical() {
     $result = $this->executor->drush("config:status")->run();
     $message = trim($result->getMessage());
-    $identical = strstr($message, 'No differences between DB and sync directory') !== FALSE;
+    $identical = empty($message);
 
     return $identical;
   }
