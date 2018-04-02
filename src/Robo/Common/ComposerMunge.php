@@ -50,6 +50,7 @@ class ComposerMunge {
   protected static function mergeKeyed($file1_contents, $file2_contents, $exclude_keys = []) {
     // Merge keyed arrays objects.
     $merge_keys = [
+      'config',
       'extra',
     ];
     $output = $file1_contents;
