@@ -215,13 +215,13 @@ class SettingsCommand extends BltTasks {
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function installGitHook($hook) {
+    $fs = new Filesystem();
+    $project_hook_directory = $this->getConfigValue('repo.root') . "/.git/hooks";
+    $project_hook = $project_hook_directory . "/$hook";
     if ($this->getConfigValue('git.hooks.' . $hook)) {
       $this->say("Installing $hook git hook...");
       $hook_source = $this->getConfigValue('git.hooks.' . $hook) . "/$hook";
-      $project_hook_directory = $this->getConfigValue('repo.root') . "/.git/hooks";
-      $fs = new Filesystem();
       $path_to_hook_source = rtrim($fs->makePathRelative($hook_source, $project_hook_directory), '/');
-      $project_hook = $project_hook_directory . "/$hook";
 
       $result = $this->taskFilesystemStack()
         ->mkdir($this->getConfigValue('repo.root') . '/.git/hooks')
@@ -236,7 +236,21 @@ class SettingsCommand extends BltTasks {
       }
     }
     else {
-      $this->say("Skipping installation of $hook git hook");
+      if (file_exists($project_hook)) {
+        $this->say("Removing disabled $hook git hook...");
+        $result = $this->taskFilesystemStack()
+          ->remove($project_hook)
+          ->stopOnFail()
+          ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+          ->run();
+
+        if (!$result->wasSuccessful()) {
+          throw new BltException("Unable to remove disabled $hook git hook");
+        }
+      }
+      else {
+        $this->say("Skipping installation of $hook git hook...");
+      }
     }
   }
 
