@@ -46,7 +46,7 @@ The 9.x branch is currently in development. It requires Drush 9 instead of Drush
 
 ### 8.9.x End of Life (EOL)
 
-8.9.x is currently in maintenance / long-term support mode (receiving only bug fixes). 8.9.x will continue to be supported until 5/8/18.
+8.9.x is currently in maintenance / long-term support mode (receiving only bug fixes). 8.9.x will continue to be supported until May 8th, 2018.
 
 ## Philosophy and Purpose
 
