@@ -20,7 +20,7 @@ if [ ! -f $acsf_file ]; then
   export PATH=$repo_root/vendor/bin:$PATH
   cd $repo_root
 
-blt artifact:ac-hooks:db-scrub $site $target_env
+  blt artifact:ac-hooks:db-scrub $site $target_env $db_name $source_env
 
 fi
 

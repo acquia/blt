@@ -4,6 +4,7 @@ namespace Acquia\Blt\Robo\Commands\Artifact;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
+use Acquia\Blt\Robo\Common\RandomString;
 
 /**
  * Defines commands in the "artifact:ac-hooks" namespace.
@@ -80,14 +81,23 @@ class AcHooksCommand extends BltTasks {
    *   The site name. E.g., site1.
    * @param string $target_env
    *   The cloud env. E.g., dev
-   *
+   * @param string $db_name
+   *   The name of the database.
+   * @param string $source_env
+   *   The source environment.
    * @command artifact:ac-hooks:db-scrub
    *
    * @throws \Exception
    */
-  public function dbScrub($site, $target_env) {
+  public function dbScrub($site, $target_env, $db_name, $source_env) {
+    $password = RandomString::string(10, FALSE,
+      function ($string) {
+        return !preg_match('/[^\x{80}-\x{F7} a-z0-9@+_.\'-]/i', $string);
+      },
+      'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!#%^&*()_?/.,+=><'
+    );
     $this->taskDrush()
-      ->drush("sql-sanitize --sanitize-password=\"$(openssl rand -base64 32)\" --yes")
+      ->drush("sql-sanitize --sanitize-password=\"$password\" --yes")
       ->run();
     $this->say("Scrubbing database in $target_env");
     $this->taskDrush()
