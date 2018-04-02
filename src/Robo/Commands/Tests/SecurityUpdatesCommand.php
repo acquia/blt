@@ -53,7 +53,7 @@ class SecurityUpdatesCommand extends BltTasks {
       $table->setHeaders(['Name', 'Installed version', 'Suggested version'])
         ->setRows($security_updates)
         ->render();
-      $this->logger->notice('To disable security checks, set disable-targets.tests.security-updates to false in project.yml.');
+      $this->logger->notice('To disable security checks, set disable-targets.tests.security-updates to true in project.yml.');
       return 1;
     }
     else {
