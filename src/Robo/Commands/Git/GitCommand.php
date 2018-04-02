@@ -49,7 +49,6 @@ class GitCommand extends BltTasks {
       // be sniffed, regardless of the extensions or patterns defined in
       // phpcs.xml. So, we do not use validate:phpcs:files.
       'validate:phpcs' => [],
-      'validate:frontend' => [],
       'validate:twig:files' => ['file_list' => $changed_files],
       'validate:yaml:files' => ['file_list' => $changed_files],
     ]);
@@ -57,6 +56,12 @@ class GitCommand extends BltTasks {
     $changed_files_list = explode("\n", $changed_files);
     if (in_array(['composer.json', 'composer.lock'], $changed_files_list)) {
       $this->invokeCommand('validate:composer', ['file_list' => $changed_files]);
+    }
+
+    // Validate frontend files only if scss, css or js changed.
+    // @TODO: Make this list of files configurable.
+    if ($frontend_files = preg_grep('/\w+\.(scss|css|js)/i', $changed_files_list)) {
+      $this->invokeCommand('validate:frontend');
     }
 
     $this->invokeHook('pre-commit');
