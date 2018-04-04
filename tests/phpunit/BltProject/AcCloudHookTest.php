@@ -50,6 +50,15 @@ class AcCloudHookTest extends BltProjectTestBase {
     $this->assertEquals(0, $status_code);
     $this->assertContains('Running updates for environment: dev', $output);
     $this->assertContains('Finished updates for environment: dev', $output);
+
+    list($status_code, $output, $config) = $this->blt("artifact:ac-hooks:db-scrub", [
+      'site' => 's1',
+      'target_env' => 'dev',
+      'db_name' => 'dev',
+      'source_env' => 'dev',
+    ]);
+    $this->assertEquals(0, $status_code);
+    $this->assertContains('Scrubbing database in dev', $output);
   }
 
 }
