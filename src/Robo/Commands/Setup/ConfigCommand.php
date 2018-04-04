@@ -86,6 +86,11 @@ class ConfigCommand extends BltTasks {
 
         case 'features':
           $this->importFeatures($task, $cm_core_key);
+
+          if ($this->getConfigValue('cm.features.no-overrides')) {
+            // @codingStandardsIgnoreLine
+            $this->checkFeaturesOverrides();
+          }
           break;
       }
 
@@ -93,12 +98,6 @@ class ConfigCommand extends BltTasks {
       $result = $task->run();
       if (!$result->wasSuccessful()) {
         throw new BltException("Failed to import configuration!");
-      }
-
-      if ($this->getConfigValue('cm.features.no-overrides')) {
-        $this->logger->warning("Features override checks are currently disabled due to a Drush 9 incompatibility.");
-        // @codingStandardsIgnoreLine
-        // $this->checkFeaturesOverrides();
       }
 
       $this->checkConfigOverrides($cm_core_key);
