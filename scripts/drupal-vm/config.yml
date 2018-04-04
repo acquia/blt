@@ -36,6 +36,11 @@ apache_vhosts:
     serveralias: "www.{{ drupal_domain }}"
     documentroot: "{{ drupal_core_path }}"
     extra_parameters: "{{ apache_vhost_php_fpm_parameters }}"
+  # Domain for the Drupal VM Dashboard
+  - servername: "dashboard.{{ drupal_domain }}"
+    serveralias: "www.dashboard.{{ drupal_domain }}"
+    documentroot: "/var/www/dashboard"
+    extra_parameters: "{{ apache_vhost_php_fpm_parameters }}"
 #  - servername: "local.second-drupal-site.com"
 #    documentroot: "{{ drupal_core_path }}"
 #    extra_parameters: "{{ apache_vhost_php_fpm_parameters }}"
