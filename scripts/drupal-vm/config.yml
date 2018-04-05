@@ -78,7 +78,7 @@ nodejs_install_npm_user: "{{ drupalvm_user }}"
 npm_config_prefix: "/home/{{ drupalvm_user }}/.npm-global"
 installed_extras: ${installed_extras}
 
-# PHP 7
+# PHP 5.6.
 php_version: "5.6"
 php_packages_extra:
   - "php{{ php_version }}-bz2"
@@ -86,6 +86,7 @@ php_packages_extra:
   - imagemagick
 
 # XDebug configuration.
+php_xdebug_version: 2.5.0
 # Change this value to 1 in order to enable xdebug by default.
 php_xdebug_default_enable: 0
 php_xdebug_coverage_enable: 0
