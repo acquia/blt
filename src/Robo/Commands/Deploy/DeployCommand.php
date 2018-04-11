@@ -401,11 +401,19 @@ class DeployCommand extends BltTasks {
    * Creates deployment_identifier file.
    */
   protected function createDeployId($id) {
-    $this->taskExecStack()->exec("echo '$id' > deployment_identifier")
-      ->dir($this->deployDir)
-      ->stopOnFail()
+    $deployment_identifier_file = $this->getConfigValue('repo.root') . '/deployment_identifier';
+    $this->say("Generating deployment identifier...");
+    $result = $this->taskWriteToFile($deployment_identifier_file)
+      ->line($id)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
+
+    if (!$result->wasSuccessful()) {
+      $filepath = $this->getInspector()->getFs()->makePathRelative($deployment_identifier_file, $this->getConfigValue('repo.root'));
+      throw new BltException("Unable to write deployment identifier to $filepath.");
+    }
+
+    return $result->getExitCode();
   }
 
   /**
