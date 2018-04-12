@@ -86,26 +86,22 @@ if (!isset($split)) {
 }
 
 // Enable the environment split only if it exists.
-if ($split != 'none' && file_exists("$split_filepath_prefix.$split.yml")) {
+if ($split != 'none') {
   $config["$split_filename_prefix.$split"]['status'] = TRUE;
 }
 
 /**
  * Set multisite split.
  */
-if (file_exists("$split_filepath_prefix.$site_dir.yml")) {
-  $config["$split_filename_prefix.$site_dir"]['status'] = TRUE;
-}
+$config["$split_filename_prefix.$site_dir"]['status'] = TRUE;
 
 // Set acsf site split.
-if (isset($acsf_site_name) && file_exists("$split_filepath_prefix.$acsf_site_name.yml")) {
+if (isset($acsf_site_name)) {
   $config["$split_filename_prefix.$acsf_site_name"]['status'] = TRUE;
 }
 
 // Set profile split.
 if (array_key_exists('install_profile', $settings)) {
   $active_profile = $settings['install_profile'];
-  if (file_exists("$split_filepath_prefix.$active_profile.yml")) {
-    $config["$split_filename_prefix.$active_profile"]['status'] = TRUE;
-  }
+  $config["$split_filename_prefix.$active_profile"]['status'] = TRUE;
 }
