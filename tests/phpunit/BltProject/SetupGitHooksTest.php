@@ -11,17 +11,48 @@ use Symfony\Component\Process\Process;
 class GitTasksTest extends BltProjectTestBase {
 
   /**
-   * Tests blt:init:git-hooks command.
+   * Tests setup of git hooks via blt:init:git-hooks command.
+   *
+   * @dataProvider disabledHooksProvider
    */
-  public function testGitConfig() {
-    $this->blt("blt:init:git-hooks");
+  public function testGitHookSetup($disabled_hooks) {
     $this->assertFileExists($this->sandboxInstance . '/.git');
-    foreach ($this->config->get('git.hooks') as $hook => $path) {
-      $project_hook = $this->sandboxInstance . '/.git/hooks' . "/$hook";
-      $this->assertFileExists($project_hook);
-      $source_hook = readlink($project_hook);
-      $this->assertFileExists($source_hook);
-    }
+
+    $this->disableGitHooks($disabled_hooks);
+
+    $this->blt("blt:init:git-hooks");
+
+    $hooks = $this->config->get('git.hooks');
+    $this->assertGitHookSetupValidity($hooks, $disabled_hooks);
+  }
+
+  /**
+   * Tests removal of disabled git hooks via blt:init:git-hooks command.
+   *
+   * @dataProvider disabledHooksProvider
+   */
+  public function testDisabledGitHookRemoval($disabled_hooks) {
+    $this->assertFileExists($this->sandboxInstance . '/.git');
+
+    $this->blt("blt:init:git-hooks");
+    $hooks = $this->config->get('git.hooks');
+
+    $this->disableGitHooks($disabled_hooks);
+
+    $this->blt("blt:init:git-hooks");
+    $this->assertGitHookSetupValidity($hooks, $disabled_hooks);
+  }
+
+  /**
+   * Data provider.
+   */
+  public function disabledHooksProvider() {
+    return [
+      [[]],
+      [['pre-commit']],
+      [['commit-msg']],
+      [['pre-commit', 'commit-msg']],
+    ];
   }
 
   /**
@@ -76,6 +107,39 @@ class GitTasksTest extends BltProjectTestBase {
     $this->assertContains('tests:phpcs:sniff:files', $output);
     $this->assertContains('tests:yaml:lint:files', $output);
     $this->assertContains('tests:twig:lint:files', $output);
+  }
+
+  /**
+   * Disables a given list of git hooks.
+   *
+   * @param array $hooks
+   */
+  protected function disableGitHooks(array $hooks) {
+    foreach ($hooks as $hook) {
+      $this->config->set("git.hooks.{$hook}", FALSE);
+    }
+  }
+
+  /**
+   * Asserts that the given hooks were setup in a valid manner.
+   *
+   * @param array $hooks
+   *   The possible git hooks provided by BLT.
+   * @param array $disabled_hooks
+   *   The disabled git hooks.
+   */
+  protected function assertGitHookSetupValidity(array $hooks, array $disabled_hooks) {
+    foreach ($hooks as $hook => $path) {
+      $project_hook = $this->sandboxInstance . '/.git/hooks' . "/$hook";
+      if (array_key_exists($hook, $disabled_hooks)) {
+        $this->assertFileNotExists($project_hook, "Failed asserting that the disabled {$hook} hook was not setup.");
+      }
+      else {
+        $this->assertFileExists($project_hook, "Failed asserting that the enabled {$hook} hook was setup.");
+        $source_hook = readlink($project_hook);
+        $this->assertFileExists($source_hook, "Failed asserting that the enabled {$hook} hook was setup properly.");
+      }
+    }
   }
 
   /**
