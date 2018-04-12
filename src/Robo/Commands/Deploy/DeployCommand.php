@@ -313,6 +313,8 @@ class DeployCommand extends BltTasks {
    *
    * @command artifact:build
    * @aliases ab deploy:build
+   *
+   * @validateAcsfConfig
    */
   public function build() {
     $this->say("Generating build artifact...");
