@@ -55,8 +55,6 @@ class BuildCommand extends BltTasks {
       $filepath = $this->getInspector()->getFs()->makePathRelative($deployment_identifier_file, $this->getConfigValue('repo.root'));
       throw new BltException("Unable to write deployment identifier to $filepath.");
     }
-
-    return $result->getExitCode();
   }
 
   /**
