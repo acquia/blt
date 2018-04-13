@@ -65,7 +65,7 @@ $is_ah_ode_env = (preg_match('/^ode\d*$/', $ah_env));
 $is_acsf_env = (!empty($ah_group) && file_exists("/mnt/files/$ah_group.$ah_env/files-private/sites.json"));
 // @todo Maybe check for acsf-tools.
 $is_acsf_inited = file_exists(DRUPAL_ROOT . "/sites/g");
-$acsf_db_name = $is_acsf_env ? $GLOBALS['gardens_site_settings']['conf']['acsf_db_name'] : NULL;
+$acsf_db_name = isset($GLOBALS['gardens_site_settings']) && $is_acsf ? $GLOBALS['gardens_site_settings']['conf']['acsf_db_name'] : NULL;
 
 /**
  * Pantheon envs.
