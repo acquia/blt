@@ -3,7 +3,6 @@
 namespace Acquia\Blt\Robo\Commands\Setup;
 
 use Acquia\Blt\Robo\BltTasks;
-use Acquia\Blt\Robo\Common\RandomString;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Finder\Finder;
@@ -37,24 +36,6 @@ class BuildCommand extends BltTasks {
     }
     $this->invokeCommands($commands);
     $this->setSitePermissions();
-    $this->createDeployId(RandomString::string(8, FALSE, NULL, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!#%^&*()_?/.,+=><'));
-  }
-
-  /**
-   * Creates deployment_identifier file.
-   */
-  protected function createDeployId($id) {
-    $deployment_identifier_file = $this->getConfigValue('repo.root') . '/deployment_identifier';
-    $this->say("Generating deployment identifier...");
-    $result = $this->taskWriteToFile($deployment_identifier_file)
-      ->line($id)
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->run();
-
-    if (!$result->wasSuccessful()) {
-      $filepath = $this->getInspector()->getFs()->makePathRelative($deployment_identifier_file, $this->getConfigValue('repo.root'));
-      throw new BltException("Unable to write deployment identifier to $filepath.");
-    }
   }
 
   /**

@@ -7,6 +7,7 @@ use Acquia\Blt\Robo\Common\RandomString;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use function file_exists;
 use Robo\Contract\VerbosityThresholdInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -283,6 +284,31 @@ class SettingsCommand extends BltTasks {
     else {
       $this->say("Hash salt already exists.");
       return 0;
+    }
+  }
+
+  /**
+   * Writes a deployment_identifier to ${repo.root}/deployment_identifier.
+   *
+   * @command drupal:deployment-identifier:init
+   * @aliases ddii
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   */
+  public function createDeployId($options = ['id' => InputOption::VALUE_REQUIRED]) {
+    if (!$options['id']) {
+      $options['id'] = RandomString::string(8);
+    }
+    $deployment_identifier_file = $this->getConfigValue('repo.root') . '/deployment_identifier';
+    $this->say("Generating deployment identifier...");
+    $result = $this->taskWriteToFile($deployment_identifier_file)
+      ->line($options['id'])
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->run();
+
+    if (!$result->wasSuccessful()) {
+      $filepath = $this->getInspector()->getFs()->makePathRelative($deployment_identifier_file, $this->getConfigValue('repo.root'));
+      throw new BltException("Unable to write deployment identifier to $filepath.");
     }
   }
 
