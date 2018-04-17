@@ -1,5 +1,7 @@
 default:
   suites:
+    gherkin:
+      cache: ~
     default:
       paths:
         - %paths.base%/features

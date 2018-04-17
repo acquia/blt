@@ -540,7 +540,7 @@ class Updates {
    *
    * @Update(
    *    version = "9001000",
-   *    description = "Add deployment_identifier to project .gitignore and re-syncs ci.blt.yml."
+   *    description = "Updating BLT templated files."
    * )
    */
   public function update_9001000() {
@@ -559,6 +559,15 @@ class Updates {
     $this->updater->getOutput()->writeln("");
     $this->updater->getOutput()->writeln($formattedBlock);
     $this->updater->getOutput()->writeln("");
+
+    $this->updater->syncWithTemplate('tests/behat/behat.yml', TRUE);
+    $messages = ['tests/behat/behat.yml has been updated. Review it for any custom changes that may have been overwritten.'];
+    $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
+    $this->updater->getOutput()->writeln("");
+    $this->updater->getOutput()->writeln($formattedBlock);
+    $this->updater->getOutput()->writeln("");
+
+
   }
 
 }
