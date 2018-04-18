@@ -58,4 +58,4 @@ Other commonly used commands:
 
 ## Drush aliases
 
-It's recommended to install Drush aliases in your repository that all developers can use to access your remote sites. If you are using Acquia Cloud, follow the instructions on [Acquia Cloud](https://docs.acquia.com/acquia-cloud/drush/aliases) or use [Club](https://github.com/acquia/club#usage) to download your aliases and place them in the `drush/sites` directory.
+It's recommended to install Drush aliases in your repository that all developers can use to access your remote sites. If you are using Acquia Cloud, run `blt recipes:aliases:init:acquia` to generate your aliases and place them in the `drush/sites` directory.
