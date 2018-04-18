@@ -15,6 +15,7 @@
 
 $site = $_ENV['AH_SITE_GROUP'];
 $env = $_ENV['AH_SITE_ENVIRONMENT'];
+$target_env = $site . $env;
 
 // The public domain name of the website.
 // Run updates against requested domain rather than acsf primary domain.
