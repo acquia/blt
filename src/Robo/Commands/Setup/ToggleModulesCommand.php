@@ -41,13 +41,16 @@ class ToggleModulesCommand extends BltTasks {
     }
 
     if (isset($environment)) {
-      // Enable modules.
-      $enable_key = "modules.$environment.enable";
-      $this->doToggleModules('pm-enable', $enable_key);
-
-      // Uninstall modules.
-      $disable_key = "modules.$environment.uninstall";
-      $this->doToggleModules('pm-uninstall', $disable_key);
+      // Determine if modules should be enabled or uninstalled first.
+      $enable_first = $this->getConfigValue("modules.$environment.enable_first", TRUE);
+      $toggle_operations = ['enable', 'uninstall'];
+      if (FALSE === $enable_first) {
+        $toggle_operations = array_reverse($toggle_operations);
+      }
+      // Execute toggle operations.
+      foreach ($toggle_operations as $toggle_operation) {
+        $this->doToggleModules("pm-$toggle_operation", "modules.$environment.$toggle_operation");
+      }
     }
     else {
       $this->say("Environment is unset. Skipping setup:toggle-modules...");
