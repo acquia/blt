@@ -54,8 +54,9 @@ script:
   # Add Drupal VM config to repo.
   - blt vm --no-boot --no-interaction --yes
   # Execute PHP Unit tests.
-  - ./vendor/bin/phpunit ${BLT_DIR}/tests/phpunit --group blt-project -c ${BLT_DIR}/tests/phpunit/phpunit.xml
-  - ./vendor/bin/phpunit ${BLT_DIR}/tests/phpunit --group blt-multisite -c ${BLT_DIR}/tests/phpunit/phpunit.xml
+  - ./vendor/bin/phpunit ${BLT_DIR}/tests/phpunit --group blt --exclude-group deploy -c ${BLT_DIR}/tests/phpunit/phpunit.xml -v
+  - ./vendor/bin/phpunit ${BLT_DIR}/tests/phpunit --group blt-project --exclude-group deploy -c ${BLT_DIR}/tests/phpunit/phpunit.xml -v
+  - ./vendor/bin/phpunit ${BLT_DIR}/tests/phpunit --group blt-multisite -c ${BLT_DIR}/tests/phpunit/phpunit.xml -v
   # Deploy build artifact.
   - blt deploy:build
   - source ${BLT_DIR}/scripts/blt/ci/internal/test_artifact.sh
@@ -81,7 +82,7 @@ after_success:
 deploy:
   - provider: script
     # Deploys build artifact for generated `blt-project` to acquia-pso/blted8 on GitHub and also to bolt8 sub on ACF.
-    script: ${BLT_DIR}/scripts/travis/deploy_branch && $COMPOSER_BIN/phpunit $BLT_DIR/tests/phpunit --group=deploy
+    script: ${BLT_DIR}/scripts/travis/deploy_branch && $COMPOSER_BIN/phpunit $BLT_DIR/tests/phpunit --group=deploy -v
     skip_cleanup: true
     on:
       branch: $DEPLOY_SOURCE_BRANCH

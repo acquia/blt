@@ -2,28 +2,28 @@
 
 namespace Acquia\Blt\Tests\Blt;
 
-use Acquia\Blt\Tests\BltTestBase;
+use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
  * Class DeployTest.
  *
  * Verifies that build artifact matches standards.
  */
-class DeployTest extends BltTestBase {
+class DeployTest extends BltProjectTestBase {
 
   /**
    * {@inheritdoc}
    */
   public function setUp() {
     parent::setUp();
-    $this->deploy_dir = $this->newProjectDir . '/deploy';
+    $this->deploy_dir = $this->projectDirectory . '/deploy';
   }
 
   /**
    * Tests deploy:build command.
    *
    * @group deploy
-   * @group blt
+   * @group blt-project
    */
   public function testBltDeployBuild() {
 

@@ -40,8 +40,9 @@ class TextMunge {
   public static function arrayMergeNoDuplicates(array &$array1, array &$array2) {
     $merged = array_merge($array1, $array2);
     $merged_without_dups = array_unique($merged);
+    $merged_rekeyed = array_values($merged_without_dups);
 
-    return $merged_without_dups;
+    return $merged_rekeyed;
   }
 
 }
