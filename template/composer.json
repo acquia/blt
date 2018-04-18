@@ -1,13 +1,32 @@
 {
-    "license": "proprietary",
+    "name": "acquia/blt-project",
+    "description": "Project template for Drupal 8 sites built with BLT.",
     "type": "project",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "repositories": {
+        "drupal": {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        },
+        "asset-packagist": {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    },
     "config": {
         "sort-packages": true
     },
-    "require": {},
-    "require-dev": {},
+    "require": {
+        "acquia/blt": "9.x-dev",
+        "acquia/lightning": "^3.1.0"
+    },
+    "require-dev": {
+        "acquia/blt-require-dev": "^1.0.0"
+    },
     "extra": {
         "enable-patching": true,
+        "composer-exit-on-patch-failure": true,
         "installer-types": ["bower-asset", "npm-asset"],
         "installer-paths": {
             "docroot/core": ["type:drupal-core"],
@@ -22,8 +41,7 @@
         },
         "merge-plugin": {
             "require": [
-                "blt/composer.required.json",
-                "blt/composer.suggested.json"
+                "blt/composer.required.json"
             ],
             "merge-extra": true,
             "merge-extra-deep": true,
@@ -32,6 +50,9 @@
             "ignore-duplicates": true
         }
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    "scripts": {
+        "post-create-project-cmd": [
+            "blt internal:create-project:init-repo"
+        ]
+    }
 }
