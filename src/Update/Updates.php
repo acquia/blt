@@ -559,6 +559,24 @@ class Updates {
     $this->updater->getOutput()->writeln("");
     $this->updater->getOutput()->writeln($formattedBlock);
     $this->updater->getOutput()->writeln("");
+
+    // Update composer.json to include new BLT required/suggested files.
+    // Pulls in wikimedia/composer-merge-plugin and composer/installers settings.
+    $project_composer_json = $this->updater->getRepoRoot() . '/composer.json';
+    $template_composer_json = $this->updater->getBltRoot() . '/template/composer.json';
+    $munged_json = ComposerMunge::mungeFiles($project_composer_json, $template_composer_json);
+    $bytes = file_put_contents($project_composer_json, $munged_json);
+    if (!$bytes) {
+      $messages = ["Could not update $project_composer_json."];
+    }
+    else {
+      $messages = ["Updated $project_composer_json. Review changes, then re-run composer update."];
+    }
+
+    $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
+    $this->updater->getOutput()->writeln("");
+    $this->updater->getOutput()->writeln($formattedBlock);
+    $this->updater->getOutput()->writeln("");
   }
 
 }
