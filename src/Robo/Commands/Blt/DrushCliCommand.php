@@ -6,9 +6,9 @@ use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
 
 /**
- * Defines commands for installing and updating the Drush shell alias.
+ * Defines commands for installing the Drush shell alias and respective executables.
  */
-class DrushCliAliasCommand extends BltTasks {
+class DrushCliCommand extends BltTasks {
 
   /**
    * Installs the Drush CLI aliases for Drush8/9 command line usage.
@@ -23,7 +23,6 @@ class DrushCliAliasCommand extends BltTasks {
       if (is_null($config_file)) {
         $this->logger->warning("Could not find your CLI configuration file.");
         $this->logger->warning("Looked in ~/.zsh, ~/.bash_profile, ~/.bashrc, ~/.profile, and ~/.functions.");
-        $created = $this->createOsxBashProfile();
         if (!$created) {
           $this->logger->warning("Please create one of the aforementioned files, or create the Drush CLI aliases manually.");
         }
@@ -45,11 +44,11 @@ class DrushCliAliasCommand extends BltTasks {
   /**
    * Install and configure composer bin plugin. 
    *
-   * @command setup:composer:vendor-bin
+   * @command setup:composer:vendor-bin-plugin
    *
-   * @aliases composer-vendor-bin
+   * @aliases composer-bin-plugin
    */
-  public function setupComposerVendorBin() {
+  public function setupComposerVendorBinPlugin() {
 
       $this->say('Adding composer vendor bin packages and config...');
       $this->say('Adding drush 9 binaries and dependencies');
@@ -69,7 +68,7 @@ class DrushCliAliasCommand extends BltTasks {
    * Prevent re-dispatch to site local drush bin in favor of vendor-bin to 
    * support running legacy Drush 8 commands. 
    *
-   * @command drush:redispatch
+   * @command blt:drush:redispatch
    *
    * @aliases redispatch
    */
