@@ -11,13 +11,13 @@ use Acquia\Blt\Robo\Exceptions\BltException;
 class DrushCliCommand extends BltTasks {
 
   /**
-   * Installs the Drush CLI aliases for Drush8/9 command line usage.
+   * Installs the Drush CLI aliases and depedencies for Drush8/9 command line usage.
    *
-   * @command blt:init:drush:shell-alias
+   * @command blt:init:drush:cli-tools
    *
-   * @aliases drushcli install-drush-cli-alias
+   * @aliases drushtools install-drush-cli-tools
    */
-  public function installDrushCliAlias() {
+  public function installDrushCliTools() {
     if (!$this->getInspector()->isDrushCliAliasInstalled()) {
       $config_file = $this->getInspector()->getCliConfigFile();
       if (is_null($config_file)) {
@@ -36,7 +36,7 @@ class DrushCliCommand extends BltTasks {
     }
 
     else {
-      $this->say("<info>The Drush CLI alias is already installed.</info>");
+      $this->say("<info>The Drush CLI alias and dependencies are already installed.</info>");
     }
   }
 
@@ -73,7 +73,7 @@ class DrushCliCommand extends BltTasks {
    * @aliases redispatch
    */
 
-    public function redispatchToVendorBin() {
+  public function redispatchToVendorBin() {
   
     // Rename vendor/bin/drush to prevent re-dispatch to site local drush bin.
     $this->_rename('vendor/bin/drush', 'vendor/bin/drush.bak', TRUE);
@@ -85,10 +85,15 @@ class DrushCliCommand extends BltTasks {
 
   /**
    * Creates a new Drush CLI alias in appropriate CLI config file.
+   *
    * @param string $repo_root
    *   The repo root on Acquia and local. 
+   *
+   * @command blt:init:drush:shell-alias
+   *
+   * @aliases drushcli install-drush-cli-alias
    */
-  protected function createNewDrushCliAlias($repo_root) {
+  public function createNewDrushCliAlias($repo_root) {
     $this->say("Installing <comment>Drush CLI</comment> alias...");
     $config_file = $this->getInspector()->getCliConfigFile();
     $scr = $this->getConfigValue('blt.root');
@@ -111,3 +116,10 @@ class DrushCliCommand extends BltTasks {
       $this->say("<info>Added Drush CLI aliases to $config_file.</info>");
     }
   }
+
+}
+
+
+
+
+

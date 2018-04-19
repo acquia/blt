@@ -33,6 +33,11 @@ class AcHooksCommand extends BltTasks {
    * @command artifact:ac-hooks:post-code-deploy
    */
   public function postCodeDeploy($site, $target_env, $source_branch, $deployed_tag, $repo_url, $repo_type) {
+    $commands = [
+     'blt:init:drush:shell-alias',
+    ];
+
+    $this->invokeCommands($commands);
     $this->postCodeUpdate($site, $target_env, $source_branch, $deployed_tag, $repo_url, $repo_type);
   }
 
@@ -61,6 +66,14 @@ class AcHooksCommand extends BltTasks {
    */
   public function postCodeUpdate($site, $target_env, $source_branch, $deployed_tag, $repo_url, $repo_type) {
     try {
+
+
+    $commands = [
+     'blt:init:drush:shell-alias',
+    ];
+
+    $this->invokeCommands($commands);
+
       $this->updateSites($site, $target_env);
       $success = TRUE;
       $this->sendPostCodeUpdateNotifications($site, $target_env, $source_branch, $deployed_tag, $success);

@@ -42,9 +42,9 @@ class AllCommand extends BltTasks {
         break;
     }
 
-        $commands = [
+    $commands = [
       'blt:init:shell-alias',
-      'blt:init:drush:shell-alias'
+      'blt:init:drush:cli-tools'
     ];
 
     $this->invokeCommands($commands);
