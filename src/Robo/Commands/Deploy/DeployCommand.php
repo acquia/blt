@@ -327,6 +327,10 @@ class DeployCommand extends BltTasks {
     ]);
 
     $this->buildCopy();
+    $this->invokeCommands([
+      'blt:drush:redispatch',
+      'setup:composer:bin-plugin',
+    ]);
     $this->composerInstall();
     $this->sanitize();
     $this->deploySamlConfig();

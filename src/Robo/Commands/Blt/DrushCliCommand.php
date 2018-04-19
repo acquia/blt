@@ -29,8 +29,8 @@ class DrushCliCommand extends BltTasks {
       }
       else {
           $source = $this->getConfigValue('repo.root');
-          $this-> setupComposerVendorBin();
           $this->redispatchToVendorBin();
+          $this->setupComposerVendorBin();
           $this->createNewDrushCliAlias($source);
       }
     }
@@ -44,11 +44,11 @@ class DrushCliCommand extends BltTasks {
   /**
    * Install and configure composer bin plugin. 
    *
-   * @command setup:composer:vendor-bin-plugin
+   * @command setup:composer:bin-plugin
    *
    * @aliases composer-bin-plugin
    */
-  public function setupComposerVendorBinPlugin() {
+  public function setupComposerBinPlugin() {
 
       $this->say('Adding composer vendor bin packages and config...');
       $this->say('Adding drush 9 binaries and dependencies');
