@@ -30,6 +30,7 @@ class DrushCliAliasCommand extends BltTasks {
       }
       else {
           $source = $this->getConfigValue('repo.root');
+          $this-> setupComposerVendorBin();
           $this->redispatchToVendorBin();
           $this->createNewDrushCliAlias($source);
       }
@@ -38,6 +39,30 @@ class DrushCliAliasCommand extends BltTasks {
     else {
       $this->say("<info>The Drush CLI alias is already installed.</info>");
     }
+  }
+
+
+  /**
+   * Install and configure composer bin plugin. 
+   *
+   * @command setup:composer:vendor-bin
+   *
+   * @aliases composer-vendor-bin
+   */
+  public function setupComposerVendorBin() {
+
+      $this->say('Adding composer vendor bin packages and config...');
+      $this->say('Adding drush 9 binaries and dependencies');
+       $result = $this->taskExec("composer bin drush-9 require drush/drush theofidry/composer-inheritance-plugin")
+          ->printOutput(TRUE)
+          ->dir($this->getConfigValue('repo.root'))
+          ->run();
+      $this->say('Adding drush 8 binaries');
+       $result = $this->taskExec("composer bin drush-8 require drush/drush:8.1.16")
+          ->printOutput(TRUE)
+          ->dir($this->getConfigValue('repo.root'))
+          ->run();
+
   }
 
   /**
