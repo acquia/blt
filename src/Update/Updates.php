@@ -579,7 +579,6 @@ class Updates {
     $this->updater->getOutput()->writeln("");
   }
 
-
   /**
    * 9.1.1.
    *
@@ -638,7 +637,7 @@ class Updates {
     $this->updater->getOutput()->writeln($formattedBlock);
     $this->updater->getOutput()->writeln("");
 
-}
+  }
 
 }
 
