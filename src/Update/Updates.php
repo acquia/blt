@@ -611,7 +611,7 @@ class Updates {
 
     // Ensure local drush 9 in vendor has been removed. 
 
-    $this->updatergetFileSystem()->remove('vendor/drush');
+    $this->updater->getFileSystem()->remove('vendor/drush');
 
     // Update composer requires with blt templates. 
 
@@ -630,7 +630,19 @@ class Updates {
       }
     }
 
-    $messages[] = "BLT Composer packages updated to add Drush 8 support";
+    $messages[] = "BLT Composer packages updated to enable Drush 8 support. ";
+
+    // Run blt tasks to download and configure dependencies, bin, dirs, and bash aliases. 
+
+    $process = new Process("./vendor/bin/blt setup:composer:bin-plugin", $this->updater->getRepoRoot());
+    $process->run();
+
+    $messages[] = "Drush 8 and Drush 9 binaries and dependencies installed.";
+
+    $process = new Process("./vendor/bin/blt blt:init:drush:shell-alias -vvv", $this->updater->getRepoRoot());
+    $process->run();
+
+    $messages[] = "Drush cli bash aliases and PATHs updated.";
  
     $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
     $this->updater->getOutput()->writeln("");

@@ -4,6 +4,7 @@ namespace Acquia\Blt\Robo\Commands\Blt;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
+use Robo\Contract\VerbosityThresholdInterface;
 
 /**
  * Defines commands for installing the Drush shell alias and respective executables.
@@ -56,13 +57,39 @@ class DrushCliCommand extends BltTasks {
           ->printOutput(TRUE)
           ->dir($this->getConfigValue('repo.root'))
           ->run();
+
       $this->say('Adding drush 8 binaries');
        $result = $this->taskExec("composer bin drush-8 require drush/drush:8.1.16")
           ->printOutput(TRUE)
           ->dir($this->getConfigValue('repo.root'))
           ->run();
 
-  }
+      $this->say('Adding drush 8 wrapper');
+      //$source_path = $this->getConfigValue('blt.root') . '/templates/drush/drush' ;
+      //$target_path = $this->getConfigValue('repo.root') . "/vendor-bin/drush-8/drush" ;
+
+      $result = $this->taskFilesystemStack()
+        ->copy($this->getConfigValue('blt.root') . '/template/drush/drush', $this->getConfigValue('repo.root') . '/vendor-bin/drush-8/drush', TRUE)
+        ->stopOnFail()
+        ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+        ->run();
+
+      if (!$result->wasSuccessful()) {
+        throw new BltException("Could not copy drush wrapper.");
+      }
+
+     /* // Fail silently if target file already exists.
+      if (!$this->getFileSystem()->exists($target_path)) {
+        $this->getFileSystem()->rename($source_path, $target_path);
+        $this->say("Drush 8 wrapper created");
+      }
+       else {
+          $this->logger->warning("Error creating drush 8 wrapper. Create manually and/or review documentation via drush8 topic core-global-options.");
+        }*/
+
+      $this->say("<info>The Drush CLI alias and dependencies are already installed.</info>");
+    }
+
 
   /**
    * Prevent re-dispatch to site local drush bin in favor of vendor-bin to 
@@ -82,7 +109,7 @@ class DrushCliCommand extends BltTasks {
       $this->_remove('vendor/bin/drush');
     }
 
-     if (file_exists("vendor/bin/drush.launcher") ) {
+    if (file_exists("vendor/bin/drush.launcher") ) {
       $this->_remove('vendor/bin/drush.launcher');
     }
 

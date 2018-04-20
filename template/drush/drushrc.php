@@ -78,7 +78,7 @@ if (file_exists('/usr/local/drush8/commands')) {
 // If acsf module is present, include drush commands.
 
 if (file_exists(__DIR__ . '/../docroot/modules/contrib/acsf')) {
-	$options['include'][] = require __DIR__ . '/../docroot/modules/contrib/acsf/acsf_init';
+	$options['include'][] = __DIR__ . '/../docroot/modules/contrib/acsf/acsf_init';
 }
 
 // Add path to drush 8 aliases in case project-specific legacy aliases exist.
@@ -87,6 +87,14 @@ if (file_exists(__DIR__ . '/../vendor-bin/drush-8/vendor/bin/drush')) {
 
  $options['alias-path'] = __DIR__ . '/sites';
 
+}
+
+// If acsf tools contrib package is present, include drush commands.
+// @todo:  Note this is explicitly not in the drush contrib directory 
+// since autoloader paths are hardcoded and assume a global install of drush 8. 
+
+if (file_exists(__DIR__ . '/../vendor-bin/drush-8/vendor/acquia/acsf-tools')) {
+	$options['include'][] = __DIR__ . '/../vendor-bin/drush-8/vendor/acquia/acsf-tools';
 }
 
 
