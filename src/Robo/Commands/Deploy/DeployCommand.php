@@ -3,7 +3,6 @@
 namespace Acquia\Blt\Robo\Commands\Deploy;
 
 use Acquia\Blt\Robo\BltTasks;
-use Acquia\Blt\Robo\Common\RandomString;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -317,25 +316,27 @@ class DeployCommand extends BltTasks {
   public function build() {
     $this->say("Generating build artifact...");
     $this->say("For more detailed output, use the -v flag.");
-    $this->invokeCommands([
+
+    $commands = [
       // Execute `blt source:build:frontend` to ensure that frontend artifact
       // are generated in source repo.
       'source:build:frontend',
       // Execute `drupal:hash-salt:init` to ensure that salt.txt exists.
       // There's a slim chance this has never been generated.
       'drupal:hash-salt:init',
-    ]);
+    ];
+    if (!empty($this->tagName)) {
+      $commands['drupal:deployment-identifier:init'] = ['id' => $this->tagName];
+    }
+    else {
+      $commands[] = 'drupal:deployment-identifier:init';
+    }
+    $this->invokeCommands($commands);
 
     $this->buildCopy();
     $this->composerInstall();
     $this->sanitize();
     $this->deploySamlConfig();
-    if (!empty($this->tagName)) {
-      $this->createDeployId($this->tagName);
-    }
-    else {
-      $this->createDeployId(RandomString::string(8));
-    }
     $this->invokeHook("post-deploy-build");
     $this->say("<info>The deployment artifact was generated at {$this->deployDir}.</info>");
   }
@@ -394,17 +395,6 @@ class DeployCommand extends BltTasks {
     $this->taskExecStack()->exec("composer install --no-dev --no-interaction --optimize-autoloader")
       ->stopOnFail()
       ->dir($this->deployDir)
-      ->run();
-  }
-
-  /**
-   * Creates deployment_identifier file.
-   */
-  protected function createDeployId($id) {
-    $this->taskExecStack()->exec("echo '$id' > deployment_identifier")
-      ->dir($this->deployDir)
-      ->stopOnFail()
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
   }
 

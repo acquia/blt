@@ -50,6 +50,10 @@ class DeployTest extends BltProjectTestBase {
     // Ensure non-required files are not in deploy dir.
     $this->assertFileExists($this->deploy_dir . '/blt/blt.yml');
     $this->assertFileNotExists($this->deploy_dir . '/tests');
+
+    // Ensure deployment_identifier is in the deploy directory.
+    $this->assertFileExists($this->deploy_dir . '/deployment_identifier');
+    $this->assertNotEmpty(file_get_contents($this->deploy_dir . '/deployment_identifier'));
   }
 
   // @todo add artifact:build:push test.

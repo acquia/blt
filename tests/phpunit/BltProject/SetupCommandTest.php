@@ -18,6 +18,7 @@ class SetupCommandTest extends BltProjectTestBase {
         'project.profile.name=minimal',
       ],
     ]);
+    $this->assertDeploymentIdentifierSetupValidity();
   }
 
   public function testImportStrategy() {
@@ -29,6 +30,7 @@ class SetupCommandTest extends BltProjectTestBase {
         'setup.dump-file=' . $this->dbDump,
       ],
     ]);
+    $this->assertDeploymentIdentifierSetupValidity();
   }
 
   /**
@@ -41,6 +43,14 @@ class SetupCommandTest extends BltProjectTestBase {
     $this->drush("config-export --yes");
     $this->drush("sql-drop --yes");
     $this->installDrupalMinimal();
+  }
+
+  /**
+   * Asserts that the deployment_identifier file exists and is not empty.
+   */
+  protected function assertDeploymentIdentifierSetupValidity() {
+    $this->assertFileExists($this->config->get('repo.root') . '/deployment_identifier');
+    $this->assertNotEmpty(file_get_contents($this->config->get('repo.root') . '/deployment_identifier'));
   }
 
   // Sync strategy is tested is MultisiteTest.php.
