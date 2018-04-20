@@ -30,7 +30,7 @@ class DrushCliCommand extends BltTasks {
       else {
           $source = $this->getConfigValue('repo.root');
           $this->redispatchToVendorBin();
-          $this->setupComposerVendorBin();
+          $this->setupComposerBinPlugin();
           $this->createNewDrushCliAlias($source);
       }
     }
@@ -52,7 +52,7 @@ class DrushCliCommand extends BltTasks {
 
       $this->say('Adding composer vendor bin packages and config...');
       $this->say('Adding drush 9 binaries and dependencies');
-       $result = $this->taskExec("composer bin drush-9 require drush/drush theofidry/composer-inheritance-plugin")
+       $result = $this->taskExec("composer bin drush-9 require drush/drush")
           ->printOutput(TRUE)
           ->dir($this->getConfigValue('repo.root'))
           ->run();
@@ -74,12 +74,21 @@ class DrushCliCommand extends BltTasks {
    */
 
   public function redispatchToVendorBin() {
+
+    // Remove drush 9 package if it exists in vendor dir    
+
+     if (file_exists("vendor/drush")) {
+      $this->_remove('vendor/drush');
+    }
   
-    // Rename vendor/bin/drush to prevent re-dispatch to site local drush bin.
-    $this->_rename('vendor/bin/drush', 'vendor/bin/drush.bak', TRUE);
-    if (file_exists("vendor/bin/drush.launcher")) {
-      $this->_rename('vendor/bin/drush.launcher',
-        'vendor/bin/drush.launcher.bak', TRUE);
+    // Remove vendor/bin/drush to prevent re-dispatch to site local drush bin.
+
+  if (file_exists("vendor/bin/drush") ) {
+      $this->_remove('vendor/bin/drush');
+    }
+
+     if (file_exists("vendor/bin/drush.launcher") ) {
+      $this->_remove('vendor/bin/drush.launcher');
     }
   }
 

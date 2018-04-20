@@ -610,6 +610,10 @@ class Updates {
 
     $messages[] = "Drush removed from root composer config";
 
+    // Ensure local drush 9 in vendor has been removed. 
+
+    $this->updatergetFileSystem()->remove('vendor/drush');
+
     // Update composer requires with blt templates. 
 
     $composer_required_json = $this->updater->getComposerRequiredJson();
@@ -633,6 +637,8 @@ class Updates {
     $this->updater->getOutput()->writeln("");
     $this->updater->getOutput()->writeln($formattedBlock);
     $this->updater->getOutput()->writeln("");
+
+}
 
 }
 
