@@ -611,7 +611,7 @@ class Updates {
 
     // Ensure local drush 9 in vendor has been removed. 
 
-    $this->updatergetFileSystem()->remove('vendor/drush');
+    $this->updater->getFileSystem()->remove('vendor/drush');
 
     // Update composer requires with blt templates. 
 
