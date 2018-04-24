@@ -33,7 +33,12 @@ class AcHooksCommand extends BltTasks {
    * @command artifact:ac-hooks:post-code-deploy
    */
   public function postCodeDeploy($site, $target_env, $source_branch, $deployed_tag, $repo_url, $repo_type) {
-    $this->postCodeUpdate($site, $target_env, $source_branch, $deployed_tag, $repo_url, $repo_type);
+    if (!$this->getInspector()->isAcsfInited()) {
+      $this->postCodeUpdate($site, $target_env, $source_branch, $deployed_tag, $repo_url, $repo_type);
+    }
+    else {
+      $this->say("ACSF build detected. Skipped execution of post-code-deploy cloud hook.");
+    }
   }
 
   /**
