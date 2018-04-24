@@ -9,6 +9,9 @@ behat:
   chrome:
     port: 9222
     args: ""
+  chromium:
+      port: 9222
+      args: ""
   # An array of paths with behat tests that should be executed.
   paths:
     # - ${docroot}/modules
@@ -16,7 +19,7 @@ behat:
     - ${repo.root}/tests/behat
   tags: '~ajax&&~experimental&&~lightningextension'
   extra: ''
-  # May be chrome, selenium, phantomjs.
+  # May be chrome, chromium, selenium, phantomjs.
   web-driver: chrome
 
 bin.path: vendor/bin

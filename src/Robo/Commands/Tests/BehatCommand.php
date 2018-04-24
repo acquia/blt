@@ -59,6 +59,16 @@ class BehatCommand extends TestsCommandBase {
   protected $chromeArgs;
 
   /**
+   * @var string
+   */
+  protected $chromiumPort;
+
+  /**
+   * @var string
+   */
+  protected $chromiumArgs;
+
+  /**
    * This hook will fire for all commands in this command file.
    *
    * @hook init
@@ -68,6 +78,8 @@ class BehatCommand extends TestsCommandBase {
     $this->behatLogDir = $this->getConfigValue('reports.localDir') . "/behat";
     $this->chromePort = $this->getConfigValue('behat.chrome.port');
     $this->chromeArgs = $this->getConfigValue('behat.chrome.args');
+    $this->chromiumPort = $this->getConfigValue('behat.chromium.port');
+    $this->chromiumArgs = $this->getConfigValue('behat.chromium.args');
     $this->seleniumPort = $this->getConfigValue('behat.selenium.port');
     $this->seleniumUrl = $this->getConfigValue('behat.selenium.url');
     $this->serverPort = $this->getConfigValue('tests.server.port');
@@ -161,6 +173,72 @@ class BehatCommand extends TestsCommandBase {
     }
     elseif ($this->getConfigValue('behat.web-driver') == 'chrome') {
       $this->launchChrome();
+    }
+    elseif ($this->getConfigValue('behat.web-driver') == 'chromium') {
+      $this->launchChromium();
+    }
+  }
+
+  /**
+   * Launches a headless Chromium process.
+   */
+  protected function launchChromium() {
+    $this->killChromium();
+    $chromium_bin = $this->findChromium();
+    $this->checkChromiumVersion($chromium_bin);
+    $chromium_host = 'http://localhost';
+    $this->logger->info("Launching headless Chromium...");
+    $this->getContainer()
+      ->get('executor')
+      ->execute("'$chromium_bin' --headless --disable-web-security --remote-debugging-port={$this->chromiumPort} {$this->chromiumArgs} $chromium_host")
+      ->background(TRUE)
+      ->printOutput(TRUE)
+      ->printMetadata(TRUE)
+      ->run();
+    $this->getContainer()->get('executor')->waitForUrlAvailable("$chromium_host:{$this->chromiumPort}");
+  }
+
+  /**
+   * Kills headless Chromium process running on $this->chromiumPort.
+   */
+  protected function killChromium() {
+    $this->logger->info("Killing running chromium processes...");
+    $this->getContainer()->get('executor')->killProcessByPort($this->chromiumPort);
+  }
+
+  /**
+   * Finds the local Chromium binary.
+   *
+   * @return null|string
+   *   NULL if Chromium could not be found.
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   *   Throws exception if Chromium cannot be found.
+   */
+  protected function findChromium() {
+    if ($this->getInspector()->commandExists('chromium')) {
+      return 'chromium';
+    }
+    throw new BltException("Could not find Chromium. Please add an alias for \"chromium\" to your CLI environment.");
+  }
+
+  /**
+   * Verifies that Chromium meets minimum version requirement.
+   *
+   * @param string $binary
+   *   Absolute file path to the Chromium binary.
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   *   Throws exception if minimum version is not met.
+   */
+  protected function checkChromiumVersion($binary) {
+    $version = (int) $this->getContainer()->get('executor')
+      ->execute("'$binary' --version | cut -f2 -d ' ' | cut -f1 -d '.'")
+      ->run()
+      ->getMessage();
+
+    if ($version < 59) {
+      throw new BltException("You must have Chromium version 59+ to execute headless tests.");
     }
   }
 
