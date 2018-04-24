@@ -8,9 +8,9 @@ local.blt.yml
 /docroot/sites/*/private/
 /files-private/
 
-# Ignore build artifacts
-tmp
-reports
+# Ignore build artifacts.
+/tmp/
+/reports/
 
 # OS X
 .DS_Store
