@@ -29,7 +29,27 @@ xhprof_*
 # Acquia Cli tool
 acquiacli.yml
 
-# OS X
+# OS files
+# ------------
+# - Linux
+# ------------
+
+*~
+
+# Handle open for deleted file.
+.fuse_hidden*
+.nfs*
+
+# KDE directory preferences.
+.directory
+
+# Linux trash folder.
+.Trash-*
+
+# ------------
+# - MacOS
+# ------------
+
 .DS_Store
 .AppleDouble
 .LSOverride
@@ -37,20 +57,47 @@ acquiacli.yml
 # Thumbnails
 ._*
 
-# Files that might appear on external disk
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
 .Spotlight-V100
+.TemporaryItems
 .Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.*
 
-# Windows image file caches
+# Directories potentially created on remote AFP share
+.AppleDB/
+.AppleDesktop/
+Network Trash Folder/
+Temporary Items/
+.apdisk/
+
+# ------------
+# - Windows
+# ------------
+
+# Thumbnail cache files.
 Thumbs.db
-ehthumbs.db
+ehthumbs*.db
 
-# Folder config file
+# Directory config file.
 Desktop.ini
 
-# Recycle Bin used on file shares
+# Recycle or Trash.
 $RECYCLE.BIN/
 
+# Windows Installer files.
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Shortcuts.
+*.lnk
+
+# Editor files
+# ------------
 # Eclipse
 *.pydevproject
 .project
