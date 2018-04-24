@@ -12,6 +12,23 @@ local.blt.yml
 /tmp/
 /reports/
 
+# Node.js package manager.
+npm-debug.log
+
+# Profiler tools.
+xhprof_*
+
+# SASS artifacts.
+.sass-cache
+*.css.map
+
+# Vagrant virtual machines.
+/.vagrant/
+/Vagrantfile
+
+# Acquia Cli tool
+acquiacli.yml
+
 # OS X
 .DS_Store
 .AppleDouble
@@ -74,16 +91,6 @@ tramp
 # User-specific stuff:
 .idea/
 
-#XHProf
-xhprof_*
-
-#Sass
-.sass-cache
-*.css.map
-
 #Netbeans IDE
 nbproject
 nbproject/*
-
-#DrupalVM
-.vagrant/
