@@ -33,6 +33,7 @@ acquiacli.yml
 # ------------
 # - Linux
 # ------------
+# Reference: https://github.com/github/gitignore/blob/master/Global/Linux.gitignore
 
 *~
 
@@ -47,8 +48,9 @@ acquiacli.yml
 .Trash-*
 
 # ------------
-# - MacOS
+# - macOS
 # ------------
+# Reference: https://github.com/github/gitignore/blob/master/Global/macOS.gitignore
 
 .DS_Store
 .AppleDouble
@@ -76,6 +78,7 @@ Temporary Items/
 # ------------
 # - Windows
 # ------------
+# Reference: https://github.com/github/gitignore/blob/master/Global/Windows.gitignore
 
 # Thumbnail cache files.
 Thumbs.db
@@ -97,6 +100,7 @@ $RECYCLE.BIN/
 *.lnk
 
 # Editor files
+# - Reference: https://github.com/github/gitignore/tree/master/Global
 # ------------
 # - Eclipse
 # ------------
