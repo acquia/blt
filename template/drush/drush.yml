@@ -9,3 +9,4 @@ drush:
     include:
       - '${env.home}/.drush'
       - /usr/share/drush/commands
+      - ../docroot/modules/contrib/acsf/acsf_init/src

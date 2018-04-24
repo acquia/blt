@@ -46,6 +46,9 @@
       "drupal/core": {
         "Clear Twig caches on deploys": "https://www.drupal.org/files/issues/2752961-130.patch"
       }
+    },
+    "bamarni-bin": {
+      "bin-links": false
     }
   },
   "scripts": {

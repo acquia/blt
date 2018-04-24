@@ -334,6 +334,10 @@ class DeployCommand extends BltTasks {
     $this->invokeCommands($commands);
 
     $this->buildCopy();
+    $this->invokeCommands([
+      'blt:init:drush:remove',
+      'blt:init:drush:binaries',
+    ]);
     $this->composerInstall();
     $this->sanitize();
     $this->deploySamlConfig();

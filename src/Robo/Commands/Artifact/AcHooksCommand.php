@@ -3,7 +3,6 @@
 namespace Acquia\Blt\Robo\Commands\Artifact;
 
 use Acquia\Blt\Robo\BltTasks;
-use Acquia\Blt\Robo\Exceptions\BltException;
 use Acquia\Blt\Robo\Common\RandomString;
 
 /**
@@ -60,6 +59,7 @@ class AcHooksCommand extends BltTasks {
    * @throws \Exception
    */
   public function postCodeUpdate($site, $target_env, $source_branch, $deployed_tag, $repo_url, $repo_type) {
+    $this->dieIfAcsfEnv($target_env);
     try {
       $this->updateSites($site, $target_env);
       $success = TRUE;
@@ -70,6 +70,30 @@ class AcHooksCommand extends BltTasks {
       $this->sendPostCodeUpdateNotifications($site, $target_env, $source_branch, $deployed_tag, $success);
       throw $e;
     }
+  }
+
+  /**
+   * Throws an exception if $env is an ACSF environment.
+   *
+   * @param string $env
+   *
+   * @throws \Exception
+   */
+  public function dieIfAcsfEnv($env) {
+    if ($this->isAcsfEnv($env)) {
+      throw new \Exception("This is not intended to be executed on ACSF environments!");
+    }
+  }
+
+  /**
+   * Returns true if $env is an ACSF env.
+   *
+   * @param string $env
+   *
+   * @return int
+   */
+  protected function isAcsfEnv($env) {
+    return preg_match('/01(dev|test|live|update)(up)?/', $env);
   }
 
   /**
@@ -103,33 +127,6 @@ class AcHooksCommand extends BltTasks {
     $this->taskDrush()
       ->drush("cr")
       ->run();
-  }
-
-  /**
-   * Executes updates against all ACSF sites in the target environment.
-   *
-   * @param $site
-   * @param $target_env
-   *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
-   */
-  public function updateAcsfSites($site, $target_env) {
-    $this->taskDrush()
-      ->drush("cc drush")
-      ->run();
-    $this->say("Running updates for environment: $target_env");
-    $drush_alias = "$site.$target_env";
-    $result = $this->taskDrush()
-      ->drush("drush @$drush_alias acsf-tools-list")
-      ->run();
-    if (!$result->wasSuccessful()) {
-      throw new BltException("Unable to get list of ACSF sites.");
-    }
-    $output = $result->getMessage();
-    // @todo Populate. Update ACSF tools to drush 9.
-    $sites = [];
-    $this->getConfig()->set('multisites', $sites);
-    $this->invokeCommand('artifact:update:drupal:all-sites');
   }
 
   /**
@@ -234,15 +231,7 @@ class AcHooksCommand extends BltTasks {
    * @param $target_env
    */
   protected function updateSites($site, $target_env) {
-    if (preg_match('/01(dev|test)/', $target_env)) {
-      $this->updateAcsfSites($site, $target_env);
-    }
-    elseif (preg_match('/01devup|01testup|01update|01live/', $target_env)) {
-      // Do not run deploy updates on 01live in case a branch is deployed in
-      // prod.
-      return;
-    }
-    elseif (preg_match('/ode[[:digit:]]/', $target_env)) {
+    if (preg_match('/ode[[:digit:]]/', $target_env)) {
       $this->updateOdeSites();
     }
     else {

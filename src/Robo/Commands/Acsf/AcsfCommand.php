@@ -34,22 +34,20 @@ class AcsfCommand extends BltTasks {
    * @aliases acsf acsf:init
    * @options acsf-version
    */
-  public function acsfInitialize($options = ['acsf-version' => '^1.33.0']) {
+  public function acsfInitialize() {
     $this->printPreamble();
     $this->acsfHooksInitialize();
     $this->say('Adding acsf module as a dependency...');
-    $package_options = [
-      'package_name' => 'drupal/acsf',
-      'package_version' => $options['acsf-version'],
-    ];
-    $this->invokeCommand('internal:composer:require', $package_options);
-    $this->say("In the future, you may pass in a custom value for acsf-version to override the default version. E.g., blt recipes:acsf:init:all --acsf-version='8.1.x-dev'");
     $this->acsfDrushInitialize();
     $this->say('Adding acsf-tools drush module as a dependency...');
-    $package_options = [
-      'package_name' => 'acquia/acsf-tools',
-      'package_version' => '^8.1',
-    ];
+    $result = $this->taskExecStack()
+      ->dir($this->getConfigValue('repo.root'))
+      ->exec("composer bin drush-8 require acquia/acsf-tools")
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->run();
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Unable to require acquia/acsf-tools");
+    }
     $this->invokeCommand('internal:composer:require', $package_options);
     $this->say('<comment>ACSF Tools has been added. Some post-install configuration is necessary.</comment>');
     $this->say('<comment>See /drush/contrib/acsf-tools/README.md. </comment>');
@@ -70,27 +68,12 @@ class AcsfCommand extends BltTasks {
    * @aliases raid acsf:init:drush
    */
   public function acsfDrushInitialize() {
-    $drush8 = $this->getConfigValue('repo.root') . '/vendor/bin/drush8.phar';
-    // @todo Remove when ACSF module supports Drush 9.
-    if (!file_exists($drush8)) {
-      $this->downloadDrush8($drush8);
-    }
-    $this->say('Executing initialization command provided acsf module...');
-
-    // Rename vendor/bin/drush to prevent re-dispatch to site local drush bin.
-    $this->_rename('vendor/bin/drush', 'vendor/bin/drush.bak', TRUE);
-    if (file_exists("vendor/bin/drush.launcher")) {
-      $this->_rename('vendor/bin/drush.launcher',
-        'vendor/bin/drush.launcher.bak', TRUE);
-    }
+    $drush8 = $this->getConfigValue('repo.root') . '/vendor-bin/drush-8/vendor/bin/drush';
+    $this->say('Executing initialization command provided by acsf module...');
     $acsf_include = $this->getConfigValue('docroot') . '/modules/contrib/acsf/acsf_init';
     $result = $this->taskExecStack()
       ->exec("$drush8 acsf-init --include=\"$acsf_include\" --root=\"{$this->getConfigValue('docroot')}\" -y")
       ->run();
-    $this->_rename('vendor/bin/drush.bak', 'vendor/bin/drush', TRUE);
-    if (file_exists("vendor/bin/drush.launcher.bak")) {
-      $this->_rename('vendor/bin/drush.launcher.bak', 'vendor/bin/drush.launcher', TRUE);
-    }
 
     if (!$result->wasSuccessful()) {
       throw new BltException("Unable to copy ACSF scripts.");
@@ -106,7 +89,7 @@ class AcsfCommand extends BltTasks {
    * @aliases raih
    */
   public function acsfHooksInitialize() {
-    $defaultAcsfHooks = $this->getConfigValue('blt.root') . '/settings/acsf';
+    $defaultAcsfHooks = $this->getConfigValue('blt.root') . '/scripts/factory-hooks';
     $projectAcsfHooks = $this->getConfigValue('repo.root') . '/factory-hooks';
 
     $result = $this->taskCopyDir([$defaultAcsfHooks => $projectAcsfHooks])
@@ -120,27 +103,6 @@ class AcsfCommand extends BltTasks {
     $this->say('New "factory-hooks/" directory created in repo root. Please commit this to your project.');
 
     return $result;
-  }
-
-  /**
-   * Download drush 8 binary.
-   *
-   * @param string $destination
-   *   Download destination.
-   */
-  protected function downloadDrush8($destination) {
-    $file = fopen($destination, 'w');
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL,
-      'https://github.com/drush-ops/drush/releases/download/8.1.15/drush.phar');
-    curl_setopt($ch, CURLOPT_FAILONERROR, TRUE);
-    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-    curl_setopt($ch, CURLOPT_FILE, $file);
-    curl_exec($ch);
-    curl_close($ch);
-    fclose($file);
-    $this->_chmod($destination, 0755);
   }
 
 }

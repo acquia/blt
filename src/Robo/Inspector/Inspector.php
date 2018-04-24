@@ -477,6 +477,25 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   }
 
   /**
+   * Checks to see if Drush CLI alias is installed.
+   *
+   * @return bool
+   *   TRUE if Drush CLI alias is installed.
+   */
+  public function isDrushCliAliasInstalled() {
+    $cli_config_file = $this->getCliConfigFile();
+    if (!is_null($cli_config_file) && file_exists($cli_config_file)) {
+      $contents = file_get_contents($cli_config_file);
+      // @see scripts/drush/configure-drush.sh.
+      if (strstr($contents, '#BLT GENERATED DRUSH')) {
+        return TRUE;
+      }
+    }
+
+    return FALSE;
+  }
+
+  /**
    * Determines the CLI config file.
    *
    * @return null|string
