@@ -98,34 +98,63 @@ $RECYCLE.BIN/
 
 # Editor files
 # ------------
-# Eclipse
-*.pydevproject
-.project
+# - Eclipse
+# ------------
+
 .metadata
-tmp/**
-tmp/**/*
 *.tmp
 *.bak
 *.swp
 *~.nib
 local.properties
-.classpath
 .settings/
 .loadpath
 
-# External tool builders
+# External tool builders.
 .externalToolBuilders/
 
-# Locally stored "Eclipse launch configurations"
+# Locally stored "Eclipse launch configurations".
 *.launch
 
-# CDT-specific
+# PyDev specific (Python IDE for Eclipse).
+*.pydevproject
+
+# CDT-specific (C/C++ Development Tooling).
 .cproject
 
-# PDT-specific
-.buildpathk
+# CDT- autotools.
+.autotools
 
-# Emacs
+# Java annotation processor (APT).
+.factorypath
+
+# PDT-specific (PHP Development Tools).
+.buildpath
+
+# sbteclipse plugin.
+.target
+
+# Tern plugin.
+.tern-project
+
+# TeXlipse plugin.
+.texlipse
+
+# STS (Spring Tool Suite).
+.springBeans
+
+# Code Recommenders.
+.recommenders/
+
+# Scala IDE specific (Scala & Java development for Eclipse).
+.cache-main
+.scala_dependencies
+.worksheet
+
+# ------------
+# - Emacs
+# ------------
+
 *~
 \#*\#
 /.emacs.desktop
@@ -135,9 +164,95 @@ auto-save-list
 tramp
 .\#*
 
-# User-specific stuff:
-.idea/
+# Org-mode.
+.org-id-locations
+*_archive
 
-#Netbeans IDE
-nbproject
-nbproject/*
+# flymake-mode.
+*_flymake.*
+
+# eshell files.
+/eshell/
+
+# elpa packages.
+/elpa/
+
+# reftex files.
+*.rel
+
+# AUCTeX auto folder.
+/auto/
+
+# cask packages.
+.cask/
+
+# Flycheck
+flycheck_*.el
+
+# server auth directory.
+/server/
+
+# projectiles files
+.projectile
+
+# directory configuration.
+.dir-locals.el
+
+
+# ------------
+# - JetBrains
+# ------------
+
+.idea/
+.idea_modules/
+*.iws
+
+# JIRA plugin.
+atlassian-ide-plugin.xml
+
+
+# ------------
+# - NetBeans
+# ------------
+
+nbproject/
+nbbuild/
+nbdist/
+.nb-gradle/
+
+
+# ------------
+# - Sublime
+# ------------
+
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+*.sublime-workspace
+*.sublime-project
+*.sublime-settings
+
+/sftp-config.json
+/docroot/sftp-config.json
+
+# Package Control files.
+Package Control.*
+oscrypto-ca-bundle.crt
+bh_unicode_properties.cache
+
+
+# ------------
+# - Vim
+# ------------
+
+Session.vim
+
+# Swap files.
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-v][a-z]
+[._]sw[a-p]
+
+# Temporary files.
+.netrwhist
+*~
