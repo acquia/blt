@@ -34,7 +34,7 @@ class AcsfCommand extends BltTasks {
    * @aliases acsf acsf:init
    * @options acsf-version
    */
-  public function acsfInitialize($options = ['acsf-version' => '^1.33.0']) {
+  public function acsfInitialize($options = ['acsf-version' => '^2.47.0']) {
     $this->printPreamble();
     $this->acsfHooksInitialize();
     $this->say('Adding acsf module as a dependency...');
