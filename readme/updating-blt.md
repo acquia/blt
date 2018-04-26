@@ -24,7 +24,7 @@ By default BLT will modify a handful of files in your project to conform to the 
         }
       }
 
-Please not that if you choose to do this, it is your responsibility to track upstream changes. This is very likely to cause issues when you upgrade BLT to a new version.
+Please note that if you choose to do this, it is your responsibility to track upstream changes. This is very likely to cause issues when you upgrade BLT to a new version.
 
 ## Updating from a non-Composer-managed (very old) version
 
