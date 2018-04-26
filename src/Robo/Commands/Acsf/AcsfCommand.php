@@ -70,27 +70,11 @@ class AcsfCommand extends BltTasks {
    * @aliases raid acsf:init:drush
    */
   public function acsfDrushInitialize() {
-    $drush8 = $this->getConfigValue('repo.root') . '/vendor/bin/drush8.phar';
-    // @todo Remove when ACSF module supports Drush 9.
-    if (!file_exists($drush8)) {
-      $this->downloadDrush8($drush8);
-    }
     $this->say('Executing initialization command provided acsf module...');
-
-    // Rename vendor/bin/drush to prevent re-dispatch to site local drush bin.
-    $this->_rename('vendor/bin/drush', 'vendor/bin/drush.bak', TRUE);
-    if (file_exists("vendor/bin/drush.launcher")) {
-      $this->_rename('vendor/bin/drush.launcher',
-        'vendor/bin/drush.launcher.bak', TRUE);
-    }
     $acsf_include = $this->getConfigValue('docroot') . '/modules/contrib/acsf/acsf_init';
     $result = $this->taskExecStack()
-      ->exec("$drush8 acsf-init --include=\"$acsf_include\" --root=\"{$this->getConfigValue('docroot')}\" -y")
+      ->exec($this->getConfigValue('repo.root') . "/vendor/bin/drush acsf-init --include=\"$acsf_include\" --root=\"{$this->getConfigValue('docroot')}\" -y")
       ->run();
-    $this->_rename('vendor/bin/drush.bak', 'vendor/bin/drush', TRUE);
-    if (file_exists("vendor/bin/drush.launcher.bak")) {
-      $this->_rename('vendor/bin/drush.launcher.bak', 'vendor/bin/drush.launcher', TRUE);
-    }
 
     if (!$result->wasSuccessful()) {
       throw new BltException("Unable to copy ACSF scripts.");
