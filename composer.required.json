@@ -50,6 +50,8 @@
   },
   "scripts": {
     "blt-alias": "blt blt:init:shell-alias -y --ansi",
+    "deploy:branch": "blt deploy --commit-msg=\"Automated build by $(git config user.name) for commit $(git rev-parse HEAD)\" --branch=\"$(git rev-parse --abbrev-ref HEAD)-build\" --ignore-dirty --no-interaction --verbose",
+    "deploy:tag": "git name-rev --tags --name-only --no-undefined $(git rev-parse HEAD) && blt deploy --commit-msg=\"Automated build by $(git config user.name) for commit $(git rev-parse HEAD)\" --tag=\"$(git describe --tags --abbrev=0)\" --ignore-dirty --no-interaction --verbose || echo \"error: create an annotated tag and try again\"",
     "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
     "nuke": [
       "rm -rf vendor composer.lock docroot/core docroot/modules/contrib docroot/profiles/contrib docroot/themes/contrib",
