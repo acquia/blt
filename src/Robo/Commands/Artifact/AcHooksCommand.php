@@ -74,6 +74,37 @@ class AcHooksCommand extends BltTasks {
   }
 
   /**
+   * Execute updates against copied database.
+   *
+   * This is intended to be called from post-db-copy.sh cloud hook.
+   *
+   * @param string $site
+   *   The site name. E.g., site1.
+   * @param string $target_env
+   *   The cloud env. E.g., dev
+   * @param string $db_name
+   *   The source database name.
+   * @param string $source_env
+   *   The source environment. E.g., dev.
+   *
+   * @command artifact:ac-hooks:post-db-copy
+   *
+   * @throws \Exception
+   */
+  public function postDbCopy($site, $target_env, $db_name, $source_env) {
+    try {
+      $this->updateSites($site, $target_env);
+      $success = TRUE;
+      $this->sendPostDbCopyNotifications($site, $target_env, $db_name, $source_env, $success);
+    }
+    catch (\Exception $e) {
+      $success = FALSE;
+      $this->sendPostDbCopyNotifications($site, $target_env, $db_name, $source_env, $success);
+      throw $e;
+    }
+  }
+
+  /**
    * Throws an exception if $env is an ACSF environment.
    *
    * @param string $env
@@ -170,6 +201,26 @@ class AcHooksCommand extends BltTasks {
     }
     else {
       $message = "Deployment has FAILED for environment *$site.$target_env*.";
+    }
+
+    $this->notifySlack($success, $message);
+  }
+
+  /**
+   * Sends updates to notification endpoints.
+   *
+   * @param $site
+   * @param $target_env
+   * @param $db_name
+   * @param $source_env
+   * @param $success
+   */
+  protected function sendPostDbCopyNotifications($site, $target_env, $db_name, $source_env, $success) {
+    if ($success) {
+      $message = "Database $db_name successfully copied from *$site.$source_env* to *$site.$target_env*.";
+    }
+    else {
+      $message = "Database deployment has FAILED for environment *$site.$target_env*.";
     }
 
     $this->notifySlack($success, $message);
