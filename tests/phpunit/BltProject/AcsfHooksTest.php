@@ -36,7 +36,7 @@ class AcsfHooksTest extends BltProjectTestBase {
       'domain' => '',
     ]);
     $this->assertEquals(0, $status_code);
-    
+
     // @todo Implement tests for the following factory hooks.
     // post-install/post-install.php.
     // post-settings-php/includes.php.
