@@ -20,6 +20,4 @@ domain="$4"
 # BLT executable:
 blt="/var/www/html/$site.$env/vendor/acquia/blt/bin/blt"
 
-deployupdate="$blt artifact:update:drupal:all-sites --environment=$env --define drush.uri=$domain --verbose --yes"
-
-$deployupdate
+$blt artifact:acsf-hooks:db-update $site $env $db_role $domain --environment=$env --define drush.uri=$domain --verbose --yes

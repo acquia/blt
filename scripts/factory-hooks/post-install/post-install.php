@@ -21,4 +21,4 @@ $target_env = $site . $env;
 // Run updates against requested domain rather than acsf primary domain.
 $domain = $_SERVER['HTTP_HOST'];
 
-exec("/mnt/www/html/$target_env/vendor/acquia/blt/bin/blt artifact:update:drupal --environment=$env --define drush.uri=$domain --verbose --yes");
+exec("/mnt/www/html/$site.$env/vendor/acquia/blt/bin/blt artifact:update:drupal $site $env $domain --environment=$env --define drush.uri=$domain --verbose --yes");
