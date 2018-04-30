@@ -15,18 +15,6 @@ class AcsfHooksTest extends BltProjectTestBase {
   protected $acsfSitesDataFileSource;
 
   /**
-   * {@inheritdoc}
-   */
-  public function setUp() {
-    parent::setUp();
-
-    $_ENV['AH_SITE_GROUP'] = 'blt';
-    $_ENV['AH_SITE_ENVIRONMENT'] = 'test';
-    $this->acsfSitesDataFileDestination = "/mnt/files/{$_ENV['AH_SITE_GROUP']}.{$_ENV['AH_SITE_ENVIRONMENT']}/files-private/sites.json";
-    $this->acsfSitesDataFileSource = __DIR__ . '/../fixtures/acsf-sites.json';
-  }
-
-  /**
    * Tests recipes:acsf:init:all command.
    */
   public function testAcsfInit() {
@@ -45,11 +33,10 @@ class AcsfHooksTest extends BltProjectTestBase {
     // Mimics factory-hooks/db-update/db-update.sh.
     $this->fs->copy($this->acsfSitesDataFileSource, $this->acsfSitesDataFileDestination);
     list($status_code, $output, $config) = $this->blt("artifact:acsf-hooks:db-update", [
-      'site' => 's1',
-      'target_env' => 'dev',
-      // @todo Add values!
-      'db_role' => '',
-      'domain' => '',
+      'site' => 'blt',
+      'target_env' => '01dev',
+      'db_role' => 'blt123dev',
+      'domain' => 'blted1.dev-blt.acsitefactory.com',
     ]);
     $this->assertEquals(0, $status_code);
 
