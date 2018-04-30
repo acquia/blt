@@ -11,6 +11,21 @@ use Acquia\Blt\Tests\BltProjectTestBase;
  */
 class AcsfHooksTest extends BltProjectTestBase {
 
+  protected $acsfSitesDataFileDestination;
+  protected $acsfSitesDataFileSource;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setUp() {
+    parent::setUp();
+
+    $_ENV['AH_SITE_GROUP'] = 'blt';
+    $_ENV['AH_SITE_ENVIRONMENT'] = 'test';
+    $this->acsfSitesDataFileDestination = "/mnt/files/{$_ENV['AH_SITE_GROUP']}.{$_ENV['AH_SITE_ENVIRONMENT']}/files-private/sites.json";
+    $this->acsfSitesDataFileSource = __DIR__ . '/../fixtures/acsf-sites.json';
+  }
+
   /**
    * Tests recipes:acsf:init:all command.
    */
@@ -28,6 +43,7 @@ class AcsfHooksTest extends BltProjectTestBase {
     $this->installDrupalMinimal();
 
     // Mimics factory-hooks/db-update/db-update.sh.
+    $this->fs->copy($this->acsfSitesDataFileSource, $this->acsfSitesDataFileDestination);
     list($status_code, $output, $config) = $this->blt("artifact:acsf-hooks:db-update", [
       'site' => 's1',
       'target_env' => 'dev',
@@ -42,6 +58,10 @@ class AcsfHooksTest extends BltProjectTestBase {
     // post-settings-php/includes.php.
     // clear-twig-cache.sh.
     // pre-settings-php/includes.php.
+  }
+
+  protected function tearDown() {
+    $this->fs->remove($this->acsfSitesDataFileDestination);
   }
 
 }
