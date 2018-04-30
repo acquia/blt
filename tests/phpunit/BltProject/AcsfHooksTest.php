@@ -11,9 +11,6 @@ use Acquia\Blt\Tests\BltProjectTestBase;
  */
 class AcsfHooksTest extends BltProjectTestBase {
 
-  protected $acsfSitesDataFileDestination;
-  protected $acsfSitesDataFileSource;
-
   /**
    * Tests recipes:acsf:init:all command.
    */
@@ -31,7 +28,6 @@ class AcsfHooksTest extends BltProjectTestBase {
     $this->installDrupalMinimal();
 
     // Mimics factory-hooks/db-update/db-update.sh.
-    $this->fs->copy($this->acsfSitesDataFileSource, $this->acsfSitesDataFileDestination);
     list($status_code, $output, $config) = $this->blt("artifact:acsf-hooks:db-update", [
       'site' => 'blt',
       'target_env' => '01dev',
@@ -45,10 +41,6 @@ class AcsfHooksTest extends BltProjectTestBase {
     // post-settings-php/includes.php.
     // clear-twig-cache.sh.
     // pre-settings-php/includes.php.
-  }
-
-  protected function tearDown() {
-    $this->fs->remove($this->acsfSitesDataFileDestination);
   }
 
 }
