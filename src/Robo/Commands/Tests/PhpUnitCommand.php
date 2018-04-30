@@ -60,7 +60,7 @@ class PhpUnitCommand extends BltTasks {
     $this->createLogs();
     foreach ($this->phpunitConfig as $test) {
       $task = $this->taskPHPUnit()
-        ->bootstrap($this->boostrapFile)
+        ->bootstrap($this->bootstrapFile)
         ->xml($this->reportFile)
         ->printOutput(TRUE)
         ->printMetadata(FALSE);
