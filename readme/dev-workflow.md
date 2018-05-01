@@ -45,30 +45,22 @@ This flow still allow a team to work off an integrated branch (`develop`), all w
 
 **Note:** In all flows above, hotfixes are merged directly into a `hotfix` branch, which can then be merged to `master`.
 
-## Beginning work locally
+## Workflow Example: Local Development
 
 1. Pull a ticket in JIRA
+1. Fetch upstream to ensure most current code `$ git fetch upstream`
 1. Create a new local feature branch named according to the following pattern:
-  `abc-123-short-desc` Where "ABC" is the Jira prefix of your Jira project and "123" is the ticket number for which the work is being performed.
+  `abc-123-short-desc` Where "ABC" is the Jira prefix of your Jira project and "123" is the ticket number for which the work is being performed. `git checkout -b abc-123-short-desc upstream/master`
+1. Reset your local environment (if necessary) to a clean state with either `$ blt setup` or `$ blt sync`
 1. Make your code changes.
 1. Commit your changes. Each commit should be logically atomic, and your commit messages should follow the pattern: "ABC-123 A grammatically correct sentence ending within punctuation."
+1. Run Tests / Validation Scripts `$ blt validate` and `$ blt tests`
+1. Ensure no additional changes have been made to the upstream repository `$ git fetch upstream` and rebase if necessary `$ git rebase upstream/master`
+1. Push work to your forked repository (origin) so a Pull Request may be created `$ git push --set-upstream origin abc-123-short-desc`
 
 ## Creating a Pull Request
 
-The steps below assume use of a Gitflow Workflow.
-
-For any work, pull requests must be created for individual tasks and submitted for review. Before submitting a pull request, be sure to [sync the local branch](https://help.github.com/articles/syncing-a-fork) with the upstream primary branch -
-
-    git checkout develop
-    git pull upstream develop
-    git push origin develop
-    git checkout -b XXX-<new-issue-branch> develop
-
-If you created many small commits locally while working through a ticket, you should clean the history so that it can be easily reviewed. You can combine these commits using `git rebase`.
-
-    git rebase -i upstream/master
-
-Pull requests should never contain merge commits from upstream changes.
+Pull requests should never contain merge commits from upstream changes. These are avoided by using the `$ git rebase` command instead of pulling / merging.
 
 Push your feature branch to your fork of the upstream repository, and submit a Pull Request from your-fork/feature-branch to canonical-repo/develop. You may optionally use [Hub](https://github.com/github/hub) to submit your pull request from the command line.
 
