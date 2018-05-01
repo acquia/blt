@@ -131,4 +131,17 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
     }
   }
 
+  /**
+   * Validates that ACSF config is correct.
+   *
+   * @hook validate validateAcsfConfig
+   */
+  public function validateAcsfConfig() {
+    if ($this->getInspector()->isAcsfInited()) {
+      if (file_exists($this->getConfigValue('repo.root') . '/hooks')) {
+        throw new BltException("You have both cloud hooks and ACSF initialized for this application. Cloud hooks are not supported with ACSF. Please remove the cloud hooks from your codebase and use factory hooks instead.");
+      }
+    }
+  }
+
 }
