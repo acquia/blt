@@ -3,7 +3,6 @@
 namespace Acquia\Blt\Robo\Commands\Artifact;
 
 use Acquia\Blt\Robo\BltTasks;
-use Acquia\Blt\Robo\Exceptions\BltException;
 
 /**
  * Defines commands in the "artifact:acsf-hooks" namespace.
@@ -38,19 +37,9 @@ class FactoryHooksCommand extends BltTasks {
     $this->taskDrush()
       ->drush("cc drush")
       ->run();
-    $this->say("Running updates for environment: $target_env");
-    $drush_alias = "$site.$target_env";
-    $result = $this->taskDrush()
-      ->drush("drush @$drush_alias acsf-tools-list")
-      ->run();
-    if (!$result->wasSuccessful()) {
-      throw new BltException("Unable to get list of ACSF sites.");
-    }
-    $output = $result->getMessage();
-    // @todo Populate. Update ACSF tools to drush 9.
-    $sites = [];
-    $this->getConfig()->set('multisites', $sites);
-    $this->invokeCommand('artifact:update:drupal:all-sites');
+    $this->say("Running updates for site <comment>$site</comment> in environment <comment>$target_env</comment>.");
+    $this->switchSiteContext($site);
+    $this->invokeCommand('artifact:update:drupal');
   }
 
 }

@@ -572,7 +572,6 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
     return [
       $behat_local_config->get('local.extensions.Drupal\DrupalExtension.drupal.drupal_root'),
       $behat_local_config->get('local.suites.default.paths.features'),
-      $behat_local_config->get('local.suites.default.paths.bootstrap'),
     ];
   }
 
