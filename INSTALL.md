@@ -51,7 +51,7 @@ The local PHP environment should also have a memory limit of at least 2G for BLT
 If you'd like to execute Behat tests from the host machine, you will need Java:
 
         brew cask install java
-        brew install chromedriver
+        brew cask install chromedriver
 
 BLT ships with the [Cog Base Theme](https://github.com/acquia-pso/cog) by default. Cog uses [npm](https://www.npmjs.com/) to install front end tools. If you intend to use Cog, you should also install the following tools:
 

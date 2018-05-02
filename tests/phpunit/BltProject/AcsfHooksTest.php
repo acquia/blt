@@ -28,18 +28,13 @@ class AcsfHooksTest extends BltProjectTestBase {
     $this->installDrupalMinimal();
 
     // Mimics factory-hooks/db-update/db-update.sh.
-    // This feature is not yet implemented.
-    // @codingStandardsIgnoreStart
-    /*list($status_code, $output, $config) = $this->blt("artifact:acsf-hooks:db-update", [
-      'site' => 's1',
-      'target_env' => 'dev',
-      // @todo Add values!
-      'db_role' => '',
-      'domain' => '',
+    list($status_code, $output, $config) = $this->blt("artifact:acsf-hooks:db-update", [
+      'site' => 'blt',
+      'target_env' => '01dev',
+      'db_role' => 'blt123dev',
+      'domain' => 'blted1.dev-blt.acsitefactory.com',
     ]);
     $this->assertEquals(0, $status_code);
-    */
-    // @codingStandardsIgnoreEnd
 
     // @todo Implement tests for the following factory hooks.
     // post-install/post-install.php.
