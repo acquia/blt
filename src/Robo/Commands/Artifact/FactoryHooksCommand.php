@@ -38,7 +38,6 @@ class FactoryHooksCommand extends BltTasks {
       ->drush("cc drush")
       ->run();
     $this->say("Running updates for site <comment>$site</comment> in environment <comment>$target_env</comment>.");
-    $this->switchSiteContext($site);
     $this->invokeCommand('artifact:update:drupal');
   }
 
