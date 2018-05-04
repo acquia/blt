@@ -326,7 +326,7 @@ class DeployCommand extends BltTasks {
       'drupal:hash-salt:init',
     ];
     if (!empty($this->tagName)) {
-      $commands['drupal:deployment-identifier:init'] = ['id' => $this->tagName];
+      $commands['drupal:deployment-identifier:init'] = ['--id' => $this->tagName];
     }
     else {
       $commands[] = 'drupal:deployment-identifier:init';
