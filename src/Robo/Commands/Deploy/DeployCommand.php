@@ -406,8 +406,8 @@ class DeployCommand extends BltTasks {
 
     $this->logger->info("Removing .git subdirectories...");
     $this->taskExecStack()
-      ->exec("find '{$this->deployDir}/vendor' -type d | grep '\.git' | xargs rm -rf")
-      ->exec("find '{$this->deployDir}/docroot' -type d | grep '\.git' | xargs rm -rf")
+      ->exec("find '{$this->deployDir}/vendor' -type d -name '.git' -exec rm -fr \\{\\} \\+")
+      ->exec("find '{$this->deployDir}/docroot' -type d -name '.git' -exec rm -fr \\{\\} \\+")
       ->stopOnFail()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
