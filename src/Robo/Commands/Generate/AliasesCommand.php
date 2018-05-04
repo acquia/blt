@@ -81,6 +81,8 @@ class AliasesCommand extends BltTasks {
       $this->appId = $app_id;
     }
     else {
+      $this->say("<info>To generate an alias for the Acquia Cloud, BLT require's your Acquia Cloud application ID.</info>");
+      $this->say("<info>See https://docs.acquia.com/acquia-cloud/manage/applications.</info>");
       $this->appId = $this->askRequired('Please enter your Acquia Cloud application ID');
       // @TODO write the app ID to blt.yml.
     }
