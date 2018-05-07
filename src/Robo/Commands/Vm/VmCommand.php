@@ -173,8 +173,8 @@ class VmCommand extends BltTasks {
     $this->checkRequirements();
     $confirm = $this->confirm("Do you want to boot Drupal VM?", TRUE);
     if ($confirm) {
-      $this->say("In future, run <comment>vagrant up</comment> to boot the VM.");
-      $result = $this->taskExec("vagrant up")
+      $this->say("In future, run <comment>VAGRANT_DEFAULT_PROVIDER=virtualbox vagrant up</comment> to boot the VM.");
+      $result = $this->taskExec("VAGRANT_DEFAULT_PROVIDER=virtualbox vagrant up")
         ->dir($this->getConfigValue('repo.root'))
         ->printOutput(TRUE)
         ->run();
@@ -182,7 +182,7 @@ class VmCommand extends BltTasks {
         $this->logger->error("Drupal VM failed to boot. Read Drupal VM's previous output for more information.");
         $confirm = $this->confirm("Do you want to try to re-provision the VM? Sometimes this works.", TRUE);
         if ($confirm) {
-          $result = $this->taskExec("vagrant provision")
+          $result = $this->taskExec("VAGRANT_DEFAULT_PROVIDER=virtualbox vagrant provision")
             ->dir($this->getConfigValue('repo.root'))
             ->printOutput(TRUE)
             ->run();
