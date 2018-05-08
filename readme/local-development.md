@@ -12,7 +12,7 @@ No matter what local environment you choose to use, the following guidelines sho
   * In order to guarantee similar behavior, use Apache as your web server.
   * If your project is hosted on Acquia Cloud, please ensure to match [our software versions](https://docs.acquia.com/cloud/arch/tech-platform).
 
-Acquia developers use [PHPStorm](http://www.jetbrains.com/phpstorm/) and recommend it for local development environments. Acquia has written [several articles](https://docs.acquia.com/search/site/phpstorm) on effectively using PHPStorm for Drupal development.
+Acquia developers use [PHPStorm](http://www.jetbrains.com/phpstorm/) and recommend it for local development environments. Acquia has written [several articles](https://docs.acquia.com/site-search?search=phpstorm) on effectively using PHPStorm for Drupal development.
 
 ## Using Drupal VM for BLT-generated projects
 
