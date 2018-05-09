@@ -46,6 +46,8 @@ apache_vhosts:
 #    extra_parameters: "{{ apache_vhost_php_fpm_parameters }}"
 
 # Multisite installations should configure additional databases here.
+# It's recommended to prefix database names with 'drupal'. Otherwise,
+# you'll need to add additional users in the 'mysql_users' section.
 mysql_databases:
   - name: drupal
     encoding: utf8
@@ -58,7 +60,7 @@ mysql_users:
   - name: drupal
     host: "%"
     password: drupal
-    priv: "drupal.*:ALL"
+    priv: "drupal%.*:ALL"
 
 # Set this to 'false' if you don't need to install drupal (using the drupal_*
 # settings below), but instead copy down a database (e.g. using drush sql-sync).
