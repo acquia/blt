@@ -8,9 +8,9 @@ You must have the following tools on the command line of your *host operating sy
 
 * [Git](https://git-scm.com/)
 * [Composer](https://getcomposer.org/download/)
-* [PHP 5.6+](http://php.net/manual/en/install.php)
+* [PHP 5.6+](http://php.net/manual/en/install.php) (though PHP 7.1+ is recommended)
 
-Instructions for installing _all_ requirements are listed below.
+Instructions for installing _all_ requirements for various operating systems are listed below. In general, make sure all installed tools are the most recent version unless otherwise noted.
 
 ### Networking considerations
 
@@ -22,7 +22,7 @@ If you need to make requests via a proxy server, please [configure git to use a 
 
 ### Mac OSX
 
-Ensure that [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12) is installed. On OSX 10.9+ you can install Xcode with:
+Ensure that [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12) is installed (primarily in order to support Homebrew). On OSX 10.9+ you can install Xcode with:
 
         sudo xcodebuild -license
         xcode-select --install
@@ -30,25 +30,18 @@ Ensure that [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12) is 
 Then install the minimum dependencies for BLT. The preferred method is via Homebrew, though you could install these yourself without a package manager.
 
         /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-        brew tap homebrew/homebrew-php;
-        brew install php56 git composer drush-launcher
+        brew install php71 git composer
         composer global require "hirak/prestissimo:^0.3"
  
-Note that the recommended installation method for Drush has changed recently. Drush should only be installed as a dependency of individual projects, rather than being installed system-wide. BLT will manage this dependency for you on projects, but in order for you to run Drush commands independently of BLT commands you'll want to install the Drush Launcher as above.
+Note that the recommended installation method for Drush has changed recently. Drush should only be installed as a dependency of individual projects, rather than being installed system-wide. BLT will manage this dependency for you on projects, but in order for you to run Drush commands independently of BLT commands you'll want to install the Drush Launcher according to its intructions: https://github.com/drush-ops/drush-launcher
 
 If you'd like to create a [Drupal VM](https://www.drupalvm.com/) with BLT, you will require the following additional libraries. If you'd like to use a LAMP stack other than Drupal VM, see [Local Development](readme/local-development.md).
 
         brew tap caskroom/cask
         brew cask install virtualbox vagrant
         vagrant plugin install vagrant-hostsupdater
-
-The minimum required versions are VirtualBox 5.1.x and Vagrant 1.8.6. Ansible is not a requirement, but if you have it installed on your host machine it must be at least version 2.2.
-
-The local PHP environment should also have a memory limit of at least 2G for BLT to initialize. You can modify your PHP CLI's memory limit by editing php.ini. You can use the following command to open the correct php.ini in TextEdit. Set `memory_limit = 2G`.
-
-        open -a TextEdit $(php -i | grep "Loaded Configuration File" | cut -d" " -f 5)
-
-If you'd like to execute Behat tests from the host machine, you will need Java:
+        
+If you are not using a VM, and you'd like to execute Behat tests from the host machine, you will need Java:
 
         brew cask install java
         brew cask install chromedriver
