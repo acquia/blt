@@ -59,6 +59,9 @@
     "install-phantomjs": [
       "rm -rf vendor/bin/phantomjs",
       "PhantomInstaller\\Installer::installPhantomJS"
+    ],
+    "post-autoload-dump": [
+      "rm -rf docroot/core/core docroot/core/b"
     ]
   }
 }
