@@ -404,38 +404,79 @@ class DeployCommand extends BltTasks {
   protected function sanitize() {
     $this->say("Sanitizing artifact...");
 
-    $this->logger->info("Removing .git subdirectories...");
-    $this->taskExecStack()
-      ->exec("find '{$this->deployDir}/vendor' -type d -name '.git' -exec rm -fr \\{\\} \\+")
-      ->exec("find '{$this->deployDir}/docroot' -type d -name '.git' -exec rm -fr \\{\\} \\+")
-      ->stopOnFail()
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->run();
+    $this->logger->info("Find Drupal core text files...");
+    $sanitizeFinder = Finder::create()
+      ->files()
+      ->name('*.txt')
+      ->notName('LICENSE.txt')
+      ->in("{$this->deployDir}/docroot/core");
 
+    $this->logger->info('Find VCS directories...');
+    $vcsFinder = Finder::create()
+      ->ignoreDotFiles(FALSE)
+      ->ignoreVCS(FALSE)
+      ->directories()
+      ->in(["{$this->deployDir}/docroot", "{$this->deployDir}/vendor"])
+      ->name('.git');
+    if ($vcsFinder->hasResults()) {
+      $sanitizeFinder->append($vcsFinder);
+    }
+
+    $this->logger->info("Find Github directories...");
+    $githubFinder = Finder::create()
+      ->ignoreDotFiles(FALSE)
+      ->directories()
+      ->in(["{$this->deployDir}/docroot", "{$this->deployDir}/vendor"])
+      ->name('.github');
+    if ($githubFinder->hasResults()) {
+      $sanitizeFinder->append($githubFinder);
+    }
+
+    $this->logger->info('Find INSTALL database text files...');
+    $dbInstallFinder = Finder::create()
+      ->files()
+      ->in(["{$this->deployDir}/docroot", "{$this->deployDir}/vendor"])
+      ->name('/INSTALL\.[a-z]+\.(md|txt)$/');
+    if ($dbInstallFinder->hasResults()) {
+      $sanitizeFinder->append($dbInstallFinder);
+    }
+
+    $this->logger->info('Find other common text files...');
+    $filenames = [
+      'AUTHORS',
+      'CHANGELOG',
+      'CONDUCT',
+      'CONTRIBUTING',
+      'INSTALL',
+      'MAINTAINERS',
+      'PATCHES',
+      'README',
+      'TESTING',
+      'UPDATE',
+    ];
+    $textFileFinder = Finder::create()
+      ->files()
+      ->in(["{$this->deployDir}/docroot", "{$this->deployDir}/vendor"])
+      ->name('/(' . implode('|', $filenames) . ')\.(md|txt)$/');
+    if ($textFileFinder->hasResults()) {
+      $sanitizeFinder->append($textFileFinder);
+    }
+
+    $this->logger->info("Find larger tests fixtures...");
+    $testsFinder = Finder::create()
+      ->files()
+      ->in("{$this->deployDir}/docroot")
+      ->path('/.+\/tests\/.+\.gz$/');
+    if ($testsFinder->hasResults()) {
+      $sanitizeFinder->append($testsFinder);
+    }
+
+    $this->logger->info("Remove sanitized files from build...");
     $taskFilesystemStack = $this->taskFilesystemStack()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE);
-
-    $finder = new Finder();
-    $files = $finder
-      ->in($this->deployDir)
-      ->files()
-      ->name('CHANGELOG.txt');
-
-    foreach ($files->getIterator() as $item) {
-      $taskFilesystemStack->remove($item->getRealPath());
+    foreach ($sanitizeFinder->getIterator() as $fileInfo) {
+      $taskFilesystemStack->remove($fileInfo->getRealPath());
     }
-
-    $finder = new Finder();
-    $files = $finder
-      ->in($this->deployDir . '/docroot/core')
-      ->files()
-      ->name('*.txt');
-
-    foreach ($files->getIterator() as $item) {
-      $taskFilesystemStack->remove($item->getRealPath());
-    }
-
-    $this->logger->info("Removing .txt files...");
     $taskFilesystemStack->run();
   }
 
