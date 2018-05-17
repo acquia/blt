@@ -34,5 +34,6 @@
   <exclude-pattern>*/node_modules</exclude-pattern>
   <exclude-pattern>*/vendor</exclude-pattern>
   <exclude-pattern>*/default.local.settings.php</exclude-pattern>
+  <exclude-pattern>*md</exclude-pattern>
 
 </ruleset>
