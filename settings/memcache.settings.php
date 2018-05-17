@@ -5,6 +5,8 @@
  * Contains memcache configuration.
  */
 
+use Composer\Autoload\ClassLoader;
+
 // Check for PHP Memcached libraries.
 $memcache_exists = class_exists('Memcache', FALSE);
 $memcached_exists = class_exists('Memcached', FALSE);
