@@ -33,7 +33,7 @@
         "symfony/yaml":                     "^2.7|^3.2.8",
         "symfony/console":                  "^2.7|^3.2.8",
         "wikimedia/composer-merge-plugin":  "^1.4.1",
-        "consolidation/robo":               "^1.1.0",
+        "consolidation/robo":               "~1.2.4",
         "consolidation/config":             "^1.0.0",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.4.0",
         "tivie/php-os-detector": "^1.0",
