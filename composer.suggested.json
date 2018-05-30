@@ -17,6 +17,9 @@
   },
   "extra": {
     "patches": {
+      "drupal/lightning_core": {
+        "fixing broken db updates": "https://www.drupal.org/files/issues/2018-05-11/2972217-2.patch"
+      }
     }
   }
 }
