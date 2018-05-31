@@ -21,3 +21,7 @@ Specifically:
 1. Recheck the box for undefined variable analysis (since Coder 2 doesn't support this).
 1. Recheck the box next to PHP CodeSniffer validation.
 1. Under PHP CodeSniffer configuration, change the coding standard to "custom" and then select the phpcs.xml file in the root of your project.
+
+## Setting up Xdebug
+
+For a tutorial on how to set up PHPStorm, Xdebug, and DrupalVM to work together, see https://danepowell.com/blog/xdebug-phpstorm-drupalvm
