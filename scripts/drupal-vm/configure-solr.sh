@@ -6,6 +6,9 @@
 # Drupal Solr module's configurations. This shell script presumes you have
 # `solr` in the `installed_extras`, and is currently set up for the D8 versions
 # of Search API Solr.
+#
+# It's also intended for Solr 4.5. For other versions of Solr, refer to the
+# example scripts provided by DrupalVM.
 
 SOLR_SETUP_COMPLETE_FILE=/etc/drupal_vm_solr_config_complete
 
@@ -31,7 +34,13 @@ if [ ! -e "$SOLR_SETUP_COMPLETE_FILE" ]; then
   sudo chown -R solr:solr $SOLR_CORE_PATH/conf
 
   # Restart Apache Solr.
-  sudo service solr restart
+  #
+  # There is some problem with the service command suggested by DrupalVM, hence
+  # we use init instead. See:
+  # - https://github.com/geerlingguy/ansible-role-solr/pull/81
+  # - https://github.com/geerlingguy/drupal-vm/issues/1546
+  sudo /etc/init.d/solr stop
+  sudo /etc/init.d/solr start
 
   # Create a file to indicate this script has already run.
   sudo touch $SOLR_SETUP_COMPLETE_FILE
