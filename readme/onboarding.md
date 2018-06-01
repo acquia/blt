@@ -28,7 +28,8 @@ You have probably been linked to this documentation by a project that is using B
 If your project uses a virtual development environment such as Drupal VM:
 
 1. Make sure you have installed any prerequisites. For DrupalVM, see the [quick start guide](https://github.com/geerlingguy/drupal-vm#quick-start-guide).
-1. If this is your first time using the VM on your machine, execute `blt vm`. Otherwise, run `vagrant up`.
+1. If this is your first time using this project's VM on your machine, execute `blt vm` to provision the VM and set it as the default local development environment. If you've already run `blt vm` at least once, you can just use `vagrant up` to provision the VM.
+1. SSH into the VM: `vagrant ssh`
 1. Build and install the Drupal installation: `blt setup`
 
 If your project does not use a virtual development environment:

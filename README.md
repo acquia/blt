@@ -6,8 +6,8 @@ BLT (Build and Launch Tool) provides an automation layer for testing, building, 
 
 You can find all BLT documentation on [Read the Docs](http://blt.readthedocs.io):
 
-* [Latest documentation (9.0.x / 9.1.x)](http://blt.readthedocs.io/en/latest/) (best for guidance on general issues and best practices)
-* [Stable release documentation (8.9.x)](http://blt.readthedocs.io/en/stable/) (best for features specific to 8.9.x)
+* [Latest release documentation (9.x)](http://blt.readthedocs.io/en/latest/) (best for guidance on general issues and best practices)
+* [LTS release documentation (8.9.x)](http://blt.readthedocs.io/en/stable/) (best for features specific to 8.9.x)
 
 ## Getting started
 
@@ -20,7 +20,7 @@ See [INSTALL.md](INSTALL.md) for a list of prequisites and links to instructions
 
 ## Releases and versioning
 
-Typically, the last two most major versions of BLT are supported actively. The newest major version will recieve both bug fixes and new features, while the penultimate major version will recieve bug fixes for at least two months. For example, if 8.8.1 is the most recent version of BLT:
+Up to the last two most major versions of BLT are actively supported. The newest major version will receive both bug fixes and new features, while the penultimate major version will recieve bug fixes for at least two months. For example, if 8.8.1 is the most recent version of BLT:
 
 * As of the first cut tag for 8.8.x, 8.7.x will enter "LTS".
     * 8.7.x will continue to receive bug fixes and minor features
@@ -35,10 +35,9 @@ Typically, the last two most major versions of BLT are supported actively. The n
 | Major Version | Support Status              | Drupal | Drush          | Dev Status   |
 |---------------|-----------------------------|--------|----------------|--------------|
 | 9.x           | Supported                   | >=8.5  | >=9.1.0        | \*active dev |
-| 8.9.x         | LTS, EOL 5/8/18             | <=8.5  | ~8             | bug fixes    |
+| 8.9.x         | LTS, EOL TBA                | <=8.5  | ~8             | bug fixes    |
 | 8.8.x         | Unsupported, EOL            | <=8.3  | ~8             |              |
 | 8.7.x         | Unsupported, EOL            | <=8.3  | ~8             |              |
-
 
 ### 9.x branch
 
@@ -46,7 +45,7 @@ The 9.x branch is currently in development. It requires Drush 9 instead of Drush
 
 ### 8.9.x End of Life (EOL)
 
-8.9.x is currently in maintenance / long-term support mode (receiving only bug fixes). 8.9.x will continue to be supported until May 8th, 2018.
+8.9.x is currently in maintenance / long-term support mode (receiving only bug fixes). 8.9.x support has been extended until Drush 9 is more broadly supported by community tooling and packages.
 
 ## Philosophy and Purpose
 
