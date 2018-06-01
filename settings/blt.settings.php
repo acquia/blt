@@ -118,16 +118,11 @@ if ($is_acsf_inited) {
     // is a value in the multisites array.
 
     $domain_fragments = explode('.', $_SERVER['HTTP_HOST']);
-    $name =  array_slice($domain_fragments, 1)
+    $name =  array_slice($domain_fragments, 1);
     $acsf_sites = $blt_config->get('multisites');
     if (in_array($name, $acsf_sites)) {
       $acsf_site_name = $name;
     }
-  }
-
-    // ACSF uses a pseudo-multisite architecture that places all site files
-    // under sites/g/files.
-    $site_dir = 'default';
   }
 }
 
