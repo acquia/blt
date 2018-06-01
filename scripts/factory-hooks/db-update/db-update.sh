@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Factory Hook: db-update
 #
@@ -20,6 +20,14 @@ domain="$4"
 # BLT executable:
 blt="/var/www/html/$site.$env/vendor/acquia/blt/bin/blt"
 
-IFS=. read -a ARRAY <<< "$domain" # get site name
+# You need the URI of the site factory website in order for drush to target that
+# site. Without it, the drush command will fail. Use the uri.php file provided by the acsf module to
+# locate the URI based on the site, environment and db role arguments.
+uri=`/usr/bin/env php /mnt/www/html/$site.$env/hooks/acquia/uri.php $site $env $db_role`
 
-$blt drupal:update --environment=$env --site=${ARRAY[0]} --define drush.uri=$domain --verbose --yes
+# Print a statement to the cloud log.
+echo "$site.$target_env: Running BLT deploy tasks on $uri domain in $env environemnt on the $site subscription."
+
+IFS='.' read -a name <<< "${uri}"
+
+$blt drupal:update --environment=$env --site=${name[0]} --define drush.uri=$domain --verbose --yes
