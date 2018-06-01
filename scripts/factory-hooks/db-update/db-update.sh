@@ -20,4 +20,6 @@ domain="$4"
 # BLT executable:
 blt="/var/www/html/$site.$env/vendor/acquia/blt/bin/blt"
 
-$blt artifact:acsf-hooks:db-update $site $env $db_role $domain --environment=$env --define drush.uri=$domain --verbose --yes
+IFS=. read -a ARRAY <<< "$domain" # get site name
+
+$blt drupal:update --environment=$env --site=${ARRAY[0]} --define drush.uri=$domain --verbose --yes
