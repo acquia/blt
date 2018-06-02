@@ -3,7 +3,7 @@ BLT includes several components that can be used with PHPStorm:
 2. A set of PHPCS rules and associated configuration
 3. DrupalVM with Xdebug configuration
 
-Here is the recommended setup process for new projects in PHPStorm.
+Here is the recommended setup process for new projects in PHPStorm. Note that these instructions were written for PHPStorm 2018.1, and may need to be adjusted for other versions.
 
 ## Setting up inspections
 

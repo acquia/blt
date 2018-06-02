@@ -36,6 +36,7 @@ pages:
             - Drush: 'template/drush/README.md'
             - Git hooks: 'scripts/git-hooks/README.md'
           - Development Workflow: 'readme/dev-workflow.md'
+          - PHPStorm setup: 'readme/phpstorm.md'
           - Configuration Management: 'readme/configuration-management.md'
           - Using Config Split: 'readme/config-split.md'
           - Frontend Management: 'readme/frontend.md'
