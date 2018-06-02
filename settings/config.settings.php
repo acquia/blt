@@ -96,7 +96,6 @@ if ($split != 'none') {
 $config["$split_filename_prefix.$site_dir"]['status'] = TRUE;
 
 // Set acsf site split if explicit global exists.
-global $acsf_site_name;
 if (isset($acsf_site_name)) {
   $config["$split_filename_prefix.$acsf_site_name"]['status'] = TRUE;
 }
