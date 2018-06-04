@@ -3,7 +3,7 @@ This document outlines the process for creating a new BLT release.
 To perform a release:
 
 1. [Check build statuses](#check-build-statuses)
-1. Update Canary
+1. [Update Canary](##update-canary)
 1. [Create a release](#create-a-release)
 
 ## Check build statuses
