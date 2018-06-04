@@ -10,23 +10,27 @@ To perform a release:
 
 * [BLT 9.x](https://github.com/acquia/blt): [![Build Status](https://travis-ci.org/acquia/blt.svg?branch=9.x)](https://travis-ci.org/acquia/blt)
 * [BLTed 9.x Travis](https://github.com/acquia-pso/blted8): [![Build Status](https://travis-ci.org/acquia-pso/blted8.svg?branch=9.x)](https://travis-ci.org/acquia-pso/blted8)
-* [BLTed 9.x Pipelines](https://cloud.acquia.com/app/develop/applications/d74d1e87-f611-4e46-ba11-3e9b29cdcbdb/pipelines)
 * [![Documentation Status](https://readthedocs.org/projects/blt/badge/?version=9.x)](http://blt.readthedocs.io/en/9.x/?badge=9.x)
 
 ## Update Canary
 
-Submit a pull request to Canary with BLT updated to HEAD. Ensure tests pass.
+* Submit a pull request to Canary with BLT updated to HEAD.
+    * Update BLT to the tip of HEAD. This is the same commit from which you will cut your tag.
+    * Document update steps in `update.md`. Note any manual steps required and plan to add them to the BLT release notes (generated later).
+* Ensure tests pass. Canary uses both Travis CI and Pipelines.
+* Merge the pull request
 
 ## Create a release
 
 ### Prerequisites
 
+* Pull the latest BLT version to your local machine `git pull`.
 * BLT's dependencies must be installed by running `composer install` in the BLT directory.
-* Procure a [github personal access token](https://github.com/settings/tokens).
-* Determine the version of your future release.
+* If you don't have one, procure a [github personal access token](https://github.com/settings/tokens). Optionall save in a password vault for future use.
+* Determine the version of your future release. E.g., 9.1.0-alpha1.
+* To both generate release notes and also create a new _draft_ release on GitHub, execute:
 
-To both generate release notes and also create a new release on GitHub, execute:
-
-    ./vendor/bin/robo release [tag] [token]
+      ./vendor/bin/robo release [tag] [token]
     
-Add any manual steps or notable changes to the release notes. Click publish. Packagist is automatically updated.
+* Add any manual steps or notable changes to the release notes. 
+* Click publish. Packagist is automatically updated.
