@@ -9,7 +9,6 @@ To perform a release:
 ## Check build statuses
 
 * [BLT 9.x](https://github.com/acquia/blt): [![Build Status](https://travis-ci.org/acquia/blt.svg?branch=9.x)](https://travis-ci.org/acquia/blt)
-* [BLTed 9.x Travis](https://github.com/acquia-pso/blted8): [![Build Status](https://travis-ci.org/acquia-pso/blted8.svg?branch=9.x)](https://travis-ci.org/acquia-pso/blted8)
 * [![Documentation Status](https://readthedocs.org/projects/blt/badge/?version=9.x)](http://blt.readthedocs.io/en/9.x/?badge=9.x)
 
 ## Update Canary
