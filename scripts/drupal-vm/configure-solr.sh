@@ -34,13 +34,7 @@ if [ ! -e "$SOLR_SETUP_COMPLETE_FILE" ]; then
   sudo chown -R solr:solr $SOLR_CORE_PATH/conf
 
   # Restart Apache Solr.
-  #
-  # There is some problem with the service command suggested by DrupalVM, hence
-  # we use init instead. See:
-  # - https://github.com/geerlingguy/ansible-role-solr/pull/81
-  # - https://github.com/geerlingguy/drupal-vm/issues/1546
-  sudo /etc/init.d/solr stop
-  sudo /etc/init.d/solr start
+  sudo service solr restart
 
   # Create a file to indicate this script has already run.
   sudo touch $SOLR_SETUP_COMPLETE_FILE
