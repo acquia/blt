@@ -26,7 +26,7 @@ blt="/var/www/html/$site.$env/vendor/acquia/blt/bin/blt"
 uri=`/usr/bin/env php /mnt/www/html/$site.$env/hooks/acquia/uri.php $site $env $db_role`
 
 # Print a statement to the cloud log.
-echo "$site.$target_env: Running BLT deploy tasks on $uri domain in $env environemnt on the $site subscription."
+echo "$site.$target_env: Running BLT deploy tasks on $uri domain in $env environment on the $site subscription."
 
 IFS='.' read -a name <<< "${uri}"
 
