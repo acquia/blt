@@ -2,6 +2,7 @@
 
 namespace Acquia\Blt\Composer;
 
+use Acquia\Blt\Robo\Common\ArrayManipulator;
 use Acquia\Blt\Update\Updater;
 use Composer\Script\Event;
 use Composer\Installer\PackageEvent;
@@ -64,6 +65,9 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    * @var string*/
   protected $blt_prior_version;
 
+  /** @var \Composer\Package\RootPackageInterface  */
+  protected $rootPackage;
+
   /**
    * Apply plugin modifications to composer.
    *
@@ -76,6 +80,8 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     $this->eventDispatcher = $composer->getEventDispatcher();
     ProcessExecutor::setTimeout(3600);
     $this->executor = new ProcessExecutor($this->io);
+    $this->rootPackage = $this->composer->getPackage();
+    $this->importDefaultConfig();
   }
 
   /**
@@ -86,17 +92,52 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
       PackageEvents::POST_PACKAGE_INSTALL => "onPostPackageEvent",
       PackageEvents::POST_PACKAGE_UPDATE => "onPostPackageEvent",
       ScriptEvents::PRE_INSTALL_CMD => array(
-        array('scaffoldComposerIncludes', self::CALLBACK_PRIORITY),
         array('checkInstallerPaths'),
       ),
       ScriptEvents::POST_UPDATE_CMD => array(
-        array('scaffoldComposerIncludes', self::CALLBACK_PRIORITY),
         array('onPostCmdEvent'),
       ),
-      ScriptEvents::PRE_AUTOLOAD_DUMP => array(
-        array('scaffoldComposerIncludes', self::CALLBACK_PRIORITY),
-      ),
     );
+  }
+
+  /**
+   *
+   */
+  public function importDefaultConfig() {
+    $extra = $this->rootPackage->getExtra();
+    $composer_template_filename = $this->getVendorPath() . '/acquia/blt/template/composer.json';
+    if (file_exists($composer_template_filename)) {
+      $composer_template = json_decode(file_get_contents($composer_template_filename), TRUE);
+
+      // 'extra' array.
+      $merged_extra = ArrayManipulator::arrayMergeRecursiveDistinct($composer_template['extra'], $extra);
+      if ($this->shouldImportDefaultConfig()) {
+        $this->rootPackage->setExtra($merged_extra);
+      }
+
+      // 'autoload' array.
+      $autoload = $this->rootPackage->getAutoload();
+      $merged_autoload = ArrayManipulator::arrayMergeRecursiveDistinct($autoload, $composer_template['autoload']);
+      if ($this->shouldImportDefaultConfig()) {
+        $this->rootPackage->setAutoload($merged_autoload);
+      }
+
+      // 'autoload-dev' array.
+      $autoload_dev = $this->rootPackage->getDevAutoload();
+      $merged_autoload_dev = ArrayManipulator::arrayMergeRecursiveDistinct($autoload_dev, $composer_template['autoload-dev']);
+      if ($this->shouldImportDefaultConfig()) {
+        $this->rootPackage->setDevAutoload($merged_autoload_dev);
+      }
+    }
+  }
+
+  /**
+   * @return bool
+   */
+  public function shouldImportDefaultConfig() {
+    $extra = $this->rootPackage->getExtra();
+
+    return !array_key_exists('import-config', $extra['blt']) || (bool) $extra['blt']['import-config'];
   }
 
   /**
@@ -120,34 +161,6 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
         if ($composer_required_json['extra']['installer-paths'] != $extra['installer-paths']) {
           $this->io->write('<warning>Warning: The value for extra.installer-paths in composer.json differs from BLT\'s recommended values.</warning>');
           $this->io->write('<warning>See ' . $composer_required_json_filename . '</warning>');
-        }
-      }
-    }
-  }
-
-  /**
-   * Creates or updates composer include files.
-   *
-   * @param \Composer\Script\Event $event
-   */
-  public function scaffoldComposerIncludes(Event $event) {
-
-    $files = array(
-      'composer.required.json',
-      'composer.suggested.json',
-    );
-
-    $dir = $this->getRepoRoot() . DIRECTORY_SEPARATOR . self::BLT_DIR;
-    $package_dir = $this->getVendorPath() . DIRECTORY_SEPARATOR . self::PACKAGE_NAME;
-    if ($this->createDirectory($dir)) {
-      foreach ($files as $file) {
-        $source = $package_dir . DIRECTORY_SEPARATOR . $file;
-        $target = $dir . DIRECTORY_SEPARATOR . $file;
-        if (file_exists($source)) {
-          if (!file_exists($target) || md5_file($source) != md5_file($target)) {
-            $this->io->write("Copying $source to $target. Do not modify this file. To override BLT dependencies, see readme/dependency-management.md.");
-            copy($source, $target);
-          }
         }
       }
     }

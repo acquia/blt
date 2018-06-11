@@ -14,6 +14,16 @@
             "url": "https://asset-packagist.org"
         }
     },
+    "autoload": {
+        "psr-4": {
+            "Acquia\\Blt\\Custom\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Drupal\\Tests\\PHPUnit\\": "tests/phpunit/src/"
+        }
+    },
     "config": {
         "sort-packages": true
     },
@@ -39,20 +49,11 @@
             "docroot/libraries/{$name}": ["type:drupal-library", "type:bower-asset", "type:npm-asset"],
             "drush/contrib/{$name}": ["type:drupal-drush"]
         },
-        "merge-plugin": {
-            "require": [
-                "blt/composer.required.json"
-            ],
-            "merge-extra": true,
-            "merge-extra-deep": true,
-            "merge-scripts": true,
-            "replace": false,
-            "ignore-duplicates": true
+        "drupal-scaffold": {
+            "initial": {
+                "sites/default/default.services.yml": "sites/default/services.yml",
+                "sites/default/default.settings.php": "sites/default/settings.php"
+            }
         }
-    },
-    "scripts": {
-        "post-create-project-cmd": [
-            "blt internal:create-project:init-repo"
-        ]
     }
 }

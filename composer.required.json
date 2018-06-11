@@ -1,42 +1,5 @@
 {
-  "repositories": {
-    "drupal": {
-      "type": "composer",
-      "url": "https://packages.drupal.org/8"
-    },
-    "asset-packagist": {
-      "type": "composer",
-      "url": "https://asset-packagist.org"
-    }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Drupal\\Tests\\PHPUnit\\": "tests/phpunit/src/"
-    }
-  },
-  "autoload": {
-    "psr-4": {
-      "Acquia\\Blt\\Custom\\": "src/"
-    }
-  },
-  "extra": {
-    "composer-exit-on-patch-failure": true,
-    "drupal-scaffold": {
-      "initial": {
-        "sites/default/default.services.yml": "sites/default/services.yml",
-        "sites/default/default.settings.php": "sites/default/settings.php"
-      }
-    },
-    "enable-patching": true
-  },
   "scripts": {
-    "blt-alias": "blt blt:init:shell-alias -y --ansi",
-    "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
-    "nuke": [
-      "rm -rf vendor composer.lock docroot/core docroot/modules/contrib docroot/profiles/contrib docroot/themes/contrib",
-      "@composer clearcache --ansi",
-      "@composer install --ansi"
-    ],
     "install-phantomjs": [
       "rm -rf vendor/bin/phantomjs",
       "PhantomInstaller\\Installer::installPhantomJS"
