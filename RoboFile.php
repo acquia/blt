@@ -72,8 +72,22 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $this->prepareTestProjectDir($test_project_dir);
     $this->taskFilesystemStack()
       ->mkdir($test_project_dir)
-      ->mirror($this->bltRoot . "/blted8", $test_project_dir)
+      ->copy($this->bltRoot . '/template/composer.json', $test_project_dir . '/composer.json')
       ->run();
+
+    $template_composer_json_filepath = $this->bltRoot . '/template/composer.json';
+    $template_composer_json = new \Composer\Json\JsonManipulator(file_get_contents($template_composer_json_filepath));
+    $template_composer_json->addRepository('blt', [
+      'type' => 'path',
+      'path' => '../blt',
+      'options' => [
+        'symlink' => TRUE,
+      ],
+    ]);
+    $template_composer_json->removeSubNode('require', 'blt');
+    $template_composer_json->addSubNode('require', 'blt', '*@dev');
+    file_put_contents($template_composer_json_filepath, $template_composer_json->getContents());
+
     $this->taskExecStack()
       ->dir($test_project_dir)
       ->exec("git init")

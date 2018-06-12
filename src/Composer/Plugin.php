@@ -91,9 +91,6 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     return array(
       PackageEvents::POST_PACKAGE_INSTALL => "onPostPackageEvent",
       PackageEvents::POST_PACKAGE_UPDATE => "onPostPackageEvent",
-      ScriptEvents::PRE_INSTALL_CMD => array(
-        array('checkInstallerPaths'),
-      ),
       ScriptEvents::POST_UPDATE_CMD => array(
         array('onPostCmdEvent'),
       ),
@@ -135,35 +132,9 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    * @return bool
    */
   public function shouldImportDefaultConfig() {
-    $extra = $this->rootPackage->getExtra();
+    $options = $this->getOptions();
 
-    return !array_key_exists('import-config', $extra['blt']) || (bool) $extra['blt']['import-config'];
-  }
-
-  /**
-   * Verify that composer.json contains correct values for installer-paths.
-   *
-   * Unfortunately, these values cannot be placed in composer.required.json.
-   *
-   * @see https://github.com/wikimedia/composer-merge-plugin/issues/139
-   *
-   * @param \Composer\Script\Event $event
-   */
-  public function checkInstallerPaths(Event $event) {
-    $extra = $this->composer->getPackage()->getExtra();
-    if (empty($extra['installer-paths'])) {
-      $this->io->write('<error>Error: extra.installer-paths is missing from your composer.json file.</error>');
-    }
-    else {
-      $composer_required_json_filename = $this->getVendorPath() . '/acquia/blt/template/composer.json';
-      if (file_exists($composer_required_json_filename)) {
-        $composer_required_json = json_decode(file_get_contents($composer_required_json_filename), TRUE);
-        if ($composer_required_json['extra']['installer-paths'] != $extra['installer-paths']) {
-          $this->io->write('<warning>Warning: The value for extra.installer-paths in composer.json differs from BLT\'s recommended values.</warning>');
-          $this->io->write('<warning>See ' . $composer_required_json_filename . '</warning>');
-        }
-      }
-    }
+    return (bool) $options['blt']['import-config'];
   }
 
   /**
@@ -319,8 +290,9 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
   protected function getOptions() {
     $defaults = [
       'update' => TRUE,
+      'import-config' => TRUE,
     ];
-    $extra = $this->composer->getPackage()->getExtra() + ['blt' => []];
+    $extra = $this->rootPackage->getExtra() + ['blt' => []];
     $extra['blt'] = $extra['blt'] + $defaults;
 
     return $extra;
