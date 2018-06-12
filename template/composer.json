@@ -1,13 +1,42 @@
 {
-    "license": "proprietary",
+    "name": "acquia/blt-project",
+    "description": "Project template for Drupal 8 sites built with BLT.",
     "type": "project",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "repositories": {
+        "drupal": {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        },
+        "asset-packagist": {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Acquia\\Blt\\Custom\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Drupal\\Tests\\PHPUnit\\": "tests/phpunit/src/"
+        }
+    },
     "config": {
         "sort-packages": true
     },
-    "require": {},
-    "require-dev": {},
+    "require": {
+        "acquia/blt": "9.x-dev",
+        "acquia/lightning": "^3.1.0"
+    },
+    "require-dev": {
+        "acquia/blt-require-dev": "^1.0.0"
+    },
     "extra": {
         "enable-patching": true,
+        "composer-exit-on-patch-failure": true,
         "installer-types": ["bower-asset", "npm-asset"],
         "installer-paths": {
             "docroot/core": ["type:drupal-core"],
@@ -20,18 +49,11 @@
             "docroot/libraries/{$name}": ["type:drupal-library", "type:bower-asset", "type:npm-asset"],
             "drush/contrib/{$name}": ["type:drupal-drush"]
         },
-        "merge-plugin": {
-            "require": [
-                "blt/composer.required.json",
-                "blt/composer.suggested.json"
-            ],
-            "merge-extra": true,
-            "merge-extra-deep": true,
-            "merge-scripts": true,
-            "replace": false,
-            "ignore-duplicates": true
+        "drupal-scaffold": {
+            "initial": {
+                "sites/default/default.services.yml": "sites/default/services.yml",
+                "sites/default/default.settings.php": "sites/default/settings.php"
+            }
         }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    }
 }
