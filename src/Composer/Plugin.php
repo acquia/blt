@@ -132,7 +132,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    * @return bool
    */
   public function shouldImportDefaultConfig() {
-    $options = $this->getOptions();
+    $options = $this->getRootExtra();
 
     return (bool) $options['blt']['import-config'];
   }
@@ -190,7 +190,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    * @param $version
    */
   protected function executeBltUpdate($version) {
-    $options = $this->getOptions();
+    $options = $this->getRootExtra();
 
     if ($this->isInitialInstall()) {
       $this->io->write('<info>Creating BLT templated files...</info>');
@@ -287,7 +287,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    *
    * @return array
    */
-  protected function getOptions() {
+  protected function getRootExtra() {
     $defaults = [
       'update' => TRUE,
       'import-config' => TRUE,

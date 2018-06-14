@@ -80,7 +80,6 @@ class UpdateCommand extends BltTasks {
    */
   protected function initializeBlt() {
     $this->updateRootProjectFiles();
-    $this->reInstallComposerPackages();
 
     // Reinitialize configuration now that project files exist.
     $config_initializer = new ConfigInitializer($this->getConfigValue('repo.root'), $this->input());

@@ -75,18 +75,17 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       ->copy($this->bltRoot . '/template/composer.json', $test_project_dir . '/composer.json')
       ->run();
 
-    $template_composer_json_filepath = $this->bltRoot . '/template/composer.json';
-    $template_composer_json = new \Composer\Json\JsonManipulator(file_get_contents($template_composer_json_filepath));
-    $template_composer_json->addRepository('blt', [
+    $template_composer_json_filepath = $test_project_dir . '/composer.json';
+    $template_composer_json = json_decode(file_get_contents($template_composer_json_filepath));
+    $template_composer_json->repositories->blt = [
       'type' => 'path',
-      'path' => '../blt',
+      'url' => '../blt',
       'options' => [
         'symlink' => TRUE,
       ],
-    ]);
-    $template_composer_json->removeSubNode('require', 'blt');
-    $template_composer_json->addSubNode('require', 'blt', '*@dev');
-    file_put_contents($template_composer_json_filepath, $template_composer_json->getContents());
+    ];
+    $template_composer_json->require->{'acquia/blt'} = '*@dev';
+    file_put_contents($template_composer_json_filepath, json_encode($template_composer_json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
     $this->taskExecStack()
       ->dir($test_project_dir)
@@ -103,10 +102,6 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $task = $this->taskExecStack()
       ->dir($test_project_dir)
       // BLT is the only dependency at this point. Install it.
-      ->exec("composer install")
-      // I have no idea why this is necessary, but testing on OSX does not pass
-      // without it.
-      ->exec("rm -rf $test_project_dir/vendor")
       ->exec("composer install");
     if ($options['vm']) {
       $task->exec("$bin/blt vm --no-boot --no-interaction --yes -v")

@@ -28,11 +28,11 @@
         "sort-packages": true
     },
     "require": {
-        "acquia/blt": "9.x-dev",
+        "acquia/blt": "dev-master",
         "acquia/lightning": "^3.1.0"
     },
     "require-dev": {
-        "acquia/blt-require-dev": "^1.0.0"
+        "acquia/blt-require-dev": "dev-master"
     },
     "extra": {
         "enable-patching": true,
