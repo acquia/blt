@@ -226,7 +226,8 @@ class UpdateCommand extends BltTasks {
     $this->say("Installing new Composer dependencies provided by BLT. This may take a while...");
     $result = $this->taskFilesystemStack()
       ->remove([
-        $this->getConfigValue('repo.root') . '/composer.lock',
+        $this->getConfigValue('repo.root') . '/docroot/core',
+        $this->getConfigValue('repo.root') . '/vendor',
       ])
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
@@ -236,7 +237,7 @@ class UpdateCommand extends BltTasks {
 
     $result = $this->taskExecStack()
       ->dir($this->getConfigValue('repo.root'))
-      ->exec("composer update --no-interaction --ansi")
+      ->exec("composer install --no-interaction --ansi")
       ->run();
 
     if (!$result->wasSuccessful()) {
