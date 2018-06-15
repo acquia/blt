@@ -72,8 +72,32 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $this->prepareTestProjectDir($test_project_dir);
     $this->taskFilesystemStack()
       ->mkdir($test_project_dir)
-      ->mirror($this->bltRoot . "/blted8", $test_project_dir)
+      ->copy($this->bltRoot . '/template/composer.json', $test_project_dir . '/composer.json')
       ->run();
+
+    $template_composer_json_filepath = $test_project_dir . '/composer.json';
+    $template_composer_json = json_decode(file_get_contents($template_composer_json_filepath));
+
+    $template_composer_json->repositories->blt = [
+      'type' => 'path',
+      'url' => '../blt',
+      'options' => [
+        'symlink' => TRUE,
+      ],
+    ];
+    $template_composer_json->require->{'acquia/blt'} = '*@dev';
+
+    $template_composer_json->repositories->{'blt-require-dev'} = [
+      'type' => 'path',
+      'url' => '../blt/subtree-splits/blt-require-dev',
+      'options' => [
+        'symlink' => TRUE,
+      ],
+    ];
+    $template_composer_json->require->{'acquia/blt-require-dev'} = '*@dev';
+
+    file_put_contents($template_composer_json_filepath, json_encode($template_composer_json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
     $this->taskExecStack()
       ->dir($test_project_dir)
       ->exec("git init")
@@ -89,10 +113,6 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $task = $this->taskExecStack()
       ->dir($test_project_dir)
       // BLT is the only dependency at this point. Install it.
-      ->exec("composer install")
-      // I have no idea why this is necessary, but testing on OSX does not pass
-      // without it.
-      ->exec("rm -rf $test_project_dir/vendor")
       ->exec("composer install");
     if ($options['vm']) {
       $task->exec("$bin/blt vm --no-boot --no-interaction --yes -v")
@@ -120,7 +140,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $this->yell("Creating project from acquia/blt-project:{$options['base-branch']}-dev.");
     $this->taskExecStack()
       ->dir($this->bltRoot . "/..")
-      ->exec("COMPOSER_PROCESS_TIMEOUT=2000 composer create-project acquia/blt-project:{$options['base-branch']}-dev blted8 --no-interaction")
+      ->exec("COMPOSER_PROCESS_TIMEOUT=2000 composer create-project acquia/blt-project blted8 --no-interaction --repository-url={$this->bltRoot}/tests/packages.json")
       ->run();
   }
 

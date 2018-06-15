@@ -55,6 +55,7 @@ class SandboxManager {
     $fixture = $this->bltDir . "/tests/phpunit/fixtures/sandbox";
     $this->fs->remove($this->sandboxMaster);
     $this->fs->mirror($fixture, $this->sandboxMaster);
+    $this->fs->copy($this->bltDir . '/subtree-splits/blt-project/composer.json', $this->sandboxMaster . '/composer.json');
     $this->updateSandboxMasterBltRepoSymlink();
     $this->installSandboxMasterDependencies();
     $this->removeSandboxInstance();
@@ -146,7 +147,22 @@ class SandboxManager {
   protected function updateSandboxMasterBltRepoSymlink() {
     $composer_json_path = $this->sandboxMaster . "/composer.json";
     $composer_json_contents = json_decode(file_get_contents($composer_json_path));
-    $composer_json_contents->repositories->blt->url = $this->bltDir;
+    $composer_json_contents->repositories->blt = (object) [
+      'type' => 'path',
+      'url' => $this->bltDir,
+      'options' => [
+        'symlink' => TRUE,
+      ],
+    ];
+    $composer_json_contents->require->{'acquia/blt'} = '*@dev';
+    $composer_json_contents->repositories->{'blt-require-dev'} = (object) [
+      'type' => 'path',
+      'url' => $this->bltDir . '/subtree-splits/blt-require-dev',
+      'options' => [
+        'symlink' => TRUE,
+      ],
+    ];
+    $composer_json_contents->require->{'acquia/blt-require-dev'} = '*@dev';
     $this->fs->dumpFile($composer_json_path,
       json_encode($composer_json_contents, JSON_PRETTY_PRINT));
   }

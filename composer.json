@@ -13,6 +13,12 @@
     },
     "type": "composer-plugin",
     "license": "GPL-2.0-only",
+    "repositories": {
+        "drupal": {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        }
+    },
     "require": {
         "php": ">=5.6",
         "composer-plugin-api": "^1.1.0",
@@ -25,8 +31,19 @@
         "dflydev/dot-access-data": "^1.1.0",
         "doctrine/common": "^2.5",
         "doctrine/inflector": "~1.1.0",
+        "drupal/acquia_connector": "^1.5.0",
+        "drupal/acquia_purge": "^1.0-beta3",
+        "drupal/cog": "^1.0.0",
         "drupal/coder": "^8.2.11",
         "drush/drush": "^9.3.0",
+        "drupal/config_split": "^1.0.0",
+        "drupal/core": "^8.5.0",
+        "drupal/devel": "^1.0.0",
+        "drupal/features": "^1.0.0",
+        "drupal/memcache": "^2.0-alpha5",
+        "drupal/seckit": "^1.0.0-alpha2",
+        "drupal/shield": "^1.2.0",
+        "drupal-composer/drupal-scaffold": "^2.1.0",
         "grasmash/drupal-security-warning": "^1.0.0",
         "grasmash/yaml-cli": "^1.0.0",
         "grasmash/yaml-expander": "^1.2.0",
@@ -37,8 +54,7 @@
         "symfony/twig-bridge": "^3.3",
         "symfony/yaml": "^3.2.8",
         "tivie/php-os-detector": "^1.0",
-        "typhonius/acquia-php-sdk-v2": "^1.0.2",
-        "wikimedia/composer-merge-plugin": "^1.4.1"
+        "typhonius/acquia-php-sdk-v2": "^1.0.2"
     },
     "autoload": {
         "psr-4": {
@@ -49,9 +65,19 @@
     },
     "extra": {
         "class": "Acquia\\Blt\\Composer\\Plugin",
-        "composer-exit-on-patch-failure": true,
         "branch-alias": {
             "dev-master": "9.x-dev"
+        },
+        "installer-paths": {
+            "template/docroot/core": ["type:drupal-core"],
+            "template/docroot/modules/contrib/{$name}": ["type:drupal-module"],
+            "template/docroot/modules/custom/{$name}": ["type:drupal-custom-module"],
+            "template/docroot/profiles/contrib/{$name}": ["type:drupal-profile"],
+            "template/docroot/profiles/custom/{$name}": ["type:drupal-custom-profile"],
+            "template/docroot/themes/contrib/{$name}": ["type:drupal-theme"],
+            "template/docroot/themes/custom/{$name}": ["type:drupal-custom-theme"],
+            "template/docroot/libraries/{$name}": ["type:drupal-library"],
+            "template/drush/contrib/{$name}": ["type:drupal-drush"]
         }
     },
     "bin": [
@@ -72,6 +98,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require-dev": {
+        "composer/composer": "^1.6.4",
         "knplabs/github-api": "^2.6",
         "php-http/guzzle6-adapter": "^1.1"
     }

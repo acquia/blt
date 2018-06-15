@@ -9,7 +9,7 @@ steps:
      - composer self-update
      - composer validate --no-check-all --ansi
      - composer install
-     - composer run-script blt-alias
+     - ./vendor/bin/blt blt:init:shell-alias -y
 
   - name: 'Install Drupal'
     plugin: Drupal

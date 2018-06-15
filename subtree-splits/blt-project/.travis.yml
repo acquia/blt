@@ -1,0 +1,48 @@
+language: php
+cache:
+  bundler: true
+  apt: true
+  directories:
+    - "$HOME/.composer/cache"
+    - "$HOME/.drush/cache"
+    - "$HOME/.npm"
+php:
+  - 7.1
+
+sudo: false
+
+mysql:
+  database: drupal
+  username: root
+  encoding: utf8
+
+before_install:
+  - phpenv config-rm xdebug.ini
+  - composer self-update
+  - composer --version
+
+install:
+  # Add Composer's local bin directory to the PATH so that we will be running
+  # our installed versions of Drush, PHPCS, Behat, PhantomJS, etc.
+  - export PATH="$HOME/.composer/vendor/bin:$TRAVIS_BUILD_DIR/bin:$PATH"
+
+  # Speed up Composer operations.
+  - composer global require "hirak/prestissimo:^0.3"
+  
+  # MySQL Options
+  - mysql -e 'SET GLOBAL wait_timeout = 5400;'
+  - mysql -e "SHOW VARIABLES LIKE 'wait_timeout'"
+
+  # PHP conf tweaks
+  - echo 'max_execution_time = 120' >> drupal.php.ini;
+  - echo 'sendmail_path = /bin/true' >> drupal.php.ini;
+  - phpenv config-add drupal.php.ini
+  - phpenv rehash
+
+  # Create dummy local repository so we can test this particular commit of blt-project.
+  - envsubst < .test-packages.json > packages.json
+
+script:
+  # Build the code base.
+  - cd ../
+  - composer create-project --repository-url=$TRAVIS_BUILD_DIR/packages.json acquia/blt-project blt-example --no-interaction
