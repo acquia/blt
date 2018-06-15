@@ -1,5 +1,174 @@
 # Change Log
 
+#### 9.1.0-alpha1 (2018-06-08)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.0.5...9.1.0-alpha1)
+
+**Implemented enhancements**
+
+- Reverted changes to solr config script for DrupalVM. (#2852)
+- Update drush to ^9.3.0. (#2849)
+- PHPStorm documentation (#2843)
+- Update README.md (#2819)
+- Cleaning up INSTALL.md (#2812)
+- Update local-development.md (#2803)
+- Remove pipes from deploy sanitize find command (#2798)
+- Remove bootstrap line from behat config. (#2783)
+- Adding support for factory hooks. (#2787)
+- Update DrupalVM for multiple dbs. (#2778)
+- Exclude .github folder from artifact. (#2773)
+- Require ACSF ^2.47.0. (#2772)
+- Feature/deploy gitignore improvements (#2767)
+- Fixes #2697: Remove disabled git hooks. (#2702)
+- Allow config_splits to be enabled when config files are not exported. (#2716)
+- adding the apache vhost for the Drupal VM Dashboard (#2712)
+- Fixes #2696 to include config in composer munge. (#2701)
+- Add example auth user Behat test. (#2669)
+- Suggest typhonius/acquia_cli v1.0+ (#2659)
+
+**Fixed bugs**
+
+- Fixes #2857: Documentation lists non-existant command. (#2858)
+- ACSF Factory Hooks, Deploy tasks, and Config bugfixes (#2846)
+- Issue #2796: Fixes failing deploys due to config status check. (#2802)
+- Fixed Solr in DrupalVM. (#2841)
+- Updated consolidation/robo to use ~1.2.4. (#2833)
+- Fix issue 2806, wrong files patch in ACSF envs. (#2807)
+- Fixes #2789: Require minimum Composer API version. (#2790)
+- Removing acsf-tools. (#2786)
+- Fixes #2762 to include missing use statement. (#2763)
+- Fixes #2720: Write deployment identifier using robo task. (#2726)
+- Fixes #2718: Can't git commit image files. (#2752)
+- Fixes #2747 to define target_env for BLT 9.x. (#2748)
+- Fixes #2742 to include a composer munge as part of the 9.1 update process. (#2745)
+- Fixes #2707 by resyncing the ci.blt.yml with the template file. (#2737)
+- patch to fix #1038 (#2733)
+- Fixes #2658 by moving sanitize command out of hook and into blt command. (#2675)
+- Fixes #2705: moving features override functionality and re-enabling. (#2706)
+- Prevent unintended config export. (#2680)
+- Fixes #2686: Add deployment_identifier to project gitignore. (#2690)
+- Remove over-aggressive Icon .gitignore rule. (#2683)
+- Fixes #2662: Allow newer version of chrome-mink-driver. (#2674)
+
+**Miscellaneous**
+
+- Update RELEASE.md
+- Update RELEASE.md
+- Update RELEASE.md
+- Update RELEASE.md
+- Update Blt.php
+- Updating CHANGELOG.md and setting version for 9.1.0-alpha.
+- Update RELEASE.md
+- Fixes #2830 to default back to PHP 7.1 in the VM. (#2840)
+- #2820 Add use statement for ClassLoader to memcache settings. (#2821)
+- Cleaning up onboarding doc (#2810)
+- Fixes #2727 to direct users to docs.acquia site. (#2800)
+- Fixes #2797: Pass option instead of argument when generating deployment identifier. (#2799)
+- Update SyncCommand.php
+- Updating CHANGELOG.md and setting version for 9.1.0.
+- Update onboarding.md
+- Update INSTALL.md (#2788)
+- Updating BLT README template to include more information about working with BLT + Git. (#2735)
+- Fixes #2759: Alias should search for vendor in cwd. (#2777)
+- Fixes #2723: Disable post-code-deploy cloud hook for acsf builds. (#2768)
+- Fixes #2760: Leverage source and target dump options for sync. (#2770)
+- Fixed a little typo. (#2774)
+- Fixes #2758: Add notice about composer.suggested.json. (#2764)
+- update link to wiki page in inline comment (#2766)
+- Fix broken links to CONTRIBUTING.md. (#2754)
+- Fixes #2728 to properly document Drush 9 alias generation. (#2751)
+- Update dependency-management.md
+- Fixes #2713: Lock XDebug into an older version for compatibility with PHP 5.6. (#2714)
+- Update README.md
+- Fixes #2688: Adding ConfigContext to behat config by default. (#2693)
+- Revert back to requiring php 5.6 as the minimum php version (#2665)
+- Change `docroot/sites/mysite/site.yml` to `docroot/sites/mysite/blt.yml` (#2678)
+- Fixes #2670: Remove deprecated drush docs.
+- Update README.md
+- Fixes #2582: Config documentation fixes. (#2668)
+- Fixes #2644: Further encourage use of vagrant ssh prior to running commands. (#2656)
+
+
+#### 9.1.0-alpha (2018-06-04)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.0.5...9.1.0-alpha)
+
+**Implemented enhancements**
+
+- Remove pipes from deploy sanitize find command (#2798)
+- Remove bootstrap line from behat config. (#2783)
+- Update DrupalVM for multiple dbs. (#2778)
+- Exclude .github folder from artifact. (#2773)
+- Require ACSF ^2.47.0. (#2772)
+- Feature/deploy gitignore improvements (#2767)
+- Fixes #2697: Remove disabled git hooks. (#2702)
+- Allow config_splits to be enabled when config files are not exported. (#2716)
+- adding the apache vhost for the Drupal VM Dashboard (#2712)
+- Fixes #2696 to include config in composer munge. (#2701)
+- Add example auth user Behat test. (#2669)
+- Suggest typhonius/acquia_cli v1.0+ (#2659)
+
+**Fixed bugs**
+
+- Issue #2796: Fixes failing deploys due to config status check. (#2802)
+- Fixed Solr in DrupalVM. (#2841)
+- Fixes #2789: Require minimum Composer API version. (#2790)
+- Removing acsf-tools. (#2786)
+- Fixes #2762 to include missing use statement. (#2763)
+- Fixes #2720: Write deployment identifier using robo task. (#2726)
+- Fixes #2718: Can't git commit image files. (#2752)
+- Fixes #2747 to define target_env for BLT 9.x. (#2748)
+- Fixes #2742 to include a composer munge as part of the 9.1 update process. (#2745)
+- Fixes #2707 by resyncing the ci.blt.yml with the template file. (#2737)
+- patch to fix #1038 (#2733)
+- Fixes #2658 by moving sanitize command out of hook and into blt command. (#2675)
+- Fixes #2705: moving features override functionality and re-enabling. (#2706)
+- Prevent unintended config export. (#2680)
+- Fixes #2686: Add deployment_identifier to project gitignore. (#2690)
+- Remove over-aggressive Icon .gitignore rule. (#2683)
+- Fixes #2662: Allow newer version of chrome-mink-driver. (#2674)
+
+**Miscellaneous**
+
+- Update RELEASE.md
+- Update drush to ^9.3.0. (#2849)
+- PHPStorm documentation (#2843)
+- Fixes #2830 to default back to PHP 7.1 in the VM. (#2840)
+- Updated consolidation/robo to use ~1.2.4. (#2833)
+- #2820 Add use statement for ClassLoader to memcache settings. (#2821)
+- Update README.md (#2819)
+- Cleaning up INSTALL.md (#2812)
+- Fix issue 2806, wrong files patch in ACSF envs. (#2807)
+- Cleaning up onboarding doc (#2810)
+- Update local-development.md (#2803)
+- Fixes #2727 to direct users to docs.acquia site. (#2800)
+- Fixes #2797: Pass option instead of argument when generating deployment identifier. (#2799)
+- Update SyncCommand.php
+- Updating CHANGELOG.md and setting version for 9.1.0.
+- Update onboarding.md
+- Update INSTALL.md (#2788)
+- Updating BLT README template to include more information about working with BLT + Git. (#2735)
+- Adding support for factory hooks. (#2787)
+- Fixes #2759: Alias should search for vendor in cwd. (#2777)
+- Fixes #2723: Disable post-code-deploy cloud hook for acsf builds. (#2768)
+- Fixes #2760: Leverage source and target dump options for sync. (#2770)
+- Fixed a little typo. (#2774)
+- Fixes #2758: Add notice about composer.suggested.json. (#2764)
+- update link to wiki page in inline comment (#2766)
+- Fix broken links to CONTRIBUTING.md. (#2754)
+- Fixes #2728 to properly document Drush 9 alias generation. (#2751)
+- Update dependency-management.md
+- Fixes #2713: Lock XDebug into an older version for compatibility with PHP 5.6. (#2714)
+- Update README.md
+- Fixes #2688: Adding ConfigContext to behat config by default. (#2693)
+- Revert back to requiring php 5.6 as the minimum php version (#2665)
+- Change `docroot/sites/mysite/site.yml` to `docroot/sites/mysite/blt.yml` (#2678)
+- Fixes #2670: Remove deprecated drush docs.
+- Update README.md
+- Fixes #2582: Config documentation fixes. (#2668)
+- Fixes #2644: Further encourage use of vagrant ssh prior to running commands. (#2656)
+
+
 #### 9.1.0 (2018-05-02)
 
 [Full Changelog](https://github.com/acquia/blt/compare/9.0.5...9.1.0)

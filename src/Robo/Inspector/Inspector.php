@@ -811,7 +811,8 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *   TRUE if config is identical.
    */
   public function isActiveConfigIdentical() {
-    $result = $this->executor->drush("config:status 2>&1")->run();
+    $uri = $this->getConfigValue('drush.uri');
+    $result = $this->executor->drush("config:status --uri=$uri 2>&1")->run();
     $message = trim($result->getMessage());
     $identical = strstr($message, 'No differences between DB and sync directory') !== FALSE;
 

@@ -1,12 +1,12 @@
 # Project Tasks
 
-“how do I _____ on my local machine?”
+“How do I _____ on my local machine?”
 
 ## (re)Install Drupal
 
 Pre-requisites to installation:
 
-1. Ensure that `docroot/sites/default/settings/local.settings.php` exists by executing `blt setup:drupal:settings`.
+1. Ensure that `docroot/sites/default/settings/local.settings.php` exists by executing `blt setup:settings`.
 1. Verify that correct local database credentials are set in `local.settings.php`.
 1. Ensure that project dependencies have already been built via `blt source:build`
 
