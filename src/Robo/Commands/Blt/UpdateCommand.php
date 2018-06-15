@@ -80,7 +80,7 @@ class UpdateCommand extends BltTasks {
    */
   protected function initializeBlt() {
     $this->updateRootProjectFiles();
-
+    // $this->reInstallComposerPackages();.
     // Reinitialize configuration now that project files exist.
     $config_initializer = new ConfigInitializer($this->getConfigValue('repo.root'), $this->input());
     $new_config = $config_initializer->initialize();
@@ -227,6 +227,9 @@ class UpdateCommand extends BltTasks {
     $result = $this->taskFilesystemStack()
       ->remove([
         $this->getConfigValue('repo.root') . '/docroot/core',
+        $this->getConfigValue('repo.root') . '/docroot/modules/contrib',
+        $this->getConfigValue('repo.root') . '/docroot/profiles/contrib',
+        $this->getConfigValue('repo.root') . '/docroot/themes/contrib',
         $this->getConfigValue('repo.root') . '/vendor',
       ])
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)

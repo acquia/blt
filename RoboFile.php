@@ -77,6 +77,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
 
     $template_composer_json_filepath = $test_project_dir . '/composer.json';
     $template_composer_json = json_decode(file_get_contents($template_composer_json_filepath));
+
     $template_composer_json->repositories->blt = [
       'type' => 'path',
       'url' => '../blt',
@@ -85,6 +86,16 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       ],
     ];
     $template_composer_json->require->{'acquia/blt'} = '*@dev';
+
+    $template_composer_json->repositories->{'blt-require-dev'} = [
+      'type' => 'path',
+      'url' => '../blt/subtree-splits/blt-require-dev',
+      'options' => [
+        'symlink' => TRUE,
+      ],
+    ];
+    $template_composer_json->require->{'acquia/blt-require-dev'} = '*@dev';
+
     file_put_contents($template_composer_json_filepath, json_encode($template_composer_json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
     $this->taskExecStack()
@@ -129,7 +140,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $this->yell("Creating project from acquia/blt-project:{$options['base-branch']}-dev.");
     $this->taskExecStack()
       ->dir($this->bltRoot . "/..")
-      ->exec("COMPOSER_PROCESS_TIMEOUT=2000 composer create-project acquia/blt-project:{$options['base-branch']}-dev blted8 --no-interaction")
+      ->exec("COMPOSER_PROCESS_TIMEOUT=2000 composer create-project acquia/blt-project blted8 --no-interaction --repository-url={$this->bltRoot}/tests/packages.json")
       ->run();
   }
 

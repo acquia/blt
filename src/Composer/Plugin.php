@@ -81,7 +81,6 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     ProcessExecutor::setTimeout(3600);
     $this->executor = new ProcessExecutor($this->io);
     $this->rootPackage = $this->composer->getPackage();
-    $this->importDefaultConfig();
   }
 
   /**
@@ -95,37 +94,6 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
         array('onPostCmdEvent'),
       ),
     );
-  }
-
-  /**
-   *
-   */
-  public function importDefaultConfig() {
-    $extra = $this->rootPackage->getExtra();
-    $composer_template_filename = $this->getVendorPath() . '/acquia/blt/template/composer.json';
-    if (file_exists($composer_template_filename)) {
-      $composer_template = json_decode(file_get_contents($composer_template_filename), TRUE);
-
-      // 'extra' array.
-      $merged_extra = ArrayManipulator::arrayMergeRecursiveDistinct($composer_template['extra'], $extra);
-      if ($this->shouldImportDefaultConfig()) {
-        $this->rootPackage->setExtra($merged_extra);
-      }
-
-      // 'autoload' array.
-      $autoload = $this->rootPackage->getAutoload();
-      $merged_autoload = ArrayManipulator::arrayMergeRecursiveDistinct($autoload, $composer_template['autoload']);
-      if ($this->shouldImportDefaultConfig()) {
-        $this->rootPackage->setAutoload($merged_autoload);
-      }
-
-      // 'autoload-dev' array.
-      $autoload_dev = $this->rootPackage->getDevAutoload();
-      $merged_autoload_dev = ArrayManipulator::arrayMergeRecursiveDistinct($autoload_dev, $composer_template['autoload-dev']);
-      if ($this->shouldImportDefaultConfig()) {
-        $this->rootPackage->setDevAutoload($merged_autoload_dev);
-      }
-    }
   }
 
   /**

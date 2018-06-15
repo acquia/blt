@@ -58,6 +58,7 @@ install:
 
 script:
   - ${BLT_DIR}/vendor/bin/robo release:test
+  - ${BLT_DIR}/vendor/bin/robo create:from-blt-project
 
 before_deploy:
   - cd ${TRAVIS_BUILD_DIR}/../blted8
