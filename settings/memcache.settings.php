@@ -85,5 +85,9 @@ if ($memcache_module_is_present && ($memcache_exists || $memcached_exists)) {
 
     // Move locks to memcache.
     $settings['container_yamls'][] = DRUPAL_ROOT . '/../vendor/acquia/blt/settings/memcache.yml';
-  }
+
+    //Enable compression for PHP 7
+    $settings['memcache']['options'] = [
+      Memcached::OPT_COMPRESSION => TRUE,
+    ];
 }
