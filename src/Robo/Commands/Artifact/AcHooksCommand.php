@@ -17,18 +17,18 @@ class AcHooksCommand extends BltTasks {
    * This is intended to be called from post-code-deploy.sh cloud hook.
    *
    * @param string $site
-   *   The site name. E.g., site1.
+   *   The site name, e.g., site1.
    * @param string $target_env
-   *   The cloud env. E.g., dev
+   *   The cloud env, e.g., dev
    * @param string $source_branch
-   *   The source branch. E.g., master.
+   *   The source branch, e.g., master.
    * @param string $deployed_tag
-   *   The tag or branch to which the source was deployed. E.g., master or
+   *   The tag or branch to which the source was deployed, e.g., master or
    * 1.0.0.
    * @param string $repo_url
-   *   The repo url. E.g., s1@svn-3.bjaspan.hosting.acquia.com:s1.git
+   *   The repo url, e.g., s1@svn-3.bjaspan.hosting.acquia.com:s1.git
    * @param string $repo_type
-   *   The repo type. E.g., git.
+   *   The repo type, e.g., git.
    *
    * @command artifact:ac-hooks:post-code-deploy
    */
@@ -42,18 +42,18 @@ class AcHooksCommand extends BltTasks {
    * This is intended to be called from post-code-update.sh cloud hook.
    *
    * @param string $site
-   *   The site name. E.g., site1.
+   *   The site name, e.g., site1.
    * @param string $target_env
-   *   The cloud env. E.g., dev
+   *   The cloud env, e.g., dev
    * @param string $source_branch
-   *   The source branch. E.g., master.
+   *   The source branch, e.g., master.
    * @param string $deployed_tag
-   *   The tag or branch to which the source was deployed. E.g., master or
+   *   The tag or branch to which the source was deployed, e.g., master or
    * 1.0.0.
    * @param string $repo_url
-   *   The repo url. E.g., s1@svn-3.bjaspan.hosting.acquia.com:s1.git
+   *   The repo url, e.g., s1@svn-3.bjaspan.hosting.acquia.com:s1.git
    * @param string $repo_type
-   *   The repo type. E.g., git.
+   *   The repo type, e.g., git.
    *
    * @command artifact:ac-hooks:post-code-update
    *
@@ -103,9 +103,9 @@ class AcHooksCommand extends BltTasks {
    * This is intended to be called from db-scrub.sh cloud hook.
    *
    * @param string $site
-   *   The site name. E.g., site1.
+   *   The site name, e.g., site1.
    * @param string $target_env
-   *   The cloud env. E.g., dev
+   *   The cloud env, e.g., dev
    * @param string $db_name
    *   The name of the database.
    * @param string $source_env

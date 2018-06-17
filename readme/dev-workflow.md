@@ -52,7 +52,7 @@ This flow still allow a team to work off an integrated branch (`develop`), all w
 1. Create a new local feature branch named according to the following pattern:
   `abc-123-short-desc` Where "ABC" is the Jira prefix of your Jira project and "123" is the ticket number for which the work is being performed. `git checkout -b abc-123-short-desc upstream/master`
 1. Reset your local environment (if necessary) to a clean state with either `$ blt setup` or `$ blt sync`
-1. Make your code changes.
+1. Make your code changes
 1. Commit your changes. Each commit should be logically atomic, and your commit messages should follow the pattern: "ABC-123 A grammatically correct sentence ending within punctuation."
 1. Run Tests / Validation Scripts `$ blt validate` and `$ blt tests`
 1. Ensure no additional changes have been made to the upstream repository `$ git fetch upstream` and rebase if necessary `$ git rebase upstream/master`
@@ -77,7 +77,7 @@ Merge conflicts result when multiple developers submit PRs modifying the same co
 Developers are responsible for fixing merge conflicts on their own PRs. Follow this process to resolve a merge conflict:
 
 1. Fetch upstream history: `git fetch upstream`
-2. Check out the branch against which you opened your PR (e.g. master): `git checkout master`
+2. Check out the branch against which you opened your PR (e.g., master): `git checkout master`
 3. Make sure it matches upstream: `git  reset --hard upstream/master`
 4. Check out your feature branch: `git checkout feature/foo`
 5. Merge master (this is where the magic happens): `git merge master`

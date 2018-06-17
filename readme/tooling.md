@@ -66,7 +66,7 @@ You can host a BLT project in _any_ Drupal-compatible hosting environment. Howev
 
 [PHP](http://php.net/manual/en/install.php) is required by various tools, including Composer, Drush, Robo, and Drupal itself. Please ensure that:
 
-* You are using PHP 5.6+. You can check your existing version by executing `php -v`
+* You are using PHP 5.6+. You can check your existing version by executing `php -v`.
 * You set the memory_limit for PHP to 2G or higher (for Composer). You can find the `php.ini` file for your PHP CLI by executing `php --ini` and looking for the "Loaded Configuration file".
 
 ### <a name="composer">Composer</a>

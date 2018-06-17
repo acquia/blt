@@ -510,7 +510,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    * Checks if a given command exists on the system.
    *
    * @param string $command
-   *   The command binary only. E.g., "drush" or "php".
+   *   The command binary only, e.g., "drush" or "php".
    *
    * @return bool
    *   TRUE if the command exists, otherwise FALSE.

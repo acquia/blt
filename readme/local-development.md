@@ -3,14 +3,14 @@
 
 Acquia currently recommends the use of either:
 
-  * [Drupal VM](#using-drupal-vm-for-blt-generated-projects): An isolated virtual machine, built with Vagrant and Ansible.
-  * [Acquia Dev Desktop](#using-acquia-dev-desktop-for-blt-generated-projects): A turn-key LAMP stack tailored specifically for Acquia-hosted Drupal sites.
+  * [Drupal VM](#using-drupal-vm-for-blt-generated-projects): an isolated virtual machine, built with Vagrant and Ansible
+  * [Acquia Dev Desktop](#using-acquia-dev-desktop-for-blt-generated-projects): a turn-key LAMP stack tailored specifically for Acquia-hosted Drupal sites
   * [Alternative local development environments](http://blt.readthedocs.io/en/9.x/readme/local-development/#alternative-local-development-environments)
 
 No matter what local environment you choose to use, the following guidelines should be followed:
 
-  * In order to guarantee similar behavior, use Apache as your web server.
-  * If your project is hosted on Acquia Cloud, please ensure to match [our software versions](https://docs.acquia.com/cloud/arch/tech-platform).
+  * In order to guarantee similar behavior, use Apache as your web server
+  * If your project is hosted on Acquia Cloud, please ensure to match [our software versions](https://docs.acquia.com/cloud/arch/tech-platform)
 
 Acquia developers use [PHPStorm](http://www.jetbrains.com/phpstorm/) and recommend it for local development environments. Acquia has written [several articles](https://docs.acquia.com/site-search?search=phpstorm) on effectively using PHPStorm for Drupal development.
 
@@ -24,16 +24,16 @@ To use [Drupal VM](http://www.drupalvm.com/) with a Drupal project that is gener
         brew install php56 git composer ansible drush
         brew cask install virtualbox vagrant
 
-1. Create & boot the VM.
+1. Create & boot the VM
 
         blt vm
 
-1. Install Drupal.
+1. Install Drupal
 
         vagrant ssh
         blt setup
 
-1. Login to Drupal.
+1. Login to Drupal
 
         drush uli
 
@@ -49,8 +49,8 @@ The Drupal Extension for Behat has an [inherent limitation](https://behat-drupal
 
 To execute Behat tests using the 'drupal' driver on a Drupal VM environment, you must do the following:
 
-1. SSH into the VM `vagrant ssh`.
-1. Execute behat tests `blt tests:behat:run`.
+1. SSH into the VM `vagrant ssh`
+1. Execute behat tests `blt tests:behat:run`
 
 Alternatively, you may choose to write only behat tests that utilize the Drupal Extension's "drush" driver. Doing this will allow you to run `blt tests:behat:run` from the host machine.
 
@@ -85,14 +85,14 @@ In order to use a custom version of Drush (required by BLT) with Dev Desktop, yo
 
 ## Alternative local development environments
 
-Some teams may prefer to use a different development environment. Drupal VM offers a great deal of flexibility and a uniform configuration for everyone, but sometimes a tool like Acquia Dev Desktop, MAMP/XAMPP, or a different environment (e.g. a bespoke Docker-based dev environment) may be preferable.
+Some teams may prefer to use a different development environment. Drupal VM offers a great deal of flexibility and a uniform configuration for everyone, but sometimes a tool like Acquia Dev Desktop, MAMP/XAMPP, or a different environment (e.g., a bespoke Docker-based dev environment) may be preferable.
 
 It is up to each team to choose how to handle local development, but some of the main things that help a project's velocity with regard to local development include:
 
-* Uniformity and the same configuration across all developer environments.
-* Ease of initial environment configuration (if it takes more than an hour to get a new developer running your project locally, you're doing it wrong).
-* Ability to emulate all aspects of the production environment with minimal hassle (e.g. Varnish, Memcached, Solr, Elasticsearch, different PHP versions, etc.).
-* Helpful built-in developer tools (e.g. XHProf, Xdebug, Adminer, PimpMyLog).
-* Ease of use across Windows, Mac, or Linux workstations.
+* Uniformity and the same configuration across all developer environments
+* Ease of initial environment configuration (if it takes more than an hour to get a new developer running your project locally, you're doing it wrong)
+* Ability to emulate all aspects of the production environment with minimal hassle (e.g., Varnish, Memcached, Solr, Elasticsearch, different PHP versions, etc.)
+* Helpful built-in developer tools (e.g., XHProf, Xdebug, Adminer, PimpMyLog)
+* Ease of use across Windows, Mac, or Linux workstations
 
 If you choose to use a different solution than recommended here, please make sure it fits all the needs of your team and project, and will not be a hindrance to project development velocity!

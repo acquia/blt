@@ -16,17 +16,17 @@ It is not possible to create an exhaustive list of all things that should be che
     * Does the code meet the requirements of the ticket?
     * Does the code affect only what needs to be changed for the
       scope of the ticket--nothing more or less?
-    * Is it clear how functional changes can verified?
+    * Is it clear how functional changes can be verified?
 * __Implementation__ Does the code achieve its goal in the right way?
     * Is the code in the right place?
     * Does it correctly leverage the correct APIs, variables, etc? Common issues:
         * Use of global $language, LANGUAGE_NONE instead of 'und'
         * Use of t()
-    * Does it follow basic code principles? E.g.,
+    * Does it follow basic code principles?
         * Functions are logically amotic with low cyclomatic complexity
-        * Logic is being performed at the correct layer. E.g., no logic in the presentation layer.
+        * Logic is being performed at the correct layer, e.g., no logic in the presentation layer.
         * Are its components re-usable?
-    * Verify best practices are being used. E.g.,
+    * Verify best practices are being used:
         * Views
         * Features
         * Configuration updates
@@ -65,7 +65,7 @@ It is not possible to create an exhaustive list of all things that should be che
     * All application functionality should be covered by a functional test via either Behat or PHPUnit
     * All custom libraries should be covered using unit tests via PHPUnit
 * __Documentation__
-    * Minimum documentation requirements set forth by Drupal Coding Standard should be met.
+    * Minimum documentation requirements set forth by Drupal Coding Standard should be met
     * The code itself should be correctly self-documenting: [Code Tells You How, Comments Tell You Why](http://blog.codinghorror.com/code-tells-you-how-comments-tell-you-why/)
     * Additional user-facing documentation is included where necessary
 * Configuration management

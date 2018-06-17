@@ -4,7 +4,7 @@ Ideally, you will be using a theme that employs SASS/SCSS, a styleguide, and oth
 
 Like Composer dependencies, your frontend dependencies and compiled frontend assets should not be directly committed to the project repository. Instead, they should be built during the creation of a production-ready artifact.
 
-BLT does not directly manage any of your front end dependencies or assets, but it does create opportunities for you to hook into the build process with your own custom frontend commands. Additionally, BLT ships with [Cog](https://github.com/acquia-pso/cog), base a theme that provides front end dependencies and front and build tasks compatible with BLT.
+BLT does not directly manage any of your front end dependencies or assets, but it does create opportunities for you to hook into the build process with your own custom frontend commands. Additionally, BLT ships with [Cog](https://github.com/acquia-pso/cog), a base theme that provides front end dependencies and front end build tasks compatible with BLT.
 
 ##  Available target hooks
 
@@ -18,7 +18,7 @@ The three following target hooks are available for frontend commands: setup, bui
 
 ### Setup
 
-During the execution of `blt setup`, BLT will execute `command-hooks.frontend-reqs.command`. This hook is intended to provide an opportunity to install the tools required for your frontend build process. For instance, you may use this hook to install dependencies via NPM or Bower. E.g.,
+During the execution of `blt setup`, BLT will execute `command-hooks.frontend-reqs.command`. This hook is intended to provide an opportunity to install the tools required for your frontend build process. For instance, you may use this hook to install dependencies via NPM or Bower, e.g.,
 
     command-hooks:
       frontend-reqs:
@@ -40,7 +40,7 @@ If you are using a sub theme of Cog, executing `npm run build` in your theme dir
 
 ### Test
 
-During the execution of `blt tests`, BLT will execute `command-hooks.frontend-test.command`. This hook is intended to provide an opportunity execute frontend tests, like JavaScript linting and visual regression testing. E.g.,
+During the execution of `blt tests`, BLT will execute `command-hooks.frontend-test.command`. This hook is intended to provide an opportunity execute frontend tests, like JavaScript linting and visual regression testing, e.g.,
 
     command-hooks:
       frontend-test:
@@ -51,7 +51,7 @@ If you are using a sub theme of Cog, executing `npm test` in your theme director
 
 ### Executing complex commands
 
-If you need to execute something more complex, you may call a custom script rather than direct the embedding your commands in the yaml file:
+If you need to execute something more complex, you may call a custom script rather than directly embedding your commands in the yaml file:
 
     command-hooks:
       frontend-assets:

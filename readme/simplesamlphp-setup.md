@@ -10,10 +10,10 @@ Request the remote IdP metadata (XML) from the customer. Note that each environm
 
 1. Execute `blt recipes:simplesamlphp:init`. This performs the following initial setup tasks:
 
-      * Adds the [simpleSAMLphp Authentication](https://www.drupal.org/project/simplesamlphp_auth) `simplesamlphp_auth` module as a project dependency in your `composer.json` file.
-      * Copies configuration files to `${project.root}/simplesamlphp/config`.
-      * Adds a `simplesamlphp` property to `blt/blt.yml`.
-      * Creates a symbolic link in the docroot to the web accessible directory of the `simplesamlphp` library.
+      * Adds the [simpleSAMLphp Authentication](https://www.drupal.org/project/simplesamlphp_auth) `simplesamlphp_auth` module as a project dependency in your `composer.json` file
+      * Copies configuration files to `${project.root}/simplesamlphp/config`
+      * Adds a `simplesamlphp` property to `blt/blt.yml`
+      * Creates a symbolic link in the docroot to the web accessible directory of the `simplesamlphp` library
 
 1. Add the following two lines to `docroot/.htaccess`:
 
@@ -78,7 +78,7 @@ Request the remote IdP metadata (XML) from the customer. Note that each environm
                 $protocol = 'https://';
                 $port = ':' . $_SERVER['SERVER_PORT'];
               }
-              $config['baseurlpath'] = $protocol . $_SERVER['HTTP_HOST'] . $port . '/simplesaml/';	  
+              $config['baseurlpath'] = $protocol . $_SERVER['HTTP_HOST'] . $port . '/simplesaml/';
 
 1. Configure IdP Remote Metadata.
 

@@ -50,7 +50,7 @@ Note that Composer versioning is not identical to drupal.org versioning.
 
 ## Add dependencies
 
-To add a new package to your project, use the `composer require` command. This will add the new dependency to your `composer.json` and `composer.lock` files, and download the package locally. E.g., to download the pathauto module run,
+To add a new package to your project, use the `composer require` command. This will add the new dependency to your `composer.json` and `composer.lock` files, and download the package locally, e.g., to download the pathauto module run:
 
         composer require drupal/pathauto
 
@@ -58,7 +58,7 @@ Commit `composer.json` and `composer.lock` afterwards.
 
 ## Update dependencies (core, profile, module, theme, libraries)
 
-To update a single package, run `composer update [vendor/package]`. E.g.,
+To update a single package, run `composer update [vendor/package]`, e.g.,
 
         composer update drupal/pathauto --with-dependencies
 
@@ -94,7 +94,7 @@ BLT merges default values for composer.json using [wikimedia/composer-merge-plug
             "ignore-duplicates": true
         },
 
-This merges the `require`, `require-dev`, `autoload`, `autoload-dev`, `scripts`, and `extra` keys from BLT's own vendored files. The merged values are split into two groups
+This merges the `require`, `require-dev`, `autoload`, `autoload-dev`, `scripts`, and `extra` keys from BLT's own vendored files. The merged values are split into two groups:
 
  1. composer.require.json: These packages are required for BLT to function properly. You may change their versions, but you should not remove them.
  1. composer.suggested.json: You may remove the suggested packages by deleting the `blt/composer.suggested.json` line from your composer.json.
@@ -107,7 +107,7 @@ If you'd like to override the default version constraint for a package provided 
 
 ### Merging in additional composer.json files
 
-In situations where you have local projects, e.g. a custom module, that have their own composer.json files, you can merge them in by including the composer-merge-plugin. Reference these additional composer.json files in the `extra` section of your root composer.json file.
+In situations where you have local projects, e.g., a custom module, that have their own composer.json files, you can merge them in by including the composer-merge-plugin. Reference these additional composer.json files in the `extra` section of your root composer.json file:
 
         "extra": {
           "merge-plugin": {
@@ -122,9 +122,9 @@ In situations where you have local projects, e.g. a custom module, that have the
 Drupal 8 does not have a definitive solution for downloading front end dependencies. The following solutions are suggested:
 
 * Load the library as an external library. See [Adding stylesheets (CSS) and JavaScript (JS) to a Drupal 8 module](https://www.drupal.org/developing/api/8/assets).
-* Use a front end package manager (e.g., [NPM](https://www.npmjs.com/)) to download your dependencies. Then use BLT's `source:build:frontend-assets` target-hook to trigger building those dependencies. E.g., call `npm install` in your theme directory via these hooks. See [Frontend management](frontend.md) for more information.
+* Use a front end package manager (e.g., [NPM](https://www.npmjs.com/)) to download your dependencies. Then use BLT's `source:build:frontend-assets` target-hook to trigger building those dependencies, e.g., call `npm install` in your theme directory via these hooks. See [Frontend management](frontend.md) for more information.
 * Commit the library to the repository, typically in `docroot/librares`.
-*  Add the library to composer.json via a [custom repository](https://getcomposer.org/doc/05-repositories.md). Designate the package as a `drupal-library` and define a `installer-paths` path for that package type to ensure that it is installed to `docroot/libraries.` Ensure that it can be discovered in that location. See [example composer.json](https://gist.github.com/mortenson/a5390d99013b5b8c0254081e89bb4d47).
+*  Add the library to composer.json via a [custom repository](https://getcomposer.org/doc/05-repositories.md). Designate the package as a `drupal-library` and define an `installer-paths` path for that package type to ensure that it is installed to `docroot/libraries.` Ensure that it can be discovered in that location. See [example composer.json](https://gist.github.com/mortenson/a5390d99013b5b8c0254081e89bb4d47).
 
 Contributed projects should provide the ability to download and discover the libraries. If you are using a contributed project, it is suggested that you patch the project to support one of these strategies.
 

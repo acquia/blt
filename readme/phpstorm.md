@@ -13,14 +13,14 @@ To ensure consistent validation across all environments on your project, it's be
 
 Specifically:
 
-1. Go to PHPStorm settings / preferences.
-1. Open Languages -> PHP -> Code Sniffer.
-1. Open the modal next to "Configuration" and select the PHPCS binary in your project located at vendor/bin/phpcs.
-1. Open Editor -> Inspections.
-1. Uncheck the PHP box to disable all PHP inspections.
-1. Recheck the box for undefined variable analysis (since Coder 2 doesn't support this).
-1. Recheck the box next to PHP CodeSniffer validation.
-1. Under PHP CodeSniffer configuration, change the coding standard to "custom" and then select the phpcs.xml file in the root of your project.
+1. Go to PHPStorm settings / preferences
+1. Open Languages -> PHP -> Code Sniffer
+1. Open the modal next to "Configuration" and select the PHPCS binary in your project located at vendor/bin/phpcs
+1. Open Editor -> Inspections
+1. Uncheck the PHP box to disable all PHP inspections
+1. Recheck the box for undefined variable analysis (since Coder 2 doesn't support this)
+1. Recheck the box next to PHP CodeSniffer validation
+1. Under PHP CodeSniffer configuration, change the coding standard to "custom" and then select the phpcs.xml file in the root of your project
 
 ## Setting up Xdebug
 

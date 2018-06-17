@@ -71,4 +71,4 @@ If you are using an older version of BLT that was not installed using Composer, 
         blt recipes:drupalvm:destroy
         blt vm
 
-Review and commit changes to your project files. For customized files like `.travis.yml` or `docroot/sites/default/settings.php` it is recommended that you use `git add -p` to select which specific line changes you'd like to stage and commit.
+Review and commit changes to your project files. For customized files like `.travis.yml` or `docroot/sites/default/settings.php`, it is recommended that you use `git add -p` to select which specific line changes you'd like to stage and commit.
