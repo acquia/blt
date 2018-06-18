@@ -40,9 +40,9 @@ If you are using an older version of BLT that was not installed using Composer, 
 
         composer require drupal/lightning:~8 --no-update
 
-1. Require acquia/blt version 8.3.0 as a dependency:
+1. Require acquia/blt version 9.0.5 as a dependency:
 
-        composer require acquia/blt:8.3.0 --no-update
+        composer require acquia/blt:9.0.5 --no-update
 
 1. Update all dependencies:
 
@@ -54,7 +54,7 @@ If you are using an older version of BLT that was not installed using Composer, 
 
 1. Upgrade to the latest version of BLT:
 
-        composer require acquia/blt:^8.6.15 --no-update
+        composer require acquia/blt:^9.0.5 --no-update
         composer update
 
 1. If using Travis CI, re-initialize .travis.yml and re-apply customizations:
