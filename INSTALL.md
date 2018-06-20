@@ -35,7 +35,7 @@ Then install the minimum dependencies for BLT. The preferred method is via Homeb
  
 Note that the recommended installation method for Drush has changed recently. Drush should only be installed as a dependency of individual projects, rather than being installed system-wide. BLT will manage this dependency for you on projects, but in order for you to run Drush commands independently of BLT commands you'll want to install the Drush Launcher according to its intructions: https://github.com/drush-ops/drush-launcher
 
-If you'd like to create a [Drupal VM](https://www.drupalvm.com/) with BLT, you will require the following additional libraries. If you'd like to use a LAMP stack other than Drupal VM, see [Local Development](readme/local-development.md).
+If you'd like to create a [Drupal VM](https://www.drupalvm.com/) with BLT, you will require the following additional libraries. If you'd like to use a LAMP stack other than Drupal VM, see [Local Development](docs/local-development.md).
 
         brew tap caskroom/cask
         brew cask install virtualbox vagrant
@@ -62,7 +62,7 @@ Follow the official [installation guide](https://msdn.microsoft.com/en-us/comman
 
 Note you **must** create a UNIX username with a password when prompted at the final step in the process. Certain BLT commands will not function correctly if you install with a passwordless root account.
 
-Once complete follow the [BLT on Windows installation instructions](readme/windows-install.md).
+Once complete follow the [BLT on Windows installation instructions](docs/windows-install.md).
 
 ### Linux
 
@@ -82,7 +82,7 @@ If you are using a Linux machine, it is assumed that you will not be using Drupa
 
 Choose your own adventure:
 
-* [Creating a new project with BLT](readme/creating-new-project.md)
-* [Cloning an existing BLT project](readme/onboarding.md)
-* [Adding BLT to an existing project](readme/adding-to-project.md)
-* [Upgrading BLT](readme/updating-blt.md)
+* [Creating a new project with BLT](docs/creating-new-project.md)
+* [Cloning an existing BLT project](docs/onboarding.md)
+* [Adding BLT to an existing project](docs/adding-to-project.md)
+* [Upgrading BLT](docs/updating-blt.md)

@@ -71,14 +71,14 @@ Its scope is discretely defined. It is *not* intended to provide:
 * [Testing Framework](template/tests).
     * Behat: default `local.yml` configuration, example tests, `FeatureContext.php`
     * PHPUnit: default tests for ensuring proper functioning of BLT provided components
-* [Commands to automate project tasks](readme/project-tasks.md), like:
+* [Commands to automate project tasks](docs/project-tasks.md), like:
     * Test execution
     * Frontend asset compilation
     * Syncing environments
-* [Deployment Artifact Generation](readme/deploy.md)
+* [Deployment Artifact Generation](docs/deploy.md)
     * Building production-only dependencies
     * Sanitation of production code
-* [Continuous Integration & Deployment](readme/ci.md)
+* [Continuous Integration & Deployment](docs/ci.md)
     * [Acquia Pipelines](https://dev.acquia.com/request-invite-acquia-pipelines)
     * [Travis CI](https://travis-ci.com)
     * [GitHub](https://github.com)
