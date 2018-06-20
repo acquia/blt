@@ -44,7 +44,7 @@ This snippet would cause the `tests:phpcs:sniff:all` and `tests:phpcs:sniff:file
 
 ## Adding / overriding filesets
 
-To modify the behavior of PHPCS, see [tests:phpcs:sniff:all](#validatephpcs) documentation.
+To modify the behavior of PHPCS, see [tests:phpcs:sniff:all](#testsphpcssniffall) documentation.
 
 To modify the filesets that are used in other commands, such as `tests:twig:lint:all`, `tests:yaml:lint:all`, and `tests:php:lint`:
 
