@@ -78,7 +78,7 @@ To accomplish this, we will create a "local" configuration split.
         graylist_skip_equal: true
         weight: 0
 
-1. `drush cr`. Doing this will allow configuration split to recognize that the local split is active. We rely on BLT to designate this split as active on local machines via a [settings.php include](https://github.com/acquia/blt/blob/8.x/settings/config.settings.php#L22).
+1. `drush cr`. Doing this will allow configuration split to recognize that the local split is active. We rely on BLT to designate this split as active on local machines via a [settings.php include](https://github.com/acquia/blt/blob/9.x/settings/config.settings.php#L22).
 1.  Navigate to `/admin/config/development/performance` and disable caching and aggregation.
 1. `drush csex`. Because the local split is active, this will export the local split  `system.performance` settings to `../config/envs/local/system.performance.yml`. It should contain the following configuration:
 
@@ -110,7 +110,7 @@ However, BLT will only mark these splits as enabled _if they exist_. It will not
 #### A few notes regarding the settings
 
 - The folder is relative to the drupal docroot.
-- We set active to zero because we don't want configuration management to manage whether this split is active. Instead, we will rely on BLT to enable this split, when appropriate, via a [settings.php include](https://github.com/acquia/blt/blob/8.x/settings/config.settings.php#L22).  If you are using BLT, this should already be loaded for you as a consequence of including `blt.settings.php` in your `settings.php` file. However, you may override this logic by setting `$split` in `settings.php` prior to including `blt.settings.php`.
+- We set active to zero because we don't want configuration management to manage whether this split is active. Instead, we will rely on BLT to enable this split, when appropriate, via a [settings.php include](https://github.com/acquia/blt/blob/9.x/settings/config.settings.php#L22).  If you are using BLT, this should already be loaded for you as a consequence of including `blt.settings.php` in your `settings.php` file. However, you may override this logic by setting `$split` in `settings.php` prior to including `blt.settings.php`.
 - You may see that even on your local environment, after running `drush config-import`, the local configuration split has a status of "active (overwritten)". This is normal and does not indicate a problem. The mere fact that it is active is an override of the exported `active: 0` setting in the split itself. It does not necessarily indicate that the configuration which the split controls is actually overridden.
 
 # Feature split

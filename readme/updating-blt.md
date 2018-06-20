@@ -16,7 +16,7 @@ If you are already using BLT via Composer, you can update to the latest version 
 
 ### Modifying update behavior
 
-By default BLT will modify a handful of files in your project to conform to the [upstream template](https://github.com/acquia/blt/blob/8.x/template). If you'd like to prevent this, set `extra.blt.update` to `false` in `composer.json`:
+By default BLT will modify a handful of files in your project to conform to the [upstream template](https://github.com/acquia/blt/blob/9.x/template). If you'd like to prevent this, set `extra.blt.update` to `false` in `composer.json`:
 
       "extra": {
         "blt": {

@@ -44,7 +44,7 @@ To initialize Pipelines support for your BLT project:
 
         blt recipes:ci:pipelines:init
 
-    This will generate an [acquia-pipelines.yml file](https://docs.acquia.com/pipelines/yaml) in your project root based on [BLT's default acquia-pipelines.yml file](https://github.com/acquia/blt/blob/8.x/scripts/pipelines/acquia-pipelines.yml).
+    This will generate an [acquia-pipelines.yml file](https://docs.acquia.com/pipelines/yaml) in your project root based on [BLT's default acquia-pipelines.yml file](https://github.com/acquia/blt/blob/9.x/scripts/pipelines/acquia-pipelines.yml).
 
 1. Commit the new file and push it to your Acquia git remote. Example commands:
 

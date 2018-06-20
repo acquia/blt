@@ -64,7 +64,7 @@ To modify the filesets that are used in other commands, such as `tests:twig:lint
 
 ## Modifying BLT Configuration
 
-BLT configuration can be customized by overriding the value of default variable values. You can find the default value of any BLT variable in [build.yml](https://github.com/acquia/blt/blob/8.x/config/build.yml).
+BLT configuration can be customized by overriding the value of default variable values. You can find the default value of any BLT variable in [build.yml](https://github.com/acquia/blt/blob/9.x/config/build.yml).
 
 ### Overriding a variable value:
 
