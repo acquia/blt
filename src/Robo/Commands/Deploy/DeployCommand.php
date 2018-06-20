@@ -148,11 +148,11 @@ class DeployCommand extends BltTasks {
       $tag_name = $options['tag'];
     }
     else {
-      $tag_name = $this->ask('Enter the tag name for the deployment artifact. E.g., 1.0.0-build');
+      $tag_name = $this->ask('Enter the tag name for the deployment artifact, e.g., 1.0.0-build');
     }
 
     if (empty($tag_name)) {
-      // @todo Validate tag name is valid. E.g., no spaces or special characters.
+      // @todo Validate tag name is valid, e.g., no spaces or special characters.
       throw new BltException("You must enter a valid tag name.");
     }
     else {

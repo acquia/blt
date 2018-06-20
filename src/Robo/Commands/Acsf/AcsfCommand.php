@@ -43,7 +43,7 @@ class AcsfCommand extends BltTasks {
       'package_version' => $options['acsf-version'],
     ];
     $this->invokeCommand('internal:composer:require', $package_options);
-    $this->say("In the future, you may pass in a custom value for acsf-version to override the default version. E.g., blt recipes:acsf:init:all --acsf-version='8.1.x-dev'");
+    $this->say("In the future, you may pass in a custom value for acsf-version to override the default version, e.g., blt recipes:acsf:init:all --acsf-version='8.1.x-dev'");
     $this->acsfDrushInitialize();
     $this->say('<info>ACSF was successfully initialized.</info>');
     $project_yml = $this->getConfigValue('blt.config-files.project');
