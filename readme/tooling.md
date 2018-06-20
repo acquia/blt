@@ -66,7 +66,7 @@ You can host a BLT project in _any_ Drupal-compatible hosting environment. Howev
 
 [PHP](http://php.net/manual/en/install.php) is required by various tools, including Composer, Drush, Robo, and Drupal itself. Please ensure that:
 
-* You are using PHP 5.6+. You can check your existing version by executing `php -v`
+* You are using PHP 5.6+. You can check your existing version by executing `php -v`.
 * You set the memory_limit for PHP to 2G or higher (for Composer). You can find the `php.ini` file for your PHP CLI by executing `php --ini` and looking for the "Loaded Configuration file".
 
 ### <a name="composer">Composer</a>
@@ -120,11 +120,11 @@ Chromedriver is required by Selenium to communicate with Chrome. Selenium is one
 
 ### <a name="virtualbox">VirtualBox</a>
 
-[Vagrant](https://www.virtualbox.org/wiki/VirtualBox) is required by [Drupal VM](https://www.drupalvm.com/), which is one option for local development. You may choose NOT to use Drupal VM, in which case VirtualBox is not required.
+[VirtualBox](https://www.virtualbox.org/wiki/VirtualBox) is required by [Drupal VM](https://www.drupalvm.com/), which is one option for local development. You may choose NOT to use Drupal VM, in which case VirtualBox is not required.
 
 ### <a name="yarn">Yarn</a>
 
-[Yarn](https://github.com/yarnpkg/yarn) is a package manager for Javascript. It is required by [Cog](https://github.com/acquia-pso/cog), which is one option for a Drupal base theme. You may choose NOT to use Cog, in which case NPM is not required.
+[Yarn](https://github.com/yarnpkg/yarn) is a package manager for Javascript. It is required by [Cog](https://github.com/acquia-pso/cog), which is one option for a Drupal base theme. You may choose NOT to use Cog, in which case Yarn is not required.
 
 ### <a name="nvm">NVM</a>
 

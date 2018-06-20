@@ -6,8 +6,8 @@
 
 Pre-requisites to installation:
 
-1. Ensure that `docroot/sites/default/settings/local.settings.php` exists by executing `blt setup:settings`.
-1. Verify that correct local database credentials are set in `local.settings.php`.
+1. Ensure that `docroot/sites/default/settings/local.settings.php` exists by executing `blt setup:settings`
+1. Verify that correct local database credentials are set in `local.settings.php`
 1. Ensure that project dependencies have already been built via `blt source:build`
 
 To re-install Drupal, execute: `blt drupal:install`. Note that this will drop the existing database tables and install Drupal from scratch!

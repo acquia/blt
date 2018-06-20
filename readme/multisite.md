@@ -7,9 +7,9 @@ This document will walk you through the steps to set up a multisite BLT-based pr
 Start by following the [Acquia Cloud multisite instructions](https://docs.acquia.com/acquia-cloud/multisite) to configure your codebase for Acquia Cloud. Specifically, these instructions should walk you through:
 
 1. Creating a new database in Cloud.
-2. Creating a new site directory in your codebase. It's recommended to name each directory according to the site's primary domain (e.g. docroot/sites/example.com).
+2. Creating a new site directory in your codebase. It's recommended to name each directory according to the site's primary domain (e.g., docroot/sites/example.com).
 3. Creating a sites.php file to direct incoming HTTP requests to the appropriate site. Note that if you name your sites according to their domain names, and use a canonical approach to subdomains (local.example.com, dev.example.com, example.com), you don't need to modify sites.php at all--but the file does need to exist, even if it's empty.
-4. Adding the site-specific settings include to each site's settings.php file. In the `settings.php` for your multisite, add the `require` statement for your multisite database credentials *before* the `require` statement for `blt.settings.php`. E.g.,
+4. Adding the site-specific settings include to each site's settings.php file. In the `settings.php` for your multisite, add the `require` statement for your multisite database credentials *before* the `require` statement for `blt.settings.php`, e.g.,
 
         if (file_exists('/var/www/site-php')) {
           require '/var/www/site-php/mysite/multisitename-settings.inc';

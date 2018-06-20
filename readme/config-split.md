@@ -6,7 +6,7 @@ This covers common use cases for using configuration splits as a strategy for co
 - Environment specific configuration (e.g., local, data, test, prod, etc.)
 - Site-specific configuration (when multisite is used)
 - Profile-specific split (when multisite and multiple profiles are used)
-- "Feature" specific configuration (e.g. a distinct blog feature that is shared across multiple sites). Not to be confused with the features module.
+- "Feature" specific configuration (e.g., a distinct blog feature that is shared across multiple sites). Not to be confused with the features module.
 - Miscellaneous troubleshooting information
 
 # Scenario Background
@@ -19,7 +19,7 @@ Let's start out by exporting the default configuration for the application. This
 
 For the sake of this tutorial, let's focus on one particular configuration setting: `system.performance`. This controls caching and aggregation settings for Drupal core.
 
-1.  Navigate to `/admin/config/development/performance` and enable caching and aggregation.
+1.  Navigate to `/admin/config/development/performance` and enable caching and aggregation
 1. `drush en config_split -y`
 1. `drush config-export -y`
 1. `drush cr`
@@ -41,8 +41,8 @@ This will populate `../config/default` with all configuration for the site.  `..
 You can test the process of importing configuration by:
 
 1. Navigating to `/admin/config/development/performance`
-2. Disabling caching and aggregation.
-3. Executing `drush config-import`.
+2. Disabling caching and aggregation
+3. Executing `drush config-import`
 
 You should then find that caching and aggregation have been re-enabled, congruent with the previously exported configuration.
 
@@ -79,7 +79,7 @@ To accomplish this, we will create a "local" configuration split.
         weight: 0
 
 1. `drush cr`. Doing this will allow configuration split to recognize that the local split is active. We rely on BLT to designate this split as active on local machines via a [settings.php include](https://github.com/acquia/blt/blob/8.x/settings/config.settings.php#L22).
-1.  Navigate to `/admin/config/development/performance` and disable caching and aggregation.
+1.  Navigate to `/admin/config/development/performance` and disable caching and aggregation
 1. `drush csex`. Because the local split is active, this will export the local split  `system.performance` settings to `../config/envs/local/system.performance.yml`. It should contain the following configuration:
 
         cache:
@@ -121,7 +121,7 @@ To accomplish this, we will create a "blog" configuration split. That split will
 
 ## Creating a feature split
 
-1. Create blog content type.
+1. Create blog content type
 1. `mkdir -p ../config/features/blog`
 1. `/admin/config/development/configuration/config-split/add`:
 
