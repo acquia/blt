@@ -89,11 +89,6 @@ _Drush is both a system level and a project level dependency_, which is unusual.
  
 Drush uses a special "launcher" script to look for a copy of drush that is specific to your project. BLT ships such project-level drush binary in the `vendor/bin` directory of your project. Your global drush installation defer to the project level binary when executing `drush` from within a BLT project directory.  
 
-BLT uses a `drush.wrapper` script to ensure that all drush commands run within the project directory utilize the project's config file and aliases. See:
-
-* https://github.com/acquia/blt/blob/8.x/template/.drush-use
-* https://github.com/acquia/blt/blob/8.x/template/drush.wrapper
-
 ### <a name="java">Java</a>
 
 Java is required by Selenium, which is one option for executing Javascript Behat tests. You may choose NOT to use Selenium, in which case Java is not required. See [testing](testing.md) for more information.
