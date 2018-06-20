@@ -211,7 +211,7 @@ class SettingsCommand extends BltTasks {
    * This symlinks the hook into the project's .git/hooks directory.
    *
    * @param string $hook
-   *   The git hook to install. E.g., 'pre-commit'.
+   *   The git hook to install, e.g., 'pre-commit'.
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */

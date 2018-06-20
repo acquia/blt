@@ -13,7 +13,7 @@ This section describes aspects of BLT's development and deployment process that 
 
 The primary goal of configuration management is to ensure that all configuration changes can be reviewed, tested, and predictably deployed to production environments. Some simple changes, such as changing a site's name or slogan, might have limited, atomic, and predictable effects, and therefore not require strict change management. Other types of changes, such as modifying field storage schemas, _always_ need to go through a review process. Additionally, different projects might have different degrees of risk tolerance. For instance, some might prefer that configuration be strictly read-only in production, prohibiting even the simple site name change above.
 
-A good CM workflow should be flexible enought to accomodate either of these use cases, and make it easy for developers to make and capture configuration changes, review and test these changes, and reliably deploy these changes to a remote environment.
+A good CM workflow should be flexible enough to accomodate either of these use cases, and make it easy for developers to make and capture configuration changes, review and test these changes, and reliably deploy these changes to a remote environment.
 
 Generally speaking, a configuration change follows this lifecycle:
 
@@ -37,7 +37,7 @@ When you run one of these update commands, they perform the following updates (s
 - Config import: runs the core configuration-import command to import any configuration stored in the root `config` directory. This is either a full or partial import, depending on how BLT is configured.
 - Features import (optional): runs features-import-all, which imports any configuration stored in a feature module's `config/install` directory. Note that this only runs if you've configured the `cm.features.bundle` property in `blt/blt.yml`.
 
-There are also pre- and post-config import hooks that you can use to run custom commands.
+There are also pre and post-config import hooks that you can use to run custom commands.
 
 ### Config vs content
 Drupal’s config system cannot be used to manage entities that Drupal considers to be content, such as nodes, taxonomy terms, and files. This can create conflicts when a configuration entity depends on a content entity, such as:
@@ -72,7 +72,7 @@ We need to find a better way of preventing this than manually monitoring module 
 
 Configuration stored on disk, whether via the core configuration system or features, is essentially a flat-file database and must be treated as such. For instance, all changes to configuration should be made via the UI or an appopriate API and then exported to disk. You should never make changes to individual config files by hand, just as you would never write a raw SQL query to add a Drupal content type. Even seemingly small changes to one part of the configuration can have sweeping and unanticipated changes. For instance, enabling the Panelizer or Workbench modules will modify the configuration of every content type on the site.
 
-BLT has a built-in test that will help protect against some of these mistakes. After configuration is imported (i.e. during `drupal:update` or `artifact:update:drupal`), it will check if any configuration remains overridden. If so, the build will fail, alerting you to the fact that there are uncaptured configuration changes or possibly a corrupt configuration export. This test acts as a canary and should not be disabled, but if you need to temporarily disable it in an emergency (i.e. if deploys to a cloud environment are failing), you can do so by settings `cm.allow-overrides` to `true`.
+BLT has a built-in test that will help protect against some of these mistakes. After configuration is imported (i.e., during `drupal:update` or `artifact:update:drupal`), it will check if any configuration remains overridden. If so, the build will fail, alerting you to the fact that there are uncaptured configuration changes or possibly a corrupt configuration export. This test acts as a canary and should not be disabled, but if you need to temporarily disable it in an emergency (i.e., if deploys to a cloud environment are failing), you can do so by settings `cm.allow-overrides` to `true`.
 
 Finally, you should enable protected branches in GitHub to ensure that pull requests can only be merged if they are up to date with the target branch. This protects against a scenario where, for instance, one PR adds a new content type, while another PR enables Workbench (which would modify that content type). Individually, each of these PRs is perfectly valid, but once they are both merged they produce a corrupt configuration (where the new content type is lacking Workbench configuration). When used with BLT’s built-in test for configuration overrides, protected branches can quite effectively prevent some forms of configuration corruption.
 
@@ -87,7 +87,7 @@ BLT recommends using the Config Split module to manage configuration on most pro
 * Default (always on) application configuration
 * Environment specific configuration (e.g., local, data, test, prod, etc.)
 * Site-specific configuration (when multisite is used)
-* Feature (e.g. a distinct blog feature that is shared across multiple sites). Not to be confused with the features module.
+* Feature (e.g., a distinct blog feature that is shared across multiple sites). Not to be confused with the features module.
 
 ### Using Config Split
 
@@ -167,7 +167,7 @@ Note that as of version 8.3.3, Features can manage user roles and permissions, b
 ### Testing features
 It’s important to ensure via automated testing that features can be installed on a new site as well as enabled on existing sites.
 
-There are many reasons that features can fail to install or import properly. The most frequent cause is circular dependencies. For instance, imagine that feature A depends on a field exported in feature B, and feature B depends on a field exported in feature B. Neither feature can be enabled first, and site installs will break. This may not be a big deal if you only have a single-site installation, but if you are building a multi-site platform this is something you want to catch early.
+There are many reasons that features can fail to install or import properly. The most frequent cause is circular dependencies. For instance, imagine that feature A depends on a field exported in feature B, and feature B depends on a field exported in feature A. Neither feature can be enabled first, and site installs will break. This may not be a big deal if you only have a single-site installation, but if you are building a multi-site platform this is something you want to catch early.
 
 A feature can also stay "overridden" after it is imported, due to another module overriding the provided config. For instance, workbench adds a special field to content types when it is enabled. If this field isn't exported to the feature containing a content type, the feature will be perpetually overridden. This isn't necessarily harmful, but can make it difficult to diagnose other more serious issues. It's recommended to set BLT's CM "allow overrides" property to false to automatically test for overrides.
 
@@ -186,7 +186,7 @@ You can use the following code snippet in your profile's install file to enable 
 ### Updating custom fields and schema
 There are some configuration changes that Features (and the core config system) doesn’t handle well, including:
 
-* Updating field storage (e.g. changing a single-value field to an unlimited-value field)
+* Updating field storage (e.g., changing a single-value field to an unlimited-value field)
 * Adding a [new custom block type](https://www.drupal.org/node/2702659) to an existing feature (sadly, you have to create a new feature for every block type)
 * Deleting a field (you'll want to remove the field from the feature and then use the code snippet below to actually delete the field)
 * Adding a field to some types of content (such as [block content](https://www.drupal.org/node/2661806))
@@ -245,7 +245,7 @@ Drupal normally prevents modules from overriding configuration that already exis
 If you need to override the default configuration provided by another project (or core), the available solutions are:
 
 * Recommended: use Features. Features will prevent a PreExistingConfigException from being thrown when a feature containing pre-existing configuration is installed. Ensure that Features is already enabled before installing any individual features that might contain configuration overrides (simply listing Features as a dependency isn't sufficient).
-* Move your config into the a custom profile. Configuration imports for Profiles are treated differently than for module. Importing pre-existing configuration for a Profile will not throw a PreExistingConfigException.
+* Move your config into the a custom profile. Configuration imports for Profiles are treated differently than for modules. Importing pre-existing configuration for a Profile will not throw a PreExistingConfigException.
 * Use [config rewrite](https://www.drupal.org/project/config_rewrite), which will allow you to rewrite the configuration of another module prior to installation.
 * Use the [config override system](https://www.drupal.org/docs/8/api/configuration-api/configuration-override-system) built into core. This has [some limitations](https://www.drupal.org/node/2614480#comment-10573274) of which you should be wary.
 

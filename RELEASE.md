@@ -27,7 +27,7 @@ To perform a release:
 * Pull the latest BLT version to your local machine `git pull`.
 * BLT's dependencies must be installed by running `composer install` in the BLT directory.
 * If you don't have one, procure a [github personal access token](https://github.com/settings/tokens). Optionall save in a password vault for future use.
-* Determine the version of your future release. E.g., 9.1.0-alpha1.
+* Determine the version of your future release, e.g., 9.1.0-alpha1.
 * To both generate release notes and also create a new _draft_ release on GitHub, execute:
 
       ./vendor/bin/robo release [tag] [token]

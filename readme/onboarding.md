@@ -7,23 +7,23 @@ Here is a quick-start guide to getting your local development environment set up
 You have probably been linked to this documentation by a project that is using BLT to accelerate its development, testing, and deployment. While we strongly recommend exploring all of the BLT documentation, here's what's most important to do and know before getting started:
 
 * BLT is distributed as a Composer package. This means that the project you are working on requires BLT as a dependency in its composer.json file. This also means that you don't need to install or configure BLT globally on your machine, or as a separate tool--simply run `composer install` on the parent project and install a tiny bash alias (as described below), and you're good to go.
-* You will need some project-specific information to set up your local environment, specifically whether you are using a virtual development environment (e.g. DrupalVM), and the name of your mainline development branch (`develop` or `master`). This should be referenced in your project's README.
+* You will need some project-specific information to set up your local environment, specifically whether you are using a virtual development environment (e.g., DrupalVM), and the name of your mainline development branch (`develop` or `master`). This should be referenced in your project's README.
 * If you need help, check with your project team first, since they may have already encountered any issue you are experiencing. Then post an issue in the [BLT issue queue](https://github.com/acquia/blt/issues). The issue queue isn't only for bugs--we welcome feedback on all aspects of the developer experience.
-* You should verify that your local system and network meet [System requirements](../INSTALL.md)
+* You should verify that your local system and network meet [System requirements](../INSTALL.md).
 * Because BLT makes use of a variety of best practice development tools and processes (Composer, Git, etc...), you should verify that you have the necessary [skillset(s)](skills.md) to develop with BLT.
 
 ## Initial Setup
 
 1. Verify that your system meets the [system requirements for BLT](../INSTALL.md)
-1. [Fork](https://help.github.com/articles/fork-a-repo) the primary GitHub repository for the project you are developing.
+1. [Fork](https://help.github.com/articles/fork-a-repo) the primary GitHub repository for the project you are developing
 1. Clone your fork to your local machine (by convention, BLT refers to your fork as "origin" and the primary repo as "upstream"):
 
          git clone git@github.com:username/project-repo.git
          git remote add upstream git@github.com:acquia-pso/project-repo.git
 
 1. If your project uses separate `master` and `develop` branches, checkout the `develop` branch: `git checkout develop`
-1. Run `composer install` (you must already have Composer installed).
-1. Install `blt` alias: `composer run-script blt-alias`. At this point you might need restart your shell in order for the alias work.
+1. Run `composer install` (you must already have Composer installed)
+1. Install `blt` alias: `composer run-script blt-alias`. At this point you might need restart your shell in order for the alias work
 
 If your project uses a virtual development environment such as Drupal VM:
 

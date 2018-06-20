@@ -16,7 +16,7 @@ If you are already using BLT via Composer, you can update to the latest version 
 
 ### Modifying update behavior
 
-By default BLT will modify a handful of files in your project to conform to the [upstream template](https://github.com/acquia/blt/blob/8.x/template). If you'd like to prevent this, set `extra.blt.update` to `false` in `composer.json`:
+By default BLT will modify a handful of files in your project to conform to the [upstream template](https://github.com/acquia/blt/blob/9.x/template). If you'd like to prevent this, set `extra.blt.update` to `false` in `composer.json`:
 
       "extra": {
         "blt": {
@@ -40,9 +40,9 @@ If you are using an older version of BLT that was not installed using Composer, 
 
         composer require drupal/lightning:~8 --no-update
 
-1. Require acquia/blt version 8.3.0 as a dependency:
+1. Require acquia/blt version 9.0.5 as a dependency:
 
-        composer require acquia/blt:8.3.0 --no-update
+        composer require acquia/blt:9.0.5 --no-update
 
 1. Update all dependencies:
 
@@ -54,7 +54,7 @@ If you are using an older version of BLT that was not installed using Composer, 
 
 1. Upgrade to the latest version of BLT:
 
-        composer require acquia/blt:^8.6.15 --no-update
+        composer require acquia/blt:^9.0.5 --no-update
         composer update
 
 1. If using Travis CI, re-initialize .travis.yml and re-apply customizations:
@@ -71,4 +71,4 @@ If you are using an older version of BLT that was not installed using Composer, 
         blt recipes:drupalvm:destroy
         blt vm
 
-Review and commit changes to your project files. For customized files like `.travis.yml` or `docroot/sites/default/settings.php` it is recommended that you use `git add -p` to select which specific line changes you'd like to stage and commit.
+Review and commit changes to your project files. For customized files like `.travis.yml` or `docroot/sites/default/settings.php`, it is recommended that you use `git add -p` to select which specific line changes you'd like to stage and commit.

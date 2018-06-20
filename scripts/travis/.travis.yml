@@ -3,8 +3,8 @@ language: php
 dist: trusty
 
 # Adjust the version of PHP to match your production environment.
-# Making this version number greater than the production environment can unintended consequences including a
-# non-functional prod environment.
+# Making this version number greater than the production environment can have unintended consequences
+# including a non-functional prod environment.
 php:
   - 5.6
 
