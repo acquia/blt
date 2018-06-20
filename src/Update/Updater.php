@@ -192,10 +192,10 @@ class Updater {
    * Gets all applicable updates for a given version delta.
    *
    * @param string $starting_version
-   *   The starting version. E.g., 8005000.
+   *   The starting version, e.g., 8005000.
    *
    * @param string $ending_version
-   *   The ending version. E.g., 8005001.
+   *   The ending version, e.g., 8005001.
    *
    * @return array
    *   An array of applicable update methods, keyed by method name. Each row
@@ -299,7 +299,7 @@ class Updater {
    * Removes a patch from repo's root composer.json file.
    *
    * @param string $package
-   *   The composer package name. E.g., 'drupal/features'.
+   *   The composer package name, e.g., 'drupal/features'.
    *
    * @param string $url
    *   The URL of the patch.
@@ -355,7 +355,7 @@ class Updater {
    * Removes a repository from composer.json using the repository url[.
    *
    * @param string $script_key
-   *   The key of the scripts to remove. E.g., post-create-project-cmd.
+   *   The key of the scripts to remove, e.g., post-create-project-cmd.
    *
    * @return bool
    *   TRUE if script was removed, otherwise false.

@@ -14,7 +14,7 @@
 
 1. Customize *blt/blt.yml* if desired, such as to choose an install profile.
 
-    By default, BLT will install sites using the [*lightning*](https://github.com/acquia/lightning) profile. You can change this to any other core, contributed, or custom profile in your codebase. Make sure to download the profile if necessary, e.g. `composer require acquia/headless_lightning:~1.1.0`
+    By default, BLT will install sites using the [*lightning*](https://github.com/acquia/lightning) profile. You can change this to any other core, contributed, or custom profile in your codebase. Make sure to download the profile if necessary, e.g., `composer require acquia/headless_lightning:~1.1.0`.
 
 1. Now it’s time to spin up your LAMP stack.
 
@@ -30,7 +30,7 @@
 
        Modify the generated *docroot/sites/default/settings/local.settings.php* file by adding your custom MySql credentials.
 
-1. Install Drupal and automatically generate any remaining required files (e.g. settings.php, hash salt, etc...):
+1. Install Drupal and automatically generate any remaining required files (e.g., settings.php, hash salt, etc...):
 
         blt setup
 

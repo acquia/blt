@@ -28,7 +28,7 @@ To avoid these pitfalls, follow the best practices outlined in sections below.
 ### Resources
 
 * [Realizing quality improvement through test driven development](http://research.microsoft.com/en-us/groups/ese/nagappan_tdd.pdf)
-* [Why Test Automation Costs Too Much](http://testobsessed.com/2010/07/why-test-automation-costs-too-much/).
+* [Why Test Automation Costs Too Much](http://testobsessed.com/2010/07/why-test-automation-costs-too-much/)
 
 ## Test directory structure
 
@@ -110,8 +110,8 @@ Read through the [ScreenshotExtension documentation](https://github.com/elveteme
 
 ### Best practices
 
-* Behat tests must be used behaviorally. I.E., they must use business domain language.
-* Each test should be isolated. E.g., it should not depend on conditions created by another test. In pratice, this means:
+* Behat tests must be used behaviorally, i.e., they must use business domain language.
+* Each test should be isolated, i.e., it should not depend on conditions created by another test. In pratice, this means:
     * Resetting testing environment via CI after test suite runs
     * Defining explicit cleanup tasks in features
 * @todo add examples of good and bad features
@@ -127,7 +127,7 @@ Read through the [ScreenshotExtension documentation](https://github.com/elveteme
 
 * [Cucumber - Where to start?](https://github.com/cucumber/cucumber/wiki/Cucumber-Backgrounder#where-to-start)
 Note that Cucumber is simply a Ruby based BDD library, whereas Behat is a
-PHP based BDD library. Best practices for tests writing apply to both
+PHP based BDD library. Best practices for tests writing apply to both.
 * [The training wheels came off](http://aslakhellesoy.com/post/11055981222/the-training-wheels-came-off)
 
 ## PHPUnit

@@ -4,9 +4,9 @@
 
 For information on how to deploy to production, see [release-process.md](release-process.md).
 
-This document outlines the workflow to build a complete Drupal docroot (plus supporting features, such as Cloud Hooks) which can be deployed directly to Acquia Cloud. Collectively, this bundle of code is referred to as the "build artifact".
+This document outlines the workflow to build a complete Drupal docroot (plus supporting features, such as Cloud Hooks) which can be deployed directly to Acquia Cloud. Collectively, this bundle of code is referred to as the "build artifact."
 
-The most important thing to remember about this workflow is that the Github and Acquia Cloud repos are _not_ clones of one another. Github only stores the source code, and Acquia Cloud only stores the production code (i.e. the build artifacts).
+The most important thing to remember about this workflow is that the Github and Acquia Cloud repos are _not_ clones of one another. Github only stores the source code, and Acquia Cloud only stores the production code (i.e., the build artifacts).
 
 Currently, this workflow can either be followed manually, or integrated into a CI solution such as Acquia Pipelines, Travis CI, or Jenkins.
 
@@ -33,10 +33,10 @@ In order to create the build artifact in `/deploy`, simply run
 
 This task is analogous to `source:build` but with a few critical differences:
 
-* The docroot is created at `/deploy/docroot`.
+* The docroot is created at `/deploy/docroot`
 * Only production required to the docroot
 * (planned) CSS / JS are compiled in production mode (compressed / minified)
-* (planned) Sensitive files, such as CHANGELOG.txt, are removed.
+* (planned) Sensitive files, such as CHANGELOG.txt, are removed
 
 After the artifact is created, you can inspect it or even run it as a website locally. You may also manually commit and push it to Acquia Cloud.
 
@@ -59,7 +59,7 @@ This will generate the artifact, tag it with `1.0.0`, and push it to the remotes
 The artifact is built by running the `artifact:build` target, which does the following:
 
 * Rsyncs files from the repository root
-* Re-builds dependencies directly in the deploy directory. E.g., `composer install`
+* Re-builds dependencies directly in the deploy directory, e.g., `composer install`
 
 The rsync and re-build processes can be configured by modifying the values of variables under the top-level `deploy` key in your blt.yml file.
 

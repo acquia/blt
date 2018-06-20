@@ -55,7 +55,7 @@ To modify the filesets that are used in other commands, such as `tests:twig:lint
         @fileset(id="files.yaml.custom")
 
 1. Instantiate and return a `Symfony\Component\Finder\Finder` object. The files found by the finder comprise the fileset.
-1. You may use the Fileset id in various configuration values in your `blt/blt.yml` file. E.g., modify `tests:yaml:lint:all` such that it scans only your custom fileset, you would add the following to `blt/blt.yml`:
+1. You may use the Fileset id in various configuration values in your `blt/blt.yml` file, e.g., modify `tests:yaml:lint:all` such that it scans only your custom fileset, you would add the following to `blt/blt.yml`:
 
         validate:
           yaml:
@@ -108,26 +108,26 @@ Listed below are some of the more commonly customized BLT targets.
 
 #### artifact:build
 
-To modify the behavior of the `artifact:build` target, you may override BLT's `deploy` configuration. See `deploy` key in https://github.com/acquia/blt/blob/9.x/config/build.yml#L54. 
+To modify the behavior of the `artifact:build` target, you may override BLT's `deploy` configuration. See `deploy` key in https://github.com/acquia/blt/blob/9.x/config/build.yml#L54.
 
 More specifically, you can modify the build artifact in the following key ways:
 
-1. Change which files are rsynced to the artifact by providing your own `deploy.exclude_file` value in blt.yml. See [upstream deploy-exclude.txt](https://github.com/acquia/blt/blob/9.x/scripts/blt/deploy/deploy-exclude.txt) for example contents.  E.g.,
+1. Change which files are rsynced to the artifact by providing your own `deploy.exclude_file` value in blt.yml. See [upstream deploy-exclude.txt](https://github.com/acquia/blt/blob/9.x/scripts/blt/deploy/deploy-exclude.txt) for example contents, e.g.,
 
           deploy:
             exclude_file: ${repo.root}/blt/deploy/rsync-exclude.txt
 
-1. If you'd simply like to add onto the [upstream deploy-exclude.txt](https://github.com/acquia/blt/blob/9.x/scripts/blt/deploy/deploy-exclude.txt) instead of overriding it, you need not define your own `deploy.exclude_file`. Instead, simply leverage the `deploy-exclude-additions.txt` file found under the top-level `blt` directory by adding each file or directory you'd like to exclude on its own line. E.g.,
+1. If you'd simply like to add onto the [upstream deploy-exclude.txt](https://github.com/acquia/blt/blob/9.x/scripts/blt/deploy/deploy-exclude.txt) instead of overriding it, you need not define your own `deploy.exclude_file`. Instead, simply leverage the `deploy-exclude-additions.txt` file found under the top-level `blt` directory by adding each file or directory you'd like to exclude on its own line, e.g.,
 
           /directorytoexclude
           excludeme.txt
 
-1. Change which files are gitignored in the artifact by providing your own `deploy.gitignore_file` value in blt.yml. See [upstream .gitignore](https://github.com/acquia/blt/blob/9.x/scripts/blt/deploy/.gitignore) for example contents. E.g.,
+1. Change which files are gitignored in the artifact by providing your own `deploy.gitignore_file` value in blt.yml. See [upstream .gitignore](https://github.com/acquia/blt/blob/9.x/scripts/blt/deploy/.gitignore) for example contents, e.g.,
 
           deploy:
             gitignore_file: ${repo.root}/blt/deploy/.gitignore
 
-1. Execute a custom command after the artifact by providing your own `command-hooks.post-deploy-build.dir` and `command-hooks.post-deploy-build.command` values in blt.yml. E.g.,
+1. Execute a custom command after the artifact by providing your own `command-hooks.post-deploy-build.dir` and `command-hooks.post-deploy-build.command` values in blt.yml, e.g.,
 
           # Executed after deployment artifact is created.
           post-deploy-build:
