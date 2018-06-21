@@ -33,8 +33,8 @@ pages:
           - Running project tasks:
             - Overview: 'project-tasks.md'
             - Dependency management: 'dependency-management.md'
-            - Patches: 'template/patches/README.md'
-            - Drush: 'template/drush/README.md'
+            - Patches: 'patches.md'
+            - Drush: 'drush.md'
             - Git hooks: 'scripts/git-hooks/README.md'
           - Development Workflow: 'dev-workflow.md'
           - PHPStorm setup: 'phpstorm.md'
