@@ -713,6 +713,16 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   }
 
   /**
+   * Determines whether operating in an Acquia Hosting environment or not.
+   *
+   * @return bool
+   *   Returns TRUE if on Acquia Hosting or FALSE if not.
+   */
+  public function isAhEnv() {
+    return isset($_ENV['AH_SITE_ENVIRONMENT']);
+  }
+
+  /**
    * Gets the Operating system type.
    *
    * @return int
