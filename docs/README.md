@@ -65,10 +65,10 @@ Its scope is discretely defined. It is *not* intended to provide:
 
 ## Features
 
-* [Local Git Hooks](../scripts/git-hooks)
+* [Local Git Hooks](https://github.com/acquia/blt/tree/9.x/scripts/git-hooks)
     * pre-commit: Checks for Drupal coding standards compliance
     * commit-msg: Check for proper formatting and syntax
-* [Testing Framework](../template/tests).
+* [Testing Framework](https://github.com/acquia/blt/tree/9.x/template/tests).
     * Behat: default `local.yml` configuration, example tests, `FeatureContext.php`
     * PHPUnit: default tests for ensuring proper functioning of BLT provided components
 * [Commands to automate project tasks](project-tasks.md), like:
