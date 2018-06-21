@@ -4,7 +4,7 @@ Welcome to the BLT documentation site!
 
 # Getting Started
 
-Please read through [Getting started](../INSTALL.md) to "install" BLT, then review the usage documentation below.
+Please read through [Getting started](INSTALL.md) to "install" BLT, then review the usage documentation below.
 
 # Using BLT
 
