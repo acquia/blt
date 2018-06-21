@@ -4,7 +4,7 @@ This directory contains
 [git hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks) 
 These should be symlinked into your local repository's `.git` directory using 
 the `setup:git-hooks` task during the 
-[onboarding process](../../readme/onboarding.md). 
+[onboarding process](http://blt.readthedocs.io/en/8.9.x/readme/onboarding).
 
 ## Provided Hooks
 

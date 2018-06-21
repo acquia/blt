@@ -28,7 +28,7 @@ Then install the  minimum dependencies for BLT. The preferred method is via Home
         brew install php56 git composer drush
         composer global require "hirak/prestissimo:^0.3"
 
-If you'd like to create a [Drupal VM](https://www.drupalvm.com/) with BLT, you will require the following additional libraries. If you'd like to use a LAMP stack other than Drupal VM, see [Local Development](readme/local-development.md).
+If you'd like to create a [Drupal VM](https://www.drupalvm.com/) with BLT, you will require the following additional libraries. If you'd like to use a LAMP stack other than Drupal VM, see [Local Development](local-development.md).
 
         brew tap caskroom/cask
         brew cask install virtualbox vagrant
@@ -61,7 +61,7 @@ Follow the official [installation guide](https://msdn.microsoft.com/en-us/comman
 
 Note you **must** create a UNIX username with a password when prompted at the final step in the process. Certain BLT commands will not function correctly if you install with a passwordless root account.
 
-Once complete follow the [BLT on Windows installation instructions](readme/windows-install.md).
+Once complete follow the [BLT on Windows installation instructions](windows-install.md).
 
 ### Linux
 
@@ -81,7 +81,7 @@ If you are using a Linux machine, it is assumed that you will not be using Drupa
 
 Choose your own adventure:
 
-* [Creating a new project with BLT](readme/creating-new-project.md)
-* [Cloning an existing BLT project](readme/onboarding.md)
-* [Adding BLT to an existing project](readme/adding-to-project.md)
-* [Upgrading BLT](readme/updating-blt.md)
+* [Creating a new project with BLT](creating-new-project.md)
+* [Cloning an existing BLT project](onboarding.md)
+* [Adding BLT to an existing project](adding-to-project.md)
+* [Upgrading BLT](updating-blt.md)

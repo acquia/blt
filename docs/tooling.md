@@ -4,7 +4,7 @@ Not all of these are absolutely required. Some are required only when using cert
 
 ### System-level packages
 
-Please see [System Requirements](../INSTALL.md/#system-requirements) for installation instructions. 
+Please see [System Requirements](INSTALL.md/#system-requirements) for installation instructions. 
 
 | Tool                          | Required | Purpose                                  |
 |-------------------------------|----------|------------------------------------------|

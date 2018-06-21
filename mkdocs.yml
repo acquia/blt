@@ -2,11 +2,12 @@ site_name: Acquia BLT Documentation
 
 repo_url: https://github.com/acquia/blt
 site_description: 'BLT - Acquia Build & Launch Tools'
-theme: readthedocs
+theme:
+  name: readthedocs
 strict: true
 
 extra_javascript:
-  - readme/js/fix_search.js
+  - js/fix_search.js
 
 markdown_extensions:
   - toc:
@@ -18,32 +19,36 @@ pages:
   - Getting started:
     - Installation:
        - System requirements:  'INSTALL.md'
-       - Running BLT in Ubuntu on Bash on Windows: 'readme/windows-install.md'
-       - Alternative LAMP stacks: 'readme/local-development.md'
-    - Create a new project: 'readme/creating-new-project.md'
-    - Add to existing project: 'readme/adding-to-project.md'
-    - Next steps: 'readme/next-steps.md'
-    - Updating BLT: 'readme/updating-blt.md'
+       - Running BLT in Ubuntu on Bash on Windows: 'windows-install.md'
+       - Alternative LAMP stacks: 'local-development.md'
+    - Create a new project: 'creating-new-project.md'
+    - Add to existing project: 'adding-to-project.md'
+    - Next steps: 'next-steps.md'
+    - Updating BLT: 'updating-blt.md'
   - Project documentation:
     - Developer:
-          - Onboarding: 'readme/onboarding.md'
-          - Required / Recommended Skills: 'readme/skills.md'
-          - Repository architecture: 'readme/repo-architecture.md'
+          - Onboarding: 'onboarding.md'
+          - Required / Recommended Skills: 'skills.md'
+          - Repository architecture: 'repo-architecture.md'
           - Running project tasks:
-            - Overview: 'readme/project-tasks.md'
-            - Dependency management: 'readme/dependency-management.md'
-            - Patches: 'template/patches/README.md'
-            - Drush: 'template/drush/README.md'
-            - Git hooks: 'scripts/git-hooks/README.md'
-          - Development Workflow: 'readme/dev-workflow.md'
-          - Configuration Management: 'readme/configuration-management.md'
-          - Automated testing: 'readme/testing.md'
+            - Overview: 'project-tasks.md'
+            - Dependency management: 'dependency-management.md'
+            - Patches: 'patches.md'
+            - Drush: 'drush.md'
+            - Git hooks: 'git-hooks.md'
+          - Development Workflow: 'dev-workflow.md'
+          - PHPStorm setup: 'phpstorm.md'
+          - Configuration Management: 'configuration-management.md'
+          - Using Config Split: 'config-split.md'
+          - Frontend Management: 'frontend.md'
+          - Automated testing: 'testing.md'
     - Technical Architect:
-        - Deploying to cloud: 'readme/deploy.md'
-        - Release process: 'readme/release-process.md'
-        - Setting up continuous integration: 'readme/ci.md'
-        - Setting up SSO with SimpleSAMLphp: 'readme/simplesamlphp-setup.md'
-        - Setting up multisite: 'readme/multisite.md'
-        - Open source contribution: 'readme/os-contribution.md'
-  - Extending / Overriding BLT: 'readme/extending-blt.md'
+        - Deploying to cloud: 'deploy.md'
+        - Release process: 'release-process.md'
+        - Acquia Cloud Site Factory support: 'acsf-setup.md'
+        - Setting up continuous integration: 'ci.md'
+        - Setting up SSO with SimpleSAMLphp: 'simplesamlphp-setup.md'
+        - Setting up multisite: 'multisite.md'
+        - Open source contribution: 'os-contribution.md'
+  - Extending / Overriding BLT: 'extending-blt.md'
   - Support & Contribution: 'CONTRIBUTING.md'

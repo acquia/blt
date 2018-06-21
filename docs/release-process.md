@@ -57,10 +57,10 @@ You can configure various tools to provide notifications of deployment related e
 * [Travis CI](https://docs.travis-ci.com/user/notifications/) can notify you about your build results through email, IRC and/or webhooks.
 * Jenkins has plugins to provide build notifications via [Slack](https://wiki.jenkins-ci.org/display/JENKINS/Slack+Plugin), [IRC](https://wiki.jenkins-ci.org/display/JENKINS/IRC+Plugin), and many more services.
 * You can use [Acquia Cloud Hooks](https://docs.acquia.com/cloud/manage/cloud-hooks#animated) to provide deployment, db, or code related notification to service such as:
-    * [New Relic](../hooks/samples/newrelic)
-    * [Slack](../hooks/samples/slack)
-    * [HipChat](../hooks/samples/hipchat)
- 
+    * New Relic
+    * Slack
+    * HipChat
+
 ## Resources:
 
 * [Connecting the Tubes: JIRA, GitHub, Jenkins, and Slack](https://dev.acquia.com/blog/connecting-tubes-jira-github-jenkins-and-slack)
