@@ -50,4 +50,4 @@ To execute the same "release" testing that is performed during CI execution, run
 
 ## PHPUnit
 
-See [../tests/phpunit/README.md](../tests/phpunit/README.md)
+See [the PHPUnit section in the automated testing docs](testing.md#PHPUnit)
