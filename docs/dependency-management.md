@@ -76,7 +76,7 @@ Commit `composer.json` and `composer.lock` afterwards.
 
 ## Patch a project
 
-Please see [patches/README.md](../template/patches/README.md) for information on patch naming, patch application, patch ignoring, and patch contribution guidance.
+Please see [patches.md](patches.md) for information on patch naming, patch application, patch ignoring, and patch contribution guidance.
 
 ### Modifying BLT's default Composer values
 

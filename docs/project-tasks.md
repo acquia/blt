@@ -34,7 +34,7 @@ Please see [Frontend](frontend.md) for information about compiling front end ass
 
 ## Updating your local environment
 
-The project is configured to update the local environment with a local drush alias and a remote alias as defined in `blt/blt.yml` or `blt/local.yml`. Given that these aliases match, those in `drush/sites/`, you can update the site with BLT. Please see [drush/README.md](../template/drush/README.md) for details on how to create these aliases.
+The project is configured to update the local environment with a local drush alias and a remote alias as defined in `blt/blt.yml` or `blt/local.yml`. Given that these aliases match, those in `drush/sites/`, you can update the site with BLT. Please see [drush.md](drush.md) for details on how to create these aliases.
 
 ### Refresh: Rebuild the codebase, copy the database, and run updates
 
