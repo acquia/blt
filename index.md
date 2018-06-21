@@ -22,4 +22,4 @@ Please read through [Getting started](INSTALL.md) to "install" BLT, then review 
 
 # Contributing to BLT
 
-Please feel free to edit any of the pages in this documentation via the 'Edit on GitHub' link at the top right. If you would like to help improve BLT, please file issues via the GitHub issue queue. See [CONTRIBUTING.md](.github/CONTRIBUTING.md) for contribution guidelines and instructions.
+Please feel free to edit any of the pages in this documentation via the 'Edit on GitHub' link at the top right. If you would like to help improve BLT, please file issues via the GitHub issue queue. See [CONTRIBUTING.md](docs/CONTRIBUTING.md) for contribution guidelines and instructions.
