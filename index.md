@@ -9,16 +9,16 @@ Please read through [Getting started](INSTALL.md) to "install" BLT, then review 
 # Using BLT
 
 * Developer
-    * [Onboarding](readme/onboarding.md): “how do I get up and running on project work?”
-    * [Repository architecture](readme/repo-architecture.md): “how is the code organized, and why?”
-    * [Running project tasks](readme/project-tasks.md): “how do I [fill-in-the-blank] on my local machine?”
-    * [Workflow](readme/dev-workflow.md): “how do I contribute my code to this project?”
-    * [Automated testing](readme/testing.md): “how do I write / run them, and why should I care?”
+    * [Onboarding](docs/onboarding.md): “how do I get up and running on project work?”
+    * [Repository architecture](docs/repo-architecture.md): “how is the code organized, and why?”
+    * [Running project tasks](docs/project-tasks.md): “how do I [fill-in-the-blank] on my local machine?”
+    * [Workflow](docs/dev-workflow.md): “how do I contribute my code to this project?”
+    * [Automated testing](docs/testing.md): “how do I write / run them, and why should I care?”
 * Technical Architect
-    * [Deploying to cloud](readme/deploy.md)
-    * [Release process](readme/release-process.md)
-    * [Setting up continuous integration](readme/ci.md)
-    * [Open source contribution](readme/os-contribution.md)
+    * [Deploying to cloud](docs/deploy.md)
+    * [Release process](docs/release-process.md)
+    * [Setting up continuous integration](docs/ci.md)
+    * [Open source contribution](docs/os-contribution.md)
 
 # Contributing to BLT
 
