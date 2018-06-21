@@ -35,7 +35,7 @@ pages:
             - Dependency management: 'dependency-management.md'
             - Patches: 'patches.md'
             - Drush: 'drush.md'
-            - Git hooks: 'scripts/git-hooks/README.md'
+            - Git hooks: 'git-hooks.md'
           - Development Workflow: 'dev-workflow.md'
           - PHPStorm setup: 'phpstorm.md'
           - Configuration Management: 'configuration-management.md'
