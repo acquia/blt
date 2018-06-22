@@ -4,7 +4,7 @@ Here is a quick-start guide to getting your local development environment set up
 
 ## System Requirements
 
-Verify that your system meets [System requirements](../INSTALL.md)
+Verify that your system meets [System requirements](INSTALL.md)
 
 <<<<<<< HEAD:readme/onboarding.md
 ## Technology Knolwedge Requirements / Recommendations
