@@ -2,7 +2,7 @@
 
 “How do I contribute code to this project?”
 
-First off, take a moment to review our [Best Practices](best-practices.md) before writing or submitting any code.
+First off, take a moment to review our [Contributing Guide](CONTRIBUTING.md) before writing or submitting any code.
 
 ## Git Workflow
 

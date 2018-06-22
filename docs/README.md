@@ -1,6 +1,6 @@
 # BLT
 
-[![Build Status](https://travis-ci.org/acquia/blt.svg?branch=8.x)](https://travis-ci.org/acquia/blt) [![Documentation Status](https://readthedocs.org/projects/blt/badge/?version=8.x)](http://blt.readthedocs.io/en/8.x/?badge=8.x) [![Packagist](https://img.shields.io/packagist/v/acquia/blt.svg)](https://packagist.org/packages/acquia/blt) [![Stories in Ready](https://badge.waffle.io/acquia/blt.png?label=ready&title=Ready)](http://waffle.io/acquia/blt)
+[![Build Status](https://travis-ci.org/acquia/blt.svg?branch=8.x)](https://travis-ci.org/acquia/blt) [![Documentation Status](https://readthedocs.org/projects/blt/badge/?version=8.9.x)](http://blt.readthedocs.io/en/8.9.x/?badge=8.9.x) [![Packagist](https://img.shields.io/packagist/v/acquia/blt.svg)](https://packagist.org/packages/acquia/blt) [![Stories in Ready](https://badge.waffle.io/acquia/blt.png?label=ready&title=Ready)](http://waffle.io/acquia/blt)
 
 BLT (Build and Launch Tool) provides an automation layer for testing, building, and launching Drupal 8 applications.
 
@@ -59,20 +59,20 @@ Its scope is discretely defined. It is *not* intended to provide:
 
 ## Features
 
-* [Local Git Hooks](scripts/git-hooks)
+* [Local Git Hooks](https://github.com/acquia/blt/tree/9.x/scripts/git-hooks)
     * pre-commit: Checks for Drupal coding standards compliance
     * commit-msg: Check for proper formatting and syntax
-* [Testing Framework](template/tests).
+* [Testing Framework](https://github.com/acquia/blt/tree/9.x/template/tests).
     * Behat: default `local.yml` configuration, example tests, `FeatureContext.php`
     * PHPUnit: default tests for ensuring proper functioning of BLT provided components
-* [Commands to automate project tasks](readme/project-tasks.md), like:
+* [Commands to automate project tasks](project-tasks.md), like:
     * Test execution
     * Frontend asset compilation
     * Syncing environments
-* [Deployment Artifact Generation](readme/deploy.md)
+* [Deployment Artifact Generation](deploy.md)
     * Building production-only dependencies
     * Sanitation of production code
-* [Continuous Integration & Deployment](readme/ci.md)
+* [Continuous Integration & Deployment](ci.md)
     * [Acquia Pipelines](https://dev.acquia.com/request-invite-acquia-pipelines)
     * [Travis CI](https://travis-ci.com)
     * [GitHub](https://github.com)

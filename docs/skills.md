@@ -1,8 +1,8 @@
 # Minimum Skillset for Using BLT
 BLT is a tool that reaches far beyond Drupal development, and because of this developers planning on using it should working knowledge of the following technologies in order to be successful.
 
-See the [System Requirements](../INSTALL.md) for installing / using BLT. It is strongly urged that you use a Mac for local development, although certain versions of Linux and Windows 10 can also be used. Other operating systems ***should not*** be used for BLT development.
- 
+See the [System Requirements](INSTALL.md) for installing / using BLT. It is strongly urged that you use a Mac for local development, although certain versions of Linux and Windows 10 can also be used. Other operating systems ***should not*** be used for BLT development.
+
 ## Enterprise Web Development
 
 ### Development Environment

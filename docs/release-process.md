@@ -23,12 +23,6 @@ If you have a [continuous integration](ci.md) setup via Travis CI or Pipelines, 
 
 If you are doing deployments manually, you will want to checkout your `master` branch locally, and [manually build a deployment artifact](deploy.md#creating-the-build-artifact) based off of that. Even if you build the deployment artifact manually, the recommendation is to still push up a source tag (e.g. `1.0.0`) based on your `master` branch to your repository.
 
-## Release notes
-
-Each release should be accompanied by a set of release notes, which can be easily generated using the [Release Notes Script](../scripts/release-notes/README.md).
-
-This script will automatically aggregate all of the descriptions from Pull Requests since a specified date. The generated tet aggregate can then be copied and pasted into release notes on GitHub.
-
 ## Deploying tag and executing updates
 
 Deploying Drupal across environments can be daunting, but if due diligence has been taken with configuration management, the process of deployment is actually quite simple.
@@ -57,10 +51,10 @@ You can configure various tools to provide notifications of deployment related e
 * [Travis CI](https://docs.travis-ci.com/user/notifications/) can notify you about your build results through email, IRC and/or webhooks.
 * Jenkins has plugins to provide build notifications via [Slack](https://wiki.jenkins-ci.org/display/JENKINS/Slack+Plugin), [IRC](https://wiki.jenkins-ci.org/display/JENKINS/IRC+Plugin), and many more services.
 * You can use [Acquia Cloud Hooks](https://docs.acquia.com/cloud/manage/cloud-hooks#animated) to provide deployment, db, or code related notification to service such as:
-    * [New Relic](../hooks/samples/newrelic)
-    * [Slack](../hooks/samples/slack)
-    * [HipChat](../hooks/samples/hipchat)
- 
+    * New Relic
+    * Slack
+    * HipChat
+
 ## Resources:
 
 * [Connecting the Tubes: JIRA, GitHub, Jenkins, and Slack](https://dev.acquia.com/blog/connecting-tubes-jira-github-jenkins-and-slack)

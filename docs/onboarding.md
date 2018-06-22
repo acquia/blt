@@ -4,8 +4,9 @@ Here is a quick-start guide to getting your local development environment set up
 
 ## System Requirements
 
-Verify that your system meets [System requirements](../INSTALL.md)
+Verify that your system meets [System requirements](INSTALL.md)
 
+<<<<<<< HEAD:readme/onboarding.md
 ## Technology Knolwedge Requirements / Recommendations
 
 Verify that you have the necessary [skillset(s)](skills.md) to interact with BLT.
@@ -18,9 +19,9 @@ If you need to make requests via a proxy server, please [configure git to use a 
 
 ## Initial Setup
 
-1. Verify that your system meets the [system requirements for BLT](../INSTALL.md)
-1. [Fork](https://help.github.com/articles/fork-a-repo) the primary GitHub repository
-1. Clone your fork to your local machine:
+1. Verify that your system meets the [system requirements for BLT](INSTALL.md)
+1. [Fork](https://help.github.com/articles/fork-a-repo) the primary GitHub repository for the project you are developing
+1. Clone your fork to your local machine (by convention, BLT refers to your fork as "origin" and the primary repo as "upstream"):
 
          git clone git@github.com:username/project-repo.git
          git remote add upstream git@github.com:acquia-pso/project-repo.git
