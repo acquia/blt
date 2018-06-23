@@ -15,7 +15,7 @@ A general warning: BLT provides automation for numerous other applications inclu
 * PHPCS
 * PHPUnit
 
-As a result, numerous "issues with BLT" are frequently "issues with one of the bundled applications." As a reslult, we stronlgy recommend a careful review of the errors presented with your project, which frequently direct you more appropriately to the underlying system that is the true cause (and not BLT itself).
+As a result, numerous "issues with BLT" are in fact "issues with one of the bundled applications." We strongly recommend a careful review of the errors presented with your project, which frequently direct you more appropriately to the underlying system that is the true cause (and not BLT itself).
 
 If you experience issues with a local BLT build, try using the included blt doctor command to diagnose your problem:
 
