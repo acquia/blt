@@ -87,7 +87,9 @@ Its scope is discretely defined. It is *not* intended to provide:
 
 BLT is provided as an open source tool in the hope that it will enable developers to easily generate new Drupal projects that conform to Acquia Professional Services' best practices.
 
-Please feel free to contribute to the project or file issues via the GitHub issue queue. See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines and instructions.
+Please feel free to contribute to the project or file issues via the GitHub issue queue. See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines and instructions. 
+
+We also provide a limited [FAQ](FAQ.md) for common issues.
 
 # License
 

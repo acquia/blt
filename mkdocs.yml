@@ -51,4 +51,5 @@ pages:
         - Setting up multisite: 'multisite.md'
         - Open source contribution: 'os-contribution.md'
   - Extending / Overriding BLT: 'extending-blt.md'
-  - Support & Contribution: 'CONTRIBUTING.md'
+  - Contribution: 'CONTRIBUTING.md'
+  - Support & FAQ: 'FAQ.md'
