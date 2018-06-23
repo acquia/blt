@@ -91,3 +91,11 @@ Update to a more recent version of BLT OR manually pin Robo in your composer.jso
 ```
 "consolidation/robo": "~1.2.4"
 ```
+
+### CI Errors
+
+**Issue**
+Errors appearing on TravisCI which are not replicable on local or other environments.
+
+**Solution**
+[TravisCI has an internal caching feature](https://docs.travis-ci.com/user/caching) which can help speed up builds. At times, though, this cache results in semi-baffling build failures which cannot be replicated elsewhere. In these instances, the solution is sometimes simply to [clear Travis's cache](https://docs.travis-ci.com/user/caching/#Clearing-Caches).
