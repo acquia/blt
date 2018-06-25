@@ -54,6 +54,7 @@ class RefreshCommand extends BltTasks {
    * local db, re-imports config, and executes db updates.
    *
    * @command sync:refresh
+   * @executeInDrupalVm
    */
   public function refreshDefault() {
     $this->invokeCommands([
