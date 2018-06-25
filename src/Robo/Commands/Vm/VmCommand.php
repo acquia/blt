@@ -69,7 +69,7 @@ class VmCommand extends BltTasks {
       }
     }
 
-    // @todo Check that VM is properly configured. E.g., all config files exist
+    // @todo Check that VM is properly configured, e.g., all config files exist
     // and geerlingguy/drupalvm is in composer.lock.
     if (!$this->getInspector()->isDrupalVmLocallyInitialized()) {
       $this->localInitialize();
