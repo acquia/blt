@@ -69,7 +69,7 @@ class VmCommand extends BltTasks {
       }
     }
 
-    // @todo Check that VM is properly configured. E.g., all config files exist
+    // @todo Check that VM is properly configured, e.g., all config files exist
     // and geerlingguy/drupalvm is in composer.lock.
     if (!$this->getInspector()->isDrupalVmLocallyInitialized()) {
       $this->localInitialize();
@@ -171,6 +171,7 @@ class VmCommand extends BltTasks {
    */
   protected function boot() {
     $this->checkRequirements();
+    $this->yell(" * We have configured your new Drupal VM to use PHP 7.1 If you would like to change this, edit box/config.yml.");
     $confirm = $this->confirm("Do you want to boot Drupal VM?", TRUE);
     if ($confirm) {
       $this->say("In future, run <comment>vagrant up</comment> to boot the VM.");

@@ -510,7 +510,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    * Checks if a given command exists on the system.
    *
    * @param string $command
-   *   The command binary only. E.g., "drush" or "php".
+   *   The command binary only, e.g., "drush" or "php".
    *
    * @return bool
    *   TRUE if the command exists, otherwise FALSE.
@@ -811,7 +811,8 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *   TRUE if config is identical.
    */
   public function isActiveConfigIdentical() {
-    $result = $this->executor->drush("config:status 2>&1")->run();
+    $uri = $this->getConfigValue('drush.uri');
+    $result = $this->executor->drush("config:status --uri=$uri 2>&1")->run();
     $message = trim($result->getMessage());
     $identical = strstr($message, 'No differences between DB and sync directory') !== FALSE;
 
