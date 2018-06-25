@@ -24,7 +24,7 @@ class AliasCommand extends BltTasks {
       if (is_null($config_file)) {
         $this->logger->warning("Could not find your CLI configuration file.");
         $this->logger->warning("Looked in ~/.zsh, ~/.bash_profile, ~/.bashrc, ~/.profile, and ~/.functions.");
-        $created = $this->createOsxBashProfile();
+        $created = $this->createBashProfile();
         if (!$created) {
           $this->logger->warning("Please create one of the aforementioned files, or create the BLT alias manually.");
         }
@@ -166,10 +166,13 @@ class AliasCommand extends BltTasks {
   }
 
   /**
-   * Creates a ~/.bash_profile on OSX if one does not exist.
+   * Creates a ~/.bash_profile on supporting systems if one does not exist.
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
-  protected function createOsxBashProfile() {
-    if ($this->getInspector()->isOsx()) {
+  protected function createBashProfile() {
+    $inspector = $this->getInspector();
+    if ($inspector->isOsx() || $inspector->isAhEnv()) {
       $continue = $this->confirm("Would you like to create ~/.bash_profile?");
       if ($continue) {
         $user = posix_getpwuid(posix_getuid());
