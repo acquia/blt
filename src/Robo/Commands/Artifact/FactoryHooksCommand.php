@@ -34,9 +34,6 @@ class FactoryHooksCommand extends BltTasks {
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function updateAcsfSites($site, $target_env) {
-    $this->taskDrush()
-      ->drush("cc drush")
-      ->run();
     $this->say("Running updates for site <comment>$site</comment> in environment <comment>$target_env</comment>.");
     $this->switchSiteContext($site);
     $this->invokeCommand('artifact:update:drupal');
