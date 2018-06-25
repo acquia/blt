@@ -34,7 +34,7 @@ class AcsfCommand extends BltTasks {
    * @aliases acsf acsf:init
    * @options acsf-version
    */
-  public function acsfInitialize($options = ['acsf-version' => '^1.33.0']) {
+  public function acsfInitialize($options = ['acsf-version' => '^2.47.0']) {
     $this->printPreamble();
     $this->acsfHooksInitialize();
     $this->say('Adding acsf module as a dependency...');
@@ -43,16 +43,8 @@ class AcsfCommand extends BltTasks {
       'package_version' => $options['acsf-version'],
     ];
     $this->invokeCommand('internal:composer:require', $package_options);
-    $this->say("In the future, you may pass in a custom value for acsf-version to override the default version. E.g., blt recipes:acsf:init:all --acsf-version='8.1.x-dev'");
+    $this->say("In the future, you may pass in a custom value for acsf-version to override the default version, e.g., blt recipes:acsf:init:all --acsf-version='8.1.x-dev'");
     $this->acsfDrushInitialize();
-    $this->say('Adding acsf-tools drush module as a dependency...');
-    $package_options = [
-      'package_name' => 'acquia/acsf-tools',
-      'package_version' => '^8.1',
-    ];
-    $this->invokeCommand('internal:composer:require', $package_options);
-    $this->say('<comment>ACSF Tools has been added. Some post-install configuration is necessary.</comment>');
-    $this->say('<comment>See /drush/contrib/acsf-tools/README.md. </comment>');
     $this->say('<info>ACSF was successfully initialized.</info>');
     $project_yml = $this->getConfigValue('blt.config-files.project');
     $project_config = YamlMunge::parseFile($project_yml);
@@ -70,27 +62,11 @@ class AcsfCommand extends BltTasks {
    * @aliases raid acsf:init:drush
    */
   public function acsfDrushInitialize() {
-    $drush8 = $this->getConfigValue('repo.root') . '/vendor/bin/drush8.phar';
-    // @todo Remove when ACSF module supports Drush 9.
-    if (!file_exists($drush8)) {
-      $this->downloadDrush8($drush8);
-    }
     $this->say('Executing initialization command provided acsf module...');
-
-    // Rename vendor/bin/drush to prevent re-dispatch to site local drush bin.
-    $this->_rename('vendor/bin/drush', 'vendor/bin/drush.bak', TRUE);
-    if (file_exists("vendor/bin/drush.launcher")) {
-      $this->_rename('vendor/bin/drush.launcher',
-        'vendor/bin/drush.launcher.bak', TRUE);
-    }
     $acsf_include = $this->getConfigValue('docroot') . '/modules/contrib/acsf/acsf_init';
     $result = $this->taskExecStack()
-      ->exec("$drush8 acsf-init --include=\"$acsf_include\" --root=\"{$this->getConfigValue('docroot')}\" -y")
+      ->exec($this->getConfigValue('repo.root') . "/vendor/bin/drush acsf-init --include=\"$acsf_include\" --root=\"{$this->getConfigValue('docroot')}\" -y")
       ->run();
-    $this->_rename('vendor/bin/drush.bak', 'vendor/bin/drush', TRUE);
-    if (file_exists("vendor/bin/drush.launcher.bak")) {
-      $this->_rename('vendor/bin/drush.launcher.bak', 'vendor/bin/drush.launcher', TRUE);
-    }
 
     if (!$result->wasSuccessful()) {
       throw new BltException("Unable to copy ACSF scripts.");
@@ -106,7 +82,7 @@ class AcsfCommand extends BltTasks {
    * @aliases raih
    */
   public function acsfHooksInitialize() {
-    $defaultAcsfHooks = $this->getConfigValue('blt.root') . '/settings/acsf';
+    $defaultAcsfHooks = $this->getConfigValue('blt.root') . '/scripts/factory-hooks';
     $projectAcsfHooks = $this->getConfigValue('repo.root') . '/factory-hooks';
 
     $result = $this->taskCopyDir([$defaultAcsfHooks => $projectAcsfHooks])

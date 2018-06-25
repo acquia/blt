@@ -510,7 +510,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    * Checks if a given command exists on the system.
    *
    * @param string $command
-   *   The command binary only. E.g., "drush" or "php".
+   *   The command binary only, e.g., "drush" or "php".
    *
    * @return bool
    *   TRUE if the command exists, otherwise FALSE.
@@ -572,7 +572,6 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
     return [
       $behat_local_config->get('local.extensions.Drupal\DrupalExtension.drupal.drupal_root'),
       $behat_local_config->get('local.suites.default.paths.features'),
-      $behat_local_config->get('local.suites.default.paths.bootstrap'),
     ];
   }
 
@@ -788,7 +787,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function warnIfPhpOutdated() {
-    $minimum_php_version = 7;
+    $minimum_php_version = 5.6;
     $current_php_version = phpversion();
     if ($current_php_version < $minimum_php_version) {
       throw new BltException("BLT requires PHP $minimum_php_version or greater. You are using $current_php_version.");
@@ -812,7 +811,8 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *   TRUE if config is identical.
    */
   public function isActiveConfigIdentical() {
-    $result = $this->executor->drush("config:status")->run();
+    $uri = $this->getConfigValue('drush.uri');
+    $result = $this->executor->drush("config:status --uri=$uri 2>&1")->run();
     $message = trim($result->getMessage());
     $identical = strstr($message, 'No differences between DB and sync directory') !== FALSE;
 

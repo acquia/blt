@@ -7,6 +7,8 @@ use Acquia\Blt\Robo\Common\RandomString;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use function file_exists;
 use Robo\Contract\VerbosityThresholdInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Defines commands in the "blt:init:settings" namespace.
@@ -209,20 +211,23 @@ class SettingsCommand extends BltTasks {
    * This symlinks the hook into the project's .git/hooks directory.
    *
    * @param string $hook
-   *   The git hook to install. E.g., 'pre-commit'.
+   *   The git hook to install, e.g., 'pre-commit'.
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function installGitHook($hook) {
+    $fs = new Filesystem();
+    $project_hook_directory = $this->getConfigValue('repo.root') . "/.git/hooks";
+    $project_hook = $project_hook_directory . "/$hook";
     if ($this->getConfigValue('git.hooks.' . $hook)) {
       $this->say("Installing $hook git hook...");
-      $source = $this->getConfigValue('git.hooks.' . $hook) . "/$hook";
-      $dest = $this->getConfigValue('repo.root') . "/.git/hooks/$hook";
+      $hook_source = $this->getConfigValue('git.hooks.' . $hook) . "/$hook";
+      $path_to_hook_source = rtrim($fs->makePathRelative($hook_source, $project_hook_directory), '/');
 
       $result = $this->taskFilesystemStack()
         ->mkdir($this->getConfigValue('repo.root') . '/.git/hooks')
-        ->remove($dest)
-        ->symlink($source, $dest)
+        ->remove($project_hook)
+        ->symlink($path_to_hook_source, $project_hook)
         ->stopOnFail()
         ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
         ->run();
@@ -232,7 +237,21 @@ class SettingsCommand extends BltTasks {
       }
     }
     else {
-      $this->say("Skipping installation of $hook git hook");
+      if (file_exists($project_hook)) {
+        $this->say("Removing disabled $hook git hook...");
+        $result = $this->taskFilesystemStack()
+          ->remove($project_hook)
+          ->stopOnFail()
+          ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+          ->run();
+
+        if (!$result->wasSuccessful()) {
+          throw new BltException("Unable to remove disabled $hook git hook");
+        }
+      }
+      else {
+        $this->say("Skipping installation of $hook git hook...");
+      }
     }
   }
 
@@ -265,6 +284,31 @@ class SettingsCommand extends BltTasks {
     else {
       $this->say("Hash salt already exists.");
       return 0;
+    }
+  }
+
+  /**
+   * Writes a deployment_identifier to ${repo.root}/deployment_identifier.
+   *
+   * @command drupal:deployment-identifier:init
+   * @aliases ddii
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   */
+  public function createDeployId($options = ['id' => InputOption::VALUE_REQUIRED]) {
+    if (!$options['id']) {
+      $options['id'] = RandomString::string(8);
+    }
+    $deployment_identifier_file = $this->getConfigValue('repo.root') . '/deployment_identifier';
+    $this->say("Generating deployment identifier...");
+    $result = $this->taskWriteToFile($deployment_identifier_file)
+      ->line($options['id'])
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->run();
+
+    if (!$result->wasSuccessful()) {
+      $filepath = $this->getInspector()->getFs()->makePathRelative($deployment_identifier_file, $this->getConfigValue('repo.root'));
+      throw new BltException("Unable to write deployment identifier to $filepath.");
     }
   }
 

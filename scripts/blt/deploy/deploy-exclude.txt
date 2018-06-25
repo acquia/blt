@@ -1,6 +1,7 @@
 # These files and their children will not be copied to the deployment artifact.
 # If these files already exist in the upstream artifact, they will be removed.
 /.drush-use
+/.github
 /.idea
 /.travis.yml
 /.vagrant

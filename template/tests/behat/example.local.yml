@@ -10,7 +10,6 @@ local:
         # Set features to repo root so that .feature files belonging to contrib
         # modules, themes, and profiles can be discovered.
         features: ${repo.root}
-        bootstrap: ${repo.root}/tests/behat/features/bootstrap
       contexts:
         - Drupal\FeatureContext:
           parameters:
@@ -21,6 +20,7 @@ local:
         - Drupal\DrupalExtension\Context\MinkContext
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\DrupalExtension\Context\DrushContext
+        - Drupal\DrupalExtension\Context\ConfigContext
   extensions:
     DMore\ChromeExtension\Behat\ServiceContainer\ChromeExtension: ~
     Behat\MinkExtension:

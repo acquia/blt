@@ -145,7 +145,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
         $target = $dir . DIRECTORY_SEPARATOR . $file;
         if (file_exists($source)) {
           if (!file_exists($target) || md5_file($source) != md5_file($target)) {
-            $this->io->write("Copying $source to $target");
+            $this->io->write("Copying $source to $target. Do not modify this file. To override BLT dependencies, see readme/dependency-management.md.");
             copy($source, $target);
           }
         }

@@ -3,6 +3,7 @@ language: php
 dist: trusty
 
 php:
+  - 5.6
   - 7.1
 
 env:
@@ -83,5 +84,5 @@ deploy:
     skip_cleanup: true
     on:
       branch: $DEPLOY_SOURCE_BRANCH
-      php: 7.1
+      php: 5.6
       condition: $DRUPAL_CORE_VERSION = default

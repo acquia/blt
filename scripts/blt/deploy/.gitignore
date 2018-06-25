@@ -4,65 +4,161 @@ local.*
 local.blt.yml
 
 # Ignore paths that contain user-generated content.
-docroot/sites/*/files
-/files-private
-docroot/sites/*/private
+/docroot/sites/*/files/
+/docroot/sites/*/private/
+/files-private/
 
-# Ignore build artifacts
-tmp
-reports
+# Ignore build artifacts.
+/tmp/
+/reports/
 
-# OS X
+# Node.js package manager.
+npm-debug.log
+
+# Profiler tools.
+xhprof_*
+
+# SASS artifacts.
+.sass-cache
+*.css.map
+
+# Vagrant virtual machines.
+/.vagrant/
+/Vagrantfile
+
+# Acquia Cli tool
+acquiacli.yml
+
+# OS files
+# ------------
+# - Linux
+# ------------
+# Reference: https://github.com/github/gitignore/blob/master/Global/Linux.gitignore
+
+*~
+
+# Handle open for deleted file.
+.fuse_hidden*
+.nfs*
+
+# KDE directory preferences.
+.directory
+
+# Linux trash folder.
+.Trash-*
+
+# ------------
+# - macOS
+# ------------
+# Reference: https://github.com/github/gitignore/blob/master/Global/macOS.gitignore
+
 .DS_Store
 .AppleDouble
 .LSOverride
-Icon
 
 # Thumbnails
 ._*
 
-# Files that might appear on external disk
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
 .Spotlight-V100
+.TemporaryItems
 .Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.*
 
-# Windows image file caches
+# Directories potentially created on remote AFP share
+.AppleDB/
+.AppleDesktop/
+Network Trash Folder/
+Temporary Items/
+.apdisk/
+
+# ------------
+# - Windows
+# ------------
+# Reference: https://github.com/github/gitignore/blob/master/Global/Windows.gitignore
+
+# Thumbnail cache files.
 Thumbs.db
-ehthumbs.db
+ehthumbs*.db
 
-# Folder config file
+# Directory config file.
 Desktop.ini
 
-# Recycle Bin used on file shares
+# Recycle or Trash.
 $RECYCLE.BIN/
 
-# Eclipse
-*.pydevproject
-.project
+# Windows Installer files.
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Shortcuts.
+*.lnk
+
+# Editor files
+# - Reference: https://github.com/github/gitignore/tree/master/Global
+# ------------
+# - Eclipse
+# ------------
+
 .metadata
-tmp/**
-tmp/**/*
 *.tmp
 *.bak
 *.swp
 *~.nib
 local.properties
-.classpath
 .settings/
 .loadpath
 
-# External tool builders
+# External tool builders.
 .externalToolBuilders/
 
-# Locally stored "Eclipse launch configurations"
+# Locally stored "Eclipse launch configurations".
 *.launch
 
-# CDT-specific
+# PyDev specific (Python IDE for Eclipse).
+*.pydevproject
+
+# CDT-specific (C/C++ Development Tooling).
 .cproject
 
-# PDT-specific
-.buildpathk
+# CDT- autotools.
+.autotools
 
-# Emacs
+# Java annotation processor (APT).
+.factorypath
+
+# PDT-specific (PHP Development Tools).
+.buildpath
+
+# sbteclipse plugin.
+.target
+
+# Tern plugin.
+.tern-project
+
+# TeXlipse plugin.
+.texlipse
+
+# STS (Spring Tool Suite).
+.springBeans
+
+# Code Recommenders.
+.recommenders/
+
+# Scala IDE specific (Scala & Java development for Eclipse).
+.cache-main
+.scala_dependencies
+.worksheet
+
+# ------------
+# - Emacs
+# ------------
+
 *~
 \#*\#
 /.emacs.desktop
@@ -72,19 +168,95 @@ auto-save-list
 tramp
 .\#*
 
-# User-specific stuff:
+# Org-mode.
+.org-id-locations
+*_archive
+
+# flymake-mode.
+*_flymake.*
+
+# eshell files.
+/eshell/
+
+# elpa packages.
+/elpa/
+
+# reftex files.
+*.rel
+
+# AUCTeX auto folder.
+/auto/
+
+# cask packages.
+.cask/
+
+# Flycheck
+flycheck_*.el
+
+# server auth directory.
+/server/
+
+# projectiles files
+.projectile
+
+# directory configuration.
+.dir-locals.el
+
+
+# ------------
+# - JetBrains
+# ------------
+
 .idea/
+.idea_modules/
+*.iws
 
-#XHProf
-xhprof_*
+# JIRA plugin.
+atlassian-ide-plugin.xml
 
-#Sass
-.sass-cache
-*.css.map
 
-#Netbeans IDE
-nbproject
-nbproject/*
+# ------------
+# - NetBeans
+# ------------
 
-#DrupalVM
-.vagrant/
+nbproject/
+nbbuild/
+nbdist/
+.nb-gradle/
+
+
+# ------------
+# - Sublime
+# ------------
+
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+*.sublime-workspace
+*.sublime-project
+*.sublime-settings
+
+/sftp-config.json
+/docroot/sftp-config.json
+
+# Package Control files.
+Package Control.*
+oscrypto-ca-bundle.crt
+bh_unicode_properties.cache
+
+
+# ------------
+# - Vim
+# ------------
+
+Session.vim
+
+# Swap files.
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-v][a-z]
+[._]sw[a-p]
+
+# Temporary files.
+.netrwhist
+*~

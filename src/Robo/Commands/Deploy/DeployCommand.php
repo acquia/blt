@@ -3,7 +3,6 @@
 namespace Acquia\Blt\Robo\Commands\Deploy;
 
 use Acquia\Blt\Robo\BltTasks;
-use Acquia\Blt\Robo\Common\RandomString;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -149,11 +148,11 @@ class DeployCommand extends BltTasks {
       $tag_name = $options['tag'];
     }
     else {
-      $tag_name = $this->ask('Enter the tag name for the deployment artifact. E.g., 1.0.0-build');
+      $tag_name = $this->ask('Enter the tag name for the deployment artifact, e.g., 1.0.0-build');
     }
 
     if (empty($tag_name)) {
-      // @todo Validate tag name is valid. E.g., no spaces or special characters.
+      // @todo Validate tag name is valid, e.g., no spaces or special characters.
       throw new BltException("You must enter a valid tag name.");
     }
     else {
@@ -317,25 +316,27 @@ class DeployCommand extends BltTasks {
   public function build() {
     $this->say("Generating build artifact...");
     $this->say("For more detailed output, use the -v flag.");
-    $this->invokeCommands([
+
+    $commands = [
       // Execute `blt source:build:frontend` to ensure that frontend artifact
       // are generated in source repo.
       'source:build:frontend',
       // Execute `drupal:hash-salt:init` to ensure that salt.txt exists.
       // There's a slim chance this has never been generated.
       'drupal:hash-salt:init',
-    ]);
+    ];
+    if (!empty($this->tagName)) {
+      $commands['drupal:deployment-identifier:init'] = ['--id' => $this->tagName];
+    }
+    else {
+      $commands[] = 'drupal:deployment-identifier:init';
+    }
+    $this->invokeCommands($commands);
 
     $this->buildCopy();
     $this->composerInstall();
     $this->sanitize();
     $this->deploySamlConfig();
-    if (!empty($this->tagName)) {
-      $this->createDeployId($this->tagName);
-    }
-    else {
-      $this->createDeployId(RandomString::string(8));
-    }
     $this->invokeHook("post-deploy-build");
     $this->say("<info>The deployment artifact was generated at {$this->deployDir}.</info>");
   }
@@ -398,17 +399,6 @@ class DeployCommand extends BltTasks {
   }
 
   /**
-   * Creates deployment_identifier file.
-   */
-  protected function createDeployId($id) {
-    $this->taskExecStack()->exec("echo '$id' > deployment_identifier")
-      ->dir($this->deployDir)
-      ->stopOnFail()
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->run();
-  }
-
-  /**
    * Removes sensitive files from the deploy dir.
    */
   protected function sanitize() {
@@ -416,8 +406,8 @@ class DeployCommand extends BltTasks {
 
     $this->logger->info("Removing .git subdirectories...");
     $this->taskExecStack()
-      ->exec("find '{$this->deployDir}/vendor' -type d | grep '\.git' | xargs rm -rf")
-      ->exec("find '{$this->deployDir}/docroot' -type d | grep '\.git' | xargs rm -rf")
+      ->exec("find '{$this->deployDir}/vendor' -type d -name '.git' -exec rm -fr \\{\\} \\+")
+      ->exec("find '{$this->deployDir}/docroot' -type d -name '.git' -exec rm -fr \\{\\} \\+")
       ->stopOnFail()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();

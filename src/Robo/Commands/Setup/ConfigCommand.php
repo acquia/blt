@@ -86,6 +86,11 @@ class ConfigCommand extends BltTasks {
 
         case 'features':
           $this->importFeatures($task, $cm_core_key);
+
+          if ($this->getConfigValue('cm.features.no-overrides')) {
+            // @codingStandardsIgnoreLine
+            $this->checkFeaturesOverrides();
+          }
           break;
       }
 
@@ -93,12 +98,6 @@ class ConfigCommand extends BltTasks {
       $result = $task->run();
       if (!$result->wasSuccessful()) {
         throw new BltException("Failed to import configuration!");
-      }
-
-      if ($this->getConfigValue('cm.features.no-overrides')) {
-        $this->logger->warning("Features override checks are currently disabled due to a Drush 9 incompatibility.");
-        // @codingStandardsIgnoreLine
-        // $this->checkFeaturesOverrides();
       }
 
       $this->checkConfigOverrides($cm_core_key);
@@ -127,6 +126,9 @@ class ConfigCommand extends BltTasks {
    */
   protected function importConfigSplit($task, $cm_core_key) {
     $task->drush("pm-enable")->arg('config_split');
+    $task->drush("config-import")->arg($cm_core_key);
+    // Runs a second import to ensure splits are
+    // both defined and imported.
     $task->drush("config-import")->arg($cm_core_key);
   }
 
@@ -193,13 +195,8 @@ class ConfigCommand extends BltTasks {
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function checkConfigOverrides($cm_core_key) {
-    $this->say("Checking for config overrides...");
-    $task = $this->taskDrush()
-      ->drush("cex")
-      ->arg($cm_core_key);
-    $result = $task->run();
-    if (!$this->getConfigValue('cm.allow-overrides') && !$result->wasSuccessful()) {
-      throw new BltException("Configuration in the database does not match configuration on disk. BLT has attempted to automatically fix this by re-exporting configuration to disk. Please read https://github.com/acquia/blt/wiki/Configuration-overrides");
+    if (!$this->getConfigValue('cm.allow-overrides') && !$this->getInspector()->isActiveConfigIdentical()) {
+      throw new BltException("Configuration in the database does not match configuration on disk. BLT has attempted to automatically fix this by re-exporting configuration to disk. Please read https://github.com/acquia/blt/wiki/Configuration-override-test-and-errors");
     }
   }
 

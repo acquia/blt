@@ -1,0 +1,7 @@
+human_name: "TEST PROJECT"
+machine_name: TEST
+profile: standard
+prefix: TST
+vm: false
+ci:
+  provider: pipelines

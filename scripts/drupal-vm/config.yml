@@ -36,11 +36,18 @@ apache_vhosts:
     serveralias: "www.{{ drupal_domain }}"
     documentroot: "{{ drupal_core_path }}"
     extra_parameters: "{{ apache_vhost_php_fpm_parameters }}"
+  # Domain for the Drupal VM Dashboard
+  - servername: "dashboard.{{ drupal_domain }}"
+    serveralias: "www.dashboard.{{ drupal_domain }}"
+    documentroot: "/var/www/dashboard"
+    extra_parameters: "{{ apache_vhost_php_fpm_parameters }}"
 #  - servername: "local.second-drupal-site.com"
 #    documentroot: "{{ drupal_core_path }}"
 #    extra_parameters: "{{ apache_vhost_php_fpm_parameters }}"
 
 # Multisite installations should configure additional databases here.
+# It's recommended to prefix database names with 'drupal'. Otherwise,
+# you'll need to add additional users in the 'mysql_users' section.
 mysql_databases:
   - name: drupal
     encoding: utf8
@@ -53,10 +60,10 @@ mysql_users:
   - name: drupal
     host: "%"
     password: drupal
-    priv: "drupal.*:ALL"
+    priv: "drupal%.*:ALL"
 
 # Set this to 'false' if you don't need to install drupal (using the drupal_*
-# settings below), but instead copy down a database (e.g. using drush sql-sync).
+# settings below), but instead copy down a database (e.g., using drush sql-sync).
 drupal_install_site: false
 
 # Drupal VM automatically creates a drush alias file in your ~/.drush folder if
@@ -73,7 +80,7 @@ nodejs_install_npm_user: "{{ drupalvm_user }}"
 npm_config_prefix: "/home/{{ drupalvm_user }}/.npm-global"
 installed_extras: ${installed_extras}
 
-# PHP 7
+# PHP 7.1.
 php_version: "7.1"
 php_packages_extra:
   - "php{{ php_version }}-bz2"
@@ -81,6 +88,7 @@ php_packages_extra:
   - imagemagick
 
 # XDebug configuration.
+php_xdebug_version: 2.5.0
 # Change this value to 1 in order to enable xdebug by default.
 php_xdebug_default_enable: 0
 php_xdebug_coverage_enable: 0

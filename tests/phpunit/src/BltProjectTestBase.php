@@ -5,8 +5,8 @@ namespace Acquia\Blt\Tests;
 use Acquia\Blt\Robo\Blt;
 use Acquia\Blt\Robo\Common\YamlMunge;
 use Acquia\Blt\Robo\Config\ConfigInitializer;
-use Acquia\Blt\Robo\Commands\Input\ArrayInput;
 use Robo\Robo;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Terminal;
@@ -208,6 +208,7 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
     $drush_bin = $this->sandboxInstance . '/vendor/bin/drush';
     $this->execute("$drush_bin sql-drop --root=$root --uri=$uri", NULL, FALSE);
     $this->blt('drupal:hash-salt:init');
+    $this->blt('drupal:deployment-identifier:init');
     $this->execute("$drush_bin sql-cli --root=$root --uri=$uri < {$this->dbDump}");
   }
 
@@ -284,7 +285,7 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
   protected function writeFullWidthLine($message, $output) {
     $terminal_width = (new Terminal())->getWidth();
     $padding_len = ($terminal_width - strlen($message)) / 2;
-    $pad = str_repeat('-', $padding_len);
+    $pad = $padding_len > 0 ? str_repeat('-', $padding_len) : '';
     $output->writeln("<comment>{$pad}{$message}{$pad}</comment>");
   }
 

@@ -2,8 +2,11 @@ sudo: true
 language: php
 dist: trusty
 
+# Adjust the version of PHP to match your production environment.
+# Making this version number greater than the production environment can have unintended consequences
+# including a non-functional prod environment.
 php:
-  - 7.1
+  - 5.6
 
 matrix:
   fast_finish: true
@@ -56,22 +59,23 @@ install:
 script:
   - source ${BLT_DIR}/scripts/travis/run_tests
 
+# The version below MUST match the php version indicated at the top of this file, otherwise the artifact won't build.
 deploy:
    - provider: script
      script: "${BLT_DIR}/scripts/travis/deploy_branch"
      skip_cleanup: true
      on:
        branch: develop
-       php: 7.1
+       php: 5.6
    - provider: script
      script: "${BLT_DIR}/scripts/travis/deploy_branch"
      skip_cleanup: true
      on:
        branch: master
-       php: 7.1
+       php: 5.6
    - provider: script
      script: "${BLT_DIR}/scripts/travis/deploy_tag"
      skip_cleanup: true
      on:
        tags: true
-       php: 7.1
+       php: 5.6
