@@ -537,7 +537,7 @@ class Updates {
   }
 
   /**
-   * 9.1.0.
+   * 9.1.0-alpha1.
    *
    * @Update(
    *    version = "9001000",
@@ -574,6 +574,31 @@ class Updates {
       $messages = ["Updated $project_composer_json. Review changes, then re-run composer update."];
     }
 
+    $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
+    $this->updater->getOutput()->writeln("");
+    $this->updater->getOutput()->writeln($formattedBlock);
+    $this->updater->getOutput()->writeln("");
+  }
+
+  /**
+   * 9.1.0.
+   *
+   * @Update(
+   *    version = "9001001",
+   *    description = "Adjust Drush 9 Composer contrib directory."
+   * )
+   */
+  public function update_9001001() {
+    $composer_json = $this->updater->getComposerJson();
+    if (isset($composer_json['extra']['installer-paths']['drush/contrib/{$name}'])) {
+      unset($composer_json['extra']['installer-paths']['drush/contrib/{$name}']);
+    }
+    $composer_json['extra']['installer-paths']['drush/Commands/{$name}'][] = 'type:drupal-drush';
+    $this->updater->writeComposerJson($composer_json);
+    $messages = [
+      "Your composer.json file has been modified to be compatible with Drush 9.",
+      "You must execute `composer update --lock` to update your lock file.",
+    ];
     $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
     $this->updater->getOutput()->writeln("");
     $this->updater->getOutput()->writeln($formattedBlock);
