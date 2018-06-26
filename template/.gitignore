@@ -22,7 +22,7 @@ docroot/modules/contrib
 docroot/themes/contrib
 docroot/profiles/contrib
 docroot/libraries
-drush/contrib
+drush/Commands
 
 # Ignore custom theme build artifacts
 docroot/themes/custom/*/node_modules
