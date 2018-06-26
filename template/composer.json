@@ -18,7 +18,7 @@
             "docroot/themes/contrib/{$name}": ["type:drupal-theme"],
             "docroot/themes/custom/{$name}": ["type:drupal-custom-theme"],
             "docroot/libraries/{$name}": ["type:drupal-library", "type:bower-asset", "type:npm-asset"],
-            "drush/contrib/{$name}": ["type:drupal-drush"]
+            "drush/Commands/{$name}": ["type:drupal-drush"]
         },
         "merge-plugin": {
             "require": [
