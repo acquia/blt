@@ -589,6 +589,7 @@ class Updates {
    * )
    */
   public function update_9001001() {
+    $this->updater->syncWithTemplate('.gitignore', TRUE);
     $composer_json = $this->updater->getComposerJson();
     if (isset($composer_json['extra']['installer-paths']['drush/contrib/{$name}'])) {
       unset($composer_json['extra']['installer-paths']['drush/contrib/{$name}']);
