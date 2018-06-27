@@ -98,7 +98,10 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       $task->exec("$bin/blt vm --no-boot --no-interaction --yes -v")
         ->exec("$bin/yaml-cli update:value box/config.yml vagrant_synced_folders.1.local_path '../blt'")
         ->exec("$bin/yaml-cli update:value box/config.yml vagrant_synced_folders.1.destination '/var/www/blt'")
-        ->exec("$bin/yaml-cli update:value box/config.yml vagrant_synced_folders.1.type nfs");
+        ->exec("$bin/yaml-cli update:value box/config.yml vagrant_synced_folders.1.type nfs")
+        ->exec("$bin/yaml-cli update:value box/config.yml vagrant_synced_folders.2.local_path '../blt'")
+        ->exec("$bin/yaml-cli update:value box/config.yml vagrant_synced_folders.2.destination '/blt'")
+        ->exec("$bin/yaml-cli update:value box/config.yml vagrant_synced_folders.2.type nfs");
     }
     $task->run();
   }
