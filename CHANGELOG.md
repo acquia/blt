@@ -1,5 +1,4 @@
-# Change Log
-
+1
 ## [8.9.3](https://github.com/acquia/blt/tree/8.9.3) (2017-09-12)
 [Full Changelog](https://github.com/acquia/blt/compare/8.9.2...8.9.3)
 
