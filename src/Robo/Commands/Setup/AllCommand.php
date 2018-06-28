@@ -13,9 +13,20 @@ class AllCommand extends BltTasks {
    * Executes source:build:* and installs Drupal via setup.strategy.
    *
    * @command setup
+   *
    * @executeInVm
    */
-  public function setup() {
+  public function allSites() {
+    foreach ($this->getConfigValue('multisites') as $multisite) {
+      $this->switchSiteContext($multisite);
+      $this->setup();
+    }
+  }
+
+  /**
+   * Executes source:build:* and installs Drupal via setup.strategy.
+   */
+  protected function setup() {
     $this->say("Setting up local environment for site <comment>{$this->getConfigValue('site')}</comment>.");
     if ($this->getConfigValue('drush.alias')) {
       $this->say("Using drush alias <comment>@{$this->getConfigValue('drush.alias')}</comment>");
