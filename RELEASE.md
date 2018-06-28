@@ -5,6 +5,7 @@ To perform a release:
 1. [Check build statuses](#check-build-statuses)
 1. [Update Canary](##update-canary)
 1. [Create a release](#create-a-release)
+1. [Update the blt-project repo](#update-the-blt-project-repo)
 
 ## Check build statuses
 
@@ -33,3 +34,10 @@ To perform a release:
     
 * Add any manual steps or notable changes to the release notes. 
 * Click publish. Packagist is automatically updated.
+
+## Update the blt-project repo
+
+In order for the `composer create-project acquia/blt-project my-project` command to pull the latest version of BLT, the [blt-project repo](https://github.com/acquia/blt-project) may need to be updated to point to the new release created in the BLT repo.  Once packagist shows the latest release of BLT as being available, test the composer create-project process. If it loads the old version, you likely need to update the blt-project repo
+
+* Update the `composer.json` file in the blt-project repo to require the latest version of acquia/blt.
+* Tag and release a new version of blt-project.
