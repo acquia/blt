@@ -4,6 +4,7 @@ namespace Acquia\Blt\Robo\Commands\Validate;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
+use Drupal\Core\Template\TwigTransTokenParser;
 use Symfony\Bridge\Twig\Command\LintCommand as TwigLintCommand;
 use Symfony\Component\Console\Input\ArrayInput;
 use Twig\Environment;
@@ -131,6 +132,13 @@ class TwigCommand extends BltTasks {
     $twig_functions = array_merge($twig_functions, $drupal_functions);
     foreach ($twig_functions as $function) {
       $twig->addFunction(new \Twig_SimpleFunction($function, function () {}));
+    }
+
+    // Add Drupal Twig parser to include trans tag.
+    $token_parser_filename = $repo_root . '/docroot/core/lib/Drupal/Core/Template/TwigTransTokenParser.php';
+    if (file_exists($token_parser_filename)) {
+      require_once $token_parser_filename;
+      $twig->addTokenParser(new TwigTransTokenParser());
     }
 
     $command = new TwigLintCommand();

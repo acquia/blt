@@ -63,7 +63,7 @@ mysql_users:
     priv: "drupal%.*:ALL"
 
 # Set this to 'false' if you don't need to install drupal (using the drupal_*
-# settings below), but instead copy down a database (e.g. using drush sql-sync).
+# settings below), but instead copy down a database (e.g., using drush sql-sync).
 drupal_install_site: false
 
 # Drupal VM automatically creates a drush alias file in your ~/.drush folder if

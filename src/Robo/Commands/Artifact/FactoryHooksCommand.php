@@ -15,9 +15,9 @@ class FactoryHooksCommand extends BltTasks {
    * This is intended to be called from post-code-deploy.sh cloud hook.
    *
    * @param string $site
-   *   The site name. E.g., site1.
+   *   The site name, e.g., site1.
    * @param string $target_env
-   *   The cloud env. E.g., dev
+   *   The cloud env, e.g., dev
    *
    * @command artifact:acsf-hooks:db-update
    */
@@ -34,9 +34,6 @@ class FactoryHooksCommand extends BltTasks {
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function updateAcsfSites($site, $target_env) {
-    $this->taskDrush()
-      ->drush("cc drush")
-      ->run();
     $this->say("Running updates for site <comment>$site</comment> in environment <comment>$target_env</comment>.");
     $this->switchSiteContext($site);
     $this->invokeCommand('artifact:update:drupal');
