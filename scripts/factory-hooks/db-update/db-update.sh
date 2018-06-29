@@ -30,4 +30,7 @@ echo "$site.$target_env: Running BLT deploy tasks on $uri domain in $env environ
 
 IFS='.' read -a name <<< "${uri}"
 
+# Set Drush cache to local ephemeral storage to avoid race conditions.
+export DRUSH_PATHS_CACHE_DIRECTORY=/tmp/.drush
+
 $blt drupal:update --environment=$env --site=${name[0]} --define drush.uri=$domain --verbose --yes
