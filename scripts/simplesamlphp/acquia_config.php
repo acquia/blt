@@ -37,12 +37,34 @@ $config['technicalcontact_email'] = "your_email@yourdomain.com";
 $config['secretsalt'] = 'y0h9d13pki9qdhfm3l5nws4jjn55j6hj';
 $config['auth.adminpassword'] = 'mysupersecret';
 
+
+// If on ACSF but not in a Drupal request, load sites.php file
+// to get $GLOBALS['gardens_site_settings'] to dynamically set db name
+if (!isset($GLOBALS['gardens_site_settings']) && file_exists($_SERVER['DOCUMENT_ROOT'] . '/sites/sites.php')) {
+  require_once $_SERVER['DOCUMENT_ROOT'] . '/sites/sites.php';
+}
+
+// If we are on ACSF set database name dynamically
+if (isset($GLOBALS['gardens_site_settings'])) {
+  $ah_options['database_name'] = $GLOBALS['gardens_site_settings']['conf']['gardens_db_name'];
+}
+
 /**
  * Multi-site installs.
  *
  * Support multi-site installations at different base URLs.
  */
 # $config['baseurlpath'] = "https://{$_SERVER['SERVER_NAME']}/simplesaml/";
+
+/**
+ * ACSF installs.
+ *
+ * Support ACSF installations at different base URLs.
+ */
+
+if (isset($GLOBALS['gardens_site_settings'])) {
+  $config['baseurlpath'] = "https://{$_SERVER['SERVER_NAME']}/simplesaml/";
+}
 
 /**
  * Cookies No Cache.
