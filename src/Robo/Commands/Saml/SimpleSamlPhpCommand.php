@@ -227,7 +227,7 @@ class SimpleSamlPhpCommand extends BltTasks {
     file_put_contents($this->getConfigValue('repo.root') . '/composer.json',
       json_encode($composer_json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
     $this->taskExecStack()
-      ->dir($this->getConfigValue('repo.roou'))
+      ->dir($this->getConfigValue('repo.root'))
       ->exec("composer post-drupal-scaffold-cmd")
       ->run();
     // @todo throw exceptions.
