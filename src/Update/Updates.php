@@ -2,12 +2,14 @@
 
 namespace Acquia\Blt\Update;
 
+use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Annotations\Update;
 use Acquia\Blt\Robo\Common\ArrayManipulator;
 use Dflydev\DotAccessData\Data;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
 use Acquia\Blt\Robo\Common\ComposerMunge;
+
 
 /**
  * Defines scripted updates for specific version deltas of BLT.
@@ -606,4 +608,24 @@ class Updates {
     $this->updater->getOutput()->writeln("");
   }
 
+  /**
+   * 9.1.0.
+   *
+   * @Update(
+   *    version = "9001002",
+   *    description = "Update Factory Hooks with BLT Template."
+   * )
+   */
+  public function update_9001002() {
+    if (file_exists($this->updater->getRepoRoot() . '/factory-hooks')) {
+      $messages[] = "This update will update the files in your existing factory hooks directory.";
+      $messages[] = "Review the resulting files and ensure that any customizations have been re-added.";
+      $this->updater->executeCommand("./vendor/bin/blt recipes:acsf:init:hooks");
+    }
+    $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
+    $this->updater->getOutput()->writeln("");
+    $this->updater->getOutput()->writeln($formattedBlock);
+    $this->updater->getOutput()->writeln("");
+
+  }
 }
