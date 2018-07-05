@@ -111,6 +111,9 @@ class ConfigCommand extends BltTasks {
   protected function importConfigSplit($task, $cm_core_key) {
     $task->drush("pm-enable")->arg('config_split');
     $task->drush("config-import")->arg($cm_core_key);
+    // Runs a second import to ensure splits are
+    // both defined and imported.
+    $task->drush("config-import")->arg($cm_core_key);
   }
 
   /**
