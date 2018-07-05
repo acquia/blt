@@ -8,11 +8,13 @@ There are two parts to setting up a multisite instance on BLT: the local setup a
 1. Run `blt recipes:multisite:init`.
     
     Running `blt recipes:multisite:init`...
+    
     * Sets up new a directory in your docroot/sites directory with the multisite name given with all the necessary files and subdirectories.
     * Sets up a new drush alias.
     * Sets up a new vhost in the box/config.yml file. 
     
     Running `blt recipes:multisite:init` currently **does not**...
+    
     * Set up a new MySQL user in the box/config.yml file.
     * Add a multisite array to your blt/blt.yml file.
     * Set up a sites.php file.
@@ -28,6 +30,7 @@ There are two parts to setting up a multisite instance on BLT: the local setup a
 #### Add a new MySQL user to the `box/config.yml` file.
 
 Edit your `box/config.yml` file and add a new MySQL user block in the existing `mysql_users` section. If your original database user was named 'drupal' (the BLT default) and during the `multisite:recipe:init` process you told it to use `newsite` for the password, user, and database of your new site, the completed mysql_users block would look like:
+
 ```
 mysql_users:
     -
