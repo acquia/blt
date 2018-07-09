@@ -3,9 +3,11 @@
 # ../docroot/sites/[site]/drush.yml
 drush:
   paths:
-    # Load a drush.yml configuration file from the current working directory.
     config:
+      # Load a drush.yml configuration file from the current working directory.
       - ../docroot/sites/default/local.drush.yml
+      # Allow local global config overrides.
+      - local.drush.yml
     include:
       - '${env.home}/.drush'
       - /usr/share/drush/commands
