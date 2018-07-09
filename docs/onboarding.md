@@ -35,7 +35,7 @@ If your project uses a virtual development environment such as Drupal VM:
 If your project does not use a virtual development environment:
 
 1. Setup your local LAMP stack with the webroot pointing at you project's `docroot` directory.
-1. Run `blt blt:init:settings` This will generate `docroot/sites/default/settings/local.settings.php` and `docroot/sites/default/local.drushrc.php`. Update these with your local database credentials and your local site URL.
+1. Run `blt blt:init:settings` This will generate `docroot/sites/default/settings/local.settings.php` and `docroot/sites/default/local.drush.yml`. Update these with your local database credentials and your local site URL.
 1. Run `blt setup`. This will build all project dependencies and install drupal.
 
 Please see [Local Development](local-development.md) for more information on setting up a local \*AMP stack or virtual development environment.
