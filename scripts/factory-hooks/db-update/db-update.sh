@@ -33,6 +33,6 @@ IFS='.' read -a name <<< "${uri}"
 # Set Drush cache to local ephemeral storage to avoid race conditions. This is
 # done on a per site basis to completely avoid race conditions.
 # @see https://github.com/acquia/blt/pull/2922
-export DRUSH_PATHS_CACHE_DIRECTORY=/tmp/.drush/${DB_ROLE}
+export DRUSH_PATHS_CACHE_DIRECTORY=/tmp/.drush/${db_role}
 
 $blt drupal:update --environment=$env --site=${name[0]} --define drush.uri=$domain --verbose --yes
