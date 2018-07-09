@@ -138,6 +138,7 @@ class VmCommand extends BltTasks {
     $this->say("");
     $this->say("<info>BLT has created default configuration for your Drupal VM!</info>");
     $this->say(" * The configuration file is <comment>{$this->projectDrupalVmConfigFile}</comment>.");
+    $this->say(" * Be sure to commit this file as well as <comment>Vagrantfile</comment>.");
 
     $this->say(" * To customize the VM, follow the Quick Start Guide in Drupal VM's README:");
     $this->say("   <comment>https://github.com/geerlingguy/drupal-vm#quick-start-guide</comment>");
