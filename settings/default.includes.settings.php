@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Serves as a central aggregation point for adding settings files.
  */
-
 
 /**
  * Use this file to add any addition settings files which should be required by
@@ -35,7 +35,7 @@
  * provide full pathing to the file in a dynamic manner.
  */
 $additionalSettingsFiles = [
-  # DRUPAL_ROOT . "/sites/$site_dir/settings/foo.settings.php"
+  // DRUPAL_ROOT . "/sites/$site_dir/settings/foo.settings.php"
 ];
 
 foreach ($additionalSettingsFiles as $settingsFile) {
