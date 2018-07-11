@@ -49,6 +49,12 @@ As development progresses, you can use the following commands to keep your local
 
 Each of these commands is simply a wrapper for a number of more granular commands that can be run individually if desired (for instance, `blt drupal:update` just runs database updates and imports configuration changes). For a full list of available project tasks, run `blt`. See [Project Tasks](project-tasks.md) for more information.
 
+### Adding include files to settings.php
+
+In order to allow additions to settings.php in a way which is extensible and allows them to be overwritten by the local.settings.php file when working on a local environment, BLT uses an `includes.settings.php` file. This file is included, by way of `blt.settings.php`, into the `settings.php` file for the site prior to the inclusion of the `local.settings.php` file.
+
+As not all projects will need additional includes, BLT initially deploys a `default.includes.settings.php` file into the site's `docroot/sites/{site_name}/settings` directory. To make use of this file, rename it to `includes.settings.php` and add the path to the file(s) which should be added.
+
 ### Local Git Configuration
 
 For readability of commit history, set your name and email address properly:
