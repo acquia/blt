@@ -137,13 +137,23 @@ class VmCommand extends BltTasks {
 
     $this->logger->info("Creating configuration files for Drupal VM...");
 
-    $this->taskFilesystemStack()
-      ->mkdir($this->vmDir)
-      ->copy($this->defaultDrupalVmConfigFile, $this->projectDrupalVmConfigFile, TRUE)
-      ->copy($this->defaultDrupalVmVagrantfile, $this->projectDrupalVmVagrantfile, TRUE)
-      ->stopOnFail()
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->run();
+    $configFiles = [
+      $this->projectDrupalVmConfigFile => $this->defaultDrupalVmConfigFile,
+      $this->projectDrupalVmVagrantfile => $this->defaultDrupalVmVagrantfile,
+    ];
+    foreach ($configFiles as $projectConfigFile => $defaultConfigFile) {
+      // Skip projects' existing configuration files.
+      if (file_exists($projectConfigFile)) {
+        continue;
+      }
+
+      $this->taskFilesystemStack()
+        ->mkdir($this->vmDir)
+        ->copy($defaultConfigFile, $projectConfigFile, TRUE)
+        ->stopOnFail()
+        ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+        ->run();
+    }
 
     $config = clone $this->getConfig();
 
