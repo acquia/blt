@@ -35,7 +35,7 @@
  * provide full pathing to the file in a dynamic manner.
  */
 $additionalSettingsFiles = [
-  // DRUPAL_ROOT . "/sites/$site_dir/settings/foo.settings.php"
+  // e.g,( DRUPAL_ROOT . "/sites/$site_dir/settings/foo.settings.php" )
 ];
 
 foreach ($additionalSettingsFiles as $settingsFile) {
