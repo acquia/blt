@@ -78,7 +78,7 @@ else {
  */
 function acquia_session_store_config(array $config, array $ah_options) {
   if ($ah_options['session_store'][$ah_options['env']] == 'memcache') {
-    $config = mc_session_store($config);
+    $config = mc_session_store($config, $ah_options);
   }
   elseif ($ah_options['session_store'][$ah_options['env']] == 'database') {
     $config = sql_session_store($config, $ah_options['database_name']);
