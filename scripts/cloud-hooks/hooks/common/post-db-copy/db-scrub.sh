@@ -13,7 +13,7 @@ target_env="$2"
 db_name="$3"
 source_env="$4"
 
-acsf_file="/mnt/files/$AH_SITE_GROUP.$AH_SITE_ENVIRONMENT/files-private/sites.json"
+acsf_file="/mnt/files/$site.$target_env/files-private/sites.json"
 if [ ! -f $acsf_file ]; then
   # Prep for BLT commands.
   repo_root="/var/www/html/$site.$target_env"
