@@ -4,7 +4,6 @@ namespace Acquia\Blt\Robo\Commands\Artifact;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\RandomString;
-use Acquia\Blt\Robo\Exceptions\BltException;
 
 /**
  * Defines commands in the "artifact:ac-hooks" namespace.
@@ -60,29 +59,17 @@ class AcHooksCommand extends BltTasks {
    * @throws \Exception
    */
   public function postCodeUpdate($site, $target_env, $source_branch, $deployed_tag, $repo_url, $repo_type) {
-    $this->dieIfAcsfEnv($target_env);
-    try {
-      $this->updateSites($site, $target_env);
-      $success = TRUE;
-      $this->sendPostCodeUpdateNotifications($site, $target_env, $source_branch, $deployed_tag, $success);
-    }
-    catch (\Exception $e) {
-      $success = FALSE;
-      $this->sendPostCodeUpdateNotifications($site, $target_env, $source_branch, $deployed_tag, $success);
-      throw $e;
-    }
-  }
-
-  /**
-   * Throws an exception if $env is an ACSF environment.
-   *
-   * @param string $env
-   *
-   * @throws \Exception
-   */
-  public function dieIfAcsfEnv($env) {
-    if ($this->isAcsfEnv($env)) {
-      throw new BltException("This is not intended to be executed on ACSF environments!");
+    if (!$this->isAcsfEnv($target_env)) {
+      try {
+        $this->updateSites($site, $target_env);
+        $success = TRUE;
+        $this->sendPostCodeUpdateNotifications($site, $target_env, $source_branch, $deployed_tag, $success);
+      }
+      catch (\Exception $e) {
+        $success = FALSE;
+        $this->sendPostCodeUpdateNotifications($site, $target_env, $source_branch, $deployed_tag, $success);
+        throw $e;
+      }
     }
   }
 
