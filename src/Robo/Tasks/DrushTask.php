@@ -4,8 +4,8 @@ namespace Acquia\Blt\Robo\Tasks;
 
 use Robo\Exception\TaskException;
 use Robo\Task\CommandStack;
-use Robo\Contract\VerbosityThresholdInterface;
 use Robo\Common\CommandArguments;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Runs Drush commands in stack. You can use `stopOnFail()` to point that stack
@@ -286,31 +286,34 @@ class DrushTask extends CommandStack {
     if ($this->verbose !== FALSE) {
       $verbosity_threshold = $this->verbosityThreshold();
       switch ($verbosity_threshold) {
-        case VerbosityThresholdInterface::VERBOSITY_VERBOSE:
+        case OutputInterface::VERBOSITY_VERBOSE:
           $this->verbose(TRUE);
           break;
 
-        case VerbosityThresholdInterface::VERBOSITY_VERY_VERBOSE:
+        case OutputInterface::VERBOSITY_VERY_VERBOSE:
           $this->veryVerbose(TRUE);
           break;
 
-        case VerbosityThresholdInterface::VERBOSITY_DEBUG:
+        case OutputInterface::VERBOSITY_DEBUG:
           $this->debug(TRUE);
           break;
       }
     }
-    if ($this->verbosityThreshold() >= VerbosityThresholdInterface::VERBOSITY_VERBOSE
+    if ($this->verbosityThreshold() >= OutputInterface::VERBOSITY_VERBOSE
       && $this->verbose !== FALSE) {
       $this->verbose(TRUE);
     }
 
-    if ($this->debug) {
+    if (($this->debug || $this->getConfig()->get('drush.debug'))
+      && $this->getConfig()->get('drush.debug') !== FALSE) {
       $this->option('-vvv');
     }
-    elseif ($this->veryVerbose) {
+    elseif (($this->veryVerbose || $this->getConfig()->get('drush.veryVerbose'))
+      && $this->getConfig()->get('drush.veryVerbose') !== FALSE) {
       $this->option('-vv');
     }
-    elseif ($this->verbose) {
+    elseif (($this->verbose || $this->getConfig()->get('drush.verbose'))
+      && $this->getConfig()->get('drush.verbose') !== FALSE) {
       $this->option('-v');
     }
 

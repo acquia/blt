@@ -148,11 +148,11 @@ class DeployCommand extends BltTasks {
       $tag_name = $options['tag'];
     }
     else {
-      $tag_name = $this->ask('Enter the tag name for the deployment artifact. E.g., 1.0.0-build');
+      $tag_name = $this->ask('Enter the tag name for the deployment artifact, e.g., 1.0.0-build');
     }
 
     if (empty($tag_name)) {
-      // @todo Validate tag name is valid. E.g., no spaces or special characters.
+      // @todo Validate tag name is valid, e.g., no spaces or special characters.
       throw new BltException("You must enter a valid tag name.");
     }
     else {
@@ -326,7 +326,7 @@ class DeployCommand extends BltTasks {
       'drupal:hash-salt:init',
     ];
     if (!empty($this->tagName)) {
-      $commands['drupal:deployment-identifier:init'] = ['id' => $this->tagName];
+      $commands['drupal:deployment-identifier:init'] = ['--id' => $this->tagName];
     }
     else {
       $commands[] = 'drupal:deployment-identifier:init';
@@ -406,8 +406,8 @@ class DeployCommand extends BltTasks {
 
     $this->logger->info("Removing .git subdirectories...");
     $this->taskExecStack()
-      ->exec("find '{$this->deployDir}/vendor' -type d | grep '\.git' | xargs rm -rf")
-      ->exec("find '{$this->deployDir}/docroot' -type d | grep '\.git' | xargs rm -rf")
+      ->exec("find '{$this->deployDir}/vendor' -type d -name '.git' -exec rm -fr \\{\\} \\+")
+      ->exec("find '{$this->deployDir}/docroot' -type d -name '.git' -exec rm -fr \\{\\} \\+")
       ->stopOnFail()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
