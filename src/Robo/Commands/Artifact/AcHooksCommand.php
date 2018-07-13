@@ -32,7 +32,9 @@ class AcHooksCommand extends BltTasks {
    * @command artifact:ac-hooks:post-code-deploy
    */
   public function postCodeDeploy($site, $target_env, $source_branch, $deployed_tag, $repo_url, $repo_type) {
-    $this->postCodeUpdate($site, $target_env, $source_branch, $deployed_tag, $repo_url, $repo_type);
+    if (!$this->isAcsfEnv($target_env)) {
+      $this->postCodeUpdate($site, $target_env, $source_branch, $deployed_tag, $repo_url, $repo_type);
+    }
   }
 
   /**
@@ -102,19 +104,21 @@ class AcHooksCommand extends BltTasks {
    * @throws \Exception
    */
   public function dbScrub($site, $target_env, $db_name, $source_env) {
-    $password = RandomString::string(10, FALSE,
-      function ($string) {
-        return !preg_match('/[^\x{80}-\x{F7} a-z0-9@+_.\'-]/i', $string);
-      },
-      'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!#%^&*()_?/.,+=><'
-    );
-    $this->taskDrush()
-      ->drush("sql-sanitize --sanitize-password=\"$password\" --yes")
-      ->run();
-    $this->say("Scrubbing database in $target_env");
-    $this->taskDrush()
-      ->drush("cr")
-      ->run();
+    if (!$this->isAcsfEnv($target_env)) {
+      $password = RandomString::string(10, FALSE,
+        function ($string) {
+          return !preg_match('/[^\x{80}-\x{F7} a-z0-9@+_.\'-]/i', $string);
+        },
+        'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!#%^&*()_?/.,+=><'
+      );
+      $this->taskDrush()
+        ->drush("sql-sanitize --sanitize-password=\"$password\" --yes")
+        ->run();
+      $this->say("Scrubbing database in $target_env");
+      $this->taskDrush()
+        ->drush("cr")
+        ->run();
+    }
   }
 
   /**
