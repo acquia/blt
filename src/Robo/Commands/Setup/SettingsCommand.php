@@ -19,6 +19,20 @@ class SettingsCommand extends BltTasks {
   protected $projectBehatLocalConfigFile;
 
   /**
+   * @var string
+   * Warning text added to the end of settings.php to point people to the BLT
+   * docs on how to include settings.
+   */
+  private $settingsWarning = <<<WARNING
+#
+# IMPORTANT
+# Do not include additional settings here. Instead, add them to settings included
+# by `blt.settings.php`. See [BLT's documentation](http://blt.readthedocs.io)
+# for more detail.
+#
+WARNING;
+
+  /**
    * This hook will fire for all commands in this command file.
    *
    * @hook init
@@ -131,6 +145,7 @@ class SettingsCommand extends BltTasks {
 
       $result = $this->taskWriteToFile($project_settings_file)
         ->appendUnlessMatches('#vendor/acquia/blt/settings/blt.settings.php#', 'require DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php";' . "\n")
+        ->appendUnlessMatches('#\# IMPORTANT#', $this->settingsWarning . "\n")
         ->append(TRUE)
         ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
         ->run();
