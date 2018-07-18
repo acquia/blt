@@ -39,3 +39,30 @@ Failed to generate minidump.Illegal instruction
 
 The solution to this is to invoke the chrome command with the ` --no-sandbox` option. To do that, you'll need to patch your BLT installation to add that option to the [launchChrome() function in the Behat command](https://github.com/acquia/blt/blob/9.x/src/Robo/Commands/Tests/BehatCommand.php#L178).
 See [the Patches documentation](patches.md) for tips on applying patches to packages via Composer.
+
+#### Notices about undefined index HTTP_HOST
+
+*Unresolved*
+
+When running many BLT or drush commands through Lando when ACSF has been initialized, notices like the one below appear. It appears the `$_SERVER['HTTP_HOST]` variable is not being populated in Lando. However, this does not appear to cause real problems.
+
+```
+<em class="placeholder">Notice</em>: Undefined index: HTTP_HOST in <em class="placeholder">require()</em> (line <em class="placeholder">119</em> of <em class="placeholder">/app/vendor/acquia/blt/settings/blt.settings.php</em>). <pre class="backtrace">require(&#039;/app/vendor/acquia/blt/settings/blt.settings.php&#039;) (Line: 797)
+require(&#039;/app/docroot/sites/default/settings.php&#039;) (Line: 122)
+Drupal\Core\Site\Settings::initialize(&#039;/app/docroot&#039;, &#039;sites/default&#039;, Object) (Line: 1056)
+Drupal\Core\DrupalKernel-&gt;initializeSettings(Object) (Line: 271)
+Drupal\Core\DrupalKernel::createFromRequest(Object, Object, &#039;prod&#039;, 1) (Line: 172)
+Drush\Boot\DrupalBoot8-&gt;bootstrapDrupalConfiguration(NULL) (Line: 295)
+Drush\Boot\BootstrapManager-&gt;doBootstrap(3, 6, NULL) (Line: 504)
+Drush\Boot\BootstrapManager-&gt;bootstrapMax() (Line: 224)
+Drush\Application-&gt;bootstrapAndFind(&#039;csex&#039;) (Line: 191)
+Drush\Application-&gt;find(&#039;csex&#039;) (Line: 229)
+Symfony\Component\Console\Application-&gt;doRun(Object, Object) (Line: 148)
+Symfony\Component\Console\Application-&gt;run(Object, Object) (Line: 112)
+Drush\Runtime\Runtime-&gt;doRun(Array) (Line: 41)
+Drush\Runtime\Runtime-&gt;run(Array) (Line: 66)
+require(&#039;/app/vendor/drush/drush/drush.php&#039;) (Line: 17)
+drush_main() (Line: 141)
+require(&#039;phar:///usr/local/bin/drush/bin/drush.php&#039;) (Line: 10)
+</pre>
+```
