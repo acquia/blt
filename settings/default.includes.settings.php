@@ -29,7 +29,7 @@
  *          ---- local.settings.php
  *
  * If you want to add settings to every site defined in the codebase, you can do
- * so using the global.settings.default.php file in docroot/sites.
+ * so using the global.settings.default.php file in docroot/sites/settings.
  */
 
 /**
