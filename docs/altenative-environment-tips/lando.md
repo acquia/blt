@@ -40,12 +40,13 @@ Failed to generate minidump.Illegal instruction
 The solution to this is to invoke the chrome command with the ` --no-sandbox` option. To do that, you'll need to patch your BLT installation to add that option to the [launchChrome() function in the Behat command](https://github.com/acquia/blt/blob/9.x/src/Robo/Commands/Tests/BehatCommand.php#L178).
 See [the Patches documentation](patches.md) for tips on applying patches to packages via Composer.
 
-#### Notices about undefined index HTTP_HOST
+#### ACSF: Undefined index notices for $_SERVER keys
 
 *Unresolved*
 
-When running many BLT or drush commands through Lando when ACSF has been initialized, notices like the one below appear. It appears the `$_SERVER['HTTP_HOST]` variable is not being populated in Lando. However, this does not appear to cause real problems.
+When running many BLT or drush commands through Lando when ACSF has been initialized, notices like the one below appear. It appears the `$_SERVER['HTTP_HOST]` and `$_SERVER['argv']` variables are not being populated in Lando. Beyond warnings/notices displayed to the screen, it's unclear what the impact of this is.
 
+**example output**
 ```
 <em class="placeholder">Notice</em>: Undefined index: HTTP_HOST in <em class="placeholder">require()</em> (line <em class="placeholder">119</em> of <em class="placeholder">/app/vendor/acquia/blt/settings/blt.settings.php</em>). <pre class="backtrace">require(&#039;/app/vendor/acquia/blt/settings/blt.settings.php&#039;) (Line: 797)
 require(&#039;/app/docroot/sites/default/settings.php&#039;) (Line: 122)
@@ -65,4 +66,16 @@ require(&#039;/app/vendor/drush/drush/drush.php&#039;) (Line: 17)
 drush_main() (Line: 141)
 require(&#039;phar:///usr/local/bin/drush/bin/drush.php&#039;) (Line: 10)
 </pre>
+```
+
+```
+Notice: Undefined index: argv in Symfony\Component\Console\Input\ArgvInput->__construct() (line 53 of /app/vendor/symfony/console/Input/ArgvInput.php).
+
+Symfony\Component\Console\Input\ArgvInput->__construct(NULL) (Line: 113)
+require('/app/vendor/acquia/blt/settings/blt.settings.php') (Line: 797)
+require('/app/docroot/sites/default/settings.php') (Line: 122)
+Drupal\Core\Site\Settings::initialize('/app/docroot', 'sites/default', Object) (Line: 1056)
+Drupal\Core\DrupalKernel->initializeSettings(Object) (Line: 656)
+Drupal\Core\DrupalKernel->handle(Object) (Line: 19)
+
 ```
