@@ -100,4 +100,3 @@ elseif (file_exists("/mnt/files/{$_ENV['AH_SITE_GROUP']}.{$_ENV['AH_SITE_ENVIRON
   $config['store.sql.prefix'] = 'simplesaml';
 }
 }
-}
