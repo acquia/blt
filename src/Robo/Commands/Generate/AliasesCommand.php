@@ -65,7 +65,7 @@ class AliasesCommand extends BltTasks {
 
     $error = FALSE;
     try {
-      $this->getSiteAliases($site, $errors);
+      $this->getSiteAliases($site);
     }
     catch (\Exception $e) {
       $error = TRUE;
@@ -76,6 +76,9 @@ class AliasesCommand extends BltTasks {
     }
   }
 
+  /**
+   * Sets the Acquia application ID from config and prompt.
+   */
   protected function setAppId() {
     if ($app_id = $this->getConfigValue('cloud.appId')) {
       $this->appId = $app_id;
@@ -89,7 +92,10 @@ class AliasesCommand extends BltTasks {
   }
 
   /**
+   * Loads CloudAPI token from an user input if it doesn't exist on disk.
+   *
    * @return array
+   *   An array of CloudAPI token configuration.
    */
   protected function loadCloudApiConfig() {
     if (!$config = $this->loadCloudApiConfigFile()) {
@@ -101,9 +107,8 @@ class AliasesCommand extends BltTasks {
   /**
    * Load existing credentials from disk.
    *
-   * Returns credentials as array on success, or FALSE on failure.
-   *
    * @return bool|array
+   *   Returns credentials as array on success, or FALSE on failure.
    */
   protected function loadCloudApiConfigFile() {
     if (file_exists($this->cloudConfFilePath)) {
@@ -115,7 +120,10 @@ class AliasesCommand extends BltTasks {
   }
 
   /**
+   * Interactive prompt to get Cloud API credentials.
    *
+   * @return array
+   *   Returns credentials as array on success.
    */
   protected function askForCloudApiCredentials() {
     $this->say("You may generate new API tokens at <comment>https://cloud.acquia.com/app/profile/tokens</comment>");
@@ -134,9 +142,12 @@ class AliasesCommand extends BltTasks {
   }
 
   /**
-   * @param $config
+   * Writes configuration to local file.
+   *
+   * @param array $config
+   *   An array of CloudAPI configuraton.
    */
-  protected function writeCloudApiConfig($config) {
+  protected function writeCloudApiConfig(array $config) {
     if (!is_dir($this->cloudConfDir)) {
       mkdir($this->cloudConfDir);
     }
@@ -144,6 +155,17 @@ class AliasesCommand extends BltTasks {
     $this->say("Credentials were written to {$this->cloudConfFilePath}.");
   }
 
+  /**
+   * Tests CloudAPI client authentication credentials.
+   *
+   * @param string $key
+   *   The Acquia token public key.
+   * @param string $secret
+   *   The Acquia token secret key.
+   *
+   * @return array
+   *   Returns credentials as array on success, or NULL on failure.
+   */
   protected function setCloudApiClient($key, $secret) {
     try {
       $connector = new Connector(array(
@@ -165,13 +187,16 @@ class AliasesCommand extends BltTasks {
   }
 
   /**
+   * Gets connection with API client.
+   *
    * @return \AcquiaCloudApi\CloudApi\Client
+   *   The API Client connection.
    */
   protected function getCloudApiClient() {
     return $this->cloudApiClient;
   }
 
-   /**
+  /**
    * Gets generated drush site aliases.
    *
    * @param string $site
@@ -179,7 +204,7 @@ class AliasesCommand extends BltTasks {
    *
    * @throws \Exception
    */
-  protected function getAcsfSiteAliases($site) {
+  protected function getSiteAliases($site) {
     /** @var \AcquiaCloudApi\Response\ApplicationResponse $site */
     $aliases = [];
     $sites = [];
@@ -193,9 +218,10 @@ class AliasesCommand extends BltTasks {
       $domains = [];
       $domains = $env->domains;
       $this->say('<info>Found ' . count($domains) . ' sites for environment ' . $env->name . ', writing aliases...</info>');
+
       $sshFull = $env->sshUrl;
-      $envName = $env->name;
       $ssh_split = explode('@', $env->sshUrl);
+      $envName = $env->name;
       $remoteHost = $ssh_split[1];
       $remoteUser = $ssh_split[0];
 
@@ -257,7 +283,7 @@ class AliasesCommand extends BltTasks {
     }
   }
 
-    /**
+  /**
    * Generates a site alias for valid domains.
    *
    * @param string $uri
@@ -286,7 +312,7 @@ class AliasesCommand extends BltTasks {
       $docroot = '/var/www/html/' . $remoteUser . '/docroot';
       $alias[$envName]['uri'] = $uri;
       $alias[$envName]['host'] = $remoteHost;
-      $alias[$envName]['options'] = '';
+      $alias[$envName]['options'] = [];
       $alias[$envName]['paths'] = ['dump-dir' => '/mnt/tmp'];
       $alias[$envName]['root'] = $docroot;
       $alias[$envName]['user'] = $remoteUser;
@@ -324,9 +350,7 @@ class AliasesCommand extends BltTasks {
     }
 
     $fullPath = $this->cloudConfDir . '/sites.json';
-
     $response_body = file_get_contents($fullPath);
-
     $sites_json = json_decode($response_body, TRUE);
 
     return $sites_json;
@@ -336,13 +360,18 @@ class AliasesCommand extends BltTasks {
   /**
    * Writes site aliases to disk.
    *
-   * @param $site_id
-   * @param $aliases
+   * @param string $site_id
+   *   The siteID or alias group.
+   * @param array $aliases
+   *   The alias array for this site group.
    *
    * @return string
+   *   The alias site group file path.
+   *
    * @throws \Exception
    */
-  protected function writeSiteAliases($site_id, $aliases) {
+  protected function writeSiteAliases($site_id, array $aliases) {
+
     if (!is_dir($this->siteAliasDir)) {
       mkdir($this->siteAliasDir);
     }
@@ -352,7 +381,8 @@ class AliasesCommand extends BltTasks {
         throw new \Exception("Aborted at user request");
       }
     }
-    file_put_contents($filePath, Yaml::dump($aliases, 3, 2));
+
+    file_put_contents($filePath, Yaml::dump($aliases));
     return $filePath;
   }
 
