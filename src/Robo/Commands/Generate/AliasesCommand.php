@@ -205,6 +205,46 @@ class AliasesCommand extends BltTasks {
     $this->writeSiteAliases($siteID, $aliases);
   }
 
+    /**
+   * Generates a site alias for valid domains.
+   *
+   * @param string $uri
+   *   The unique site url.
+   * @param string $envName
+   *   The current environment.
+   * @param string $remoteHost
+   *   The remote host.
+   * @param string $remoteUser
+   *   The remote user.
+   * @param string $siteID
+   *   The siteID / group.
+   *
+   * @return array
+   *   The full alias for this site.
+   */
+  protected function getAliases($uri, $envName, $remoteHost, $remoteUser, $siteID) {
+    $alias = array();
+    // Skip wildcard domains.
+    $skip_site = FALSE;
+    if (strpos($uri, ':*') !== FALSE) {
+      $skip_site = TRUE;
+    }
+
+    if (!$skip_site) {
+      $docroot = '/var/www/html/' . $remoteUser . '/docroot';
+      $alias[$envName]['uri'] = $uri;
+      $alias[$envName]['host'] = $remoteHost;
+      $alias[$envName]['options'] = '';
+      $alias[$envName]['paths'] = ['dump-dir' => '/mnt/tmp'];
+      $alias[$envName]['root'] = $docroot;
+      $alias[$envName]['user'] = $remoteUser;
+      $alias[$envName]['ssh'] = ['options' => '-p 22'];
+
+      return $alias;
+
+    }
+  }
+
   /**
    * Writes site aliases to disk.
    *
