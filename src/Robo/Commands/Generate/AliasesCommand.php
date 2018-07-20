@@ -172,37 +172,48 @@ class AliasesCommand extends BltTasks {
   }
 
   /**
-   * @param $site
+   * Gets generated drush site aliases.
+   *
+   * @param string $site
+   *   The Acquia subscription that aliases will be generated for.
+   *
    * @throws \Exception
    */
-  protected function getSiteAliases($site, &$errors) {
+  protected function getAcsfSiteAliases($site) {
     /** @var \AcquiaCloudApi\Response\ApplicationResponse $site */
-    $aliases = array();
-    // Gather our environments.
+    $aliases = [];
+    $sites = [];
+    $this->output->writeln("<info>Gathering sites list from Acquia Cloud.</info>");
+
     $environments = $this->cloudApiClient->environments($site->uuid);
-    $this->say('<info>Found ' . count($environments) . ' environments for site ' . $site->name . ', writing aliases...</info>');
-    // Lets split the site name in the format ac-realm:ac-site.
+    $hosting = $site->hosting->type;
     $site_split = explode(':', $site->hosting->id);
-    $siteRealm = $site_split[0];
-    $siteID = $site_split[1];
-    // Loop over all environments.
+
     foreach ($environments as $env) {
-      /** @var \AcquiaCloudApi\Response\EnvironmentResponse $env */
-      // Build our variables in case API changes.
+      $domains = [];
+      $domains = $env->domains;
+      $this->say('<info>Found ' . count($domains) . ' sites for environment ' . $env->name . ', writing aliases...</info>');
+      $sshFull = $env->sshUrl;
       $envName = $env->name;
-      $uri = $env->domains[0];
       $ssh_split = explode('@', $env->sshUrl);
       $remoteHost = $ssh_split[1];
       $remoteUser = $ssh_split[0];
-      $docroot = '/var/www/html/' . $siteID . '.' . $envName . '/docroot';
-      $aliases[$envName] = array(
-        'root' => $docroot,
-        'uri' => $uri,
-        'host' => $remoteHost,
-        'user' => $remoteUser,
-      );
+
+      if ($hosting == 'ace') {
+
+        $siteID = $site_split[1];
+        $uri = $env->domains[0];
+        $sites[$siteID][$envName] = ['uri' => $uri];
+        $siteAlias = $this->getAliases($uri, $envName, $remoteHost, $remoteUser, $siteID);
+        $sites[$siteID][$envName] = $siteAlias[$envName];
+
+      }
     }
-    $this->writeSiteAliases($siteID, $aliases);
+     // Write the alias files to disk.
+    foreach ($sites as $siteID => $aliases) {
+      $this->writeSiteAliases($siteID, $aliases);
+
+    }
   }
 
     /**
