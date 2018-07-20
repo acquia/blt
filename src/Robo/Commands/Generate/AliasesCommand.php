@@ -171,7 +171,7 @@ class AliasesCommand extends BltTasks {
     return $this->cloudApiClient;
   }
 
-  /**
+   /**
    * Gets generated drush site aliases.
    *
    * @param string $site
@@ -208,8 +208,49 @@ class AliasesCommand extends BltTasks {
         $sites[$siteID][$envName] = $siteAlias[$envName];
 
       }
+
+      if ($hosting == 'acsf') {
+        $this->say('<info>ACSF project detected - generating sites data....</info>');
+
+        try {
+          $acsf_sites = $this->getSitesJson($sshFull, $remoteUser);
+        }
+        catch (\Exception $e) {
+          $this->logger->error("Could not fetch acsf data for $envName. Error: " . $e->getMessage());
+        }
+
+        // Look for list of sites and loop over it.
+        if ($acsf_sites) {
+          foreach ($acsf_sites['sites'] as $name => $info) {
+
+            // Reset uri value to identify non-primary domains.
+            $uri = NULL;
+
+            // Get site prefix from main domain.
+            if (strpos($name, '.acsitefactory.com')) {
+              $acsf_site_name = explode('.', $name, 2);
+              $siteID = $acsf_site_name[0];
+            }
+            if (!empty($siteID) && !empty($info['flags']['preferred_domain'])) {
+              $uri = $name;
+            }
+
+            foreach ($domains as $site) {
+              // Skip sites without primary domain as the alias will be invalid.
+              if (isset($uri)) {
+                $sites[$siteID][$envName] = ['uri' => $uri];
+                $siteAlias = $this->getAliases($uri, $envName, $remoteHost, $remoteUser, $siteID);
+                $sites[$siteID][$envName] = $siteAlias[$envName];
+              } continue;
+            }
+          }
+
+        }
+      }
+
     }
-     // Write the alias files to disk.
+
+    // Write the alias files to disk.
     foreach ($sites as $siteID => $aliases) {
       $this->writeSiteAliases($siteID, $aliases);
 
