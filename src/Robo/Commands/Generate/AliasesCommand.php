@@ -246,6 +246,42 @@ class AliasesCommand extends BltTasks {
   }
 
   /**
+   * Gets ACSF sites info without secondary API calls or Drupal bootstrap.
+   *
+   * @param string $sshFull
+   *   The full ssh connection string for this environment.
+   * @param string $remoteUser
+   *   The site.env remoteUser string used in the remote private files path.
+   *
+   * @return array
+   *   An array of ACSF site data for the current environment.
+   */
+  protected function getSitesJson($sshFull, $remoteUser) {
+
+    $this->say('Getting ACSF sites.json information...');
+    $result = $this->taskRsync()
+
+      ->fromPath('/mnt/files/' . $remoteUser . '/files-private/sites.json')
+      ->fromHost($sshFull)
+      ->toPath($this->cloudConfDir)
+      ->remoteShell('ssh -A -p 22')
+      ->run();
+
+    if (!$result->wasSuccessful()) {
+      throw new \Exception("Unable to rsync ACSF sites.json");
+    }
+
+    $fullPath = $this->cloudConfDir . '/sites.json';
+
+    $response_body = file_get_contents($fullPath);
+
+    $sites_json = json_decode($response_body, TRUE);
+
+    return $sites_json;
+
+  }
+
+  /**
    * Writes site aliases to disk.
    *
    * @param $site_id
