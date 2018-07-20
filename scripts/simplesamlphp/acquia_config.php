@@ -66,7 +66,6 @@ if (!getenv('AH_SITE_ENVIRONMENT')) {
   $config['baseurlpath'] = 'simplesaml/';
   $config['loggingdir'] = '/var/www/simplesamlphp/log/';
 }
-}
 elseif (file_exists("/mnt/files/{$_ENV['AH_SITE_GROUP']}.{$_ENV['AH_SITE_ENVIRONMENT']}/files-private/sites.json")) {
   // On ACSF.
   $config['certdir'] = "/mnt/www/html/{$_ENV['AH_SITE_GROUP']}.{$_ENV['AH_SITE_ENVIRONMENT']}/simplesamlphp/cert/";
