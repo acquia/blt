@@ -87,7 +87,28 @@ class AliasesCommand extends BltTasks {
       $this->say("<info>To generate an alias for the Acquia Cloud, BLT require's your Acquia Cloud application ID.</info>");
       $this->say("<info>See https://docs.acquia.com/acquia-cloud/manage/applications.</info>");
       $this->appId = $this->askRequired('Please enter your Acquia Cloud application ID');
-      // @TODO write the app ID to blt.yml.
+      $this->writeAppConfig($this->appId);
+    }
+  }
+
+  /**
+   * Sets appId value in blt.yml to disable interative prompt.
+   *
+   * @param string $app_id
+   *  The Acquia Cloud application UUID.
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   */
+  protected function writeAppConfig($app_id) {
+
+    $project_yml = $this->getConfigValue('blt.config-files.project');
+    $this->say("Updating ${project_yml}...");
+    $project_config = YamlMunge::parseFile($project_yml);
+    $project_config['cloud']['appId'] = $app_id;
+    try {
+      YamlMunge::writeFile($project_yml, $project_config);
+    }
+    catch (\Exception $e) {
+      throw new BltException("Unable to update $project_yml.");
     }
   }
 
