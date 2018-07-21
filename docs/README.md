@@ -11,7 +11,7 @@ You can find all BLT documentation on [Read the Docs](http://blt.readthedocs.io)
 
 ## Getting started
 
-See [INSTALL.md](INSTALL.md) for a list of prequisites and links to instructions for [creating new projects](https://github.com/acquia/blt/blob/9.x/readme/creating-new-project.md), [adding BLT to existing projects](https://github.com/acquia/blt/blob/9.x/readme/adding-to-project.md), and [updating BLT](https://github.com/acquia/blt/blob/9.x/readme/updating-blt.md).
+See [INSTALL.md](INSTALL.md) for a list of prequisites and links to instructions for [creating new projects](creating-new-project.md), [adding BLT to existing projects](adding-to-project.md), and [updating BLT](updating-blt.md).
 
 ## Videos
 

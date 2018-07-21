@@ -29,7 +29,8 @@
 .git
 example.*
 local.settings.php
-local.drushrc.php
+local.drush.yml
+local.site.yml
 node_modules
 /vendor
 local.blt.yml
