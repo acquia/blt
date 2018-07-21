@@ -88,9 +88,9 @@ Request the remote IdP metadata (XML) from the customer. Note that each environm
 
       1. Navigate to the "XML to SimpleSAMLphp metadata converter" (`/simplesaml/admin/metadata-converter.php`), which can be found on the "Federation" tab under "Tools".
 
-      1. Optionally remove the default metadata from `${project.root}/simplesamlphp/config/saml20-idp-remote.php`.
+      1. Optionally remove the default metadata from `${project.root}/simplesamlphp/metadata/saml20-idp-remote.php`.
 
-      1. For each metadata (XML) file from the customer, parse it using this tool and copy the converted `saml20-idp-remote` metadata into `${project.root}/simplesamlphp/config/saml20-idp-remote.php`.
+      1. For each metadata (XML) file from the customer, parse it using this tool and copy the converted `saml20-idp-remote` metadata into `${project.root}/simplesamlphp/metadata/saml20-idp-remote.php`.
 
 1. Configure authsources.php
 
