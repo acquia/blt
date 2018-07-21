@@ -226,6 +226,7 @@ class DeployCommand extends BltTasks {
       ->stopOnFail()
       ->exec("git init")
       ->exec("git config --local core.excludesfile false")
+      ->exec("git config --local core.fileMode true")
       ->run();
     $this->say("Global .gitignore file is being disabled for this repository to prevent unexpected behavior.");
     if ($this->getConfig()->has("git.user.name") &&
@@ -238,6 +239,7 @@ class DeployCommand extends BltTasks {
         ->dir($this->deployDir)
         ->exec("git config --local --add user.name '$git_user'")
         ->exec("git config --local --add user.email '$git_email'")
+        ->exec("git config --local core.fileMode true")
         ->run();
     }
   }
