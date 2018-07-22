@@ -65,6 +65,11 @@ else {
   $config = acquia_session_store_config($config, $ah_options);
 }
 
+  // Default to database session storage.
+  if (!isset($ah_options['session_store'][$ah_options['env']])) {
+    $ah_options['session_store'][$ah_options['env']] = 'database';
+  }
+
 /**
  * Get session storage configuration defined by Acquia.
  *
@@ -86,6 +91,9 @@ function acquia_session_store_config(array $config, array $ah_options) {
 
   return $config;
 }
+
+
+
 
 /**
  * Get logging configuration defined by Acquia.
