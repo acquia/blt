@@ -6,6 +6,7 @@ use Acquia\Blt\Robo\BltTasks;
 use AcquiaCloudApi\CloudApi\Client;
 use AcquiaCloudApi\CloudApi\Connector;
 use Symfony\Component\Yaml\Yaml;
+use Acquia\Blt\Robo\Common\YamlMunge;
 
 /**
  * Defines commands in the "generate:aliases" namespace.
