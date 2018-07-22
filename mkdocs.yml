@@ -21,8 +21,8 @@ pages:
        - System requirements:  'INSTALL.md'
        - Running BLT in Ubuntu on Bash on Windows: 'windows-install.md'
        - Alternative LAMP stacks: 'local-development.md'
-           - Alternative Environment Tips:
-               - Lando: 'alternative-environment-tips/lando.md'
+       - Alternative Environment Tips:
+           - Lando: 'alternative-environment-tips/lando.md'
     - Create a new project: 'creating-new-project.md'
     - Add to existing project: 'adding-to-project.md'
     - Next steps: 'next-steps.md'
