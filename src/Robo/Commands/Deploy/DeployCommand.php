@@ -19,6 +19,7 @@ class DeployCommand extends BltTasks {
   protected $commitMessage;
   protected $excludeFileTemp;
   protected $deployDir;
+  protected $tagSource = TRUE;
 
   /**
    * This hook will fire for all commands in this command file.
@@ -28,6 +29,7 @@ class DeployCommand extends BltTasks {
   public function initialize() {
     $this->excludeFileTemp = $this->getConfigValue('deploy.exclude_file') . '.tmp';
     $this->deployDir = $this->getConfigValue('deploy.dir');
+    $this->tagSource = $this->getConfigValue('deploy.tag_source', TRUE);
   }
 
   /**
@@ -189,7 +191,13 @@ class DeployCommand extends BltTasks {
     $this->build();
     $this->commit();
     $this->cutTag();
-    $this->cutSourceTag();
+
+    // Check the deploy.tag_source config value and also tag the source repo if
+    // it is set to TRUE (the default).
+    if ($this->tagSource) {
+      $this->cutSourceTag();
+    }
+
     $this->push($this->tagName, $options);
   }
 
