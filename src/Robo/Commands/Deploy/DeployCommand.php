@@ -189,6 +189,7 @@ class DeployCommand extends BltTasks {
     $this->build();
     $this->commit();
     $this->cutTag();
+    $this->cutSourceTag();
     $this->push($this->tagName, $options);
   }
 
@@ -540,6 +541,18 @@ class DeployCommand extends BltTasks {
       ->dir($this->deployDir)
       ->run();
     $this->say("The tag {$this->tagName} was created for the build artifact.");
+  }
+
+  /**
+   * Creates a tag on the build repository.
+   */
+  protected function cutSourceTag() {
+    $this->taskExecStack()
+      ->exec("git tag -a {$this->tagName} -m '{$this->commitMessage}'")
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->stopOnFail()
+      ->run();
+    $this->say("The tag {$this->tagName} was created for the source artifact.");
   }
 
   /**
