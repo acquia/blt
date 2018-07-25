@@ -45,11 +45,7 @@
     "patchLevel": {
       "drupal/core": "-p2"
     },
-    "patches": {
-      "drupal/core": {
-        "Clear Twig caches on deploys": "https://www.drupal.org/files/issues/2752961-130.patch"
-      }
-    }
+    "patches": []
   },
   "scripts": {
     "blt-alias": "blt blt:init:shell-alias -y --ansi",
