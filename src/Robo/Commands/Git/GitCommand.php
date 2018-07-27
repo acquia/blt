@@ -58,6 +58,12 @@ class GitCommand extends BltTasks {
       $this->invokeCommand('validate:composer', ['file_list' => $changed_files]);
     }
 
+    // Validate frontend files only if scss, css or js changed.
+    // @TODO: Make this list of files configurable.
+    if ($frontend_files = preg_grep('/\w+\.(scss|css|js)/i', $changed_files_list)) {
+      $this->invokeCommand('validate:frontend');
+    }
+
     $this->invokeHook('pre-commit');
     $this->say("<info>Your local code has passed git pre-commit validation.</info>");
   }

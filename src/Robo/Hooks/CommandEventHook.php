@@ -17,6 +17,13 @@ use Symfony\Component\Console\Input\InputInterface;
 class CommandEventHook extends BltTasks {
 
   /**
+   * Store all exit codes for commands executed in drupal vm.
+   *
+   * @var array
+   */
+  public static $exitCodesForCommandsExecutedInDrupalVm = [];
+
+  /**
    * Disable any command listed in the `disable-target` config key.
    *
    * @hook command-event *
@@ -61,6 +68,8 @@ class CommandEventHook extends BltTasks {
         // always return ConsoleCommandEvent::RETURN_CODE_DISABLED.
         $command_string = $this->convertInputToCommandString($new_input, $command);
         $result = $this->executeCommandInDrupalVm($command_string);
+
+        static::$exitCodesForCommandsExecutedInDrupalVm[$command->getName()] = $result->getExitCode();
       }
     }
   }

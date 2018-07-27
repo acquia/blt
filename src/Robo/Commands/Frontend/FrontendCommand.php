@@ -43,6 +43,17 @@ class FrontendCommand extends BltTasks {
   }
 
   /**
+   * Executes frontend-validate target hook.
+   *
+   * @command validate:frontend
+   * @executeInDrupalVm
+   * @shouldReturnExitCode
+   */
+  public function validate() {
+    return $this->invokeHook('frontend-validate');
+  }
+
+  /**
    * Executes frontend-test target hook.
    *
    * @command frontend:test
