@@ -1,3 +1,6 @@
+# This file contains your BLT configuration. For a list of all available
+# properties with current values run `blt config:dump`.
+
 project:
   # Everyone: This will determine the the directory name of the new repository.
   # Dev Desktop users: this should match your local site name.
@@ -36,7 +39,8 @@ drush:
 #       - blted8
 #     no-overrides: 'true'
 
-# An array of modules to be enabled or uninstalled automatically in local, ci, and deploy contexts.
+# An array of modules to be enabled or uninstalled automatically in local, ci,
+# and deploy contexts.
 modules:
   local:
     enable:
