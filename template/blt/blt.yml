@@ -1,5 +1,6 @@
 # This file contains your BLT configuration. For a list of all available
-# properties with current values run `blt config:dump`.
+# properties with current values run `blt config:dump`. Defaults values come
+# from vendor/acquia/blt/config/build.yml.
 
 project:
   # Everyone: This will determine the the directory name of the new repository.
