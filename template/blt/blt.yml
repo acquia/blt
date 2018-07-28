@@ -1,5 +1,5 @@
 # This file contains your BLT configuration. For a list of all available
-# properties with current values run `blt config:dump`. Defaults values come
+# properties with current values run `blt config:dump`. Default values come
 # from vendor/acquia/blt/config/build.yml.
 
 project:
