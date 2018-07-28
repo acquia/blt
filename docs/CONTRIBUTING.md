@@ -20,6 +20,8 @@ cd blt
 ./vendor/bin/robo create:from-symlink
 ```
 
+**Important** While you do not have to have [Ansible](https://github.com/ansible/ansible) installed on your host machine in order to _use_ blt, in order to boot the vm within the blted8 project which the above command creates, you _will_ need Ansible installed on your host.
+
 The new `blted8` directory will have a composer dependency on your local clone of BLT via a `../blt` symlink. You can therefore make changes to files in `blt` and see them immediately reflected in `blted8/vendor/acquia/blt`.
 
 # Testing
