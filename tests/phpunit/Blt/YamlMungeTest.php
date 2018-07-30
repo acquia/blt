@@ -3,11 +3,12 @@
 namespace Acquia\Blt\Tests\Blt;
 
 use Acquia\Blt\Robo\Common\YamlMunge;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests yaml:munge command in blt-console.
  */
-class YamlMungeTest extends \PHPUnit_Framework_TestCase {
+class YamlMungeTest extends TestCase {
 
   /**
    * Tests arrayMergeRecursiveExceptEmpty().
