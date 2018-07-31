@@ -3,11 +3,12 @@
 namespace Acquia\Blt\Tests\Blt;
 
 use Acquia\Blt\Robo\Common\TextMunge;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests text:munge command in blt-console.
  */
-class TextMungeTest extends \PHPUnit_Framework_TestCase {
+class TextMungeTest extends TestCase {
 
   /**
    * Tests arrayMergeNoDuplicates().
