@@ -104,6 +104,10 @@ php_memory_limit: "512M"
 # Acquia Search defaults to 4.5.1.
 solr_version: "4.5.1"
 
+# Use drush launcher with 0.6.0 default
+drush_launcher_install: 'yes'
+drush_launcher_version: 0.6.0
+
 post_provision_scripts:
   - "../../../acquia/blt/scripts/drupal-vm/configure-solr.sh"
   - "../../../acquia/blt/scripts/drupal-vm/post-provision.php"
