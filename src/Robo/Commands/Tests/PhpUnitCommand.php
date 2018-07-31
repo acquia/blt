@@ -19,6 +19,12 @@ class PhpUnitCommand extends BltTasks {
   protected $reportsDir;
 
   /**
+   * The bootstrap filename.
+   *
+   * @var string*/
+  protected $bootstrapFile;
+
+  /**
    * The filename for PHPUnit report.
    *
    * @var string*/
@@ -41,6 +47,7 @@ class PhpUnitCommand extends BltTasks {
     $this->reportFile = $this->reportsDir . '/results.xml';
     $this->testsDir = $this->getConfigValue('repo.root') . '/tests/phpunit';
     $this->phpunitConfig = $this->getConfigValue('phpunit');
+    $this->bootstrapFile = $this->getConfigValue('blt.root') . '/scripts/phpunit/bootstrap.php';
   }
 
   /**
@@ -53,6 +60,7 @@ class PhpUnitCommand extends BltTasks {
     $this->createLogs();
     foreach ($this->phpunitConfig as $test) {
       $task = $this->taskPHPUnit()
+        ->bootstrap($this->bootstrapFile)
         ->xml($this->reportFile)
         ->printOutput(TRUE)
         ->printMetadata(FALSE);

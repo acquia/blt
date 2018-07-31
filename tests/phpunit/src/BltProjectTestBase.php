@@ -5,6 +5,7 @@ namespace Acquia\Blt\Tests;
 use Acquia\Blt\Robo\Blt;
 use Acquia\Blt\Robo\Common\YamlMunge;
 use Acquia\Blt\Robo\Config\ConfigInitializer;
+use PHPUnit\Framework\TestCase;
 use Robo\Robo;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -18,7 +19,7 @@ use Symfony\Component\Process\Process;
  *
  * Base class for all tests that are executed within a blt project.
  */
-abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
+abstract class BltProjectTestBase extends TestCase {
 
   /**
    * @var string
