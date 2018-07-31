@@ -117,7 +117,7 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
     if (!$this->getInspector()->isDrupalLocalSettingsFilePresent()) {
       throw new BltException("Could not find settings.php for this site.");
     }
-    // @todo Look for local.drushrc.php.
+    // @todo Look for local.drush.yml.
   }
 
   /**

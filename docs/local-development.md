@@ -5,7 +5,7 @@ Acquia currently recommends the use of either:
 
   * [Drupal VM](#using-drupal-vm-for-blt-generated-projects): an isolated virtual machine, built with Vagrant and Ansible
   * [Acquia Dev Desktop](#using-acquia-dev-desktop-for-blt-generated-projects): a turn-key LAMP stack tailored specifically for Acquia-hosted Drupal sites
-  * [Alternative local development environments](http://blt.readthedocs.io/en/9.x/readme/local-development/#alternative-local-development-environments)
+  * [Alternative local development environments](#alternative-local-development-environments)
 
 No matter what local environment you choose to use, the following guidelines should be followed:
 
@@ -96,3 +96,6 @@ It is up to each team to choose how to handle local development, but some of the
 * Ease of use across Windows, Mac, or Linux workstations
 
 If you choose to use a different solution than recommended here, please make sure it fits all the needs of your team and project, and will not be a hindrance to project development velocity!
+
+While the BLT team cannot officially support these alternative environments, please submit documentation of any special steps necessary with the tool you choose so that others can learn from your experience. Environments for which others have contributed tips include:
+- [Lando](alternative-environment-tips/lando.md)
