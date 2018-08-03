@@ -1,5 +1,58 @@
 # Change Log
 
+#### 9.1.1 (2018-08-03)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.1.0-alpha1...9.1.1)
+
+**Implemented enhancements**
+
+- Fixes #2771: Support newer PHPUnit versions (#2982)
+- Add support for generating ACSF site aliases (#2961)
+- Adding PHP 7.2 to the version testing list. (#2965)
+- Fixes #2880: Re-add ACSF tools. (#2911)
+- Added Acquia Cloud support to BLT alias and command. (#2896)
+
+**Fixed bugs**
+
+- Fixes #2967: Explicitly invoke drupal:hash-salt:init in blt:init:settings (#2978)
+- Fixes #2981: Correct alias to use consistent variable naming. (#2986)
+- Addresses #2890: Adding documentation telling people to install Ansible to contribute. (#2977)
+- Correct invocation of wizard command. (#2974)
+- Fixes #2962: bad documentation for setting up SimpleSAMLphp (#2963)
+- Fixes #2906: Set mysql_user array when user supplies new multisite db credentials. (#2908)
+- Reduce drush verbosity on CI. (#2636)
+- Fixes #2864 to run a redundant config import for config splits. (#2865)
+- Adding directions for clearing TravisCI cache as discussed in #2877. (#2903)
+- Restructure documentation to conform to new readthedocs standards. (#2894)
+
+**Miscellaneous**
+
+- Fix phpunit version detection (#2990)
+- Fixed typo in blt.yml (#2976)
+- Add comment to blt.yml explaining where to find a list of available properties (#2975)
+- Add tips for using BLT with Lando (#2958)
+- 2959 - WSL filemode fix (#2960)
+- Updating CHANGELOG.md and setting version for 9.1.0.
+- Minor docs update
+- Fixed #2867: Cache clear errors on ACSF deploys. (#2922)
+- Updates around drush 9 files, removing drush 8 file references. (#2927)
+- Update VmCommand.php (#2935)
+- Markdown formatting fix to lists render properly
+- Fix broken links in Getting Started section (#2928)
+- Add Drupal 'trans' tag to Twig linter. (#2831)
+- Fixes #2863: Update documentation to include recipe:multisite:init. (#2905)
+- Fixed drush cc error on ACSF. (#2862)
+- Minor typo correction and wording change.
+- Adding FAQ. (#2902)
+- Updating BLT release process to include updating blt-project. (#2866)
+- Fix link (#2889)
+- Fix typo: add missing "have" (#2888)
+- Correct readme links pointing to github 8.x branch blobs. (#2887)
+- Documentation updates (#2882)
+- Fix composer patches creating extraneous core directories. (#2816)
+- Minor typo fix
+
+
 #### 9.1.0 (2018-07-21)
 
 [Full Changelog](https://github.com/acquia/blt/compare/9.1.0-alpha1...9.1.0)
