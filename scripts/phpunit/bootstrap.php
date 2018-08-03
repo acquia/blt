@@ -4,6 +4,15 @@
 // PHPUnit 6 with a minimum of fuss.
 //
 // Code adopted from core/tests/bootstrap.php.
+
+// Ensure we have the correct PHPUnit version for the version of PHP.
+if (class_exists('\PHPUnit_Runner_Version')) {
+  $phpunit_version = \PHPUnit_Runner_Version::id();
+}
+else {
+  $phpunit_version = Version::id();
+}
+
 if (version_compare($phpunit_version, '6.1', '>=')) {
   class_alias('\PHPUnit\Framework\AssertionFailedError', '\PHPUnit_Framework_AssertionFailedError');
   class_alias('\PHPUnit\Framework\Constraint\Count', '\PHPUnit_Framework_Constraint_Count');
