@@ -19,7 +19,7 @@ class DeployCommand extends BltTasks {
   protected $commitMessage;
   protected $excludeFileTemp;
   protected $deployDir;
-  protected $tagSource = TRUE;
+  protected $tagSource;
 
   /**
    * This hook will fire for all commands in this command file.
@@ -190,12 +190,12 @@ class DeployCommand extends BltTasks {
     $this->checkoutLocalDeployBranch();
     $this->build();
     $this->commit();
-    $this->cutTag();
+    $this->cutTag('build');
 
     // Check the deploy.tag_source config value and also tag the source repo if
     // it is set to TRUE (the default).
     if ($this->tagSource) {
-      $this->cutSourceTag();
+      $this->cutTag('source');
     }
 
     $this->push($this->tagName, $options);
@@ -540,27 +540,22 @@ class DeployCommand extends BltTasks {
 
   /**
    * Creates a tag on the build repository.
+   *
+   * @param $repo
+   *   The repo in which a tag should be cut.
    */
-  protected function cutTag() {
-    $this->taskExecStack()
+  protected function cutTag($repo = 'build') {
+    $execStack = $this->taskExecStack()
       ->exec("git tag -a {$this->tagName} -m '{$this->commitMessage}'")
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->stopOnFail()
-      ->dir($this->deployDir)
-      ->run();
-    $this->say("The tag {$this->tagName} was created for the build artifact.");
-  }
+      ->stopOnFail();
 
-  /**
-   * Creates a tag on the build repository.
-   */
-  protected function cutSourceTag() {
-    $this->taskExecStack()
-      ->exec("git tag -a {$this->tagName} -m '{$this->commitMessage}'")
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->stopOnFail()
-      ->run();
-    $this->say("The tag {$this->tagName} was created for the source artifact.");
+    if ($repo == 'build') {
+      $execStack->dir($this->deployDir);
+    }
+
+    $execStack->run();
+    $this->say("The tag {$this->tagName} was created on the {$repo} repository.");
   }
 
   /**
