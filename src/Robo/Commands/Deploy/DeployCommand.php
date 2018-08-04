@@ -60,6 +60,10 @@ class DeployCommand extends BltTasks {
     $this->commitMessage = $this->getCommitMessage($options);
 
     if ($options['tag'] || $this->createTag) {
+      // Warn if they're creating a tag and we won't tag the source for them.
+      if (!$this->tagSource) {
+        $this->say("Config option deploy.tag_source if FALSE. The source repo will not be tagged.");
+      }
       $this->deployToTag($options);
     }
     else {
