@@ -55,7 +55,6 @@ class DeployCommand extends BltTasks {
     $this->checkDirty($options);
 
     if (!$options['tag'] && !$options['branch']) {
-      $this->say("Typically, you would only create a tag if you currently have a tag checked out on your source repository.");
       $this->createTag = $this->confirm("Would you like to create a tag?", $this->createTag);
     }
     $this->commitMessage = $this->getCommitMessage($options);
