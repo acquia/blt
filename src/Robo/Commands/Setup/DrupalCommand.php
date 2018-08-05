@@ -25,18 +25,18 @@ class DrupalCommand extends BltTasks {
    */
   public function install() {
 
-     $status = $this->getInspector()->getStatus();
-      $connection = @mysqli_connect(
+    $status = $this->getInspector()->getStatus();
+    $connection = @mysqli_connect(
         $status['db-hostname'],
         $status['db-username'],
         $status['db-password'],
         '',
         $status['db-port']
       );
-      if (!$connection) {
-        throw new BltException("Unable to connect to database.");
-      }
-      $connection->query('CREATE DATABASE IF NOT EXISTS ' . $status['db-name']);
+    if (!$connection) {
+      throw new BltException("Unable to connect to database.");
+    }
+    $connection->query('CREATE DATABASE IF NOT EXISTS ' . $status['db-name']);
 
     // Generate a random, valid username.
     // @see \Drupal\user\Plugin\Validation\Constraint\UserNameConstraintValidator
