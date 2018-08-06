@@ -41,9 +41,9 @@ class MultisiteCommand extends BltTasks {
     $url = parse_url($domain);
     // @todo Validate uri, ensure includes scheme.
 
-    $this->setLocalDbConfig();
+    $newDBSettings = $this->setLocalDbConfig();
     if ($this->getInspector()->isDrupalVmConfigPresent()) {
-      $this->configureDrupalVm($url, $site_name);
+      $this->configureDrupalVm($url, $site_name, $newDBSettings);
     }
     $default_site_dir = $this->getConfigValue('docroot') . '/sites/default';
     $this->createDefaultBltSiteYml($default_site_dir);
@@ -74,10 +74,12 @@ class MultisiteCommand extends BltTasks {
    *   The local URL for the site.
    * @param string $site_name
    *   The machine name of the site.
+   * @param array $newDBSettings
+   *   An array of database configuration options or empty array.
    */
-  protected function configureDrupalVm($url, $site_name) {
+  protected function configureDrupalVm($url, $site_name, $newDBSettings) {
     $this->logger->warning("Automatically configuring your Drupal VM instance will remove formatting and comments from your config.yml file.");
-    $configure_vm = $this->confirm("Would you like to generate a new virtual host entry for this site inside Drupal VM?");
+    $configure_vm = $this->confirm("Would you like to generate new virtual host entry and database for this site inside Drupal VM?");
     if ($configure_vm) {
       $this->projectDrupalVmConfigFile = $this->getConfigValue('vm.config');
       $vm_config = Yaml::parse(file_get_contents($this->projectDrupalVmConfigFile));
@@ -86,21 +88,41 @@ class MultisiteCommand extends BltTasks {
         'documentroot' => $vm_config['apache_vhosts'][0]['documentroot'],
         'extra_parameters' => $vm_config['apache_vhosts'][0]['extra_parameters'],
       ];
-      $vm_config['mysql_databases'][] = [
-        'name' => $site_name,
-        'encoding' => $vm_config['mysql_databases'][0]['encoding'],
-        'collation' => $vm_config['mysql_databases'][0]['collation'],
-      ];
+
+      // Set up the database and database user if the user opted to have the DB
+      // configured in the VM.
+      if ($newDBSettings) {
+        $vm_config['mysql_databases'][] = [
+          'name' => $newDBSettings['database'],
+          'encoding' => $vm_config['mysql_databases'][0]['encoding'],
+          'collation' => $vm_config['mysql_databases'][0]['collation'],
+        ];
+
+        $vm_config['mysql_users'][] = [
+          'name' => $newDBSettings['username'],
+          'host' => '%',
+          'password' => $newDBSettings['password'],
+          'priv' => $newDBSettings['database'] . '*:ALL',
+        ];
+      }
       file_put_contents($this->projectDrupalVmConfigFile,
         Yaml::dump($vm_config, 4));
     }
   }
 
+  /**
+   * Prompts for and sets config for new database.
+   *
+   * @return array
+   *   Empty array if user did not want to configure local db. Populated array
+   *   otherwise.
+   */
   protected function setLocalDbConfig() {
     $config_local_db = $this->confirm("Would you like to configure the local database credentials?");
+    $db = [];
+
     if ($config_local_db) {
       $default_db = $this->getConfigValue('drupal.db');
-      $db = [];
       $db['database'] = $this->askDefault("Local database name",
         $default_db['database']);
       $db['username'] = $this->askDefault("Local database user",
@@ -113,6 +135,8 @@ class MultisiteCommand extends BltTasks {
         $default_db['port']);
       $this->getConfig()->set('drupal.db', $db);
     }
+
+    return $db;
   }
 
   /**

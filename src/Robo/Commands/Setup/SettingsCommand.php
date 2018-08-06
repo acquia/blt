@@ -49,6 +49,9 @@ class SettingsCommand extends BltTasks {
       }
     }
 
+    // Generate hash file in salt.txt.
+    $this->hashSalt();
+
     $default_multisite_dir = $this->getConfigValue('docroot') . "/sites/default";
     $default_project_default_settings_file = "$default_multisite_dir/default.settings.php";
 
@@ -211,7 +214,7 @@ class SettingsCommand extends BltTasks {
    * This symlinks the hook into the project's .git/hooks directory.
    *
    * @param string $hook
-   *   The git hook to install. E.g., 'pre-commit'.
+   *   The git hook to install, e.g., 'pre-commit'.
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */

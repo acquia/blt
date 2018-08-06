@@ -2,10 +2,12 @@
 
 namespace My\Example\Project\Tests;
 
+use PHPUnit\Framework\TestCase;
+
 /**
  * Class ExampleTest.
  */
-class ExampleTest extends \PHPUnit_Framework_TestCase {
+class ExampleTest extends TestCase {
 
   /**
    * Asserts that universal laws are constant.

@@ -48,7 +48,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    * Invokes an array of Symfony commands.
    *
    * @param array $commands
-   *   An array of Symfony commands to invoke. E.g., 'tests:behat:run'.
+   *   An array of Symfony commands to invoke, e.g., 'tests:behat:run'.
    */
   protected function invokeCommands(array $commands) {
     foreach ($commands as $key => $value) {
@@ -68,7 +68,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    * Invokes a single Symfony command.
    *
    * @param string $command_name
-   *   The name of the command. E.g., 'tests:behat:run'.
+   *   The name of the command, e.g., 'tests:behat:run'.
    * @param array $args
    *   An array of arguments to pass to the command.
    *
@@ -301,7 +301,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    * Sets multisite context by settings site-specific config values.
    *
    * @param string $site_name
-   *   The name of a multisite. E.g., if docroot/sites/example.com is the site,
+   *   The name of a multisite, e.g., if docroot/sites/example.com is the site,
    *   $site_name would be example.com.
    */
   public function switchSiteContext($site_name) {

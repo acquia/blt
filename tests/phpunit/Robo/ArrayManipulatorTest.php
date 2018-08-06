@@ -3,11 +3,12 @@
 namespace Acquia\Blt\Tests\Robo;
 
 use Acquia\Blt\Robo\Common\ArrayManipulator;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests the ArrayManipulator class.
  */
-class ArrayManipulatorTest extends \PHPUnit_Framework_TestCase {
+class ArrayManipulatorTest extends TestCase {
 
   /**
    * Tests ArrayManipulator::arrayMergeRecursiveExceptEmpty().

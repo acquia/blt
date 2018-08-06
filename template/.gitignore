@@ -1,8 +1,7 @@
 # Ignore configuration files that may contain sensitive information.
 local.settings.php
-local.drushrc.php
 local.drush.yml
-local.aliases.drushrc.php
+local.site.yml
 local.services.yml
 tests/behat/local.yml
 box/local.config.yml
@@ -22,7 +21,7 @@ docroot/modules/contrib
 docroot/themes/contrib
 docroot/profiles/contrib
 docroot/libraries
-drush/contrib
+drush/Commands
 
 # Ignore custom theme build artifacts
 docroot/themes/custom/*/node_modules
