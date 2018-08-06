@@ -9,6 +9,7 @@ use Grasmash\YamlExpander\Expander;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Finder\Finder;
 
 /**
  * Defines commands in the "recipes:multisite:init" namespace.
@@ -203,17 +204,35 @@ class MultisiteCommand extends BltTasks {
    */
   protected function createNewSiteDir($default_site_dir, $new_site_dir) {
 
-   //$exclude = [];
-
     $result = $this->taskCopyDir([
       $default_site_dir => $new_site_dir,
     ])
-      ->exclude(array('local.settings.php'))
+      ->exclude(array('files'))
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
+
     if (!$result->wasSuccessful()) {
       throw new BltException("Unable to create $new_site_dir.");
     }
+
+    $taskFilesystemStack = $this->taskFilesystemStack()
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE);
+    $finder = new Finder();
+    $files = $finder
+      ->in($new_site_dir)
+      ->files()
+      ->name('local.*');
+
+    foreach ($files->getIterator() as $item) {
+      $taskFilesystemStack->remove($item->getRealPath());
+    }
+
+    $result = $taskFilesystemStack->run();
+
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Unable to remove default site configuration.");
+    }
+
   }
 
   /**
