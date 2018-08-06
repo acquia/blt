@@ -60,11 +60,11 @@ mysql_users:
   - name: drupal
     host: "%"
     password: drupal
-    priv: "drupal%.*:ALL"
+    priv: "*.*:ALL"
   - name: drupal
     host: "localhost"
     password: drupal
-    priv: "drupal%.*:ALL"
+    priv: "*.*:ALL"
 
 
 # Set this to 'false' if you don't need to install drupal (using the drupal_*
