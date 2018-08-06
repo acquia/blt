@@ -19,7 +19,7 @@ Patch information should be specified in the JSON array in accordance with the f
 
 Note that when a package is patched, it's advisable to pin it to a specific version to avoid downloading an updated version that could introduce a patch conflict.
 
-After modifying `composer.json`, run `composer update VENDOR_NAME/PACKAGE_NAME`, replacing `VENDOR_NAME/PACKAGE_NAME` with the name of the patched dependency. E.g.,
+After modifying `composer.json`, run `composer update VENDOR_NAME/PACKAGE_NAME`, replacing `VENDOR_NAME/PACKAGE_NAME` with the name of the patched dependency, e.g.,
 
     composer update drupal/core
 

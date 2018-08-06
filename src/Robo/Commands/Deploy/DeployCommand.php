@@ -148,11 +148,11 @@ class DeployCommand extends BltTasks {
       $tag_name = $options['tag'];
     }
     else {
-      $tag_name = $this->ask('Enter the tag name for the deployment artifact. E.g., 1.0.0-build');
+      $tag_name = $this->ask('Enter the tag name for the deployment artifact, e.g., 1.0.0-build');
     }
 
     if (empty($tag_name)) {
-      // @todo Validate tag name is valid. E.g., no spaces or special characters.
+      // @todo Validate tag name is valid, e.g., no spaces or special characters.
       throw new BltException("You must enter a valid tag name.");
     }
     else {
@@ -226,6 +226,7 @@ class DeployCommand extends BltTasks {
       ->stopOnFail()
       ->exec("git init")
       ->exec("git config --local core.excludesfile false")
+      ->exec("git config --local core.fileMode true")
       ->run();
     $this->say("Global .gitignore file is being disabled for this repository to prevent unexpected behavior.");
     if ($this->getConfig()->has("git.user.name") &&
@@ -238,6 +239,7 @@ class DeployCommand extends BltTasks {
         ->dir($this->deployDir)
         ->exec("git config --local --add user.name '$git_user'")
         ->exec("git config --local --add user.email '$git_email'")
+        ->exec("git config --local core.fileMode true")
         ->run();
     }
   }
