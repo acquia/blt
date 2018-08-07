@@ -6,44 +6,19 @@ There are two parts to setting up a multisite instance on BLT: the local setup a
 
 1. Set up a single site on BLT, following the standard instructions, and ssh to the vm (`vagrant ssh`).
 1. Run `blt recipes:multisite:init`.
-    
+
     Running `blt recipes:multisite:init`...
-    
+
     * Sets up new a directory in your docroot/sites directory with the multisite name given with all the necessary files and subdirectories.
     * Sets up a new drush alias.
-    * Sets up a new vhost in the box/config.yml file. 
-    
-    Running `blt recipes:multisite:init` currently **does not**...
-    
-    * Set up a new MySQL user in the box/config.yml file.
-    * Add a multisite array to your blt/blt.yml file.
-    * Set up a sites.php file.
-    * Update the new site's database credentials.
-
-    Most likely you will want to do all these steps. Details for how to complete them are below. 
+    * Sets up a new vhost in the box/config.yml file.
+    * Grants necessary permissions to the MySQL user in the box/config.yml file.
+    * Generates sites.php file.
+    * Updates the new site's database credentials.
+    * Updates the new site's local drush configuration.
 
 1. If desired override any blt settings in the `docroot/sites/{newsite}/blt.yml` file.
 1. Once you've completed the above and any relevant manual steps, exit out of your virtual machine environment and update with the new configuration using `vagrant provision`.
-
-### Optional local setup steps
-
-#### Add a new MySQL user to the `box/config.yml` file.
-
-Edit your `box/config.yml` file and add a new MySQL user block in the existing `mysql_users` section. If your original database user was named 'drupal' (the BLT default) and during the `multisite:recipe:init` process you told it to use `newsite` for the password, user, and database of your new site, the completed mysql_users block would look like:
-
-```
-mysql_users:
-    -
-        name: drupal
-        host: '%'
-        password: drupal
-        priv: 'drupal.*:ALL'
-    -
-        name: newsite
-        host: '%'
-        password: newsite
-        priv: 'newsite.*:ALL'
-```
 
 
 #### Add a multisite array to `blt/blt.yml`
@@ -60,26 +35,21 @@ At this point you should have a functional multisite codebase that can be instal
 
 #### Set up a sites.php file.
 
-Creating a sites.php file in `docroot/sites/` allows your Drupal instance to direct incoming HTTP requests to the appropriate site. 
+BLT creates a sites.php file in `docroot/sites/` to allow your Drupal instance to direct incoming HTTP requests to the appropriate site.
 
-Note that if you name your sites according to their domain names, and use a canonical approach to subdomains (local.example.com, dev.example.com, example.com), you don't need to modify sites.php at all--but the file does need to exist, even if it's empty.
+This file must exist to install Drupal on a multisite in Drush 9. Drupal core provides an `example.sites.php` file which can be copied, renamed, and modified as needed. When running the `blt init:settings` task, BLT maps your local multisite canonical domains to their respective site directory in `docroot/sites/[sitename]`. If this file is blank or the `$sites[]` array does not map to a valid directory, then Drush and BLT will use the values in the default site at `docroot/sites/default`. This will likely also cause issues with multisite drush aliases using the incorrect site uri and database credentials.
 
-Drupal core provides an `example.sites.php` file which can be copied, renamed, and modified as needed.
-
-#### Update the new site's database credentials
-
-BLT does not currently set the new site's local database credentials in the `docroot/sites/{newsite}/settings/local.settings.php` file. To ensure your new site connects to the correct database, you'll need to edit these yourself.
 
 #### Override BLT variables in `docroot/sites/{newsite}/blt.yml`
 
 You may override BLT variables on a per-site basis by editing the `blt.yml` file in `docroot/sites/{newsite}/`. You may then run BLT with the `site` variable set at the command line to load the site's properties.
 
-For instance, if the `drush` aliases for your site in `docroot/sites/mysite` were `@mysite.local` and `@mysite.test`, you could define these in `docroot/sites/mysite/blt.yml` as:
+For instance, the `drush` aliases for your site in `docroot/sites/mysite` were `@mysite.local` and `@mysite.test`, you could define these in `docroot/sites/mysite/blt.yml` as:
 
 ```yaml
 drush:
   aliases:
-    local: mysite.local
+    local: self
     remote: mysite.test
 ```
 
@@ -100,6 +70,8 @@ Start by following the [Acquia Cloud multisite instructions](https://docs.acquia
 
 ### Drush aliases
 
-The default Drush site aliases provided by [Acquia Cloud](https://docs.acquia.com/acquia-cloud/drush/aliases) and [Club](https://github.com/acquia/club#usage) are not currently multisite-aware. They will connect to the first ("default") site / database on the subscription by default. You will need to create your own Drush aliases for each site.
+The default Drush site aliases provided by [Acquia Cloud](https://docs.acquia.com/acquia-cloud/drush/aliases) are not currently multisite-aware. They will connect to the first ("default") site / database on the subscription by default. You will need to create your own Drush aliases for each site. It's recommended to copy the alias file provided by the `blt aliases` command for each Acquia CLoud multisite into a separate alias file for each site. Simply modify the `uri` and `parent` keys for the aliases within each file to match the correct database / site to the Acquia Cloud environment.
 
-It's recommended to copy the aliases file provided by Acquia Cloud or Club to create a separate aliases file for each site. Simply modify the `uri` and `parent` keys for the aliases within each file to match the correct database / site.
+*Note that the aliases downloaded from Acquia Cloud through the link on your user's Profile > Credenditials > Drush integration page or through the Drush 8 `drush acquia-update` command are not supported on Acquia Cloud Site Factory subscriptions* BLT currently generates drush aliases for each of your Acquia Cloud Site Factory sites with the `blt aliases` command.
+
+

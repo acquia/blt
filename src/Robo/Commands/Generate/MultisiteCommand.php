@@ -9,6 +9,7 @@ use Grasmash\YamlExpander\Expander;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Finder\Finder;
 
 /**
  * Defines commands in the "recipes:multisite:init" namespace.
@@ -37,7 +38,7 @@ class MultisiteCommand extends BltTasks {
       throw new BltException("Cannot generate new multisite, $new_site_dir already exists!");
     }
 
-    $domain = $this->getNewSiteDoman($options, $site_name);
+    $domain = $this->getNewSiteDomain($options, $site_name);
     $url = parse_url($domain);
     // @todo Validate uri, ensure includes scheme.
 
@@ -51,7 +52,7 @@ class MultisiteCommand extends BltTasks {
     $this->createNewSiteDir($default_site_dir, $new_site_dir);
 
     $remote_alias = $this->getNewSiteRemoteAlias($site_name, $options);
-    $this->createNewBltSiteYml($new_site_dir, $site_name, $url, $remote_alias);
+    $this->createNewBltSiteYml($new_site_dir, $site_name, $url, $remote_alias, $newDBSettings);
     $this->createNewSiteConfigDir($site_name);
     $this->createSiteDrushAlias($site_name);
     $this->resetMultisiteConfig();
@@ -102,7 +103,7 @@ class MultisiteCommand extends BltTasks {
           'name' => $newDBSettings['username'],
           'host' => '%',
           'password' => $newDBSettings['password'],
-          'priv' => $newDBSettings['database'] . '*:ALL',
+          'priv' => $newDBSettings['database'] . '.*:ALL',
         ];
       }
       file_put_contents($this->projectDrupalVmConfigFile,
@@ -180,15 +181,18 @@ class MultisiteCommand extends BltTasks {
     $new_site_dir,
     $site_name,
     $url,
-    $remote_alias
+    $remote_alias,
+    $newDBSettings
   ) {
     $site_yml_filename = $new_site_dir . '/blt.yml';
     $site_yml['project']['machine_name'] = $site_name;
     $site_yml['project']['human_name'] = $site_name;
     $site_yml['project']['local']['protocol'] = $url['scheme'];
     $site_yml['project']['local']['hostname'] = $url['host'];
-    $site_yml['drush']['aliases']['local'] = $site_name . ".local";
+    $site_yml['drush']['aliases']['local'] = "self";
     $site_yml['drush']['aliases']['remote'] = $remote_alias;
+    $site_yml['drupal']['db'] = $newDBSettings;
+    $site_yml['project']['local']['hostname'] = $url['host'];
     YamlMunge::mergeArrayIntoFile($site_yml, $site_yml_filename);
   }
 
@@ -199,14 +203,36 @@ class MultisiteCommand extends BltTasks {
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function createNewSiteDir($default_site_dir, $new_site_dir) {
+
     $result = $this->taskCopyDir([
       $default_site_dir => $new_site_dir,
     ])
+      ->exclude(array('files'))
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
+
     if (!$result->wasSuccessful()) {
       throw new BltException("Unable to create $new_site_dir.");
     }
+
+    $taskFilesystemStack = $this->taskFilesystemStack()
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE);
+    $finder = new Finder();
+    $files = $finder
+      ->in($new_site_dir)
+      ->files()
+      ->name('local.*');
+
+    foreach ($files->getIterator() as $item) {
+      $taskFilesystemStack->remove($item->getRealPath());
+    }
+
+    $result = $taskFilesystemStack->run();
+
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Unable to remove default site configuration.");
+    }
+
   }
 
   /**
@@ -236,7 +262,7 @@ class MultisiteCommand extends BltTasks {
    *
    * @return string
    */
-  protected function getNewSiteDoman($options, $site_name) {
+  protected function getNewSiteDomain($options, $site_name) {
     if (empty($options['site-uri'])) {
       $domain = $this->askDefault("Local domain name",
         "http://local.$site_name.com");
