@@ -44,7 +44,7 @@ $ composer install
 
 BLT requires "some sort" of local environment that implements a LAMP stack. While we provide out of the box templates for Drupal VM, if you prefer you can use another tool such as Docker, Docksal, Lando, (other) Vagrant, or your own custom LAMP stack. BLT works with any local environment, however support is limited for these solutions.
 
-For instructions on setting up Drupal VM, (read our documentation here)[http://blt.readthedocs.io/en/9.x/readme/local-development/#using-drupal-vm-for-blt-generated-projects].
+For instructions on setting up Drupal VM, [read our documentation here](http://blt.readthedocs.io/en/9.x/readme/local-development/#using-drupal-vm-for-blt-generated-projects).
 
 * Run the initial Setup
 ```
@@ -71,7 +71,7 @@ Note the following properties of this project:
 
 BLT projects are designed to instill software development best practices (including git workflows). 
 
-Our BLT Developer documentation includes an (example workflow)[http://blt.readthedocs.io/en/latest/readme/dev-workflow/#workflow-example-local-development].
+Our BLT Developer documentation includes an [example workflow](http://blt.readthedocs.io/en/latest/readme/dev-workflow/#workflow-example-local-development).
 
 ### Important Configuration Files
 
