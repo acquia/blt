@@ -103,7 +103,7 @@ class MultisiteCommand extends BltTasks {
           'name' => $newDBSettings['username'],
           'host' => '%',
           'password' => $newDBSettings['password'],
-          'priv' => $newDBSettings['database'] . '*:ALL',
+          'priv' => $newDBSettings['database'] . '.*:ALL',
         ];
       }
       file_put_contents($this->projectDrupalVmConfigFile,
