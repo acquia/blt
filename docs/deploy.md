@@ -54,6 +54,10 @@ To create a new git tag for the artifact (rather than committing to a branch) ru
 
 This will generate the artifact, tag it with `1.0.0`, and push it to the remotes defined in blt.yml.
 
+When deploying a tag to the artifact repo, if the config option `deploy.tag_source` is set to TRUE, BLT will also create the supplied tag on the source repository. This makes it easier to verify the source commit upon which an artifact tag is based.
+
+*Note* however that BLT _does not_ automatically push the tag created on the source repository to its remote.
+
 ## Modifying the artifact
 
 The artifact is built by running the `artifact:build` target, which does the following:
