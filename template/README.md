@@ -32,33 +32,32 @@ This project is based on BLT, an open-source project template and tool that enab
     * [Setup GitHub SSH Keys](https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/)
     * [Setup Acquia Cloud SSH Keys](https://docs.acquia.com/acquia-cloud/ssh/generate)
 * Clone your forked repository. By default, Git names this "origin" on your local.
-```
-$ git clone git@github.com:<account>/#GITHUB_PROJECT.git
-```
+  ```
+  $ git clone git@github.com:<account>/#GITHUB_PROJECT.git
+  ```
 * To ensure that upstream changes to the parent repository may be tracked, add the upstream locally as well.
-```
-$ git remote add upstream git@github.com:#GITHUB_ORG/#GITHUB_PROJECT.git
-```
+  ```
+  $ git remote add upstream git@github.com:#GITHUB_ORG/#GITHUB_PROJECT.git
+  ```
 * Install Composer Dependencies (warning: this can take some time based on internet speeds)
-```
-$ composer install
-```
+  ```
+  $ composer install
+  ```
 * Setup Local Environment 
 
-BLT requires "some sort" of local environment that implements a LAMP stack. While we provide out of the box templates for Drupal VM, if you prefer you can use another tool such as Docker, Docksal, Lando, (other) Vagrant, or your own custom LAMP stack. BLT works with any local environment, however support is limited for these solutions.
-
-For instructions on setting up Drupal VM, [read our documentation here](http://blt.readthedocs.io/en/9.x/readme/local-development/#using-drupal-vm-for-blt-generated-projects).
+  BLT requires "some sort" of local environment that implements a LAMP stack. While we provide out of the box templates for Drupal VM, if you prefer you can use another tool such as Docker, Docksal, Lando, (other) Vagrant, or your own custom LAMP stack. BLT works with any local environment, however support is limited for these solutions.
+  
+  For instructions on setting up Drupal VM, [read our documentation here](http://blt.readthedocs.io/en/9.x/readme/local-development/#using-drupal-vm-for-blt-generated-projects).
 
 * Run the initial Setup
-```
-$ vagrant ssh
-$ blt setup
-``` 
+  ```
+  $ vagrant ssh
+  $ blt setup
+  ``` 
 * Access the site and do necessary work at #LOCAL_DEV_URL by running
-
-```
-$ drush uli
-```
+  ```
+  $ drush uli
+  ```
 
 Additional [BLT documentation](http://blt.readthedocs.io) may be useful. You may also access a list of BLT commands by running:
 ```
