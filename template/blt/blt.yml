@@ -14,7 +14,7 @@ project:
   # This will be used as the local uri for all developers.
   local:
     protocol: http
-    hostname: local.${project.machine_name}.com
+    hostname: ${project.machine_name}.localhost
 
 # Configuration settings for new git repository.
 git:
