@@ -8,6 +8,7 @@ use Acquia\Blt\Robo\Config\DefaultConfig;
 use Acquia\Blt\Robo\Config\YamlConfig;
 use Acquia\Blt\Robo\Inspector\Inspector;
 use League\Container\Container;
+use PHPUnit\Framework\TestCase;
 use Psr\Log\NullLogger;
 use Robo\Common\ProcessExecutor;
 use Robo\Config;
@@ -19,7 +20,7 @@ use Symfony\Component\Console\Input\Input;
  *
  * @package Pantheon\Terminus\UnitTests\Commands
  */
-abstract class CommandTestCase extends \PHPUnit_Framework_TestCase {
+abstract class CommandTestCase extends TestCase {
   /**
    * The BLT configuration.
    *
