@@ -59,6 +59,10 @@ class SettingsCommand extends BltTasks {
     $initial_site = $this->getConfigValue('site');
     $current_site = $initial_site;
 
+    // Accretion variable for holding the list of all the defined multisites.
+    // Used so that we can gather all the info to write the sites.php file.
+    $sites = [];
+
     foreach ($multisites as $multisite) {
       if ($current_site != $multisite) {
         $this->switchSiteContext($multisite);
@@ -80,11 +84,9 @@ class SettingsCommand extends BltTasks {
       $default_local_drush_file = "$multisite_dir/default.local.drush.yml";
       $project_local_drush_file = "$multisite_dir/local.drush.yml";
 
-      // Generate sites.php for local multisite.
+      // Populate the accretion variable.
       $site_local_hostname = $this->getConfigValue('project.local.hostname');
       $sites[$site_local_hostname] = $multisite;
-      $contents = "<?php\n \$sites = " . var_export($sites, TRUE) . ";";
-      file_put_contents($this->getConfigValue('docroot') . "/sites/sites.php", $contents);
 
       $copy_map = [
         $blt_local_settings_file => $default_local_settings_file,
@@ -154,6 +156,10 @@ class SettingsCommand extends BltTasks {
         throw new BltException("Unable to set permissions on $project_settings_file.");
       }
     }
+
+    // Generate sites.php for local multisite.
+    $contents = "<?php\n \$sites = " . var_export($sites, TRUE) . ";";
+    file_put_contents($this->getConfigValue('docroot') . "/sites/sites.php", $contents);
 
     if ($current_site != $initial_site) {
       $this->switchSiteContext($initial_site);
