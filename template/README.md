@@ -76,13 +76,13 @@ Our BLT Developer documentation includes an [example workflow](http://blt.readth
 
 ### Important Configuration Files
 
-BLT uses a number of configuration (.yml or .json) files to define and customize behaviors. Some examples of these are:
+BLT uses a number of configuration (`.yml` or `.json`) files to define and customize behaviors. Some examples of these are:
 
-* blt/blt.yml (formerly blt/project.yml prior to BLT 9.x)
-* blt/local.blt.yml
-* box/config.yml (if using Drupal VM)
-* drush/sites (contains Drush aliases for this project)
-* composer.json (includes required components, including Drupal Modules, for this project)
+* `blt/blt.yml` (formerly blt/project.yml prior to BLT 9.x)
+* `blt/local.blt.yml`
+* `box/config.yml` (if using Drupal VM)
+* `drush/sites` (contains Drush aliases for this project)
+* `composer.json` (includes required components, including Drupal Modules, for this project)
 
 ## Resources
 
