@@ -619,6 +619,8 @@ class Updates {
       $messages[] = "This update will update the files in your existing factory hooks directory.";
       $messages[] = "Review the resulting files and ensure that any customizations have been re-added.";
       $this->updater->executeCommand("./vendor/bin/blt recipes:acsf:init:hooks");
+    } else {
+      $messages = ["Updated BLT. Review and commit any changes to project files."];
     }
     $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
     $this->updater->getOutput()->writeln("");
