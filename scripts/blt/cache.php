@@ -23,6 +23,7 @@ shell_exec(sprintf('mkdir -p %s', escapeshellarg($cache_directory)));
 if (!file_exists($cache_directory)) {
   syslog(LOG_ERR, sprintf('Drush updates could not be executed, as the required cache directory [%s] is missing.', $cache_directory));
   die('Missing or corrupted drush cache for this process.');
-} else {
-	echo "$cache_directory";
+}
+else {
+  echo "$cache_directory";
 }
