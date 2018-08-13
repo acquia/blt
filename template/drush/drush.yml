@@ -11,3 +11,5 @@ drush:
     include:
       - '${env.home}/.drush'
       - /usr/share/drush/commands
+    # Override file-based cache default of $HOME/.drush.
+    cache-directory: /tmp/.drush
