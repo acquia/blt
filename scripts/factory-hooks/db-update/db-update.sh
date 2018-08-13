@@ -1,4 +1,4 @@
-#!/bin/bash
+##!/bin/bash
 #
 # Factory Hook: db-update
 #
@@ -26,13 +26,16 @@ blt="/var/www/html/$site.$env/vendor/acquia/blt/bin/blt"
 uri=`/usr/bin/env php /mnt/www/html/$site.$env/hooks/acquia/uri.php $site $env $db_role`
 
 # Print a statement to the cloud log.
-echo "$site.$target_env: Running BLT deploy tasks on $uri domain in $env environment on the $site subscription."
+echo "Running BLT deploy tasks on $uri domain in $env environment on the $site subscription."
 
 IFS='.' read -a name <<< "${uri}"
 
-# Set Drush cache to local ephemeral storage to avoid race conditions. This is
-# done on a per site basis to completely avoid race conditions.
+# Create and set Drush cache to local ephemeral storage to avoid race conditions. This is
+# done on a per site process basis to completely avoid race conditions.
 # @see https://github.com/acquia/blt/pull/2922
-export DRUSH_PATHS_CACHE_DIRECTORY=/tmp/.drush/${db_role}
 
-$blt drupal:update --environment=$env --site=${name[0]} --define drush.uri=$domain --verbose --yes
+cacheDir=`/usr/bin/env php /mnt/www/html/$site.$env/vendor/acquia/blt/scripts/blt/cache.php $site $env $uri`
+
+DRUSH_PATHS_CACHE_DIRECTORY=$cacheDir $blt drupal:update --environment=$env --site=${name[0]} --define drush.uri=$domain --verbose --yes --no-interaction
+
+
