@@ -17,7 +17,7 @@
 /files-private
 /docroot/sites/*/private
 /docroot/themes/contrib
-/drush/contrib
+/drush/Commands
 /README.md
 /readme
 /sites/development.services.yml
@@ -29,7 +29,8 @@
 .git
 example.*
 local.settings.php
-local.drushrc.php
+local.drush.yml
+local.site.yml
 node_modules
 /vendor
 local.blt.yml

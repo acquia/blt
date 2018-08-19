@@ -65,7 +65,7 @@ class ArrayManipulator {
   /**
    * Flattens a multidimensional array to a flat array with dot-notated keys.
    *
-   * This is the inverse of expandFromDotNotatedKeys(). E.g.,
+   * This is the inverse of expandFromDotNotatedKeys(), e.g.,
    * ['drush' => ['alias' => 'self']] would be flattened to
    * [drush.alias => 'self'].
    *
@@ -82,7 +82,7 @@ class ArrayManipulator {
   /**
    * Flattens a multidimensional array to a flat array, using custom glue.
    *
-   * This is the inverse of expandFromDotNotatedKeys(). E.g.,
+   * This is the inverse of expandFromDotNotatedKeys(), e.g.,
    * ['drush' => ['alias' => 'self']] would be flattened to
    * [drush.alias => 'self'].
    *

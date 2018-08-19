@@ -26,7 +26,7 @@ class DefaultConfig extends BltConfig {
   }
 
   /**
-   * Gets the BLT root directory. E.g., /vendor/acquia/blt.
+   * Gets the BLT root directory, e.g., /vendor/acquia/blt.
    *
    * @return string
    *   THe filepath for the Drupal docroot.

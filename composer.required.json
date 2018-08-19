@@ -6,7 +6,7 @@
     }
   },
   "require": {
-    "drupal/core": "^8.5.0",
+    "drupal/core": "^8.5.6",
     "drupal/config_split": "^1.0.0"
   },
   "require-dev": {
@@ -42,6 +42,9 @@
       }
     },
     "enable-patching": true,
+    "patchLevel": {
+      "drupal/core": "-p2"
+    },
     "patches": {
       "drupal/core": {
         "Clear Twig caches on deploys": "https://www.drupal.org/files/issues/2752961-130.patch"

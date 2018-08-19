@@ -54,7 +54,7 @@ class ToggleModulesCommand extends BltTasks {
    * Enables or uninstalls an array of modules.
    *
    * @param string $command
-   *   The drush command to execute. E.g., pm-enable or pm-uninstall.
+   *   The drush command to execute, e.g., pm-enable or pm-uninstall.
    * @param string $config_key
    *   The config key containing the array of modules.
    *

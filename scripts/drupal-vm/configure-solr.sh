@@ -6,6 +6,9 @@
 # Drupal Solr module's configurations. This shell script presumes you have
 # `solr` in the `installed_extras`, and is currently set up for the D8 versions
 # of Search API Solr.
+#
+# It's also intended for Solr 4.5. For other versions of Solr, refer to the
+# example scripts provided by DrupalVM.
 
 SOLR_SETUP_COMPLETE_FILE=/etc/drupal_vm_solr_config_complete
 
