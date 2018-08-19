@@ -1,5 +1,25 @@
 # Change Log
 
+#### 9.1.2 (2018-08-16)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.1.1...9.1.2)
+
+
+**Fixed bugs**
+
+- Fixes #2969: RTD "edit on github" link (#2998)
+- Fixes #2988: Correcting notice text to indicate correct config setting. (#2991)
+- Correcting the vm command invocation. (#2979)
+
+**Miscellaneous**
+
+- Minor code review docs update (#3013)
+- SAML Config Refactor (#2953)
+- Improve template/README.md (#3004)
+- Multisite setup enhancements and bugfixes (#2997)
+- Update Drupal core required version (#2987)
+
+
 #### 9.1.1 (2018-08-03)
 
 [Full Changelog](https://github.com/acquia/blt/compare/9.1.0-alpha1...9.1.1)
