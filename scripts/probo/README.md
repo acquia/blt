@@ -2,7 +2,7 @@
 [Probo.CI](https://probo.ci/) is a continuous integration tool that runs tests and builds sandbox environments for each of your pull requests. It can be set up to work with your Acquia BLT project in a few steps.
 
 ### Connect to the Probo app
-1. Connect your Github or Bitbucket account to Probo at [https://app.probo.ci/](https://app.probo.ci/).
+1. Connect your GitHub or Bitbucket account to Probo at [https://app.probo.ci/](https://app.probo.ci/).
 2. Once logged in, activate your repository at [https://app.probo.ci/#/dashboard/repos](https://app.probo.ci/#/dashboard/repos).
 
 ### Generate a configuration file

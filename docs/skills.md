@@ -71,16 +71,16 @@ Travis CI is a hosted, distributed continuous integration service used to build 
 
 # Additional / Optional Skills
 
-## Github
+## GitHub
 GitHub is a web-based Git repository hosting service. It offers all of the distributed version control and source code management (SCM) functionality of Git as well as adding its own features. It provides access control and several collaboration features such as bug tracking, feature requests, task management, and wikis for every project.
 
 **Recommended Reading**
 
- * [Getting Started with Github](https://guides.github.com/activities/hello-world/)
+ * [Getting Started with GitHub](https://guides.github.com/activities/hello-world/)
  * [Git Forks](https://help.github.com/articles/fork-a-repo/)
- * [Understanding Github Flow](https://guides.github.com/introduction/flow/)
+ * [Understanding GitHub Flow](https://guides.github.com/introduction/flow/)
  * [Pull Requests](https://help.github.com/articles/about-pull-requests/)
- * [BLT Github Configuration](onboarding.md#github-configuration)
+ * [BLT GitHub Configuration](onboarding.md#github-configuration)
 
 ## [Automated Testing](testing.md)
 
