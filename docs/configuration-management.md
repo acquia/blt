@@ -54,14 +54,14 @@ The solution is to make sure that the referenced content exists before configura
 
 ### Updating core and contributed modules
 
-Caution must be taken when updating core and contributed modules when using any sort of configuration management process. If those updates make changes to a module’s configuration or schema, you must make sure to also update your exported configurations. Otherwise, your "active" configuration (in the database) and exported configuration (on disk / in Git) will become out of sync, causing problems with future configuration imports. Failing to take this into account is the most common cause of configuration imports failing BLT's test for overridden configuration.
+Take caution when updating core and contributed modules when using any sort of configuration management process. If those updates make changes to a module’s configuration or schema, you must make sure to also update your exported configurations. Otherwise, the next time configuration is imported (e.g. on deploys), the import of your configuration will clobber changes made by the database updates, and your database and codebase will become out of sync. Failing to take this into account is the most common cause of configuration imports failing BLT's test for overridden configuration.
 
-The best way to prevent such problems is to always follow these steps when updating contributed and core modules:
+The best way to prevent such problems is to always follow these steps when updating contributed and core modules. These steps assume you are using Config Split or a similar CM strategy using `drush cex` and `drush cim`.
 
-1. Start from a clean install or database sync, including config import (`blt setup` or `blt drupal:sync`). Verify that active and exported configuration are in sync by running `drush config-export` (if using core CM) or using the Features UI (if using Features).
-2. Use `composer update drupal/[module_name] --with-dependencies` to download the new module version(s).
+1. Start from a clean install or database sync, including config import (`blt setup` or `blt drupal:sync`). Verify that active and exported configuration are in sync (running `drush config-export` should report no changes.)
+2. Use `composer update` or `composer update drupal/[module_name] --with-dependencies` to download the new module version(s).
 3. Run `drush updb` to apply any pending updates locally.
-4. Export any configuration that changed as part of the database updates or new module versions. If using Features, check for overridden features and export them. If using core CM, export all configuration (`drush config-export`) and check for any changes on disk using `git status`.
+4. Export any configuration that changed as part of the database updates or new module versions by running `drush config-export` and checking for any changes on disk using `git status`.
 5. Commit any changed configuration, along with the updated `composer.json` and `composer.lock`.
 
 We need to find a better way of preventing this than manually monitoring module updates. Find more information in these issues:

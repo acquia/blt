@@ -7,8 +7,8 @@ function blt() {
     PROJECT_ROOT="."
   fi
 
-  if [ -f "$GIT_ROOT/vendor/bin/blt" ]; then
-    $GIT_ROOT/vendor/bin/blt "$@"
+  if [ -f "$PROJECT_ROOT/vendor/bin/blt" ]; then
+    $PROJECT_ROOT/vendor/bin/blt "$@"
 
   # Check for local BLT.
   elif [ -f "./vendor/bin/blt" ]; then

@@ -44,13 +44,10 @@ It is not possible to create an exhaustive list of all things that should be che
         * [YML](https://www.drupal.org/coding-standards/config)
     * Classes, properties, methods, etc. are named logically and consistently.
 * __Security__
-    * Consider most popular vulnerabilities:
-       * [SQL Injection](https://www.drupal.org/node/101495)
-       * [XSS](https://docs.acquia.com/articles/introduction-cross-site-scripting-xss-and-drupal)
-       * [CSRF](https://www.drupal.org/node/178896)
-    * Ensure that Drupal security best practices are being used:
-       * [D7](https://drupal.org/writing-secure-code)
-       * [D8](https://www.drupal.org/node/2489544)
+    * Ensure that [Drupal security best practices](https://www.drupal.org/docs/8/security) are being used. Especially:
+        * Prevent [XSS and SQL Injection](https://www.drupal.org/docs/8/security/writing-secure-code-for-drupal-8)
+        * [Sanitize output](https://www.drupal.org/docs/8/security/drupal-8-sanitizing-output)
+        * Prevent [CSRF attacks](https://www.drupal.org/node/178896)
     * Verify that any contrib modules being added have stable releases and do not have outstanding [security advisories](https://www.drupal.org/security/contrib).
 * __Performance__ How does the code impact site performance?
     * Code should implement caching whenever possible
