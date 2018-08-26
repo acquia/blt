@@ -52,17 +52,17 @@ class SettingsCommand extends BltTasks {
     // Generate hash file in salt.txt.
     $this->hashSalt();
 
-    // Append local multisite settings to sites.php
+    // Append local multisite settings to sites.php.
     $result = $this->taskWriteToFile($this->getConfigValue('docroot') . "/sites/sites.php")
-    ->appendUnlessMatches('#sites/local.sites.php#', "\n" . 'if (file_exists(DRUPAL_ROOT . "/sites/local.sites.php")) {' 
+      ->appendUnlessMatches('#sites/local.sites.php#', "\n" . 'if (file_exists(DRUPAL_ROOT . "/sites/local.sites.php")) {'
       . "\n" . "\t" . 'include DRUPAL_ROOT . "/sites/local.sites.php";' . "\n" . '}')
       ->append(TRUE)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
-  if (!$result->wasSuccessful()) {
+    if (!$result->wasSuccessful()) {
       throw new BltException("Unable to include local.sites.php in sites.php");
-  }
+    }
 
     $default_multisite_dir = $this->getConfigValue('docroot') . "/sites/default";
     $default_project_default_settings_file = "$default_multisite_dir/default.settings.php";
