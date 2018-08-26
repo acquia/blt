@@ -55,7 +55,7 @@ class SettingsCommand extends BltTasks {
     // Append local multisite settings to sites.php.
     $result = $this->taskWriteToFile($this->getConfigValue('docroot') . "/sites/sites.php")
       ->appendUnlessMatches('#sites/local.sites.php#', "\n" . 'if (file_exists(DRUPAL_ROOT . "/sites/local.sites.php")) {'
-      . "\n" . "\t" . 'include DRUPAL_ROOT . "/sites/local.sites.php";' . "\n" . '}')
+      . "\n" . "\t" . 'require DRUPAL_ROOT . "/sites/local.sites.php";' . "\n" . '}')
       ->append(TRUE)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
