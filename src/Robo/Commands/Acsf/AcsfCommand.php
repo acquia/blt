@@ -62,7 +62,7 @@ class AcsfCommand extends BltTasks {
 
     // Set the flag indicating this is an ACSF project. Impacts handling of
     // sites.php file for multisites.
-    $project_config['acsf_project'] = 'true';
+    $project_config['acsf_project'] = true;
 
     YamlMunge::writeFile($project_yml, $project_config);
   }
