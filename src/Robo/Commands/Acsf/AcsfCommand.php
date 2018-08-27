@@ -6,7 +6,6 @@ use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\YamlMunge;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * Defines commands in the "acsf" namespace.
