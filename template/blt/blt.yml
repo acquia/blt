@@ -76,3 +76,5 @@ modules:
     uninstall:
       - devel
       - views_ui
+
+acsf_project: false

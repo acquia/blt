@@ -158,11 +158,13 @@ class SettingsCommand extends BltTasks {
     }
 
     // Generate sites.php for local multisite.
-    $contents = "<?php\n \$sites = " . var_export($sites, TRUE) . ";";
-    file_put_contents($this->getConfigValue('docroot') . "/sites/sites.php", $contents);
+    if (!$this->getConfigValue('acsf_project')) {
+      $contents = "<?php\n \$sites = " . var_export($sites, TRUE) . ";";
+      file_put_contents($this->getConfigValue('docroot') . "/sites/sites.php", $contents);
 
-    if ($current_site != $initial_site) {
-      $this->switchSiteContext($initial_site);
+      if ($current_site != $initial_site) {
+        $this->switchSiteContext($initial_site);
+      }
     }
   }
 

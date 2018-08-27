@@ -6,6 +6,7 @@ use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\YamlMunge;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Defines commands in the "acsf" namespace.
@@ -59,6 +60,11 @@ class AcsfCommand extends BltTasks {
     if (!empty($project_config['modules'])) {
       $project_config['modules']['local']['uninstall'][] = 'acsf';
     }
+
+    // Set the flag indicating this is an ACSF project. Impacts handling of
+    // sites.php file for multisites.
+    $project_config['acsf_project'] = 'true';
+
     YamlMunge::writeFile($project_yml, $project_config);
   }
 
