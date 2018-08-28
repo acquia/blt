@@ -60,6 +60,10 @@ class AcsfCommand extends BltTasks {
       $project_config['modules']['local']['uninstall'][] = 'acsf';
     }
     YamlMunge::writeFile($project_yml, $project_config);
+
+    // Ensure inclusion of local.sites.php in sites.php file to support local
+    // multisite development.
+    $this->invokeCommand('blt:init:settings:sitesphp');
   }
 
   /**

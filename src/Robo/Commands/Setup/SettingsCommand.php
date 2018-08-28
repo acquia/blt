@@ -52,17 +52,8 @@ class SettingsCommand extends BltTasks {
     // Generate hash file in salt.txt.
     $this->hashSalt();
 
-    // Append local multisite settings to sites.php.
-    $result = $this->taskWriteToFile($this->getConfigValue('docroot') . "/sites/sites.php")
-      ->appendUnlessMatches('#sites/local.sites.php#', "\n" . 'if (file_exists(DRUPAL_ROOT . "/sites/local.sites.php")) {'
-      . "\n" . "\t" . 'require DRUPAL_ROOT . "/sites/local.sites.php";' . "\n" . '}')
-      ->append(TRUE)
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->run();
-
-    if (!$result->wasSuccessful()) {
-      throw new BltException("Unable to include local.sites.php in sites.php");
-    }
+    // Include local.sites.php in sites.php
+    $this->addLocalToSitesPHP();
 
     $default_multisite_dir = $this->getConfigValue('docroot') . "/sites/default";
     $default_project_default_settings_file = "$default_multisite_dir/default.settings.php";
@@ -175,6 +166,34 @@ class SettingsCommand extends BltTasks {
 
     if ($current_site != $initial_site) {
       $this->switchSiteContext($initial_site);
+    }
+  }
+
+  /**
+   * Setup sites.php file with include of local.sites.php
+   *
+   * @command blt:init:settings:sitesphp
+   */
+  public function addLocalToSitesPHP() {
+    // If sites.php doesn't already exist, we need to add the opening php tags
+    // to it.
+    if (!file_exists($this->getConfigValue('docroot') . "/sites/sites.php")) {
+      $sitesOpening = '<?php' . PHP_EOL;
+    }
+    else {
+      $sitesOpening = '';
+    }
+
+    // Append local multisite settings to sites.php.
+    $result = $this->taskWriteToFile($this->getConfigValue('docroot') . "/sites/sites.php")
+      ->appendUnlessMatches('#sites/local.sites.php#', "{$sitesOpening}\n" . 'if (file_exists(DRUPAL_ROOT . "/sites/local.sites.php")) {'
+        . "\n" . "\t" . 'require DRUPAL_ROOT . "/sites/local.sites.php";' . "\n" . '}')
+      ->append(TRUE)
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->run();
+
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Unable to include local.sites.php in sites.php");
     }
   }
 
