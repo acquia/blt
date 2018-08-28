@@ -70,4 +70,31 @@ class ComposerCommand extends BltTasks {
     return $result;
   }
 
+  /**
+   * Removes a composer package.
+   *
+   * @command internal:composer:remove
+   * @hidden
+   *
+   * @option dev Whether package should be added to require-dev.
+   */
+  public function removePackage($package_name) {
+    /** @var \Robo\Task\Composer\RequireDependency $task */
+    $task = $this->taskComposerRemove()
+      ->printOutput(TRUE)
+      ->printMetadata(TRUE)
+      ->dir($this->getConfigValue('repo.root'))
+      ->interactive($this->input()->isInteractive())
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE);
+    $task->dependency($package_name);
+    $result = $task->run();
+
+    if (!$result->wasSuccessful()) {
+      $this->logger->error("An error occurred while removing {$package_name}.");
+      $this->say("This is likely due to an incompatibility with your existing packages.");
+    }
+
+    return $result;
+  }
+
 }
