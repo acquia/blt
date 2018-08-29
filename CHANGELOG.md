@@ -1,5 +1,15 @@
 # Change Log
 
+#### 9.1.3 (2018-08-24)
+
+This out-of-cycle release addresses a critical failure observed with ACSF sites.
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.1.2...9.1.3)
+
+**Fixed bugs**
+
+- Revert "Multisite setup enhancements and bugfixes" (#3028)
+
 #### 9.1.2 (2018-08-16)
 
 [Full Changelog](https://github.com/acquia/blt/compare/9.1.1...9.1.2)
