@@ -1,5 +1,6 @@
 # Ignore configuration files that may contain sensitive information.
 local.settings.php
+local.sites.php
 local.drush.yml
 local.site.yml
 local.services.yml

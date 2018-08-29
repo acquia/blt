@@ -34,3 +34,4 @@ local.site.yml
 node_modules
 /vendor
 local.blt.yml
+local.sites.php
