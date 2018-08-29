@@ -1,6 +1,6 @@
 # BLT
 
-![BLT logo of styalized sandwich](https://github.com/acquia/blt/raw/9.x/blt-logo.png)
+![BLT logo of stylized sandwich](https://github.com/acquia/blt/raw/9.x/blt-logo.png)
 
 [![Build Status](https://travis-ci.org/acquia/blt.svg?branch=9.x)](https://travis-ci.org/acquia/blt) [![Documentation Status](https://readthedocs.org/projects/blt/badge/?version=9.x)](http://blt.readthedocs.io/en/9.x/?badge=9.x) [![Packagist](https://img.shields.io/packagist/v/acquia/blt.svg)](https://packagist.org/packages/acquia/blt) [![Stories in Ready](https://badge.waffle.io/acquia/blt.png?label=ready&title=Ready)](http://waffle.io/acquia/blt)
 
