@@ -14,7 +14,7 @@ trim_trailing_whitespace = true
 insert_final_newline = true
 
 # Tab indentation (no size specified)
-[Makefile]
+[Makefile,*.mk]
 indent_style = tab
 
 [composer.json]
