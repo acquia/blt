@@ -130,6 +130,69 @@ Note that Cucumber is simply a Ruby based BDD library, whereas Behat is a
 PHP based BDD library. Best practices for tests writing apply to both.
 * [The training wheels came off](http://aslakhellesoy.com/post/11055981222/the-training-wheels-came-off)
 
+### Complete Behat example
+
+#### Local setup
+
+BLT currently expects Google Chrome (more exactly, the `google-chrome` binary) to be available on the local setup. If you're using a Mac and Chrome is installed, you should be good to go. With Linux (e.g. in a VM or container), install either Google Chrome or Chromium (when/if https://github.com/acquia/blt/issues/2663 is fixed).
+
+Example for Debian/Ubuntu:
+
+```
+sudo apt-get install chromium-driver
+```
+
+#### Generate a `local.yml` file
+
+First, create a `local.blt.yml` file under the `blt` directory. Populate it with the below YAML code.
+
+```
+project:
+  machine_name: mysite
+  local:
+    protocol: http
+    hostname: '${project.machine_name}.local'
+```
+
+* The `${project.machine_name}` is a YAML variable. In the above example, `hostname` will render as `mysite.local`.
+
+Now, run `blt setup:behat --site=mysite.local` from the project root. If nothing happens, then check the file doesn't already exist at `/tests/behat/local.yml`.
+
+Confirm all app-specific values are correct:
+
+* The `features` key should be `/var/www/html/mysite`
+* The `bootstrap` key should be `/var/www/html/mysite/tests/behat/features/bootstrap`
+* The `screenshot_dir` key should be `/var/www/html/mysite/reports`
+* The `base_url` key should be `http://mysite.local`
+  * Pay close attention to this key, as it's directly being influenced by information entered in `local.blt.yml`
+* The `drupal_root` key should be `/var/www/html/mysite/docroot`
+
+Now, create a `local.drush.yml` file under `docroot/sites/mysite.local` and populate it with:
+
+```
+options:
+  uri: 'http://mysite.local'
+```
+
+To make sure BLT will be able to pick up the file in a multisite setup, make sure to edit `drush/drush.yml` and add the `mysite.local` multisite under the `config` list like so:
+
+```
+config:
+  - ../docroot/sites/mysite.local/local.drush.yml
+```
+
+In order to troubleshoot your Behat setup, make sure to run `blt doctor --site=mysite.local` to try and spot any obvious issue. Most of the time your issues will be related to one of the above files misconfigured or a failure to connect to the site's database.
+
+#### Running Behat tests
+
+**CAUTION**: When you need to run tests with any authenticated user role, you'll have to uninstall `simplesamlphp_auth`. Else, Behat tests will hang forever with no helpful indication as to what exactly it doesn't like.
+
+When ready, run `blt behat --site=mysite.local` from within the project root. If running Behat tests fail, then it means you either have issues with your BLT / Behat setup or there's an issue with tests themselves.
+
+#### Understanding the local VS remote differences when running tests
+
+The Pipelines build process takes care of running Behat tests automatically and does so by passing in the `--environment` value. Since BLT is context-aware, there's no specific setup to come up with.
+
 ## PHPUnit
 
 Project level, functional PHPUnit tests are included in `tests/phpunit`. Any PHPUnit tests that affect specific modules or application level features should be placed in the same directory as that module, not in this directory.
