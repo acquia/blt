@@ -6,15 +6,15 @@ For information on how to deploy to production, see [release-process.md](release
 
 This document outlines the workflow to build a complete Drupal docroot (plus supporting features, such as Cloud Hooks) which can be deployed directly to Acquia Cloud. Collectively, this bundle of code is referred to as the "build artifact."
 
-The most important thing to remember about this workflow is that the Github and Acquia Cloud repos are _not_ clones of one another. Github only stores the source code, and Acquia Cloud only stores the production code (i.e., the build artifacts).
+The most important thing to remember about this workflow is that the GitHub and Acquia Cloud repos are _not_ clones of one another. GitHub only stores the source code, and Acquia Cloud only stores the production code (i.e., the build artifacts).
 
 Currently, this workflow can either be followed manually, or integrated into a CI solution such as Acquia Pipelines, Travis CI, or Jenkins.
 
 ## First time setup
 
-You should have your Github repository (where this document is stored) checked out locally. Your Acquia Cloud repository should be empty, or nearly empty.
+You should have your GitHub repository (where this document is stored) checked out locally. Your Acquia Cloud repository should be empty, or nearly empty.
 
-Check out a new branch to match whatever branch you are working on in Github (typically `develop`).
+Check out a new branch to match whatever branch you are working on in GitHub (typically `develop`).
 
 Ensure your Acquia Cloud remote is listed in `blt.yml` under `git:remotes`, e.g.:
 
