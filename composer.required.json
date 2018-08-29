@@ -21,6 +21,7 @@
     "jakoch/phantomjs-installer":   "2.1.1-p07",
     "dmore/behat-chrome-extension": "^1.0.0",
     "mikey179/vfsStream": "~1.2",
+    "symfony/phpunit-bridge": "^3.4.3",
     "sensiolabs-de/deprecation-detector": "dev-master"
   },
   "autoload-dev": {
