@@ -52,7 +52,7 @@ This is the simplest use case for the configuration management system.
 
 By default, we want caching and CSS and JavaScript aggregation enabled on all of our environments. However, we would like the local environment to be an exception to this. Caching and aggregation should be disabled on local machines to expedite the development process.
 
-To accomplish this, we will create a "local" configuration split.
+To accomplish this, we will create a "local" configuration split. The command `blt recipes:config:init:splits` will create this and your other environment splits for you automatically. To create the "local" split manually, do the following:
 
 1. `mkdir -p ../config/envs/local`
 1. Navigate to `/admin/config/development/configuration/config-split/add`
@@ -79,6 +79,9 @@ To accomplish this, we will create a "local" configuration split.
         weight: 0
 
 1. `drush cr`. Doing this will allow configuration split to recognize that the local split is active. We rely on BLT to designate this split as active on local machines via a [settings.php include](https://github.com/acquia/blt/blob/9.x/settings/config.settings.php#L22).
+
+With your "local" split ready, continue:
+
 1.  Navigate to `/admin/config/development/performance` and disable caching and aggregation.
 1. `drush csex`. Because the local split is active, this will export the local split  `system.performance` settings to `../config/envs/local/system.performance.yml`. It should contain the following configuration:
 
