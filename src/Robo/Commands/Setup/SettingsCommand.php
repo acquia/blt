@@ -52,8 +52,8 @@ class SettingsCommand extends BltTasks {
     // Generate hash file in salt.txt.
     $this->hashSalt();
 
-    // Include local.sites.php in sites.php
-    $this->addLocalToSitesPHP();
+    // Include local.sites.php in sites.php.
+    $this->addLocalToSitesPhp();
 
     $default_multisite_dir = $this->getConfigValue('docroot') . "/sites/default";
     $default_project_default_settings_file = "$default_multisite_dir/default.settings.php";
@@ -174,7 +174,7 @@ class SettingsCommand extends BltTasks {
    *
    * @command blt:init:settings:sitesphp
    */
-  public function addLocalToSitesPHP() {
+  public function addLocalToSitesPhp() {
     // If sites.php doesn't already exist, we need to add the opening php tags
     // to it.
     if (!file_exists($this->getConfigValue('docroot') . "/sites/sites.php")) {
