@@ -60,12 +60,7 @@ mysql_users:
   - name: drupal
     host: "%"
     password: drupal
-    priv: "*.*:ALL"
-  - name: drupal
-    host: "localhost"
-    password: drupal
-    priv: "*.*:ALL"
-
+    priv: "drupal%.*:ALL"
 
 # Set this to 'false' if you don't need to install drupal (using the drupal_*
 # settings below), but instead copy down a database (e.g., using drush sql-sync).

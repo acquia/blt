@@ -2,7 +2,7 @@
 
 BLT work is currently being tracked in the [BLT GitHub issue queue](https://github.com/acquia/blt/issues) and organized via a [Waffle.io Kanban Board](https://waffle.io/acquia/blt).
 
-Please note the branch statuses documented in the README and [Github page](https://github.com/acquia/blt):
+Please note the branch statuses documented in the README and [GitHub page](https://github.com/acquia/blt):
 - Pull requests for enhancements will only be accepted for the active development branch.
 - Pull requests for bug fixes will only be accepted for supported branches.
 
