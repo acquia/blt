@@ -136,6 +136,8 @@ class SyncCommand extends BltTasks {
       ->option('structure-tables-key', 'lightweight')
       ->option('create-db');
 
+    $task->drush('cr');
+
     if ($this->getConfigValue('drush.sanitize')) {
       $task->drush('sql-sanitize');
     }
