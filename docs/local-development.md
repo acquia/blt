@@ -31,7 +31,7 @@ To use [Drupal VM](http://www.drupalvm.com/) with a Drupal project that is gener
 1. Commit all resulting files, including `box/config.yml` and `Vagrantfile`.
         
         git add -A
-        git commit -m "Added DrupalVM."
+        git commit -m <your commit meessage>
 
 1. Install Drupal
 
