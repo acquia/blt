@@ -52,12 +52,19 @@ class SettingsCommand extends BltTasks {
     // Generate hash file in salt.txt.
     $this->hashSalt();
 
+    // Include local.sites.php in sites.php.
+    $this->addLocalToSitesPhp();
+
     $default_multisite_dir = $this->getConfigValue('docroot') . "/sites/default";
     $default_project_default_settings_file = "$default_multisite_dir/default.settings.php";
 
     $multisites = $this->getConfigValue('multisites');
     $initial_site = $this->getConfigValue('site');
     $current_site = $initial_site;
+
+    // Accretion variable for holding the list of all the defined multisites.
+    // Used so that we can gather all the info to write the sites.php file.
+    $sites = [];
 
     foreach ($multisites as $multisite) {
       if ($current_site != $multisite) {
@@ -79,6 +86,10 @@ class SettingsCommand extends BltTasks {
       $blt_local_drush_file = $this->getConfigValue('blt.root') . '/settings/default.local.drush.yml';
       $default_local_drush_file = "$multisite_dir/default.local.drush.yml";
       $project_local_drush_file = "$multisite_dir/local.drush.yml";
+
+      // Populate the accretion variable.
+      $site_local_hostname = $this->getConfigValue('project.local.hostname');
+      $sites[$site_local_hostname] = $multisite;
 
       $copy_map = [
         $blt_local_settings_file => $default_local_settings_file,
@@ -149,8 +160,40 @@ class SettingsCommand extends BltTasks {
       }
     }
 
+    // Generate local.sites.php for local multisite.
+    $contents = "<?php\n \$sites = " . var_export($sites, TRUE) . ";";
+    file_put_contents($this->getConfigValue('docroot') . "/sites/local.sites.php", $contents);
+
     if ($current_site != $initial_site) {
       $this->switchSiteContext($initial_site);
+    }
+  }
+
+  /**
+   * Setup sites.php file with include of local.sites.php
+   *
+   * @command blt:init:settings:sitesphp
+   */
+  public function addLocalToSitesPhp() {
+    // If sites.php doesn't already exist, we need to add the opening php tags
+    // to it.
+    if (!file_exists($this->getConfigValue('docroot') . "/sites/sites.php")) {
+      $sitesOpening = '<?php' . PHP_EOL;
+    }
+    else {
+      $sitesOpening = '';
+    }
+
+    // Append local multisite settings to sites.php.
+    $result = $this->taskWriteToFile($this->getConfigValue('docroot') . "/sites/sites.php")
+      ->appendUnlessMatches('#sites/local.sites.php#', "{$sitesOpening}\n" . 'if (file_exists(DRUPAL_ROOT . "/sites/local.sites.php")) {'
+        . "\n" . "\t" . 'require DRUPAL_ROOT . "/sites/local.sites.php";' . "\n" . '}')
+      ->append(TRUE)
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->run();
+
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Unable to include local.sites.php in sites.php");
     }
   }
 
