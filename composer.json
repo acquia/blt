@@ -26,7 +26,7 @@
         "doctrine/common": "^2.5",
         "doctrine/inflector": "~1.1.0",
         "drupal/coder": "^8.2.11",
-        "drush/drush": "^9.3.0",
+        "drush/drush": "dev-master#e30df96a53e51b8abb278cf1c25cd29ee30af63c as 9.3.0",
         "grasmash/drupal-security-warning": "^1.0.0",
         "grasmash/yaml-cli": "^1.0.0",
         "grasmash/yaml-expander": "^1.2.0",
