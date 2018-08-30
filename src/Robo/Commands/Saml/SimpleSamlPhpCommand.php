@@ -194,6 +194,17 @@ class SimpleSamlPhpCommand extends BltTasks {
   }
 
   /**
+   * Ensures SimpleSamlPhp enabled repos have config copied on composer runs.
+   *
+   * @hook post-command source:build:composer
+   */
+  public function postComposerHook() {
+    if ($this->getConfig()->has('simplesamlphp') && $this->getConfigValue('simplesamlphp')) {
+      $this->invokeCommand('source:build:simplesamlphp-config');
+    }
+  }
+
+  /**
    * Outputs a message to edit the new config files.
    */
   protected function outputCompleteSetupInstructions() {
