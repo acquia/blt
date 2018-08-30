@@ -58,6 +58,7 @@ install:
   - mysql -u root -e "CREATE DATABASE drupal4; GRANT ALL ON drupal4.* TO 'drupal'@'localhost';"
 
 script:
+  - bash -x temp.sh
   - ${BLT_DIR}/vendor/bin/robo release:test
 
 before_deploy:
@@ -75,6 +76,8 @@ before_deploy:
   - git add -A
   - git commit -m "Automated commit for BLT repo by Travis CI for Build ${TRAVIS_BUILD_ID}" -n
 
+after_failure:
+  - echo "after failure ran!"
 after_success:
   # - ./vendor/bin/coveralls -vvv
 
