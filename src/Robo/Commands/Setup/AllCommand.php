@@ -12,6 +12,19 @@ class AllCommand extends BltTasks {
   /**
    * Executes source:build:* and installs Drupal via setup.strategy.
    *
+   * @command setup:all
+   * @executeInVm
+   */
+  public function allSites() {
+    foreach ($this->getConfigValue('multisites') as $multisite) {
+      $this->switchSiteContext($multisite);
+      $this->setup();
+    }
+  }
+
+  /**
+   * Executes source:build:* and installs Drupal via setup.strategy.
+   *
    * @command setup
    * @executeInVm
    */
