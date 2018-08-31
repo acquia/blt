@@ -74,9 +74,9 @@ You may [use the Pipelines client](https://docs.acquia.com/pipelines/client) to 
 
     # Show status of all builds.
     pipelines status
-    # Find the job-id for to get your Github integrated build logs
+    # Find the job-id for to get your GitHub integrated build logs
     pipelines list-jobs --application-id=[Application-id]
-    # Show logs for most recent Github integrated build.
+    # Show logs for most recent GitHub integrated build.
     pipelines logs --job-ib=[Job-id]
 
 ##### Resources:
