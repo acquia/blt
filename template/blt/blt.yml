@@ -21,6 +21,10 @@ git:
   default_branch: master
   remotes: []
 
+deploy:
+  # When manually deploying a tag, also tag the source repository.
+  tag_source: TRUE
+
 drush:
   # You can set custom project aliases in drush/sites/*.site.yml.
   aliases:

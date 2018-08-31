@@ -27,6 +27,11 @@ To use [Drupal VM](http://www.drupalvm.com/) with a Drupal project that is gener
 1. Create & boot the VM
 
         blt vm
+        
+1. Commit all resulting files, including `box/config.yml` and `Vagrantfile`.
+        
+        git add -A
+        git commit -m <your commit meessage>
 
 1. Install Drupal
 
@@ -38,6 +43,8 @@ To use [Drupal VM](http://www.drupalvm.com/) with a Drupal project that is gener
         drush uli
 
 There are also other changes you can make if you choose to match the Acquia Cloud server configuration more closely. See Drupal VM's example configuration changes in Drupal VM's `examples/acquia/acquia.overrides.yml` file.
+
+Subsequently, you should use `vagrant` commands to interact with the VM. Do not re-run `blt vm`. For instance, use `vagrant up` to start the VM, and `vagrant halt` to stop it.
 
 Note: With a Drupal VM setup, BLT expects all commands (with the exception of commands in the `blt vm` namespace), to be executed within the VM. To SSH into the VM, simply run `vagrant ssh` as you did in the "Install Drupal" step above.
 
