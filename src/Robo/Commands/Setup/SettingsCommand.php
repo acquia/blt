@@ -63,6 +63,9 @@ WARNING;
       }
     }
 
+    // Generate hash file in salt.txt.
+    $this->hashSalt();
+
     $default_multisite_dir = $this->getConfigValue('docroot') . "/sites/default";
     $default_project_default_settings_file = "$default_multisite_dir/default.settings.php";
 
