@@ -1,5 +1,27 @@
 # Change Log
 
+#### 9.1.4 (2018-09-03)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.1.3...9.1.4)
+
+**Implemented enhancements**
+
+- Fixes #2964: When manually deploying using a tag also push that tag to source repo. (#2992)
+
+**Miscellaneous**
+
+- New guidelines for contribution. (#3045)
+- Update the VERSION constant and CHANGELOG to reflect the 9.1.3 release. (#3042)
+- VM setup tips (#3036)
+- Adding the BLT logo to the README. (#3040)
+- Added acquia/drupal-spec-tool to Composer suggestions. (#3025)
+- Use tab indents for *.mk makefiles (#3018)
+- Add PHPUnit bridge adapter. (#3008)
+- Added mention of recipes:config:init:splits in config split documentation. (#3020)
+- Acquia PHP SDK V2 back to stable release (#3012)
+- Fix GitHub typos (#3019)
+
+
 #### 9.1.3 (2018-08-24)
 
 This out-of-cycle release addresses a critical failure observed with ACSF sites.
