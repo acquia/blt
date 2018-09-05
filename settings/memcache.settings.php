@@ -37,12 +37,12 @@ if ($memcache_module_is_present && ($memcache_exists || $memcached_exists)) {
           'class' => 'Drupal\Core\Site\Settings',
           'factory' => 'Drupal\Core\Site\Settings::getInstance',
         ],
-        'memcache.config' => [
-          'class' => 'Drupal\memcache\DrupalMemcacheConfig',
+        'memcache.settings' => [
+          'class' => 'Drupal\memcache\MemcacheSettings',
           'arguments' => ['@settings'],
         ],
         'memcache.backend.cache.factory' => [
-          'class' => 'Drupal\memcache\DrupalMemcacheFactory',
+          'class' => 'Drupal\memcache\MemcacheDriverFactory',
           'arguments' => ['@memcache.config'],
         ],
         'memcache.backend.cache.container' => [
