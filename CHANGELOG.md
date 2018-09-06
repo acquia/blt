@@ -1,5 +1,19 @@
 # Change Log
 
+#### 9.1.5 (2018-09-06)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.1.4...9.1.5)
+
+
+**Fixed bugs**
+
+- Fixes #3055: Update memcache settings to match changes in Drupal memcache module. (#3058)
+
+**Miscellaneous**
+
+- Lock core in 9.x branch to 8.5.6. (#3062)
+
+
 #### 9.1.4 (2018-09-03)
 
 [Full Changelog](https://github.com/acquia/blt/compare/9.1.3...9.1.4)
