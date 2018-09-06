@@ -17,12 +17,12 @@ class BltLogStyle extends RoboLogStyle {
    * @param string $message
    *   The log message.
    * @param array $context
-   *   The context. E.g., $context['time'] for task duration.
+   *   The context, e.g., $context['time'] for task duration.
    * @param string $taskNameStyle
-   *   The style wrapper for the label. E.g., 'comment' for
+   *   The style wrapper for the label, e.g., 'comment' for
    *   '<comment></comment>'.
    * @param string $messageStyle
-   *   The style wrapper for the message. E.g., 'comment' for
+   *   The style wrapper for the message, e.g., 'comment' for
    *   '<comment></comment>'.
    *
    * @return string

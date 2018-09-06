@@ -14,7 +14,7 @@ class DrushCheck extends DoctorCheck {
   }
 
   /**
-   * Checks for local.drushrc.php file and prints messaging to screen.
+   * Checks for local.drush.yml file and prints messaging to screen.
    */
   protected function checkLocalDrushFile() {
     $drush_site_yml = $this->getConfigValue('docroot') . "/sites/default/local.drush.yml";

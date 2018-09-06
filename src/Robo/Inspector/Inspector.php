@@ -510,7 +510,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    * Checks if a given command exists on the system.
    *
    * @param string $command
-   *   The command binary only. E.g., "drush" or "php".
+   *   The command binary only, e.g., "drush" or "php".
    *
    * @return bool
    *   TRUE if the command exists, otherwise FALSE.
@@ -710,6 +710,16 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    */
   public function isAcsfInited() {
     return file_exists($this->getConfigValue('docroot') . '/sites/g');
+  }
+
+  /**
+   * Determines whether operating in an Acquia Hosting environment or not.
+   *
+   * @return bool
+   *   Returns TRUE if on Acquia Hosting or FALSE if not.
+   */
+  public function isAhEnv() {
+    return isset($_ENV['AH_SITE_ENVIRONMENT']);
   }
 
   /**
