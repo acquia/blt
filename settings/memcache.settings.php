@@ -24,7 +24,8 @@ if ($memcache_module_is_present && ($memcache_exists || $memcached_exists)) {
 
     $settings['container_yamls'][] = DRUPAL_ROOT . '/modules/contrib/memcache/memcache.services.yml';
 
-    // Define custom bootstrap container definition to use Memcache for cache.container.
+    // Define custom bootstrap container definition to use Memcache for
+    // cache.container.
     $settings['bootstrap_container_definition'] = [
       'parameters' => [],
       'services' => [
@@ -43,7 +44,7 @@ if ($memcache_module_is_present && ($memcache_exists || $memcached_exists)) {
         ],
         'memcache.backend.cache.factory' => [
           'class' => 'Drupal\memcache\Driver\MemcacheDriverFactory',
-          'arguments' => ['@memcache.settings']
+          'arguments' => ['@memcache.settings'],
         ],
         'memcache.backend.cache.container' => [
           'class' => 'Drupal\memcache\DrupalMemcacheFactory',
@@ -56,7 +57,11 @@ if ($memcache_module_is_present && ($memcache_exists || $memcached_exists)) {
         ],
         'cache.container' => [
           'class' => 'Drupal\memcache\MemcacheBackend',
-          'arguments' => ['container', '@memcache.backend.cache.container', '@cache_tags_provider.container'],
+          'arguments' => [
+            'container',
+            '@memcache.backend.cache.container',
+            '@cache_tags_provider.container',
+          ],
         ],
       ],
     ];
