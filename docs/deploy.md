@@ -6,15 +6,15 @@ For information on how to deploy to production, see [release-process.md](release
 
 This document outlines the workflow to build a complete Drupal docroot (plus supporting features, such as Cloud Hooks) which can be deployed directly to Acquia Cloud. Collectively, this bundle of code is referred to as the "build artifact."
 
-The most important thing to remember about this workflow is that the Github and Acquia Cloud repos are _not_ clones of one another. Github only stores the source code, and Acquia Cloud only stores the production code (i.e., the build artifacts).
+The most important thing to remember about this workflow is that the GitHub and Acquia Cloud repos are _not_ clones of one another. GitHub only stores the source code, and Acquia Cloud only stores the production code (i.e., the build artifacts).
 
 Currently, this workflow can either be followed manually, or integrated into a CI solution such as Acquia Pipelines, Travis CI, or Jenkins.
 
 ## First time setup
 
-You should have your Github repository (where this document is stored) checked out locally. Your Acquia Cloud repository should be empty, or nearly empty.
+You should have your GitHub repository (where this document is stored) checked out locally. Your Acquia Cloud repository should be empty, or nearly empty.
 
-Check out a new branch to match whatever branch you are working on in Github (typically `develop`).
+Check out a new branch to match whatever branch you are working on in GitHub (typically `develop`).
 
 Ensure your Acquia Cloud remote is listed in `blt.yml` under `git:remotes`, e.g.:
 
@@ -53,6 +53,10 @@ To create a new git tag for the artifact (rather than committing to a branch) ru
     blt artifact:deploy --commit-msg "Creating release 1.0.0." --tag "1.0.0"
 
 This will generate the artifact, tag it with `1.0.0`, and push it to the remotes defined in blt.yml.
+
+When deploying a tag to the artifact repo, if the config option `deploy.tag_source` is set to TRUE, BLT will also create the supplied tag on the source repository. This makes it easier to verify the source commit upon which an artifact tag is based.
+
+*Note* however that BLT _does not_ automatically push the tag created on the source repository to its remote.
 
 ## Modifying the artifact
 
