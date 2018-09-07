@@ -1,5 +1,21 @@
 # Change Log
 
+#### 9.2.0-alpha1 (2018-09-06)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.1.3...9.2.0-alpha1)
+
+
+**Miscellaneous**
+
+- Updating versions of Drupal core and Lightning. (#3061)
+- Test against Drupal 8.6.x-dev. (#2937)
+- Adding the BLT logo to the README. (#3040)
+- Added acquia/drupal-spec-tool to Composer suggestions. (#3025)
+- Use tab indents for *.mk makefiles (#3018)
+- Add PHPUnit bridge adapter. (#3008)
+- Added mention of recipes:config:init:splits in config split documentation. (#3020)
+- Acquia PHP SDK V2 back to stable release (#3012)
+- Fix GitHub typos (#3019)
 #### 9.1.3 (2018-08-24)
 
 This out-of-cycle release addresses a critical failure observed with ACSF sites.
@@ -9,6 +25,7 @@ This out-of-cycle release addresses a critical failure observed with ACSF sites.
 **Fixed bugs**
 
 - Revert "Multisite setup enhancements and bugfixes" (#3028)
+
 
 #### 9.1.2 (2018-08-16)
 

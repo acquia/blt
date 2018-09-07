@@ -6,7 +6,7 @@
     }
   },
   "require": {
-    "drupal/core": "^8.5.6",
+    "drupal/core": "^8.6.0",
     "drupal/config_split": "^1.0.0"
   },
   "require-dev": {
@@ -46,11 +46,7 @@
     "patchLevel": {
       "drupal/core": "-p2"
     },
-    "patches": {
-      "drupal/core": {
-        "Clear Twig caches on deploys": "https://www.drupal.org/files/issues/2752961-130.patch"
-      }
-    }
+    "patches": []
   },
   "scripts": {
     "blt-alias": "blt blt:init:shell-alias -y --ansi",
