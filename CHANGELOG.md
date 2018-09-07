@@ -16,6 +16,15 @@
 - Added mention of recipes:config:init:splits in config split documentation. (#3020)
 - Acquia PHP SDK V2 back to stable release (#3012)
 - Fix GitHub typos (#3019)
+#### 9.1.3 (2018-08-24)
+
+This out-of-cycle release addresses a critical failure observed with ACSF sites.
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.1.2...9.1.3)
+
+**Fixed bugs**
+
+- Revert "Multisite setup enhancements and bugfixes" (#3028)
 
 
 #### 9.1.2 (2018-08-16)

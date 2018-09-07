@@ -35,3 +35,10 @@ To execute the same "release" testing that is performed during CI execution, run
 ## PHPUnit
 
 See [the PHPUnit section in the automated testing docs](testing.md#PHPUnit)
+
+# Submitting Pull Requests
+
+Changes should be submitted as Github Pull Requests to the project repository. To help with review, pull requests are expected to adhere to two main guidelines:
+
+1. PRs should be atomic and targeted at a single issue rather than broad-scope.
+2. PRs are expected to follow the template defined by the project in `.github/ISSUE_TEMPLATE.md` 
