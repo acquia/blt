@@ -2,7 +2,7 @@
 
 set -ev
 
-blt validate:all
+blt validate:all --no-interaction
 ${BLT_DIR}/scripts/blt/ci/tick-tock.sh blt setup --define drush.alias='${drush.aliases.ci}' --environment=ci --no-interaction --yes --verbose
 blt tests:all --define drush.alias='${drush.aliases.ci}' --define tests.run-server=true --environment=ci --yes --verbose
 
