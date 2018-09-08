@@ -161,7 +161,7 @@ You may use a custom git hook in place of BLT's default git hooks by setting its
 
 In this example, an executable file named `pre-commit` should exist in `${repo.root}/my-custom-git-hooks`.
 
-You should execute `blt blt:init:git-hooks` after modifying these values in order for changes to take effect.
+You should execute `blt blt:init:git-hooks` after modifying these values in order for changes to take effect. Also note that most projects will already have a `git` key in their `blt.yml` file, make sure to append `hooks` to this existing key.
 
 #### commit-msg
 
