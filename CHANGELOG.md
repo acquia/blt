@@ -1,5 +1,23 @@
 # Change Log
 
+#### 9.2.0-alpha2 (2018-09-08)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.2.0-alpha1...9.2.0-alpha2)
+
+**Implemented enhancements**
+
+- Allow PHPUnit to bootstrap from core. (#3071)
+
+**Fixed bugs**
+
+- Finished updating memcache config for alpha7. (#3076)
+- Fixes #3055: Update memcache settings to match changes in Drupal memcache module. (#3058) (#3067)
+
+**Miscellaneous**
+
+- Clarified Git hook documentation. (#3073)
+
+
 #### 9.2.0-alpha1 (2018-09-06)
 
 [Full Changelog](https://github.com/acquia/blt/compare/9.1.3...9.2.0-alpha1)
