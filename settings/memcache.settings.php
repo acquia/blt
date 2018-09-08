@@ -24,7 +24,8 @@ if ($memcache_module_is_present && ($memcache_exists || $memcached_exists)) {
 
     $settings['container_yamls'][] = DRUPAL_ROOT . '/modules/contrib/memcache/memcache.services.yml';
 
-    // Bootstrap cache.container with memcache rather than database.
+    // Define custom bootstrap container definition to use Memcache for
+    // cache.container.
     $settings['bootstrap_container_definition'] = [
       'parameters' => [],
       'services' => [
@@ -42,17 +43,13 @@ if ($memcache_module_is_present && ($memcache_exists || $memcached_exists)) {
           'arguments' => ['@settings'],
         ],
         'memcache.backend.cache.factory' => [
-          'class' => 'Drupal\memcache\MemcacheDriverFactory',
-          'arguments' => ['@memcache.config'],
+          'class' => 'Drupal\memcache\Driver\MemcacheDriverFactory',
+          'arguments' => ['@memcache.settings'],
         ],
         'memcache.backend.cache.container' => [
           'class' => 'Drupal\memcache\DrupalMemcacheFactory',
           'factory' => ['@memcache.backend.cache.factory', 'get'],
           'arguments' => ['container'],
-        ],
-        'lock.container' => [
-          'class' => 'Drupal\memcache\Lock\MemcacheLockBackend',
-          'arguments' => ['container', '@memcache.backend.cache.container'],
         ],
         'cache_tags_provider.container' => [
           'class' => 'Drupal\Core\Cache\DatabaseCacheTagsChecksum',
@@ -63,8 +60,6 @@ if ($memcache_module_is_present && ($memcache_exists || $memcached_exists)) {
           'arguments' => [
             'container',
             '@memcache.backend.cache.container',
-            '@lock.container',
-            '@memcache.config',
             '@cache_tags_provider.container',
           ],
         ],

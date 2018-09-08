@@ -26,7 +26,7 @@ class GitCommand extends BltTasks {
     if (!preg_match($pattern, $message)) {
       $this->logger->error("Invalid commit message!");
       $this->say("Commit messages must conform to the regex $pattern");
-      $this->logger->notice("To disable this command, see http://blt.rtfd.io/en/9.x/readme/extending-blt/#disabling-a-command");
+      $this->logger->notice("To disable this command, see http://blt.rtfd.io/en/9.x/readme/extending-blt/#git-hooks");
       $this->logger->notice("To customize git hooks, see http://blt.rtfd.io/en/9.x/readme/extending-blt/#setupgit-hooks.");
 
       return 1;
