@@ -86,8 +86,8 @@ drush:
 
 git:
   # The value of a hook should be the file path to a directory containing an
-  # executable file named after the hook.
-  # Changing a hook value to 'false' will disable it.
+  # executable file named after the hook. Changing a hook value to 'false' will disable it.
+  # You should execute `blt blt:init:git-hooks` after modifying these values.
   hooks:
     pre-commit: ${blt.root}/scripts/git-hooks
     commit-msg: ${blt.root}/scripts/git-hooks
