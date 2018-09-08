@@ -35,7 +35,7 @@ if ($is_prod_env || $is_stage_env) {
  *
  * @see https://www.drupal.org/node/2766509
  */
-if ($is_ah_env $is_ci_env &&
+if (($is_ah_env || $is_ci_env) &&
   array_key_exists('memcache', $settings) &&
   array_key_exists('servers', $settings['memcache']) &&
   !empty($settings['memcache']['servers'])
