@@ -1,5 +1,15 @@
 # Change Log
 
+#### 9.1.6 (2018-09-08)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.1.5...9.1.6)
+
+
+**Fixed bugs**
+
+- Finished updating memcache config for alpha7. (#3076) (#3079)
+
+
 #### 9.1.5 (2018-09-06)
 
 [Full Changelog](https://github.com/acquia/blt/compare/9.1.4...9.1.5)
