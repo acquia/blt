@@ -13,7 +13,7 @@
     "drupal/cog": "^1.0.0",
     "drupal/devel": "^1.0.0",
     "drupal/qa_accounts": "^1.0.0-alpha1",
-    "drupal/memcache": "^2.0-alpha7",
+    "drupal/memcache": "2.0-alpha7",
     "drupal/seckit": "^1.0.0-alpha2",
     "drupal/security_review": "*",
     "drupal/shield": "^1.0.0",
