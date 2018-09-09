@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-set -ev
+set -v
+# this would be removed
+set +e
 
 return 1
 
