@@ -4,6 +4,6 @@ set -v
 # this would be removed
 set +e
 
-return 1
+exit 1
 
 set +v
