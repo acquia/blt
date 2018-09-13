@@ -77,8 +77,5 @@ if ($memcache_module_is_present && ($memcache_exists || $memcached_exists)) {
 
     // Enable stampede protection.
     $settings['memcache']['stampede_protection'] = TRUE;
-
-    // Move locks to memcache.
-    $settings['container_yamls'][] = DRUPAL_ROOT . '/../vendor/acquia/blt/settings/memcache.yml';
   }
 }
