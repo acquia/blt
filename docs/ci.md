@@ -28,23 +28,16 @@ The typical CI workflow is as follows:
 
 ### Acquia Pipelines
 
-[Acquia Pipelines](https://docs.acquia.com/pipelines) is a Continuous Integration and Continuous Deployment solution built on Acquia Cloud infrastructure. For Acquia Cloud users, it provides the benefit of integrating directly with an Acquia Cloud subscription. This allows build artifacts to be easily deployed.
+[Acquia Pipelines](https://docs.acquia.com/acquia-cloud/develop/pipelines/) is a Continuous Integration and Continuous Deployment solution built on Acquia Cloud infrastructure. For Acquia Cloud users, it provides the benefit of integrating directly with an Acquia Cloud subscription. This allows build artifacts to be easily deployed.
 
 To initialize Pipelines support for your BLT project:
 
-1. [Install the Acquia Pipelines client](https://docs.acquia.com/pipelines/install) on your local machine:
-
-        curl -o pipelines https://cloud.acquia.com/pipeline-client/download
-        chmod a+x pipelines
-        # Move to a location specified in $PATH, e.g.,
-        mv pipelines /usr/local/bin
-
-1. [Configure the Pipelines client](https://docs.acquia.com/pipelines/install#authenticate)
+1. [Connect the Pipelines service](https://docs.acquia.com/acquia-cloud/develop/pipelines/connect/) to your Github or Bitbucket repository
 1. Initialize Pipelines for your project
 
         blt recipes:ci:pipelines:init
 
-    This will generate an [acquia-pipelines.yml file](https://docs.acquia.com/pipelines/yaml) in your project root based on [BLT's default acquia-pipelines.yml file](https://github.com/acquia/blt/blob/9.x/scripts/pipelines/acquia-pipelines.yml).
+    This will generate an [acquia-pipelines.yml file](https://docs.acquia.com/acquia-cloud/develop/pipelines/yaml/) in your project root based on [BLT's default acquia-pipelines.yml file](https://github.com/acquia/blt/blob/9.x/scripts/pipelines/acquia-pipelines.yml).
 
 1. Commit the new file and push it to your Acquia git remote. Example commands:
 
@@ -52,38 +45,15 @@ To initialize Pipelines support for your BLT project:
         git commit -m 'Initializing Pipelines integration.'
         git push origin
 
-1. Get the application id of your Acquia Cloud repository. This will be used in subsequent steps.
-
-        pipelines list-applications
-
-1. Initialize GitHub integration for your project. See `pipelines init-github --help` or review [help documentation](https://docs.acquia.com/pipelines/github) for further instructions.
-
-        pipelines init-github --application-id=[application-id] [github_username/github_repo/] [github_personal_access_token]
-
-1. Optionally, set the default application id for your local repository. This ensures that your local repo is always associated with the correct Acquia Cloud application.
-
-        pipelines set-application-id --application-id=[application-id]
-
 1. Submit a pull request to your GitHub repository.
 
 It is expected that your new pull request will trigger a Pipelines build to begin. The status should be reported on the pull request's web page. If merged, Pipelines will generate a new branch on your Acquia subscription named "pipelines-[source-branch]-build". The branch will contain a deployment artifact that can be deployed to an Acquia environment.
 
 #### Additional information
 
-You may [use the Pipelines client](https://docs.acquia.com/pipelines/client) to do things like check the status or logs for your build:
+You may use the Pipelines UI (integrated into Acquia Cloud) or [the Pipelines CLI client](https://docs.acquia.com/acquia-cloud/develop/pipelines/cli/install/) to do things like check the status or logs for your build.
 
-    # Show status of all builds.
-    pipelines status
-    # Find the job-id for to get your GitHub integrated build logs
-    pipelines list-jobs --application-id=[Application-id]
-    # Show logs for most recent GitHub integrated build.
-    pipelines logs --job-ib=[Job-id]
-
-##### Resources:
-
-* [Acquia Pipelines overview](https://docs.acquia.com/pipelines)
-* [Using the Acquia Pipelines client](https://docs.acquia.com/pipelines/client)
-* [Acquia Pipelines troubleshooting guide](https://docs.acquia.com/pipelines/troubleshooting)
+If you encounter problems, check the [Acquia Pipelines troubleshooting guide](https://docs.acquia.com/acquia-cloud/develop/pipelines/troubleshooting/).
 
 ### Travis CI
 
