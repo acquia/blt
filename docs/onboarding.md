@@ -6,7 +6,6 @@ Here is a quick-start guide to getting your local development environment set up
 
 Verify that your system meets [System requirements](INSTALL.md)
 
-<<<<<<< HEAD:readme/onboarding.md
 ## Technology Knolwedge Requirements / Recommendations
 
 Verify that you have the necessary [skillset(s)](skills.md) to interact with BLT.
