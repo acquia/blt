@@ -1,5 +1,33 @@
 # Change Log
 
+#### 9.2.0-alpha3 (2018-09-15)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.2.0-alpha2...9.2.0-alpha3)
+
+**Implemented enhancements**
+
+- Fixes #3065: Use webflo/drupal-core-require-dev instead of tracking core dev dependencies. (#3068)
+- Fixes #3053: Update requirement to drush/drush:^9.4.0. (#3078)
+
+**Fixed bugs**
+
+- Fixes #3046: Cleaned up Pipelines docs. (#3104)
+- Cherry-pick in lost/abandoned commits from 9.x (#3072)
+
+**Miscellaneous**
+
+- Exclude the 'sites/settings' dir for the default list of sites. (#2994) (#3105)
+- Run validation without interaction on CI. (#3070) (#3097)
+- Remove support for PHPUnit 5. (#3102)
+- Support memcache on ACSF via flags. (#3096)
+- amotic -> atomic (#3098)
+- Use core's PHPUnit bootstrap file. (#3092)
+- Remove memcache.yml and references to it. (#3093) (#3094)
+- Update local-development.md (#3087)
+- Run simplesaml config command on all composer calls. (#3051)
+- Travis CI Memcache Service and Settings (#3082)
+
+
 #### 9.2.0-alpha2 (2018-09-08)
 
 [Full Changelog](https://github.com/acquia/blt/compare/9.2.0-alpha1...9.2.0-alpha2)
