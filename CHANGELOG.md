@@ -1,5 +1,21 @@
 # Change Log
 
+#### 9.1.7 (2018-09-15)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.1.6...9.1.7)
+
+
+**Fixed bugs**
+
+- Fixes #2945 by removing cloud hook exception for ACSF. (#2946)
+
+**Miscellaneous**
+
+- Exclude the 'sites/settings' dir for the default list of sites. (#2994)
+- Run validation without interaction on CI. (#3070)
+- Remove memcache.yml and references to it. (#3093)
+
+
 #### 9.1.6 (2018-09-08)
 
 [Full Changelog](https://github.com/acquia/blt/compare/9.1.5...9.1.6)
