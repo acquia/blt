@@ -6,7 +6,7 @@
     }
   },
   "require": {
-    "drupal/core": "^8.0",
+    "drupal/core": "^8.6.0",
     "drupal/features": "^3.0.0",
     "drupal/config_split": "^1.0.0-beta4",
     "drupal/devel": "^1.0.0-alpha1"
@@ -43,12 +43,7 @@
         "sites/default/default.settings.php": "sites/default/settings.php"
       }
     },
-    "enable-patching": true,
-    "patches": {
-      "drupal/core": {
-        "Clear Twig caches on deploys": "https://www.drupal.org/files/issues/2752961-90.patch"
-      }
-    }
+    "enable-patching": true
   },
   "scripts": {
     "blt-alias": "blt install-alias -y --ansi",
