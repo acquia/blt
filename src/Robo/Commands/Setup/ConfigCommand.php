@@ -196,7 +196,7 @@ class ConfigCommand extends BltTasks {
    */
   protected function checkConfigOverrides($cm_core_key) {
     if (!$this->getConfigValue('cm.allow-overrides') && !$this->getInspector()->isActiveConfigIdentical()) {
-      throw new BltException("Configuration in the database does not match configuration on disk. BLT has attempted to automatically fix this by re-exporting configuration to disk. Please read https://github.com/acquia/blt/wiki/Configuration-override-test-and-errors");
+      $this->logger->warning("Configuration in the database does not match configuration on disk. BLT has attempted to automatically fix this by re-exporting configuration to disk. Please read https://github.com/acquia/blt/wiki/Configuration-override-test-and-errors");
     }
   }
 
