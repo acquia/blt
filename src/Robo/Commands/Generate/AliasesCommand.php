@@ -247,7 +247,7 @@ class AliasesCommand extends BltTasks {
       $remoteHost = $ssh_split[1];
       $remoteUser = $ssh_split[0];
 
-      if ($hosting == 'ace') {
+      if ($hosting == 'ace' || $hosting == 'acp') {
 
         $siteID = $site_split[1];
         $uri = $env->domains[0];
