@@ -22,7 +22,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   protected $drupalPhpcsStandard;
   protected $phpcsPaths;
 
-  const BLT_DEV_BRANCH = "9.x";
+  const BLT_DEV_BRANCH = "9.2.x";
   const BLT_PROJECT_DIR = "../blted8";
 
   /**
@@ -72,8 +72,22 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $this->prepareTestProjectDir($test_project_dir);
     $this->taskFilesystemStack()
       ->mkdir($test_project_dir)
-      ->mirror($this->bltRoot . "/blted8", $test_project_dir)
+      ->copy($this->bltRoot . '/subtree-splits/blt-project/composer.json', $test_project_dir . '/composer.json')
       ->run();
+
+    $template_composer_json_filepath = $test_project_dir . '/composer.json';
+    $template_composer_json = json_decode(file_get_contents($template_composer_json_filepath));
+    $template_composer_json->repositories->blt = [
+      'type' => 'path',
+      'url' => '../blt',
+      'options' => [
+        'symlink' => TRUE,
+      ],
+    ];
+    $template_composer_json->require->{'acquia/blt'} = '*@dev';
+
+    file_put_contents($template_composer_json_filepath, json_encode($template_composer_json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
     $this->taskExecStack()
       ->dir($test_project_dir)
       ->exec("git init")
@@ -89,11 +103,8 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $task = $this->taskExecStack()
       ->dir($test_project_dir)
       // BLT is the only dependency at this point. Install it.
-      ->exec("composer install")
-      // I have no idea why this is necessary, but testing on OSX does not pass
-      // without it.
-      ->exec("rm -rf $test_project_dir/vendor")
       ->exec("composer install");
+
     if ($options['vm']) {
       $task->exec("$bin/blt vm --no-boot --no-interaction --yes -v")
         ->exec("$bin/yaml-cli update:value box/config.yml vagrant_synced_folders.1.local_path '../blt'")
@@ -118,10 +129,12 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $test_project_dir = $this->bltRoot . "/" . $options['project-dir'];
     $this->prepareTestProjectDir($test_project_dir);
     $this->yell("Creating project from acquia/blt-project:{$options['base-branch']}-dev.");
-    $this->taskExecStack()
+    $return = $this->taskExecStack()
       ->dir($this->bltRoot . "/..")
       ->exec("COMPOSER_PROCESS_TIMEOUT=2000 composer create-project acquia/blt-project:{$options['base-branch']}-dev blted8 --no-interaction")
       ->run();
+
+    return $return;
   }
 
   /**
@@ -223,6 +236,54 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $this->createGitHubRelease($current_branch, $tag, $release_notes, $github_token);
 
     return 0;
+  }
+
+  /**
+   * Pushes to acquia/blt-project.
+   *
+   * @command subtree:push:blt-project
+   *
+   * @option branch (optional) The branch to push to. Defaults to current branch.
+   *
+   * @return int
+   *   The CLI status code.
+   */
+  public function subtreePushBltProject($options = [
+    'branch' => NULL,
+  ]) {
+    $this->say("Pushing to acquia/blt-project");
+    $prefix = "subtree-splits/blt-project";
+    $url = "git@github.com:acquia/blt-project.git";
+    if (!$options['branch']) {
+      $options['branch'] = $this->getCurrentBranch();
+    }
+    $this->_exec("git subtree add --prefix $prefix $url {$options['branch']} --squash");
+    $this->_exec("git subtree pull --prefix $prefix $url {$options['branch']} --squash");
+    $this->_exec("git subtree push --prefix $prefix $url {$options['branch']} --squash");
+  }
+
+  /**
+   * Pushes to acquia/blt-require-dev.
+   *
+   * @command subtree:push:blt-require-dev
+   *
+   * @option branch (optional) The branch to push to. Defaults to current branch.
+   *
+   * @return int
+   *   The CLI status code.
+   */
+  public function subtreePushBltRequireDev($options = [
+    'branch' => NULL,
+  ]) {
+    $this->say("Pushing to acquia/blt-require-dev");
+    $prefix = "subtree-splits/blt-require-dev";
+    $url = "git@github.com:acquia/blt-require-dev.git";
+    if (!$options['branch']) {
+      $options['branch'] = $this->getCurrentBranch();
+    }
+    $this->_exec("git subtree add --prefix $prefix $url {$options['branch']} --squash");
+    $this->_exec("git subtree pull --prefix $prefix $url {$options['branch']} --squash");
+    $this->_exec("git subtree push --prefix $prefix $url {$options['branch']} --squash");
   }
 
   /**
@@ -583,15 +644,17 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    * @param $tag
    * @param $description
    * @param $github_token
+   * @param $uri
    */
   protected function createGitHubRelease(
     $commitish,
     $tag,
     $description,
-    $github_token
+    $github_token,
+    $uri = 'acquia/blt'
   ) {
     $result = $this->taskGitHubRelease($tag)
-      ->uri('acquia/blt')
+      ->uri($uri)
       ->comittish($commitish)
       ->name($tag)
       ->description($description)

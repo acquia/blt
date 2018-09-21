@@ -3,7 +3,6 @@
 namespace Acquia\Blt\Robo\Commands\Blt;
 
 use Acquia\Blt\Robo\BltTasks;
-use Acquia\Blt\Robo\Common\ComposerMunge;
 use Acquia\Blt\Robo\Common\YamlMunge;
 use Acquia\Blt\Robo\Config\ConfigInitializer;
 use Acquia\Blt\Robo\Exceptions\BltException;
@@ -80,7 +79,11 @@ class UpdateCommand extends BltTasks {
    */
   protected function initializeBlt() {
     $this->updateRootProjectFiles();
-    $this->reInstallComposerPackages();
+    $this->taskExecStack()
+      ->dir($this->getConfigValue("repo.root"))
+      ->exec("composer drupal:scaffold")
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->run();
 
     // Reinitialize configuration now that project files exist.
     $config_initializer = new ConfigInitializer($this->getConfigValue('repo.root'), $this->input());
@@ -219,33 +222,6 @@ class UpdateCommand extends BltTasks {
   }
 
   /**
-   * Prepares a brand new BLTed repository created by `composer create-project`.
-   *
-   * @return \Robo\Result
-   */
-  protected function reInstallComposerPackages() {
-    $this->say("Installing new Composer dependencies provided by BLT. This may take a while...");
-    $result = $this->taskFilesystemStack()
-      ->remove([
-        $this->getConfigValue('repo.root') . '/composer.lock',
-      ])
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->run();
-    if (!$result->wasSuccessful()) {
-      throw new BltException("Could not remove Composer files.");
-    }
-
-    $result = $this->taskExecStack()
-      ->dir($this->getConfigValue('repo.root'))
-      ->exec("composer update --no-interaction --ansi")
-      ->run();
-
-    if (!$result->wasSuccessful()) {
-      throw new BltException("Could not install Composer requirements.");
-    }
-  }
-
-  /**
    * Updates root project files using BLT templated files.
    *
    * @return \Robo\Result
@@ -253,7 +229,6 @@ class UpdateCommand extends BltTasks {
   protected function updateRootProjectFiles() {
     $this->updateSchemaVersionFile();
     $this->rsyncTemplate();
-    $this->mungeComposerJson();
     $this->mungeProjectYml();
   }
 
@@ -344,22 +319,6 @@ class UpdateCommand extends BltTasks {
 
     if (!$result->wasSuccessful()) {
       throw new BltException("Could not rsync files from BLT into your repository.");
-    }
-  }
-
-  /**
-   * Munges BLT's templated composer.json with project's composer.json.
-   */
-  protected function mungeComposerJson() {
-    // Merge in the extras configuration. This pulls in
-    // wikimedia/composer-merge-plugin and composer/installers settings.
-    $this->say("Merging default configuration into composer.json...");
-    $project_composer_json = $this->getConfigValue('repo.root') . '/composer.json';
-    $template_composer_json = $this->getConfigValue('blt.root') . '/template/composer.json';
-    $munged_json = ComposerMunge::mungeFiles($project_composer_json, $template_composer_json);
-    $bytes = file_put_contents($project_composer_json, $munged_json);
-    if (!$bytes) {
-      throw new BltException("Could not update $project_composer_json.");
     }
   }
 

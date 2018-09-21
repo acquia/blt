@@ -78,6 +78,7 @@ template/docroot/.eslintrc
 template/docroot/.eslintrc.json
 template/docroot/.gitattributes
 template/docroot/.htaccess
+template/docroot/.ht.router.php
 template/docroot/index.php
 template/docroot/robots.txt
 template/docroot/sites/default/default.settings.php
@@ -89,6 +90,8 @@ template/docroot/sites/example.settings.local.php
 template/docroot/sites/example.sites.php
 template/docroot/update.php
 template/docroot/web.config
+
+docroot
 
 # PHPStorm
 .idea
