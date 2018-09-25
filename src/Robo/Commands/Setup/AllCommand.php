@@ -40,6 +40,12 @@ class AllCommand extends BltTasks {
         $commands[] = 'drupal:sql:import';
         $commands[] = 'drupal:update';
         break;
+
+      case 'dual':
+        $commands[] = 'drupal:sync:default:site';
+        $commands[] = 'drupal:install';
+        $commands[] = 'drupal:toggle:modules';
+        break;
     }
 
     $commands[] = 'blt:init:shell-alias';
