@@ -134,7 +134,7 @@ class FilesetManager implements ConfigAwareInterface, LoggerAwareInterface {
       return $filesets;
     }
 
-    return $this->filesets;
+    return [];
   }
 
   /**
