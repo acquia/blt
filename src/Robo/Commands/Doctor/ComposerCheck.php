@@ -22,12 +22,18 @@ class ComposerCheck extends DoctorCheck {
   protected $composerLock;
 
   /**
+   * @var
+   */
+  protected $templateComposerJson;
+
+  /**
    * DoctorCheck constructor.
    */
   public function __construct(Config $config, Inspector $inspector, Executor $executor, $drush_status) {
     parent::__construct($config, $inspector, $executor, $drush_status);
     $this->setComposerJson();
     $this->setComposerLock();
+    $this->setTemplateComposerJson();
   }
 
   /**
@@ -41,6 +47,23 @@ class ComposerCheck extends DoctorCheck {
       $this->composerJson = $composer_json;
 
       return $composer_json;
+    }
+
+    return [];
+  }
+
+  /**
+   * Sets $this->templateComposerJson using template composer.json file.
+   *
+   * @return array
+   */
+  protected function setTemplateComposerJson() {
+    $file_name = $this->getConfigValue('repo.root') .  '/vendor/acquia/blt/subtree-splits/blt-project/composer.json';
+    if (file_exists($file_name)) {
+      $template_composer_json = json_decode(file_get_contents($file_name, TRUE), TRUE);
+      $this->templateComposerJson = $template_composer_json;
+
+      return $template_composer_json;
     }
 
     return [];
@@ -81,9 +104,11 @@ class ComposerCheck extends DoctorCheck {
    */
   public function performAllChecks() {
     $this->checkRequire();
+    $this->checkBltRequireDev();
     if (!$this->getInspector()->isVmCli()) {
       $this->checkPrestissimo();
     }
+    $this->checkComposerConfig();
 
     return $this->problems;
   }
@@ -109,6 +134,51 @@ class ComposerCheck extends DoctorCheck {
     }
   }
 
-  // @todo Check extras config.
+  /**
+   * Emits a warning if project Composer config is different than default.
+   */
+  protected function checkComposerConfig() {
+    // @todo specify third key Acquia\\Blt\\Custom\\.
+    $this->compareComposerConfig('autoload', 'psr-4');
+    // @todo specify third key Drupal\\Tests\\PHPUnit\\\.
+    $this->compareComposerConfig('autoload-dev', 'psr-4');
+    $this->compareComposerConfig('extra', 'installer-paths');
+    $this->compareComposerConfig('extra', 'enable-patching');
+    $this->compareComposerConfig('extra', 'composer-exit-on-patch-failure');
+    $this->compareComposerConfig('extra', 'patchLevel');
+    $this->compareComposerConfig('repositories', 'drupal');
+    $this->compareComposerConfig('scripts', 'nuke');
+    $this->compareComposerConfig('scripts', 'drupal-scaffold');
+  }
+
+  protected function checkBltRequireDev() {
+    if (empty($this->composerJson['require-dev']['acquia/blt-require-dev'])) {
+      $this->logProblem('acquia/blt-require-dev', [
+        "acquia/blt-require-dev is not defined as a development dependency in composer.json",
+        "  Move add acquia/blt-require-dev to the require-dev object in composer.json.",
+        "  This is necessary for BLT to run development tasks.",
+      ], 'error');
+    }
+  }
+
+  private function compareComposerConfig($key1, $key2) {
+    if (!array_key_exists($key1, $this->composerJson) ||
+      !array_key_exists($key2, $this->composerJson[$key1])) {
+      $project_values = NULL;
+    }
+    else {
+      $project_values = json_encode($this->composerJson[$key1][$key2], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+    }
+    $template_values = json_encode($this->templateComposerJson[$key1][$key2], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+    $has_diff = $template_values != $project_values;
+
+    if ($has_diff) {
+      $this->logProblem("composer.$key1.$key2", [
+        "The Composer configuration for $key1.$key2 differs from BLT's default, recommended values.",
+        "  Change your configuration to match BLT's defaults in",
+        "  vendor/acquia/blt/subtree-splits/blt-project/composer.json.",
+      ], 'error');
+    }
+  }
 
 }
