@@ -29,7 +29,7 @@
         "sort-packages": true
     },
     "require": {
-        "acquia/blt": "dev-master",
+        "acquia/blt": "^10.0.0",
         "acquia/drupal-spec-tool": "^2.0.0",
         "acquia/lightning": "^3.1.0",
         "drupal/acquia_connector": "^1.5.0",
@@ -40,7 +40,7 @@
         "drupal/qa_accounts": "^1.0.0-alpha1"
     },
     "require-dev": {
-        "acquia/blt-require-dev": "dev-master"
+        "acquia/blt-require-dev": "^10.0.0"
     },
     "extra": {
         "enable-patching": true,

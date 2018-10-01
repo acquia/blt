@@ -607,14 +607,14 @@ class Updates {
   }
 
   /**
-   * 9.3.0.
+   * 10.0.0.
    *
    * @Update(
-   *    version = "9003000",
+   *    version = "10000000",
    *    description = "Remove composer merge plugin."
    * )
    */
-  public function update_9003000() {
+  public function update_10000000() {
     $composer_json = $this->updater->getComposerJson();
     $template_composer_json = $this->updater->getTemplateComposerJson();
     foreach ($template_composer_json['require-dev'] as $package_name => $version) {

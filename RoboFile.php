@@ -22,7 +22,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   protected $drupalPhpcsStandard;
   protected $phpcsPaths;
 
-  const BLT_DEV_BRANCH = "9.2.x";
+  const BLT_DEV_BRANCH = "10.0.x";
   const BLT_PROJECT_DIR = "../blted8";
 
   /**
