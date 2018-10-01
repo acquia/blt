@@ -22,7 +22,7 @@ class ComposerCheck extends DoctorCheck {
   protected $composerLock;
 
   /**
-   * @var
+   * @var array
    */
   protected $templateComposerJson;
 
@@ -58,7 +58,7 @@ class ComposerCheck extends DoctorCheck {
    * @return array
    */
   protected function setTemplateComposerJson() {
-    $file_name = $this->getConfigValue('repo.root') .  '/vendor/acquia/blt/subtree-splits/blt-project/composer.json';
+    $file_name = $this->getConfigValue('repo.root') . '/vendor/acquia/blt/subtree-splits/blt-project/composer.json';
     if (file_exists($file_name)) {
       $template_composer_json = json_decode(file_get_contents($file_name, TRUE), TRUE);
       $this->templateComposerJson = $template_composer_json;
