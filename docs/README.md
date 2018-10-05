@@ -36,14 +36,19 @@ Up to the last two most major versions of BLT are actively supported. The newest
 
 | Major Version | Support Status              | Drupal | Drush          | Dev Status   |
 |---------------|-----------------------------|--------|----------------|--------------|
-| 9.x           | Supported                   | >=8.5  | >=9.1.0        | \*active dev |
+| 9.2.x         | Supported                   | 8.6    | >=9.4.0        | \*active dev |
+| 9.x           | Supported                   | 8.5    | >=9.1.0        | \*active dev |
 | 8.9.x         | LTS, EOL TBA                | <=8.5  | ~8             | bug fixes    |
 | 8.8.x         | Unsupported, EOL            | <=8.3  | ~8             |              |
 | 8.7.x         | Unsupported, EOL            | <=8.3  | ~8             |              |
 
+### 9.2.x branch
+
+The 9.2.x branch is currently in development. It requires Drush 9.4.x and Drupal 8.6.x.
+
 ### 9.x branch
 
-The 9.x branch is currently in development. It requires Drush 9 instead of Drush 8.
+The 9.x branch is currently in development. It requires Drush 9 and Drupal 8.5.x. It will be supported until Drupal 8.5.x is EOL.
 
 ### 8.9.x End of Life (EOL)
 
@@ -89,7 +94,7 @@ Its scope is discretely defined. It is *not* intended to provide:
 
 BLT is provided as an open source tool in the hope that it will enable developers to easily generate new Drupal projects that conform to Acquia Professional Services' best practices.
 
-Please feel free to contribute to the project or file issues via the GitHub issue queue. See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines and instructions. 
+Please feel free to contribute to the project or file issues via the GitHub issue queue. See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines and instructions.
 
 We also provide a limited [FAQ](FAQ.md) for common issues.
 
