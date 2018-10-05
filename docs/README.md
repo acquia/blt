@@ -45,7 +45,7 @@ Up to the last two most major versions of BLT are actively supported. The newest
 
 ### 10.0.x branch
 
-The 10.0.x branch is in active development and is not currently stable or supported. It requires Drush 9.4.x and Drupal 8.6.x. It also requires PHP 7+.
+The 10.0.x branch is in active development and is not currently stable or supported. It requires Drush 9.4.x, Drupal 8.6.x, and PHP 7+. It is considered a major release because it removes the Composer merge plugin that BLT previously used to manage dependencies.
 
 ### 9.2.x branch
 
