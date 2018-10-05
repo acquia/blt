@@ -321,7 +321,9 @@ class DrushTask extends CommandStack {
       $this->option('include', $this->include);
     }
 
-    $this->option("ansi");
+    if ($this->getConfig()->get('drush.ansi')) {
+      $this->option('ansi');
+    }
   }
 
   /**
