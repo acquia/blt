@@ -78,45 +78,6 @@ Commit `composer.json` and `composer.lock` afterwards.
 
 Please see [patches.md](patches.md) for information on patch naming, patch application, patch ignoring, and patch contribution guidance.
 
-### Modifying BLT's default Composer values
-
-BLT merges default values for composer.json using [wikimedia/composer-merge-plugin](https://github.com/wikimedia/composer-merge-plugin):
-
-        "merge-plugin": {
-            "require": [
-                "blt/composer.required.json",
-                "blt/composer.suggested.json"
-            ],
-            "merge-extra": true,
-            "merge-extra-deep": true,
-            "merge-scripts": true,
-            "replace": false,
-            "ignore-duplicates": true
-        },
-
-This merges the `require`, `require-dev`, `autoload`, `autoload-dev`, `scripts`, and `extra` keys from BLT's own vendored files. The merged values are split into two groups:
-
- 1. composer.require.json: These packages are required for BLT to function properly. You may change their versions, but you should not remove them.
- 1. composer.suggested.json: You may remove the suggested packages by deleting the `blt/composer.suggested.json` line from your composer.json.
-
-If you'd like to override the default version constraint for a package provided by BLT, you may simply define the desired version in your root composer.json file. Note that it order for this to work, your configuration for the merge plugin must include:
-
-        "replace": false,
-        "ignore-duplicates": true
-
-
-### Merging in additional composer.json files
-
-In situations where you have local projects, e.g., a custom module, that have their own composer.json files, you can merge them in by including the composer-merge-plugin. Reference these additional composer.json files in the `extra` section of your root composer.json file:
-
-        "extra": {
-          "merge-plugin": {
-            "require": [
-              "docroot/modules/custom/example/composer.json"
-            ]
-          }
-        }
-
 ## Front end dependencies
 
 Drupal 8 does not have a definitive solution for downloading front end dependencies. The following solutions are suggested:
