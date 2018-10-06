@@ -564,7 +564,7 @@ class Updates {
     // Update composer.json to include new BLT required/suggested files.
     // Pulls in wikimedia/composer-merge-plugin and composer/installers settings.
     $project_composer_json = $this->updater->getRepoRoot() . '/composer.json';
-    $template_composer_json = $this->updater->getBltRoot() . '/template/composer.json';
+    $template_composer_json = $this->updater->getBltRoot() . '/subtree-splits/blt-project/composer.json';
     $munged_json = ComposerMunge::mungeFiles($project_composer_json, $template_composer_json);
     $bytes = file_put_contents($project_composer_json, $munged_json);
     if (!$bytes) {
@@ -606,4 +606,41 @@ class Updates {
     $this->updater->getOutput()->writeln("");
   }
 
+  /**
+   * 10.0.0.
+   *
+   * @Update(
+   *    version = "10000000",
+   *    description = "Remove composer merge plugin."
+   * )
+   */
+  public function update_10000000() {
+    $composer_json = $this->updater->getComposerJson();
+    $template_composer_json = $this->updater->getTemplateComposerJson();
+    foreach ($template_composer_json['require-dev'] as $package_name => $version) {
+      unset($composer_json[$package_name]);
+    }
+    unset($composer_json['extra']['merge-plugin'] );
+    $sync_composer_keys = [
+      'autoload',
+      'autoload-dev',
+      'repositories',
+      'extra',
+      'scripts',
+    ];
+    foreach ($sync_composer_keys as $sync_composer_key) {
+      $composer_json[$sync_composer_key] = ArrayManipulator::arrayMergeRecursiveDistinct( $composer_json[$sync_composer_key], $template_composer_json[$sync_composer_key]);
+    }
+    $composer_json['require-dev']['acquia/blt-require-dev'] = $template_composer_json['require']['acquia/blt-require-dev'];
+
+    $this->updater->writeComposerJson($composer_json);
+    $messages = [
+      "Your composer.json file has been modified to remove the Composer merge plugin.",
+      "You must execute `composer update --lock` to update your lock file.",
+    ];
+    $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
+    $this->updater->getOutput()->writeln("");
+    $this->updater->getOutput()->writeln($formattedBlock);
+    $this->updater->getOutput()->writeln("");
+  }
 }

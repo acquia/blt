@@ -22,8 +22,6 @@ To perform a release:
 
 ## Create a release
 
-### Prerequisites
-
 * Pull the latest BLT version to your local machine `git pull`.
 * BLT's dependencies must be installed by running `composer install` in the BLT directory.
 * If you don't have one, procure a [github personal access token](https://github.com/settings/tokens). Optionall save in a password vault for future use.
@@ -31,13 +29,24 @@ To perform a release:
 * To both generate release notes and also create a new _draft_ release on GitHub, execute:
 
       ./vendor/bin/robo release [tag] [token]
-    
-* Add any manual steps or notable changes to the release notes. 
+
+* Add any manual steps or notable changes to the release notes.
 * Click publish. Packagist is automatically updated.
 
 ## Update the blt-project repo
 
-In order for the `composer create-project acquia/blt-project my-project` command to pull the latest version of BLT, the [blt-project repo](https://github.com/acquia/blt-project) may need to be updated to point to the new release created in the BLT repo.  Once packagist shows the latest release of BLT as being available, test the composer create-project process. If it loads the old version, you likely need to update the blt-project repo
+In order for the `composer create-project acquia/blt-project my-project` command to pull the latest version of BLT, the [blt-project repo](https://github.com/acquia/blt-project) may need to be updated to point to the new release created in the BLT repo. Once packagist shows the latest release of BLT as being available, test the composer create-project process. If it loads the old version, you likely need to update the blt-project repo.
 
-* Update the `composer.json` file in the blt-project repo to require the latest version of acquia/blt.
+* Update the `composer.json` file in the `subtree-splits/blt-project` directory to require the latest version of acquia/blt.
+* Commit the changes.
+* Execute `./vendor/bin/robo subtree:push:blt-project`
 * Tag and release a new version of blt-project.
+
+## Update the blt-require-dev repo
+
+In order to update the `require-dev` dependencies for BLT based projects, you must:
+
+* Update the `composer.json` file in the `subtree-splits/blt-require-dev` directory's `composer.json`.
+* Commit the changes.
+* Execute `./vendor/bin/robo subtree:push:blt-require-dev`
+* Tag and release a new version of blt-require-dev.

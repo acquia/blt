@@ -1,0 +1,19 @@
+{
+    "name": "acquia/blt-require-dev",
+    "description": "A wrapper package for BLT's require dev dependencies.",
+    "type": "metapackage",
+    "license": "GPL-2.0-only",
+    "minimum-stability": "dev",
+    "require": {
+        "behat/behat": ">=3.1 <3.4",
+        "bex/behat-screenshot": "^1.2",
+        "drupal/drupal-extension": "~3.2",
+        "jarnaiz/behat-junit-formatter": "^1.3.2",
+        "se/selenium-server-standalone": "^2.53",
+        "dmore/behat-chrome-extension": "^1.0.0",
+        "sensiolabs-de/deprecation-detector": "dev-master",
+        "webflo/drupal-core-require-dev": "^8.6.1",
+        "phpunit/phpunit": "^4.8|^6.5",
+        "squizlabs/php_codesniffer": "^2.7"
+    }
+}

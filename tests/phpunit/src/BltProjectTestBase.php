@@ -87,7 +87,7 @@ abstract class BltProjectTestBase extends TestCase {
 
     // Config is overwritten for each $this->blt execution.
     $this->reInitializeConfig($this->createBltInput(NULL, []));
-    $this->drush('cache-rebuild', NULL, FALSE);
+    $this->drush('cache-rebuild --no-cache-clear', NULL, FALSE);
     $this->dbDump = $this->sandboxInstance . "/bltDbDump.sql";
 
     // Multisite settings.

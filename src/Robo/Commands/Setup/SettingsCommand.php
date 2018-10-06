@@ -59,6 +59,9 @@ class SettingsCommand extends BltTasks {
     $initial_site = $this->getConfigValue('site');
     $current_site = $initial_site;
 
+    $this->logger->debug("Multisites found: " . implode(',', $multisites));
+    $this->logger->debug("Initial site: $initial_site");
+
     foreach ($multisites as $multisite) {
       if ($current_site != $multisite) {
         $this->switchSiteContext($multisite);
