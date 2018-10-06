@@ -6,7 +6,7 @@ Before enabling the Memcache module, it is important to understand how the Drupa
 
 ## Acquia Cloud
 
-[Using Memcached on Acquia Cloud](https://docs.acquia.com/cloud/performance/memcached) provides detailed information regarding how Acquia supports Memcached for its subscriptions and products, and is a good resource in general for information regarding Drupal and Memcache integrations. It is important that the settings for `memcache_key_prefix` and `memcache_servers` not be modified on Acquia Cloud.
+[Using Memcached on Acquia Cloud](https://docs.acquia.com/acquia-cloud/performance/memcached/) provides detailed information regarding how Acquia supports Memcached for its subscriptions and products, and is a good resource in general for information regarding Drupal and Memcache integrations. It is important that the settings for `memcache_key_prefix` and `memcache_servers` not be modified on Acquia Cloud.
 
 BLT modifies the Memcache module integration on Acquia Cloud. BLT's configuration explicitly overrides the default bins for the discovery, bootstrap, and config cache bins because Drupal core permanently caches these static bins by default. This is required for rebuilding service definitions accurately on cache rebuilds and deploys. See [caching.settings.php](/settings/cache.settings.php).
 
