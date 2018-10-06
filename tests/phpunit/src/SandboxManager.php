@@ -14,6 +14,7 @@ class SandboxManager {
   /** @var \Symfony\Component\Filesystem\Filesystem*/
   protected $fs;
   protected $bltDir;
+  protected $bltRequireDevPackageDir;
   protected $sandboxMaster;
   protected $sandboxInstance;
   /** @var \Symfony\Component\Console\Output\ConsoleOutput*/
@@ -29,6 +30,7 @@ class SandboxManager {
     $this->tmp = sys_get_temp_dir();
     $this->sandboxMaster = $this->tmp . "/blt-sandbox-master";
     $this->sandboxInstance = $this->tmp . "/blt-sandbox-instance";
+    $this->bltRequireDevPackageDir = $this->tmp . '/blt-require-dev';
     $this->bltDir = realpath(dirname(__FILE__) . '/../../../');
   }
 
@@ -53,8 +55,12 @@ class SandboxManager {
   public function createSandboxMaster() {
     $this->output->writeln("Creating master sandbox in <comment>{$this->sandboxMaster}</comment>...");
     $fixture = $this->bltDir . "/tests/phpunit/fixtures/sandbox";
+
     $this->fs->remove($this->sandboxMaster);
     $this->fs->mirror($fixture, $this->sandboxMaster);
+    $this->fs->copy($this->bltDir . '/subtree-splits/blt-project/composer.json', $this->sandboxMaster . '/composer.json');
+
+    $this->createBltRequireDevPackage();
     $this->updateSandboxMasterBltRepoSymlink();
     $this->installSandboxMasterDependencies();
     $this->removeSandboxInstance();
@@ -146,9 +152,24 @@ class SandboxManager {
   protected function updateSandboxMasterBltRepoSymlink() {
     $composer_json_path = $this->sandboxMaster . "/composer.json";
     $composer_json_contents = json_decode(file_get_contents($composer_json_path));
-    $composer_json_contents->repositories->blt->url = $this->bltDir;
+    $composer_json_contents->repositories->blt = (object) [
+      'type' => 'path',
+      'url' => $this->bltDir,
+      'options' => [
+        'symlink' => TRUE,
+      ],
+    ];
+    $composer_json_contents->require->{'acquia/blt'} = '*@dev';
+    $composer_json_contents->repositories->{'blt-require-dev'} = (object) [
+      'type' => 'path',
+      'url' => $this->bltRequireDevPackageDir,
+      'options' => [
+        'symlink' => TRUE,
+      ],
+    ];
+    $composer_json_contents->{'require-dev'}->{'acquia/blt-require-dev'} = '*@dev';
     $this->fs->dumpFile($composer_json_path,
-      json_encode($composer_json_contents, JSON_PRETTY_PRINT));
+      json_encode($composer_json_contents, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
   }
 
   /**
@@ -167,6 +188,18 @@ class SandboxManager {
     $process->run(function ($type, $buffer) {
       $this->output->write($buffer);
     });
+  }
+
+  /**
+   * Create temporary copy of blt-require-dev.
+   *
+   * This new dir will be used as the reference path for acquia/blt-require-dev
+   * in local testing. It cannot be a subdir of blt because Composer cannot
+   * reference a package nested within another package.
+   */
+  protected function createBltRequireDevPackage() {
+    $this->fs->mirror($this->bltDir . '/subtree-splits/blt-require-dev',
+      $this->bltRequireDevPackageDir);
   }
 
 }

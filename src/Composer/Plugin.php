@@ -2,6 +2,7 @@
 
 namespace Acquia\Blt\Composer;
 
+use Acquia\Blt\Robo\Common\ArrayManipulator;
 use Acquia\Blt\Update\Updater;
 use Composer\Script\Event;
 use Composer\Installer\PackageEvent;
@@ -85,72 +86,10 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     return array(
       PackageEvents::POST_PACKAGE_INSTALL => "onPostPackageEvent",
       PackageEvents::POST_PACKAGE_UPDATE => "onPostPackageEvent",
-      ScriptEvents::PRE_INSTALL_CMD => array(
-        array('scaffoldComposerIncludes', self::CALLBACK_PRIORITY),
-        array('checkInstallerPaths'),
-      ),
       ScriptEvents::POST_UPDATE_CMD => array(
-        array('scaffoldComposerIncludes', self::CALLBACK_PRIORITY),
         array('onPostCmdEvent'),
       ),
-      ScriptEvents::PRE_AUTOLOAD_DUMP => array(
-        array('scaffoldComposerIncludes', self::CALLBACK_PRIORITY),
-      ),
     );
-  }
-
-  /**
-   * Verify that composer.json contains correct values for installer-paths.
-   *
-   * Unfortunately, these values cannot be placed in composer.required.json.
-   *
-   * @see https://github.com/wikimedia/composer-merge-plugin/issues/139
-   *
-   * @param \Composer\Script\Event $event
-   */
-  public function checkInstallerPaths(Event $event) {
-    $extra = $this->composer->getPackage()->getExtra();
-    if (empty($extra['installer-paths'])) {
-      $this->io->write('<error>Error: extra.installer-paths is missing from your composer.json file.</error>');
-    }
-    else {
-      $composer_required_json_filename = $this->getVendorPath() . '/acquia/blt/template/composer.json';
-      if (file_exists($composer_required_json_filename)) {
-        $composer_required_json = json_decode(file_get_contents($composer_required_json_filename), TRUE);
-        if ($composer_required_json['extra']['installer-paths'] != $extra['installer-paths']) {
-          $this->io->write('<warning>Warning: The value for extra.installer-paths in composer.json differs from BLT\'s recommended values.</warning>');
-          $this->io->write('<warning>See ' . $composer_required_json_filename . '</warning>');
-        }
-      }
-    }
-  }
-
-  /**
-   * Creates or updates composer include files.
-   *
-   * @param \Composer\Script\Event $event
-   */
-  public function scaffoldComposerIncludes(Event $event) {
-
-    $files = array(
-      'composer.required.json',
-      'composer.suggested.json',
-    );
-
-    $dir = $this->getRepoRoot() . DIRECTORY_SEPARATOR . self::BLT_DIR;
-    $package_dir = $this->getVendorPath() . DIRECTORY_SEPARATOR . self::PACKAGE_NAME;
-    if ($this->createDirectory($dir)) {
-      foreach ($files as $file) {
-        $source = $package_dir . DIRECTORY_SEPARATOR . $file;
-        $target = $dir . DIRECTORY_SEPARATOR . $file;
-        if (file_exists($source)) {
-          if (!file_exists($target) || md5_file($source) != md5_file($target)) {
-            $this->io->write("Copying $source to $target. Do not modify this file. To override BLT dependencies, see readme/dependency-management.md.");
-            copy($source, $target);
-          }
-        }
-      }
-    }
   }
 
   /**
