@@ -165,18 +165,18 @@ sync:
 command-hooks:
   # Executed when front end dependencies should be installed.
   frontend-reqs:
-    # E.g., ${docroot}/sites/all/themes/custom/mytheme.
+    # E.g., ${docroot}/themes/custom/mytheme
     dir: ${docroot}
     # E.g., '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use 4.4.4 && npm install'
     command: null
   # Executed when front end assets should be generated.
   frontend-assets:
-    # E.g., ${docroot}/sites/all/themes/custom/mytheme.
+    # E.g., ${docroot}/themes/custom/mytheme
     dir: ${docroot}
     # E.g., '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use 4.4.4 && npm build'
     command: null
   frontend-test:
-    # E.g., ${docroot}/sites/all/themes/custom/mytheme.
+    # E.g., ${docroot}/themes/custom/mytheme
     dir: ${docroot}
     # E.g., `npm test`.
     command: null
