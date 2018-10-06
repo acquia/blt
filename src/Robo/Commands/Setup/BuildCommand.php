@@ -39,7 +39,8 @@ class BuildCommand extends BltTasks {
   }
 
   /**
-   * Set correct permissions for files and folders in docroot/sites/*.
+   * Set correct permissions for directories (755) and files (644) in
+   * docroot/sites/[site] (excluding docroot/sites/[site]/files).
    */
   protected function setSitePermissions() {
     $taskFilesystemStack = $this->taskFilesystemStack();
@@ -58,15 +59,15 @@ class BuildCommand extends BltTasks {
       ->files()
       ->depth('< 1')
       ->exclude('files');
-    foreach ($files->getIterator() as $dir) {
-      $taskFilesystemStack->chmod($dir->getRealPath(), 0644);
+    foreach ($files->getIterator() as $file) {
+      $taskFilesystemStack->chmod($file->getRealPath(), 0644);
     }
 
     $taskFilesystemStack->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE);
     $result = $taskFilesystemStack->run();
 
     if (!$result->wasSuccessful()) {
-      throw new BltException("Unable to set permissions for site directories.");
+      throw new BltException("Unable to set permissions for site directories and files.");
     }
   }
 
