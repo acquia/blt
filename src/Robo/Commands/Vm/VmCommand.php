@@ -75,7 +75,7 @@ class VmCommand extends BltTasks {
       $this->localInitialize();
     }
     else {
-      $this->say("Drupal VM is already configured. In future, please use vagrant commands to interact directly with the VM.");
+      $this->say("Drupal VM is already configured. In the future, please use vagrant commands to interact directly with the VM.");
     }
 
     if (!$options['no-boot'] && !$this->getInspector()->isDrupalVmBooted()) {
@@ -175,7 +175,7 @@ class VmCommand extends BltTasks {
     $this->yell(" * We have configured your new Drupal VM to use PHP 7.1 If you would like to change this, edit box/config.yml.");
     $confirm = $this->confirm("Do you want to boot Drupal VM?", TRUE);
     if ($confirm) {
-      $this->say("In future, run <comment>vagrant up</comment> to boot the VM.");
+      $this->say("In the future, run <comment>vagrant up</comment> to boot the VM.");
       $result = $this->taskExec("vagrant up")
         ->dir($this->getConfigValue('repo.root'))
         ->printOutput(TRUE)
