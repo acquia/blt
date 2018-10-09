@@ -1,5 +1,32 @@
 # Change Log
 
+#### 9.2.0 (2018-10-09)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.2.0-alpha3...9.2.0)
+
+
+**Fixed bugs**
+
+- Fixes #2945 by removing cloud hook exception for ACSF. (#2946)
+
+**Miscellaneous**
+
+- Travis shouldn't duplicate Drupal 8.6 tests (#3152)
+- Fixed travis output. (#3151)
+- 3149: Minor grammar fix (#3150)
+- Fix PHP syntax error in acquia simplesamlphp config. (#3141)
+- Update support policies (#3147)
+- Resolves #3106: Add 'skip_permissions_hardening' setting to local settings file template (#3107)
+- Fixes #3118: Update theme path to more standardized D8 defaults. (#3119)
+- Fix INSTALL.md installation directions for Drush Launcher. (#3127)
+- updating blt docs to cover ACSF memcache use. (#3136)
+- Remove PHP 5.6 from the list of tested versions. (#3137)
+- Fix the link of Memcache documentation page. (#3135)
+- Minor variable / comment refactor. (#3111)
+- Update README.md (#3113)
+- Update config_split.config_split.ci.yml (#3129)
+
+
 #### 9.2.0-alpha3 (2018-09-15)
 
 [Full Changelog](https://github.com/acquia/blt/compare/9.2.0-alpha2...9.2.0-alpha3)
