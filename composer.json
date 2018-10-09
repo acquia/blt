@@ -35,7 +35,7 @@
         "drupal/coder": "^8.2.11",
         "drush/drush": "^9.4.0",
         "drupal/config_split": "^1.0.0",
-        "drupal/core": "^8.6.0",
+        "drupal/core": "^8.6.1",
         "drupal/features": "^3.8.0",
         "drupal/memcache": "^2.0-alpha5",
         "drupal/seckit": "^1.0.0-alpha2",
@@ -54,7 +54,7 @@
         "composer/composer": "^1.6.4",
         "knplabs/github-api": "^2.6",
         "php-http/guzzle6-adapter": "^1.1",
-        "webflo/drupal-core-require-dev": "^8.6.0",
+        "webflo/drupal-core-require-dev": "^8.6.1",
         "phpunit/phpunit": "^4.8|^6.5",
         "squizlabs/php_codesniffer": "^2.7"
     },
