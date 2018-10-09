@@ -247,7 +247,8 @@ class AliasesCommand extends BltTasks {
       $remoteHost = $ssh_split[1];
       $remoteUser = $ssh_split[0];
 
-      if ($hosting == 'ace' || $hosting == 'acp') {
+      // Get aliases for non `acsf` hosting environments
+      if ($hosting != 'acsf') {
 
         $siteID = $site_split[1];
         $uri = $env->domains[0];
