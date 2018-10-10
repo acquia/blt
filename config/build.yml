@@ -137,7 +137,12 @@ project:
     uri: ${project.local.protocol}://${project.local.hostname}
 
 setup:
-  # Valid values are install, sync, import.
+  # Valid values are install, sync, import, dual.
+  # - install: installs a site using `drush si`.
+  # - sync: syncs a database from `drush.aliases.remote` and runs updates.
+  # - import: imports a static database dump.
+  # - dual: runs a sync to ensure that database updates are applied correctly
+  #   followed by a fresh install for tests.
   strategy: install
   # If setup.strategy is import, this file will be imported. File path is
   # relative to drupal docroot directory.
