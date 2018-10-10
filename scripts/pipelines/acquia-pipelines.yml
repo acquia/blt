@@ -24,6 +24,11 @@ events:
             type: script
             script:
               - source ${BLT_DIR}/scripts/pipelines/validate
+        # Uncomment these lines to test database updates using live content.
+        # - test-updates:
+        #     type: script
+        #     script:
+        #       - blt drupal:sync:default:site
         - setup-app:
             type: script
             script:
