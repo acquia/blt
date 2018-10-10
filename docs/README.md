@@ -1,15 +1,15 @@
 # BLT
 
-![BLT logo of stylized sandwich](https://github.com/acquia/blt/raw/9.x/blt-logo.png)
+![BLT logo of stylized sandwich](https://github.com/acquia/blt/raw/10.0.x/blt-logo.png)
 
-[![Build Status](https://travis-ci.org/acquia/blt.svg?branch=9.x)](https://travis-ci.org/acquia/blt) [![Documentation Status](https://readthedocs.org/projects/blt/badge/?version=9.x)](http://blt.readthedocs.io/en/9.x/?badge=9.x) [![Packagist](https://img.shields.io/packagist/v/acquia/blt.svg)](https://packagist.org/packages/acquia/blt) [![Stories in Ready](https://badge.waffle.io/acquia/blt.png?label=ready&title=Ready)](http://waffle.io/acquia/blt)
+[![Build Status](https://travis-ci.org/acquia/blt.svg?branch=10.0.x)](https://travis-ci.org/acquia/blt) [![Documentation Status](https://readthedocs.org/projects/blt/badge/?version=10.0.x)](http://blt.readthedocs.io/en/10.0.x/?badge=10.0.x) [![Packagist](https://img.shields.io/packagist/v/acquia/blt.svg)](https://packagist.org/packages/acquia/blt) [![Stories in Ready](https://badge.waffle.io/acquia/blt.png?label=ready&title=Ready)](http://waffle.io/acquia/blt)
 
 BLT (Build and Launch Tool) provides an automation layer for testing, building, and launching Drupal 8 applications.
 
 You can find all BLT documentation on [Read the Docs](http://blt.readthedocs.io):
 
-* [Latest release documentation (9.x)](http://blt.readthedocs.io/en/latest/) (best for guidance on general issues and best practices)
-* [LTS release documentation (8.9.x)](http://blt.readthedocs.io/en/stable/) (best for features specific to 8.9.x)
+* [Latest release documentation (10.0.x)](http://blt.readthedocs.io/en/latest/) (best for guidance on general issues and best practices)
+* [LTS release documentation (9.2.x)](http://blt.readthedocs.io/en/stable/) (best for features specific to 9.2.x)
 
 ## Getting started
 
@@ -36,23 +36,24 @@ Up to the last two most major versions of BLT are actively supported. The newest
 
 | Major Version | Support Status              | Drupal | Drush          | Dev Status   |
 |---------------|-----------------------------|--------|----------------|--------------|
+| 10.0.x        | Unsupported (pre-alpha)     | >=8.6  | >=9.4.0        | \*active dev |
 | 9.2.x         | Supported                   | 8.6    | >=9.4.0        | \*active dev |
-| 9.x           | Supported                   | 8.5    | >=9.1.0        | \*active dev |
-| 8.9.x         | LTS, EOL TBA                | <=8.5  | ~8             | bug fixes    |
+| 9.x           | LTS, EOL TBA                | 8.5    | >=9.1.0        | \*bug fixes  |
+| 8.9.x         | Unsupported, EOL            | <=8.5  | ~8             |              |
 | 8.8.x         | Unsupported, EOL            | <=8.3  | ~8             |              |
 | 8.7.x         | Unsupported, EOL            | <=8.3  | ~8             |              |
 
+### 10.0.x branch
+
+The 10.0.x branch is in active development and is not currently stable or supported. It requires Drush 9.4.x, Drupal 8.6.x, and PHP 7+. It is considered a major release because it removes the Composer merge plugin that BLT previously used to manage dependencies.
+
 ### 9.2.x branch
 
-The 9.2.x branch is currently in development. It requires Drush 9.4.x and Drupal 8.6.x.
+The 9.2.x branch is currently in development and supported. It requires Drush 9.4.x and Drupal 8.6.x.
 
 ### 9.x branch
 
-The 9.x branch is currently in development. It requires Drush 9 and Drupal 8.5.x. It will be supported until Drupal 8.5.x is EOL.
-
-### 8.9.x End of Life (EOL)
-
-8.9.x is currently in maintenance / long-term support mode (receiving only bug fixes). 8.9.x support has been extended until Drush 9 is more broadly supported by community tooling and packages.
+The 9.x branch is currently in LTS and receiving bug fixes only. It requires Drush 9 and Drupal 8.5.x. It will be supported until Drupal 8.5.x is EOL.
 
 ## Philosophy and Purpose
 
