@@ -22,9 +22,13 @@ use Drupal\Core\Site\Settings;
 global $acsf_site_name;
 
 // Acquia hosting site / environment names
-$site = getenv('AH_SITE_GROUP');
+/*$site = getenv('AH_SITE_GROUP');
 $env = getenv('AH_SITE_ENVIRONMENT');
-$uri = FALSE;
+$uri = FALSE;*/
+
+$site = 'SANDBOX';
+$env = 'local';
+$uri = 'local.sandbox.com'
 
 // ACSF Database Role
    if (!empty($GLOBALS['gardens_site_settings']['conf']['acsf_db_name'])) {
@@ -68,9 +72,10 @@ if (!$uri) {
 
 $docroot = sprintf('/var/www/html/%s.%s/docroot', $site, $env);
 
-// Create a temporary cache directory for this drush process.
-// @TODO: use the cache.php helper script.
-$cache_directory = sprintf('/mnt/tmp/%s.%s/drush_tmp_cache/%s', $site, $env, md5($uri));
+//$cache_directory = sprintf('/mnt/tmp/%s.%s/drush_tmp_cache/%s', $site, $env, md5($uri));
+//cacheDir=`/usr/bin/env php /mnt/www/html/$site.$env/vendor/acquia/blt/scripts/blt/drush/cache.php $site $env $uri`
+$cache_directory = exec("/mnt/www/html/$site.$env/vendor/acquia/blt/scripts/blt/drush/cache.php $site $env $uri");
+
 shell_exec(sprintf('mkdir -p %s', escapeshellarg($cache_directory)));
 
 // Execute the updates
