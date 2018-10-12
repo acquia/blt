@@ -611,10 +611,32 @@ class Updates {
    *
    * @Update(
    *    version = "9002000",
-   *    description = "Factory Hooks Drush 9 bug fixes and enhancements."
+   *    description = "Factory Hooks Drush 9 bug fixes and enhancements for db-update."
    * )
    */
   public function update_9002000() {
+    if (file_exists($this->updater->getRepoRoot() . '/factory-hooks')) {
+      $messages = [
+        "This update will update the files in your existing factory hooks directory.",
+        "Review the resulting files and ensure that any customizations have been re-added.",
+      ];
+      $this->updater->executeCommand("./vendor/bin/blt recipes:acsf:init:hooks");
+    }
+    $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
+    $this->updater->getOutput()->writeln("");
+    $this->updater->getOutput()->writeln($formattedBlock);
+    $this->updater->getOutput()->writeln("");
+  }
+
+    /**
+   * 9.2.0.
+   *
+   * @Update(
+   *    version = "9002001",
+   *    description = "Factory Hooks Drush 9 bug fixes and enhancements for post-install."
+   * )
+   */
+  public function update_9002001() {
     if (file_exists($this->updater->getRepoRoot() . '/factory-hooks')) {
       $messages = [
         "This update will update the files in your existing factory hooks directory.",
