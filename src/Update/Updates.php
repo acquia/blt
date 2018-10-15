@@ -627,3 +627,4 @@ class Updates {
     $this->updater->getOutput()->writeln($formattedBlock);
     $this->updater->getOutput()->writeln("");
   }
+}
