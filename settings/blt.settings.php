@@ -5,12 +5,9 @@
    * Setup BLT utility variables, include required files.
    */
 
-  use Acquia\Blt\Robo\Config\ConfigInitializer;
+use Acquia\Blt\Robo\Config\ConfigInitializer;
 use Drupal\Component\Utility\Bytes;
-use Drupal\Core\DrupalKernel;
-use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
  * Host detection.
