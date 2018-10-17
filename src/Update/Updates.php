@@ -611,7 +611,7 @@ class Updates {
    *
    * @Update(
    *    version = "9002000",
-   *    description = "Factory Hooks Drush 9 bug fixes and enhancements."
+   *    description = "Factory Hooks Drush 9 bug fixes and enhancements for db-update."
    * )
    */
   public function update_9002000() {
