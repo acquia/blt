@@ -118,7 +118,13 @@ class TwigCommand extends BltTasks {
     }
     $twig_filters = array_merge($twig_filters, $drupal_filters);
     foreach ($twig_filters as $filter) {
-      $twig->addFilter(new \Twig_SimpleFilter($filter, function () {}));
+      // Add two default arguments and set to variadic so that filters with
+      // named arguments will be whitelisted.
+      // @see \TwigNode_Expression_Call::getArguments
+      // @see \TwigNode_Expression_Call::call()
+      $twig->addFilter(new \Twig_SimpleFilter($filter, function ($node = '', array $args = []) {}, [
+        'is_variadic' => TRUE,
+      ]));
     }
 
     // Get any custom defined Twig functions to be ignored by linter.
@@ -131,7 +137,13 @@ class TwigCommand extends BltTasks {
     }
     $twig_functions = array_merge($twig_functions, $drupal_functions);
     foreach ($twig_functions as $function) {
-      $twig->addFunction(new \Twig_SimpleFunction($function, function () {}));
+      // Add default argument and set to variadic so that functions with named
+      // arguments will be whitelisted.
+      // @see \TwigNode_Expression_Call::getArguments
+      // @see \TwigNode_Expression_Call::call()
+      $twig->addFunction(new \Twig_SimpleFunction($function, function (array $args = []) {}, [
+        'is_variadic' => TRUE,
+      ]));
     }
 
     // Add Drupal Twig parser to include trans tag.
