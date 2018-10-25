@@ -115,4 +115,3 @@ elseif (getenv('AH_SITE_ENVIRONMENT')) {
   $config['store.sql.password'] = $creds['pass'];
   $config['store.sql.prefix'] = 'simplesaml';
 }
-}
