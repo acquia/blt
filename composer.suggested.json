@@ -19,6 +19,9 @@
     "drupal/shield": "^1.0.0",
     "drupal/features": "^3.7.0"
   },
+  "require-dev": {
+    "webflo/drupal-core-require-dev": "^8.6.0"
+  },
   "extra": {
     "patches": {
     }

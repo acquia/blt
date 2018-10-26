@@ -18,8 +18,7 @@
     "se/selenium-server-standalone": "^2.53",
     "jakoch/phantomjs-installer":   "2.1.1-p07",
     "dmore/behat-chrome-extension": "^1.0.0",
-    "sensiolabs-de/deprecation-detector": "dev-master",
-    "webflo/drupal-core-require-dev": "^8.6.0"
+    "sensiolabs-de/deprecation-detector": "dev-master"
   },
   "autoload-dev": {
     "psr-4": {
