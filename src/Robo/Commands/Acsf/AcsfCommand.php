@@ -49,6 +49,7 @@ class AcsfCommand extends BltTasks {
     $package_options = [
       'package_name' => 'acquia/acsf-tools',
       'package_version' => 'dev-9.x-dev',
+      ['dev' => TRUE],
     ];
     $this->invokeCommand('internal:composer:require', $package_options);
     $this->say('<comment>ACSF Tools has been added. Some post-install configuration is necessary.</comment>');
