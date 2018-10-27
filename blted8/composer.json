@@ -9,7 +9,6 @@
             "options": {
                 "symlink": true
             }
-        }
     },
     "require": {
         "acquia/blt": "*@dev"

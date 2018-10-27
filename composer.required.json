@@ -32,6 +32,9 @@
   },
   "extra": {
     "composer-exit-on-patch-failure": true,
+     "installer-paths": {
+            "docroot/core": ["type:drupal-core"]
+          },
     "drupal-scaffold": {
       "initial": {
         "sites/default/default.services.yml": "sites/default/services.yml",
@@ -55,6 +58,9 @@
     "install-phantomjs": [
       "rm -rf vendor/bin/phantomjs",
       "PhantomInstaller\\Installer::installPhantomJS"
+    ],
+     "cachetool": [
+      "./vendor/bin/cachetool"
     ]
   }
 }

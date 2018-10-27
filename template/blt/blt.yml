@@ -36,6 +36,13 @@ drush:
     ci: 'self'
     # The default drush alias to be used when no environment is specified.
   default_alias: ${drush.aliases.local}
+drupal:
+  db:
+    database: drupal
+    username: drupal
+    password: drupal
+    host: localhost
+    port: 3306
 
 # Configuration management options, such as core CM or features.
 # cm:

@@ -70,4 +70,54 @@ class ComposerCommand extends BltTasks {
     return $result;
   }
 
+  /**
+   * Dumps composer autoloader.
+   *
+   * @command internal:composer:dumpautoload
+   * @hidden
+   *
+   * @option dev Whether package should be added to require-dev.
+   */
+  public function dumpAutoload($options = ['optimize' => FALSE]) {
+
+    /** @var \Robo\Task\Composer\DumpAutoload $task */
+    $task = $this->taskComposerDumpAutoload()
+      ->printOutput(TRUE)
+      ->printMetadata(TRUE)
+      ->dir($this->getConfigValue('repo.root'))
+      ->interactive($this->input()->isInteractive())
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE);
+    if ($options['optimize']) {
+      $task->optimizeAutoloader(TRUE);
+    }
+    $result = $task->run();
+
+    if (!$result->wasSuccessful()) {
+      $this->logger->error("An error occurred while dumping the composer autoloader");
+      $this->say("This is likely due to lock file or vendor directory conflicts .");
+      $confirm = $this->confirm("Should BLT attempt to run the nuke script which whill forcibly delete all composer-managed files in order to regenerate the autoloader?");
+      if ($confirm) {
+        $command = "composer run-script nuke ";
+        $command .= "&& composer install";
+        $task = $this->taskExec($command)
+          ->printOutput(TRUE)
+          ->printMetadata(TRUE)
+          ->dir($this->getConfigValue('repo.root'))
+          ->interactive($this->input()->isInteractive())
+          ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE);
+        ;
+        $result = $task->run();
+        if (!$result->wasSuccessful()) {
+          throw new BltException("Unable to re-install packages to re-generate autoloader.");
+        }
+      }
+      else {
+        // @todo Revert previous file changes.
+        throw new BltException("Unable to install {$package_name} package.");
+      }
+    }
+
+    return $result;
+  }
+
 }

@@ -1,0 +1,3 @@
+<?php
+opcache_reset();
+?>

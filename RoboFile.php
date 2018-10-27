@@ -89,11 +89,11 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $task = $this->taskExecStack()
       ->dir($test_project_dir)
       // BLT is the only dependency at this point. Install it.
-      ->exec("composer install")
+      ->exec("composer install -o -vvv")
       // I have no idea why this is necessary, but testing on OSX does not pass
       // without it.
       ->exec("rm -rf $test_project_dir/vendor $test_project_dir/composer.lock")
-      ->exec("composer dump-autoload --optimize && composer install -vvv");
+      ->exec("composer dump-autoload --optimize && composer install -o -vvv");
     if ($options['vm']) {
       $task->exec("$bin/blt vm --no-boot --no-interaction --yes -v")
         ->exec("$bin/yaml-cli update:value box/config.yml vagrant_synced_folders.1.local_path '../blt'")
