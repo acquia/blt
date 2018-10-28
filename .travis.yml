@@ -82,12 +82,4 @@ before_deploy:
 after_success:
   # - ./vendor/bin/coveralls -vvv
 
-deploy:
-  - provider: script
-    # Deploys build artifact's source branch to acquia-pso/blted8 on GitHub.
-    script: ${BLT_DIR}/scripts/blt/ci/internal/deploy_blted8.sh
-    skip_cleanup: true
-    on:
-      branch: $DEPLOY_SOURCE_BRANCH
-      php: 5.6
-      condition: $DRUPAL_CORE_VERSION = default
+
