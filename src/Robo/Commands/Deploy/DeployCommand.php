@@ -577,8 +577,6 @@ class DeployCommand extends BltTasks {
    * @aliases aud deploy:update
    */
   public function update() {
-    // Disable alias since we are targeting specific uri.
-    $this->config->set('drush.alias', '');
     $this->updateSite($this->getConfigValue('site'));
   }
 
@@ -589,9 +587,6 @@ class DeployCommand extends BltTasks {
    * @aliases auda
    */
   public function updateAll() {
-    // Disable alias since we are targeting specific uri.
-    $this->config->set('drush.alias', '');
-
     foreach ($this->getConfigValue('multisites') as $multisite) {
       $this->updateSite($multisite);
     }
@@ -605,6 +600,9 @@ class DeployCommand extends BltTasks {
   protected function updateSite($multisite) {
     $this->say("Deploying updates to <comment>$multisite</comment>...");
     $this->switchSiteContext($multisite);
+
+    // Disable alias since we are targeting specific uri.
+    $this->config->set('drush.alias', '');
 
     $this->invokeCommand('drupal:config:import');
     $this->invokeCommand('drupal:toggle:modules');
