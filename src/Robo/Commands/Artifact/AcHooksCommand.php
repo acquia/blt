@@ -76,6 +76,49 @@ class AcHooksCommand extends BltTasks {
   }
 
   /**
+   * Execute updates against copied database.
+   *
+   * This is intended to be called from post-db-copy.sh cloud hook.
+   *
+   * @param string $site
+   *   The site name. E.g., site1.
+   * @param string $target_env
+   *   The cloud env. E.g., dev
+   * @param string $db_name
+   *   The source database name.
+   * @param string $source_env
+   *   The source environment. E.g., dev.
+   *
+   * @command artifact:ac-hooks:post-db-copy
+   *
+   * @throws \Exception
+   */
+  public function postDbCopy($site, $target_env, $db_name, $source_env) {
+    // Do nothing for now. Allow extension of this call.
+  }
+
+  /**
+   * Execute updates after files are copied.
+   *
+   * This is intended to be called from post-files-copy.sh cloud hook.
+   *
+   * @param string $site
+   *   The site name. E.g., site1.
+   * @param string $target_env
+   *   The cloud env. E.g., dev
+   * @param string $source_env
+   *   The source environment. E.g., dev.
+   *
+   * @command artifact:ac-hooks:post-files-copy
+   *
+   * @throws \Exception
+   */
+  public function postFilesCopy($site, $target_env, $source_env) {
+    // Do nothing for now. Allow extension of this call.
+  }
+
+
+  /**
    * Returns true if $env is an ACSF env.
    *
    * @param string $env
