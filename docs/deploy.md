@@ -83,7 +83,7 @@ Instead of performing these deployments manually, you can enlist the help of a C
 
 ## Cloud Hooks
 
-On Acquia Cloud, [Cloud Hooks](https://docs.acquia.com/cloud/manage/cloud-hooks) are the preferred method to run database updates and configuration imports on each deploy. BLT provides a post-code-deploy hook that will conveniently run these updates automatically and fail the deployment task in Insight if anything goes wrong.
+On Acquia Cloud, [Cloud Hooks](https://docs.acquia.com/acquia-cloud/develop/api/cloud-hooks/) are the preferred method to run database updates and configuration imports on each deploy. BLT provides a post-code-deploy hook that will conveniently run these updates automatically and fail the deployment task in Insight if anything goes wrong.
 
 To install Acquia Cloud hooks for your BLT project:
 
@@ -91,7 +91,7 @@ To install Acquia Cloud hooks for your BLT project:
 
         blt recipes:cloud-hooks:init
 
-    This will add a hooks directory in your project root based on [BLT's default Acquia Cloud hooks](https://github.com/acquia/blt/tree/8.x/scripts/cloud-hooks/hooks).
+    This will add a hooks directory in your project root based on [BLT's default Acquia Cloud hooks](https://github.com/acquia/blt/tree/10.0.x/scripts/cloud-hooks/hooks).
 
 1. Commit the new directory and push it to your Acquia git remote. Example commands:
 

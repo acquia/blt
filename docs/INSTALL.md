@@ -32,15 +32,15 @@ Then install the minimum dependencies for BLT. The preferred method is via Homeb
         /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
         brew install php71 git composer
         composer global require "hirak/prestissimo:^0.3"
- 
-Note that the recommended installation method for Drush has changed recently. Drush should only be installed as a dependency of individual projects, rather than being installed system-wide. BLT will manage this dependency for you on projects, but in order for you to run Drush commands independently of BLT commands you'll want to install the Drush Launcher according to its intructions: https://github.com/drush-ops/drush-launcher
+
+Note that the recommended installation method for Drush has changed recently. Drush should only be installed as a dependency of individual projects, rather than being installed system-wide. BLT will manage this dependency for you on projects, but in order for you to run Drush commands independently of BLT commands you need to install the Drush Launcher: [Drush Launcher Installation](https://github.com/drush-ops/drush-launcher#installation---phar).
 
 If you'd like to create a [Drupal VM](https://www.drupalvm.com/) with BLT, you will require the following additional libraries. If you'd like to use a LAMP stack other than Drupal VM, see [Local Development](local-development.md).
 
         brew tap caskroom/cask
         brew cask install virtualbox vagrant
         vagrant plugin install vagrant-hostsupdater
-        
+
 If you are not using a VM, and you'd like to execute Behat tests from the host machine, you will need Java:
 
         brew cask install java

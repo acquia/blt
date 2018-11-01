@@ -1,5 +1,33 @@
 # Change Log
 
+#### 9.1.8 (2018-11-01)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.1.7...9.1.8)
+
+
+**Fixed bugs**
+
+- Fixes #3046: Cleaned up Pipelines docs. (#3104)
+- Port PHPUnit fixes to 9.x (#3117)
+
+**Miscellaneous**
+
+- Update deploy.md with correct Cloud Hooks links. (#3188)
+- Disable HEAD tests.
+- Fixed travis output. (#3151)
+- 3149: Minor grammar fix (#3150)
+- Fix PHP syntax error in acquia simplesamlphp config. (#3141)
+- Update support policies (#3147)
+- Resolves #3106: Add 'skip_permissions_hardening' setting to local settings file template (#3107)
+- Fixes #3118: Update theme path to more standardized D8 defaults. (#3119)
+- Fix INSTALL.md installation directions for Drush Launcher. (#3127)
+- Update README.md (#3113)
+- Minor variable / comment refactor. (#3111)
+- Fix the link of Memcache documentation page. (#3135)
+- Remove PHP 5.6 from the list of tested versions. (#3137) (#3145)
+- Update config_split.config_split.ci.yml (#3129)
+
+
 #### 9.1.7 (2018-09-15)
 
 [Full Changelog](https://github.com/acquia/blt/compare/9.1.6...9.1.7)
