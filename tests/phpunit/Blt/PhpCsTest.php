@@ -18,7 +18,7 @@ class PhpCsTest extends BltTestBase {
    * @dataProvider testPhpCsFilesBootstrapProvider
    */
   public function testPhpCsFilesBootstrap($filename, $needle, $contains) {
-    $process = new Process("./vendor/bin/phpcs $filename --bootstrap=src/Robo/Commands/Validate/phpcs-validate-files-bootstrap.php -v");
+    $process = new Process("./vendor/bin/phpcs -v $filename");
     $process->setWorkingDirectory($this->bltDirectory);
     $process->run();
     $output = $process->getOutput();
