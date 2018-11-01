@@ -5,28 +5,57 @@
    * Setup BLT utility variables, include required files.
    */
 
-  use Acquia\Blt\Robo\Config\ConfigInitializer;
+use Acquia\Blt\Robo\Config\ConfigInitializer;
 use Drupal\Component\Utility\Bytes;
-use Drupal\Core\DrupalKernel;
 use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-/**
- * Host detection.
- */
-if (!empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
-  $forwarded_host = $_SERVER['HTTP_X_FORWARDED_HOST'];
+/*******************************************************************************
+ * Host forwarding.
+ ******************************************************************************/
+
+// Drupal 8 aliasing/importing.
+// Must be declared in global scope.
+$http_host = getenv('HTTP_HOST');
+$request_method = getenv('REQUEST_METHOD');
+$request_uri = getenv('REQUEST_URI');
+$http_x_request_id = getenv('HTTP_X_REQUEST_ID');
+
+// Tell Drupal whether the client arrived via HTTPS. Ensure the
+// request is coming from our load balancers by checking the IP address.
+if (getenv('HTTP_X_FORWARDED_PROTO') == 'https'
+ && getenv('REMOTE_ADDR')
+ && in_array(getenv('REMOTE_ADDR'), $trusted_reverse_proxy_ips)) {
+  $_ENV['HTTPS'] = 'on';
+  $_SERVER['HTTPS'] = 'on';
+  putenv('HTTPS=on');
 }
-elseif (!empty($_SERVER['HTTP_HOST'])) {
-  $forwarded_host = $_SERVER['HTTP_HOST'];
-}
-else {
-  $forwarded_host = NULL;
+$x_ips = getenv('HTTP_X_FORWARDED_FOR') ? explode(',', getenv('HTTP_X_FORWARDED_FOR')) : array();
+$x_ips = array_map('trim', $x_ips);
+
+// Add REMOTE_ADDR to the X-Forwarded-For in case it's an internal AWS address.
+if (getenv('REMOTE_ADDR')) {
+  $x_ips[] = getenv('REMOTE_ADDR');
 }
 
-$server_protocol = empty($_SERVER['HTTPS']) ? 'http' : 'https';
-$forwarded_protocol = !empty($_ENV['HTTP_X_FORWARDED_PROTO']) ? $_ENV['HTTP_X_FORWARDED_PROTO'] : $server_protocol;
+// Check firstly for the bal and then check for an internal IP immediately.
+$settings['reverse_proxy_addresses'] = array();
+if ($ip = array_pop($x_ips)) {
+  if (in_array($ip, $trusted_reverse_proxy_ips)) {
+    if (!in_array($ip, $settings['reverse_proxy_addresses'])) {
+      $settings['reverse_proxy_addresses'][] = $ip;
+    }
+    // We have a reverse proxy so turn the setting on.
+    $settings['reverse_proxy'] = TRUE;
+
+    // Get the next IP to test if it is internal.
+    $ip = array_pop($x_ips);
+    if (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE)) {
+      if (!in_array($ip, $settings['reverse_proxy_addresses'])) {
+        $settings['reverse_proxy_addresses'][] = $ip;
+      }
+    }
+  }
+}
 
 /*******************************************************************************
  * Environment detection.
@@ -92,14 +121,10 @@ $is_prod_env = $is_ah_prod_env || $is_pantheon_prod_env;
  * Site directory detection.
  */
 if (!isset($site_path)) {
-  try {
-    $site_path = DrupalKernel::findSitePath(Request::createFromGlobals());
-  }
-  catch (BadRequestHttpException $e) {
-    $site_path = 'sites/default';
-  }
+  $site_path = \Drupal::service('site.path');
 }
 $site_dir = str_replace('sites/', '', $site_path);
+
 
 /*******************************************************************************
  * Acquia Cloud Site Factory settings.
@@ -116,7 +141,7 @@ if ($is_acsf_inited) {
 
     // The hostname must match the pattern local.[sitename].com, where
     // [sitename] is a value in the multisites array.
-    $domain_fragments = explode('.', $_SERVER['HTTP_HOST']);
+    $domain_fragments = explode('.', $http_host);
     $name = array_slice($domain_fragments, 1);
     $acsf_sites = $blt_config->get('multisites');
     if (in_array($name, $acsf_sites)) {
@@ -135,8 +160,6 @@ if ($is_acsf_inited) {
  ******************************************************************************/
 
 if ($is_ah_env) {
-  // Tempoary fix for CL-21595.
-  $_SERVER['PWD'] = DRUPAL_ROOT;
   $group_settings_file = "/var/www/site-php/$ah_group/$ah_group-settings.inc";
   $site_settings_file = "/var/www/site-php/$ah_group/$site_dir-settings.inc";
   if (!$is_acsf_env && file_exists($group_settings_file)) {
