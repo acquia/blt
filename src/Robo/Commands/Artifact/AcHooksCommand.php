@@ -117,7 +117,6 @@ class AcHooksCommand extends BltTasks {
     // Do nothing for now. Allow extension of this call.
   }
 
-
   /**
    * Returns true if $env is an ACSF env.
    *
