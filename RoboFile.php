@@ -69,7 +69,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   ]) {
     $test_project_dir = $this->bltRoot . "/" . $options['project-dir'];
     $bin = $test_project_dir . "/vendor/bin";
-    //$this->prepareTestProjectDir($test_project_dir);
+    // $this->prepareTestProjectDir($test_project_dir);
     $this->taskFilesystemStack()
       ->mkdir($test_project_dir)
       ->mirror($this->bltRoot . "/bwd", $test_project_dir)
