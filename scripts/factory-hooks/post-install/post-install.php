@@ -14,30 +14,19 @@
  *
  */
 
-use Drush\Drush;
-use Drupal\Component\FileCache\FileCacheFactory;
-use Drupal\Core\Database\Database;
-use Drupal\Core\Site\Settings;
-
-global $acsf_site_name;
-
-// Acquia hosting site / environment names
-/*$site = getenv('AH_SITE_GROUP');
+// Acquia hosting site / environment names.
+$site = getenv('AH_SITE_GROUP');
 $env = getenv('AH_SITE_ENVIRONMENT');
-$uri = FALSE;*/
+$uri = FALSE;
 
-$site = 'SANDBOX';
-$env = 'local';
-$uri = 'local.sandbox.com'
-
-// ACSF Database Role
-   if (!empty($GLOBALS['gardens_site_settings']['conf']['acsf_db_name'])) {
-      $db_role = $GLOBALS['gardens_site_settings']['conf']['acsf_db_name'];
-    }
+// ACSF Database Role.
+if (!empty($GLOBALS['gardens_site_settings']['conf']['acsf_db_name'])) {
+  $db_role = $GLOBALS['gardens_site_settings']['conf']['acsf_db_name'];
+}
 
 $docroot = sprintf('/var/www/html/%s.%s/docroot', $site, $env);
 
-// BLT executable
+// BLT executable.
 $blt = sprintf('/var/www/html/%s.%s/vendor/bin/blt', $site, $env);
 
 /**
@@ -50,6 +39,8 @@ function error($message) {
   fwrite(STDERR, $message);
   exit(1);
 }
+
+global $acsf_site_name;
 
 fwrite(STDERR, sprintf("Running updates on: site: %s; env: %s; db_role: %s; name: %s;\n", $site, $env, $db_role, $acsf_site_name));
 
@@ -72,13 +63,11 @@ if (!$uri) {
 
 $docroot = sprintf('/var/www/html/%s.%s/docroot', $site, $env);
 
-//$cache_directory = sprintf('/mnt/tmp/%s.%s/drush_tmp_cache/%s', $site, $env, md5($uri));
-//cacheDir=`/usr/bin/env php /mnt/www/html/$site.$env/vendor/acquia/blt/scripts/blt/drush/cache.php $site $env $uri`
 $cache_directory = exec("/mnt/www/html/$site.$env/vendor/acquia/blt/scripts/blt/drush/cache.php $site $env $uri");
 
 shell_exec(sprintf('mkdir -p %s', escapeshellarg($cache_directory)));
 
-// Execute the updates
+// Execute the updates.
 $command = sprintf(
   'DRUSH_PATHS_CACHE_DIRECTORY=%s %s drupal:update --environment=%s --site=%s --define drush.uri=%s --verbose --yes --no-interaction',
   escapeshellarg($cache_directory),
@@ -92,7 +81,7 @@ fwrite(STDERR, "Executing: $command with cache dir $cache_directory;\n");
 $result = 0;
 $output = array();
 exec($command, $output, $result);
-print join("\n", $output);
+print implode("\n", $output);
 
 // Clean up the drush cache directory.
 shell_exec(sprintf('rm -rf %s', escapeshellarg($cache_directory)));
@@ -101,5 +90,3 @@ if ($result) {
   fwrite(STDERR, "Command execution returned status code: $result!\n");
   exit($result);
 }
-
-
