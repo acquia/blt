@@ -23,7 +23,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   protected $phpcsPaths;
 
   const BLT_DEV_BRANCH = "9.x";
-  const BLT_PROJECT_DIR = "../bwd";
+  const BLT_PROJECT_DIR = "../blted8";
 
   /**
    * This hook will fire for all commands in this command file.
@@ -69,16 +69,37 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   ]) {
     $test_project_dir = $this->bltRoot . "/" . $options['project-dir'];
     $bin = $test_project_dir . "/vendor/bin";
-    // $this->prepareTestProjectDir($test_project_dir);
+    $this->prepareTestProjectDir($test_project_dir);
     $this->taskFilesystemStack()
       ->mkdir($test_project_dir)
-      ->mirror($this->bltRoot . "/bwd", $test_project_dir)
+      ->mirror($this->bltRoot . "/blted8", $test_project_dir)
       ->run();
-
+    $this->taskExecStack()
+      ->dir($test_project_dir)
+      ->exec("git init")
+      ->exec("git add -A")
+      ->exec("git commit -m 'Initial commit.'")
+      ->run();
+    if (!$options['vm']) {
+      $this->taskReplaceInFile($test_project_dir . "/composer.json")
+        ->from("../blt")
+        ->to($this->bltRoot)
+        ->run();
+    }
     $task = $this->taskExecStack()
       ->dir($test_project_dir)
       // BLT is the only dependency at this point. Install it.
+      ->exec("composer install")
+      // I have no idea why this is necessary, but testing on OSX does not pass
+      // without it.
+      ->exec("rm -rf $test_project_dir/vendor")
       ->exec("composer install");
+    if ($options['vm']) {
+      $task->exec("$bin/blt vm --no-boot --no-interaction --yes -v")
+        ->exec("$bin/yaml-cli update:value box/config.yml vagrant_synced_folders.1.local_path '../blt'")
+        ->exec("$bin/yaml-cli update:value box/config.yml vagrant_synced_folders.1.destination '/var/www/blt'")
+        ->exec("$bin/yaml-cli update:value box/config.yml vagrant_synced_folders.1.type nfs");
+    }
     $task->run();
   }
 
