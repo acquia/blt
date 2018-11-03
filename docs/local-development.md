@@ -21,7 +21,7 @@ To use [Drupal VM](http://www.drupalvm.com/) with a Drupal project that is gener
 1. Download the Drupal VM dependencies listed in [Drupal VM's README](https://github.com/geerlingguy/drupal-vm#quick-start-guide). If you're running [Homebrew](http://brew.sh/index.html) on Mac OSX, this is as simple as:
 
         brew tap caskroom/cask
-        brew install php56 git composer ansible drush
+        brew install php71 git composer ansible drush
         brew cask install virtualbox vagrant
 
 1. Create & boot the VM
