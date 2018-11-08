@@ -15,20 +15,23 @@ class PhpUnitCommand extends BltTasks {
   /**
    * Directory in which test logs and reports are generated.
    *
-   * @var string*/
+   * @var string
+   */
   protected $reportsDir;
 
   /**
    * The filename for PHPUnit report.
    *
-   * @var string*/
+   * @var string
+   */
   protected $reportFile;
 
   /**
    * An array that contains configuration to override /
    * customize phpunit commands.
    *
-   * @var array*/
+   * @var array
+   */
   protected $phpunitConfig;
 
   /**
