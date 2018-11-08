@@ -31,8 +31,8 @@ fin blt doctor
 
 ### New Project Setup
 
-The default Docksal database settings are different than the BLT defaults. If you have not already 
-added special settings to the local.settings.php file that BLT creates, it is best to begin by 
+The default Docksal database settings are different than the BLT defaults. If you have not already
+added special settings to the local.settings.php file that BLT creates, it is best to begin by
 following these steps:
 
 1. remove the `docroot/sites/default/settings/local.settings.php` and the `docroot/sites/default/local.drush.yml` files
@@ -59,17 +59,17 @@ following these steps:
     ```
     fin blt setup -D setup.strategy=install
     ```
-    
+
 ### Existing project setup
-If you have an existing BLT project with Drupal install, you may prefer to configure your `local.settings.php` 
+If you have an existing BLT project with Drupal install, you may prefer to configure your `local.settings.php`
 file and your `local.drush.yml` file. It is best practice to also update your blt.yml as outlined above, but
-it is not necessary to delete these files. 
+it is not necessary to delete these files.
 
 1. configure your `docroot/sites/default/settings/local.settings.php` file with these variable values:
 
     ```
     $db_name = 'default';
-    
+
     $databases = array(
       'default' =>
       array(
@@ -92,3 +92,18 @@ it is not necessary to delete these files.
     options:
       uri: 'http://myproject.docksal'
     ```
+3. Assuming your site's drush remote is @sitegroup.siteid then you can update your BLT configuration (either at the project level or site level):
+    
+    At the project level (blt/blt.yml) or site level (e.g. sites/default/blt.yml):
+    ```
+    setup:
+      strategy: sync
+    
+    drush:
+      aliases:
+        remote: sitegroup.siteid
+    ```
+So when setting up the project for the first time when running fin blt setup it will execute the sync setup strategy rather than the install strategy
+(sql:sync vs site:install), effectively executing 
+`drush sql:sync @sitegroup.siteid @self`.
+
