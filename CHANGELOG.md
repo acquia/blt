@@ -1,5 +1,105 @@
 # Change Log
 
+#### 9.1.8 (2018-11-01)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.1.7...9.1.8)
+
+
+**Fixed bugs**
+
+- Fixes #3046: Cleaned up Pipelines docs. (#3104)
+- Port PHPUnit fixes to 9.x (#3117)
+
+**Miscellaneous**
+
+- Update deploy.md with correct Cloud Hooks links. (#3188)
+- Disable HEAD tests.
+- Fixed travis output. (#3151)
+- 3149: Minor grammar fix (#3150)
+- Fix PHP syntax error in acquia simplesamlphp config. (#3141)
+- Update support policies (#3147)
+- Resolves #3106: Add 'skip_permissions_hardening' setting to local settings file template (#3107)
+- Fixes #3118: Update theme path to more standardized D8 defaults. (#3119)
+- Fix INSTALL.md installation directions for Drush Launcher. (#3127)
+- Update README.md (#3113)
+- Minor variable / comment refactor. (#3111)
+- Fix the link of Memcache documentation page. (#3135)
+- Remove PHP 5.6 from the list of tested versions. (#3137) (#3145)
+- Update config_split.config_split.ci.yml (#3129)
+
+
+#### 9.1.7 (2018-09-15)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.1.6...9.1.7)
+
+
+**Fixed bugs**
+
+- Fixes #2945 by removing cloud hook exception for ACSF. (#2946)
+
+**Miscellaneous**
+
+- Exclude the 'sites/settings' dir for the default list of sites. (#2994)
+- Run validation without interaction on CI. (#3070)
+- Remove memcache.yml and references to it. (#3093)
+
+
+#### 9.1.6 (2018-09-08)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.1.5...9.1.6)
+
+
+**Fixed bugs**
+
+- Finished updating memcache config for alpha7. (#3076) (#3079)
+
+
+#### 9.1.5 (2018-09-06)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.1.4...9.1.5)
+
+
+**Fixed bugs**
+
+- Fixes #3055: Update memcache settings to match changes in Drupal memcache module. (#3058)
+
+**Miscellaneous**
+
+- Lock core in 9.x branch to 8.5.6. (#3062)
+
+
+#### 9.1.4 (2018-09-03)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.1.3...9.1.4)
+
+**Implemented enhancements**
+
+- Fixes #2964: When manually deploying using a tag also push that tag to source repo. (#2992)
+
+**Miscellaneous**
+
+- New guidelines for contribution. (#3045)
+- Update the VERSION constant and CHANGELOG to reflect the 9.1.3 release. (#3042)
+- VM setup tips (#3036)
+- Adding the BLT logo to the README. (#3040)
+- Added acquia/drupal-spec-tool to Composer suggestions. (#3025)
+- Use tab indents for *.mk makefiles (#3018)
+- Add PHPUnit bridge adapter. (#3008)
+- Added mention of recipes:config:init:splits in config split documentation. (#3020)
+- Acquia PHP SDK V2 back to stable release (#3012)
+- Fix GitHub typos (#3019)
+
+
+#### 9.1.3 (2018-08-24)
+
+This out-of-cycle release addresses a critical failure observed with ACSF sites.
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.1.2...9.1.3)
+
+**Fixed bugs**
+
+- Revert "Multisite setup enhancements and bugfixes" (#3028)
+
 #### 9.1.2 (2018-08-16)
 
 [Full Changelog](https://github.com/acquia/blt/compare/9.1.1...9.1.2)
