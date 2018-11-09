@@ -54,6 +54,7 @@ The following testing commands are available:
 * `blt tests:behat:run`
 * `blt tests:phpunit:run`
 * `blt tests:security:check:updates`
+* `blt tests:security:check:composer`
 
 ### Modifying test targets
 
