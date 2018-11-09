@@ -621,10 +621,11 @@ class Updates {
         "Review the resulting files and ensure that any customizations have been re-added.",
       ];
       $this->updater->executeCommand("./vendor/bin/blt recipes:acsf:init:hooks");
+      $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
+      $this->updater->getOutput()->writeln("");
+      $this->updater->getOutput()->writeln($formattedBlock);
+      $this->updater->getOutput()->writeln("");
     }
-    $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
-    $this->updater->getOutput()->writeln("");
-    $this->updater->getOutput()->writeln($formattedBlock);
-    $this->updater->getOutput()->writeln("");
   }
+
 }
