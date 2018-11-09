@@ -1,5 +1,217 @@
 # Change Log
 
+#### 9.1.8 (2018-11-01)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.1.7...9.1.8)
+
+
+**Fixed bugs**
+
+- Fixes #3046: Cleaned up Pipelines docs. (#3104)
+- Port PHPUnit fixes to 9.x (#3117)
+
+**Miscellaneous**
+
+- Update deploy.md with correct Cloud Hooks links. (#3188)
+- Disable HEAD tests.
+- Fixed travis output. (#3151)
+- 3149: Minor grammar fix (#3150)
+- Fix PHP syntax error in acquia simplesamlphp config. (#3141)
+- Update support policies (#3147)
+- Resolves #3106: Add 'skip_permissions_hardening' setting to local settings file template (#3107)
+- Fixes #3118: Update theme path to more standardized D8 defaults. (#3119)
+- Fix INSTALL.md installation directions for Drush Launcher. (#3127)
+- Update README.md (#3113)
+- Minor variable / comment refactor. (#3111)
+- Fix the link of Memcache documentation page. (#3135)
+- Remove PHP 5.6 from the list of tested versions. (#3137) (#3145)
+- Update config_split.config_split.ci.yml (#3129)
+
+
+#### 9.1.7 (2018-09-15)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.1.6...9.1.7)
+
+
+**Fixed bugs**
+
+- Fixes #2945 by removing cloud hook exception for ACSF. (#2946)
+
+**Miscellaneous**
+
+- Exclude the 'sites/settings' dir for the default list of sites. (#2994)
+- Run validation without interaction on CI. (#3070)
+- Remove memcache.yml and references to it. (#3093)
+
+
+#### 9.1.6 (2018-09-08)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.1.5...9.1.6)
+
+
+**Fixed bugs**
+
+- Finished updating memcache config for alpha7. (#3076) (#3079)
+
+
+#### 9.1.5 (2018-09-06)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.1.4...9.1.5)
+
+
+**Fixed bugs**
+
+- Fixes #3055: Update memcache settings to match changes in Drupal memcache module. (#3058)
+
+**Miscellaneous**
+
+- Lock core in 9.x branch to 8.5.6. (#3062)
+
+
+#### 9.1.4 (2018-09-03)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.1.3...9.1.4)
+
+**Implemented enhancements**
+
+- Fixes #2964: When manually deploying using a tag also push that tag to source repo. (#2992)
+
+**Miscellaneous**
+
+- New guidelines for contribution. (#3045)
+- Update the VERSION constant and CHANGELOG to reflect the 9.1.3 release. (#3042)
+- VM setup tips (#3036)
+- Adding the BLT logo to the README. (#3040)
+- Added acquia/drupal-spec-tool to Composer suggestions. (#3025)
+- Use tab indents for *.mk makefiles (#3018)
+- Add PHPUnit bridge adapter. (#3008)
+- Added mention of recipes:config:init:splits in config split documentation. (#3020)
+- Acquia PHP SDK V2 back to stable release (#3012)
+- Fix GitHub typos (#3019)
+
+
+#### 9.1.3 (2018-08-24)
+
+This out-of-cycle release addresses a critical failure observed with ACSF sites.
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.1.2...9.1.3)
+
+**Fixed bugs**
+
+- Revert "Multisite setup enhancements and bugfixes" (#3028)
+
+#### 9.1.2 (2018-08-16)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.1.1...9.1.2)
+
+
+**Fixed bugs**
+
+- Fixes #2969: RTD "edit on github" link (#2998)
+- Fixes #2988: Correcting notice text to indicate correct config setting. (#2991)
+- Correcting the vm command invocation. (#2979)
+
+**Miscellaneous**
+
+- Minor code review docs update (#3013)
+- SAML Config Refactor (#2953)
+- Improve template/README.md (#3004)
+- Multisite setup enhancements and bugfixes (#2997)
+- Update Drupal core required version (#2987)
+
+
+#### 9.1.1 (2018-08-03)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.1.0-alpha1...9.1.1)
+
+**Implemented enhancements**
+
+- Fixes #2771: Support newer PHPUnit versions (#2982)
+- Add support for generating ACSF site aliases (#2961)
+- Adding PHP 7.2 to the version testing list. (#2965)
+- Fixes #2880: Re-add ACSF tools. (#2911)
+- Added Acquia Cloud support to BLT alias and command. (#2896)
+
+**Fixed bugs**
+
+- Fixes #2967: Explicitly invoke drupal:hash-salt:init in blt:init:settings (#2978)
+- Fixes #2981: Correct alias to use consistent variable naming. (#2986)
+- Addresses #2890: Adding documentation telling people to install Ansible to contribute. (#2977)
+- Correct invocation of wizard command. (#2974)
+- Fixes #2962: bad documentation for setting up SimpleSAMLphp (#2963)
+- Fixes #2906: Set mysql_user array when user supplies new multisite db credentials. (#2908)
+- Reduce drush verbosity on CI. (#2636)
+- Fixes #2864 to run a redundant config import for config splits. (#2865)
+- Adding directions for clearing TravisCI cache as discussed in #2877. (#2903)
+- Restructure documentation to conform to new readthedocs standards. (#2894)
+
+**Miscellaneous**
+
+- Fix phpunit version detection (#2990)
+- Fixed typo in blt.yml (#2976)
+- Add comment to blt.yml explaining where to find a list of available properties (#2975)
+- Add tips for using BLT with Lando (#2958)
+- 2959 - WSL filemode fix (#2960)
+- Updating CHANGELOG.md and setting version for 9.1.0.
+- Minor docs update
+- Fixed #2867: Cache clear errors on ACSF deploys. (#2922)
+- Updates around drush 9 files, removing drush 8 file references. (#2927)
+- Update VmCommand.php (#2935)
+- Markdown formatting fix to lists render properly
+- Fix broken links in Getting Started section (#2928)
+- Add Drupal 'trans' tag to Twig linter. (#2831)
+- Fixes #2863: Update documentation to include recipe:multisite:init. (#2905)
+- Fixed drush cc error on ACSF. (#2862)
+- Minor typo correction and wording change.
+- Adding FAQ. (#2902)
+- Updating BLT release process to include updating blt-project. (#2866)
+- Fix link (#2889)
+- Fix typo: add missing "have" (#2888)
+- Correct readme links pointing to github 8.x branch blobs. (#2887)
+- Documentation updates (#2882)
+- Fix composer patches creating extraneous core directories. (#2816)
+- Minor typo fix
+
+
+#### 9.1.0 (2018-07-21)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.1.0-alpha1...9.1.0)
+
+**Implemented enhancements**
+
+- Fixes #2880: Re-add ACSF tools. (#2911)
+- Added Acquia Cloud support to BLT alias and command. (#2896)
+
+**Fixed bugs**
+
+- Fixes #2906: Set mysql_user array when user supplies new multisite db credentials. (#2908)
+- Reduce drush verbosity on CI. (#2636)
+- Fixes #2864 to run a redundant config import for config splits. (#2865)
+- Adding directions for clearing TravisCI cache as discussed in #2877. (#2903)
+- Restructure documentation to conform to new readthedocs standards. (#2894)
+
+**Miscellaneous**
+
+- Minor docs update
+- Fixed #2867: Cache clear errors on ACSF deploys. (#2922)
+- Updates around drush 9 files, removing drush 8 file references. (#2927)
+- Update VmCommand.php (#2935)
+- Markdown formatting fix to lists render properly
+- Fix broken links in Getting Started section (#2928)
+- Add Drupal 'trans' tag to Twig linter. (#2831)
+- Fixes #2863: Update documentation to include recipe:multisite:init. (#2905)
+- Fixed drush cc error on ACSF. (#2862)
+- Minor typo correction and wording change.
+- Adding FAQ. (#2902)
+- Updating BLT release process to include updating blt-project. (#2866)
+- Fix link (#2889)
+- Fix typo: add missing "have" (#2888)
+- Correct readme links pointing to github 8.x branch blobs. (#2887)
+- Documentation updates (#2882)
+- Fix composer patches creating extraneous core directories. (#2816)
+- Minor typo fix
+
+
 #### 9.1.0-alpha1 (2018-06-08)
 
 [Full Changelog](https://github.com/acquia/blt/compare/9.0.5...9.1.0-alpha1)
@@ -2525,7 +2737,7 @@ Hotfix to project creation process [b013590](https://github.com/acquia/blt/commi
 - grasmash/phing composer dependency Build Failure [\#88](https://github.com/acquia/blt/issues/88)
 - Enable local Twig Debugging [\#85](https://github.com/acquia/blt/issues/85)
 - \[RFC\] Change the name to avoid confusion with the CMS named Bolt. [\#81](https://github.com/acquia/blt/issues/81)
-- Avoiding Github rate limiting [\#70](https://github.com/acquia/blt/issues/70)
+- Avoiding GitHub rate limiting [\#70](https://github.com/acquia/blt/issues/70)
 - Make vendor name configurable [\#67](https://github.com/acquia/blt/issues/67)
 - Distinction needed between 'CI' environment and 'local' environment [\#52](https://github.com/acquia/blt/issues/52)
 - ACSF does not get hash salt set [\#46](https://github.com/acquia/blt/issues/46)
@@ -2698,4 +2910,4 @@ Hotfix to project creation process [b013590](https://github.com/acquia/blt/commi
 
 
 
-\* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*
+\* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/GitHub-Changelog-Generator)*

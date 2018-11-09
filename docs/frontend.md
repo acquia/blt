@@ -22,7 +22,7 @@ During the execution of `blt setup`, BLT will execute `command-hooks.frontend-re
 
     command-hooks:
       frontend-reqs:
-        dir: ${docroot}/sites/all/themes/custom/mytheme.
+        dir: ${docroot}/themes/custom/mytheme
         command: '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use 4.4.4 && npm install'
 
 If you are using a sub theme of Cog, executing `npm install` in your theme directory (as exemplified above) will install all dependencies listed in [package.json](https://github.com/acquia-pso/cog/blob/8.x-1.x/STARTERKIT/package.json).
@@ -33,7 +33,7 @@ During the execution of `blt setup` and `blt artifact:deploy`, BLT will execute 
 
     command-hooks:
       frontend-assets:
-        dir: ${docroot}/sites/all/themes/custom/mytheme.
+        dir: ${docroot}/themes/custom/mytheme
         command: '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use 4.4.4 && npm run build'
 
 If you are using a sub theme of Cog, executing `npm run build` in your theme directory (as exemplified above) will execute the command defined in `scripts.build` in [package.json](https://github.com/acquia-pso/cog/blob/8.x-1.x/STARTERKIT/package.json#L51).
@@ -44,7 +44,7 @@ During the execution of `blt tests`, BLT will execute `command-hooks.frontend-te
 
     command-hooks:
       frontend-test:
-        dir: ${docroot}/sites/all/themes/custom/mytheme.
+        dir: ${docroot}/themes/custom/mytheme
         command: '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" && nvm use 4.4.4 && npm test'
 
 If you are using a sub theme of Cog, executing `npm test` in your theme directory (as exemplified above) will execute the command defined in `scripts.test` in [package.json](https://github.com/acquia-pso/cog/blob/8.x-1.x/STARTERKIT/package.json).

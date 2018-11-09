@@ -34,7 +34,6 @@ class AllCommand extends BltTasks {
 
     $commands = [
       'source:build',
-      'drupal:hash-salt:init',
       'drupal:deployment-identifier:init',
     ];
 

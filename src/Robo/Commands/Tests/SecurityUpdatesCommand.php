@@ -22,7 +22,7 @@ class SecurityUpdatesCommand extends BltTasks {
       ->run();
 
     if ($result->getExitCode()) {
-      $this->logger->notice('To disable security checks, set disable-targets.tests.security-updates to true in blt.yml.');
+      $this->logger->notice('To disable security checks, set disable-targets.tests.security.check.updates to true in blt.yml.');
       return 1;
     }
     else {

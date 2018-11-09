@@ -91,7 +91,7 @@ class UpdateCommand extends BltTasks {
     $this->invokeCommand('recipes:blt:init:command');
     $this->invokeCommand('blt:init:shell-alias');
     if ($this->input()->isInteractive()) {
-      $this->invokeCommand('setup:wizard');
+      $this->invokeCommand('wizard');
     }
   }
 
