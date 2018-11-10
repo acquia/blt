@@ -34,6 +34,8 @@ In seeking help, please keep the following points in mind:
 * All contributions to BLT will be reviewed for compliance with Drupal Coding Standards and best practices as defined by the project maintainer.
 
 
+## Common BLT Issues and Solutions
+
 ### BLT Command Failure (generic)
 
 **Error Message:**
@@ -99,3 +101,12 @@ Errors appearing on TravisCI which are not replicable on local or other environm
 
 **Solution**
 [TravisCI has an internal caching feature](https://docs.travis-ci.com/user/caching) which can help speed up builds. At times, though, this cache results in semi-baffling build failures which cannot be replicated elsewhere. In these instances, the solution is sometimes simply to [clear Travis's cache](https://docs.travis-ci.com/user/caching/#Clearing-Caches).
+
+
+## FAQ
+
+### Can I change the install profile ? / Do I have to use Acquia Lightning with BLT ?
+
+You can use any install profile you want from Core, Contrib, or your own custom development. We just default to Lightning.
+
+See https://blt.readthedocs.io/en/latest/creating-new-project/#creating-a-new-project-with-blt
