@@ -28,7 +28,7 @@ $uri = FALSE;*/
 
 $site = 'SANDBOX';
 $env = 'local';
-$uri = 'local.sandbox.com'
+$uri = 'local.sandbox.com';
 
 // ACSF Database Role
    if (!empty($GLOBALS['gardens_site_settings']['conf']['acsf_db_name'])) {
