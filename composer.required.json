@@ -1,5 +1,5 @@
 
-  {
+{
   "repositories": {
     "drupal": {
       "type": "composer",
@@ -59,12 +59,6 @@
     "install-phantomjs": [
       "rm -rf vendor/bin/phantomjs",
       "PhantomInstaller\\Installer::installPhantomJS"
-    ],
-    "post-install-cmd": [
-      "DrupalProject\\composer\\ScriptHandler::createRequiredFiles"
-    ],
-    "post-update-cmd": [
-      "DrupalProject\\composer\\ScriptHandler::createRequiredFiles"
     ]
   }
 }
