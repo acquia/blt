@@ -8,7 +8,7 @@
 
   <!-- Set ignore extensions. -->
   <!-- @see https://www.drupal.org/node/2867601#comment-12075633 -->
-  <arg name="ignore" value="*.css,*.md,*.txt"/>
+  <arg name="ignore" value="*.css,*.md,*.txt,*.yml"/>
 
   <!-- Use colors in output. -->
   <arg name="colors"/>
@@ -26,8 +26,8 @@
   <file>bin/blt</file>
   <file>RoboFile.php</file>
   <file>scripts/blt/examples</file>
+  <file>scripts/factory-hooks</file>
   <file>src/Robo</file>
-  <file>settings</file>
   <file>tests</file>
   <file>template/blt</file>
 
