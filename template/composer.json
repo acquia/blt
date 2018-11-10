@@ -2,9 +2,19 @@
     "license": "proprietary",
     "type": "project",
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "optimize-autoloader": true
     },
-    "require": {},
+    "repositories": {
+        "drupal": {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        },
+        "asset-packagist": {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    },
     "require-dev": {},
     "extra": {
         "enable-patching": true,
@@ -32,6 +42,7 @@
             "ignore-duplicates": true
         }
     },
+
     "minimum-stability": "dev",
     "prefer-stable": true
 }
