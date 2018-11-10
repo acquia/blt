@@ -158,7 +158,8 @@ class SandboxManager {
     $command = '';
     $drupal_core_version = getenv('DRUPAL_CORE_VERSION');
     if ($drupal_core_version && $drupal_core_version != 'default') {
-      $command .= 'composer require "drupal/core:' . $drupal_core_version . '" --no-update --no-interaction && ';
+      $command .= 'composer require "drupal/core:' . $drupal_core_version . '" --no-update --no-interaction'
+      && 'composer require --dev --no-update webflo/drupal-core-require-dev:~' . $drupal_core_version;
     }
     $command .= 'composer install --prefer-dist --no-progress --no-suggest';
 
