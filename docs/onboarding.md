@@ -1,6 +1,8 @@
 # Onboarding
 
-Here is a quick-start guide to getting your local development environment set up and getting oriented with the project standards and workflows.
+This document is intended for developers who have joined a project that *already has BLT installed.* It is a quick-start guide for getting your local development environment set up and getting oriented with the project standards and workflows.
+
+*If you are attempting to add BLT to a project or create a new BLT-based project, do not use this document.* Instead, refer to [INSTALL.md](INSTALL.md).
 
 ## Before you start...
 
