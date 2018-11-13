@@ -11,11 +11,12 @@
 
 ddev config yaml needs this update too:
 
-ddevloveblt/.ddev/config.yaml
+Edit ddevloveblt/.ddev/config.yaml
 
-hooks:
+```hooks:
   post-start:
   - exec: "ln -sf /var/www/html/vendor/acquia/blt/bin/blt /usr/bin/blt"
   - exec: bash -c "sudo apt-get update && sudo apt-get install -y php7.1-bz2"
+  ```
 
-Replace ddevloveblt with whatever you want to use for your project name.
+NOTE: Replace ddevloveblt with whatever you want to use for your project name.
