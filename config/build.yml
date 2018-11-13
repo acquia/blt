@@ -94,6 +94,12 @@ git:
   commit-msg:
     # Commit messages must conform to this pattern.
     pattern: "/(^${project.prefix}-[0-9]+(: )[^ ].{15,}\\.)|(Merge branch (.)+)/"
+    # Human readable help description explaining the pattern/restrictions.
+    help_description: "The commit message should include your project prefix,
+                      followed by a hyphen and ticket number, followed by a colon and a space,
+                      fifteen characters or more describing the commit, and end with a period."
+    # Provide an example of a valid commit message.
+    example: "${project.prefix}-123: Update module configuration."
 
 # You may provide a list of sites for BLT to run commands against,
 # otherwise BLT will generate this sites list based on directories
