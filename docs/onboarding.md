@@ -26,7 +26,6 @@ You have probably been linked to this documentation by a project that is using B
 
 If your project uses a virtual development environment such as Drupal VM:
 
-1. Make sure you have installed any prerequisites. For DrupalVM, the main dependencies are Vagrant and VirtualBox (see the [quick start guide]().
 1. Start the VM: `vagrant up`
 1. SSH into the VM: `vagrant ssh`
 1. Build and install the Drupal installation: `blt setup`
