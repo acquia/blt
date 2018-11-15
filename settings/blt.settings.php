@@ -319,7 +319,7 @@ if (file_exists(DRUPAL_ROOT . "/sites/$site_dir/settings/includes.settings.php")
  * This is intended to provide an opportunity for local environments to override
  * any previous configuration.
  *
- * Use local.settings.php to override variables on secondary (staging,
+ * Use these files to override variables on secondary (staging,
  * development, etc) installations of this site. Typically used to disable
  * caching, JavaScript/CSS compression, re-routing of outgoing emails, and
  * other things that should not happen on development and testing sites.
@@ -331,8 +331,16 @@ if ($is_local_env) {
   if (file_exists(DRUPAL_ROOT . "/sites/settings/local.settings.php")) {
     require DRUPAL_ROOT . "/sites/settings/local.settings.php";
   }
-  // Load local settings for given single.
+  // Since Drupal 8.6, the file is now recommended to be named settings.local.php.
+  if (file_exists(DRUPAL_ROOT . "/sites/settings/settings.local.php")) {
+    require DRUPAL_ROOT . "/sites/settings/settings.local.php";
+  }
+  // Load local settings for given single site.
   if (file_exists(DRUPAL_ROOT . "/sites/$site_dir/settings/local.settings.php")) {
     require DRUPAL_ROOT . "/sites/$site_dir/settings/local.settings.php";
+  }
+  // Since Drupal 8.6, the file is now recommended to be named settings.local.php.
+  if (file_exists(DRUPAL_ROOT . "/sites/$site_dir/settings/settings.local.php")) {
+    require DRUPAL_ROOT . "/sites/$site_dir/settings/settings.local.php";
   }
 }
