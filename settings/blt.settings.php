@@ -290,7 +290,7 @@ if (file_exists(DRUPAL_ROOT . "/sites/$site_dir/settings/includes.settings.php")
  * This is intended to provide an opportunity for local environments to override
  * any previous configuration.
  *
- * Use local.settings.php to override variables on secondary (staging,
+ * Use these files to override variables on secondary (staging,
  * development, etc) installations of this site. Typically used to disable
  * caching, JavaScript/CSS compression, re-routing of outgoing emails, and
  * other things that should not happen on development and testing sites.
