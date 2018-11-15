@@ -331,7 +331,7 @@ if ($is_local_env) {
   if (file_exists(DRUPAL_ROOT . "/sites/settings/local.settings.php")) {
     require DRUPAL_ROOT . "/sites/settings/local.settings.php";
   }
-  // Since Drupal 8.6, the file is now recommended to be named settings.local.php.
+  // Since Drupal 8.6, the file is recommended to be named settings.local.php.
   if (file_exists(DRUPAL_ROOT . "/sites/settings/settings.local.php")) {
     require DRUPAL_ROOT . "/sites/settings/settings.local.php";
   }
@@ -339,7 +339,7 @@ if ($is_local_env) {
   if (file_exists(DRUPAL_ROOT . "/sites/$site_dir/settings/local.settings.php")) {
     require DRUPAL_ROOT . "/sites/$site_dir/settings/local.settings.php";
   }
-  // Since Drupal 8.6, the file is now recommended to be named settings.local.php.
+  // Since Drupal 8.6, the file is recommended to be named settings.local.php.
   if (file_exists(DRUPAL_ROOT . "/sites/$site_dir/settings/settings.local.php")) {
     require DRUPAL_ROOT . "/sites/$site_dir/settings/settings.local.php";
   }
