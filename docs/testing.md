@@ -164,14 +164,20 @@ You can customize the `tests:phpunit:run` command by [customize the configuratio
 
 Each row under the `phpunit` key should contain a combination of the following properties:
 
- * config: path to either the Core phpunit configuration file (docroot/core/phpunit.xml.dist) or a custom one. If left blank, no configuration will be loaded with the unit test.
- * path: the path to the custom phpunit test
+ * bootstrap: A "bootstrap" PHP file that is run before the tests
  * class: the class name for the test
- * file: the sourcefile that declares the class provided in `class`
- * testsuite: run tests that are part of a specific `@testsuite`
- * group: run tests only tagged with a specific `@group`
+ * config: path to either the Core phpunit configuration file (docroot/core/phpunit.xml.dist) or a custom one. If left blank, no configuration will be loaded with the unit test.
+ * debug: if `true`, will display debugging information
  * exclude: run tests excluding any tagged with this `@group`
+ * file: the sourcefile that declares the class provided in `class`
  * filter: allows text filter for tests
+ * group: run tests only tagged with a specific `@group`
+ * path: the path to the custom phpunit test
+ * printer: the TestListener implementation to use
+ * stop-on-error: if `true`, will stop execution upon first error
+ * stop-on-failure: if `true`, sill stop execution upon first error or failure
+ * testdox: if `true`, report test execution progress in TestDox format
+ * testsuite: run tests that are part of a specific `@testsuite`
 
  See PHPUnit's [documentation](https://phpunit.de/manual/current/en/textui.htm) for additional information.
 
