@@ -4,27 +4,14 @@ namespace Acquia\Blt\Robo\Commands\Tests;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
+use Acquia\Blt\Robo\Tasks\PHPUnitTask;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Defines commands in the "tests" namespace.
  */
-class PhpUnitCommand extends BltTasks {
-
-  /**
-   * Directory in which test logs and reports are generated.
-   *
-   * @var string
-   */
-  protected $reportsDir;
-
-  /**
-   * The filename for PHPUnit report.
-   *
-   * @var string
-   */
-  protected $reportFile;
+class PhpUnitCommand extends DrupalTestCommand {
 
   /**
    * An array that contains configuration to override /
@@ -40,10 +27,8 @@ class PhpUnitCommand extends BltTasks {
    * @hook init
    */
   public function initialize() {
-    $this->reportsDir = $this->getConfigValue('reports.localDir') . '/phpunit';
-    $this->reportFile = $this->reportsDir . '/results.xml';
-    $this->testsDir = $this->getConfigValue('repo.root') . '/tests/phpunit';
-    $this->phpunitConfig = $this->getConfigValue('phpunit');
+    parent::initialize();
+    $this->phpunitConfig = $this->getConfigValue('tests.phpunit');
   }
 
   /**
@@ -53,24 +38,13 @@ class PhpUnitCommand extends BltTasks {
    * @aliases tpr phpunit tests:phpunit
    */
   public function testsPhpUnit() {
+    $this->createReportsDir();
     $this->createLogs();
     foreach ($this->phpunitConfig as $test) {
-      $task = $this->taskPHPUnit()
+      $task = $this->taskPhpUnitTask()
         ->xml($this->reportFile)
         ->printOutput(TRUE)
         ->printMetadata(FALSE);
-
-      if (isset($test['class'])) {
-        $task->arg($test['class']);
-        if (isset($test['file'])) {
-          $task->arg($test['file']);
-        }
-      }
-      else {
-        if (isset($test['path'])) {
-          $task->arg($test['path']);
-        }
-      }
 
       if (isset($test['path'])) {
         $task->dir($test['path']);
@@ -78,20 +52,58 @@ class PhpUnitCommand extends BltTasks {
 
       if ($this->output()->getVerbosity() >= OutputInterface::VERBOSITY_NORMAL) {
         $task->printMetadata(TRUE);
-        $task->arg('-v');
+        $task->verbose();
       }
 
-      $supported_options = [
-        'config' => 'configuration',
-        'exclude-group' => 'exclude-group',
-        'filter' => 'filter',
-        'group' => 'group',
-        'testsuite' => 'testsuite',
-      ];
+      if (isset($test['bootstrap'])) {
+        $task->bootstrap($test['bootstrap']);
+      }
 
-      foreach ($supported_options as $yml_key => $option) {
-        if (isset($test[$yml_key])) {
-          $task->option("--$option", $test[$yml_key]);
+      if (isset($test['config'])) {
+        $task->configFile($test['config']);
+      }
+
+      if (isset($test['debug']) && ($test['debug'])) {
+        $task->debug();
+      }
+
+      if (isset($test['exclude-group'])) {
+        $task->excludeGroup($test['exclude-group']);
+      }
+
+      if (isset($test['filter'])) {
+        $task->filter($test['filter']);
+      }
+
+      if (isset($test['group'])) {
+        $task->group($test['group']);
+      }
+
+      if (isset($test['stop-on-error']) && ($test['stop-on-error'])) {
+        $task->stopOnError();
+      }
+
+      if (isset($test['stop-on-failure']) && ($test['stop-on-failure'])) {
+        $task->stopOnFailure();
+      }
+
+      if (isset($test['testdox']) && ($test['testdox'])) {
+        $task->testdox();
+      }
+
+      if (isset($test['class'])) {
+        $task->arg($test['class']);
+        if (isset($test['file'])) {
+          $task->arg($test['file']);
+        }
+      }
+
+      if ( (isset($test['testsuites']) && is_array($test['testsuites'])) || isset($test['testsuite']) ) {
+        if (isset($test['testsuites'])) {
+          $task->testsuite(implode(',', $test['testsuites']));
+        }
+        elseif (isset($test['testsuite'])) {
+          $task->testsuite($test['testsuite']);
         }
       }
 
@@ -102,17 +114,6 @@ class PhpUnitCommand extends BltTasks {
         throw new BltException("PHPUnit tests failed.");
       }
     }
-  }
-
-  /**
-   * Creates empty log directory and log file for PHPUnit tests.
-   */
-  protected function createLogs() {
-    $this->taskFilesystemStack()
-      ->mkdir($this->reportsDir)
-      ->touch($this->reportFile)
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->run();
   }
 
 }
