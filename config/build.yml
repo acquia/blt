@@ -218,6 +218,7 @@ tests:
   phpunit:
   - path: '${repo.root}/tests/phpunit'
     config: '${docroot}/core/phpunit.xml.dist'
+    class: 'ExampleTest'
   run-tests:
 
 validate:
