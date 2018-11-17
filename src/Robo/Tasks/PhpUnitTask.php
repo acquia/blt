@@ -2,9 +2,7 @@
 
 namespace Acquia\Blt\Robo\Tasks;
 
-use Robo\Contract\VerbosityThresholdInterface;
 use Robo\Task\Testing\PHPUnit;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Runs PHPUnit tests.

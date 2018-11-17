@@ -3,9 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Tests;
 
 use Acquia\Blt\Robo\Exceptions\BltException;
-use Acquia\Blt\Robo\Wizards\TestsWizard;
 use Robo\Contract\VerbosityThresholdInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Defines commands in the "tests" namespace.
@@ -215,7 +213,7 @@ class DrupalTestCommand extends TestsCommandBase {
   }
 
   /**
-   * Executes all Drupal tests in either tests.drupal.phpunit or tests.drupal.run-tests.
+   * Executes all Drupal tests in either tests.phpunit or tests.run-tests.
    *
    * @throws \Exception
    *   Throws an exception if any Drupal test fails.

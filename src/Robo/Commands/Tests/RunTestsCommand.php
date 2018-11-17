@@ -2,10 +2,7 @@
 
 namespace Acquia\Blt\Robo\Commands\Tests;
 
-use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
-use Acquia\Blt\Robo\Tasks\PHPUnitTask;
-use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -111,7 +108,7 @@ class RunTestsCommand extends DrupalTestCommand {
         $task->url($test['url']);
       }
 
-      if ( (isset($test['types']) && is_array($test['types'])) || isset($test['type']) ) {
+      if ((isset($test['types']) && is_array($test['types'])) || isset($test['type'])) {
         if (isset($test['types'])) {
           $task->types(implode(',', $test['types']));
         }

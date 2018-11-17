@@ -2,8 +2,10 @@
 
 namespace Acquia\Blt\Robo\Tasks;
 
+use Robo\Common\ExecOneCommand;
 use Robo\Contract\CommandInterface;
 use Robo\Contract\PrintedInterface;
+use Robo\Exception\TaskException;
 use Robo\Task\BaseTask;
 
 /**
@@ -11,7 +13,7 @@ use Robo\Task\BaseTask;
  */
 class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterface {
 
-  use \Robo\Common\ExecOneCommand;
+  use ExecOneCommand;
 
   /**
    * @var string
@@ -33,7 +35,7 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
       $this->command = $this->findExecutable('php');
     }
     if (!$this->command) {
-      throw new \Robo\Exception\TaskException(__CLASS__, "PHP installation not found");
+      throw new TaskException(__CLASS__, "PHP installation not found");
     }
 
   }
