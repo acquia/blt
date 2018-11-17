@@ -208,6 +208,16 @@ tests:
   server:
     port: 8888
     url: http://127.0.0.1:${tests.server.port}
+  drupal:
+    test-runner: phpunit
+    web-driver: chromedriver
+    chromedriver:
+      port: 9515
+      args: null
+  phpunit:
+  - path: '${repo.root}/tests/phpunit'
+    config: '${docroot}/core/phpunit.xml.dist'
+  run-tests:
 
 validate:
   deprecated:
