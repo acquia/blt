@@ -10,7 +10,7 @@ use Robo\Task\Testing\PHPUnit;
 class PhpUnitTask extends PHPUnit {
 
   /**
-   * @var boolean
+   * @var bool
    */
   protected $sudo;
 

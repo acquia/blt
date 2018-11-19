@@ -21,7 +21,7 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
   protected $command;
 
   /**
-   * @var boolean
+   * @var bool
    */
   protected $sudo;
 
