@@ -10,6 +10,32 @@ use Robo\Task\Testing\PHPUnit;
 class PhpUnitTask extends PHPUnit {
 
   /**
+   * @var boolean
+   */
+  protected $sudo;
+
+  /**
+   * @var string
+   */
+  protected $user;
+
+  /**
+   * @return $this
+   */
+  public function sudo(bool $sudo = TRUE) {
+    $this->sudo = $sudo;
+    return $this;
+  }
+
+  /**
+   * @return $this
+   */
+  public function user($user) {
+    $this->user = is_string($user) ? $user : NULL;
+    return $this;
+  }
+
+  /**
    * @param string $printer
    *
    * @return $this
@@ -59,6 +85,15 @@ class PhpUnitTask extends PHPUnit {
   public function verbose() {
     $this->option("verbose");
     return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getCommand() {
+    $command = $this->command . $this->arguments . $this->files;
+    $user = isset($this->user) ? "-u $this->user " : "";
+    return $this->sudo ? "sudo $user" . $command : $command;
   }
 
 }

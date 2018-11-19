@@ -29,6 +29,16 @@ class DrupalTestCommand extends TestsCommandBase {
   protected $browsertestOutputDirectory;
 
   /**
+   * @var string
+   */
+  protected $apacheRunUser;
+
+  /**
+   * @var bool
+   */
+  protected $sudoRunTests;
+
+  /**
    * Environment varialbes to set for Drupal tests.
    *
    * @var array
@@ -78,12 +88,14 @@ class DrupalTestCommand extends TestsCommandBase {
     $this->chromeDriverPort = $this->getConfigValue('tests.drupal.chromedriver.port');
     $this->chromeDriverArgs = $this->getConfigValue('tests.drupal.chromedriver.args');
 
-    $this->browsertestOutputDirectory = $this->reportsDir . '/' . $this->getConfigValue('tests.drupal.browsertest_output_directory');
+    $this->browsertestOutputDirectory = $this->getConfigValue('tests.drupal.browsertest_output_directory');
+    $this->apacheRunUser = $this->getConfigValue('tests.drupal.apache_run_user');
+    $this->sudoRunTests = $this->getConfigValue('tests.drupal.sudo_run_tests');
 
     $this->testingEnvironment = [
       self::APACHE_RUN_GROUP => $this->getConfigValue('tests.drupal.apache_run_user'),
       self::APACHE_RUN_USER => $this->getConfigValue('tests.drupal.apache_run_group'),
-      self::BROWSERTEST_OUTPUT_DIRECTORY => $this->browsertestOutputDirectory,
+      self::BROWSERTEST_OUTPUT_DIRECTORY => $this->getConfigValue('tests.drupal.browsertest_output_directory'),
       self::MINK_DRIVER_ARGS => $this->getConfigValue('tests.drupal.mink_driver_args'),
       self::MINK_DRIVER_ARGS_PHANTOMJS => $this->getConfigValue('tests.drupal.mink_driver_args_phantomjs'),
       self::MINK_DRIVER_ARGS_WEBDRIVER => $this->getConfigValue('tests.drupal.mink_driver_args_webdriver'),

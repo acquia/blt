@@ -37,78 +37,88 @@ class PhpUnitCommand extends DrupalTestCommand {
   public function testsPhpUnit() {
     $this->createReportsDir();
     $this->createLogs();
-    foreach ($this->phpunitConfig as $test) {
-      $task = $this->taskPhpUnitTask()
-        ->xml($this->reportFile)
-        ->printOutput(TRUE)
-        ->printMetadata(FALSE);
+    if (is_array($this->phpunitConfig)) {
+      foreach ($this->phpunitConfig as $test) {
+        $task = $this->taskPhpUnitTask()
+          ->xml($this->reportFile)
+          ->printOutput(TRUE)
+          ->printMetadata(FALSE);
 
-      if (isset($test['path'])) {
-        $task->dir($test['path']);
-      }
-
-      if ($this->output()->getVerbosity() >= OutputInterface::VERBOSITY_NORMAL) {
-        $task->printMetadata(TRUE);
-        $task->verbose();
-      }
-
-      if (isset($test['bootstrap'])) {
-        $task->bootstrap($test['bootstrap']);
-      }
-
-      if (isset($test['config'])) {
-        $task->configFile($test['config']);
-      }
-
-      if (isset($test['debug']) && ($test['debug'])) {
-        $task->debug();
-      }
-
-      if (isset($test['exclude-group'])) {
-        $task->excludeGroup($test['exclude-group']);
-      }
-
-      if (isset($test['filter'])) {
-        $task->filter($test['filter']);
-      }
-
-      if (isset($test['group'])) {
-        $task->group($test['group']);
-      }
-
-      if (isset($test['stop-on-error']) && ($test['stop-on-error'])) {
-        $task->stopOnError();
-      }
-
-      if (isset($test['stop-on-failure']) && ($test['stop-on-failure'])) {
-        $task->stopOnFailure();
-      }
-
-      if (isset($test['testdox']) && ($test['testdox'])) {
-        $task->testdox();
-      }
-
-      if (isset($test['class'])) {
-        $task->arg($test['class']);
-        if (isset($test['file'])) {
-          $task->arg($test['file']);
+        if (isset($test['path'])) {
+          $task->dir($test['path']);
         }
-      }
 
-      if ((isset($test['testsuites']) && is_array($test['testsuites'])) || isset($test['testsuite'])) {
-        if (isset($test['testsuites'])) {
-          $task->testsuite(implode(',', $test['testsuites']));
+        if ($this->output()->getVerbosity() >= OutputInterface::VERBOSITY_NORMAL) {
+          $task->printMetadata(TRUE);
+          $task->verbose();
         }
-        elseif (isset($test['testsuite'])) {
-          $task->testsuite($test['testsuite']);
+
+        if (isset($this->apacheRunUser)) {
+          $task->user($this->apacheRunUser);
         }
-      }
 
-      $result = $task->run();
-      $exit_code = $result->getExitCode();
+        if (isset($this->sudoRunTests) && ($this->sudoRunTests)) {
+          $task->sudo();
+        }
 
-      if ($exit_code) {
-        throw new BltException("PHPUnit tests failed.");
+        if (isset($test['bootstrap'])) {
+          $task->bootstrap($test['bootstrap']);
+        }
+
+        if (isset($test['config'])) {
+          $task->configFile($test['config']);
+        }
+
+        if (isset($test['debug']) && ($test['debug'])) {
+          $task->debug();
+        }
+
+        if (isset($test['exclude-group'])) {
+          $task->excludeGroup($test['exclude-group']);
+        }
+
+        if (isset($test['filter'])) {
+          $task->filter($test['filter']);
+        }
+
+        if (isset($test['group'])) {
+          $task->group($test['group']);
+        }
+
+        if (isset($test['stop-on-error']) && ($test['stop-on-error'])) {
+          $task->stopOnError();
+        }
+
+        if (isset($test['stop-on-failure']) && ($test['stop-on-failure'])) {
+          $task->stopOnFailure();
+        }
+
+        if (isset($test['testdox']) && ($test['testdox'])) {
+          $task->testdox();
+        }
+
+        if (isset($test['class'])) {
+          $task->arg($test['class']);
+          if (isset($test['file'])) {
+            $task->arg($test['file']);
+          }
+        }
+
+        if ((isset($test['testsuites']) && is_array($test['testsuites'])) || isset($test['testsuite'])) {
+          if (isset($test['testsuites'])) {
+            $task->testsuite(implode(',', $test['testsuites']));
+          }
+          elseif (isset($test['testsuite'])) {
+            $task->testsuite($test['testsuite']);
+          }
+        }
+
+        $result = $task->run();
+        $exit_code = $result->getExitCode();
+
+        if ($exit_code) {
+          throw new BltException("PHPUnit tests failed.");
+        }
       }
     }
   }

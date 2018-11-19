@@ -21,6 +21,11 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
   protected $command;
 
   /**
+   * @var boolean
+   */
+  protected $sudo;
+
+  /**
    * The path the Drupal's run-tests.sh.
    *
    * @var string
@@ -38,6 +43,14 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
       throw new TaskException(__CLASS__, "PHP installation not found");
     }
 
+  }
+
+  /**
+   * @return $this
+   */
+  public function sudo(bool $sudo = TRUE) {
+    $this->sudo = $sudo;
+    return $this;
   }
 
   /**
@@ -212,7 +225,8 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
    * {@inheritdoc}
    */
   public function getCommand() {
-    return $this->command . ' ' . $this->runTestsScriptCommand . $this->arguments;
+    $command = $this->command . ' ' . $this->runTestsScriptCommand . $this->arguments;
+    return $this->sudo ? 'sudo ' . $command : $command;
   }
 
   /**
