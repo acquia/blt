@@ -216,8 +216,6 @@ tests:
       args: null
     browsertest_output_directory: 'browser_output'
   phpunit:
-    - config: '${repo.root}/tests/phpunit/phpunit.xml'
-      path: '${repo.root}/tests/phpunit'
   run-tests:
 
 validate:
