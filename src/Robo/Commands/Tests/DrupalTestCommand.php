@@ -146,7 +146,7 @@ class DrupalTestCommand extends TestsCommandBase {
    */
   protected function getTestingEnvString() {
     $testingEnv = array_filter($this->testingEnv);
-    array_walk($testingEnv, function(&$value, $key) {
+    array_walk($testingEnv, function (&$value, $key) {
       $value = "{$key}='{$value}'";
     });
     $this->testingEnvString = implode(' ', $testingEnv);

@@ -15,7 +15,7 @@ class PhpUnitTask extends PHPUnit {
   protected $testEnvVars;
 
   /**
-   * @var boolean
+   * @var bool
    */
   protected $sudo;
 
