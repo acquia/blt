@@ -105,9 +105,9 @@ class PhpUnitTask extends PHPUnit {
    */
   public function getCommand() {
     $env = isset($this->testEnvVars) ? "$this->testEnvVars " : "";
-    $command = $env . $this->command . $this->arguments . $this->files;
-    $user = isset($this->user) ? "-u $this->user " : "";
-    return $this->sudo ? "sudo $user" . $command : $command;
+    $command = $this->command . $this->arguments . $this->files;
+    $sudo = isset($this->user) && $this->sudo ? "sudo -u $this->user -E " : "";
+    return $sudo ? $env . $sudo . $command : $env . $command;
   }
 
 }

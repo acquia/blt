@@ -252,9 +252,9 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
    */
   public function getCommand() {
     $env = isset($this->testEnvVars) ? "$this->testEnvVars " : "";
-    $command = $env . $this->command . ' ' . $this->runTestsScriptCommand . $this->arguments;
-    $user = isset($this->user) ? "-u $this->user " : "";
-    return $this->sudo ? "sudo $user" . $command : $command;
+    $command = $this->command . ' ' . $this->runTestsScriptCommand . $this->arguments;
+    $sudo = isset($this->user) && $this->sudo ? "sudo -u $this->user " : "";
+    return $sudo ? $env . $sudo . $command : $env . $command;
   }
 
   /**
