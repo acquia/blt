@@ -10,7 +10,12 @@ use Robo\Task\Testing\PHPUnit;
 class PhpUnitTask extends PHPUnit {
 
   /**
-   * @var bool
+   * @var string
+   */
+  protected $testEnvVars;
+
+  /**
+   * @var boolean
    */
   protected $sudo;
 
@@ -18,6 +23,14 @@ class PhpUnitTask extends PHPUnit {
    * @var string
    */
   protected $user;
+
+  /**
+   * @return $this
+   */
+  public function testEnvVars($testEnvVars) {
+    $this->testEnvVars = is_string($testEnvVars) ? $testEnvVars : NULL;
+    return $this;
+  }
 
   /**
    * @return $this
@@ -91,7 +104,8 @@ class PhpUnitTask extends PHPUnit {
    * {@inheritdoc}
    */
   public function getCommand() {
-    $command = $this->command . $this->arguments . $this->files;
+    $env = isset($this->testEnvVars) ? "$this->testEnvVars " : "";
+    $command = $env . $this->command . $this->arguments . $this->files;
     $user = isset($this->user) ? "-u $this->user " : "";
     return $this->sudo ? "sudo $user" . $command : $command;
   }

@@ -21,9 +21,19 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
   protected $command;
 
   /**
-   * @var bool
+   * @var string
+   */
+  protected $testEnvVars;
+
+  /**
+   * @var boolean
    */
   protected $sudo;
+
+  /**
+   * @var string
+   */
+  protected $user;
 
   /**
    * The path the Drupal's run-tests.sh.
@@ -48,8 +58,24 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
   /**
    * @return $this
    */
+  public function testEnvVars($testEnvVars) {
+    $this->testEnvVars = is_string($testEnvVars) ? $testEnvVars : NULL;
+    return $this;
+  }
+
+  /**
+   * @return $this
+   */
   public function sudo(bool $sudo = TRUE) {
     $this->sudo = $sudo;
+    return $this;
+  }
+
+  /**
+   * @return $this
+   */
+  public function user($user) {
+    $this->user = is_string($user) ? $user : NULL;
     return $this;
   }
 
@@ -225,8 +251,10 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
    * {@inheritdoc}
    */
   public function getCommand() {
-    $command = $this->command . ' ' . $this->runTestsScriptCommand . $this->arguments;
-    return $this->sudo ? 'sudo ' . $command : $command;
+    $env = isset($this->testEnvVars) ? "$this->testEnvVars " : "";
+    $command = $env . $this->command . ' ' . $this->runTestsScriptCommand . $this->arguments;
+    $user = isset($this->user) ? "-u $this->user " : "";
+    return $this->sudo ? "sudo $user" . $command : $command;
   }
 
   /**

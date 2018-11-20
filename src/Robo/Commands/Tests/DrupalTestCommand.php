@@ -43,7 +43,14 @@ class DrupalTestCommand extends TestsCommandBase {
    *
    * @var array
    */
-  protected $testingEnvironment;
+  protected $testingEnv;
+
+  /**
+   * Environment varialbes to exported before Drupal tests.
+   *
+   * @var string
+   */
+  protected $testingEnvString;
 
   /**
    * Directory in which test logs and reports are generated.
@@ -92,7 +99,7 @@ class DrupalTestCommand extends TestsCommandBase {
     $this->apacheRunUser = $this->getConfigValue('tests.drupal.apache_run_user');
     $this->sudoRunTests = $this->getConfigValue('tests.drupal.sudo_run_tests');
 
-    $this->testingEnvironment = [
+    $this->testingEnv = [
       self::APACHE_RUN_GROUP => $this->getConfigValue('tests.drupal.apache_run_user'),
       self::APACHE_RUN_USER => $this->getConfigValue('tests.drupal.apache_run_group'),
       self::BROWSERTEST_OUTPUT_DIRECTORY => $this->getConfigValue('tests.drupal.browsertest_output_directory'),
@@ -104,6 +111,7 @@ class DrupalTestCommand extends TestsCommandBase {
       self::SIMPLETEST_DB => $this->getConfigValue('tests.drupal.simpletest_db'),
       self::SYMFONY_DEPRECATIONS_HELPER => $this->getConfigValue('tests.drupal.symfony_deprecations_helper'),
     ];
+    $this->getTestingEnvString();
   }
 
   /**
@@ -111,7 +119,7 @@ class DrupalTestCommand extends TestsCommandBase {
    *
    * @command tests:drupal:run
    * @aliases tdr
-   * @description Executes all Drupal tests. This optionally launch PhantomJS or Selenium prior to execution.
+   * @description Executes all Drupal tests. Launches chromedriver prior to execution.
    *
    * @validateVmConfig
    * @launchWebServer
@@ -122,14 +130,11 @@ class DrupalTestCommand extends TestsCommandBase {
     $this->logConfig($this->getConfigValue('tests'), 'tests');
 
     try {
-      $this->setupEnvironment();
       $this->launchWebDriver();
       $this->executeDrupalTests();
-      $this->cleanupEnvironment();
       $this->killWebDriver();
     }
     catch (\Exception $e) {
-      $this->cleanupEnvironment();
       // Kill web driver server to prevent Pipelines from hanging after fail.
       $this->killWebDriver();
       throw $e;
@@ -137,25 +142,14 @@ class DrupalTestCommand extends TestsCommandBase {
   }
 
   /**
-   * Setup environment variables for running Drupal tests.
+   * Get environment variables string used for running Drupal tests.
    */
-  protected function setupEnvironment() {
-    foreach ($this->testingEnvironment as $key => $value) {
-      if (!empty($value)) {
-        $this->taskExec('export')->arg("{$key}={$value}")->run();
-      }
-    }
-  }
-
-  /**
-   * Cleanup environment variables for running Drupal tests.
-   */
-  protected function cleanupEnvironment() {
-    foreach ($this->testingEnvironment as $key => $value) {
-      if (!empty($value)) {
-        $this->taskExec('unset')->arg($key)->run();
-      }
-    }
+  protected function getTestingEnvString() {
+    $testingEnv = array_filter($this->testingEnv);
+    array_walk($testingEnv, function(&$value, $key) {
+      $value = "{$key}='{$value}'";
+    });
+    $this->testingEnvString = implode(' ', $testingEnv);
   }
 
   /**

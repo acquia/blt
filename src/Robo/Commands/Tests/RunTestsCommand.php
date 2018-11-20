@@ -57,6 +57,10 @@ class RunTestsCommand extends DrupalTestCommand {
           $task->verbose();
         }
 
+        if (isset($this->testingEnvString)) {
+          $task->testEnvVars($this->testingEnvString);
+        }
+
         if (isset($this->apacheRunUser)) {
           $task->user($this->apacheRunUser);
         }
