@@ -119,19 +119,6 @@ phpcbf:
     - files.php.custom.themes
     - files.frontend.custom.themes
 
-# @todo Move to subkey of tests.
-phpunit:
-  - path: '${repo.root}/tests/phpunit'
-    config: '${docroot}/core/phpunit.xml.dist'
-  # Customization for one or more custom phpunit test locations
-  # and if the core (or custom) config file should be included as a -c parameter.
-  # - path: '${docroot}/modules/custom/<your_module>'
-  #   config: '${docroot}/core/phpunit.xml.dist'
-  # - file '${docroot}/modules/custom/tests/MyTest.php'
-  #   class 'My/Example/Test'
-  # - path: '${docroot}/core'
-  #   config: '${docroot}/core/phpunit.xml.dist'
-
 project:
   local:
     uri: ${project.local.protocol}://${project.local.hostname}
@@ -209,12 +196,24 @@ tests:
     port: 8888
     url: http://127.0.0.1:${tests.server.port}
   drupal:
-    test-runner: phpunit
+    # May be phpunit or run-tests.
+    test-runner: run-tests
+    sudo_run_tests: true
+    # Only chromedriver is supported at this time.
     web-driver: chromedriver
     chromedriver:
       port: 9515
       args: null
     browsertest_output_directory: 'browser_output'
+    apache_run_group: 'www-data'
+    apache_run_user: 'www-data'
+    # mink_driver_args: ''
+    # mink_driver_args_phantomjs: ''
+    mink_driver_args_webdriver: '["chrome", {"browserName":"chrome","chromeOptions":{"args":["--disable-gpu","--headless"]}}, "http://localhost:9515"]'
+    # mink_driver_class: 'Drupal\FunctionalJavascriptTests\DrupalSelenium2Driver'
+    simpletest_base_url: '${project.local.protocol}://${project.local.hostname}'
+    simpletest_db: 'sqlite://localhost/${repo.root}/tmp/test.sqlite'
+    symfony_deprecations_helper: 'disabled'
   phpunit:
   run-tests:
 
