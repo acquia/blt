@@ -37,12 +37,24 @@ class RunTestsCommand extends DrupalTestCommand {
   }
 
   /**
-   * Executes the Drupal run-tests.sh script.
+   * Setup and run tests.
    *
-   * @command tests:run-tests:run
-   * @aliases tdrtr
+   * @command tests:drupal:run
+   * @aliases tdr
+   * @description Executes all Drupal tests. Launches chromedriver prior to execution.
+   *
+   * @validateVmConfig
+   * @launchWebServer
+   * @executeInVm
    */
-  public function runTests() {
+  public function run() {
+    parent::run();
+  }
+
+  /**
+   * Executes the Drupal run-tests.sh script.
+   */
+  public function executeTests() {
     $this->createReportsDir();
     if (is_array($this->runTestsConfig)) {
       foreach ($this->runTestsConfig as $test) {

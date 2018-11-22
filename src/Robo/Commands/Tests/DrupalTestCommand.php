@@ -89,20 +89,23 @@ class DrupalTestCommand extends TestsCommandBase {
    * @hook init
    */
   public function initialize() {
+    // Log config for debugging purposes.
+    $this->logConfig($this->getConfigValue('tests'), 'tests');
+
     $this->reportsDir = $this->getConfigValue('reports.localDir') . '/phpunit';
     $this->reportFile = $this->reportsDir . '/results.xml';
     $this->drupalTestRunner = $this->getConfigValue('tests.drupal.test-runner');
     $this->chromeDriverPort = $this->getConfigValue('tests.drupal.chromedriver.port');
     $this->chromeDriverArgs = $this->getConfigValue('tests.drupal.chromedriver.args');
 
-    $this->browsertestOutputDirectory = $this->getConfigValue('tests.drupal.browsertest_output_directory');
+    $this->browsertestOutputDirectory = $this->reportsDir . '/' . $this->getConfigValue('tests.drupal.browsertest_output_directory');
     $this->apacheRunUser = $this->getConfigValue('tests.drupal.apache_run_user');
     $this->sudoRunTests = $this->getConfigValue('tests.drupal.sudo_run_tests');
 
     $this->testingEnv = [
       self::APACHE_RUN_GROUP => $this->getConfigValue('tests.drupal.apache_run_user'),
-      self::APACHE_RUN_USER => $this->getConfigValue('tests.drupal.apache_run_group'),
-      self::BROWSERTEST_OUTPUT_DIRECTORY => $this->getConfigValue('tests.drupal.browsertest_output_directory'),
+      self::APACHE_RUN_USER => $this->apacheRunUser,
+      self::BROWSERTEST_OUTPUT_DIRECTORY => $this->browsertestOutputDirectory,
       self::MINK_DRIVER_ARGS => $this->getConfigValue('tests.drupal.mink_driver_args'),
       self::MINK_DRIVER_ARGS_PHANTOMJS => $this->getConfigValue('tests.drupal.mink_driver_args_phantomjs'),
       self::MINK_DRIVER_ARGS_WEBDRIVER => $this->getConfigValue('tests.drupal.mink_driver_args_webdriver'),
@@ -111,27 +114,16 @@ class DrupalTestCommand extends TestsCommandBase {
       self::SIMPLETEST_DB => $this->getConfigValue('tests.drupal.simpletest_db'),
       self::SYMFONY_DEPRECATIONS_HELPER => $this->getConfigValue('tests.drupal.symfony_deprecations_helper'),
     ];
-    $this->getTestingEnvString();
   }
 
   /**
-   * Executes all tests.
-   *
-   * @command tests:drupal:run
-   * @aliases tdr
-   * @description Executes all Drupal tests. Launches chromedriver prior to execution.
-   *
-   * @validateVmConfig
-   * @launchWebServer
-   * @executeInVm
+   * Setup and run tests.
    */
-  public function test() {
-    // Log config for debugging purposes.
-    $this->logConfig($this->getConfigValue('tests'), 'tests');
-
+  public function run() {
     try {
+      $this->getTestingEnvString();
       $this->launchWebDriver();
-      $this->executeDrupalTests();
+      $this->executeTests();
       $this->killWebDriver();
     }
     catch (\Exception $e) {
@@ -216,24 +208,6 @@ class DrupalTestCommand extends TestsCommandBase {
     }
 
     throw new BltException("Could not find chromedriver.");
-  }
-
-  /**
-   * Executes all Drupal tests in either tests.phpunit or tests.run-tests.
-   *
-   * @throws \Exception
-   *   Throws an exception if any Drupal test fails.
-   */
-  protected function executeDrupalTests() {
-    if ($this->drupalTestRunner == 'phpunit') {
-      $this->invokeCommand('tests:phpunit:run');
-    }
-    elseif ($this->drupalTestRunner == 'run-tests') {
-      $this->invokeCommand('tests:run-tests:run');
-    }
-    else {
-      throw new BltException("You must have tests.drupal.test-runner set to either phpunit or run-tests.");
-    }
   }
 
   /**
