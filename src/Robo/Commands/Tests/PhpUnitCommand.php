@@ -35,6 +35,10 @@ class PhpUnitCommand extends DrupalTestCommand {
    * @aliases tpr phpunit tests:phpunit
    * @description Executes all PHPUnit tests. Launches chromedriver prior to execution.
    *
+   * @interactGenerateSettingsFiles
+   * @interactInstallDrupal
+   * @validateMySqlAvailable
+   * @validateDrupalIsInstalled
    * @validateVmConfig
    * @launchWebServer
    * @executeInVm

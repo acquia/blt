@@ -43,6 +43,10 @@ class RunTestsCommand extends DrupalTestCommand {
    * @aliases tdr
    * @description Executes all Drupal tests. Launches chromedriver prior to execution.
    *
+   * @interactGenerateSettingsFiles
+   * @interactInstallDrupal
+   * @validateMySqlAvailable
+   * @validateDrupalIsInstalled
    * @validateVmConfig
    * @launchWebServer
    * @executeInVm
