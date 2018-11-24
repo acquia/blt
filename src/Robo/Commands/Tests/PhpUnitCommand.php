@@ -99,8 +99,8 @@ class PhpUnitCommand extends DrupalTestCommand {
           $task->debug();
         }
 
-        if (isset($test['exclude-group'])) {
-          $task->excludeGroup($test['exclude-group']);
+        if (isset($test['exclude'])) {
+          $task->excludeGroup($test['exclude']);
         }
 
         if (isset($test['filter'])) {
@@ -109,6 +109,10 @@ class PhpUnitCommand extends DrupalTestCommand {
 
         if (isset($test['group'])) {
           $task->group($test['group']);
+        }
+
+        if (isset($test['printer'])) {
+          $task->printer($test['printer']);
         }
 
         if (isset($test['stop-on-error']) && ($test['stop-on-error'])) {
@@ -127,6 +131,11 @@ class PhpUnitCommand extends DrupalTestCommand {
           $task->arg($test['class']);
           if (isset($test['file'])) {
             $task->arg($test['file']);
+          }
+        }
+        else {
+          if (isset($test['directory'])) {
+            $task->arg($test['directory']);
           }
         }
 
