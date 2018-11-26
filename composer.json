@@ -37,7 +37,7 @@
         "drupal/config_split": "^1.0.0",
         "drupal/core": "^8.6.0",
         "drupal/features": "^3.8.0",
-        "drupal/memcache": "^2.0-alpha5",
+        "drupal/memcache": "^2.0.0",
         "drupal/seckit": "^1.0.0-alpha2",
         "drupal-composer/drupal-scaffold": "^2.5.4",
         "grasmash/drupal-security-warning": "^1.0.0",
