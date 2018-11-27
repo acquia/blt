@@ -1,7 +1,7 @@
 # Setting up BLT with ddev
 
 ### Steps
-
+0. Install ddev -> https://ddev.readthedocs.io/en/stable/#installation
 1. export SITENAME=ddevlovesblt
 2. composer create-project --no-interaction acquia/blt-project ddevloveblt
 3. ddev config --docroot docroot --projectname $SITENAME --projecttype drupal8
