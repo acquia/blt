@@ -106,3 +106,4 @@ If you choose to use a different solution than recommended here, please make sur
 
 While the BLT team cannot officially support these alternative environments, please submit documentation of any special steps necessary with the tool you choose so that others can learn from your experience. Environments for which others have contributed tips include:
 - [Lando](alternative-environment-tips/lando.md)
+- [DDEV](alternative-environment-tips/ddev.md)
