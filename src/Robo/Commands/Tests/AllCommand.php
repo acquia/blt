@@ -21,6 +21,7 @@ class AllCommand extends BltTasks {
       'tests:behat:run',
       'tests:phpunit:run',
       'tests:security:check:updates',
+      'tests:security:check:composer',
       'tests:frontend:run',
     ]);
   }
