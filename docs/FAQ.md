@@ -102,6 +102,27 @@ Errors appearing on TravisCI which are not replicable on local or other environm
 **Solution**
 [TravisCI has an internal caching feature](https://docs.travis-ci.com/user/caching) which can help speed up builds. At times, though, this cache results in semi-baffling build failures which cannot be replicated elsewhere. In these instances, the solution is sometimes simply to [clear Travis's cache](https://docs.travis-ci.com/user/caching/#Clearing-Caches).
 
+### Permission Denied During SQL Sync / BLT Sync
+
+**Issue**
+During commands such as drush sql-sync, blt sync, or blt sync:refresh, the command errors out with output similar to:
+
+```php
+sh: 1: cannot create auto.gz: Permission denied
+ [error]  Database dump failed [3.1 sec, 8 MB] 
+```
+
+This issue was originally documented on the BLT side in [issue #2641](https://github.com/acquia/blt/issues/2641).
+
+**Solution**
+This is *most* likely an issue of Drush version mismatches between environments. If you are running Drush 9 locally but Drush 8 in your remote environment, you will encounter this issue.
+
+It has been documented by the [Drush team](https://github.com/drush-ops/drush/releases/tag/9.2.1).
+
+Option 1: Deploy Drush 9 to the remote environment.
+
+Option 2: Temporarily add a ```--source-dump``` option per the Drush docs during the sql-sync command.
+
 
 ## FAQ
 
