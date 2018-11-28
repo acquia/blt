@@ -114,3 +114,13 @@ So when setting up the project for the first time when running fin blt setup it 
 `drush sql:sync @sitegroup.siteid @self`.
 
 For more, read the [extended blog post](https://blog.docksal.io/docksal-and-acquia-blt-1552540a3b9f) with a walkthrough to set up a new BLT project with Docksal.
+
+## Settings for a Docksal-enabled CI Environment
+
+To continuously verify a profile installs successfully and existing sites also synchronize correctly, set 
+two different environment-specific blt.yml files in the default site directory (`install.blt.yml` and `sync.blt.yml`). 
+Each of those can contain different behat/setup configuration for installing/syncing sites and then running different sets 
+of Behat tests on each. You can then have a Docksal command `fin test-environment` which accepts an argument meant to be the 
+environment indicator. That command in turn can run `fin blt setup --environment=$1` && `fin blt tests --environment=$1`, which 
+will setup the site according to configuration as well as run tests against that site according to the same set of 
+configuration.
