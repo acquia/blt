@@ -51,10 +51,10 @@ class RunTestsCommand extends DrupalTestCommand {
    * @launchWebServer
    * @executeInVm
    */
-  // @codingStandardsIgnoreStart
   public function run() {
-    // @codingStandardsIgnoreEnd
-    parent::run();
+    if ($this->drupalTestRunner == 'run-tests') {
+      parent::run();
+    }
   }
 
   /**
