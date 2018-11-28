@@ -15,7 +15,7 @@ local:
           parameters:
             environment:
               # absolute path to local directory to store screenshots - do not include trailing slash
-              screenshot_dir: ${reports.localDir}
+              screenshot_dir: ${tests.reports.localDir}
         - Drupal\DrupalExtension\Context\DrupalContext
         - Drupal\DrupalExtension\Context\MinkContext
         - Drupal\DrupalExtension\Context\MessageContext

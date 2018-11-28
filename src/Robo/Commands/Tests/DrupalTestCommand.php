@@ -74,34 +74,18 @@ class DrupalTestCommand extends TestsCommandBase {
   protected $drupalTestRunner;
 
   /**
-   * @var string
-   */
-  protected $chromeDriverPort;
-
-  /**
-   * @var string
-   */
-  protected $chromeDriverArgs;
-
-  /**
    * This hook will fire for all commands in this command file.
    *
    * @hook init
    */
   public function initialize() {
-    // Log config for debugging purposes.
-    $this->logConfig($this->getConfigValue('tests'), 'tests');
-
-    $this->reportsDir = $this->getConfigValue('reports.localDir') . '/phpunit';
+    parent::initialize();
+    $this->reportsDir = $this->getConfigValue('tests.reports.localDir') . '/phpunit';
     $this->reportFile = $this->reportsDir . '/results.xml';
     $this->drupalTestRunner = $this->getConfigValue('tests.drupal.test-runner');
-    $this->chromeDriverPort = $this->getConfigValue('tests.drupal.chromedriver.port');
-    $this->chromeDriverArgs = $this->getConfigValue('tests.drupal.chromedriver.args');
-
     $this->browsertestOutputDirectory = $this->reportsDir . '/' . $this->getConfigValue('tests.drupal.browsertest_output_directory');
     $this->apacheRunUser = $this->getConfigValue('tests.drupal.apache_run_user');
     $this->sudoRunTests = $this->getConfigValue('tests.drupal.sudo_run_tests');
-
     $this->testingEnv = [
       self::APACHE_RUN_GROUP => $this->getConfigValue('tests.drupal.apache_run_user'),
       self::APACHE_RUN_USER => $this->apacheRunUser,
@@ -149,6 +133,7 @@ class DrupalTestCommand extends TestsCommandBase {
    */
   protected function launchWebDriver() {
     if ($this->getConfigValue('tests.drupal.web-driver') == 'chromedriver') {
+      $this->launchSelenium();
       $this->launchChromeDriver();
     }
   }
@@ -158,56 +143,9 @@ class DrupalTestCommand extends TestsCommandBase {
    */
   protected function killWebDriver() {
     if ($this->getConfigValue('tests.drupal.web-driver') == 'chromedriver') {
+      $this->killSelenium();
       $this->killChromeDriver();
     }
-  }
-
-  /**
-   * Launches a headless chromedriver process.
-   */
-  protected function launchChromeDriver() {
-    $this->killChromeDriver();
-    $chromeDriverBin = $this->findChromeDriver();
-    $chromeDriverHost = 'http://localhost';
-    $this->logger->info("Launching chromedriver...");
-    $this->getContainer()
-      ->get('executor')
-      ->execute("$chromeDriverBin")
-      ->background(TRUE)
-      ->printOutput(TRUE)
-      ->printMetadata(TRUE)
-      ->run();
-    $this->getContainer()->get('executor')->waitForUrlAvailable("$chromeDriverHost:{$this->chromeDriverPort}");
-  }
-
-  /**
-   * Kills headless chrome process running on $this->chromeDriverPort.
-   */
-  protected function killChromeDriver() {
-    $this->logger->info("Killing running chromedriver processes...");
-    $this->getContainer()->get('executor')->killProcessByPort($this->chromeDriverPort);
-  }
-
-  /**
-   * Finds the local chromedriver binary.
-   *
-   * @return null|string
-   *   NULL if Chrome could not be found.
-   *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
-   *   Throws exception if chromedriver cannot be found.
-   */
-  protected function findChromeDriver() {
-    if ($this->getInspector()->commandExists('chromedriver')) {
-      return 'chromedriver';
-    }
-
-    $osxPath = "/usr/local/bin/chromedriver";
-    if ($this->getInspector()->isOsx() && file_exists($osxPath)) {
-      return $osxPath;
-    }
-
-    throw new BltException("Could not find chromedriver.");
   }
 
   /**

@@ -2,13 +2,6 @@
 behat:
   config: ${repo.root}/tests/behat/local.yml
   profile: local
-  # The URL of selenium server. Must correspond with setting in behat's yaml config.
-  selenium:
-    port: 4444
-    url: http://127.0.0.1:${behat.selenium.port}/wd/hub
-  chrome:
-    port: 9222
-    args: ""
   # An array of paths with behat tests that should be executed.
   paths:
     # - ${docroot}/modules
@@ -102,11 +95,6 @@ git:
 # multisites:
 #  - default
 
-# @todo Move to subkey of tests.
-reports:
-  localDir: ${repo.root}/reports
-  remoteDir: reports
-
 # @todo Move to subkey of validate.
 phpcs:
   standard: Drupal,DrupalPractice
@@ -190,29 +178,40 @@ command-hooks:
     command: null
 
 tests:
+  reports:
+    localDir: ${repo.root}/reports
+    remoteDir: reports
   run-server: false
   # This is used for ad-hoc creation of a server via `drush runserver`.
   server:
     port: 8888
     url: http://127.0.0.1:${tests.server.port}
+  # The URL of selenium server. Must correspond with setting in behat's yaml config.
+  selenium:
+    port: 4444
+    url: http://127.0.0.1:${tests.selenium.port}/wd/hub
+  chrome:
+    port: 9222
+    args: ""
+  chromedriver:
+    port: 9515
+    args: null
   drupal:
     # May be phpunit or run-tests.
     test-runner: run-tests
     sudo_run_tests: true
     # Only chromedriver is supported at this time.
     web-driver: chromedriver
-    chromedriver:
-      port: 9515
-      args: null
+    sqlite: '${repo.root}/tmp/test.sqlite'
     browsertest_output_directory: 'browser_output'
     apache_run_group: 'www-data'
     apache_run_user: 'www-data'
     # mink_driver_args: ''
     # mink_driver_args_phantomjs: ''
-    mink_driver_args_webdriver: '["chrome", {"browserName":"chrome","chromeOptions":{"args":["--disable-gpu","--headless"]}}, "http://localhost:9515"]'
+    mink_driver_args_webdriver: '["chrome", {"browserName":"chrome","chromeOptions":{"args":["--disable-gpu","--headless","--no-sandbox"]}}, "http://localhost:9515"]'
     # mink_driver_class: 'Drupal\FunctionalJavascriptTests\DrupalSelenium2Driver'
     simpletest_base_url: '${project.local.protocol}://${project.local.hostname}'
-    simpletest_db: 'sqlite://localhost/${repo.root}/tmp/test.sqlite'
+    simpletest_db: 'sqlite://localhost/${tests.drupal.sqlite}'
     symfony_deprecations_helper: 'disabled'
   phpunit:
   run-tests:
