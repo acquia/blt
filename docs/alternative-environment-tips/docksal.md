@@ -7,7 +7,8 @@ you will have to install the Docksal `blt` addon command and make some configura
 
 If you already have Docksal installed on your system, setting your BLT project to use Docksal only
 requires that you add a `.docksal` directory in your project and run `fin up` in the command prompt
-of your project directory. See the [Docksal Documentation](https://docs.docksal.io) for more specific
+of your project directory. For sites hosted on Acquia, you may want to set the stack to Acquia by running 
+`fin config set DOCKSAL_STACK=acquia`, which will set up the project with varnish, memcache, and solr as well. See the [Docksal Documentation](https://docs.docksal.io) for more specific
 Docksal information.
 
 ## Using the Docksal `blt` Command
