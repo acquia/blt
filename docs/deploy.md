@@ -73,7 +73,7 @@ See [Extending BLT](extending-blt.md) for more information on overriding default
 
 If you would like to create, commit, but _not push_ the artifact, you may do a dry run:
 
-    blt artifact:deploy -D deploy.dryRun=true
+    blt artifact:deploy --dry-run
 
 This is helpful for debugging deployment artifacts.
 
