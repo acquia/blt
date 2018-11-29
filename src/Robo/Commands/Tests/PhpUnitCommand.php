@@ -34,16 +34,9 @@ class PhpUnitCommand extends DrupalTestCommand {
    * @command tests:phpunit:run
    * @aliases tpr phpunit tests:phpunit
    * @description Executes all PHPUnit tests. Launches chromedriver prior to execution.
-   *
-   * @interactGenerateSettingsFiles
-   * @interactInstallDrupal
-   * @validateMySqlAvailable
-   * @validateDrupalIsInstalled
-   * @validateVmConfig
-   * @launchWebServer
-   * @executeInVm
    */
   public function run() {
+    $this->createReportsDir();
     if ($this->drupalTestRunner == 'phpunit') {
       parent::run();
     }
@@ -61,8 +54,6 @@ class PhpUnitCommand extends DrupalTestCommand {
    * Executes all PHPUnit tests.
    */
   public function executeTests() {
-    $this->createReportsDir();
-    $this->createLogs();
     if (is_array($this->phpunitConfig)) {
       foreach ($this->phpunitConfig as $test) {
         $task = $this->taskPhpUnitTask()

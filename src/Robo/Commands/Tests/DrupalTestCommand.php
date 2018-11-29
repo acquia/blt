@@ -82,6 +82,61 @@ class DrupalTestCommand extends TestsCommandBase {
     $this->reportsDir = $this->getConfigValue('tests.reports.localDir') . '/phpunit';
     $this->reportFile = $this->reportsDir . '/results.xml';
     $this->drupalTestRunner = $this->getConfigValue('tests.drupal.test-runner');
+  }
+
+  /**
+   * Setup and run tests.
+   */
+  public function run() {
+    try {
+      $this->setTestingConfig();
+      $this->getTestingEnvString();
+      $this->createLogs();
+      $this->launchWebDriver();
+      $this->executeTests();
+      $this->killWebDriver();
+    }
+    catch (\Exception $e) {
+      // Kill web driver server to prevent Pipelines from hanging after fail.
+      $this->killWebDriver();
+      throw $e;
+    }
+  }
+
+  /**
+   * Executes all Drupal tests in either tests.phpunit or tests.run-tests.
+   *
+   * @command tests:drupal:run
+   * @aliases tdr
+   * @description Executes all Drupal tests. Launches chromedriver prior to execution.
+   *
+   * @interactGenerateSettingsFiles
+   * @interactInstallDrupal
+   * @validateMySqlAvailable
+   * @validateDrupalIsInstalled
+   * @validateVmConfig
+   * @launchWebServer
+   * @executeInVm
+   *
+   * @throws \Exception
+   *   Throws an exception if any Drupal test fails.
+   */
+  public function executeTests() {
+    if ($this->drupalTestRunner == 'phpunit') {
+      $this->invokeCommand('tests:phpunit:run');
+    }
+    elseif ($this->drupalTestRunner == 'run-tests') {
+      $this->invokeCommand('tests:run-tests:run');
+    }
+    else {
+      throw new BltException("You must have tests.drupal.test-runner set to either phpunit or run-tests.");
+    }
+  }
+
+  /**
+   * Get environment variables string used for running Drupal tests.
+   */
+  protected function setTestingConfig() {
     $this->browsertestOutputDirectory = $this->reportsDir . '/' . $this->getConfigValue('tests.drupal.browsertest_output_directory');
     $this->apacheRunUser = $this->getConfigValue('tests.drupal.apache_run_user');
     $this->sudoRunTests = $this->getConfigValue('tests.drupal.sudo_run_tests');
@@ -97,23 +152,6 @@ class DrupalTestCommand extends TestsCommandBase {
       self::SIMPLETEST_DB => $this->getConfigValue('tests.drupal.simpletest_db'),
       self::SYMFONY_DEPRECATIONS_HELPER => $this->getConfigValue('tests.drupal.symfony_deprecations_helper'),
     ];
-  }
-
-  /**
-   * Setup and run tests.
-   */
-  public function run() {
-    try {
-      $this->getTestingEnvString();
-      $this->launchWebDriver();
-      $this->executeTests();
-      $this->killWebDriver();
-    }
-    catch (\Exception $e) {
-      // Kill web driver server to prevent Pipelines from hanging after fail.
-      $this->killWebDriver();
-      throw $e;
-    }
   }
 
   /**
