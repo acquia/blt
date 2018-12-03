@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Tests;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Wizards\TestsWizard;
 use Robo\Contract\VerbosityThresholdInterface;
 
 /**
@@ -19,7 +20,6 @@ class TestsCommandBase extends BltTasks {
    * @var string
    */
   protected $chromeArgs;
-
 
   /**
    * @var string

@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Tests;
 
 use Acquia\Blt\Robo\Exceptions\BltException;
+use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
