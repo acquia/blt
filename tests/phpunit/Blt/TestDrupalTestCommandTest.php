@@ -24,12 +24,18 @@ class DrupalTest extends BltProjectTestBase {
    */
   protected $sqlite;
 
+  /**
+   * @var string
+   */
+  protected $url;
+
   public function setUp() {
     parent::setUp();
     $this->installDrupalMinimal();
     $this->docroot = $this->config->get("docroot");
     $this->reporoot = $this->config->get("repo.root");
     $this->sqlite = $this->config->get("tests.drupal.sqlite");
+    $this->url = $this->config->get("tests.drupal.simpletest_base_url");
   }
 
   /**
@@ -39,12 +45,13 @@ class DrupalTest extends BltProjectTestBase {
     list($status_code, $output, $config) = $this->blt("tests:drupal:run", [
       "--define" => [
         "tests.drupal.test-runner=run-tests",
-        "tests.run-tests.color=true",
-        "tests.run-tests.concurrency=1",
-        "tests.run-tests.repeat=1",
-        "tests.run-tests.0.tests.0='user'",
-        "tests.run-tests.0.types.0='Simpletest'",
+        "tests.run-tests.0.color=true",
+        "tests.run-tests.0.concurrency=1",
+        "tests.run-tests.0.repeat=1",
+        "tests.run-tests.0.tests.0=user",
+        "tests.run-tests.0.types.0=Simpletest",
         "tests.run-tests.0.sqlite=$this->sqlite",
+        "tests.run-tests.0.url=$this->url",
       ],
     ]);
     $results = file_get_contents($this->sandboxInstance . '/reports/phpunit/Drupal_user_Tests_RestRegisterUserTest.xml');
@@ -58,12 +65,13 @@ class DrupalTest extends BltProjectTestBase {
     list($status_code, $output, $config) = $this->blt("tests:drupal:run", [
       "--define" => [
         "tests.drupal.test-runner=run-tests",
-        "tests.run-tests.color=true",
-        "tests.run-tests.concurrency=2",
-        "tests.run-tests.repeat=1",
-        "tests.run-tests.0.tests.0='action'",
-        "tests.run-tests.0.types.0='PHPUnit-Unit'",
+        "tests.run-tests.0.color=true",
+        "tests.run-tests.0.concurrency=2",
+        "tests.run-tests.0.repeat=1",
+        "tests.run-tests.0.tests.0=action",
+        "tests.run-tests.0.types.0=PHPUnit-Unit",
         "tests.run-tests.0.sqlite=$this->sqlite",
+        "tests.run-tests.0.url=$this->url",
       ],
     ]);
     $results = file_get_contents($this->sandboxInstance . '/reports/phpunit/Drupal_Tests_action_Unit_Menu_ActionLocalTasksTest.xml');
@@ -77,12 +85,13 @@ class DrupalTest extends BltProjectTestBase {
     list($status_code, $output, $config) = $this->blt("tests:drupal:run", [
       "--define" => [
         "tests.drupal.test-runner=run-tests",
-        "tests.run-tests.color=true",
-        "tests.run-tests.concurrency=2",
-        "tests.run-tests.repeat=1",
-        "tests.run-tests.0.tests.0='action'",
-        "tests.run-tests.0.types.0='PHPUnit-Kernel'",
+        "tests.run-tests.0.color=true",
+        "tests.run-tests.0.concurrency=2",
+        "tests.run-tests.0.repeat=1",
+        "tests.run-tests.0.tests.0=action",
+        "tests.run-tests.0.types.0=PHPUnit-Kernel",
         "tests.run-tests.0.sqlite=$this->sqlite",
+        "tests.run-tests.0.url=$this->url",
       ],
     ]);
     $results = file_get_contents($this->sandboxInstance . '/reports/phpunit/Drupal_Tests_action_Kernel_Migrate_d7_MigrateActionsTest.xml');
@@ -100,12 +109,13 @@ class DrupalTest extends BltProjectTestBase {
     list($status_code, $output, $config) = $this->blt("tests:drupal:run", [
       "--define" => [
         "tests.drupal.test-runner=run-tests",
-        "tests.run-tests.color=true",
-        "tests.run-tests.concurrency=2",
-        "tests.run-tests.repeat=1",
-        "tests.run-tests.0.tests.0='action'",
-        "tests.run-tests.0.types.0='PHPUnit-Functional'",
+        "tests.run-tests.0.color=true",
+        "tests.run-tests.0.concurrency=2",
+        "tests.run-tests.0.repeat=1",
+        "tests.run-tests.0.tests.0=action",
+        "tests.run-tests.0.types.0=PHPUnit-Functional",
         "tests.run-tests.0.sqlite=$this->sqlite",
+        "tests.run-tests.0.url=$this->url",
       ],
     ]);
     $results = file_get_contents($this->sandboxInstance . '/reports/phpunit/Drupal_Tests_action_Functional_ActionListTest.xml');
@@ -125,12 +135,13 @@ class DrupalTest extends BltProjectTestBase {
     list($status_code, $output, $config) = $this->blt("tests:drupal:run", [
       "--define" => [
         "tests.drupal.test-runner=run-tests",
-        "tests.run-tests.color=true",
-        "tests.run-tests.concurrency=1",
-        "tests.run-tests.repeat=1",
-        "tests.run-tests.0.tests.0='action'",
-        "tests.run-tests.0.types.0='PHPUnit-FunctionalJavascript'",
+        "tests.run-tests.0.color=true",
+        "tests.run-tests.0.concurrency=1",
+        "tests.run-tests.0.repeat=1",
+        "tests.run-tests.0.tests.0=action",
+        "tests.run-tests.0.types.0=PHPUnit-FunctionalJavascript",
         "tests.run-tests.0.sqlite=$this->sqlite",
+        "tests.run-tests.0.url=$this->url",
       ],
     ]);
     $results = file_get_contents($this->sandboxInstance . '/reports/phpunit/Drupal_Tests_action_FunctionalJavascript_ActionFormAjaxTest.xml');
@@ -146,8 +157,8 @@ class DrupalTest extends BltProjectTestBase {
         "tests.drupal.test-runner=phpunit",
         "tests.phpunit.0.config=$this->docroot/core/phpunit.xml.dist",
         "tests.phpunit.0.path=$this->reporoot/core",
-        "tests.phpunit.0.group='action'",
-        "tests.phpunit.0.testsuites.0='unit'",
+        "tests.phpunit.0.group=action",
+        "tests.phpunit.0.testsuites.0=unit",
       ],
     ]);
     $results = file_get_contents($this->sandboxInstance . '/reports/phpunit/results.xml');
@@ -164,8 +175,8 @@ class DrupalTest extends BltProjectTestBase {
         "tests.drupal.test-runner=phpunit",
         "tests.phpunit.0.config=$this->docroot/core/phpunit.xml.dist",
         "tests.phpunit.0.path=$this->reporoot/core",
-        "tests.phpunit.0.group='action'",
-        "tests.phpunit.0.testsuites.0='kernel'",
+        "tests.phpunit.0.group=action",
+        "tests.phpunit.0.testsuites.0=kernel",
       ],
     ]);
     $results = file_get_contents($this->sandboxInstance . '/reports/phpunit/results.xml');
@@ -182,8 +193,8 @@ class DrupalTest extends BltProjectTestBase {
         "tests.drupal.test-runner=phpunit",
         "tests.phpunit.0.config=$this->docroot/core/phpunit.xml.dist",
         "tests.phpunit.0.path=$this->reporoot/core",
-        "tests.phpunit.0.group='action'",
-        "tests.phpunit.0.testsuites.0='functional'",
+        "tests.phpunit.0.group=action",
+        "tests.phpunit.0.testsuites.0=functional",
       ],
     ]);
     $results = file_get_contents($this->sandboxInstance . '/reports/phpunit/results.xml');
@@ -200,8 +211,8 @@ class DrupalTest extends BltProjectTestBase {
         "tests.drupal.test-runner=phpunit",
         "tests.phpunit.0.config=$this->docroot/core/phpunit.xml.dist",
         "tests.phpunit.0.path=$this->reporoot/core",
-        "tests.phpunit.0.group='action'",
-        "tests.phpunit.0.testsuites.0='functional-javascript'",
+        "tests.phpunit.0.group=action",
+        "tests.phpunit.0.testsuites.0=functional-javascript",
       ],
     ]);
     $results = file_get_contents($this->sandboxInstance . '/reports/phpunit/results.xml');
