@@ -41,7 +41,7 @@ This directory contains all projects tests, grouped by testing technology. For a
     │    │   └── Example.feature
     │    ├── behat.yml - contains behat configuration common to all behat profiles.
     │    └── integration.yml - contains behat configuration for the integration profile, which is used to run tests on the integration environment.
-    └── phpunit - contains all PHP Unit tests
+    └── phpunit - contains PHPUnit tests for the project (Drupal PHPUnit test should reside withing a given Drupal module).
 
 Additional technologies (some of which may not be supported by BLT) can also have their tests bundled in the tests folder for convenience (e.g. `tests/jmeter`).
     
@@ -56,6 +56,7 @@ The following testing commands are available:
 * `blt tests:all`
 * `blt tests:behat:run`
 * `blt tests:phpunit:run`
+* `blt tests:drupal:run`
 * `blt tests:security:check:updates`
 * `blt tests:security:check:composer`
 
@@ -134,9 +135,7 @@ Note that Cucumber is simply a Ruby based BDD library, whereas Behat is a
 PHP based BDD library. Best practices for tests writing apply to both.
 * [The training wheels came off](http://aslakhellesoy.com/post/11055981222/the-training-wheels-came-off)
 
-## PHPUnit
-
-Project level, functional PHPUnit tests are included in `tests/phpunit`. Any PHPUnit tests that affect specific modules or application level features should be placed in the same directory as that module, not in this directory.
+## Unit and functional testing
 
 ### Best practices
 
@@ -160,54 +159,143 @@ Project level, functional PHPUnit tests are included in `tests/phpunit`. Any PHP
 
 ### Configuration
 
-You can customize the `tests:phpunit:run` command by [customize the configuration values](extending-blt.md#modifying-blt-configuration) for the `phpunit` key.
+The `tests` has following properties:
 
-Each row under the `phpunit` key should contain a combination of the following properties:
+ * `reports.localDir`: Direct to save testing reports on local environments
+ * `reports.remoteDir`: Direct to save testing reports on remote environments
+ * `run-server`: Whether or not to launch the Drush server for testing
+ * `server.port`: The Drush run-server port, default is `8888`
+ * `server.url`: The URL for Drush run-server, default is `http://127.0.0.1:8888`
+ * `selenium.port`: Port for Selenium, default is `4444`
+ * `selenium.url`: URL for Selenium, default is `http://127.0.0.1:4444/wd/hub`
+ * `chrome.port`: Port for `chrome`, default is `9222`
+ * `chrome.args`: Args for `chrome`, default is `null`
+ * `chromedriver.port`: Port for `chromedriver`, default is `9515`
+ * `chromedriver.args`: Args for `chromedriver`, default is `null`
 
- * bootstrap: A "bootstrap" PHP file that is run before the tests
- * class: the class name for the test
- * config: path to either the Core phpunit configuration file (docroot/core/phpunit.xml.dist) or a custom one. If left blank, no configuration will be loaded with the unit test.
- * debug: if `true`, will display debugging information
- * exclude: run tests excluding any tagged with this `@group`
- * file: the sourcefile that declares the class provided in `class`
- * filter: allows text filter for tests
- * group: run tests only tagged with a specific `@group`
- * path: the path to the custom phpunit test
- * printer: the TestListener implementation to use
- * stop-on-error: if `true`, will stop execution upon first error
- * stop-on-failure: if `true`, sill stop execution upon first error or failure
- * testdox: if `true`, report test execution progress in TestDox format
- * testsuite: run tests that are part of a specific `@testsuite`
+### Testing Drupal
+
+Each row under the `tests:drupal` key should contain a combination of the following properties (see Drupal's `core/phpunit.xml.dist` for additional details):
+
+ * `test-runner`: Whether to run Drupal tests with PHPUnit or Drupal's run-tests.sh script
+ * `sudo_run_tests`: Whether or not to use sudo when running Drupal tests (only `chromedriver` is supported at this time)
+ * `web-driver`: Driver to use for running Drupal's functional JavaScript tests
+ * `browsertest_output_directory`: Directory for `BROWSERTEST_OUTPUT_DIRECTORY` value
+ * `apache_run_group`: Unix user used for `APACHE_RUN_USER` value
+ * `apache_run_user`: Unix group for `APACHE_RUN_GROUP` value. If `sudo_run_tests:true`, this is used to run testing commands as `sudo -u www-data -E ./vendor/bin/phpunit {...}`
+ * `mink_driver_args`: Driver args to mink tests `MINK_DRIVER_ARGS` value
+ * `mink_driver_args_phantomjs`: Driver args to phantomjs tests `MINK_DRIVER_ARGS_PHANTOMJS` value
+ * `mink_driver_args_webdriver`: Driver args to webdriver tests `MINK_DRIVER_ARGS_WEBDRIVER` value
+ * `mink_driver_class`: Driver class for mink tests `MINK_DRIVER_CLASS` value
+ * `simpletest_base_url`: URL for `SIMPLETEST_BASE_UR`L value
+ * `simpletest_db`: Connection string `for SIMPLETEST_DB` value
+ * `symfony_deprecations_helper`: Set to `disabled` for `SYMFONY_DEPRECATIONS_HELPER` value; disables deprecation testing completely
+
+### PHPUnit
+
+Project level, functional PHPUnit tests are included in `tests/phpunit`. Any PHPUnit tests that affect specific modules or application level features should be placed in the same directory as that module, not in this directory.
+
+You can customize the `tests:phpunit:run` command by [customize the configuration values](extending-blt.md#modifying-blt-configuration) for the `tests:phpunit` key.
+
+Each row under the `tests:phpunit` key should contain a combination of the following properties:
+
+ * `bootstrap`: A "bootstrap" PHP file that is run before the tests
+ * `class`: the class name for the test
+ * `config`: path to either the Core phpunit configuration file (docroot/core/phpunit.xml.dist) or a custom one. If left blank, no configuration will be loaded with the unit test.
+ * `debug`: if `true`, will display debugging information
+ * `directory`: directory to scan for tests
+ * `exclude`: run tests excluding any tagged with this `@group`
+ * `file`: the sourcefile that declares the class provided in `class`
+ * `filter`: allows text filter for tests
+ * `group`: run tests only tagged with a specific `@group`
+ * `path`: the directory where the phpunit command will be run from
+ * `printer`: the TestListener implementation to use
+ * `stop-on-error`: if `true`, will stop execution upon first error
+ * `stop-on-failure`: if `true`, sill stop execution upon first error or failure
+ * `testdox`: if `true`, report test execution progress in TestDox format
+ * `testsuite`: run tests that are part of a specific `@testsuite`
+ * `testsuites`: (array) run tests from multiple `@testsuite`s (takes precedence over `testsuite`)
 
  See PHPUnit's [documentation](https://phpunit.de/manual/current/en/textui.htm) for additional information.
 
 ```yml
-phpunit:
-  - path: '${repo.root}/tests/phpunit'
-    class: 'ExampleTest'
-    file: 'ExampleTest.php'
-  -
-    config: ${docroot}/core/phpunit.xml.dist
-    group: 'example'
-    class: null
-    file: null
-  -
-    config: ${docroot}/core/phpunit.xml.dist
-    exclude: 'mylongtest'
-    group: 'example'
-    class: null
-    file: null
-  -
-    config: ${docroot}/core/phpunit.xml
-    path: '${docroot}/core'
-    testsuite: 'functional'
-    class: null
-    file: null
-   -
-    config: ${docroot}/core/phpunit.xml
-    path: ${docroot}/modules/custom/my_module
-    class: ExampeleTest
-    file: tests/src/Unit/ExampeleTest.php
+tests:
+  phpunit:
+    - # Run BLT"s example test.
+      path: '${repo.root}/tests/phpunit'
+      config: '${docroot}/core/phpunit.xml.dist'
+      class: 'ExampleTest'
+      file: 'ExampleTest.php'
+    - # Run Drupal' unit, kernel, functional, and functional-javascript testsuites for the action module.
+      path: '${docroot}/core'
+      config: ${docroot}/core/phpunit.xml.dist
+      testsuites:
+        - 'unit'
+        - 'kernel'
+        - 'functional'
+        - `functional-javascript`
+      group: action
+    - # Run all tests in the custom modules directory.
+      path: '${docroot}/core'
+      config: ${docroot}/core/phpunit.xml.dist
+      directory: ${docroot}/modules/custom
+```
+
+### Drupal's `run-tests.sh` script
+
+You can customize the `tests:drupal:run` command by [customize the configuration values](extending-blt.md#modifying-blt-configuration) for the `tests:run-tests` key.
+
+Each row under the `tests:run-tests` key should contain a combination of the below properties. See Drupal's [documentation](https://www.drupal.org/docs/8/phpunit/running-tests-through-command-line-with-run-testssh) for a description of each properties.
+
+ * `all`
+ * `browser`
+ * `clean`
+ * `color`
+ * `concurrency`
+ * `dburl`
+ * `die-on-fail`
+ * `keep-results-table`
+ * `keep-results`
+ * `repeat`
+ * `sqlite`
+ * `suppress-deprecations`
+ * `tests` (array)
+ * `types` (array, takes precedence over `type`)
+ * `type`
+ * `url`
+
+```yml
+tests:
+  run-tests:
+    - # Run the PHPUnit-Unit, PHPUnit-Kernel, and PHPUnit-Functional test types for the action module.
+      color: true
+      concurrency: 2
+      types:
+       - 'PHPUnit-Unit'
+       - 'PHPUnit-Kernel'
+       - 'PHPUnit-Functional'
+      tests:
+      - 'action'
+      sqlite: '${tests.drupal.sqlite}'
+      url: '${tests.drupal.simpletest_base_url}'
+    - # Run the PHPUnit-FunctionalJavascript test type for the action module.
+      color: true
+      concurrency: 1
+      types:
+       - 'PHPUnit-FunctionalJavascript'
+      tests:
+      - 'action'
+      sqlite: '${tests.drupal.sqlite}'
+      url: '${tests.drupal.simpletest_base_url}'
+    - # Run the Simpletest test type for the user module.
+      color: true
+      concurrency: 1
+      types:
+       - 'Simpletest'
+      tests:
+      - 'user'
+      sqlite: '${tests.drupal.sqlite}'
+      url: '${tests.drupal.simpletest_base_url}'
 ```
 
 ## Frontend Testing
