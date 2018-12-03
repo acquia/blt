@@ -23,6 +23,11 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
   /**
    * @var string
    */
+  protected $php;
+
+  /**
+   * @var string
+   */
   protected $testEnvVars;
 
   /**
@@ -45,9 +50,11 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
   public function __construct($runTestsScriptCommand = NULL) {
 
     $this->runTestsScriptCommand = !is_null($runTestsScriptCommand) ? $runTestsScriptCommand : './core/scripts/run-tests.sh';
+    $this->php = $this->findExecutable('php');
 
     if (!$this->command) {
-      $this->command = $this->findExecutable('php');
+      $this->command = $this->php;
+      $this->php($this->php);
     }
     if (!$this->command) {
       throw new TaskException(__CLASS__, "PHP installation not found");
@@ -194,6 +201,16 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
    */
   public function dbUrl($dbUrl) {
     $this->option("dburl", $dbUrl);
+    return $this;
+  }
+
+  /**
+   * @param string $php
+   *
+   * @return $this
+   */
+  public function php($php) {
+    $this->option("php", $php);
     return $this;
   }
 
