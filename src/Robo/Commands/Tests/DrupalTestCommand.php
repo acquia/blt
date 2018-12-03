@@ -2,6 +2,7 @@
 
 namespace Acquia\Blt\Robo\Commands\Tests;
 
+use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
 
 /**
@@ -192,7 +193,6 @@ class DrupalTestCommand extends TestsCommandBase {
     $this->taskFilesystemStack()
       ->mkdir($this->reportsDir)
       ->mkdir($this->browsertestOutputDirectory)
-      ->touch($this->reportFile)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
   }
