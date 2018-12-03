@@ -4,6 +4,6 @@ set -ev
 
 blt validate:all --no-interaction
 ${BLT_DIR}/scripts/blt/ci/tick-tock.sh blt setup --define drush.alias='${drush.aliases.ci}' --environment=ci --no-interaction --yes --verbose
-blt tests:all --define drush.alias='${drush.aliases.ci}' --define tests.run-server=true --define tests.drupal.sudo_run_tests=false --define tests.drupal.simpletest_base_url='${tests.server.url}' --environment=ci --yes --verbose
+blt tests:all --define drush.alias='${drush.aliases.ci}' --environment=ci --yes --verbose
 
 set +v
