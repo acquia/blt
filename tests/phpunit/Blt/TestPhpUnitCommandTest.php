@@ -29,7 +29,6 @@ class TestPhpUnitCommandTest extends BltProjectTestBase {
    * Test that ExampleTest.php is correctly executed and passes.
    */
   public function testPhpUnitCommandExampleTests() {
-    $this->installDrupalMinimal();
     $docroot = $this->config->get("docroot");
     $repoRroot = $this->config->get("repo.root");
     list($status_code, $output, $config) = $this->blt("tests:phpunit:run", [
