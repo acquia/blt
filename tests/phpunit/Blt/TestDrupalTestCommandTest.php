@@ -112,19 +112,13 @@ class DrupalTest extends BltProjectTestBase {
         "tests.run-tests.0.color=true",
         "tests.run-tests.0.concurrency=2",
         "tests.run-tests.0.repeat=1",
-        "tests.run-tests.0.tests.0=action",
+        "tests.run-tests.0.tests.0=ban",
         "tests.run-tests.0.types.0=PHPUnit-Functional",
         "tests.run-tests.0.sqlite=$this->sqlite",
         "tests.run-tests.0.url=$this->url",
       ],
     ]);
-    $results = file_get_contents($this->sandboxInstance . '/reports/phpunit/Drupal_Tests_action_Functional_ActionListTest.xml');
-    $this->assertNotContains('failure type="failure"', $results);
-    $results = file_get_contents($this->sandboxInstance . '/reports/phpunit/Drupal_Tests_action_Functional_ActionUninstallTest.xml');
-    $this->assertNotContains('failure type="failure"', $results);
-    $results = file_get_contents($this->sandboxInstance . '/reports/phpunit/Drupal_Tests_action_Functional_BulkFormTest.xml');
-    $this->assertNotContains('failure type="failure"', $results);
-    $results = file_get_contents($this->sandboxInstance . '/reports/phpunit/Drupal_Tests_action_Functional_ConfigurationTest.xml');
+    $results = file_get_contents($this->sandboxInstance . '/reports/phpunit/Drupal_Tests_ban_Functional_IpAddressBlockingTest.xml');
     $this->assertNotContains('failure type="failure"', $results);
   }
 
@@ -193,7 +187,7 @@ class DrupalTest extends BltProjectTestBase {
         "tests.drupal.test-runner=phpunit",
         "tests.phpunit.0.config=$this->docroot/core/phpunit.xml.dist",
         "tests.phpunit.0.path=$this->reporoot/core",
-        "tests.phpunit.0.group=action",
+        "tests.phpunit.0.group=ban",
         "tests.phpunit.0.testsuites.0=functional",
       ],
     ]);

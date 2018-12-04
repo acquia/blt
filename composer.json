@@ -22,7 +22,7 @@
     "require": {
         "php": ">=7.1",
         "acquia/drupal-spec-tool": "^2.0.0",
-        "behat/mink": "1.7.x-dev#9ea1ceb",
+        "behat/mink": "1.7.x-dev#9ea1cebe3dc",
         "composer-plugin-api": "^1.1.0",
         "composer/installers": "^1.2.0",
         "composer/semver": "^1.4",
