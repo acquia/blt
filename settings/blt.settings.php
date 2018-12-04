@@ -151,7 +151,7 @@ if ($is_acsf_inited) {
     $name = array_slice($domain_fragments, 1);
     $acsf_sites = $blt_config->get('multisites');
     if (in_array($name, $acsf_sites)) {
-      $acsf_site_name = $name;
+      $_acsf_site_name = $name;
     }
   }
 }
