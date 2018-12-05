@@ -32,7 +32,7 @@ To avoid these pitfalls, follow the best practices outlined in sections below.
 
 ## Test directory structure
 
-This directory contains all projects tests, grouped by testing technology. For all configuration related to builds that actually run these tests, please see the [build](/build) directory.
+This directory contains all projects tests, grouped by testing technology. For all configuration related to builds that actually run these tests, please see the [blt](/blt) directory.
 
     tests
     ├── behat - contains all Behat tests
@@ -41,7 +41,7 @@ This directory contains all projects tests, grouped by testing technology. For a
     │    │   └── Example.feature
     │    ├── behat.yml - contains behat configuration common to all behat profiles.
     │    └── integration.yml - contains behat configuration for the integration profile, which is used to run tests on the integration environment.
-    └── phpunit - contains PHPUnit tests for the project (Drupal PHPUnit test should reside withing a given Drupal module).
+    └── phpunit - contains PHPUnit tests for the project (Drupal PHPUnit tests should reside withing a given Drupal module).
 
 Additional technologies (some of which may not be supported by BLT) can also have their tests bundled in the tests folder for convenience (e.g. `tests/jmeter`).
     
@@ -139,13 +139,13 @@ PHP based BDD library. Best practices for tests writing apply to both.
 
 ### Best practices
 
-* Tests should not contain any control statements
-* Be careful to make both positive and negative assertions of expectations
-* @todo add examples of good and bad tests
+* Tests should not contain any control statements.
+* Be careful to make both positive and negative assertions of expectations.
+* @todo add examples of good and bad tests.
 
 ### Common mistakes
 
-* Writing unit tests that are not independent
+* Writing unit tests that are not independent.
 * Making unit tests too large. Tests should be small and granular.
 * Asserting only positive conditions. Negative assertions should also be made.
 
@@ -159,43 +159,43 @@ PHP based BDD library. Best practices for tests writing apply to both.
 
 ### Configuration
 
-The `tests` has following properties:
+The `tests` configuration variable has following properties:
 
- * `reports.localDir`: Direct to save testing reports on local environments
- * `reports.remoteDir`: Direct to save testing reports on remote environments
+ * `reports.localDir`: Directory used to save testing reports on local environments
+ * `reports.remoteDir`: Directory used to save testing reports on remote environments
  * `run-server`: Whether or not to launch the Drush server for testing
  * `server.port`: The Drush run-server port, default is `8888`
- * `server.url`: The URL for Drush run-server, default is `http://127.0.0.1:8888`
+ * `server.url`: The URL for Drush server, default is `http://127.0.0.1:8888`
  * `selenium.port`: Port for Selenium, default is `4444`
  * `selenium.url`: URL for Selenium, default is `http://127.0.0.1:4444/wd/hub`
- * `chrome.port`: Port for `chrome`, default is `9222`
- * `chrome.args`: Args for `chrome`, default is `null`
- * `chromedriver.port`: Port for `chromedriver`, default is `9515`
- * `chromedriver.args`: Args for `chromedriver`, default is `null`
+ * `chrome.port`: Port for `chrome` browser, default is `9222`
+ * `chrome.args`: Args for `chrome` browser, default is `null`
+ * `chromedriver.port`: Port for `chromedriver` WebDriver for Chrome, default is `9515`
+ * `chromedriver.args`: Args for `chromedriver` WebDriver for Chrome, default is `null`
 
 ### Testing Drupal
 
 Each row under the `tests:drupal` key should contain a combination of the following properties (see Drupal's `core/phpunit.xml.dist` for additional details):
 
  * `test-runner`: Whether to run Drupal tests with PHPUnit or Drupal's run-tests.sh script
- * `sudo_run_tests`: Whether or not to use sudo when running Drupal tests (only `chromedriver` is supported at this time)
- * `web-driver`: Driver to use for running Drupal's functional JavaScript tests
- * `browsertest_output_directory`: Directory for `BROWSERTEST_OUTPUT_DIRECTORY` value
- * `apache_run_group`: Unix user used for `APACHE_RUN_USER` value
- * `apache_run_user`: Unix group for `APACHE_RUN_GROUP` value. If `sudo_run_tests:true`, this is used to run testing commands as `sudo -u www-data -E ./vendor/bin/phpunit {...}`
- * `mink_driver_args`: Driver args to mink tests `MINK_DRIVER_ARGS` value
- * `mink_driver_args_phantomjs`: Driver args to phantomjs tests `MINK_DRIVER_ARGS_PHANTOMJS` value
- * `mink_driver_args_webdriver`: Driver args to webdriver tests `MINK_DRIVER_ARGS_WEBDRIVER` value
- * `mink_driver_class`: Driver class for mink tests `MINK_DRIVER_CLASS` value
- * `simpletest_base_url`: URL for `SIMPLETEST_BASE_UR`L value
- * `simpletest_db`: Connection string `for SIMPLETEST_DB` value
- * `symfony_deprecations_helper`: Set to `disabled` for `SYMFONY_DEPRECATIONS_HELPER` value; disables deprecation testing completely
+ * `sudo_run_tests`: Whether or not to use sudo when running Drupal tests
+ * `web-driver`: WebDriver to use for running Drupal's functional JavaScript tests (only `chromedriver` is supported at this time)
+ * `browsertest_output_directory`: Directory to write output for browser tests (value for `BROWSERTEST_OUTPUT_DIRECTORY`)
+ * `apache_run_group`: Unix user used for tests (value for `APACHE_RUN_USER`)
+ * `apache_run_user`: Unix group used for tests (value for `APACHE_RUN_GROUP`)  (if `sudo_run_tests:true`, this is used to run testing commands as `sudo -u www-data -E ./vendor/bin/phpunit {...}`)
+ * `mink_driver_args`: Driver args to mink tests (value for `MINK_DRIVER_ARGS`)
+ * `mink_driver_args_phantomjs`: Driver args to phantomjs tests (value for `MINK_DRIVER_ARGS_PHANTOMJS`)
+ * `mink_driver_args_webdriver`: Driver args to webdriver tests (value for `MINK_DRIVER_ARGS_WEBDRIVER`)
+ * `mink_driver_class`: Driver class for mink tests (value for `MINK_DRIVER_CLASS`)
+ * `simpletest_base_url`: Base URL for Simpletest (value for `SIMPLETEST_BASE_URL`)
+ * `simpletest_db`: Connection string Simpletest database (value for `for SIMPLETEST_DB`)
+ * `symfony_deprecations_helper`: Setting to `disabled` disables deprecation testing completely (value for `SYMFONY_DEPRECATIONS_HELPER`)
 
 ### PHPUnit
 
-Project level, functional PHPUnit tests are included in `tests/phpunit`. Any PHPUnit tests that affect specific modules or application level features should be placed in the same directory as that module, not in this directory.
+Project level, functional PHPUnit tests are included in `tests/phpunit`. Any PHPUnit tests that affect specific modules or application level features should be placed in the same directory as that module or feature code, not in this directory.
 
-You can customize the `tests:phpunit:run` command by [customize the configuration values](extending-blt.md#modifying-blt-configuration) for the `tests:phpunit` key.
+You can customize the `tests:phpunit:run` command by [modifying BLT Configuration](extending-blt.md#modifying-blt-configuration) for the `tests:phpunit` key.
 
 Each row under the `tests:phpunit` key should contain a combination of the following properties:
 
@@ -243,7 +243,7 @@ tests:
 
 ### Drupal's `run-tests.sh` script
 
-You can customize the `tests:drupal:run` command by [customize the configuration values](extending-blt.md#modifying-blt-configuration) for the `tests:run-tests` key.
+You can customize the `tests:drupal:run` command by [modifying BLT Configuration](extending-blt.md#modifying-blt-configuration) for the `tests:run-tests` key.
 
 Each row under the `tests:run-tests` key should contain a combination of the below properties. See Drupal's [documentation](https://www.drupal.org/docs/8/phpunit/running-tests-through-command-line-with-run-testssh) for a description of each properties.
 
@@ -271,29 +271,29 @@ tests:
       color: true
       concurrency: 2
       types:
-       - 'PHPUnit-Unit'
-       - 'PHPUnit-Kernel'
-       - 'PHPUnit-Functional'
+        - 'PHPUnit-Unit'
+        - 'PHPUnit-Kernel'
+        - 'PHPUnit-Functional'
       tests:
-      - 'action'
+        - 'action'
       sqlite: '${tests.drupal.sqlite}'
       url: '${tests.drupal.simpletest_base_url}'
     - # Run the PHPUnit-FunctionalJavascript test type for the action module.
       color: true
       concurrency: 1
       types:
-       - 'PHPUnit-FunctionalJavascript'
+        - 'PHPUnit-FunctionalJavascript'
       tests:
-      - 'action'
+        - 'action'
       sqlite: '${tests.drupal.sqlite}'
       url: '${tests.drupal.simpletest_base_url}'
     - # Run the Simpletest test type for the user module.
       color: true
       concurrency: 1
       types:
-       - 'Simpletest'
+        - 'Simpletest'
       tests:
-      - 'user'
+        - 'user'
       sqlite: '${tests.drupal.sqlite}'
       url: '${tests.drupal.simpletest_base_url}'
 ```
