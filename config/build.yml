@@ -214,9 +214,6 @@ tests:
     simpletest_db: 'sqlite://localhost/${tests.drupal.sqlite}'
     symfony_deprecations_helper: 'disabled'
   phpunit:
-  - path: '${repo.root}/tests/phpunit'
-    config: ${docroot}/core/phpunit.xml.dist
-    directory: '${repo.root}/tests/phpunit'
   run-tests:
 
 validate:
