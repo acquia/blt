@@ -67,63 +67,46 @@ class PhpcsCommand extends BltTasks {
     $this->say("Sniffing directories containing changed files...");
     $files = explode("\n", $file_list);
     $files = array_filter($files);
-    if ($files) {
-      $temp_path = $this->getConfigValue('repo.root') . '/tmp/phpcs-fileset';
-      $this->taskWriteToFile($temp_path)
-        ->lines($files)
-        ->run();
-      $arguments = "--file-list='$temp_path' -l";
-      $exit_code = $this->doSniff($arguments);
-      unlink($temp_path);
-
-      return $exit_code;
-    }
-
-    return 0;
-  }
-
-  /**
-   * Executes PHPCS against (unstaged) modified or untracked files in repo.
-   *
-   * This command will execute PHP Codesniffer against modified/untracked files
-   * if those files are a subset of the phpcs.filesets filesets.
-   *
-   * @command tests:phpcs:sniff:modified
-   * @aliases tpsm
-   *
-   * @return int
-   */
-  public function sniffModified() {
-    $this->say("Sniffing modified and untracked files in repo...");
-    $arguments = "--filter=gitmodified " . $this->getConfigValue('repo.root');
-    $exit_code = $this->doSniff($arguments);
+    $exit_code = $this->doSniffFileList($files);
 
     return $exit_code;
   }
 
   /**
-   * Executes PHP Code Sniffer using specified options/arguments.
+   * Executes PHP Code Sniffer against an array of files.
    *
-   * @param string $arguments
-   *   The command arguments/options.
+   * @param array $files
+   *   A flat array of absolute file paths.
    *
    * @return int
    */
-  protected function doSniff($arguments) {
-    $bin = $this->getConfigValue('composer.bin') . '/phpcs';
-    $command = "'$bin' $arguments";
-    if ($this->output()->isVerbose()) {
-      $command .= ' -v';
-    }
-    elseif ($this->output()->isVeryVerbose()) {
-      $command .= ' -vv';
-    }
-    $result = $this->taskExecStack()
-      ->exec($command)
-      ->printMetadata(FALSE)
-      ->run();
+  protected function doSniffFileList(array $files) {
+    if ($files) {
+      $temp_path = $this->getConfigValue('repo.root') . '/tmp/phpcs-fileset';
+      $this->taskWriteToFile($temp_path)
+        ->lines($files)
+        ->run();
 
-    return $result->getExitCode();
+      $bin = $this->getConfigValue('composer.bin') . '/phpcs';
+      $bootstrap = __DIR__ . "/phpcs-validate-files-bootstrap.php";
+      $command = "'$bin' --file-list='$temp_path' --bootstrap='$bootstrap' -l";
+      if ($this->output()->isVerbose()) {
+        $command .= ' -v';
+      }
+      elseif ($this->output()->isVeryVerbose()) {
+        $command .= ' -vv';
+      }
+      $result = $this->taskExecStack()
+        ->exec($command)
+        ->printMetadata(FALSE)
+        ->run();
+
+      unlink($temp_path);
+
+      return $result->getExitCode();
+    }
+
+    return 0;
   }
 
 }

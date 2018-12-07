@@ -1,122 +1,86 @@
 # Change Log
 
-#### 9.2.1 (2018-11-01)
+#### 9.1.8 (2018-11-01)
 
-[Full Changelog](https://github.com/acquia/blt/compare/9.2.0-alpha3...9.2.1)
+[Full Changelog](https://github.com/acquia/blt/compare/9.1.7...9.1.8)
 
-**Implemented enhancements**
-
-- Update to Drupal Coder 8.3.x. (#3132)
-
-**Fixed bugs**
-
-- Fixes #2945 by removing cloud hook exception for ACSF. (#2946)
-
-**Miscellaneous**
-
-- Update deploy.md with correct Cloud Hooks links. (#3188)
-- Update BLT settings for site and http/proxy detection (#3172)
-- Prevent cache collisions in multisite install tasks (#3171)
-- Prevent cache collisions in multisite db-update tasks (#3166)
-- Updating CHANGELOG.md and setting version for 9.2.0.
-- Travis shouldn't duplicate Drupal 8.6 tests (#3152)
-- Fixed travis output. (#3151)
-- 3149: Minor grammar fix (#3150)
-- Fix PHP syntax error in acquia simplesamlphp config. (#3141)
-- Update support policies (#3147)
-- Resolves #3106: Add 'skip_permissions_hardening' setting to local settings file template (#3107)
-- Fixes #3118: Update theme path to more standardized D8 defaults. (#3119)
-- Fix INSTALL.md installation directions for Drush Launcher. (#3127)
-- updating blt docs to cover ACSF memcache use. (#3136)
-- Remove PHP 5.6 from the list of tested versions. (#3137)
-- Fix the link of Memcache documentation page. (#3135)
-- Minor variable / comment refactor. (#3111)
-- Update README.md (#3113)
-- Update config_split.config_split.ci.yml (#3129)
-
-
-#### 9.2.0 (2018-10-09)
-
-[Full Changelog](https://github.com/acquia/blt/compare/9.2.0-alpha3...9.2.0)
-
-
-**Fixed bugs**
-
-- Fixes #2945 by removing cloud hook exception for ACSF. (#2946)
-
-**Miscellaneous**
-
-- Travis shouldn't duplicate Drupal 8.6 tests (#3152)
-- Fixed travis output. (#3151)
-- 3149: Minor grammar fix (#3150)
-- Fix PHP syntax error in acquia simplesamlphp config. (#3141)
-- Update support policies (#3147)
-- Resolves #3106: Add 'skip_permissions_hardening' setting to local settings file template (#3107)
-- Fixes #3118: Update theme path to more standardized D8 defaults. (#3119)
-- Fix INSTALL.md installation directions for Drush Launcher. (#3127)
-- updating blt docs to cover ACSF memcache use. (#3136)
-- Remove PHP 5.6 from the list of tested versions. (#3137)
-- Fix the link of Memcache documentation page. (#3135)
-- Minor variable / comment refactor. (#3111)
-- Update README.md (#3113)
-- Update config_split.config_split.ci.yml (#3129)
-
-
-#### 9.2.0-alpha3 (2018-09-15)
-
-[Full Changelog](https://github.com/acquia/blt/compare/9.2.0-alpha2...9.2.0-alpha3)
-
-**Implemented enhancements**
-
-- Fixes #3065: Use webflo/drupal-core-require-dev instead of tracking core dev dependencies. (#3068)
-- Fixes #3053: Update requirement to drush/drush:^9.4.0. (#3078)
 
 **Fixed bugs**
 
 - Fixes #3046: Cleaned up Pipelines docs. (#3104)
-- Cherry-pick in lost/abandoned commits from 9.x (#3072)
+- Port PHPUnit fixes to 9.x (#3117)
 
 **Miscellaneous**
 
-- Exclude the 'sites/settings' dir for the default list of sites. (#2994) (#3105)
-- Run validation without interaction on CI. (#3070) (#3097)
-- Remove support for PHPUnit 5. (#3102)
-- Support memcache on ACSF via flags. (#3096)
-- amotic -> atomic (#3098)
-- Use core's PHPUnit bootstrap file. (#3092)
-- Remove memcache.yml and references to it. (#3093) (#3094)
-- Update local-development.md (#3087)
-- Run simplesaml config command on all composer calls. (#3051)
-- Travis CI Memcache Service and Settings (#3082)
+- Update deploy.md with correct Cloud Hooks links. (#3188)
+- Disable HEAD tests.
+- Fixed travis output. (#3151)
+- 3149: Minor grammar fix (#3150)
+- Fix PHP syntax error in acquia simplesamlphp config. (#3141)
+- Update support policies (#3147)
+- Resolves #3106: Add 'skip_permissions_hardening' setting to local settings file template (#3107)
+- Fixes #3118: Update theme path to more standardized D8 defaults. (#3119)
+- Fix INSTALL.md installation directions for Drush Launcher. (#3127)
+- Update README.md (#3113)
+- Minor variable / comment refactor. (#3111)
+- Fix the link of Memcache documentation page. (#3135)
+- Remove PHP 5.6 from the list of tested versions. (#3137) (#3145)
+- Update config_split.config_split.ci.yml (#3129)
 
 
-#### 9.2.0-alpha2 (2018-09-08)
+#### 9.1.7 (2018-09-15)
 
-[Full Changelog](https://github.com/acquia/blt/compare/9.2.0-alpha1...9.2.0-alpha2)
+[Full Changelog](https://github.com/acquia/blt/compare/9.1.6...9.1.7)
 
-**Implemented enhancements**
-
-- Allow PHPUnit to bootstrap from core. (#3071)
 
 **Fixed bugs**
 
-- Finished updating memcache config for alpha7. (#3076)
-- Fixes #3055: Update memcache settings to match changes in Drupal memcache module. (#3058) (#3067)
+- Fixes #2945 by removing cloud hook exception for ACSF. (#2946)
 
 **Miscellaneous**
 
-- Clarified Git hook documentation. (#3073)
+- Exclude the 'sites/settings' dir for the default list of sites. (#2994)
+- Run validation without interaction on CI. (#3070)
+- Remove memcache.yml and references to it. (#3093)
 
 
-#### 9.2.0-alpha1 (2018-09-06)
+#### 9.1.6 (2018-09-08)
 
-[Full Changelog](https://github.com/acquia/blt/compare/9.1.3...9.2.0-alpha1)
+[Full Changelog](https://github.com/acquia/blt/compare/9.1.5...9.1.6)
 
+
+**Fixed bugs**
+
+- Finished updating memcache config for alpha7. (#3076) (#3079)
+
+
+#### 9.1.5 (2018-09-06)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.1.4...9.1.5)
+
+
+**Fixed bugs**
+
+- Fixes #3055: Update memcache settings to match changes in Drupal memcache module. (#3058)
 
 **Miscellaneous**
 
-- Updating versions of Drupal core and Lightning. (#3061)
-- Test against Drupal 8.6.x-dev. (#2937)
+- Lock core in 9.x branch to 8.5.6. (#3062)
+
+
+#### 9.1.4 (2018-09-03)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.1.3...9.1.4)
+
+**Implemented enhancements**
+
+- Fixes #2964: When manually deploying using a tag also push that tag to source repo. (#2992)
+
+**Miscellaneous**
+
+- New guidelines for contribution. (#3045)
+- Update the VERSION constant and CHANGELOG to reflect the 9.1.3 release. (#3042)
+- VM setup tips (#3036)
 - Adding the BLT logo to the README. (#3040)
 - Added acquia/drupal-spec-tool to Composer suggestions. (#3025)
 - Use tab indents for *.mk makefiles (#3018)
@@ -125,6 +89,16 @@
 - Acquia PHP SDK V2 back to stable release (#3012)
 - Fix GitHub typos (#3019)
 
+
+#### 9.1.3 (2018-08-24)
+
+This out-of-cycle release addresses a critical failure observed with ACSF sites.
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.1.2...9.1.3)
+
+**Fixed bugs**
+
+- Revert "Multisite setup enhancements and bugfixes" (#3028)
 
 #### 9.1.2 (2018-08-16)
 
