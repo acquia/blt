@@ -19,6 +19,8 @@ $site = getenv('AH_SITE_GROUP');
 $env = getenv('AH_SITE_ENVIRONMENT');
 $uri = FALSE;
 
+global $_acsf_site_name;
+
 // ACSF Database Role.
 if (!empty($GLOBALS['gardens_site_settings']['conf']['acsf_db_name'])) {
   $db_role = $GLOBALS['gardens_site_settings']['conf']['acsf_db_name'];
@@ -40,9 +42,7 @@ function error($message) {
   exit(1);
 }
 
-global $acsf_site_name;
-
-fwrite(STDERR, sprintf("Running updates on: site: %s; env: %s; db_role: %s; name: %s;\n", $site, $env, $db_role, $acsf_site_name));
+fwrite(STDERR, sprintf("Running updates on: site: %s; env: %s; db_role: %s; name: %s;\n", $site, $env, $db_role, $_acsf_site_name));
 
 include_once $docroot . '/sites/g/sites.inc';
 $sites_json = gardens_site_data_load_file();
