@@ -35,7 +35,7 @@ class TestPhpUnitCommandTest extends BltProjectTestBase {
       "--define" => [
         "tests.phpunit.0.config=$docroot/core/phpunit.xml.dist",
         "tests.phpunit.0.path=$repoRroot/tests/phpunit",
-        "tests.phpunit.0.class=ExampleTest",
+        "tests.phpunit.0.directory=$repoRroot/tests/phpunit",
       ],
     ]);
     $results = file_get_contents($this->sandboxInstance . '/reports/phpunit/results.xml');
