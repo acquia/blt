@@ -41,7 +41,7 @@ This directory contains all projects tests, grouped by testing technology. For a
     │    │   └── Example.feature
     │    ├── behat.yml - contains behat configuration common to all behat profiles.
     │    └── integration.yml - contains behat configuration for the integration profile, which is used to run tests on the integration environment.
-    └── phpunit - contains PHPUnit tests for the project (Drupal PHPUnit tests should reside withing a given Drupal module).
+    └── phpunit - contains PHPUnit tests for the project (Drupal PHPUnit tests should reside within a given Drupal module).
 
 Additional technologies (some of which may not be supported by BLT) can also have their tests bundled in the tests folder for convenience (e.g. `tests/jmeter`).
     
