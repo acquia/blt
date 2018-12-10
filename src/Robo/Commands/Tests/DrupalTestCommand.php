@@ -124,10 +124,10 @@ class DrupalTestCommand extends TestsCommandBase {
    */
   public function executeTests() {
     if ($this->drupalTestRunner == 'phpunit') {
-      $this->invokeCommand('tests:phpunit:run');
+      $this->invokeCommand('tests:drupal:phpunit:run');
     }
     elseif ($this->drupalTestRunner == 'run-tests') {
-      $this->invokeCommand('tests:run-tests:run');
+      $this->invokeCommand('tests:drupal:run-tests:run');
     }
     else {
       throw new BltException("You must have tests.drupal.test-runner set to either phpunit or run-tests.");
@@ -142,8 +142,8 @@ class DrupalTestCommand extends TestsCommandBase {
     $this->apacheRunUser = $this->getConfigValue('tests.drupal.apache_run_user');
     $this->sudoRunTests = $this->getConfigValue('tests.drupal.sudo_run_tests');
     $this->testingEnv = [
-      self::APACHE_RUN_GROUP => $this->getConfigValue('tests.drupal.apache_run_user'),
-      self::APACHE_RUN_USER => $this->apacheRunUser,
+      self::APACHE_RUN_GROUP => $this->sudoRunTests ? $this->getConfigValue('tests.drupal.apache_run_user') : NULL,
+      self::APACHE_RUN_USER => $this->sudoRunTests ? $this->apacheRunUser : NULL,
       self::BROWSERTEST_OUTPUT_DIRECTORY => $this->browsertestOutputDirectory,
       self::MINK_DRIVER_ARGS => $this->getConfigValue('tests.drupal.mink_driver_args'),
       self::MINK_DRIVER_ARGS_PHANTOMJS => $this->getConfigValue('tests.drupal.mink_driver_args_phantomjs'),

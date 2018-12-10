@@ -26,23 +26,44 @@ class PhpUnitCommand extends DrupalTestCommand {
   public function initialize() {
     parent::initialize();
     $this->phpunitConfig = $this->getConfigValue('tests.phpunit');
+    $this->createReportsDir();
   }
 
   /**
-   * Setup and run tests.
+   * Setup and run PHPUnit tests.
    *
    * @command tests:phpunit:run
    * @aliases tpr phpunit tests:phpunit
    * @description Executes all PHPUnit tests. Launches chromedriver prior to execution.
+   *
+   * @throws \Exception
+   *   Throws an exception if any test fails.
    */
-  public function run() {
-    $this->createReportsDir();
-    if ($this->drupalTestRunner == 'phpunit') {
-      parent::run();
-    }
-    else {
+  public function runPhpUnitTests() {
+    if ($this->drupalTestRunner != 'phpunit') {
       try {
         $this->executeTests();
+      }
+      catch (\Exception $e) {
+        throw $e;
+      }
+    }
+  }
+
+  /**
+   * Setup and run Drupal tests.
+   *
+   * @command tests:drupal:phpunit:run
+   * @description Executes all PHPUnit tests. Launches chromedriver prior to execution.
+   * @hidden
+   *
+   * @throws \Exception
+   *   Throws an exception if any test fails.
+   */
+  public function runDrupalTests() {
+    if ($this->drupalTestRunner == 'phpunit') {
+      try {
+        parent::run();
       }
       catch (\Exception $e) {
         throw $e;

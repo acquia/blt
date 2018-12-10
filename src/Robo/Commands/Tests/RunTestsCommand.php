@@ -34,17 +34,20 @@ class RunTestsCommand extends DrupalTestCommand {
     parent::initialize();
     $this->runTestsConfig = $this->getConfigValue('tests.run-tests');
     $this->runTestsScriptCommand = './core/scripts/run-tests.sh';
+    $this->createReportsDir();
   }
 
   /**
-   * Setup and run tests.
+   * Setup and run Drupal tests.
    *
-   * @command tests:run-tests:run
+   * @command tests:drupal:run-tests:run
    * @description Executes all Drupal tests. Launches chromedriver prior to execution.
    * @hidden
+   *
+   * @throws \Exception
+   *   Throws an exception if any test fails.
    */
-  public function run() {
-    $this->createReportsDir();
+  public function runDrupalTests() {
     if ($this->drupalTestRunner == 'run-tests') {
       try {
         parent::run();
