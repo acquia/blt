@@ -14,11 +14,10 @@ env:
     - IS_PULL_REQUEST=$TRAVIS_PULL_REQUEST
     - BUILD_DIR=$TRAVIS_BUILD_DIR
     - DRUPAL_CORE_HEAD=8.5.x-dev
-    - DRUPAL_CORE_STABLE=8.5.6
   matrix:
-    - DRUPAL_CORE_VERSION=$DRUPAL_CORE_STABLE PHPUNIT_EXCLUDE_GROUP='long,requires-vm'
-    - DRUPAL_CORE_VERSION=$DRUPAL_CORE_STABLE PHPUNIT_GROUP='long' PHPUNIT_EXCLUDE_GROUP='requires-vm'
-    # - DRUPAL_CORE_VERSION=$DRUPAL_CORE_HEAD
+    - DRUPAL_CORE_VERSION=default PHPUNIT_EXCLUDE_GROUP='long,requires-vm'
+    - DRUPAL_CORE_VERSION=default PHPUNIT_GROUP='long' PHPUNIT_EXCLUDE_GROUP='requires-vm'
+    - DRUPAL_CORE_VERSION=$DRUPAL_CORE_HEAD
 
 matrix:
   allow_failures:
@@ -69,7 +68,7 @@ before_deploy:
   - cp ${TRAVIS_BUILD_DIR}/id_rsa_blted8.enc .
   # Remove the symlink definition for BLT from composer.json and require this specific commit for BLT.
   - composer config --unset repositories.blt
-  - composer require acquia/blt:8.x-dev#${TRAVIS_COMMIT}
+  - composer require acquia/blt:9.x-dev#${TRAVIS_COMMIT}
   - composer update --lock
   - echo "[![Build Status](https://travis-ci.org/acquia-pso/blted8.svg?branch=8.x)](https://travis-ci.org/acquia-pso/blted8)" >> README.md
   - git add -A
