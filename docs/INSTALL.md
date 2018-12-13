@@ -1,6 +1,6 @@
 # BLT installation
 
-*Please do not clone BLT as a means of using it. The only reason to clone BLT is to contribute to it.
+* Do not clone BLT as a means of using it. The only reason to clone BLT is to contribute to it.*
 
 ## System requirements
 
@@ -62,7 +62,7 @@ Once complete follow the [BLT on Windows installation instructions](windows-inst
 
 ### Linux
 
-If you are using a Linux machine, it is assumed that you will not be using Drupal VM and that you will be configuring your own LAMP stack. Disregard the `blt vm` command and `@[project.machine_name]` references in subsequent documentation.
+Linux is fully supported by BLT and DrupalVM and shares many of the same dependencies as MacOS (except Xcode, of course).
 
 #### Ubuntu / Debian
 
