@@ -606,4 +606,26 @@ class Updates {
     $this->updater->getOutput()->writeln("");
   }
 
+  /**
+   * 9.1.9.
+   *
+   * @Update(
+   *    version = "9001009",
+   *    description = "Factory Hooks Drush 9 bug fixes and enhancements for db-update."
+   * )
+   */
+  public function update_9001009() {
+    if (file_exists($this->updater->getRepoRoot() . '/factory-hooks')) {
+      $messages = [
+        "This update will update the ACSF module to the latest release and refresh your factory hooks.",
+        "Review the resulting files and ensure that any customizations have been re-added, and commit the result.",
+      ];
+      $this->updater->executeCommand("./vendor/bin/blt acsf");
+      $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
+      $this->updater->getOutput()->writeln("");
+      $this->updater->getOutput()->writeln($formattedBlock);
+      $this->updater->getOutput()->writeln("");
+    }
+  }
+
 }

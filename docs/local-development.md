@@ -12,16 +12,16 @@ No matter what local environment you choose to use, the following guidelines sho
   * In order to guarantee similar behavior, use Apache as your web server
   * If your project is hosted on Acquia Cloud, please ensure to match [our software versions](https://docs.acquia.com/cloud/arch/tech-platform)
 
-Acquia developers use [PHPStorm](http://www.jetbrains.com/phpstorm/) and recommend it for local development environments. Acquia has written [several articles](https://docs.acquia.com/site-search?search=phpstorm) on effectively using PHPStorm for Drupal development.
+Acquia developers use [PHPStorm](http://www.jetbrains.com/phpstorm/) and recommend it for local development environments. Acquia has written [several articles](https://docs.acquia.com/#stq=phpstorm&stp=1) on effectively using PHPStorm for Drupal development.
 
 ## Using Drupal VM for BLT-generated projects
 
 To use [Drupal VM](http://www.drupalvm.com/) with a Drupal project that is generated with BLT:
 
-1. Download the Drupal VM dependencies listed in [Drupal VM's README](https://github.com/geerlingguy/drupal-vm#quick-start-guide). If you're running [Homebrew](http://brew.sh/index.html) on Mac OSX, this is as simple as:
+1. Download the Drupal VM dependencies listed in [Drupal VM's README](https://github.com/geerlingguy/drupal-vm#quick-start-guide). If you're running [Homebrew](http://brew.sh/index.html) on macOS, this is as simple as:
 
         brew tap caskroom/cask
-        brew install php56 git composer ansible drush
+        brew install php71 git composer ansible drush
         brew cask install virtualbox vagrant
 
 1. Create & boot the VM
@@ -33,7 +33,7 @@ To use [Drupal VM](http://www.drupalvm.com/) with a Drupal project that is gener
         git add -A
         git commit -m <your commit meessage>
 
-1. Install Drupal
+1. Install Drupal and finalize BLT setup
 
         vagrant ssh
         blt setup

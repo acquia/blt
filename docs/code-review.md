@@ -23,7 +23,7 @@ It is not possible to create an exhaustive list of all things that should be che
         * Use of global $language, LANGUAGE_NONE instead of 'und'
         * Use of t()
     * Does it follow basic code principles?
-        * Functions are logically amotic with low cyclomatic complexity
+        * Functions are logically atomic with low cyclomatic complexity
         * Logic is being performed at the correct layer, e.g., no logic in the presentation layer.
         * Are its components re-usable?
     * Verify best practices are being used:
