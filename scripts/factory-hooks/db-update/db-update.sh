@@ -41,10 +41,10 @@ echo "Generated temporary drush cache directory: $cacheDir."
 echo "Running BLT deploy tasks on $uri domain in $env environment on the $site subscription."
 
 # Replace all "/" characters with ".", because as of Drush 9.5, Drush will
-# remove truncate the string at "/". This prevents ACSF sites from defining
+# truncate the string at "/". This Drush behavior prevents ACSF sites from defining
 # domains with site path suffixes. E.g., "www.example.com/site-path" which
-# would be translate to the the sites.php key of "www.example.com.site-path"
-# in a browser-based request.
+# would be translated a sites.php entry with the key "www.example.com.site-path"
+# in a browser-based request, cannot be used via drush without first replacing the "/".
 drush_uri=$(echo ${domain} | sed -r 's/[/]+/./g')
 
 DRUSH_PATHS_CACHE_DIRECTORY=$cacheDir $blt drupal:update --environment=$env --site=${name[0]} --define drush.uri=$drush_uri --verbose --yes --no-interaction
