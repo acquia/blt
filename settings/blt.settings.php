@@ -141,7 +141,7 @@ if ($is_acsf_inited) {
     // When developing locally, we use the host name to determine which site
     // factory site is active. The hostname must have a corresponding entry
     // under the multisites key.
-    $input = new ArgvInput($_SERVER['argv']);
+    $input = new ArgvInput(!empty($_SERVER['argv']) ? $_SERVER['argv'] : ['']);
     $config_initializer = new ConfigInitializer($repo_root, $input);
     $blt_config = $config_initializer->initialize();
 
