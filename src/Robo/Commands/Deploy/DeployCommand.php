@@ -315,7 +315,7 @@ class DeployCommand extends BltTasks {
       // This branch may not exist upstream, so we do not fail the build if a
       // merge fails.
       ->stopOnFail(FALSE)
-      ->exec("git fetch $remote_name {$this->branchName}")
+      ->exec("git fetch $remote_name {$this->branchName} --depth=1")
       ->exec("git merge $remote_name/{$this->branchName}")
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
