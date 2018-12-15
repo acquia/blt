@@ -25,7 +25,7 @@ blt="/mnt/www/html/$site.$env/vendor/acquia/blt/bin/blt"
 # locate the URI based on the site, environment and db role arguments.
 uri=`/usr/bin/env php /mnt/www/html/$site.$env/hooks/acquia/uri.php $site $env $db_role`
 
-# Create array with site name fragments from ACSF uri. 
+# Create array with site name fragments from ACSF uri.
 IFS='.' read -a name <<< "${uri}"
 
 # Create and set Drush cache to unique local temporary storage per site.
@@ -40,5 +40,11 @@ echo "Generated temporary drush cache directory: $cacheDir."
 # Print to cloud task log.
 echo "Running BLT deploy tasks on $uri domain in $env environment on the $site subscription."
 
-DRUSH_PATHS_CACHE_DIRECTORY=$cacheDir $blt drupal:update --environment=$env --site=${name[0]} --define drush.uri=$domain --verbose --yes --no-interaction
+# Replace all "/" characters with ".", because as of Drush 9.5, Drush will
+# truncate the string at "/". This Drush behavior prevents ACSF sites from defining
+# domains with site path suffixes. E.g., "www.example.com/site-path" which
+# would be translated a sites.php entry with the key "www.example.com.site-path"
+# in a browser-based request, cannot be used via drush without first replacing the "/".
+drush_uri=$(echo ${domain} | sed -r 's/[/]+/./g')
 
+DRUSH_PATHS_CACHE_DIRECTORY=$cacheDir $blt drupal:update --environment=$env --site=${name[0]} --define drush.uri=$drush_uri --verbose --yes --no-interaction
