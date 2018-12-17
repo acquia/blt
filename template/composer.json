@@ -2,7 +2,9 @@
     "license": "proprietary",
     "type": "project",
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "optimize-autoloader": true,
+        "apcu-autoloader": true
     },
     "require": {},
     "require-dev": {},
