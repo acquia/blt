@@ -197,10 +197,12 @@ if ($is_ah_env) {
 
 // Prevent APCu memory exhaustion.
 // Acquia assigns 8 MB for APCu, which is only adequate for small cache pools.
-$apc_shm_size = Bytes::toInt(ini_get('apc.shm_size'));
-$apcu_fix_size = Bytes::toInt('32M');
-if ($apc_shm_size < $apcu_fix_size) {
-  $settings['container_yamls'][] = __DIR__ . '/apcu_fix.yml';
+if (extension_loaded('apc') && ini_get('apc.enabled')) {
+  $apc_shm_size = Bytes::toInt(ini_get('apc.shm_size'));
+  $apcu_fix_size = Bytes::toInt('32M');
+  if ($apc_shm_size < $apcu_fix_size) {
+    $settings['container_yamls'][] = __DIR__ . '/apcu_fix.yml';
+  }
 }
 
 // Includes caching configuration.
