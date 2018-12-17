@@ -18,10 +18,10 @@ Acquia developers use [PHPStorm](http://www.jetbrains.com/phpstorm/) and recomme
 
 To use [Drupal VM](http://www.drupalvm.com/) with a Drupal project that is generated with BLT:
 
-1. Download the Drupal VM dependencies listed in [Drupal VM's README](https://github.com/geerlingguy/drupal-vm#quick-start-guide). If you're running [Homebrew](http://brew.sh/index.html) on Mac OSX, this is as simple as:
+1. Download the Drupal VM dependencies listed in [Drupal VM's README](https://github.com/geerlingguy/drupal-vm#quick-start-guide). If you're running [Homebrew](http://brew.sh/index.html) on macOS, this is as simple as:
 
         brew tap caskroom/cask
-        brew install php56 git composer ansible drush
+        brew install php71 git composer ansible drush
         brew cask install virtualbox vagrant
 
 1. Create & boot the VM
@@ -33,7 +33,7 @@ To use [Drupal VM](http://www.drupalvm.com/) with a Drupal project that is gener
         git add -A
         git commit -m <your commit meessage>
 
-1. Install Drupal
+1. Install Drupal and finalize BLT setup
 
         vagrant ssh
         blt setup
@@ -106,3 +106,4 @@ If you choose to use a different solution than recommended here, please make sur
 
 While the BLT team cannot officially support these alternative environments, please submit documentation of any special steps necessary with the tool you choose so that others can learn from your experience. Environments for which others have contributed tips include:
 - [Lando](alternative-environment-tips/lando.md)
+- [DDEV](alternative-environment-tips/ddev.md)

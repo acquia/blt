@@ -53,11 +53,6 @@ class ConfigCommand extends BltTasks {
 
       $task = $this->taskDrush()
         ->stopOnFail()
-        // Sometimes drush forgets where to find its aliases.
-        ->drush("cc")->arg('drush')
-        // Rebuild caches in case service definitions have changed.
-        // @see https://www.drupal.org/node/2826466
-        ->drush("cache-rebuild")
         // Execute db updates.
         // This must happen before features are imported or configuration is
         // imported. For instance, if you add a dependency on a new extension to

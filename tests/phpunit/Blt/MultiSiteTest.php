@@ -42,7 +42,7 @@ class MultiSiteTest extends BltProjectTestBase {
     $this->assertEquals("$this->site1Dir.clone", $site1_blt_yml['drush']['aliases']['remote']);
 
     $site2_blt_yml = YamlMunge::parseFile("$this->sandboxInstance/docroot/sites/$this->site2Dir/blt.yml");
-    $this->assertEquals("$this->site2Dir.local", $site2_blt_yml['drush']['aliases']['local']);
+    $this->assertEquals("self", $site2_blt_yml['drush']['aliases']['local']);
     $this->assertEquals("$this->site2Dir.clone", $site2_blt_yml['drush']['aliases']['remote']);
 
     // Clone.

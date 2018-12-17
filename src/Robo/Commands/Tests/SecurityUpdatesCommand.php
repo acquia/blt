@@ -31,4 +31,28 @@ class SecurityUpdatesCommand extends BltTasks {
     }
   }
 
+  /**
+   * Check composer.lock for security updates.
+   *
+   * @command tests:security:check:composer
+   * @aliases tscom security tests:composer
+   * @executeInVm
+   */
+  public function testsSecurityComposer() {
+    $bin = $this->getConfigValue('composer.bin');
+    $result = $this->taskExecStack()
+      ->dir($this->getConfigValue('repo.root'))
+      ->exec("$bin/security-checker security:check composer.lock")
+      ->run();
+
+    if ($result->getExitCode()) {
+      $this->logger->notice('To disable security checks, set disable-targets.tests.security.check.composer to true in blt.yml.');
+      return 1;
+    }
+    else {
+      $this->writeln("<info>There are no outstanding security updates for your composer packages.</info>");
+      return 0;
+    }
+  }
+
 }
