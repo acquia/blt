@@ -59,7 +59,7 @@ Take caution when updating core and contributed modules when using any sort of c
 The best way to prevent such problems is to always follow these steps when updating contributed and core modules. These steps assume you are using Config Split or a similar CM strategy using `drush cex` and `drush cim`.
 
 1. Start from a clean install or database sync, including config import (`blt setup` or `blt drupal:sync`). Verify that active and exported configuration are in sync (running `drush config-export` should report no changes.)
-2. Use `composer update` or `composer update drupal/[module_name] --with-dependencies` to download the new module version(s).
+2. Use `composer update` or `composer update drupal/[module_name] --with-dependencies` to download the new module version(s). To update Drupal core, use `composer update webflo/drupal-core-require-dev drupal/core --with-dependencies`.
 3. Run `drush updb` to apply any pending updates locally.
 4. Export any configuration that changed as part of the database updates or new module versions by running `drush config-export` and checking for any changes on disk using `git status`.
 5. Commit any changed configuration, along with the updated `composer.json` and `composer.lock`.
