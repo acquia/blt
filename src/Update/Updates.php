@@ -659,6 +659,11 @@ class Updates {
     $composer_json['require-dev']['acquia/blt-require-dev'] = $template_composer_json['require-dev']['acquia/blt-require-dev'];
 
     $this->updater->writeComposerJson($composer_json);
+    $this->updater->deleteFile([
+      $this->updater->getRepoRoot() . "/blt/composer.required.json",
+      $this->updater->getRepoRoot() . "/blt/composer.suggested.json",
+      $this->updater->getRepoRoot() . "/blt/composer.overrides.json",
+    ]);
     $messages = [
       "Your composer.json file has been modified to remove the Composer merge plugin.",
       "You must execute `composer update --lock` to update your lock file.",
