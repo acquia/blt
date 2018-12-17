@@ -656,7 +656,8 @@ class Updates {
           $template_composer_json[$sync_composer_key]);
       }
     }
-    $composer_json['require-dev']['acquia/blt-require-dev'] = $template_composer_json['require']['acquia/blt-require-dev'];
+    $composer_json['require-dev']['acquia/blt-require-dev'] = $template_composer_json['require-dev']['acquia/blt-require-dev'];
+
     $this->updater->writeComposerJson($composer_json);
     $messages = [
       "Your composer.json file has been modified to remove the Composer merge plugin.",
