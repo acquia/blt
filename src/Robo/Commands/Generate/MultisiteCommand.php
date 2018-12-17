@@ -187,7 +187,7 @@ class MultisiteCommand extends BltTasks {
     $site_yml['project']['human_name'] = $site_name;
     $site_yml['project']['local']['protocol'] = $url['scheme'];
     $site_yml['project']['local']['hostname'] = $url['host'];
-    $site_yml['drush']['aliases']['local'] = $site_name . ".local";
+    $site_yml['drush']['aliases']['local'] = "self";
     $site_yml['drush']['aliases']['remote'] = $remote_alias;
     YamlMunge::mergeArrayIntoFile($site_yml, $site_yml_filename);
   }
