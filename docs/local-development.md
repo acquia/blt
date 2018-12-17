@@ -105,4 +105,7 @@ It is up to each team to choose how to handle local development, but some of the
 If you choose to use a different solution than recommended here, please make sure it fits all the needs of your team and project, and will not be a hindrance to project development velocity!
 
 While the BLT team cannot officially support these alternative environments, please submit documentation of any special steps necessary with the tool you choose so that others can learn from your experience. Environments for which others have contributed tips include:
-- [Lando](alternative-environment-tips/lando.md)
+
+* [DDEV](alternative-environment-tips/ddev.md)
+* [Docksal](alternative-environment-tips/docksal.md)
+* [Lando](alternative-environment-tips/lando.md)
