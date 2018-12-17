@@ -1,5 +1,18 @@
 # Change Log
 
+#### 9.1.9 (2018-12-17)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.1.8...9.1.9)
+
+**Implemented enhancements**
+
+- Update db-update.sh (#3293)
+
+**Fixed bugs**
+
+- Backport ACSF improvements from 9.2.x (#3289)
+
+
 #### 9.1.8 (2018-11-01)
 
 [Full Changelog](https://github.com/acquia/blt/compare/9.1.7...9.1.8)
