@@ -1,4 +1,3 @@
-
 #!/bin/bash
 #
 # Factory Hook: db-update
