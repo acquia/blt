@@ -14,5 +14,10 @@
         "webflo/drupal-core-require-dev": "^8.6.1",
         "phpunit/phpunit": "^4.8|^6.5",
         "squizlabs/php_codesniffer": "^3.0.1"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "10.0.x-dev"
+        }
     }
 }
