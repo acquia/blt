@@ -73,7 +73,7 @@ $command = sprintf(
   escapeshellarg($cache_directory),
   escapeshellarg($blt),
   escapeshellarg($env),
-  escapeshellarg($acsf_site_name),
+  escapeshellarg($_acsf_site_name),
   escapeshellarg($uri)
 );
 fwrite(STDERR, "Executing: $command with cache dir $cache_directory;\n");
