@@ -674,10 +674,11 @@ class Updates {
       'config'
     ];
     foreach ($sync_composer_keys as $sync_composer_key) {
-      if (array_key_exists($sync_composer_key, $composer_json)) {
-        $composer_json[$sync_composer_key] = ArrayManipulator::arrayMergeRecursiveDistinct($composer_json[$sync_composer_key],
-          $template_composer_json[$sync_composer_key]);
+      if (!array_key_exists($sync_composer_key, $composer_json)) {
+        $composer_json[$sync_composer_key] = [];
       }
+      $composer_json[$sync_composer_key] = ArrayManipulator::arrayMergeRecursiveDistinct($composer_json[$sync_composer_key],
+          $template_composer_json[$sync_composer_key]);
     }
 
     // Require blt-require-dev.

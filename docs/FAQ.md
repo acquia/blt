@@ -1,6 +1,6 @@
 # FAQ and Support
 
-The following are common error messages and scenarios that our users have reported and common remedies. 
+The following are common error messages and scenarios that our users have reported and common remedies.
 
 A general warning: BLT provides automation for numerous other applications including (but not limited to):
 
@@ -122,7 +122,6 @@ It has been documented by the [Drush team](https://github.com/drush-ops/drush/re
 Option 1: Deploy Drush 9 to the remote environment.
 
 Option 2: Temporarily add a ```--source-dump``` option per the Drush docs during the sql-sync command.
-
 
 ## FAQ
 
