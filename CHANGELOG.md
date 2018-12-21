@@ -5,6 +5,12 @@
 [Full Changelog](https://github.com/acquia/blt/compare/9.2.3...9.2.3)
 
 
+**Miscellaneous**
+
+- Updating CHANGELOG.md and setting version for 9.2.3.
+[Full Changelog](https://github.com/acquia/blt/compare/9.2.3...9.2.3)
+
+
 
 #### 9.2.2 (2018-12-17)
 
