@@ -45,6 +45,7 @@ class DeployCommand extends BltTasks {
     'commit-msg' => InputOption::VALUE_REQUIRED,
     'ignore-dirty' => FALSE,
     'dry-run' => FALSE,
+    'truncate-branch' => FALSE,
   ]) {
     if (!$this->getInspector()->isGitMinimumVersionSatisfied('2.0')) {
       $this->logger->error("Your system does not meet BLT's requirements. Please update git to 2.0 or newer.");
@@ -193,6 +194,7 @@ class DeployCommand extends BltTasks {
     $this->checkoutLocalDeployBranch();
     $this->build();
     $this->commit();
+    $this->truncateBuildRepoHistory($options);
     $this->cutTag('build');
 
     // Check the deploy.tag_source config value and also tag the source repo if
@@ -215,6 +217,7 @@ class DeployCommand extends BltTasks {
     $this->mergeUpstreamChanges();
     $this->build();
     $this->commit();
+    $this->truncateBuildRepoHistory($options);
     $this->push($this->branchName, $options);
   }
 
@@ -528,11 +531,17 @@ class DeployCommand extends BltTasks {
       $this->say("Pushing artifact to git.remotes...");
     }
 
+    $arguments = "";
+
+    if ($options['truncate-branch']) {
+      $arguments = "--force";
+    }
+
     $task = $this->taskExecStack()
       ->dir($this->deployDir);
     foreach ($this->getConfigValue('git.remotes') as $remote) {
       $remote_name = md5($remote);
-      $task->exec("git push $remote_name $identifier");
+      $task->exec("git push $remote_name $identifier $arguments");
     }
     $result = $task->run();
 
@@ -653,4 +662,56 @@ class DeployCommand extends BltTasks {
     ]);
   }
 
+  /**
+   *
+   * Truncates the history from the deployment branch on the remote repo.
+   * This reduces the number of objects in git and drastically reduces deployment times on
+   * much larger projects.
+   * Trigger with --truncate-branch option
+   *
+   * @param $options
+   *
+   * @return bool
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Robo\Exception\TaskException
+   */
+  public function truncateBuildRepoHistory($options) {
+
+    if ($options['truncate-branch']) {
+      $branchName = $this->getBranchName($options);
+
+      $this->logger->warning("Truncating commit history on $this->branchName.");
+
+      //get commit hash
+      $result = $this->taskExec('git rev-parse HEAD')
+        ->dir($this->deployDir)
+        ->printMetadata(FALSE)
+        ->printOutput(FALSE)
+        ->interactive(FALSE)
+        ->run();
+
+      $commitHash = $result->getMessage();
+
+      /*
+       * First create a temp branch with the single commit we are interested in
+       * Rebase our change on to this temp branch (that only has a single commit)
+       * Delete our temp branch
+       * *****-build now has only our latest commit
+       */
+      $result = $this->taskExecStack()
+        ->dir($this->deployDir)
+        ->printOutput(FALSE)
+        ->exec("git checkout --orphan truncateTemp $commitHash")
+        ->exec("git commit -m \"Truncate $branchName history from commit $commitHash.\"")
+        ->exec("git rebase --onto truncateTemp $commitHash $branchName")
+        ->exec("git branch -d truncateTemp")
+        ->run();
+
+      if (!$result->wasSuccessful()) {
+        throw new BltException("Failed to truncate deployment branch!");
+      }
+    } else {
+      return false;
+    }
+  }
 }
