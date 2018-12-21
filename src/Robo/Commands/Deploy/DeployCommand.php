@@ -665,8 +665,8 @@ class DeployCommand extends BltTasks {
   /**
    *
    * Truncates the history from the deployment branch on the remote repo.
-   * This reduces the number of objects in git and drastically reduces deployment times on
-   * much larger projects.
+   * This reduces the number of objects in git and drastically reduces
+   * deployment times on much larger projects.
    * Trigger with --truncate-branch option
    *
    * @param $options
@@ -682,7 +682,7 @@ class DeployCommand extends BltTasks {
 
       $this->logger->warning("Truncating commit history on $this->branchName.");
 
-      //get commit hash
+      // Get commit hash.
       $result = $this->taskExec('git rev-parse HEAD')
         ->dir($this->deployDir)
         ->printMetadata(FALSE)
@@ -694,9 +694,9 @@ class DeployCommand extends BltTasks {
 
       /*
        * First create a temp branch with the single commit we are interested in
-       * Rebase our change on to this temp branch (that only has a single commit)
+       * Rebase our change on to the temp branch (that only has a single commit)
        * Delete our temp branch
-       * *****-build now has only our latest commit
+       * *****-build now has only our latest commit.
        */
       $result = $this->taskExecStack()
         ->dir($this->deployDir)
@@ -710,8 +710,11 @@ class DeployCommand extends BltTasks {
       if (!$result->wasSuccessful()) {
         throw new BltException("Failed to truncate deployment branch!");
       }
-    } else {
-      return false;
     }
+    else {
+      return FALSE;
+    }
+
   }
+
 }
