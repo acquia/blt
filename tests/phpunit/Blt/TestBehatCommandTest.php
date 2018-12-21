@@ -27,8 +27,10 @@ class BehatTest extends BltProjectTestBase {
    */
   public function testBehatCommand() {
     $this->installDrupalMinimal();
-    $this->blt("tests:behat:run");
-    $this->blt("tests:behat:list:definitions");
+    list($status_code, $output, $config) = $this->blt("tests:behat:run");
+    $this->assertEquals(0, $status_code);
+    list($status_code, $output, $config) = $this->blt("tests:behat:list:definitions");
+    $this->assertEquals(0, $status_code);
   }
 
 }
