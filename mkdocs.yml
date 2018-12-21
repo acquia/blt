@@ -24,6 +24,8 @@ pages:
        - Alternative LAMP stacks: 'local-development.md'
        - Alternative Environment Tips:
            - Lando: 'alternative-environment-tips/lando.md'
+           - Docksal: 'alternative-environment-tips/docksal.md'
+           - DDEV: 'alternative-environment-tips/ddev.md'
     - Create a new project: 'creating-new-project.md'
     - Add to existing project: 'adding-to-project.md'
     - Next steps: 'next-steps.md'
