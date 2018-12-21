@@ -671,6 +671,7 @@ class Updates {
       'repositories',
       'extra',
       'scripts',
+      'config'
     ];
     foreach ($sync_composer_keys as $sync_composer_key) {
       if (!array_key_exists($sync_composer_key, $composer_json)) {
