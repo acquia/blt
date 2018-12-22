@@ -44,14 +44,14 @@ class DrupalTest extends BltProjectTestBase {
   public function testDrupalRunTestsSimpletestTests() {
     list($status_code, $output, $config) = $this->blt("tests:drupal:run", [
       "--define" => [
-        "tests.drupal.test-runner=run-tests",
-        "tests.run-tests.0.color=true",
-        "tests.run-tests.0.concurrency=1",
-        "tests.run-tests.0.repeat=1",
-        "tests.run-tests.0.tests.0=user",
-        "tests.run-tests.0.types.0=Simpletest",
-        "tests.run-tests.0.sqlite=$this->sqlite",
-        "tests.run-tests.0.url=$this->url",
+        "tests.drupal.test-runner=drupal-run-tests-script",
+        "tests.drupal-tests.0.color=true",
+        "tests.drupal-tests.0.concurrency=1",
+        "tests.drupal-tests.0.repeat=1",
+        "tests.drupal-tests.0.tests.0=user",
+        "tests.drupal-tests.0.types.0=Simpletest",
+        "tests.drupal-tests.0.sqlite=$this->sqlite",
+        "tests.drupal-tests.0.url=$this->url",
       ],
     ]);
     $results = file_get_contents($this->sandboxInstance . '/reports/phpunit/Drupal_user_Tests_RestRegisterUserTest.xml');
@@ -64,14 +64,14 @@ class DrupalTest extends BltProjectTestBase {
   public function testDrupalRunTestsUnitTests() {
     list($status_code, $output, $config) = $this->blt("tests:drupal:run", [
       "--define" => [
-        "tests.drupal.test-runner=run-tests",
-        "tests.run-tests.0.color=true",
-        "tests.run-tests.0.concurrency=2",
-        "tests.run-tests.0.repeat=1",
-        "tests.run-tests.0.tests.0=action",
-        "tests.run-tests.0.types.0=PHPUnit-Unit",
-        "tests.run-tests.0.sqlite=$this->sqlite",
-        "tests.run-tests.0.url=$this->url",
+        "tests.drupal.test-runner=drupal-run-tests-script",
+        "tests.drupal-tests.0.color=true",
+        "tests.drupal-tests.0.concurrency=2",
+        "tests.drupal-tests.0.repeat=1",
+        "tests.drupal-tests.0.tests.0=action",
+        "tests.drupal-tests.0.types.0=PHPUnit-Unit",
+        "tests.drupal-tests.0.sqlite=$this->sqlite",
+        "tests.drupal-tests.0.url=$this->url",
       ],
     ]);
     $results = file_get_contents($this->sandboxInstance . '/reports/phpunit/Drupal_Tests_action_Unit_Menu_ActionLocalTasksTest.xml');
@@ -84,14 +84,14 @@ class DrupalTest extends BltProjectTestBase {
   public function testDrupalRunTestsKernelTests() {
     list($status_code, $output, $config) = $this->blt("tests:drupal:run", [
       "--define" => [
-        "tests.drupal.test-runner=run-tests",
-        "tests.run-tests.0.color=true",
-        "tests.run-tests.0.concurrency=2",
-        "tests.run-tests.0.repeat=1",
-        "tests.run-tests.0.tests.0=action",
-        "tests.run-tests.0.types.0=PHPUnit-Kernel",
-        "tests.run-tests.0.sqlite=$this->sqlite",
-        "tests.run-tests.0.url=$this->url",
+        "tests.drupal.test-runner=drupal-run-tests-script",
+        "tests.drupal-tests.0.color=true",
+        "tests.drupal-tests.0.concurrency=2",
+        "tests.drupal-tests.0.repeat=1",
+        "tests.drupal-tests.0.tests.0=action",
+        "tests.drupal-tests.0.types.0=PHPUnit-Kernel",
+        "tests.drupal-tests.0.sqlite=$this->sqlite",
+        "tests.drupal-tests.0.url=$this->url",
       ],
     ]);
     $results = file_get_contents($this->sandboxInstance . '/reports/phpunit/Drupal_Tests_action_Kernel_Migrate_d7_MigrateActionsTest.xml');
@@ -113,14 +113,14 @@ class DrupalTest extends BltProjectTestBase {
   public function testDrupalRunTestsFunctionalJavascriptTests() {
     list($status_code, $output, $config) = $this->blt("tests:drupal:run", [
       "--define" => [
-        "tests.drupal.test-runner=run-tests",
-        "tests.run-tests.0.color=true",
-        "tests.run-tests.0.concurrency=1",
-        "tests.run-tests.0.repeat=1",
-        "tests.run-tests.0.tests.0=action",
-        "tests.run-tests.0.types.0=PHPUnit-FunctionalJavascript",
-        "tests.run-tests.0.sqlite=$this->sqlite",
-        "tests.run-tests.0.url=$this->url",
+        "tests.drupal.test-runner=drupal-run-tests-script",
+        "tests.drupal-tests.0.color=true",
+        "tests.drupal-tests.0.concurrency=1",
+        "tests.drupal-tests.0.repeat=1",
+        "tests.drupal-tests.0.tests.0=action",
+        "tests.drupal-tests.0.types.0=PHPUnit-FunctionalJavascript",
+        "tests.drupal-tests.0.sqlite=$this->sqlite",
+        "tests.drupal-tests.0.url=$this->url",
       ],
     ]);
     $results = file_get_contents($this->sandboxInstance . '/reports/phpunit/Drupal_Tests_action_FunctionalJavascript_ActionFormAjaxTest.xml');
