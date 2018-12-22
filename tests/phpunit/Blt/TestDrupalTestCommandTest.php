@@ -35,7 +35,7 @@ class DrupalTest extends BltProjectTestBase {
     $this->docroot = $this->config->get("docroot");
     $this->reporoot = $this->config->get("repo.root");
     $this->sqlite = $this->config->get("tests.drupal.sqlite");
-    $this->url = $this->config->get("tests.drupal.simpletest_base_url");
+    $this->url = $this->config->get("tests.drupal.simpletest-base-url");
   }
 
   /**

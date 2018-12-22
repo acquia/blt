@@ -12,7 +12,7 @@ class RunTestsCommand extends DrupalTestCommand {
 
   /**
    * An array that contains configuration to override /
-   * customize run-tests.sh commands.
+   * customize Drupal's run-tests.sh commands.
    *
    * @var array
    */
@@ -32,7 +32,7 @@ class RunTestsCommand extends DrupalTestCommand {
    */
   public function initialize() {
     parent::initialize();
-    $this->runTestsConfig = $this->getConfigValue('tests.run-tests');
+    $this->runTestsConfig = $this->getConfigValue('tests.drupal-tests');
     $this->runTestsScriptCommand = './core/scripts/run-tests.sh';
     $this->createReportsDir();
   }
@@ -48,7 +48,7 @@ class RunTestsCommand extends DrupalTestCommand {
    *   Throws an exception if any test fails.
    */
   public function runDrupalTests() {
-    if ($this->drupalTestRunner == 'run-tests') {
+    if ($this->drupalTestRunner == 'drupal-run-tests-script') {
       try {
         parent::run();
       }

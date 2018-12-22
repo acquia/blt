@@ -105,7 +105,7 @@ class DrupalTestCommand extends TestsCommandBase {
   }
 
   /**
-   * Executes all Drupal tests in either tests.phpunit or tests.run-tests.
+   * Executes all Drupal tests in either tests.phpunit or tests.drupal-tests.
    *
    * @command tests:drupal:run
    * @aliases tdr
@@ -126,11 +126,11 @@ class DrupalTestCommand extends TestsCommandBase {
     if ($this->drupalTestRunner == 'phpunit') {
       $this->invokeCommand('tests:drupal:phpunit:run');
     }
-    elseif ($this->drupalTestRunner == 'run-tests') {
+    elseif ($this->drupalTestRunner == 'drupal-run-tests-script') {
       $this->invokeCommand('tests:drupal:run-tests:run');
     }
     else {
-      throw new BltException("You must have tests.drupal.test-runner set to either phpunit or run-tests.");
+      throw new BltException("You must have tests.drupal.test-runner set to either phpunit or drupal-run-tests-script.");
     }
   }
 
@@ -138,20 +138,20 @@ class DrupalTestCommand extends TestsCommandBase {
    * Get environment variables string used for running Drupal tests.
    */
   protected function setTestingConfig() {
-    $this->browsertestOutputDirectory = $this->reportsDir . '/' . $this->getConfigValue('tests.drupal.browsertest_output_directory');
-    $this->apacheRunUser = $this->getConfigValue('tests.drupal.apache_run_user');
-    $this->sudoRunTests = $this->getConfigValue('tests.drupal.sudo_run_tests');
+    $this->browsertestOutputDirectory = $this->reportsDir . '/' . $this->getConfigValue('tests.drupal.browsertest-output-directory');
+    $this->apacheRunUser = $this->getConfigValue('tests.drupal.apache-run-user');
+    $this->sudoRunTests = $this->getConfigValue('tests.drupal.sudo-run-tests');
     $this->testingEnv = [
-      self::APACHE_RUN_GROUP => $this->sudoRunTests ? $this->getConfigValue('tests.drupal.apache_run_user') : NULL,
+      self::APACHE_RUN_GROUP => $this->sudoRunTests ? $this->getConfigValue('tests.drupal.apache-run-user') : NULL,
       self::APACHE_RUN_USER => $this->sudoRunTests ? $this->apacheRunUser : NULL,
       self::BROWSERTEST_OUTPUT_DIRECTORY => $this->browsertestOutputDirectory,
-      self::MINK_DRIVER_ARGS => $this->getConfigValue('tests.drupal.mink_driver_args'),
-      self::MINK_DRIVER_ARGS_PHANTOMJS => $this->getConfigValue('tests.drupal.mink_driver_args_phantomjs'),
-      self::MINK_DRIVER_ARGS_WEBDRIVER => $this->getConfigValue('tests.drupal.mink_driver_args_webdriver'),
-      self::MINK_DRIVER_CLASS => $this->getConfigValue('tests.drupal.mink_driver_class'),
-      self::SIMPLETEST_BASE_URL => $this->getConfigValue('tests.drupal.simpletest_base_url'),
-      self::SIMPLETEST_DB => $this->getConfigValue('tests.drupal.simpletest_db'),
-      self::SYMFONY_DEPRECATIONS_HELPER => $this->getConfigValue('tests.drupal.symfony_deprecations_helper'),
+      self::MINK_DRIVER_ARGS => $this->getConfigValue('tests.drupal.mink-driver-args'),
+      self::MINK_DRIVER_ARGS_PHANTOMJS => $this->getConfigValue('tests.drupal.mink-driver-args-phantomjs'),
+      self::MINK_DRIVER_ARGS_WEBDRIVER => $this->getConfigValue('tests.drupal.mink-driver-args-webdriver'),
+      self::MINK_DRIVER_CLASS => $this->getConfigValue('tests.drupal.mink-driver-class'),
+      self::SIMPLETEST_BASE_URL => $this->getConfigValue('tests.drupal.simpletest-base-url'),
+      self::SIMPLETEST_DB => $this->getConfigValue('tests.drupal.simpletest-db'),
+      self::SYMFONY_DEPRECATIONS_HELPER => $this->getConfigValue('tests.drupal.symfony-deprecations-helper'),
     ];
   }
 

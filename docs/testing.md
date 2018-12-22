@@ -178,18 +178,18 @@ The `tests` configuration variable has following properties:
 Each row under the `tests:drupal` key should contain a combination of the following properties (see Drupal's `core/phpunit.xml.dist` for additional details):
 
  * `test-runner`: Whether to run Drupal tests with PHPUnit or Drupal's run-tests.sh script
- * `sudo_run_tests`: Whether or not to use sudo when running Drupal tests
+ * `sudo-run-tests`: Whether or not to use sudo when running Drupal tests
  * `web-driver`: WebDriver to use for running Drupal's functional JavaScript tests (only `chromedriver` is supported at this time)
- * `browsertest_output_directory`: Directory to write output for browser tests (value for `BROWSERTEST_OUTPUT_DIRECTORY`)
- * `apache_run_group`: Unix user used for tests (value for `APACHE_RUN_USER`)
- * `apache_run_user`: Unix group used for tests (value for `APACHE_RUN_GROUP`)  (if `sudo_run_tests:true`, this is used to run testing commands as `sudo -u www-data -E ./vendor/bin/phpunit {...}`)
- * `mink_driver_args`: Driver args to mink tests (value for `MINK_DRIVER_ARGS`)
- * `mink_driver_args_phantomjs`: Driver args to phantomjs tests (value for `MINK_DRIVER_ARGS_PHANTOMJS`)
- * `mink_driver_args_webdriver`: Driver args to webdriver tests (value for `MINK_DRIVER_ARGS_WEBDRIVER`)
- * `mink_driver_class`: Driver class for mink tests (value for `MINK_DRIVER_CLASS`)
- * `simpletest_base_url`: Base URL for Simpletest (value for `SIMPLETEST_BASE_URL`)
- * `simpletest_db`: Connection string Simpletest database (value for `for SIMPLETEST_DB`)
- * `symfony_deprecations_helper`: Setting to `disabled` disables deprecation testing completely (value for `SYMFONY_DEPRECATIONS_HELPER`)
+ * `browsertest-output-directory`: Directory to write output for browser tests (value for `BROWSERTEST_OUTPUT_DIRECTORY`)
+ * `apache-run-group`: Unix user used for tests (value for `APACHE_RUN_USER`)
+ * `apache-run-user`: Unix group used for tests (value for `APACHE_RUN_GROUP`)  (if `sudo-run-tests:true`, this is used to run testing commands as `sudo -u www-data -E ./vendor/bin/phpunit {...}`)
+ * `mink-driver-args`: Driver args to mink tests (value for `MINK_DRIVER_ARGS`)
+ * `mink-driver-args-phantomjs`: Driver args to phantomjs tests (value for `MINK_DRIVER_ARGS_PHANTOMJS`)
+ * `mink-driver-args-webdriver`: Driver args to webdriver tests (value for `MINK_DRIVER_ARGS_WEBDRIVER`)
+ * `mink-driver-class`: Driver class for mink tests (value for `MINK_DRIVER_CLASS`)
+ * `simpletest-base-url`: Base URL for Simpletest (value for `SIMPLETEST_BASE_URL`)
+ * `simpletest-db`: Connection string Simpletest database (value for `for SIMPLETEST_DB`)
+ * `symfony-deprecations-helper`: Setting to `disabled` disables deprecation testing completely (value for `SYMFONY_DEPRECATIONS_HELPER`)
 
 ### PHPUnit
 
@@ -245,7 +245,7 @@ tests:
 
 You can customize the `tests:drupal:run` command by [modifying BLT Configuration](extending-blt.md#modifying-blt-configuration) for the `tests:run-tests` key.
 
-Each row under the `tests:run-tests` key should contain a combination of the below properties. See Drupal's [documentation](https://www.drupal.org/docs/8/phpunit/running-tests-through-command-line-with-run-testssh) for a description of each properties.
+Each row under the `tests:drupal-tests` key should contain a combination of the below properties. See Drupal's [documentation](https://www.drupal.org/docs/8/phpunit/running-tests-through-command-line-with-run-testssh) for a description of each properties.
 
  * `all`
  * `browser`
@@ -266,7 +266,7 @@ Each row under the `tests:run-tests` key should contain a combination of the bel
 
 ```yml
 tests:
-  run-tests:
+  drupal-tests:
     - # Run the PHPUnit-Unit, PHPUnit-Kernel, and PHPUnit-Functional test types for the action module.
       color: true
       concurrency: 2
@@ -277,7 +277,7 @@ tests:
       tests:
         - 'action'
       sqlite: '${tests.drupal.sqlite}'
-      url: '${tests.drupal.simpletest_base_url}'
+      url: '${tests.drupal.simpletest-base-url}'
     - # Run the PHPUnit-FunctionalJavascript test type for the action module.
       color: true
       concurrency: 1
@@ -286,7 +286,7 @@ tests:
       tests:
         - 'action'
       sqlite: '${tests.drupal.sqlite}'
-      url: '${tests.drupal.simpletest_base_url}'
+      url: '${tests.drupal.simpletest-base-url}'
     - # Run the Simpletest test type for the user module.
       color: true
       concurrency: 1
@@ -295,7 +295,7 @@ tests:
       tests:
         - 'user'
       sqlite: '${tests.drupal.sqlite}'
-      url: '${tests.drupal.simpletest_base_url}'
+      url: '${tests.drupal.simpletest-base-url}'
 ```
 
 ## Frontend Testing
