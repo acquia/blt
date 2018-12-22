@@ -153,7 +153,7 @@ class RunTestsCommand extends DrupalTestCommand {
         }
 
         $result = $task->run();
-        $exit_code = $result->getExitCode();
+        $exit_code = $result->wasSuccessful();
 
         if ($exit_code) {
           throw new BltException("Drupal tests failed.");
