@@ -105,7 +105,7 @@ class DrupalTestCommand extends TestsCommandBase {
   }
 
   /**
-   * Executes tests with Drupal core's testing framework found in either tests.phpunit or tests.drupal-tests.
+   * Executes tests found in either tests.phpunit or tests.drupal-tests.
    *
    * @command tests:drupal:run
    * @aliases tdr
