@@ -29,6 +29,9 @@ class DrupalTest extends BltProjectTestBase {
    */
   protected $url;
 
+  /**
+   * {@inheritdoc}
+   */
   public function setUp() {
     parent::setUp();
     $this->installDrupalMinimal();
