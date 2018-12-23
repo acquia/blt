@@ -39,14 +39,14 @@ class DrupalTestCommand extends TestsCommandBase {
   protected $sudoRunTests;
 
   /**
-   * Environment varialbes to set for Drupal tests.
+   * Environment variables to set for Drupal tests.
    *
    * @var array
    */
   protected $testingEnv;
 
   /**
-   * Environment varialbes to exported before Drupal tests.
+   * Environment variables to exported before Drupal tests.
    *
    * @var string
    */
