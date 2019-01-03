@@ -20,6 +20,7 @@ class DeployCommand extends BltTasks {
   protected $excludeFileTemp;
   protected $deployDir;
   protected $tagSource;
+  protected $truncateHistory;
 
   /**
    * This hook will fire for all commands in this command file.
@@ -30,6 +31,7 @@ class DeployCommand extends BltTasks {
     $this->excludeFileTemp = $this->getConfigValue('deploy.exclude_file') . '.tmp';
     $this->deployDir = $this->getConfigValue('deploy.dir');
     $this->tagSource = $this->getConfigValue('deploy.tag_source', TRUE);
+    $this->truncateHistory = $this->getConfigValue('deploy.truncate_history', FALSE);
   }
 
   /**
@@ -194,9 +196,7 @@ class DeployCommand extends BltTasks {
     $this->checkoutLocalDeployBranch();
     $this->build();
     $this->commit();
-    if ($options['truncate-history']) {
-      $this->truncateBuildRepoHistory($options);
-    }
+    $this->truncateBuildRepoHistory($options);
     $this->cutTag('build');
 
     // Check the deploy.tag_source config value and also tag the source repo if
@@ -219,9 +219,7 @@ class DeployCommand extends BltTasks {
     $this->mergeUpstreamChanges();
     $this->build();
     $this->commit();
-    if ($options['truncate-history']) {
-      $this->truncateBuildRepoHistory($options);
-    }
+    $this->truncateBuildRepoHistory($options);
     $this->push($this->branchName, $options);
   }
 
@@ -680,7 +678,7 @@ class DeployCommand extends BltTasks {
    */
   public function truncateBuildRepoHistory($options) {
 
-    if ($options['truncate-history']) {
+    if ($options['truncate-history'] || $this->truncateHistory) {
       //branchName may have already been modified so do not use getBranchName()
       $branchName = $this->branchName;
 
