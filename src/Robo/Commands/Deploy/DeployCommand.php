@@ -45,7 +45,7 @@ class DeployCommand extends BltTasks {
     'commit-msg' => InputOption::VALUE_REQUIRED,
     'ignore-dirty' => FALSE,
     'dry-run' => FALSE,
-    'truncate-branch' => FALSE,
+    'truncate-history' => FALSE,
   ]) {
     if (!$this->getInspector()->isGitMinimumVersionSatisfied('2.0')) {
       $this->logger->error("Your system does not meet BLT's requirements. Please update git to 2.0 or newer.");
@@ -533,7 +533,7 @@ class DeployCommand extends BltTasks {
 
     $arguments = "";
 
-    if ($options['truncate-branch']) {
+    if ($options['truncate-history']) {
       $arguments .= " --force";
     }
 
@@ -676,7 +676,7 @@ class DeployCommand extends BltTasks {
    */
   public function truncateBuildRepoHistory($options) {
 
-    if ($options['truncate-branch']) {
+    if ($options['truncate-history']) {
       //branchName may have already been modified so do not use getBranchName()
       $branchName = $this->branchName;
 
