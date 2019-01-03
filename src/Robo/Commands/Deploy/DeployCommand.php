@@ -667,7 +667,7 @@ class DeployCommand extends BltTasks {
    * Truncates the history from the deployment branch on the remote repo.
    * This reduces the number of objects in git and drastically reduces
    * deployment times on much larger projects.
-   * Trigger with --truncate-branch option
+   * Trigger with --truncate-history option
    *
    * @param $options
    *
