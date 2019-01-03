@@ -194,7 +194,9 @@ class DeployCommand extends BltTasks {
     $this->checkoutLocalDeployBranch();
     $this->build();
     $this->commit();
-    $this->truncateBuildRepoHistory($options);
+    if ($options['truncate-history']) {
+      $this->truncateBuildRepoHistory($options);
+    }
     $this->cutTag('build');
 
     // Check the deploy.tag_source config value and also tag the source repo if
@@ -217,7 +219,9 @@ class DeployCommand extends BltTasks {
     $this->mergeUpstreamChanges();
     $this->build();
     $this->commit();
-    $this->truncateBuildRepoHistory($options);
+    if ($options['truncate-history']) {
+      $this->truncateBuildRepoHistory($options);
+    }
     $this->push($this->branchName, $options);
   }
 
