@@ -534,7 +534,7 @@ class DeployCommand extends BltTasks {
     $arguments = "";
 
     if ($options['truncate-branch']) {
-      $arguments = "--force";
+      $arguments .= " --force";
     }
 
     $task = $this->taskExecStack()
@@ -673,12 +673,12 @@ class DeployCommand extends BltTasks {
    *
    * @return bool
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
-   * @throws \Robo\Exception\TaskException
    */
   public function truncateBuildRepoHistory($options) {
 
     if ($options['truncate-branch']) {
-      $branchName = $this->getBranchName($options);
+      //branchName may have already been modified so do not use getBranchName()
+      $branchName = $this->branchName;
 
       $this->logger->warning("Truncating commit history on $this->branchName.");
 
