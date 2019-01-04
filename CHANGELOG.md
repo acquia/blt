@@ -1,5 +1,33 @@
 # Change Log
 
+#### 9.2.3 (2018-12-21)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.2.2...9.2.3)
+
+**Enhancements**
+
+- Ignore platform requirements when running composer install on blt deploy #3305
+- Update db-update.sh #3309
+
+
+#### 9.2.2 (2018-12-17)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.2.1...9.2.2)
+
+
+**Miscellaneous**
+
+- Check if argv is set before using it (#3282)
+- Multisite bugfixes (#3231)
+- Fixes #3243 to clean up dry-run in deploy command. (#3263)
+- Fixing missing semi-colon at end of line. (#3208)
+- Fixing updates 9002000 message. (#3205)
+- Fixes #3185 to bring install and local docs inline. (#3186)
+- [9.2.x] Fix undefined trusted_reverse_proxy_ips #3214 (#3215)
+- Fixes #3063 by updating faq and install docs to improve install profile instructions. (#3064)
+- Fix comment formatting in PhpUnitCommand. (#3211)
+
+
 #### 9.2.1 (2018-11-01)
 
 [Full Changelog](https://github.com/acquia/blt/compare/9.2.0-alpha3...9.2.1)
