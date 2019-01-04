@@ -37,6 +37,10 @@ drush:
     # The default drush alias to be used when no environment is specified.
   default_alias: ${drush.aliases.local}
 
+validate:
+  # You can change this to true to have blt automatically validate acsf-init.
+  acsf: false
+
 # Configuration management options, such as core CM or features.
 # cm:
 #   features:
