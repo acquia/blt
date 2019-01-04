@@ -679,7 +679,7 @@ class DeployCommand extends BltTasks {
   public function truncateBuildRepoHistory($options) {
 
     if ($options['truncate-history'] || $this->truncateHistory) {
-      //branchName may have already been modified so do not use getBranchName()
+      // branchName may have already been modified so do not use getBranchName()
       $branchName = $this->branchName;
 
       $this->logger->warning("Truncating commit history on $this->branchName.");

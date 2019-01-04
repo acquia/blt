@@ -58,6 +58,22 @@ When deploying a tag to the artifact repo, if the config option `deploy.tag_sour
 
 *Note* however that BLT _does not_ automatically push the tag created on the source repository to its remote.
 
+### Truncating artifact repository history
+
+You may find on larger projects with a large numbers of files and front end resources, that deployment times start to increase to an unworkable level as more builds are made. 
+
+One possible cause is a large number of file objects in the artifact repository which then takes a long time to checkout to the server.
+
+When creating your build artifact, BLT can truncate the history on the build branch which dramatically reduces the amount of time required to checkout the build artifact. 
+
+This behaviour can be triggered by passing `--truncate-history` to the `blt artifact:deploy` command or turned on for all deployments by adding `truncate_history: true` to your blt.yml file e.g. 
+
+```yaml
+deploy:
+  truncate_history: true  
+```
+ 
+
 ## Modifying the artifact
 
 The artifact is built by running the `artifact:build` target, which does the following:
