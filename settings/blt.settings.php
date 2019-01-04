@@ -149,6 +149,12 @@ if ($is_acsf_inited) {
     // [sitename] is a value in the multisites array.
     $domain_fragments = explode('.', $http_host);
     $name = array_slice($domain_fragments, 1);
+    
+    // Create a valid machine name based on the local domain name.
+    $name = strtolower($name);
+    $name = preg_replace('/[^a-z0-9_]+/', '_', $name);
+    $name = preg_replace('/_+/', '_', $name);
+
     $acsf_sites = $blt_config->get('multisites');
     if (in_array($name, $acsf_sites)) {
       $acsf_site_name = $name;
