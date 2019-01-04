@@ -17,14 +17,19 @@ class AllCommand extends BltTasks {
    * @hidden
    */
   public function all() {
-    $status_code = $this->invokeCommands([
+    $commands = [
       'tests:composer:validate',
       'tests:php:lint',
       'tests:phpcs:sniff:all',
       'tests:yaml:lint:all',
       'tests:twig:lint:all',
-    ]);
+    ];
+    // To enable this command, set validate.acsf to TRUE in blt.yml.
+    if ($this->getConfigValue('validate.acsf') == TRUE) {
+      $commands[] = 'tests:acsf:validate';
+    }
 
+    $status_code = $this->invokeCommands($commands);
     return $status_code;
   }
 
