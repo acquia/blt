@@ -148,7 +148,7 @@ if ($is_acsf_inited) {
     // The hostname must match the pattern local.[sitename].com, where
     // [sitename] is a value in the multisites array.
     $domain_fragments = explode('.', $http_host);
-    $name = array_slice($domain_fragments, 1);
+    $name = $domain_fragments[1];
     $acsf_sites = $blt_config->get('multisites');
     if (in_array($name, $acsf_sites)) {
 
