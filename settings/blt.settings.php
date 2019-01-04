@@ -149,7 +149,7 @@ if ($is_acsf_inited) {
     // [sitename] is a value in the multisites array.
     $domain_fragments = explode('.', $http_host);
     $name = array_slice($domain_fragments, 1);
-    
+
     // Create a valid machine name based on the local domain name.
     $name = strtolower($name);
     $name = preg_replace('/[^a-z0-9_]+/', '_', $name);
