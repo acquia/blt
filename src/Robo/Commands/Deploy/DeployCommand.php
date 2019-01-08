@@ -535,7 +535,7 @@ class DeployCommand extends BltTasks {
 
     $arguments = "";
 
-    if ($options['truncate-history']) {
+    if ($options['truncate-history'] || $this->truncateHistory) {
       $arguments .= " --force";
     }
 
