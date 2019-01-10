@@ -38,8 +38,7 @@ following these steps:
 
 1. remove the `docroot/sites/default/settings/local.settings.php` and the `docroot/sites/default/local.drush.yml` files
 2. update the blt.yml file in your project's blt directory:
-
-    ```
+    ```yaml
     project:
       machine_name: myproject
       local:
@@ -53,17 +52,17 @@ following these steps:
         port: 3306
     ```
 3. initiate and verify blt settings
-    ```
+    ```bash
     fin blt blt:init:settings
     ```
 4. setup your Drupal site
-    ```
+    ```bash
     fin blt setup -D setup.strategy=install
     ```
 
     Note: By default, passing the strategy option here is not required since BLT defaults to the install strategy. 
     Alternatively, you may use a sync setup strategy if there is an existing remote with a source database to used in a Drush sql:sync operation:
-    ```
+    ```bash
     fin blt setup -D setup.strategy=sync
     ```
 
@@ -74,7 +73,7 @@ it is not necessary to delete these files.
 
 1. configure your `docroot/sites/default/settings/local.settings.php` file with these variable values:
 
-    ```
+    ```php
     $db_name = 'default';
 
     $databases = array(
@@ -95,14 +94,15 @@ it is not necessary to delete these files.
     );
     ```
 2. configure your `docroot/sites/default/local.drush.yml` file:
-    ```
+
+    ```yaml
     options:
       uri: 'http://myproject.docksal'
     ```
 3. Assuming your site's drush remote is @sitegroup.siteid then you can update your BLT configuration (either at the project level or site level):
 
-    At the project level (blt/blt.yml) or site level (e.g. sites/default/blt.yml):
-    ```
+    At the project level (blt/blt.yml) or site level (e.g., sites/default/blt.yml):
+    ```yaml
     setup:
       strategy: sync
 
