@@ -45,7 +45,7 @@ before_install:
   # Exit build early if only documentation was changed in a Pull Request.
   - source ${BLT_DIR}/scripts/travis/exit_early
   # Decrypt private SSH key id_rsa_blt.enc, save as ~/.ssh/id_rsa_blt.
-  - if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then openssl aes-256-cbc -K $encrypted_c0b166e924da_key -iv $encrypted_c0b166e924da_iv -in id_rsa_blt.enc -out ~/.ssh/id_rsa -d; chmod 600 ~/.ssh/id_rsa; ls -lash ~/.ssh; eval "$(ssh-agent -s)"; ssh-add ~/.ssh/id_rsa; fi
+  - if [[ "$TRAVIS_PULL_REQUEST" == "false" && -n "$encrypted_c0b166e924da_key" ]]; then openssl aes-256-cbc -K $encrypted_c0b166e924da_key -iv $encrypted_c0b166e924da_iv -in id_rsa_blt.enc -out ~/.ssh/id_rsa -d; chmod 600 ~/.ssh/id_rsa; ls -lash ~/.ssh; eval "$(ssh-agent -s)"; ssh-add ~/.ssh/id_rsa; fi
   - echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - sudo service memcached status
   - phpenv config-rm xdebug.ini
