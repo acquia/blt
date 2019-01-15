@@ -617,10 +617,10 @@ class Updates {
   public function update_9001009() {
     if (file_exists($this->updater->getRepoRoot() . '/factory-hooks')) {
       $messages = [
-        "This update will update the ACSF module to the latest release and refresh your factory hooks.",
-        "Review the resulting files and ensure that any customizations have been re-added, and commit the result.",
+        "This update will update the files in your existing factory hooks directory.",
+        "Review the resulting files and ensure that any customizations have been re-added.",
       ];
-      $this->updater->executeCommand("./vendor/bin/blt acsf");
+      $this->updater->executeCommand("./vendor/bin/blt recipes:acsf:init:hooks");
       $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
       $this->updater->getOutput()->writeln("");
       $this->updater->getOutput()->writeln($formattedBlock);
