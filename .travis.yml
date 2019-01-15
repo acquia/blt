@@ -37,6 +37,7 @@ cache:
 services:
 - memcached
 - mysql
+- xvfb
 
 addons:
   ssh_known_hosts: []
