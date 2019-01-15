@@ -36,6 +36,7 @@ cache:
 
 services:
 - memcached
+- mysql
 
 addons:
   ssh_known_hosts: []
