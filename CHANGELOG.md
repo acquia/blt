@@ -1,5 +1,15 @@
 # Change Log
 
+#### 9.2.3 (2018-12-21)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.2.2...9.2.3)
+
+**Enhancements**
+
+- Ignore platform requirements when running composer install on blt deploy #3305
+- Update db-update.sh #3309
+
+
 #### 9.2.2 (2018-12-17)
 
 [Full Changelog](https://github.com/acquia/blt/compare/9.2.1...9.2.2)
