@@ -84,6 +84,9 @@
             "build/docroot/themes/custom/{$name}": ["type:drupal-custom-theme"],
             "build/docroot/libraries/{$name}": ["type:drupal-library"],
             "build/drush/contrib/{$name}": ["type:drupal-drush"]
+        },
+        "symfony": {
+            "require": "3.4.*"
         }
     },
     "bin": [
