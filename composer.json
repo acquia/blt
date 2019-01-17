@@ -33,7 +33,7 @@
         "doctrine/common": "^2.5",
         "doctrine/inflector": "~1.1.0",
         "drupal/coder": "^8.3.1",
-        "drush/drush": "^9.4.0",
+        "drush/drush": "^9.4.0@stable",
         "drupal/config_split": "^1.0.0",
         "drupal/core": "^8.6.0",
         "drupal/features": "^3.8.0",
