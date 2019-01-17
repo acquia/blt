@@ -71,7 +71,7 @@ drupal_install_site: false
 configure_drush_aliases: false
 
 # This is required for front-end building tools.
-nodejs_version: "6.x"
+nodejs_version: "8.x"
 nodejs_npm_global_packages:
   - name: bower
   - name: gulp-cli
@@ -88,7 +88,7 @@ php_packages_extra:
   - imagemagick
 
 # XDebug configuration.
-php_xdebug_version: 2.5.0
+php_xdebug_version: 2.6.1
 # Change this value to 1 in order to enable xdebug by default.
 php_xdebug_default_enable: 0
 php_xdebug_coverage_enable: 0
