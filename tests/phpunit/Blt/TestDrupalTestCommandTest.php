@@ -51,13 +51,15 @@ class DrupalTest extends BltProjectTestBase {
         "tests.drupal.drupal-tests.0.color=true",
         "tests.drupal.drupal-tests.0.concurrency=1",
         "tests.drupal.drupal-tests.0.repeat=1",
-        "tests.drupal.drupal-tests.0.tests.0=user",
+        "tests.drupal.drupal-tests.0.tests.0=quickedit",
         "tests.drupal.drupal-tests.0.types.0=Simpletest",
         "tests.drupal.drupal-tests.0.sqlite=$this->sqlite",
         "tests.drupal.drupal-tests.0.url=$this->url",
       ],
     ]);
-    $results = file_get_contents($this->sandboxInstance . '/reports/drupal/run-tests-script/Drupal_user_Tests_RestRegisterUserTest.xml');
+    $results = file_get_contents($this->sandboxInstance . '/reports/drupal/run-tests-script/Drupal_quickedit_Tests_QuickEditAutocompleteTermTest.xml');
+    $this->assertNotContains('failure type="failure"', $results);
+    $results = file_get_contents($this->sandboxInstance . '/reports/drupal/run-tests-script/Drupal_quickedit_Tests_QuickEditLoadingTest.xml');
     $this->assertNotContains('failure type="failure"', $results);
   }
 
