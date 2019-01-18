@@ -173,24 +173,6 @@ The `tests` configuration variable has following properties:
  * `chromedriver.port`: Port for `chromedriver` WebDriver for Chrome, default is `9515`
  * `chromedriver.args`: Args for `chromedriver` WebDriver for Chrome, default is `null`
 
-### Testing Drupal
-
-Each row under the `tests:drupal` key should contain a combination of the following properties (see Drupal's `core/phpunit.xml.dist` for additional details):
-
- * `test-runner`: Whether to run Drupal tests with PHPUnit (`phpunit`) or Drupal's run-tests.sh script (`run-tests-script`)
- * `sudo-run-tests`: Whether or not to use sudo when running Drupal tests
- * `web-driver`: WebDriver to use for running Drupal's functional JavaScript tests (only `chromedriver` is supported at this time)
- * `browsertest-output-directory`: Directory to write output for browser tests (value for `BROWSERTEST_OUTPUT_DIRECTORY`)
- * `apache-run-group`: Unix user used for tests (value for `APACHE_RUN_USER`)
- * `apache-run-user`: Unix group used for tests (value for `APACHE_RUN_GROUP`)  (if `sudo-run-tests:true`, this is used to run testing commands as `sudo -u www-data -E ./vendor/bin/phpunit {...}`)
- * `mink-driver-args`: Driver args to mink tests (value for `MINK_DRIVER_ARGS`)
- * `mink-driver-args-phantomjs`: Driver args to phantomjs tests (value for `MINK_DRIVER_ARGS_PHANTOMJS`)
- * `mink-driver-args-webdriver`: Driver args to webdriver tests (value for `MINK_DRIVER_ARGS_WEBDRIVER`)
- * `mink-driver-class`: Driver class for mink tests (value for `MINK_DRIVER_CLASS`)
- * `simpletest-base-url`: Base URL for Simpletest (value for `SIMPLETEST_BASE_URL`)
- * `simpletest-db`: Connection string Simpletest database (value for `for SIMPLETEST_DB`)
- * `symfony-deprecations-helper`: Setting to `disabled` disables deprecation testing completely (value for `SYMFONY_DEPRECATIONS_HELPER`)
-
 ### PHPUnit
 
 Project level, functional PHPUnit tests are included in `tests/phpunit`. Any PHPUnit tests that affect specific modules or application level features should be placed in the same directory as that module or feature code, not in this directory.
@@ -226,19 +208,45 @@ tests:
       config: '${docroot}/core/phpunit.xml.dist'
       class: 'ExampleTest'
       file: 'ExampleTest.php'
-    - # Run Drupal' unit, kernel, functional, and functional-javascript testsuites for the action module.
-      path: '${docroot}/core'
-      config: ${docroot}/core/phpunit.xml.dist
-      testsuites:
-        - 'unit'
-        - 'kernel'
-        - 'functional'
-        - `functional-javascript`
-      group: action
-    - # Run all tests in the custom modules directory.
-      path: '${docroot}/core'
-      config: ${docroot}/core/phpunit.xml.dist
-      directory: ${docroot}/modules/custom
+```
+
+### Testing Drupal with PHPUnit
+
+Each row under the `tests:drupal` key should contain a combination of the following properties (see Drupal's `core/phpunit.xml.dist` for additional details):
+
+ * `test-runner`: Whether to run Drupal tests with PHPUnit (`phpunit`) or Drupal's run-tests.sh script (`run-tests-script`)
+ * `sudo-run-tests`: Whether or not to use sudo when running Drupal tests
+ * `web-driver`: WebDriver to use for running Drupal's functional JavaScript tests (only `chromedriver` is supported at this time)
+ * `browsertest-output-directory`: Directory to write output for browser tests (value for `BROWSERTEST_OUTPUT_DIRECTORY`)
+ * `apache-run-group`: Unix user used for tests (value for `APACHE_RUN_USER`)
+ * `apache-run-user`: Unix group used for tests (value for `APACHE_RUN_GROUP`)  (if `sudo-run-tests:true`, this is used to run testing commands as `sudo -u www-data -E ./vendor/bin/phpunit {...}`)
+ * `mink-driver-args`: Driver args to mink tests (value for `MINK_DRIVER_ARGS`)
+ * `mink-driver-args-phantomjs`: Driver args to phantomjs tests (value for `MINK_DRIVER_ARGS_PHANTOMJS`)
+ * `mink-driver-args-webdriver`: Driver args to webdriver tests (value for `MINK_DRIVER_ARGS_WEBDRIVER`)
+ * `mink-driver-class`: Driver class for mink tests (value for `MINK_DRIVER_CLASS`)
+ * `simpletest-base-url`: Base URL for Simpletest (value for `SIMPLETEST_BASE_URL`)
+ * `simpletest-db`: Connection string Simpletest database (value for `for SIMPLETEST_DB`)
+ * `symfony-deprecations-helper`: Setting to `disabled` disables deprecation testing completely (value for `SYMFONY_DEPRECATIONS_HELPER`)
+ * `phpunit`: Tests to run using Drupal's implementation of PHPUnit. This requires Drupal to be installed.
+ * `drupal-tests`: Tests to run with Drupal's run-test.sh script.
+
+```yml
+tests:
+  drupal:
+    phpunit:
+      - # Run Drupal' unit, kernel, functional, and functional-javascript testsuites for the action module.
+        path: '${docroot}/core'
+        config: ${docroot}/core/phpunit.xml.dist
+        testsuites:
+          - 'unit'
+          - 'kernel'
+          - 'functional'
+          - `functional-javascript`
+        group: action
+      - # Run all tests in the custom modules directory.
+        path: '${docroot}/core'
+        config: ${docroot}/core/phpunit.xml.dist
+        directory: ${docroot}/modules/custom
 ```
 
 ### Drupal's `run-tests.sh` script
@@ -266,36 +274,37 @@ Each row under the `tests:drupal-tests` key should contain a combination of the 
 
 ```yml
 tests:
-  drupal-tests:
-    - # Run the PHPUnit-Unit, PHPUnit-Kernel, and PHPUnit-Functional test types for the action module.
-      color: true
-      concurrency: 2
-      types:
-        - 'PHPUnit-Unit'
-        - 'PHPUnit-Kernel'
-        - 'PHPUnit-Functional'
-      tests:
-        - 'action'
-      sqlite: '${tests.drupal.sqlite}'
-      url: '${tests.drupal.simpletest-base-url}'
-    - # Run the PHPUnit-FunctionalJavascript test type for the action module.
-      color: true
-      concurrency: 1
-      types:
-        - 'PHPUnit-FunctionalJavascript'
-      tests:
-        - 'action'
-      sqlite: '${tests.drupal.sqlite}'
-      url: '${tests.drupal.simpletest-base-url}'
-    - # Run the Simpletest test type for the user module.
-      color: true
-      concurrency: 1
-      types:
-        - 'Simpletest'
-      tests:
-        - 'user'
-      sqlite: '${tests.drupal.sqlite}'
-      url: '${tests.drupal.simpletest-base-url}'
+  drupal:
+    drupal-tests:
+      - # Run the PHPUnit-Unit, PHPUnit-Kernel, and PHPUnit-Functional test types for the action module.
+        color: true
+        concurrency: 2
+        types:
+          - 'PHPUnit-Unit'
+          - 'PHPUnit-Kernel'
+          - 'PHPUnit-Functional'
+        tests:
+          - 'action'
+        sqlite: '${tests.drupal.sqlite}'
+        url: '${tests.drupal.simpletest-base-url}'
+      - # Run the PHPUnit-FunctionalJavascript test type for the action module.
+        color: true
+        concurrency: 1
+        types:
+          - 'PHPUnit-FunctionalJavascript'
+        tests:
+          - 'action'
+        sqlite: '${tests.drupal.sqlite}'
+        url: '${tests.drupal.simpletest-base-url}'
+      - # Run the Simpletest test type for the user module.
+        color: true
+        concurrency: 1
+        types:
+          - 'Simpletest'
+        tests:
+          - 'user'
+        sqlite: '${tests.drupal.sqlite}'
+        url: '${tests.drupal.simpletest-base-url}'
 ```
 
 ## Frontend Testing
