@@ -55,7 +55,7 @@ class RunTestsCommand extends DrupalTestCommand {
    *   Throws an exception if any test fails.
    */
   public function runDrupalTests() {
-    $this->reportsDir = $this->getConfigValue('tests.reports.localDir') . '/drupal';
+    $this->reportsDir = $this->getConfigValue('tests.reports.localDir') . '/drupal/run-tests-script';
     if ($this->drupalTestRunner == 'run-tests-script') {
       try {
         parent::run();
