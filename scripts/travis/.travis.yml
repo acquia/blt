@@ -1,6 +1,6 @@
 sudo: true
 language: php
-dist: trusty
+dist: xenial
 
 # Adjust the version of PHP to match your production environment.
 # Making this version number greater than the production environment can have unintended consequences
@@ -32,6 +32,10 @@ cache:
   # Cache front end dependencies to dramatically improve build time.
   # - "docroot/themes/custom/mytheme/node_modules"
   # - "docroot/themes/custom/mytheme/bower_components"
+
+services:
+- mysql
+- xvfb
 
 addons:
   ssh_known_hosts:
