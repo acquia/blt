@@ -177,7 +177,7 @@ The `tests` configuration variable has following properties:
 
 Each row under the `tests:drupal` key should contain a combination of the following properties (see Drupal's `core/phpunit.xml.dist` for additional details):
 
- * `test-runner`: Whether to run Drupal tests with PHPUnit (`phpunit`) or Drupal's run-tests.sh script (`drupal-run-tests-script`)
+ * `test-runner`: Whether to run Drupal tests with PHPUnit (`phpunit`) or Drupal's run-tests.sh script (`run-tests-script`)
  * `sudo-run-tests`: Whether or not to use sudo when running Drupal tests
  * `web-driver`: WebDriver to use for running Drupal's functional JavaScript tests (only `chromedriver` is supported at this time)
  * `browsertest-output-directory`: Directory to write output for browser tests (value for `BROWSERTEST_OUTPUT_DIRECTORY`)

@@ -47,17 +47,17 @@ class DrupalTest extends BltProjectTestBase {
   public function testDrupalRunTestsSimpletestTests() {
     list($status_code, $output, $config) = $this->blt("tests:drupal:run", [
       "--define" => [
-        "tests.drupal.test-runner=drupal-run-tests-script",
-        "tests.drupal-tests.0.color=true",
-        "tests.drupal-tests.0.concurrency=1",
-        "tests.drupal-tests.0.repeat=1",
-        "tests.drupal-tests.0.tests.0=user",
-        "tests.drupal-tests.0.types.0=Simpletest",
-        "tests.drupal-tests.0.sqlite=$this->sqlite",
-        "tests.drupal-tests.0.url=$this->url",
+        "tests.drupal.test-runner=run-tests-script",
+        "tests.drupal.drupal-tests.0.color=true",
+        "tests.drupal.drupal-tests.0.concurrency=1",
+        "tests.drupal.drupal-tests.0.repeat=1",
+        "tests.drupal.drupal-tests.0.tests.0=user",
+        "tests.drupal.drupal-tests.0.types.0=Simpletest",
+        "tests.drupal.drupal-tests.0.sqlite=$this->sqlite",
+        "tests.drupal.drupal-tests.0.url=$this->url",
       ],
     ]);
-    $results = file_get_contents($this->sandboxInstance . '/reports/phpunit/Drupal_user_Tests_RestRegisterUserTest.xml');
+    $results = file_get_contents($this->sandboxInstance . '/reports/drupal/run-tests-script/Drupal_user_Tests_RestRegisterUserTest.xml');
     $this->assertNotContains('failure type="failure"', $results);
   }
 
@@ -67,17 +67,17 @@ class DrupalTest extends BltProjectTestBase {
   public function testDrupalRunTestsUnitTests() {
     list($status_code, $output, $config) = $this->blt("tests:drupal:run", [
       "--define" => [
-        "tests.drupal.test-runner=drupal-run-tests-script",
-        "tests.drupal-tests.0.color=true",
-        "tests.drupal-tests.0.concurrency=2",
-        "tests.drupal-tests.0.repeat=1",
-        "tests.drupal-tests.0.tests.0=action",
-        "tests.drupal-tests.0.types.0=PHPUnit-Unit",
-        "tests.drupal-tests.0.sqlite=$this->sqlite",
-        "tests.drupal-tests.0.url=$this->url",
+        "tests.drupal.test-runner=run-tests-script",
+        "tests.drupal.drupal-tests.0.color=true",
+        "tests.drupal.drupal-tests.0.concurrency=2",
+        "tests.drupal.drupal-tests.0.repeat=1",
+        "tests.drupal.drupal-tests.0.tests.0=action",
+        "tests.drupal.drupal-tests.0.types.0=PHPUnit-Unit",
+        "tests.drupal.drupal-tests.0.sqlite=$this->sqlite",
+        "tests.drupal.drupal-tests.0.url=$this->url",
       ],
     ]);
-    $results = file_get_contents($this->sandboxInstance . '/reports/phpunit/Drupal_Tests_action_Unit_Menu_ActionLocalTasksTest.xml');
+    $results = file_get_contents($this->sandboxInstance . '/reports/drupal/run-tests-script/Drupal_Tests_action_Unit_Menu_ActionLocalTasksTest.xml');
     $this->assertNotContains('failure type="failure"', $results);
   }
 
@@ -87,21 +87,21 @@ class DrupalTest extends BltProjectTestBase {
   public function testDrupalRunTestsKernelTests() {
     list($status_code, $output, $config) = $this->blt("tests:drupal:run", [
       "--define" => [
-        "tests.drupal.test-runner=drupal-run-tests-script",
-        "tests.drupal-tests.0.color=true",
-        "tests.drupal-tests.0.concurrency=2",
-        "tests.drupal-tests.0.repeat=1",
-        "tests.drupal-tests.0.tests.0=action",
-        "tests.drupal-tests.0.types.0=PHPUnit-Kernel",
-        "tests.drupal-tests.0.sqlite=$this->sqlite",
-        "tests.drupal-tests.0.url=$this->url",
+        "tests.drupal.test-runner=run-tests-script",
+        "tests.drupal.drupal-tests.0.color=true",
+        "tests.drupal.drupal-tests.0.concurrency=2",
+        "tests.drupal.drupal-tests.0.repeat=1",
+        "tests.drupal.drupal-tests.0.tests.0=action",
+        "tests.drupal.drupal-tests.0.types.0=PHPUnit-Kernel",
+        "tests.drupal.drupal-tests.0.sqlite=$this->sqlite",
+        "tests.drupal.drupal-tests.0.url=$this->url",
       ],
     ]);
-    $results = file_get_contents($this->sandboxInstance . '/reports/phpunit/Drupal_Tests_action_Kernel_Migrate_d7_MigrateActionsTest.xml');
+    $results = file_get_contents($this->sandboxInstance . '/reports/drupal/run-tests-script/Drupal_Tests_action_Kernel_Migrate_d7_MigrateActionsTest.xml');
     $this->assertNotContains('failure type="failure"', $results);
-    $results = file_get_contents($this->sandboxInstance . '/reports/phpunit/Drupal_Tests_action_Kernel_Plugin_Action_EmailActionTest.xml');
+    $results = file_get_contents($this->sandboxInstance . '/reports/drupal/run-tests-script/Drupal_Tests_action_Kernel_Plugin_Action_EmailActionTest.xml');
     $this->assertNotContains('failure type="failure"', $results);
-    $results = file_get_contents($this->sandboxInstance . '/reports/phpunit/Drupal_Tests_action_Kernel_Plugin_migrate_source_ActionTest.xml');
+    $results = file_get_contents($this->sandboxInstance . '/reports/drupal/run-tests-script/Drupal_Tests_action_Kernel_Plugin_migrate_source_ActionTest.xml');
     $this->assertNotContains('failure type="failure"', $results);
   }
 
@@ -116,17 +116,17 @@ class DrupalTest extends BltProjectTestBase {
   public function testDrupalRunTestsFunctionalJavascriptTests() {
     list($status_code, $output, $config) = $this->blt("tests:drupal:run", [
       "--define" => [
-        "tests.drupal.test-runner=drupal-run-tests-script",
-        "tests.drupal-tests.0.color=true",
-        "tests.drupal-tests.0.concurrency=1",
-        "tests.drupal-tests.0.repeat=1",
-        "tests.drupal-tests.0.tests.0=action",
-        "tests.drupal-tests.0.types.0=PHPUnit-FunctionalJavascript",
-        "tests.drupal-tests.0.sqlite=$this->sqlite",
-        "tests.drupal-tests.0.url=$this->url",
+        "tests.drupal.test-runner=run-tests-script",
+        "tests.drupal.drupal-tests.0.color=true",
+        "tests.drupal.drupal-tests.0.concurrency=1",
+        "tests.drupal.drupal-tests.0.repeat=1",
+        "tests.drupal.drupal-tests.0.tests.0=action",
+        "tests.drupal.drupal-tests.0.types.0=PHPUnit-FunctionalJavascript",
+        "tests.drupal.drupal-tests.0.sqlite=$this->sqlite",
+        "tests.drupal.drupal-tests.0.url=$this->url",
       ],
     ]);
-    $results = file_get_contents($this->sandboxInstance . '/reports/phpunit/Drupal_Tests_action_FunctionalJavascript_ActionFormAjaxTest.xml');
+    $results = file_get_contents($this->sandboxInstance . '/reports/drupal/run-tests-script/Drupal_Tests_action_FunctionalJavascript_ActionFormAjaxTest.xml');
     $this->assertNotContains('failure type="failure"', $results);
   }
 
@@ -137,13 +137,13 @@ class DrupalTest extends BltProjectTestBase {
     list($status_code, $output, $config) = $this->blt("tests:drupal:run", [
       "--define" => [
         "tests.drupal.test-runner=phpunit",
-        "tests.phpunit.0.config=$this->docroot/core/phpunit.xml.dist",
-        "tests.phpunit.0.path=$this->reporoot/core",
-        "tests.phpunit.0.group=action",
-        "tests.phpunit.0.testsuites.0=unit",
+        "tests.drupal.phpunit.0.config=$this->docroot/core/phpunit.xml.dist",
+        "tests.drupal.phpunit.0.path=$this->reporoot/core",
+        "tests.drupal.phpunit.0.group=action",
+        "tests.drupal.phpunit.0.testsuites.0=unit",
       ],
     ]);
-    $results = file_get_contents($this->sandboxInstance . '/reports/phpunit/results.xml');
+    $results = file_get_contents($this->sandboxInstance . '/reports/drupal/phpunit/results.xml');
     $this->assertContains('testsuite name="unit"', $results);
     $this->assertContains('errors="0" failures="0" skipped="0"', $results);
   }
@@ -155,13 +155,13 @@ class DrupalTest extends BltProjectTestBase {
     list($status_code, $output, $config) = $this->blt("tests:drupal:run", [
       "--define" => [
         "tests.drupal.test-runner=phpunit",
-        "tests.phpunit.0.config=$this->docroot/core/phpunit.xml.dist",
-        "tests.phpunit.0.path=$this->reporoot/core",
-        "tests.phpunit.0.group=action",
-        "tests.phpunit.0.testsuites.0=kernel",
+        "tests.drupal.phpunit.0.config=$this->docroot/core/phpunit.xml.dist",
+        "tests.drupal.phpunit.0.path=$this->reporoot/core",
+        "tests.drupal.phpunit.0.group=action",
+        "tests.drupal.phpunit.0.testsuites.0=kernel",
       ],
     ]);
-    $results = file_get_contents($this->sandboxInstance . '/reports/phpunit/results.xml');
+    $results = file_get_contents($this->sandboxInstance . '/reports/drupal/phpunit/results.xml');
     $this->assertContains('testsuite name="kernel"', $results);
     $this->assertContains('errors="0" failures="0" skipped="0"', $results);
   }
@@ -178,13 +178,13 @@ class DrupalTest extends BltProjectTestBase {
     list($status_code, $output, $config) = $this->blt("tests:drupal:run", [
       "--define" => [
         "tests.drupal.test-runner=phpunit",
-        "tests.phpunit.0.config=$this->docroot/core/phpunit.xml.dist",
-        "tests.phpunit.0.path=$this->reporoot/core",
-        "tests.phpunit.0.group=action",
-        "tests.phpunit.0.testsuites.0=functional-javascript",
+        "tests.drupal.phpunit.0.config=$this->docroot/core/phpunit.xml.dist",
+        "tests.drupal.phpunit.0.path=$this->reporoot/core",
+        "tests.drupal.phpunit.0.group=action",
+        "tests.drupal.phpunit.0.testsuites.0=functional-javascript",
       ],
     ]);
-    $results = file_get_contents($this->sandboxInstance . '/reports/phpunit/results.xml');
+    $results = file_get_contents($this->sandboxInstance . '/reports/drupal//phpunit/results.xml');
     $this->assertContains('testsuite name="functional-javascript"', $results);
     $this->assertContains('errors="0" failures="0" skipped="0"', $results);
   }

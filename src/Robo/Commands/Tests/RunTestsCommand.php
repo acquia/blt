@@ -11,6 +11,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 class RunTestsCommand extends DrupalTestCommand {
 
   /**
+   * Directory in which test logs and reports are generated.
+   *
+   * @var string
+   */
+  protected $reportsDir;
+
+  /**
    * An array that contains configuration to override /
    * customize Drupal's run-tests.sh commands.
    *
@@ -32,7 +39,7 @@ class RunTestsCommand extends DrupalTestCommand {
    */
   public function initialize() {
     parent::initialize();
-    $this->runTestsConfig = $this->getConfigValue('tests.drupal-tests');
+    $this->runTestsConfig = $this->getConfigValue('tests.drupal.drupal-tests');
     $this->runTestsScriptCommand = './core/scripts/run-tests.sh';
     $this->createReportsDir();
   }
@@ -48,7 +55,8 @@ class RunTestsCommand extends DrupalTestCommand {
    *   Throws an exception if any test fails.
    */
   public function runDrupalTests() {
-    if ($this->drupalTestRunner == 'drupal-run-tests-script') {
+    $this->reportsDir = $this->getConfigValue('tests.reports.localDir') . '/drupal';
+    if ($this->drupalTestRunner == 'run-tests-script') {
       try {
         parent::run();
       }

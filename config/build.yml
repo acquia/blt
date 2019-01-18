@@ -197,8 +197,8 @@ tests:
     port: 9515
     args: null
   drupal:
-    # May be phpunit or drupal-run-tests-script.
-    test-runner: drupal-run-tests-script
+    # May be phpunit or run-tests-script.
+    test-runner: run-tests-script
     sudo-run-tests: true
     # Only chromedriver is supported at this time.
     web-driver: chromedriver
@@ -213,11 +213,15 @@ tests:
     simpletest-base-url: '${project.local.protocol}://${project.local.hostname}'
     simpletest-db: 'sqlite://localhost/${tests.drupal.sqlite}'
     symfony-deprecations-helper: 'disabled'
+    # Tests to run with Drupal's implementation of PHPUnit.
+    phpunit:
+    # Tests to run with Drupal's run-test.sh script.
+    drupal-tests:
+  # Tests to run directly with PHPUnit.
   phpunit:
     # - path: '${repo.root}/tests/phpunit'
     #   config: ${docroot}/core/phpunit.xml.dist
     #   directory: '${repo.root}/tests/phpunit'
-  drupal-tests:
 
 validate:
   deprecated:

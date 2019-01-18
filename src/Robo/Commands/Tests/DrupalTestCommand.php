@@ -53,20 +53,6 @@ class DrupalTestCommand extends TestsCommandBase {
   protected $testingEnvString;
 
   /**
-   * Directory in which test logs and reports are generated.
-   *
-   * @var string
-   */
-  protected $reportsDir;
-
-  /**
-   * The filename for PHPUnit report.
-   *
-   * @var string
-   */
-  protected $reportFile;
-
-  /**
    * The method for running Drupal test; either phpunit or run-tests.sh.
    *
    * @var string
@@ -80,8 +66,6 @@ class DrupalTestCommand extends TestsCommandBase {
    */
   public function initialize() {
     parent::initialize();
-    $this->reportsDir = $this->getConfigValue('tests.reports.localDir') . '/phpunit';
-    $this->reportFile = $this->reportsDir . '/results.xml';
     $this->drupalTestRunner = $this->getConfigValue('tests.drupal.test-runner');
   }
 
@@ -126,11 +110,11 @@ class DrupalTestCommand extends TestsCommandBase {
     if ($this->drupalTestRunner == 'phpunit') {
       $this->invokeCommand('tests:drupal:phpunit:run');
     }
-    elseif ($this->drupalTestRunner == 'drupal-run-tests-script') {
+    elseif ($this->drupalTestRunner == 'run-tests-script') {
       $this->invokeCommand('tests:drupal:run-tests:run');
     }
     else {
-      throw new BltException("You must have tests.drupal.test-runner set to either phpunit or drupal-run-tests-script.");
+      throw new BltException("You must have tests.drupal.test-runner set to either phpunit or run-tests-script.");
     }
   }
 

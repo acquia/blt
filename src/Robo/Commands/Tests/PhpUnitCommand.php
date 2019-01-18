@@ -19,13 +19,26 @@ class PhpUnitCommand extends DrupalTestCommand {
   protected $phpunitConfig;
 
   /**
+   * Directory in which test logs and reports are generated.
+   *
+   * @var string
+   */
+  protected $reportsDir;
+
+  /**
+   * The filename for PHPUnit report.
+   *
+   * @var string
+   */
+  protected $reportFile;
+
+  /**
    * This hook will fire for all commands in this command file.
    *
    * @hook init
    */
   public function initialize() {
     parent::initialize();
-    $this->phpunitConfig = $this->getConfigValue('tests.phpunit');
     $this->createReportsDir();
   }
 
@@ -34,19 +47,20 @@ class PhpUnitCommand extends DrupalTestCommand {
    *
    * @command tests:phpunit:run
    * @aliases tpr phpunit tests:phpunit
-   * @description Executes all PHPUnit tests. Launches chromedriver prior to execution.
+   * @description Executes all PHPUnit tests.
    *
    * @throws \Exception
    *   Throws an exception if any test fails.
    */
   public function runPhpUnitTests() {
-    if ($this->drupalTestRunner != 'phpunit') {
-      try {
-        $this->executeTests();
-      }
-      catch (\Exception $e) {
-        throw $e;
-      }
+    $this->reportsDir = $this->getConfigValue('tests.reports.localDir') . '/phpunit';
+    $this->reportFile = $this->reportsDir . '/results.xml';
+    $this->phpunitConfig = $this->getConfigValue('tests.phpunit');
+    try {
+      $this->executeTests();
+    }
+    catch (\Exception $e) {
+      throw $e;
     }
   }
 
@@ -61,6 +75,9 @@ class PhpUnitCommand extends DrupalTestCommand {
    *   Throws an exception if any test fails.
    */
   public function runDrupalTests() {
+    $this->reportsDir = $this->getConfigValue('tests.reports.localDir') . '/drupal/phpunit';
+    $this->reportFile = $this->reportsDir . '/results.xml';
+    $this->phpunitConfig = $this->getConfigValue('tests.drupal.phpunit');
     if ($this->drupalTestRunner == 'phpunit') {
       try {
         parent::run();
