@@ -21,4 +21,20 @@ trait LoadTasks {
     return $task;
   }
 
+  /**
+   * @param null|string $pathToPhpUnit
+   *
+   * @return \Acquia\Blt\Robo\Tasks\PhpUnitTask
+   */
+  protected function taskPhpUnitTask($pathToPhpUnit = NULL) {
+    return $this->task(PhpUnitTask::class, $pathToPhpUnit);
+  }
+
+  /**
+   * @return \Acquia\Blt\Robo\Tasks\RunTestsTask
+   */
+  protected function taskRunTestsTask($runTestsScriptCommand = NULL) {
+    return $this->task(RunTestsTask::class, $runTestsScriptCommand);
+  }
+
 }
