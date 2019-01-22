@@ -797,7 +797,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function warnIfPhpOutdated() {
-    $minimum_php_version = 5.6;
+    $minimum_php_version = 7;
     $current_php_version = phpversion();
     if ($current_php_version < $minimum_php_version) {
       throw new BltException("BLT requires PHP $minimum_php_version or greater. You are using $current_php_version.");

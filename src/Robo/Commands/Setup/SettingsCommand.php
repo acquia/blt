@@ -63,12 +63,18 @@ WARNING;
       }
     }
 
+    // Generate hash file in salt.txt.
+    $this->hashSalt();
+
     $default_multisite_dir = $this->getConfigValue('docroot') . "/sites/default";
     $default_project_default_settings_file = "$default_multisite_dir/default.settings.php";
 
     $multisites = $this->getConfigValue('multisites');
     $initial_site = $this->getConfigValue('site');
     $current_site = $initial_site;
+
+    $this->logger->debug("Multisites found: " . implode(',', $multisites));
+    $this->logger->debug("Initial site: $initial_site");
 
     foreach ($multisites as $multisite) {
       if ($current_site != $multisite) {

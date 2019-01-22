@@ -20,7 +20,9 @@ class AllCommand extends BltTasks {
     $this->invokeCommands([
       'tests:behat:run',
       'tests:phpunit:run',
+      'tests:drupal:run',
       'tests:security:check:updates',
+      'tests:security:check:composer',
       'tests:frontend:run',
     ]);
   }

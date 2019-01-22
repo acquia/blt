@@ -1,6 +1,7 @@
 site_name: Acquia BLT Documentation
 
 repo_url: https://github.com/acquia/blt
+edit_uri: edit/9.x/docs/
 site_description: 'BLT - Acquia Build & Launch Tools'
 theme:
   name: readthedocs
@@ -21,6 +22,10 @@ pages:
        - System requirements:  'INSTALL.md'
        - Running BLT in Ubuntu on Bash on Windows: 'windows-install.md'
        - Alternative LAMP stacks: 'local-development.md'
+       - Alternative Environment Tips:
+           - DDEV: 'alternative-environment-tips/ddev.md'
+           - Docksal: 'alternative-environment-tips/docksal.md'
+           - Lando: 'alternative-environment-tips/lando.md'
     - Create a new project: 'creating-new-project.md'
     - Add to existing project: 'adding-to-project.md'
     - Next steps: 'next-steps.md'

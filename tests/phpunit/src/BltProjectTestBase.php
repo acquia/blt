@@ -5,6 +5,7 @@ namespace Acquia\Blt\Tests;
 use Acquia\Blt\Robo\Blt;
 use Acquia\Blt\Robo\Common\YamlMunge;
 use Acquia\Blt\Robo\Config\ConfigInitializer;
+use PHPUnit\Framework\TestCase;
 use Robo\Robo;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -18,7 +19,7 @@ use Symfony\Component\Process\Process;
  *
  * Base class for all tests that are executed within a blt project.
  */
-abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
+abstract class BltProjectTestBase extends TestCase {
 
   /**
    * @var string
@@ -86,7 +87,7 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
 
     // Config is overwritten for each $this->blt execution.
     $this->reInitializeConfig($this->createBltInput(NULL, []));
-    $this->drush('cache-rebuild', NULL, FALSE);
+    $this->drush('cache-rebuild --no-cache-clear', NULL, FALSE);
     $this->dbDump = $this->sandboxInstance . "/bltDbDump.sql";
 
     // Multisite settings.
@@ -225,7 +226,7 @@ abstract class BltProjectTestBase extends \PHPUnit_Framework_TestCase {
    *
    */
   protected function installDrupalMinimal() {
-    $this->blt('setup', [
+    return $this->blt('setup', [
       '--define' => [
         'project.profile.name=minimal',
       ],

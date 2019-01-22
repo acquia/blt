@@ -19,7 +19,7 @@ git checkout master
 git tag 1.0.0
 ```
 
-If you have a [continuous integration](ci.md) setup via Travis CI or Pipelines, upon pushing the "source tag" to your Github repository, an "artifact tag" corresponding to your source tag will be created and pushed to Acquia Cloud with the same name, but "-build" tacked onto the end. A `1.0.0` source tag, for example, would end up generating a `1.0.0-build` tag.
+If you have a [continuous integration](ci.md) setup via Travis CI or Pipelines, upon pushing the "source tag" to your GitHub repository, an "artifact tag" corresponding to your source tag will be created and pushed to Acquia Cloud with the same name, but "-build" tacked onto the end. A `1.0.0` source tag, for example, would end up generating a `1.0.0-build` tag.
 
 If you are doing deployments manually, you will want to checkout your `master` branch locally, and [manually build a deployment artifact](deploy.md#creating-the-build-artifact) based off of that. Even if you build the deployment artifact manually, the recommendation is to still push up a source tag (e.g., `1.0.0`) based on your `master` branch to your repository.
 
@@ -50,7 +50,7 @@ You can configure various tools to provide notifications of deployment related e
 
 * [Travis CI](https://docs.travis-ci.com/user/notifications/) can notify you about your build results through email, IRC, and/or webhooks.
 * Jenkins has plugins to provide build notifications via [Slack](https://wiki.jenkins-ci.org/display/JENKINS/Slack+Plugin), [IRC](https://wiki.jenkins-ci.org/display/JENKINS/IRC+Plugin), and many more services.
-* You can use [Acquia Cloud Hooks](https://docs.acquia.com/cloud/manage/cloud-hooks#animated) to provide deployment, db, or code related notification to service such as:
+* You can use [Acquia Cloud Hooks](https://docs.acquia.com/acquia-cloud/develop/api/cloud-hooks/) to provide deployment, db, or code related notification to service such as:
     * New Relic
     * Slack
     * HipChat

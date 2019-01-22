@@ -4,7 +4,6 @@ namespace Acquia\Blt\Robo\Commands\Artifact;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\RandomString;
-use Acquia\Blt\Robo\Exceptions\BltException;
 
 /**
  * Defines commands in the "artifact:ac-hooks" namespace.
@@ -33,7 +32,9 @@ class AcHooksCommand extends BltTasks {
    * @command artifact:ac-hooks:post-code-deploy
    */
   public function postCodeDeploy($site, $target_env, $source_branch, $deployed_tag, $repo_url, $repo_type) {
-    $this->postCodeUpdate($site, $target_env, $source_branch, $deployed_tag, $repo_url, $repo_type);
+    if (!$this->isAcsfEnv($target_env)) {
+      $this->postCodeUpdate($site, $target_env, $source_branch, $deployed_tag, $repo_url, $repo_type);
+    }
   }
 
   /**
@@ -60,30 +61,60 @@ class AcHooksCommand extends BltTasks {
    * @throws \Exception
    */
   public function postCodeUpdate($site, $target_env, $source_branch, $deployed_tag, $repo_url, $repo_type) {
-    $this->dieIfAcsfEnv($target_env);
-    try {
-      $this->updateSites($site, $target_env);
-      $success = TRUE;
-      $this->sendPostCodeUpdateNotifications($site, $target_env, $source_branch, $deployed_tag, $success);
-    }
-    catch (\Exception $e) {
-      $success = FALSE;
-      $this->sendPostCodeUpdateNotifications($site, $target_env, $source_branch, $deployed_tag, $success);
-      throw $e;
+    if (!$this->isAcsfEnv($target_env)) {
+      try {
+        $this->updateSites($site, $target_env);
+        $success = TRUE;
+        $this->sendPostCodeUpdateNotifications($site, $target_env, $source_branch, $deployed_tag, $success);
+      }
+      catch (\Exception $e) {
+        $success = FALSE;
+        $this->sendPostCodeUpdateNotifications($site, $target_env, $source_branch, $deployed_tag, $success);
+        throw $e;
+      }
     }
   }
 
   /**
-   * Throws an exception if $env is an ACSF environment.
+   * Execute updates against copied database.
    *
-   * @param string $env
+   * This is intended to be called from post-db-copy.sh cloud hook.
+   *
+   * @param string $site
+   *   The site name. E.g., site1.
+   * @param string $target_env
+   *   The cloud env. E.g., dev
+   * @param string $db_name
+   *   The source database name.
+   * @param string $source_env
+   *   The source environment. E.g., dev.
+   *
+   * @command artifact:ac-hooks:post-db-copy
    *
    * @throws \Exception
    */
-  public function dieIfAcsfEnv($env) {
-    if ($this->isAcsfEnv($env)) {
-      throw new BltException("This is not intended to be executed on ACSF environments!");
-    }
+  public function postDbCopy($site, $target_env, $db_name, $source_env) {
+    // Do nothing for now. Allow extension of this call.
+  }
+
+  /**
+   * Execute updates after files are copied.
+   *
+   * This is intended to be called from post-files-copy.sh cloud hook.
+   *
+   * @param string $site
+   *   The site name. E.g., site1.
+   * @param string $target_env
+   *   The cloud env. E.g., dev
+   * @param string $source_env
+   *   The source environment. E.g., dev.
+   *
+   * @command artifact:ac-hooks:post-files-copy
+   *
+   * @throws \Exception
+   */
+  public function postFilesCopy($site, $target_env, $source_env) {
+    // Do nothing for now. Allow extension of this call.
   }
 
   /**
@@ -115,19 +146,21 @@ class AcHooksCommand extends BltTasks {
    * @throws \Exception
    */
   public function dbScrub($site, $target_env, $db_name, $source_env) {
-    $password = RandomString::string(10, FALSE,
-      function ($string) {
-        return !preg_match('/[^\x{80}-\x{F7} a-z0-9@+_.\'-]/i', $string);
-      },
-      'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!#%^&*()_?/.,+=><'
-    );
-    $this->taskDrush()
-      ->drush("sql-sanitize --sanitize-password=\"$password\" --yes")
-      ->run();
-    $this->say("Scrubbing database in $target_env");
-    $this->taskDrush()
-      ->drush("cr")
-      ->run();
+    if (!$this->isAcsfEnv($target_env)) {
+      $password = RandomString::string(10, FALSE,
+        function ($string) {
+          return !preg_match('/[^\x{80}-\x{F7} a-z0-9@+_.\'-]/i', $string);
+        },
+        'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!#%^&*()_?/.,+=><'
+      );
+      $this->taskDrush()
+        ->drush("sql-sanitize --sanitize-password=\"$password\" --yes")
+        ->run();
+      $this->say("Scrubbing database in $target_env");
+      $this->taskDrush()
+        ->drush("cr")
+        ->run();
+    }
   }
 
   /**

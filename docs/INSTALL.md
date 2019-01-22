@@ -1,6 +1,6 @@
 # BLT installation
 
-*Please do not clone BLT as a means of using it. The only reason to clone BLT is to contribute to it.
+* Do not clone BLT as a means of using it. The only reason to clone BLT is to contribute to it.*
 
 ## System requirements
 
@@ -8,7 +8,7 @@ You must have the following tools on the command line of your *host operating sy
 
 * [Git](https://git-scm.com/)
 * [Composer](https://getcomposer.org/download/)
-* [PHP 5.6+](http://php.net/manual/en/install.php) (though PHP 7.1+ is recommended)
+* [PHP 7.1+](http://php.net/manual/en/install.php)
 
 Instructions for installing _all_ requirements for various operating systems are listed below. In general, make sure all installed tools are the most recent version unless otherwise noted.
 
@@ -20,7 +20,7 @@ If you need to make requests via a proxy server, please [configure git to use a 
 
 ## Installing requirements
 
-### Mac OSX
+### macOS
 
 Ensure that [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12) is installed (primarily in order to support Homebrew). On OSX 10.9+ you can install Xcode with:
 
@@ -30,17 +30,13 @@ Ensure that [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12) is 
 Then install the minimum dependencies for BLT. The preferred method is via Homebrew, though you could install these yourself without a package manager.
 
         /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-        brew install php71 git composer
+        brew install php71 git composer drush
         composer global require "hirak/prestissimo:^0.3"
- 
-Note that the recommended installation method for Drush has changed recently. Drush should only be installed as a dependency of individual projects, rather than being installed system-wide. BLT will manage this dependency for you on projects, but in order for you to run Drush commands independently of BLT commands you'll want to install the Drush Launcher according to its intructions: https://github.com/drush-ops/drush-launcher
 
-If you'd like to create a [Drupal VM](https://www.drupalvm.com/) with BLT, you will require the following additional libraries. If you'd like to use a LAMP stack other than Drupal VM, see [Local Development](local-development.md).
+Note that the recommended installation method for Drush has changed recently. Drush should only be installed as a dependency of individual projects, rather than being installed system-wide. BLT will manage this dependency for you on projects, but in order for you to run Drush commands independently of BLT commands you need to install the Drush Launcher: [Drush Launcher Installation](https://github.com/drush-ops/drush-launcher#installation---phar).
 
-        brew tap caskroom/cask
-        brew cask install virtualbox vagrant
-        vagrant plugin install vagrant-hostsupdater
-        
+If you'd like to use [Drupal VM](https://www.drupalvm.com/) with BLT, Drupal VM has additional requirements. See the [Drupal VM Requirements](https://blt.readthedocs.io/en/latest/local-development/#using-drupal-vm-for-blt-generated-projects) to add these. If you'd like to use a LAMP stack other than Drupal VM, see [Local Development](local-development.md).
+
 If you are not using a VM, and you'd like to execute Behat tests from the host machine, you will need Java:
 
         brew cask install java
@@ -66,7 +62,7 @@ Once complete follow the [BLT on Windows installation instructions](windows-inst
 
 ### Linux
 
-If you are using a Linux machine, it is assumed that you will not be using Drupal VM and that you will be configuring your own LAMP stack. Disregard the `blt vm` command and `@[project.machine_name]` references in subsequent documentation.
+Linux is fully supported by BLT and DrupalVM and shares many of the same dependencies as MacOS (except Xcode, of course).
 
 #### Ubuntu / Debian
 

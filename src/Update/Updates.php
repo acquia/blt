@@ -564,7 +564,7 @@ class Updates {
     // Update composer.json to include new BLT required/suggested files.
     // Pulls in wikimedia/composer-merge-plugin and composer/installers settings.
     $project_composer_json = $this->updater->getRepoRoot() . '/composer.json';
-    $template_composer_json = $this->updater->getBltRoot() . '/template/composer.json';
+    $template_composer_json = $this->updater->getBltRoot() . '/subtree-splits/blt-project/composer.json';
     $munged_json = ComposerMunge::mungeFiles($project_composer_json, $template_composer_json);
     $bytes = file_put_contents($project_composer_json, $munged_json);
     if (!$bytes) {
@@ -604,6 +604,125 @@ class Updates {
     $this->updater->getOutput()->writeln("");
     $this->updater->getOutput()->writeln($formattedBlock);
     $this->updater->getOutput()->writeln("");
+  }
+
+  /**
+   * 9.2.0.
+   *
+   * @Update(
+   *    version = "9002000",
+   *    description = "Factory Hooks Drush 9 bug fixes and enhancements for db-update."
+   * )
+   */
+  public function update_9002000() {
+    if (file_exists($this->updater->getRepoRoot() . '/factory-hooks')) {
+      $messages = [
+        "This update will update the files in your existing factory hooks directory.",
+        "Review the resulting files and ensure that any customizations have been re-added.",
+      ];
+      $this->updater->executeCommand("./vendor/bin/blt recipes:acsf:init:hooks");
+      $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
+      $this->updater->getOutput()->writeln("");
+      $this->updater->getOutput()->writeln($formattedBlock);
+      $this->updater->getOutput()->writeln("");
+    }
+  }
+
+  /**
+   * 10.0.0.
+   *
+   * @Update(
+   *    version = "10000000",
+   *    description = "Remove composer merge plugin."
+   * )
+   */
+  public function update_10000000() {
+    $composer_json = $this->updater->getComposerJson();
+    $template_composer_json = $this->updater->getTemplateComposerJson();
+    $blt_composer_json = json_decode(file_get_contents($this->updater->getBltRoot() . '/composer.json'), TRUE);
+    // Remove require-dev dependencies that are now defined in blt-require-dev.
+    $blt_require_dev_composer_json = json_decode(file_get_contents($this->updater->getBltRoot() . '/subtree-splits/blt-require-dev/composer.json'), TRUE);
+    foreach ($blt_require_dev_composer_json['require'] as $package_name => $version) {
+      unset($composer_json['require-dev'][$package_name]);
+    }
+
+    // Ensure that suggested packages do not go missing.
+    if (file_exists($this->updater->getRepoRoot() . "/blt/composer.suggested.json")){
+      $merge_plugin_require = $composer_json['extra']['merge-plugin']['require'];
+      if (in_array("blt/composer.suggested.json", $merge_plugin_require)) {
+        $composer_suggested = json_decode(file_get_contents($this->updater->getRepoRoot() . "/blt/composer.suggested.json"), TRUE);
+        foreach ($composer_suggested['require'] as $package_name => $version_constraint) {
+          // If it IS it template composer.json but NOT in root composer.json,
+          // add it to root.
+          if (!array_key_exists($package_name, $composer_json['require']) &&
+              array_key_exists($package_name, $template_composer_json['require']) &&
+              !array_key_exists($package_name, $blt_composer_json['require'])) {
+            $composer_json['require'][$package_name] = $version_constraint;
+          }
+        }
+      }
+    }
+    unset($composer_json['extra']['merge-plugin'] );
+
+    // Copy select config from composer.json template.
+    $sync_composer_keys = [
+      'autoload',
+      'autoload-dev',
+      'repositories',
+      'extra',
+      'scripts',
+      'config'
+    ];
+    foreach ($sync_composer_keys as $sync_composer_key) {
+      if (!array_key_exists($sync_composer_key, $composer_json)) {
+        $composer_json[$sync_composer_key] = [];
+      }
+      $composer_json[$sync_composer_key] = ArrayManipulator::arrayMergeRecursiveDistinct($composer_json[$sync_composer_key],
+          $template_composer_json[$sync_composer_key]);
+    }
+
+    // Require blt-require-dev.
+    $composer_json['require-dev']['acquia/blt-require-dev'] = $template_composer_json['require-dev']['acquia/blt-require-dev'];
+
+    $this->updater->writeComposerJson($composer_json);
+
+    // Remove vestigial files.
+    $this->updater->deleteFile([
+      $this->updater->getRepoRoot() . "/blt/composer.required.json",
+      $this->updater->getRepoRoot() . "/blt/composer.suggested.json",
+      $this->updater->getRepoRoot() . "/blt/composer.overrides.json",
+    ]);
+    $messages = [
+      "Your composer.json file has been modified to remove the Composer merge plugin.",
+      "You must execute `composer update --lock` to update your lock file.",
+    ];
+    $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
+    $this->updater->getOutput()->writeln("");
+    $this->updater->getOutput()->writeln($formattedBlock);
+    $this->updater->getOutput()->writeln("");
+
+    $project_config = $this->updater->getProjectYml();
+    // Move 'reports' to subkey of 'tests'.
+    if (!empty($project_config['reports'])) {
+      $project_config['tests']['reports'] = $project_config['reports'];
+      unset($project_config['reports']);
+    }
+    // Move 'phpunit' to subkey of 'tests'.
+    if (!empty($project_config['phpunit'])) {
+      $project_config['tests']['phpunit'] = $project_config['phpunit'];
+      unset($project_config['phpunit']);
+    }
+    // Move 'behat.selenium' and 'behat.chrome' to subkey of 'tests'.
+    if (!empty($project_config['behat']['selenium'])) {
+      $project_config['tests']['selenium'] = $project_config['behat']['selenium'];
+      unset($project_config['behat']['selenium']);
+    }
+    if (!empty($project_config['behat']['chrome'])) {
+      $project_config['tests']['chrome'] = $project_config['behat']['chrome'];
+      unset($project_config['behat']['chrome']);
+    }
+    $this->updater->writeProjectYml($project_config);
+
   }
 
 }

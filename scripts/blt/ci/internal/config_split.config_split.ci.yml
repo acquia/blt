@@ -4,6 +4,7 @@ status: true
 dependencies: {  }
 id: ci
 label: CI
+description: ''
 folder: ../config/ci
 module: {  }
 theme: {  }

@@ -82,7 +82,7 @@ class Updater {
     $this->composerJsonFilepath = $this->repoRoot . '/composer.json';
     $this->composerRequiredJsonFilepath = $this->getBltRoot() . '/composer.required.json';
     $this->composerSuggestedJsonFilepath = $this->getBltRoot() . '/composer.suggested.json';
-    $this->templateComposerJsonFilepath = $this->getBltRoot() . '/template/composer.json';
+    $this->templateComposerJsonFilepath = $this->getBltRoot() . '/subtree-splits/blt-project/composer.json';
     $this->projectYmlFilepath = $this->repoRoot . '/blt/blt.yml';
     $this->projectLocalYmlFilepath = $this->repoRoot . '/blt/local.blt.yml';
     $this->formatter = new FormatterHelper();
