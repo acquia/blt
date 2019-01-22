@@ -39,7 +39,7 @@
         "drupal/features": "^3.8.0",
         "drupal/memcache": "^2.0-alpha5",
         "drupal/seckit": "^1.0.0-alpha2",
-        "drush/drush": "^9.4.0",
+        "drush/drush": "~9.5.0",
         "grasmash/drupal-security-warning": "^1.0.0",
         "grasmash/yaml-cli": "^1.0.0",
         "grasmash/yaml-expander": "^1.2.0",
