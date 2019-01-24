@@ -94,4 +94,24 @@ class CiCommand extends BltTasks {
     $this->logger->warning("GitLab support is experimental and may not support all BLT features.");
   }
 
+  /**
+   * Initializes default Bitbucket Pipelines configuration for this project.
+   *
+   * @command recipes:ci:bitbucket:init
+   *
+   * @aliases rcbbi ci:bitbucket:init
+   */
+  public function bitbucketInit() {
+    $result = $this->taskFilesystemStack()
+      ->copy($this->getConfigValue('blt.root') . '/scripts/bitbucket/bitbucket-pipelines.yml', $this->getConfigValue('repo.root') . '/bitbucket-pipelines.yml', TRUE)
+      ->stopOnFail()
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->run();
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Could not initialize the Bitbucket Pipelines configuration.");
+    }
+    $this->say("<info>A pre-configured bitbucket-pipelines.yml file was copied to your repository root.</info>");
+    $this->logger->warning("BLT support in Bitbucket require additional ci image setup.");
+  }
+
 }

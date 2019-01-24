@@ -75,7 +75,8 @@ $is_pipelines_env = isset($_ENV['PIPELINE_ENV']);
 $is_probo_env = isset($_ENV['PROBO_ENVIRONMENT']);
 $is_tugboat_env = isset($_ENV['TUGBOAT_URL']);
 $is_gitlab_env = isset($_ENV['GITLAB_CI']);
-$is_ci_env = $is_travis_env || $is_pipelines_env || $is_probo_env || $is_tugboat_env || $is_gitlab_env || isset($_ENV['CI']);
+$is_bitbucket_env = isset($_ENV['BITBUCKET_COMMIT']);
+$is_ci_env = $is_travis_env || $is_pipelines_env || $is_probo_env || $is_tugboat_env || $is_gitlab_env || $is_bitbucket_env || isset($_ENV['CI']);
 
 /**
  * Acquia envs.
@@ -300,6 +301,10 @@ elseif ($is_probo_env) {
 // Load GitLab settings.
 elseif ($is_gitlab_env) {
   require __DIR__ . '/gitlab.settings.php';
+}
+// Load Bitbucket settings.
+elseif ($is_bitbucket_env) {
+  require __DIR__ . '/bitbucket.settings.php';
 }
 
 /**

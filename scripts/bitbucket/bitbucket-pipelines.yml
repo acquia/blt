@@ -1,0 +1,83 @@
+# Ideally use an image with php, php extensions & composer.
+# i.e. image: sharpe/ci:latest
+# See: https://confluence.atlassian.com/bitbucket/php-with-bitbucket-pipelines-873907835.html
+
+# Defines single re-usable scripts.
+script_definitions:
+  - &env-setup
+    export BIN_DIR=$BITBUCKET_CLONE_DIR/vendor/bin
+  - &composer-tasks
+    composer self-update --no-interaction && composer install --no-interaction --optimize-autoloader
+
+# Defines re-usable steps.
+step_definitions:
+  - validate: &validate
+      name: 'Validation Tasks.'
+      caches:
+        - composer
+      script:
+        - *env-setup
+        - *composer-tasks
+        - ${BIN_DIR}/blt validate:all
+  - tests: &tests
+      name: 'Run Tests.'
+      caches:
+        - composer
+      script:
+        - *env-setup
+        - *composer-tasks
+        - ${BIN_DIR}/blt -vvv setup --environment=ci
+        - ${BIN_DIR}/blt tests:behat:init:config --environment=ci
+        - ${BIN_DIR}/blt tests:all --define drush.alias='${drush.aliases.ci}' --environment=ci --define tests.run-server=true -D behat.web-driver=chrome --yes --ansi --verbose
+      services:
+        - mysql
+  - deploy-branch: &deploy-branch
+      name: 'Deploy branch to remote.'
+      caches:
+        - composer
+      script:
+        - *env-setup
+        - *composer-tasks
+        - ${BIN_DIR}/blt -vvv artifact:deploy --commit-msg "Bitbucket build - $BITBUCKET_BUILD_NUMBER, Commit $BITBUCKET_COMMIT" --branch "$BITBUCKET_BRANCH" --no-interaction
+  - deploy-tag: &deploy-tag
+      name: 'Deploy tag to remote.'
+      caches:
+        - composer
+      script:
+        - *env-setup
+        - *composer-tasks
+        - ${BIN_DIR}/blt -vvv artifact:deploy --commit-msg "Bitbucket release $BITBUCKET_TAG." --tag "$BITBUCKET_TAG"
+
+# Bitbucket Service definitions.
+definitions:
+  services:
+    mysql:
+      image: mysql:5.7
+      environment:
+        MYSQL_DATABASE: 'drupal'
+        MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+        MYSQL_USER: 'drupal'
+        MYSQL_PASSWORD: 'drupal'
+
+# Bitbucket pipeline definitions.
+pipelines:
+  default:
+    - step: *validate
+  pull-requests:
+    '**':
+      - step: *validate
+      - step: *tests
+  branches:
+    develop:
+      - step: *validate
+      - step: *tests
+      - step: *deploy-branch
+    master:
+      - step: *validate
+      - step: *tests
+      - step: *deploy-branch
+  tags:
+    '**':
+      - step: *validate
+      - step: *tests
+      - step: *deploy-tag
