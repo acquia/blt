@@ -49,6 +49,43 @@ As development progresses, you can use the following commands to keep your local
 
 Each of these commands is simply a wrapper for a number of more granular commands that can be run individually if desired (for instance, `blt drupal:update` just runs database updates and imports configuration changes). For a full list of available project tasks, run `blt`. See [Project Tasks](project-tasks.md) for more information.
 
+### Adding settings to settings.php
+
+A common practice in Drupal is to add settings to the `settings.php` file to control things like cache backends, set site variables, or other tasks which do need a specific module. BLT provides two mechanisms to add settings to settings.php. Settings files may be added to the `docroot/sites` directory for inclusion in all sites in the codebase or settings can be added via an `includes.settings.php` in the `settings` directory of an individual  site (i.e., `docroot/sites/{site-name}/settings/includes.settings.php`). Both mechanisms allow settings to be overriden by a `local.settings.php`, to support local development. 
+
+> **Important**: When using BLT, settings should not be simply added directly to `settings.php`. This is especially true with Acquia Cloud Site Factory, which will ignore settings added directly to `settings.php`.
+
+The first level of BLT's settings management is the `blt.settings.php` file. When sites are created, BLT adds a require line to the standard `settings.php` file which includes the `blt.settings.php` file from BLT's location in the `vendor` directory. This file then controls the inclusion of other settings files in a hierarchy. The full hierarchy of settings files used by BLT looks like this:
+
+```
+  sites/{site-name}/settings.php
+    |
+    ---- blt.settings.php
+           |
+           ---- sites/settings/*.settings.php
+           |
+           ---- sites/{site-name}/settings/includes.settings.php
+           |       |
+           |       ---- foo.settings.php
+           |       ---- bar.settings.php
+           |       ---- ....
+           |
+           ---- sites/{site-name}/settings/local.settings.php
+ ```
+ 
+ > **Important**: Do not edit the `blt.settings.php` file in the `vendor` directory. If you do, the next time composer update or install is run your changes may be lost. Instead, use one of the mechanisms described below. 
+ 
+#### Global settings for the codebase
+To allow settings to be made once and applied to all sites in a codebase, BLT [globs](http://php.net/manual/en/function.glob.php) the `docroot/sites/settings` directory to find all files matching a `*.settings.php` format and adds them via [PHP require](http://php.net/manual/en/function.require.php) statements.
+
+As not all projects will need additional global settings, BLT initially deploys a `global.settings.default.php` file into the `docroot/sites/settings` directory. To make use of this file, rename it to `global.settings.php` and settings or required files as needed.
+
+ 
+#### Per site
+On a per-site basis, BLT uses an `includes.settings.php` file in the `settings` directory of each individual site. Any settings made in that file, or other files required into it, will be added to the settings for that particular site only.
+
+As not all projects will need additional includes, BLT initially deploys a `default.includes.settings.php` file into the site's `docroot/sites/{site_name}/settings` directory. To make use of this file, rename it to `includes.settings.php` and add the path to the file(s) which should be added.
+
 ### Local Git Configuration
 
 For readability of commit history, set your name and email address properly:
