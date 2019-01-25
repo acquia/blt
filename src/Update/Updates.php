@@ -700,29 +700,6 @@ class Updates {
     $this->updater->getOutput()->writeln("");
     $this->updater->getOutput()->writeln($formattedBlock);
     $this->updater->getOutput()->writeln("");
-
-    $project_config = $this->updater->getProjectYml();
-    // Move 'reports' to subkey of 'tests'.
-    if (!empty($project_config['reports'])) {
-      $project_config['tests']['reports'] = $project_config['reports'];
-      unset($project_config['reports']);
-    }
-    // Move 'phpunit' to subkey of 'tests'.
-    if (!empty($project_config['phpunit'])) {
-      $project_config['tests']['phpunit'] = $project_config['phpunit'];
-      unset($project_config['phpunit']);
-    }
-    // Move 'behat.selenium' and 'behat.chrome' to subkey of 'tests'.
-    if (!empty($project_config['behat']['selenium'])) {
-      $project_config['tests']['selenium'] = $project_config['behat']['selenium'];
-      unset($project_config['behat']['selenium']);
-    }
-    if (!empty($project_config['behat']['chrome'])) {
-      $project_config['tests']['chrome'] = $project_config['behat']['chrome'];
-      unset($project_config['behat']['chrome']);
-    }
-    $this->updater->writeProjectYml($project_config);
-
   }
 
 }
