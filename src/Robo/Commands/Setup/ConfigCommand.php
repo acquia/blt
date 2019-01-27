@@ -51,6 +51,10 @@ class ConfigCommand extends BltTasks {
         }
       }
 
+      // Caching can interfere with config import depending on the state
+      // of DB relative to memcache.
+      $this->drush("cache-rebuild");
+
       $task = $this->taskDrush()
         ->stopOnFail()
         // Execute db updates.
