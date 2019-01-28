@@ -43,6 +43,8 @@ class DrupalTest extends BltProjectTestBase {
 
   /**
    * Test Drupal's Simpletest type with run-tests.sh.
+   *
+   * @group drupal
    */
   public function testDrupalRunTestsSimpletestTests() {
     list($status_code, $output, $config) = $this->blt("tests:drupal:run", [
@@ -65,6 +67,8 @@ class DrupalTest extends BltProjectTestBase {
 
   /**
    * Test Drupal's PHPUnit-Unit type with run-tests.sh.
+   *
+   * @group drupal
    */
   public function testDrupalRunTestsUnitTests() {
     list($status_code, $output, $config) = $this->blt("tests:drupal:run", [
@@ -85,6 +89,8 @@ class DrupalTest extends BltProjectTestBase {
 
   /**
    * Test Drupal's PHPUnit-Kernel type with run-tests.sh.
+   *
+   * @group drupal
    */
   public function testDrupalRunTestsKernelTests() {
     list($status_code, $output, $config) = $this->blt("tests:drupal:run", [
@@ -109,11 +115,15 @@ class DrupalTest extends BltProjectTestBase {
 
   /**
    * Test Drupal's PHPUnit-Functional type with run-tests.sh.
+   *
+   * @group drupal
    */
   public function testDrupalRunTestsFunctionalTests() {}
 
   /**
    * Test Drupal's PHPUnit-FunctionalJavascript type with run-tests.sh.
+   *
+   * @group drupal
    */
   public function testDrupalRunTestsFunctionalJavascriptTests() {
     list($status_code, $output, $config) = $this->blt("tests:drupal:run", [
@@ -134,6 +144,8 @@ class DrupalTest extends BltProjectTestBase {
 
   /**
    * Test Drupal's unit testsuite with PHPUnit.
+   *
+   * @group drupal
    */
   public function testDrupalPhpUnitUnitTests() {
     list($status_code, $output, $config) = $this->blt("tests:drupal:run", [
@@ -152,6 +164,8 @@ class DrupalTest extends BltProjectTestBase {
 
   /**
    * Test Drupal's kernel testsuite type with PHPUnit.
+   *
+   * @group drupal
    */
   public function testDrupalPhpUnitKernelTests() {
     list($status_code, $output, $config) = $this->blt("tests:drupal:run", [
@@ -170,11 +184,15 @@ class DrupalTest extends BltProjectTestBase {
 
   /**
    * Test Drupal's functional testsuite type with PHPUnit.
+   *
+   * @group drupal
    */
   public function testDrupalPhpUnitFunctionalTests() {}
 
   /**
    * Test Drupal's functional-jascript testsuite type with PHPUnit.
+   *
+   * @group drupal
    */
   public function testDrupalPhpUnitFunctionalJavascriptTests() {
     list($status_code, $output, $config) = $this->blt("tests:drupal:run", [
