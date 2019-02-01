@@ -19,7 +19,7 @@ if ($memcache_module_is_present && ($memcache_exists || $memcached_exists)) {
 
   if (class_exists(ClassLoader::class)) {
     $class_loader = new ClassLoader();
-    $class_loader->addPsr4('Drupal\\memcache\\', 'modules/contrib/memcache/src');
+    $class_loader->addPsr4('Drupal\\memcache\\', DRUPAL_ROOT . '/modules/contrib/memcache/src');
     $class_loader->register();
 
     $settings['container_yamls'][] = DRUPAL_ROOT . '/modules/contrib/memcache/memcache.services.yml';
