@@ -37,7 +37,7 @@
         "drupal/acquia_connector": "^1.5.0",
         "drupal/acquia_purge": "^1.0-beta3",
         "drupal/cog": "^1.0.0",
-        "drupal/devel": "^1.0.0",
+        "drupal/devel": "^2.0.0",
         "drupal/shield": "^1.2.0",
         "drupal/qa_accounts": "^1.0.0-alpha1"
     },
