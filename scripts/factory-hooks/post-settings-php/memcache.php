@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Example implementation of ACSF post-settings-php hook.
+ * Factory hook implementation for memcache.
  *
  * @see https://docs.acquia.com/site-factory/tiers/paas/workflow/hooks
  */
