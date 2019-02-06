@@ -23,6 +23,8 @@ pages:
        - Running BLT in Ubuntu on Bash on Windows: 'windows-install.md'
        - Alternative LAMP stacks: 'local-development.md'
        - Alternative Environment Tips:
+           - DDEV: 'alternative-environment-tips/ddev.md'
+           - Docksal: 'alternative-environment-tips/docksal.md'
            - Lando: 'alternative-environment-tips/lando.md'
     - Create a new project: 'creating-new-project.md'
     - Add to existing project: 'adding-to-project.md'

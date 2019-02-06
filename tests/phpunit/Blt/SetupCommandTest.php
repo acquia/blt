@@ -42,7 +42,8 @@ class SetupCommandTest extends BltProjectTestBase {
     $this->importDbFromFixture();
     $this->drush("config-export --yes");
     $this->drush("sql-drop --yes");
-    $this->installDrupalMinimal();
+    list($status_code, $output, $config) = $this->installDrupalMinimal();
+    $this->assertEquals(0, $status_code);
   }
 
   /**

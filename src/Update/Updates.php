@@ -639,25 +639,59 @@ class Updates {
   public function update_10000000() {
     $composer_json = $this->updater->getComposerJson();
     $template_composer_json = $this->updater->getTemplateComposerJson();
-    foreach ($template_composer_json['require-dev'] as $package_name => $version) {
-      unset($composer_json[$package_name]);
+    $blt_composer_json = json_decode(file_get_contents($this->updater->getBltRoot() . '/composer.json'), TRUE);
+    // Remove require-dev dependencies that are now defined in blt-require-dev.
+    $blt_require_dev_composer_json = json_decode(file_get_contents($this->updater->getBltRoot() . '/subtree-splits/blt-require-dev/composer.json'), TRUE);
+    foreach ($blt_require_dev_composer_json['require'] as $package_name => $version) {
+      unset($composer_json['require-dev'][$package_name]);
+    }
+
+    // Ensure that suggested packages do not go missing.
+    if (file_exists($this->updater->getRepoRoot() . "/blt/composer.suggested.json")){
+      $merge_plugin_require = $composer_json['extra']['merge-plugin']['require'];
+      if (in_array("blt/composer.suggested.json", $merge_plugin_require)) {
+        $composer_suggested = json_decode(file_get_contents($this->updater->getRepoRoot() . "/blt/composer.suggested.json"), TRUE);
+        foreach ($composer_suggested['require'] as $package_name => $version_constraint) {
+          // If it IS it template composer.json but NOT in root composer.json,
+          // add it to root.
+          if (!array_key_exists($package_name, $composer_json['require']) &&
+              array_key_exists($package_name, $template_composer_json['require']) &&
+              !array_key_exists($package_name, $blt_composer_json['require'])) {
+            $composer_json['require'][$package_name] = $version_constraint;
+          }
+        }
+      }
     }
     unset($composer_json['extra']['merge-plugin'] );
+
+    // Copy select config from composer.json template.
     $sync_composer_keys = [
       'autoload',
       'autoload-dev',
       'repositories',
       'extra',
       'scripts',
+      'config'
     ];
     foreach ($sync_composer_keys as $sync_composer_key) {
-      if (array_key_exists($sync_composer_key, $composer_json)) {
-        $composer_json[$sync_composer_key] = ArrayManipulator::arrayMergeRecursiveDistinct($composer_json[$sync_composer_key],
-          $template_composer_json[$sync_composer_key]);
+      if (!array_key_exists($sync_composer_key, $composer_json)) {
+        $composer_json[$sync_composer_key] = [];
       }
+      $composer_json[$sync_composer_key] = ArrayManipulator::arrayMergeRecursiveDistinct($composer_json[$sync_composer_key],
+          $template_composer_json[$sync_composer_key]);
     }
-    $composer_json['require-dev']['acquia/blt-require-dev'] = $template_composer_json['require']['acquia/blt-require-dev'];
+
+    // Require blt-require-dev.
+    $composer_json['require-dev']['acquia/blt-require-dev'] = $template_composer_json['require-dev']['acquia/blt-require-dev'];
+
     $this->updater->writeComposerJson($composer_json);
+
+    // Remove vestigial files.
+    $this->updater->deleteFile([
+      $this->updater->getRepoRoot() . "/blt/composer.required.json",
+      $this->updater->getRepoRoot() . "/blt/composer.suggested.json",
+      $this->updater->getRepoRoot() . "/blt/composer.overrides.json",
+    ]);
     $messages = [
       "Your composer.json file has been modified to remove the Composer merge plugin.",
       "You must execute `composer update --lock` to update your lock file.",

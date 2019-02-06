@@ -1,5 +1,152 @@
 # Change Log
 
+#### 10.0.0-alpha1 (2018-12-21)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.2.0-alpha3...10.0.0-alpha1)
+
+**Implemented enhancements**
+
+- Adding BLT commands for db/files cloud hooks. (#3202)
+- Speed up composer operations (#3287)
+- Update db-update.sh (#3291)
+- Update to Drupal Coder 8.3.x. (#3294)
+- Porting 9.2.x changes forward to 10.0.x (#3296)
+- Update db-update.sh (#3288)
+- Speed up deploys with shallow fetching (#3271)
+- Add setup instructions for PHPStorm + PHPUnit (#1787) (#3198)
+- Fixes #3206 to include sensiolabs/security-checker and new composer security test. (#3227)
+- Clean up PHPUnit directories and namespaces. (#3153)
+- Increase wait timeout. (#3163)
+- Fixes issue #2744: Remove wikimedia/composer-merge-plugin from BLT. (#3120)
+
+**Fixed bugs**
+
+- Only load APC setting when APC is enabled (#3290)
+- Pipelines pr-closed event doesn't fire. (#3266)
+- Ensure blt-project works for project creation. (#3274)
+- Fixes #2945 by removing cloud hook exception for ACSF. (#2946)
+
+**Miscellaneous**
+
+- Add links to docsal and ddev pages.
+- Use optimized classloader to resolve notices (#3312)
+- Fix composer.json updates for 10.0.x (#3308)
+- Merge 9.2.x into 10.0.x. (#3310)
+- Remove deprecation detection. (#3311)
+- Add command for updating Drupal core (#3303)
+- Ensuring suggested packages are not lost in 10.x update. (#3302)
+- Docksal documentation (#3268)
+- Update INSTALL.md (#3273)
+- Added ddev documentation (#3250)
+- Added instruction to install BLT and ddev. (#3235)
+- Update onboarding.md (#3234)
+- Simplifying onboarding doc (#3240)
+- Adds FAQ for drush 8/9 permission denied issue. (#3264)
+- Fixes #3243 dry-run option for deploy. (#3262)
+- Fix typo in testing docs. (#3233)
+- Fixes #3122 to remove misleading jmeter example. (#3230)
+- Fixes #3185 to bring install and local docs inline. (#3228)
+- Fixes #3223 to update git docs. (#3226)
+- Fixes #3063 by updating faq and install docs to improve install profile instructions. (#3221)
+- Fix comment formatting in PhpUnitCommand. (#3212)
+- Update deploy.md with correct Cloud Hooks links. (#3188)
+- Update Updates.php (#3176)
+- Travis shouldn't duplicate Drupal 8.6 tests (#3152)
+- Fixed travis output. (#3151)
+- 3149: Minor grammar fix (#3150)
+- Fix PHP syntax error in acquia simplesamlphp config. (#3141)
+- Update support policies (#3147)
+- Resolves #3106: Add 'skip_permissions_hardening' setting to local settings file template (#3107)
+- Fixes #3118: Update theme path to more standardized D8 defaults. (#3119)
+- Fix INSTALL.md installation directions for Drush Launcher. (#3127)
+- updating blt docs to cover ACSF memcache use. (#3136)
+- Remove PHP 5.6 support (#3140)
+- Fix the link of Memcache documentation page. (#3135)
+- Minor variable / comment refactor. (#3111)
+- Update README.md (#3113)
+- Update config_split.config_split.ci.yml (#3129)
+
+
+#### 9.2.2 (2018-12-17)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.2.1...9.2.2)
+
+
+**Miscellaneous**
+
+- Check if argv is set before using it (#3282)
+- Multisite bugfixes (#3231)
+- Fixes #3243 to clean up dry-run in deploy command. (#3263)
+- Fixing missing semi-colon at end of line. (#3208)
+- Fixing updates 9002000 message. (#3205)
+- Fixes #3185 to bring install and local docs inline. (#3186)
+- [9.2.x] Fix undefined trusted_reverse_proxy_ips #3214 (#3215)
+- Fixes #3063 by updating faq and install docs to improve install profile instructions. (#3064)
+- Fix comment formatting in PhpUnitCommand. (#3211)
+
+
+#### 9.2.1 (2018-11-01)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.2.0-alpha3...9.2.1)
+
+**Implemented enhancements**
+
+- Update to Drupal Coder 8.3.x. (#3132)
+
+**Fixed bugs**
+
+- Fixes #2945 by removing cloud hook exception for ACSF. (#2946)
+
+**Miscellaneous**
+
+- Update deploy.md with correct Cloud Hooks links. (#3188)
+- Update BLT settings for site and http/proxy detection (#3172)
+- Prevent cache collisions in multisite install tasks (#3171)
+- Prevent cache collisions in multisite db-update tasks (#3166)
+- Updating CHANGELOG.md and setting version for 9.2.0.
+- Travis shouldn't duplicate Drupal 8.6 tests (#3152)
+- Fixed travis output. (#3151)
+- 3149: Minor grammar fix (#3150)
+- Fix PHP syntax error in acquia simplesamlphp config. (#3141)
+- Update support policies (#3147)
+- Resolves #3106: Add 'skip_permissions_hardening' setting to local settings file template (#3107)
+- Fixes #3118: Update theme path to more standardized D8 defaults. (#3119)
+- Fix INSTALL.md installation directions for Drush Launcher. (#3127)
+- updating blt docs to cover ACSF memcache use. (#3136)
+- Remove PHP 5.6 from the list of tested versions. (#3137)
+- Fix the link of Memcache documentation page. (#3135)
+- Minor variable / comment refactor. (#3111)
+- Update README.md (#3113)
+- Update config_split.config_split.ci.yml (#3129)
+
+
+#### 9.2.0 (2018-10-09)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.2.0-alpha3...9.2.0)
+
+
+**Fixed bugs**
+
+- Fixes #2945 by removing cloud hook exception for ACSF. (#2946)
+
+**Miscellaneous**
+
+- Travis shouldn't duplicate Drupal 8.6 tests (#3152)
+- Fixed travis output. (#3151)
+- 3149: Minor grammar fix (#3150)
+- Fix PHP syntax error in acquia simplesamlphp config. (#3141)
+- Update support policies (#3147)
+- Resolves #3106: Add 'skip_permissions_hardening' setting to local settings file template (#3107)
+- Fixes #3118: Update theme path to more standardized D8 defaults. (#3119)
+- Fix INSTALL.md installation directions for Drush Launcher. (#3127)
+- updating blt docs to cover ACSF memcache use. (#3136)
+- Remove PHP 5.6 from the list of tested versions. (#3137)
+- Fix the link of Memcache documentation page. (#3135)
+- Minor variable / comment refactor. (#3111)
+- Update README.md (#3113)
+- Update config_split.config_split.ci.yml (#3129)
+
+
 #### 9.2.0-alpha3 (2018-09-15)
 
 [Full Changelog](https://github.com/acquia/blt/compare/9.2.0-alpha2...9.2.0-alpha3)

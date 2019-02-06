@@ -13,7 +13,8 @@ class DoctorTest extends BltProjectTestBase {
 
   public function testDoctorCommand() {
     $this->installDrupalMinimal();
-    $this->blt("doctor");
+    list($status_code, $output, $config) = $this->blt("doctor");
+    $this->assertEquals(0, $status_code);
   }
 
 }

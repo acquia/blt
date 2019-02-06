@@ -15,7 +15,7 @@ class PhpCsTest extends BltTestBase {
   /**
    * @group blt
    *
-   * @dataProvider testPhpCsFilesBootstrapProvider
+   * @dataProvider providerPhpCsFilesBootstrapProvider
    */
   public function testPhpCsFilesBootstrap($filename, $needle, $contains) {
     $process = new Process("./vendor/bin/phpcs -v $filename");
@@ -33,7 +33,7 @@ class PhpCsTest extends BltTestBase {
   /**
    * @return array
    */
-  public function testPhpCsFilesBootstrapProvider() {
+  public function providerPhpCsFilesBootstrapProvider() {
     return [
       // Test ignored extension.
       ['CHANGELOG.md', 'Processing CHANGELOG.md', FALSE],

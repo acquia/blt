@@ -406,7 +406,7 @@ class DeployCommand extends BltTasks {
       ->copy($this->getConfigValue('repo.root') . '/composer.lock', $this->deployDir . '/composer.lock', TRUE)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
-    $this->taskExecStack()->exec("composer install --no-dev --no-interaction --optimize-autoloader")
+    $this->taskExecStack()->exec("composer install --no-dev --no-interaction --optimize-autoloader --ignore-platform-reqs")
       ->stopOnFail()
       ->dir($this->deployDir)
       ->run();
@@ -606,8 +606,7 @@ class DeployCommand extends BltTasks {
     $this->say("Deploying updates to <comment>$multisite</comment>...");
     $this->switchSiteContext($multisite);
 
-    $this->invokeCommand('drupal:config:import');
-    $this->invokeCommand('drupal:toggle:modules');
+    $this->invokeCommand('drupal:update');
 
     $this->say("Finished deploying updates to $multisite.");
   }
@@ -633,8 +632,7 @@ class DeployCommand extends BltTasks {
 
       $this->invokeCommand('drupal:sync:db');
       $this->invokeCommand('drupal:sync:files');
-      $this->invokeCommand('drupal:config:import');
-      $this->invokeCommand('drupal:toggle:modules');
+      $this->invokeCommand('drupal:update');
 
       $this->say("Finished syncing $multisite.");
     }
