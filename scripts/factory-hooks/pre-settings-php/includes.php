@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Example implementation of ACSF pre-settings-php hook.
+ * ACSF pre-settings-php hook.
  *
  * @see https://docs.acquia.com/site-factory/tiers/paas/workflow/hooks
  */
