@@ -11,7 +11,6 @@
  * This is used so that an ACSF site install is identical to the local BLT site
  * install, with the environment, site, and uri CLI runtime arguments overriding
  * all other configuration.
- *
  */
 
 // Acquia hosting site / environment names.
