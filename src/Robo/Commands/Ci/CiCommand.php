@@ -111,7 +111,7 @@ class CiCommand extends BltTasks {
       throw new BltException("Could not initialize the Bitbucket Pipelines configuration.");
     }
     $this->say("<info>A pre-configured bitbucket-pipelines.yml file was copied to your repository root.</info>");
-    $this->logger->warning("BLT support in Bitbucket require additional ci image setup.");
+    $this->logger->warning("Bitbucket pipelines have limitations that may require additional configuration for your repository.");
   }
 
 }

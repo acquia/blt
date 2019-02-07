@@ -1,5 +1,5 @@
 # Ideally use an image with php, php extensions & composer.
-# i.e. image: sharpe/ci:latest
+# i.e. image: imagexmedia/ci:latest
 # See: https://confluence.atlassian.com/bitbucket/php-with-bitbucket-pipelines-873907835.html
 
 # Defines single re-usable scripts.
