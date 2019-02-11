@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Example implementation of ACSF post-sites-php hook.
+ * ACSF post-sites-php hook.
  *
  * @see https://docs.acquia.com/site-factory/tiers/paas/workflow/hooks
  */
@@ -15,7 +15,7 @@ if (!function_exists('gardens_data_get_sites_from_file')) {
    *
    * @param string $name
    *   The technical ACSF site name to filter on.
-   * @param $reset
+   * @param bool $reset
    *   Whetever to reset APC cache or not.
    *
    * @return array|mixed|null
