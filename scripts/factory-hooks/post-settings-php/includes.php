@@ -5,6 +5,8 @@
  * ACSF post-settings-php hook.
  *
  * @see https://docs.acquia.com/site-factory/tiers/paas/workflow/hooks
+ *
+ * phpcs:disable DrupalPractice.CodeAnalysis.VariableAnalysis
  */
 
 // Set config directories to default location.

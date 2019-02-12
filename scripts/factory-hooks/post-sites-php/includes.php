@@ -5,6 +5,8 @@
  * ACSF post-sites-php hook.
  *
  * @see https://docs.acquia.com/site-factory/tiers/paas/workflow/hooks
+ *
+ * phpcs:disable DrupalPractice.CodeAnalysis.VariableAnalysis
  */
 
 // The function_exists check is required as the file is included several times.
