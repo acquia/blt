@@ -71,8 +71,16 @@ Linux is fully supported by BLT and DrupalVM and shares many of the same depende
 
 #### Fedora
 
-        dnf install git composer drush
+        sudo dnf install -y git composer drush
         composer global require "hirak/prestissimo:^0.3"
+        # To use NFS with Vagrant, nfs-utils package needs to be installed and nfs-server needs to be running.
+        # https://developer.fedoraproject.org/tools/vagrant/vagrant-nfs.html
+        sudo dnf install -y nfs-utils && sudo systemctl enable nfs-server
+        # Enable nfs, rpc-bind and mountd services for firewalld
+        sudo firewall-cmd --permanent --add-service=nfs \
+            && sudo firewall-cmd --permanent --add-service=rpc-bind \
+            && sudo firewall-cmd --permanent --add-service=mountd \
+            && sudo firewall-cmd --reload
 
 # Installing BLT
 
