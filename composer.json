@@ -55,10 +55,12 @@
     "require-dev": {
         "composer/composer": "^1.6.4",
         "knplabs/github-api": "^2.6",
+        "mglaman/phpstan-drupal": "^0.11.1",
         "php-http/guzzle6-adapter": "^1.1",
-        "webflo/drupal-core-require-dev": "^8.6.0",
+        "phpstan/phpstan": "^0.11.1",
+        "phpstan/phpstan-deprecation-rules": "^0.11.0",
         "phpunit/phpunit": "^4.8|^6.5",
-        "squizlabs/php_codesniffer": "^3.0.1"
+        "squizlabs/php_codesniffer": "^3.0.1",
     },
     "autoload": {
         "psr-4": {
