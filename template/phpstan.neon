@@ -1,0 +1,19 @@
+parameters:
+  customRulesetUsed: true
+  memory_limit: 1G
+  reportUnmatchedIgnoredErrors: false
+  # Ignore phpstan-drupal extension's rules.
+  excludes_analyse:
+  # See https://github.com/mglaman/phpstan-drupal/issues/33.
+  - blazy_test.module
+  ignoreErrors:
+  - '#\Drupal calls should be avoided in classes, use dependency injection instead#'
+  - '#Plugin definitions cannot be altered.#'
+  - '#Missing cache backend declaration for performance.#'
+  - '#Plugin manager has cache backend specified but does not declare cache tags.#'
+  autoload_files:
+  - docroot/modules/contrib/token/token.module
+includes:
+- vendor/mglaman/phpstan-drupal/extension.neon
+- vendor/phpstan/phpstan-deprecation-rules/rules.neon
+
