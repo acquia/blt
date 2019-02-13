@@ -12,6 +12,7 @@
  * install, with the environment, site, and uri CLI runtime arguments overriding
  * all other configuration.
  *
+ * phpcs:disable DrupalPractice.CodeAnalysis.VariableAnalysis
  */
 
 // Acquia hosting site / environment names.
