@@ -22,7 +22,7 @@ class AcsfHooksTest extends BltProjectTestBase {
     list($status_code, $output, $config) = $this->blt("tests:acsf:validate");
     $this->assertEquals(0, $status_code);
   }
-  
+
   /**
    * Tests execution of factory-hooks.
    */
