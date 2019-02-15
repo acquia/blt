@@ -6,12 +6,15 @@ parameters:
   excludes_analyse:
   # See https://github.com/mglaman/phpstan-drupal/issues/33.
   - blazy_test.module
+  # Excluding this because its a sample file that by its nature will never pass.
+  - tests/phpunit/ExampleTest.php
   ignoreErrors:
   - '#\Drupal calls should be avoided in classes, use dependency injection instead#'
   - '#Plugin definitions cannot be altered.#'
   - '#Missing cache backend declaration for performance.#'
   - '#Plugin manager has cache backend specified but does not declare cache tags.#'
   autoload_files:
+  # See https://github.com/mglaman/phpstan-drupal/issues/33
   - docroot/modules/contrib/token/token.module
 includes:
 - vendor/mglaman/phpstan-drupal/extension.neon
