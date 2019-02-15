@@ -42,7 +42,6 @@ class DeployTest extends BltProjectTestBase {
 
     // Ensure hooks were copied to deploy directory.
     $this->assertFileExists($this->deploy_dir . '/hooks');
-    $this->assertFileExists($this->deploy_dir . '/hooks/README.md');
 
     // Ensure deploy directory was sanitized.
     $this->assertFileNotExists($this->deploy_dir . '/docroot/LICENSE.txt');
