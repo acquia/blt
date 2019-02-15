@@ -72,7 +72,7 @@
         "class": "Acquia\\Blt\\Composer\\Plugin",
         "branch-alias": {
             "dev-master": "10.0.x-dev",
-            "10.x-dev": "10.0.x-dev",
+            "10.x-dev": "10.0.x-dev"
         },
         "installer-paths": {
             "build/docroot/core": ["type:drupal-core"],
