@@ -12,7 +12,9 @@ $uri = $argv[3];
 
 
 if (empty($argv[3])) {
-  echo "Error: Not enough arguments. Site, environment, and uri are required.\n";
+  echo "Warning, Site URI not identified. Ensure ACSF module is enabled.\n";
+  echo "Confirm that the module is enabled via configuration. This may live in: \n";
+  echo "config/default (core.extensions.yml) and/or specific config splits.\n";
   exit(1);
 }
 
