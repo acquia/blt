@@ -1,0 +1,9 @@
+name: ${project.machine_name}
+recipe: drupal8
+config:
+  webroot: docroot
+
+tooling:
+  blt:
+    service: appserver
+    cmd: /usr/bin/blt
