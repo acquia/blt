@@ -1,5 +1,5 @@
 local:
-  root: /var/www/${project.machine_name}/docroot
+  root: /app/docroot
   uri: http://${project.machine_name}.lndo.com
   host: ${project.machine_name}.lndo.com
   user: root
