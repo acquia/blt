@@ -728,6 +728,10 @@ class Updates {
     $messages[] = "Local settings files have been updated. Review the resulting file(s) and ensure that any customizations have been re-added.";
     $this->updater->executeCommand("./vendor/bin/blt blt:init:settings");
 
+    // Copy in phpstan config.
+    $messages[] = "Copying PHPStan.neon into the repo.";
+    $this->updater->syncWithTemplate('phpstan.neon');
+
     $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
     $this->updater->getOutput()->writeln("");
     $this->updater->getOutput()->writeln($formattedBlock);
