@@ -239,6 +239,11 @@ validate:
     filters: { }
     # Add any custom Twig functions for linter to ignore.
     functions: { }
+  phpstan:
+    filesets:
+    - files.php.custom.modules
+    - files.php.custom.themes
+    - files.php.tests
   yaml:
     filesets:
       - files.yaml
