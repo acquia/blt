@@ -13,6 +13,7 @@ A general warning: BLT provides automation for numerous other applications inclu
 * Gulp
 * NPM / Yarn
 * PHPCS
+* PHPStan
 * PHPUnit
 
 As a result, numerous "issues with BLT" are in fact "issues with one of the bundled applications." We strongly recommend a careful review of the errors presented with your project, which frequently direct you more appropriately to the underlying system that is the true cause (and not BLT itself).

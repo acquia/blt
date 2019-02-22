@@ -29,6 +29,7 @@ These tools are installed automatically by BLT via Composer.
 | [Behat](#behat)            |
 | [PHPUnit](#phpunit)        |
 | [PHP Code Sniffer](#phpcs) |
+| [PHPStan Static Analysis Tool](#phpstan) |
 
 
 

@@ -46,6 +46,8 @@ This snippet would cause the `tests:phpcs:sniff:all` and `tests:phpcs:sniff:file
 
 To modify the behavior of PHPCS, see [tests:phpcs:sniff:all](#testsphpcssniffall) documentation.
 
+To modify the behavior of PHPStan, see [tests:phpstan:sniff:all](#testsphpstansniffall) documentation.
+
 To modify the filesets that are used in other commands, such as `tests:twig:lint:all`, `tests:yaml:lint:all`, and `tests:php:lint`:
 
 1. Generate an example `Filesets.php` file by executing `blt example:init`. You may use the generated file as a guide for writing your own filesite.
@@ -176,6 +178,10 @@ To modify the behavior of the tests:behat:run target, you may override BLT's `be
 #### tests:phpcs:sniff:all
 
 To modify the behavior of the tests:phpcs:sniff:all target, you may copy `phpcs.xml.dist` to `phpcs.xml` in your repository root directory and modify the XML. Please see the [official PHPCS documentation](https://github.com/squizlabs/PHP_CodeSniffer/wiki/Advanced-Usage#using-a-default-configuration-file) for more information.
+
+#### tests:phpstan:sniff:all
+
+To modify the behavior of the tests:phpstan:sniff:all target, edit `phpstan.neon` in your repository root directory. Please see the [official PHPStan documentation](https://github.com/phpstan/phpstan#configuration) for more information.
 
 #### tests:twig:lint:all
 

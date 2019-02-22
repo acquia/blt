@@ -32,7 +32,7 @@ Other commonly used commands:
         # list targets
         blt
 
-        # validate code via phpcs, php lint, composer validate, etc.
+        # validate code via phpcs, phpstan, php lint, composer validate, etc.
         blt validate
 
         # run phpunit tests
