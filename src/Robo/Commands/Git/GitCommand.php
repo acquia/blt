@@ -62,6 +62,7 @@ class GitCommand extends BltTasks {
       function () use ($changed_files) {
         return $this->invokeCommands([
           'tests:phpcs:sniff:files' => ['file_list' => $changed_files],
+          'tests:phpstan:sniff:files' => ['file_list' => $changed_files],
           'tests:twig:lint:files' => ['file_list' => $changed_files],
           'tests:yaml:lint:files' => ['file_list' => $changed_files],
         ]);

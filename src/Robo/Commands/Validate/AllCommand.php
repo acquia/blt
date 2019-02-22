@@ -21,6 +21,7 @@ class AllCommand extends BltTasks {
       'tests:composer:validate',
       'tests:php:lint',
       'tests:phpcs:sniff:all',
+      'tests:phpstan:sniff:all',
       'tests:yaml:lint:all',
       'tests:twig:lint:all',
     ];
