@@ -95,7 +95,8 @@ class GitTasksTest extends BltProjectTestBase {
   /**
    * Tests operation of scripts/git-hooks/pre-commit.
    *
-   * Should assert that code validation via phpcs is functioning.
+   * Should assert that code validation via phpcs, phpstan, yaml,
+   * and twig linting is functioning.
    */
   public function testGitPreCommitHook() {
     $this->blt("blt:init:git-hooks");
@@ -105,6 +106,7 @@ class GitTasksTest extends BltProjectTestBase {
     $output = $process->getOutput();
     // @todo Assert only changed files are validated.
     $this->assertContains('tests:phpcs:sniff:files', $output);
+    $this->assertContains('tests:phpstan:sniff:files', $output);
     $this->assertContains('tests:yaml:lint:files', $output);
     $this->assertContains('tests:twig:lint:files', $output);
   }
