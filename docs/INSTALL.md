@@ -1,6 +1,6 @@
 # BLT installation
 
-*Please do not clone BLT as a means of using it. The only reason to clone BLT is to contribute to it.
+* Do not clone BLT as a means of using it. The only reason to clone BLT is to contribute to it.*
 
 ## System requirements
 
@@ -62,7 +62,7 @@ Once complete follow the [BLT on Windows installation instructions](windows-inst
 
 ### Linux
 
-If you are using a Linux machine, it is assumed that you will not be using Drupal VM and that you will be configuring your own LAMP stack. Disregard the `blt vm` command and `@[project.machine_name]` references in subsequent documentation.
+Linux is fully supported by BLT and DrupalVM and shares many of the same dependencies as MacOS (except Xcode, of course).
 
 #### Ubuntu / Debian
 
@@ -71,8 +71,16 @@ If you are using a Linux machine, it is assumed that you will not be using Drupa
 
 #### Fedora
 
-        dnf install git composer drush
+        sudo dnf install -y git composer drush
         composer global require "hirak/prestissimo:^0.3"
+        # To use NFS with Vagrant, nfs-utils package needs to be installed and nfs-server needs to be running.
+        # https://developer.fedoraproject.org/tools/vagrant/vagrant-nfs.html
+        sudo dnf install -y nfs-utils && sudo systemctl enable nfs-server
+        # Enable nfs, rpc-bind and mountd services for firewalld
+        sudo firewall-cmd --permanent --add-service=nfs \
+            && sudo firewall-cmd --permanent --add-service=rpc-bind \
+            && sudo firewall-cmd --permanent --add-service=mountd \
+            && sudo firewall-cmd --reload
 
 # Installing BLT
 
