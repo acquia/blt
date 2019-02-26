@@ -1,5 +1,6 @@
 # These files from template dir will be included if they do not yet exist. They will not overwrite
 # existing files.
+.editorconfig
 .gitattributes
 .gitignore
 blt/composer.overrides.json

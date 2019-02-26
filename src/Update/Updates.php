@@ -628,4 +628,36 @@ class Updates {
     }
   }
 
+  /**
+   * 9.2.4.
+   *
+   * @Update(
+   *    version = "9002004",
+   *    description = "Regenerate Pipelines file if it exists."
+   * )
+   */
+  public function update_9002004() {
+    // Updates to setting and configuration files for BLT 10.0.x.
+    $messages[] = "BLT 9.2.4 includes some changes to configuration files.";
+    $messages[] = "These will now be regenerated if your project uses Pipelines or Travis CI.";
+
+    // Check for presence of pipelines.yml files. Regenerate if present.
+    if (file_exists($this->updater->getRepoRoot() . '/acquia-pipelines.yml')) {
+      $messages[] = "pipelines.yml has been updated. Review the resulting file(s) and ensure that any customizations have been re-added.";
+      $this->updater->executeCommand("./vendor/bin/blt recipes:ci:pipelines:init");
+
+    }
+
+    // Check for presence of .travis.yml files. Regenerate if present.
+    if (file_exists($this->updater->getRepoRoot() . '/.travis.yml')) {
+      $messages[] = ".travis.yml has been updated. Review the resulting file(s) and ensure that any customizations have been re-added.";
+      $this->updater->executeCommand("./vendor/bin/blt recipes:ci:travis:init");
+    }
+
+    $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
+    $this->updater->getOutput()->writeln("");
+    $this->updater->getOutput()->writeln($formattedBlock);
+    $this->updater->getOutput()->writeln("");
+  }
+
 }

@@ -315,7 +315,7 @@ class DeployCommand extends BltTasks {
       // This branch may not exist upstream, so we do not fail the build if a
       // merge fails.
       ->stopOnFail(FALSE)
-      ->exec("git fetch $remote_name {$this->branchName}")
+      ->exec("git fetch $remote_name {$this->branchName} --depth=1")
       ->exec("git merge $remote_name/{$this->branchName}")
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
@@ -606,8 +606,7 @@ class DeployCommand extends BltTasks {
     $this->say("Deploying updates to <comment>$multisite</comment>...");
     $this->switchSiteContext($multisite);
 
-    $this->invokeCommand('drupal:config:import');
-    $this->invokeCommand('drupal:toggle:modules');
+    $this->invokeCommand('drupal:update');
 
     $this->say("Finished deploying updates to $multisite.");
   }
@@ -633,8 +632,7 @@ class DeployCommand extends BltTasks {
 
       $this->invokeCommand('drupal:sync:db');
       $this->invokeCommand('drupal:sync:files');
-      $this->invokeCommand('drupal:config:import');
-      $this->invokeCommand('drupal:toggle:modules');
+      $this->invokeCommand('drupal:update');
 
       $this->say("Finished syncing $multisite.");
     }

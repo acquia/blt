@@ -66,9 +66,7 @@ require(&#039;/app/vendor/drush/drush/drush.php&#039;) (Line: 17)
 drush_main() (Line: 141)
 require(&#039;phar:///usr/local/bin/drush/bin/drush.php&#039;) (Line: 10)
 </pre>
-```
 
-```
 Notice: Undefined index: argv in Symfony\Component\Console\Input\ArgvInput->__construct() (line 53 of /app/vendor/symfony/console/Input/ArgvInput.php).
 
 Symfony\Component\Console\Input\ArgvInput->__construct(NULL) (Line: 113)
@@ -77,5 +75,4 @@ require('/app/docroot/sites/default/settings.php') (Line: 122)
 Drupal\Core\Site\Settings::initialize('/app/docroot', 'sites/default', Object) (Line: 1056)
 Drupal\Core\DrupalKernel->initializeSettings(Object) (Line: 656)
 Drupal\Core\DrupalKernel->handle(Object) (Line: 19)
-
 ```
