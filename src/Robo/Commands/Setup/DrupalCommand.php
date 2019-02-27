@@ -26,15 +26,20 @@ class DrupalCommand extends BltTasks {
    */
   public function install() {
 
-    // Generate a random, valid username.
-    // @see \Drupal\user\Plugin\Validation\Constraint\UserNameConstraintValidator
-    $username = RandomString::string(10, FALSE,
-      function ($string) {
-        return !preg_match('/[^\x{80}-\x{F7} a-z0-9@+_.\'-]/i', $string);
-      },
-      'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!#%^&*()_?/.,+=><'
-    );
-
+    // Allows for installs to define custom user 0 name.
+    if ($this->getConfigValue('drupal.account.name') !== NULL) {
+      $username = $this->getConfigValue('drupal.account.name');
+    }
+    else {
+      // Generate a random, valid username.
+      // @see \Drupal\user\Plugin\Validation\Constraint\UserNameConstraintValidator
+      $username = RandomString::string(10, FALSE,
+        function ($string) {
+          return !preg_match('/[^\x{80}-\x{F7} a-z0-9@+_.\'-]/i', $string);
+        },
+        'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!#%^&*()_?/.,+=><'
+      );
+    }
     /** @var \Acquia\Blt\Robo\Tasks\DrushTask $task */
     $task = $this->taskDrush()
       ->drush("site-install")
