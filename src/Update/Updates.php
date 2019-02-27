@@ -269,12 +269,14 @@ class Updates {
       "Default composer.json values from BLT are now merged into your root composer.json via wikimedia/composer-merge-plugin. Please see the following documentation for more information:\n",
       "  - http://blt.readthedocs.io/en/9.x/readme/updating-blt/#modifying-blts-default-composer-values\n   - https://github.com/wikimedia/composer-merge-plugin"
     ];
-    $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
+    $formattedBlock = $this->updater->getFormatter()
+      ->formatBlock($messages, 'ice');
 
     $this->updater->getOutput()->writeln("");
     $this->updater->getOutput()->writeln($formattedBlock);
     $this->updater->getOutput()->writeln("");
-    $this->updater->getOutput()->writeln("<comment>Please execute `composer update` to incorporate these final automated changes to composer.json.</comment>");
+    $this->updater->getOutput()
+      ->writeln("<comment>Please execute `composer update` to incorporate these final automated changes to composer.json.</comment>");
 
     // Sync updates to drushrc.php manually since it has been added to ignore-existing.txt.
     $drushrcFile = 'drush/drushrc.php';
@@ -331,7 +333,8 @@ class Updates {
       $messages[] = "  - <comment>blt/composer.overrides.json</comment> is no longer necessary.";
       $messages[] = "  -  Move your overrides to your root composer.json, and set extra.merge-plugin.ignore-duplicates to true.";
     }
-    $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
+    $formattedBlock = $this->updater->getFormatter()
+      ->formatBlock($messages, 'ice');
     $this->updater->getOutput()->writeln("");
     $this->updater->getOutput()->writeln($formattedBlock);
     $this->updater->getOutput()->writeln("");
@@ -398,7 +401,8 @@ class Updates {
       "Your composer.json file has been modified to be compatible with Lightning 2.1.8+.",
       "You must execute `composer update` to update your lock file.",
     ];
-    $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
+    $formattedBlock = $this->updater->getFormatter()
+      ->formatBlock($messages, 'ice');
     $this->updater->getOutput()->writeln("");
     $this->updater->getOutput()->writeln($formattedBlock);
     $this->updater->getOutput()->writeln("");
@@ -421,7 +425,8 @@ class Updates {
       "You should replace your local global installation of drush with drush launcher:",
       "https://github.com/drush-ops/drush-launcher",
     ];
-    $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
+    $formattedBlock = $this->updater->getFormatter()
+      ->formatBlock($messages, 'ice');
     $this->updater->getOutput()->writeln("");
     $this->updater->getOutput()->writeln($formattedBlock);
     $this->updater->getOutput()->writeln("");
@@ -491,12 +496,14 @@ class Updates {
     $this->updater->getFileSystem()->chmod('docroot/sites/default', 0755);
     $this->updater->getFileSystem()->chmod($files, 0777);
     $this->updater->deleteFile($files);
-    $this->updater->getFileSystem()->mirror('drush/site-aliases', 'drush/sites');
+    $this->updater->getFileSystem()
+      ->mirror('drush/site-aliases', 'drush/sites');
     $this->updater->getFileSystem()->remove('drush/site-aliases');
 
     $finder = new Finder();
     $finder->files()->in(['drush/sites'])->name('*.md5');
-    $this->updater->getFileSystem()->remove(iterator_to_array($finder->getIterator()));
+    $this->updater->getFileSystem()
+      ->remove(iterator_to_array($finder->getIterator()));
     $messages[] = "BLT attempted to upgrade your project-specific drush aliases. Please review and manually convert any that remain.";
 
     $this->updater->moveFile('blt/example.project.local.yml', 'blt/example.local.blt.yml', TRUE);
@@ -530,7 +537,8 @@ class Updates {
     $process = new Process("blt blt:init:settings", $this->updater->getRepoRoot());
     $process->run();
 
-    $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
+    $formattedBlock = $this->updater->getFormatter()
+      ->formatBlock($messages, 'ice');
     $this->updater->getOutput()->writeln("");
     $this->updater->getOutput()->writeln($formattedBlock);
     $this->updater->getOutput()->writeln("");
@@ -548,7 +556,8 @@ class Updates {
     $this->updater->syncWithTemplate('.gitignore', TRUE);
     $messages = ['.gitignore has been updated. Review it for any custom changes that may have been overwritten.'];
 
-    $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
+    $formattedBlock = $this->updater->getFormatter()
+      ->formatBlock($messages, 'ice');
     $this->updater->getOutput()->writeln("");
     $this->updater->getOutput()->writeln($formattedBlock);
     $this->updater->getOutput()->writeln("");
@@ -556,7 +565,8 @@ class Updates {
     $this->updater->syncWithTemplate('blt/ci.blt.yml', TRUE);
     $messages = ['blt/ci.blt.yml has been updated. Review it for any custom changes that may have been overwritten.'];
 
-    $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
+    $formattedBlock = $this->updater->getFormatter()
+      ->formatBlock($messages, 'ice');
     $this->updater->getOutput()->writeln("");
     $this->updater->getOutput()->writeln($formattedBlock);
     $this->updater->getOutput()->writeln("");
@@ -574,7 +584,8 @@ class Updates {
       $messages = ["Updated $project_composer_json. Review changes, then re-run composer update."];
     }
 
-    $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
+    $formattedBlock = $this->updater->getFormatter()
+      ->formatBlock($messages, 'ice');
     $this->updater->getOutput()->writeln("");
     $this->updater->getOutput()->writeln($formattedBlock);
     $this->updater->getOutput()->writeln("");
@@ -600,7 +611,8 @@ class Updates {
       "Your composer.json file has been modified to be compatible with Drush 9.",
       "You must execute `composer update --lock` to update your lock file.",
     ];
-    $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
+    $formattedBlock = $this->updater->getFormatter()
+      ->formatBlock($messages, 'ice');
     $this->updater->getOutput()->writeln("");
     $this->updater->getOutput()->writeln($formattedBlock);
     $this->updater->getOutput()->writeln("");
@@ -621,11 +633,36 @@ class Updates {
         "Review the resulting files and ensure that any customizations have been re-added.",
       ];
       $this->updater->executeCommand("./vendor/bin/blt recipes:acsf:init:hooks");
-      $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
+      $formattedBlock = $this->updater->getFormatter()
+        ->formatBlock($messages, 'ice');
       $this->updater->getOutput()->writeln("");
       $this->updater->getOutput()->writeln($formattedBlock);
       $this->updater->getOutput()->writeln("");
     }
+  }
+
+  /**
+   * 9.1.10.
+   *
+   * @Update(
+   *    version = "9001010",
+   *    description = "Regenerate Pipelines file if it exists."
+   * )
+   */
+  public function update_9001010() {
+    // Updates to setting and configuration files for BLT 10.0.x.
+    $messages[] = "BLT 9.1.10 includes some changes to configuration files.";
+    $messages[] = "These will now be regenerated if your project uses Pipelines.";
+    // Check for presence of pipelines.yml files. Regenerate if present.
+    if (file_exists($this->updater->getRepoRoot() . '/acquia-pipelines.yml')) {
+      $messages[] = "pipelines.yml has been updated. Review the resulting file(s) and ensure that any customizations have been re-added.";
+      $this->updater->executeCommand("./vendor/bin/blt recipes:ci:pipelines:init");
+    }
+    $formattedBlock = $this->updater->getFormatter()
+      ->formatBlock($messages, 'ice');
+    $this->updater->getOutput()->writeln("");
+    $this->updater->getOutput()->writeln($formattedBlock);
+    $this->updater->getOutput()->writeln("");
   }
 
 }
