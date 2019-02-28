@@ -639,7 +639,18 @@ class Updates {
   public function update_9002004() {
     // Updates to setting and configuration files for BLT 10.0.x.
     $messages[] = "BLT 9.2.4 includes some changes to configuration files.";
-    $messages[] = "These will now be regenerated if your project uses Pipelines or Travis CI.";
+    $messages[] = "These will now be regenerated.";
+
+    // Check for presence of factory-hooks directory. Regenerate if present.
+    if (file_exists($this->updater->getRepoRoot() . '/factory-hooks')) {
+      $messages[] = "factory-hooks have been updated. Review the resulting file(s) and ensure that any customizations have been re-added.";
+      $this->updater->executeCommand("./vendor/bin/blt recipes:acsf:init:hooks");
+    }
+    // Check for presence of cloud-hooks directory. Regenerate if present.
+    if (file_exists($this->updater->getRepoRoot() . '/hooks')) {
+      $messages[] = "cloud-hooks have been updated. Review the resulting file(s) and ensure that any customizations have been re-added.";
+      $this->updater->executeCommand("./vendor/bin/blt recipes:cloud-hooks:init");
+    }
 
     // Check for presence of pipelines.yml files. Regenerate if present.
     if (file_exists($this->updater->getRepoRoot() . '/acquia-pipelines.yml')) {
