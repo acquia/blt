@@ -75,6 +75,13 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     $this->composer = $composer;
     $this->io = $io;
     $this->eventDispatcher = $composer->getEventDispatcher();
+    if (self::isWindows()) {
+      $this->io->writeError(
+        '<error>BLT can be installed in Windows only under WSL. Please check https://blt.readthedocs.io/en/latest/windows-install/ for updates and workarounds.</error>'
+      );
+      throw new \Exception('BLT installation aborted');
+    }
+
     ProcessExecutor::setTimeout(3600);
     $this->executor = new ProcessExecutor($this->io);
   }
@@ -119,6 +126,10 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     }
   }
 
+  public static function isWindows() {
+    return DIRECTORY_SEPARATOR === '\\';
+  }
+
   /**
    * Gets the acquia/blt package, if it is the package that is being operated on.
    *
@@ -151,10 +162,10 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
       $this->io->write('<info>Creating BLT templated files...</info>');
       if ($this->isNewProject()) {
         // The BLT command will not work at this point because the .git dir doesn't exist yet.
-        $command = $this->getVendorPath() . '/acquia/blt/bin/blt internal:create-project --ansi';
+        $command = str_replace('\\', '/', PHP_BINDIR) . '/php ' . $this->getVendorPath() . '/acquia/blt/bin/blt internal:create-project --ansi --verbose';
       }
       else {
-        $command = $this->getVendorPath() . '/acquia/blt/bin/blt internal:add-to-project --ansi -y';
+        $command = str_replace('\\', '/', PHP_BINDIR) . '/php ' . $this->getVendorPath() . '/acquia/blt/bin/blt internal:add-to-project --ansi -y --verbose';
       }
       $success = $this->executeCommand($command, [], TRUE);
       if (!$success) {
