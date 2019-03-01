@@ -2,9 +2,11 @@
 
 /**
  * @file
- * Example implementation of ACSF post-settings-php hook.
+ * Factory hook implementation for memcache.
  *
  * @see https://docs.acquia.com/site-factory/tiers/paas/workflow/hooks
+ *
+ * phpcs:disable DrupalPractice.CodeAnalysis.VariableAnalysis
  */
 
 // Use ACSF internal settings site flag to apply memcache settings.
