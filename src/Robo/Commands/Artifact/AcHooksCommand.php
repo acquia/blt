@@ -4,7 +4,6 @@ namespace Acquia\Blt\Robo\Commands\Artifact;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\RandomString;
-use Acquia\Blt\Robo\Exceptions\BltException;
 
 /**
  * Defines commands in the "artifact:ac-hooks" namespace.
@@ -17,23 +16,25 @@ class AcHooksCommand extends BltTasks {
    * This is intended to be called from post-code-deploy.sh cloud hook.
    *
    * @param string $site
-   *   The site name. E.g., site1.
+   *   The site name, e.g., site1.
    * @param string $target_env
-   *   The cloud env. E.g., dev
+   *   The cloud env, e.g., dev
    * @param string $source_branch
-   *   The source branch. E.g., master.
+   *   The source branch, e.g., master.
    * @param string $deployed_tag
-   *   The tag or branch to which the source was deployed. E.g., master or
+   *   The tag or branch to which the source was deployed, e.g., master or
    * 1.0.0.
    * @param string $repo_url
-   *   The repo url. E.g., s1@svn-3.bjaspan.hosting.acquia.com:s1.git
+   *   The repo url, e.g., s1@svn-3.bjaspan.hosting.acquia.com:s1.git
    * @param string $repo_type
-   *   The repo type. E.g., git.
+   *   The repo type, e.g., git.
    *
    * @command artifact:ac-hooks:post-code-deploy
    */
   public function postCodeDeploy($site, $target_env, $source_branch, $deployed_tag, $repo_url, $repo_type) {
-    $this->postCodeUpdate($site, $target_env, $source_branch, $deployed_tag, $repo_url, $repo_type);
+    if (!$this->isAcsfEnv($target_env)) {
+      $this->postCodeUpdate($site, $target_env, $source_branch, $deployed_tag, $repo_url, $repo_type);
+    }
   }
 
   /**
@@ -42,47 +43,35 @@ class AcHooksCommand extends BltTasks {
    * This is intended to be called from post-code-update.sh cloud hook.
    *
    * @param string $site
-   *   The site name. E.g., site1.
+   *   The site name, e.g., site1.
    * @param string $target_env
-   *   The cloud env. E.g., dev
+   *   The cloud env, e.g., dev
    * @param string $source_branch
-   *   The source branch. E.g., master.
+   *   The source branch, e.g., master.
    * @param string $deployed_tag
-   *   The tag or branch to which the source was deployed. E.g., master or
+   *   The tag or branch to which the source was deployed, e.g., master or
    * 1.0.0.
    * @param string $repo_url
-   *   The repo url. E.g., s1@svn-3.bjaspan.hosting.acquia.com:s1.git
+   *   The repo url, e.g., s1@svn-3.bjaspan.hosting.acquia.com:s1.git
    * @param string $repo_type
-   *   The repo type. E.g., git.
+   *   The repo type, e.g., git.
    *
    * @command artifact:ac-hooks:post-code-update
    *
    * @throws \Exception
    */
   public function postCodeUpdate($site, $target_env, $source_branch, $deployed_tag, $repo_url, $repo_type) {
-    $this->dieIfAcsfEnv($target_env);
-    try {
-      $this->updateSites($site, $target_env);
-      $success = TRUE;
-      $this->sendPostCodeUpdateNotifications($site, $target_env, $source_branch, $deployed_tag, $success);
-    }
-    catch (\Exception $e) {
-      $success = FALSE;
-      $this->sendPostCodeUpdateNotifications($site, $target_env, $source_branch, $deployed_tag, $success);
-      throw $e;
-    }
-  }
-
-  /**
-   * Throws an exception if $env is an ACSF environment.
-   *
-   * @param string $env
-   *
-   * @throws \Exception
-   */
-  public function dieIfAcsfEnv($env) {
-    if ($this->isAcsfEnv($env)) {
-      throw new BltException("This is not intended to be executed on ACSF environments!");
+    if (!$this->isAcsfEnv($target_env)) {
+      try {
+        $this->updateSites($site, $target_env);
+        $success = TRUE;
+        $this->sendPostCodeUpdateNotifications($site, $target_env, $source_branch, $deployed_tag, $success);
+      }
+      catch (\Exception $e) {
+        $success = FALSE;
+        $this->sendPostCodeUpdateNotifications($site, $target_env, $source_branch, $deployed_tag, $success);
+        throw $e;
+      }
     }
   }
 
@@ -103,9 +92,9 @@ class AcHooksCommand extends BltTasks {
    * This is intended to be called from db-scrub.sh cloud hook.
    *
    * @param string $site
-   *   The site name. E.g., site1.
+   *   The site name, e.g., site1.
    * @param string $target_env
-   *   The cloud env. E.g., dev
+   *   The cloud env, e.g., dev
    * @param string $db_name
    *   The name of the database.
    * @param string $source_env
@@ -115,19 +104,21 @@ class AcHooksCommand extends BltTasks {
    * @throws \Exception
    */
   public function dbScrub($site, $target_env, $db_name, $source_env) {
-    $password = RandomString::string(10, FALSE,
-      function ($string) {
-        return !preg_match('/[^\x{80}-\x{F7} a-z0-9@+_.\'-]/i', $string);
-      },
-      'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!#%^&*()_?/.,+=><'
-    );
-    $this->taskDrush()
-      ->drush("sql-sanitize --sanitize-password=\"$password\" --yes")
-      ->run();
-    $this->say("Scrubbing database in $target_env");
-    $this->taskDrush()
-      ->drush("cr")
-      ->run();
+    if (!$this->isAcsfEnv($target_env)) {
+      $password = RandomString::string(10, FALSE,
+        function ($string) {
+          return !preg_match('/[^\x{80}-\x{F7} a-z0-9@+_.\'-]/i', $string);
+        },
+        'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!#%^&*()_?/.,+=><'
+      );
+      $this->taskDrush()
+        ->drush("sql-sanitize --sanitize-password=\"$password\" --yes")
+        ->run();
+      $this->say("Scrubbing database in $target_env");
+      $this->taskDrush()
+        ->drush("cr")
+        ->run();
+    }
   }
 
   /**

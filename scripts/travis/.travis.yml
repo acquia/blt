@@ -1,12 +1,12 @@
 sudo: true
 language: php
-dist: trusty
+dist: xenial
 
 # Adjust the version of PHP to match your production environment.
-# Making this version number greater than the production environment can unintended consequences including a
-# non-functional prod environment.
+# Making this version number greater than the production environment can have unintended consequences
+# including a non-functional prod environment.
 php:
-  - 5.6
+  - 7.1
 
 matrix:
   fast_finish: true
@@ -32,6 +32,10 @@ cache:
   # Cache front end dependencies to dramatically improve build time.
   # - "docroot/themes/custom/mytheme/node_modules"
   # - "docroot/themes/custom/mytheme/bower_components"
+
+services:
+- mysql
+- xvfb
 
 addons:
   ssh_known_hosts:
@@ -66,16 +70,16 @@ deploy:
      skip_cleanup: true
      on:
        branch: develop
-       php: 5.6
+       php: 7.1
    - provider: script
      script: "${BLT_DIR}/scripts/travis/deploy_branch"
      skip_cleanup: true
      on:
        branch: master
-       php: 5.6
+       php: 7.1
    - provider: script
      script: "${BLT_DIR}/scripts/travis/deploy_tag"
      skip_cleanup: true
      on:
        tags: true
-       php: 5.6
+       php: 7.1

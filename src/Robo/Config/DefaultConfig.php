@@ -26,7 +26,7 @@ class DefaultConfig extends BltConfig {
   }
 
   /**
-   * Gets the BLT root directory. E.g., /vendor/acquia/blt.
+   * Gets the BLT root directory, e.g., /vendor/acquia/blt.
    *
    * @return string
    *   THe filepath for the Drupal docroot.
@@ -77,7 +77,8 @@ class DefaultConfig extends BltConfig {
   /**
    * Gets an array of sites for the Drupal application.
    *
-   * I.e., sites under docroot/sites, not including acsf 'g' pseudo-site.
+   * I.e., sites under docroot/sites, not including acsf 'g' pseudo-site and
+   * 'settings' directory globbed in blt.settings.php.
    *
    * @return array
    *   An array of sites.
@@ -97,7 +98,7 @@ class DefaultConfig extends BltConfig {
       ->in($sites_dir)
       ->directories()
       ->depth('< 1')
-      ->exclude(['g'])
+      ->exclude(['g', 'settings'])
       ->sortByName();
     foreach ($dirs->getIterator() as $dir) {
       $sites[] = $dir->getRelativePathname();

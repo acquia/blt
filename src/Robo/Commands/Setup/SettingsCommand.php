@@ -19,6 +19,20 @@ class SettingsCommand extends BltTasks {
   protected $projectBehatLocalConfigFile;
 
   /**
+   * @var string
+   * Warning text added to the end of settings.php to point people to the BLT
+   * docs on how to include settings.
+   */
+  private $settingsWarning = <<<WARNING
+#
+# IMPORTANT
+# Do not include additional settings here. Instead, add them to settings included
+# by `blt.settings.php`. See [BLT's documentation](http://blt.readthedocs.io)
+# for more detail.
+#
+WARNING;
+
+  /**
    * This hook will fire for all commands in this command file.
    *
    * @hook init
@@ -49,6 +63,9 @@ class SettingsCommand extends BltTasks {
       }
     }
 
+    // Generate hash file in salt.txt.
+    $this->hashSalt();
+
     $default_multisite_dir = $this->getConfigValue('docroot') . "/sites/default";
     $default_project_default_settings_file = "$default_multisite_dir/default.settings.php";
 
@@ -72,6 +89,14 @@ class SettingsCommand extends BltTasks {
       $default_local_settings_file = "$multisite_dir/settings/default.local.settings.php";
       $project_local_settings_file = "$multisite_dir/settings/local.settings.php";
 
+      // Generate default.includes.settings.php.
+      $blt_includes_settings_file = $this->getConfigValue('blt.root') . '/settings/default.includes.settings.php';
+      $default_includes_settings_file = "$multisite_dir/settings/default.includes.settings.php";
+
+      // Generate sites/settings/global.settings.default.php.
+      $blt_glob_settings_file = $this->getConfigValue('blt.root') . '/settings/global.settings.default.php';
+      $default_glob_settings_file = $this->getConfigValue('docroot') . "/sites/settings/global.settings.default.php";
+
       // Generate local.drush.yml.
       $blt_local_drush_file = $this->getConfigValue('blt.root') . '/settings/default.local.drush.yml';
       $default_local_drush_file = "$multisite_dir/default.local.drush.yml";
@@ -80,6 +105,8 @@ class SettingsCommand extends BltTasks {
       $copy_map = [
         $blt_local_settings_file => $default_local_settings_file,
         $default_local_settings_file => $project_local_settings_file,
+        $blt_includes_settings_file => $default_includes_settings_file,
+        $blt_glob_settings_file => $default_glob_settings_file,
         $blt_local_drush_file => $default_local_drush_file,
         $default_local_drush_file => $project_local_drush_file,
       ];
@@ -126,6 +153,7 @@ class SettingsCommand extends BltTasks {
 
       $result = $this->taskWriteToFile($project_settings_file)
         ->appendUnlessMatches('#vendor/acquia/blt/settings/blt.settings.php#', 'require DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php";' . "\n")
+        ->appendUnlessMatches('#\# IMPORTANT#', $this->settingsWarning . "\n")
         ->append(TRUE)
         ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
         ->run();
@@ -211,7 +239,7 @@ class SettingsCommand extends BltTasks {
    * This symlinks the hook into the project's .git/hooks directory.
    *
    * @param string $hook
-   *   The git hook to install. E.g., 'pre-commit'.
+   *   The git hook to install, e.g., 'pre-commit'.
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
