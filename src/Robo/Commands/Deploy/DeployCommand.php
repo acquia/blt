@@ -464,7 +464,6 @@ class DeployCommand extends BltTasks {
       'INSTALL',
       'MAINTAINERS',
       'PATCHES',
-      'README',
       'TESTING',
       'UPDATE',
     ];
