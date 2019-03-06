@@ -435,7 +435,7 @@ class DeployCommand extends BltTasks {
     $this->logger->info('Find INSTALL database text files...');
     $dbInstallFinder = Finder::create()
       ->files()
-      ->in(["{$this->deployDir}/docroot", "{$this->deployDir}/vendor"])
+      ->in(["{$this->deployDir}/docroot"])
       ->name('/INSTALL\.[a-z]+\.(md|txt)$/');
     if ($dbInstallFinder->hasResults()) {
       $sanitizeFinder->append($dbInstallFinder);
@@ -456,19 +456,10 @@ class DeployCommand extends BltTasks {
     ];
     $textFileFinder = Finder::create()
       ->files()
-      ->in(["{$this->deployDir}/docroot", "{$this->deployDir}/vendor"])
+      ->in(["{$this->deployDir}/docroot"])
       ->name('/(' . implode('|', $filenames) . ')\.(md|txt)$/');
     if ($textFileFinder->hasResults()) {
       $sanitizeFinder->append($textFileFinder);
-    }
-
-    $this->logger->info("Find larger tests fixtures...");
-    $testsFinder = Finder::create()
-      ->files()
-      ->in("{$this->deployDir}/docroot")
-      ->path('/.+\/tests\/.+\.gz$/');
-    if ($testsFinder->hasResults()) {
-      $sanitizeFinder->append($testsFinder);
     }
 
     $this->logger->info("Remove sanitized files from build...");
