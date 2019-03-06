@@ -75,7 +75,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     $this->composer = $composer;
     $this->io = $io;
     $this->eventDispatcher = $composer->getEventDispatcher();
-    if (self::isWindows()) {
+    if (self::isWindows() && $this->isInitialInstall()) {
       $this->io->writeError(
         '<error>BLT can be installed in Windows only under WSL. Please check https://blt.readthedocs.io/en/latest/windows-install/ for updates and workarounds.</error>'
       );
@@ -162,10 +162,10 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
       $this->io->write('<info>Creating BLT templated files...</info>');
       if ($this->isNewProject()) {
         // The BLT command will not work at this point because the .git dir doesn't exist yet.
-        $command = str_replace('\\', '/', PHP_BINDIR) . '/php ' . $this->getVendorPath() . '/acquia/blt/bin/blt internal:create-project --ansi --verbose';
+        $command = $this->getVendorPath() . '/acquia/blt/bin/blt internal:create-project --ansi';
       }
       else {
-        $command = str_replace('\\', '/', PHP_BINDIR) . '/php ' . $this->getVendorPath() . '/acquia/blt/bin/blt internal:add-to-project --ansi -y --verbose';
+        $command = $this->getVendorPath() . '/acquia/blt/bin/blt internal:add-to-project --ansi -y';
       }
       $success = $this->executeCommand($command, [], TRUE);
       if (!$success) {
