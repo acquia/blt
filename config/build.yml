@@ -220,6 +220,9 @@ tests:
     url: http://127.0.0.1:${tests.server.port}
 
 validate:
+  # You can change this to true to have blt automatically validate acsf-init.
+  acsf: false
+
   deprecated:
     filesets:
       - files.php.custom.modules
