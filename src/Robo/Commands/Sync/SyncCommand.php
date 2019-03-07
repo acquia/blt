@@ -128,7 +128,6 @@ class SyncCommand extends BltTasks {
     $task = $this->taskDrush()
       ->alias('')
       ->drush('cache-clear drush')
-      ->drush('sql-drop')
       ->drush('sql-sync')
       ->arg($remote_alias)
       ->arg($local_alias)
