@@ -19,8 +19,10 @@ require_once __DIR__ . '/blt-robo-run.php';
  * @return bool|string
  */
 function find_repo_root() {
+  // Check for PWD - some local environments will not have this key.
+  $pwd = isset($_SERVER['PWD']) ? $_SERVER['PWD'] : NULL;
   $possible_repo_roots = [
-    $_SERVER['PWD'],
+    $pwd,
     getcwd(),
     realpath(__DIR__ . '/../'),
     realpath(__DIR__ . '/../../../'),
