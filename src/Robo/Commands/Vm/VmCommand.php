@@ -277,6 +277,10 @@ class VmCommand extends BltTasks {
     switch ($base_box) {
       case 'beet/box':
         $config->set('workspace', '/beetbox/workspace/{{ php_version }}');
+        $config->set('extra_packages', [
+          'patchutils',
+          'sqlite',
+        ]);
         $config->set('installed_extras', [
           'drush',
           'nodejs',
@@ -287,6 +291,10 @@ class VmCommand extends BltTasks {
 
       case 'geerlingguy/ubuntu1604':
         $config->set('workspace', '/root');
+        $config->set('extra_packages', [
+          'patchutils',
+          'sqlite',
+        ]);
         $config->set('installed_extras', [
           'adminer',
           'selenium',

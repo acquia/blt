@@ -315,7 +315,7 @@ class DeployCommand extends BltTasks {
       // This branch may not exist upstream, so we do not fail the build if a
       // merge fails.
       ->stopOnFail(FALSE)
-      ->exec("git fetch $remote_name {$this->branchName}")
+      ->exec("git fetch $remote_name {$this->branchName} --depth=1")
       ->exec("git merge $remote_name/{$this->branchName}")
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
@@ -418,38 +418,69 @@ class DeployCommand extends BltTasks {
   protected function sanitize() {
     $this->say("Sanitizing artifact...");
 
-    $this->logger->info("Removing .git subdirectories...");
-    $this->taskExecStack()
-      ->exec("find '{$this->deployDir}/vendor' -type d -name '.git' -exec rm -fr \\{\\} \\+")
-      ->exec("find '{$this->deployDir}/docroot' -type d -name '.git' -exec rm -fr \\{\\} \\+")
-      ->stopOnFail()
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->run();
+    $this->logger->info("Find Drupal core text files...");
+    $sanitizeFinder = Finder::create()
+      ->files()
+      ->name('*.txt')
+      ->notName('LICENSE.txt')
+      ->in("{$this->deployDir}/docroot/core");
 
+    $this->logger->info('Find VCS directories...');
+    $vcsFinder = Finder::create()
+      ->ignoreDotFiles(FALSE)
+      ->ignoreVCS(FALSE)
+      ->directories()
+      ->in(["{$this->deployDir}/docroot", "{$this->deployDir}/vendor"])
+      ->name('.git');
+    if ($vcsFinder->hasResults()) {
+      $sanitizeFinder->append($vcsFinder);
+    }
+
+    $this->logger->info("Find Github directories...");
+    $githubFinder = Finder::create()
+      ->ignoreDotFiles(FALSE)
+      ->directories()
+      ->in(["{$this->deployDir}/docroot", "{$this->deployDir}/vendor"])
+      ->name('.github');
+    if ($githubFinder->hasResults()) {
+      $sanitizeFinder->append($githubFinder);
+    }
+
+    $this->logger->info('Find INSTALL database text files...');
+    $dbInstallFinder = Finder::create()
+      ->files()
+      ->in(["{$this->deployDir}/docroot"])
+      ->name('/INSTALL\.[a-z]+\.(md|txt)$/');
+    if ($dbInstallFinder->hasResults()) {
+      $sanitizeFinder->append($dbInstallFinder);
+    }
+
+    $this->logger->info('Find other common text files...');
+    $filenames = [
+      'AUTHORS',
+      'CHANGELOG',
+      'CONDUCT',
+      'CONTRIBUTING',
+      'INSTALL',
+      'MAINTAINERS',
+      'PATCHES',
+      'TESTING',
+      'UPDATE',
+    ];
+    $textFileFinder = Finder::create()
+      ->files()
+      ->in(["{$this->deployDir}/docroot"])
+      ->name('/(' . implode('|', $filenames) . ')\.(md|txt)$/');
+    if ($textFileFinder->hasResults()) {
+      $sanitizeFinder->append($textFileFinder);
+    }
+
+    $this->logger->info("Remove sanitized files from build...");
     $taskFilesystemStack = $this->taskFilesystemStack()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE);
-
-    $finder = new Finder();
-    $files = $finder
-      ->in($this->deployDir)
-      ->files()
-      ->name('CHANGELOG.txt');
-
-    foreach ($files->getIterator() as $item) {
-      $taskFilesystemStack->remove($item->getRealPath());
+    foreach ($sanitizeFinder->getIterator() as $fileInfo) {
+      $taskFilesystemStack->remove($fileInfo->getRealPath());
     }
-
-    $finder = new Finder();
-    $files = $finder
-      ->in($this->deployDir . '/docroot/core')
-      ->files()
-      ->name('*.txt');
-
-    foreach ($files->getIterator() as $item) {
-      $taskFilesystemStack->remove($item->getRealPath());
-    }
-
-    $this->logger->info("Removing .txt files...");
     $taskFilesystemStack->run();
   }
 
@@ -606,8 +637,7 @@ class DeployCommand extends BltTasks {
     $this->say("Deploying updates to <comment>$multisite</comment>...");
     $this->switchSiteContext($multisite);
 
-    $this->invokeCommand('drupal:config:import');
-    $this->invokeCommand('drupal:toggle:modules');
+    $this->invokeCommand('drupal:update');
 
     $this->say("Finished deploying updates to $multisite.");
   }
@@ -633,8 +663,7 @@ class DeployCommand extends BltTasks {
 
       $this->invokeCommand('drupal:sync:db');
       $this->invokeCommand('drupal:sync:files');
-      $this->invokeCommand('drupal:config:import');
-      $this->invokeCommand('drupal:toggle:modules');
+      $this->invokeCommand('drupal:update');
 
       $this->say("Finished syncing $multisite.");
     }

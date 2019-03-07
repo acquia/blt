@@ -24,5 +24,5 @@ To set up a local development environment for your ACSF project, follow the step
 
 ### Resources
 
-* https://docs.acquia.com/site-factory/quick-start/configure
-* https://www.drupal.org/project/acsf
+* [Site Factory Documentation](https://docs.acquia.com/site-factory/)
+* [Acquia Cloud Site Factory Connector Module](https://www.drupal.org/project/acsf)

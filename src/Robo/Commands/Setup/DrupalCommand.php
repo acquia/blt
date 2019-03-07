@@ -50,6 +50,17 @@ class DrupalCommand extends BltTasks {
       ->verbose(TRUE)
       ->printOutput(TRUE);
 
+    // Install site from existing config if supported.
+    $strategy = $this->getConfigValue('cm.strategy');
+    $cm_core_key = $this->getConfigValue('cm.core.key');
+    $install_from_config = $this->getConfigValue('cm.core.install_from_config');
+    if (in_array($strategy, ['core-only', 'config-split']) && $cm_core_key == 'sync' && $install_from_config) {
+      $core_config_file = $this->getConfigValue('docroot') . '/' . $this->getConfigValue("cm.core.dirs.$cm_core_key.path") . '/core.extension.yml';
+      if (file_exists($core_config_file)) {
+        $task->option('existing-config');
+      }
+    }
+
     $result = $task->interactive($this->input()->isInteractive())->run();
     if (!$result->wasSuccessful()) {
       throw new BltException("Failed to install Drupal!");
