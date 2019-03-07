@@ -2,11 +2,11 @@
 
 Software testing has been around for decades, and it has been proven to provide many crucial benefits, including:
 
-* Reduce the number of bugs and regressions
-* Increase project velocity (in the long run)
-  * Improves accuracy of scheduling estimates
-  * Saves time and money
-* Increase user trust and satisfaction
+* Reducing the number of bugs and regressions
+* Increasing project velocity (in the long run)
+* Improving accuracy of scheduling estimates
+* Saving time and money
+* Increasing user trust and satisfaction
 
 You should use automated testing. Do not fall prey to common rationalizations and excuses relating to insufficient time, money, or resources. Time spent developing tests is repaid ten fold.
 
@@ -41,8 +41,11 @@ This directory contains all projects tests, grouped by testing technology. For a
     │    │   └── Example.feature
     │    ├── behat.yml - contains behat configuration common to all behat profiles.
     │    └── integration.yml - contains behat configuration for the integration profile, which is used to run tests on the integration environment.
-    ├── jmeter  - contains all jMeter tests
     └── phpunit - contains all PHP Unit tests
+
+Additional technologies (some of which may not be supported by BLT) can also have their tests bundled in the tests folder for convenience (e.g. `tests/jmeter`).
+    
+BLT also supports the bundling and execution of phpunit tests from locations outside of the tests folder. See the []PHPUnit Configuration](/testing/#configuration_1) section below for additional information. 
 
 ## Executing tests
 
@@ -66,7 +69,7 @@ For more information on the commands, run:
 
 ## Behat
 
-The high-level purpose BDD is to create a strong connection between business requirements and the actual tests. Behat tests should mirror ticket acceptance criteria as closely as possible.
+The high-level purpose of BDD is to create a strong connection between business requirements and the actual tests. Behat tests should mirror ticket acceptance criteria as closely as possible.
 
 Consequently, proper Behat tests should be written using business domain language. The test should be comprehensible by the stakeholder and represent a clear business value. It should represent a typical user behavior and need not be an exhaustive representation of all possible scenarios.
 
@@ -122,6 +125,12 @@ Read through the [ScreenshotExtension documentation](https://github.com/elveteme
 * Tests are not sufficiently isolated. Making tests interdependent diminishes their value!
 * Writing tests that are exhaustive of all scenarios rather than representative of a typical scenario.
 * Writing Behat tests when a unit test should be employed.
+
+### Troubleshooting
+
+* Google Chrome is missing: BLT currently expects Google Chrome (more exactly, the `google-chrome` binary) to be available on the local setup. If you're using a Mac and Chrome is installed, you should be good to go. Similarly, BLT includes the Chrome binary in DrupalVM. If you are running BLT in another Linux environment, install `chromium-driver`.
+* Spotting bad configuration: In order to troubleshoot your Behat setup, make sure to run `blt doctor --site=mysite.local` to try and spot any obvious issue.
+* Multisite / ACSF issues: When you need to run tests with any authenticated user role, you may have to uninstall `simplesamlphp_auth`. Else, Behat tests may hang. When ready, run `blt behat --site=mysite.local` from within the project root. If running Behat tests fail, then it means you either have issues with your BLT / Behat setup or there's an issue with tests themselves.
 
 ### Resources
 

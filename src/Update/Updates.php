@@ -606,4 +606,69 @@ class Updates {
     $this->updater->getOutput()->writeln("");
   }
 
+  /**
+   * 9.2.0.
+   *
+   * @Update(
+   *    version = "9002000",
+   *    description = "Factory Hooks Drush 9 bug fixes and enhancements for db-update."
+   * )
+   */
+  public function update_9002000() {
+    if (file_exists($this->updater->getRepoRoot() . '/factory-hooks')) {
+      $messages = [
+        "This update will update the files in your existing factory hooks directory.",
+        "Review the resulting files and ensure that any customizations have been re-added.",
+      ];
+      $this->updater->executeCommand("./vendor/bin/blt recipes:acsf:init:hooks");
+      $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
+      $this->updater->getOutput()->writeln("");
+      $this->updater->getOutput()->writeln($formattedBlock);
+      $this->updater->getOutput()->writeln("");
+    }
+  }
+
+  /**
+   * 9.2.4.
+   *
+   * @Update(
+   *    version = "9002004",
+   *    description = "Regenerate Pipelines file if it exists."
+   * )
+   */
+  public function update_9002004() {
+    // Updates to setting and configuration files for BLT 10.0.x.
+    $messages[] = "BLT 9.2.4 includes some changes to configuration files.";
+    $messages[] = "These will now be regenerated.";
+
+    // Check for presence of factory-hooks directory. Regenerate if present.
+    if (file_exists($this->updater->getRepoRoot() . '/factory-hooks')) {
+      $messages[] = "factory-hooks have been updated. Review the resulting file(s) and ensure that any customizations have been re-added.";
+      $this->updater->executeCommand("./vendor/bin/blt recipes:acsf:init:hooks");
+    }
+    // Check for presence of cloud-hooks directory. Regenerate if present.
+    if (file_exists($this->updater->getRepoRoot() . '/hooks')) {
+      $messages[] = "cloud-hooks have been updated. Review the resulting file(s) and ensure that any customizations have been re-added.";
+      $this->updater->executeCommand("./vendor/bin/blt recipes:cloud-hooks:init");
+    }
+
+    // Check for presence of pipelines.yml files. Regenerate if present.
+    if (file_exists($this->updater->getRepoRoot() . '/acquia-pipelines.yml')) {
+      $messages[] = "pipelines.yml has been updated. Review the resulting file(s) and ensure that any customizations have been re-added.";
+      $this->updater->executeCommand("./vendor/bin/blt recipes:ci:pipelines:init");
+
+    }
+
+    // Check for presence of .travis.yml files. Regenerate if present.
+    if (file_exists($this->updater->getRepoRoot() . '/.travis.yml')) {
+      $messages[] = ".travis.yml has been updated. Review the resulting file(s) and ensure that any customizations have been re-added.";
+      $this->updater->executeCommand("./vendor/bin/blt recipes:ci:travis:init");
+    }
+
+    $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
+    $this->updater->getOutput()->writeln("");
+    $this->updater->getOutput()->writeln($formattedBlock);
+    $this->updater->getOutput()->writeln("");
+  }
+
 }

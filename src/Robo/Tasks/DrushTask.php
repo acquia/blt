@@ -81,6 +81,13 @@ class DrushTask extends CommandStack {
   protected $include;
 
   /**
+   * Add or not the --ansi option.
+   *
+   * @var bool
+   */
+  protected $ansi;
+
+  /**
    * Drush commands to execute when task is run.
    *
    * @var array
@@ -211,6 +218,19 @@ class DrushTask extends CommandStack {
   }
 
   /**
+   * Include or not the --ansi option for drush commands.
+   *
+   * @param bool $ansi
+   *   The flag for including --ansi option.
+   *
+   * @return $this
+   */
+  public function ansi($ansi) {
+    $this->ansi = $ansi;
+    return $this;
+  }
+
+  /**
    * Sets up drush defaults using config.
    */
   protected function init() {
@@ -232,6 +252,9 @@ class DrushTask extends CommandStack {
     }
     if (!isset($this->interactive)) {
       $this->interactive(FALSE);
+    }
+    if (!isset($this->ansi)) {
+      $this->ansi($this->getConfig()->get('drush.ansi'));
     }
 
     $this->defaultsInitialized = TRUE;
@@ -321,8 +344,8 @@ class DrushTask extends CommandStack {
       $this->option('include', $this->include);
     }
 
-    if ($this->getConfig()->get('drush.ansi')) {
-      $this->option('ansi');
+    if ($this->ansi) {
+      $this->option("ansi");
     }
   }
 

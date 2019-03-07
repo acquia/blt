@@ -48,6 +48,9 @@ cm:
       # Corresponding value is defined in config.settings.php.
       sync:
         path: ${cm.core.path}/default
+    # Install site directly from existing config.
+    # This cannot be used if your install profile implements hook_install.
+    install_from_config: false
   features:
     no-overrides: true
 
