@@ -86,6 +86,7 @@ drush:
   dir: ${docroot}
   alias-dir: ${repo.root}/drush/sites
   sanitize: true
+  ansi: true
 
 git:
   # The value of a hook should be the file path to a directory containing an
