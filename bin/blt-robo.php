@@ -20,7 +20,6 @@ require_once __DIR__ . '/blt-robo-run.php';
  */
 function find_repo_root() {
   $possible_repo_roots = [
-    $pwd,
     getcwd(),
     realpath(__DIR__ . '/../'),
     realpath(__DIR__ . '/../../../'),
