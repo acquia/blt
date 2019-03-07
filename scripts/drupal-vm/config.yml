@@ -78,6 +78,7 @@ nodejs_npm_global_packages:
   - name: yarn
 nodejs_install_npm_user: "{{ drupalvm_user }}"
 npm_config_prefix: "/home/{{ drupalvm_user }}/.npm-global"
+extra_packages: ${extra_packages}
 installed_extras: ${installed_extras}
 
 # PHP 7.1.
