@@ -177,18 +177,22 @@ class UpdateCommand extends BltTasks {
    * @hidden
    */
   public function initAndCommitRepo() {
-    $result = $this->taskExecStack()
-      ->dir($this->getConfigValue("repo.root"))
-      ->exec("git init")
-      ->exec('git add -A')
-      ->exec("git commit -m 'Initial commit.'")
-      ->interactive(FALSE)
-      ->printOutput(FALSE)
-      ->printMetadata(FALSE)
-      ->run();
+    // The .git dir will already exist if blt-project was created using a
+    // branch. Otherwise, it will not exist when using a tag.
+    if (!file_exists($this->getConfigValue("repo.root") . "/.git")) {
+      $result = $this->taskExecStack()
+        ->dir($this->getConfigValue("repo.root"))
+        ->exec("git init")
+        ->exec('git add -A')
+        ->exec("git commit -m 'Initial commit.'")
+        ->interactive(FALSE)
+        ->printOutput(FALSE)
+        ->printMetadata(FALSE)
+        ->run();
 
-    if (!$result->wasSuccessful()) {
-      throw new BltException("Could not initialize new git repository.");
+      if (!$result->wasSuccessful()) {
+        throw new BltException("Could not initialize new git repository.");
+      }
     }
   }
 

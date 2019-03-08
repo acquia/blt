@@ -48,6 +48,9 @@ cm:
       # Corresponding value is defined in config.settings.php.
       sync:
         path: ${cm.core.path}/default
+    # Install site directly from existing config.
+    # This cannot be used if your install profile implements hook_install.
+    install_from_config: false
   features:
     no-overrides: true
 
@@ -67,6 +70,7 @@ docroot: ${repo.root}/docroot
 
 # Drupal Account Credentials. These are used for installing Drupal.
 drupal:
+  #account.name: admin
   account.mail: no-reply@acquia.com
   locale: en
   local_settings_file: ${docroot}/sites/${site}/settings/local.settings.php
@@ -83,6 +87,7 @@ drush:
   dir: ${docroot}
   alias-dir: ${repo.root}/drush/sites
   sanitize: true
+  ansi: true
 
 git:
   # The value of a hook should be the file path to a directory containing an
@@ -94,6 +99,12 @@ git:
   commit-msg:
     # Commit messages must conform to this pattern.
     pattern: "/(^${project.prefix}-[0-9]+(: )[^ ].{15,}\\.)|(Merge branch (.)+)/"
+    # Human readable help description explaining the pattern/restrictions.
+    help_description: "The commit message should include your project prefix,
+                      followed by a hyphen and ticket number, followed by a colon and a space,
+                      fifteen characters or more describing the commit, and end with a period."
+    # Provide an example of a valid commit message.
+    example: "${project.prefix}-123: Update module configuration."
 
 # You may provide a list of sites for BLT to run commands against,
 # otherwise BLT will generate this sites list based on directories
@@ -210,6 +221,9 @@ tests:
     url: http://127.0.0.1:${tests.server.port}
 
 validate:
+  # You can change this to true to have blt automatically validate acsf-init.
+  acsf: false
+
   deprecated:
     filesets:
       - files.php.custom.modules

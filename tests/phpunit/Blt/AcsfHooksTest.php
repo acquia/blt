@@ -15,9 +15,12 @@ class AcsfHooksTest extends BltProjectTestBase {
    * Tests recipes:acsf:init:all command.
    */
   public function testAcsfInit() {
-    $this->blt("recipes:acsf:init:all");
+    list($status_code, $output, $config) = $this->blt("recipes:acsf:init:all");
+    $this->assertEquals(0, $status_code);
     $this->assertFileExists($this->sandboxInstance . '/docroot/modules/contrib/acsf');
     $this->assertFileExists($this->sandboxInstance . '/factory-hooks');
+    list($status_code, $output, $config) = $this->blt("tests:acsf:validate");
+    $this->assertEquals(0, $status_code);
   }
 
   /**

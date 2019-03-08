@@ -1,6 +1,6 @@
 sudo: true
 language: php
-dist: trusty
+dist: xenial
 
 # Adjust the version of PHP to match your production environment.
 # Making this version number greater than the production environment can have unintended consequences
@@ -33,6 +33,10 @@ cache:
   # - "docroot/themes/custom/mytheme/node_modules"
   # - "docroot/themes/custom/mytheme/bower_components"
 
+services:
+- mysql
+- xvfb
+
 addons:
   ssh_known_hosts:
   # - svn-4786.devcloud.hosting.acquia.com
@@ -57,6 +61,8 @@ install:
   - source ${BLT_DIR}/scripts/travis/setup_project
 
 script:
+  # Uncomment these lines to test database updates using live content.
+  # - blt drupal:sync:default:site
   - source ${BLT_DIR}/scripts/travis/run_tests
 
 deploy:

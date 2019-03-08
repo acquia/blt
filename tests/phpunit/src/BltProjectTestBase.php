@@ -226,7 +226,7 @@ abstract class BltProjectTestBase extends TestCase {
    *
    */
   protected function installDrupalMinimal() {
-    $this->blt('setup', [
+    return $this->blt('setup', [
       '--define' => [
         'project.profile.name=minimal',
       ],

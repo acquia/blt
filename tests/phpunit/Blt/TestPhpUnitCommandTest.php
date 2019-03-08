@@ -25,6 +25,7 @@ class TestPhpUnitCommandTest extends BltProjectTestBase {
   public function testPhpUnitCommandNoTests() {
     $this->fs->remove($this->sandboxInstance . "/tests/phpunit/ExampleTest.php");
     list($status_code, $output, $config) = $this->blt("tests:phpunit:run");
+    $this->assertEquals(0, $status_code);
   }
 
 }
