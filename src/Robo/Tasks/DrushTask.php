@@ -254,7 +254,7 @@ class DrushTask extends CommandStack {
       $this->interactive(FALSE);
     }
     if (!isset($this->ansi)) {
-      $this->ansi(TRUE);
+      $this->ansi($this->getConfig()->get('drush.ansi'));
     }
 
     $this->defaultsInitialized = TRUE;

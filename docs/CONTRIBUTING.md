@@ -5,6 +5,13 @@ BLT work is currently being tracked in the [BLT GitHub issue queue](https://gith
 Please note the branch statuses documented in the README and [GitHub page](https://github.com/acquia/blt):
 - Pull requests for enhancements will only be accepted for the active development branch.
 - Pull requests for bug fixes will only be accepted for supported branches.
+- When submitting a pull request for a bug fix or enhancement that may apply to multiple branches, please submit only a single PR to the latest development branch for review. A maintainer will backport the fix if appropriate.
+
+Pull requests must also adhere to the following guidelines:
+- PRs should be atomic and targeted at a single issue rather than broad-scope.
+- PRs are expected to follow the template defined by the project in `.github/ISSUE_TEMPLATE.md`.
+
+New issues and pull requests will be triaged by a BLT maintainer. If additional information or work is requested and no reply is received within a week, issues and PRs may be closed.
 
 ## Developing BLT locally
 
@@ -35,10 +42,3 @@ To execute the same "release" testing that is performed during CI execution, run
 ## PHPUnit
 
 See [the PHPUnit section in the automated testing docs](testing.md#PHPUnit)
-
-# Submitting Pull Requests
-
-Changes should be submitted as Github Pull Requests to the project repository. To help with review, pull requests are expected to adhere to two main guidelines:
-
-1. PRs should be atomic and targeted at a single issue rather than broad-scope.
-2. PRs are expected to follow the template defined by the project in `.github/ISSUE_TEMPLATE.md` 

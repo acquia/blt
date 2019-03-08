@@ -75,6 +75,13 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     $this->composer = $composer;
     $this->io = $io;
     $this->eventDispatcher = $composer->getEventDispatcher();
+    if (self::isWindows() && $this->isInitialInstall()) {
+      $this->io->writeError(
+        '<error>BLT can be installed in Windows only under WSL. Please check https://blt.readthedocs.io/en/latest/windows-install/ for updates and workarounds.</error>'
+      );
+      throw new \Exception('BLT installation aborted');
+    }
+
     ProcessExecutor::setTimeout(3600);
     $this->executor = new ProcessExecutor($this->io);
   }
@@ -117,6 +124,10 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
       $version = $this->bltPackage->getVersion();
       $this->executeBltUpdate($version);
     }
+  }
+
+  public static function isWindows() {
+    return DIRECTORY_SEPARATOR === '\\';
   }
 
   /**

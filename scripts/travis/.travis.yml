@@ -61,6 +61,8 @@ install:
   - source ${BLT_DIR}/scripts/travis/setup_project
 
 script:
+  # Uncomment these lines to test database updates using live content.
+  # - blt drupal:sync:default:site
   - source ${BLT_DIR}/scripts/travis/run_tests
 
 deploy:
