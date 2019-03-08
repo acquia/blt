@@ -10,6 +10,20 @@ tooling:
 cmd: /app/vendor/bin/blt
 ```
 
+You can also update your blt config (blt/blt.yml) with the lando hostname syntax:
+
+```
+project:
+  machine_name: abc
+  prefix: ABC
+  human_name: 'A website'
+  profile:
+    name: standard
+  local:
+    protocol: http
+    hostname: ${project.machine_name}.lndo.site
+```
+
 ## The bad news:
 There are a couple tricky bits that you need to watch out for.
 
