@@ -91,7 +91,7 @@ To install Acquia Cloud hooks for your BLT project:
 
         blt recipes:cloud-hooks:init
 
-    This will add a hooks directory in your project root based on [BLT's default Acquia Cloud hooks](https://github.com/acquia/blt/tree/10.0.x/scripts/cloud-hooks/hooks).
+    This will add a hooks directory in your project root based on [BLT's default Acquia Cloud hooks](https://github.com/acquia/blt/tree/10.x/scripts/cloud-hooks/hooks).
 
 1. Commit the new directory and push it to your Acquia git remote. Example commands:
 
