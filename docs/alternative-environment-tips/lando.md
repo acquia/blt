@@ -1,7 +1,14 @@
 # Setting up BLT with Lando
 
 ## The good news:
-BLT with Lando _mostly_ just works™.
+BLT with Lando _mostly_ just works™ but to get a better integration add the following to your .lando.yml file and rebuild the containers:
+
+```
+tooling:
+  blt:
+    service: appserver
+cmd: /app/vendor/bin/blt
+```
 
 ## The bad news:
 There are a couple tricky bits that you need to watch out for.
