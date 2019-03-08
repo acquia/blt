@@ -19,6 +19,6 @@ repo_root="/var/www/html/$site.$target_env"
 export PATH=$repo_root/vendor/bin:$PATH
 cd $repo_root
 
-blt artifact:ac-hooks:post-db-copy $site $target_env $db_name $source_env --environment=$target_env -v --yes --no-interaction
+blt artifact:ac-hooks:post-db-copy $site $target_env $db_name $source_env --environment=$target_env -v --yes --no-interaction --drush.ansi=false
 
 set +v
