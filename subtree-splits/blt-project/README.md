@@ -14,7 +14,7 @@ Tags of blt-project will build a new project using the latest stable tag from BL
 
 The 9.x branch of blt-project will build a new project using the 9.x branch of BLT. E.g.,
 
-`composer create-project acquia/blt-project:10.0.x-dev --no-interaction my-project`
+`composer create-project acquia/blt-project:10.x-dev --no-interaction my-project`
 
 ## License
 
