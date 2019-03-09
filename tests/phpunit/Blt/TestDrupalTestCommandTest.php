@@ -60,9 +60,9 @@ class DrupalTest extends BltProjectTestBase {
         "tests.drupal.drupal-tests.0.url=$this->url",
       ],
     ]);
-    $results = file_get_contents($this->sandboxInstance . '/reports/drupal/run-tests-script/Drupal_KernelTests_Core_Action_EmailActionTest.xml');
-    $this->assertNotContains('failure type="failure"', $results);
     $results = file_get_contents($this->sandboxInstance . '/reports/drupal/run-tests-script/Drupal_Tests_action_Kernel_Migrate_d7_MigrateActionsTest.xml');
+    $this->assertNotContains('failure type="failure"', $results);
+    $results = file_get_contents($this->sandboxInstance . '/reports/drupal/run-tests-script/Drupal_Tests_action_Kernel_Plugin_Action_EmailActionTest.xml');
     $this->assertNotContains('failure type="failure"', $results);
     $results = file_get_contents($this->sandboxInstance . '/reports/drupal/run-tests-script/Drupal_Tests_action_Kernel_Plugin_migrate_source_ActionTest.xml');
     $this->assertNotContains('failure type="failure"', $results);
