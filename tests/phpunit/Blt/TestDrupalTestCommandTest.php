@@ -56,27 +56,27 @@ class DrupalTest extends BltProjectTestBase {
         "tests.drupal.drupal-tests.0.tests.0=action",
         "tests.drupal.drupal-tests.0.types.0=PHPUnit-Unit",
         "tests.drupal.drupal-tests.0.types.1=PHPUnit-Kernel",
-        "tests.drupal.drupal-tests.0.types.2=PHPUnit-Functional",
+        # "tests.drupal.drupal-tests.0.types.2=PHPUnit-Functional",
         "tests.drupal.drupal-tests.0.sqlite=$this->sqlite",
         "tests.drupal.drupal-tests.0.url=$this->url",
       ],
     ]);
     $results = file_get_contents($this->sandboxInstance . '/reports/drupal/run-tests-script/Drupal_KernelTests_Core_Action_EmailActionTest.xml');
     $this->assertNotContains('failure type="failure"', $results);
-    $results = file_get_contents($this->sandboxInstance . '/reports/drupal/run-tests-script/Drupal_Tests_action_Functional_ActionListTest.xml');
-    $this->assertNotContains('failure type="failure"', $results);
-    $results = file_get_contents($this->sandboxInstance . '/reports/drupal/run-tests-script/Drupal_Tests_action_Functional_ActionUninstallTest.xml');
-    $this->assertNotContains('failure type="failure"', $results);
-    $results = file_get_contents($this->sandboxInstance . '/reports/drupal/run-tests-script/Drupal_Tests_action_Functional_ConfigurationTest.xml');
-    $this->assertNotContains('failure type="failure"', $results);
+    // $results = file_get_contents($this->sandboxInstance . '/reports/drupal/run-tests-script/Drupal_Tests_action_Functional_ActionListTest.xml');
+    // $this->assertNotContains('failure type="failure"', $results);
+    // $results = file_get_contents($this->sandboxInstance . '/reports/drupal/run-tests-script/Drupal_Tests_action_Functional_ActionUninstallTest.xml');
+    // $this->assertNotContains('failure type="failure"', $results);
+    // $results = file_get_contents($this->sandboxInstance . '/reports/drupal/run-tests-script/Drupal_Tests_action_Functional_ConfigurationTest.xml');
+    // $this->assertNotContains('failure type="failure"', $results);
     $results = file_get_contents($this->sandboxInstance . '/reports/drupal/run-tests-script/Drupal_Tests_action_Kernel_Migrate_d7_MigrateActionsTest.xml');
     $this->assertNotContains('failure type="failure"', $results);
     $results = file_get_contents($this->sandboxInstance . '/reports/drupal/run-tests-script/Drupal_Tests_action_Kernel_Plugin_migrate_source_ActionTest.xml');
     $this->assertNotContains('failure type="failure"', $results);
     $results = file_get_contents($this->sandboxInstance . '/reports/drupal/run-tests-script/Drupal_Tests_action_Unit_Menu_ActionLocalTasksTest.xml');
     $this->assertNotContains('failure type="failure"', $results);
-    $results = file_get_contents($this->sandboxInstance . '/reports/drupal/run-tests-script/Drupal_Tests_views_Functional_UserBatchActionTest.xml');
-    $this->assertNotContains('failure type="failure"', $results);
+    // $results = file_get_contents($this->sandboxInstance . '/reports/drupal/run-tests-script/Drupal_Tests_views_Functional_UserBatchActionTest.xml');
+    // $this->assertNotContains('failure type="failure"', $results);
   }
 
   /**
@@ -115,14 +115,14 @@ class DrupalTest extends BltProjectTestBase {
         "tests.drupal.phpunit.0.group=action",
         "tests.drupal.phpunit.0.testsuites.0=unit",
         "tests.drupal.phpunit.0.testsuites.1=kernel",
-        "tests.drupal.phpunit.0.testsuites.2=functional",
-        "tests.drupal.phpunit.0.testsuites.3=functional-javascript",
+        "tests.drupal.phpunit.0.testsuites.2=functional-javascript",
+        // "tests.drupal.phpunit.0.testsuites.3=functional",
       ],
     ]);
     $results = file_get_contents($this->sandboxInstance . '/reports/drupal/phpunit/results.xml');
     $this->assertContains('testsuite name="unit"', $results);
     $this->assertContains('testsuite name="kernel"', $results);
-    $this->assertContains('testsuite name="functional"', $results);
+    // $this->assertContains('testsuite name="functional"', $results);
     $this->assertContains('testsuite name="functional-javascript"', $results);
     $this->assertContains('errors="0" failures="0" skipped="0"', $results);
   }
