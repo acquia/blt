@@ -10,7 +10,8 @@ use Composer\Autoload\ClassLoader;
 // Check for PHP Memcached libraries.
 $memcache_exists = class_exists('Memcache', FALSE);
 $memcached_exists = class_exists('Memcached', FALSE);
-$memcache_module_is_present = file_exists(DRUPAL_ROOT . '/modules/contrib/memcache/memcache.services.yml');
+$memcache_services_yml = DRUPAL_ROOT . '/modules/contrib/memcache/memcache.services.yml';
+$memcache_module_is_present = file_exists($memcache_services_yml);
 if ($memcache_module_is_present && ($memcache_exists || $memcached_exists)) {
   // Use Memcached extension if available.
   if ($memcached_exists) {
@@ -21,8 +22,7 @@ if ($memcache_module_is_present && ($memcache_exists || $memcached_exists)) {
     $class_loader = new ClassLoader();
     $class_loader->addPsr4('Drupal\\memcache\\', 'modules/contrib/memcache/src');
     $class_loader->register();
-
-    $settings['container_yamls'][] = DRUPAL_ROOT . '/modules/contrib/memcache/memcache.services.yml';
+    $settings['container_yamls'][] = $memcache_services_yml;
 
     // Define custom bootstrap container definition to use Memcache for
     // cache.container.
@@ -75,7 +75,5 @@ if ($memcache_module_is_present && ($memcache_exists || $memcached_exists)) {
     // Use memcache as the default bin.
     $settings['cache']['default'] = 'cache.backend.memcache';
 
-    // Enable stampede protection.
-    $settings['memcache']['stampede_protection'] = TRUE;
   }
 }
