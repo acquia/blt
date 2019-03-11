@@ -18,6 +18,6 @@ repo_root="/var/www/html/$site.$target_env"
 export PATH=$repo_root/vendor/bin:$PATH
 cd $repo_root
 
-blt artifact:ac-hooks:db-scrub $site $target_env $db_name $source_env --drush.ansi=false
+blt artifact:ac-hooks:db-scrub $site $target_env $db_name $source_env -D drush.ansi=false
 
 set +v
