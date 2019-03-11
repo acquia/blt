@@ -2,13 +2,6 @@
 behat:
   config: ${repo.root}/tests/behat/local.yml
   profile: local
-  # The URL of selenium server. Must correspond with setting in behat's yaml config.
-  selenium:
-    port: 4444
-    url: http://127.0.0.1:${behat.selenium.port}/wd/hub
-  chrome:
-    port: 9222
-    args: ""
   # An array of paths with behat tests that should be executed.
   paths:
     # - ${docroot}/modules
@@ -113,11 +106,6 @@ git:
 # multisites:
 #  - default
 
-# @todo Move to subkey of tests.
-reports:
-  localDir: ${repo.root}/reports
-  remoteDir: reports
-
 # @todo Move to subkey of validate.
 phpcs:
   standard: Drupal,DrupalPractice
@@ -129,19 +117,6 @@ phpcbf:
     - files.php.tests
     - files.php.custom.themes
     - files.frontend.custom.themes
-
-# @todo Move to subkey of tests.
-phpunit:
-  - path: '${repo.root}/tests/phpunit'
-    config: '${docroot}/core/phpunit.xml.dist'
-  # Customization for one or more custom phpunit test locations
-  # and if the core (or custom) config file should be included as a -c parameter.
-  # - path: '${docroot}/modules/custom/<your_module>'
-  #   config: '${docroot}/core/phpunit.xml.dist'
-  # - file '${docroot}/modules/custom/tests/MyTest.php'
-  #   class 'My/Example/Test'
-  # - path: '${docroot}/core'
-  #   config: '${docroot}/core/phpunit.xml.dist'
 
 project:
   local:
@@ -214,11 +189,50 @@ command-hooks:
     command: null
 
 tests:
+  reports:
+    localDir: ${repo.root}/reports
+    remoteDir: reports
   run-server: false
   # This is used for ad-hoc creation of a server via `drush runserver`.
   server:
     port: 8888
     url: http://127.0.0.1:${tests.server.port}
+  # The URL of selenium server. Must correspond with setting in behat's yaml config.
+  selenium:
+    port: 4444
+    url: http://127.0.0.1:${tests.selenium.port}/wd/hub
+  chrome:
+    port: 9222
+    args: ""
+  chromedriver:
+    port: 9515
+    args: null
+  drupal:
+    # May be phpunit or run-tests-script.
+    test-runner: run-tests-script
+    sudo-run-tests: true
+    # Only chromedriver is supported at this time.
+    web-driver: chromedriver
+    sqlite: '${repo.root}/tmp/test.sqlite'
+    browsertest-output-directory: 'browser_output'
+    apache-run-group: 'www-data'
+    apache-run-user: 'www-data'
+    # mink-driver-args: ''
+    # mink-driver-args-phantomjs: ''
+    mink-driver-args-webdriver: '["chrome", {"browserName":"chrome","chromeOptions":{"args":["--disable-gpu","--headless","--no-sandbox"]}}, "http://localhost:9515"]'
+    # mink-driver-class: 'Drupal\FunctionalJavascriptTests\DrupalSelenium2Driver'
+    simpletest-base-url: '${project.local.protocol}://${project.local.hostname}'
+    simpletest-db: 'sqlite://localhost/${tests.drupal.sqlite}'
+    symfony-deprecations-helper: 'disabled'
+    # Tests to run with Drupal's implementation of PHPUnit.
+    phpunit:
+    # Tests to run with Drupal's run-test.sh script.
+    drupal-tests:
+  # Tests to run directly with PHPUnit.
+  phpunit:
+    # - path: '${repo.root}/tests/phpunit'
+    #   config: ${docroot}/core/phpunit.xml.dist
+    #   directory: '${repo.root}/tests/phpunit'
 
 validate:
   # You can change this to true to have blt automatically validate acsf-init.
