@@ -9,6 +9,10 @@
 #
 # Usage: post-code-deploy site env db-role domain custom-arg
 # Map the script inputs to convenient names.
+
+# Exit immediately on error and enable verbose log output.
+set -ev
+
 # Acquia hosting site / environment names
 site="$1"
 env="$2"
@@ -42,3 +46,4 @@ echo "Running BLT deploy tasks on $uri domain in $env environment on the $site s
 
 DRUSH_PATHS_CACHE_DIRECTORY=$cacheDir $blt drupal:update --environment=$env --site=${name[0]} --define drush.uri=$domain --verbose --yes --no-interaction
 
+set +v
