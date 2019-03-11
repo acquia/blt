@@ -1,7 +1,28 @@
 # Setting up BLT with Lando
 
 ## The good news:
-BLT with Lando _mostly_ just works™.
+BLT with Lando _mostly_ just works™ but to get a better integration add the following to your .lando.yml file and rebuild the containers:
+
+```
+tooling:
+  blt:
+    service: appserver
+cmd: /app/vendor/bin/blt
+```
+
+You can also update your blt config (blt/blt.yml) with the lando hostname syntax:
+
+```
+project:
+  machine_name: abc
+  prefix: ABC
+  human_name: 'A website'
+  profile:
+    name: standard
+  local:
+    protocol: http
+    hostname: ${project.machine_name}.lndo.site
+```
 
 ## The bad news:
 There are a couple tricky bits that you need to watch out for.
