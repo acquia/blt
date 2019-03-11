@@ -35,8 +35,9 @@ class PhpstanCommand extends BltTasks {
       ->exec($command)
       ->run();
     $exit_code = $result->getExitCode();
+
     if ($exit_code) {
-      throw new BltException("Execution of PHPStan failed.");
+      throw new BltException('PHPStan Failed.  To disable PHPStan scans, set disable-targets.tests.phpstan.sniff.files to true in blt.yml.');
     }
   }
 
