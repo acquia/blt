@@ -32,6 +32,36 @@ class PhpStanTest extends BltProjectTestBase {
   }
 
   /**
+   * Tests recipes:ci:pipelines:init command.
+   *
+   * @group blted8
+   */
+  public function testPhpStanSniffAll() {
+    $this->blt('tests:phpstan:sniff:all');
+    $this->assertFileExists($this->sandboxInstance . '/acquia-pipelines.yml');
+  }
+
+  /**
+   * Tests recipes:ci:pipelines:init command.
+   *
+   * @group blted8
+   */
+  public function testPhpStanSniffFiles() {
+    $this->blt('tests:phpstan:sniff:files');
+    $this->assertFileExists($this->sandboxInstance . '/acquia-pipelines.yml');
+  }
+
+  /**
+   * Tests recipes:ci:pipelines:init command.
+   *
+   * @group blted8
+   */
+  public function testsPhpstanSniffModified() {
+    $this->blt('tests:phpstan:sniff:modified');
+    $this->assertFileExists($this->sandboxInstance . '/acquia-pipelines.yml');
+  }
+
+  /**
    * @return array
    */
   public function providerPhpStanFilesBootstrapProvider() {
