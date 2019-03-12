@@ -1,13 +1,13 @@
 <?php
 
-namespace Acquia\Blt\Custom\Commands;
+namespace Example\Blt\Custom\Commands;
 
 use Acquia\Blt\Robo\BltTasks;
 
 /**
  * Defines commands in the "custom" namespace.
  */
-class ExampleCommand extends BltTasks {
+class ExampleCommands extends BltTasks {
 
   /**
    * Print "Hello world!" to the console.

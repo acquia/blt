@@ -1,6 +1,6 @@
 <?php
 
-namespace Acquia\Blt\Custom\Hooks;
+namespace Example\Blt\Custom\Hooks;
 
 use Acquia\Blt\Robo\BltTasks;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
