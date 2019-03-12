@@ -24,9 +24,6 @@ class ExamplesCommand extends BltTasks {
         $this->getConfigValue('blt.root') . '/scripts/blt/examples/Commands/ExampleCommand.php',
         $this->getConfigValue('repo.root') . '/blt/src/Blt/Plugin/Commands/ExampleCommand.php', FALSE)
       ->copy(
-        $this->getConfigValue('blt.root') . '/scripts/blt/examples/Hooks/ExampleHook.php',
-        $this->getConfigValue('repo.root') . '/blt/src/Blt/Plugin/Hooks/ExampleHook.php', FALSE)
-      ->copy(
         $this->getConfigValue('blt.root') . '/scripts/blt/examples/Test/ExampleTest.php',
         $this->getConfigValue('repo.root') . '/tests/phpunit/ExampleTest.php', FALSE)
       ->copy(
