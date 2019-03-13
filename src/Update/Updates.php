@@ -665,6 +665,8 @@ class Updates {
       $this->updater->executeCommand("./vendor/bin/blt recipes:ci:travis:init");
     }
 
+    $messages[] = "Additionally, you may wish to regenerate your settings.php file(s) from the default templates by deleting them and then running `blt blt:init:settings`, especially if you receive CodeSniffer errors.";
+
     $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
     $this->updater->getOutput()->writeln("");
     $this->updater->getOutput()->writeln($formattedBlock);
