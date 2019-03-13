@@ -34,5 +34,8 @@
   <exclude-pattern>*/node_modules</exclude-pattern>
   <exclude-pattern>*/vendor</exclude-pattern>
   <exclude-pattern>*/default.local.settings.php</exclude-pattern>
+  <!-- Drupal itself doesn't meet code standards. -->
+  <!-- @see https://www.drupal.org/project/drupal/issues/2571965 -->
+  <exclude-pattern>*/settings.php</exclude-pattern>
 
 </ruleset>
