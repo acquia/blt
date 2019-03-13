@@ -85,7 +85,6 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     $this->runner->setContainer($container);
     $this->runner->setRelativePluginNamespace('Blt\Plugin');
 
-
     $this->setLogger($container->get('logger'));
   }
 
