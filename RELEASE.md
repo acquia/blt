@@ -9,13 +9,13 @@ To perform a release:
 
 ## Check build statuses
 
-* [BLT 10.x](https://github.com/acquia/blt):  
+* [BLT 10.x](https://github.com/acquia/blt):
 [![Build Status](https://travis-ci.org/acquia/blt.svg?branch=10.0.x)](https://travis-ci.org/acquia/blt)
 [![Documentation Status](https://readthedocs.org/projects/blt/badge/?version=10.0.x)](http://blt.readthedocs.io/en/10.0.x/?badge=10.0.x)
-* [BLT 9.2.x](https://github.com/acquia/blt):  
+* [BLT 9.2.x](https://github.com/acquia/blt):
 [![Build Status](https://travis-ci.org/acquia/blt.svg?branch=9.2.x)](https://travis-ci.org/acquia/blt)
 [![Documentation Status](https://readthedocs.org/projects/blt/badge/?version=9.2.x)](http://blt.readthedocs.io/en/9.2.x/?badge=9.2.x)
-* [BLT 9.x](https://github.com/acquia/blt):  
+* [BLT 9.x](https://github.com/acquia/blt):
 [![Build Status](https://travis-ci.org/acquia/blt.svg?branch=9.x)](https://travis-ci.org/acquia/blt)
 [![Documentation Status](https://readthedocs.org/projects/blt/badge/?version=9.x)](http://blt.readthedocs.io/en/9.x/?badge=9.x)
 
@@ -33,7 +33,7 @@ To perform a release:
 * BLT's dependencies must be installed by running `composer install` in the BLT directory.
 * If you don't have one, procure a [github personal access token](https://github.com/settings/tokens). Optionall save in a password vault for future use.
 * Determine the version of your future release, e.g., 9.1.0-alpha1.
-* Warning: Ensure that the BLT repository exists in your local git as orgin *NOT* upstream
+* Ensure that the remote name for the BLT repository is `upstream`.
 * To both generate release notes and also create a new _draft_ release on GitHub, execute:
 
       ./vendor/bin/robo release [tag] [token]
