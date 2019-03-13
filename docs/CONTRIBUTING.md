@@ -39,6 +39,8 @@ To execute the same "release" testing that is performed during CI execution, run
 ./vendor/bin/robo release:test
 ```
 
+Note that this requires a local MySQL database available with drupal as the db name, username, and password. It also requires the PHP MySQL extension to be enabled.
+
 ## PHPUnit
 
 See [the PHPUnit section in the automated testing docs](testing.md#PHPUnit)
