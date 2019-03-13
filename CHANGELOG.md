@@ -1,5 +1,49 @@
 # Change Log
 
+#### 9.2.4 (2019-03-13)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.2.3...9.2.4)
+
+**Implemented enhancements**
+
+- Fixes #3050: Memcache stampede protection doesn't exist. (#3439)
+- BLT-3256: commit-msg UX improvements. (#3237)
+- Add patchutils through extra_packages in VM config (#3191) (#3192)
+- Allows Drush ANSI output to be disabled. (#3146)
+- Fixes #3116: Suggest testing db updates. (#3164)
+- Fixes #3086: Install sites from existing config. (#3241)
+- Improvements to sanitize the deploy build artifact (#3423)
+- 9.2.x: Upgrade BLT to Xenial on Travis CI (#3334)
+- Fix drush alias generator for acp servers (#3114) (#3115)
+- Fixes #2932: Inline example of how to require additional settings (#3342)
+
+**Fixed bugs**
+
+- Fixes #3357: Don't use relative path for memcache PSR-4 path registration (#3358)
+- Disable ANSI when BLT runs in Cloud Hooks. (#3426)
+- Move ACSF validate command to default config. (#3420)
+- Fixed #3366: Exclude ACSF files from code sniffing. (#3419)
+- Back port of #3408 to fix factory hooks for 9.2.x. (#3414)
+
+**Miscellaneous**
+
+- Added update note about settings.php regeneration. (#3451)
+- Fix code style standards in settings files. (#3375)
+- Fixes #3325: Verbose bash logging and error reporting for factory hooks. (#3443)
+- Fixed cloud hooks error. (#3440)
+- Add example .lando.yml blt tooling (#3430)
+- Add isset check on $_SERVER['PWD'] in blt-robo.php to fix PHP notice (#3428)
+- Fixes #3317: Remove extraneous sql-drop. (#3429)
+- Speed up composer operations. (#3319)
+- Issue #3039: Updated Behat docs. (#3424)
+- Warn users that BLT is supported on Windows only under WSL. Updated documentation with alternatives. (#3415)
+- Back ports additional updates into 9.2.x. (#3413)
+- Backport 9.2.x (#3402)
+- Revert "Update db-update.sh (#3309)" (#3368)
+- Fixes #3353 to update docs for factory hook in 9.x. (#3365)
+- 9.2.x: Travis CI: Fix for forks (#3333)
+
+
 #### 9.2.3 (2018-12-21)
 
 [Full Changelog](https://github.com/acquia/blt/compare/9.2.2...9.2.3)
