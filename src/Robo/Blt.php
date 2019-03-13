@@ -69,7 +69,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     Config $config,
     InputInterface $input = NULL,
     OutputInterface $output = NULL,
-    ClassLoader $classLoader
+    ClassLoader $classLoader = NULL
   ) {
 
     $this->setConfig($config);
@@ -81,7 +81,9 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     $this->configureContainer($container);
     $this->addBuiltInCommandsAndHooks();
     $this->runner = new RoboRunner();
-    $this->runner->setClassLoader($classLoader);
+    if (isset($classLoader)) {
+      $this->runner->setClassLoader($classLoader);
+    }
     $this->runner->setContainer($container);
     $this->runner->setRelativePluginNamespace('Blt\Plugin');
 
