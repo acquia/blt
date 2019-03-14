@@ -39,7 +39,7 @@ To execute the same "release" testing that is performed during CI execution, run
 ./vendor/bin/robo release:test
 ```
 
-Note that this requires a local MySQL database available with drupal as the db name, username, and password. It also requires the PHP MySQL extension to be enabled.
+Note that this requires a local MySQL database available with drupal as the db name, username, and password. It also requires the PHP MySQL extension to be enabled. Finally, it may be sensitive to MySQL version. In newer versions of MySQL (8+), you may need to set the user password like so: `alter user 'drupal'@'localhost' identified with mysql_native_password by 'drupal';`.
 
 ## PHPUnit
 
