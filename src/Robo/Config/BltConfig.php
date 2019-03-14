@@ -74,14 +74,4 @@ class BltConfig extends Config {
     return $value;
   }
 
-  /**
-   * overwrite replace to use a single context
-   * in BLT set() is called before import() which causes problems: imported data
-   * does not overwrite previous set calls
-   */
-  public function replace($data) {
-    $this->getContext(self::PROCESS_CONTEXT)->replace($data);
-    return $this;
-  }
-
 }
