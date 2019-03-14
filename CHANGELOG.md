@@ -1,5 +1,26 @@
 # Change Log
 
+#### 9.1.10 (2019-03-14)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.1.9...9.1.10)
+
+**Implemented enhancements**
+
+- Fixes #3383 to regenerate pipelines in the 9.x branch. (#3410)
+
+**Fixed bugs**
+
+- Fixes #3345 to run db updates even when config strategy is none. (#3363) (#3404)
+- Fix BLT update hook. (#3335)
+
+**Miscellaneous**
+
+- Release from 'upstream', not 'origin'. (#3452)
+- Updates release and readme docs. (#3382)
+- Add example .lando.yml blt tooling (#3430)
+- Fixes #3401 to backport devel update to 9.x. (#3409)
+
+
 #### 9.1.9 (2018-12-17)
 
 [Full Changelog](https://github.com/acquia/blt/compare/9.1.8...9.1.9)
