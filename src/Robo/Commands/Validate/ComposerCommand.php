@@ -4,7 +4,6 @@ namespace Acquia\Blt\Robo\Commands\Validate;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
-use Robo\Contract\VerbosityThresholdInterface;
 
 /**
  * Defines commands in the "tests:composer:validate*" namespace.
