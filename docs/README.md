@@ -28,7 +28,7 @@ BLT generally has an LTS release, supported stable release, and unstable (HEAD) 
 
 | Major Version | Support Status              | Drupal | Drush          | Dev Status   |
 |---------------|-----------------------------|--------|----------------|--------------|
-| 10.x          | Unsupported (Beta)          | >=8.6  | >=9.4.0        | \*active dev |
+| 10.x          | Unsupported (Beta)          | >=8.6  | >=9.5.0        | \*active dev |
 | 9.2.x         | Supported                   | 8.6    | >=9.4.0        | \*active dev |
 | 9.x           | LTS, EOL May 2019           | 8.5    | >=9.1.0        | \*bug fixes  |
 | <=8.9.x       | Unsupported, EOL            | <=8.5  | ~8             |              |
