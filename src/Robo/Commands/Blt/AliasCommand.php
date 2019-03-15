@@ -25,17 +25,17 @@ class AliasCommand extends BltTasks {
         $this->logger->warning("Could not find your CLI configuration file.");
         $this->logger->warning("Looked in ~/.zsh, ~/.bash_profile, ~/.bashrc, ~/.profile, and ~/.functions.");
         $created = $this->createBashProfile();
-        if (!$created) {
+        $config_file = $this->getInspector()->getCliConfigFile();
+        if (!$created || is_null($config_file)) {
           $this->logger->warning("Please create one of the aforementioned files, or create the BLT alias manually.");
+          return;
         }
       }
-      else {
-        $this->say("BLT can automatically create a Bash alias to make it easier to run BLT tasks.");
-        $this->say("This alias will be created in <comment>$config_file</comment>.");
-        $confirm = $this->confirm("Install alias?");
-        if ($confirm) {
-          $this->createNewAlias();
-        }
+      $this->say("BLT can automatically create a Bash alias to make it easier to run BLT tasks.");
+      $this->say("This alias will be created in <comment>$config_file</comment>.");
+      $confirm = $this->confirm("Install alias?");
+      if ($confirm) {
+        $this->createNewAlias();
       }
     }
     elseif (!$this->isBltAliasUpToDate()) {
