@@ -10,6 +10,7 @@ use Acquia\Blt\Robo\Log\BltLogStyle;
 use Acquia\Blt\Robo\Wizards\SetupWizard;
 use Acquia\Blt\Robo\Wizards\TestsWizard;
 use Acquia\Blt\Update\Updater;
+use Composer\Autoload\ClassLoader;
 use Consolidation\AnnotatedCommand\CommandFileDiscovery;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
@@ -61,24 +62,30 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
    *   The input.
    * @param \Symfony\Component\Console\Output\OutputInterface $output
    *   The output.
+   * @param \Composer\Autoload\ClassLoader $classLoader
+   *   The Composer classLoader.
    */
   public function __construct(
     Config $config,
     InputInterface $input = NULL,
-    OutputInterface $output = NULL
+    OutputInterface $output = NULL,
+    ClassLoader $classLoader = NULL
   ) {
 
     $this->setConfig($config);
     $application = new Application('BLT', Blt::VERSION);
     $container = Robo::createDefaultContainer($input, $output, $application,
-      $config);
+      $config, $classLoader);
     $this->setContainer($container);
     $this->addDefaultArgumentsAndOptions($application);
     $this->configureContainer($container);
     $this->addBuiltInCommandsAndHooks();
-    $this->addPluginsCommandsAndHooks();
     $this->runner = new RoboRunner();
+    if (isset($classLoader)) {
+      $this->runner->setClassLoader($classLoader);
+    }
     $this->runner->setContainer($container);
+    $this->runner->setRelativePluginNamespace('Blt\Plugin');
 
     $this->setLogger($container->get('logger'));
   }
@@ -96,22 +103,6 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
       'namespace' => 'Acquia\Blt\Robo\Hooks',
     ]);
     $this->commands = array_merge($commands, $hooks);
-  }
-
-  /**
-   * Registers custom commands and hooks defined project.
-   */
-  private function addPluginsCommandsAndHooks() {
-    $commands = $this->getCommands([
-      'path' => $this->getConfig()->get('repo.root') . '/blt/src/Commands',
-      'namespace' => 'Acquia\Blt\Custom\Commands',
-    ]);
-    $hooks = $this->getHooks([
-      'path' => $this->getConfig()->get('repo.root') . '/blt/src/Hooks',
-      'namespace' => 'Acquia\Blt\Custom\Hooks',
-    ]);
-    $plugin_commands_hooks = array_merge($commands, $hooks);
-    $this->commands = array_merge($this->commands, $plugin_commands_hooks);
   }
 
   /**
