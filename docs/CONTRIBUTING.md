@@ -39,7 +39,12 @@ To execute the same "release" testing that is performed during CI execution, run
 ./vendor/bin/robo release:test
 ```
 
-Note that this requires a local MySQL database available with drupal as the db name, username, and password. It also requires the PHP MySQL extension to be enabled. Finally, it may be sensitive to MySQL version. In newer versions of MySQL (8+), you may need to set the user password like so: `alter user 'drupal'@'localhost' identified with mysql_native_password by 'drupal';`.
+Note that this requires the following:
+- Four local MySQL databases available with drupal, drupal2, drupal3, and drupal4 as the db names
+- A MySQL user with access to the above, with drupal as the username and password. It may be sensitive to MySQL version. In newer versions of MySQL (8+), you may need to set the user password like so: `alter user 'drupal'@'localhost' identified with mysql_native_password by 'drupal';`.
+- The PHP MySQL extension to be enabled.
+- Chromedriver in order to run `@group drupal` tests.
+- You may want to exclude `@group requires-vm`.
 
 ## PHPUnit
 
