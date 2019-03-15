@@ -4,6 +4,7 @@ namespace Acquia\Blt\Robo\Commands\Tests;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Wizards\TestsWizard;
+use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
 
 /**
