@@ -14,18 +14,6 @@ If you are already using BLT via Composer, you can update to the latest version 
 1. Review and commit changes to your project files.
 1. Rarely, you may need to refresh your local environment via `blt setup`. This will drop your local database and re-install Drupal.
 
-### Modifying update behavior
-
-By default BLT will modify a handful of files in your project to conform to the [upstream template](https://github.com/acquia/blt/blob/9.x/template). If you'd like to prevent this, set `extra.blt.update` to `false` in `composer.json`:
-
-      "extra": {
-        "blt": {
-            "update": false
-        }
-      }
-
-Please note that if you choose to do this, it is your responsibility to track upstream changes. This is very likely to cause issues when you upgrade BLT to a new version.
-
 ## Updating from a non-Composer-managed (very old) version
 
 If you are using an older version of BLT that was not installed using Composer, you may update to the Composer-managed version by running the following commands:
