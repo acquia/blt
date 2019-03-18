@@ -45,6 +45,8 @@ class UpdateCommand extends BltTasks {
    * @command internal:create-project
    *
    * @hidden
+   *
+   * @throws BltException
    */
   public function createProject() {
     $this->cleanUpProjectTemplate();
@@ -62,7 +64,7 @@ class UpdateCommand extends BltTasks {
    *
    * @command internal:add-to-project
    *
-   * @return \Robo\Result
+   * @return void
    *
    * @hidden
    */
@@ -101,12 +103,11 @@ class UpdateCommand extends BltTasks {
    * @command blt:update
    *
    * @aliases bu update
+   * @param array $options
+   * @throws BltException
    */
-  public function update($options = [
-    'since' => InputOption::VALUE_REQUIRED,
-  ]) {
+  public function update($options = ['since' => InputOption::VALUE_REQUIRED]) {
     $this->rsyncTemplate();
-    $this->mungeProjectYml();
 
     $starting_version = $options['since'] ?: $this->currentSchemaVersion;
     if ($this->executeSchemaUpdates($starting_version)) {
@@ -329,7 +330,9 @@ class UpdateCommand extends BltTasks {
   /**
    * Rsyncs files from BLT's template dir into project root dir.
    *
-   * @return \Robo\Result
+   * @return void
+   *
+   * @throws BltException
    */
   protected function rsyncTemplate() {
     $source = $this->getConfigValue('blt.root') . '/template';
