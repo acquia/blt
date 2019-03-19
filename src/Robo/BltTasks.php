@@ -254,20 +254,15 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
     $task = $this->taskParallelExec()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERY_VERBOSE);
 
-    $chunk_size = 20;
-    $chunks = array_chunk((array) $files, $chunk_size);
-    foreach ($chunks as $chunk) {
-      foreach ($chunk as $file) {
-        $full_command = sprintf($command, $file);
-        $task->process($full_command);
-      }
+    foreach ($files as $file) {
+      $full_command = sprintf($command, $file);
+      $task->process($full_command);
+    }
 
-      $result = $task->run();
+    $result = $task->run();
 
-      if (!$result->wasSuccessful()) {
-        $this->say($result->getMessage());
-        return $result;
-      }
+    if (!$result->wasSuccessful()) {
+      $this->say($result->getMessage());
     }
     return $result;
   }
