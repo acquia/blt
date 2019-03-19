@@ -22,7 +22,7 @@ class YamlCommand extends BltTasks {
     /** @var \Acquia\Blt\Robo\Filesets\FilesetManager $fileset_manager */
     $fileset_manager = $this->getContainer()->get('filesetManager');
     $fileset_ids = $this->getConfigValue('validate.yaml.filesets');
-    $filesets = $fileset_manager->getFilesets($fileset_ids);
+    $filesets = $fileset_manager->getFilesets($fileset_ids, TRUE);
     $bin = $this->getConfigValue('composer.bin');
     $command = "'$bin/yaml-cli' lint '%s'";
     $this->executeCommandAgainstFilesets($filesets, $command, TRUE);
