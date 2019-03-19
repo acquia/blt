@@ -180,12 +180,13 @@ if ($is_ah_env) {
 
   // Store API Keys and things outside of version control.
   // @see settings/sample-secrets.settings.php for sample code.
-  $secrets_file = "/mnt/gfs/home/$ah_group/secrets.settings.php";
+  // @see https://docs.acquia.com/resource/secrets/#secrets-settings-php-file
+  $secrets_file = "/mnt/files/$ah_group.$ah_env/secrets.settings.php";
   if (file_exists($secrets_file)) {
     require $secrets_file;
   }
   // Includes secrets file for given site.
-  $site_secrets_file = "/mnt/gfs/home/$ah_group/$site_dir/secrets.settings.php";
+  $site_secrets_file = "/mnt/files/$ah_group.$ah_env/$site_dir/secrets.settings.php";
   if (file_exists($site_secrets_file)) {
     require $site_secrets_file;
   }
