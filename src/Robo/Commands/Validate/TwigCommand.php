@@ -49,7 +49,7 @@ class TwigCommand extends BltTasks {
     /** @var \Acquia\Blt\Robo\Filesets\FilesetManager $fileset_manager */
     $fileset_manager = $this->getContainer()->get('filesetManager');
     $fileset_ids = $this->getConfigValue('validate.twig.filesets');
-    $filesets = $fileset_manager->getFilesets($fileset_ids);
+    $filesets = $fileset_manager->getFilesets($fileset_ids, TRUE);
     foreach ($filesets as $fileset_id => $fileset) {
       $filesets[$fileset_id] = $fileset_manager->filterFilesByFileset($files, $fileset);
     }
