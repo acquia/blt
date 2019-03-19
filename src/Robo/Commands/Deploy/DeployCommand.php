@@ -74,11 +74,13 @@ class DeployCommand extends BltTasks {
   /**
    * Checks to see if current git branch has uncommitted changes.
    *
+   * @command deploy:check-dirty
+   *
    * @throws \Exception
    *   Thrown if deploy.git.failOnDirty is TRUE and there are uncommitted
    *   changes.
    */
-  protected function checkDirty($options) {
+  public function checkDirty($options = ['ignore-dirty' => FALSE]) {
     $result = $this->taskExec('git status --porcelain')
       ->printMetadata(FALSE)
       ->printOutput(FALSE)
