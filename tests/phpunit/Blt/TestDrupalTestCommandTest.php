@@ -62,8 +62,6 @@ class DrupalTest extends BltProjectTestBase {
     ]);
     $results = file_get_contents($this->sandboxInstance . '/reports/drupal/run-tests-script/Drupal_Tests_action_Kernel_Migrate_d7_MigrateActionsTest.xml');
     $this->assertNotContains('failure type="failure"', $results);
-    $results = file_get_contents($this->sandboxInstance . '/reports/drupal/run-tests-script/Drupal_Tests_action_Kernel_Plugin_Action_EmailActionTest.xml');
-    $this->assertNotContains('failure type="failure"', $results);
     $results = file_get_contents($this->sandboxInstance . '/reports/drupal/run-tests-script/Drupal_Tests_action_Kernel_Plugin_migrate_source_ActionTest.xml');
     $this->assertNotContains('failure type="failure"', $results);
     $results = file_get_contents($this->sandboxInstance . '/reports/drupal/run-tests-script/Drupal_Tests_action_Unit_Menu_ActionLocalTasksTest.xml');
