@@ -16,6 +16,7 @@ Steps to replicate the issue
 Previous behavior (before applying PR)
 ----------
 (Remove if this is not a bug fix)
+
 1.
 2.
 
