@@ -10,13 +10,13 @@ To perform a release:
 ## Check build statuses
 
 * [BLT 10.x](https://github.com/acquia/blt):
-[![Build Status](https://travis-ci.org/acquia/blt.svg?branch=10.0.x)](https://travis-ci.org/acquia/blt)
+[![Build Status](https://travis-ci.com/acquia/blt.svg?branch=10.0.x)](https://travis-ci.com/acquia/blt)
 [![Documentation Status](https://readthedocs.org/projects/blt/badge/?version=10.0.x)](http://blt.readthedocs.io/en/10.0.x/?badge=10.0.x)
 * [BLT 9.2.x](https://github.com/acquia/blt):
-[![Build Status](https://travis-ci.org/acquia/blt.svg?branch=9.2.x)](https://travis-ci.org/acquia/blt)
+[![Build Status](https://travis-ci.com/acquia/blt.svg?branch=9.2.x)](https://travis-ci.com/acquia/blt)
 [![Documentation Status](https://readthedocs.org/projects/blt/badge/?version=9.2.x)](http://blt.readthedocs.io/en/9.2.x/?badge=9.2.x)
 * [BLT 9.x](https://github.com/acquia/blt):
-[![Build Status](https://travis-ci.org/acquia/blt.svg?branch=9.x)](https://travis-ci.org/acquia/blt)
+[![Build Status](https://travis-ci.com/acquia/blt.svg?branch=9.x)](https://travis-ci.com/acquia/blt)
 [![Documentation Status](https://readthedocs.org/projects/blt/badge/?version=9.x)](http://blt.readthedocs.io/en/9.x/?badge=9.x)
 
 ## Update Canary
