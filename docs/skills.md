@@ -62,7 +62,7 @@ Git is a version control system (VCS) for tracking changes in computer files and
 
 ### Continuous Integration / Deployment
 
-#### [Travis CI](https://travis-ci.org/)
+#### [Travis CI](https://travis-ci.com/)
 Travis CI is a hosted, distributed continuous integration service used to build and test software projects hosted at GitHub.
 
 **Recommended Reading**

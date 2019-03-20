@@ -57,7 +57,7 @@ If you encounter problems, check the [Acquia Pipelines troubleshooting guide](ht
 
 ### Travis CI
 
-[Travis CI](https://travis-ci.org/) is a Continuous Integration and Continuous Deployment solution. It can be made to integrate with Acquia Cloud, but requires a bit more initial setup work than Acquia Pipelines.
+[Travis CI](https://travis-ci.com/) is a Continuous Integration and Continuous Deployment solution. It can be made to integrate with Acquia Cloud, but requires a bit more initial setup work than Acquia Pipelines.
 
 #### Setting Up Travis CI for automated deployments
 
