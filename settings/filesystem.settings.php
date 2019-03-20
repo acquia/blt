@@ -14,5 +14,5 @@ if ($is_acsf_env && $acsf_db_name) {
 }
 // Acquia cloud file paths.
 elseif ($is_ah_env) {
-  $settings['file_private_path'] = "/mnt/files/$ah_group.$ah_env/files-private";
+  $settings['file_private_path'] = "/mnt/files/$ah_group.$ah_env/sites/$site_dir/files-private";
 }
