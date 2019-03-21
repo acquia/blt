@@ -361,14 +361,6 @@ class DeployCommand extends BltTasks {
    * Copies files from source repo into artifact.
    */
   protected function buildCopy() {
-
-    if (!$this->getConfigValue('deploy.build-dependencies')) {
-      $this->logger->warning("Dependencies will not be built because deploy.build-dependencies is not enabled");
-      $this->logger->warning("You should define a custom deploy.exclude_file to ensure that dependencies are copied from the root repository.");
-
-      return FALSE;
-    }
-
     $exclude_list_file = $this->getExcludeListFile();
     $source = $this->getConfigValue('repo.root');
     $dest = $this->deployDir;
@@ -399,6 +391,12 @@ class DeployCommand extends BltTasks {
    * Installs composer dependencies for artifact.
    */
   protected function composerInstall() {
+    if (!$this->getConfigValue('deploy.build-dependencies')) {
+      $this->logger->warning("Dependencies will not be built because deploy.build-dependencies is not enabled");
+      $this->logger->warning("You should define a custom deploy.exclude_file to ensure that dependencies are copied from the root repository.");
+
+      return FALSE;
+    }
     $this->say("Rebuilding composer dependencies for production...");
     $this->taskDeleteDir([$this->deployDir . '/vendor'])
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
