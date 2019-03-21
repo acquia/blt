@@ -24,6 +24,8 @@ See [INSTALL.md](INSTALL.md) for a list of prequisites and links to instructions
 
 BLT generally has an LTS release, supported stable release, and unstable (HEAD) release at any given time, each corresponding to a major [semantic version](https://semver.org/). The newest supported major version will receive both bug fixes and new features, while the penultimate ("LTS") major version will receive bug fixes for at least two months (or longer if necessary in order to match pinned versions of Drupal or Drush).
 
+Releases generally occur every third Wednesday to coincide with Drupal core and Lightning releases (although BLT versions are not generally bound to specific versions of core or Lightning.)
+
 ### Release support status
 
 | Major Version | Support Status              | Drupal | Drush          | Dev Status   |
