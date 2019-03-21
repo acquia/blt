@@ -17,13 +17,10 @@ Previous behavior (before applying PR)
 ----------
 (Remove if this is not a bug fix)
 
-1.
-2.
 
 Expected behavior (after applying PR)
 -----------
-1.
-2. 
+
 
 Additional details
 -----------
