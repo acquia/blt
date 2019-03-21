@@ -43,7 +43,7 @@ Note that this requires the following:
 - Four local MySQL databases available with drupal, drupal2, drupal3, and drupal4 as the db names
 - A MySQL user with access to the above, with drupal as the username and password. It may be sensitive to MySQL version. In newer versions of MySQL (8+), you may need to set the user password like so: `alter user 'drupal'@'localhost' identified with mysql_native_password by 'drupal';`.
 - The PHP MySQL extension to be enabled.
-- Chromedriver in order to run `@group drupal` tests.
+- Chromedriver, sqlite, and the php-sqlite3 extension in order to run `@group drupal` tests.
 - You may want to exclude `@group requires-vm`.
 
 ## PHPUnit
