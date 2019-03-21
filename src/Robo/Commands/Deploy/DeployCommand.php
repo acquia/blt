@@ -539,6 +539,7 @@ class DeployCommand extends BltTasks {
     $this->say("Committing artifact to <comment>{$this->branchName}</comment>...");
     $result = $this->taskExecStack()
       ->dir($this->deployDir)
+      ->exec("git rm -r --cached .")
       ->exec("git add -A")
       ->exec("git commit --quiet -m '{$this->commitMessage}'")
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
