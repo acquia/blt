@@ -19,8 +19,6 @@ env:
     - DRUPAL_CORE_VERSION=$DRUPAL_CORE_HEAD
 
 matrix:
-  allow_failures:
-    - env: DRUPAL_CORE_VERSION=$DRUPAL_CORE_HEAD
   fast_finish: true
 
 cache:
