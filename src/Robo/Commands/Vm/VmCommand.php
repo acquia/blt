@@ -269,6 +269,7 @@ class VmCommand extends BltTasks {
     $base_box = $this->askChoice(
       "Which base box would you like to use?",
       [
+        'geerlingguy/drupal-vm',
         'geerlingguy/ubuntu1604',
         'beet/box',
       ],
@@ -290,6 +291,7 @@ class VmCommand extends BltTasks {
         break;
 
       case 'geerlingguy/ubuntu1604':
+      case 'geerlingguy/drupal-vm':
         $config->set('workspace', '/root');
         $config->set('extra_packages', [
           'patchutils',
