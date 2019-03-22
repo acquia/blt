@@ -539,7 +539,7 @@ class DeployCommand extends BltTasks {
       ->dir($this->deployDir)
       ->exec("git rm -r --cached .")
       ->exec("git add -A")
-      ->exec("git commit --quiet -m '{$this->commitMessage}'")
+      ->exec(["git commit --quiet -m", escapeshellarg($this->commitMessage)])
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
