@@ -22,7 +22,7 @@ See [INSTALL.md](INSTALL.md) for a list of prequisites and links to instructions
 
 ## Releases and versioning
 
-BLT generally has an LTS release, supported stable release, and unstable (HEAD) release at any given time, each corresponding to a major [semantic version](https://semver.org/). The newest supported major version will receive both bug fixes and new features, while the penultimate ("LTS") major version will receive bug fixes for at least two months (or longer if necessary in order to match pinned versions of Drupal or Drush).
+BLT generally has an LTS release, supported stable release, and unstable (HEAD) release at any given time, each corresponding to a major [semantic version](https://semver.org/). The newest supported major version will receive both bug or security fixes and new features following the monthly [Drupal core release cycle](https://www.drupal.org/core/release-cycle-overview), while the penultimate ("LTS") major version will receive bug fixes for at least two months (or longer if necessary in order to match pinned versions of Drupal or Drush).
 
 ### Release support status
 
