@@ -22,18 +22,20 @@ See [INSTALL.md](INSTALL.md) for a list of prequisites and links to instructions
 
 ## Releases and versioning
 
-BLT generally has an LTS release, supported stable release, and unstable (HEAD) release at any given time, each corresponding to a major [semantic version](https://semver.org/). The newest supported major version will receive both bug fixes and new features, while the penultimate ("LTS") major version will receive bug fixes for at least two months (or longer if necessary in order to match pinned versions of Drupal or Drush).
+BLT generally has an LTS release, supported stable release, and unstable (HEAD) release at any given time, each corresponding to a major [semantic version](https://semver.org/). The newest supported major version will receive bug fixes and new features, while the penultimate ("LTS") major version will receive security fixes for six months. This is intended to coincide with the [Drupal core release cycle](https://www.drupal.org/core/release-cycle-overview), so that users can continue to use a single BLT major release through the lifecycle of a Drupal core minor release.
 
 Releases generally occur on first and third Wednesdays to coincide with [Drupal core and Lightning releases](https://www.drupal.org/core/release-cycle-overview) (although BLT versions are not generally bound to specific versions of core or Lightning.)
 
 ### Release support status
 
-| Major Version | Support Status              | Drupal | Drush          | Dev Status   |
-|---------------|-----------------------------|--------|----------------|--------------|
-| 10.x          | Unsupported (Beta)          | >=8.6  | >=9.5.0        | \*active dev |
-| 9.2.x         | Supported                   | 8.6    | >=9.4.0        | \*active dev |
-| 9.x           | LTS, EOL May 2019           | 8.5    | >=9.1.0        | \*bug fixes  |
-| <=8.9.x       | Unsupported, EOL            | <=8.5  | ~8             |              |
+| BLT version | Support status        | End of life  |  Drupal versions* | Drush versions |
+|-------------|-----------------------|--------------|-------------------|----------------|
+| 10.x        | Unsupported (beta)    | May 2020     | 8.6, 8.7          | >=9.5.0        |
+| **9.2.x**   | **Supported, stable** | **Dec 2019** | **8.6, 8.7**      | **>=9.4.0**    |
+| 9.x         | Security fixes only   | May 2019     | 8.5               | >=9.1.0        |
+| <=8.9.x     | Unsupported           | Dec 2018     | <=8.5             | ~8             |
+
+*Note that when Drupal ends support for a minor core release, BLT will cease supporting that core release as well. For instance, as of December 2019, BLT 10.x will no longer support Drupal 8.6, and will instead support Drupal 8.7 and 8.8.
 
 ### Branch details
 
