@@ -35,7 +35,7 @@ This is intended to coincide with the [Drupal core release cycle](https://www.dr
 | 9.x         | Security fixes only   | May 2019     | 8.5               | >=9.1.0        |
 | <=8.9.x     | Unsupported           | Dec 2018     | <=8.5             | ~8             |
 
-*Note that when Drupal ends support for a minor core release, BLT will cease supporting that core release as well. For instance, as of December 2019, BLT 10.x will no longer support Drupal 8.6, and will instead support Drupal 8.7 and 8.8.
+*Note that when Drupal ends support for a minor core release, BLT will cease supporting that core release as well, in accordance with [Drupal security policy](https://www.drupal.org/drupal-security-team/general-information). For instance, as of December 2019, BLT 10.x will no longer support Drupal 8.6, and will instead support Drupal 8.7 and 8.8.
 
 ### Branch details
 
