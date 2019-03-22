@@ -167,6 +167,9 @@ class SandboxManager {
     $process->run(function ($type, $buffer) {
       $this->output->write($buffer);
     });
+    if (!$process->isSuccessful()) {
+      throw new \Exception("Composer installation failed.");
+    }
   }
 
 }
