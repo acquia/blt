@@ -169,14 +169,15 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
       }
       $success = $this->executeCommand($command, [], TRUE);
       if (!$success) {
-        $this->io->write("<error>BLT installation failed! Please execute <comment>$command --verbose</comment> to debug the issue.</error>");
+        $this->io->writeError("<error>BLT installation failed! Please execute <comment>$command --verbose</comment> to debug the issue.</error>");
+        throw new \Exception('Installation aborted due to error');
       }
     }
     elseif ($options['blt']['update']) {
       $this->io->write('<info>Updating BLT templated files...</info>');
       $success = $this->executeCommand('blt blt:update --ansi -y', [], TRUE);
       if (!$success) {
-        $this->io->write("<error>BLT update script failed! Run `blt blt:update --verbose` to retry.</error>");
+        $this->io->writeError("<error>BLT update script failed! Run `blt blt:update --verbose` to retry.</error>");
       }
     }
     else {
