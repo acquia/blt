@@ -2,12 +2,12 @@
 name: Bug report
 about: Create a report to help us improve
 title: ''
-labels: ''
+labels: 'Bug'
 assignees: ''
 
 ---
 
-- [ ] I have read and understand the guidelines for new issues.
+- [ ] I have read and understand the [contribution guidelines](../../docs/CONTRIBUTING.md) for new issues.
 
 **Describe the bug**
 A clear and concise description of what the bug is.
