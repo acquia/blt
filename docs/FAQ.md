@@ -1,8 +1,12 @@
 # FAQ and Support
 
-The following are common error messages and scenarios that our users have reported and common remedies.
+Before opening an issue, make sure to thoroughly review this document and search the remainder of BLT's documentation for guidance related to your issue.
 
-A general warning: BLT provides automation for numerous other applications including (but not limited to):
+Also make sure to search the issue queue (including CLOSED issues) for information that might be relevant.
+
+## You might not have a BLT issue
+
+BLT provides automation for numerous other applications including (but not limited to):
 
 * Behat
 * Composer
@@ -17,24 +21,36 @@ A general warning: BLT provides automation for numerous other applications inclu
 
 As a result, numerous "issues with BLT" are in fact "issues with one of the bundled applications." We strongly recommend a careful review of the errors presented with your project, which frequently direct you more appropriately to the underlying system that is the true cause (and not BLT itself).
 
+## Basic troubleshooting
+
 If you experience issues with a local BLT build, try using the included blt doctor command to diagnose your problem:
 
     blt doctor
 
-If that isn't helpful, please post an issue on the [GitHub issue queue](https://github.com/acquia/blt/issues) including the following information:
+If you are having problems with a specific command, run that command again with the `-vvv` argument (e.g. `blt setup -vvv`). This will provide verbose output and enumerate any underlying commands (Drush, Composer, etc) called by BLT.
 
-- Your version of BLT, `composer info acquia/blt`
-- Your operating system
-- The **full** log output of your BLT command, wrapped in a [codeblock](https://help.github.com/articles/basic-writing-and-formatting-syntax/#quoting-code).
+If this identifies a specific command that is failing, try running that command directly (without invoking BLT). This will indicate whether you actually have a problem with BLT, or with another project such as Drush or Composer.
 
-In seeking help, please keep the following points in mind:
+For instance, running `blt setup -vvv` may output:
 
-* BLT is distributed under the GPLv2 license; WITHOUT ANY WARRANTY.
-* The project maintainers are under no obligation to respond to support requests, feature requests, or pull requests.
-* All contributions to BLT will be reviewed for compliance with Drupal Coding Standards and best practices as defined by the project maintainer.
+```
+...
+ [drush] Changing working directory to: /Users/me/Sites/mysite/docroot
+ [drush] Executing: /Users/me/Sites/mysite/vendor/bin/drush @blted8.local --site-name="BLTed 8" --site-mail="no-reply@acquia.com" --account-name="admin" --account-pass="admin" --account-mail="no-reply@acquia.com" --uri=default --yes --verbose site-install "lightning" "install_configure_form.update_status_module='array(FALSE,FALSE)'"
+ Loaded alias @blted8.local from file
+ ...
+```
 
+In this case, BLT is simply executing the following drush command for you:
+```
+/Users/me/Sites/mysite/vendor/bin/drush @blted8.local --site-name="BLTed 8" --site-mail="no-reply@acquia.com" --account-name="admin" --account-pass="admin" --account-mail="no-reply@acquia.com" --uri=default --yes --verbose site-install "lightning" "install_configure_form.update_status_module='array(FALSE,FALSE)'"
+```
+To debug the problem, just run the drush command directly on the command line. It may be easier to navigate without BLT. Once the problem is resolved, go back to using BLT's automation layer.
 
 ## Common BLT Issues and Solutions
+
+The following are common error messages and scenarios that our users have reported and common remedies.
+
 
 ### BLT Command Failure (generic)
 
@@ -123,10 +139,4 @@ Option 1: Deploy Drush 9 to the remote environment.
 
 Option 2: Temporarily add a ```--source-dump``` option per the Drush docs during the sql-sync command.
 
-## FAQ
 
-### Can I change the install profile ? / Do I have to use Acquia Lightning with BLT ?
-
-You can use any install profile you want from Core, Contrib, or your own custom development. We just default to Lightning.
-
-See https://blt.readthedocs.io/en/latest/creating-new-project/#creating-a-new-project-with-blt
