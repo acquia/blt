@@ -7,14 +7,14 @@ assignees: ''
 
 ---
 
-Justify why this is a BLT problem.
+- [ ] I have read and understand the guidelines for new issues.
 
 **Describe the bug**
 A clear and concise description of what the bug is.
 
 **To Reproduce**
-Steps to reproduce the behavior:
-1. Go to '...'
+Steps to reproduce the behavior, _ideally_ starting from a fresh install of BLT:
+1. Run `composer create-project acquia/blt-project --no-interaction`
 2. Click on '....'
 3. Scroll down to '....'
 4. See error
@@ -22,19 +22,16 @@ Steps to reproduce the behavior:
 **Expected behavior**
 A clear and concise description of what you expected to happen.
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+**Detailed error output**
+If a BLT command is failing, run it again with the `-vvv` argument and post the full output here.
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
+**BLT doctor output**
+Post the full output of `blt doctor` in the failing environment here.
 
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
+**System information**
+* Operating system type: [replace]
+* Operating system version: [replace]
+* BLT version: [replace]
 
 **Additional context**
 Add any other context about the problem here.
