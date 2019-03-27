@@ -17,7 +17,7 @@ Newly-filed issues will be triaged by a BLT maintainer. If additional informatio
 
 Note the following when submitting issues:
 * There is no SLA on issues filed directly to the BLT project.
-* BLT is distributed under the GPLv2 license; all documentation, code, and guidance is provided WITHOUT ANY WARRANTY.
+* BLT is distributed under the GPLv2 license; all documentation, code, and guidance is provided without warranty.
 * The project maintainers are under no obligation to respond to support requests, feature requests, or pull requests.
 
 
