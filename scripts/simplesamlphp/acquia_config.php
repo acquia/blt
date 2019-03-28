@@ -44,14 +44,6 @@ $protocol = 'https://';
 $port = ':' . $_SERVER['SERVER_PORT'];*/
 
 /**
- * Support multi-site and single site installations at different base URLs.
- *
- * Overide $config['baseurlpath'] = "https://{yourdomain}/simplesaml/"
- * to customize the default Acquia configuration.
- */
-$config['baseurlpath'] = $protocol . $_SERVER['HTTP_HOST'] . $port . '/simplesaml/';
-
-/**
  * Cookies No Cache.
  *
  * Allow users to be automatically logged in if they signed in via the same
@@ -84,7 +76,14 @@ if (!getenv('AH_SITE_ENVIRONMENT')) {
 
 }
 elseif (getenv('AH_SITE_ENVIRONMENT')) {
-  // Set  ACE ad ACSF sites based on hosting database and site name.
+  /**
+   * Support multi-site and single site installations at different base URLs.
+   *
+   * Overide $config['baseurlpath'] = "https://{yourdomain}/simplesaml/"
+   * to customize the default Acquia configuration.
+   */
+  $config['baseurlpath'] = $protocol . $_SERVER['HTTP_HOST'] . $port . '/simplesaml/';
+  // Set ACE and ACSF sites based on hosting database and site name.
   $config['certdir'] = "/mnt/www/html/{$_ENV['AH_SITE_GROUP']}.{$_ENV['AH_SITE_ENVIRONMENT']}/simplesamlphp/cert/";
   $config['metadatadir'] = "/mnt/www/html/{$_ENV['AH_SITE_GROUP']}.{$_ENV['AH_SITE_ENVIRONMENT']}/simplesamlphp/metadata";
   $config['baseurlpath'] = 'simplesaml/';
