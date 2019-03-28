@@ -16,7 +16,7 @@ After you have chosen your issue type, make sure to fill out the issue template 
 Newly-filed issues will be triaged by a BLT maintainer. If additional information is requested and no reply is received within a week, issues may be closed.
 
 Note the following when submitting issues:
-* There is no SLA on issues filed directly to the BLT project.
+* Issues filed directly to the BLT project are not subject to an SLA.
 * BLT is distributed under the GPLv2 license; all documentation, code, and guidance is provided without warranty.
 * The project maintainers are under no obligation to respond to support requests, feature requests, or pull requests.
 
