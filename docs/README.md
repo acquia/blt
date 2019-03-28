@@ -22,7 +22,7 @@ See [INSTALL.md](INSTALL.md) for a list of prequisites and links to instructions
 
 ## Releases and versioning
 
-BLT generally has two supported releases at any given time, each corresponding to a major [semantic version](https://semver.org/). The newest supported major version will receive bug fixes and new features, while the penultimate major version will receive security fixes for six months. Releases generally occur on first and third Wednesdays.
+BLT generally has two supported releases at any given time, each corresponding to a major [semantic version](https://semver.org/). The newest supported major version will receive bug fixes and new features, while the penultimate major version will receive security fixes for six months. Releases with new features and bug fixes occur on the first Wednesday of every month. Security releases occur only when necessary on the third Wednesday of every month.
 
 This is intended to coincide with the [Drupal core release cycle](https://www.drupal.org/core/release-cycle-overview), so that users can continue to use a single BLT major release through the lifecycle of a Drupal core minor release.
 
@@ -30,7 +30,7 @@ This is intended to coincide with the [Drupal core release cycle](https://www.dr
 
 | BLT version | Support status        | End of life  |  Drupal versions* | Drush versions |
 |-------------|-----------------------|--------------|-------------------|----------------|
-| 10.x        | Unsupported (beta)    | May 2020     | 8.6, 8.7          | >=9.5.0        |
+| 10.x        | Unsupported (beta)    | >=May 2020   | 8.6, 8.7          | >=9.5.0        |
 | **9.2.x**   | **Supported, stable** | **Dec 2019** | **8.6, 8.7**      | **>=9.4.0**    |
 | 9.x         | Security fixes only   | May 2019     | 8.5               | >=9.1.0        |
 | <=8.9.x     | Unsupported           | Dec 2018     | <=8.5             | ~8             |
