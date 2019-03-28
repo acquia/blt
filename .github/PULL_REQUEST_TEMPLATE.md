@@ -13,14 +13,12 @@ Steps to replicate the issue
 1. 
 2. 
 
-Previous behavior (before applying PR)
+Previous (bad) behavior, before applying PR
 ----------
-(Remove if this is not a bug fix)
+(remove if this is not a bug fix)
 
-
-Expected behavior (after applying PR)
+Expected behavior, after applying PR and re-running test steps
 -----------
-
 
 Additional details
 -----------
