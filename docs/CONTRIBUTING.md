@@ -1,6 +1,27 @@
 # Contributing to BLT
 
-BLT work is currently being tracked in the [BLT GitHub issue queue](https://github.com/acquia/blt/issues) and organized via a [Waffle.io Kanban Board](https://waffle.io/acquia/blt).
+BLT feature requests, bugs, support requests, and milestones are tracked via the [BLT GitHub issue queue](https://github.com/acquia/blt/issues).
+
+Before submitting an issue or pull request, please read and take the time to understand this guide. Issues not adhering to these guidelines may be closed.
+
+## Submitting issues
+
+Please choose your issue type carefully. If you aren't sure, odds are you have a support request.
+- **Feature request**: a request for a specific enhancement to be made to BLT. This is distinct from a bug in that it represents a _gap_ in BLT functionality, rather than an instance of BLT behaving badly. It is distinct from a support request in that it has a specific and atomic request for new BLT functionality, rather than being a general request for help or guidance.
+- **Bug report**: a clearly defined instance of BLT not behaving as expected. It is distinct from a feature request in that it represents a mismatch between what BLT _does_ and what BLT _claims to do_. It is distinct from a support request in that it has _specific steps to reproduce the problem_ (ideally starting from a fresh installation of BLT) and _justification_ as to why this is a problem with BLT rather than an underlying tool such as Composer or Drush.
+- **Support request**: a request for help or guidance. Use this if you aren't sure how to do something or can't find a solution to a problem that may or may not be a bug. Before filing a support request, please review the FAQ for solutions to common problems and general troubleshooting techniques. If you have an Acquia subscription, consider filing a Support ticket instead of a BLT issue in order to receive support subject to your SLA.
+
+After you have chosen your issue type, make sure to fill out the issue template completely.
+
+Newly-filed issues will be triaged by a BLT maintainer. If additional information is requested and no reply is received within a week, issues may be closed.
+
+Note the following when submitting issues:
+* Issues filed directly to the BLT project are not subject to an SLA.
+* BLT is distributed under the GPLv2 license; all documentation, code, and guidance is provided without warranty.
+* The project maintainers are under no obligation to respond to support requests, feature requests, or pull requests.
+
+
+## Submitting pull requests
 
 Please note the branch statuses documented in the README and [GitHub page](https://github.com/acquia/blt):
 - Pull requests for enhancements will only be accepted for the active development branch.
@@ -9,9 +30,11 @@ Please note the branch statuses documented in the README and [GitHub page](https
 
 Pull requests must also adhere to the following guidelines:
 - PRs should be atomic and targeted at a single issue rather than broad-scope.
-- PRs are expected to follow the template defined by the project in `.github/ISSUE_TEMPLATE.md`.
+- PRs must contain clear testing steps and justification, as well as all other information required by the pull request template.
+- PRs must pass automated tests before they will be reviewed. We recommend you run the tests locally before submitting (see below).
+- PRs must comply with Drupal coding standards and best practices as defined by the project maintainers.
 
-New issues and pull requests will be triaged by a BLT maintainer. If additional information or work is requested and no reply is received within a week, issues and PRs may be closed.
+Pull requests will be reviewed by a BLT maintainer and are not subject to an SLA. If additional information or work is requested and no reply is received within a week, PRs may be closed.
 
 ## Developing BLT locally
 
@@ -26,8 +49,6 @@ composer install --working-dir=blt
 cd blt
 ./vendor/bin/robo create:from-symlink
 ```
-
-**Important** While you do not have to have [Ansible](https://github.com/ansible/ansible) installed on your host machine in order to _use_ blt, in order to boot the vm within the blted8 project which the above command creates, you _will_ need Ansible installed on your host.
 
 The new `blted8` directory will have a composer dependency on your local clone of BLT via a `../blt` symlink. You can therefore make changes to files in `blt` and see them immediately reflected in `blted8/vendor/acquia/blt`.
 
