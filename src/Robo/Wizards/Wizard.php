@@ -2,6 +2,7 @@
 
 namespace Acquia\Blt\Robo\Wizards;
 
+use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\Executor;
 use Acquia\Blt\Robo\Common\IO;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
@@ -25,7 +26,7 @@ use Symfony\Component\Filesystem\Filesystem;
  *   2. Prompt the the user to resolve invalid configuration or state.
  *   3. Perform tasks to resolve the issue.
  */
-abstract class Wizard implements ConfigAwareInterface, InspectorAwareInterface, IOAwareInterface, LoggerAwareInterface {
+abstract class Wizard extends BltTasks implements ConfigAwareInterface, InspectorAwareInterface, IOAwareInterface, LoggerAwareInterface {
 
   use ConfigAwareTrait;
   use InspectorAwareTrait;
