@@ -5,25 +5,19 @@ There are two parts to setting up a multisite instance on BLT: the local setup a
 ## Local setup
 
 1. Set up a single site on BLT, following the standard instructions, and ssh to the vm (`vagrant ssh`).
-1. Run `blt recipes:multisite:init`. It is suggested to use a fully-qualified production domain name as the name of your site (e.g. ‘example.com’ instead of just ‘example’) in order to avoid having to manually configure sites.php.
+1. Run `blt recipes:multisite:init`. It is suggested to use a simple machine name (rather than a domain name) for your site for [maximum compatibility with other BLT features](https://github.com/acquia/blt/pull/3503#issuecomment-477416463).
 
     Running `blt recipes:multisite:init`...
 
     * Sets up new a directory in your docroot/sites directory with the multisite name given with all the necessary files and subdirectories.
     * Sets up a new drush alias.
     * Sets up a new vhost in the box/config.yml file.
-    * Set up a new MySQL user in the box/config.yml file.
-
-    Running `blt recipes:multisite:init` currently **does not**...
-
-    * Add a multisite array to your blt/blt.yml file.
-    * Set up a sites.php file.
-    * Update database credentials in local.settings.php for each site.
-
-    Most likely you will want to do all these steps. Details for how to complete them are below.
+    * Sets up a new MySQL user in the box/config.yml file.
+    
+    Some manual configuration is still required via the following steps.
 
 1. Set the new site's local database credentials in the `docroot/sites/{newsite}/settings/local.settings.php` file to ensure your new site connects to the correct database.
-1. Copy core's `example.sites.php` file and rename it to `sites.php`. Optionally, add entries for your new site if it is not named in a canonical way.
+1. Copy core's `example.sites.php` file, rename it to `sites.php`, and add entries for your new site.
 1. If desired override any blt settings in the `docroot/sites/{newsite}/blt.yml` file.
 1. Once you've completed the above and any relevant manual steps, exit out of your virtual machine environment and update with the new configuration using `vagrant provision`.
 
@@ -31,21 +25,13 @@ There are two parts to setting up a multisite instance on BLT: the local setup a
 
 #### Add a multisite array to `blt/blt.yml`
 
-You have the option to define your multisites in `blt/blt.yml` by creating a `multisites` array. This allows BLT to run setup and deployment tasks for each site in the codebase. If you don't manually define this variable, BLT will automatically set it based on discovered multisite directories.
+You have the option to explicitly define your multisites in `blt/blt.yml` by creating a `multisites` array. If you don't manually define this variable, BLT will automatically set it based on discovered multisite directories.
 
     multisites:
       - default
-      - example.com
+      - example
 
 At this point you should have a functional multisite codebase that can be installed on Acquia Cloud.
-
-#### Set up a sites.php file.
-
-Creating a sites.php file in `docroot/sites/` allows your Drupal instance to direct incoming HTTP requests to the appropriate site.
-
-Note that if you name your sites according to their domain names, and use a canonical approach to subdomains (local.example.com, dev.example.com, example.com), you don't need to modify sites.php at all--but the file does need to exist, even if it's empty.
-
-Drupal core provides an `example.sites.php` file which can be copied, renamed, and modified as needed.
 
 #### Override BLT variables in `docroot/sites/{newsite}/blt.yml`
 

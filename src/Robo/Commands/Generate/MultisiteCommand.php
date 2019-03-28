@@ -239,7 +239,7 @@ class MultisiteCommand extends BltTasks {
   protected function getNewSiteDoman($options, $site_name) {
     if (empty($options['site-uri'])) {
       $domain = $this->askDefault("Local domain name",
-        "http://local.$site_name");
+        "http://local.$site_name.com");
     }
     else {
       $domain = $options['site-uri'];
@@ -254,7 +254,7 @@ class MultisiteCommand extends BltTasks {
    */
   protected function getNewSiteName($options) {
     if (empty($options['site-dir'])) {
-      $site_name = $this->askRequired("Site name (e.g. 'example.com')");
+      $site_name = $this->askRequired("Site machine name (e.g. 'example')");
     }
     else {
       $site_name = $options['site-dir'];
