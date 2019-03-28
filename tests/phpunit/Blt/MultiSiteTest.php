@@ -89,7 +89,7 @@ class MultiSiteTest extends BltProjectTestBase {
         'project.profile.name=minimal',
       ],
       '--site' => 'site2',
-      '--yes' => '',
+      '--no-interaction' => '',
     ]);
 
     // Assert setup.
@@ -126,7 +126,7 @@ class MultiSiteTest extends BltProjectTestBase {
     $this->assertEquals('Site 2 Clone', $output_array['name']);
 
     list($status_code, $output, $config) = $this->blt("drupal:sync:all-sites", [
-      '--yes' => '',
+      '--no-interaction' => '',
     ]);
     $this->assertContains("You will destroy data in drupal and replace with data from drupal3", $output);
     $this->assertContains("You will destroy data in drupal2 and replace with data from drupal4", $output);

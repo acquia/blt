@@ -17,7 +17,7 @@ class WizardTest extends BltProjectTestBase {
     $recipe_filepath = $this->bltDirectory . '/tests/phpunit/fixtures/recipe.yml';
     $this->blt("wizard", [
       '--recipe' => $recipe_filepath,
-      '--yes' => '',
+      '--no-interaction' => '',
     ]);
 
     $recipe = Yaml::parseFile($recipe_filepath);
