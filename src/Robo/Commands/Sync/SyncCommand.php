@@ -20,7 +20,7 @@ class SyncCommand extends BltTasks {
   public function allSites() {
     $multisites = $this->getConfigValue('multisites');
     $this->printSyncMap($multisites);
-    $continue = $this->confirm("Continue?");
+    $continue = $this->confirm("Continue?", TRUE);
     if (!$continue) {
       return 0;
     }

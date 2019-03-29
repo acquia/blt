@@ -353,7 +353,7 @@ abstract class BltProjectTestBase extends TestCase {
       '--site-dir' => $site2_dir,
       '--site-uri' => "http://" . $site2_local_uri,
       '--remote-alias' => $site2_remote_drush_alias,
-      '--yes' => '',
+      '--no-interaction' => '',
     ]);
 
     $this->fs->remove($test_project_clone_dir);

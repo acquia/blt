@@ -56,9 +56,6 @@ trait IO {
   /**
    * Prompts a user to confirm an action.
    *
-   * This integrates the global --yes option and permits a default to be
-   * defined.
-   *
    * @param string $question
    *   The question text.
    * @param bool $default
@@ -68,10 +65,6 @@ trait IO {
    *   The response.
    */
   protected function confirm($question, $default = FALSE) {
-    if ($this->input()->hasOption('yes') && $this->input()->getOption('yes') !== FALSE) {
-      return TRUE;
-    }
-
     return $this->doAsk(new ConfirmationQuestion($this->formatQuestion($question . ' (y/n)'), $default));
   }
 
