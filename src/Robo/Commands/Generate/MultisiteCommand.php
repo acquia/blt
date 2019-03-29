@@ -254,7 +254,7 @@ class MultisiteCommand extends BltTasks {
    */
   protected function getNewSiteName($options) {
     if (empty($options['site-dir'])) {
-      $site_name = $this->askRequired("Site machine name");
+      $site_name = $this->askRequired("Site machine name (e.g. 'example')");
     }
     else {
       $site_name = $options['site-dir'];
