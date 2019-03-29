@@ -36,7 +36,7 @@ class WizardCommand extends BltTasks {
 
     $this->say("<comment>You have entered the following values:</comment>");
     $this->printArrayAsTable($answers);
-    $continue = $this->confirm("Continue?");
+    $continue = $this->confirm("Continue?", TRUE);
     if (!$continue) {
       return 1;
     }
