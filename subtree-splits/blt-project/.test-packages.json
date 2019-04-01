@@ -1,0 +1,11 @@
+{
+    "package": {
+        "name": "acquia/blt-project",
+        "version": "1.0.0",
+        "source": {
+          "url": "/${TRAVIS_BUILD_DIR}/.git",
+          "type": "git",
+          "reference": "${TRAVIS_COMMIT}"
+        }
+    }
+}
