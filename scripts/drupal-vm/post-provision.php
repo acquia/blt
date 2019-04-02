@@ -5,6 +5,7 @@ $alias_locations = [
   "/vagrant/vendor/acquia/blt/scripts/blt/alias",
   // This is the location during "release:test" execution.
   "/var/www/blt/scripts/blt/alias",
+  "../../../acquia/blt/scripts/blt/alias"
 ];
 
 foreach ($alias_locations as $alias_location) {
