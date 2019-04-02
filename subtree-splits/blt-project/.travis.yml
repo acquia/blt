@@ -27,7 +27,7 @@ install:
 
   # Speed up Composer operations.
   - composer global require "hirak/prestissimo:^0.3"
-  
+
   # MySQL Options
   - mysql -e 'SET GLOBAL wait_timeout = 5400;'
   - mysql -e "SHOW VARIABLES LIKE 'wait_timeout'"
@@ -44,4 +44,4 @@ install:
 script:
   # Build the code base.
   - cd ../
-  - composer create-project --repository-url=$TRAVIS_BUILD_DIR/packages.json acquia/blt-project blt-example --no-interaction
+  - COMPOSER_MEMORY_LIMIT=-1 composer create-project --repository-url=$TRAVIS_BUILD_DIR/packages.json acquia/blt-project blt-example --no-interaction
