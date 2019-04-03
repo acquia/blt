@@ -1,5 +1,6 @@
 # @todo Move to subkey of tests.
 behat:
+  validate: true
   config: ${repo.root}/tests/behat/local.yml
   profile: local
   # The URL of selenium server. Must correspond with setting in behat's yaml config.

@@ -75,7 +75,7 @@ class BehatCommand extends TestsCommandBase {
   }
 
   /**
-   * Executes all behat tests.
+   * Entrypoint for running behat tests.
    *
    * @command tests:behat:run
    * @description Executes all behat tests. This optionally launch PhantomJS or Selenium prior to execution.
@@ -90,18 +90,60 @@ class BehatCommand extends TestsCommandBase {
    *
    * @interactGenerateSettingsFiles
    * @interactInstallDrupal
+   * @launchWebServer
+   * @executeInVm
+   */
+  public function behat() {
+    $validate_behat_config = $this->getConfigValue('behat.validate');
+    $commands = [];
+    if ($validate_behat_config) {
+      $commands[] = 'internal:tests:behat:run:validate';
+    }
+    else {
+      $commands[] = 'internal:tests:behat:run:novalidate';
+    }
+    $this->invokeCommands($commands);
+  }
+
+  /**
+   * Executes all behat tests with validation.
+   *
+   * @command internal:tests:behat:run:validate
+   *
    * @interactConfigureBehat
    * @validateMySqlAvailable
    * @validateDrupalIsInstalled
    * @validateBehatIsConfigured
    * @validateVmConfig
-   * @launchWebServer
-   * @executeInVm
+   * @hidden
    */
-  public function behat() {
+  public function behatWithValidation() {
     // Log config for debugging purposes.
     $this->logConfig($this->getConfigValue('behat'), 'behat');
     $this->logConfig($this->getInspector()->getLocalBehatConfig()->export());
+    $this->createReportsDir();
+
+    try {
+      $this->launchWebDriver();
+      $this->executeBehatTests();
+      $this->killWebDriver();
+    }
+    catch (\Exception $e) {
+      // Kill web driver a server to prevent Pipelines from hanging after fail.
+      $this->killWebDriver();
+      throw $e;
+    }
+  }
+
+  /**
+   * Executes all behat tests without validation.
+   *
+   * @command internal:tests:behat:run:novalidate
+   *
+   * @hidden
+   */
+  public function behatWithoutValidation() {
+    $this->logConfig($this->getConfigValue('behat'), 'behat');
     $this->createReportsDir();
 
     try {
