@@ -19,13 +19,12 @@ To perform a release:
 [![Build Status](https://travis-ci.com/acquia/blt.svg?branch=9.x)](https://travis-ci.com/acquia/blt)
 [![Documentation Status](https://readthedocs.org/projects/blt/badge/?version=9.x)](http://blt.readthedocs.io/en/9.x/?badge=9.x)
 
-## Update Canary
+## Test via Canary
 
 * Submit a pull request to Canary with BLT updated to HEAD.
     * Update BLT to the tip of HEAD. This is the same commit from which you will cut your tag.
     * Document update steps in `update.md`. Note any manual steps required and plan to add them to the BLT release notes (generated later).
-* Ensure tests pass. Canary uses both Travis CI and Pipelines.
-* Merge the pull request
+* Ensure tests pass, and smoke test the site in Cloud environments.
 
 ## Create a release
 
@@ -40,6 +39,11 @@ To perform a release:
 
 * Add any manual steps or notable changes to the release notes.
 * Click publish. Packagist is automatically updated.
+
+## Finish updating Canary
+
+* Update PR to use new stable release
+* Merge PR
 
 ## Update the blt-project repo
 
