@@ -63,21 +63,6 @@ class InteractHook extends BltTasks {
   }
 
   /**
-   * Runs wizard for configuring Behat.
-   *
-   * @hook interact @interactConfigureBehat
-   */
-  public function interactConfigureBehat(
-    InputInterface $input,
-    OutputInterface $output,
-    AnnotationData $annotationData
-  ) {
-    /** @var \Acquia\Blt\Robo\Wizards\TestsWizard $tests_wizard */
-    $tests_wizard = $this->getContainer()->get(TestsWizard::class);
-    $tests_wizard->wizardConfigureBehat();
-  }
-
-  /**
    * Executes outstanding updates.
    *
    * @hook interact *

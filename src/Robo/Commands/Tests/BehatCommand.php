@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Tests;
 
 use Acquia\Blt\Robo\Exceptions\BltException;
+use Acquia\Blt\Robo\Wizards\TestsWizard;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -43,15 +44,20 @@ class BehatCommand extends TestsCommandBase {
    *
    * @interactGenerateSettingsFiles
    * @interactInstallDrupal
-   * @interactConfigureBehat
    * @validateMySqlAvailable
    * @validateDrupalIsInstalled
-   * @validateBehatIsConfigured
    * @validateVmConfig
    * @launchWebServer
    * @executeInVm
    */
   public function behat() {
+    /** @var \Acquia\Blt\Robo\Wizards\TestsWizard $tests_wizard */
+    $tests_wizard = $this->getContainer()->get(TestsWizard::class);
+    $tests_wizard->wizardConfigureBehat();
+    if (!$this->getInspector()->isBehatConfigured()) {
+      throw new BltException("Behat is not configured properly. Please run `blt doctor` to diagnose the issue.");
+    }
+
     // Log config for debugging purposes.
     $this->logConfig($this->getConfigValue('behat'), 'behat');
     $this->logConfig($this->getInspector()->getLocalBehatConfig()->export());

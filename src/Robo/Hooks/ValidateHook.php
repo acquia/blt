@@ -7,6 +7,7 @@ use Acquia\Blt\Robo\Config\ConfigAwareTrait;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Acquia\Blt\Robo\Inspector\InspectorAwareInterface;
 use Acquia\Blt\Robo\Inspector\InspectorAwareTrait;
+use Acquia\Blt\Robo\Wizards\TestsWizard;
 use Consolidation\AnnotatedCommand\CommandData;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -80,17 +81,6 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
 
     if (!$this->getInspector()->isDrupalSettingsFileValid()) {
       throw new BltException("BLT settings are not included in settings file.");
-    }
-  }
-
-  /**
-   * Validates that Behat is properly configured on the local machine.
-   *
-   * @hook validate @validateBehatIsConfigured
-   */
-  public function validateBehatIsConfigured(CommandData $commandData) {
-    if (!$this->getInspector()->isBehatConfigured()) {
-      throw new BltException("Behat is not configured properly. Please run `blt doctor` to diagnose the issue.");
     }
   }
 
