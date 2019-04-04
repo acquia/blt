@@ -40,37 +40,6 @@
 - Revert "Update drush to 9.6.0, and robo to 1.3.4 (#3384)"
 - Update drush to 9.6.0, and robo to 1.3.4 (#3384)
 - Release from 'upstream', not 'origin'. (#3452)
-[Full Changelog](https://github.com/acquia/blt/compare/9.2.4...9.2.5)
-
-
-**Miscellaneous**
-
-- Minor RELEASE.md update.
-- Fixed release notes for version numbers above 10.
-- Fixes #3445: Pass site context when regenerating Behat config. (#3505)
-- Fix multisite db permissions for new sites. (#3504)
-- Cleaned up multisite docs and best practices. (#3503)
-- Fixes #3344: Support commits with apostrophes. (#3495)
-- Support Drupal 8.7. (#3481) (#3490)
-- Fixes #3247: Support content_archive module. (#3485)
-- Fixes #3239: build-dependencies option doesn't behave as expected. (#3482)
-- Fixes #3238: Removed gitignore files from git on deploy. (#3479)
-- Fixes #3016: Commands run in parallel don't run to completion. (#3475)
-- Migrated to travis-ci.com.
-- Composer updates.
-- Remove failing cache-clear from BLT tests. (#3474)
-- Fix config message. (#3473)
-- Fixes #3032: Ensure source files are clean before committing on Pipelines. (#3472)
-- Fixes #3015: Cannot run Twig or Yaml validators multiple times. (#3470)
-- Downgrade symfony config. (#3469)
-- Issue 3014 (#3468)
-- Updated Drush to 9.6. (#3465)
-- Update Robot and add composer.lock (#3458)
-- Fixed #2968: Show composer validation warnings and errors. (#3461)
-- Clean up .travis.yml. (#3459)
-- Revert "Update drush to 9.6.0, and robo to 1.3.4 (#3384)"
-- Update drush to 9.6.0, and robo to 1.3.4 (#3384)
-- Release from 'upstream', not 'origin'. (#3452)
 
 
 #### 9.2.4 (2019-03-13)
