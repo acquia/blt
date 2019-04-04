@@ -510,12 +510,12 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       $labels = $this->getGitHubIssueLabels($issue_api, $github_issue_number);
       if ($labels) {
         foreach ($labels as $label) {
-          if ($label['name'] == 'enhancement') {
+          if (strtolower($label['name']) == 'enhancement') {
             $changes['enhancements'][] = $log_entry;
             $sorted = TRUE;
             break;
           }
-          elseif ($label['name'] == 'bug') {
+          elseif (strtolower($label['name']) == 'bug') {
             $changes['bugs'][] = $log_entry;
             $sorted = TRUE;
             break;
