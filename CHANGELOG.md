@@ -1,5 +1,15 @@
 # Change Log
 
+#### 9.2.6 (2019-04-05)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.2.5...9.2.6)
+
+
+**Miscellaneous**
+
+- Fix running Composer updates. (#3520)
+
+
 #### 9.2.5 (2019-04-03)
 
 [Full Changelog](https://github.com/acquia/blt/compare/9.2.4...9.2.5)
