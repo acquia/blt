@@ -4,7 +4,6 @@ namespace Acquia\Blt\Robo\Hooks;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Wizards\SetupWizard;
-use Acquia\Blt\Robo\Wizards\TestsWizard;
 use Consolidation\AnnotatedCommand\AnnotationData;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

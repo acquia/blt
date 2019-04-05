@@ -7,7 +7,6 @@ use Acquia\Blt\Robo\Config\ConfigAwareTrait;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Acquia\Blt\Robo\Inspector\InspectorAwareInterface;
 use Acquia\Blt\Robo\Inspector\InspectorAwareTrait;
-use Acquia\Blt\Robo\Wizards\TestsWizard;
 use Consolidation\AnnotatedCommand\CommandData;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
