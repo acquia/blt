@@ -1,5 +1,7 @@
 <?php
 
+use Acquia\Blt\Robo\Config\ConfigInitializer;
+
 /**
  * @file
  * Controls configuration management settings.
@@ -101,7 +103,7 @@ if (isset($_acsf_site_name)) {
 }
 
 // Set profile split.
-if (array_key_exists('install_profile', $settings)) {
-  $active_profile = $settings['install_profile'];
-  $config["$split_filename_prefix.$active_profile"]['status'] = TRUE;
-}
+$profile_config_initializer = new ConfigInitializer($repo_root, $input);
+$profile_blt_config = $profile_config_initializer->initialize();
+$active_profile = $profile_blt_config->get('project.profile');
+$config["$split_filename_prefix.$active_profile"]['status'] = TRUE;
