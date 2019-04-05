@@ -1,5 +1,17 @@
 # Change Log
 
+#### 10.0.0-rc2 (2019-04-05)
+
+[Full Changelog](https://github.com/acquia/blt/compare/10.0.0-rc1...10.0.0-rc2)
+
+
+**Miscellaneous**
+
+- Fix running Composer updates. (#3520)
+- turn off ssh strict host checking when drush is connecting to drupal vm; this avoids prompting the user like this: (#3518)
+- Removing -y breaks updates. (#3515)
+
+
 #### 10.0.0-rc1 (2019-04-03)
 
 [Full Changelog](https://github.com/acquia/blt/compare/10.0.0-beta3...10.0.0-rc1)
