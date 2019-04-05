@@ -174,6 +174,8 @@ abstract class CommandTestCase extends TestCase {
    */
   protected function createDefaultConfig() {
     $this->config = new DefaultConfig();
+    $this->config->extend(new YamlConfig($this->config->get('blt.root') . '/phing/build.yml',
+      $this->config->toArray()));
     $this->config->extend(new YamlConfig($this->config->get('blt.root') . '/template/blt/blt.yml',
       $this->config->toArray()));
     $this->config->extend(new YamlConfig($this->config->get('blt.root') . '/template/blt/local.yml',
