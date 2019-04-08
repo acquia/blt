@@ -46,7 +46,7 @@ local:
       sessions:
         default:
           chrome:
-            api_url: "http://localhost:9222"
+            api_url: "http://0.0.0.0:9222"
     Drupal\DrupalExtension:
       drupal:
         # This must be an absolute path.
