@@ -15,4 +15,8 @@ mysql -u root -proot -e "CREATE DATABASE IF NOT EXISTS drupal"
 nvm install v8.1.4
 npm install -g npm
 
+# The local.hostname is set to 0.0.0.0:8888 to run drush runserver on all
+# available network interfaces.
+yaml-cli update:value blt/blt.yml project.local.hostname '0.0.0.0:8888'
+
 set +v
