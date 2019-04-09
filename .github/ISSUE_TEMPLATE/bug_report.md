@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-- [ ] I have read and understand the [contribution guidelines](../../docs/CONTRIBUTING.md) for new issues.
+<!-- Before posting, please read the contribution guidelines (linked to the right) to ensure that you get the best support. -->
 
 **Describe the bug**
 A clear and concise description of what the bug is.
