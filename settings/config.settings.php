@@ -1,12 +1,12 @@
 <?php
 
-use Acquia\Blt\Robo\Config\ConfigInitializer;
-use Symfony\Component\Console\Input\ArgvInput;
-
 /**
  * @file
  * Controls configuration management settings.
  */
+
+use Acquia\Blt\Robo\Config\ConfigInitializer;
+use Symfony\Component\Console\Input\ArgvInput;
 
 /**
  * BLT makes the assumption that, if using multisite, the default configuration
