@@ -484,8 +484,14 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    */
   public function getCliConfigFile() {
     $file = NULL;
-    $user = posix_getpwuid(posix_getuid());
-    $home_dir = $user['dir'];
+    if (DIRECTORY_SEPARATOR == '\\') {
+      $user = $_SERVER['USERNAME'];
+      $home_dir = $_SERVER['USERPROFILE'];
+    }
+    else {
+      $user = posix_getpwuid(posix_getuid());
+      $home_dir = $user['dir'];
+    }
 
     if (strstr(getenv('SHELL'), 'zsh')) {
       $file = $home_dir . '/.zshrc';

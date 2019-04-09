@@ -314,8 +314,8 @@ class UpdateCommand extends BltTasks {
    * @throws BltException
    */
   protected function rsyncTemplate() {
-    $source = $this->getConfigValue('blt.root') . '/template';
-    $destination = $this->getConfigValue('repo.root');
+    $source = 'vendor/acquia/blt/template';
+    $destination = '.';
     $exclude_from = $this->getConfigValue('blt.update.ignore-existing-file');
     $this->say("Copying files from BLT's template into your project...");
     $result = $this->taskExecStack()

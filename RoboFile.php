@@ -92,7 +92,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       ->dir($test_project_dir)
       ->exec("git init")
       ->exec("git add -A")
-      ->exec("git commit -m 'Initial commit.'")
+      ->exec("git commit -m \"Initial commit.\"")
       ->run();
     if (!$options['vm']) {
       $this->taskReplaceInFile($test_project_dir . "/composer.json")
