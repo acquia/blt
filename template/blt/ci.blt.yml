@@ -7,6 +7,6 @@
 # setup.dump-file: /tmp/my-dump-file.sql
 tests.run-server: true
 tests.server.url: http://0.0.0.0:9222
-# The local.hostname must be set to 127.0.0.1:9222 because we are using drush runserver to test the site.
+# The local.hostname must be set to 0.0.0.0:9222 because we are using drush runserver to test the site.
 project.local.hostname: 0.0.0.0:9222
 drush.debug: false

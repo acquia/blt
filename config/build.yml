@@ -217,7 +217,7 @@ tests:
   # This is used for ad-hoc creation of a server via `drush runserver`.
   server:
     port: 8888
-    url: http://127.0.0.1:${tests.server.port}
+    url: http://0.0.0.0:${tests.server.port}
 
 validate:
   # You can change this to true to have blt automatically validate acsf-init.
