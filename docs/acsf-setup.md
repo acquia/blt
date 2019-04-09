@@ -16,7 +16,7 @@ To configure a project to run on ACSF, perform the following steps after initial
           profile:
             name: mycustomprofile
             
-   Note that if you are using configuration management, you should set `project.profile` on a per-site basis by creating `docroot/sites/*/blt.yml` for each site as described in the [multisite readme](multisite.md). 
+   Note that if you are using configuration management, you should set `project.profile.name` on a per-site basis by creating `docroot/sites/*/blt.yml` for each site as described in the [multisite readme](multisite.md). Although ACSF does not use traditional Drupal multisite directories, BLT still uses `blt.yml` files placed in these directories to manage BLT configuration for each site.
 
 1. Deploy to Cloud using `blt artifact:deploy`. (Code can also be deployed via a [Continuous Integration setup](http://blt.readthedocs.io/en/stable/readme/deploy/#continuous-integration).)
 1. Use ACSF's "update code" feature to push the artifact out to sites.
