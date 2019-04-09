@@ -45,7 +45,7 @@ class ServerCommand extends TestsCommandBase {
     catch (\Exception $e) {
       if (!$result->wasSuccessful() && file_exists($log_file)) {
         $output = file_get_contents($log_file);
-        throw new BltException($e->getMessage() . "\n" . $output);
+        throw new BltException($e->getMessage() . "\nDrush logged the following errors while attempting to start the web server:\n" . $output);
       }
     }
   }
