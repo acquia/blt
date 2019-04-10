@@ -176,16 +176,24 @@ class UpdateCommand extends BltTasks {
    * @command internal:create-project:init-repo
    *
    * @hidden
+   *
+   * @validateGitConfig
    */
   public function initAndCommitRepo() {
     // The .git dir will already exist if blt-project was created using a
     // branch. Otherwise, it will not exist when using a tag.
     if (!file_exists($this->getConfigValue("repo.root") . "/.git")) {
+      $author_string = '';
+      $git_name = $this->getConfigValue('git.user.name');
+      $git_email = $this->getConfigValue('git.user.email');
+      if ($git_name && $git_email) {
+        $author_string = sprintf('--author "%s <%s>"', $git_name, $git_email);
+      }
       $result = $this->taskExecStack()
         ->dir($this->getConfigValue("repo.root"))
         ->exec("git init")
         ->exec('git add -A')
-        ->exec("git commit -m 'Initial commit.'")
+        ->exec("git commit -m 'Initial commit.' $author_string")
         ->interactive(FALSE)
         ->printOutput(FALSE)
         ->printMetadata(FALSE)

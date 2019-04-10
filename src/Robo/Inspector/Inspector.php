@@ -538,6 +538,18 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   }
 
   /**
+   * Verifies that Git user is configured.
+   *
+   * @return bool
+   *   TRUE if configured, FALSE otherwise.
+   */
+  public function isGitUserSet() {
+    exec("git config user.name", $output, $name_not_set);
+    exec("git config user.email", $output, $email_not_set);
+    return !($name_not_set || $email_not_set);
+  }
+
+  /**
    * Gets the local behat configuration defined in local.yml.
    *
    * @return \Acquia\Blt\Robo\Config\BltConfig
