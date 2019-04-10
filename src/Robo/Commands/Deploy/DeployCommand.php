@@ -83,7 +83,7 @@ class DeployCommand extends BltTasks {
   public function checkDirty($options = ['ignore-dirty' => FALSE]) {
     $result = $this->taskExec('git status --porcelain')
       ->printMetadata(FALSE)
-      ->printOutput(FALSE)
+      ->printOutput(TRUE)
       ->interactive(FALSE)
       ->run();
     if (!$options['ignore-dirty'] && !$result->wasSuccessful()) {
