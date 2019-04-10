@@ -106,7 +106,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       ->exec("composer install");
 
     if ($options['vm']) {
-      $task->exec("$bin/blt vm --no-boot --no-interaction --yes -v")
+      $task->exec("$bin/blt vm --no-boot --no-interaction -v")
         ->exec("$bin/yaml-cli update:value box/config.yml vagrant_synced_folders.1.local_path '../blt'")
         ->exec("$bin/yaml-cli update:value box/config.yml vagrant_synced_folders.1.destination '/var/www/blt'")
         ->exec("$bin/yaml-cli update:value box/config.yml vagrant_synced_folders.1.type nfs");
@@ -160,14 +160,14 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       ->exec("composer config prefer-stable true")
       ->exec("git init")
       ->exec("git add -A")
-      ->exec("git commit -m 'Initial commit.'")
+      ->exec("git commit -m \"Initial commit.\"")
       ->run();
     $task = $this->taskExecStack()
       ->dir($test_project_dir)
       // BLT is the only dependency at this point. Install it.
       ->exec("composer require acquia/blt {$options['base-branch']}-dev");
     if ($options['vm']) {
-      $task->exec("$bin/blt vm --no-boot --no-interaction --yes -v");
+      $task->exec("$bin/blt vm --no-boot --no-interaction -v");
     }
     $task->run();
   }
