@@ -257,18 +257,16 @@ if (file_exists($deploy_id_file)) {
 }
 
 /**
- * Include custom global settings files.
+ * Include custom global settings file.
  *
- * This is intended for to provide an opportunity for applications to override
- * any previous configuration at a global or multisite level.
+ * This provides an opportunity for applications to override any previous
+ * configuration at a global or multisite level.
  *
  * This is being included before the CI and site specific files so all available
  * settings are able to be overridden in the includes.settings.php file below.
  */
-if ($settings_files = glob(DRUPAL_ROOT . "/sites/settings/*.settings.php")) {
-  foreach ($settings_files as $settings_file) {
-    require $settings_file;
-  }
+if (file_exists(DRUPAL_ROOT . "/sites/settings/global.settings.php")) {
+  require DRUPAL_ROOT . "/sites/settings/global.settings.php";
 }
 
 /*******************************************************************************
