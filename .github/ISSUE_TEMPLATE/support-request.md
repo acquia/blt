@@ -7,8 +7,8 @@ assignees: ''
 
 ---
 
-- [ ] I have read and understand the [contribution guidelines](../../docs/CONTRIBUTING.md) for new issues.
-- [ ] I have read the [FAQ](../../docs/FAQ.md) and any other documentation related to this problem (in the [docs directory](../../docs)), and they did not help.
+<!-- Before posting, please read the contribution guidelines (linked to the right) to ensure that you get the best support. -->
+<!-- Please also read the FAQ (linked from the contribution guidelines) to ensure that your question has not already been answered. -->
 
 **I want to...**
 Describe specifically what you are trying to accomplish.

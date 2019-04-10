@@ -5,6 +5,9 @@
  * Controls configuration management settings.
  */
 
+use Acquia\Blt\Robo\Config\ConfigInitializer;
+use Symfony\Component\Console\Input\ArgvInput;
+
 /**
  * BLT makes the assumption that, if using multisite, the default configuration
  * directory should be shared between all multi-sites, and each multisite will
@@ -101,7 +104,8 @@ if (isset($_acsf_site_name)) {
 }
 
 // Set profile split.
-if (array_key_exists('install_profile', $settings)) {
-  $active_profile = $settings['install_profile'];
-  $config["$split_filename_prefix.$active_profile"]['status'] = TRUE;
-}
+$input = new ArgvInput(!empty($_SERVER['argv']) ? $_SERVER['argv'] : ['']);
+$profile_config_initializer = new ConfigInitializer($repo_root, $input);
+$profile_blt_config = $profile_config_initializer->initialize();
+$active_profile = $profile_blt_config->get('project.profile.name');
+$config["$split_filename_prefix.$active_profile"]['status'] = TRUE;
