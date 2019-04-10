@@ -95,6 +95,13 @@ class UpdateCommand extends BltTasks {
     $this->invokeCommand('blt:init:settings');
     $this->invokeCommand('recipes:blt:init:command');
     $this->invokeCommand('blt:init:shell-alias');
+    if (DIRECTORY_SEPARATOR === '\\') {
+      // On Windows, during composer create-project,
+      // the wizard command fails when it reaches the interactive steps.
+      // Until this is fixed, go with the defaults.
+      // The user can run blt wizard any time later for changing defaults.
+      $this->input()->setInteractive(FALSE);
+    }
     if ($this->input()->isInteractive()) {
       $this->invokeCommand('wizard');
     }
@@ -185,7 +192,7 @@ class UpdateCommand extends BltTasks {
         ->dir($this->getConfigValue("repo.root"))
         ->exec("git init")
         ->exec('git add -A')
-        ->exec("git commit -m 'Initial commit.'")
+        ->exec("git commit -m \"Initial commit.\"")
         ->interactive(FALSE)
         ->printOutput(FALSE)
         ->printMetadata(FALSE)
