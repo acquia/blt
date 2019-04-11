@@ -35,7 +35,7 @@
         "drupal/coder": "^8.3.1",
         "drush/drush": "^9.5.0",
         "drupal/config_split": "^1.0.0",
-        "drupal/core": "^8.6.0",
+        "drupal/core": "^8.5.0",
         "drupal/features": "^3.8.0",
         "drupal/memcache": "2.0-alpha7",
         "drupal/seckit": "^1.0.0-alpha2",
