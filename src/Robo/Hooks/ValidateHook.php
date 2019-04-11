@@ -148,4 +148,5 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
       }
     }
   }
+
 }
