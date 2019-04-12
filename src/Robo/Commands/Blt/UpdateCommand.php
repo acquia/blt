@@ -183,18 +183,12 @@ class UpdateCommand extends BltTasks {
     // The .git dir will already exist if blt-project was created using a
     // branch. Otherwise, it will not exist when using a tag.
     if (!file_exists($this->getConfigValue("repo.root") . "/.git")) {
-      $author_string = '';
-      $git_name = $this->getConfigValue('git.user.name');
-      $git_email = $this->getConfigValue('git.user.email');
-      if ($git_name && $git_email) {
-        $author_string = sprintf('--author "%s <%s>"', $git_name, $git_email);
-      }
-      $result = $this->taskExecStack()
+      $result = $this->taskGit()
         ->dir($this->getConfigValue("repo.root"))
         ->exec("git init")
-        ->exec("git commit --allow-empty -m 'Initial commit.' $author_string")
-        ->exec('git add -A')
-        ->exec("git commit -m 'Created BLT project.' $author_string")
+        ->commit('Initial commit.', '--allow-empty')
+        ->add('-A')
+        ->commit('Created BLT project.')
         ->interactive(FALSE)
         ->printOutput(FALSE)
         ->printMetadata(FALSE)
