@@ -39,7 +39,7 @@ class DeployCommand extends BltTasks {
    *
    * @aliases ad deploy
    *
-   * @validateDeployGitConfig
+   * @validateGitConfig
    */
   public function deploy($options = [
     'branch' => InputOption::VALUE_REQUIRED,
