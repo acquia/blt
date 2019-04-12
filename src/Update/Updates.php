@@ -653,7 +653,7 @@ class Updates {
       if (in_array("blt/composer.suggested.json", $merge_plugin_require)) {
         $composer_suggested = json_decode(file_get_contents($this->updater->getRepoRoot() . "/blt/composer.suggested.json"), TRUE);
         foreach ($composer_suggested['require'] as $package_name => $version_constraint) {
-          // If it IS it template composer.json but NOT in root composer.json,
+          // If it IS in template composer.json but NOT in root composer.json,
           // add it to root.
           if (!array_key_exists($package_name, $composer_json['require']) &&
               array_key_exists($package_name, $template_composer_json['require']) &&
@@ -755,6 +755,23 @@ class Updates {
     }
     $this->updater->writeProjectYml($project_config);
 
+  }
+
+  /**
+   * 10.0.0.
+   *
+   * @Update(
+   *    version = "10000001",
+   *    description = "Move Drupal modules to project composer.json."
+   * )
+   */
+  public function update_10000001() {
+    $composer_json = $this->updater->getComposerJson();
+    $template_composer_json = $this->updater->getTemplateComposerJson();
+    foreach ($template_composer_json['require'] as $package_name => $package_version) {
+      $composer_json['require'][$package_name] = $package_version;
+    }
+    $this->updater->writeComposerJson($composer_json);
   }
 
 }
