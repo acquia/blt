@@ -4,7 +4,6 @@ namespace Acquia\Blt\Robo\Commands\Deploy;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
-use Acquia\Blt\Robo\Tasks\GitTask;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Finder\Finder;
@@ -523,14 +522,13 @@ class DeployCommand extends BltTasks {
   protected function commit() {
     $this->say("Committing artifact to <comment>{$this->branchName}</comment>...");
 
-    /** @var GitTask $taskGit */
-    $taskGit = $this->taskGit()
+    $result = $taskGit = $this->taskGit()
       ->dir($this->deployDir)
       ->exec("git rm -r --cached --ignore-unmatch .")
       ->add('-A')
       ->commit($this->commitMessage, '--quiet')
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE);
-    $result = $taskGit->run();
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->run();
 
     if (!$result->wasSuccessful()) {
       throw new BltException("Failed to commit deployment artifact!");

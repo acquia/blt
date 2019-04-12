@@ -4,10 +4,18 @@ namespace Acquia\Blt\Robo\Tasks;
 
 use Robo\Task\Vcs\GitStack;
 
+/**
+ * Class GitTask
+ * @package Acquia\Blt\Robo\Tasks
+ *
+ * Runs Git tasks using BLT-specific helpers, such as setting the commit author.
+ */
 class GitTask extends GitStack {
 
-  public function commit($message, $options = "")
-  {
+  /**
+   * @inheritDoc
+   */
+  public function commit($message, $options = "") {
     $git_name = $this->getConfigValue('git.user.name');
     $git_email = $this->getConfigValue('git.user.email');
     if ($git_name && $git_email) {
@@ -16,4 +24,5 @@ class GitTask extends GitStack {
     }
     return parent::commit($message, $options);
   }
+
 }
