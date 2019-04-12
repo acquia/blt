@@ -142,9 +142,11 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
     }
     if (!$this->getInspector()->isGitUserSet()) {
       if (!$this->getConfigValue('git.user.name') || !$this->getConfigValue('git.user.email')) {
-        $this->logger->warning("Git user name or email is not configured. BLT will attempt to set a dummy user and email address for this commit.");
-        $this->config->set('git.user.name', 'BLT dummy user');
-        $this->config->set('git.user.email', 'no-reply@example.com');
+        $this->logger->warning("Git user name or email is not configured. Set your own or BLT will attempt to set a dummy user and email address for this commit.");
+        $git_user = $this->askDefault('Git user name:', 'BLT dummy user');
+        $git_email = $this->askDefault('Git user email:', 'no-reply@example.com');
+        $this->config->set('git.user.name', $git_user);
+        $this->config->set('git.user.email', $git_email);
       }
     }
   }
