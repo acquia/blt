@@ -27,7 +27,6 @@ class ComposerCommand extends BltTasks {
       ->printMetadata(TRUE)
       ->dir($this->getConfigValue('repo.root'))
       ->interactive($this->input()->isInteractive())
-      ->env('COMPOSER_MEMORY_LIMIT', -1)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE);
     if ($options['dev']) {
       $task->dev(TRUE);
