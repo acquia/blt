@@ -16,13 +16,19 @@ class GitTask extends GitStack {
    * @inheritDoc
    */
   public function commit($message, $options = "") {
-    $git_name = $this->getConfigValue('git.user.name');
-    $git_email = $this->getConfigValue('git.user.email');
+    $message = escapeshellarg($message);
+    $git_name = $this->getConfig()->get('git.user.name');
+    $git_email = $this->getConfig()->get('git.user.email');
+
+    $command = ['git'];
     if ($git_name && $git_email) {
-      $options .= ' --author ';
-      $options .= escapeshellarg(sprintf('"%s <%s>"', $git_name, $git_email));
+      $command[] = '-c user.name=' . escapeshellarg($git_name);
+      $command[] = '-c user.email=' . escapeshellarg($git_email);
     }
-    return parent::commit($message, $options);
+    $command[] = 'commit';
+    $command[] = "-m $message";
+    $command[] = $options;
+    return $this->exec($command);
   }
 
 }
