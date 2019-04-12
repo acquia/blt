@@ -12,7 +12,7 @@
 
 1. If this is your first time using BLT on this machine, restart your shell so that Bash detects the new BLT alias.
 
-1. Customize *blt/blt.yml* if desired, such as to choose an install profile.
+1. Customize *blt/blt.yml* if desired, such as to choose an install profile. [This file](https://github.com/acquia/blt/blob/10.x/config/build.yml) lists all available configuration values.
 
     By default, BLT will install sites using the [*lightning*](https://github.com/acquia/lightning) profile. You can change this to any other core, contributed, or custom profile in your codebase. Make sure to download the profile if necessary, e.g., `composer require acquia/headless_lightning:~1.1.0`.
     

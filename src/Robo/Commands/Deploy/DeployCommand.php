@@ -83,7 +83,7 @@ class DeployCommand extends BltTasks {
   public function checkDirty($options = ['ignore-dirty' => FALSE]) {
     $result = $this->taskExec('git status --porcelain')
       ->printMetadata(FALSE)
-      ->printOutput(FALSE)
+      ->printOutput(TRUE)
       ->interactive(FALSE)
       ->run();
     if (!$options['ignore-dirty'] && !$result->wasSuccessful()) {
@@ -537,7 +537,7 @@ class DeployCommand extends BltTasks {
     $this->say("Committing artifact to <comment>{$this->branchName}</comment>...");
     $result = $this->taskExecStack()
       ->dir($this->deployDir)
-      ->exec("git rm -r --cached .")
+      ->exec("git rm -r --cached --ignore-unmatch .")
       ->exec("git add -A")
       ->exec(["git commit --quiet -m", escapeshellarg($this->commitMessage)])
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)

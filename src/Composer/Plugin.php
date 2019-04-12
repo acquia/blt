@@ -165,7 +165,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
         $command = $this->getVendorPath() . '/acquia/blt/bin/blt internal:create-project --ansi';
       }
       else {
-        $command = $this->getVendorPath() . '/acquia/blt/bin/blt internal:add-to-project --ansi -y';
+        $command = $this->getVendorPath() . '/acquia/blt/bin/blt internal:add-to-project --ansi -n';
       }
       $success = $this->executeCommand($command, [], TRUE);
       if (!$success) {
@@ -175,7 +175,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     }
     elseif ($options['blt']['update']) {
       $this->io->write('<info>Updating BLT templated files...</info>');
-      $success = $this->executeCommand('blt blt:update --ansi -y', [], TRUE);
+      $success = $this->executeCommand('blt blt:update --ansi --no-interaction', [], TRUE);
       if (!$success) {
         $this->io->writeError("<error>BLT update script failed! Run `blt blt:update --verbose` to retry.</error>");
       }

@@ -28,7 +28,7 @@
         "doctrine/inflector": "~1.1.0",
         "drupal/coder": "^8.3.1",
         "drush/drush": "^9.5.0",
-        "drupal/core": "^8.6.0",
+        "drupal/core": "^8.5.0",
         "drupal-composer/drupal-scaffold": "^2.5.4",
         "grasmash/drupal-security-warning": "^1.0.0",
         "grasmash/yaml-cli": "^1.0.0",

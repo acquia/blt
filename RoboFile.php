@@ -426,14 +426,13 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    */
   protected function getLastTagOnBranch($current_branch) {
     $output = $this->taskExecStack()
-      ->exec("git tag --merged $current_branch")
+      ->exec("git tag --sort=-v:refname --merged $current_branch")
       ->interactive(FALSE)
       ->silent(TRUE)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run()
       ->getMessage();
-    $lines = explode("\n", $output);
-    $tags_on_branch = array_reverse($lines);
+    $tags_on_branch = explode("\n", $output);
     $prev_tag = reset($tags_on_branch);
 
     return $prev_tag;
@@ -511,12 +510,12 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       $labels = $this->getGitHubIssueLabels($issue_api, $github_issue_number);
       if ($labels) {
         foreach ($labels as $label) {
-          if ($label['name'] == 'enhancement') {
+          if (strtolower($label['name']) == 'enhancement') {
             $changes['enhancements'][] = $log_entry;
             $sorted = TRUE;
             break;
           }
-          elseif ($label['name'] == 'bug') {
+          elseif (strtolower($label['name']) == 'bug') {
             $changes['bugs'][] = $log_entry;
             $sorted = TRUE;
             break;

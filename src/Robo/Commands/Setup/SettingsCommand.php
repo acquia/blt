@@ -24,12 +24,14 @@ class SettingsCommand extends BltTasks {
    * docs on how to include settings.
    */
   private $settingsWarning = <<<WARNING
-#
-# IMPORTANT
-# Do not include additional settings here. Instead, add them to settings included
-# by `blt.settings.php`. See [BLT's documentation](http://blt.readthedocs.io)
-# for more detail.
-#
+/**
+ * IMPORTANT.
+ *
+ * Do not include additional settings here. Instead, add them to settings
+ * included by `blt.settings.php`. See BLT's documentation for more detail.
+ *
+ * @link http://blt.readthedocs.io
+ */
 WARNING;
 
   /**
@@ -156,7 +158,7 @@ WARNING;
 
       $result = $this->taskWriteToFile($project_settings_file)
         ->appendUnlessMatches('#vendor/acquia/blt/settings/blt.settings.php#', 'require DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php";' . "\n")
-        ->appendUnlessMatches('#\# IMPORTANT#', $this->settingsWarning . "\n")
+        ->appendUnlessMatches('#Do not include additional settings here#', $this->settingsWarning . "\n")
         ->append(TRUE)
         ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
         ->run();

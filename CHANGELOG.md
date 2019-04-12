@@ -1,5 +1,73 @@
 # Change Log
 
+#### 10.0.0-rc2 (2019-04-05)
+
+[Full Changelog](https://github.com/acquia/blt/compare/10.0.0-rc1...10.0.0-rc2)
+
+
+**Miscellaneous**
+
+- Fix running Composer updates. (#3520)
+- turn off ssh strict host checking when drush is connecting to drupal vm; this avoids prompting the user like this: (#3518)
+- Removing -y breaks updates. (#3515)
+
+
+#### 10.0.0-rc1 (2019-04-03)
+
+[Full Changelog](https://github.com/acquia/blt/compare/10.0.0-beta3...10.0.0-rc1)
+
+**Implemented enhancements**
+
+- Fixes #2985: Remove -y flag. (#3506)
+- Fixes #3272: Do not deploy files directory. (#3487)
+- Fixes #3256: Add geerlingguy/drupal-vm as default base box. (#3486)
+- Fixes #3238: Removed gitignore files from git on deploy. (#3479)
+- Fixes #3219: Move secret settings file according to public docs. (#3478)
+- Fixes #3032: Ensure source files are clean before committing on Pipelines. (#3472)
+- Fixed #2972: Install BLT alias after creating bash profile. (#3466)
+
+**Fixed bugs**
+
+- Fixes #3445: Pass site context when regenerating Behat config. (#3505)
+- Fix multisite db permissions for new sites. (#3504)
+- Fixes #3344: Support commits with apostrophes. (#3495)
+- Fixes #3247: Support content_archive module. (#3485)
+- Fixes #3239: build-dependencies option doesn't behave as expected. (#3482)
+- Fixes #3016: Commands run in parallel don't run to completion. (#3475)
+- Issue 3014 (#3468)
+
+**Miscellaneous**
+
+- Fixed release note generation for bug and enhancement labels.
+- Minor RELEASE.md update.
+- Fixed release notes for version numbers above 10.
+- Composer update.
+- Get BLT Project tests working. (#3507)
+- Cleaned up multisite docs and best practices. (#3503)
+- Minor clarification to release schedule
+- Fixes #3255: On Acquia Cloud, acquia_config.php should better handle multisite (#3492)
+- Update issue templates (#3499)
+- Update PULL_REQUEST_TEMPLATE.md
+- Update simplesaml acquia_config.php for use on ODEs. (#3498)
+- Update README.md
+- Note release cadence in README. (#3489)
+- Failed composer create-project should exit with non-zero code. (#3494)
+- Don't allow Travis failures for Drupal 8.7. (#3493)
+- Fixes #3332: Config imports should run for core-only after setup. (#3488)
+- Update PULL_REQUEST_TEMPLATE.md
+- Fixes #3242: Change private files path to support multisite. (#3483)
+- Start testing Drupal 8.7. (#3481)
+- Update PULL_REQUEST_TEMPLATE.md
+- Update PULL_REQUEST_TEMPLATE.md
+- Migrated to travis-ci.com.
+- Cleaned up command and hooks docs to match recent changes.
+- Update composer.lock.
+- Update PULL_REQUEST_TEMPLATE.md
+- Remove failing cache-clear from BLT tests. (#3474)
+- Fix config message. (#3473)
+- Fixes #3015: Cannot run Twig or Yaml validators multiple times. (#3470)
+
+
 #### 10.0.0-beta3 (2019-03-15)
 
 [Full Changelog](https://github.com/acquia/blt/compare/9.2.0-alpha3...10.0.0-beta3)

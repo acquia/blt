@@ -265,7 +265,7 @@ class UpdateCommand extends BltTasks {
       $this->say("<comment>The following BLT updates are outstanding:</comment>");
       $updater->printUpdates($updates);
       // @todo Do not prompt if this is being run from Plugin.php.
-      $confirm = $this->confirm('Would you like to perform the listed updates?');
+      $confirm = $this->confirm('Would you like to perform the listed updates?', TRUE);
       if ($confirm) {
         try {
           $updater->executeUpdates($updates);
