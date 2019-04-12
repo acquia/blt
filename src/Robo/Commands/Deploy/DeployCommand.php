@@ -524,7 +524,7 @@ class DeployCommand extends BltTasks {
 
     $result = $taskGit = $this->taskGit()
       ->dir($this->deployDir)
-      ->exec("git rm -r --cached --ignore-unmatch .")
+      ->exec("git rm -r --cached --ignore-unmatch --quiet .")
       ->add('-A')
       ->commit($this->commitMessage, '--quiet')
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
