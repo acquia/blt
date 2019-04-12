@@ -521,17 +521,18 @@ class DeployCommand extends BltTasks {
    */
   protected function commit() {
     $this->say("Committing artifact to <comment>{$this->branchName}</comment>...");
-    $author_string = '';
+    $commit_command = ["git commit --quiet -m", escapeshellarg($this->commitMessage)];
     $git_name = $this->getConfigValue('git.user.name');
     $git_email = $this->getConfigValue('git.user.email');
     if ($git_name && $git_email) {
-      $author_string = sprintf('--author "%s <%s>"', $git_name, $git_email);
+      $commit_command[] = '--author';
+      $commit_command[] = escapeshellarg(sprintf('"%s <%s>"', $git_name, $git_email));
     }
     $result = $this->taskExecStack()
       ->dir($this->deployDir)
       ->exec("git rm -r --cached --ignore-unmatch .")
       ->exec("git add -A")
-      ->exec(["git commit --quiet -m $author_string", escapeshellarg($this->commitMessage)])
+      ->exec($commit_command)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
