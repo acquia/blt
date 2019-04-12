@@ -22,17 +22,12 @@ trait LoadTasks {
   }
 
   /**
+   * @param null|string $pathToGit
+   *
    * @return \Acquia\Blt\Robo\Tasks\GitTask
    */
-  protected function taskGit() {
-    /** @var \Acquia\Blt\Robo\Tasks\GitTask $task */
-    $task = $this->task(GitTask::class);
-    $task->setInput($this->input());
-    /** @var \Symfony\Component\Console\Output\OutputInterface $output */
-    $output = $this->output();
-    $task->setVerbosityThreshold($output->getVerbosity());
-
-    return $task;
+  protected function taskGit($pathToGit = NULL) {
+    return $this->task(GitTask::class, $pathToGit);
   }
 
   /**
