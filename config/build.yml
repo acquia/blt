@@ -98,6 +98,11 @@ git:
                       fifteen characters or more describing the commit, and end with a period."
     # Provide an example of a valid commit message.
     example: "${project.prefix}-123: Update module configuration."
+  user:
+    # Name and email to use for the purposes of Git commits if you don't want to
+    # use global Git configuration.
+    name: ''
+    email: ''
 
 # You may provide a list of sites for BLT to run commands against,
 # otherwise BLT will generate this sites list based on directories

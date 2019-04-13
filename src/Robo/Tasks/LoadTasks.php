@@ -22,6 +22,15 @@ trait LoadTasks {
   }
 
   /**
+   * @param null|string $pathToGit
+   *
+   * @return \Acquia\Blt\Robo\Tasks\GitTask
+   */
+  protected function taskGit($pathToGit = 'git') {
+    return $this->task(GitTask::class, $pathToGit);
+  }
+
+  /**
    * @param null|string $pathToPhpUnit
    *
    * @return \Acquia\Blt\Robo\Tasks\PhpUnitTask

@@ -38,6 +38,8 @@ class DeployCommand extends BltTasks {
    * @command artifact:deploy
    *
    * @aliases ad deploy
+   *
+   * @validateGitConfig
    */
   public function deploy($options = [
     'branch' => InputOption::VALUE_REQUIRED,
@@ -46,9 +48,6 @@ class DeployCommand extends BltTasks {
     'ignore-dirty' => FALSE,
     'dry-run' => FALSE,
   ]) {
-    if (!$this->getInspector()->isGitMinimumVersionSatisfied('2.0')) {
-      $this->logger->error("Your system does not meet BLT's requirements. Please update git to 2.0 or newer.");
-    }
     if ($options['dry-run']) {
       $this->logger->warning("This will be a dry run, the artifact will not be pushed.");
     }
@@ -243,19 +242,6 @@ class DeployCommand extends BltTasks {
       ->exec("git config --local core.fileMode true")
       ->run();
     $this->say("Global .gitignore file is being disabled for this repository to prevent unexpected behavior.");
-    if ($this->getConfig()->has("git.user.name") &&
-      $this->getConfig()->has("git.user.email")) {
-      $git_user = $this->getConfigValue("git.user.name");
-      $git_email = $this->getConfigValue("git.user.email");
-      $this->taskExecStack()
-        ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-        ->stopOnFail()
-        ->dir($this->deployDir)
-        ->exec("git config --local --add user.name '$git_user'")
-        ->exec("git config --local --add user.email '$git_email'")
-        ->exec("git config --local core.fileMode true")
-        ->run();
-    }
   }
 
   /**
@@ -535,11 +521,12 @@ class DeployCommand extends BltTasks {
    */
   protected function commit() {
     $this->say("Committing artifact to <comment>{$this->branchName}</comment>...");
-    $result = $this->taskExecStack()
+
+    $result = $taskGit = $this->taskGit()
       ->dir($this->deployDir)
-      ->exec("git rm -r --cached --ignore-unmatch .")
-      ->exec("git add -A")
-      ->exec(["git commit --quiet -m", escapeshellarg($this->commitMessage)])
+      ->exec("git rm -r --cached --ignore-unmatch --quiet .")
+      ->add('-A')
+      ->commit($this->commitMessage, '--quiet')
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
