@@ -16,6 +16,10 @@ The 9.x branch of blt-project will build a new project using the 9.x branch of B
 
 `composer create-project acquia/blt-project:10.x-dev --no-interaction my-project`
 
+## Contributing
+
+This is a subtree split from the main BLT project. Do not open pull requests or make any other changes directly to blt-project.
+
 ## License
 
 Copyright (C) 2016 Acquia, Inc.
