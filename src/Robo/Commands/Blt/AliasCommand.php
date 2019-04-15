@@ -19,12 +19,10 @@ class AliasCommand extends BltTasks {
    * @aliases alias install-alias
    */
   public function installBltAlias() {
-    if (DIRECTORY_SEPARATOR == '\\') {
-      // This is because the setx command is limited to 1024 characters
-      // and users often go beyond that.
-      // The alternative is to write to registry but that requires more code.
-      // Until this is implemented, throw a warning and don't do anything.
-      $this->logger->warning('Adding blt to PATH is not supported on Windows currently.');
+    if (isset($_SERVER['ComSpec'])) {
+      $bltRoot = $this->getConfigValue('blt.root') . '\\vendor\\bin';
+      $this->logger->error("Setting a blt alias is not supported in cmd.exe");
+      $this->say("<info>Please use Windows to add <comment>$bltRoot</comment> to your Environment Variable PATH</info>");
       return;
     }
     if (!$this->getInspector()->isBltAliasInstalled()) {
