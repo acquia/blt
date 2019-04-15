@@ -103,7 +103,7 @@ class BuildCommand extends BltTasks {
   public function composerInstall() {
     $result = $this->taskExec(
       (DIRECTORY_SEPARATOR == "\\") ? 'set' : 'export' .
-        " COMPOSER_EXIT_ON_PATCH_FAILURE=1 &&composer install --ansi --no-interaction --optimize-autoloader --apcu-autoloader"
+        " COMPOSER_EXIT_ON_PATCH_FAILURE=1 && composer install --ansi --no-interaction --optimize-autoloader --apcu-autoloader"
     )
       ->dir($this->getConfigValue('repo.root'))
       ->interactive($this->input()->isInteractive())
