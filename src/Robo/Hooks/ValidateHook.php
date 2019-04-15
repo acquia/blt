@@ -15,8 +15,8 @@ use Robo\Contract\ConfigAwareInterface;
 /**
  * This class provides hooks that validate configuration or state.
  *
- * These hooks should not directly provide user interaction. They should throw
- * and exception if a required condition is not met.
+ * These hooks should not directly provide user interaction. They should attempt
+ * to fail gracefully or throw an exception if a required condition is not met.
  *
  * Typically, each validation hook has an accompanying interact hook (which
  * runs prior to the validation hook). The interact hooks provide an
@@ -128,6 +128,24 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
   public function validateVmConfig() {
     if ($this->getInspector()->isDrupalVmLocallyInitialized() && $this->getInspector()->isDrupalVmBooted() && !$this->getInspector()->isDrupalVmConfigValid()) {
       throw new BltException("Drupal VM configuration is invalid.");
+    }
+  }
+
+  /**
+   * Validates that Git user is configured.
+   *
+   * @hook validate @validateGitConfig
+   */
+  public function validateGitConfig() {
+    if (!$this->getInspector()->isGitMinimumVersionSatisfied('2.0')) {
+      throw new BltException("Your system does not meet BLT's requirements. Please update git to 2.0 or newer.");
+    }
+    if (!$this->getInspector()->isGitUserSet()) {
+      if (!$this->getConfigValue('git.user.name') || !$this->getConfigValue('git.user.email')) {
+        $this->logger->warning("Git user name or email is not configured. BLT will attempt to set a dummy user and email address for this commit.");
+        $this->config->set('git.user.name', 'BLT dummy user');
+        $this->config->set('git.user.email', 'no-reply@example.com');
+      }
     }
   }
 
