@@ -98,9 +98,9 @@ WARNING;
       $blt_includes_settings_file = $this->getConfigValue('blt.root') . '/settings/default.includes.settings.php';
       $default_includes_settings_file = "$multisite_dir/settings/default.includes.settings.php";
 
-      // Generate sites/settings/global.settings.default.php.
-      $blt_glob_settings_file = $this->getConfigValue('blt.root') . '/settings/global.settings.default.php';
-      $default_glob_settings_file = $this->getConfigValue('docroot') . "/sites/settings/global.settings.default.php";
+      // Generate sites/settings/default.global.settings.php.
+      $blt_glob_settings_file = $this->getConfigValue('blt.root') . '/settings/default.global.settings.php';
+      $default_glob_settings_file = $this->getConfigValue('docroot') . "/sites/settings/default.global.settings.php";
 
       // Generate local.drush.yml.
       $blt_local_drush_file = $this->getConfigValue('blt.root') . '/settings/default.local.drush.yml';
