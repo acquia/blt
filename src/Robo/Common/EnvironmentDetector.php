@@ -10,8 +10,8 @@ use Acquia\Blt\Robo\Exceptions\BltException;
  *
  * Attempts to detect various properties about the current hosting environment.
  */
-class EnvironmentDetector
-{
+class EnvironmentDetector {
+
   public static function isAhEnv() {
     return (bool) self::getAhEnv();
   }
@@ -24,7 +24,7 @@ class EnvironmentDetector
    * @return bool
    * @throws BltException
    */
-  public static function isAcsfEnv($ah_group = null, $ah_env = null) {
+  public static function isAcsfEnv($ah_group = NULL, $ah_env = NULL) {
     if (is_null($ah_group)) {
       $ah_group = self::getAhGroup();
     }
@@ -34,7 +34,7 @@ class EnvironmentDetector
     }
 
     if (empty($ah_group) || empty($ah_env)) {
-      return false;
+      return FALSE;
     }
 
     $is_acsf_json = file_exists("/mnt/files/$ah_group.$ah_env/files-private/sites.json");
@@ -64,7 +64,7 @@ class EnvironmentDetector
     return (preg_match('/^\d*dev\d*$/', self::getAhEnv()));
   }
 
-  public static function isAhOdeEnv($ah_env = null) {
+  public static function isAhOdeEnv($ah_env = NULL) {
     if (is_null($ah_env)) {
       $ah_env = self::getAhEnv();
     }
@@ -87,4 +87,5 @@ class EnvironmentDetector
   public static function getAhSite() {
     return isset($_ENV['AH_SITE_NAME']) ? $_ENV['AH_SITE_NAME'] : NULL;
   }
+
 }

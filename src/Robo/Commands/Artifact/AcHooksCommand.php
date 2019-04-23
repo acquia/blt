@@ -61,7 +61,7 @@ class AcHooksCommand extends BltTasks {
    *
    * @command artifact:ac-hooks:post-code-update
    *
-   * @throws \Exception
+   * @throws BltException
    */
   public function postCodeUpdate($site, $target_env, $source_branch, $deployed_tag, $repo_url, $repo_type) {
     if (!EnvironmentDetector::isAcsfEnv($site, $target_env)) {
@@ -70,7 +70,7 @@ class AcHooksCommand extends BltTasks {
         $success = TRUE;
         $this->sendPostCodeUpdateNotifications($site, $target_env, $source_branch, $deployed_tag, $success);
       }
-      catch (\Exception $e) {
+      catch (BltException $e) {
         $success = FALSE;
         $this->sendPostCodeUpdateNotifications($site, $target_env, $source_branch, $deployed_tag, $success);
         throw $e;
@@ -93,8 +93,6 @@ class AcHooksCommand extends BltTasks {
    *   The source environment. E.g., dev.
    *
    * @command artifact:ac-hooks:post-db-copy
-   *
-   * @throws \Exception
    */
   public function postDbCopy($site, $target_env, $db_name, $source_env) {
     // Do nothing for now. Allow extension of this call.
@@ -113,8 +111,6 @@ class AcHooksCommand extends BltTasks {
    *   The source environment. E.g., dev.
    *
    * @command artifact:ac-hooks:post-files-copy
-   *
-   * @throws \Exception
    */
   public function postFilesCopy($site, $target_env, $source_env) {
     // Do nothing for now. Allow extension of this call.
