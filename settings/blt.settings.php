@@ -6,6 +6,8 @@
    */
 
 use Acquia\Blt\Robo\Config\ConfigInitializer;
+use Acquia\Blt\Robo\Common\EnvironmentDetector;
+use Acquia\Blt\Robo\Exceptions\BltException;
 use Drupal\Component\Utility\Bytes;
 use Symfony\Component\Console\Input\ArgvInput;
 
@@ -70,6 +72,7 @@ if ($ip = array_pop($x_ips)) {
 /**
  * CI envs.
  */
+// TODO: Incorporate all of these as well?
 $is_travis_env = isset($_ENV['TRAVIS']);
 $is_pipelines_env = isset($_ENV['PIPELINE_ENV']);
 $is_probo_env = isset($_ENV['PROBO_ENVIRONMENT']);
@@ -83,21 +86,23 @@ $is_ci_env = $is_travis_env || $is_pipelines_env || $is_probo_env || $is_tugboat
  * Note that the values of environmental variables are set differently on Acquia
  * Cloud Free tier vs Acquia Cloud Professional and Enterprise.
  */
+// TODO: Just remove all of these variables and call EnvironmentDetector methods directly as needed?
 $repo_root = dirname(DRUPAL_ROOT);
-$ah_env = isset($_ENV['AH_SITE_ENVIRONMENT']) ? $_ENV['AH_SITE_ENVIRONMENT'] : NULL;
-$ah_group = isset($_ENV['AH_SITE_GROUP']) ? $_ENV['AH_SITE_GROUP'] : NULL;
-$ah_site = isset($_ENV['AH_SITE_NAME']) ? $_ENV['AH_SITE_NAME'] : NULL;
-$is_ah_env = (bool) $ah_env;
-// ACE prod is 'prod'; ACSF can be '01prod', '02prod', ...
-$is_ah_prod_env = $ah_env == 'prod' || preg_match('/^\d*live$/', $ah_env);
-// ACE staging is 'test' or 'stg'; ACSF is '01test', '02test', ...
-$is_ah_stage_env = preg_match('/^\d*test$/', $ah_env) || $ah_env == 'stg';
-$is_ah_dev_cloud = (!empty($_SERVER['HTTP_HOST']) && strstr($_SERVER['HTTP_HOST'], 'devcloud'));
-// ACE dev is 'dev', 'dev1', ...; ACSF dev is '01dev', '02dev', ...
-$is_ah_dev_env = (preg_match('/^\d*dev\d*$/', $ah_env));
-// CDEs (formerly 'ODEs') can be 'ode1', 'ode2', ...
-$is_ah_ode_env = (preg_match('/^ode\d*$/', $ah_env));
-$is_acsf_env = (!empty($ah_group) && file_exists("/mnt/files/$ah_group.$ah_env/files-private/sites.json"));
+$ah_env = EnvironmentDetector::getAhEnv();
+$ah_group = EnvironmentDetector::getAhGroup();
+$ah_site = EnvironmentDetector::getAhSite();
+$is_ah_env = EnvironmentDetector::isAhEnv();
+$is_ah_prod_env = EnvironmentDetector::isAhProdEnv();
+$is_ah_stage_env = EnvironmentDetector::isAhStageEnv();
+$is_ah_dev_cloud = EnvironmentDetector::isAhDevCloud();
+$is_ah_dev_env = EnvironmentDetector::isAhDevEnv();
+$is_ah_ode_env = EnvironmentDetector::isAhOdeEnv();
+try {
+  $is_acsf_env = EnvironmentDetector::isAcsfEnv();
+}
+catch (BltException $exception) {
+  trigger_error($exception->getMessage(), E_USER_WARNING);
+}
 // @todo Maybe check for acsf-tools.
 $is_acsf_inited = file_exists(DRUPAL_ROOT . "/sites/g");
 $acsf_db_name = isset($GLOBALS['gardens_site_settings']) && $is_acsf_env ? $GLOBALS['gardens_site_settings']['conf']['acsf_db_name'] : NULL;
