@@ -86,7 +86,7 @@ $is_ci_env = $is_travis_env || $is_pipelines_env || $is_probo_env || $is_tugboat
  * Note that the values of environmental variables are set differently on Acquia
  * Cloud Free tier vs Acquia Cloud Professional and Enterprise.
  */
-// TODO: Just remove all of these variables and call EnvironmentDetector methods directly as needed?
+// TODO: Remove all of these variables, call detector methods directly instead?
 $repo_root = dirname(DRUPAL_ROOT);
 $ah_env = EnvironmentDetector::getAhEnv();
 $ah_group = EnvironmentDetector::getAhGroup();
