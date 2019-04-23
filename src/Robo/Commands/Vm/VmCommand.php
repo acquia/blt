@@ -34,7 +34,7 @@ class VmCommand extends BltTasks {
    */
   public function initialize() {
     $this->drupalVmAlias = $this->getConfigValue('project.machine_name') . '.local';
-    $this->drupalVmVersionConstraint = '^4.8';
+    $this->drupalVmVersionConstraint = '^5.0';
     $this->defaultDrupalVmDrushAliasesFile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/drupal-vm.site.yml';
     $this->defaultDrupalVmConfigFile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/config.yml';
     $this->defaultDrupalVmVagrantfile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/Vagrantfile';
@@ -172,7 +172,7 @@ class VmCommand extends BltTasks {
    */
   protected function boot() {
     $this->checkRequirements();
-    $this->yell(" * We have configured your new Drupal VM to use PHP 7.1 If you would like to change this, edit box/config.yml.");
+    $this->yell(" * We have configured your new Drupal VM to use PHP 7.2. If you would like to change this, edit box/config.yml.");
     $confirm = $this->confirm("Do you want to boot Drupal VM?", TRUE);
     if ($confirm) {
       $this->say("In the future, run <comment>vagrant up</comment> to boot the VM.");
@@ -271,25 +271,10 @@ class VmCommand extends BltTasks {
       [
         'geerlingguy/drupal-vm',
         'geerlingguy/ubuntu1604',
-        'beet/box',
       ],
       0);
 
     switch ($base_box) {
-      case 'beet/box':
-        $config->set('workspace', '/beetbox/workspace/{{ php_version }}');
-        $config->set('extra_packages', [
-          'patchutils',
-          'sqlite',
-        ]);
-        $config->set('installed_extras', [
-          'drush',
-          'nodejs',
-          'xdebug',
-          'selenium',
-        ]);
-        break;
-
       case 'geerlingguy/ubuntu1604':
       case 'geerlingguy/drupal-vm':
         $config->set('workspace', '/root');

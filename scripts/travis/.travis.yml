@@ -6,7 +6,7 @@ dist: xenial
 # Making this version number greater than the production environment can have unintended consequences
 # including a non-functional prod environment.
 php:
-  - 7.1
+  - 7.2
 
 matrix:
   fast_finish: true
@@ -71,16 +71,16 @@ deploy:
      skip_cleanup: true
      on:
        branch: develop
-       php: 7.1
+       php: 7.2
    - provider: script
      script: "${BLT_DIR}/scripts/travis/deploy_branch"
      skip_cleanup: true
      on:
        branch: master
-       php: 7.1
+       php: 7.2
    - provider: script
      script: "${BLT_DIR}/scripts/travis/deploy_tag"
      skip_cleanup: true
      on:
        tags: true
-       php: 7.1
+       php: 7.2
