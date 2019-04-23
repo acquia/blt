@@ -12,6 +12,8 @@
  */
 
 /**
+ * Include all settings files in docroot/sites/settings.
+ *
  * Any file placed directly in the docroot/sites/settings directory whose name
  * matches a glob pattern of *.settings.php will be incorporated to the settings
  * of every defined site.
