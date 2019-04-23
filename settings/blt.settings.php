@@ -6,7 +6,6 @@
    */
 
 use Acquia\Blt\Robo\Config\ConfigInitializer;
-use Drupal\Component\Utility\Bytes;
 use Symfony\Component\Console\Input\ArgvInput;
 
 /*******************************************************************************
