@@ -245,7 +245,8 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    *
    * @option branch (optional) The branch to push to. Defaults to current branch.
    *
-   * @return int
+   * @param array $options
+   * @return void The CLI status code.
    *   The CLI status code.
    */
   public function subtreePushBltProject($options = [
@@ -269,7 +270,8 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    *
    * @option branch (optional) The branch to push to. Defaults to current branch.
    *
-   * @return int
+   * @param array $options
+   * @return void The CLI status code.
    *   The CLI status code.
    */
   public function subtreePushBltRequireDev($options = [
