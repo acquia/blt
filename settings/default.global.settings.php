@@ -8,6 +8,10 @@
 /**
  * An example global include file.
  *
+ * To use this file, rename to global.settings.php.
+ */
+
+/**
  * Any file placed directly in the docroot/sites/settings directory whose name
  * matches a glob pattern of *.settings.php will be incorporated to the settings
  * of every defined site.
@@ -15,3 +19,8 @@
  * If instead you want to add settings to a specific site, see BLT's includes
  * file in docroot/sites/{site-name}/settings/default.includes.settings.php.
  */
+if ($settings_files = glob(DRUPAL_ROOT . "/sites/settings/*.settings.php")) {
+  foreach ($settings_files as $settings_file) {
+    require $settings_file;
+  }
+}
