@@ -53,12 +53,11 @@ The mainline branches of blt-project (e.g. 10.x) should always install a develop
 
 In order to accomplish this, the composer.json in the blt-project subtree split should depend on a development version of BLT by default. When you create a new release of blt-project, you'll need to temporarily override this to a stable dependency by following these steps.
 
-* Push any upstream changes to the current development branch of blt-project: `./vendor/bin/robo subtree:push:blt-project`
 * Modify `subtree-splits/blt-project/composer.json` to depend on the latest stable release of BLT and commit and push this change to BLT.
-* Again push these changes to blt-project (this will become your stable release): `./vendor/bin/robo subtree:push:blt-project`
+* Push these changes to blt-project (this will become your stable release): `./vendor/bin/robo subtree:push:blt-project`
 * Create a stable release for blt-project on Github using this latest release as a tag.
-* Modify the `composer.json` file in the `subtree-splits/blt-project` directory to once again require a development version of BLT and commit and push this change to BLT.
-* Push these changes to blt-project one final time: `./vendor/bin/robo subtree:push:blt-project`.
+* Revert the previous commit so that blt-project once again requires a development version of BLT, and push to BLT.
+* Push these changes to blt-project a final time: `./vendor/bin/robo subtree:push:blt-project`.
 
 Obviously this is a clunky process, but it produces the best result for end users and fortunately shouldn't need to happen often. It could probably be automated by incorporating the above steps into a Robo command, and/or setting up a Github service to automatically push subtree changes to the blt-project split.
 
