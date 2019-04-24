@@ -179,7 +179,7 @@ The `tests` configuration variable has following properties:
  * `chromedriver.port`: Port for `chromedriver` WebDriver for Chrome, default is `9515`
  * `chromedriver.args`: Args for `chromedriver` WebDriver for Chrome, default is `null`
 
-### PHPUnit
+## PHPUnit
 
 Project level, functional PHPUnit tests are included in `tests/phpunit`. Any PHPUnit tests that affect specific modules or application level features should be placed in the same directory as that module or feature code, not in this directory.
 
@@ -216,7 +216,7 @@ tests:
       file: 'ExampleTest.php'
 ```
 
-### Testing Drupal with PHPUnit
+## Testing Drupal with PHPUnit
 
 Each row under the `tests:drupal` key should contain a combination of the following properties (see Drupal's `core/phpunit.xml.dist` for additional details):
 
@@ -254,6 +254,8 @@ tests:
         config: ${docroot}/core/phpunit.xml.dist
         directory: ${docroot}/modules/custom
 ```
+
+Note that Selenium is required to run Drupal tests, and Acquia Pipelines does not support Selenium (since it does not have Java installed). Thus, you cannot run these tests on Pipelines. You can still run the rest of the test suite (Behat, PHPUnit, etc...) using Chrome.
 
 ### Drupal's `run-tests.sh` script
 

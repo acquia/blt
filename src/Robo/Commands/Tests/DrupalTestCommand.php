@@ -107,6 +107,10 @@ class DrupalTestCommand extends TestsCommandBase {
    *   Throws an exception if any Drupal test fails.
    */
   public function executeTests() {
+    if (empty(shell_exec('which java'))) {
+      $this->logger->warning("Cannot find Java. Drupal tests require Selenium, which requires Java. Drupal tests will be skipped.");
+      return;
+    }
     if ($this->drupalTestRunner == 'phpunit') {
       $this->invokeCommand('tests:drupal:phpunit:run');
     }
