@@ -227,7 +227,6 @@ Each row under the `tests:drupal` key should contain a combination of the follow
  * `apache-run-group`: Unix user used for tests (value for `APACHE_RUN_USER`)
  * `apache-run-user`: Unix group used for tests (value for `APACHE_RUN_GROUP`)  (if `sudo-run-tests:true`, this is used to run testing commands as `sudo -u www-data -E ./vendor/bin/phpunit {...}`)
  * `mink-driver-args`: Driver args to mink tests (value for `MINK_DRIVER_ARGS`)
- * `mink-driver-args-phantomjs`: Driver args to phantomjs tests (value for `MINK_DRIVER_ARGS_PHANTOMJS`)
  * `mink-driver-args-webdriver`: Driver args to webdriver tests (value for `MINK_DRIVER_ARGS_WEBDRIVER`)
  * `mink-driver-class`: Driver class for mink tests (value for `MINK_DRIVER_CLASS`)
  * `simpletest-base-url`: Base URL for Simpletest (value for `SIMPLETEST_BASE_URL`)

@@ -9,7 +9,7 @@ behat:
     - ${repo.root}/tests/behat
   tags: '~ajax&&~experimental&&~lightningextension'
   extra: ''
-  # May be chrome, selenium, phantomjs.
+  # May be chrome, selenium.
   web-driver: chrome
 
 bin.path: vendor/bin
@@ -223,7 +223,6 @@ tests:
     apache-run-group: 'www-data'
     apache-run-user: 'www-data'
     # mink-driver-args: ''
-    # mink-driver-args-phantomjs: ''
     mink-driver-args-webdriver: '["chrome", {"browserName":"chrome","chromeOptions":{"args":["--disable-gpu","--headless","--no-sandbox"]}}, "http://localhost:9515"]'
     # mink-driver-class: 'Drupal\FunctionalJavascriptTests\DrupalSelenium2Driver'
     simpletest-base-url: '${project.local.protocol}://${project.local.hostname}'

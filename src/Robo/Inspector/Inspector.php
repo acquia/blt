@@ -656,16 +656,6 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   }
 
   /**
-   * Determines if the PhantomJS binary is present.
-   *
-   * @return bool
-   *   TRUE if the PhantomJS binary is present.
-   */
-  public function isPhantomJsBinaryPresent() {
-    return file_exists("{$this->getConfigValue('composer.bin')}/phantomjs");
-  }
-
-  /**
    * Checks if simplesamlphp has already been setup by BLT.
    *
    * @return bool
