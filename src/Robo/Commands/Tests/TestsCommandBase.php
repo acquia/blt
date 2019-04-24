@@ -5,6 +5,7 @@ namespace Acquia\Blt\Robo\Commands\Tests;
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Wizards\TestsWizard;
 use Acquia\Blt\Robo\Exceptions\BltException;
+use Exception;
 use Robo\Contract\VerbosityThresholdInterface;
 
 /**
@@ -212,20 +213,37 @@ class TestsCommandBase extends BltTasks {
 
   /**
    * Launches selenium server and waits for it to become available.
+   * @throws BltException
    */
   protected function launchSelenium() {
     $this->createSeleniumLogs();
     $this->killSelenium();
     $this->logger->info("Launching Selenium standalone server...");
-    $this->getContainer()
-      ->get('executor')
-      ->execute($this->getConfigValue('composer.bin') . "/selenium-server-standalone -port {$this->seleniumPort} -log {$this->seleniumLogFile}  > /dev/null 2>&1")
+    $log_file = $this->getConfigValue('repo.root') . '/tmp/selenium.log';
+    /** @var Acquia\Blt\Robo\Common\Executor $executor */
+    $executor = $this->getContainer()->get('executor');
+    $result = $executor
+      ->execute($this->getConfigValue('composer.bin') . "/selenium-server-standalone -port {$this->seleniumPort} -log {$this->seleniumLogFile}  > $log_file 2>&1")
       ->background(TRUE)
       // @todo Print output when this command fails.
       ->printOutput(TRUE)
       ->dir($this->getConfigValue('repo.root'))
       ->run();
-    $this->getContainer()->get('executor')->waitForUrlAvailable($this->seleniumUrl);
+    try {
+      $executor->waitForUrlAvailable($this->seleniumUrl);
+    }
+    catch (Exception $e) {
+      if (!$result->wasSuccessful()) {
+        $message = $e->getMessage();
+        if (file_exists($log_file)) {
+          $message .= "\n\nThe following errors were logged:\n" . file_get_contents($log_file);
+        }
+        if (file_exists($this->seleniumLogFile)) {
+          $message .= "\n\nSelenium internal logs:\n" . file_get_contents($this->seleniumLogFile);
+        }
+        throw new BltException($message);
+      }
+    }
   }
 
   /**
