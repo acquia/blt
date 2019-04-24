@@ -84,10 +84,6 @@ class EnvironmentDetector {
     return isset($_ENV['AH_SITE_ENVIRONMENT']) ? $_ENV['AH_SITE_ENVIRONMENT'] : NULL;
   }
 
-  public static function getAhSite() {
-    return isset($_ENV['AH_SITE_NAME']) ? $_ENV['AH_SITE_NAME'] : NULL;
-  }
-
   public static function getCiEnv()
   {
     $mapping = [

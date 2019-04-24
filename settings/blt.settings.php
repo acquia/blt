@@ -7,7 +7,6 @@
 
 use Acquia\Blt\Robo\Config\ConfigInitializer;
 use Acquia\Blt\Robo\Common\EnvironmentDetector;
-use Acquia\Blt\Robo\Exceptions\BltException;
 use Drupal\Component\Utility\Bytes;
 use Symfony\Component\Console\Input\ArgvInput;
 
@@ -109,36 +108,24 @@ if (EnvironmentDetector::isAcsfInited()) {
  * hosted files. This is not necessary for files that we control.
  ******************************************************************************/
 
+$settings_files = [];
+
 if (EnvironmentDetector::isAhEnv()) {
   $ah_group = EnvironmentDetector::getAhGroup();
-  $group_settings_file = "/var/www/site-php/$ah_group/$ah_group-settings.inc";
-  $site_settings_file = "/var/www/site-php/$ah_group/$site_dir-settings.inc";
-  if (!EnvironmentDetector::isAcsfEnv() && file_exists($group_settings_file)) {
+  if (!EnvironmentDetector::isAcsfEnv()) {
     if ($site_dir == 'default') {
-      /** @noinspection PhpIncludeInspection */
-      require $group_settings_file;
+      $settings_files[] = "/var/www/site-php/$ah_group/$ah_group-settings.inc";
     }
-    // Includes multisite settings for given site.
-    elseif (file_exists($site_settings_file)) {
-      /** @noinspection PhpIncludeInspection */
-      require $site_settings_file;
+    else {
+      $settings_files[] = "/var/www/site-php/$ah_group/$site_dir-settings.inc";
     }
   }
 
   // Store API Keys and things outside of version control.
   // @see settings/sample-secrets.settings.php for sample code.
   // @see https://docs.acquia.com/resource/secrets/#secrets-settings-php-file
-  $secrets_file = EnvironmentDetector::getAhFilesRoot() . '/secrets.settings.php';
-  if (file_exists($secrets_file)) {
-    /** @noinspection PhpIncludeInspection */
-    require $secrets_file;
-  }
-  // Includes secrets file for given site.
-  $site_secrets_file = EnvironmentDetector::getAhFilesRoot() . "/$site_dir/secrets.settings.php";
-  if (file_exists($site_secrets_file)) {
-    /** @noinspection PhpIncludeInspection */
-    require $site_secrets_file;
-  }
+  $settings_files[] = EnvironmentDetector::getAhFilesRoot() . '/secrets.settings.php';
+  $settings_files[] = EnvironmentDetector::getAhFilesRoot() . "/$site_dir/secrets.settings.php";
 }
 
 /*******************************************************************************
@@ -155,21 +142,15 @@ if (extension_loaded('apc') && ini_get('apc.enabled')) {
   }
 }
 
-// Includes caching configuration.
-require __DIR__ . '/cache.settings.php';
-
-// Includes configuration management settings.
-require __DIR__ . '/config.settings.php';
-
-// Includes logging configuration.
-require __DIR__ . '/logging.settings.php';
-
-// Includes filesystem configuration.
-require __DIR__ . '/filesystem.settings.php';
-
-// Include simplesamlphp settings if the file exists.
-if (file_exists(__DIR__ . '/simplesamlphp.settings.php')) {
-  require __DIR__ . '/simplesamlphp.settings.php';
+$blt_settings_files = [
+  'cache',
+  'config',
+  'logging',
+  'filesystem',
+  'simplesamlphp',
+];
+foreach ($blt_settings_files as $blt_settings_file) {
+  $settings_files[] = __DIR__ . "/$blt_settings_file.settings.php";
 }
 
 /**
@@ -214,11 +195,7 @@ if (file_exists($deploy_id_file)) {
  * This is being included before the CI and site specific files so all available
  * settings are able to be overridden in the includes.settings.php file below.
  */
-$global_settings_path = DRUPAL_ROOT . '/sites/settings/global.settings.php';
-if (file_exists($global_settings_path)) {
-  /** @noinspection PhpIncludeInspection */
-  require $global_settings_path;
-}
+$settings_files[] = DRUPAL_ROOT . '/sites/settings/global.settings.php';
 
 /*******************************************************************************
  * Environment-specific includes.
@@ -228,12 +205,11 @@ if (file_exists($global_settings_path)) {
  * Load CI env includes.
  */
 if (EnvironmentDetector::isCiEnv()) {
-  require __DIR__ . '/ci.settings.php';
+  $settings_files[] = __DIR__ . '/ci.settings.php';
 }
 
 if (EnvironmentDetector::getCiEnv()) {
-  /** @noinspection PhpIncludeInspection */
-  require sprintf("%s/%s.settings.php", __DIR__, EnvironmentDetector::getCiEnv());
+  $settings_files[] = sprintf("%s/%s.settings.php", __DIR__, EnvironmentDetector::getCiEnv());
 }
 
 /**
@@ -245,11 +221,7 @@ if (EnvironmentDetector::getCiEnv()) {
  * This is being included before the local file so all available settings are
  * able to be overridden in the local.settings.php file below.
  */
-$include_settings_path = DRUPAL_ROOT . "/sites/$site_dir/settings/includes.settings.php";
-if (file_exists($include_settings_path)) {
-  /** @noinspection PhpIncludeInspection */
-  require $include_settings_path;
-}
+$settings_files[] = DRUPAL_ROOT . "/sites/$site_dir/settings/includes.settings.php";
 
 /**
  * Load local development override configuration, if available.
@@ -265,16 +237,13 @@ if (file_exists($include_settings_path)) {
  * Keep this code block at the end of this file to take full effect.
  */
 if (EnvironmentDetector::isLocalEnv()) {
-  // Load local settings for all sites.
-  $local_settings_path = DRUPAL_ROOT . '/sites/settings/local.settings.php';
-  if (file_exists($local_settings_path)) {
+  $settings_files[] = DRUPAL_ROOT . '/sites/settings/local.settings.php';
+  $settings_files[] = DRUPAL_ROOT . "/sites/$site_dir/settings/local.settings.php";
+}
+
+foreach ($settings_files as $settings_file) {
+  if (file_exists($settings_file)) {
     /** @noinspection PhpIncludeInspection */
-    require $local_settings_path;
-  }
-  // Load local settings for single site.
-  $local_site_settings_path = DRUPAL_ROOT . "/sites/$site_dir/settings/local.settings.php";
-  if (file_exists($local_site_settings_path)) {
-    /** @noinspection PhpIncludeInspection */
-    require $local_site_settings_path;
+    require $settings_file;
   }
 }
