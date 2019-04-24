@@ -3,7 +3,6 @@
 namespace Acquia\Blt\Robo\Wizards;
 
 use function file_exists;
-use Robo\Contract\VerbosityThresholdInterface;
 
 /**
  * Class TestsWizard.
