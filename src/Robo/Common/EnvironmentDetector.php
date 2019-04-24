@@ -84,8 +84,7 @@ class EnvironmentDetector {
     return isset($_ENV['AH_SITE_ENVIRONMENT']) ? $_ENV['AH_SITE_ENVIRONMENT'] : NULL;
   }
 
-  public static function getCiEnv()
-  {
+  public static function getCiEnv() {
     $mapping = [
       'TRAVIS' => 'travis',
       'PIPELINE_ENV' => 'pipelines',
@@ -157,4 +156,5 @@ class EnvironmentDetector {
   public static function getAcsfDbName() {
     return isset($GLOBALS['gardens_site_settings']) && self::isAcsfEnv() ? $GLOBALS['gardens_site_settings']['conf']['acsf_db_name'] : NULL;
   }
+
 }

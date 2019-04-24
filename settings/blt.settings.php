@@ -232,7 +232,7 @@ if (EnvironmentDetector::isLocalEnv()) {
 
 foreach ($settings_files as $settings_file) {
   if (file_exists($settings_file)) {
-    /** @noinspection PhpIncludeInspection */
+    /* @noinspection PhpIncludeInspection */
     require $settings_file;
   }
 }
