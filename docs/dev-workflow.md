@@ -88,8 +88,8 @@ Developers are responsible for fixing merge conflicts on their own PRs. Follow t
 
 Additional resources:
 
-- https://confluence.atlassian.com/bitbucket/resolve-merge-conflicts-704414003.html
-- https://githowto.com/resolving_conflicts
+- [Bitbucket: Resolve Merge Conflicts](https://confluence.atlassian.com/bitbucket/resolve-merge-conflicts-704414003.html)
+- [GitHowTo: Resolving Conflicts](https://githowto.com/resolving_conflicts)
 
 ## Integration (merging pull requests)
 
@@ -118,7 +118,7 @@ After a Pull Request has been submitted or merged, our continuous integration so
 
 Once work has been merged on GitHub and tested via the CI solution, a separate production-ready built artifact will be built and deployed to Acquia Cloud. This can be done either manually or automatically.
 
-Please see [deploy.md](deploy.md) for more information.
+Please see [Deployment workflow](deploy.md) for more information.
 
 ## Release Process
 
