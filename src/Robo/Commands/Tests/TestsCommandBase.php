@@ -3,7 +3,6 @@
 namespace Acquia\Blt\Robo\Commands\Tests;
 
 use Acquia\Blt\Robo\BltTasks;
-use Acquia\Blt\Robo\Common\Executor;
 use Acquia\Blt\Robo\Wizards\TestsWizard;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Exception;
@@ -221,7 +220,7 @@ class TestsCommandBase extends BltTasks {
     $this->killSelenium();
     $this->logger->info("Launching Selenium standalone server...");
     $log_file = $this->getConfigValue('repo.root') . '/tmp/selenium.log';
-    /** @var Executor $executor */
+    /** @var Acquia\Blt\Robo\Common\Executor $executor */
     $executor = $this->getContainer()->get('executor');
     $result = $executor
       ->execute($this->getConfigValue('composer.bin') . "/selenium-server-standalone -port {$this->seleniumPort} -log {$this->seleniumLogFile}  > $log_file 2>&1")
