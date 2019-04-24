@@ -88,4 +88,63 @@ class EnvironmentDetector {
     return isset($_ENV['AH_SITE_NAME']) ? $_ENV['AH_SITE_NAME'] : NULL;
   }
 
+  public static function isTravisEnv() {
+    return isset($_ENV['TRAVIS']);
+  }
+
+  public static function isPipelinesEnv() {
+    return isset($_ENV['PIPELINE_ENV']);
+  }
+
+  public static function isProboEnv() {
+    return isset($_ENV['PROBO_ENVIRONMENT']);
+  }
+
+  public static function isTugboatEnv() {
+    return isset($_ENV['TUGBOAT_URL']);
+  }
+
+  public static function isGitlabEnv() {
+    return isset($_ENV['GITLAB_CI']);
+  }
+
+  public static function isCiEnv() {
+    return self::isTravisEnv() || self::isPipelinesEnv() || self::isProboEnv() || self::isTugboatEnv() || self::isGitlabEnv() || isset($_ENV['CI']);
+  }
+
+  public static function isPantheonEnv() {
+    return isset($_ENV['PANTHEON_ENVIRONMENT']);
+  }
+
+  public static function getPantheonEnv() {
+    return self::isPantheonEnv() ? $_ENV['PANTHEON_ENVIRONMENT'] : NULL;
+  }
+
+  public static function isPantheonDevEnv() {
+    return self::getPantheonEnv() == 'dev';
+  }
+
+  public static function isPantheonStageEnv() {
+    return self::getPantheonEnv() == 'test';
+  }
+
+  public static function isPantheonProdEnv() {
+    return self::getPantheonEnv() == 'live';
+  }
+
+  public static function isLocalEnv() {
+    return !self::isAhEnv() && !self::isPantheonEnv() && !self::isCiEnv();
+  }
+
+  public static function isDevEnv() {
+    return self::isAhDevEnv() || self::isPantheonDevEnv();
+  }
+
+  public static function isStageEnv() {
+    return self::isAhStageEnv() || self::isPantheonStageEnv();
+  }
+
+  public static function isProdEnv() {
+    return self::isAhProdEnv() || self::isPantheonProdEnv();
+  }
 }

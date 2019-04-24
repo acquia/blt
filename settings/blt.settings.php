@@ -72,13 +72,12 @@ if ($ip = array_pop($x_ips)) {
 /**
  * CI envs.
  */
-// TODO: Incorporate all of these as well?
-$is_travis_env = isset($_ENV['TRAVIS']);
-$is_pipelines_env = isset($_ENV['PIPELINE_ENV']);
-$is_probo_env = isset($_ENV['PROBO_ENVIRONMENT']);
-$is_tugboat_env = isset($_ENV['TUGBOAT_URL']);
-$is_gitlab_env = isset($_ENV['GITLAB_CI']);
-$is_ci_env = $is_travis_env || $is_pipelines_env || $is_probo_env || $is_tugboat_env || $is_gitlab_env || isset($_ENV['CI']);
+$is_travis_env = EnvironmentDetector::isTravisEnv();
+$is_pipelines_env = EnvironmentDetector::isPipelinesEnv();
+$is_probo_env = EnvironmentDetector::isProboEnv();
+$is_tugboat_env = EnvironmentDetector::isTugboatEnv();
+$is_gitlab_env = EnvironmentDetector::isGitlabEnv();
+$is_ci_env = EnvironmentDetector::isCiEnv();
 
 /**
  * Acquia envs.
@@ -110,23 +109,23 @@ $acsf_db_name = isset($GLOBALS['gardens_site_settings']) && $is_acsf_env ? $GLOB
 /**
  * Pantheon envs.
  */
-$is_pantheon_env = isset($_ENV['PANTHEON_ENVIRONMENT']);
-$pantheon_env = $is_pantheon_env ? $_ENV['PANTHEON_ENVIRONMENT'] : NULL;
-$is_pantheon_dev_env = $pantheon_env == 'dev';
-$is_pantheon_stage_env = $pantheon_env == 'test';
-$is_pantheon_prod_env = $pantheon_env == 'live';
+$is_pantheon_env = EnvironmentDetector::isPantheonEnv();
+$pantheon_env = EnvironmentDetector::getPantheonEnv();
+$is_pantheon_dev_env = EnvironmentDetector::isPantheonDevEnv();
+$is_pantheon_stage_env = EnvironmentDetector::isPantheonStageEnv();
+$is_pantheon_prod_env = EnvironmentDetector::isPantheonProdEnv();
 
 /**
  * Local envs.
  */
-$is_local_env = !$is_ah_env && !$is_pantheon_env && !$is_ci_env;
+$is_local_env = EnvironmentDetector::isLocalEnv();
 
 /**
  * Common variables.
  */
-$is_dev_env = $is_ah_dev_env || $is_pantheon_dev_env;
-$is_stage_env = $is_ah_stage_env || $is_pantheon_stage_env;
-$is_prod_env = $is_ah_prod_env || $is_pantheon_prod_env;
+$is_dev_env = EnvironmentDetector::isDevEnv();
+$is_stage_env = EnvironmentDetector::isStageEnv();
+$is_prod_env = EnvironmentDetector::isProdEnv();
 
 /**
  * Site directory detection.
