@@ -75,8 +75,10 @@ class DeployCommand extends BltTasks {
    *
    * @command deploy:check-dirty
    *
-   * @throws \Exception
-   *   Thrown if deploy.git.failOnDirty is TRUE and there are uncommitted
+   * @param array $options
+   *   Set ignore-dirty to false to disable checks for dirty Git directory.
+   *
+   * @throws BltException Thrown if deploy.git.failOnDirty is TRUE and there are uncommitted
    *   changes.
    */
   public function checkDirty($options = ['ignore-dirty' => FALSE]) {

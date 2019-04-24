@@ -5,9 +5,8 @@
    * Setup BLT utility variables, include required files.
    */
 
-use Acquia\Blt\Robo\Config\ConfigInitializer;
 use Acquia\Blt\Robo\Common\EnvironmentDetector;
-use Drupal\Component\Utility\Bytes;
+use Acquia\Blt\Robo\Config\ConfigInitializer;
 use Symfony\Component\Console\Input\ArgvInput;
 
 /*******************************************************************************
@@ -131,16 +130,6 @@ if (EnvironmentDetector::isAhEnv()) {
 /*******************************************************************************
  * BLT includes & BLT default configuration.
  ******************************************************************************/
-
-// Prevent APCu memory exhaustion.
-// Acquia assigns 8 MB for APCu, which is only adequate for small cache pools.
-if (extension_loaded('apc') && ini_get('apc.enabled')) {
-  $apc_shm_size = Bytes::toInt(ini_get('apc.shm_size'));
-  $apcu_fix_size = Bytes::toInt('32M');
-  if ($apc_shm_size < $apcu_fix_size) {
-    $settings['container_yamls'][] = __DIR__ . '/apcu_fix.yml';
-  }
-}
 
 $blt_settings_files = [
   'cache',

@@ -68,7 +68,8 @@
         }
     },
     "bin": [
-        "bin/blt"
+        "bin/blt",
+        "bin/blt.bat"
     ],
     "conflict": {
         "drupal/core": "7.*",
