@@ -19,6 +19,12 @@ class AliasCommand extends BltTasks {
    * @aliases alias install-alias
    */
   public function installBltAlias() {
+    if (isset($_SERVER['ComSpec'])) {
+      $bltRoot = $this->getConfigValue('blt.root') . '\\vendor\\bin';
+      $this->logger->error("Setting a blt alias is not supported in cmd.exe");
+      $this->say("<info>Please use Windows to add <comment>$bltRoot</comment> to your Environment Variable PATH</info>");
+      return;
+    }
     if (!$this->getInspector()->isBltAliasInstalled()) {
       $config_file = $this->getInspector()->getCliConfigFile();
       if (is_null($config_file)) {

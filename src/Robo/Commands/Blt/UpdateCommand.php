@@ -95,6 +95,13 @@ class UpdateCommand extends BltTasks {
     $this->invokeCommand('blt:init:settings');
     $this->invokeCommand('recipes:blt:init:command');
     $this->invokeCommand('blt:init:shell-alias');
+    if (DIRECTORY_SEPARATOR === '\\') {
+      // On Windows, during composer create-project,
+      // the wizard command fails when it reaches the interactive steps.
+      // Until this is fixed, go with the defaults.
+      // The user can run blt wizard any time later for changing defaults.
+      $this->input()->setInteractive(FALSE);
+    }
     if ($this->input()->isInteractive()) {
       $this->invokeCommand('wizard');
     }
@@ -319,6 +326,13 @@ class UpdateCommand extends BltTasks {
   protected function rsyncTemplate() {
     $source = $this->getConfigValue('blt.root') . '/template';
     $destination = $this->getConfigValue('repo.root');
+    // There is no native rsync on Windows.
+    // The most used one on Windows is https://itefix.net/cwrsync,
+    // which runs with cygwin, so doesn't cope with regular Windows paths.
+    if (DIRECTORY_SEPARATOR === '\\') {
+      $source = $this->convertWindowsPathToCygwinPath($source);
+      $destination = $this->convertWindowsPathToCygwinPath($destination);
+    }
     $exclude_from = $this->getConfigValue('blt.update.ignore-existing-file');
     $this->say("Copying files from BLT's template into your project...");
     $result = $this->taskExecStack()
@@ -330,6 +344,10 @@ class UpdateCommand extends BltTasks {
     if (!$result->wasSuccessful()) {
       throw new BltException("Could not rsync files from BLT into your repository.");
     }
+  }
+
+  protected function convertWindowsPathToCygwinPath($path) {
+    return str_replace('\\', '/', preg_replace('/([A-Z]):/i', '/cygdrive/$1', $path));
   }
 
   /**
