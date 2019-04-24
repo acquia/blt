@@ -22,6 +22,9 @@ class AcsfCommand extends BltTasks {
     $this->logger->notice("  * Adding default factory-hooks to your application.");
     $this->logger->notice("  * Adding `acsf` to `modules.local.uninstall` in your blt.yml");
     $this->logger->notice("");
+    $this->logger->notice("Note that the default version of PHP on ACSF is generally not the same as Acquia Cloud.");
+    $this->logger->notice("You may wish to adjust the PHP version of your local environment and CI tools to match.");
+    $this->logger->notice("");
     $this->logger->notice("For more information, see:");
     $this->logger->notice("<comment>http://blt.readthedocs.io/en/9.x/readme/acsf-setup</comment>");
   }

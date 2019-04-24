@@ -3,7 +3,7 @@ This document outlines the process for creating a new BLT release.
 To perform a release:
 
 1. [Check build statuses](#check-build-statuses)
-1. [Update Canary](##update-canary)
+1. [Test via Canary](#test-via-canary)
 1. [Create a release](#create-a-release)
 1. [Update the blt-project repo](#update-the-blt-project-repo)
 
@@ -30,7 +30,7 @@ To perform a release:
 
 * Pull the latest BLT version to your local machine `git pull`.
 * BLT's dependencies must be installed by running `composer install` in the BLT directory.
-* If you don't have one, procure a [github personal access token](https://github.com/settings/tokens). Optionall save in a password vault for future use.
+* If you don't have one, procure a [github personal access token](https://github.com/settings/tokens), and optionally save in a password vault for future use.
 * Determine the version of your future release, e.g., 9.1.0-alpha1.
 * Ensure that the remote name for the BLT repository is `upstream`.
 * To both generate release notes and also create a new _draft_ release on GitHub, execute:
@@ -47,12 +47,19 @@ To perform a release:
 
 ## Update the blt-project repo
 
-In order for the `composer create-project acquia/blt-project my-project` command to pull the latest version of BLT, the [blt-project repo](https://github.com/acquia/blt-project) may need to be updated to point to the new release created in the BLT repo. Once packagist shows the latest release of BLT as being available, test the composer create-project process. If it loads the old version, you likely need to update the blt-project repo.
+If there have been any changes to the blt-project subtree since you last created a release, you should push these to blt-project and create a new release now.
 
-* Update the `composer.json` file in the `subtree-splits/blt-project` directory to require the latest version of acquia/blt.
-* Commit the changes.
-* Execute `./vendor/bin/robo subtree:push:blt-project`
-* Tag and release a new version of blt-project.
+The mainline branches of blt-project (e.g. 10.x) should always install a development version of BLT (e.g. 10.x-dev), while stable releases of blt-project (e.g. 10.0.0) should always install stable versions of BLT (e.g. 10.0.0).
+
+In order to accomplish this, the composer.json in the blt-project subtree split should depend on a development version of BLT by default. When you create a new release of blt-project, you'll need to temporarily override this to a stable dependency by following these steps.
+
+* Modify `subtree-splits/blt-project/composer.json` to depend on the latest stable release of BLT and commit and push this change to BLT.
+* Push these changes to blt-project (this will become your stable release): `./vendor/bin/robo subtree:push:blt-project`
+* Create a stable release for blt-project on Github using this latest release as a tag.
+* Revert the previous commit so that blt-project once again requires a development version of BLT, and push to BLT.
+* Push these changes to blt-project a final time: `./vendor/bin/robo subtree:push:blt-project`.
+
+Obviously this is a clunky process, but it produces the best result for end users and fortunately shouldn't need to happen often. It could probably be automated by incorporating the above steps into a Robo command, and/or setting up a Github service to automatically push subtree changes to the blt-project split.
 
 ## Update the blt-require-dev repo
 
