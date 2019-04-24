@@ -147,4 +147,21 @@ class EnvironmentDetector {
   public static function isProdEnv() {
     return self::isAhProdEnv() || self::isPantheonProdEnv();
   }
+
+  public static function getAhFilesRoot() {
+    return '/mnt/files/' . self::getAhGroup() . '.' . self::getAhEnv();
+  }
+
+  public static function isAcsfInited() {
+    return file_exists(DRUPAL_ROOT . "/sites/g");
+  }
+
+  /**
+   * @return string|null
+   *   ACSF db name.
+   * @throws BltException
+   */
+  public static function getAcsfDbName() {
+    return isset($GLOBALS['gardens_site_settings']) && self::isAcsfEnv() ? $GLOBALS['gardens_site_settings']['conf']['acsf_db_name'] : NULL;
+  }
 }

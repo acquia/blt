@@ -65,67 +65,7 @@ if ($ip = array_pop($x_ips)) {
   }
 }
 
-/*******************************************************************************
- * Environment detection.
- ******************************************************************************/
-
-/**
- * CI envs.
- */
-$is_travis_env = EnvironmentDetector::isTravisEnv();
-$is_pipelines_env = EnvironmentDetector::isPipelinesEnv();
-$is_probo_env = EnvironmentDetector::isProboEnv();
-$is_tugboat_env = EnvironmentDetector::isTugboatEnv();
-$is_gitlab_env = EnvironmentDetector::isGitlabEnv();
-$is_ci_env = EnvironmentDetector::isCiEnv();
-
-/**
- * Acquia envs.
- *
- * Note that the values of environmental variables are set differently on Acquia
- * Cloud Free tier vs Acquia Cloud Professional and Enterprise.
- */
-// TODO: Remove all of these variables, call detector methods directly instead?
 $repo_root = dirname(DRUPAL_ROOT);
-$ah_env = EnvironmentDetector::getAhEnv();
-$ah_group = EnvironmentDetector::getAhGroup();
-$ah_site = EnvironmentDetector::getAhSite();
-$is_ah_env = EnvironmentDetector::isAhEnv();
-$is_ah_prod_env = EnvironmentDetector::isAhProdEnv();
-$is_ah_stage_env = EnvironmentDetector::isAhStageEnv();
-$is_ah_dev_cloud = EnvironmentDetector::isAhDevCloud();
-$is_ah_dev_env = EnvironmentDetector::isAhDevEnv();
-$is_ah_ode_env = EnvironmentDetector::isAhOdeEnv();
-try {
-  $is_acsf_env = EnvironmentDetector::isAcsfEnv();
-}
-catch (BltException $exception) {
-  trigger_error($exception->getMessage(), E_USER_WARNING);
-}
-// @todo Maybe check for acsf-tools.
-$is_acsf_inited = file_exists(DRUPAL_ROOT . "/sites/g");
-$acsf_db_name = isset($GLOBALS['gardens_site_settings']) && $is_acsf_env ? $GLOBALS['gardens_site_settings']['conf']['acsf_db_name'] : NULL;
-
-/**
- * Pantheon envs.
- */
-$is_pantheon_env = EnvironmentDetector::isPantheonEnv();
-$pantheon_env = EnvironmentDetector::getPantheonEnv();
-$is_pantheon_dev_env = EnvironmentDetector::isPantheonDevEnv();
-$is_pantheon_stage_env = EnvironmentDetector::isPantheonStageEnv();
-$is_pantheon_prod_env = EnvironmentDetector::isPantheonProdEnv();
-
-/**
- * Local envs.
- */
-$is_local_env = EnvironmentDetector::isLocalEnv();
-
-/**
- * Common variables.
- */
-$is_dev_env = EnvironmentDetector::isDevEnv();
-$is_stage_env = EnvironmentDetector::isStageEnv();
-$is_prod_env = EnvironmentDetector::isProdEnv();
 
 /**
  * Site directory detection.
@@ -140,8 +80,8 @@ $site_dir = str_replace('sites/', '', $site_path);
  * Acquia Cloud Site Factory settings.
  ******************************************************************************/
 
-if ($is_acsf_inited) {
-  if ($is_local_env) {
+if (EnvironmentDetector::isAcsfInited()) {
+  if (EnvironmentDetector::isLocalEnv()) {
     // When developing locally, we use the host name to determine which site
     // factory site is active. The hostname must have a corresponding entry
     // under the multisites key.
@@ -169,15 +109,18 @@ if ($is_acsf_inited) {
  * hosted files. This is not necessary for files that we control.
  ******************************************************************************/
 
-if ($is_ah_env) {
+if (EnvironmentDetector::isAhEnv()) {
+  $ah_group = EnvironmentDetector::getAhGroup();
   $group_settings_file = "/var/www/site-php/$ah_group/$ah_group-settings.inc";
   $site_settings_file = "/var/www/site-php/$ah_group/$site_dir-settings.inc";
-  if (!$is_acsf_env && file_exists($group_settings_file)) {
+  if (!EnvironmentDetector::isAcsfEnv() && file_exists($group_settings_file)) {
     if ($site_dir == 'default') {
+      /** @noinspection PhpIncludeInspection */
       require $group_settings_file;
     }
     // Includes multisite settings for given site.
     elseif (file_exists($site_settings_file)) {
+      /** @noinspection PhpIncludeInspection */
       require $site_settings_file;
     }
   }
@@ -185,12 +128,12 @@ if ($is_ah_env) {
   // Store API Keys and things outside of version control.
   // @see settings/sample-secrets.settings.php for sample code.
   // @see https://docs.acquia.com/resource/secrets/#secrets-settings-php-file
-  $secrets_file = "/mnt/files/$ah_group.$ah_env/secrets.settings.php";
+  $secrets_file = EnvironmentDetector::getAhFilesRoot() . '/secrets.settings.php';
   if (file_exists($secrets_file)) {
     require $secrets_file;
   }
   // Includes secrets file for given site.
-  $site_secrets_file = "/mnt/files/$ah_group.$ah_env/$site_dir/secrets.settings.php";
+  $site_secrets_file = EnvironmentDetector::getAhFilesRoot() . "/$site_dir/secrets.settings.php";
   if (file_exists($site_secrets_file)) {
     require $site_secrets_file;
   }
@@ -269,8 +212,10 @@ if (file_exists($deploy_id_file)) {
  * This is being included before the CI and site specific files so all available
  * settings are able to be overridden in the includes.settings.php file below.
  */
-if (file_exists(DRUPAL_ROOT . "/sites/settings/global.settings.php")) {
-  require DRUPAL_ROOT . "/sites/settings/global.settings.php";
+$global_settings_path = DRUPAL_ROOT . '/sites/settings/global.settings.php';
+if (file_exists($global_settings_path)) {
+  /** @noinspection PhpIncludeInspection */
+  require $global_settings_path;
 }
 
 /*******************************************************************************
@@ -280,28 +225,28 @@ if (file_exists(DRUPAL_ROOT . "/sites/settings/global.settings.php")) {
 /**
  * Load CI env includes.
  */
-if ($is_ci_env) {
+if (EnvironmentDetector::isCiEnv()) {
   require __DIR__ . '/ci.settings.php';
 }
 
 // Load Acquia Pipeline settings.
-if ($is_pipelines_env) {
+if (EnvironmentDetector::isPipelinesEnv()) {
   require __DIR__ . '/pipelines.settings.php';
 }
 // Load Travis CI settings.
-elseif ($is_travis_env) {
+elseif (EnvironmentDetector::isTravisEnv()) {
   require __DIR__ . '/travis.settings.php';
 }
 // Load Tugboat settings.
-elseif ($is_tugboat_env) {
+elseif (EnvironmentDetector::isTugboatEnv()) {
   require __DIR__ . '/tugboat.settings.php';
 }
 // Load Probo settings.
-elseif ($is_probo_env) {
+elseif (EnvironmentDetector::isProboEnv()) {
   require __DIR__ . '/probo.settings.php';
 }
 // Load GitLab settings.
-elseif ($is_gitlab_env) {
+elseif (EnvironmentDetector::isGitlabEnv()) {
   require __DIR__ . '/gitlab.settings.php';
 }
 
@@ -314,8 +259,10 @@ elseif ($is_gitlab_env) {
  * This is being included before the local file so all available settings are
  * able to be overridden in the local.settings.php file below.
  */
-if (file_exists(DRUPAL_ROOT . "/sites/$site_dir/settings/includes.settings.php")) {
-  require DRUPAL_ROOT . "/sites/$site_dir/settings/includes.settings.php";
+$include_settings_path = DRUPAL_ROOT . "/sites/$site_dir/settings/includes.settings.php";
+if (file_exists($include_settings_path)) {
+  /** @noinspection PhpIncludeInspection */
+  require $include_settings_path;
 }
 
 /**
@@ -331,13 +278,17 @@ if (file_exists(DRUPAL_ROOT . "/sites/$site_dir/settings/includes.settings.php")
  *
  * Keep this code block at the end of this file to take full effect.
  */
-if ($is_local_env) {
+if (EnvironmentDetector::isLocalEnv()) {
   // Load local settings for all sites.
-  if (file_exists(DRUPAL_ROOT . "/sites/settings/local.settings.php")) {
-    require DRUPAL_ROOT . "/sites/settings/local.settings.php";
+  $local_settings_path = DRUPAL_ROOT . '/sites/settings/local.settings.php';
+  if (file_exists($local_settings_path)) {
+    /** @noinspection PhpIncludeInspection */
+    require $local_settings_path;
   }
-  // Load local settings for given single.
-  if (file_exists(DRUPAL_ROOT . "/sites/$site_dir/settings/local.settings.php")) {
-    require DRUPAL_ROOT . "/sites/$site_dir/settings/local.settings.php";
+  // Load local settings for single site.
+  $local_site_settings_path = DRUPAL_ROOT . "/sites/$site_dir/settings/local.settings.php";
+  if (file_exists($local_site_settings_path)) {
+    /** @noinspection PhpIncludeInspection */
+    require $local_site_settings_path;
   }
 }
