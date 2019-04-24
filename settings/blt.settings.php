@@ -89,8 +89,8 @@ if (EnvironmentDetector::isAcsfInited()) {
     $config_initializer = new ConfigInitializer($repo_root, $input);
     $blt_config = $config_initializer->initialize();
 
-    // The hostname must match the pattern local.[sitename].com, where
-    // [sitename] is a value in the multisites array.
+    // The hostname must match the pattern local.[site-name].com, where
+    // [site-name] is a value in the multisites array.
     $domain_fragments = explode('.', $http_host);
     $name = array_slice($domain_fragments, 1);
     $acsf_sites = $blt_config->get('multisites');
@@ -130,11 +130,13 @@ if (EnvironmentDetector::isAhEnv()) {
   // @see https://docs.acquia.com/resource/secrets/#secrets-settings-php-file
   $secrets_file = EnvironmentDetector::getAhFilesRoot() . '/secrets.settings.php';
   if (file_exists($secrets_file)) {
+    /** @noinspection PhpIncludeInspection */
     require $secrets_file;
   }
   // Includes secrets file for given site.
   $site_secrets_file = EnvironmentDetector::getAhFilesRoot() . "/$site_dir/secrets.settings.php";
   if (file_exists($site_secrets_file)) {
+    /** @noinspection PhpIncludeInspection */
     require $site_secrets_file;
   }
 }
@@ -229,25 +231,9 @@ if (EnvironmentDetector::isCiEnv()) {
   require __DIR__ . '/ci.settings.php';
 }
 
-// Load Acquia Pipeline settings.
-if (EnvironmentDetector::isPipelinesEnv()) {
-  require __DIR__ . '/pipelines.settings.php';
-}
-// Load Travis CI settings.
-elseif (EnvironmentDetector::isTravisEnv()) {
-  require __DIR__ . '/travis.settings.php';
-}
-// Load Tugboat settings.
-elseif (EnvironmentDetector::isTugboatEnv()) {
-  require __DIR__ . '/tugboat.settings.php';
-}
-// Load Probo settings.
-elseif (EnvironmentDetector::isProboEnv()) {
-  require __DIR__ . '/probo.settings.php';
-}
-// Load GitLab settings.
-elseif (EnvironmentDetector::isGitlabEnv()) {
-  require __DIR__ . '/gitlab.settings.php';
+if (EnvironmentDetector::getCiEnv()) {
+  /** @noinspection PhpIncludeInspection */
+  require sprintf("%s/%s.settings.php", __DIR__, EnvironmentDetector::getCiEnv());
 }
 
 /**

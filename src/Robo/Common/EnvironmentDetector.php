@@ -88,28 +88,25 @@ class EnvironmentDetector {
     return isset($_ENV['AH_SITE_NAME']) ? $_ENV['AH_SITE_NAME'] : NULL;
   }
 
-  public static function isTravisEnv() {
-    return isset($_ENV['TRAVIS']);
-  }
-
-  public static function isPipelinesEnv() {
-    return isset($_ENV['PIPELINE_ENV']);
-  }
-
-  public static function isProboEnv() {
-    return isset($_ENV['PROBO_ENVIRONMENT']);
-  }
-
-  public static function isTugboatEnv() {
-    return isset($_ENV['TUGBOAT_URL']);
-  }
-
-  public static function isGitlabEnv() {
-    return isset($_ENV['GITLAB_CI']);
+  public static function getCiEnv()
+  {
+    $mapping = [
+      'TRAVIS' => 'travis',
+      'PIPELINE_ENV' => 'pipelines',
+      'PROBO_ENVIRONMENT' => 'probo',
+      'TUGBOAT_URL' => 'tugboat',
+      'GITLAB_CI' => 'gitlab',
+    ];
+    foreach ($mapping as $env_var => $ci_name) {
+      if (isset($_ENV[$env_var])) {
+        return $ci_name;
+      }
+    }
+    return FALSE;
   }
 
   public static function isCiEnv() {
-    return self::isTravisEnv() || self::isPipelinesEnv() || self::isProboEnv() || self::isTugboatEnv() || self::isGitlabEnv() || isset($_ENV['CI']);
+    return self::getCiEnv() || isset($_ENV['CI']);
   }
 
   public static function isPantheonEnv() {
