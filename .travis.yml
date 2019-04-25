@@ -26,7 +26,7 @@ env:
     # ORCA configuration.
     - ORCA_SUT_NAME=acquia/blt
     - ORCA_SUT_BRANCH=10.x
-    - ORCA_VERSION=v1.0.0-alpha10
+    - ORCA_VERSION=v1.0.0-alpha11
     # Custom configuration.
     - COMPOSER_BIN=$TRAVIS_BUILD_DIR/vendor/bin
     - BLT_DIR=$TRAVIS_BUILD_DIR
@@ -41,10 +41,10 @@ matrix:
     - { name: "Deprecated code scan of SUT plus contrib", env: ORCA_JOB=DEPRECATED_CODE_SCAN_CONTRIB }
     - { name: "Isolated test w/ recommended package versions", env: ORCA_JOB=ISOLATED_RECOMMENDED }
     - { name: "Integrated test w/ recommended package versions", env: ORCA_JOB=INTEGRATED_RECOMMENDED }
-    - { name: "Previous minor version of Drupal core", env: ORCA_JOB=CORE_PREVIOUS }
+    - { name: "Integrated test w/ recommended package versions & previous minor release of Drupal core", env: ORCA_JOB=CORE_PREVIOUS }
     - { name: "Isolated test w/ dev package versions", env: ORCA_JOB=ISOLATED_DEV }
     - { name: "Integrated test w/ dev package versions", env: ORCA_JOB=INTEGRATED_DEV }
-    - { name: "Next pre-release of Drupal core", env: ORCA_JOB=CORE_NEXT }
+    - { name: "Integrated test w/ dev package versions & next minor dev version of Drupal core", env: ORCA_JOB=CORE_NEXT }
     # Custom jobs.
     - { env: DRUPAL_CORE_VERSION=default PHPUNIT_EXCLUDE_GROUP='drupal,long,requires-vm' }
     - { env: DRUPAL_CORE_VERSION=default PHPUNIT_GROUP='long' PHPUNIT_EXCLUDE_GROUP='drupal,requires-vm' }
@@ -54,10 +54,9 @@ matrix:
     - env: ORCA_JOB=DEPRECATED_CODE_SCAN_CONTRIB
     - env: ORCA_JOB=ISOLATED_DEV
     - env: ORCA_JOB=INTEGRATED_DEV
+    - env: ORCA_JOB=CORE_NEXT
     # Temporary allowances.
     - env: ORCA_JOB=DEPRECATED_CODE_SCAN_SUT
-    - env: ORCA_JOB=CORE_PREVIOUS
-    - env: ORCA_JOB=CORE_NEXT
 
 before_install:
   # Exit build early if only documentation was changed in a Pull Request.
@@ -69,6 +68,8 @@ before_install:
 install:
   - ../orca/bin/travis/install.sh
   - ./bin/travis/install.sh
+
+before_script: ../orca/bin/travis/before_script.sh
 
 script:
   - ../orca/bin/travis/script.sh
