@@ -1,4 +1,6 @@
-# Override any settings as necessary by copying to local.yml
+# Override any settings as necessary by copying to local.blt.yml.
+# Do not commit local.blt.yml to Git. It is specific to the machine it was created on.
+
 #project:
 #  local:
 #    protocol: http
