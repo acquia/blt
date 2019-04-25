@@ -1,5 +1,25 @@
 # Change Log
 
+#### 9.2.7 (2019-04-24)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.2.6...9.2.7)
+
+**Implemented enhancements**
+
+- Fixed coding standards in BLT settings. (#3534)
+- Print output from checkDirty command. (#3531)
+
+**Fixed bugs**
+
+- Issue 3529: Adding --ignore-unmatch parameter so deploy stops failing. (#3530)
+- Fixed profile splits. (#3522)
+
+**Miscellaneous**
+
+- Squelch output of git rm --cached. (#3552)
+- Improve Drush runserver error message. (#3521)
+
+
 #### 9.2.6 (2019-04-05)
 
 [Full Changelog](https://github.com/acquia/blt/compare/9.2.5...9.2.6)
