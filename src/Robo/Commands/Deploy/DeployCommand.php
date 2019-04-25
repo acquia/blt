@@ -5,7 +5,6 @@ namespace Acquia\Blt\Robo\Commands\Deploy;
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
-use Robo\Exception\TaskException;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Finder\Finder;
 
@@ -385,7 +384,7 @@ class DeployCommand extends BltTasks {
    * Installs composer dependencies for artifact.
    * @param array $options
    * @return bool
-   * @throws TaskException
+   * @throws \Robo\Exception\TaskException
    */
   protected function composerInstall($options = ['ignore-platform-reqs' => FALSE]) {
     if (!$this->getConfigValue('deploy.build-dependencies')) {
