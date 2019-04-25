@@ -67,8 +67,9 @@ composer run-script blt-alias
 source ~/.bash_profile
 ```
 
-### PHP Syntax Errors / Doctrine Errors
+### PHP Syntax Errors / missing extensions
 **Error Message:**
+This manifests as errors that occur only in certain environments, often syntax errors or errors about missing extensions:
 ```
 PHP Parse error:  syntax error, unexpected ':', expecting ';' or '{' in /var/www/<project>/vendor/doctrine/annotations/lib/Doctrine/Common/Annotations/AnnotationRegistry.php on line 50
 
@@ -80,20 +81,16 @@ Error: syntax error, unexpected ':', expecting ';' or '{' in
 ```
 
 **Solution:**
-This error frequently occurs when the PHP version committed in your composer file(s) differs from the PHP version on the system. Note: this error can effect:
+This error occurs when Composer packages were installed on a machine running a newer PHP version than the environment exhibiting the error, leading to syntax errors or errors due to missing extensions.
+ 
+This error can affect VMs, continuous integration environments, and cloud environments.
 
-* VMs
-* Continuous Integration
-* Cloud Environments
+Ensure that all environments are running the same version of PHP. This can be accomplished by changing PHP versions on the systems, and by "locking" the PHP version in your composer file and re-running composer update.
 
-Ensure that all environments are running the same version of PHP. This can be accomplished by changing PHP versions on the systems, or by "locking" the PHP version in your composer file and re-running composer update.
-
-Example of how to lock PHP version to PHP 5.6 in composer.json:
+Example of how to lock PHP version to PHP 7.2 in composer.json:
 ```
-"config": {
-  "platform": {
-    "php": "5.6"
-  }
+"require": {
+  "php": "7.2"
 },
 ```
 
