@@ -14,7 +14,6 @@ class DrupalTestCommand extends TestsCommandBase {
   const APACHE_RUN_USER = 'APACHE_RUN_USER';
   const BROWSERTEST_OUTPUT_DIRECTORY = 'BROWSERTEST_OUTPUT_DIRECTORY';
   const MINK_DRIVER_ARGS = 'MINK_DRIVER_ARGS';
-  const MINK_DRIVER_ARGS_PHANTOMJS = 'MINK_DRIVER_ARGS_PHANTOMJS';
   const MINK_DRIVER_ARGS_WEBDRIVER = 'MINK_DRIVER_ARGS_WEBDRIVER';
   const MINK_DRIVER_CLASS = 'MINK_DRIVER_CLASS';
   const SIMPLETEST_BASE_URL = 'SIMPLETEST_BASE_URL';
@@ -134,7 +133,6 @@ class DrupalTestCommand extends TestsCommandBase {
       self::APACHE_RUN_USER => $this->sudoRunTests ? $this->apacheRunUser : NULL,
       self::BROWSERTEST_OUTPUT_DIRECTORY => $this->browsertestOutputDirectory,
       self::MINK_DRIVER_ARGS => $this->getConfigValue('tests.drupal.mink-driver-args'),
-      self::MINK_DRIVER_ARGS_PHANTOMJS => $this->getConfigValue('tests.drupal.mink-driver-args-phantomjs'),
       self::MINK_DRIVER_ARGS_WEBDRIVER => $this->getConfigValue('tests.drupal.mink-driver-args-webdriver'),
       self::MINK_DRIVER_CLASS => $this->getConfigValue('tests.drupal.mink-driver-class'),
       self::SIMPLETEST_BASE_URL => $this->getConfigValue('tests.drupal.simpletest-base-url'),

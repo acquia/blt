@@ -3,7 +3,6 @@
 namespace Acquia\Blt\Robo\Commands\Tests;
 
 use Acquia\Blt\Robo\BltTasks;
-use Acquia\Blt\Robo\Wizards\TestsWizard;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Exception;
 use Robo\Contract\VerbosityThresholdInterface;
@@ -265,47 +264,6 @@ class TestsCommandBase extends BltTasks {
       ->touch($this->seleniumLogFile)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
-  }
-
-  /**
-   * Launches selenium web driver.
-   */
-  protected function launchPhantomJs() {
-    if (!$this->getInspector()->isPhantomJsBinaryPresent()) {
-      $this->setupPhantomJs();
-    }
-    $this->killPhantomJs();
-    $this->say("Launching PhantomJS GhostDriver...");
-    $this->taskExec("'{$this->getConfigValue('composer.bin')}/phantomjs'")
-      ->option("webdriver", $this->seleniumPort)
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->background()
-      ->timeout(6000)
-      ->silent(TRUE)
-      ->interactive(FALSE)
-      ->run();
-  }
-
-  /**
-   * Kills any running PhantomJS processes.
-   */
-  protected function killPhantomJs() {
-    $this->getContainer()->get('executor')->killProcessByPort($this->seleniumPort);
-    $this->getContainer()->get('executor')->killProcessByName('bin/phantomjs');
-  }
-
-  /**
-   * Ensures that the PhantomJS binary is present.
-   *
-   * Sometimes the download fails during `composer install`.
-   *
-   * @command tests:behat:init:phantomjs
-   * @aliases tbip
-   */
-  public function setupPhantomJs() {
-    /** @var \Acquia\Blt\Robo\Wizards\TestsWizard $tests_wizard */
-    $tests_wizard = $this->getContainer()->get(TestsWizard::class);
-    $tests_wizard->wizardInstallPhantomJsBinary();
   }
 
 }

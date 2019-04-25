@@ -95,7 +95,7 @@ Java is required by Selenium, which is one option for executing Javascript Behat
 
 ### <a name="headlesschrome">Headless Chrome</a>
 
-Headless Chrome is used by default for Behat tests, though you can also use Selenium or PhantomJS.
+Headless Chrome is used by default for Behat tests, though you can also use Selenium.
 
 *Special note for Docker users*
 
