@@ -1,5 +1,59 @@
 # Change Log
 
+#### 10.0.0-rc3 (2019-04-24)
+
+[Full Changelog](https://github.com/acquia/blt/compare/10.0.0-rc2...10.0.0-rc3)
+
+**Implemented enhancements**
+
+- Make the composer create-project acquia/blt work on Windows (#3538)
+- Upgrade DrupalVM to 5, default PHP to 7.2, clean up DrupalVM config. (#3539)
+- Don't glob global settings by default. (#3537)
+- Fixed coding standards in BLT settings. (#3534)
+- Print output from checkDirty command. (#3531)
+
+**Fixed bugs**
+
+- Use a unified environment detector. (#3570)
+- Fixed #3562: SQL sanitization should throw non-zero exit code on failure. (#3567)
+- Fixes #3568: Don't run Drupal tests on Pipelines. (#3577)
+- run_tests should not use the --yes argument on Pipelines (#3560)
+- Fixes #3511: Check Git user before committing, set dummy user if necessary (#3541)
+- Alter run_tests not to use --yes as argument (#3549)
+- Issue 3529: Adding --ignore-unmatch parameter so deploy stops failing. (#3530)
+- Fixed profile splits. (#3522)
+
+**Miscellaneous**
+
+- Fixed build status images
+- Improved logging of Selenium server start. (#3576)
+- Text and link improvements (#3581)
+- Update project-tasks.md (#3579)
+- Removed PHP5.6-specific APC settings. (#3571)
+- Add documentation for checkDirty deploy step. (#3572)
+- Clarify ACSF config setup docs. (#3535)
+- Update RELEASE.md
+- Back to dev for blt-project.
+- Prep stable release of blt-project.
+- Fix #3553: Document a release process for stable and dev versions of blt-project (#3573)
+- Fixed code style. (#3569)
+- Minor grammatical fix for skills.md
+- Readme for blt-project.
+- Set composer memory to unlimited. (#3545)
+- Update hooks for #3510. (#3551)
+- Removed Phing cruft. (#3519)
+- Move Drupal module dependencies to project template (#3510)
+- Update doc for generating a private key (#3543)
+- Lowered drupal/core version constraint to lowest supported version. (#3544)
+- Update support-request.md
+- Update bug_report.md
+- Improve Drush runserver error message. (#3521)
+- Delete example.multisite.yml (#3509)
+- Fix coding standards in settings warning comment (#3524)
+- Create no-response.yml
+- Update creating-new-project.md
+
+
 #### 10.0.0-rc2 (2019-04-05)
 
 [Full Changelog](https://github.com/acquia/blt/compare/10.0.0-rc1...10.0.0-rc2)
