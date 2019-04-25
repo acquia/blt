@@ -5,7 +5,6 @@ namespace Acquia\Blt\Robo\Commands\Deploy;
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
-use Robo\Exception\TaskException;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Finder\Finder;
 
@@ -545,7 +544,6 @@ class DeployCommand extends BltTasks {
    * @param $options
    * @return bool
    * @throws BltException
-   * @throws TaskException
    */
   protected function push($identifier, $options) {
     if ($options['dry-run']) {
@@ -575,7 +573,6 @@ class DeployCommand extends BltTasks {
    * @param $repo
    *   The repo in which a tag should be cut.
    * @throws BltException
-   * @throws TaskException
    */
   protected function cutTag($repo = 'build') {
     $taskGit = $this->taskGit()
