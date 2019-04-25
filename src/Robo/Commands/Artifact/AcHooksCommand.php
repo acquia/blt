@@ -3,7 +3,9 @@
 namespace Acquia\Blt\Robo\Commands\Artifact;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Common\EnvironmentDetector;
 use Acquia\Blt\Robo\Common\RandomString;
+use Acquia\Blt\Robo\Exceptions\BltException;
 
 /**
  * Defines commands in the "artifact:ac-hooks" namespace.
@@ -30,9 +32,10 @@ class AcHooksCommand extends BltTasks {
    *   The repo type, e.g., git.
    *
    * @command artifact:ac-hooks:post-code-deploy
+   * @throws BltException
    */
   public function postCodeDeploy($site, $target_env, $source_branch, $deployed_tag, $repo_url, $repo_type) {
-    if (!$this->isAcsfEnv($target_env)) {
+    if (!EnvironmentDetector::isAcsfEnv($site, $target_env)) {
       $this->postCodeUpdate($site, $target_env, $source_branch, $deployed_tag, $repo_url, $repo_type);
     }
   }
@@ -58,16 +61,16 @@ class AcHooksCommand extends BltTasks {
    *
    * @command artifact:ac-hooks:post-code-update
    *
-   * @throws \Exception
+   * @throws BltException
    */
   public function postCodeUpdate($site, $target_env, $source_branch, $deployed_tag, $repo_url, $repo_type) {
-    if (!$this->isAcsfEnv($target_env)) {
+    if (!EnvironmentDetector::isAcsfEnv($site, $target_env)) {
       try {
         $this->updateSites($site, $target_env);
         $success = TRUE;
         $this->sendPostCodeUpdateNotifications($site, $target_env, $source_branch, $deployed_tag, $success);
       }
-      catch (\Exception $e) {
+      catch (BltException $e) {
         $success = FALSE;
         $this->sendPostCodeUpdateNotifications($site, $target_env, $source_branch, $deployed_tag, $success);
         throw $e;
@@ -90,8 +93,6 @@ class AcHooksCommand extends BltTasks {
    *   The source environment. E.g., dev.
    *
    * @command artifact:ac-hooks:post-db-copy
-   *
-   * @throws \Exception
    */
   public function postDbCopy($site, $target_env, $db_name, $source_env) {
     // Do nothing for now. Allow extension of this call.
@@ -110,22 +111,9 @@ class AcHooksCommand extends BltTasks {
    *   The source environment. E.g., dev.
    *
    * @command artifact:ac-hooks:post-files-copy
-   *
-   * @throws \Exception
    */
   public function postFilesCopy($site, $target_env, $source_env) {
     // Do nothing for now. Allow extension of this call.
-  }
-
-  /**
-   * Returns true if $env is an ACSF env.
-   *
-   * @param string $env
-   *
-   * @return int
-   */
-  protected function isAcsfEnv($env) {
-    return preg_match('/01(dev|test|live|update)(up)?/', $env);
   }
 
   /**
@@ -146,7 +134,7 @@ class AcHooksCommand extends BltTasks {
    * @throws \Exception
    */
   public function dbScrub($site, $target_env, $db_name, $source_env) {
-    if (!$this->isAcsfEnv($target_env)) {
+    if (!EnvironmentDetector::isAcsfEnv($site, $target_env)) {
       $password = RandomString::string(10, FALSE,
         function ($string) {
           return !preg_match('/[^\x{80}-\x{F7} a-z0-9@+_.\'-]/i', $string);
@@ -167,7 +155,8 @@ class AcHooksCommand extends BltTasks {
   }
 
   /**
-   * Reinstalls Drupal in an ODE.
+   * Reinstall Drupal in an ODE.
+   * @throws BltException
    */
   public function updateOdeSites() {
     $this->invokeCommand('artifact:install:drupal');
@@ -177,6 +166,7 @@ class AcHooksCommand extends BltTasks {
    * Executes updates against all ACE sites in the target environment.
    *
    * @param $target_env
+   * @throws BltException
    */
   public function updateAceSites($target_env) {
     $this->say("Running updates for environment: $target_env");
@@ -266,9 +256,10 @@ class AcHooksCommand extends BltTasks {
    *
    * @param $site
    * @param $target_env
+   * @throws BltException
    */
   protected function updateSites($site, $target_env) {
-    if (preg_match('/ode[[:digit:]]/', $target_env)) {
+    if (EnvironmentDetector::isAhOdeEnv($target_env)) {
       $this->updateOdeSites();
     }
     else {

@@ -14,6 +14,8 @@
  * dev/stage and one for prod).
  */
 
+use Acquia\Blt\Robo\Common\EnvironmentDetector;
+
 /**
  * The below example would set a sensitive API key.
  *
@@ -24,7 +26,7 @@
  * In addition to $ah_env, you can use other variables defined in
  * blt.settings.php such as $is_dev_env, $is_prod_env, and $ah_site.
  */
-switch ($ah_env) {
+switch (EnvironmentDetector::getAhEnv()) {
   case 'dev':
   case 'test':
     $settings['super_secret_key'] = 'DEV-1234';
