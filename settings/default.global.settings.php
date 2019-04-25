@@ -21,7 +21,7 @@
  * If instead you want to add settings to a specific site, see BLT's includes
  * file in docroot/sites/{site-name}/settings/default.includes.settings.php.
  */
-if ($settings_files = glob(DRUPAL_ROOT . "/sites/settings/*.settings.php")) {
+if ($settings_files = preg_grep('/global.settings.php/', glob(DRUPAL_ROOT . "/sites/settings/*.settings.php"), PREG_GREP_INVERT)) {
   foreach ($settings_files as $settings_file) {
     require $settings_file;
   }

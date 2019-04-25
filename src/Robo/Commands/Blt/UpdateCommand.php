@@ -147,6 +147,7 @@ class UpdateCommand extends BltTasks {
         "docroot/sites/default/settings/travis.settings.php",
         "docroot/sites/default/settings/pipelines.settings.php",
         "docroot/sites/default/settings/tugboat.settings.php",
+        "docroot/sites/settings/global.settings.default.php",
         "tests/phpunit/blt",
         "tests/phpunit/Bolt",
         "scripts/blt",
