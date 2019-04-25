@@ -5,6 +5,7 @@ namespace Acquia\Blt\Robo\Commands\Deploy;
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
+use Robo\Exception\TaskException;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Finder\Finder;
 
@@ -40,6 +41,10 @@ class DeployCommand extends BltTasks {
    * @aliases ad deploy
    *
    * @validateGitConfig
+   *
+   * @param array $options
+   *   Options that can be passed via the CLI.
+   * @throws BltException
    */
   public function deploy($options = [
     'branch' => InputOption::VALUE_REQUIRED,
@@ -47,6 +52,7 @@ class DeployCommand extends BltTasks {
     'commit-msg' => InputOption::VALUE_REQUIRED,
     'ignore-dirty' => FALSE,
     'dry-run' => FALSE,
+    'ignore-platform-reqs' => FALSE,
   ]) {
     if ($options['dry-run']) {
       $this->logger->warning("This will be a dry run, the artifact will not be pushed.");
@@ -377,8 +383,11 @@ class DeployCommand extends BltTasks {
 
   /**
    * Installs composer dependencies for artifact.
+   * @param array $options
+   * @return bool
+   * @throws TaskException
    */
-  protected function composerInstall() {
+  protected function composerInstall($options = ['ignore-platform-reqs' => FALSE]) {
     if (!$this->getConfigValue('deploy.build-dependencies')) {
       $this->logger->warning("Dependencies will not be built because deploy.build-dependencies is not enabled");
       $this->logger->warning("You should define a custom deploy.exclude_file to ensure that dependencies are copied from the root repository.");
@@ -394,7 +403,11 @@ class DeployCommand extends BltTasks {
       ->copy($this->getConfigValue('repo.root') . '/composer.lock', $this->deployDir . '/composer.lock', TRUE)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
-    $this->taskExecStack()->exec("composer install --no-dev --no-interaction --optimize-autoloader --ignore-platform-reqs")
+    $command = 'composer install --no-dev --no-interaction --optimize-autoloader';
+    if ($options['ignore-platform-reqs']) {
+      $command .= ' --ignore-platform-reqs';
+    }
+    $this->taskExecStack()->exec($command)
       ->stopOnFail()
       ->dir($this->deployDir)
       ->run();
