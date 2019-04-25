@@ -50,4 +50,5 @@ class GitTask extends GitStack {
     $command[] = "-m $message";
     return $this->exec($command);
   }
+
 }
