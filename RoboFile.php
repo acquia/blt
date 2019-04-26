@@ -329,6 +329,10 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
 
     $text = '';
     $text .= "[Full Changelog](https://github.com/acquia/blt/compare/$prev_tag...$tag)\n\n";
+    if (!empty($changes['breaking'])) {
+      $text .= "**Major / breaking changes**\n\n";
+      $text .= $this->processReleaseNotesSection($changes['breaking']);
+    }
     if (!empty($changes['enhancements'])) {
       $text .= "**Implemented enhancements**\n\n";
       $text .= $this->processReleaseNotesSection($changes['enhancements']);
@@ -486,6 +490,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $issue_api = $client->api('issue');
 
     $changes = [
+      'breaking' => [],
       'enhancements' => [],
       'bugs' => [],
       'misc' => [],
@@ -519,6 +524,11 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
           }
           elseif (strtolower($label['name']) == 'bug') {
             $changes['bugs'][] = $log_entry;
+            $sorted = TRUE;
+            break;
+          }
+          elseif (strtolower($label['name']) == 'change record') {
+            $changes['breaking'][] = $log_entry;
             $sorted = TRUE;
             break;
           }

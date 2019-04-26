@@ -532,11 +532,12 @@ class DeployCommand extends BltTasks {
 
   /**
    * Creates a commit on the artifact.
+   * @throws BltException
    */
   protected function commit() {
     $this->say("Committing artifact to <comment>{$this->branchName}</comment>...");
 
-    $result = $taskGit = $this->taskGit()
+    $result = $this->taskGit()
       ->dir($this->deployDir)
       ->exec("git rm -r --cached --ignore-unmatch --quiet .")
       ->add('-A')
@@ -551,6 +552,10 @@ class DeployCommand extends BltTasks {
 
   /**
    * Pushes the artifact to git.remotes.
+   * @param $identifier
+   * @param $options
+   * @return bool
+   * @throws BltException
    */
   protected function push($identifier, $options) {
     if ($options['dry-run']) {
@@ -579,18 +584,22 @@ class DeployCommand extends BltTasks {
    *
    * @param $repo
    *   The repo in which a tag should be cut.
+   * @throws BltException
    */
   protected function cutTag($repo = 'build') {
-    $execStack = $this->taskExecStack()
-      ->exec("git tag -a {$this->tagName} -m '{$this->commitMessage}'")
+    $taskGit = $this->taskGit()
+      ->tag($this->commitMessage, $this->tagName)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->stopOnFail();
 
     if ($repo == 'build') {
-      $execStack->dir($this->deployDir);
+      $taskGit->dir($this->deployDir);
     }
 
-    $execStack->run();
+    $result = $taskGit->run();
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Failed to create Git tag!");
+    }
     $this->say("The tag {$this->tagName} was created on the {$repo} repository.");
   }
 

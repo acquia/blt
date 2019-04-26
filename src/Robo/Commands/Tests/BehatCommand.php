@@ -31,7 +31,7 @@ class BehatCommand extends TestsCommandBase {
    * Executes all behat tests.
    *
    * @command tests:behat:run
-   * @description Executes all behat tests. This optionally launch PhantomJS or Selenium prior to execution.
+   * @description Executes all behat tests. This optionally launch Selenium prior to execution.
    * @usage
    *   Executes all configured tests.
    * @usage -D behat.paths=${PWD}/tests/behat/features/Examples.feature
@@ -106,10 +106,7 @@ class BehatCommand extends TestsCommandBase {
    * Launch the appropriate web driver based on configuration.
    */
   protected function launchWebDriver() {
-    if ($this->getConfigValue('behat.web-driver') == 'phantomjs') {
-      $this->launchPhantomJs();
-    }
-    elseif ($this->getConfigValue('behat.web-driver') == 'selenium') {
+    if ($this->getConfigValue('behat.web-driver') == 'selenium') {
       $this->launchSelenium();
     }
     elseif ($this->getConfigValue('behat.web-driver') == 'chrome') {
@@ -121,10 +118,7 @@ class BehatCommand extends TestsCommandBase {
    * Kills the appropriate web driver based on configuration.
    */
   protected function killWebDriver() {
-    if ($this->getConfigValue('behat.web-driver') == 'phantomjs') {
-      $this->killPhantomJs();
-    }
-    elseif ($this->getConfigValue('behat.web-driver') == 'selenium') {
+    if ($this->getConfigValue('behat.web-driver') == 'selenium') {
       $this->killSelenium();
     }
     elseif ($this->getConfigValue('behat.web-driver') == 'chrome') {

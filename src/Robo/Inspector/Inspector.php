@@ -662,16 +662,6 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   }
 
   /**
-   * Determines if the PhantomJS binary is present.
-   *
-   * @return bool
-   *   TRUE if the PhantomJS binary is present.
-   */
-  public function isPhantomJsBinaryPresent() {
-    return file_exists("{$this->getConfigValue('composer.bin')}/phantomjs");
-  }
-
-  /**
    * Checks if simplesamlphp has already been setup by BLT.
    *
    * @return bool
@@ -760,7 +750,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    */
   public function getCurrentSchemaVersion() {
     if (file_exists($this->getConfigValue('blt.config-files.schema-version'))) {
-      $version = file_get_contents($this->getConfigValue('blt.config-files.schema-version'));
+      $version = trim(file_get_contents($this->getConfigValue('blt.config-files.schema-version')));
     }
     else {
       $version = $this->getContainer()->get('updater')->getLatestUpdateMethodVersion();

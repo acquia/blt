@@ -55,7 +55,7 @@ class UpdateCommand extends BltTasks {
     $this->displayArt();
     $this->yell("Your new BLT-based project has been created in {$this->getConfigValue('repo.root')}.");
     $this->say("Please continue by following the \"Creating a new project with BLT\" instructions:");
-    $this->say("<comment>http://blt.readthedocs.io/en/9.x/readme/creating-new-project/</comment>");
+    $this->say("<comment>http://blt.readthedocs.io/en/latest/readme/creating-new-project/</comment>");
   }
 
   /**
@@ -147,6 +147,7 @@ class UpdateCommand extends BltTasks {
         "docroot/sites/default/settings/travis.settings.php",
         "docroot/sites/default/settings/pipelines.settings.php",
         "docroot/sites/default/settings/tugboat.settings.php",
+        "docroot/sites/settings/global.settings.default.php",
         "tests/phpunit/blt",
         "tests/phpunit/Bolt",
         "scripts/blt",

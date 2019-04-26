@@ -706,10 +706,8 @@ class Updates {
       $this->updater->executeCommand("./vendor/bin/blt recipes:acsf:init:hooks");
     }
 
-    // Check for presence of cloud-hooks directory. Regenerate if present.
-    if (file_exists($this->updater->getRepoRoot() . '/hooks')) {
+    if ($this->updater->regenerateCloudHooks()) {
       $messages[] = "cloud-hooks have been updated. Review the resulting file(s) and ensure that any customizations have been re-added.";
-      $this->updater->executeCommand("./vendor/bin/blt recipes:cloud-hooks:init");
     }
 
     // Check for presence of pipelines.yml files. Regenerate if present.
@@ -772,6 +770,20 @@ class Updates {
       $composer_json['require'][$package_name] = $package_version;
     }
     $this->updater->writeComposerJson($composer_json);
+  }
+
+  /**
+   * 10.0.0.
+   *
+   * @Update(
+   *    version = "10000002",
+   *    description = "Regenerate cloud hooks if necessary."
+   * )
+   */
+  public function update_10000002() {
+    if ($this->updater->regenerateCloudHooks()) {
+      $this->updater->getOutput()->writeln("Cloud Hooks have been updated. Review the resulting file(s) and ensure that any customizations have been re-added.");
+    }
   }
 
 }
