@@ -703,7 +703,7 @@ class Updates {
     // Check for presence of factory-hooks directory. Regenerate if present.
     if (file_exists($this->updater->getRepoRoot() . '/factory-hooks')) {
       $messages[] = "factory-hooks have been updated. Review the resulting file(s) and ensure that any customizations have been re-added.";
-      $this->updater->executeCommand("./vendor/bin/blt recipes:acsf:init:hooks");
+      $this->updater->executeCommand("./vendor/bin/blt recipes:acsf:init:hooks", NULL, FALSE);
     }
 
     if ($this->updater->regenerateCloudHooks()) {
@@ -713,18 +713,18 @@ class Updates {
     // Check for presence of pipelines.yml files. Regenerate if present.
     if (file_exists($this->updater->getRepoRoot() . '/acquia-pipelines.yml')) {
       $messages[] = "pipelines.yml has been updated. Review the resulting file(s) and ensure that any customizations have been re-added.";
-      $this->updater->executeCommand("./vendor/bin/blt recipes:ci:pipelines:init");
+      $this->updater->executeCommand("./vendor/bin/blt recipes:ci:pipelines:init", NULL, FALSE);
     }
 
     // Check for presence of .travis.yml files. Regenerate if present.
     if (file_exists($this->updater->getRepoRoot() . '/.travis.yml')) {
       $messages[] = ".travis.yml has been updated. Review the resulting file(s) and ensure that any customizations have been re-added.";
-      $this->updater->executeCommand("./vendor/bin/blt recipes:ci:travis:init");
+      $this->updater->executeCommand("./vendor/bin/blt recipes:ci:travis:init", NULL, FALSE);
     }
 
     // Regenerate local settings files.
     $messages[] = "Local settings files have been updated. Review the resulting file(s) and ensure that any customizations have been re-added.";
-    $this->updater->executeCommand("./vendor/bin/blt blt:init:settings");
+    $this->updater->executeCommand("./vendor/bin/blt blt:init:settings", NULL, FALSE);
 
     $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
     $this->updater->getOutput()->writeln("");
