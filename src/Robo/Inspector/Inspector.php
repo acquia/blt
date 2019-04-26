@@ -750,7 +750,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    */
   public function getCurrentSchemaVersion() {
     if (file_exists($this->getConfigValue('blt.config-files.schema-version'))) {
-      $version = file_get_contents($this->getConfigValue('blt.config-files.schema-version'));
+      $version = trim(file_get_contents($this->getConfigValue('blt.config-files.schema-version')));
     }
     else {
       $version = $this->getContainer()->get('updater')->getLatestUpdateMethodVersion();
