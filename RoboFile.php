@@ -334,7 +334,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       $text .= $this->processReleaseNotesSection($changes['breaking']);
     }
     if (!empty($changes['enhancements'])) {
-      $text .= "**Implemented enhancements**\n\n";
+      $text .= "\n**Implemented enhancements**\n\n";
       $text .= $this->processReleaseNotesSection($changes['enhancements']);
     }
     if (!empty($changes['bugs'])) {
