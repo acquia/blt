@@ -50,7 +50,7 @@ class WizardCommand extends BltTasks {
     if ($answers['vm']) {
       $this->invokeCommand('vm', [
         [
-          'no-boot' => '--yes',
+          'no-boot' => '--no-interaction',
         ],
       ]);
     }
