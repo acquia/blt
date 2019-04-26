@@ -20,6 +20,7 @@ class DeployCommand extends BltTasks {
   protected $excludeFileTemp;
   protected $deployDir;
   protected $tagSource;
+  protected $ignorePlatformReqs = FALSE;
 
   /**
    * This hook will fire for all commands in this command file.
@@ -40,6 +41,10 @@ class DeployCommand extends BltTasks {
    * @aliases ad deploy
    *
    * @validateGitConfig
+   *
+   * @param array $options
+   *   Options that can be passed via the CLI.
+   * @throws BltException
    */
   public function deploy($options = [
     'branch' => InputOption::VALUE_REQUIRED,
@@ -47,11 +52,16 @@ class DeployCommand extends BltTasks {
     'commit-msg' => InputOption::VALUE_REQUIRED,
     'ignore-dirty' => FALSE,
     'dry-run' => FALSE,
+    'ignore-platform-reqs' => FALSE,
   ]) {
     if ($options['dry-run']) {
       $this->logger->warning("This will be a dry run, the artifact will not be pushed.");
     }
     $this->checkDirty($options);
+
+    if (isset($options['ignore-platform-reqs'])) {
+      $this->ignorePlatformReqs = $options['ignore-platform-reqs'];
+    }
 
     if (!$options['tag'] && !$options['branch']) {
       $this->createTag = $this->confirm("Would you like to create a tag?", $this->createTag);
@@ -377,6 +387,9 @@ class DeployCommand extends BltTasks {
 
   /**
    * Installs composer dependencies for artifact.
+   * @param array $options
+   * @return bool
+   * @throws \Robo\Exception\TaskException
    */
   protected function composerInstall() {
     if (!$this->getConfigValue('deploy.build-dependencies')) {
@@ -394,7 +407,11 @@ class DeployCommand extends BltTasks {
       ->copy($this->getConfigValue('repo.root') . '/composer.lock', $this->deployDir . '/composer.lock', TRUE)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
-    $this->taskExecStack()->exec("composer install --no-dev --no-interaction --optimize-autoloader --ignore-platform-reqs")
+    $command = 'composer install --no-dev --no-interaction --optimize-autoloader';
+    if ($this->ignorePlatformReqs) {
+      $command .= ' --ignore-platform-reqs';
+    }
+    $this->taskExecStack()->exec($command)
       ->stopOnFail()
       ->dir($this->deployDir)
       ->run();
@@ -576,7 +593,7 @@ class DeployCommand extends BltTasks {
    */
   protected function cutTag($repo = 'build') {
     $taskGit = $this->taskGit()
-      ->tag($this->commitMessage, $this->tagName)
+      ->tag($this->tagName, $this->commitMessage)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->stopOnFail();
 
