@@ -78,7 +78,7 @@ To accomplish this, we will create a "local" configuration split. The command `b
         graylist_skip_equal: true
         weight: 0
 
-1. `drush cr`. Doing this will allow configuration split to recognize that the local split is active. We rely on BLT to designate this split as active on local machines via a [settings.php include](https://github.com/acquia/blt/blob/9.x/settings/config.settings.php#L22).
+1. `drush cr`. Doing this will allow configuration split to recognize that the local split is active. We rely on BLT to designate this split as active on local machines via a [settings.php include](https://github.com/acquia/blt/blob/10.x/settings/config.settings.php#L22).
 
 With your "local" split ready, continue:
 
@@ -113,7 +113,7 @@ However, BLT will only mark these splits as enabled _if they exist_. It will not
 #### A few notes regarding the settings
 
 - The folder is relative to the drupal docroot.
-- We set active to zero because we don't want configuration management to manage whether this split is active. Instead, we will rely on BLT to enable this split, when appropriate, via a [settings.php include](https://github.com/acquia/blt/blob/9.x/settings/config.settings.php#L22).  If you are using BLT, this should already be loaded for you as a consequence of including `blt.settings.php` in your `settings.php` file. However, you may override this logic by setting `$split` in `settings.php` prior to including `blt.settings.php`.
+- We set active to zero because we don't want configuration management to manage whether this split is active. Instead, we will rely on BLT to enable this split, when appropriate, via a [settings.php include](https://github.com/acquia/blt/blob/10.x/settings/config.settings.php#L22).  If you are using BLT, this should already be loaded for you as a consequence of including `blt.settings.php` in your `settings.php` file. However, you may override this logic by setting `$split` in `settings.php` prior to including `blt.settings.php`.
 - You may see that even on your local environment, after running `drush config-import`, the local configuration split has a status of "active (overwritten)". This is normal and does not indicate a problem. The mere fact that it is active is an override of the exported `active: 0` setting in the split itself. It does not necessarily indicate that the configuration which the split controls is actually overridden.
 
 # Feature split
@@ -196,7 +196,7 @@ Consider that we would like site to to have different cache lifetimes then the d
 ## Executing commands against multisites
 
 - When executing a drush command against a multisite, include the `uri` option. For instance, `drush --uri=site2`.
-- When executing a BLT command against a multisite, include the site config value. For instance, `blt setup --define site=site2`. BLT also allows you to create site-specific configuration, see [BLT multisite documentation](http://blt.readthedocs.io/en/9.x/readme/multisite/) for more information.
+- When executing a BLT command against a multisite, include the site config value. For instance, `blt setup --define site=site2`. BLT also allows you to create site-specific configuration, see [BLT multisite documentation](http://blt.readthedocs.io/en/latest/readme/multisite/) for more information.
 
 # Profile split
 
@@ -252,6 +252,6 @@ This will obviate the need to clear caches in order to register a status change 
 # Resources
 
 * [blog post by Jeff Geerling](https://www.jeffgeerling.com/blog/2017/adding-configuration-split-drupal-site-using-blt-and-acquia-cloud)
-* [BLT multisite documentation](http://blt.readthedocs.io/en/9.x/readme/multisite/)
+* [BLT multisite documentation](http://blt.readthedocs.io/en/latest/readme/multisite/)
 * [Configuration split](https://www.drupal.org/project/config_split)
 * [Configuration ignore](https://www.drupal.org/project/config_ignore)
