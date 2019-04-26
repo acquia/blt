@@ -774,4 +774,20 @@ class Updates {
     $this->updater->writeComposerJson($composer_json);
   }
 
+  /**
+   * 10.0.0.
+   *
+   * @Update(
+   *    version = "10000002",
+   *    description = "Regenerate cloud hooks."
+   * )
+   */
+  public function update_10000002() {
+    // Check for presence of cloud-hooks directory. Regenerate if present.
+    if (file_exists($this->updater->getRepoRoot() . '/hooks')) {
+      $this->updater->executeCommand("./vendor/bin/blt recipes:cloud-hooks:init");
+      $this->updater->getOutput()->writeln("cloud-hooks have been updated. Review the resulting file(s) and ensure that any customizations have been re-added.");
+    }
+  }
+
 }
