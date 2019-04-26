@@ -15,11 +15,11 @@
 1. Customize *blt/blt.yml* if desired, such as to choose an install profile. [This file](https://github.com/acquia/blt/blob/10.x/config/build.yml) lists all available configuration values.
 
     By default, BLT will install sites using the [*lightning*](https://github.com/acquia/lightning) profile. You can change this to any other core, contributed, or custom profile in your codebase. Make sure to download the profile if necessary, e.g., `composer require acquia/headless_lightning:~1.1.0`.
-    
+
     To use a profile other than Lightning, enter the name of the profile in blt/blt.yml in the profile:name setting. For example:
         profile:
           name: minimal
-    
+
 1. Now it’s time to spin up your LAMP stack.
 
     1. **Recommended**: Run the following command to create a DrupalVM instance:
@@ -28,7 +28,7 @@
 
        To customize your VM (such as to enable Solr or change the PHP version), respond *no* when BLT offers to boot your VM, and [make any necessary modifications](http://docs.drupalvm.com/en/latest/getting-started/configure-drupalvm/) to *box/config.yml* before starting your VM.
 
-    1. **Alternative**: To set up your own LAMP stack, please review [Local Development](http://blt.readthedocs.io/en/9.x/readme/local-development/), then execute the following command to generate default local settings files:
+    1. **Alternative**: To set up your own LAMP stack, please review [Local Development](http://blt.readthedocs.io/en/latest/readme/local-development/), then execute the following command to generate default local settings files:
 
              blt blt:init:settings
 

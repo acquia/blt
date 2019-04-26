@@ -31,7 +31,7 @@ You may disable any BLT command. This will cause the target to be skipped during
             sniff:
               all: true
               files: true
-              
+
 This snippet would cause the `tests:phpcs:sniff:all` and `tests:phpcs:sniff:files` targets to be skipped during BLT builds.
 
 ## Adding / overriding filesets
@@ -56,7 +56,7 @@ To modify the filesets that are used in other commands, such as `tests:twig:lint
 
 ## Modifying BLT Configuration
 
-BLT configuration can be customized by overriding the value of default variable values. You can find the default value of any BLT variable in [build.yml](https://github.com/acquia/blt/blob/9.x/config/build.yml).
+BLT configuration can be customized by overriding the value of default variable values. You can find the default value of any BLT variable in [build.yml](https://github.com/acquia/blt/blob/10.x/config/build.yml).
 
 ### Overriding a variable value:
 
@@ -100,21 +100,21 @@ Listed below are some of the more commonly customized BLT targets.
 
 #### artifact:build
 
-To modify the behavior of the `artifact:build` target, you may override BLT's `deploy` configuration. See `deploy` key in https://github.com/acquia/blt/blob/9.x/config/build.yml#L54.
+To modify the behavior of the `artifact:build` target, you may override BLT's `deploy` configuration. See `deploy` key in https://github.com/acquia/blt/blob/10.x/config/build.yml.
 
 More specifically, you can modify the build artifact in the following key ways:
 
-1. Change which files are rsynced to the artifact by providing your own `deploy.exclude_file` value in blt.yml. See [upstream deploy-exclude.txt](https://github.com/acquia/blt/blob/9.x/scripts/blt/deploy/deploy-exclude.txt) for example contents, e.g.,
+1. Change which files are rsynced to the artifact by providing your own `deploy.exclude_file` value in blt.yml. See [upstream deploy-exclude.txt](https://github.com/acquia/blt/blob/10.x/scripts/blt/deploy/deploy-exclude.txt) for example contents, e.g.,
 
           deploy:
             exclude_file: ${repo.root}/blt/deploy/rsync-exclude.txt
 
-1. If you'd simply like to add onto the [upstream deploy-exclude.txt](https://github.com/acquia/blt/blob/9.x/scripts/blt/deploy/deploy-exclude.txt) instead of overriding it, you need not define your own `deploy.exclude_file`. Instead, simply leverage the `deploy-exclude-additions.txt` file found under the top-level `blt` directory by adding each file or directory you'd like to exclude on its own line, e.g.,
+1. If you'd simply like to add onto the [upstream deploy-exclude.txt](https://github.com/acquia/blt/blob/10.x/scripts/blt/deploy/deploy-exclude.txt) instead of overriding it, you need not define your own `deploy.exclude_file`. Instead, simply leverage the `deploy-exclude-additions.txt` file found under the top-level `blt` directory by adding each file or directory you'd like to exclude on its own line, e.g.,
 
           /directorytoexclude
           excludeme.txt
 
-1. Change which files are gitignored in the artifact by providing your own `deploy.gitignore_file` value in blt.yml. See [upstream .gitignore](https://github.com/acquia/blt/blob/9.x/scripts/blt/deploy/.gitignore) for example contents, e.g.,
+1. Change which files are gitignored in the artifact by providing your own `deploy.gitignore_file` value in blt.yml. See [upstream .gitignore](https://github.com/acquia/blt/blob/10.x/scripts/blt/deploy/.gitignore) for example contents, e.g.,
 
           deploy:
             gitignore_file: ${repo.root}/blt/deploy/.gitignore
@@ -125,9 +125,9 @@ More specifically, you can modify the build artifact in the following key ways:
           post-deploy-build:
             dir: ${deploy.dir}/docroot/profiles/contrib/lightning
             command: npm run install-libraries
-            
+
    Or, use a Robo hook in a custom file (see "Adding a custom Robo Hook" above).
-   
+
        /**
          * This will be called after the artifact:build command.
          *
@@ -163,7 +163,7 @@ By default, BLT will execute the `internal:git-hook:execute:commit-msg` command 
 
 #### tests:behat:run
 
-To modify the behavior of the tests:behat:run target, you may override BLT's `behat` configuration. See https://github.com/acquia/blt/blob/9.x/config/build.yml#L2.
+To modify the behavior of the tests:behat:run target, you may override BLT's `behat` configuration. See https://github.com/acquia/blt/blob/10.x/config/build.yml.
 
 #### tests:phpcs:sniff:all
 

@@ -37,7 +37,7 @@ To initialize Pipelines support for your BLT project:
 
         blt recipes:ci:pipelines:init
 
-    This will generate an [acquia-pipelines.yml file](https://docs.acquia.com/acquia-cloud/develop/pipelines/yaml/) in your project root based on [BLT's default acquia-pipelines.yml file](https://github.com/acquia/blt/blob/9.x/scripts/pipelines/acquia-pipelines.yml).
+    This will generate an [acquia-pipelines.yml file](https://docs.acquia.com/acquia-cloud/develop/pipelines/yaml/) in your project root based on [BLT's default acquia-pipelines.yml file](https://github.com/acquia/blt/blob/10.x/scripts/pipelines/acquia-pipelines.yml).
 
 1. Commit the new file and push it to your Acquia git remote. Example commands:
 
@@ -74,7 +74,7 @@ To set up the [workflow described earlier](#workflow), you must configure Acquia
 
     Do not use a passphrase!
     Name this key something different than your normal Acquia Cloud key (e.g., travis).
-    
+
     Travis currently requires legacy RSA PEM keys so you should explicitly define the format with the -m flag
 
 1. Create a new Acquia Cloud account to be used exclusively as a container for the SSH keys that will grant Travis push access to Acquia Cloud. This can be done by inviting a new team member on the "Teams" tab in Acquia Cloud. You can use an email address like `<email>+<project>.travis@acquia.com`. The team member must have SSH push access (i.e. Team Lead role). It's not recommended to use a personal account or re-use the shell account across projects, since this poses a security risk, and will also cause deployments to fail if your account is removed from the project.
