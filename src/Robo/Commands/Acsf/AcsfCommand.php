@@ -26,7 +26,7 @@ class AcsfCommand extends BltTasks {
     $this->logger->notice("You may wish to adjust the PHP version of your local environment and CI tools to match.");
     $this->logger->notice("");
     $this->logger->notice("For more information, see:");
-    $this->logger->notice("<comment>http://blt.readthedocs.io/en/9.x/readme/acsf-setup</comment>");
+    $this->logger->notice("<comment>http://blt.readthedocs.io/en/latest/readme/acsf-setup</comment>");
   }
 
   /**
