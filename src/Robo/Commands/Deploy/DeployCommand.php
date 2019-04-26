@@ -20,6 +20,7 @@ class DeployCommand extends BltTasks {
   protected $excludeFileTemp;
   protected $deployDir;
   protected $tagSource;
+  protected $ignorePlatformReqs = FALSE;
 
   /**
    * This hook will fire for all commands in this command file.
@@ -57,6 +58,10 @@ class DeployCommand extends BltTasks {
       $this->logger->warning("This will be a dry run, the artifact will not be pushed.");
     }
     $this->checkDirty($options);
+
+    if (isset($options['ignore-platform-reqs'])) {
+      $this->ignorePlatformReqs = $options['ignore-platform-reqs'];
+    }
 
     if (!$options['tag'] && !$options['branch']) {
       $this->createTag = $this->confirm("Would you like to create a tag?", $this->createTag);
@@ -386,7 +391,7 @@ class DeployCommand extends BltTasks {
    * @return bool
    * @throws \Robo\Exception\TaskException
    */
-  protected function composerInstall($options = ['ignore-platform-reqs' => FALSE]) {
+  protected function composerInstall() {
     if (!$this->getConfigValue('deploy.build-dependencies')) {
       $this->logger->warning("Dependencies will not be built because deploy.build-dependencies is not enabled");
       $this->logger->warning("You should define a custom deploy.exclude_file to ensure that dependencies are copied from the root repository.");
@@ -403,7 +408,7 @@ class DeployCommand extends BltTasks {
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
     $command = 'composer install --no-dev --no-interaction --optimize-autoloader';
-    if ($options['ignore-platform-reqs']) {
+    if ($this->ignorePlatformReqs) {
       $command .= ' --ignore-platform-reqs';
     }
     $this->taskExecStack()->exec($command)
@@ -588,7 +593,7 @@ class DeployCommand extends BltTasks {
    */
   protected function cutTag($repo = 'build') {
     $taskGit = $this->taskGit()
-      ->tag($this->commitMessage, $this->tagName)
+      ->tag($this->tagName, $this->commitMessage)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->stopOnFail();
 
