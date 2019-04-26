@@ -34,7 +34,7 @@ class GitTask extends GitStack {
   /**
    * @inheritDoc
    */
-  public function tag($tag_name, $message) {
+  public function tag($tag_name, $message = "") {
     $message = escapeshellarg($message);
     $tag_name = escapeshellarg($tag_name);
     $git_name = $this->getConfig()->get('git.user.name');
