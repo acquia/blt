@@ -63,7 +63,7 @@ if (!$uri) {
 
 $docroot = sprintf('/var/www/html/%s.%s/docroot', $site, $env);
 
-$cache_directory = exec("/mnt/www/html/$site.$env/vendor/acquia/blt/scripts/blt/drush/cache.php $site $env $uri");
+$cache_directory = exec("/usr/bin/env php /mnt/www/html/$site.$env/vendor/acquia/blt/scripts/blt/drush/cache.php $site $env $uri");
 
 shell_exec(sprintf('mkdir -p %s', escapeshellarg($cache_directory)));
 
