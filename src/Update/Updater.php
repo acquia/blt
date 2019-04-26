@@ -563,7 +563,7 @@ class Updater {
    */
   public function regenerateCloudHooks() {
     if (file_exists($this->getRepoRoot() . '/hooks') && !$this->cloudHooksAlreadyUpdated) {
-      $this->executeCommand("./vendor/bin/blt recipes:cloud-hooks:init");
+      self::executeCommand("./vendor/bin/blt recipes:cloud-hooks:init", NULL, FALSE);
       $this->cloudHooksAlreadyUpdated = TRUE;
       return TRUE;
     }
