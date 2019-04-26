@@ -1,5 +1,36 @@
 # Change Log
 
+#### 10.0.0-rc4 (2019-04-26)
+
+[Full Changelog](https://github.com/acquia/blt/compare/test...10.0.0-rc4)
+
+**Major / breaking changes**
+
+- Remove support for PhantomJS. (#3580)
+**Implemented enhancements**
+
+- Fixes #3417: Don't ignore platform reqs by default during deploys (#3590)
+
+**Fixed bugs**
+
+- Get rid of Vagrant warnings during update process. (#3597)
+- Fixes #3574: Git tag needs author info, should stop deploy. (#3586)
+- Removed remaining referenes to --yes. (#3594)
+- Fixes #3583: Infinite recursion when using global.settings.default.php. (#3587)
+
+**Miscellaneous**
+
+- Minor code style fix.
+- Alphabetize blt-project dependencies.
+- Update cloud hooks for previous 10.x users. (#3595)
+- Prevent cache collisions in multisite install tasks #3171. (#3554)
+- Remove / replace references to 9.x branch. (#3593)
+- Add breaking changes to release notes. (#3589)
+- Fixes #3558: Use --no-interaction when deploying tags on Travis. (#3588)
+- Update example.local.blt.yml (#3585)
+- Removed unused site-install parameter. (#3582)
+
+
 #### 10.0.0-rc3 (2019-04-24)
 
 [Full Changelog](https://github.com/acquia/blt/compare/10.0.0-rc2...10.0.0-rc3)
