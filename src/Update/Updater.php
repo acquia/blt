@@ -63,6 +63,11 @@ class Updater {
   protected $composerSuggestedJsonFilepath;
 
   /**
+   * @var bool
+   */
+  protected $cloudHooksAlreadyUpdated = FALSE;
+
+  /**
    * Updater constructor.
    *
    * @param string $update_class
@@ -551,6 +556,18 @@ class Updater {
       $files[] = $this->getRepoRoot() . '/' . $filepath;
     }
     $this->getFileSystem()->remove($files);
+  }
+
+  /**
+   * Regenerate Cloud Hooks, but only once.
+   */
+  public function regenerateCloudHooks() {
+    if (file_exists($this->getRepoRoot() . '/hooks') && !$this->cloudHooksAlreadyUpdated) {
+      $this->executeCommand("./vendor/bin/blt recipes:cloud-hooks:init");
+      $this->cloudHooksAlreadyUpdated = TRUE;
+      return TRUE;
+    }
+    return FALSE;
   }
 
 }
