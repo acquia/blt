@@ -57,6 +57,14 @@ class AcsfCommand extends BltTasks {
     $this->say('<comment>ACSF Tools has been added. Some post-install configuration is necessary.</comment>');
     $this->say('<comment>See /drush/Commands/acsf_tools/README.md. </comment>');
     $this->say('<info>ACSF was successfully initialized.</info>');
+    $this->say('Adding nedsbeds/profile_split_enable module as a dependency...');
+    $package_options = [
+      'package_name' => 'nedsbeds/profile_split_enable',
+      'package_version' => '^1.0',
+    ];
+    $this->invokeCommand('internal:composer:require', $package_options);
+    $this->say('<comment>nedsbeds/profile_split_enable module has been added.</comment>');
+    $this->say('<comment>Enable the module and setup profile splits to utilize.</comment>');
     $project_yml = $this->getConfigValue('blt.config-files.project');
     $project_config = YamlMunge::parseFile($project_yml);
     if (!empty($project_config['modules'])) {

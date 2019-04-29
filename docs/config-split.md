@@ -200,10 +200,7 @@ Consider that we would like site to to have different cache lifetimes then the d
 
 # Profile split
 
-If you are using multisite, you may wish to use multiple installation profiles for your application. BLT will automatically check to see if a split exists that has the same name as your active installation profile.
-
-E.g., if a given site on your application uses the `lightning` profile, BLT will set the `lightning` config split to active, if that split exists. Typically profile splits are stored in `config/profiles/[profile_name]`.
-
+BLT no longer officially supports install profile (or just profile) based splits. Our current, recommended workflow is to use the [Profile Split Enable](https://github.com/nedsbeds/profile_split_enable) module to support this capability.
 # Misc
 
 ### Exporting to a split that is not active
