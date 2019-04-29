@@ -55,29 +55,29 @@ class MultiSiteTest extends BltProjectTestBase {
     $this->assertFileExists("$this->sandboxInstanceClone/docroot/sites/sites.php");
     $this->assertFileExists($this->sandboxInstanceClone . '/config/site2');
 
-    // Generate local.setting.php, copy to includes.settings.php since
+    // Generate local.setting.php, copy to ci.settings.php since
     // local.settings.php is not loaded in CI env.
     $this->blt("blt:init:settings");
     $this->fs->copy(
       "$this->sandboxInstance/docroot/sites/$this->site1Dir/settings/local.settings.php",
-      "$this->sandboxInstance/docroot/sites/$this->site1Dir/settings/includes.settings.php"
+      "$this->sandboxInstance/docroot/sites/$this->site1Dir/settings/ci.settings.php"
     );
     $this->fs->copy(
       "$this->sandboxInstance/docroot/sites/$this->site2Dir/settings/local.settings.php",
-      "$this->sandboxInstance/docroot/sites/$this->site2Dir/settings/includes.settings.php"
+      "$this->sandboxInstance/docroot/sites/$this->site2Dir/settings/ci.settings.php"
     );
 
-    // Generate local.setting.php, copy to includes.settings.php since
+    // Generate local.setting.php, copy to ci.settings.php since
     // local.settings.php is not loaded in CI env.
     // We cannot use $this->blt because we are not executing in sandbox.
     $this->execute('./vendor/bin/blt blt:init:settings', $this->sandboxInstanceClone);
     $this->fs->copy(
       "$this->sandboxInstanceClone/docroot/sites/$this->site1Dir/settings/local.settings.php",
-      "$this->sandboxInstanceClone/docroot/sites/$this->site1Dir/settings/includes.settings.php"
+      "$this->sandboxInstanceClone/docroot/sites/$this->site1Dir/settings/ci.settings.php"
     );
     $this->fs->copy(
       "$this->sandboxInstanceClone/docroot/sites/$this->site2Dir/settings/local.settings.php",
-      "$this->sandboxInstanceClone/docroot/sites/$this->site2Dir/settings/includes.settings.php"
+      "$this->sandboxInstanceClone/docroot/sites/$this->site2Dir/settings/ci.settings.php"
     );
 
     // Generate fixture.
