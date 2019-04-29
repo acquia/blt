@@ -36,14 +36,14 @@ For instance, running `blt setup -vvv` may output:
 ```
 ...
  [drush] Changing working directory to: /Users/me/Sites/mysite/docroot
- [drush] Executing: /Users/me/Sites/mysite/vendor/bin/drush @blted8.local --site-name="BLTed 8" --site-mail="no-reply@acquia.com" --account-name="admin" --account-pass="admin" --account-mail="no-reply@acquia.com" --uri=default --yes --verbose site-install "lightning" "install_configure_form.update_status_module='array(FALSE,FALSE)'"
- Loaded alias @blted8.local from file
+ [drush] Executing: /Users/me/Sites/mysite/vendor/bin/drush @blted10.local --site-name="BLTed 10" --site-mail="no-reply@acquia.com" --account-name="admin" --account-pass="admin" --account-mail="no-reply@acquia.com" --uri=default --yes --verbose site-install "lightning" "install_configure_form.update_status_module='array(FALSE,FALSE)'"
+ Loaded alias @blted10.local from file
  ...
 ```
 
 In this case, BLT is simply executing the following drush command for you:
 ```
-/Users/me/Sites/mysite/vendor/bin/drush @blted8.local --site-name="BLTed 8" --site-mail="no-reply@acquia.com" --account-name="admin" --account-pass="admin" --account-mail="no-reply@acquia.com" --uri=default --yes --verbose site-install "lightning" "install_configure_form.update_status_module='array(FALSE,FALSE)'"
+/Users/me/Sites/mysite/vendor/bin/drush @blted10.local --site-name="BLTed 10" --site-mail="no-reply@acquia.com" --account-name="admin" --account-pass="admin" --account-mail="no-reply@acquia.com" --uri=default --yes --verbose site-install "lightning" "install_configure_form.update_status_module='array(FALSE,FALSE)'"
 ```
 To debug the problem, just run the drush command directly on the command line. It may be easier to navigate without BLT. Once the problem is resolved, go back to using BLT's automation layer.
 
@@ -82,7 +82,7 @@ Error: syntax error, unexpected ':', expecting ';' or '{' in
 
 **Solution:**
 This error occurs when Composer packages were installed on a machine running a newer PHP version than the environment exhibiting the error, leading to syntax errors or errors due to missing extensions.
- 
+
 This error can affect VMs, continuous integration environments, and cloud environments.
 
 Ensure that all environments are running the same version of PHP. This can be accomplished by changing PHP versions on the systems, and by "locking" the PHP version in your composer file and re-running composer update.
@@ -122,7 +122,7 @@ During commands such as drush sql-sync, blt sync, or blt sync:refresh, the comma
 
 ```php
 sh: 1: cannot create auto.gz: Permission denied
- [error]  Database dump failed [3.1 sec, 8 MB] 
+ [error]  Database dump failed [3.1 sec, 8 MB]
 ```
 
 This issue was originally documented on the BLT side in [issue #2641](https://github.com/acquia/blt/issues/2641).
@@ -155,5 +155,3 @@ A few examples of what can cause files to change during the deploy process and h
 - See [this issue](https://github.com/acquia/blt/issues/3564) for additional documentation and solutions.
 
 In an emergency, you can disable this check by passing the `--ignore-dirty` flag to `blt deploy`, but this is strongly discouraged as it may conceal deeper issues with your codebase.
-
-
