@@ -31,7 +31,8 @@ Then install the minimum dependencies for BLT. The preferred method is via Homeb
 
         /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
         brew install php71 git composer drush
-        composer global require "hirak/prestissimo:^0.3"
+        composer global require hirak/prestissimo:^0.3
+        composer global require zaporylie/composer-drupal-optimizations:^1.1
 
 Note that the recommended installation method for Drush has changed recently. Drush should only be installed as a dependency of individual projects, rather than being installed system-wide. BLT will manage this dependency for you on projects, but in order for you to run Drush commands independently of BLT commands you need to install the Drush Launcher: [Drush Launcher Installation](https://github.com/drush-ops/drush-launcher#installation---phar).
 
@@ -67,7 +68,8 @@ Linux is fully supported by BLT and DrupalVM and shares many of the same depende
 #### Ubuntu / Debian
 
         apt-get install git composer drush
-        composer global require "hirak/prestissimo:^0.3"
+        composer global require hirak/prestissimo:^0.3
+        composer global require zaporylie/composer-drupal-optimizations:^1.1
 
 #### Fedora
 
