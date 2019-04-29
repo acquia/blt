@@ -186,21 +186,6 @@ if (file_exists($deploy_id_file)) {
  */
 $settings_files[] = DRUPAL_ROOT . '/sites/settings/global.settings.php';
 
-/*******************************************************************************
- * Environment-specific includes.
- ******************************************************************************/
-
-/**
- * Load CI env includes.
- */
-if (EnvironmentDetector::isCiEnv()) {
-  $settings_files[] = __DIR__ . '/ci.settings.php';
-}
-
-if (EnvironmentDetector::getCiEnv()) {
-  $settings_files[] = sprintf("%s/%s.settings.php", __DIR__, EnvironmentDetector::getCiEnv());
-}
-
 /**
  * Include optional site specific includes file.
  *
@@ -211,6 +196,18 @@ if (EnvironmentDetector::getCiEnv()) {
  * able to be overridden in the local.settings.php file below.
  */
 $settings_files[] = DRUPAL_ROOT . "/sites/$site_dir/settings/includes.settings.php";
+
+/**
+ * Load CI env includes.
+ */
+if (EnvironmentDetector::isCiEnv()) {
+  $settings_files[] = __DIR__ . '/ci.settings.php';
+  if (EnvironmentDetector::getCiEnv()) {
+    $settings_files[] = sprintf("%s/%s.settings.php", __DIR__, EnvironmentDetector::getCiEnv());
+  }
+  // If you want to override these CI settings, use the following file.
+  $settings_files[] = DRUPAL_ROOT . "/sites/settings/ci.settings.php";
+}
 
 /**
  * Load local development override configuration, if available.
@@ -232,7 +229,6 @@ if (EnvironmentDetector::isLocalEnv()) {
 
 foreach ($settings_files as $settings_file) {
   if (file_exists($settings_file)) {
-    /* @noinspection PhpIncludeInspection */
     require $settings_file;
   }
 }
