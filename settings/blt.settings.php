@@ -1,20 +1,19 @@
 <?php
 
-  /**
-   * @file
-   * Setup BLT utility variables, include required files.
-   */
+/**
+ * @file
+ * Setup BLT utility variables, include required files.
+ */
 
 use Acquia\Blt\Robo\Common\EnvironmentDetector;
 use Acquia\Blt\Robo\Config\ConfigInitializer;
+use Acquia\Blt\Robo\Exceptions\BltException;
 use Symfony\Component\Console\Input\ArgvInput;
 
 /*******************************************************************************
- * Host forwarding.
+ * Detect environments, sites, and hostnames.
  ******************************************************************************/
 
-// Drupal 8 aliasing/importing.
-// Must be declared in global scope.
 $http_host = getenv('HTTP_HOST');
 $request_method = getenv('REQUEST_METHOD');
 $request_uri = getenv('REQUEST_URI');
@@ -35,7 +34,7 @@ if (getenv('HTTP_X_FORWARDED_PROTO') == 'https'
   $_SERVER['HTTPS'] = 'on';
   putenv('HTTPS=on');
 }
-$x_ips = getenv('HTTP_X_FORWARDED_FOR') ? explode(',', getenv('HTTP_X_FORWARDED_FOR')) : array();
+$x_ips = getenv('HTTP_X_FORWARDED_FOR') ? explode(',', getenv('HTTP_X_FORWARDED_FOR')) : [];
 $x_ips = array_map('trim', $x_ips);
 
 // Add REMOTE_ADDR to the X-Forwarded-For in case it's an internal AWS address.
@@ -44,8 +43,9 @@ if (getenv('REMOTE_ADDR')) {
 }
 
 // Check firstly for the bal and then check for an internal IP immediately.
-$settings['reverse_proxy_addresses'] = array();
-if ($ip = array_pop($x_ips)) {
+$settings['reverse_proxy_addresses'] = [];
+$ip = array_pop($x_ips);
+if ($ip) {
   if (in_array($ip, $trusted_reverse_proxy_ips)) {
     if (!in_array($ip, $settings['reverse_proxy_addresses'])) {
       $settings['reverse_proxy_addresses'][] = $ip;
@@ -65,19 +65,12 @@ if ($ip = array_pop($x_ips)) {
 
 $repo_root = dirname(DRUPAL_ROOT);
 
-/**
- * Site directory detection.
- */
 if (!isset($site_path)) {
-  $site_path = \Drupal::service('site.path');
+  $site_path = Drupal::service('site.path');
 }
 $site_dir = str_replace('sites/', '', $site_path);
 
-
-/*******************************************************************************
- * Acquia Cloud Site Factory settings.
- ******************************************************************************/
-
+// Special site name detection for ACSF sites being developed locally.
 if (EnvironmentDetector::isAcsfInited()) {
   if (EnvironmentDetector::isLocalEnv()) {
     // When developing locally, we use the host name to determine which site
@@ -99,25 +92,39 @@ if (EnvironmentDetector::isAcsfInited()) {
 }
 
 /*******************************************************************************
- * Acquia Cloud settings.
+ * Include additional settings files.
  *
- * These includes are intentionally loaded before all others because we do not
- * have control over their contents. By loading all other includes after this,
- * we have the opportunity to override any configuration values provided by the
- * hosted files. This is not necessary for files that we control.
+ * Settings are included in a very particular order to ensure that they always
+ * go from the most general (default global settings) to the most specific
+ * (local custom site-specific settings). Each step in the cascade also includes
+ * a global (all sites) and site-specific component. The entire order is:
+ *
+ * 1. Acquia Cloud settings (including secret settings)
+ * 2. Default general settings (provided by BLT)
+ * 3. Custom general settings (provided by the project)
+ * 4. Default CI settings (provided by BLT)
+ * 5. Custom CI settings (provided by the project)
+ * 6. Local settings (provided by the project)
+ *
  ******************************************************************************/
 
 $settings_files = [];
 
+// Acquia Cloud settings.
 if (EnvironmentDetector::isAhEnv()) {
   $ah_group = EnvironmentDetector::getAhGroup();
-  if (!EnvironmentDetector::isAcsfEnv()) {
-    if ($site_dir == 'default') {
-      $settings_files[] = "/var/www/site-php/$ah_group/$ah_group-settings.inc";
+  try {
+    if (!EnvironmentDetector::isAcsfEnv()) {
+      if ($site_dir == 'default') {
+        $settings_files[] = "/var/www/site-php/$ah_group/$ah_group-settings.inc";
+      }
+      else {
+        $settings_files[] = "/var/www/site-php/$ah_group/$site_dir-settings.inc";
+      }
     }
-    else {
-      $settings_files[] = "/var/www/site-php/$ah_group/$site_dir-settings.inc";
-    }
+  }
+  catch (BltException $e) {
+    trigger_error($e->getMessage(), E_USER_WARNING);
   }
 
   // Store API Keys and things outside of version control.
@@ -127,89 +134,35 @@ if (EnvironmentDetector::isAhEnv()) {
   $settings_files[] = EnvironmentDetector::getAhFilesRoot() . "/$site_dir/secrets.settings.php";
 }
 
-/*******************************************************************************
- * BLT includes & BLT default configuration.
- ******************************************************************************/
-
+// Default global settings.
 $blt_settings_files = [
   'cache',
   'config',
   'logging',
   'filesystem',
   'simplesamlphp',
+  'misc',
 ];
 foreach ($blt_settings_files as $blt_settings_file) {
   $settings_files[] = __DIR__ . "/$blt_settings_file.settings.php";
 }
 
-/**
- * Salt for one-time login links, cancel links, form tokens, etc.
- *
- * This variable will be set to a random value by the installer. All one-time
- * login links will be invalidated if the value is changed. Note that if your
- * site is deployed on a cluster of web servers, you must ensure that this
- * variable has the same value on each server.
- *
- * For enhanced security, you may set this variable to the contents of a file
- * outside your document root; you should also ensure that this file is not
- * stored with backups of your database.
- *
- * Example:
- * @code
- *   $settings['hash_salt'] = file_get_contents('/home/example/salt.txt');
- * @endcode
- */
-$settings['hash_salt'] = file_get_contents(DRUPAL_ROOT . '/../salt.txt');
-
-/**
- * Deployment identifier.
- *
- * Drupal's dependency injection container will be automatically invalidated and
- * rebuilt when the Drupal core version changes. When updating contributed or
- * custom code that changes the container, changing this identifier will also
- * allow the container to be invalidated as soon as code is deployed.
- */
-$settings['deployment_identifier'] = \Drupal::VERSION;
-$deploy_id_file = DRUPAL_ROOT . '/../deployment_identifier';
-if (file_exists($deploy_id_file)) {
-  $settings['deployment_identifier'] = file_get_contents($deploy_id_file);
-}
-
-/**
- * Include custom global and site-specific settings files.
- *
- * This provides an opportunity for applications to override any previous
- * configuration at a global or multisite level.
- */
+// Custom global and site-specific settings.
 $settings_files[] = DRUPAL_ROOT . '/sites/settings/global.settings.php';
 $settings_files[] = DRUPAL_ROOT . "/sites/$site_dir/settings/includes.settings.php";
 
-/**
- * Load CI environment settings.
- */
 if (EnvironmentDetector::isCiEnv()) {
+  // Default CI settings.
   $settings_files[] = __DIR__ . '/ci.settings.php';
   if (EnvironmentDetector::getCiEnv()) {
     $settings_files[] = sprintf("%s/%s.settings.php", __DIR__, EnvironmentDetector::getCiEnv());
   }
-  // If you want to override these CI settings, use the following files.
+  // Custom global and site-specific CI settings.
   $settings_files[] = DRUPAL_ROOT . "/sites/settings/ci.settings.php";
   $settings_files[] = DRUPAL_ROOT . "/sites/$site_dir/settings/ci.settings.php";
 }
 
-/**
- * Load local development override configuration, if available.
- *
- * This is intended to provide an opportunity for local environments to override
- * any previous configuration.
- *
- * Use local.settings.php to override variables on secondary (staging,
- * development, etc) installations of this site. Typically used to disable
- * caching, JavaScript/CSS compression, re-routing of outgoing emails, and
- * other things that should not happen on development and testing sites.
- *
- * Keep this code block at the end of this file to take full effect.
- */
+// Local global and site-specific settings.
 if (EnvironmentDetector::isLocalEnv()) {
   $settings_files[] = DRUPAL_ROOT . '/sites/settings/local.settings.php';
   $settings_files[] = DRUPAL_ROOT . "/sites/$site_dir/settings/local.settings.php";

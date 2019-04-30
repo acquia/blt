@@ -5,9 +5,9 @@
  * Provo environment specific settings.
  */
 
-$databases = array(
-  'default' => array(
-    'default' => array(
+$databases = [
+  'default' => [
+    'default' => [
       'database' => 'drupal',
       'username' => 'root',
       'password' => 'strongpassword',
@@ -16,6 +16,6 @@ $databases = array(
       'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
       'driver' => 'mysql',
       'prefix' => '',
-    ),
-  ),
-);
+    ],
+  ],
+];
