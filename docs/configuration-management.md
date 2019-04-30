@@ -93,7 +93,7 @@ BLT recommends using the Config Split module to manage configuration on most pro
 
 BLT uses Config Split for configuration management by default.
 
-However, BLT does not create any configuration splits for you. For detailed information on how you can create and enable configuration splits, please see [managing configuration splits](config-split.md).
+Basic environment splits are defined by default. However, we advise reading about [managing configuration splits](config-split.md).
 
 #### Troubleshooting
 

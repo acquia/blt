@@ -6,8 +6,6 @@
  */
 
 use Acquia\Blt\Robo\Common\EnvironmentDetector;
-use Acquia\Blt\Robo\Config\ConfigInitializer;
-use Symfony\Component\Console\Input\ArgvInput;
 
 /**
  * BLT makes the assumption that, if using multisite, the default configuration
@@ -92,10 +90,3 @@ $config["$split_filename_prefix.$site_dir"]['status'] = TRUE;
 if (isset($_acsf_site_name)) {
   $config["$split_filename_prefix.$_acsf_site_name"]['status'] = TRUE;
 }
-
-// Set profile split.
-$input = new ArgvInput(!empty($_SERVER['argv']) ? $_SERVER['argv'] : ['']);
-$profile_config_initializer = new ConfigInitializer($repo_root, $input);
-$profile_blt_config = $profile_config_initializer->initialize();
-$active_profile = $profile_blt_config->get('project.profile.name');
-$config["$split_filename_prefix.$active_profile"]['status'] = TRUE;
