@@ -176,41 +176,26 @@ if (file_exists($deploy_id_file)) {
 }
 
 /**
- * Include custom global settings file.
+ * Include custom global and site-specific settings files.
  *
  * This provides an opportunity for applications to override any previous
  * configuration at a global or multisite level.
- *
- * This is being included before the CI and site specific files so all available
- * settings are able to be overridden in the includes.settings.php file below.
  */
 $settings_files[] = DRUPAL_ROOT . '/sites/settings/global.settings.php';
-
-/*******************************************************************************
- * Environment-specific includes.
- ******************************************************************************/
+$settings_files[] = DRUPAL_ROOT . "/sites/$site_dir/settings/includes.settings.php";
 
 /**
- * Load CI env includes.
+ * Load CI environment settings.
  */
 if (EnvironmentDetector::isCiEnv()) {
   $settings_files[] = __DIR__ . '/ci.settings.php';
+  if (EnvironmentDetector::getCiEnv()) {
+    $settings_files[] = sprintf("%s/%s.settings.php", __DIR__, EnvironmentDetector::getCiEnv());
+  }
+  // If you want to override these CI settings, use the following files.
+  $settings_files[] = DRUPAL_ROOT . "/sites/settings/ci.settings.php";
+  $settings_files[] = DRUPAL_ROOT . "/sites/$site_dir/settings/ci.settings.php";
 }
-
-if (EnvironmentDetector::getCiEnv()) {
-  $settings_files[] = sprintf("%s/%s.settings.php", __DIR__, EnvironmentDetector::getCiEnv());
-}
-
-/**
- * Include optional site specific includes file.
- *
- * This is intended for to provide an opportunity for applications to override
- * any previous configuration.
- *
- * This is being included before the local file so all available settings are
- * able to be overridden in the local.settings.php file below.
- */
-$settings_files[] = DRUPAL_ROOT . "/sites/$site_dir/settings/includes.settings.php";
 
 /**
  * Load local development override configuration, if available.
@@ -232,7 +217,6 @@ if (EnvironmentDetector::isLocalEnv()) {
 
 foreach ($settings_files as $settings_file) {
   if (file_exists($settings_file)) {
-    /* @noinspection PhpIncludeInspection */
     require $settings_file;
   }
 }

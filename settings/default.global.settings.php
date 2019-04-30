@@ -12,17 +12,17 @@
  */
 
 /**
- * Include all settings files in docroot/sites/settings.
- *
- * Any file placed directly in the docroot/sites/settings directory whose name
- * matches a glob pattern of *.settings.php will be incorporated to the settings
- * of every defined site.
+ * Include settings files in docroot/sites/settings.
  *
  * If instead you want to add settings to a specific site, see BLT's includes
  * file in docroot/sites/{site-name}/settings/default.includes.settings.php.
  */
-if ($settings_files = preg_grep('/global.settings.php/', glob(DRUPAL_ROOT . "/sites/settings/*.settings.php"), PREG_GREP_INVERT)) {
-  foreach ($settings_files as $settings_file) {
-    require $settings_file;
+$additionalSettingsFiles = [
+  // e.g,( DRUPAL_ROOT . "/sites/settings/foo.settings.php" )
+];
+
+foreach ($additionalSettingsFiles as $settingsFile) {
+  if (file_exists($settingsFile)) {
+    require $settingsFile;
   }
 }
