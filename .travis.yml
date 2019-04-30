@@ -42,6 +42,10 @@ before_install:
   - phpenv config-rm xdebug.ini
   - phpenv config-add travis.php.ini
   - composer validate --no-check-all --ansi
+  # Speed up Composer operations.
+  - composer global require "hirak/prestissimo:^0.3"
+  - composer global require "zaporylie/composer-drupal-optimizations:^1.1"
+  # Let's go!
   - composer install
 
 install:
