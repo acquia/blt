@@ -28,6 +28,8 @@ class Updates {
     $this->updater = $updater;
   }
 
+  // phpcs:disable Drupal.NamingConventions.ValidFunctionName
+
   /**
    * 8.5.1.
    *
@@ -637,7 +639,6 @@ class Updates {
    * )
    */
   public function update_10000000() {
-    $messages[] = "Removing composer merge plugin.";
     $composer_json = $this->updater->getComposerJson();
     $template_composer_json = $this->updater->getTemplateComposerJson();
     $blt_composer_json = json_decode(file_get_contents($this->updater->getBltRoot() . '/composer.json'), TRUE);
@@ -648,7 +649,7 @@ class Updates {
     }
 
     // Ensure that suggested packages do not go missing.
-    if (file_exists($this->updater->getRepoRoot() . "/blt/composer.suggested.json")){
+    if (file_exists($this->updater->getRepoRoot() . "/blt/composer.suggested.json")) {
       $merge_plugin_require = $composer_json['extra']['merge-plugin']['require'];
       if (in_array("blt/composer.suggested.json", $merge_plugin_require)) {
         $composer_suggested = json_decode(file_get_contents($this->updater->getRepoRoot() . "/blt/composer.suggested.json"), TRUE);
@@ -663,7 +664,7 @@ class Updates {
         }
       }
     }
-    unset($composer_json['extra']['merge-plugin'] );
+    unset($composer_json['extra']['merge-plugin']);
 
     // Copy select config from composer.json template.
     $sync_composer_keys = [
@@ -672,7 +673,7 @@ class Updates {
       'repositories',
       'extra',
       'scripts',
-      'config'
+      'config',
     ];
     foreach ($sync_composer_keys as $sync_composer_key) {
       if (!array_key_exists($sync_composer_key, $composer_json)) {
@@ -702,29 +703,29 @@ class Updates {
 
     // Check for presence of factory-hooks directory. Regenerate if present.
     if (file_exists($this->updater->getRepoRoot() . '/factory-hooks')) {
-      $messages[] = "factory-hooks have been updated. Review the resulting file(s) and ensure that any customizations have been re-added.";
-      $this->updater->executeCommand("./vendor/bin/blt recipes:acsf:init:hooks", NULL, FALSE);
+      $messages[] = "factory-hooks have been regenerated. Review the resulting file(s) and re-add any customizations.";
+      $this->updater::executeCommand("./vendor/bin/blt recipes:acsf:init:hooks", NULL, FALSE);
     }
 
     if ($this->updater->regenerateCloudHooks()) {
-      $messages[] = "cloud-hooks have been updated. Review the resulting file(s) and ensure that any customizations have been re-added.";
+      $messages[] = "cloud-hooks have been regenerated. Review the resulting file(s) and re-add any customizations.";
     }
 
     // Check for presence of pipelines.yml files. Regenerate if present.
     if (file_exists($this->updater->getRepoRoot() . '/acquia-pipelines.yml')) {
-      $messages[] = "pipelines.yml has been updated. Review the resulting file(s) and ensure that any customizations have been re-added.";
-      $this->updater->executeCommand("./vendor/bin/blt recipes:ci:pipelines:init", NULL, FALSE);
+      $messages[] = "pipelines.yml has been regenerated. Review the resulting file(s) and re-add any customizations.";
+      $this->updater::executeCommand("./vendor/bin/blt recipes:ci:pipelines:init", NULL, FALSE);
     }
 
     // Check for presence of .travis.yml files. Regenerate if present.
     if (file_exists($this->updater->getRepoRoot() . '/.travis.yml')) {
-      $messages[] = ".travis.yml has been updated. Review the resulting file(s) and ensure that any customizations have been re-added.";
-      $this->updater->executeCommand("./vendor/bin/blt recipes:ci:travis:init", NULL, FALSE);
+      $messages[] = ".travis.yml has been regenerated. Review the resulting file(s) and re-add any customizations..";
+      $this->updater::executeCommand("./vendor/bin/blt recipes:ci:travis:init", NULL, FALSE);
     }
 
     // Regenerate local settings files.
-    $messages[] = "Local settings files have been updated. Review the resulting file(s) and ensure that any customizations have been re-added.";
-    $this->updater->executeCommand("./vendor/bin/blt blt:init:settings", NULL, FALSE);
+    $messages[] = "Local settings files have been regenerated. Review the resulting file(s) and re-add any customizations..";
+    $this->updater::executeCommand("./vendor/bin/blt blt:init:settings", NULL, FALSE);
 
     $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
     $this->updater->getOutput()->writeln("");
