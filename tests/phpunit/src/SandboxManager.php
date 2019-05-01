@@ -108,6 +108,8 @@ class SandboxManager {
   public function refreshSandboxInstance() {
     try {
       $this->makeSandboxInstanceWritable();
+      // TODO: Currently refreshSandboxInstance() is never called. If we start
+      // using it, note that copySandboxMasterToInstance() doesn't remove files.
       $this->copySandboxMasterToInstance();
       chdir($this->sandboxInstance);
     }
@@ -119,17 +121,12 @@ class SandboxManager {
   /**
    * Copies all files and dirs from master sandbox to instance.
    *
-   * Will not overwrite existing files!
-   *
-   * @param $options
+   * This is a dumb copy, not an rsync. Existing files won't be deleted.
    */
-  protected function copySandboxMasterToInstance($options = [
-    'delete' => TRUE,
-    'override' => FALSE,
-  ]) {
+  protected function copySandboxMasterToInstance() {
     $this->debug("Copying sandbox master to sandbox instance...");
-    $this->fs->mirror($this->sandboxMaster, $this->sandboxInstance, NULL,
-      $options);
+    $process = new Process("cp -r " . $this->sandboxMaster . " " . $this->sandboxInstance);
+    $process->run();
   }
 
   /**
