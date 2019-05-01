@@ -21,13 +21,7 @@ class AcsfHooksTest extends BltProjectTestBase {
     $this->assertFileExists($this->sandboxInstance . '/factory-hooks');
     list($status_code, $output, $config) = $this->blt("tests:acsf:validate");
     $this->assertEquals(0, $status_code);
-  }
 
-  /**
-   * Tests execution of factory-hooks.
-   */
-  public function testAcsfHooks() {
-    $this->blt("recipes:acsf:init:all");
     $this->installDrupalMinimal();
 
     // Mimics factory-hooks/db-update/db-update.sh.

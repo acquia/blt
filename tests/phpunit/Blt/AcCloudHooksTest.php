@@ -21,13 +21,7 @@ class AcCloudHooksTest extends BltProjectTestBase {
 
     $filePermissions = substr(sprintf('%o', fileperms($commonPostCodeDeployScript)), -4);
     $this->assertEquals('0755', $filePermissions);
-  }
 
-  /**
-   * Tests execution of cloud hooks.
-   */
-  public function testCloudHooks() {
-    $this->blt('recipes:cloud-hooks:init');
     $this->installDrupalMinimal();
 
     // Mimics hooks/post-code-deploy/post-code-deploy.sh.
