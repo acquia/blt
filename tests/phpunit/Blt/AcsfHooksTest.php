@@ -46,4 +46,9 @@ class AcsfHooksTest extends BltProjectTestBase {
     // pre-settings-php/includes.php.
   }
 
+  public function tearDown() {
+    $this->sandboxManager->removeSandboxInstance();
+    parent::tearDown();
+  }
+
 }
