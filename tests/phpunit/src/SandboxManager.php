@@ -36,6 +36,7 @@ class SandboxManager {
 
   /**
    * Ensures that sandbox master exists and is up to date.
+   * @throws \Exception
    */
   public function bootstrap() {
     $this->output->writeln("Bootstrapping BLT testing framework...");
@@ -51,6 +52,7 @@ class SandboxManager {
 
   /**
    * Creates a new master sandbox.
+   * @throws \Exception
    */
   public function createSandboxMaster() {
     $this->output->writeln("Creating master sandbox in <comment>{$this->sandboxMaster}</comment>...");
@@ -95,23 +97,6 @@ class SandboxManager {
     $sites_dir = $this->sandboxInstance . "/docroot/sites";
     if (file_exists($sites_dir)) {
       $this->fs->chmod($sites_dir, 0755, 0000, TRUE);
-    }
-  }
-
-  /**
-   * Creates a new sandbox instance using master as a reference.
-   *
-   * This will not overwrite existing files. Will delete files in destination
-   * that are not in source.
-   */
-  public function refreshSandboxInstance() {
-    try {
-      $this->makeSandboxInstanceWritable();
-      $this->copySandboxMasterToInstance();
-      chdir($this->sandboxInstance);
-    }
-    catch (\Exception $e) {
-      $this->replaceSandboxInstance();
     }
   }
 
@@ -174,6 +159,7 @@ class SandboxManager {
 
   /**
    * Installs composer dependencies in sandbox master dir.
+   * @throws \Exception
    */
   protected function installSandboxMasterDependencies() {
     $command = '';
