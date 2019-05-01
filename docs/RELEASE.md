@@ -66,3 +66,7 @@ In order to update the `require-dev` dependencies for BLT based projects, you mu
 * Commit the changes.
 * Execute `./vendor/bin/robo subtree:push:blt-require-dev`
 * Tag and release a new version of blt-require-dev.
+
+## For major releases only
+
+Make sure to update the README and default branches in acquia/blt as well as acquia/blt-project to use the new major release.
