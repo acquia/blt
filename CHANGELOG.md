@@ -1,5 +1,15 @@
 # Change Log
 
+#### 9.2.8 (2019-05-01)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.2.7...9.2.8)
+
+
+**Miscellaneous**
+
+- Prevent cache collisions in multisite install tasks #3171. (#3554)
+
+
 #### 9.2.7 (2019-04-24)
 
 [Full Changelog](https://github.com/acquia/blt/compare/9.2.6...9.2.7)
