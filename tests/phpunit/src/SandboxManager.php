@@ -73,7 +73,8 @@ class SandboxManager {
     if (file_exists($this->sandboxInstance)) {
       $this->debug("Removing sandbox instance...");
       $this->makeSandboxInstanceWritable();
-      $this->fs->remove($this->sandboxInstance);
+      $process = new Process("rm -r " . $this->sandboxInstance);
+      $process->run();
     }
   }
 
