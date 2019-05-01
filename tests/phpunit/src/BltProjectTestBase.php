@@ -136,7 +136,6 @@ abstract class BltProjectTestBase extends TestCase {
       }
       $output->writeln("<comment>------Begin command output-------</comment>");
       $process->run(function ($type, $buffer) use ($output) {
-        $this->debug($type);
         $output->write($buffer);
       });
     }

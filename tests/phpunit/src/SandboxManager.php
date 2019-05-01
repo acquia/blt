@@ -172,7 +172,6 @@ class SandboxManager {
     $process = new Process($command, $this->sandboxMaster);
     $process->setTimeout(60 * 60);
     $process->run(function ($type, $buffer) {
-      $this->debug($type);
       $this->output->write($buffer);
     });
     if (!$process->isSuccessful()) {
