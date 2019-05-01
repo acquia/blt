@@ -54,5 +54,10 @@ class SetupCommandTest extends BltProjectTestBase {
     $this->assertNotEmpty(file_get_contents($this->config->get('repo.root') . '/deployment_identifier'));
   }
 
-  // Sync strategy is tested is MultisiteTest.php.
+  // Sync strategy is tested in MultisiteTest.php.
+  public function tearDown() {
+    $this->sandboxManager->removeSandboxInstance();
+    parent::tearDown();
+  }
+
 }

@@ -144,4 +144,9 @@ class MultiSiteTest extends BltProjectTestBase {
     $this->assertEquals('Site 2 Clone', $output_array['name']);
   }
 
+  public function tearDown() {
+    $this->sandboxManager->removeSandboxInstance();
+    parent::tearDown();
+  }
+
 }
