@@ -9,7 +9,7 @@ BLT (Build and Launch Tool) provides an automation layer for testing, building, 
 You can find all BLT documentation on [Read the Docs](http://blt.readthedocs.io):
 
 * [Latest release documentation (10.x)](http://blt.readthedocs.io/en/latest/) (best for guidance on general issues and best practices)
-* [Stable release documentation (9.2.x)](http://blt.readthedocs.io/en/stable/) (best for features specific to 9.2.x)
+* [Previous release documentation (9.2.x)](http://blt.readthedocs.io/en/stable/) (best for features specific to 9.2.x)
 
 ## Getting started
 
@@ -28,20 +28,13 @@ This is intended to coincide with the [Drupal core release cycle](https://www.dr
 
 ### Release support status
 
-| BLT version | Support status        | End of life  |  Drupal versions* | Drush versions |
-|-------------|-----------------------|--------------|-------------------|----------------|
-| 10.x        | Unsupported (beta)    | >=May 2020   | 8.6, 8.7          | >=9.5.0        |
-| **9.2.x**   | **Supported, stable** | **Dec 2019** | **8.6, 8.7**      | **>=9.4.0**    |
-| 9.x         | Security fixes only   | May 2019     | 8.5               | >=9.1.0        |
-| <=8.9.x     | Unsupported           | Dec 2018     | <=8.5             | ~8             |
+| BLT version | Support status        | End of life    |  Drupal versions* | Drush versions |
+|-------------|-----------------------|----------------|-------------------|----------------|
+| **10.x**    | **Supported, stable** | **>=May 2020** | **8.6, 8.7**      | **>=9.5.0**    |
+| 9.2.x       | Security fixes only   | Dec 2019       | 8.6, 8.7          | >=9.4.0        |
+| <=9.x       | Unsupported           | May 2019       | 8.5               | >=9.1.0        |
 
-*Note that when Drupal ends support for a minor core release, BLT will cease supporting that core release as well, in accordance with [Drupal security policy](https://www.drupal.org/drupal-security-team/general-information). For instance, as of December 2019, BLT 10.x will no longer support Drupal 8.6, and will instead support Drupal 8.7 and 8.8.
-
-### Branch details
-
-The 10.x branch is considered a major release because it requires PHP 7+ and removes the Composer merge plugin that BLT previously used to manage dependencies.
-
-The 9.x branch will be supported until Drupal 8.5.x is EOL (May 2019).
+*Note that when a particular release of any package (such as Drupal or PHP) stops being supported by its maintainer, BLT may cease supporting that release as well. For instance, as of December 2019, BLT 10.x will no longer support Drupal 8.6, and will instead support Drupal 8.7 and 8.8  in accordance with [Drupal security policy](https://www.drupal.org/drupal-security-team/general-information).
 
 ## Philosophy and Purpose
 
