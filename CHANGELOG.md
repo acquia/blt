@@ -2,6 +2,31 @@
 
 #### 10.0.0 (2019-05-01)
 
+[Full Changelog](https://github.com/acquia/blt/compare/10.0.0-rc4...10.0.0)
+
+
+**Implemented enhancements**
+
+- Fixes #3527: Change settings file include order. (#3599)
+
+**Fixed bugs**
+
+- Fixes #3575 to update profile split docs and functions. (#3598)
+
+**Miscellaneous**
+
+- Fixed release script.
+- Updating CHANGELOG.md and setting version for 10.0.0.
+- Cleaned up update comments. (#3606)
+- Update RELEASE.md
+- Fix code block indent in docs creating-new-project (#3604)
+- Speed up Composer operations in Travis. (#3603)
+- Clean up frontend docs and FAQs for deployments. (#3602)
+- Cleaned up settings files. (#3601)
+- Minor cleanup before release. (#3600)
+- Recommend installing zaporylie globally. (#3596)
+- Revert "Prep stable release of blt-project."
+- Prep stable release of blt-project.
 [Full Changelog](https://github.com/acquia/blt/compare/test...10.0.0)
 
 **Major / breaking changes**
