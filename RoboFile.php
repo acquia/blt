@@ -482,7 +482,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    *   An array of log changes. Typically each row would be a commit message.
    *
    * @return array
-   *   A multidimensional array grouped by the labels enchancement and bug.
+   *   A multidimensional array grouped by the labels enhancement and bug.
    */
   protected function sortChanges($log_entries, $github_token) {
     $client = new Client();
@@ -518,18 +518,18 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       $labels = $this->getGitHubIssueLabels($issue_api, $github_issue_number);
       if ($labels) {
         foreach ($labels as $label) {
-          if (strtolower($label['name']) == 'enhancement') {
+          if (strtolower($label['name']) == 'change record') {
+            $changes['breaking'][] = $log_entry;
+            $sorted = TRUE;
+            break;
+          }
+          elseif (strtolower($label['name']) == 'enhancement') {
             $changes['enhancements'][] = $log_entry;
             $sorted = TRUE;
             break;
           }
           elseif (strtolower($label['name']) == 'bug') {
             $changes['bugs'][] = $log_entry;
-            $sorted = TRUE;
-            break;
-          }
-          elseif (strtolower($label['name']) == 'change record') {
-            $changes['breaking'][] = $log_entry;
             $sorted = TRUE;
             break;
           }
