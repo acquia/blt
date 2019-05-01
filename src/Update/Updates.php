@@ -703,23 +703,23 @@ class Updates {
 
     // Check for presence of factory-hooks directory. Regenerate if present.
     if (file_exists($this->updater->getRepoRoot() . '/factory-hooks')) {
-      $messages[] = "factory-hooks have been regenerated. Review the resulting file(s) and re-add any customizations.";
+      $messages[] = "Factory Hooks (/factory-hooks) have been regenerated. Review the resulting file(s) and re-add any customizations.";
       $this->updater::executeCommand("./vendor/bin/blt recipes:acsf:init:hooks", NULL, FALSE);
     }
 
     if ($this->updater->regenerateCloudHooks()) {
-      $messages[] = "cloud-hooks have been regenerated. Review the resulting file(s) and re-add any customizations.";
+      $messages[] = "Cloud Hooks (/hooks) have been regenerated. Review the resulting file(s) and re-add any customizations.";
     }
 
-    // Check for presence of pipelines.yml files. Regenerate if present.
+    // Check for presence of acquia-pipelines.yml file. Regenerate if present.
     if (file_exists($this->updater->getRepoRoot() . '/acquia-pipelines.yml')) {
-      $messages[] = "pipelines.yml has been regenerated. Review the resulting file(s) and re-add any customizations.";
+      $messages[] = "acquia-pipelines.yml has been regenerated. Review the resulting file and re-add any customizations.";
       $this->updater::executeCommand("./vendor/bin/blt recipes:ci:pipelines:init", NULL, FALSE);
     }
 
     // Check for presence of .travis.yml files. Regenerate if present.
     if (file_exists($this->updater->getRepoRoot() . '/.travis.yml')) {
-      $messages[] = ".travis.yml has been regenerated. Review the resulting file(s) and re-add any customizations..";
+      $messages[] = ".travis.yml has been regenerated. Review the resulting file and re-add any customizations..";
       $this->updater::executeCommand("./vendor/bin/blt recipes:ci:travis:init", NULL, FALSE);
     }
 
