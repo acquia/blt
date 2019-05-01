@@ -1,6 +1,6 @@
 <?php
 
-namespace Acquia\Blt\Tests\Blt;
+namespace Acquia\Blt\Tests\Robo;
 
 use Acquia\Blt\Robo\Common\YamlMunge;
 use PHPUnit\Framework\TestCase;
