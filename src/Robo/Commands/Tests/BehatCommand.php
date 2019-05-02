@@ -44,7 +44,6 @@ class BehatCommand extends TestsCommandBase {
    * @interactGenerateSettingsFiles
    * @interactInstallDrupal
    * @interactConfigureBehat
-   * @validateMySqlAvailable
    * @validateDrupalIsInstalled
    * @validateBehatIsConfigured
    * @validateVmConfig
@@ -78,7 +77,6 @@ class BehatCommand extends TestsCommandBase {
    *
    * @aliases tbd tests:behat:definitions
    *
-   * @validateMySqlAvailable
    * @executeInVm
    */
   public function behatDefinitions($options = ['mode' => 'l']) {

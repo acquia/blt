@@ -264,5 +264,9 @@ validate:
 vm:
   enable: false
   config: ${repo.root}/box/config.yml
+  # By default, BLT should only be run from inside a VM, if it exists. You can
+  # choose to run it on the host instead by setting this to false, and changing
+  # drush.aliases.local to an alias that can SSH into the VM.
+  blt-in-vm: true
   vagrant:
       hostname: ${project.local.hostname}
