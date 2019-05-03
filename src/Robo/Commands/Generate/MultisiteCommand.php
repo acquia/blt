@@ -194,9 +194,7 @@ class MultisiteCommand extends BltTasks {
     $site_yml['project']['local']['hostname'] = $url['host'];
     $site_yml['drush']['aliases']['local'] = $local_alias;
     $site_yml['drush']['aliases']['remote'] = $remote_alias;
-    foreach ($newDbSettings as $key => $value) {
-      $site_yml['drupal']['db'][$key] = $value;
-    }
+    $site_yml['drupal']['db'] = $newDbSettings;
     YamlMunge::mergeArrayIntoFile($site_yml, $site_yml_filename);
   }
 
@@ -210,7 +208,7 @@ class MultisiteCommand extends BltTasks {
     $result = $this->taskCopyDir([
       $default_site_dir => $new_site_dir,
     ])
-      ->exclude(['local.settings.php'])
+      ->exclude(['local.settings.php', 'files'])
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
     if (!$result->wasSuccessful()) {
@@ -302,8 +300,7 @@ class MultisiteCommand extends BltTasks {
     ];
     if ($this->getInspector()->isDrupalVmConfigPresent()) {
       $defaultDrupalVmDrushAliasesFile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/drupal-vm.site.yml';
-      $new_aliases = Expander::parse(file_get_contents($defaultDrupalVmDrushAliasesFile), $this->getConfig()->export());
-      $aliases = array_merge($new_aliases, $aliases);
+      $aliases = Expander::parse(file_get_contents($defaultDrupalVmDrushAliasesFile), $this->getConfig()->export());
     }
 
     $filename = $this->getConfigValue('drush.alias-dir') . "/$site_name.site.yml";
