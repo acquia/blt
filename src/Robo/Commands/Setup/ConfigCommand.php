@@ -35,6 +35,13 @@ class ConfigCommand extends BltTasks {
       throw new BltException("Failed to execute database updates!");
     }
 
+    $task->drush("cache-rebuild");
+    $result = $task->run();
+
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Failed to execute cache-rebuild!");
+    }
+
     $this->invokeCommands(['drupal:config:import', 'drupal:toggle:modules']);
   }
 
