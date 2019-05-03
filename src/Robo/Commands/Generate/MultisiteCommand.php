@@ -51,8 +51,9 @@ class MultisiteCommand extends BltTasks {
     $this->createSiteDrushAlias('default');
     $this->createNewSiteDir($default_site_dir, $new_site_dir);
 
-    $remote_alias = $this->getNewSiteRemoteAlias($site_name, $options);
-    $this->createNewBltSiteYml($new_site_dir, $site_name, $url, $remote_alias, $newDBSettings);
+    $remote_alias = $this->getNewSiteAlias($site_name, $options, 'remote');
+    $local_alias = $this->getNewSiteAlias($site_name, $options, 'local');
+    $this->createNewBltSiteYml($new_site_dir, $site_name, $url, $local_alias, $remote_alias, $newDBSettings);
     $this->createNewSiteConfigDir($site_name);
     $this->createSiteDrushAlias($site_name);
     $this->resetMultisiteConfig();
@@ -73,8 +74,6 @@ class MultisiteCommand extends BltTasks {
    *
    * @param array $url
    *   The local URL for the site.
-   * @param string $site_name
-   *   The machine name of the site.
    * @param array $newDBSettings
    *   An array of database configuration options or empty array.
    */
@@ -142,6 +141,7 @@ class MultisiteCommand extends BltTasks {
   }
 
   /**
+   * @param $default_site_dir
    * @return string
    */
   protected function createDefaultBltSiteYml($default_site_dir) {
@@ -175,6 +175,7 @@ class MultisiteCommand extends BltTasks {
    * @param $new_site_dir
    * @param $site_name
    * @param $url
+   * @param $local_alias
    * @param $remote_alias
    * @param $newDbSettings
    */
@@ -182,6 +183,7 @@ class MultisiteCommand extends BltTasks {
     $new_site_dir,
     $site_name,
     $url,
+    $local_alias,
     $remote_alias,
     $newDbSettings
   ) {
@@ -190,7 +192,7 @@ class MultisiteCommand extends BltTasks {
     $site_yml['project']['human_name'] = $site_name;
     $site_yml['project']['local']['protocol'] = $url['scheme'];
     $site_yml['project']['local']['hostname'] = $url['host'];
-    $site_yml['drush']['aliases']['local'] = "self";
+    $site_yml['drush']['aliases']['local'] = $local_alias;
     $site_yml['drush']['aliases']['remote'] = $remote_alias;
     foreach ($newDbSettings as $key => $value) {
       $site_yml['drupal']['db'][$key] = $value;
@@ -272,19 +274,21 @@ class MultisiteCommand extends BltTasks {
   }
 
   /**
+   * @param $site_name
    * @param $options
+   * @param $dest
    *
    * @return string
    */
-  protected function getNewSiteRemoteAlias($site_name, $options) {
-    if (empty($options['remote-alias'])) {
-      $default = $site_name . '.local';
-      $alias = $this->askDefault("Default remote drush alias", $default);
+  protected function getNewSiteAlias($site_name, $options, $dest) {
+    $option = $dest . '-alias';
+    if (!empty($options[$option])) {
+      return $options[$option];
     }
     else {
-      $alias = $options['remote-alias'];
+      $default = $site_name . '.' . $dest;
+      return $this->askDefault("Default $dest drush alias", $default);
     }
-    return $alias;
   }
 
   /**
@@ -297,8 +301,8 @@ class MultisiteCommand extends BltTasks {
       ],
     ];
     if ($this->getInspector()->isDrupalVmConfigPresent()) {
-      $this->defaultDrupalVmDrushAliasesFile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/drupal-vm.site.yml';
-      $new_aliases = Expander::parse(file_get_contents($this->defaultDrupalVmDrushAliasesFile), $this->getConfig()->export());
+      $defaultDrupalVmDrushAliasesFile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/drupal-vm.site.yml';
+      $new_aliases = Expander::parse(file_get_contents($defaultDrupalVmDrushAliasesFile), $this->getConfig()->export());
       $aliases = array_merge($new_aliases, $aliases);
     }
 
