@@ -1,5 +1,46 @@
 # Change Log
 
+#### 10.0.1 (2019-05-03)
+
+[Full Changelog](https://github.com/acquia/blt/compare/10.0.0-rc4...10.0.1)
+
+
+**Implemented enhancements**
+
+- Fixes #2938: Support running BLT outside of a VM. (#3613)
+- Fixes #3527: Change settings file include order. (#3599)
+
+**Fixed bugs**
+
+- Fixes #3575 to update profile split docs and functions. (#3598)
+
+**Miscellaneous**
+
+- Fixed wrong blt version added during 10.x upgrade. (#3624)
+- Added command to symlink to BLT from projects for development. (#3623)
+- Update README.md
+- Cleaned up and removed unused test code. (#3610)
+- Cleaning up tests (#3608)
+- Updated README for 10.x.
+- Revert "BLT Project pull stable release."
+- BLT Project pull stable release.
+- Updating CHANGELOG.md and setting version for 10.0.0.
+- Fixing changelog.
+- Updating CHANGELOG.md and setting version for 10.0.0.
+- Fixed release script.
+- Updating CHANGELOG.md and setting version for 10.0.0.
+- Cleaned up update comments. (#3606)
+- Update RELEASE.md
+- Fix code block indent in docs creating-new-project (#3604)
+- Speed up Composer operations in Travis. (#3603)
+- Clean up frontend docs and FAQs for deployments. (#3602)
+- Cleaned up settings files. (#3601)
+- Minor cleanup before release. (#3600)
+- Recommend installing zaporylie globally. (#3596)
+- Revert "Prep stable release of blt-project."
+- Prep stable release of blt-project.
+
+
 #### 10.0.0 (2019-05-01)
 
 [Full Changelog](https://github.com/acquia/blt/compare/10.0.0-rc4...10.0.0)
