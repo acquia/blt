@@ -22,7 +22,7 @@ See [INSTALL.md](INSTALL.md) for a list of prequisites and links to instructions
 
 ## Releases and versioning
 
-BLT generally has two supported releases at any given time, each corresponding to a major [semantic version](https://semver.org/). The newest supported major version will receive bug fixes and new features, while the penultimate major version will receive security fixes for six months. Releases with new features and bug fixes occur on the first Wednesday of every month. Security releases occur only when necessary on the third Wednesday of every month.
+BLT generally has two supported releases at any given time, each corresponding to a major [semantic version](https://semver.org/). The newest supported major version will receive bug fixes and new features, while the penultimate major version will receive only critical bug and security fixes for six months. Major and minor releases with new features and bug fixes occur on the first Wednesday of every month. Security and bug-fix releases occur only when necessary on the third Wednesday of every month.
 
 This is intended to coincide with the [Drupal core release cycle](https://www.drupal.org/core/release-cycle-overview), so that users can continue to use a single BLT major release through the lifecycle of a Drupal core minor release.
 
@@ -31,7 +31,7 @@ This is intended to coincide with the [Drupal core release cycle](https://www.dr
 | BLT version | Support status        | End of life    |  Drupal versions* | Drush versions |
 |-------------|-----------------------|----------------|-------------------|----------------|
 | **10.x**    | **Supported, stable** | **>=May 2020** | **8.6, 8.7**      | **>=9.5.0**    |
-| 9.2.x       | Security fixes only   | Dec 2019       | 8.6, 8.7          | >=9.4.0        |
+| 9.2.x       | Bug fixes only        | Dec 2019       | 8.6, 8.7          | >=9.4.0        |
 | <=9.x       | Unsupported           | May 2019       | 8.5               | >=9.1.0        |
 
 *Note that when a particular release of any package (such as Drupal or PHP) stops being supported by its maintainer, BLT may cease supporting that release as well. For instance, as of December 2019, BLT 10.x will no longer support Drupal 8.6, and will instead support Drupal 8.7 and 8.8  in accordance with [Drupal security policy](https://www.drupal.org/drupal-security-team/general-information).
