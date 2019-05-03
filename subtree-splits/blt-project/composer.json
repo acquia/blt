@@ -45,7 +45,9 @@
         "drupal/memcache": "2.0-alpha7",
         "drupal/qa_accounts": "^1.0.0-alpha1",
         "drupal/seckit": "^1.0.0-alpha2",
-        "drupal/shield": "^1.2.0"
+        "drupal/shield": "^1.2.0",
+        "drupal/upgrade_status": "^1.0@alpha"
+
     },
     "require-dev": {
         "acquia/blt-require-dev": "^10.0.0-alpha1"
