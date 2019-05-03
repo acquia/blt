@@ -96,7 +96,6 @@ class DrupalTestCommand extends TestsCommandBase {
    *
    * @interactGenerateSettingsFiles
    * @interactInstallDrupal
-   * @validateMySqlAvailable
    * @validateDrupalIsInstalled
    * @validateVmConfig
    * @launchWebServer
