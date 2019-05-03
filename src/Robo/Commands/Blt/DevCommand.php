@@ -32,6 +32,4 @@ class DevCommand extends BltTasks {
       ->run();
   }
 
-  // @todo add a command to mount BLT in DrupalVM (see RoboFile::createFromSymlink for example).
-  // Problem is that the symlink placed above has to _also_ be valid within VM.
 }
