@@ -433,7 +433,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   protected function getLastTagOnBranch($current_branch) {
     // List all tags, sort numerically, and filter out any that aren't numeric.
     $output = $this->taskExecStack()
-      ->exec("git tag --sort=-v:refname --merged $current_branch | sed '/^[[:alpha:]]/d'")
+      ->exec("git -c 'versionsort.suffix=-' tag --sort=-v:refname --merged $current_branch | sed '/^[[:alpha:]]/d'")
       ->interactive(FALSE)
       ->silent(TRUE)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
