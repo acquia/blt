@@ -768,7 +768,9 @@ class Updates {
     $composer_json = $this->updater->getComposerJson();
     $template_composer_json = $this->updater->getTemplateComposerJson();
     foreach ($template_composer_json['require'] as $package_name => $package_version) {
-      $composer_json['require'][$package_name] = $package_version;
+      if (empty($composer_json['require'][$package_name])) {
+        $composer_json['require'][$package_name] = $package_version;
+      }
     }
     $this->updater->writeComposerJson($composer_json);
   }
