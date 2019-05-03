@@ -2,6 +2,25 @@
 
 #### 10.0.1 (2019-05-03)
 
+[Full Changelog](https://github.com/acquia/blt/compare/10.0.0...10.0.1)
+
+
+**Implemented enhancements**
+
+- Fixes #2938: Support running BLT outside of a VM. (#3613)
+
+**Miscellaneous**
+
+- Fixed the truly freaking finickiest command (git tag for release notes.)
+- Updating CHANGELOG.md and setting version for 10.0.1.
+- Fixed wrong blt version added during 10.x upgrade. (#3624)
+- Added command to symlink to BLT from projects for development. (#3623)
+- Update README.md
+- Cleaned up and removed unused test code. (#3610)
+- Cleaning up tests (#3608)
+- Updated README for 10.x.
+- Revert "BLT Project pull stable release."
+- BLT Project pull stable release.
 [Full Changelog](https://github.com/acquia/blt/compare/10.0.0-rc4...10.0.1)
 
 
