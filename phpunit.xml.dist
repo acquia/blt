@@ -21,9 +21,9 @@
 
   <php>
     <!-- These variables may alternatively be set as environment variables. -->
-    <!-- E.g., `BLT_PRINT_COMMAND_OUTPUT=1 ./vendor/bin/phpunit` -->
+    <!-- E.g., `BLT_PRINT_COMMAND_OUTPUT=0 ./vendor/bin/phpunit` -->
     <env name="BLT_RECREATE_SANDBOX_MASTER" value="1"/>
-    <env name="BLT_PRINT_COMMAND_OUTPUT" value="0"/>
+    <env name="BLT_PRINT_COMMAND_OUTPUT" value="1"/>
     <env name="BLT_ENV" value="ci"/>
     <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak" />
   </php>

@@ -296,6 +296,7 @@ class MultisiteCommand extends BltTasks {
     $aliases = [
       'local' => [
         'uri' => $site_name,
+        'root' => '${env.cwd}/docroot',
       ],
     ];
     if ($this->getInspector()->isDrupalVmConfigPresent()) {
