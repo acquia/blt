@@ -12,11 +12,7 @@
         "drupal/acquia_purge": "^1.0-beta3",
         "drupal/cog": "^1.0.0",
         "drupal/config_split": "^1.0.0",
-<<<<<<< HEAD
         "drupal/core": "^8.6.0",
-=======
-        "drupal/core": "^8.5.0",
->>>>>>> Normalized composer.json files.
         "drupal/devel": "^2.0.0",
         "drupal/features": "^3.8.0",
         "drupal/memcache": "2.0-alpha7",
