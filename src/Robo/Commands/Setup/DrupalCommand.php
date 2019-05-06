@@ -16,7 +16,6 @@ class DrupalCommand extends BltTasks {
    *
    * @command internal:drupal:install
    *
-   * @validateMySqlAvailable
    * @validateDrushConfig
    * @hidden
    *
