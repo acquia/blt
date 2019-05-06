@@ -21,7 +21,8 @@ class MultisiteCommand extends BltTasks {
    * @command recipes:multisite:init
    *
    * @aliases rmi multisite
-   *
+   * @param array $options
+   * @throws BltException
    */
   public function generate($options = [
     'site-dir' => InputOption::VALUE_REQUIRED,
@@ -37,21 +38,22 @@ class MultisiteCommand extends BltTasks {
       throw new BltException("Cannot generate new multisite, $new_site_dir already exists!");
     }
 
-    $domain = $this->getNewSiteDoman($options, $site_name);
+    $domain = $this->getNewSiteDomain($options, $site_name);
     $url = parse_url($domain);
     // @todo Validate uri, ensure includes scheme.
 
-    $newDBSettings = $this->setLocalDbConfig();
+    $newDBSettings = $this->setLocalDbConfig($site_name);
     if ($this->getInspector()->isDrupalVmConfigPresent()) {
-      $this->configureDrupalVm($url, $site_name, $newDBSettings);
+      $this->configureDrupalVm($url, $newDBSettings);
     }
     $default_site_dir = $this->getConfigValue('docroot') . '/sites/default';
     $this->createDefaultBltSiteYml($default_site_dir);
     $this->createSiteDrushAlias('default');
     $this->createNewSiteDir($default_site_dir, $new_site_dir);
 
-    $remote_alias = $this->getNewSiteRemoteAlias($site_name, $options);
-    $this->createNewBltSiteYml($new_site_dir, $site_name, $url, $remote_alias);
+    $remote_alias = $this->getNewSiteAlias($site_name, $options, 'remote');
+    $local_alias = $this->getNewSiteAlias($site_name, $options, 'local');
+    $this->createNewBltSiteYml($new_site_dir, $site_name, $url, $local_alias, $remote_alias, $newDBSettings);
     $this->createNewSiteConfigDir($site_name);
     $this->createSiteDrushAlias($site_name);
     $this->resetMultisiteConfig();
@@ -72,17 +74,15 @@ class MultisiteCommand extends BltTasks {
    *
    * @param array $url
    *   The local URL for the site.
-   * @param string $site_name
-   *   The machine name of the site.
    * @param array $newDBSettings
    *   An array of database configuration options or empty array.
    */
-  protected function configureDrupalVm($url, $site_name, $newDBSettings) {
+  protected function configureDrupalVm($url, $newDBSettings) {
     $this->logger->warning("Automatically configuring your Drupal VM instance will remove formatting and comments from your config.yml file.");
     $configure_vm = $this->confirm("Would you like to generate new virtual host entry and database for this site inside Drupal VM?");
     if ($configure_vm) {
-      $this->projectDrupalVmConfigFile = $this->getConfigValue('vm.config');
-      $vm_config = Yaml::parse(file_get_contents($this->projectDrupalVmConfigFile));
+      $projectDrupalVmConfigFile = $this->getConfigValue('vm.config');
+      $vm_config = Yaml::parse(file_get_contents($projectDrupalVmConfigFile));
       $vm_config['apache_vhosts'][] = [
         'servername' => $url['host'],
         'documentroot' => $vm_config['apache_vhosts'][0]['documentroot'],
@@ -105,7 +105,7 @@ class MultisiteCommand extends BltTasks {
           'priv' => $newDBSettings['database'] . '%.*:ALL',
         ];
       }
-      file_put_contents($this->projectDrupalVmConfigFile,
+      file_put_contents($projectDrupalVmConfigFile,
         Yaml::dump($vm_config, 4));
     }
   }
@@ -113,22 +113,23 @@ class MultisiteCommand extends BltTasks {
   /**
    * Prompts for and sets config for new database.
    *
+   * @param $site_name
    * @return array
    *   Empty array if user did not want to configure local db. Populated array
    *   otherwise.
    */
-  protected function setLocalDbConfig() {
+  protected function setLocalDbConfig($site_name) {
     $config_local_db = $this->confirm("Would you like to configure the local database credentials?");
     $db = [];
 
     if ($config_local_db) {
       $default_db = $this->getConfigValue('drupal.db');
       $db['database'] = $this->askDefault("Local database name",
-        $default_db['database']);
+        $site_name);
       $db['username'] = $this->askDefault("Local database user",
-        $default_db['username']);
+        $site_name);
       $db['password'] = $this->askDefault("Local database password",
-        $default_db['password']);
+        $site_name);
       $db['host'] = $this->askDefault("Local database host",
         $default_db['host']);
       $db['port'] = $this->askDefault("Local database port",
@@ -140,6 +141,7 @@ class MultisiteCommand extends BltTasks {
   }
 
   /**
+   * @param $default_site_dir
    * @return string
    */
   protected function createDefaultBltSiteYml($default_site_dir) {
@@ -173,22 +175,26 @@ class MultisiteCommand extends BltTasks {
    * @param $new_site_dir
    * @param $site_name
    * @param $url
-   *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @param $local_alias
+   * @param $remote_alias
+   * @param $newDbSettings
    */
   protected function createNewBltSiteYml(
     $new_site_dir,
     $site_name,
     $url,
-    $remote_alias
+    $local_alias,
+    $remote_alias,
+    $newDbSettings
   ) {
     $site_yml_filename = $new_site_dir . '/blt.yml';
     $site_yml['project']['machine_name'] = $site_name;
     $site_yml['project']['human_name'] = $site_name;
     $site_yml['project']['local']['protocol'] = $url['scheme'];
     $site_yml['project']['local']['hostname'] = $url['host'];
-    $site_yml['drush']['aliases']['local'] = "self";
+    $site_yml['drush']['aliases']['local'] = $local_alias;
     $site_yml['drush']['aliases']['remote'] = $remote_alias;
+    $site_yml['drupal']['db'] = $newDbSettings;
     YamlMunge::mergeArrayIntoFile($site_yml, $site_yml_filename);
   }
 
@@ -202,6 +208,7 @@ class MultisiteCommand extends BltTasks {
     $result = $this->taskCopyDir([
       $default_site_dir => $new_site_dir,
     ])
+      ->exclude(['local.settings.php', 'files'])
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
     if (!$result->wasSuccessful()) {
@@ -226,8 +233,10 @@ class MultisiteCommand extends BltTasks {
   }
 
   protected function resetMultisiteConfig() {
-    $this->getConfig()->set('multisites', []);
-    $this->getConfig()->populateHelperConfig();
+    /** @var \Acquia\Blt\Robo\Config\DefaultConfig $config */
+    $config = $this->getConfig();
+    $config->set('multisites', []);
+    $config->populateHelperConfig();
   }
 
   /**
@@ -236,7 +245,7 @@ class MultisiteCommand extends BltTasks {
    *
    * @return string
    */
-  protected function getNewSiteDoman($options, $site_name) {
+  protected function getNewSiteDomain($options, $site_name) {
     if (empty($options['site-uri'])) {
       $domain = $this->askDefault("Local domain name",
         "http://local.$site_name.com");
@@ -263,19 +272,21 @@ class MultisiteCommand extends BltTasks {
   }
 
   /**
+   * @param $site_name
    * @param $options
+   * @param $dest
    *
    * @return string
    */
-  protected function getNewSiteRemoteAlias($site_name, $options) {
-    if (empty($options['remote-alias'])) {
-      $default = $site_name . '.local';
-      $alias = $this->askDefault("Default remote drush alias", $default);
+  protected function getNewSiteAlias($site_name, $options, $dest) {
+    $option = $dest . '-alias';
+    if (!empty($options[$option])) {
+      return $options[$option];
     }
     else {
-      $alias = $options['remote-alias'];
+      $default = $site_name . '.' . $dest;
+      return $this->askDefault("Default $dest drush alias", $default);
     }
-    return $alias;
   }
 
   /**
@@ -285,12 +296,12 @@ class MultisiteCommand extends BltTasks {
     $aliases = [
       'local' => [
         'uri' => $site_name,
+        'root' => '${env.cwd}/docroot',
       ],
     ];
     if ($this->getInspector()->isDrupalVmConfigPresent()) {
-      $this->defaultDrupalVmDrushAliasesFile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/drupal-vm.site.yml';
-      $new_aliases = Expander::parse(file_get_contents($this->defaultDrupalVmDrushAliasesFile), $this->getConfig()->export());
-      $aliases = array_merge($new_aliases, $aliases);
+      $defaultDrupalVmDrushAliasesFile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/drupal-vm.site.yml';
+      $aliases = Expander::parse(file_get_contents($defaultDrupalVmDrushAliasesFile), $this->getConfig()->export());
     }
 
     $filename = $this->getConfigValue('drush.alias-dir') . "/$site_name.site.yml";
