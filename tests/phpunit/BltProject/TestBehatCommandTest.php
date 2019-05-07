@@ -6,6 +6,8 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
  * Class BehatTest.
+ *
+ * @group orca_ignore
  */
 class BehatTest extends BltProjectTestBase {
 
