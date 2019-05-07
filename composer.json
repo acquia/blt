@@ -15,10 +15,12 @@
     "license": "GPL-2.0-only",
     "require": {
         "php": ">=7.1",
-        "acquia/drupal-spec-tool": "^2.0.0",
+        "ext-json": "*",
         "composer-plugin-api": "^1.1.0",
+        "acquia/drupal-spec-tool": "^2.0.0",
         "composer/installers": "^1.2.0",
         "composer/semver": "^1.4",
+        "consolidation/comments": "^1.0",
         "consolidation/config": "^1.0.0",
         "consolidation/robo": "~1.4.6",
         "cweagans/composer-patches": "^1.6.5",
@@ -26,10 +28,10 @@
         "dflydev/dot-access-data": "^1.1.0",
         "doctrine/common": "^2.5",
         "doctrine/inflector": "~1.1.0",
-        "drupal/coder": "^8.3.1",
-        "drush/drush": "^9.5.0",
-        "drupal/core": "^8.5.0",
         "drupal-composer/drupal-scaffold": "^2.5.4",
+        "drupal/coder": "^8.3.1",
+        "drupal/core": "^8.5.0",
+        "drush/drush": "^9.5.0",
         "grasmash/drupal-security-warning": "^1.0.0",
         "grasmash/yaml-cli": "^1.0.0",
         "grasmash/yaml-expander": "^1.2.0",
@@ -40,8 +42,7 @@
         "symfony/yaml": "^3.2.8",
         "tivie/php-os-detector": "^1.0",
         "typhonius/acquia-php-sdk-v2": "^1.0.3",
-        "zaporylie/composer-drupal-optimizations": "^1.0",
-        "ext-json": "*"
+        "zaporylie/composer-drupal-optimizations": "^1.0"
     },
     "require-dev": {
         "composer/composer": "^1.6.4",
