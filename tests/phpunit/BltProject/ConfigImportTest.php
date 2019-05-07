@@ -6,6 +6,8 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
  * Class ConfigImportTest.
+ *
+ * @group orca_ignore
  */
 class ConfigImportTest extends BltProjectTestBase {
 

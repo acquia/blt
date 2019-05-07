@@ -7,6 +7,8 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
  * Class DrupalSettingsTest.
+ *
+ * @group orca_ignore
  */
 class DrupalSettingsTest extends BltProjectTestBase {
 

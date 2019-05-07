@@ -8,6 +8,8 @@ use Acquia\Blt\Tests\BltProjectTestBase;
  * Class AcsfHooksTests.
  *
  * Verifies that acsf support has been initialized.
+ *
+ * @group orca_ignore
  */
 class AcsfHooksTest extends BltProjectTestBase {
 

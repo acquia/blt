@@ -7,7 +7,8 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 /**
  * Class ToggleModulesTest.
  *
- * @group requires-db orca_ignore
+ * @group requires-db
+ * @group orca_ignore
  */
 class ToggleModulesTest extends BltProjectTestBase {
 

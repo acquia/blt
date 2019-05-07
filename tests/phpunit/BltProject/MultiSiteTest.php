@@ -8,7 +8,8 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 /**
  * Class MultiSiteTest.
  *
- * @group requires-db orca_ignore
+ * @group requires-db
+ * @group orca_ignore
  */
 class MultiSiteTest extends BltProjectTestBase {
 
