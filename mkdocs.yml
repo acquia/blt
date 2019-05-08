@@ -15,4 +15,4 @@ markdown_extensions:
       permalink: True
 
 pages:
-  - Home: 'rtd-deprecated.md'
+  - Home: 'index.md'
