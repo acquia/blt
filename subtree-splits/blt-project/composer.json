@@ -1,35 +1,8 @@
 {
     "name": "acquia/blt-project",
-    "description": "Project template for Drupal 8 sites built with BLT.",
     "type": "project",
-    "minimum-stability": "dev",
-    "prefer-stable": true,
+    "description": "Project template for Drupal 8 sites built with BLT.",
     "license": "GPL-2.0-only",
-    "repositories": {
-        "drupal": {
-            "type": "composer",
-            "url": "https://packages.drupal.org/8"
-        },
-        "asset-packagist": {
-            "type": "composer",
-            "url": "https://asset-packagist.org"
-        }
-    },
-    "autoload": {
-        "psr-4": {
-            "Example\\": "blt/src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Drupal\\Tests\\PHPUnit\\": "tests/phpunit/src/"
-        }
-    },
-    "config": {
-        "sort-packages": true,
-        "optimize-autoloader": true,
-        "apcu-autoloader": true
-    },
     "require": {
         "php": ">=7.1",
         "acquia/blt": "10.x-dev",
@@ -50,32 +23,82 @@
     "require-dev": {
         "acquia/blt-require-dev": "^10.0.0-alpha1"
     },
+    "config": {
+        "apcu-autoloader": true,
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
     "extra": {
-        "enable-patching": true,
         "composer-exit-on-patch-failure": true,
-        "patchLevel": {
-            "drupal/core": "-p2"
-        },
-        "patches": [],
-        "installer-types": ["bower-asset", "npm-asset"],
-        "installer-paths": {
-            "docroot/core": ["type:drupal-core"],
-            "docroot/modules/contrib/{$name}": ["type:drupal-module"],
-            "docroot/modules/custom/{$name}": ["type:drupal-custom-module"],
-            "docroot/profiles/contrib/{$name}": ["type:drupal-profile"],
-            "docroot/profiles/custom/{$name}": ["type:drupal-custom-profile"],
-            "docroot/themes/contrib/{$name}": ["type:drupal-theme"],
-            "docroot/themes/custom/{$name}": ["type:drupal-custom-theme"],
-            "docroot/libraries/{$name}": ["type:drupal-library", "type:bower-asset", "type:npm-asset"],
-            "drush/Commands/{$name}": ["type:drupal-drush"]
-        },
         "drupal-scaffold": {
             "initial": {
                 "sites/default/default.services.yml": "sites/default/services.yml",
                 "sites/default/default.settings.php": "sites/default/settings.php"
             }
+        },
+        "enable-patching": true,
+        "installer-paths": {
+            "docroot/core": [
+                "type:drupal-core"
+            ],
+            "docroot/modules/contrib/{$name}": [
+                "type:drupal-module"
+            ],
+            "docroot/modules/custom/{$name}": [
+                "type:drupal-custom-module"
+            ],
+            "docroot/profiles/contrib/{$name}": [
+                "type:drupal-profile"
+            ],
+            "docroot/profiles/custom/{$name}": [
+                "type:drupal-custom-profile"
+            ],
+            "docroot/themes/contrib/{$name}": [
+                "type:drupal-theme"
+            ],
+            "docroot/themes/custom/{$name}": [
+                "type:drupal-custom-theme"
+            ],
+            "docroot/libraries/{$name}": [
+                "type:drupal-library",
+                "type:bower-asset",
+                "type:npm-asset"
+            ],
+            "drush/Commands/{$name}": [
+                "type:drupal-drush"
+            ]
+        },
+        "installer-types": [
+            "bower-asset",
+            "npm-asset"
+        ],
+        "patchLevel": {
+            "drupal/core": "-p2"
+        },
+        "patches": []
+    },
+    "autoload": {
+        "psr-4": {
+            "Example\\": "blt/src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Drupal\\Tests\\PHPUnit\\": "tests/phpunit/src/"
+        }
+    },
+    "repositories": {
+        "drupal": {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        },
+        "asset-packagist": {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "scripts": {
         "post-create-project-cmd": [
             "blt internal:create-project:init-repo"
