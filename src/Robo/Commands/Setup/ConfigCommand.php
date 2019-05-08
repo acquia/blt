@@ -17,6 +17,8 @@ class ConfigCommand extends BltTasks {
    * @command drupal:update
    * @aliases du setup:update
    * @executeInVm
+   * @throws \Robo\Exception\TaskException
+   * @throws BltException
    */
   public function update() {
     $task = $this->taskDrush()
@@ -36,6 +38,9 @@ class ConfigCommand extends BltTasks {
     }
 
     $this->invokeCommands(['drupal:config:import', 'drupal:toggle:modules']);
+
+    // Clear caches to regenerate frontend assets, pick up config changes, etc.
+    $this->taskDrush()->drush("cache-rebuild")->run();
   }
 
   /**
@@ -96,7 +101,6 @@ class ConfigCommand extends BltTasks {
           break;
       }
 
-      $task->drush("cache-rebuild");
       $result = $task->run();
       if (!$result->wasSuccessful()) {
         throw new BltException("Failed to import configuration!");
