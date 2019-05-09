@@ -365,7 +365,7 @@ class DeployCommand extends BltTasks {
 
     $this->setMultisiteFilePermissions(0777);
     $this->say("Rsyncing files from source repo into the build artifact...");
-    $this->taskExecStack()->exec("rsync -a --no-g --delete --delete-excluded --exclude-from='$exclude_list_file' '$source/' '$dest/' --filter 'protect /.git/'")
+    $this->taskExecStack()->exec("rsync -a --no-g --copy-links --delete --delete-excluded --exclude-from='$exclude_list_file' '$source/' '$dest/' --filter 'protect /.git/'")
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->stopOnFail()
       ->dir($this->getConfigValue('repo.root'))
