@@ -6,6 +6,8 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
  * Class SimpleSamlPhpTest.
+ *
+ * @group orca_ignore
  */
 class SimpleSamlPhpTest extends BltProjectTestBase {
 

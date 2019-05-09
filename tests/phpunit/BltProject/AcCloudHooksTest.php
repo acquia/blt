@@ -6,6 +6,8 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
  * Class AcCloudHooksTest.
+ *
+ * @group orca_ignore
  */
 class AcCloudHooksTest extends BltProjectTestBase {
 

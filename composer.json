@@ -1,18 +1,20 @@
 {
     "name": "acquia/blt",
+    "type": "composer-plugin",
     "description": "BLT",
-    "keywords": [ "drupal", "testing", "deployment", "automation", "template" ],
+    "keywords": [
+        "drupal",
+        "testing",
+        "deployment",
+        "automation",
+        "template"
+    ],
+    "license": "GPL-2.0-only",
     "authors": [
         {
             "name": "Matthew Grasmick"
         }
     ],
-    "support": {
-        "issues": "https://github.com/acquia/blt/issues",
-        "docs": "http://blt.readthedocs.io/en/stable"
-    },
-    "type": "composer-plugin",
-    "license": "GPL-2.0-only",
     "require": {
         "php": ">=7.1",
         "ext-json": "*",
@@ -44,13 +46,41 @@
         "typhonius/acquia-php-sdk-v2": "^1.0.3",
         "zaporylie/composer-drupal-optimizations": "^1.0"
     },
+    "conflict": {
+        "drupal/core": "7.*",
+        "drupal/drupal": "*"
+    },
     "require-dev": {
         "composer/composer": "^1.6.4",
         "knplabs/github-api": "^2.6",
         "php-http/guzzle6-adapter": "^1.1",
-        "webflo/drupal-core-require-dev": "^8.6.0",
-        "phpunit/phpunit": "^4.8|^6.5",
-        "squizlabs/php_codesniffer": "^3.0.1"
+        "phpunit/phpunit": "^4.8 || ^6.5",
+        "squizlabs/php_codesniffer": "^3.0.1",
+        "webflo/drupal-core-require-dev": "^8.6.0"
+    },
+    "suggest": {
+        "davereid/drush-acquia-hook-invoke": "dev-master",
+        "hirak/prestissimo": "^0.3",
+        "typhonius/acquia_cli": "^1.0"
+    },
+    "config": {
+        "php": "7",
+        "preferred-install": {
+            "drupal/core": "dist"
+        },
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "10.x-dev": "10.0.x-dev"
+        },
+        "class": "Acquia\\Blt\\Composer\\Plugin",
+        "composer-exit-on-patch-failure": true,
+        "installer-paths": {
+            "vendor/drupal/core": [
+                "type:drupal-core"
+            ]
+        }
     },
     "autoload": {
         "psr-4": {
@@ -59,36 +89,14 @@
             "Acquia\\Blt\\Tests\\Robo\\": "tests/phpunit/Robo/"
         }
     },
-    "extra": {
-        "composer-exit-on-patch-failure": true,
-        "class": "Acquia\\Blt\\Composer\\Plugin",
-        "branch-alias": {
-            "10.x-dev": "10.0.x-dev"
-        },
-        "installer-paths": {
-            "vendor/drupal/core":["type:drupal-core"]
-        }
-    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "bin": [
         "bin/blt",
         "bin/blt.bat"
     ],
-    "conflict": {
-        "drupal/core": "7.*",
-        "drupal/drupal": "*"
-    },
-    "config": {
-        "sort-packages": true,
-        "php": "7",
-        "preferred-install": {
-            "drupal/core": "dist"
-        }
-    },
-    "suggest": {
-        "hirak/prestissimo": "^0.3",
-        "typhonius/acquia_cli": "^1.0",
-        "davereid/drush-acquia-hook-invoke": "dev-master"
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    "support": {
+        "issues": "https://github.com/acquia/blt/issues",
+        "docs": "http://blt.readthedocs.io/en/stable"
+    }
 }
