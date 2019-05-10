@@ -38,9 +38,6 @@ class ConfigCommand extends BltTasks {
     }
 
     $this->invokeCommands(['drupal:config:import', 'drupal:toggle:modules']);
-
-    // Clear caches to regenerate frontend assets, pick up config changes, etc.
-    $this->taskDrush()->drush("cache-rebuild")->run();
   }
 
   /**
@@ -51,67 +48,74 @@ class ConfigCommand extends BltTasks {
    *
    * @validateDrushConfig
    * @executeInVm
+   * @throws \Robo\Exception\TaskException
+   * @throws BltException
+   * @throws \Exception
    */
   public function import() {
     $strategy = $this->getConfigValue('cm.strategy');
 
-    if ($strategy != 'none') {
-      $cm_core_key = $this->getConfigValue('cm.core.key');
-      $this->logConfig($this->getConfigValue('cm'), 'cm');
-      $task = $this->taskDrush();
-
-      $this->invokeHook('pre-config-import');
-
-      // If using core-only or config-split strategies, first check to see if
-      // required config is exported.
-      if (in_array($strategy, ['core-only', 'config-split'])) {
-        $core_config_file = $this->getConfigValue('docroot') . '/' . $this->getConfigValue("cm.core.dirs.$cm_core_key.path") . '/core.extension.yml';
-
-        if (!file_exists($core_config_file)) {
-          $this->logger->warning("BLT will NOT import configuration, $core_config_file was not found.");
-          // This is not considered a failure.
-          return 0;
-        }
-      }
-
-      // If exported site UUID does not match site active site UUID, set active
-      // to equal exported.
-      // @see https://www.drupal.org/project/drupal/issues/1613424
-      $exported_site_uuid = $this->getExportedSiteUuid($cm_core_key);
-      if ($exported_site_uuid) {
-        $task->drush("config:set system.site uuid $exported_site_uuid");
-      }
-
-      switch ($strategy) {
-        case 'core-only':
-          $this->importCoreOnly($task, $cm_core_key);
-          break;
-
-        case 'config-split':
-          $this->importConfigSplit($task, $cm_core_key);
-          break;
-
-        case 'features':
-          $this->importFeatures($task, $cm_core_key);
-
-          if ($this->getConfigValue('cm.features.no-overrides')) {
-            // @codingStandardsIgnoreLine
-            $this->checkFeaturesOverrides();
-          }
-          break;
-      }
-
-      $result = $task->run();
-      if (!$result->wasSuccessful()) {
-        throw new BltException("Failed to import configuration!");
-      }
-
-      $this->checkConfigOverrides($cm_core_key);
-
-      $result = $this->invokeHook('post-config-import');
-
+    if ($strategy == 'none') {
+      // Still clear caches to regenerate frontend assets and such.
+      $result = $this->taskDrush()->drush("cache-rebuild")->run();
       return $result;
     }
+
+    $cm_core_key = $this->getConfigValue('cm.core.key');
+    $this->logConfig($this->getConfigValue('cm'), 'cm');
+    $task = $this->taskDrush();
+
+    $this->invokeHook('pre-config-import');
+
+    // If using core-only or config-split strategies, first check to see if
+    // required config is exported.
+    if (in_array($strategy, ['core-only', 'config-split'])) {
+      $core_config_file = $this->getConfigValue('docroot') . '/' . $this->getConfigValue("cm.core.dirs.$cm_core_key.path") . '/core.extension.yml';
+
+      if (!file_exists($core_config_file)) {
+        $this->logger->warning("BLT will NOT import configuration, $core_config_file was not found.");
+        // This is not considered a failure.
+        return 0;
+      }
+    }
+
+    // If exported site UUID does not match site active site UUID, set active
+    // to equal exported.
+    // @see https://www.drupal.org/project/drupal/issues/1613424
+    $exported_site_uuid = $this->getExportedSiteUuid($cm_core_key);
+    if ($exported_site_uuid) {
+      $task->drush("config:set system.site uuid $exported_site_uuid");
+    }
+
+    switch ($strategy) {
+      case 'core-only':
+        $this->importCoreOnly($task, $cm_core_key);
+        break;
+
+      case 'config-split':
+        $this->importConfigSplit($task, $cm_core_key);
+        break;
+
+      case 'features':
+        $this->importFeatures($task, $cm_core_key);
+
+        if ($this->getConfigValue('cm.features.no-overrides')) {
+          $this->checkFeaturesOverrides();
+        }
+        break;
+    }
+
+    $task->drush("cache-rebuild");
+    $result = $task->run();
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Failed to import configuration!");
+    }
+
+    $this->checkConfigOverrides();
+
+    $result = $this->invokeHook('post-config-import');
+
+    return $result;
   }
 
   /**
