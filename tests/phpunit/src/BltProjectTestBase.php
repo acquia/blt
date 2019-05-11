@@ -57,10 +57,19 @@ abstract class BltProjectTestBase extends TestCase {
   protected $site2Dir;
   protected $sandboxInstanceClone;
 
+  public static $initialized = FALSE;
+
   /**
    * {@inheritdoc}
+   * @throws \Exception
    */
   public function setUp() {
+    if (!self::$initialized) {
+      $sandbox_manager = new SandboxManager();
+      $sandbox_manager->bootstrap();
+      self::$initialized = TRUE;
+    }
+
     $this->output = new ConsoleOutput();
     $this->printTestName();
     $this->bltDirectory = realpath(dirname(__FILE__) . '/../../../');
