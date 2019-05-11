@@ -57,7 +57,12 @@ abstract class BltProjectTestBase extends TestCase {
   protected $site2Dir;
   protected $sandboxInstanceClone;
 
-  public static $initialized = FALSE;
+  /**
+   * @var bool
+   *
+   * Track whether our master sandbox has been initialized.
+   */
+  protected static $initialized = FALSE;
 
   /**
    * {@inheritdoc}
