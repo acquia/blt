@@ -59,6 +59,12 @@ class AliasesCommand extends BltTasks {
     $this->siteAliasDir = $this->getConfigValue('drush.alias-dir');
 
     $cloudApiConfig = $this->loadCloudApiConfig();
+
+    if (!$cloudApiConfig) {
+      $this->logger->error('Failed to authenticate with Acquia Cloud API. Please check your credentials');
+      return NULL;
+    }
+
     $this->setCloudApiClient($cloudApiConfig['key'], $cloudApiConfig['secret']);
 
     $this->say("<info>Gathering site info from Acquia Cloud.</info>");
@@ -151,10 +157,18 @@ class AliasesCommand extends BltTasks {
     $this->say("You may generate new API tokens at <comment>https://cloud.acquia.com/app/profile/tokens</comment>");
     $key = $this->askRequired('Please enter your Acquia cloud API key:');
     $secret = $this->askRequired('Please enter your Acquia cloud API secret:');
+    $retries = 0;
+
     do {
       $this->setCloudApiClient($key, $secret);
       $cloud_api_client = $this->getCloudApiClient();
-    } while (!$cloud_api_client);
+      $retries++;
+    } while ($retries < 5 && !$cloud_api_client);
+
+    if (!$cloud_api_client) {
+      return NULL;
+    }
+
     $config = array(
       'key' => $key,
       'secret' => $secret,
