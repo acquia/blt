@@ -142,6 +142,7 @@ $blt_settings_files = [
   'filesystem',
   'simplesamlphp',
   'misc',
+  'drush-request-trace',
 ];
 foreach ($blt_settings_files as $blt_settings_file) {
   $settings_files[] = __DIR__ . "/$blt_settings_file.settings.php";
