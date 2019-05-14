@@ -3,8 +3,6 @@
 namespace Acquia\Blt\Robo\Commands\Blt;
 
 use Acquia\Blt\Robo\BltTasks;
-use Acquia\Blt\Robo\Exceptions\BltException;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Yaml\Yaml;
 
 /**
@@ -42,12 +40,14 @@ class DevCommand extends BltTasks {
       // @todo Support paths other than '../../packages/blt'.
       $vm_config = Yaml::parse(file_get_contents($projectDrupalVmConfigFile));
       $vm_config['vagrant_synced_folders'][] = [
-        'local-path' => $options['blt-path'],
+        'local_path' => $options['blt-path'],
         'destination' => '/var/packages/blt',
         'type' => 'nfs',
       ];
       file_put_contents($projectDrupalVmConfigFile, Yaml::dump($vm_config, 4));
-      $this->taskExec('vagrant halt && vagrant up');
+      $this->taskExec('vagrant halt && vagrant up')
+        ->dir($this->getConfigValue('repo.root'))
+        ->run();
     }
   }
 
