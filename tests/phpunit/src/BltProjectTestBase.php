@@ -80,7 +80,6 @@ abstract class BltProjectTestBase extends TestCase {
 
   /**
    * {@inheritdoc}
-   * @throws \Exception
    */
   public function setUp() {
     $this->output = new ConsoleOutput();
