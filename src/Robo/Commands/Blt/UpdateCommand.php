@@ -325,7 +325,7 @@ class UpdateCommand extends BltTasks {
    * @throws BltException
    */
   protected function rsyncTemplate() {
-    $source = $this->getConfigValue('blt.root') . '/template';
+    $source = $this->getConfigValue('blt.root') . '/subtree-splits/blt-project';
     $destination = $this->getConfigValue('repo.root');
     // There is no native rsync on Windows.
     // The most used one on Windows is https://itefix.net/cwrsync,
@@ -361,7 +361,7 @@ class UpdateCommand extends BltTasks {
     // Values in the project's existing blt.yml file will be preserved and
     // not overridden.
     $repo_project_yml = $this->getConfigValue('blt.config-files.project');
-    $template_project_yml = $this->getConfigValue('blt.root') . '/template/blt/blt.yml';
+    $template_project_yml = $this->getConfigValue('blt.root') . '/subtree-splits/blt-project/blt/blt.yml';
     $munged_yml = YamlMunge::mungeFiles($template_project_yml, $repo_project_yml);
     try {
       YamlMunge::writeFile($repo_project_yml, $munged_yml);
