@@ -21,13 +21,8 @@ class DevCommand extends BltTasks {
    * @command blt:dev:link-composer
    *
    * @param array $options
-   *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
-  public function linkComposer($options = ['blt-path' => InputOption::VALUE_REQUIRED]) {
-    if (!$options['blt-path']) {
-      throw new BltException("Argument blt-path is required.");
-    }
+  public function linkComposer($options = ['blt-path' => '../../packages/blt']) {
     $composer_json_filepath = $this->getConfigValue('repo.root') . '/composer.json';
     $composer_json = json_decode(file_get_contents($composer_json_filepath));
     $composer_json->repositories->blt = [
