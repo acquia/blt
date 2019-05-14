@@ -65,16 +65,24 @@ abstract class BltProjectTestBase extends TestCase {
   protected static $initialized = FALSE;
 
   /**
-   * {@inheritdoc}
+   * {@inheritDoc}
    * @throws \Exception
    */
-  public function setUp() {
+  public static function setUpBeforeClass() {
     if (!self::$initialized) {
+      // Only initialize the sandbox once for the entire test suite.
       $sandbox_manager = new SandboxManager();
       $sandbox_manager->bootstrap();
       self::$initialized = TRUE;
     }
+    parent::setUpBeforeClass();
+  }
 
+  /**
+   * {@inheritdoc}
+   * @throws \Exception
+   */
+  public function setUp() {
     $this->output = new ConsoleOutput();
     $this->printTestName();
     $this->bltDirectory = realpath(dirname(__FILE__) . '/../../../');
