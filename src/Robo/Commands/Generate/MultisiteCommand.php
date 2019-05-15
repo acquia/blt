@@ -79,7 +79,7 @@ class MultisiteCommand extends BltTasks {
    *   An array of database configuration options or empty array.
    */
   protected function configureDrupalVm($url, $newDBSettings) {
-    $configure_vm = $this->confirm("Would you like to generate new virtual host entry and database for this site inside Drupal VM?");
+    $configure_vm = $this->confirm("Would you like to generate new virtual host entry and database for this site inside Drupal VM?", TRUE);
     if ($configure_vm) {
       $projectDrupalVmConfigFile = $this->getConfigValue('vm.config');
       $original_contents = file_get_contents($projectDrupalVmConfigFile);
