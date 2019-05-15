@@ -32,26 +32,6 @@ Request the remote IdP metadata (XML) from the customer. Note that each environm
 
 1. Edit `${project.root}/simplesamlphp/config/acquia_config.php` as follows:
 
-      1. Update your database name in `$ah_options`:
-
-              $ah_options = array(
-                // Use the database "role" without the "stage", e.g., "example", not
-                // "exampletest" or "exampleprod".
-                'database_name' => 'example',
-                'session_store' => array(
-                  // Valid values are "memcache" and "database".
-                  'prod' => 'database',
-                  'test' => 'database',
-                  'dev'  => 'database',
-                ),
-              );
-
-      1. Amend the default values for the simplesaml session store if desired.
-         Note, memcache is only supported on PHP < 7 as tagged versions of the
-         simplesaml library only support php-memcache rather than the more
-         mature (and PHP 7 ready) php-memcached. This has been fixed in https://github.com/simplesamlphp/simplesamlphp/pull/395
-         and will likely be included in a future tagged version.
-
       1. Update the following values in the `$config` array:
 
               // The technical contact for the SAML identity provider, i.e., the customer.
@@ -64,21 +44,6 @@ Request the remote IdP metadata (XML) from the customer. Note that each environm
 
               $config['admin.protectindexpage'] = TRUE;
               $config['admin.protectmetadata'] = TRUE;
-
-      1. Optionally set the following values to prevent Varnish from interfering with SimpleSAMLphp.
-
-              // Prevent Varnish from interfering with SimpleSAMLphp.
-              // SSL terminated at the ELB/balancer so we correctly set the SERVER_PORT
-              // and HTTPS for SimpleSAMLphp baseurl configuration.
-              $protocol = 'http://';
-              $port = ':80';
-              if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
-                $_SERVER['SERVER_PORT'] = 443;
-                $_SERVER['HTTPS'] = 'true';
-                $protocol = 'https://';
-                $port = ':' . $_SERVER['SERVER_PORT'];
-              }
-              $config['baseurlpath'] = $protocol . $_SERVER['HTTP_HOST'] . $port . '/simplesaml/';
 
 1. Configure IdP Remote Metadata.
 
@@ -111,8 +76,8 @@ Request the remote IdP metadata (XML) from the customer. Note that each environm
                     'certificate' => 'saml.crt',
                     'signature.algorithm' => 'http://www.w3.org/2001/04/xmldsig-more#rsa-sha256',
                   ),
-
-1. Review `${project.root}/simplesamlphp/config/config.php` and set any values called for by your project requirements.
+                  
+          Note this process should be repeated for each environment (assuming you will use different sp for dev, stg, prod).
 
 1. Commit your changes to your Git repository.
 
@@ -134,7 +99,7 @@ Be careful with the following steps as misconfiguration could effectively lock y
 
 1. Activate authentication via SimpleSAMLphp and configure the module according to your requirements at `/admin/config/people/simplesamlphp_auth`.
 
-1. Capture the configuration changes with your configuration management method of choice.
+1. Capture the configuration changes with your configuration management method of choice. However, if you have multiple sp for different environments, a config split workflow is highly recommended to allow your configuration to properly track which sp should be used in a given environment. 
 
 ## Integration
 
