@@ -115,6 +115,10 @@ class RunTestsCommand extends DrupalTestCommand {
           $task->dieOnFail();
         }
 
+        if (isset($test['directory'])) {
+          $task->directory($test['directory']);
+        }
+
         if (isset($test['keep-results']) && ($test['keep-results'])) {
           $task->keepResults();
         }
