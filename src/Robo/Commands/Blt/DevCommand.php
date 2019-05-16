@@ -36,12 +36,16 @@ class DevCommand extends BltTasks {
       ->run();
 
     $projectDrupalVmConfigFile = $this->getConfigValue('vm.config');
-    if ($projectDrupalVmConfigFile && $options['blt-path'] == '../../packages/blt') {
-      // @todo Support paths other than '../../packages/blt'.
+    // Map host BLT path to guest BLT path so that symlinks work in guest.
+    $directoryMapping = [
+      '../../packages/blt' => '/var/packages/blt',
+      '../blt' => '/var/www/blt',
+    ];
+    if ($projectDrupalVmConfigFile && isset($directoryMapping[$options['blt-path']])) {
       $vm_config = Yaml::parse(file_get_contents($projectDrupalVmConfigFile));
       $vm_config['vagrant_synced_folders'][] = [
         'local_path' => $options['blt-path'],
-        'destination' => '/var/packages/blt',
+        'destination' => $directoryMapping[$options['blt-path']],
         'type' => 'nfs',
       ];
       file_put_contents($projectDrupalVmConfigFile, Yaml::dump($vm_config, 4));
