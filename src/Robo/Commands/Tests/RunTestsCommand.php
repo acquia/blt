@@ -95,6 +95,7 @@ class RunTestsCommand extends DrupalTestCommand {
           $task->sudo();
         }
 
+        /* Boolean parameters. */
         if (isset($test['all']) && ($test['all'])) {
           $task->all();
         }
@@ -115,10 +116,6 @@ class RunTestsCommand extends DrupalTestCommand {
           $task->dieOnFail();
         }
 
-        if (isset($test['directory'])) {
-          $task->directory($test['directory']);
-        }
-
         if (isset($test['keep-results']) && ($test['keep-results'])) {
           $task->keepResults();
         }
@@ -131,6 +128,7 @@ class RunTestsCommand extends DrupalTestCommand {
           $task->suppressDeprecations();
         }
 
+        /* Integer parameters. */
         if (isset($test['concurrency']) && is_int($test['concurrency'])) {
           $task->concurrency($test['concurrency']);
         }
@@ -139,8 +137,13 @@ class RunTestsCommand extends DrupalTestCommand {
           $task->repeat($test['repeat']);
         }
 
+        /* String parameters. */
         if (isset($test['dburl'])) {
           $task->dbUrl($test['dburl']);
+        }
+
+        if (isset($test['directory'])) {
+          $task->directory($test['directory']);
         }
 
         if (isset($test['sqlite'])) {
@@ -160,6 +163,7 @@ class RunTestsCommand extends DrupalTestCommand {
           }
         }
 
+        /* Array parameters. */
         if (isset($test['tests']) && is_array($test['tests'])) {
           $task->tests($test['tests']);
         }

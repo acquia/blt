@@ -135,16 +135,6 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
   }
 
   /**
-   * @param string $directory
-   *
-   * @return $this
-   */
-  public function directory($directory) {
-    $this->option("directory", $directory);
-    return $this;
-  }
-
-  /**
    * @return $this
    */
   public function keepResultsTable() {
@@ -211,6 +201,16 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
    */
   public function dbUrl($dbUrl) {
     $this->option("dburl", $dbUrl);
+    return $this;
+  }
+
+  /**
+   * @param string $directory
+   *
+   * @return $this
+   */
+  public function directory($directory) {
+    $this->option("directory", $directory);
     return $this;
   }
 
