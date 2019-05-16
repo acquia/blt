@@ -98,7 +98,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
    */
   private function initializeAmplitude() {
     $amplitude = Amplitude::getInstance();
-    $amplitude->init('8704b964df99ac0b1306a76c6011796f')
+    $amplitude->init('dfd3cba7fa72065cde9edc2ca22d0f37')
       // @todo also set platform, arch, os_name, os_version, device_id
       ->setUserProperties([
         'blt-version' => $this::VERSION,
