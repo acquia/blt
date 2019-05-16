@@ -24,6 +24,7 @@ use Robo\Runner as RoboRunner;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Zumba\Amplitude\Amplitude as Amplitude;
 
 /**
  * The BLT Robo application.
@@ -88,6 +89,23 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     $this->runner->setRelativePluginNamespace('Blt\Plugin');
 
     $this->setLogger($container->get('logger'));
+
+    $this->initializeAmplitude();
+  }
+
+  /**
+   * Initializes Amplitude.
+   */
+  private function initializeAmplitude() {
+    $amplitude = Amplitude::getInstance();
+    $amplitude->init('8704b964df99ac0b1306a76c6011796f')
+      // @todo also set platform, arch, os_name, os_version, device_id
+      ->setUserProperties([
+        'blt-version' => $this::VERSION,
+      ])
+      // @todo get this from systeminformation
+      ->setDeviceId('foo')
+      ->logQueuedEvents();
   }
 
   /**
@@ -220,6 +238,8 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
    *   The exiting status code of the application
    */
   public function run(InputInterface $input, OutputInterface $output) {
+    // @todo make telemetry opt-in/opt-out
+    Amplitude::getInstance()->queueEvent('blt ' . $input->getFirstArgument());
     $application = $this->getContainer()->get('application');
     $status_code = $this->runner->run($input, $output, $application, $this->commands);
 

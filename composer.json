@@ -44,7 +44,8 @@
         "symfony/yaml": "^3.2.8",
         "tivie/php-os-detector": "^1.0",
         "typhonius/acquia-php-sdk-v2": "^1.0.3",
-        "zaporylie/composer-drupal-optimizations": "^1.0"
+        "zaporylie/composer-drupal-optimizations": "^1.0",
+        "zumba/amplitude-php": "^1.0"
     },
     "conflict": {
         "drupal/core": "7.*",
