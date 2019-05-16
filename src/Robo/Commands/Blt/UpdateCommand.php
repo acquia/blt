@@ -68,6 +68,7 @@ class UpdateCommand extends BltTasks {
    * @hidden
    */
   public function addToProject() {
+    $this->rsyncTemplate();
     $this->initializeBlt();
     $this->displayArt();
     $this->yell("BLT has been added to your project.");
@@ -80,7 +81,7 @@ class UpdateCommand extends BltTasks {
    * Creates initial BLT files in their default state.
    */
   protected function initializeBlt() {
-    $this->updateRootProjectFiles();
+    $this->updateSchemaVersionFile();
     $this->taskExecStack()
       ->dir($this->getConfigValue("repo.root"))
       ->exec("composer drupal:scaffold")
@@ -224,28 +225,18 @@ class UpdateCommand extends BltTasks {
    * @return \Robo\Result
    */
   protected function cleanUpProjectTemplate() {
+    $repo_root = $this->getConfigValue('repo.root');
     // Remove files leftover from acquia/blt-project.
     $result = $this->taskFilesystemStack()
-      ->remove($this->getConfigValue('repo.root') . '/.travis.yml')
-      ->remove($this->getConfigValue('repo.root') . '/LICENSE.txt')
-      ->remove($this->getConfigValue('repo.root') . '/README.md')
+      ->remove($repo_root . '/.travis.yml')
+      ->remove($repo_root . '/LICENSE.txt')
+      ->rename($repo_root . '/README-template.md', $repo_root . '/README.md', TRUE)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
     if (!$result->wasSuccessful()) {
       throw new BltException("Could not remove deprecated files provided by acquia/blt-project.");
     }
-  }
-
-  /**
-   * Updates root project files using BLT templated files.
-   *
-   * @return \Robo\Result
-   */
-  protected function updateRootProjectFiles() {
-    $this->updateSchemaVersionFile();
-    $this->rsyncTemplate();
-    $this->mungeProjectYml();
   }
 
   /**
@@ -349,26 +340,6 @@ class UpdateCommand extends BltTasks {
 
   protected function convertWindowsPathToCygwinPath($path) {
     return str_replace('\\', '/', preg_replace('/([A-Z]):/i', '/cygdrive/$1', $path));
-  }
-
-  /**
-   * Updates project BLT .yml files with new key value pairs from upstream.
-   *
-   * This WILL NOT overwrite existing values.
-   */
-  protected function mungeProjectYml() {
-    $this->say("Merging BLT's <comment>blt.yml</comment> template with your project's <comment>blt/blt.yml</comment>...");
-    // Values in the project's existing blt.yml file will be preserved and
-    // not overridden.
-    $repo_project_yml = $this->getConfigValue('blt.config-files.project');
-    $template_project_yml = $this->getConfigValue('blt.root') . '/subtree-splits/blt-project/blt/blt.yml';
-    $munged_yml = YamlMunge::mungeFiles($template_project_yml, $repo_project_yml);
-    try {
-      YamlMunge::writeFile($repo_project_yml, $munged_yml);
-    }
-    catch (\Exception $e) {
-      throw new BltException("Could not update $repo_project_yml.");
-    }
   }
 
   /**
