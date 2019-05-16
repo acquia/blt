@@ -269,6 +269,7 @@ Each row under the `tests:drupal-tests` key should contain a combination of the 
  * `concurrency`
  * `dburl`
  * `die-on-fail`
+ * `directory`
  * `keep-results-table`
  * `keep-results`
  * `repeat`
