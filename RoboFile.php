@@ -182,12 +182,16 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
 
     $phpunit_group = getenv('PHPUNIT_GROUP');
     $phpunit_exclude_group = getenv('PHPUNIT_EXCLUDE_GROUP');
+    $phpunit_filter = getenv('PHPUNIT_FILTER');
     $phpunit_command_string = "{$this->bltRoot}/vendor/bin/phpunit";
     if ($phpunit_group) {
       $phpunit_command_string .= " --group=" . $phpunit_group;
     }
     if ($phpunit_exclude_group) {
       $phpunit_command_string .= " --exclude-group=" . $phpunit_exclude_group;
+    }
+    if ($phpunit_filter) {
+      $phpunit_command_string .= " --filter " . $phpunit_filter;
     }
     $task->exec($phpunit_command_string);
 
