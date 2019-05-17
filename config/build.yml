@@ -54,9 +54,6 @@ deploy:
   exclude_file: ${blt.root}/scripts/blt/deploy/deploy-exclude.txt
   exclude_additions_file: ${repo.root}/blt/deploy-exclude-additions.txt
   gitignore_file: ${blt.root}/scripts/blt/deploy/.gitignore
-  git:
-    # If true, deploys will fail if there are uncommitted changes.
-    failOnDirty: true
 
 # File and Directory locations.
 docroot: ${repo.root}/docroot

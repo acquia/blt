@@ -4,6 +4,7 @@ namespace Acquia\Blt\Tests\BltProject;
 
 use Acquia\Blt\Robo\Common\YamlMunge;
 use Acquia\Blt\Tests\BltProjectTestBase;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class MultiSiteTest.
@@ -143,6 +144,25 @@ class MultiSiteTest extends BltProjectTestBase {
 
     $output_array = $this->drushJson("@site2.clone config-get system.site");
     $this->assertEquals('Site 2 Clone', $output_array['name']);
+  }
+
+  /**
+   * Test VM-specific functionality.
+   *
+   * @throws \Exception
+   */
+  public function testMultisiteVmGenerate() {
+    // Test that VM config gets updated correctly with new multisite info.
+    $this->blt('vm', ['--no-boot' => TRUE]);
+    $expected_yaml = Yaml::parse(file_get_contents("$this->sandboxInstance/box/config.yml"));
+    $expected_yaml['apache_vhosts'][] = [
+      'servername' => 'local.foo.com',
+      'documentroot' => '{{ drupal_core_path }}',
+      'extra_parameters' => '{{ apache_vhost_php_fpm_parameters }}',
+    ];
+    $this->blt('multisite', ['--site-dir' => 'foo']);
+    $new_yaml = Yaml::parse(file_get_contents("$this->sandboxInstance/box/config.yml"));
+    $this::assertEquals($expected_yaml, $new_yaml);
   }
 
 }
