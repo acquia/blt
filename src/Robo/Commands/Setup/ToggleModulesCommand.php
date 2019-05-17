@@ -4,6 +4,7 @@ namespace Acquia\Blt\Robo\Commands\Setup;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
+use Zumba\Amplitude\Amplitude;
 
 /**
  * Defines commands in the "drupal:toggle:modules" namespace.
@@ -69,10 +70,12 @@ class ToggleModulesCommand extends BltTasks {
         ->drush("$command $modules_list")
         ->run();
       $exit_code = $result->getExitCode();
+      Amplitude::getInstance()->queueEvent('toggle-modules', ['active' => TRUE, 'modules' => md5($modules_list)]);
     }
     else {
       $exit_code = 0;
       $this->logger->info("$config_key is not set.");
+      Amplitude::getInstance()->queueEvent('toggle-modules', ['active' => FALSE]);
     }
 
     if ($exit_code) {

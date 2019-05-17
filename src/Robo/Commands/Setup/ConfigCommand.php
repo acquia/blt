@@ -5,6 +5,7 @@ namespace Acquia\Blt\Robo\Commands\Setup;
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Symfony\Component\Yaml\Yaml;
+use Zumba\Amplitude\Amplitude;
 
 /**
  * Defines commands in the "setup:config*" namespace.
@@ -54,6 +55,8 @@ class ConfigCommand extends BltTasks {
    */
   public function import() {
     $strategy = $this->getConfigValue('cm.strategy');
+
+    Amplitude::getInstance()->queueEvent('config import', ['strategy' => $strategy]);
 
     if ($strategy == 'none') {
       // Still clear caches to regenerate frontend assets and such.
