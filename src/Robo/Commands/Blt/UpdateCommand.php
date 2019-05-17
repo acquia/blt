@@ -243,7 +243,9 @@ class UpdateCommand extends BltTasks {
     // Remove files leftover from acquia/blt-project.
     $cleanupTask = $this->taskFilesystemStack();
     foreach (self::BLT_PROJECT_EXCLUDE_FILES as $file) {
-      $cleanupTask->remove($repo_root . '/' . $file);
+      if ($file != 'README-template.md') {
+        $cleanupTask->remove($repo_root . '/' . $file);
+      }
     }
     $result = $cleanupTask
       ->rename($repo_root . '/README-template.md', $repo_root . '/README.md', TRUE)
