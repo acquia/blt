@@ -27,6 +27,19 @@ class UpdateCommand extends BltTasks {
   protected $currentSchemaVersion;
 
   /**
+   * @var array
+   * Files that exist in the BLT Project repo but aren't actually part of the
+   * project template. They are only used for testing, licensing, etc...
+   */
+  const BLT_PROJECT_EXCLUDE_FILES = [
+    '.test-packages.json',
+    '.travis.yml',
+    'LICENSE.txt',
+    'README.md',
+    'README-template.md',
+  ];
+
+  /**
    * This hook will fire for all commands in this command file.
    *
    * @hook init
@@ -174,6 +187,7 @@ class UpdateCommand extends BltTasks {
         "readme/repo-architecture.md",
         "readme/views.md",
         "drush/policy.drush.inc",
+        ".test-packages.json",
       ])
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
@@ -227,9 +241,11 @@ class UpdateCommand extends BltTasks {
   protected function cleanUpProjectTemplate() {
     $repo_root = $this->getConfigValue('repo.root');
     // Remove files leftover from acquia/blt-project.
-    $result = $this->taskFilesystemStack()
-      ->remove($repo_root . '/.travis.yml')
-      ->remove($repo_root . '/LICENSE.txt')
+    $cleanupTask = $this->taskFilesystemStack();
+    foreach (self::BLT_PROJECT_EXCLUDE_FILES as $file) {
+      $cleanupTask->remove($repo_root . '/' . $file);
+    }
+    $result = $cleanupTask
       ->rename($repo_root . '/README-template.md', $repo_root . '/README.md', TRUE)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
@@ -327,9 +343,15 @@ class UpdateCommand extends BltTasks {
     }
     $exclude_from = $this->getConfigValue('blt.update.ignore-existing-file');
     $this->say("Copying files from BLT's template into your project...");
+    $rsync_command1 = "rsync -a --no-g '$source/' '$destination/' --exclude-from='$exclude_from'";
+    $rsync_command2 = "rsync -a --no-g '$source/' '$destination/' --include-from='$exclude_from' --ignore-existing";
+    foreach (self::BLT_PROJECT_EXCLUDE_FILES as $file) {
+      $rsync_command1 .= " --exclude=$file";
+      $rsync_command2 .= " --exclude=$file";
+    }
     $result = $this->taskExecStack()
-      ->exec("rsync -a --no-g '$source/' '$destination/' --exclude-from='$exclude_from'")
-      ->exec("rsync -a --no-g '$source/' '$destination/' --include-from='$exclude_from' --ignore-existing")
+      ->exec($rsync_command1)
+      ->exec($rsync_command2)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
