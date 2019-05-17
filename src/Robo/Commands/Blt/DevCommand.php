@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Blt;
 
 use Acquia\Blt\Robo\BltTasks;
-use Symfony\Component\Yaml\Yaml;
+use Acquia\Blt\Robo\Common\YamlWriter;
 
 /**
  * Defines commands for developing BLT.
@@ -34,10 +34,11 @@ class DevCommand extends BltTasks {
     $this->taskExec('rm -rf vendor && composer update acquia/blt --with-dependencies')
       ->dir($this->getConfigValue('repo.root'))
       ->run();
-    $projectDrupalVmConfigFile = $this->getConfigValue('vm.config');
 
+    $projectDrupalVmConfigFile = $this->getConfigValue('vm.config');
     if ($projectDrupalVmConfigFile && isset(self::DIRECTORY_MAPPING[$options['blt-path']])) {
-      $vm_config = Yaml::parse(file_get_contents($projectDrupalVmConfigFile));
+      $yamlWriter = new YamlWriter($projectDrupalVmConfigFile);
+      $vm_config = $yamlWriter->getContents();
       $existing_entry = array_filter($vm_config['vagrant_synced_folders'], function ($folder) {
         return in_array($folder['destination'], self::DIRECTORY_MAPPING);
       });
@@ -49,7 +50,7 @@ class DevCommand extends BltTasks {
         'destination' => self::DIRECTORY_MAPPING[$options['blt-path']],
         'type' => 'nfs',
       ];
-      file_put_contents($projectDrupalVmConfigFile, Yaml::dump($vm_config, 4));
+      $yamlWriter->write($vm_config);
       $this->taskExec('vagrant halt && vagrant up')
         ->dir($this->getConfigValue('repo.root'))
         ->run();

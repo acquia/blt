@@ -4,12 +4,11 @@ namespace Acquia\Blt\Robo\Commands\Generate;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\YamlMunge;
+use Acquia\Blt\Robo\Common\YamlWriter;
 use Acquia\Blt\Robo\Exceptions\BltException;
-use Consolidation\Comments\Comments;
 use Grasmash\YamlExpander\Expander;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * Defines commands in the "recipes:multisite:init" namespace.
@@ -81,9 +80,8 @@ class MultisiteCommand extends BltTasks {
   protected function configureDrupalVm($url, $newDBSettings) {
     $configure_vm = $this->confirm("Would you like to generate new virtual host entry and database for this site inside Drupal VM?", TRUE);
     if ($configure_vm) {
-      $projectDrupalVmConfigFile = $this->getConfigValue('vm.config');
-      $original_contents = file_get_contents($projectDrupalVmConfigFile);
-      $vm_config = Yaml::parse($original_contents);
+      $yamlWriter = new YamlWriter($this->getConfigValue('vm.config'));
+      $vm_config = $yamlWriter->getContents();
       $vm_config['apache_vhosts'][] = [
         'servername' => $url['host'],
         'documentroot' => $vm_config['apache_vhosts'][0]['documentroot'],
@@ -107,13 +105,7 @@ class MultisiteCommand extends BltTasks {
         ];
       }
 
-      // Dump YAML file while preserving as many comments as possible.
-      $altered_contents = Yaml::dump($vm_config, PHP_INT_MAX, 2);
-      $commentManager = new Comments();
-      $commentManager->collect(explode("\n", $original_contents));
-      $altered_with_comments = $commentManager->inject(explode("\n", $altered_contents));
-      $result = implode("\n", $altered_with_comments);
-      file_put_contents($projectDrupalVmConfigFile, $result);
+      $yamlWriter->write($vm_config);
     }
   }
 
