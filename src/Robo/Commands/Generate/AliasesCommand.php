@@ -3,6 +3,8 @@
 namespace Acquia\Blt\Robo\Commands\Generate;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Exceptions\BltException;
+use Acquia\Hmac\Exception\MalformedResponseException as MalformedResponseExceptionAlias;
 use AcquiaCloudApi\CloudApi\Client;
 use AcquiaCloudApi\CloudApi\Connector;
 use Symfony\Component\Yaml\Yaml;
@@ -146,19 +148,20 @@ class AliasesCommand extends BltTasks {
    *
    * @return array
    *   Returns credentials as array on success.
+   * @throws BltException
    */
   protected function askForCloudApiCredentials() {
     $this->say("You may generate new API tokens at <comment>https://cloud.acquia.com/app/profile/tokens</comment>");
     $key = $this->askRequired('Please enter your Acquia cloud API key:');
     $secret = $this->askRequired('Please enter your Acquia cloud API secret:');
-    do {
-      $this->setCloudApiClient($key, $secret);
-      $cloud_api_client = $this->getCloudApiClient();
-    } while (!$cloud_api_client);
-    $config = array(
+
+    // Attempt to set client to check credentials (throws exception on failure).
+    $this->setCloudApiClient($key, $secret);
+
+    $config = [
       'key' => $key,
       'secret' => $secret,
-    );
+    ];
     $this->writeCloudApiConfig($config);
     return $config;
   }
@@ -185,26 +188,29 @@ class AliasesCommand extends BltTasks {
    * @param string $secret
    *   The Acquia token secret key.
    *
-   * @return array
-   *   Returns credentials as array on success, or NULL on failure.
+   * @throws BltException
    */
   protected function setCloudApiClient($key, $secret) {
     try {
-      $connector = new Connector(array(
+      $connector = new Connector([
         'key' => $key,
         'secret' => $secret,
-      ));
+      ]);
       $cloud_api = Client::factory($connector);
       // We must call some method on the client to test authentication.
       $cloud_api->applications();
       $this->cloudApiClient = $cloud_api;
-      return $cloud_api;
+    }
+    catch (MalformedResponseExceptionAlias $e) {
+      if ($e->getResponse()->getStatusCode() == 403) {
+        throw new BltException("Invalid credentials. Failed to authenticate with Acquia Cloud API.");
+      }
+      else {
+        throw new BltException("Received malformed response from Cloud API. Exception was thrown: " . $e->getMessage());
+      }
     }
     catch (\Exception $e) {
-      // @todo this is being thrown after first auth. still works? check out.
-      $this->logger->error('Failed to authenticate with Acquia Cloud API.');
-      $this->logger->error('Exception was thrown: ' . $e->getMessage());
-      return NULL;
+      throw new BltException("Unknown exception while connecting to Acquia Cloud: " . $e->getMessage());
     }
   }
 

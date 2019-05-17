@@ -149,7 +149,8 @@ Before deploying code, BLT ensures that the source directory is clean according 
 Ensure that your Git directory is clean before deploying. BLT should print a list of all dirty files to help you debug. If deploying locally, this is simply a matter of committing the changes. If deploying via CI, you'll need to determine what might be causing these files to change during the test process.
 
 A few examples of what can cause files to change during the deploy process and how to troubleshoot:
-- If you have defined frontend build steps that call `npm install`, `package-lock.json` may be modified during deployments. Try using `npm ci` instead (see [Frontend docs](frontend.md) for details).
+- If you have defined frontend build steps that call `npm install`, `package-lock.json` may be modified during deployments. Try using `npm ci` instead (see [Frontend docs](frontend.md) for details). Warning: `npm ci` is not present in older versions of npm.
+- Ensure that the files' permissions are committed properly (as git will track a file as `M` if the diff is the same, but permissions differ)
 - Try replicating the CI process locally by running the same commands (visible in the CI logs), such as `blt setup` and `blt tests:all`. If these change files locally, you should determine if these changes need to be committed or whether your test scripts need to be adjusted to avoid creating changes.
 - Run `blt doctor` locally to ensure that there are no problems such as missing settings file includes.
 - See [this issue](https://github.com/acquia/blt/issues/3564) for additional documentation and solutions.

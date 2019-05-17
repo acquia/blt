@@ -58,6 +58,27 @@ abstract class BltProjectTestBase extends TestCase {
   protected $sandboxInstanceClone;
 
   /**
+   * @var bool
+   *
+   * Track whether our master sandbox has been initialized.
+   */
+  protected static $initialized = FALSE;
+
+  /**
+   * {@inheritDoc}
+   * @throws \Exception
+   */
+  public static function setUpBeforeClass() {
+    if (!self::$initialized) {
+      // Only initialize the sandbox once for the entire test suite.
+      $sandbox_manager = new SandboxManager();
+      $sandbox_manager->bootstrap();
+      self::$initialized = TRUE;
+    }
+    parent::setUpBeforeClass();
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function setUp() {
