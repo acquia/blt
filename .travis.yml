@@ -31,6 +31,7 @@ env:
     - COMPOSER_BIN=$TRAVIS_BUILD_DIR/vendor/bin
     - BLT_DIR=$TRAVIS_BUILD_DIR
     - DRUPAL_CORE_HEAD=^8.7.0-alpha1
+    - BLT_PRINT_COMMAND_OUTPUT=0
 
 matrix:
   fast_finish: true
