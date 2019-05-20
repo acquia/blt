@@ -1,1 +1,1 @@
-../template/drush/README.md
+../subtree-splits/blt-project/drush/README.md
