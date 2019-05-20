@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "735a49d914e573d11eb320a488a72a53",
+    "content-hash": "3f1271611f53a229ce6593d3d9d129af",
     "packages": [
         {
             "name": "acquia/drupal-spec-tool",
@@ -1050,6 +1050,54 @@
             ],
             "description": "Initialize Symfony Console commands from annotated command class methods.",
             "time": "2019-03-08T16:55:03+00:00"
+        },
+        {
+            "name": "consolidation/comments",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/consolidation/comments.git",
+                "reference": "ac4b6f88dcab869675cc012c8d95d4296cc9fcc4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/consolidation/comments/zipball/ac4b6f88dcab869675cc012c8d95d4296cc9fcc4",
+                "reference": "ac4b6f88dcab869675cc012c8d95d4296cc9fcc4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "phpunit/php-code-coverage": "~2|~4",
+                "phpunit/phpunit": "^4.8",
+                "satooshi/php-coveralls": "^1.0",
+                "squizlabs/php_codesniffer": "^2.8",
+                "symfony/yaml": "^3.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Consolidation\\Comments\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Greg Anderson",
+                    "email": "greg.1.anderson@greenknowe.org"
+                }
+            ],
+            "description": "A tool for preserving comments, e.g. when parsing YAML files.",
+            "time": "2017-11-08T01:18:14+00:00"
         },
         {
             "name": "consolidation/config",
@@ -5529,7 +5577,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "BackEndTea@gmail.com"
+                    "email": "backendtea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",

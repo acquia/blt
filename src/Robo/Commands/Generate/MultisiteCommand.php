@@ -5,6 +5,7 @@ namespace Acquia\Blt\Robo\Commands\Generate;
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\YamlMunge;
 use Acquia\Blt\Robo\Exceptions\BltException;
+use Consolidation\Comments\Comments;
 use Grasmash\YamlExpander\Expander;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -78,11 +79,11 @@ class MultisiteCommand extends BltTasks {
    *   An array of database configuration options or empty array.
    */
   protected function configureDrupalVm($url, $newDBSettings) {
-    $this->logger->warning("Automatically configuring your Drupal VM instance will remove formatting and comments from your config.yml file.");
-    $configure_vm = $this->confirm("Would you like to generate new virtual host entry and database for this site inside Drupal VM?");
+    $configure_vm = $this->confirm("Would you like to generate new virtual host entry and database for this site inside Drupal VM?", TRUE);
     if ($configure_vm) {
       $projectDrupalVmConfigFile = $this->getConfigValue('vm.config');
-      $vm_config = Yaml::parse(file_get_contents($projectDrupalVmConfigFile));
+      $original_contents = file_get_contents($projectDrupalVmConfigFile);
+      $vm_config = Yaml::parse($original_contents);
       $vm_config['apache_vhosts'][] = [
         'servername' => $url['host'],
         'documentroot' => $vm_config['apache_vhosts'][0]['documentroot'],
@@ -105,8 +106,14 @@ class MultisiteCommand extends BltTasks {
           'priv' => $newDBSettings['database'] . '%.*:ALL',
         ];
       }
-      file_put_contents($projectDrupalVmConfigFile,
-        Yaml::dump($vm_config, 4));
+
+      // Dump YAML file while preserving as many comments as possible.
+      $altered_contents = Yaml::dump($vm_config, PHP_INT_MAX, 2);
+      $commentManager = new Comments();
+      $commentManager->collect(explode("\n", $original_contents));
+      $altered_with_comments = $commentManager->inject(explode("\n", $altered_contents));
+      $result = implode("\n", $altered_with_comments);
+      file_put_contents($projectDrupalVmConfigFile, $result);
     }
   }
 

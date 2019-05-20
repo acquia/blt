@@ -66,7 +66,7 @@ if ($ip) {
 $repo_root = dirname(DRUPAL_ROOT);
 
 if (!isset($site_path)) {
-  $site_path = Drupal::service('site.path');
+  $site_path = \Drupal::service('site.path');
 }
 $site_dir = str_replace('sites/', '', $site_path);
 
