@@ -19,7 +19,6 @@
         "php": ">=7.1",
         "ext-json": "*",
         "composer-plugin-api": "^1.1.0",
-        "acquia/drupal-spec-tool": "^2.0.0",
         "composer/installers": "^1.2.0",
         "composer/semver": "^1.4",
         "consolidation/comments": "^1.0",
