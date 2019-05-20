@@ -151,6 +151,8 @@ class UpdateCommand extends BltTasks {
     $this->say("Removing deprecated files and directories...");
     $this->taskFilesystemStack()
       ->remove([
+        "blt/composer.required.json",
+        "blt/composer.suggested.json",
         "build",
         "docroot/sites/default/settings/apcu_fix.yml",
         "docroot/sites/default/settings/base.settings.php",
