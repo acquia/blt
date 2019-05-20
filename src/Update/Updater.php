@@ -513,7 +513,7 @@ class Updater {
    *   If true, target files newer than origin files are overwritten.
    */
   public function syncWithTemplate($filePath, $overwrite = FALSE) {
-    $sourcePath = $this->getBltRoot() . '/template/' . $filePath;
+    $sourcePath = $this->getBltRoot() . '/subtree-splits/blt-project/' . $filePath;
     $targetPath = $this->getRepoRoot() . '/' . $filePath;
 
     if ($this->getFileSystem()->exists($sourcePath)) {
