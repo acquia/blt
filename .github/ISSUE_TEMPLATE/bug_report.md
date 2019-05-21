@@ -13,7 +13,7 @@ assignees: ''
 A clear and concise description of what the bug is.
 
 **To Reproduce**
-Steps to reproduce the behavior, _ideally_ starting from a fresh install of BLT:
+Steps to reproduce the behavior, ideally starting from a fresh install of BLT:
 1. Run `composer create-project acquia/blt-project --no-interaction`
 2. Click on '....'
 3. Scroll down to '....'
