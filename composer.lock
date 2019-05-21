@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3f1271611f53a229ce6593d3d9d129af",
+    "content-hash": "3926285ebe587a5bd38d9b0deb197310",
     "packages": [
         {
             "name": "acquia/drupal-spec-tool",
@@ -5577,7 +5577,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "backendtea@gmail.com"
+                    "email": "BackEndTea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -9779,6 +9779,7 @@
     "platform": {
         "php": ">=7.1",
         "ext-json": "*",
+        "ext-posix": "*",
         "composer-plugin-api": "^1.1.0"
     },
     "platform-dev": []
