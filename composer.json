@@ -18,7 +18,6 @@
     "require": {
         "php": ">=7.1",
         "ext-json": "*",
-        "ext-posix": "*",
         "composer-plugin-api": "^1.1.0",
         "acquia/drupal-spec-tool": "^2.0.0",
         "composer/installers": "^1.2.0",

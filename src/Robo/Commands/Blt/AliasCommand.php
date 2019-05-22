@@ -181,8 +181,7 @@ class AliasCommand extends BltTasks {
     if ($inspector->isOsx() || $inspector->isAhEnv()) {
       $continue = $this->confirm("Would you like to create ~/.bash_profile?");
       if ($continue) {
-        $user = posix_getpwuid(posix_getuid());
-        $home_dir = $user['dir'];
+        $home_dir = getenv('HOME');
         $bash_profile = $home_dir . '/.bash_profile';
         if (!file_exists($bash_profile)) {
           $result = $this->taskFilesystemStack()
