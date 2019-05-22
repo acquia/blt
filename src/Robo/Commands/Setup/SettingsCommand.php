@@ -193,8 +193,8 @@ WARNING;
    */
   public function behat() {
     $copy_map = [
-      $this->getConfigValue('blt.root') . '/template/tests/behat/behat.yml' => $this->getConfigValue('repo.root') . '/tests/behat/behat.yml',
-      $this->getConfigValue('blt.root') . '/template/tests/behat/example.local.yml' => $this->defaultBehatLocalConfigFile,
+      $this->getConfigValue('blt.root') . '/subtree-splits/blt-project/tests/behat/behat.yml' => $this->getConfigValue('repo.root') . '/tests/behat/behat.yml',
+      $this->getConfigValue('blt.root') . '/subtree-splits/blt-project/tests/behat/example.local.yml' => $this->defaultBehatLocalConfigFile,
       $this->defaultBehatLocalConfigFile => $this->projectBehatLocalConfigFile,
     ];
 
