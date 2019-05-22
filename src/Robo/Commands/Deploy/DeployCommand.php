@@ -259,7 +259,6 @@ class DeployCommand extends BltTasks {
    * Adds remotes from git.remotes to /deploy repository.
    */
   protected function addGitRemotes() {
-    // Add remotes and fetch upstream refs.
     $git_remotes = $this->getConfigValue('git.remotes');
     if (empty($git_remotes)) {
       throw new BltException("git.remotes is empty. Please define at least one value for git.remotes in blt/blt.yml.");
@@ -271,9 +270,10 @@ class DeployCommand extends BltTasks {
 
   /**
    * Adds a single remote to the /deploy repository.
+   *
+   * @param $remote_url
    */
   protected function addGitRemote($remote_url) {
-    $this->say("Fetching from git remote $remote_url");
     // Generate an md5 sum of the remote URL to use as remote name.
     $remote_name = md5($remote_url);
     $this->taskExecStack()
@@ -290,11 +290,7 @@ class DeployCommand extends BltTasks {
   protected function checkoutLocalDeployBranch() {
     $this->taskExecStack()
       ->dir($this->deployDir)
-      // Create new branch locally.We intentionally use stopOnFail(FALSE) in
-      // case the branch already exists. `git checkout -B` does not seem to work
-      // as advertised.
-      // @todo perform this in a way that avoid errors completely.
-      ->stopOnFail(FALSE)
+      ->stopOnFail()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->exec("git checkout -b {$this->branchName}")
       ->run();
@@ -302,6 +298,8 @@ class DeployCommand extends BltTasks {
 
   /**
    * Merges upstream changes into deploy branch.
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function mergeUpstreamChanges() {
     $git_remotes = $this->getConfigValue('git.remotes');
@@ -309,11 +307,32 @@ class DeployCommand extends BltTasks {
     $remote_name = md5($remote_url);
 
     $this->say("Merging upstream changes into local artifact...");
+
+    // Check if remote branch exists before fetching.
+    $result = $this->taskExecStack()
+      ->dir($this->deployDir)
+      ->stopOnFail(FALSE)
+      ->exec("git ls-remote --exit-code --heads $remote_url {$this->branchName}")
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->run();
+    switch ($result->getExitCode()) {
+      case 0:
+        // The remote branch exists, continue and merge it.
+        break;
+
+      case 2:
+        // The remote branch doesn't exist, bail out.
+        return;
+
+      default:
+        // Some other error code.
+        throw new BltException("Unexpected error while searching for remote branch: " . $result->getMessage());
+    }
+
+    // Now we know the remote branch exists, let's fetch and merge it.
     $this->taskExecStack()
       ->dir($this->deployDir)
-      // This branch may not exist upstream, so we do not fail the build if a
-      // merge fails.
-      ->stopOnFail(FALSE)
+      ->stopOnFail()
       ->exec("git fetch $remote_name {$this->branchName} --depth=1")
       ->exec("git merge $remote_name/{$this->branchName}")
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
