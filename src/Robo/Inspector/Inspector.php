@@ -485,12 +485,10 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   public function getCliConfigFile() {
     $file = NULL;
     if (DIRECTORY_SEPARATOR == '\\') {
-      $user = $_SERVER['USERNAME'];
       $home_dir = $_SERVER['USERPROFILE'];
     }
     else {
-      $user = posix_getpwuid(posix_getuid());
-      $home_dir = $user['dir'];
+      $home_dir = getenv('HOME');
     }
 
     if (strstr(getenv('SHELL'), 'zsh')) {

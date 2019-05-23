@@ -604,9 +604,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   /**
    * Checks to see if current git branch has uncommitted changes.
    *
-   * @throws \Exception
-   *   Thrown if deploy.git.failOnDirty is TRUE and there are uncommitted
-   *   changes.
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function checkDirty() {
     $result = $this->taskExec('git status --porcelain')

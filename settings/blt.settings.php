@@ -64,10 +64,10 @@ if ($ip) {
 }
 
 $repo_root = dirname(DRUPAL_ROOT);
-
-if (!isset($site_path)) {
-  $site_path = \Drupal::service('site.path');
-}
+/**
+ * @var $site_path
+ * This is always set and exposed by the Drupal Kernel.
+ */
 $site_dir = str_replace('sites/', '', $site_path);
 
 // Special site name detection for ACSF sites being developed locally.
