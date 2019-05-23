@@ -2,6 +2,7 @@
 
 namespace Acquia\Blt\Robo;
 
+use Acquia\Blt\Robo\Common\EnvironmentDetector;
 use Acquia\Blt\Robo\Common\Executor;
 use Acquia\Blt\Robo\Filesets\FilesetManager;
 use Acquia\Blt\Robo\Inspector\Inspector;
@@ -99,12 +100,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
   private function initializeAmplitude() {
     $amplitude = Amplitude::getInstance();
     $amplitude->init('dfd3cba7fa72065cde9edc2ca22d0f37')
-      // @todo also set platform, arch, os_name, os_version, device_id
-      ->setUserProperties([
-        'blt-version' => $this::VERSION,
-      ])
-      // @todo get this from systeminformation
-      ->setDeviceId('foo')
+      ->setDeviceId(EnvironmentDetector::getMachineUuid())
       ->logQueuedEvents();
   }
 
@@ -239,7 +235,12 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
    */
   public function run(InputInterface $input, OutputInterface $output) {
     // @todo make telemetry opt-in/opt-out
-    Amplitude::getInstance()->queueEvent('blt ' . $input->getFirstArgument());
+    // @todo convert this to a factory and use it for every event call
+    $event_properties = [
+      'app_version' => $this::VERSION,
+      'os_name' => EnvironmentDetector::getOsName(),
+    ];
+    Amplitude::getInstance()->queueEvent('blt ' . $input->getFirstArgument(), $event_properties);
     $application = $this->getContainer()->get('application');
     $status_code = $this->runner->run($input, $output, $application, $this->commands);
 
