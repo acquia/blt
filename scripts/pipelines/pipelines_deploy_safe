@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+set -v
+set +e
+
+pipelines-deploy
+
+set +v

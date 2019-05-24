@@ -45,14 +45,14 @@ events:
     steps:
       - deploy:
           script:
-            - pipelines-deploy
+            - source ${BLT_DIR}/scripts/pipelines/pipelines_deploy_safe
   pr-merged:
     steps:
       - deploy:
           script:
-            - pipelines-deploy
+            - source ${BLT_DIR}/scripts/pipelines/pipelines_deploy_safe
   pr-closed:
     steps:
       - deploy:
           script:
-            - pipelines-deploy
+            - source ${BLT_DIR}/scripts/pipelines/pipelines_deploy_safe
