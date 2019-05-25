@@ -235,7 +235,6 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
    */
   public function run(InputInterface $input, OutputInterface $output) {
     // @todo make telemetry opt-in/opt-out
-    // @todo convert this to a factory and use it for every event call
     $event_properties = [
       'app_version' => $this::VERSION,
       'platform' => EnvironmentDetector::getPlatform(),
