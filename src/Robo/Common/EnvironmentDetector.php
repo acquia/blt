@@ -153,9 +153,15 @@ class EnvironmentDetector {
    *
    * @return string
    */
-  public static function getOsName() {
+  public static function getPlatform() {
     // Typically Linux, Darwin, or Windows.
-    return PHP_OS;
+    switch (PHP_OS) {
+      case 'Windows':
+        return 'win32';
+
+      default:
+        return strtolower(PHP_OS);
+    }
   }
 
   /**
@@ -167,14 +173,14 @@ class EnvironmentDetector {
    * @return string|null
    */
   public static function getMachineUuid() {
-    switch (self::getOsName()) {
-      case 'Linux':
+    switch (self::getPlatform()) {
+      case 'linux':
         return shell_exec('( cat /var/lib/dbus/machine-id /etc/machine-id 2> /dev/null || hostname ) | head -n 1 || :');
 
-      case 'Darwin':
+      case 'darwin':
         return shell_exec('ioreg -rd1 -c IOPlatformExpertDevice | grep IOPlatformUUID');
 
-      case 'Windows':
+      case 'win32':
         return shell_exec('%windir%\\System32\\reg query "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Cryptography" /v MachineGuid');
 
       default:

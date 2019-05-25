@@ -238,7 +238,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     // @todo convert this to a factory and use it for every event call
     $event_properties = [
       'app_version' => $this::VERSION,
-      'os_name' => EnvironmentDetector::getOsName(),
+      'platform' => EnvironmentDetector::getPlatform(),
     ];
     Amplitude::getInstance()->queueEvent('blt ' . $input->getFirstArgument(), $event_properties);
     $application = $this->getContainer()->get('application');
