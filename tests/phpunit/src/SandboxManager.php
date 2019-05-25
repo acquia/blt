@@ -56,12 +56,11 @@ class SandboxManager {
    */
   public function createSandboxMaster() {
     $this->output->writeln("Creating master sandbox in <comment>{$this->sandboxMaster}</comment>...");
-    $fixture = $this->bltDir . "/tests/phpunit/fixtures/sandbox";
-
     $this->fs->remove($this->sandboxMaster);
-    $this->fs->mirror($fixture, $this->sandboxMaster);
-    $this->fs->copy($this->bltDir . '/subtree-splits/blt-project/composer.json', $this->sandboxMaster . '/composer.json');
 
+    // This essentially mirrors what composer create-project would do, i.e. git
+    // clone and composer install, but with tweaks to use local packages.
+    $this->fs->mirror($this->bltDir . '/subtree-splits/blt-project', $this->sandboxMaster);
     $this->createBltRequireDevPackage();
     $this->updateSandboxMasterBltRepoSymlink();
     $this->installSandboxMasterDependencies();

@@ -178,7 +178,9 @@ class EnvironmentDetector {
         return shell_exec('( cat /var/lib/dbus/machine-id /etc/machine-id 2> /dev/null || hostname ) | head -n 1 || :');
 
       case 'darwin':
-        return shell_exec('ioreg -rd1 -c IOPlatformExpertDevice | grep IOPlatformUUID');
+        $output = shell_exec('ioreg -rd1 -c IOPlatformExpertDevice | grep IOPlatformUUID');
+        $parts = explode('=', str_replace('"', '', $output));
+        return strtolower(trim($parts[1]));
 
       case 'win32':
         return shell_exec('%windir%\\System32\\reg query "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Cryptography" /v MachineGuid');
