@@ -50,9 +50,11 @@ events:
     steps:
       - deploy:
           script:
+            - composer install --ansi
             - source ${BLT_DIR}/scripts/pipelines/pipelines_deploy_safe
   pr-closed:
     steps:
       - deploy:
           script:
+            - composer install --ansi
             - source ${BLT_DIR}/scripts/pipelines/pipelines_deploy_safe
