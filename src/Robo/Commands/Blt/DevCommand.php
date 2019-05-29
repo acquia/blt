@@ -27,6 +27,10 @@ class DevCommand extends BltTasks {
    * @param array $options
    */
   public function linkComposer($options = ['blt-path' => '../../packages/blt']) {
+    if (!file_exists($options['blt-path'] . '/src/Robo/Blt.php')) {
+      $this->logger->error("Could not find BLT at {$options['blt-path']}. Please provide a valid blt-path argument.");
+      return;
+    }
     $this->taskExec("composer config repositories.blt path {$options['blt-path']} && composer require acquia/blt:* --no-update")
       ->dir($this->getConfigValue('repo.root'))
       ->run();
