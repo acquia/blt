@@ -68,7 +68,7 @@ class UpdateCommand extends BltTasks {
     $this->displayArt();
     $this->yell("Your new BLT-based project has been created in {$this->getConfigValue('repo.root')}.");
     $this->say("Please continue by following the \"Creating a new project with BLT\" instructions:");
-    $this->say("<comment>http://blt.readthedocs.io/en/latest/readme/creating-new-project/</comment>");
+    $this->say("<comment>https://docs.acquia.com/blt/install/creating-new-project//</comment>");
   }
 
   /**

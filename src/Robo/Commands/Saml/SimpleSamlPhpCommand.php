@@ -219,7 +219,7 @@ class SimpleSamlPhpCommand extends BltTasks {
       '',
       "'blt source:build:simplesamlphp-config'",
       '',
-      "See http://blt.readthedocs.io/en/latest/readme/simplesamlphp-setup/ for details on how to modify the files.",
+      "See https://docs.acquia.com/blt/tech-architect/simplesamlphp-setup/ for details on how to modify the files.",
     ];
     $formattedBlock = $this->formatter->formatBlock($instructions, 'comment', TRUE);
     $this->writeln($formattedBlock);

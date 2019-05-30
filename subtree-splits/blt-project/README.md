@@ -4,7 +4,7 @@ This is a Composer-based installer for a Drupal 8 project utilizing [BLT](https:
 
 ## Get Started
 
-To create a new Drupal 8 project with BLT included, follow instructions for [creating a new project](http://blt.readthedocs.io/en/stable/INSTALL/#creating-a-new-project-with-blt) in BLT.
+To create a new Drupal 8 project with BLT included, follow instructions for [creating a new project](https://docs.acquia.com/blt/install/creating-new-project/) in BLT.
 
 ## Branches
 
