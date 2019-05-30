@@ -29,10 +29,11 @@ class BehatCommand extends TestsCommandBase {
   }
 
   /**
-   * Executes all behat tests.
+   * Entrypoint for running behat tests.
    *
    * @command tests:behat:run
-   * @description Executes all behat tests. This optionally launch Selenium prior to execution.
+   * @description Executes all behat tests. This optionally launch Selenium
+   *   prior to execution.
    * @usage
    *   Executes all configured tests.
    * @usage -D behat.paths=${PWD}/tests/behat/features/Examples.feature
@@ -48,13 +49,17 @@ class BehatCommand extends TestsCommandBase {
    * @validateVmConfig
    * @launchWebServer
    * @executeInVm
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Exception
    */
   public function behat() {
-    /** @var \Acquia\Blt\Robo\Wizards\TestsWizard $tests_wizard */
-    $tests_wizard = $this->getContainer()->get(TestsWizard::class);
-    $tests_wizard->wizardConfigureBehat();
-    if (!$this->getInspector()->isBehatConfigured()) {
-      throw new BltException("Behat is not configured properly. Please run `blt doctor` to diagnose the issue.");
+    if ($this->getConfigValue('behat.validate')) {
+      /** @var \Acquia\Blt\Robo\Wizards\TestsWizard $tests_wizard */
+      $tests_wizard = $this->getContainer()->get(TestsWizard::class);
+      $tests_wizard->wizardConfigureBehat();
+      if (!$this->getInspector()->isBehatConfigured()) {
+        throw new BltException("Behat is not configured properly. Please run `blt doctor` to diagnose the issue.");
+      }
     }
 
     // Log config for debugging purposes.

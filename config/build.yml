@@ -9,6 +9,7 @@ behat:
     - ${repo.root}/tests/behat
   tags: '~ajax&&~experimental&&~lightningextension'
   extra: ''
+  validate: true
   # May be chrome, selenium.
   web-driver: chrome
 
