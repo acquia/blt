@@ -205,6 +205,16 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
   }
 
   /**
+   * @param string $directory
+   *
+   * @return $this
+   */
+  public function directory($directory) {
+    $this->option("directory", $directory);
+    return $this;
+  }
+
+  /**
    * @param string $php
    *
    * @return $this

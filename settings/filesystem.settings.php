@@ -5,14 +5,25 @@
  * Contains filesystem settings.
  */
 
+use Acquia\Blt\Robo\Common\EnvironmentDetector;
+use Acquia\Blt\Robo\Exceptions\BltException;
+
 $settings['file_public_path'] = "sites/$site_dir/files";
 
-// ACSF file paths.
-if ($is_acsf_env && $acsf_db_name) {
-  $settings['file_public_path'] = "sites/g/files/$acsf_db_name/files";
-  $settings['file_private_path'] = "/mnt/files/$ah_group.$ah_env/sites/g/files-private/$acsf_db_name";
+try {
+  $acsf_db_name = EnvironmentDetector::getAcsfDbName();
+  $is_acsf_env = EnvironmentDetector::isAcsfEnv();
 }
-// Acquia cloud file paths.
-elseif ($is_ah_env) {
-  $settings['file_private_path'] = "/mnt/files/$ah_group.$ah_env/sites/$site_dir/files-private";
+catch (BltException $exception) {
+  trigger_error($exception->getMessage(), E_USER_WARNING);
+}
+
+if ($is_acsf_env && $acsf_db_name) {
+  // ACSF file paths.
+  $settings['file_public_path'] = "sites/g/files/$acsf_db_name/files";
+  $settings['file_private_path'] = EnvironmentDetector::getAhFilesRoot() . "/sites/g/files-private/$acsf_db_name";
+}
+elseif (EnvironmentDetector::isAhEnv()) {
+  // Acquia cloud file paths.
+  $settings['file_private_path'] = EnvironmentDetector::getAhFilesRoot() . "/sites/$site_dir/files-private";
 }

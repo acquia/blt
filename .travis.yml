@@ -1,55 +1,82 @@
+---
 language: php
-dist: xenial
 
-php:
-  - 7.1
-  - 7.2
+php: 7.1
 
-env:
-  global:
-    - COMPOSER_BIN=$TRAVIS_BUILD_DIR/vendor/bin
-    - BLT_DIR=$TRAVIS_BUILD_DIR
-    - DRUPAL_CORE_HEAD=^8.7.0-alpha1
-  matrix:
-    - DRUPAL_CORE_VERSION=default PHPUNIT_EXCLUDE_GROUP='drupal,long,requires-vm'
-    - DRUPAL_CORE_VERSION=default PHPUNIT_GROUP='long' PHPUNIT_EXCLUDE_GROUP='drupal,requires-vm'
-    - DRUPAL_CORE_VERSION=default PHPUNIT_GROUP='drupal' PHPUNIT_EXCLUDE_GROUP='long,requires-vm'
-    - DRUPAL_CORE_VERSION=$DRUPAL_CORE_HEAD
-
-matrix:
-  fast_finish: true
+addons:
+  chrome: stable
 
 cache:
   bundler: true
   apt: true
   directories:
-  - "$HOME/.composer/cache"
-  - "$HOME/.console"
-  - "$HOME/.drush/cache"
-  - "$HOME/.nvm"
-  -  "/tmp/blt-sandbox-instance/.rules"
+    - "$HOME/.composer/cache"
+    - "$HOME/.console"
+    - "$HOME/.drush/cache"
+    - "$HOME/.nvm"
+    - "$TMPDIR/blt-sandbox-instance/.rules"
+    - "$TMPDIR/phpstan/cache"
 
 services:
-- mysql
-- xvfb
+  - mysql
+  - xvfb
 
-addons:
-  chrome: stable
+env:
+  global:
+    # ORCA configuration.
+    - ORCA_SUT_NAME=acquia/blt
+    - ORCA_SUT_BRANCH=10.x
+    - ORCA_VERSION=v1.0.0-alpha11
+    # Custom configuration.
+    - COMPOSER_BIN=$TRAVIS_BUILD_DIR/vendor/bin
+    - BLT_DIR=$TRAVIS_BUILD_DIR
+    - DRUPAL_CORE_HEAD=^8.7.0-alpha1
+    - BLT_PRINT_COMMAND_OUTPUT=0
+
+matrix:
+  fast_finish: true
+  include:
+    # Standard ORCA jobs.
+    - { name: "Static code analysis", env: ORCA_JOB=STATIC_CODE_ANALYSIS }
+    - { name: "Deprecated code scan of SUT only", env: ORCA_JOB=DEPRECATED_CODE_SCAN_SUT }
+    - { name: "Deprecated code scan of SUT plus contrib", env: ORCA_JOB=DEPRECATED_CODE_SCAN_CONTRIB }
+    - { name: "Isolated test w/ recommended package versions", env: ORCA_JOB=ISOLATED_RECOMMENDED }
+    - { name: "Integrated test w/ recommended package versions", env: ORCA_JOB=INTEGRATED_RECOMMENDED }
+    - { name: "Integrated test w/ recommended package versions & previous minor release of Drupal core", env: ORCA_JOB=CORE_PREVIOUS }
+    - { name: "Isolated test w/ dev package versions", env: ORCA_JOB=ISOLATED_DEV }
+    - { name: "Integrated test w/ dev package versions", env: ORCA_JOB=INTEGRATED_DEV }
+    - { name: "Integrated test w/ dev package versions & next minor dev version of Drupal core", env: ORCA_JOB=CORE_NEXT }
+    # Custom jobs.
+    - { env: DRUPAL_CORE_VERSION=default PHPUNIT_EXCLUDE_GROUP='drupal,long,requires-vm' }
+    - { env: DRUPAL_CORE_VERSION=default PHPUNIT_GROUP='long' PHPUNIT_EXCLUDE_GROUP='drupal,requires-vm' }
+    - { env: DRUPAL_CORE_VERSION=default PHPUNIT_GROUP='drupal' PHPUNIT_EXCLUDE_GROUP='long,requires-vm' }
+    - { env: DRUPAL_CORE_VERSION=$DRUPAL_CORE_HEAD }
+  allow_failures:
+    - env: ORCA_JOB=DEPRECATED_CODE_SCAN_CONTRIB
+    - env: ORCA_JOB=ISOLATED_DEV
+    - env: ORCA_JOB=INTEGRATED_DEV
+    - env: ORCA_JOB=CORE_NEXT
+    # Temporary allowances.
+    - env: ORCA_JOB=DEPRECATED_CODE_SCAN_SUT
 
 before_install:
   # Exit build early if only documentation was changed in a Pull Request.
   - source ${BLT_DIR}/scripts/travis/exit_early
-  - phpenv config-rm xdebug.ini
-  - phpenv config-add travis.php.ini
-  - composer validate --no-check-all --ansi
-  - composer install
+  # Prepare local testing version of blt-project so it can be used by ORCA.
+  - cp -r subtree-splits/blt-project /tmp/
+  - composer config --global repositories.blt path /tmp/blt-project
+  # Install ORCA.
+  - git clone --branch ${ORCA_VERSION} --depth 1 https://github.com/acquia/orca.git ../orca
+  - ../orca/bin/travis/before_install.sh
 
 install:
-  - source ${BLT_DIR}/scripts/travis/setup_environment
-  # Create extra dbs for multisite testing.
-  - mysql -u root -e "CREATE DATABASE drupal2; GRANT ALL ON drupal2.* TO 'drupal'@'localhost';"
-  - mysql -u root -e "CREATE DATABASE drupal3; GRANT ALL ON drupal3.* TO 'drupal'@'localhost';"
-  - mysql -u root -e "CREATE DATABASE drupal4; GRANT ALL ON drupal4.* TO 'drupal'@'localhost';"
+  - ../orca/bin/travis/install.sh
+  - ./bin/travis/install.sh
+
+before_script: ../orca/bin/travis/before_script.sh
 
 script:
-  - ${BLT_DIR}/vendor/bin/robo release:test
+  - ../orca/bin/travis/script.sh
+  - ./bin/travis/script.sh
+
+after_failure: ../orca/bin/travis/after_failure.sh

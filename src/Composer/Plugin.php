@@ -75,13 +75,6 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     $this->composer = $composer;
     $this->io = $io;
     $this->eventDispatcher = $composer->getEventDispatcher();
-    if (self::isWindows() && $this->isInitialInstall()) {
-      $this->io->writeError(
-        '<error>BLT can be installed in Windows only under WSL. Please check https://blt.readthedocs.io/en/latest/windows-install/ for updates and workarounds.</error>'
-      );
-      throw new \Exception('BLT installation aborted');
-    }
-
     ProcessExecutor::setTimeout(3600);
     $this->executor = new ProcessExecutor($this->io);
   }
@@ -175,7 +168,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     }
     elseif ($options['blt']['update']) {
       $this->io->write('<info>Updating BLT templated files...</info>');
-      $success = $this->executeCommand('blt blt:update --ansi -n', [], TRUE);
+      $success = $this->executeCommand('blt blt:update --ansi --no-interaction', [], TRUE);
       if (!$success) {
         $this->io->writeError("<error>BLT update script failed! Run `blt blt:update --verbose` to retry.</error>");
       }

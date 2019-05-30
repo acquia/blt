@@ -63,6 +63,11 @@ class Updater {
   protected $composerSuggestedJsonFilepath;
 
   /**
+   * @var bool
+   */
+  protected $cloudHooksAlreadyUpdated = FALSE;
+
+  /**
    * Updater constructor.
    *
    * @param string $update_class
@@ -432,9 +437,11 @@ class Updater {
   public function writeComposerJson($contents) {
     // Ensure that require and require-dev are objects and not arrays.
     if (array_key_exists('require', $contents) && is_array($contents['require'])) {
+      ksort($contents['require']);
       $contents['require'] = (object) $contents['require'];
     }
     if (array_key_exists('require-dev', $contents)&& is_array($contents['require-dev'])) {
+      ksort($contents['require-dev']);
       $contents['require-dev'] = (object) $contents['require-dev'];
     }
     file_put_contents($this->composerJsonFilepath, json_encode($contents, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
@@ -506,7 +513,7 @@ class Updater {
    *   If true, target files newer than origin files are overwritten.
    */
   public function syncWithTemplate($filePath, $overwrite = FALSE) {
-    $sourcePath = $this->getBltRoot() . '/template/' . $filePath;
+    $sourcePath = $this->getBltRoot() . '/subtree-splits/blt-project/' . $filePath;
     $targetPath = $this->getRepoRoot() . '/' . $filePath;
 
     if ($this->getFileSystem()->exists($sourcePath)) {
@@ -549,6 +556,18 @@ class Updater {
       $files[] = $this->getRepoRoot() . '/' . $filepath;
     }
     $this->getFileSystem()->remove($files);
+  }
+
+  /**
+   * Regenerate Cloud Hooks, but only once.
+   */
+  public function regenerateCloudHooks() {
+    if (file_exists($this->getRepoRoot() . '/hooks') && !$this->cloudHooksAlreadyUpdated) {
+      self::executeCommand("./vendor/bin/blt recipes:cloud-hooks:init", NULL, FALSE);
+      $this->cloudHooksAlreadyUpdated = TRUE;
+      return TRUE;
+    }
+    return FALSE;
   }
 
 }

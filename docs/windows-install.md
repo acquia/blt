@@ -18,7 +18,7 @@ Follow Microsoft's official instructions to install [Bash on Ubuntu on Windows](
 
   1. `sudo add-apt-repository ppa:ondrej/php` (hit 'Enter' when prompted)
   2. `sudo apt-get update`
-  3. `sudo apt-get install -y php5.6-cli php5.6-curl php5.6-xml php5.6-mbstring php5.6-bz2 php5.6-gd php5.6-mysql mysql-client unzip git`
+  3. `sudo apt-get install -y php7.2-cli php7.2-curl php7.2-xml php7.2-mbstring php7.2-bz2 php7.2-gd php7.2-mysql mysql-client unzip git`
   4. `php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"`
   5. `php composer-setup.php`
   6. `sudo mv composer.phar /usr/local/bin/composer`
@@ -71,4 +71,3 @@ At the time of writing these are the currently known issues which you may encoun
   1. [Only portions of procfs are implemented, and there is limited inotify support](https://github.com/Microsoft/BashOnWindows/issues/216). This will impact things like Gulp where you commonly want to actively 'watch' for filesystem changes. In that particular instance you can use [gulp-watch](https://www.npmjs.com/package/gulp-watch) which polls periodically instead.
   2. [Network enumeration is not supported](https://github.com/Microsoft/BashOnWindows/issues/468). This will impact networking functions commonly required by popular frontend packages and utilities (e.g., Browsersync). There are workarounds discussed in the GitHub issue.
   3. [Permissions on /dev/tty are sometimes incorrect](https://github.com/Microsoft/BashOnWindows/issues/617). This can prevent ssh connectivity keyboard input cannot be read (required when entering a passphrase). A workaround is discussed in the GitHub issue.
- 

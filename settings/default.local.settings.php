@@ -15,11 +15,11 @@ if (isset($_acsf_site_name)) {
 /**
  * Database configuration.
  */
-$databases = array(
+$databases = [
   'default' =>
-  array(
+  [
     'default' =>
-    array(
+    [
       'database' => $db_name,
       'username' => '${drupal.db.username}',
       'password' => '${drupal.db.password}',
@@ -28,9 +28,9 @@ $databases = array(
       'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
       'driver' => 'mysql',
       'prefix' => '',
-    ),
-  ),
-);
+    ],
+  ],
+];
 
 $dir = dirname(DRUPAL_ROOT);
 
@@ -108,10 +108,10 @@ $settings['extension_discovery_scan_tests'] = FALSE;
 /**
  * Configure static caches.
  *
- * Note: you should test with the config, bootstrap, and discovery caches enabled to 
+ * Note: you should test with the config, bootstrap, and discovery caches enabled to
  * test that metadata is cached as expected. However, in the early stages of development,
- * you may want to disable them. Overrides to these bins must be explicitly set for each 
- * bin to change the default configuration provided by Drupal core in core.services.yml. 
+ * you may want to disable them. Overrides to these bins must be explicitly set for each
+ * bin to change the default configuration provided by Drupal core in core.services.yml.
  * See https://www.drupal.org/node/2754947
  */
 
@@ -169,6 +169,6 @@ if (isset($_acsf_site_name)) {
  *
  * See full description in default.settings.php.
  */
-$settings['trusted_host_patterns'] = array(
+$settings['trusted_host_patterns'] = [
   '^.+$',
-);
+];

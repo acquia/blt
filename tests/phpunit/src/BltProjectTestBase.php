@@ -58,6 +58,27 @@ abstract class BltProjectTestBase extends TestCase {
   protected $sandboxInstanceClone;
 
   /**
+   * @var bool
+   *
+   * Track whether our master sandbox has been initialized.
+   */
+  protected static $initialized = FALSE;
+
+  /**
+   * {@inheritDoc}
+   * @throws \Exception
+   */
+  public static function setUpBeforeClass() {
+    if (!self::$initialized) {
+      // Only initialize the sandbox once for the entire test suite.
+      $sandbox_manager = new SandboxManager();
+      $sandbox_manager->bootstrap();
+      self::$initialized = TRUE;
+    }
+    parent::setUpBeforeClass();
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function setUp() {
@@ -66,20 +87,7 @@ abstract class BltProjectTestBase extends TestCase {
     $this->bltDirectory = realpath(dirname(__FILE__) . '/../../../');
     $this->fs = new Filesystem();
     $this->sandboxManager = new SandboxManager();
-
-    // We use tearDown methods to call overwriteSandboxInstance() after
-    // tests that are known to pollute files. However, during local
-    // debugging, the tearDown method may not have been reached. Enabling
-    // BLT_REPLACE_SANDBOX_INSTANCE allows for a totally clean slate each
-    // time regardless of whether the previous test run reached tearDown. We
-    // do not do this by default because it slows testing significantly.
-    if (getenv('BLT_REPLACE_SANDBOX_INSTANCE')) {
-      $this->sandboxManager->replaceSandboxInstance();
-    }
-    else {
-      $this->sandboxManager->refreshSandboxInstance();
-    }
-
+    $this->sandboxManager->replaceSandboxInstance();
     $this->sandboxInstance = $this->sandboxManager->getSandboxInstance();
 
     $ci_config = YamlMunge::mungeFiles($this->sandboxInstance . "/blt/ci.blt.yml", $this->bltDirectory . "/scripts/blt/ci/internal/ci.yml");
@@ -93,6 +101,8 @@ abstract class BltProjectTestBase extends TestCase {
     $this->site1Dir = 'default';
     $this->site2Dir = 'site2';
     $this->sandboxInstanceClone = $this->sandboxInstance . "2";
+
+    parent::setUp();
   }
 
   /**
@@ -107,7 +117,7 @@ abstract class BltProjectTestBase extends TestCase {
   }
 
   /**
-   *
+   * @param $input
    */
   protected function reInitializeConfig($input) {
     unset($this->config);
@@ -115,6 +125,9 @@ abstract class BltProjectTestBase extends TestCase {
     $this->config = $config_initializer->initialize();
   }
 
+  /**
+   * @throws \Exception
+   */
   protected function dropDatabase() {
     $drush_bin = $this->sandboxInstance . '/vendor/bin/drush';
     $this->execute("$drush_bin sql-drop", NULL, FALSE);
@@ -135,8 +148,8 @@ abstract class BltProjectTestBase extends TestCase {
 
     $process = new Process($command, $cwd);
     $process->setTimeout(NULL);
+    $output = new ConsoleOutput();
     if (getenv('BLT_PRINT_COMMAND_OUTPUT')) {
-      $output = new ConsoleOutput();
       $output->writeln("");
       $output->writeln("Executing <comment>$command</comment>...");
       if (!$stop_on_error) {
@@ -166,7 +179,9 @@ abstract class BltProjectTestBase extends TestCase {
    * @param $command
    * @param null $root
    *
+   * @param bool $stop_on_error
    * @return string
+   * @throws \Exception
    */
   protected function drush($command, $root = NULL, $stop_on_error = TRUE) {
     if (!$root) {
@@ -183,8 +198,10 @@ abstract class BltProjectTestBase extends TestCase {
   /**
    * @param $command
    * @param null $root
+   * @param bool $stop_on_error
    *
    * @return mixed
+   * @throws \Exception
    */
   protected function drushJson($command, $root = NULL, $stop_on_error = TRUE) {
     $output = $this->drush($command . " --format=json", $root, $stop_on_error);
@@ -196,6 +213,7 @@ abstract class BltProjectTestBase extends TestCase {
   /**
    * @param null $root
    * @param string $uri
+   * @throws \Exception
    */
   protected function importDbFromFixture($root = NULL, $uri = 'default') {
     if (!$root) {
@@ -214,6 +232,7 @@ abstract class BltProjectTestBase extends TestCase {
 
   /**
    * Installs the minimal profile and dumps it to sql file at $this->dbDump.
+   * @throws \Exception
    */
   protected function createDatabaseDumpFixture() {
     $this->dropDatabase();
@@ -223,6 +242,7 @@ abstract class BltProjectTestBase extends TestCase {
 
   /**
    *
+   * @throws \Exception
    */
   protected function installDrupalMinimal() {
     return $this->blt('setup', [
@@ -312,9 +332,13 @@ abstract class BltProjectTestBase extends TestCase {
     return $input;
   }
 
+  /**
+   * @throws \Exception
+   */
   protected function tearDown() {
     $this->dropDatabase();
     unset($this->config);
+    parent::tearDown();
   }
 
   protected function printTestName() {
@@ -330,6 +354,7 @@ abstract class BltProjectTestBase extends TestCase {
    * @param $site2_dir
    * @param $test_project_dir
    * @param $test_project_clone_dir
+   * @throws \Exception
    */
   protected function prepareMultisites($site1_dir, $site2_dir, $test_project_dir, $test_project_clone_dir) {
     // Set test project vars.

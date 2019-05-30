@@ -1,0 +1,1 @@
+Create environment-based directories here which will contain configuration to be imported into your Drupal site via config_split for the currently active environment. See [configuration management](http://blt.readthedocs.io/en/latest/readme/configuration-management/) for more information.

@@ -179,7 +179,7 @@ The `tests` configuration variable has following properties:
  * `chromedriver.port`: Port for `chromedriver` WebDriver for Chrome, default is `9515`
  * `chromedriver.args`: Args for `chromedriver` WebDriver for Chrome, default is `null`
 
-### PHPUnit
+## PHPUnit
 
 Project level, functional PHPUnit tests are included in `tests/phpunit`. Any PHPUnit tests that affect specific modules or application level features should be placed in the same directory as that module or feature code, not in this directory.
 
@@ -216,7 +216,7 @@ tests:
       file: 'ExampleTest.php'
 ```
 
-### Testing Drupal with PHPUnit
+## Testing Drupal with PHPUnit
 
 Each row under the `tests:drupal` key should contain a combination of the following properties (see Drupal's `core/phpunit.xml.dist` for additional details):
 
@@ -227,7 +227,6 @@ Each row under the `tests:drupal` key should contain a combination of the follow
  * `apache-run-group`: Unix user used for tests (value for `APACHE_RUN_USER`)
  * `apache-run-user`: Unix group used for tests (value for `APACHE_RUN_GROUP`)  (if `sudo-run-tests:true`, this is used to run testing commands as `sudo -u www-data -E ./vendor/bin/phpunit {...}`)
  * `mink-driver-args`: Driver args to mink tests (value for `MINK_DRIVER_ARGS`)
- * `mink-driver-args-phantomjs`: Driver args to phantomjs tests (value for `MINK_DRIVER_ARGS_PHANTOMJS`)
  * `mink-driver-args-webdriver`: Driver args to webdriver tests (value for `MINK_DRIVER_ARGS_WEBDRIVER`)
  * `mink-driver-class`: Driver class for mink tests (value for `MINK_DRIVER_CLASS`)
  * `simpletest-base-url`: Base URL for Simpletest (value for `SIMPLETEST_BASE_URL`)
@@ -255,6 +254,8 @@ tests:
         directory: ${docroot}/modules/custom
 ```
 
+Note that Selenium is required to run Drupal tests, and Acquia Pipelines does not support Selenium (since it does not have Java installed). Thus, you cannot run these tests on Pipelines. You can still run the rest of the test suite (Behat, PHPUnit, etc...) using Chrome.
+
 ### Drupal's `run-tests.sh` script
 
 You can customize the `tests:drupal:run` command by [modifying BLT Configuration](extending-blt.md#modifying-blt-configuration) for the `tests:run-tests` key.
@@ -268,6 +269,7 @@ Each row under the `tests:drupal-tests` key should contain a combination of the 
  * `concurrency`
  * `dburl`
  * `die-on-fail`
+ * `directory`
  * `keep-results-table`
  * `keep-results`
  * `repeat`

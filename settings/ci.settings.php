@@ -10,9 +10,9 @@ $config['system.file']['path']['temporary'] = '/tmp';
 
 $dir = dirname(DRUPAL_ROOT);
 $settings['file_private_path'] = $dir . '/files-private';
-$settings['trusted_host_patterns'] = array(
+$settings['trusted_host_patterns'] = [
   '^.+$',
-);
+];
 
 /**
  * Sensible CI defaults for databases.

@@ -1,5 +1,193 @@
 # Change Log
 
+#### 10.0.1 (2019-05-03)
+
+[Full Changelog](https://github.com/acquia/blt/compare/10.0.0...10.0.1)
+
+
+**Implemented enhancements**
+
+- Fixes #2938: Support running BLT outside of a VM. (#3613)
+
+**Miscellaneous**
+
+- Fixed the truly freaking finickiest command (git tag for release notes.)
+- Updating CHANGELOG.md and setting version for 10.0.1.
+- Fixed wrong blt version added during 10.x upgrade. (#3624)
+- Added command to symlink to BLT from projects for development. (#3623)
+- Update README.md
+- Cleaned up and removed unused test code. (#3610)
+- Cleaning up tests (#3608)
+- Updated README for 10.x.
+- Revert "BLT Project pull stable release."
+- BLT Project pull stable release.
+[Full Changelog](https://github.com/acquia/blt/compare/10.0.0-rc4...10.0.1)
+
+
+**Implemented enhancements**
+
+- Fixes #2938: Support running BLT outside of a VM. (#3613)
+- Fixes #3527: Change settings file include order. (#3599)
+
+**Fixed bugs**
+
+- Fixes #3575 to update profile split docs and functions. (#3598)
+
+**Miscellaneous**
+
+- Fixed wrong blt version added during 10.x upgrade. (#3624)
+- Added command to symlink to BLT from projects for development. (#3623)
+- Update README.md
+- Cleaned up and removed unused test code. (#3610)
+- Cleaning up tests (#3608)
+- Updated README for 10.x.
+- Revert "BLT Project pull stable release."
+- BLT Project pull stable release.
+- Updating CHANGELOG.md and setting version for 10.0.0.
+- Fixing changelog.
+- Updating CHANGELOG.md and setting version for 10.0.0.
+- Fixed release script.
+- Updating CHANGELOG.md and setting version for 10.0.0.
+- Cleaned up update comments. (#3606)
+- Update RELEASE.md
+- Fix code block indent in docs creating-new-project (#3604)
+- Speed up Composer operations in Travis. (#3603)
+- Clean up frontend docs and FAQs for deployments. (#3602)
+- Cleaned up settings files. (#3601)
+- Minor cleanup before release. (#3600)
+- Recommend installing zaporylie globally. (#3596)
+- Revert "Prep stable release of blt-project."
+- Prep stable release of blt-project.
+
+
+#### 10.0.0 (2019-05-01)
+
+[Full Changelog](https://github.com/acquia/blt/compare/10.0.0-rc4...10.0.0)
+
+
+**Implemented enhancements**
+
+- Fixes #3527: Change settings file include order. (#3599)
+
+**Fixed bugs**
+
+- Fixes #3575 to update profile split docs and functions. (#3598)
+
+**Miscellaneous**
+
+- Fixing changelog.
+- Updating CHANGELOG.md and setting version for 10.0.0.
+- Fixed release script.
+- Updating CHANGELOG.md and setting version for 10.0.0.
+- Cleaned up update comments. (#3606)
+- Update RELEASE.md
+- Fix code block indent in docs creating-new-project (#3604)
+- Speed up Composer operations in Travis. (#3603)
+- Clean up frontend docs and FAQs for deployments. (#3602)
+- Cleaned up settings files. (#3601)
+- Minor cleanup before release. (#3600)
+- Recommend installing zaporylie globally. (#3596)
+- Revert "Prep stable release of blt-project."
+- Prep stable release of blt-project.
+
+
+#### 10.0.0-rc4 (2019-04-26)
+
+[Full Changelog](https://github.com/acquia/blt/compare/test...10.0.0-rc4)
+
+**Major / breaking changes**
+
+- Remove support for PhantomJS. (#3580)
+**Implemented enhancements**
+
+- Fixes #3417: Don't ignore platform reqs by default during deploys (#3590)
+
+**Fixed bugs**
+
+- Get rid of Vagrant warnings during update process. (#3597)
+- Fixes #3574: Git tag needs author info, should stop deploy. (#3586)
+- Removed remaining referenes to --yes. (#3594)
+- Fixes #3583: Infinite recursion when using global.settings.default.php. (#3587)
+
+**Miscellaneous**
+
+- Minor code style fix.
+- Alphabetize blt-project dependencies.
+- Update cloud hooks for previous 10.x users. (#3595)
+- Prevent cache collisions in multisite install tasks #3171. (#3554)
+- Remove / replace references to 9.x branch. (#3593)
+- Add breaking changes to release notes. (#3589)
+- Fixes #3558: Use --no-interaction when deploying tags on Travis. (#3588)
+- Update example.local.blt.yml (#3585)
+- Removed unused site-install parameter. (#3582)
+
+
+#### 10.0.0-rc3 (2019-04-24)
+
+[Full Changelog](https://github.com/acquia/blt/compare/10.0.0-rc2...10.0.0-rc3)
+
+**Implemented enhancements**
+
+- Make the composer create-project acquia/blt work on Windows (#3538)
+- Upgrade DrupalVM to 5, default PHP to 7.2, clean up DrupalVM config. (#3539)
+- Don't glob global settings by default. (#3537)
+- Fixed coding standards in BLT settings. (#3534)
+- Print output from checkDirty command. (#3531)
+
+**Fixed bugs**
+
+- Use a unified environment detector. (#3570)
+- Fixed #3562: SQL sanitization should throw non-zero exit code on failure. (#3567)
+- Fixes #3568: Don't run Drupal tests on Pipelines. (#3577)
+- run_tests should not use the --yes argument on Pipelines (#3560)
+- Fixes #3511: Check Git user before committing, set dummy user if necessary (#3541)
+- Alter run_tests not to use --yes as argument (#3549)
+- Issue 3529: Adding --ignore-unmatch parameter so deploy stops failing. (#3530)
+- Fixed profile splits. (#3522)
+
+**Miscellaneous**
+
+- Fixed build status images
+- Improved logging of Selenium server start. (#3576)
+- Text and link improvements (#3581)
+- Update project-tasks.md (#3579)
+- Removed PHP5.6-specific APC settings. (#3571)
+- Add documentation for checkDirty deploy step. (#3572)
+- Clarify ACSF config setup docs. (#3535)
+- Update RELEASE.md
+- Back to dev for blt-project.
+- Prep stable release of blt-project.
+- Fix #3553: Document a release process for stable and dev versions of blt-project (#3573)
+- Fixed code style. (#3569)
+- Minor grammatical fix for skills.md
+- Readme for blt-project.
+- Set composer memory to unlimited. (#3545)
+- Update hooks for #3510. (#3551)
+- Removed Phing cruft. (#3519)
+- Move Drupal module dependencies to project template (#3510)
+- Update doc for generating a private key (#3543)
+- Lowered drupal/core version constraint to lowest supported version. (#3544)
+- Update support-request.md
+- Update bug_report.md
+- Improve Drush runserver error message. (#3521)
+- Delete example.multisite.yml (#3509)
+- Fix coding standards in settings warning comment (#3524)
+- Create no-response.yml
+- Update creating-new-project.md
+
+
+#### 10.0.0-rc2 (2019-04-05)
+
+[Full Changelog](https://github.com/acquia/blt/compare/10.0.0-rc1...10.0.0-rc2)
+
+
+**Miscellaneous**
+
+- Fix running Composer updates. (#3520)
+- turn off ssh strict host checking when drush is connecting to drupal vm; this avoids prompting the user like this: (#3518)
+- Removing -y breaks updates. (#3515)
+
+
 #### 10.0.0-rc1 (2019-04-03)
 
 [Full Changelog](https://github.com/acquia/blt/compare/10.0.0-beta3...10.0.0-rc1)

@@ -7,13 +7,13 @@ assignees: ''
 
 ---
 
-- [ ] I have read and understand the [contribution guidelines](../../docs/CONTRIBUTING.md) for new issues.
+<!-- Before posting, please read the contribution guidelines (linked to the right) to ensure that you get the best support. -->
 
 **Describe the bug**
 A clear and concise description of what the bug is.
 
 **To Reproduce**
-Steps to reproduce the behavior, _ideally_ starting from a fresh install of BLT:
+Steps to reproduce the behavior, ideally starting from a fresh install of BLT:
 1. Run `composer create-project acquia/blt-project --no-interaction`
 2. Click on '....'
 3. Scroll down to '....'

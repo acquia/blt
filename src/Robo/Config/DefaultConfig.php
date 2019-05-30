@@ -39,7 +39,7 @@ class DefaultConfig extends BltConfig {
       dirname(dirname(dirname(__FILE__))),
     ];
     foreach ($possible_blt_roots as $possible_blt_root) {
-      if (file_exists("$possible_blt_root/template")) {
+      if (file_exists("$possible_blt_root/subtree-splits/blt-project")) {
         return $possible_blt_root;
       }
     }

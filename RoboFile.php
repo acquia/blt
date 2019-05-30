@@ -92,7 +92,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       ->dir($test_project_dir)
       ->exec("git init")
       ->exec("git add -A")
-      ->exec("git commit -m 'Initial commit.'")
+      ->exec("git commit -m \"Initial commit.\"")
       ->run();
     if (!$options['vm']) {
       $this->taskReplaceInFile($test_project_dir . "/composer.json")
@@ -106,7 +106,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       ->exec("composer install");
 
     if ($options['vm']) {
-      $task->exec("$bin/blt vm --no-boot --no-interaction --yes -v")
+      $task->exec("$bin/blt vm --no-boot --no-interaction -v")
         ->exec("$bin/yaml-cli update:value box/config.yml vagrant_synced_folders.1.local_path '../blt'")
         ->exec("$bin/yaml-cli update:value box/config.yml vagrant_synced_folders.1.destination '/var/www/blt'")
         ->exec("$bin/yaml-cli update:value box/config.yml vagrant_synced_folders.1.type nfs");
@@ -160,14 +160,14 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       ->exec("composer config prefer-stable true")
       ->exec("git init")
       ->exec("git add -A")
-      ->exec("git commit -m 'Initial commit.'")
+      ->exec("git commit -m \"Initial commit.\"")
       ->run();
     $task = $this->taskExecStack()
       ->dir($test_project_dir)
       // BLT is the only dependency at this point. Install it.
       ->exec("composer require acquia/blt {$options['base-branch']}-dev");
     if ($options['vm']) {
-      $task->exec("$bin/blt vm --no-boot --no-interaction --yes -v");
+      $task->exec("$bin/blt vm --no-boot --no-interaction -v");
     }
     $task->run();
   }
@@ -182,12 +182,16 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
 
     $phpunit_group = getenv('PHPUNIT_GROUP');
     $phpunit_exclude_group = getenv('PHPUNIT_EXCLUDE_GROUP');
+    $phpunit_filter = getenv('PHPUNIT_FILTER');
     $phpunit_command_string = "{$this->bltRoot}/vendor/bin/phpunit";
     if ($phpunit_group) {
       $phpunit_command_string .= " --group=" . $phpunit_group;
     }
     if ($phpunit_exclude_group) {
       $phpunit_command_string .= " --exclude-group=" . $phpunit_exclude_group;
+    }
+    if ($phpunit_filter) {
+      $phpunit_command_string .= " --filter " . $phpunit_filter;
     }
     $task->exec($phpunit_command_string);
 
@@ -245,7 +249,8 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    *
    * @option branch (optional) The branch to push to. Defaults to current branch.
    *
-   * @return int
+   * @param array $options
+   * @return void The CLI status code.
    *   The CLI status code.
    */
   public function subtreePushBltProject($options = [
@@ -269,7 +274,8 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    *
    * @option branch (optional) The branch to push to. Defaults to current branch.
    *
-   * @return int
+   * @param array $options
+   * @return void The CLI status code.
    *   The CLI status code.
    */
   public function subtreePushBltRequireDev($options = [
@@ -327,8 +333,12 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
 
     $text = '';
     $text .= "[Full Changelog](https://github.com/acquia/blt/compare/$prev_tag...$tag)\n\n";
+    if (!empty($changes['breaking'])) {
+      $text .= "**Major / breaking changes**\n\n";
+      $text .= $this->processReleaseNotesSection($changes['breaking']);
+    }
     if (!empty($changes['enhancements'])) {
-      $text .= "**Implemented enhancements**\n\n";
+      $text .= "\n**Implemented enhancements**\n\n";
       $text .= $this->processReleaseNotesSection($changes['enhancements']);
     }
     if (!empty($changes['bugs'])) {
@@ -425,8 +435,9 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    * @return mixed
    */
   protected function getLastTagOnBranch($current_branch) {
+    // List all tags, sort numerically, and filter out any that aren't numeric.
     $output = $this->taskExecStack()
-      ->exec("git tag --sort=-v:refname --merged $current_branch")
+      ->exec("git -c 'versionsort.suffix=-' tag --sort=-v:refname --merged $current_branch | sed '/^[[:alpha:]]/d'")
       ->interactive(FALSE)
       ->silent(TRUE)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
@@ -475,7 +486,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    *   An array of log changes. Typically each row would be a commit message.
    *
    * @return array
-   *   A multidimensional array grouped by the labels enchancement and bug.
+   *   A multidimensional array grouped by the labels enhancement and bug.
    */
   protected function sortChanges($log_entries, $github_token) {
     $client = new Client();
@@ -484,6 +495,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $issue_api = $client->api('issue');
 
     $changes = [
+      'breaking' => [],
       'enhancements' => [],
       'bugs' => [],
       'misc' => [],
@@ -510,7 +522,12 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       $labels = $this->getGitHubIssueLabels($issue_api, $github_issue_number);
       if ($labels) {
         foreach ($labels as $label) {
-          if (strtolower($label['name']) == 'enhancement') {
+          if (strtolower($label['name']) == 'change record') {
+            $changes['breaking'][] = $log_entry;
+            $sorted = TRUE;
+            break;
+          }
+          elseif (strtolower($label['name']) == 'enhancement') {
             $changes['enhancements'][] = $log_entry;
             $sorted = TRUE;
             break;
@@ -587,9 +604,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   /**
    * Checks to see if current git branch has uncommitted changes.
    *
-   * @throws \Exception
-   *   Thrown if deploy.git.failOnDirty is TRUE and there are uncommitted
-   *   changes.
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function checkDirty() {
     $result = $this->taskExec('git status --porcelain')

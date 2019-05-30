@@ -19,6 +19,12 @@ class AliasCommand extends BltTasks {
    * @aliases alias install-alias
    */
   public function installBltAlias() {
+    if (isset($_SERVER['ComSpec'])) {
+      $bltRoot = $this->getConfigValue('blt.root') . '\\vendor\\bin';
+      $this->logger->error("Setting a blt alias is not supported in cmd.exe");
+      $this->say("<info>Please use Windows to add <comment>$bltRoot</comment> to your Environment Variable PATH</info>");
+      return;
+    }
     if (!$this->getInspector()->isBltAliasInstalled()) {
       $config_file = $this->getInspector()->getCliConfigFile();
       if (is_null($config_file)) {
@@ -175,8 +181,7 @@ class AliasCommand extends BltTasks {
     if ($inspector->isOsx() || $inspector->isAhEnv()) {
       $continue = $this->confirm("Would you like to create ~/.bash_profile?");
       if ($continue) {
-        $user = posix_getpwuid(posix_getuid());
-        $home_dir = $user['dir'];
+        $home_dir = getenv('HOME');
         $bash_profile = $home_dir . '/.bash_profile';
         if (!file_exists($bash_profile)) {
           $result = $this->taskFilesystemStack()

@@ -1,0 +1,23 @@
+default:
+  suites:
+    default:
+      paths:
+        - "%paths.base%/features"
+  extensions:
+    Behat\MinkExtension:
+      default_session: goutte
+      browser_name: chrome
+      javascript_session: default
+      goutte: ~
+      files_path: "%paths.base%/media"
+    Drupal\DrupalExtension:
+      blackbox: ~
+      api_driver: "drupal"
+    jarnaiz\JUnitFormatter\JUnitFormatterExtension:
+        filename: report.xml
+        outputDir: "%paths.base%/build/tests"
+    Bex\Behat\ScreenshotExtension:
+      screenshot_taking_mode: failed_steps
+      image_drivers:
+        local:
+          screenshot_directory: /tmp

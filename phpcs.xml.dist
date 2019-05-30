@@ -29,7 +29,7 @@
   <file>src/Robo</file>
   <file>settings</file>
   <file>tests</file>
-  <file>template/blt</file>
+  <file>subtree-splits/blt-project/blt</file>
 
   <exclude-pattern>*/node_modules</exclude-pattern>
   <exclude-pattern>*/vendor</exclude-pattern>
