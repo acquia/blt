@@ -84,17 +84,6 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
   }
 
   /**
-   * Validates that MySQL is available.
-   *
-   * @hook validate @validateMySqlAvailable
-   */
-  public function validateMySqlAvailable() {
-    if (!$this->getInspector()->isMySqlAvailable()) {
-      throw new BltException("MySql is not available. Please run `blt doctor` to diagnose the issue.");
-    }
-  }
-
-  /**
    * Validates that required settings files exist.
    *
    * @hook validate @validateSettingsFilesPresent
