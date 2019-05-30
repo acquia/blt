@@ -1,28 +1,23 @@
 # ACSF Setup
 
-To configure a project to run on ACSF, perform the following steps after initially setting up BLT:
+To configure a project to run on ACSF, perform the following steps after initially setting up BLT, but _before_ creating any sites in ACSF:
 
-1. Execute `blt recipes:acsf:init:all` from the project root.
-1. Create a custom profile:
+1. Execute `blt recipes:acsf:init:all` from the project root and commit any changes.
+1. Optionally, create one or more custom profiles:
     - If you are using Lightning, create a custom sub-profile as described [here](https://docs.acquia.com/lightning/subprofile).
     - For non-Lightning use cases, a profile can be generated [via Drupal Console](https://hechoendrupal.gitbooks.io/drupal-console/content/en/commands/generate-profile.html).
-1. Add `acsf` as a dependency for your profile.
-1. Modify the `profile` key under `project` in `blt/blt.yml` to use the newly created custom profile. See example below with a profile named `mycustomprofile`:
-
-        project:
-          machine_name: blted10
-          prefix: BLT
-          human_name: 'BLTed 10'
-          profile:
-            name: mycustomprofile
-
-   Note that if you are using configuration management, you should set `project.profile.name` on a per-site basis by creating `docroot/sites/*/blt.yml` for each site as described in the [multisite readme](multisite.md). Although ACSF does not use traditional Drupal multisite directories, BLT still uses `blt.yml` files placed in these directories to manage BLT configuration for each site and for various purposes when run during ACSF factory hooks, such as to determine which profile Config Split to activate.
-
+1. Ensure the `acsf` module will be enabled when sites are installed on ACSF, either by adding it as a dependency to your custom profile or by adding it to your remote environment configuration splits.
 1. Deploy to Cloud using `blt artifact:deploy`. (Code can also be deployed via a [Continuous Integration setup](http://blt.readthedocs.io/en/stable/readme/deploy/#continuous-integration).)
-1. Use ACSF's "update code" feature to push the artifact out to sites.
+1. Use ACSF's "update code" feature to deploy the artifact.
 1. When creating a new site, select your custom profile as the profile.
 
 In all other respects, BLT treats ACSF installations as multisite installations. To finish setup, including to set up a local development environment for your ACSF project, follow the steps in the [multisite readme](multisite.md).
+
+Note that when BLT runs Drush commands against multisite installations, it passes both a `uri` parameter and Drush alias, both of which can be defined per-site via `blt.yml` files. It's generally easier to set the local Drush alias to `self` for all sites and allow BLT to use the `uri` exclusively.
+
+### Troubleshooting
+
+If you receive an error such as `Could not retrieve the site standard_domain from the database.` when updating code on ACSF, it indicates that one or more sites on your subscription does not have the ACSF connector module enabled and configured. Enable this module and then try updating code again.
 
 ### Resources
 
