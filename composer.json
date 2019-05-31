@@ -97,6 +97,6 @@
     ],
     "support": {
         "issues": "https://github.com/acquia/blt/issues",
-        "docs": "http://blt.readthedocs.io/en/stable"
+        "docs": "https://docs.acquia.com/blt/"
     }
 }

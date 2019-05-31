@@ -34,7 +34,7 @@ class GitCommand extends BltTasks {
       if (!empty($example)) {
         $this->say("Example: $example");
       }
-      $this->logger->notice("To disable or customize Git hooks, see http://blt.rtfd.io/en/latest/readme/extending-blt/#git-hooks");
+      $this->logger->notice("To disable or customize Git hooks, see https://docs.acquia.com/blt/extending-blt/");
 
       return 1;
     }
