@@ -87,7 +87,10 @@
             "Acquia\\Blt\\": "src/",
             "Acquia\\Blt\\Tests\\": "tests/phpunit/src/",
             "Acquia\\Blt\\Tests\\Robo\\": "tests/phpunit/Robo/"
-        }
+        },
+        "files": [
+            "RoboFile.php"
+        ]
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
