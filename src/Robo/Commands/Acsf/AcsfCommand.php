@@ -72,7 +72,7 @@ class AcsfCommand extends BltTasks {
     }
     YamlMunge::writeFile($project_yml, $project_config);
 
-    // Exclude .htaccess from further updates due to ACSF patch.
+    // .htaccess was patched, excluding from further updates.
     $composer_filepath = $this->getConfigValue('repo.root') . '/composer.json';
     $composer_contents = json_decode(file_get_contents($composer_filepath));
     $composer_contents->extra->{'drupal-scaffold'}->excludes[] = '.htaccess';
