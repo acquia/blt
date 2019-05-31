@@ -45,14 +45,14 @@ events:
     steps:
       - deploy:
           script:
-            - if [ PIPELINE_CLOUD_REALM != "enterprise-g1" ]; then pipelines-deploy; fi
+            - if [ $PIPELINE_CLOUD_REALM != "enterprise-g1" ]; then pipelines-deploy; fi
   pr-merged:
     steps:
       - deploy:
           script:
-            - if [ PIPELINE_CLOUD_REALM != "enterprise-g1" ]; then pipelines-deploy; fi
+            - if [ $PIPELINE_CLOUD_REALM != "enterprise-g1" ]; then pipelines-deploy; fi
   pr-closed:
     steps:
       - deploy:
           script:
-            - if [ PIPELINE_CLOUD_REALM != "enterprise-g1" ]; then pipelines-deploy; fi
+            - if [ $PIPELINE_CLOUD_REALM != "enterprise-g1" ]; then pipelines-deploy; fi
