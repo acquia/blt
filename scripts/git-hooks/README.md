@@ -3,7 +3,7 @@
 BLT provides [git hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks)
 that should be symlinked into your local repository's `.git` directory using
 the `blt:init:git-hooks` task during the
-[onboarding process](http://blt.readthedocs.io/en/latest/readme/onboarding).
+[onboarding process](https://docs.acquia.com/blt/developer/onboarding/).
 
 These hooks should be used on all projects, as they will save developers time. In particular, the pre-commit hook will prevent a git commit if validation fails on the code being committed (which will also occur during blt:validate calls during continuous integration).
 

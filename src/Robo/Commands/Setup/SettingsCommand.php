@@ -30,7 +30,7 @@ class SettingsCommand extends BltTasks {
  * Do not include additional settings here. Instead, add them to settings
  * included by `blt.settings.php`. See BLT's documentation for more detail.
  *
- * @link http://blt.readthedocs.io
+ * @link https://docs.acquia.com/blt/
  */
 WARNING;
 

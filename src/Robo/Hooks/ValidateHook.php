@@ -84,17 +84,6 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
   }
 
   /**
-   * Validates that Behat is properly configured on the local machine.
-   *
-   * @hook validate @validateBehatIsConfigured
-   */
-  public function validateBehatIsConfigured(CommandData $commandData) {
-    if (!$this->getInspector()->isBehatConfigured()) {
-      throw new BltException("Behat is not configured properly. Please run `blt doctor` to diagnose the issue.");
-    }
-  }
-
-  /**
    * Validates that required settings files exist.
    *
    * @hook validate @validateSettingsFilesPresent
