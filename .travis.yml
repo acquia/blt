@@ -1,7 +1,7 @@
 ---
 language: php
 
-php: 7.1
+php: "7.1"
 
 addons:
   chrome: stable
@@ -38,8 +38,7 @@ matrix:
   include:
     # Standard ORCA jobs.
     - { name: "Static code analysis", env: ORCA_JOB=STATIC_CODE_ANALYSIS }
-    - { name: "Deprecated code scan of SUT only", env: ORCA_JOB=DEPRECATED_CODE_SCAN_SUT }
-    - { name: "Deprecated code scan of SUT plus contrib", env: ORCA_JOB=DEPRECATED_CODE_SCAN_CONTRIB }
+    - { name: "Deprecated code scan", env: ORCA_JOB=DEPRECATED_CODE_SCAN_SUT }
     - { name: "Isolated test w/ recommended package versions", env: ORCA_JOB=ISOLATED_RECOMMENDED }
     - { name: "Integrated test w/ recommended package versions", env: ORCA_JOB=INTEGRATED_RECOMMENDED }
     - { name: "Integrated test w/ recommended package versions & previous minor release of Drupal core", env: ORCA_JOB=CORE_PREVIOUS }
@@ -52,7 +51,6 @@ matrix:
     - { env: DRUPAL_CORE_VERSION=default PHPUNIT_GROUP='drupal' PHPUNIT_EXCLUDE_GROUP='long,requires-vm' }
     - { env: DRUPAL_CORE_VERSION=$DRUPAL_CORE_HEAD }
   allow_failures:
-    - env: ORCA_JOB=DEPRECATED_CODE_SCAN_CONTRIB
     - env: ORCA_JOB=ISOLATED_DEV
     - env: ORCA_JOB=INTEGRATED_DEV
     - env: ORCA_JOB=CORE_NEXT
