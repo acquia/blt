@@ -26,8 +26,12 @@ class ComposerCommand extends BltTasks {
       ->printOutput(TRUE)
       ->printMetadata(TRUE)
       ->dir($this->getConfigValue('repo.root'))
-      ->interactive($this->input()->isInteractive())
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE);
+
+    if ('\\' !== DIRECTORY_SEPARATOR) {
+      $task->interactive($this->input()->isInteractive());
+    }
+
     if ($options['dev']) {
       $task->dev(TRUE);
     }
