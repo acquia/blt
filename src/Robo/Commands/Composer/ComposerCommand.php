@@ -28,10 +28,6 @@ class ComposerCommand extends BltTasks {
       ->dir($this->getConfigValue('repo.root'))
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE);
 
-    if ('\\' !== DIRECTORY_SEPARATOR) {
-      $task->interactive($this->input()->isInteractive());
-    }
-
     if ($options['dev']) {
       $task->dev(TRUE);
     }
