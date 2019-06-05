@@ -15,9 +15,9 @@ use Composer\Script\Event;
 class Hooks {
 
   /**
-   * Generate the _autoconfig_ file on 'autoload_dump' Composer event.
+   * Modify vendor/composer/installed.json so that composer/installers is first.
    *
-   * @param Event $event
+   * @param \Composer\Script\Event $event
    */
   public static function postAutoloadDump(Event $event) {
     $composer = $event->getComposer();
