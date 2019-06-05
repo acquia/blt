@@ -34,7 +34,8 @@ class VmCommand extends BltTasks {
    */
   public function initialize() {
     $this->drupalVmAlias = $this->getConfigValue('project.machine_name') . '.local';
-    $this->drupalVmVersionConstraint = '^5.0';
+    // Use tilde instead of more traditional caret version to avoid Windows bug.
+    $this->drupalVmVersionConstraint = '~5.0';
     $this->defaultDrupalVmDrushAliasesFile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/drupal-vm.site.yml';
     $this->defaultDrupalVmConfigFile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/config.yml';
     $this->defaultDrupalVmVagrantfile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/Vagrantfile';
