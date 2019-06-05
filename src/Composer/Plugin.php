@@ -84,12 +84,32 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    */
   public static function getSubscribedEvents() {
     return array(
+      ScriptEvents::POST_AUTOLOAD_DUMP => "onPostAutoloadDump",
       PackageEvents::POST_PACKAGE_INSTALL => "onPostPackageEvent",
       PackageEvents::POST_PACKAGE_UPDATE => "onPostPackageEvent",
       ScriptEvents::POST_UPDATE_CMD => array(
         array('onPostCmdEvent'),
       ),
     );
+  }
+
+  /**
+   * Modify vendor/composer/installed.json so that composer/installers is first.
+   *
+   * @param \Composer\Script\Event $event
+   */
+  public static function onPostAutoloadDump(Event $event) {
+    $composer = $event->getComposer();
+    $vendor_dir = $composer->getConfig()->get('vendor-dir');
+    $installed_json = realpath($vendor_dir) . "/composer/installed.json";
+    $installed = json_decode(file_get_contents($installed_json));
+    foreach ($installed as $key => $package) {
+      if ($package->name == 'composer/installers') {
+        unset($installed[$key]);
+        array_unshift($installed, $package);
+      }
+    }
+    file_put_contents($installed_json, json_encode($installed, 448));
   }
 
   /**
