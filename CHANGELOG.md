@@ -1,5 +1,66 @@
 # Change Log
 
+#### 10.1.0 (2019-06-06)
+
+[Full Changelog](https://github.com/acquia/blt/compare/10.0.1...10.1.0)
+
+
+**Implemented enhancements**
+
+- Fixes #3665: Drupal Spec Tool dependency version. (#3667)
+- Fixes #3436: Reduce verbosity of BLT internal test output. (#3663)
+- Preserve comments in DrupalVM config when adding multisites. (#3629)
+- Fixes #3643: Allow directory argument for Drupal phpunit tests. (#3652)
+- Fixes #3650: Squelch Drush runserver output. (#3651)
+- Fixes #3617: Run cache clears for config strategy 'none'. (#3632)
+- Tracing the Drupal requests in drupal-requests.log on acquia cloud. (#3625)
+- Improve multisite generate command. (#3614)
+
+**Fixed bugs**
+
+- Fixes #3674 to repair site splits in 10.x. (#3676)
+- Fixes #3671: Remove posix dependency. (#3672)
+- Fixes #3661: Abort deploy if Git repo is inaccessible. (#3662)
+- Fixes #3647: Removed stale references to failOnDirty option. (#3659)
+- Fixes #3653 to update saml documentation. (#3654)
+- Fixed drush alias generation loop. (#3646)
+
+**Miscellaneous**
+
+- Fixes #3148: Frivolous composer notices. (#3701)
+- DT-483: Disable interactive input on vm command. (#3700)
+- DT-482: Fix deprecated SUT tests (#3694)
+- Don't optimize Composer autoloader locally. (#3692)
+- Updated ORCA implementation. (#3696)
+- Fixed config split template needs description field. (#3681)
+- Prevent patched htaccess from being overwritten for ACSF customers. (#3682)
+- DT-481: Removed references to readthedocs. (#3691)
+- Allow easier non-interactive Behat tests on multiple sites. (#3517)
+- Updated ACSF documentation. (#3680)
+- Removed docs on updating from non-Composer versions. (#3678)
+- Improve dev:link-composer command. (#3649)
+- Minor settings cleanup: removed unnecessary logic. (#3666)
+- Fixed symlinks after moving template to blt-project. (#3670)
+- Remove stale composer files. (#3669)
+- Update bug_report.md
+- Updates links to documentation in template/README.md. (#3656)
+- Combine template with blt-project subtree split. (#3648)
+- Standardize on \Drupal instead of Drupal. (#3657)
+- Updates FAQ to further elaborate on the check dirty issues. (#3655)
+- Don't use bootstrap for sandboxmanager and phpunit tests. (#3640)
+- Removed cruft.
+- Moved logo.
+- Delete .github_changelog_generator
+- Delete .ruby-version
+- Delete mkdocs.yml
+- Disabled RTD buids.
+- Fixed rtd builds.
+- Fixed rtd builds.
+- Fixed rtd builds.
+- Deprecate RTD documentation. (#3631)
+- Integrate with ORCA for automated testing (#3578)
+
+
 #### 10.0.1 (2019-05-03)
 
 [Full Changelog](https://github.com/acquia/blt/compare/10.0.0...10.0.1)
