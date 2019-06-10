@@ -46,9 +46,8 @@ matrix:
     - { name: "Integrated test w/ dev package versions", env: ORCA_JOB=INTEGRATED_DEV }
     - { name: "Integrated test w/ dev package versions & next minor dev version of Drupal core", env: ORCA_JOB=CORE_NEXT }
     # Custom jobs.
-    - { env: DRUPAL_CORE_VERSION=default PHPUNIT_EXCLUDE_GROUP='drupal,long,requires-vm' }
-    - { env: DRUPAL_CORE_VERSION=default PHPUNIT_GROUP='long' PHPUNIT_EXCLUDE_GROUP='drupal,requires-vm' }
-    - { env: DRUPAL_CORE_VERSION=default PHPUNIT_GROUP='drupal' PHPUNIT_EXCLUDE_GROUP='long,requires-vm' }
+    - { env: DRUPAL_CORE_VERSION=default PHPUNIT_EXCLUDE_GROUP='drupal'}
+    - { env: DRUPAL_CORE_VERSION=default PHPUNIT_GROUP='drupal'}
     - { env: DRUPAL_CORE_VERSION=$DRUPAL_CORE_HEAD }
   allow_failures:
     - env: ORCA_JOB=ISOLATED_DEV
