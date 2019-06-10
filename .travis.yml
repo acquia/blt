@@ -47,8 +47,8 @@ matrix:
     - { name: "Integrated test w/ dev package versions & next minor dev version of Drupal core", env: ORCA_JOB=CORE_NEXT }
     # Custom jobs.
     - env: DRUPAL_CORE_VERSION=default PHPUNIT_EXCLUDE_GROUP='drupal'
-    - env: DRUPAL_CORE_VERSION=default PHPUNIT_GROUP='drupal'
   allow_failures:
+    - env: DRUPAL_CORE_VERSION=default PHPUNIT_GROUP='drupal'
     - env: DRUPAL_CORE_VERSION=$DRUPAL_CORE_HEAD
     - env: ORCA_JOB=ISOLATED_DEV
     - env: ORCA_JOB=INTEGRATED_DEV
