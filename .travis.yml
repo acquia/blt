@@ -30,7 +30,7 @@ env:
     # Custom configuration.
     - COMPOSER_BIN=$TRAVIS_BUILD_DIR/vendor/bin
     - BLT_DIR=$TRAVIS_BUILD_DIR
-    - DRUPAL_CORE_HEAD=^8.7.0-alpha1
+    - DRUPAL_CORE_HEAD=8.8.x-dev
     - BLT_PRINT_COMMAND_OUTPUT=0
 
 matrix:
@@ -46,16 +46,17 @@ matrix:
     - { name: "Integrated test w/ dev package versions", env: ORCA_JOB=INTEGRATED_DEV }
     - { name: "Integrated test w/ dev package versions & next minor dev version of Drupal core", env: ORCA_JOB=CORE_NEXT }
     # Custom jobs.
-    - { env: DRUPAL_CORE_VERSION=default PHPUNIT_EXCLUDE_GROUP='drupal,long,requires-vm' }
-    - { env: DRUPAL_CORE_VERSION=default PHPUNIT_GROUP='long' PHPUNIT_EXCLUDE_GROUP='drupal,requires-vm' }
-    - { env: DRUPAL_CORE_VERSION=default PHPUNIT_GROUP='drupal' PHPUNIT_EXCLUDE_GROUP='long,requires-vm' }
-    - { env: DRUPAL_CORE_VERSION=$DRUPAL_CORE_HEAD }
+    - env: DRUPAL_CORE_VERSION=default PHPUNIT_EXCLUDE_GROUP='drupal,requires-vm'
+    - env: DRUPAL_CORE_VERSION=default PHPUNIT_GROUP='drupal'
+    - env: DRUPAL_CORE_VERSION=$DRUPAL_CORE_HEAD
   allow_failures:
+    - env: DRUPAL_CORE_VERSION=$DRUPAL_CORE_HEAD
     - env: ORCA_JOB=ISOLATED_DEV
     - env: ORCA_JOB=INTEGRATED_DEV
     - env: ORCA_JOB=CORE_NEXT
     # Temporary allowances.
     - env: ORCA_JOB=DEPRECATED_CODE_SCAN_SUT
+    - env: DRUPAL_CORE_VERSION=default PHPUNIT_GROUP='drupal'
 
 before_install:
   # Exit build early if only documentation was changed in a Pull Request.
