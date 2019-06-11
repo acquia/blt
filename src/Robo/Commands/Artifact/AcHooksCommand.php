@@ -111,10 +111,13 @@ class AcHooksCommand extends BltTasks {
         },
         'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!#%^&*()_?/.,+=><'
       );
-      $this->taskDrush()
+      $this->say("Scrubbing database in $target_env");
+      $result = $this->taskDrush()
         ->drush("sql-sanitize --sanitize-password=\"$password\" --yes")
         ->run();
-      $this->say("Scrubbing database in $target_env");
+      if (!$result->wasSuccessful()) {
+        throw new BltException("Failed to sanitize database!");
+      }
       $this->taskDrush()
         ->drush("cr")
         ->run();
