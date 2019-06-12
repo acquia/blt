@@ -14,7 +14,10 @@ if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
 
   # Installs chromedriver for Linux 64 bit systems.
   LATEST_CHROMEDRIVER=$(wget -q -O - http://chromedriver.storage.googleapis.com/LATEST_RELEASE)
-  wget -N http://chromedriver.storage.googleapis.com/$LATEST_CHROMEDRIVER/chromedriver_linux64.zip
+  # wget -N http://chromedriver.storage.googleapis.com/$LATEST_CHROMEDRIVER/chromedriver_linux64.zip
+  # Temporarily pin to Chromedriver 74.
+  # @see https://github.com/acquia/blt/issues/3704
+  wget -N https://chromedriver.storage.googleapis.com/74.0.3729.6/chromedriver_linux64.zip
   unzip chromedriver_linux64.zip
   chmod +x chromedriver
   mv -f chromedriver $BIN_DIR
