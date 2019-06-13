@@ -21,14 +21,9 @@ jdk:
   - oraclejdk8
 
 cache:
-  bundler: true
-  apt: true
   directories:
   - "$HOME/.composer/cache"
   - "$HOME/.drush/cache"
-  - "$HOME/.npm"
-  - "$HOME/.nvm"
-  - ".rules"
   # Cache front end dependencies to dramatically improve build time.
   # - "docroot/themes/custom/mytheme/node_modules"
   # - "docroot/themes/custom/mytheme/bower_components"
