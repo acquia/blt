@@ -1,15 +1,10 @@
 # Config Split
 
-This covers common use cases for using configuration splits as a strategy for configuration management in Drupal 8. Specifically, it covers:
+Config Split is the "standard" Configuration Management Strategy provided by BLT. BLT does support other options for configuration management (or none at all). See [Configuration Management](configuration-management.md)).
 
-- Default application configuration
-- Environment specific configuration (e.g., local, data, test, prod, etc.)
-- Site-specific configuration (when multisite is used)
-- Profile-specific split (when multisite and multiple profiles are used)
-- "Feature" specific configuration (e.g., a distinct blog feature that is shared across multiple sites). Not to be confused with the features module.
-- Miscellaneous troubleshooting information
+For additional details, please review the [Managing Configuration with Config Split](https://support.acquia.com/hc/en-us/articles/360024009393) article on the Acquia Knowledge Base.
 
-# Scenario Background
+# Example Scenarios
 
 For the sake of this tutorial, let's assume that we have a "kitchen sink" site that requires all of these types of splits. It is a multisite application and it will be hosted in multiple environments, which must share some default configuration between all sites. It also must allow some features (like a blog) to be enabled on some sites and not others.
 
@@ -245,10 +240,9 @@ To disable the plug-in discovery cache, add the following to your local.settings
 
 This will obviate the need to clear caches in order to register a status change in a configuration split.
 
-
 # Resources
 
 * [blog post by Jeff Geerling](https://www.jeffgeerling.com/blog/2017/adding-configuration-split-drupal-site-using-blt-and-acquia-cloud)
-* [BLT multisite documentation](http://blt.readthedocs.io/en/latest/readme/multisite/)
+* [BLT Multisite Documentation](multisite.md)
 * [Configuration split](https://www.drupal.org/project/config_split)
 * [Configuration ignore](https://www.drupal.org/project/config_ignore)
