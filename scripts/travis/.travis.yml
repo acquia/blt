@@ -1,52 +1,41 @@
-sudo: true
 language: php
 dist: xenial
 
 # Adjust the version of PHP to match your production environment.
 # Making this version number greater than the production environment can have unintended consequences
 # including a non-functional prod environment.
-php:
-  - 7.2
-
-matrix:
-  fast_finish: true
+php: "7.2"
 
 env:
   global:
     - COMPOSER_BIN=$TRAVIS_BUILD_DIR/vendor/bin
     - BLT_DIR=$TRAVIS_BUILD_DIR/vendor/acquia/blt
-    - BUILD_DIR=$TRAVIS_BUILD_DIR
-
-jdk:
-  - oraclejdk8
 
 cache:
   directories:
-  - "$HOME/.composer/cache"
-  - "$HOME/.drush/cache"
+    - "$HOME/.composer/cache"
+    - "$HOME/.drush/cache"
   # Cache front end dependencies to dramatically improve build time.
   # - "docroot/themes/custom/mytheme/node_modules"
   # - "docroot/themes/custom/mytheme/bower_components"
 
 services:
 - mysql
-- xvfb
 
 addons:
-  ssh_known_hosts:
-  # - svn-4786.devcloud.hosting.acquia.com
+  # ssh_known_hosts:
+  #   - svn-4786.devcloud.hosting.acquia.com
   chrome: stable
 
 # @see https://docs.travis-ci.com/user/notifications
-notifications:
-# - hipchat: [api token]@[room id or name]
-# - slack: '<account>:<token>#[channel]'
+# notifications:
+#   - hipchat: [api token]@[room id or name]
+#   - slack: '<account>:<token>#[channel]'
 
 before_install:
   # Disable xdebug.
   - phpenv config-rm xdebug.ini
   - composer self-update
-  - composer validate --no-check-all --ansi
   - composer install
   # Exit build early if only documentation was changed in a Pull Request.
   - source ${BLT_DIR}/scripts/travis/exit_early
