@@ -26,7 +26,7 @@ env:
     # ORCA configuration.
     - ORCA_SUT_NAME=acquia/blt
     - ORCA_SUT_BRANCH=10.x
-    - ORCA_VERSION=v1.0.0-alpha14
+    - ORCA_VERSION=v1.0.0-alpha15
     # Custom configuration.
     - COMPOSER_BIN=$TRAVIS_BUILD_DIR/vendor/bin
     - BLT_DIR=$TRAVIS_BUILD_DIR
@@ -54,8 +54,6 @@ matrix:
     - env: ORCA_JOB=ISOLATED_DEV
     - env: ORCA_JOB=INTEGRATED_DEV
     - env: ORCA_JOB=CORE_NEXT
-    # Temporary allowances.
-    - env: ORCA_JOB=DEPRECATED_CODE_SCAN_SUT
 
 before_install:
   # Exit build early if only documentation was changed in a Pull Request.
@@ -77,4 +75,10 @@ script:
   - ../orca/bin/travis/script.sh
   - ./bin/travis/script.sh
 
+before_cache: ../orca/bin/travis/before_cache.sh
+
+after_success: ../orca/bin/travis/after_success.sh
+
 after_failure: ../orca/bin/travis/after_failure.sh
+
+after_script: ../orca/bin/travis/after_script.sh
