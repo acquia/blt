@@ -22,8 +22,11 @@ class AcsfCommand extends BltTasks {
     $this->logger->notice("  * Adding default factory-hooks to your application.");
     $this->logger->notice("  * Adding `acsf` to `modules.local.uninstall` in your blt.yml");
     $this->logger->notice("");
+    $this->logger->notice("Note that the default version of PHP on ACSF is generally not the same as Acquia Cloud.");
+    $this->logger->notice("You may wish to adjust the PHP version of your local environment and CI tools to match.");
+    $this->logger->notice("");
     $this->logger->notice("For more information, see:");
-    $this->logger->notice("<comment>http://blt.readthedocs.io/en/9.x/readme/acsf-setup</comment>");
+    $this->logger->notice("<comment>https://docs.acquia.com/blt/tech-architect/acsf-setup/</comment>");
   }
 
   /**
@@ -54,12 +57,26 @@ class AcsfCommand extends BltTasks {
     $this->say('<comment>ACSF Tools has been added. Some post-install configuration is necessary.</comment>');
     $this->say('<comment>See /drush/Commands/acsf_tools/README.md. </comment>');
     $this->say('<info>ACSF was successfully initialized.</info>');
+    $this->say('Adding nedsbeds/profile_split_enable module as a dependency...');
+    $package_options = [
+      'package_name' => 'nedsbeds/profile_split_enable',
+      'package_version' => '^1.0',
+    ];
+    $this->invokeCommand('internal:composer:require', $package_options);
+    $this->say('<comment>nedsbeds/profile_split_enable module has been added.</comment>');
+    $this->say('<comment>Enable the module and setup profile splits to utilize.</comment>');
     $project_yml = $this->getConfigValue('blt.config-files.project');
     $project_config = YamlMunge::parseFile($project_yml);
     if (!empty($project_config['modules'])) {
       $project_config['modules']['local']['uninstall'][] = 'acsf';
     }
     YamlMunge::writeFile($project_yml, $project_config);
+
+    // .htaccess was patched, excluding from further updates.
+    $composer_filepath = $this->getConfigValue('repo.root') . '/composer.json';
+    $composer_contents = json_decode(file_get_contents($composer_filepath));
+    $composer_contents->extra->{'drupal-scaffold'}->excludes[] = '.htaccess';
+    file_put_contents($composer_filepath, json_encode($composer_contents, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
   }
 
   /**

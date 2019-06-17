@@ -19,23 +19,29 @@ class AliasCommand extends BltTasks {
    * @aliases alias install-alias
    */
   public function installBltAlias() {
+    if (isset($_SERVER['ComSpec'])) {
+      $bltRoot = $this->getConfigValue('blt.root') . '\\vendor\\bin';
+      $this->logger->error("Setting a blt alias is not supported in cmd.exe");
+      $this->say("<info>Please use Windows to add <comment>$bltRoot</comment> to your Environment Variable PATH</info>");
+      return;
+    }
     if (!$this->getInspector()->isBltAliasInstalled()) {
       $config_file = $this->getInspector()->getCliConfigFile();
       if (is_null($config_file)) {
         $this->logger->warning("Could not find your CLI configuration file.");
         $this->logger->warning("Looked in ~/.zsh, ~/.bash_profile, ~/.bashrc, ~/.profile, and ~/.functions.");
         $created = $this->createBashProfile();
-        if (!$created) {
+        $config_file = $this->getInspector()->getCliConfigFile();
+        if (!$created || is_null($config_file)) {
           $this->logger->warning("Please create one of the aforementioned files, or create the BLT alias manually.");
+          return;
         }
       }
-      else {
-        $this->say("BLT can automatically create a Bash alias to make it easier to run BLT tasks.");
-        $this->say("This alias will be created in <comment>$config_file</comment>.");
-        $confirm = $this->confirm("Install alias?");
-        if ($confirm) {
-          $this->createNewAlias();
-        }
+      $this->say("BLT can automatically create a Bash alias to make it easier to run BLT tasks.");
+      $this->say("This alias will be created in <comment>$config_file</comment>.");
+      $confirm = $this->confirm("Install alias?");
+      if ($confirm) {
+        $this->createNewAlias();
       }
     }
     elseif (!$this->isBltAliasUpToDate()) {
@@ -175,8 +181,7 @@ class AliasCommand extends BltTasks {
     if ($inspector->isOsx() || $inspector->isAhEnv()) {
       $continue = $this->confirm("Would you like to create ~/.bash_profile?");
       if ($continue) {
-        $user = posix_getpwuid(posix_getuid());
-        $home_dir = $user['dir'];
+        $home_dir = getenv('HOME');
         $bash_profile = $home_dir . '/.bash_profile';
         if (!file_exists($bash_profile)) {
           $result = $this->taskFilesystemStack()

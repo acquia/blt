@@ -3,7 +3,6 @@
 namespace Acquia\Blt\Robo\Wizards;
 
 use function file_exists;
-use Robo\Contract\VerbosityThresholdInterface;
 
 /**
  * Class TestsWizard.
@@ -11,23 +10,6 @@ use Robo\Contract\VerbosityThresholdInterface;
  * @package Acquia\Blt\Robo\Wizards
  */
 class TestsWizard extends Wizard {
-
-  /**
-   * Prompts user to download/install PhantomJS.
-   */
-  public function wizardInstallPhantomJsBinary() {
-    if (!$this->getInspector()->isPhantomJsBinaryPresent()) {
-      $this->logger->warning("The PhantomJS binary is not present.");
-      $answer = $this->confirm("Do you want to download it?");
-      if ($answer) {
-        $this->say('Downloading PhantomJS...');
-        $this->executor->execute("composer run-script install-phantomjs")
-          ->printOutput(TRUE)
-          ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-          ->run();
-      }
-    }
-  }
 
   /**
    * Prompts user to generate valid Behat configuration file.
@@ -44,8 +26,7 @@ class TestsWizard extends Wizard {
         if (file_exists($behat_local_config_file)) {
           $this->fs->remove($behat_local_config_file);
         }
-        // @todo Pass all config!
-        $this->executor->execute("$bin/blt tests:behat:init:config --environment=" . $this->getConfigValue('environment'))->run();
+        $this->invokeCommand('tests:behat:init:config');
       }
     }
   }

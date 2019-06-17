@@ -32,7 +32,7 @@ To avoid these pitfalls, follow the best practices outlined in sections below.
 
 ## Test directory structure
 
-This directory contains all projects tests, grouped by testing technology. For all configuration related to builds that actually run these tests, please see the [build](/build) directory.
+This directory contains all projects tests, grouped by testing technology. For all configuration related to builds that actually run these tests, please see the [blt](/blt) directory.
 
     tests
     ├── behat - contains all Behat tests
@@ -41,7 +41,7 @@ This directory contains all projects tests, grouped by testing technology. For a
     │    │   └── Example.feature
     │    ├── behat.yml - contains behat configuration common to all behat profiles.
     │    └── integration.yml - contains behat configuration for the integration profile, which is used to run tests on the integration environment.
-    └── phpunit - contains all PHP Unit tests
+    └── phpunit - contains PHPUnit tests for the project (Drupal PHPUnit tests should reside within a given Drupal module).
 
 Additional technologies (some of which may not be supported by BLT) can also have their tests bundled in the tests folder for convenience (e.g. `tests/jmeter`).
     
@@ -56,6 +56,7 @@ The following testing commands are available:
 * `blt tests:all`
 * `blt tests:behat:run`
 * `blt tests:phpunit:run`
+* `blt tests:drupal:run`
 * `blt tests:security:check:updates`
 * `blt tests:security:check:composer`
 
@@ -140,19 +141,17 @@ Note that Cucumber is simply a Ruby based BDD library, whereas Behat is a
 PHP based BDD library. Best practices for tests writing apply to both.
 * [The training wheels came off](http://aslakhellesoy.com/post/11055981222/the-training-wheels-came-off)
 
-## PHPUnit
-
-Project level, functional PHPUnit tests are included in `tests/phpunit`. Any PHPUnit tests that affect specific modules or application level features should be placed in the same directory as that module, not in this directory.
+## Unit and functional testing
 
 ### Best practices
 
-* Tests should not contain any control statements
-* Be careful to make both positive and negative assertions of expectations
-* @todo add examples of good and bad tests
+* Tests should not contain any control statements.
+* Be careful to make both positive and negative assertions of expectations.
+* @todo add examples of good and bad tests.
 
 ### Common mistakes
 
-* Writing unit tests that are not independent
+* Writing unit tests that are not independent.
 * Making unit tests too large. Tests should be small and granular.
 * Asserting only positive conditions. Negative assertions should also be made.
 
@@ -166,48 +165,154 @@ Project level, functional PHPUnit tests are included in `tests/phpunit`. Any PHP
 
 ### Configuration
 
-You can customize the `tests:phpunit:run` command by [customize the configuration values](extending-blt.md#modifying-blt-configuration) for the `phpunit` key.
+The `tests` configuration variable has following properties:
 
-Each row under the `phpunit` key should contain a combination of the following properties:
+ * `reports.localDir`: Directory used to save testing reports on local environments
+ * `reports.remoteDir`: Directory used to save testing reports on remote environments
+ * `run-server`: Whether or not to launch the Drush server for testing
+ * `server.port`: The Drush run-server port, default is `8888`
+ * `server.url`: The URL for Drush server, default is `http://127.0.0.1:8888`
+ * `selenium.port`: Port for Selenium, default is `4444`
+ * `selenium.url`: URL for Selenium, default is `http://127.0.0.1:4444/wd/hub`
+ * `chrome.port`: Port for `chrome` browser, default is `9222`
+ * `chrome.args`: Args for `chrome` browser, default is `null`
+ * `chromedriver.port`: Port for `chromedriver` WebDriver for Chrome, default is `9515`
+ * `chromedriver.args`: Args for `chromedriver` WebDriver for Chrome, default is `null`
 
- * config: path to either the Core phpunit configuration file (docroot/core/phpunit.xml.dist) or a custom one. If left blank, no configuration will be loaded with the unit test.
- * path: the path to the custom phpunit test
- * class: the class name for the test
- * file: the sourcefile that declares the class provided in `class`
- * testsuite: run tests that are part of a specific `@testsuite`
- * group: run tests only tagged with a specific `@group`
- * exclude: run tests excluding any tagged with this `@group`
- * filter: allows text filter for tests
+## PHPUnit
+
+Project level, functional PHPUnit tests are included in `tests/phpunit`. Any PHPUnit tests that affect specific modules or application level features should be placed in the same directory as that module or feature code, not in this directory.
+
+You can customize the `tests:phpunit:run` command by [modifying BLT Configuration](extending-blt.md#modifying-blt-configuration) for the `tests:phpunit` key.
+
+Each row under the `tests:phpunit` key should contain a combination of the following properties:
+
+ * `bootstrap`: A "bootstrap" PHP file that is run before the tests
+ * `class`: the class name for the test
+ * `config`: path to either the Core phpunit configuration file (docroot/core/phpunit.xml.dist) or a custom one. If left blank, no configuration will be loaded with the unit test.
+ * `debug`: if `true`, will display debugging information
+ * `directory`: directory to scan for tests
+ * `exclude`: run tests excluding any tagged with this `@group`
+ * `file`: the sourcefile that declares the class provided in `class`
+ * `filter`: allows text filter for tests
+ * `group`: run tests only tagged with a specific `@group`
+ * `path`: the directory where the phpunit command will be run from
+ * `printer`: the TestListener implementation to use
+ * `stop-on-error`: if `true`, will stop execution upon first error
+ * `stop-on-failure`: if `true`, sill stop execution upon first error or failure
+ * `testdox`: if `true`, report test execution progress in TestDox format
+ * `testsuite`: run tests that are part of a specific `@testsuite`
+ * `testsuites`: (array) run tests from multiple `@testsuite`s (takes precedence over `testsuite`)
 
  See PHPUnit's [documentation](https://phpunit.de/manual/current/en/textui.htm) for additional information.
 
 ```yml
-phpunit:
-  - path: '${repo.root}/tests/phpunit'
-    class: 'ExampleTest'
-    file: 'ExampleTest.php'
-  -
-    config: ${docroot}/core/phpunit.xml.dist
-    group: 'example'
-    class: null
-    file: null
-  -
-    config: ${docroot}/core/phpunit.xml.dist
-    exclude: 'mylongtest'
-    group: 'example'
-    class: null
-    file: null
-  -
-    config: ${docroot}/core/phpunit.xml
-    path: '${docroot}/core'
-    testsuite: 'functional'
-    class: null
-    file: null
-   -
-    config: ${docroot}/core/phpunit.xml
-    path: ${docroot}/modules/custom/my_module
-    class: ExampeleTest
-    file: tests/src/Unit/ExampeleTest.php
+tests:
+  phpunit:
+    - # Run BLT"s example test.
+      path: '${repo.root}/tests/phpunit'
+      config: '${docroot}/core/phpunit.xml.dist'
+      class: 'ExampleTest'
+      file: 'ExampleTest.php'
+```
+
+## Testing Drupal with PHPUnit
+
+Each row under the `tests:drupal` key should contain a combination of the following properties (see Drupal's `core/phpunit.xml.dist` for additional details):
+
+ * `test-runner`: Whether to run Drupal tests with PHPUnit (`phpunit`) or Drupal's run-tests.sh script (`run-tests-script`)
+ * `sudo-run-tests`: Whether or not to use sudo when running Drupal tests
+ * `web-driver`: WebDriver to use for running Drupal's functional JavaScript tests (only `chromedriver` is supported at this time)
+ * `browsertest-output-directory`: Directory to write output for browser tests (value for `BROWSERTEST_OUTPUT_DIRECTORY`)
+ * `apache-run-group`: Unix user used for tests (value for `APACHE_RUN_USER`)
+ * `apache-run-user`: Unix group used for tests (value for `APACHE_RUN_GROUP`)  (if `sudo-run-tests:true`, this is used to run testing commands as `sudo -u www-data -E ./vendor/bin/phpunit {...}`)
+ * `mink-driver-args`: Driver args to mink tests (value for `MINK_DRIVER_ARGS`)
+ * `mink-driver-args-webdriver`: Driver args to webdriver tests (value for `MINK_DRIVER_ARGS_WEBDRIVER`)
+ * `mink-driver-class`: Driver class for mink tests (value for `MINK_DRIVER_CLASS`)
+ * `simpletest-base-url`: Base URL for Simpletest (value for `SIMPLETEST_BASE_URL`)
+ * `simpletest-db`: Connection string Simpletest database (value for `for SIMPLETEST_DB`)
+ * `symfony-deprecations-helper`: Setting to `disabled` disables deprecation testing completely (value for `SYMFONY_DEPRECATIONS_HELPER`)
+ * `phpunit`: Tests to run using Drupal's implementation of PHPUnit. This requires Drupal to be installed.
+ * `drupal-tests`: Tests to run with Drupal's run-test.sh script.
+
+```yml
+tests:
+  drupal:
+    phpunit:
+      - # Run Drupal' unit, kernel, functional, and functional-javascript testsuites for the action module.
+        path: '${docroot}/core'
+        config: ${docroot}/core/phpunit.xml.dist
+        testsuites:
+          - 'unit'
+          - 'kernel'
+          - 'functional'
+          - `functional-javascript`
+        group: action
+      - # Run all tests in the custom modules directory.
+        path: '${docroot}/core'
+        config: ${docroot}/core/phpunit.xml.dist
+        directory: ${docroot}/modules/custom
+```
+
+Note that Selenium is required to run Drupal tests, and Acquia Pipelines does not support Selenium (since it does not have Java installed). Thus, you cannot run these tests on Pipelines. You can still run the rest of the test suite (Behat, PHPUnit, etc...) using Chrome.
+
+### Drupal's `run-tests.sh` script
+
+You can customize the `tests:drupal:run` command by [modifying BLT Configuration](extending-blt.md#modifying-blt-configuration) for the `tests:run-tests` key.
+
+Each row under the `tests:drupal-tests` key should contain a combination of the below properties. See Drupal's [documentation](https://www.drupal.org/docs/8/phpunit/running-tests-through-command-line-with-run-testssh) for a description of each properties.
+
+ * `all`
+ * `browser`
+ * `clean`
+ * `color`
+ * `concurrency`
+ * `dburl`
+ * `die-on-fail`
+ * `directory`
+ * `keep-results-table`
+ * `keep-results`
+ * `repeat`
+ * `sqlite`
+ * `suppress-deprecations`
+ * `tests` (array)
+ * `types` (array, takes precedence over `type`)
+ * `type`
+ * `url`
+
+```yml
+tests:
+  drupal:
+    drupal-tests:
+      - # Run the PHPUnit-Unit, PHPUnit-Kernel, and PHPUnit-Functional test types for the action module.
+        color: true
+        concurrency: 2
+        types:
+          - 'PHPUnit-Unit'
+          - 'PHPUnit-Kernel'
+          - 'PHPUnit-Functional'
+        tests:
+          - 'action'
+        sqlite: '${tests.drupal.sqlite}'
+        url: '${tests.drupal.simpletest-base-url}'
+      - # Run the PHPUnit-FunctionalJavascript test type for the action module.
+        color: true
+        concurrency: 1
+        types:
+          - 'PHPUnit-FunctionalJavascript'
+        tests:
+          - 'action'
+        sqlite: '${tests.drupal.sqlite}'
+        url: '${tests.drupal.simpletest-base-url}'
+      - # Run the Simpletest test type for the user module.
+        color: true
+        concurrency: 1
+        types:
+          - 'Simpletest'
+        tests:
+          - 'user'
+        sqlite: '${tests.drupal.sqlite}'
+        url: '${tests.drupal.simpletest-base-url}'
 ```
 
 ## Frontend Testing

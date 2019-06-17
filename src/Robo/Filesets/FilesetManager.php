@@ -119,8 +119,8 @@ class FilesetManager implements ConfigAwareInterface, LoggerAwareInterface {
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
-  public function getFilesets($fileset_ids = []) {
-    if (!$this->filesets) {
+  public function getFilesets($fileset_ids = [], $resetFinder = FALSE) {
+    if (!$this->filesets || $resetFinder) {
       $this->registerFilesets();
     }
 

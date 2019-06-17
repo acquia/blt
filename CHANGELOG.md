@@ -1,5 +1,452 @@
 # Change Log
 
+#### 10.1.0 (2019-06-06)
+
+[Full Changelog](https://github.com/acquia/blt/compare/10.0.1...10.1.0)
+
+
+**Implemented enhancements**
+
+- Fixes #3665: Drupal Spec Tool dependency version. (#3667)
+- Fixes #3436: Reduce verbosity of BLT internal test output. (#3663)
+- Preserve comments in DrupalVM config when adding multisites. (#3629)
+- Fixes #3643: Allow directory argument for Drupal phpunit tests. (#3652)
+- Fixes #3650: Squelch Drush runserver output. (#3651)
+- Fixes #3617: Run cache clears for config strategy 'none'. (#3632)
+- Tracing the Drupal requests in drupal-requests.log on acquia cloud. (#3625)
+- Improve multisite generate command. (#3614)
+
+**Fixed bugs**
+
+- Fixes #3674 to repair site splits in 10.x. (#3676)
+- Fixes #3671: Remove posix dependency. (#3672)
+- Fixes #3661: Abort deploy if Git repo is inaccessible. (#3662)
+- Fixes #3647: Removed stale references to failOnDirty option. (#3659)
+- Fixes #3653 to update saml documentation. (#3654)
+- Fixed drush alias generation loop. (#3646)
+
+**Miscellaneous**
+
+- Fixes #3148: Frivolous composer notices. (#3701)
+- DT-483: Disable interactive input on vm command. (#3700)
+- DT-482: Fix deprecated SUT tests (#3694)
+- Don't optimize Composer autoloader locally. (#3692)
+- Updated ORCA implementation. (#3696)
+- Fixed config split template needs description field. (#3681)
+- Prevent patched htaccess from being overwritten for ACSF customers. (#3682)
+- DT-481: Removed references to readthedocs. (#3691)
+- Allow easier non-interactive Behat tests on multiple sites. (#3517)
+- Updated ACSF documentation. (#3680)
+- Removed docs on updating from non-Composer versions. (#3678)
+- Improve dev:link-composer command. (#3649)
+- Minor settings cleanup: removed unnecessary logic. (#3666)
+- Fixed symlinks after moving template to blt-project. (#3670)
+- Remove stale composer files. (#3669)
+- Update bug_report.md
+- Updates links to documentation in template/README.md. (#3656)
+- Combine template with blt-project subtree split. (#3648)
+- Standardize on \Drupal instead of Drupal. (#3657)
+- Updates FAQ to further elaborate on the check dirty issues. (#3655)
+- Don't use bootstrap for sandboxmanager and phpunit tests. (#3640)
+- Removed cruft.
+- Moved logo.
+- Delete .github_changelog_generator
+- Delete .ruby-version
+- Delete mkdocs.yml
+- Disabled RTD buids.
+- Fixed rtd builds.
+- Fixed rtd builds.
+- Fixed rtd builds.
+- Deprecate RTD documentation. (#3631)
+- Integrate with ORCA for automated testing (#3578)
+
+
+#### 10.0.1 (2019-05-03)
+
+[Full Changelog](https://github.com/acquia/blt/compare/10.0.0...10.0.1)
+
+
+**Implemented enhancements**
+
+- Fixes #2938: Support running BLT outside of a VM. (#3613)
+
+**Miscellaneous**
+
+- Fixed the truly freaking finickiest command (git tag for release notes.)
+- Updating CHANGELOG.md and setting version for 10.0.1.
+- Fixed wrong blt version added during 10.x upgrade. (#3624)
+- Added command to symlink to BLT from projects for development. (#3623)
+- Update README.md
+- Cleaned up and removed unused test code. (#3610)
+- Cleaning up tests (#3608)
+- Updated README for 10.x.
+- Revert "BLT Project pull stable release."
+- BLT Project pull stable release.
+[Full Changelog](https://github.com/acquia/blt/compare/10.0.0-rc4...10.0.1)
+
+
+**Implemented enhancements**
+
+- Fixes #2938: Support running BLT outside of a VM. (#3613)
+- Fixes #3527: Change settings file include order. (#3599)
+
+**Fixed bugs**
+
+- Fixes #3575 to update profile split docs and functions. (#3598)
+
+**Miscellaneous**
+
+- Fixed wrong blt version added during 10.x upgrade. (#3624)
+- Added command to symlink to BLT from projects for development. (#3623)
+- Update README.md
+- Cleaned up and removed unused test code. (#3610)
+- Cleaning up tests (#3608)
+- Updated README for 10.x.
+- Revert "BLT Project pull stable release."
+- BLT Project pull stable release.
+- Updating CHANGELOG.md and setting version for 10.0.0.
+- Fixing changelog.
+- Updating CHANGELOG.md and setting version for 10.0.0.
+- Fixed release script.
+- Updating CHANGELOG.md and setting version for 10.0.0.
+- Cleaned up update comments. (#3606)
+- Update RELEASE.md
+- Fix code block indent in docs creating-new-project (#3604)
+- Speed up Composer operations in Travis. (#3603)
+- Clean up frontend docs and FAQs for deployments. (#3602)
+- Cleaned up settings files. (#3601)
+- Minor cleanup before release. (#3600)
+- Recommend installing zaporylie globally. (#3596)
+- Revert "Prep stable release of blt-project."
+- Prep stable release of blt-project.
+
+
+#### 10.0.0 (2019-05-01)
+
+[Full Changelog](https://github.com/acquia/blt/compare/10.0.0-rc4...10.0.0)
+
+
+**Implemented enhancements**
+
+- Fixes #3527: Change settings file include order. (#3599)
+
+**Fixed bugs**
+
+- Fixes #3575 to update profile split docs and functions. (#3598)
+
+**Miscellaneous**
+
+- Fixing changelog.
+- Updating CHANGELOG.md and setting version for 10.0.0.
+- Fixed release script.
+- Updating CHANGELOG.md and setting version for 10.0.0.
+- Cleaned up update comments. (#3606)
+- Update RELEASE.md
+- Fix code block indent in docs creating-new-project (#3604)
+- Speed up Composer operations in Travis. (#3603)
+- Clean up frontend docs and FAQs for deployments. (#3602)
+- Cleaned up settings files. (#3601)
+- Minor cleanup before release. (#3600)
+- Recommend installing zaporylie globally. (#3596)
+- Revert "Prep stable release of blt-project."
+- Prep stable release of blt-project.
+
+
+#### 10.0.0-rc4 (2019-04-26)
+
+[Full Changelog](https://github.com/acquia/blt/compare/test...10.0.0-rc4)
+
+**Major / breaking changes**
+
+- Remove support for PhantomJS. (#3580)
+**Implemented enhancements**
+
+- Fixes #3417: Don't ignore platform reqs by default during deploys (#3590)
+
+**Fixed bugs**
+
+- Get rid of Vagrant warnings during update process. (#3597)
+- Fixes #3574: Git tag needs author info, should stop deploy. (#3586)
+- Removed remaining referenes to --yes. (#3594)
+- Fixes #3583: Infinite recursion when using global.settings.default.php. (#3587)
+
+**Miscellaneous**
+
+- Minor code style fix.
+- Alphabetize blt-project dependencies.
+- Update cloud hooks for previous 10.x users. (#3595)
+- Prevent cache collisions in multisite install tasks #3171. (#3554)
+- Remove / replace references to 9.x branch. (#3593)
+- Add breaking changes to release notes. (#3589)
+- Fixes #3558: Use --no-interaction when deploying tags on Travis. (#3588)
+- Update example.local.blt.yml (#3585)
+- Removed unused site-install parameter. (#3582)
+
+
+#### 10.0.0-rc3 (2019-04-24)
+
+[Full Changelog](https://github.com/acquia/blt/compare/10.0.0-rc2...10.0.0-rc3)
+
+**Implemented enhancements**
+
+- Make the composer create-project acquia/blt work on Windows (#3538)
+- Upgrade DrupalVM to 5, default PHP to 7.2, clean up DrupalVM config. (#3539)
+- Don't glob global settings by default. (#3537)
+- Fixed coding standards in BLT settings. (#3534)
+- Print output from checkDirty command. (#3531)
+
+**Fixed bugs**
+
+- Use a unified environment detector. (#3570)
+- Fixed #3562: SQL sanitization should throw non-zero exit code on failure. (#3567)
+- Fixes #3568: Don't run Drupal tests on Pipelines. (#3577)
+- run_tests should not use the --yes argument on Pipelines (#3560)
+- Fixes #3511: Check Git user before committing, set dummy user if necessary (#3541)
+- Alter run_tests not to use --yes as argument (#3549)
+- Issue 3529: Adding --ignore-unmatch parameter so deploy stops failing. (#3530)
+- Fixed profile splits. (#3522)
+
+**Miscellaneous**
+
+- Fixed build status images
+- Improved logging of Selenium server start. (#3576)
+- Text and link improvements (#3581)
+- Update project-tasks.md (#3579)
+- Removed PHP5.6-specific APC settings. (#3571)
+- Add documentation for checkDirty deploy step. (#3572)
+- Clarify ACSF config setup docs. (#3535)
+- Update RELEASE.md
+- Back to dev for blt-project.
+- Prep stable release of blt-project.
+- Fix #3553: Document a release process for stable and dev versions of blt-project (#3573)
+- Fixed code style. (#3569)
+- Minor grammatical fix for skills.md
+- Readme for blt-project.
+- Set composer memory to unlimited. (#3545)
+- Update hooks for #3510. (#3551)
+- Removed Phing cruft. (#3519)
+- Move Drupal module dependencies to project template (#3510)
+- Update doc for generating a private key (#3543)
+- Lowered drupal/core version constraint to lowest supported version. (#3544)
+- Update support-request.md
+- Update bug_report.md
+- Improve Drush runserver error message. (#3521)
+- Delete example.multisite.yml (#3509)
+- Fix coding standards in settings warning comment (#3524)
+- Create no-response.yml
+- Update creating-new-project.md
+
+
+#### 10.0.0-rc2 (2019-04-05)
+
+[Full Changelog](https://github.com/acquia/blt/compare/10.0.0-rc1...10.0.0-rc2)
+
+
+**Miscellaneous**
+
+- Fix running Composer updates. (#3520)
+- turn off ssh strict host checking when drush is connecting to drupal vm; this avoids prompting the user like this: (#3518)
+- Removing -y breaks updates. (#3515)
+
+
+#### 10.0.0-rc1 (2019-04-03)
+
+[Full Changelog](https://github.com/acquia/blt/compare/10.0.0-beta3...10.0.0-rc1)
+
+**Implemented enhancements**
+
+- Fixes #2985: Remove -y flag. (#3506)
+- Fixes #3272: Do not deploy files directory. (#3487)
+- Fixes #3256: Add geerlingguy/drupal-vm as default base box. (#3486)
+- Fixes #3238: Removed gitignore files from git on deploy. (#3479)
+- Fixes #3219: Move secret settings file according to public docs. (#3478)
+- Fixes #3032: Ensure source files are clean before committing on Pipelines. (#3472)
+- Fixed #2972: Install BLT alias after creating bash profile. (#3466)
+
+**Fixed bugs**
+
+- Fixes #3445: Pass site context when regenerating Behat config. (#3505)
+- Fix multisite db permissions for new sites. (#3504)
+- Fixes #3344: Support commits with apostrophes. (#3495)
+- Fixes #3247: Support content_archive module. (#3485)
+- Fixes #3239: build-dependencies option doesn't behave as expected. (#3482)
+- Fixes #3016: Commands run in parallel don't run to completion. (#3475)
+- Issue 3014 (#3468)
+
+**Miscellaneous**
+
+- Fixed release note generation for bug and enhancement labels.
+- Minor RELEASE.md update.
+- Fixed release notes for version numbers above 10.
+- Composer update.
+- Get BLT Project tests working. (#3507)
+- Cleaned up multisite docs and best practices. (#3503)
+- Minor clarification to release schedule
+- Fixes #3255: On Acquia Cloud, acquia_config.php should better handle multisite (#3492)
+- Update issue templates (#3499)
+- Update PULL_REQUEST_TEMPLATE.md
+- Update simplesaml acquia_config.php for use on ODEs. (#3498)
+- Update README.md
+- Note release cadence in README. (#3489)
+- Failed composer create-project should exit with non-zero code. (#3494)
+- Don't allow Travis failures for Drupal 8.7. (#3493)
+- Fixes #3332: Config imports should run for core-only after setup. (#3488)
+- Update PULL_REQUEST_TEMPLATE.md
+- Fixes #3242: Change private files path to support multisite. (#3483)
+- Start testing Drupal 8.7. (#3481)
+- Update PULL_REQUEST_TEMPLATE.md
+- Update PULL_REQUEST_TEMPLATE.md
+- Migrated to travis-ci.com.
+- Cleaned up command and hooks docs to match recent changes.
+- Update composer.lock.
+- Update PULL_REQUEST_TEMPLATE.md
+- Remove failing cache-clear from BLT tests. (#3474)
+- Fix config message. (#3473)
+- Fixes #3015: Cannot run Twig or Yaml validators multiple times. (#3470)
+
+
+#### 10.0.0-beta3 (2019-03-15)
+
+[Full Changelog](https://github.com/acquia/blt/compare/9.2.0-alpha3...10.0.0-beta3)
+
+**Implemented enhancements**
+
+- Fixed #1793: Allow custom commands via autoloader. (#3447)
+- Fixes #3050: Memcache stampede protection doesn't exist. (#3439)
+- BLT-3256: commit-msg UX improvements. (#3237)
+- Add patchutils through extra_packages in VM config (#3191) (#3193)
+- Allows Drush ANSI output to be disabled. (#3146)
+- Fixes #3116: Suggest testing db updates. (#3164)
+- Fixes #3086: Install sites from existing config. (#3241)
+- Improvements to sanitize the deploy build artifact (#3423)
+- Fixes #2984 to allow admin username to be set by config. (#3398)
+- Moved pipelines-deploy from build event to post-deploy event (#3374)
+- Revert "Update db-update.sh (#3291)" (#3367)
+- Account for named arguments in Twig filter and function linting. (#3181)
+- Fixes #3355 to update devel in 10.x. (#3356)
+- Fixes #2932: Inline example of how to require additional settings (#3342)
+- [10.0.x] Drupal testing enhancements. (#3249)
+- Fixes #3217 to provide acsf-init-verify as part of git hooks and blt validate. (#3218)
+- Add assertions to remove PHPUnit notices. (#3190)
+- Updates ignore-existing to include .editorconfig. (#3300)
+- Adding BLT commands for db/files cloud hooks. (#3202)
+- Speed up composer operations (#3287)
+- Update db-update.sh (#3291)
+- Update to Drupal Coder 8.3.x. (#3294)
+- Porting 9.2.x changes forward to 10.0.x (#3296)
+- Update db-update.sh (#3288)
+- Speed up deploys with shallow fetching (#3271)
+- Add setup instructions for PHPStorm + PHPUnit (#1787) (#3198)
+- Fixes #3206 to include sensiolabs/security-checker and new composer security test. (#3227)
+- Clean up PHPUnit directories and namespaces. (#3153)
+- Increase wait timeout. (#3163)
+- Fixes issue #2744: Remove wikimedia/composer-merge-plugin from BLT. (#3120)
+
+**Fixed bugs**
+
+- Fixes #3357: Don't use relative path for memcache PSR-4 path registration (#3358)
+- Disable ANSI when BLT runs in Cloud Hooks. (#3426)
+- Move ACSF validate command to default config. (#3420)
+- Fixed #3366: Exclude ACSF files from code sniffing. (#3419)
+- Replace  by (stable) global variable equivalent (#3408)
+- Fixes #3379 to regenerate settings and hooks upon BLT 10.x update. (#3380)
+- Fixes #3362 to better identify why the site URI is not found. (#3369)
+- Fixes #3322 to disable variable sniffs on factory hooks. (#3381)
+- Fixes #3322 to fix docs and codesniffer issues in factory hooks. (#3370)
+- Fixes #3345 to run db updates even when config strategy is none. (#3363)
+- Fix discrepancy in behavior btw create project with tag vs branch. (#3314)
+- Only load APC setting when APC is enabled (#3290)
+- Pipelines pr-closed event doesn't fire. (#3266)
+- Ensure blt-project works for project creation. (#3274)
+- Fixes #2945 by removing cloud hook exception for ACSF. (#2946)
+
+**Miscellaneous**
+
+- Updated Drush to 9.6. (#3464)
+- Fixed broken local tests. (#3463)
+- Add composer.lock. (#3462)
+- Fixed #2968: Show composer validation warnings and errors. (#3461)
+- Remove cruft from travis ci. (#3460)
+- Clean up .travis.yml. (#3459)
+- Update CONTRIBUTING.md (#3456)
+- Update drush to 9.6.0, and robo to 1.3.4 (#3384)
+- Noted MySQL requirement for local testing. (#3453)
+- Release from 'upstream', not 'origin'. (#3452)
+- Disable buggy tests.
+- Fixes #3325: Verbose bash logging and error reporting for factory hooks. (#3443)
+- Revert "Revert "[10.0.x] Drupal testing enhancements." (#3348)" (#3351)
+- Fixed cloud hooks error. (#3442)
+- Add example .lando.yml blt tooling (#3430)
+- Add isset check on $_SERVER['PWD'] in blt-robo.php to fix PHP notice (#3428)
+- Updating CI settings with a default database. (#3421)
+- Update README.md (#3435)
+- Replace 10.0.x references with 10.x. (#3434)
+- Update composer.json (#3433)
+- Create branch alias for 10.x-dev to 10.0.x-dev. (#3432)
+- Fixes #3317: Remove extraneous sql-drop. (#3429)
+- Update CONTRIBUTING.md
+- Update CONTRIBUTING.md
+- Issue #3039: Updated Behat docs. (#3424)
+- Warn users that BLT is supported on Windows only under WSL. Updated documentation with alternatives. (#3415)
+- Fixes #3265 to expand alias documentation. (#3399)
+- Create 10.x branch alias. (#3387)
+- Test tests:acsf:validate (#3392)
+- Updating CHANGELOG.md and setting version for 10.0.0-beta2.
+- Updates release and readme docs. (#3382)
+- Fix code style standards in settings files. (#3375)
+- Added steps to install nfs-utils and enable access via firewalld; without it DrupalVm gets stuck at mounting NFS (#3376)
+- Update CHANGELOG.md
+- Updating CHANGELOG.md and setting version for 10.0.0-beta1.
+- Fixes #3353 to update docs for factory hook. (#3364)
+- Pin memcache to 2.0-alpha7 until Acquia cloud is ready. (#3361)
+- Revert "[10.0.x] Drupal testing enhancements." (#3348)
+- 10.0.x: Upgrade BLT to Xenial on Travis CI (#3340)
+- Updating Drupal VM config versions. (#3328)
+- Force stable drush version (#3337)
+- Fix broken link to Cloud Hooks docs. (#3331)
+- Docksal documentation (#3330)
+- Updating BLT's docs to remove nvm and point to Cog's documentation for theme installation. (#3313)
+- Update README.md
+- Updating CHANGELOG.md and setting version for 10.0.0-alpha1.
+- Add links to docsal and ddev pages.
+- Use optimized classloader to resolve notices (#3312)
+- Fix composer.json updates for 10.0.x (#3308)
+- Merge 9.2.x into 10.0.x. (#3310)
+- Remove deprecation detection. (#3311)
+- Add command for updating Drupal core (#3303)
+- Ensuring suggested packages are not lost in 10.x update. (#3302)
+- Docksal documentation (#3268)
+- Update INSTALL.md (#3273)
+- Added ddev documentation (#3250)
+- Added instruction to install BLT and ddev. (#3235)
+- Update onboarding.md (#3234)
+- Simplifying onboarding doc (#3240)
+- Adds FAQ for drush 8/9 permission denied issue. (#3264)
+- Fixes #3243 dry-run option for deploy. (#3262)
+- Fix typo in testing docs. (#3233)
+- Fixes #3122 to remove misleading jmeter example. (#3230)
+- Fixes #3185 to bring install and local docs inline. (#3228)
+- Fixes #3223 to update git docs. (#3226)
+- Fixes #3063 by updating faq and install docs to improve install profile instructions. (#3221)
+- Fix comment formatting in PhpUnitCommand. (#3212)
+- Update deploy.md with correct Cloud Hooks links. (#3188)
+- Update Updates.php (#3176)
+- Travis shouldn't duplicate Drupal 8.6 tests (#3152)
+- Fixed travis output. (#3151)
+- 3149: Minor grammar fix (#3150)
+- Fix PHP syntax error in acquia simplesamlphp config. (#3141)
+- Update support policies (#3147)
+- Resolves #3106: Add 'skip_permissions_hardening' setting to local settings file template (#3107)
+- Fixes #3118: Update theme path to more standardized D8 defaults. (#3119)
+- Fix INSTALL.md installation directions for Drush Launcher. (#3127)
+- updating blt docs to cover ACSF memcache use. (#3136)
+- Remove PHP 5.6 support (#3140)
+- Fix the link of Memcache documentation page. (#3135)
+- Minor variable / comment refactor. (#3111)
+- Update README.md (#3113)
+- Update config_split.config_split.ci.yml (#3129)
+
+
 #### 10.0.0-beta2 (2019-02-14)
 
 [Full Changelog](https://github.com/acquia/blt/compare/9.2.0-alpha3...10.0.0-beta2)

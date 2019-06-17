@@ -5,7 +5,9 @@
  * Display all errors for all but tests and prod envs.
  */
 
-if ($is_local_env || $is_dev_env) {
+use Acquia\Blt\Robo\Common\EnvironmentDetector;
+
+if (EnvironmentDetector::isLocalEnv() || EnvironmentDetector::isDevEnv()) {
   // Ultimately, EVERY compiler message represents a mistake in the code.
   // Acquia Cloud isn't quite ready for E_STRICT yet.
   error_reporting(E_ALL);

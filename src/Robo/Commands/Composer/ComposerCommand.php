@@ -26,7 +26,6 @@ class ComposerCommand extends BltTasks {
       ->printOutput(TRUE)
       ->printMetadata(TRUE)
       ->dir($this->getConfigValue('repo.root'))
-      ->interactive($this->input()->isInteractive())
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE);
     if ($options['dev']) {
       $task->dev(TRUE);
@@ -41,7 +40,7 @@ class ComposerCommand extends BltTasks {
 
     if (!$result->wasSuccessful()) {
       $this->logger->error("An error occurred while requiring {$package_name}.");
-      $this->say("This is likely due to an incompatibility with your existing packages.");
+      $this->say("This is likely due to an incompatibility with your existing packages or memory exhaustion. See full error output above.");
       $confirm = $this->confirm("Should BLT attempt to update all of your Composer packages in order to find a compatible version?");
       if ($confirm) {
         $command = "composer require '{$package_name}:{$package_version}' --no-update ";

@@ -24,7 +24,7 @@ function find_repo_root() {
     realpath(__DIR__ . '/../'),
     realpath(__DIR__ . '/../../../'),
   ];
-      // Check for PWD - some local environments will not have this key.
+    // Check for PWD - some local environments will not have this key.
     if (isset($_SERVER['PWD'])) {
         array_unshift($possible_repo_roots, $_SERVER['PWD']);
     }

@@ -21,11 +21,8 @@ class ExamplesCommand extends BltTasks {
   public function init() {
     $result = $this->taskFilesystemStack()
       ->copy(
-        $this->getConfigValue('blt.root') . '/scripts/blt/examples/Commands/ExampleCommand.php',
-        $this->getConfigValue('repo.root') . '/blt/src/Commands/ExampleCommand.php', FALSE)
-      ->copy(
-        $this->getConfigValue('blt.root') . '/scripts/blt/examples/Hooks/ExampleHook.php',
-        $this->getConfigValue('repo.root') . '/blt/src/Hooks/ExampleHook.php', FALSE)
+        $this->getConfigValue('blt.root') . '/scripts/blt/examples/Commands/ExampleCommands.php',
+        $this->getConfigValue('repo.root') . '/blt/src/Blt/Plugin/Commands/ExampleCommands.php', FALSE)
       ->copy(
         $this->getConfigValue('blt.root') . '/scripts/blt/examples/Test/ExampleTest.php',
         $this->getConfigValue('repo.root') . '/tests/phpunit/ExampleTest.php', FALSE)

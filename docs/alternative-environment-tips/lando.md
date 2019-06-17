@@ -1,7 +1,28 @@
 # Setting up BLT with Lando
 
 ## The good news:
-BLT with Lando _mostly_ just works™.
+BLT with Lando _mostly_ just works™ but to get a better integration add the following to your .lando.yml file and rebuild the containers:
+
+```
+tooling:
+  blt:
+    service: appserver
+cmd: /app/vendor/bin/blt
+```
+
+You can also update your blt config (blt/blt.yml) with the lando hostname syntax:
+
+```
+project:
+  machine_name: abc
+  prefix: ABC
+  human_name: 'A website'
+  profile:
+    name: standard
+  local:
+    protocol: http
+    hostname: ${project.machine_name}.lndo.site
+```
 
 ## The bad news:
 There are a couple tricky bits that you need to watch out for.
@@ -31,13 +52,13 @@ If you get timeout errors, try running the blt command with the -vvv option to g
 ```
 
 If you ssh into lando and run the google-chrome command directly, you'll see:
-```    
+```
 $ google-chrome --headless --disable-web-security --remote-debugging-port=9222  http://localhost
 Failed to move to new namespace: PID namespaces supported, Network namespace supported, but failed: errno = Operation not permitted
 Failed to generate minidump.Illegal instruction
  ```
 
-The solution to this is to invoke the chrome command with the ` --no-sandbox` option. To do that, you'll need to patch your BLT installation to add that option to the [launchChrome() function in the Behat command](https://github.com/acquia/blt/blob/9.x/src/Robo/Commands/Tests/BehatCommand.php#L178).
+The solution to this is to invoke the chrome command with the ` --no-sandbox` option. To do that, you'll need to patch your BLT installation to add that option to the [launchChrome() function in the Behat command](https://github.com/acquia/blt/blob/10.x/src/Robo/Commands/Tests/BehatCommand.php#L178).
 See [the Patches documentation](patches.md) for tips on applying patches to packages via Composer.
 
 #### ACSF: Undefined index notices for $_SERVER keys

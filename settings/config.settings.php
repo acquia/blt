@@ -5,6 +5,8 @@
  * Controls configuration management settings.
  */
 
+use Acquia\Blt\Robo\Common\EnvironmentDetector;
+
 /**
  * BLT makes the assumption that, if using multisite, the default configuration
  * directory should be shared between all multi-sites, and each multisite will
@@ -50,38 +52,27 @@ if (!isset($split)) {
   $split = 'none';
 
   // Local envs.
-  if ($is_local_env) {
+  if (EnvironmentDetector::isLocalEnv()) {
     $split = 'local';
   }
   // CI envs.
-  if ($is_ci_env) {
+  if (EnvironmentDetector::isCiEnv()) {
     $split = 'ci';
   }
   // Acquia only envs.
-  if ($is_ah_env) {
+  if (EnvironmentDetector::isAhEnv()) {
     $config_directories['vcs'] = $config_directories['sync'];
-
     $split = 'ah_other';
-    if ($is_ah_dev_env || $is_ah_ode_env) {
-      $split = 'dev';
-    }
-    elseif ($is_ah_stage_env) {
-      $split = 'stage';
-    }
-    elseif ($is_ah_prod_env) {
-      $split = 'prod';
-    }
   }
-  elseif ($is_pantheon_env) {
-    if ($pantheon_env == 'live') {
-      $split = 'prod';
-    }
-    elseif ($pantheon_env == 'test') {
-      $split = 'stage';
-    }
-    elseif ($pantheon_env == 'dev') {
-      $split = 'dev';
-    }
+
+  if (EnvironmentDetector::isDevEnv() || EnvironmentDetector::isAhOdeEnv()) {
+    $split = 'dev';
+  }
+  elseif (EnvironmentDetector::isStageEnv()) {
+    $split = 'stage';
+  }
+  elseif (EnvironmentDetector::isProdEnv()) {
+    $split = 'prod';
   }
 }
 
@@ -96,12 +87,7 @@ if ($split != 'none') {
 $config["$split_filename_prefix.$site_dir"]['status'] = TRUE;
 
 // Set acsf site split if explicit global exists.
+global $_acsf_site_name;
 if (isset($_acsf_site_name)) {
   $config["$split_filename_prefix.$_acsf_site_name"]['status'] = TRUE;
-}
-
-// Set profile split.
-if (array_key_exists('install_profile', $settings)) {
-  $active_profile = $settings['install_profile'];
-  $config["$split_filename_prefix.$active_profile"]['status'] = TRUE;
 }

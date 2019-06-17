@@ -2,26 +2,18 @@
 
 BLT uses Robo to provide commands.
 
-## Adding a custom Robo Command
+## Adding a custom Robo Command or Hook
 
-To create your own Robo PHP command:
-
-1. Create a new file in `blt/src/Commands` named using the pattern `*Command.php`. The file naming convention is required.
-1. You must use the namespace `Acquia\Blt\Custom\Commands` in your command file.
-1. Generate an example command file by executing `blt example:init`. You may use the generated file as a guide for writing your own command.
-1. Follow the [Robo PHP Getting Started guide](http://robo.li/getting-started/#commands) to write a custom command.
-
-## Adding a custom Robo Hook
-
-BLT uses the [Annotated Command](https://github.com/consolidation/annotated-command) library to enable you to hook into BLT commands. This allows you to execute custom code
-in response to various events, typically just before or just after a BLT command is executed.
-
-To create a hook:
-
-1. Create a new file in `blt/src/Hooks` named using the pattern `*Hook.php`.
-1. Generate an example hook file by executing `blt example:init`. You may use the generated file as a guide for writing your own command.
+Robo uses the [Annotated Command](https://github.com/consolidation/annotated-command) library to enable you to add commands as well as hook into existing BLT commands. This allows you to execute custom code in response to various events, typically just before or just after a BLT command is executed.
 
 For a list of all available hook types, see [Annotated Command's hook types](https://github.com/consolidation/annotated-command#hooks).
+
+To create your own Robo PHP command or hook:
+
+1. Create a new file in `blt/src/Blt/Plugin/Commands` named using the pattern `*Commands.php`. The file naming convention is required. You can also provide custom commands in a separate Composer package as long as it exposes them via PSR4.
+1. You must use the namespace `Example\Blt\Plugin\Commands` in your command file.
+1. Generate an example command file by executing `blt example:init`. You may use the generated file as a guide for writing your own command.
+1. Follow the [Robo PHP Getting Started guide](http://robo.li/getting-started/#commands) to write a custom command.
 
 ## Replacing/Overriding a Robo Command
 
@@ -39,7 +31,7 @@ You may disable any BLT command. This will cause the target to be skipped during
             sniff:
               all: true
               files: true
-              
+
 This snippet would cause the `tests:phpcs:sniff:all` and `tests:phpcs:sniff:files` targets to be skipped during BLT builds.
 
 ## Adding / overriding filesets
@@ -64,7 +56,7 @@ To modify the filesets that are used in other commands, such as `tests:twig:lint
 
 ## Modifying BLT Configuration
 
-BLT configuration can be customized by overriding the value of default variable values. You can find the default value of any BLT variable in [build.yml](https://github.com/acquia/blt/blob/9.x/config/build.yml).
+BLT configuration can be customized by overriding the value of default variable values. You can find the default value of any BLT variable in [build.yml](https://github.com/acquia/blt/blob/10.x/config/build.yml).
 
 ### Overriding a variable value:
 
@@ -108,21 +100,21 @@ Listed below are some of the more commonly customized BLT targets.
 
 #### artifact:build
 
-To modify the behavior of the `artifact:build` target, you may override BLT's `deploy` configuration. See `deploy` key in https://github.com/acquia/blt/blob/9.x/config/build.yml#L54.
+To modify the behavior of the `artifact:build` target, you may override BLT's `deploy` configuration. See `deploy` key in https://github.com/acquia/blt/blob/10.x/config/build.yml.
 
 More specifically, you can modify the build artifact in the following key ways:
 
-1. Change which files are rsynced to the artifact by providing your own `deploy.exclude_file` value in blt.yml. See [upstream deploy-exclude.txt](https://github.com/acquia/blt/blob/9.x/scripts/blt/deploy/deploy-exclude.txt) for example contents, e.g.,
+1. Change which files are rsynced to the artifact by providing your own `deploy.exclude_file` value in blt.yml. See [upstream deploy-exclude.txt](https://github.com/acquia/blt/blob/10.x/scripts/blt/deploy/deploy-exclude.txt) for example contents, e.g.,
 
           deploy:
             exclude_file: ${repo.root}/blt/deploy/rsync-exclude.txt
 
-1. If you'd simply like to add onto the [upstream deploy-exclude.txt](https://github.com/acquia/blt/blob/9.x/scripts/blt/deploy/deploy-exclude.txt) instead of overriding it, you need not define your own `deploy.exclude_file`. Instead, simply leverage the `deploy-exclude-additions.txt` file found under the top-level `blt` directory by adding each file or directory you'd like to exclude on its own line, e.g.,
+1. If you'd simply like to add onto the [upstream deploy-exclude.txt](https://github.com/acquia/blt/blob/10.x/scripts/blt/deploy/deploy-exclude.txt) instead of overriding it, you need not define your own `deploy.exclude_file`. Instead, simply leverage the `deploy-exclude-additions.txt` file found under the top-level `blt` directory by adding each file or directory you'd like to exclude on its own line, e.g.,
 
           /directorytoexclude
           excludeme.txt
 
-1. Change which files are gitignored in the artifact by providing your own `deploy.gitignore_file` value in blt.yml. See [upstream .gitignore](https://github.com/acquia/blt/blob/9.x/scripts/blt/deploy/.gitignore) for example contents, e.g.,
+1. Change which files are gitignored in the artifact by providing your own `deploy.gitignore_file` value in blt.yml. See [upstream .gitignore](https://github.com/acquia/blt/blob/10.x/scripts/blt/deploy/.gitignore) for example contents, e.g.,
 
           deploy:
             gitignore_file: ${repo.root}/blt/deploy/.gitignore
@@ -133,9 +125,9 @@ More specifically, you can modify the build artifact in the following key ways:
           post-deploy-build:
             dir: ${deploy.dir}/docroot/profiles/contrib/lightning
             command: npm run install-libraries
-            
+
    Or, use a Robo hook in a custom file (see "Adding a custom Robo Hook" above).
-   
+
        /**
          * This will be called after the artifact:build command.
          *
@@ -171,7 +163,7 @@ By default, BLT will execute the `internal:git-hook:execute:commit-msg` command 
 
 #### tests:behat:run
 
-To modify the behavior of the tests:behat:run target, you may override BLT's `behat` configuration. See https://github.com/acquia/blt/blob/9.x/config/build.yml#L2.
+To modify the behavior of the tests:behat:run target, you may override BLT's `behat` configuration. See https://github.com/acquia/blt/blob/10.x/config/build.yml.
 
 #### tests:phpcs:sniff:all
 

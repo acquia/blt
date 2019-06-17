@@ -36,7 +36,7 @@ class WizardCommand extends BltTasks {
 
     $this->say("<comment>You have entered the following values:</comment>");
     $this->printArrayAsTable($answers);
-    $continue = $this->confirm("Continue?");
+    $continue = $this->confirm("Continue?", TRUE);
     if (!$continue) {
       return 1;
     }
@@ -50,7 +50,7 @@ class WizardCommand extends BltTasks {
     if ($answers['vm']) {
       $this->invokeCommand('vm', [
         [
-          'no-boot' => '--yes',
+          'no-boot' => '--no-interaction',
         ],
       ]);
     }

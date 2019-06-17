@@ -1,5 +1,5 @@
 # Minimum Skillset for Using BLT
-BLT is a tool that reaches far beyond Drupal development, and because of this developers planning on using it should working knowledge of the following technologies in order to be successful.
+BLT is a tool that reaches far beyond Drupal development, and because of this developers planning on using it should have a working knowledge of the following technologies in order to be successful.
 
 See the [System Requirements](INSTALL.md) for installing / using BLT. It is strongly urged that you use a Mac for local development, although certain versions of Linux and Windows 10 can also be used. Other operating systems ***should not*** be used for BLT development.
 
@@ -62,7 +62,7 @@ Git is a version control system (VCS) for tracking changes in computer files and
 
 ### Continuous Integration / Deployment
 
-#### [Travis CI](https://travis-ci.org/)
+#### [Travis CI](https://travis-ci.com/)
 Travis CI is a hosted, distributed continuous integration service used to build and test software projects hosted at GitHub.
 
 **Recommended Reading**

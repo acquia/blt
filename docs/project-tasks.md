@@ -14,7 +14,7 @@ To re-install Drupal, execute: `blt drupal:install`. Note that this will drop th
 
 ## Add, update, or patch a dependency
 
-Please [dependency management](dependency-management.md) for all information on managing core and contributed packages for your project.
+Please see [dependency management](dependency-management.md) for all information on managing core and contributed packages for your project.
 
 ## Deploy to cloud
 
@@ -22,7 +22,7 @@ Please see [Deploy](deploy.md) for a detailed description of how to deploy to Ac
 
 ## Run tests & code validation
 
-Please see [testing.md](testing.md) for information on running tests.
+Please see [Testing](testing.md) for information on running tests.
 
 To execute PHP codesniffer and PHP lint against the project codebase, run:
 
@@ -34,7 +34,7 @@ Please see [Frontend](frontend.md) for information about compiling front end ass
 
 ## Updating your local environment
 
-The project is configured to update the local environment with a local drush alias and a remote alias as defined in `blt/blt.yml` or `blt/local.yml`. Given that these aliases match, those in `drush/sites/`, you can update the site with BLT. Please see [drush.md](drush.md) for details on how to create these aliases.
+The project is configured to update the local environment with a local drush alias and a remote alias as defined in `blt/blt.yml` or `blt/local.yml`. Given that these aliases match those in `drush/sites/`, you can update the site with BLT. Please see [Drush configuration and aliases](drush.md) for details on how to create these aliases.
 
 ### Refresh: Rebuild the codebase, copy the database, and run updates
 
@@ -57,10 +57,10 @@ If you are using multisite, you may refresh every single multisite on your local
 
     blt drupal:sync:db
 
-This will copy and database (and files if sync.files is set to true) but will not execute any updates afterwards.
+This will copy the database (and files if sync.files is set to true) but will not execute any updates afterwards.
 
 ### Update: Run update tasks locally
 
     blt drupal:update
 
-This will execute various update commands (cache clears, db updates, config imports) to bring the local database in light with your codebase (i.e., exported config).
+This will execute various update commands (cache clears, db updates, config imports) to bring the local database in line with your codebase (i.e., exported config).

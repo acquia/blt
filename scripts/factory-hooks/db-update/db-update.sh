@@ -9,12 +9,17 @@
 #
 # Usage: post-code-deploy site env db-role domain custom-arg
 # Map the script inputs to convenient names.
+
+# Exit immediately on error and enable verbose log output.
+set -ev
+
 # Acquia hosting site / environment names
 site="$1"
 env="$2"
 # database role. (Not expected to be needed in most hook scripts.)
 db_role="$3"
-# The public domain name of the website.
+# The public domain name of the website. If the site uses a path based domain,
+# the path is appended (without trailing slash), e.g. "domain.com/subpath".
 domain="$4"
 
 # BLT executable:
@@ -25,7 +30,7 @@ blt="/mnt/www/html/$site.$env/vendor/acquia/blt/bin/blt"
 # locate the URI based on the site, environment and db role arguments.
 uri=`/usr/bin/env php /mnt/www/html/$site.$env/hooks/acquia/uri.php $site $env $db_role`
 
-# Create array with site name fragments from ACSF uri. 
+# Create array with site name fragments from ACSF uri.
 IFS='.' read -a name <<< "${uri}"
 
 # Create and set Drush cache to unique local temporary storage per site.
@@ -40,5 +45,9 @@ echo "Generated temporary drush cache directory: $cacheDir."
 # Print to cloud task log.
 echo "Running BLT deploy tasks on $uri domain in $env environment on the $site subscription."
 
-DRUSH_PATHS_CACHE_DIRECTORY=$cacheDir $blt drupal:update --environment=$env --site=${name[0]} --define drush.uri=$domain --verbose --yes --no-interaction
+# Update Drupal. The trailing slash behind the domain works around a bug in
+# Drush < 9.6 for path based domains: "domain.com/subpath/" is considered a
+# valid URI but "domain.com/subpath" is not.
+DRUSH_PATHS_CACHE_DIRECTORY=$cacheDir $blt drupal:update --environment=$env --site=${name[0]} --define drush.uri=$domain/ --verbose --no-interaction
 
+set +v

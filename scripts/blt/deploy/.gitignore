@@ -4,9 +4,9 @@ local.*
 local.blt.yml
 
 # Ignore paths that contain user-generated content.
-/docroot/sites/*/files/
-/docroot/sites/*/private/
-/files-private/
+/docroot/sites/*/files
+/docroot/sites/*/private
+/files-private
 
 # Ignore build artifacts.
 /tmp/
@@ -167,10 +167,6 @@ local.properties
 auto-save-list
 tramp
 .\#*
-
-# Org-mode.
-.org-id-locations
-*_archive
 
 # flymake-mode.
 *_flymake.*

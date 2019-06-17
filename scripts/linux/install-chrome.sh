@@ -13,8 +13,11 @@ if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
   # apt-get -f install
 
   # Installs chromedriver for Linux 64 bit systems.
-  LATEST_CHROMEDRIVER=$(wget -q -O - http://chromedriver.storage.googleapis.com/LATEST_RELEASE)
-  wget -N http://chromedriver.storage.googleapis.com/$LATEST_CHROMEDRIVER/chromedriver_linux64.zip
+  # Temporarily pin to Chromedriver 74.
+  # @see https://github.com/acquia/blt/issues/3704
+  # CHROMEDRIVER_VERSION=$(wget -q -O - http://chromedriver.storage.googleapis.com/LATEST_RELEASE)
+  [ -z "$CHROMEDRIVER_VERSION" ] && CHROMEDRIVER_VERSION=74.0.3729.6
+  wget -N https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip
   unzip chromedriver_linux64.zip
   chmod +x chromedriver
   mv -f chromedriver $BIN_DIR

@@ -1,95 +1,80 @@
-sudo: true
+---
 language: php
-dist: xenial
 
-php:
-  - 7.1
-  - 7.2
+php: "7.1"
 
-env:
-  global:
-    - DEPLOY_SOURCE_BRANCH=8.x
-    - COMPOSER_BIN=$TRAVIS_BUILD_DIR/vendor/bin
-    - BLT_DIR=$TRAVIS_BUILD_DIR
-    - IS_PULL_REQUEST=$TRAVIS_PULL_REQUEST
-    - BUILD_DIR=$TRAVIS_BUILD_DIR
-    - DRUPAL_CORE_HEAD=8.7.x-dev
-  matrix:
-    - DRUPAL_CORE_VERSION=default PHPUNIT_EXCLUDE_GROUP='long,requires-vm'
-    - DRUPAL_CORE_VERSION=default PHPUNIT_GROUP='long' PHPUNIT_EXCLUDE_GROUP='requires-vm'
-    # - DRUPAL_CORE_VERSION=$DRUPAL_CORE_HEAD
-
-matrix:
-  allow_failures:
-    - env: DRUPAL_CORE_VERSION=$DRUPAL_CORE_HEAD
-  fast_finish: true
+addons:
+  chrome: stable
 
 cache:
   bundler: true
   apt: true
   directories:
-  - "$HOME/.composer/cache"
-  - "$HOME/.console"
-  - "$HOME/.drush/cache"
-  - "$HOME/.nvm"
-  -  "/tmp/blt-sandbox-instance/.rules"
+    - "$HOME/.composer/cache"
+    - "$HOME/.console"
+    - "$HOME/.drush/cache"
+    - "$HOME/.nvm"
+    - "$TMPDIR/blt-sandbox-instance/.rules"
+    - "$TMPDIR/phpstan/cache"
 
 services:
-- memcached
-- mysql
-- xvfb
+  - mysql
+  - xvfb
 
-addons:
-  ssh_known_hosts: []
-  chrome: stable
+env:
+  global:
+    # ORCA configuration.
+    - ORCA_SUT_NAME=acquia/blt
+    - ORCA_SUT_BRANCH=10.x
+    - ORCA_VERSION=v1.0.0-alpha14
+    # Custom configuration.
+    - COMPOSER_BIN=$TRAVIS_BUILD_DIR/vendor/bin
+    - BLT_DIR=$TRAVIS_BUILD_DIR
+    - DRUPAL_CORE_HEAD=8.8.x-dev
+    - BLT_PRINT_COMMAND_OUTPUT=0
+
+matrix:
+  fast_finish: true
+  include:
+    # Standard ORCA jobs.
+    - { name: "Static code analysis", env: ORCA_JOB=STATIC_CODE_ANALYSIS }
+    - { name: "Deprecated code scan", env: ORCA_JOB=DEPRECATED_CODE_SCAN_SUT }
+    - { name: "Isolated test w/ recommended package versions", env: ORCA_JOB=ISOLATED_RECOMMENDED }
+    - { name: "Integrated test w/ recommended package versions", env: ORCA_JOB=INTEGRATED_RECOMMENDED }
+    - { name: "Integrated test w/ recommended package versions & previous minor release of Drupal core", env: ORCA_JOB=CORE_PREVIOUS }
+    - { name: "Isolated test w/ dev package versions", env: ORCA_JOB=ISOLATED_DEV }
+    - { name: "Integrated test w/ dev package versions", env: ORCA_JOB=INTEGRATED_DEV }
+    - { name: "Integrated test w/ dev package versions & next minor dev version of Drupal core", env: ORCA_JOB=CORE_NEXT }
+    # Custom jobs.
+    - env: DRUPAL_CORE_VERSION=default PHPUNIT_EXCLUDE_GROUP='drupal,requires-vm'
+    - env: DRUPAL_CORE_VERSION=default PHPUNIT_GROUP='drupal'
+    - env: DRUPAL_CORE_VERSION=$DRUPAL_CORE_HEAD
+  allow_failures:
+    - env: DRUPAL_CORE_VERSION=$DRUPAL_CORE_HEAD
+    - env: ORCA_JOB=ISOLATED_DEV
+    - env: ORCA_JOB=INTEGRATED_DEV
+    - env: ORCA_JOB=CORE_NEXT
+    # Temporary allowances.
+    - env: ORCA_JOB=DEPRECATED_CODE_SCAN_SUT
 
 before_install:
   # Exit build early if only documentation was changed in a Pull Request.
   - source ${BLT_DIR}/scripts/travis/exit_early
-  # Decrypt private SSH key id_rsa_blt.enc, save as ~/.ssh/id_rsa_blt.
-  - if [[ "$TRAVIS_PULL_REQUEST" == "false" && -n "$encrypted_c0b166e924da_key" ]]; then openssl aes-256-cbc -K $encrypted_c0b166e924da_key -iv $encrypted_c0b166e924da_iv -in id_rsa_blt.enc -out ~/.ssh/id_rsa -d; chmod 600 ~/.ssh/id_rsa; ls -lash ~/.ssh; eval "$(ssh-agent -s)"; ssh-add ~/.ssh/id_rsa; fi
-  - echo "extension = memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - sudo service memcached status
-  - phpenv config-rm xdebug.ini
-  - phpenv config-add travis.php.ini
-  - composer self-update
-  - composer validate --no-check-all --ansi
-  - composer install
+  # Prepare local testing version of blt-project so it can be used by ORCA.
+  - cp -r subtree-splits/blt-project /tmp/
+  - composer config --global repositories.blt path /tmp/blt-project
+  # Install ORCA.
+  - git clone --branch ${ORCA_VERSION} --depth 1 https://github.com/acquia/orca.git ../orca
+  - ../orca/bin/travis/before_install.sh
 
 install:
-  - source ${BLT_DIR}/scripts/travis/setup_environment
-  # Create extra dbs for multisite testing.
-  - mysql -u root -e "CREATE DATABASE drupal2; GRANT ALL ON drupal2.* TO 'drupal'@'localhost';"
-  - mysql -u root -e "CREATE DATABASE drupal3; GRANT ALL ON drupal3.* TO 'drupal'@'localhost';"
-  - mysql -u root -e "CREATE DATABASE drupal4; GRANT ALL ON drupal4.* TO 'drupal'@'localhost';"
+  - ../orca/bin/travis/install.sh
+  - ./bin/travis/install.sh
+
+before_script: ../orca/bin/travis/before_script.sh
 
 script:
-  - ${BLT_DIR}/vendor/bin/robo release:test
+  - ../orca/bin/travis/script.sh
+  - ./bin/travis/script.sh
 
-before_deploy:
-  - cd ${TRAVIS_BUILD_DIR}/../blted8
-  # The BLTed8 project will need its ssh_known_hosts configured to push to ACF.
-  - yaml-cli update:value .travis.yml addons.ssh_known_hosts.0 svn-5223.devcloud.hosting.acquia.com
-  # Add encrypted SSH key to BLTed8 project.
-  - yaml-cli update:value .travis.yml before_deploy.0 'openssl aes-256-cbc -K $encrypted_065fa5839cf8_key -iv $encrypted_065fa5839cf8_iv -in id_rsa_blted8.enc -out ~/.ssh/id_rsa -d; chmod 600 ~/.ssh/id_rsa; eval "$(ssh-agent -s)"; ssh-add ~/.ssh/id_rsa;'
-  - cp ${TRAVIS_BUILD_DIR}/id_rsa_blted8.enc .
-  # Remove the symlink definition for BLT from composer.json and require this specific commit for BLT.
-  - composer config --unset repositories.blt
-  - composer require acquia/blt:8.x-dev#${TRAVIS_COMMIT}
-  - composer update --lock
-  - echo "[![Build Status](https://travis-ci.org/acquia-pso/blted8.svg?branch=8.x)](https://travis-ci.org/acquia-pso/blted8)" >> README.md
-  - git add -A
-  - git commit -m "Automated commit for BLT repo by Travis CI for Build ${TRAVIS_BUILD_ID}" -n
-
-after_success:
-  # - ./vendor/bin/coveralls -vvv
-
-deploy:
-  - provider: script
-    # Deploys build artifact's source branch to acquia-pso/blted8 on GitHub.
-    script: ${BLT_DIR}/scripts/blt/ci/internal/deploy_blted8.sh
-    skip_cleanup: true
-    on:
-      branch: $DEPLOY_SOURCE_BRANCH
-      php: 7.1
-      condition: $DRUPAL_CORE_VERSION = default
+after_failure: ../orca/bin/travis/after_failure.sh

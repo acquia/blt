@@ -44,14 +44,6 @@ $protocol = 'https://';
 $port = ':' . $_SERVER['SERVER_PORT'];*/
 
 /**
- * Support multi-site and single site installations at different base URLs.
- *
- * Overide $config['baseurlpath'] = "https://{yourdomain}/simplesaml/"
- * to customize the default Acquia configuration.
- */
-$config['baseurlpath'] = $protocol . $_SERVER['HTTP_HOST'] . $port . '/simplesaml/';
-
-/**
  * Cookies No Cache.
  *
  * Allow users to be automatically logged in if they signed in via the same
@@ -84,7 +76,14 @@ if (!getenv('AH_SITE_ENVIRONMENT')) {
 
 }
 elseif (getenv('AH_SITE_ENVIRONMENT')) {
-  // Set  ACE ad ACSF sites based on hosting database and site name.
+  /**
+   * Support multi-site and single site installations at different base URLs.
+   *
+   * Overide $config['baseurlpath'] = "https://{yourdomain}/simplesaml/"
+   * to customize the default Acquia configuration.
+   */
+  $config['baseurlpath'] = $protocol . $_SERVER['HTTP_HOST'] . $port . '/simplesaml/';
+  // Set ACE and ACSF sites based on hosting database and site name.
   $config['certdir'] = "/mnt/www/html/{$_ENV['AH_SITE_GROUP']}.{$_ENV['AH_SITE_ENVIRONMENT']}/simplesamlphp/cert/";
   $config['metadatadir'] = "/mnt/www/html/{$_ENV['AH_SITE_GROUP']}.{$_ENV['AH_SITE_ENVIRONMENT']}/simplesamlphp/metadata";
   $config['baseurlpath'] = 'simplesaml/';
@@ -95,19 +94,24 @@ elseif (getenv('AH_SITE_ENVIRONMENT')) {
   $creds_json = file_get_contents('/var/www/site-php/' . $_ENV['AH_SITE_GROUP'] . '.' . $_ENV['AH_SITE_ENVIRONMENT'] . '/creds.json');
   $databases = json_decode($creds_json, TRUE);
   $creds = $databases['databases'][$_ENV['AH_SITE_GROUP']];
-  require_once "/usr/share/php/Net/DNS2_wrapper.php";
-  try {
-    $resolver = new Net_DNS2_Resolver(array(
-      'nameservers' => array(
-        '127.0.0.1',
-        'dns-master',
-      ),
-    ));
-    $response = $resolver->query("cluster-{$creds['db_cluster_id']}.mysql", 'CNAME');
-    $creds['host'] = $response->answer[0]->cname;
+  if (substr($_ENV['AH_SITE_ENVIRONMENT'], 0, 3) === 'ode') {
+    $creds['host'] = key($creds['db_url_ha']);
   }
-  catch (Net_DNS2_Exception $e) {
-    $creds['host'] = "";
+  else {
+    require_once "/usr/share/php/Net/DNS2_wrapper.php";
+    try {
+      $resolver = new Net_DNS2_Resolver([
+        'nameservers' => [
+          '127.0.0.1',
+          'dns-master',
+        ],
+      ]);
+      $response = $resolver->query("cluster-{$creds['db_cluster_id']}.mysql", 'CNAME');
+      $creds['host'] = $response->answer[0]->cname;
+    }
+    catch (Net_DNS2_Exception $e) {
+      $creds['host'] = "";
+    }
   }
   $config['store.type'] = 'sql';
   $config['store.sql.dsn'] = sprintf('mysql:host=%s;port=%s;dbname=%s', $creds['host'], $creds['port'], $creds['name']);

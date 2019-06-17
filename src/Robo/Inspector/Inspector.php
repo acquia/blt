@@ -484,8 +484,12 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    */
   public function getCliConfigFile() {
     $file = NULL;
-    $user = posix_getpwuid(posix_getuid());
-    $home_dir = $user['dir'];
+    if (DIRECTORY_SEPARATOR == '\\') {
+      $home_dir = $_SERVER['USERPROFILE'];
+    }
+    else {
+      $home_dir = getenv('HOME');
+    }
 
     if (strstr(getenv('SHELL'), 'zsh')) {
       $file = $home_dir . '/.zshrc';
@@ -535,6 +539,18 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
       return TRUE;
     }
     return FALSE;
+  }
+
+  /**
+   * Verifies that Git user is configured.
+   *
+   * @return bool
+   *   TRUE if configured, FALSE otherwise.
+   */
+  public function isGitUserSet() {
+    exec("git config user.name", $output, $name_not_set);
+    exec("git config user.email", $output, $email_not_set);
+    return !($name_not_set || $email_not_set);
   }
 
   /**
@@ -644,16 +660,6 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   }
 
   /**
-   * Determines if the PhantomJS binary is present.
-   *
-   * @return bool
-   *   TRUE if the PhantomJS binary is present.
-   */
-  public function isPhantomJsBinaryPresent() {
-    return file_exists("{$this->getConfigValue('composer.bin')}/phantomjs");
-  }
-
-  /**
    * Checks if simplesamlphp has already been setup by BLT.
    *
    * @return bool
@@ -742,7 +748,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    */
   public function getCurrentSchemaVersion() {
     if (file_exists($this->getConfigValue('blt.config-files.schema-version'))) {
-      $version = file_get_contents($this->getConfigValue('blt.config-files.schema-version'));
+      $version = trim(file_get_contents($this->getConfigValue('blt.config-files.schema-version')));
     }
     else {
       $version = $this->getContainer()->get('updater')->getLatestUpdateMethodVersion();

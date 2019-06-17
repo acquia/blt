@@ -20,7 +20,7 @@ class SyncCommand extends BltTasks {
   public function allSites() {
     $multisites = $this->getConfigValue('multisites');
     $this->printSyncMap($multisites);
-    $continue = $this->confirm("Continue?");
+    $continue = $this->confirm("Continue?", TRUE);
     if (!$continue) {
       return 0;
     }
@@ -128,7 +128,6 @@ class SyncCommand extends BltTasks {
     $task = $this->taskDrush()
       ->alias('')
       ->drush('cache-clear drush')
-      ->drush('sql-drop')
       ->drush('sql-sync')
       ->arg($remote_alias)
       ->arg($local_alias)

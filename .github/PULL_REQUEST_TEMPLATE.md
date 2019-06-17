@@ -1,25 +1,24 @@
 Fixes # 
 --------
 
-Changes proposed:
+Changes proposed
 ---------
-(What are you proposing we change?)
+(What are you proposing we change? How does this impact end users? Are manual or automatic updates required?)
 
 -
 -
 
-Steps to replicate the issue:
+Steps to replicate the issue
 ----------
-(If this PR is not fixing a defect/bug, you can remove this section.)
-
 1. 
 2. 
 
-Steps to verify the solution:
+Previous (bad) behavior, before applying PR
+----------
+(remove if this is not a bug fix)
+
+Expected behavior, after applying PR and re-running test steps
 -----------
-(How does someone verify that this does what you think does?)
 
-1.
-2. 
-
- 
+Additional details
+-----------

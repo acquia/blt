@@ -20,6 +20,7 @@ class DeployCommand extends BltTasks {
   protected $excludeFileTemp;
   protected $deployDir;
   protected $tagSource;
+  protected $ignorePlatformReqs = FALSE;
 
   /**
    * This hook will fire for all commands in this command file.
@@ -38,6 +39,12 @@ class DeployCommand extends BltTasks {
    * @command artifact:deploy
    *
    * @aliases ad deploy
+   *
+   * @validateGitConfig
+   *
+   * @param array $options
+   *   Options that can be passed via the CLI.
+   * @throws BltException
    */
   public function deploy($options = [
     'branch' => InputOption::VALUE_REQUIRED,
@@ -45,14 +52,16 @@ class DeployCommand extends BltTasks {
     'commit-msg' => InputOption::VALUE_REQUIRED,
     'ignore-dirty' => FALSE,
     'dry-run' => FALSE,
+    'ignore-platform-reqs' => FALSE,
   ]) {
-    if (!$this->getInspector()->isGitMinimumVersionSatisfied('2.0')) {
-      $this->logger->error("Your system does not meet BLT's requirements. Please update git to 2.0 or newer.");
-    }
     if ($options['dry-run']) {
       $this->logger->warning("This will be a dry run, the artifact will not be pushed.");
     }
     $this->checkDirty($options);
+
+    if (isset($options['ignore-platform-reqs'])) {
+      $this->ignorePlatformReqs = $options['ignore-platform-reqs'];
+    }
 
     if (!$options['tag'] && !$options['branch']) {
       $this->createTag = $this->confirm("Would you like to create a tag?", $this->createTag);
@@ -74,14 +83,17 @@ class DeployCommand extends BltTasks {
   /**
    * Checks to see if current git branch has uncommitted changes.
    *
-   * @throws \Exception
-   *   Thrown if deploy.git.failOnDirty is TRUE and there are uncommitted
-   *   changes.
+   * @command deploy:check-dirty
+   *
+   * @param array $options
+   *   Set ignore-dirty to false to disable checks for dirty Git directory.
+   *
+   * @throws BltException Thrown if there are uncommitted changes.
    */
-  protected function checkDirty($options) {
+  public function checkDirty($options = ['ignore-dirty' => FALSE]) {
     $result = $this->taskExec('git status --porcelain')
       ->printMetadata(FALSE)
-      ->printOutput(FALSE)
+      ->printOutput(TRUE)
       ->interactive(FALSE)
       ->run();
     if (!$options['ignore-dirty'] && !$result->wasSuccessful()) {
@@ -241,26 +253,12 @@ class DeployCommand extends BltTasks {
       ->exec("git config --local core.fileMode true")
       ->run();
     $this->say("Global .gitignore file is being disabled for this repository to prevent unexpected behavior.");
-    if ($this->getConfig()->has("git.user.name") &&
-      $this->getConfig()->has("git.user.email")) {
-      $git_user = $this->getConfigValue("git.user.name");
-      $git_email = $this->getConfigValue("git.user.email");
-      $this->taskExecStack()
-        ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-        ->stopOnFail()
-        ->dir($this->deployDir)
-        ->exec("git config --local --add user.name '$git_user'")
-        ->exec("git config --local --add user.email '$git_email'")
-        ->exec("git config --local core.fileMode true")
-        ->run();
-    }
   }
 
   /**
    * Adds remotes from git.remotes to /deploy repository.
    */
   protected function addGitRemotes() {
-    // Add remotes and fetch upstream refs.
     $git_remotes = $this->getConfigValue('git.remotes');
     if (empty($git_remotes)) {
       throw new BltException("git.remotes is empty. Please define at least one value for git.remotes in blt/blt.yml.");
@@ -272,9 +270,10 @@ class DeployCommand extends BltTasks {
 
   /**
    * Adds a single remote to the /deploy repository.
+   *
+   * @param $remote_url
    */
   protected function addGitRemote($remote_url) {
-    $this->say("Fetching from git remote $remote_url");
     // Generate an md5 sum of the remote URL to use as remote name.
     $remote_name = md5($remote_url);
     $this->taskExecStack()
@@ -291,11 +290,7 @@ class DeployCommand extends BltTasks {
   protected function checkoutLocalDeployBranch() {
     $this->taskExecStack()
       ->dir($this->deployDir)
-      // Create new branch locally.We intentionally use stopOnFail(FALSE) in
-      // case the branch already exists. `git checkout -B` does not seem to work
-      // as advertised.
-      // @todo perform this in a way that avoid errors completely.
-      ->stopOnFail(FALSE)
+      ->stopOnFail()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->exec("git checkout -b {$this->branchName}")
       ->run();
@@ -303,6 +298,8 @@ class DeployCommand extends BltTasks {
 
   /**
    * Merges upstream changes into deploy branch.
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function mergeUpstreamChanges() {
     $git_remotes = $this->getConfigValue('git.remotes');
@@ -310,11 +307,32 @@ class DeployCommand extends BltTasks {
     $remote_name = md5($remote_url);
 
     $this->say("Merging upstream changes into local artifact...");
+
+    // Check if remote branch exists before fetching.
+    $result = $this->taskExecStack()
+      ->dir($this->deployDir)
+      ->stopOnFail(FALSE)
+      ->exec("git ls-remote --exit-code --heads $remote_url {$this->branchName}")
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->run();
+    switch ($result->getExitCode()) {
+      case 0:
+        // The remote branch exists, continue and merge it.
+        break;
+
+      case 2:
+        // The remote branch doesn't exist, bail out.
+        return;
+
+      default:
+        // Some other error code.
+        throw new BltException("Unexpected error while searching for remote branch: " . $result->getMessage());
+    }
+
+    // Now we know the remote branch exists, let's fetch and merge it.
     $this->taskExecStack()
       ->dir($this->deployDir)
-      // This branch may not exist upstream, so we do not fail the build if a
-      // merge fails.
-      ->stopOnFail(FALSE)
+      ->stopOnFail()
       ->exec("git fetch $remote_name {$this->branchName} --depth=1")
       ->exec("git merge $remote_name/{$this->branchName}")
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
@@ -359,14 +377,6 @@ class DeployCommand extends BltTasks {
    * Copies files from source repo into artifact.
    */
   protected function buildCopy() {
-
-    if (!$this->getConfigValue('deploy.build-dependencies')) {
-      $this->logger->warning("Dependencies will not be built because deploy.build-dependencies is not enabled");
-      $this->logger->warning("You should define a custom deploy.exclude_file to ensure that dependencies are copied from the root repository.");
-
-      return FALSE;
-    }
-
     $exclude_list_file = $this->getExcludeListFile();
     $source = $this->getConfigValue('repo.root');
     $dest = $this->deployDir;
@@ -395,8 +405,17 @@ class DeployCommand extends BltTasks {
 
   /**
    * Installs composer dependencies for artifact.
+   * @param array $options
+   * @return bool
+   * @throws \Robo\Exception\TaskException
    */
   protected function composerInstall() {
+    if (!$this->getConfigValue('deploy.build-dependencies')) {
+      $this->logger->warning("Dependencies will not be built because deploy.build-dependencies is not enabled");
+      $this->logger->warning("You should define a custom deploy.exclude_file to ensure that dependencies are copied from the root repository.");
+
+      return FALSE;
+    }
     $this->say("Rebuilding composer dependencies for production...");
     $this->taskDeleteDir([$this->deployDir . '/vendor'])
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
@@ -406,7 +425,11 @@ class DeployCommand extends BltTasks {
       ->copy($this->getConfigValue('repo.root') . '/composer.lock', $this->deployDir . '/composer.lock', TRUE)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
-    $this->taskExecStack()->exec("composer install --no-dev --no-interaction --optimize-autoloader --ignore-platform-reqs")
+    $command = 'composer install --no-dev --no-interaction --optimize-autoloader';
+    if ($this->ignorePlatformReqs) {
+      $command .= ' --ignore-platform-reqs';
+    }
+    $this->taskExecStack()->exec($command)
       ->stopOnFail()
       ->dir($this->deployDir)
       ->run();
@@ -532,13 +555,16 @@ class DeployCommand extends BltTasks {
 
   /**
    * Creates a commit on the artifact.
+   * @throws BltException
    */
   protected function commit() {
     $this->say("Committing artifact to <comment>{$this->branchName}</comment>...");
-    $result = $this->taskExecStack()
+
+    $result = $this->taskGit()
       ->dir($this->deployDir)
-      ->exec("git add -A")
-      ->exec("git commit --quiet -m '{$this->commitMessage}'")
+      ->exec("git rm -r --cached --ignore-unmatch --quiet .")
+      ->add('-A')
+      ->commit($this->commitMessage, '--quiet')
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
@@ -549,6 +575,10 @@ class DeployCommand extends BltTasks {
 
   /**
    * Pushes the artifact to git.remotes.
+   * @param $identifier
+   * @param $options
+   * @return bool
+   * @throws BltException
    */
   protected function push($identifier, $options) {
     if ($options['dry-run']) {
@@ -577,18 +607,22 @@ class DeployCommand extends BltTasks {
    *
    * @param $repo
    *   The repo in which a tag should be cut.
+   * @throws BltException
    */
   protected function cutTag($repo = 'build') {
-    $execStack = $this->taskExecStack()
-      ->exec("git tag -a {$this->tagName} -m '{$this->commitMessage}'")
+    $taskGit = $this->taskGit()
+      ->tag($this->tagName, $this->commitMessage)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->stopOnFail();
 
     if ($repo == 'build') {
-      $execStack->dir($this->deployDir);
+      $taskGit->dir($this->deployDir);
     }
 
-    $execStack->run();
+    $result = $taskGit->run();
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Failed to create Git tag!");
+    }
     $this->say("The tag {$this->tagName} was created on the {$repo} repository.");
   }
 

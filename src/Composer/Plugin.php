@@ -75,13 +75,6 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     $this->composer = $composer;
     $this->io = $io;
     $this->eventDispatcher = $composer->getEventDispatcher();
-    if (self::isWindows() && $this->isInitialInstall()) {
-      $this->io->writeError(
-        '<error>BLT can be installed in Windows only under WSL. Please check https://blt.readthedocs.io/en/latest/windows-install/ for updates and workarounds.</error>'
-      );
-      throw new \Exception('BLT installation aborted');
-    }
-
     ProcessExecutor::setTimeout(3600);
     $this->executor = new ProcessExecutor($this->io);
   }
@@ -91,12 +84,32 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    */
   public static function getSubscribedEvents() {
     return array(
+      ScriptEvents::POST_AUTOLOAD_DUMP => "onPostAutoloadDump",
       PackageEvents::POST_PACKAGE_INSTALL => "onPostPackageEvent",
       PackageEvents::POST_PACKAGE_UPDATE => "onPostPackageEvent",
       ScriptEvents::POST_UPDATE_CMD => array(
         array('onPostCmdEvent'),
       ),
     );
+  }
+
+  /**
+   * Modify vendor/composer/installed.json so that composer/installers is first.
+   *
+   * @param \Composer\Script\Event $event
+   */
+  public static function onPostAutoloadDump(Event $event) {
+    $composer = $event->getComposer();
+    $vendor_dir = $composer->getConfig()->get('vendor-dir');
+    $installed_json = realpath($vendor_dir) . "/composer/installed.json";
+    $installed = json_decode(file_get_contents($installed_json));
+    foreach ($installed as $key => $package) {
+      if ($package->name == 'composer/installers') {
+        unset($installed[$key]);
+        array_unshift($installed, $package);
+      }
+    }
+    file_put_contents($installed_json, json_encode($installed, 448));
   }
 
   /**
@@ -165,18 +178,19 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
         $command = $this->getVendorPath() . '/acquia/blt/bin/blt internal:create-project --ansi';
       }
       else {
-        $command = $this->getVendorPath() . '/acquia/blt/bin/blt internal:add-to-project --ansi -y';
+        $command = $this->getVendorPath() . '/acquia/blt/bin/blt internal:add-to-project --ansi -n';
       }
       $success = $this->executeCommand($command, [], TRUE);
       if (!$success) {
-        $this->io->write("<error>BLT installation failed! Please execute <comment>$command --verbose</comment> to debug the issue.</error>");
+        $this->io->writeError("<error>BLT installation failed! Please execute <comment>$command --verbose</comment> to debug the issue.</error>");
+        throw new \Exception('Installation aborted due to error');
       }
     }
     elseif ($options['blt']['update']) {
       $this->io->write('<info>Updating BLT templated files...</info>');
-      $success = $this->executeCommand('blt blt:update --ansi -y', [], TRUE);
+      $success = $this->executeCommand('blt blt:update --ansi --no-interaction', [], TRUE);
       if (!$success) {
-        $this->io->write("<error>BLT update script failed! Run `blt blt:update --verbose` to retry.</error>");
+        $this->io->writeError("<error>BLT update script failed! Run `blt blt:update --verbose` to retry.</error>");
       }
     }
     else {

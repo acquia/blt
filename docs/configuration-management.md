@@ -3,7 +3,7 @@
 
 BLT supports several methods of configuration management (CM) in Drupal 8. All of these rely to varying degrees on Drupal core's configuration entities, which can be "imported" into a database or "exported" to disk as yml files.
 
-BLT _strongly recommends_ a CM workflow based on the [Configuration Split](https://www.drupal.org/project/config_split) module, as described below. For most projects, this strikes the best balance of flexibility, reliability, and ease of maintenance and development. This document will also describe a Features-based workflow (analogous to most CM workflows in Drupal 7) that can better accomodate certain multisite architectures, but generally has a much higher development and maintenance overhead.
+BLT _strongly recommends_ a CM workflow based on the [Configuration Split](https://www.drupal.org/project/config_split) module, as described on the [Acquia Knowledge Base](https://support.acquia.com/hc/en-us/articles/360024009393). For most projects, this strikes the best balance of flexibility, reliability, and ease of maintenance and development. This document will also describe a Features-based workflow (analogous to most CM workflows in Drupal 7) that can better accommodate certain multisite architectures, but generally has a much higher development and maintenance overhead.
 
 ## General principles
 
@@ -13,7 +13,7 @@ This section describes aspects of BLT's development and deployment process that 
 
 The primary goal of configuration management is to ensure that all configuration changes can be reviewed, tested, and predictably deployed to production environments. Some simple changes, such as changing a site's name or slogan, might have limited, atomic, and predictable effects, and therefore not require strict change management. Other types of changes, such as modifying field storage schemas, _always_ need to go through a review process. Additionally, different projects might have different degrees of risk tolerance. For instance, some might prefer that configuration be strictly read-only in production, prohibiting even the simple site name change above.
 
-A good CM workflow should be flexible enough to accomodate either of these use cases, and make it easy for developers to make and capture configuration changes, review and test these changes, and reliably deploy these changes to a remote environment.
+A good CM workflow should be flexible enough to accommodate either of these use cases, and make it easy for developers to make and capture configuration changes, review and test these changes, and reliably deploy these changes to a remote environment.
 
 Generally speaking, a configuration change follows this lifecycle:
 
@@ -78,28 +78,15 @@ Finally, you should enable protected branches in GitHub to ensure that pull requ
 
 For an ongoing discussion of how to ensure configuration integrity, see https://www.drupal.org/node/2869910
 
-## Configuration Split workflow
+## Configuration Split Workflow
 
-### Overview
-
-BLT recommends using the Config Split module to manage configuration on most projects. It will allow you to split your application configuration into different groups according to:
-
-* Default (always on) application configuration
-* Environment specific configuration (e.g., local, data, test, prod, etc.)
-* Site-specific configuration (when multisite is used)
-* Feature (e.g., a distinct blog feature that is shared across multiple sites). Not to be confused with the features module.
-
-### Using Config Split
-
-BLT uses Config Split for configuration management by default.
-
-However, BLT does not create any configuration splits for you. For detailed information on how you can create and enable configuration splits, please see [managing configuration splits](config-split.md).
+More information can be found in the article [Managing Configuration with Config Split](https://support.acquia.com/hc/en-us/articles/360024009393) on the Acquia Knowledge Base.
 
 #### Troubleshooting
 
 If for some reason BLT is not working with Config Split, ensure that you are using Drush version 8.1.10 or higher, Config Split version 8.1.0-beta4 or higher, and that `cm.strategy` is set to `config-split` in `blt/blt.yml`.
 
-### Using update hooks to importing individual config files
+## Using update hooks to importing individual config files
 
 BLT runs module update hooks before importing configuration changes. For use cases where it is necessary for a configuration change to be imported before the update hook runs, in your hook, you'll need to import the needed configuration from files first. (An example of this would be adding a new taxonomy vocabulary via config, and populating that vocabulary with terms in an update hook.)
 

@@ -2,7 +2,7 @@ version: 1.1.0
 services:
   - mysql
   - php:
-      version: 7.1
+      version: 7.2
 
 variables:
   global:

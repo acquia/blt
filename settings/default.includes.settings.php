@@ -29,14 +29,14 @@
  *          ---- local.settings.php
  *
  * If you want to add settings to every site defined in the codebase, you can do
- * so using the global.settings.default.php file in docroot/sites/settings.
+ * so using the default.global.settings.php file in docroot/sites/settings.
  */
 
 /**
  * Add settings using full file location and name.
  *
  * It is recommended that you use the DRUPAL_ROOT and $site_dir components to
- * provide full pathing to the file in a dynamic manner.
+ * provide full paths in a dynamic manner.
  */
 $additionalSettingsFiles = [
   // e.g,( DRUPAL_ROOT . "/sites/$site_dir/settings/foo.settings.php" )

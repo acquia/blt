@@ -4,7 +4,6 @@ namespace Acquia\Blt\Robo\Commands\Validate;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
-use Robo\Contract\VerbosityThresholdInterface;
 
 /**
  * Defines commands in the "tests:composer:validate*" namespace.
@@ -23,7 +22,6 @@ class ComposerCommand extends BltTasks {
     $result = $this->taskExecStack()
       ->dir($this->getConfigValue('repo.root'))
       ->exec('composer validate --no-check-all --ansi')
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
     if (!$result->wasSuccessful()) {
       $this->say($result->getMessage());

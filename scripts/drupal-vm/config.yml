@@ -1,3 +1,7 @@
+# The options in this file override the defaults provided by DrupalVM. For a
+# comprehensive list of possible options, see DrupalVM's default.config.yml.
+# @see https://github.com/geerlingguy/drupal-vm/blob/master/default.config.yml
+
 # Update the hostname to the local development environment hostname.
 vagrant_hostname: ${vm.vagrant.hostname}
 vagrant_machine_name: ${project.machine_name}
@@ -21,9 +25,6 @@ vagrant_synced_folders:
     type: nfs
 
 drupal_build_composer_project: false
-# Toggling this to `true` would invoke `composer install` with the
-# projects own `composer.json` successfully.
-drupal_build_composer: false
 drupal_composer_path: false
 drupal_composer_install_dir: "/var/www/${project.machine_name}"
 drupal_core_path: "/var/www/${project.machine_name}/docroot"
@@ -70,35 +71,21 @@ drupal_install_site: false
 # this variable is 'true'.
 configure_drush_aliases: false
 
-# This is required for front-end building tools.
-nodejs_version: "8.x"
-nodejs_npm_global_packages:
-  - name: bower
-  - name: gulp-cli
-  - name: yarn
-nodejs_install_npm_user: "{{ drupalvm_user }}"
-npm_config_prefix: "/home/{{ drupalvm_user }}/.npm-global"
 extra_packages: ${extra_packages}
 installed_extras: ${installed_extras}
 
-# PHP 7.1.
-php_version: "7.1"
+# PHP 7.2.
+php_version: "7.2"
 php_packages_extra:
   - "php{{ php_version }}-bz2"
   - "php{{ php_version }}-imagick"
   - imagemagick
 
 # XDebug configuration.
-php_xdebug_version: 2.6.1
+php_xdebug_version: 2.7.1
 # Change this value to 1 in order to enable xdebug by default.
 php_xdebug_default_enable: 0
-php_xdebug_coverage_enable: 0
 php_xdebug_cli_disable: yes
-php_xdebug_remote_enable: 1
-php_xdebug_remote_connect_back: 1
-# Use PHPSTORM for PHPStorm, sublime.xdebug for Sublime Text.
-php_xdebug_idekey: PHPSTORM
-php_xdebug_max_nesting_level: 256
 php_xdebug_remote_port: "9000"
 php_memory_limit: "512M"
 

@@ -22,7 +22,6 @@ class BuildCommand extends BltTasks {
    * @interactGenerateSettingsFiles
    *
    * @validateDrushConfig
-   * @validateMySqlAvailable
    * @validateDocrootIsPresent
    * @executeInVm
    *
@@ -31,7 +30,7 @@ class BuildCommand extends BltTasks {
   public function drupalInstall() {
     $commands = ['internal:drupal:install'];
     $strategy = $this->getConfigValue('cm.strategy');
-    if (in_array($strategy, ['config-split', 'features'])) {
+    if (in_array($strategy, ['core-only', 'config-split', 'features'])) {
       $commands[] = 'drupal:config:import';
     }
     $this->invokeCommands($commands);
@@ -101,7 +100,10 @@ class BuildCommand extends BltTasks {
    * @aliases sbc setup:composer:install
    */
   public function composerInstall() {
-    $result = $this->taskExec("export COMPOSER_EXIT_ON_PATCH_FAILURE=1; composer install --ansi --no-interaction --optimize-autoloader --apcu-autoloader")
+    $result = $this->taskExec(
+      (DIRECTORY_SEPARATOR == "\\") ? 'set' : 'export' .
+        " COMPOSER_EXIT_ON_PATCH_FAILURE=1 && composer install --ansi --no-interaction"
+    )
       ->dir($this->getConfigValue('repo.root'))
       ->interactive($this->input()->isInteractive())
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)

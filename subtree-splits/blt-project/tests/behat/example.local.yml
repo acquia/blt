@@ -1,0 +1,55 @@
+# To generate a local.yml file using this the example template, execute:
+# `blt tests:behat:init:config` from the project root.
+imports:
+  - behat.yml
+
+local:
+  suites:
+    default:
+      paths:
+        # Set features to repo root so that .feature files belonging to contrib
+        # modules, themes, and profiles can be discovered.
+        features: ${repo.root}
+      contexts:
+        - Drupal\FeatureContext:
+          parameters:
+            environment:
+              # absolute path to local directory to store screenshots - do not include trailing slash
+              screenshot_dir: ${tests.reports.localDir}
+        - Drupal\DrupalExtension\Context\DrupalContext
+        - Drupal\DrupalExtension\Context\MinkContext
+        - Drupal\DrupalExtension\Context\MessageContext
+        - Drupal\DrupalExtension\Context\DrushContext
+        - Drupal\DrupalExtension\Context\ConfigContext
+  extensions:
+    DMore\ChromeExtension\Behat\ServiceContainer\ChromeExtension: ~
+    Behat\MinkExtension:
+      browser_name: chrome
+      javascript_session: default
+      # configure the base url for your site
+      base_url: ${project.local.uri}
+      # set default command for "Show last response" step.
+      show_cmd: "open %s"
+      # use the following lines to disable SSL authentication for goutte.
+      # goutte:
+      #   guzzle_parameters:
+      #     redirect.disable: true
+      #     ssl.certificate_authority: system
+      #     curl.options:
+      #       CURLOPT_SSL_VERIFYPEER: false
+      #       CURLOPT_SSL_VERIFYHOST: false
+      #       CURLOPT_CERTINFO: false
+      #       CURLOPT_TIMEOUT: 120
+      selenium2:
+        wd_host: ${behat.selenium.url}
+        browser: chrome
+      sessions:
+        default:
+          chrome:
+            api_url: "http://localhost:9222"
+    Drupal\DrupalExtension:
+      drupal:
+        # This must be an absolute path.
+        drupal_root: ${docroot}
+      drush:
+        alias: '@self'

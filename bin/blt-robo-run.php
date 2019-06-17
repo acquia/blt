@@ -29,7 +29,7 @@ $config_initializer = new ConfigInitializer($repo_root, $input);
 $config = $config_initializer->initialize();
 
 // Execute command.
-$blt = new Blt($config, $input, $output);
+$blt = new Blt($config, $input, $output, $classLoader);
 $status_code = (int) $blt->run($input, $output);
 
 // Stop timer.

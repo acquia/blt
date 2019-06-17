@@ -4,9 +4,9 @@
  * @file
  */
 
-$databases = array(
-  'default' => array(
-    'default' => array(
+$databases = [
+  'default' => [
+    'default' => [
       'database' => 'drupal',
       'username' => 'tugboat',
       'password' => 'tugboat',
@@ -15,6 +15,6 @@ $databases = array(
       'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
       'driver' => 'mysql',
       'prefix' => '',
-    ),
-  ),
-);
+    ],
+  ],
+];

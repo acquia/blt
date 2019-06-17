@@ -1,6 +1,3 @@
-# Ignore composer.lock to allow highest/lowest testing.
-composer.lock
-
 # Ignore blted8 files
 blted8/composer.lock
 blted8/vendor
@@ -71,26 +68,6 @@ auto-save-list
 tramp
 .\#*
 
-template/docroot/.csslintrc
-template/docroot/.editorconfig
-template/docroot/.eslintignore
-template/docroot/.eslintrc
-template/docroot/.eslintrc.json
-template/docroot/.gitattributes
-template/docroot/.htaccess
-template/docroot/.ht.router.php
-template/docroot/index.php
-template/docroot/robots.txt
-template/docroot/sites/default/default.settings.php
-template/docroot/sites/default/services.yml
-template/docroot/sites/default/settings.php
-template/docroot/sites/default/default.services.yml
-template/docroot/sites/development.services.yml
-template/docroot/sites/example.settings.local.php
-template/docroot/sites/example.sites.php
-template/docroot/update.php
-template/docroot/web.config
-
 # PHPStorm
 .idea
 
@@ -115,9 +92,9 @@ nbproject/*
 *.zip
 
 # Some files should be excluded from blt but not from the projects it
-# generates, so they must be specified here rather than in template/.gitignore.
-template/.idea/.name
-template/composer.lock
+# generates, so they must be specified here rather than blt-project .gitignore.
+subtree-splits/blt-project/.idea/.name
+subtree-splits/blt-project/composer.lock
 
 CHANGELOG.partial
 build
