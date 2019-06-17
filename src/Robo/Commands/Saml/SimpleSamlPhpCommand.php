@@ -38,6 +38,7 @@ class SimpleSamlPhpCommand extends BltTasks {
    *
    * @command recipes:simplesamlphp:init
    * @aliases rsi saml simplesamlphp:init
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function initializeSimpleSamlPhp() {
     $this->requireModule();
@@ -107,7 +108,7 @@ class SimpleSamlPhpCommand extends BltTasks {
    *
    * @command artifact:build:simplesamlphp-config
    * @aliases absc
-   * @throws BltException
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function simpleSamlPhpDeployConfig() {
     $this->say('Copying config files to the appropriate place in simplesamlphp library in the deploy artifact...');

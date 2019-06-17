@@ -21,8 +21,9 @@ class EnvironmentDetector {
    *   The Acquia Hosting site / group name (e.g. my_subscription).
    * @param null $ah_env
    *   The Acquia Hosting environment name (e.g. 01dev).
+   *
    * @return bool
-   * @throws BltException
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public static function isAcsfEnv($ah_group = NULL, $ah_env = NULL) {
     if (is_null($ah_group)) {
@@ -151,7 +152,7 @@ class EnvironmentDetector {
   /**
    * @return string|null
    *   ACSF db name.
-   * @throws BltException
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public static function getAcsfDbName() {
     return isset($GLOBALS['gardens_site_settings']) && self::isAcsfEnv() ? $GLOBALS['gardens_site_settings']['conf']['acsf_db_name'] : NULL;

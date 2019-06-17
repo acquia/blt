@@ -212,7 +212,8 @@ class TestsCommandBase extends BltTasks {
 
   /**
    * Launches selenium server and waits for it to become available.
-   * @throws BltException
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function launchSelenium() {
     $this->createSeleniumLogs();

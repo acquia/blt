@@ -60,5 +60,4 @@ class DeployTest extends BltProjectTestBase {
   // @todo add artifact:build:push test.
   // git.remotes.1 git@github.com:acquia-pso/blted8.git
   // @todo add artifact:update:drupal test.
-
 }
