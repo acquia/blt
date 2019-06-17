@@ -20,11 +20,14 @@ require_once __DIR__ . '/blt-robo-run.php';
  */
 function find_repo_root() {
   $possible_repo_roots = [
-    $_SERVER['PWD'],
     getcwd(),
     realpath(__DIR__ . '/../'),
     realpath(__DIR__ . '/../../../'),
   ];
+      // Check for PWD - some local environments will not have this key.
+    if (isset($_SERVER['PWD'])) {
+        array_unshift($possible_repo_roots, $_SERVER['PWD']);
+    }
   foreach ($possible_repo_roots as $possible_repo_root) {
     if ($repo_root = find_directory_containing_files($possible_repo_root, ['vendor/bin/blt', 'vendor/autoload.php'])) {
       return $repo_root;
