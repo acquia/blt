@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6e39876b37b38e6e871344cb643a4f3c",
+    "content-hash": "958bb3432923393016670f66bb775953",
     "packages": [
         {
             "name": "acquia/http-hmac-php",
@@ -5772,16 +5772,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.42.1",
+            "version": "v1.42.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "671347603760a88b1e7288aaa9378f33687d7edf"
+                "reference": "21707d6ebd05476854805e4f91b836531941bcd4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/671347603760a88b1e7288aaa9378f33687d7edf",
-                "reference": "671347603760a88b1e7288aaa9378f33687d7edf",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/21707d6ebd05476854805e4f91b836531941bcd4",
+                "reference": "21707d6ebd05476854805e4f91b836531941bcd4",
                 "shasum": ""
             },
             "require": {
@@ -5834,7 +5834,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2019-06-04T11:31:08+00:00"
+            "time": "2019-06-18T15:35:16+00:00"
         },
         {
             "name": "typhonius/acquia-php-sdk-v2",
@@ -6325,16 +6325,16 @@
     "packages-dev": [
         {
             "name": "acquia/coding-standards",
-            "version": "v0.1.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/acquia/coding-standards-php.git",
-                "reference": "925a8b60980538bd6e5ad1751b180645d41a1c73"
+                "reference": "dceacc7b7d712d2d913d0cb9c7db95968bd65659"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/acquia/coding-standards-php/zipball/925a8b60980538bd6e5ad1751b180645d41a1c73",
-                "reference": "925a8b60980538bd6e5ad1751b180645d41a1c73",
+                "url": "https://api.github.com/repos/acquia/coding-standards-php/zipball/dceacc7b7d712d2d913d0cb9c7db95968bd65659",
+                "reference": "dceacc7b7d712d2d913d0cb9c7db95968bd65659",
                 "shasum": ""
             },
             "require": {
@@ -6371,7 +6371,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2019-06-10T15:59:53+00:00"
+            "time": "2019-06-18T17:11:44+00:00"
         },
         {
             "name": "behat/mink",
@@ -7259,7 +7259,7 @@
             "time": "2019-01-28T19:31:35+00:00"
         },
         {
-            "name": "mikey179/vfsStream",
+            "name": "mikey179/vfsstream",
             "version": "v1.6.6",
             "source": {
                 "type": "git",
@@ -9697,7 +9697,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "acquia/coding-standards": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
