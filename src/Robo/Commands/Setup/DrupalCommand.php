@@ -21,7 +21,8 @@ class DrupalCommand extends BltTasks {
    *
    * @return \Robo\Result
    *   The `drush site-install` command result.
-   * @throws BltException
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Robo\Exception\TaskException
    */
   public function install() {
 

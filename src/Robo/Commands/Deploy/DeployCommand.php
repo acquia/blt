@@ -44,7 +44,8 @@ class DeployCommand extends BltTasks {
    *
    * @param array $options
    *   Options that can be passed via the CLI.
-   * @throws BltException
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function deploy($options = [
     'branch' => InputOption::VALUE_REQUIRED,
@@ -88,7 +89,8 @@ class DeployCommand extends BltTasks {
    * @param array $options
    *   Set ignore-dirty to false to disable checks for dirty Git directory.
    *
-   * @throws BltException Thrown if there are uncommitted changes.
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException Thrown if there are
+   *   uncommitted changes.
    */
   public function checkDirty($options = ['ignore-dirty' => FALSE]) {
     $result = $this->taskExec('git status --porcelain')
@@ -555,7 +557,8 @@ class DeployCommand extends BltTasks {
 
   /**
    * Creates a commit on the artifact.
-   * @throws BltException
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function commit() {
     $this->say("Committing artifact to <comment>{$this->branchName}</comment>...");
@@ -575,10 +578,12 @@ class DeployCommand extends BltTasks {
 
   /**
    * Pushes the artifact to git.remotes.
+   *
    * @param $identifier
    * @param $options
+   *
    * @return bool
-   * @throws BltException
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function push($identifier, $options) {
     if ($options['dry-run']) {
@@ -607,7 +612,8 @@ class DeployCommand extends BltTasks {
    *
    * @param $repo
    *   The repo in which a tag should be cut.
-   * @throws BltException
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function cutTag($repo = 'build') {
     $taskGit = $this->taskGit()
