@@ -9,6 +9,9 @@ use function file_exists;
  */
 class DrushCheck extends DoctorCheck {
 
+  /**
+   *
+   */
   public function performAllChecks() {
     // TODO: Implement performAllChecks() method.
   }

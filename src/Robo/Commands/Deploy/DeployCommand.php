@@ -407,8 +407,11 @@ class DeployCommand extends BltTasks {
 
   /**
    * Installs composer dependencies for artifact.
+   *
    * @param array $options
+   *
    * @return bool
+   *
    * @throws \Robo\Exception\TaskException
    */
   protected function composerInstall() {
@@ -583,6 +586,7 @@ class DeployCommand extends BltTasks {
    * @param $options
    *
    * @return bool
+   *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function push($identifier, $options) {
@@ -670,8 +674,8 @@ class DeployCommand extends BltTasks {
 
   /**
    * Execute updates on a specific site.
-   * @param string $multisite
    *
+   * @param string $multisite
    */
   protected function updateSite($multisite) {
     $this->say("Deploying updates to <comment>$multisite</comment>...");

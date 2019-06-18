@@ -47,6 +47,9 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
    */
   protected $runTestsScriptCommand;
 
+  /**
+   *
+   */
   public function __construct($runTestsScriptCommand = NULL) {
 
     $this->runTestsScriptCommand = !is_null($runTestsScriptCommand) ? $runTestsScriptCommand : './core/scripts/run-tests.sh';

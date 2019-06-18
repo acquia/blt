@@ -26,6 +26,9 @@ abstract class DoctorCheck implements ConfigAwareInterface, InspectorAwareInterf
   protected $errorLogged = FALSE;
   protected $drushStatus;
 
+  /**
+   *
+   */
   public function __construct(
     Config $config,
     Inspector $inspector,
@@ -38,6 +41,9 @@ abstract class DoctorCheck implements ConfigAwareInterface, InspectorAwareInterf
     $this->executor = $executor;
   }
 
+  /**
+   *
+   */
   public function logProblem($check, $message, $type) {
     if (is_array($message)) {
       $message = implode("\n", $message);

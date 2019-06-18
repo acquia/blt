@@ -7,6 +7,9 @@ namespace Acquia\Blt\Robo\Commands\Doctor;
  */
 class ConfigCheck extends DoctorCheck {
 
+  /**
+   *
+   */
   public function performAllChecks() {
     $this->checkGitConfig();
     $this->checkDeprecatedKeys();

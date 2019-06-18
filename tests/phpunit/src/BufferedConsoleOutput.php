@@ -5,7 +5,7 @@ namespace Acquia\Blt\Tests;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 /**
- * Class BufferedConsoleOutput
+ * Class BufferedConsoleOutput.
  *
  * This is a combination of BufferedOutput and ConsoleOutput. It allows us
  * to capture output in a buffer for PHPUnit assertions and simultaneously

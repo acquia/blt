@@ -132,12 +132,15 @@ class Updater {
     $this->bltRoot = $blt_root;
   }
 
+  /**
+   *
+   */
   public function getBltRoot() {
     return $this->bltRoot;
   }
 
   /**
-   * @return ConsoleOutput
+   * @return \Symfony\Component\Console\Output\ConsoleOutput
    */
   public function getOutput() {
     return $this->output;
@@ -160,7 +163,7 @@ class Updater {
   /**
    * Executes an array of updates.
    *
-   * @param $updates \Acquia\Blt\Annotations\Update[]
+   * @param \Acquia\Blt\Annotations\Update[] $updates
    */
   public function executeUpdates($updates) {
     /** @var Updates $updates_object */
@@ -180,7 +183,7 @@ class Updater {
   /**
    * Prints a human-readable list of update methods to the screen.
    *
-   * @param $updates \Acquia\Blt\Annotations\Update[]
+   * @param \Acquia\Blt\Annotations\Update[] $updates
    */
   public function printUpdates($updates) {
     /**

@@ -51,7 +51,6 @@ class AliasesCommand extends BltTasks {
    * @command recipes:aliases:init:acquia
    *
    * @aliases raia aliases
-   *
    */
   public function generateAliasesAcquia() {
     $this->cloudConfDir = $_SERVER['HOME'] . '/.acquia';
@@ -98,7 +97,8 @@ class AliasesCommand extends BltTasks {
    * Sets appId value in blt.yml to disable interative prompt.
    *
    * @param string $app_id
-   *  The Acquia Cloud application UUID.
+   *   The Acquia Cloud application UUID.
+   *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function writeAppConfig($app_id) {
@@ -148,6 +148,7 @@ class AliasesCommand extends BltTasks {
    *
    * @return array
    *   Returns credentials as array on success.
+   *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function askForCloudApiCredentials() {

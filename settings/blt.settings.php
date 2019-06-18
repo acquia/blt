@@ -105,7 +105,6 @@ if (EnvironmentDetector::isAcsfInited()) {
  * 4. Default CI settings (provided by BLT)
  * 5. Custom CI settings (provided by the project)
  * 6. Local settings (provided by the project)
- *
  ******************************************************************************/
 
 $settings_files = [];

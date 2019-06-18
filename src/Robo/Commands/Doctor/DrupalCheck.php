@@ -7,6 +7,9 @@ namespace Acquia\Blt\Robo\Commands\Doctor;
  */
 class DrupalCheck extends DoctorCheck {
 
+  /**
+   *
+   */
   public function performAllChecks() {
     $this->checkCoreExists();
     $this->checkDrupalBootstrapped();

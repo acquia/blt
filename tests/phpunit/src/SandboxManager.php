@@ -11,13 +11,17 @@ use Symfony\Component\Process\Process;
  */
 class SandboxManager {
 
-  /** @var \Symfony\Component\Filesystem\Filesystem*/
+  /**
+   * @var \Symfony\Component\Filesystem\Filesystem
+   */
   protected $fs;
   protected $bltDir;
   protected $bltRequireDevPackageDir;
   protected $sandboxMaster;
   protected $sandboxInstance;
-  /** @var \Symfony\Component\Console\Output\ConsoleOutput*/
+  /**
+   * @var \Symfony\Component\Console\Output\ConsoleOutput
+   */
   protected $output;
   protected $tmp;
 
@@ -36,6 +40,7 @@ class SandboxManager {
 
   /**
    * Ensures that sandbox master exists and is up to date.
+   *
    * @throws \Exception
    */
   public function bootstrap() {
@@ -52,6 +57,7 @@ class SandboxManager {
 
   /**
    * Creates a new master sandbox.
+   *
    * @throws \Exception
    */
   public function createSandboxMaster() {
@@ -158,6 +164,7 @@ class SandboxManager {
 
   /**
    * Installs composer dependencies in sandbox master dir.
+   *
    * @throws \Exception
    */
   protected function installSandboxMasterDependencies() {

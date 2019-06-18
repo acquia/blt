@@ -17,7 +17,7 @@ class FactoryHooksCommand extends BltTasks {
    * @param string $site
    *   The site name, e.g., site1.
    * @param string $target_env
-   *   The cloud env, e.g., dev
+   *   The cloud env, e.g., dev.
    *
    * @command artifact:acsf-hooks:db-update
    */

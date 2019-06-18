@@ -114,6 +114,7 @@ class MultisiteCommand extends BltTasks {
    * Prompts for and sets config for new database.
    *
    * @param $site_name
+   *
    * @return array
    *   Empty array if user did not want to configure local db. Populated array
    *   otherwise.
@@ -232,6 +233,9 @@ class MultisiteCommand extends BltTasks {
     }
   }
 
+  /**
+   *
+   */
   protected function resetMultisiteConfig() {
     /** @var \Acquia\Blt\Robo\Config\DefaultConfig $config */
     $config = $this->getConfig();

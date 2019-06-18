@@ -10,6 +10,9 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
  */
 class ProjectConfiguration implements ConfigurationInterface {
 
+  /**
+   *
+   */
   public function getConfigTreeBuilder() {
     $treeBuilder = new TreeBuilder();
     $rootNode = $treeBuilder->root('recipe');

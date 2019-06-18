@@ -436,6 +436,9 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
     return $installed;
   }
 
+  /**
+   *
+   */
   public function isDevDesktopInitialized() {
     $file_contents = file_get_contents($this->getConfigValue('drupal.settings_file'));
 
@@ -776,7 +779,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   /**
    * Issues warnings to user if their local environment is mis-configured.
    *
-   * @param $command_name string
+   * @param string $command_name
    *   The name of the BLT Command being executed.
    */
   public function issueEnvironmentWarnings($command_name) {

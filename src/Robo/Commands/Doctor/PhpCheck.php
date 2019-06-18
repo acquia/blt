@@ -7,6 +7,9 @@ namespace Acquia\Blt\Robo\Commands\Doctor;
  */
 class PhpCheck extends DoctorCheck {
 
+  /**
+   *
+   */
   public function performAllChecks() {
     $this->checkPhpDateTimezone();
   }

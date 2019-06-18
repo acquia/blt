@@ -7,10 +7,16 @@ namespace Acquia\Blt\Robo\Commands\Doctor;
  */
 class AcsfCheck extends DoctorCheck {
 
+  /**
+   *
+   */
   public function performAllChecks() {
     $this->checkAcsfConfig();
   }
 
+  /**
+   *
+   */
   protected function checkAcsfConfig() {
     $file_path = $this->getConfigValue('repo.root') . '/factory-hooks/pre-settings-php/includes.php';
     if (file_exists($file_path)) {

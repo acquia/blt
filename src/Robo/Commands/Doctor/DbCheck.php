@@ -7,6 +7,9 @@ namespace Acquia\Blt\Robo\Commands\Doctor;
  */
 class DbCheck extends DoctorCheck {
 
+  /**
+   *
+   */
   public function performAllChecks() {
     if ($this->checkRequiredKeys()) {
       $this->checkDbConnection();

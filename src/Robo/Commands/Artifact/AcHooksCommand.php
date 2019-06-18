@@ -20,18 +20,19 @@ class AcHooksCommand extends BltTasks {
    * @param string $site
    *   The site name, e.g., site1.
    * @param string $target_env
-   *   The cloud env, e.g., dev
+   *   The cloud env, e.g., dev.
    * @param string $source_branch
    *   The source branch, e.g., master.
    * @param string $deployed_tag
    *   The tag or branch to which the source was deployed, e.g., master or
-   * 1.0.0.
+   *   1.0.0.
    * @param string $repo_url
-   *   The repo url, e.g., s1@svn-3.bjaspan.hosting.acquia.com:s1.git
+   *   The repo url, e.g., s1@svn-3.bjaspan.hosting.acquia.com:s1.git.
    * @param string $repo_type
    *   The repo type, e.g., git.
    *
    * @command artifact:ac-hooks:post-code-deploy
+   *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function postCodeDeploy($site, $target_env, $source_branch, $deployed_tag, $repo_url, $repo_type) {
@@ -48,14 +49,14 @@ class AcHooksCommand extends BltTasks {
    * @param string $site
    *   The site name, e.g., site1.
    * @param string $target_env
-   *   The cloud env, e.g., dev
+   *   The cloud env, e.g., dev.
    * @param string $source_branch
    *   The source branch, e.g., master.
    * @param string $deployed_tag
    *   The tag or branch to which the source was deployed, e.g., master or
-   * 1.0.0.
+   *   1.0.0.
    * @param string $repo_url
-   *   The repo url, e.g., s1@svn-3.bjaspan.hosting.acquia.com:s1.git
+   *   The repo url, e.g., s1@svn-3.bjaspan.hosting.acquia.com:s1.git.
    * @param string $repo_type
    *   The repo type, e.g., git.
    *
@@ -86,7 +87,7 @@ class AcHooksCommand extends BltTasks {
    * @param string $site
    *   The site name. E.g., site1.
    * @param string $target_env
-   *   The cloud env. E.g., dev
+   *   The cloud env. E.g., dev.
    * @param string $db_name
    *   The source database name.
    * @param string $source_env
@@ -106,7 +107,7 @@ class AcHooksCommand extends BltTasks {
    * @param string $site
    *   The site name. E.g., site1.
    * @param string $target_env
-   *   The cloud env. E.g., dev
+   *   The cloud env. E.g., dev.
    * @param string $source_env
    *   The source environment. E.g., dev.
    *
@@ -124,11 +125,12 @@ class AcHooksCommand extends BltTasks {
    * @param string $site
    *   The site name, e.g., site1.
    * @param string $target_env
-   *   The cloud env, e.g., dev
+   *   The cloud env, e.g., dev.
    * @param string $db_name
    *   The name of the database.
    * @param string $source_env
    *   The source environment.
+   *
    * @command artifact:ac-hooks:db-scrub
    *
    * @throws \Exception

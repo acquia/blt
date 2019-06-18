@@ -17,6 +17,7 @@ class ConfigCommand extends BltTasks {
    * @command drupal:update
    * @aliases du setup:update
    * @executeInVm
+   *
    * @throws \Robo\Exception\TaskException
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
@@ -48,6 +49,7 @@ class ConfigCommand extends BltTasks {
    *
    * @validateDrushConfig
    * @executeInVm
+   *
    * @throws \Robo\Exception\TaskException
    * @throws \Exception
    */

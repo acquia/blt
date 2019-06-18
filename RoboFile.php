@@ -209,6 +209,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    *   The tag name. E.g, 8.6.10.
    * @param string $github_token
    *   A github access token.
+   *
    * @option prev-tag The previous tag on the current branch from which to
    *   determine diff.
    *
@@ -250,6 +251,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    * @option branch (optional) The branch to push to. Defaults to current branch.
    *
    * @param array $options
+   *
    * @return void The CLI status code.
    *   The CLI status code.
    */
@@ -275,6 +277,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    * @option branch (optional) The branch to push to. Defaults to current branch.
    *
    * @param array $options
+   *
    * @return void The CLI status code.
    *   The CLI status code.
    */
@@ -299,6 +302,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    *   The tag name. E.g, 8.6.10.
    * @param string $github_token
    *   A github access token.
+   *
    * @option prev-tag The previous tag on the current branch from which to
    *   determine diff.
    *
@@ -585,8 +589,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    *   An array containing a list of changes.
    *
    * @return string
-   *  A string containing the formatted and imploded contents of $rows.
-   *
+   *   A string containing the formatted and imploded contents of $rows.
    */
   protected function processReleaseNotesSection($rows) {
     $text = implode(

@@ -7,6 +7,9 @@ namespace Acquia\Blt\Robo\Commands\Doctor;
  */
 class SettingsFilesCheck extends DoctorCheck {
 
+  /**
+   *
+   */
   public function performAllChecks() {
     $this->checkDrupalSettingsFile();
     $this->checkLocalSettingsFile();
@@ -14,6 +17,9 @@ class SettingsFilesCheck extends DoctorCheck {
     return $this->problems;
   }
 
+  /**
+   *
+   */
   protected function checkLocalSettingsFile() {
     $localSettingsPath = $this->drushStatus['root'] . "/sites/" . $this->getConfigValue('site') . '/settings/local.settings.php';
     if (!file_exists($localSettingsPath)) {
@@ -24,6 +30,9 @@ class SettingsFilesCheck extends DoctorCheck {
     }
   }
 
+  /**
+   *
+   */
   protected function checkDrupalSettingsFile() {
     if (!$this->getInspector()->isDrupalSettingsFilePresent()) {
       $this->logProblem('exists', "Could not find settings.php for this site.", 'error');

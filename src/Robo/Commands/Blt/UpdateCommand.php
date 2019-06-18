@@ -79,6 +79,7 @@ class UpdateCommand extends BltTasks {
    * @return void
    *
    * @hidden
+   *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function addToProject() {
@@ -367,6 +368,9 @@ class UpdateCommand extends BltTasks {
     }
   }
 
+  /**
+   *
+   */
   protected function convertWindowsPathToCygwinPath($path) {
     return str_replace('\\', '/', preg_replace('/([A-Z]):/i', '/cygdrive/$1', $path));
   }

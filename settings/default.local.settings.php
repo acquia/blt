@@ -115,9 +115,9 @@ $settings['extension_discovery_scan_tests'] = FALSE;
  * See https://www.drupal.org/node/2754947
  */
 
- // $settings['cache']['bins']['bootstrap'] = 'cache.backend.null';
- // $settings['cache']['bins']['discovery'] = 'cache.backend.null';
- // $settings['cache']['bins']['config'] = 'cache.backend.null';
+// $settings['cache']['bins']['bootstrap'] = 'cache.backend.null';
+// $settings['cache']['bins']['discovery'] = 'cache.backend.null';
+// $settings['cache']['bins']['config'] = 'cache.backend.null';
 
 
 /**
@@ -143,7 +143,7 @@ $settings['rebuild_access'] = FALSE;
 $settings['skip_permissions_hardening'] = TRUE;
 
 /**
- * Temporary file path:
+ * Temporary file path.
  *
  * A local file system path where temporary files will be stored. This
  * directory should not be accessible over the web.

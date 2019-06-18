@@ -38,6 +38,7 @@ class SimpleSamlPhpCommand extends BltTasks {
    *
    * @command recipes:simplesamlphp:init
    * @aliases rsi saml simplesamlphp:init
+   *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function initializeSimpleSamlPhp() {
@@ -108,6 +109,7 @@ class SimpleSamlPhpCommand extends BltTasks {
    *
    * @command artifact:build:simplesamlphp-config
    * @aliases absc
+   *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function simpleSamlPhpDeployConfig() {
@@ -132,6 +134,7 @@ class SimpleSamlPhpCommand extends BltTasks {
 
   /**
    * Sets value in blt.yml to let targets know simplesamlphp is installed.
+   *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function setSimpleSamlPhpInstalled() {
@@ -152,6 +155,7 @@ class SimpleSamlPhpCommand extends BltTasks {
 
   /**
    * Creates a symlink from the docroot to the web accessible library dir.
+   *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function symlinkDocrootToLibDir() {
@@ -173,6 +177,7 @@ class SimpleSamlPhpCommand extends BltTasks {
    *
    * @command source:build:simplesamlphp-config
    * @aliases sbsc
+   *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function simpleSamlPhpBuildConfig() {

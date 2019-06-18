@@ -2,7 +2,6 @@
 
 namespace Acquia\Blt\Update;
 
-use Acquia\Blt\Annotations\Update;
 use Acquia\Blt\Robo\Common\ArrayManipulator;
 use Dflydev\DotAccessData\Data;
 use Symfony\Component\Finder\Finder;
@@ -269,7 +268,7 @@ class Updates {
     $messages = [
       'BLT will no longer directly modify your composer.json requirements!',
       "Default composer.json values from BLT are now merged into your root composer.json via wikimedia/composer-merge-plugin. Please see the following documentation for more information:\n",
-      "  - http://blt.readthedocs.io/en/9.x/readme/updating-blt/#modifying-blts-default-composer-values\n   - https://github.com/wikimedia/composer-merge-plugin"
+      "  - http://blt.readthedocs.io/en/9.x/readme/updating-blt/#modifying-blts-default-composer-values\n   - https://github.com/wikimedia/composer-merge-plugin",
     ];
     $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
 

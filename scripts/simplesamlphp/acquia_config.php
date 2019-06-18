@@ -36,7 +36,6 @@ $config['auth.adminpassword'] = 'mysupersecret';
  * This is a requirement in SimpleSAML when providing a redirect path.
  *
  * @link https://github.com/simplesamlphp/simplesamlphp/issues/450
- *
  */
 /* $_SERVER['SERVER_PORT'] = 443;
 $_SERVER['HTTPS'] = 'true';

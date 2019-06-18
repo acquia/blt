@@ -50,7 +50,9 @@ abstract class BltProjectTestBase extends TestCase {
    */
   protected $output;
 
-  /** @var string*/
+  /**
+   * @var string
+   */
   protected $bltDirectory;
 
   protected $site1Dir;
@@ -65,7 +67,8 @@ abstract class BltProjectTestBase extends TestCase {
   protected static $initialized = FALSE;
 
   /**
-   * {@inheritDoc}
+   * {@inheritDoc}.
+   *
    * @throws \Exception
    */
   public static function setUpBeforeClass() {
@@ -232,6 +235,7 @@ abstract class BltProjectTestBase extends TestCase {
 
   /**
    * Installs the minimal profile and dumps it to sql file at $this->dbDump.
+   *
    * @throws \Exception
    */
   protected function createDatabaseDumpFixture() {
@@ -260,7 +264,9 @@ abstract class BltProjectTestBase extends TestCase {
    * @param bool $stop_on_error
    *
    * @return array
+   *
    * @throws \Exception
+   *
    * @internal param null $cwd
    */
   protected function blt($command, $args = [], $stop_on_error = TRUE) {

@@ -2,8 +2,6 @@
 
 namespace Acquia\Blt\Composer;
 
-use Acquia\Blt\Robo\Common\ArrayManipulator;
-use Acquia\Blt\Update\Updater;
 use Composer\Script\Event;
 use Composer\Installer\PackageEvent;
 use Composer\Composer;
@@ -25,7 +23,7 @@ use function in_array;
 class Plugin implements PluginInterface, EventSubscriberInterface {
 
   /**
-   * Package name
+   * Package name.
    */
   const PACKAGE_NAME = 'acquia/blt';
 
@@ -40,19 +38,19 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
   const CALLBACK_PRIORITY = 60000;
 
   /**
-   * @var Composer
+   * @var \Composer\Composer
    */
   protected $composer;
   /**
-   * @var IOInterface
+   * @var \Composer\IO\IOInterface
    */
   protected $io;
   /**
-   * @var EventDispatcher
+   * @var \Composer\Script\EventDispatcher
    */
   protected $eventDispatcher;
   /**
-   * @var ProcessExecutor
+   * @var \Composer\Util\ProcessExecutor
    */
   protected $executor;
 
@@ -68,8 +66,8 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
   /**
    * Apply plugin modifications to composer.
    *
-   * @param Composer $composer
-   * @param IOInterface $io
+   * @param \Composer\Composer $composer
+   * @param \Composer\IO\IOInterface $io
    */
   public function activate(Composer $composer, IOInterface $io) {
     $this->composer = $composer;
@@ -139,6 +137,9 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     }
   }
 
+  /**
+   *
+   */
   public static function isWindows() {
     return DIRECTORY_SEPARATOR === '\\';
   }

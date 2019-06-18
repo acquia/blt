@@ -7,6 +7,9 @@ namespace Acquia\Blt\Robo\Commands\Doctor;
  */
 class BehatCheck extends DoctorCheck {
 
+  /**
+   *
+   */
   public function performAllChecks() {
     $this->checkBehat();
   }
@@ -57,6 +60,9 @@ class BehatCheck extends DoctorCheck {
     }
   }
 
+  /**
+   *
+   */
   protected function checkLocalConfig() {
     if (!$this->behatLocalYmlExists()) {
       $this->logProblem(__FUNCTION__ . ':exists', [

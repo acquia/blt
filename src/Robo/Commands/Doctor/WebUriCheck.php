@@ -9,6 +9,9 @@ class WebUriCheck extends DoctorCheck {
 
   protected $localSiteDrushYml;
 
+  /**
+   *
+   */
   public function performAllChecks() {
     $this->localSiteDrushYml = $this->getConfigValue('docroot') . "/sites/" . $this->getConfigValue('site') . "/local.drush.yml";
     $uri_isset = $this->checkUri();

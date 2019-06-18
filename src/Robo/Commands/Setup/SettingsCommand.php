@@ -189,7 +189,6 @@ WARNING;
    *
    * @command tests:behat:init:config
    * @aliases tbic setup:behat
-   *
    */
   public function behat() {
     $copy_map = [

@@ -10,6 +10,9 @@ use Symfony\Component\Yaml\Yaml;
  */
 class DrupalVmCheck extends DoctorCheck {
 
+  /**
+   *
+   */
   public function performAllChecks() {
     if ($this->getInspector()->isDrupalVmLocallyInitialized()) {
       $this->checkDrupalVm();

@@ -113,6 +113,9 @@ class ComposerCheck extends DoctorCheck {
     return $this->problems;
   }
 
+  /**
+   *
+   */
   protected function checkRequire() {
     if (!empty($this->composerJson['require-dev']['acquia/blt'])) {
       $this->logProblem('require', [
@@ -123,6 +126,9 @@ class ComposerCheck extends DoctorCheck {
     }
   }
 
+  /**
+   *
+   */
   protected function checkPrestissimo() {
     $prestissimo_intalled = $this->getExecutor()->execute("composer global show | grep hirak/prestissimo")->run()->wasSuccessful();
     if (!$prestissimo_intalled) {
@@ -151,6 +157,9 @@ class ComposerCheck extends DoctorCheck {
     $this->compareComposerConfig('scripts', 'drupal-scaffold');
   }
 
+  /**
+   *
+   */
   protected function checkBltRequireDev() {
     if (empty($this->composerJson['require-dev']['acquia/blt-require-dev'])) {
       $this->logProblem('acquia/blt-require-dev', [
@@ -161,6 +170,9 @@ class ComposerCheck extends DoctorCheck {
     }
   }
 
+  /**
+   *
+   */
   private function compareComposerConfig($key1, $key2) {
     if (!array_key_exists($key1, $this->composerJson) ||
       !array_key_exists($key2, $this->composerJson[$key1])) {

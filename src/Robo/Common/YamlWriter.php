@@ -6,7 +6,7 @@ use Consolidation\Comments\Comments;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Class YamlWriter
+ * Class YamlWriter.
  *
  * @package Acquia\Blt\Robo\Common
  *
