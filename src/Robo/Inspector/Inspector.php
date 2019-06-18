@@ -545,7 +545,6 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *   TRUE if the command exists, otherwise FALSE.
    */
   public function commandExists($command) {
-    // phpcs:ignore
     exec("command -v $command >/dev/null 2>&1", $output, $exit_code);
     return $exit_code == 0;
   }
@@ -560,7 +559,6 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *   TRUE if minimum version is satisfied.
    */
   public function isGitMinimumVersionSatisfied($minimum_version) {
-    // phpcs:ignore
     exec("git --version | cut -d' ' -f3", $output, $exit_code);
     if (version_compare($output[0], $minimum_version, '>=')) {
       return TRUE;
@@ -575,9 +573,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *   TRUE if configured, FALSE otherwise.
    */
   public function isGitUserSet() {
-    // phpcs:ignore
     exec("git config user.name", $output, $name_not_set);
-    // phpcs:ignore
     exec("git config user.email", $output, $email_not_set);
     return !($name_not_set || $email_not_set);
   }

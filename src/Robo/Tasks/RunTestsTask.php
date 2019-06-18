@@ -16,26 +16,36 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
   use ExecOneCommand;
 
   /**
+   * Command.
+   *
    * @var string
    */
   protected $command;
 
   /**
+   * PHP.
+   *
    * @var string
    */
   protected $php;
 
   /**
+   * Test env vars.
+   *
    * @var string
    */
   protected $testEnvVars;
 
   /**
+   * Sudo.
+   *
    * @var bool
    */
   protected $sudo;
 
   /**
+   * User.
+   *
    * @var string
    */
   protected $user;
@@ -48,7 +58,7 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
   protected $runTestsScriptCommand;
 
   /**
-   *
+   * Constructor.
    */
   public function __construct($runTestsScriptCommand = NULL) {
 
@@ -66,6 +76,8 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
   }
 
   /**
+   * Test env vars.
+   *
    * @return $this
    */
   public function testEnvVars($testEnvVars) {
@@ -74,6 +86,8 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
   }
 
   /**
+   * Sudo.
+   *
    * @return $this
    */
   public function sudo(bool $sudo = TRUE) {
@@ -82,6 +96,8 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
   }
 
   /**
+   * User.
+   *
    * @return $this
    */
   public function user($user) {
@@ -90,6 +106,8 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
   }
 
   /**
+   * Verbose.
+   *
    * @return $this
    */
   public function verbose() {
@@ -98,6 +116,8 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
   }
 
   /**
+   * All.
+   *
    * @return $this
    */
   public function all() {
@@ -106,6 +126,8 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
   }
 
   /**
+   * Browser.
+   *
    * @return $this
    */
   public function browser() {
@@ -114,6 +136,8 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
   }
 
   /**
+   * Clean.
+   *
    * @return $this
    */
   public function clean() {
@@ -122,6 +146,8 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
   }
 
   /**
+   * Color.
+   *
    * @return $this
    */
   public function color() {
@@ -130,6 +156,8 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
   }
 
   /**
+   * Die on fail.
+   *
    * @return $this
    */
   public function dieOnFail() {
@@ -138,6 +166,8 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
   }
 
   /**
+   * Keep results.
+   *
    * @return $this
    */
   public function keepResultsTable() {
@@ -146,6 +176,8 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
   }
 
   /**
+   * Keep results.
+   *
    * @return $this
    */
   public function keepResults() {
@@ -154,6 +186,8 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
   }
 
   /**
+   * List files.
+   *
    * @return $this
    */
   public function listFilesJson() {
@@ -162,6 +196,8 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
   }
 
   /**
+   * Non html.
+   *
    * @return $this
    */
   public function nonHtml() {
@@ -170,6 +206,8 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
   }
 
   /**
+   * Suppress deprecations.
+   *
    * @return $this
    */
   public function suppressDeprecations() {
@@ -178,7 +216,10 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
   }
 
   /**
+   * Concurrency.
+   *
    * @param int $concurrency
+   *   Concurrency.
    *
    * @return $this
    */
@@ -188,7 +229,10 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
   }
 
   /**
+   * Repeat.
+   *
    * @param int $repeat
+   *   Repeat.
    *
    * @return $this
    */
@@ -198,7 +242,10 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
   }
 
   /**
+   * DB url.
+   *
    * @param string $dbUrl
+   *   Db url.
    *
    * @return $this
    */
@@ -208,7 +255,10 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
   }
 
   /**
+   * Directory.
+   *
    * @param string $directory
+   *   Directory.
    *
    * @return $this
    */
@@ -218,7 +268,10 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
   }
 
   /**
+   * PHP.
+   *
    * @param string $php
+   *   PHP.
    *
    * @return $this
    */
@@ -228,7 +281,10 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
   }
 
   /**
+   * SQLlite.
+   *
    * @param string $sqlite
+   *   Sqllite.
    *
    * @return $this
    */
@@ -238,7 +294,10 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
   }
 
   /**
+   * Url.
+   *
    * @param string $url
+   *   Url.
    *
    * @return $this
    */
@@ -248,7 +307,10 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
   }
 
   /**
+   * Xml.
+   *
    * @param string $xml
+   *   Xml.
    *
    * @return $this
    */
@@ -258,7 +320,10 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
   }
 
   /**
+   * Types.
+   *
    * @param string $types
+   *   Types.
    *
    * @return $this
    */
@@ -268,11 +333,14 @@ class RunTestsTask extends BaseTask implements CommandInterface, PrintedInterfac
   }
 
   /**
+   * Tests.
+   *
    * @param array $tests
+   *   Tests.
    *
    * @return $this
    */
-  public function tests($tests) {
+  public function tests(array $tests) {
     $this->args($tests);
     return $this;
   }

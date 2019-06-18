@@ -36,18 +36,18 @@ class DeployCommand extends BltTasks {
   /**
    * Builds separate artifact and pushes to git.remotes defined blt.yml.
    *
+   * @param array $options
+   *   Options that can be passed via the CLI.
+   *
    * @command artifact:deploy
    *
    * @aliases ad deploy
    *
    * @validateGitConfig
    *
-   * @param array $options
-   *   Options that can be passed via the CLI.
-   *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
-  public function deploy($options = [
+  public function deploy(array $options = [
     'branch' => InputOption::VALUE_REQUIRED,
     'tag' => InputOption::VALUE_REQUIRED,
     'commit-msg' => InputOption::VALUE_REQUIRED,
@@ -84,15 +84,15 @@ class DeployCommand extends BltTasks {
   /**
    * Checks to see if current git branch has uncommitted changes.
    *
-   * @command deploy:check-dirty
-   *
    * @param array $options
    *   Set ignore-dirty to false to disable checks for dirty Git directory.
    *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException Thrown if there are
-   *   uncommitted changes.
+   * @command deploy:check-dirty
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   *   Thrown if there are uncommitted changes.
    */
-  public function checkDirty($options = ['ignore-dirty' => FALSE]) {
+  public function checkDirty(array $options = ['ignore-dirty' => FALSE]) {
     $result = $this->taskExec('git status --porcelain')
       ->printMetadata(FALSE)
       ->printOutput(TRUE)
@@ -156,13 +156,15 @@ class DeployCommand extends BltTasks {
   /**
    * Gets the name of the tag to cut.
    *
-   * @param $options
+   * @param array $options
+   *   Options.
    *
    * @return string
+   *   Name.
    *
    * @throws \Exception
    */
-  protected function getTagName($options) {
+  protected function getTagName(array $options) {
     if ($options['tag']) {
       $tag_name = $options['tag'];
     }
@@ -273,7 +275,8 @@ class DeployCommand extends BltTasks {
   /**
    * Adds a single remote to the /deploy repository.
    *
-   * @param $remote_url
+   * @param string $remote_url
+   *   Remote URL.
    */
   protected function addGitRemote($remote_url) {
     // Generate an md5 sum of the remote URL to use as remote name.
@@ -408,9 +411,8 @@ class DeployCommand extends BltTasks {
   /**
    * Installs composer dependencies for artifact.
    *
-   * @param array $options
-   *
    * @return bool
+   *   Bool.
    *
    * @throws \Robo\Exception\TaskException
    */
@@ -582,14 +584,17 @@ class DeployCommand extends BltTasks {
   /**
    * Pushes the artifact to git.remotes.
    *
-   * @param $identifier
-   * @param $options
+   * @param string $identifier
+   *   Identifier.
+   * @param array $options
+   *   Options.
    *
    * @return bool
+   *   Bool.
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
-  protected function push($identifier, $options) {
+  protected function push($identifier, array $options) {
     if ($options['dry-run']) {
       $this->logger->warning("Skipping push of deployment artifact. deploy.dryRun is set to true.");
       return FALSE;
@@ -614,7 +619,7 @@ class DeployCommand extends BltTasks {
   /**
    * Creates a tag on the build repository.
    *
-   * @param $repo
+   * @param string $repo
    *   The repo in which a tag should be cut.
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
@@ -676,6 +681,7 @@ class DeployCommand extends BltTasks {
    * Execute updates on a specific site.
    *
    * @param string $multisite
+   *   Multisite.
    */
   protected function updateSite($multisite) {
     $this->say("Deploying updates to <comment>$multisite</comment>...");

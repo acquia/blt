@@ -8,6 +8,8 @@
 use Acquia\Blt\Robo\Common\EnvironmentDetector;
 
 /**
+ * Settings.
+ *
  * @var array $settings
  */
 

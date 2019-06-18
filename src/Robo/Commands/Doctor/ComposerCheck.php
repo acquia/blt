@@ -7,21 +7,27 @@ use Acquia\Blt\Robo\Inspector\Inspector;
 use Robo\Config\Config;
 
 /**
- *
+ * BLT Doctor checks.
  */
 class ComposerCheck extends DoctorCheck {
 
   /**
+   * Composer.json.
+   *
    * @var array
    */
   protected $composerJson;
 
   /**
+   * Composer.lock.
+   *
    * @var array
    */
   protected $composerLock;
 
   /**
+   * Template composer.json.
+   *
    * @var array
    */
   protected $templateComposerJson;
@@ -40,6 +46,7 @@ class ComposerCheck extends DoctorCheck {
    * Sets $this->composerJson using root composer.json file.
    *
    * @return array
+   *   Array.
    */
   protected function setComposerJson() {
     if (file_exists($this->getConfigValue('repo.root') . '/composer.json')) {
@@ -56,6 +63,7 @@ class ComposerCheck extends DoctorCheck {
    * Sets $this->templateComposerJson using template composer.json file.
    *
    * @return array
+   *   Array.
    */
   protected function setTemplateComposerJson() {
     $file_name = $this->getConfigValue('repo.root') . '/vendor/acquia/blt/subtree-splits/blt-project/composer.json';
@@ -70,7 +78,10 @@ class ComposerCheck extends DoctorCheck {
   }
 
   /**
+   * Get composer.json.
+   *
    * @return array
+   *   Array
    */
   public function getComposerJson() {
     return $this->composerJson;
@@ -80,6 +91,7 @@ class ComposerCheck extends DoctorCheck {
    * Sets $this->composerJson using root composer.lock file.
    *
    * @return array
+   *   Array.
    */
   protected function setComposerLock() {
     if (file_exists($this->getConfigValue('repo.root') . '/composer.lock')) {
@@ -93,7 +105,10 @@ class ComposerCheck extends DoctorCheck {
   }
 
   /**
+   * Get composer.lock.
+   *
    * @return array
+   *   Array.
    */
   public function getComposerLock() {
     return $this->composerLock;
@@ -114,7 +129,7 @@ class ComposerCheck extends DoctorCheck {
   }
 
   /**
-   *
+   * Check require.
    */
   protected function checkRequire() {
     if (!empty($this->composerJson['require-dev']['acquia/blt'])) {
@@ -127,7 +142,7 @@ class ComposerCheck extends DoctorCheck {
   }
 
   /**
-   *
+   * Check prestissimo.
    */
   protected function checkPrestissimo() {
     $prestissimo_intalled = $this->getExecutor()->execute("composer global show | grep hirak/prestissimo")->run()->wasSuccessful();
@@ -158,7 +173,7 @@ class ComposerCheck extends DoctorCheck {
   }
 
   /**
-   *
+   * Check BLT.
    */
   protected function checkBltRequireDev() {
     if (empty($this->composerJson['require-dev']['acquia/blt-require-dev'])) {
@@ -171,7 +186,7 @@ class ComposerCheck extends DoctorCheck {
   }
 
   /**
-   *
+   * Compare composer.
    */
   private function compareComposerConfig($key1, $key2) {
     if (!array_key_exists($key1, $this->composerJson) ||

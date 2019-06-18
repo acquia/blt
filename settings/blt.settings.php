@@ -10,9 +10,9 @@ use Acquia\Blt\Robo\Config\ConfigInitializer;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Symfony\Component\Console\Input\ArgvInput;
 
-/*******************************************************************************
+/**
  * Detect environments, sites, and hostnames.
- ******************************************************************************/
+ */
 
 $http_host = getenv('HTTP_HOST');
 $request_method = getenv('REQUEST_METHOD');
@@ -65,6 +65,8 @@ if ($ip) {
 
 $repo_root = dirname(DRUPAL_ROOT);
 /**
+ * Site path.
+ *
  * @var $site_path
  * This is always set and exposed by the Drupal Kernel.
  */
@@ -91,7 +93,7 @@ if (EnvironmentDetector::isAcsfInited()) {
   }
 }
 
-/*******************************************************************************
+/**
  * Include additional settings files.
  *
  * Settings are included in a very particular order to ensure that they always
@@ -105,7 +107,7 @@ if (EnvironmentDetector::isAcsfInited()) {
  * 4. Default CI settings (provided by BLT)
  * 5. Custom CI settings (provided by the project)
  * 6. Local settings (provided by the project)
- ******************************************************************************/
+ */
 
 $settings_files = [];
 
@@ -170,6 +172,7 @@ if (EnvironmentDetector::isLocalEnv()) {
 
 foreach ($settings_files as $settings_file) {
   if (file_exists($settings_file)) {
+    // phpcs:ignore
     require $settings_file;
   }
 }

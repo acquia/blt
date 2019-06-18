@@ -3,12 +3,12 @@
 namespace Acquia\Blt\Robo\Commands\Doctor;
 
 /**
- *
+ * BLT doctor checks for node.
  */
 class NodeCheck extends DoctorCheck {
 
   /**
-   *
+   * Perform all checks.
    */
   public function performAllChecks() {
     $this->checkNodeVersionFileExists();

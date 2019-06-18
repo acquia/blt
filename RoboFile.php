@@ -36,9 +36,12 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   }
 
   /**
+   * Create test app.
+   *
    * @param array $options
+   *   Options.
    */
-  protected function createTestApp($options = [
+  protected function createTestApp(array $options = [
     'project-type' => 'standalone',
     'project-dir' => self::BLT_PROJECT_DIR,
     'vm' => TRUE,
@@ -203,23 +206,27 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   /**
    * Generates release notes and cuts a new tag on GitHub.
    *
-   * @command release
-   *
    * @param string $tag
    *   The tag name. E.g, 8.6.10.
    * @param string $github_token
    *   A github access token.
-   *
-   * @option prev-tag The previous tag on the current branch from which to
-   *   determine diff.
+   * @param array $options
+   *   Options.
    *
    * @return int
    *   The CLI status code.
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   *
+   * @command release
+   *
+   * @option prev-tag The previous tag on the current branch from which to
+   *   determine diff.
    */
   public function bltRelease(
     $tag,
     $github_token,
-    $options = [
+    array $options = [
       'prev-tag' => NULL,
     ]
   ) {
@@ -246,16 +253,14 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   /**
    * Pushes to acquia/blt-project.
    *
+   * @param array $options
+   *   Options.
+   *
    * @command subtree:push:blt-project
    *
    * @option branch (optional) The branch to push to. Defaults to current branch.
-   *
-   * @param array $options
-   *
-   * @return void The CLI status code.
-   *   The CLI status code.
    */
-  public function subtreePushBltProject($options = [
+  public function subtreePushBltProject(array $options = [
     'branch' => NULL,
   ]) {
     $this->say("Pushing to acquia/blt-project");
@@ -272,16 +277,14 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   /**
    * Pushes to acquia/blt-require-dev.
    *
+   * @param array $options
+   *   Options.
+   *
    * @command subtree:push:blt-require-dev
    *
    * @option branch (optional) The branch to push to. Defaults to current branch.
-   *
-   * @param array $options
-   *
-   * @return void The CLI status code.
-   *   The CLI status code.
    */
-  public function subtreePushBltRequireDev($options = [
+  public function subtreePushBltRequireDev(array $options = [
     'branch' => NULL,
   ]) {
     $this->say("Pushing to acquia/blt-require-dev");
@@ -302,17 +305,16 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    *   The tag name. E.g, 8.6.10.
    * @param string $github_token
    *   A github access token.
+   * @param array $options
+   *   Options.
    *
    * @option prev-tag The previous tag on the current branch from which to
    *   determine diff.
-   *
-   * @return int
-   *   The CLI status code.
    */
   public function releaseNotes(
     $tag,
     $github_token,
-    $options = [
+    array $options = [
       'prev-tag' => NULL,
     ]
   ) {
@@ -325,11 +327,17 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   }
 
   /**
-   * @param $prev_tag
-   * @param $tag
-   * @param $github_token
+   * Generate release notes.
+   *
+   * @param string $prev_tag
+   *   Previous tag.
+   * @param string $tag
+   *   Tag.
+   * @param string $github_token
+   *   Github token.
    *
    * @return string
+   *   String.
    */
   protected function generateReleaseNotes($prev_tag, $tag, $github_token) {
     $log = $this->getChangesOnBranchSinceTag($prev_tag);
@@ -410,9 +418,13 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   }
 
   /**
-   * @param $prev_tag
+   * Get changes.
+   *
+   * @param string $prev_tag
+   *   Previous tag.
    *
    * @return array
+   *   Array.
    */
   protected function getChangesOnBranchSinceTag($prev_tag) {
     $output = $this->taskExecStack()
@@ -434,9 +446,13 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   }
 
   /**
-   * @param $current_branch
+   * Get last tag.
+   *
+   * @param string $current_branch
+   *   Current branch.
    *
    * @return mixed
+   *   Mixed.
    */
   protected function getLastTagOnBranch($current_branch) {
     // List all tags, sort numerically, and filter out any that aren't numeric.
@@ -454,7 +470,10 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   }
 
   /**
+   * Get current branch.
+   *
    * @return string
+   *   String.
    */
   protected function getCurrentBranch() {
     $current_branch = $this->taskExecStack()
@@ -467,8 +486,12 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   }
 
   /**
-   * @param $tag
-   * @param $changes
+   * Update changelog.
+   *
+   * @param string $tag
+   *   Tag.
+   * @param string $changes
+   *   Changes.
    */
   protected function updateChangelog($tag, $changes) {
     $this->taskChangelog('CHANGELOG.md')
@@ -488,11 +511,13 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    *
    * @param array $log_entries
    *   An array of log changes. Typically each row would be a commit message.
+   * @param string $github_token
+   *   Github token.
    *
    * @return array
    *   A multidimensional array grouped by the labels enhancement and bug.
    */
-  protected function sortChanges($log_entries, $github_token) {
+  protected function sortChanges(array $log_entries, $github_token) {
     $client = new Client();
     $client->authenticate($github_token, NULL, Client::AUTH_URL_TOKEN);
     /** @var \Github\Api\Issue $issue_api */
@@ -513,13 +538,17 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   /**
    * Sorts log entry according to GitHub label.
    *
-   * @param $log_entry
-   * @param $issue_api
-   * @param $changes
+   * @param string $log_entry
+   *   Log entry.
+   * @param string $issue_api
+   *   Issue api.
+   * @param array $changes
+   *   Changes.
    *
    * @return mixed
+   *   Mixed.
    */
-  protected function sortLogEntry($log_entry, $issue_api, $changes) {
+  protected function sortLogEntry($log_entry, $issue_api, array $changes) {
     $sorted = FALSE;
     $github_issue_number = $this->parseGitHubIssueNumber($log_entry);
     if ($github_issue_number) {
@@ -551,9 +580,13 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   }
 
   /**
-   * @param $row
+   * Parse Github issue.
+   *
+   * @param string $row
+   *   Row.
    *
    * @return null
+   *   Issue num.
    */
   protected function parseGitHubIssueNumber($row) {
     $found_match = preg_match("/(((fix(es|ed)?)|(close(s|d)?)|(resolve(s|d)?)) )?#([[:digit:]]+)|#[[:digit:]]+/",
@@ -568,10 +601,15 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   }
 
   /**
+   * Github issue labels.
+   *
    * @param \Github\Api\Issue $issue_api
-   * @param $github_issue_number
+   *   Issue API.
+   * @param string $github_issue_number
+   *   Issue number.
    *
    * @return array|bool
+   *   Labels.
    */
   protected function getGitHubIssueLabels(Issue $issue_api, $github_issue_number) {
     $issue = $issue_api->show('acquia', 'blt', $github_issue_number);
@@ -591,7 +629,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    * @return string
    *   A string containing the formatted and imploded contents of $rows.
    */
-  protected function processReleaseNotesSection($rows) {
+  protected function processReleaseNotesSection(array $rows) {
     $text = implode(
         "\n",
         array_map(
@@ -626,8 +664,12 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   }
 
   /**
-   * @param $tag
-   * @param $current_branch
+   * Print release preamble.
+   *
+   * @param string $tag
+   *   Tag.
+   * @param string $current_branch
+   *   Current branch.
    */
   protected function printReleasePreamble($tag, $current_branch) {
     $this->logger->warning("Please run all release tests before executing this command!");
@@ -642,12 +684,17 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   }
 
   /**
-   * @param $options
-   * @param $current_branch
+   * Get prev tag.
+   *
+   * @param array $options
+   *   Options.
+   * @param string $current_branch
+   *   Current branch.
    *
    * @return mixed
+   *   Mixed.
    */
-  protected function getPrevTag($options, $current_branch) {
+  protected function getPrevTag(array $options, $current_branch) {
     if (!empty($options['prev-tag'])) {
       return $options['prev-tag'];
     }
@@ -657,11 +704,18 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   }
 
   /**
-   * @param $commitish
-   * @param $tag
-   * @param $description
-   * @param $github_token
-   * @param $uri
+   * Create github release.
+   *
+   * @param mixed $commitish
+   *   Committish.
+   * @param mixed $tag
+   *   Tag.
+   * @param mixed $description
+   *   Description.
+   * @param string $github_token
+   *   Github token.
+   * @param string $uri
+   *   Uri.
    */
   protected function createGitHubRelease(
     $commitish,
@@ -686,7 +740,10 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   }
 
   /**
-   * @param $current_branch
+   * Current branch.
+   *
+   * @param string $current_branch
+   *   Current branch.
    */
   protected function resetLocalBranch($current_branch) {
     // Clean up all staged and unstaged files on current branch.
@@ -698,7 +755,10 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   }
 
   /**
-   * @param $test_project_dir
+   * Test project dir.
+   *
+   * @param string $test_project_dir
+   *   Test project dir.
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
@@ -721,7 +781,10 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   }
 
   /**
-   * @param $current_branch
+   * Assert branch matches upstream.
+   *
+   * @param string $current_branch
+   *   Current branch.
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */

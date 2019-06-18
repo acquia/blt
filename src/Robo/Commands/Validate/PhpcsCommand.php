@@ -23,7 +23,6 @@ class PhpcsCommand extends BltTasks {
     $bin = $this->getConfigValue('composer.bin');
     $result = $this->taskExecStack()
       ->dir($this->getConfigValue('repo.root'))
-      // phpcs:ignore
       ->exec("$bin/phpcs")
       ->run();
     $exit_code = $result->getExitCode();
@@ -123,7 +122,6 @@ class PhpcsCommand extends BltTasks {
       $command .= ' -vv';
     }
     $result = $this->taskExecStack()
-      // phpcs:ignore
       ->exec($command)
       ->printMetadata(FALSE)
       ->run();

@@ -18,8 +18,7 @@ class RunTestsCommand extends DrupalTestCommand {
   protected $reportsDir;
 
   /**
-   * An array that contains configuration to override /
-   * customize Drupal's run-tests.sh commands.
+   * Configuration to customize Drupal's run-tests.sh commands.
    *
    * @var array
    */

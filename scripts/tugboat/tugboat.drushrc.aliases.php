@@ -2,6 +2,7 @@
 
 /**
  * @file
+ * Tugboat aliases.
  */
 
 $aliases['${project.machine_name}.ci'] = array(

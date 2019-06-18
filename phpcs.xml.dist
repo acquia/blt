@@ -10,10 +10,8 @@
   <arg name="parallel" value="10"/>
 
   <rule ref="AcquiaDrupal">
-  <!--
-    <exclude name="Drupal.Commenting.FunctionComment"/>
-    <exclude name="Drupal.Commenting.DocComment"/>
-    -->
+    <!-- BLT makes a lot of shell exec calls. -->
+    <exclude name="Security.BadFunctions.SystemExecFunctions"/>
   </rule>
 
   <file>.</file>

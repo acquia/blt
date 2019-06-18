@@ -3,19 +3,19 @@
 namespace Acquia\Blt\Robo\Commands\Doctor;
 
 /**
- *
+ * BLT Doctor checks for ACSF.
  */
 class AcsfCheck extends DoctorCheck {
 
   /**
-   *
+   * Perform all checks.
    */
   public function performAllChecks() {
     $this->checkAcsfConfig();
   }
 
   /**
-   *
+   * Check ACSF config.
    */
   protected function checkAcsfConfig() {
     $file_path = $this->getConfigValue('repo.root') . '/factory-hooks/pre-settings-php/includes.php';

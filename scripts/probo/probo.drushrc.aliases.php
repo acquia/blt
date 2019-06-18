@@ -2,6 +2,7 @@
 
 /**
  * @file
+ * Probo aliases.
  */
 
 $aliases['${project.machine_name}.ci'] = array(

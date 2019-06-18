@@ -3,12 +3,12 @@
 namespace Acquia\Blt\Robo\Commands\Doctor;
 
 /**
- *
+ * Check config.
  */
 class ConfigCheck extends DoctorCheck {
 
   /**
-   *
+   * Perform all checks.
    */
   public function performAllChecks() {
     $this->checkGitConfig();

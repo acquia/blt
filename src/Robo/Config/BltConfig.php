@@ -61,6 +61,7 @@ class BltConfig extends Config {
    *   provide defaults to the config processor instead.
    *
    * @return mixed
+   *   Mixed.
    */
   public function get($key, $defaultOverride = NULL) {
     $value = parent::get($key, $defaultOverride);
@@ -75,8 +76,9 @@ class BltConfig extends Config {
   }
 
   /**
-   * Overwrite replace to use a single context
-   * in BLT set() is called before import() which causes problems: imported data
+   * Overwrite replace to use a single context.
+   *
+   * In BLT set() is called before import() which causes problems: imported data
    * does not overwrite previous set calls.
    */
   public function replace($data) {

@@ -3,12 +3,12 @@
 namespace Acquia\Blt\Robo\Commands\Doctor;
 
 /**
- *
+ * BLT doctor checks for settings.
  */
 class SettingsFilesCheck extends DoctorCheck {
 
   /**
-   *
+   * Perform all checks.
    */
   public function performAllChecks() {
     $this->checkDrupalSettingsFile();
@@ -18,7 +18,7 @@ class SettingsFilesCheck extends DoctorCheck {
   }
 
   /**
-   *
+   * Check local settings.
    */
   protected function checkLocalSettingsFile() {
     $localSettingsPath = $this->drushStatus['root'] . "/sites/" . $this->getConfigValue('site') . '/settings/local.settings.php';
@@ -31,7 +31,7 @@ class SettingsFilesCheck extends DoctorCheck {
   }
 
   /**
-   *
+   * Check Drupal settings.
    */
   protected function checkDrupalSettingsFile() {
     if (!$this->getInspector()->isDrupalSettingsFilePresent()) {

@@ -194,13 +194,13 @@ class FilesetManager implements ConfigAwareInterface, LoggerAwareInterface {
    *
    * @param array $files
    *   An array of absolute file paths.
-   * @param \Symfony\Component\Finder\Finder $fileset
+   * @param mixed $fileset
    *   The ID for a given fileset.
    *
    * @return \Symfony\Component\Finder\Finder
    *   The intersection of $files and the fileset.
    */
-  public function filterFilesByFileset(array $files, Finder $fileset) {
+  public function filterFilesByFileset(array $files, $fileset) {
     $absolute_files = array_map(array($this, 'prependRepoRoot'), $files);
 
     // @todo Compare performance of this vs. using

@@ -14,19 +14,23 @@ use Acquia\Blt\Robo\Exceptions\BltException;
 class EnvironmentDetector {
 
   /**
-   *
+   * Is AH env.
    */
   public static function isAhEnv() {
     return (bool) self::getAhEnv();
   }
 
   /**
-   * @param null $ah_group
+   * Is ACSF env.
+   *
+   * @param mixed $ah_group
    *   The Acquia Hosting site / group name (e.g. my_subscription).
-   * @param null $ah_env
+   * @param mixed $ah_env
    *   The Acquia Hosting environment name (e.g. 01dev).
    *
    * @return bool
+   *   Bool.
+   *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public static function isAcsfEnv($ah_group = NULL, $ah_env = NULL) {
@@ -53,7 +57,7 @@ class EnvironmentDetector {
   }
 
   /**
-   *
+   * Is AH prod.
    */
   public static function isAhProdEnv() {
     $ah_env = self::getAhEnv();
@@ -62,7 +66,7 @@ class EnvironmentDetector {
   }
 
   /**
-   *
+   * Is AH stage.
    */
   public static function isAhStageEnv() {
     $ah_env = self::getAhEnv();
@@ -71,7 +75,7 @@ class EnvironmentDetector {
   }
 
   /**
-   *
+   * Is AH dev.
    */
   public static function isAhDevEnv() {
     // ACE dev is 'dev', 'dev1', ...; ACSF dev is '01dev', '02dev', ...
@@ -79,7 +83,7 @@ class EnvironmentDetector {
   }
 
   /**
-   *
+   * Is AH ODE.
    */
   public static function isAhOdeEnv($ah_env = NULL) {
     if (is_null($ah_env)) {
@@ -90,28 +94,28 @@ class EnvironmentDetector {
   }
 
   /**
-   *
+   * Is AH devcloud.
    */
   public static function isAhDevCloud() {
     return (!empty($_SERVER['HTTP_HOST']) && strstr($_SERVER['HTTP_HOST'], 'devcloud'));
   }
 
   /**
-   *
+   * Get AH group.
    */
   public static function getAhGroup() {
     return isset($_ENV['AH_SITE_GROUP']) ? $_ENV['AH_SITE_GROUP'] : NULL;
   }
 
   /**
-   *
+   * Get AH env.
    */
   public static function getAhEnv() {
     return isset($_ENV['AH_SITE_ENVIRONMENT']) ? $_ENV['AH_SITE_ENVIRONMENT'] : NULL;
   }
 
   /**
-   *
+   * Get CI.
    */
   public static function getCiEnv() {
     $mapping = [
@@ -130,92 +134,95 @@ class EnvironmentDetector {
   }
 
   /**
-   *
+   * Is CI.
    */
   public static function isCiEnv() {
     return self::getCiEnv() || isset($_ENV['CI']);
   }
 
   /**
-   *
+   * Is Pantheon.
    */
   public static function isPantheonEnv() {
     return isset($_ENV['PANTHEON_ENVIRONMENT']);
   }
 
   /**
-   *
+   * Get Pantheon.
    */
   public static function getPantheonEnv() {
     return self::isPantheonEnv() ? $_ENV['PANTHEON_ENVIRONMENT'] : NULL;
   }
 
   /**
-   *
+   * Is Pantheon.
    */
   public static function isPantheonDevEnv() {
     return self::getPantheonEnv() == 'dev';
   }
 
   /**
-   *
+   * Is Pantheon.
    */
   public static function isPantheonStageEnv() {
     return self::getPantheonEnv() == 'test';
   }
 
   /**
-   *
+   * Is Pantheon.
    */
   public static function isPantheonProdEnv() {
     return self::getPantheonEnv() == 'live';
   }
 
   /**
-   *
+   * Is local.
    */
   public static function isLocalEnv() {
     return !self::isAhEnv() && !self::isPantheonEnv() && !self::isCiEnv();
   }
 
   /**
-   *
+   * Is dev.
    */
   public static function isDevEnv() {
     return self::isAhDevEnv() || self::isPantheonDevEnv();
   }
 
   /**
-   *
+   * Is stage.
    */
   public static function isStageEnv() {
     return self::isAhStageEnv() || self::isPantheonStageEnv();
   }
 
   /**
-   *
+   * Is prod.
    */
   public static function isProdEnv() {
     return self::isAhProdEnv() || self::isPantheonProdEnv();
   }
 
   /**
-   *
+   * Get AH files.
    */
   public static function getAhFilesRoot() {
     return '/mnt/files/' . self::getAhGroup() . '.' . self::getAhEnv();
   }
 
   /**
-   *
+   * Is ACSF.
    */
   public static function isAcsfInited() {
     return file_exists(DRUPAL_ROOT . "/sites/g");
   }
 
   /**
+   * Get ACSF db.
+   *
    * @return string|null
    *   ACSF db name.
+   *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public static function getAcsfDbName() {

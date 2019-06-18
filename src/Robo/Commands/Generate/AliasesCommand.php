@@ -16,31 +16,43 @@ use Acquia\Blt\Robo\Common\YamlMunge;
 class AliasesCommand extends BltTasks {
 
   /**
+   * Cloud API client.
+   *
    * @var \AcquiaCloudApi\CloudApi\Client
    */
   protected $cloudApiClient;
 
   /**
+   * App id.
+   *
    * @var string
    */
   protected $appId;
 
   /**
+   * Cloud config dir.
+   *
    * @var string
    */
   protected $cloudConfDir;
 
   /**
+   * Cloud config filename.
+   *
    * @var string
    */
   protected $cloudConfFileName;
 
   /**
+   * Cloud config file path.
+   *
    * @var string
    */
   protected $cloudConfFilePath;
 
   /**
+   * Site alias dir.
+   *
    * @var string
    */
   protected $siteAliasDir;

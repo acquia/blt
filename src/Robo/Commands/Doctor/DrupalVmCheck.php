@@ -6,12 +6,12 @@ use function json_decode;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- *
+ * BLT Doctor checks.
  */
 class DrupalVmCheck extends DoctorCheck {
 
   /**
-   *
+   * Perform all checks.
    */
   public function performAllChecks() {
     if ($this->getInspector()->isDrupalVmLocallyInitialized()) {
@@ -50,13 +50,18 @@ class DrupalVmCheck extends DoctorCheck {
   }
 
   /**
-   * @param $local_alias
-   * @param $drupal_vm_config
-   * @param $local_alias_id
+   * Check URI.
+   *
+   * @param string $local_alias
+   *   Local alias.
+   * @param array $drupal_vm_config
+   *   DrupalVM config.
+   * @param string $local_alias_id
+   *   Local alias.
    */
   protected function checkUri(
     $local_alias,
-    $drupal_vm_config,
+    array $drupal_vm_config,
     $local_alias_id
   ) {
     $parsed_uri = parse_url($local_alias['uri']);
@@ -71,12 +76,17 @@ class DrupalVmCheck extends DoctorCheck {
   }
 
   /**
-   * @param $drupal_vm_config
-   * @param $local_alias
-   * @param $local_alias_id
+   * Check root.
+   *
+   * @param array $drupal_vm_config
+   *   Drupal VM Config.
+   * @param string $local_alias
+   *   Local alias.
+   * @param string $local_alias_id
+   *   Local alias.
    */
   protected function checkRoot(
-    $drupal_vm_config,
+    array $drupal_vm_config,
     $local_alias,
     $local_alias_id
   ) {
@@ -92,13 +102,18 @@ class DrupalVmCheck extends DoctorCheck {
   }
 
   /**
-   * @param $local_alias
-   * @param $drupal_vm_config
-   * @param $local_alias_id
+   * Check host.
+   *
+   * @param string $local_alias
+   *   Local alias.
+   * @param array $drupal_vm_config
+   *   DrupalVM config.
+   * @param string $local_alias_id
+   *   Local alias.
    */
   protected function checkHost(
     $local_alias,
-    $drupal_vm_config,
+    array $drupal_vm_config,
     $local_alias_id
   ) {
     if ('vagrant' != $_SERVER['USER'] && $local_alias['host'] != $drupal_vm_config['vagrant_hostname']) {

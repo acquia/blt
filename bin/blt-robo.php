@@ -2,6 +2,7 @@
 
 /**
  * @file
+ * Bootstrap BLT.
  */
 
 $repo_root = find_repo_root();

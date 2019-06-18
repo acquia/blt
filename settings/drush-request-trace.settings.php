@@ -7,6 +7,7 @@
 
 /**
  * Adds logging information for drush requests in drupal-requests.log on Acquia.
+ *
  * By default these requests show up with no REQUEST_METHOD or URI, which can
  * make splitting them up very hard.
  */

@@ -268,7 +268,8 @@ class VmCommand extends BltTasks {
   /**
    * Sets the Drupal VM base box.
    *
-   * @param \Acquia\Blt\Robo\Config\BltConfig $config
+   * @param mixed $config
+   *   Config.
    */
   protected function setBaseBox($config) {
     $base_box = $this->askChoice(
