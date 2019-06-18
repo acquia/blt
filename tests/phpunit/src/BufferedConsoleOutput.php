@@ -21,6 +21,7 @@ class BufferedConsoleOutput extends ConsoleOutput {
    * Empties buffer and returns its content.
    *
    * @return string
+   *   Contents of buffer
    */
   public function fetch() {
     // For some reason, some blt commands do not appear to always use the same

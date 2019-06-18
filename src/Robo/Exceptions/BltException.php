@@ -10,7 +10,7 @@ namespace Acquia\Blt\Robo\Exceptions;
 class BltException extends \Exception {
 
   /**
-   *
+   * Report exception.
    */
   public function __construct(
     $message = "",

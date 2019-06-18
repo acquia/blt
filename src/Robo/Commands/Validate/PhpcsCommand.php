@@ -23,6 +23,7 @@ class PhpcsCommand extends BltTasks {
     $bin = $this->getConfigValue('composer.bin');
     $result = $this->taskExecStack()
       ->dir($this->getConfigValue('repo.root'))
+      // phpcs:ignore
       ->exec("$bin/phpcs")
       ->run();
     $exit_code = $result->getExitCode();
@@ -55,13 +56,14 @@ class PhpcsCommand extends BltTasks {
    * This command will execute PHP Codesniffer against a list of files if those
    * files are a subset of the phpcs.filesets filesets.
    *
-   * @command tests:phpcs:sniff:files
-   * @aliases tpsf
-   *
    * @param string $file_list
    *   A list of files to scan, separated by \n.
    *
+   * @command tests:phpcs:sniff:files
+   * @aliases tpsf
+   *
    * @return int
+   *   Exit code.
    */
   public function sniffFileList($file_list) {
     $this->say("Sniffing directories containing changed files...");
@@ -92,6 +94,7 @@ class PhpcsCommand extends BltTasks {
    * @aliases tpsm
    *
    * @return int
+   *   Exit code.
    */
   public function sniffModified() {
     $this->say("Sniffing modified and untracked files in repo...");
@@ -108,6 +111,7 @@ class PhpcsCommand extends BltTasks {
    *   The command arguments/options.
    *
    * @return int
+   *   Exit code.
    */
   protected function doSniff($arguments) {
     $bin = $this->getConfigValue('composer.bin') . '/phpcs';
@@ -119,6 +123,7 @@ class PhpcsCommand extends BltTasks {
       $command .= ' -vv';
     }
     $result = $this->taskExecStack()
+      // phpcs:ignore
       ->exec($command)
       ->printMetadata(FALSE)
       ->run();

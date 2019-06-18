@@ -11,16 +11,19 @@ use Robo\Contract\ConfigAwareInterface;
 use Symfony\Component\Finder\Finder;
 
 /**
- *
+ * Defines filesets.
  */
 class Filesets implements ConfigAwareInterface {
 
   use ConfigAwareTrait;
 
   /**
+   * Get fileset php custom modules.
+   *
    * @fileset(id="files.php.custom.modules")
    *
    * @return \Symfony\Component\Finder\Finder
+   *   Finder.
    */
   public function getFilesetPhpCustomModules() {
     $finder = $this->getPhpFilesetFinder();
@@ -30,9 +33,12 @@ class Filesets implements ConfigAwareInterface {
   }
 
   /**
+   * Get fileset php custom themes.
+   *
    * @fileset(id="files.php.custom.themes")
    *
    * @return \Symfony\Component\Finder\Finder
+   *   Finder.
    */
   public function getFilesetPhpCustomThemes() {
     $finder = $this->getPhpFilesetFinder();
@@ -42,9 +48,12 @@ class Filesets implements ConfigAwareInterface {
   }
 
   /**
+   * Get fileset php tests.
+   *
    * @fileset(id="files.php.tests")
    *
    * @return \Symfony\Component\Finder\Finder
+   *   finder
    */
   public function getFilesetPhpTests() {
     $finder = $this->getPhpFilesetFinder();
@@ -54,9 +63,12 @@ class Filesets implements ConfigAwareInterface {
   }
 
   /**
+   * Get frontend fileset.
+   *
    * @fileset(id="files.frontend.custom.themes")
    *
    * @return \Symfony\Component\Finder\Finder
+   *   Finder.
    */
   public function getFilesetFrontend() {
     $finder = $this->getFrontendFilesetFinder();
@@ -66,9 +78,12 @@ class Filesets implements ConfigAwareInterface {
   }
 
   /**
+   * Get Twig fileset.
+   *
    * @fileset(id="files.twig")
    *
    * @return \Symfony\Component\Finder\Finder
+   *   finder
    */
   public function getFilesetTwig() {
     $finder = $this->getTwigFilesetFinder();
@@ -79,9 +94,12 @@ class Filesets implements ConfigAwareInterface {
   }
 
   /**
+   * Get YAML fileset.
+   *
    * @fileset(id="files.yaml")
    *
    * @return \Symfony\Component\Finder\Finder
+   *   Finder.
    */
   public function getFilesetYaml() {
     $finder = $this->getYamlFilesetFinder();

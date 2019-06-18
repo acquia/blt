@@ -24,11 +24,15 @@ class FilesetManager implements ConfigAwareInterface, LoggerAwareInterface {
   use LoggerAwareTrait;
 
   /**
+   * Finder.
+   *
    * @var \Symfony\Component\Finder\Finder[]
    */
   protected $filesets = [];
 
   /**
+   * Index reader.
+   *
    * @var \Doctrine\Common\Annotations\IndexedReader
    */
   protected $annotationsReader;
@@ -75,7 +79,7 @@ class FilesetManager implements ConfigAwareInterface, LoggerAwareInterface {
    *       'files.php.tests' => ['getFilesetPhpTests'],
    *     ]].
    */
-  protected function getAllFilesetAnnotations($classes) {
+  protected function getAllFilesetAnnotations(array $classes) {
     $fileset_annotations = [];
     foreach ($classes as $class) {
       $fileset_annotations[$class] = isset($fileset_annotations[$class]) ? $fileset_annotations[$class] : [];
@@ -166,7 +170,7 @@ class FilesetManager implements ConfigAwareInterface, LoggerAwareInterface {
    * @return \Symfony\Component\Finder\Finder[]
    *   An array of instantiated filesets.
    */
-  protected function getFilesetsFromAnnotations($fileset_annotations) {
+  protected function getFilesetsFromAnnotations(array $fileset_annotations) {
     $filesets = [];
     $this->logger->debug("Gathering filesets from annotated methods...");;
     foreach ($fileset_annotations as $class => $fileset) {
@@ -196,7 +200,7 @@ class FilesetManager implements ConfigAwareInterface, LoggerAwareInterface {
    * @return \Symfony\Component\Finder\Finder
    *   The intersection of $files and the fileset.
    */
-  public function filterFilesByFileset($files, $fileset) {
+  public function filterFilesByFileset(array $files, Finder $fileset) {
     $absolute_files = array_map(array($this, 'prependRepoRoot'), $files);
 
     // @todo Compare performance of this vs. using

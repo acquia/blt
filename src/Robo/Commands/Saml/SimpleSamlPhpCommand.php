@@ -16,7 +16,10 @@ class SimpleSamlPhpCommand extends BltTasks {
   protected $bltRoot;
   protected $repoRoot;
   protected $deployDir;
+
   /**
+   * Formatter helper.
+   *
    * @var \Symfony\Component\Console\Helper\FormatterHelper
    */
   protected $formatter;
@@ -162,7 +165,8 @@ class SimpleSamlPhpCommand extends BltTasks {
     $docroot = $this->getConfigValue('docroot');
 
     $this->say("Creating a symbolic link from ${docroot}/simplesaml to web accessible directory in the simplesamlphp library...");
-    $result = $this->taskFileSystemStack()
+    $result = $this->taskFilesystemStack()
+      //phpcs:ignore
       ->symlink("../vendor/simplesamlphp/simplesamlphp/www", "${docroot}/simplesaml")
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();

@@ -115,6 +115,7 @@ class GitTasksTest extends BltProjectTestBase {
    * Disables a given list of git hooks.
    *
    * @param array $hooks
+   *   Hooks.
    */
   protected function disableGitHooks(array $hooks) {
     foreach ($hooks as $hook) {

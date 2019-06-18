@@ -168,7 +168,8 @@ class AcHooksCommand extends BltTasks {
   /**
    * Executes updates against all ACE sites in the target environment.
    *
-   * @param $target_env
+   * @param string $target_env
+   *   Target env.
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
@@ -181,11 +182,16 @@ class AcHooksCommand extends BltTasks {
   /**
    * Sends updates to notification endpoints.
    *
-   * @param $site
-   * @param $target_env
-   * @param $source_branch
-   * @param $deployed_tag
-   * @param $success
+   * @param string $site
+   *   Site.
+   * @param string $target_env
+   *   Target Env.
+   * @param string $source_branch
+   *   Source branch.
+   * @param string $deployed_tag
+   *   Deployed tag.
+   * @param string $success
+   *   Success.
    */
   protected function sendPostCodeUpdateNotifications($site, $target_env, $source_branch, $deployed_tag, $success) {
     $is_tag = $source_branch != $deployed_tag;
@@ -206,8 +212,12 @@ class AcHooksCommand extends BltTasks {
   }
 
   /**
-   * @param $success
-   * @param $message
+   * Notify slack.
+   *
+   * @param string $success
+   *   Success.
+   * @param string $message
+   *   Message.
    */
   protected function notifySlack($success, $message) {
     $slack_webhook_url = $this->getSlackWebhookUrl();
@@ -225,6 +235,7 @@ class AcHooksCommand extends BltTasks {
    * Gets slack web url.
    *
    * @return array|false|mixed|null|string
+   *   Hook URL.
    */
   protected function getSlackWebhookUrl() {
     if ($this->getConfig()->has('slack.webhook-url')) {
@@ -241,8 +252,10 @@ class AcHooksCommand extends BltTasks {
   /**
    * Sends a message to a slack channel.
    *
-   * @param $url
-   * @param $payload
+   * @param string $url
+   *   URL.
+   * @param mixed $payload
+   *   Payload.
    */
   protected function sendSlackNotification($url, $payload) {
     $this->say("Sending slack notification...");
@@ -258,8 +271,10 @@ class AcHooksCommand extends BltTasks {
   /**
    * Executes updates against all sites.
    *
-   * @param $site
-   * @param $target_env
+   * @param string $site
+   *   Site.
+   * @param string $target_env
+   *   Target env.
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */

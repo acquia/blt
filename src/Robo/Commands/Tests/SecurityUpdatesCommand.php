@@ -42,6 +42,7 @@ class SecurityUpdatesCommand extends BltTasks {
     $bin = $this->getConfigValue('composer.bin');
     $result = $this->taskExecStack()
       ->dir($this->getConfigValue('repo.root'))
+      // phpcs:ignore
       ->exec("$bin/security-checker security:check composer.lock")
       ->run();
 

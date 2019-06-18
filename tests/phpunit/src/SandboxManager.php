@@ -87,7 +87,8 @@ class SandboxManager {
   /**
    * Outputs debugging message.
    *
-   * @param $message
+   * @param string $message
+   *   Message.
    */
   public function debug($message) {
     if (getenv('BLT_PRINT_COMMAND_OUTPUT')) {
@@ -110,9 +111,10 @@ class SandboxManager {
    *
    * Will not overwrite existing files!
    *
-   * @param $options
+   * @param array $options
+   *   Options.
    */
-  protected function copySandboxMasterToInstance($options = [
+  protected function copySandboxMasterToInstance(array $options = [
     'delete' => TRUE,
     'override' => FALSE,
   ]) {
@@ -130,7 +132,10 @@ class SandboxManager {
   }
 
   /**
+   * Get sandbox instance.
+   *
    * @return mixed
+   *   Mixed.
    */
   public function getSandboxInstance() {
     return $this->sandboxInstance;

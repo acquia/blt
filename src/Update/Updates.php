@@ -2,6 +2,9 @@
 
 namespace Acquia\Blt\Update;
 
+// The following line is required for annotations to work.
+// phpcs:ignore
+use Acquia\Blt\Annotations\Update;
 use Acquia\Blt\Robo\Common\ArrayManipulator;
 use Dflydev\DotAccessData\Data;
 use Symfony\Component\Finder\Finder;
@@ -14,6 +17,8 @@ use Acquia\Blt\Robo\Common\ComposerMunge;
 class Updates {
 
   /**
+   * Updater var.
+   *
    * @var \Acquia\Blt\Update\Updater
    */
   protected $updater;
@@ -22,6 +27,7 @@ class Updates {
    * Updates constructor.
    *
    * @param \Acquia\Blt\Update\Updater $updater
+   *   Updater.
    */
   public function __construct(Updater $updater) {
     $this->updater = $updater;
@@ -30,7 +36,7 @@ class Updates {
   // phpcs:disable Drupal.NamingConventions.ValidFunctionName
 
   /**
-   * 8.5.1.
+   * Version 8.5.1.
    *
    * @Update(
    *   version = "8005001",
@@ -43,11 +49,11 @@ class Updates {
   }
 
   /**
-   * 8.6.0.
+   * Version 8.6.0.
    *
    * @Update(
    *   version = "8006000",
-   *   description = "Moves configuration files to blt subdirectory. Removes .git/hooks symlink."
+   *   description = "Moves configuration files to blt subdirectory."
    * )
    */
   public function update_8006000() {
@@ -58,7 +64,8 @@ class Updates {
     $this->updater->moveFile('example.project.local.yml',
       'blt/example.project.local.yml', TRUE);
 
-    // Delete symlink to hooks directory. Individual git hooks are now symlinked, not the entire directory.
+    // Delete symlink to hooks directory. Individual git hooks are now
+    // symlinked, not the entire directory.
     $this->updater->deleteFile('.git/hooks');
     $this->updater->getOutput()
       ->writeln('.git/hooks was deleted. Please re-run blt:init:git-hooks to install git hooks locally.');
@@ -79,7 +86,7 @@ class Updates {
   }
 
   /**
-   * 8.6.2.
+   * Version 8.6.2.
    *
    * @Update(
    *   version = "8006002",
@@ -95,7 +102,7 @@ class Updates {
   }
 
   /**
-   * 8.5.4.
+   * Version 8.5.4.
    *
    * @Update(
    *   version = "8006004",
@@ -121,7 +128,7 @@ class Updates {
   }
 
   /**
-   * 8.6.6.
+   * Version 8.6.6.
    *
    * @Update(
    *   version = "8006006",
@@ -135,11 +142,11 @@ class Updates {
   }
 
   /**
-   * 8.6.7.
+   * Version 8.6.7.
    *
    * @Update(
    *   version = "8006007",
-   *   description = "Changes drupal scaffold excludes from associative to indexed array."
+   *   description = "Changes drupal scaffold excludes array."
    * )
    */
   public function update_8006007() {
@@ -151,7 +158,7 @@ class Updates {
   }
 
   /**
-   * 8.6.12.
+   * Version 8.6.12.
    *
    * @Update(
    *   version = "8006012",
@@ -164,11 +171,11 @@ class Updates {
   }
 
   /**
-   * 8.7.0.
+   * Version 8.7.0.
    *
    * @Update(
    *   version = "8007000",
-   *   description = "Updating composer.json to use wikimedia composer-merge-plugin."
+   *   description = "Updating composer.json to use composer-merge-plugin."
    * )
    */
   public function update_8007000() {
@@ -179,7 +186,8 @@ class Updates {
     // Remove deprecated config.
     unset($composer_json['extra']['blt']['composer-exclude-merge']);
 
-    // Remove packages from root composer.json that are already defined in BLT's composer.required.json with matching version.
+    // Remove packages from root composer.json that are already defined in BLT's
+    // composer.required.json with matching version.
     if (!empty($composer_required_json['require'])) {
       foreach ($composer_required_json['require'] as $package_name => $package_version) {
         if (array_key_exists($package_name,
@@ -201,7 +209,8 @@ class Updates {
       }
     }
 
-    // Remove packages from root composer.json that are already defined in BLT's composer.suggested.json with matching version.
+    // Remove packages from root composer.json that are already defined in BLT's
+    // composer.suggested.json with matching version.
     if (!empty($composer_suggested_json['require'])) {
       foreach ($composer_suggested_json['require'] as $package_name => $package_version) {
         if (array_key_exists($package_name,
@@ -277,11 +286,13 @@ class Updates {
     $this->updater->getOutput()->writeln("");
     $this->updater->getOutput()->writeln("<comment>Please execute `composer update` to incorporate these final automated changes to composer.json.</comment>");
 
-    // Sync updates to drushrc.php manually since it has been added to ignore-existing.txt.
+    // Sync updates to drushrc.php manually since it has been added to
+    // ignore-existing.txt.
     $drushrcFile = 'drush/drushrc.php';
     $this->updater->syncWithTemplate($drushrcFile, TRUE);
 
-    // Legacy versions will have defaulted to use features for config management.
+    // Legacy versions will have defaulted to use features for config
+    // management.
     // Must explicitly set formerly assumed value.
     $project_yml = $this->updater->getProjectYml();
     $project_yml['cm']['strategy'] = 'features';
@@ -289,7 +300,7 @@ class Updates {
   }
 
   /**
-   * 8.9.0.
+   * Version 8.9.0.
    *
    * @Update(
    *   version = "8009000",
@@ -339,7 +350,7 @@ class Updates {
   }
 
   /**
-   * 8.9.1.
+   * Version 8.9.1.
    *
    * @Update(
    *   version = "8009001",
@@ -355,7 +366,7 @@ class Updates {
   }
 
   /**
-   * 8.9.3.
+   * Version 8.9.3.
    *
    * @Update(
    *    version = "8009003",
@@ -406,7 +417,7 @@ class Updates {
   }
 
   /**
-   * 8.9.7.
+   * Version 8.9.7.
    *
    * @Update(
    *    version = "8009007",
@@ -429,7 +440,7 @@ class Updates {
   }
 
   /**
-   * 8.9.11.
+   * Version 8.9.11.
    *
    * @Update(
    *    version = "8009011",
@@ -451,7 +462,7 @@ class Updates {
   }
 
   /**
-   * 9.0.0.
+   * Version 9.0.0.
    *
    * @Update(
    *    version = "9000000",
@@ -538,11 +549,11 @@ class Updates {
   }
 
   /**
-   * 9.1.0-alpha1.
+   * Version 9.1.0-alpha1.
    *
    * @Update(
    *    version = "9001000",
-   *    description = "Add deployment_identifier to project .gitignore and re-syncs ci.blt.yml."
+   *    description = "Add deployment_identifier to .gitignore, fix ci.blt.yml."
    * )
    */
   public function update_9001000() {
@@ -563,7 +574,8 @@ class Updates {
     $this->updater->getOutput()->writeln("");
 
     // Update composer.json to include new BLT required/suggested files.
-    // Pulls in wikimedia/composer-merge-plugin and composer/installers settings.
+    // Pulls in wikimedia/composer-merge-plugin and composer/installers
+    // settings.
     $project_composer_json = $this->updater->getRepoRoot() . '/composer.json';
     $template_composer_json = $this->updater->getBltRoot() . '/subtree-splits/blt-project/composer.json';
     $munged_json = ComposerMunge::mungeFiles($project_composer_json, $template_composer_json);
@@ -582,7 +594,7 @@ class Updates {
   }
 
   /**
-   * 9.1.0.
+   * Version 9.1.0.
    *
    * @Update(
    *    version = "9001001",
@@ -608,11 +620,11 @@ class Updates {
   }
 
   /**
-   * 9.2.0.
+   * Version 9.2.0.
    *
    * @Update(
    *    version = "9002000",
-   *    description = "Factory Hooks Drush 9 bug fixes and enhancements for db-update."
+   *    description = "Factory Hooks Drush 9 fixes for db-update."
    * )
    */
   public function update_9002000() {
@@ -630,7 +642,7 @@ class Updates {
   }
 
   /**
-   * 10.0.0.
+   * Version 10.0.0.
    *
    * @Update(
    *    version = "10000000",
@@ -756,7 +768,7 @@ class Updates {
   }
 
   /**
-   * 10.0.0.
+   * Version 10.0.0.
    *
    * @Update(
    *    version = "10000001",
@@ -775,7 +787,7 @@ class Updates {
   }
 
   /**
-   * 10.0.0.
+   * Version 10.0.0.
    *
    * @Update(
    *    version = "10000002",
