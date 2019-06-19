@@ -444,7 +444,7 @@ class Updater {
       ksort($contents['require-dev']);
       $contents['require-dev'] = (object) $contents['require-dev'];
     }
-    file_put_contents($this->composerJsonFilepath, json_encode($contents, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+    file_put_contents($this->composerJsonFilepath, json_encode($contents, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL);
   }
 
   /**
