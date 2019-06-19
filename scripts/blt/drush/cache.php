@@ -21,7 +21,6 @@ if (empty($argv[3])) {
 
 // Create a temporary cache directory for this drush process only.
 $cache_directory = sprintf('/mnt/tmp/%s.%s/drush_tmp_cache/%s', $site, $env, md5($uri));
-// phpcs:ignore
 shell_exec(sprintf('mkdir -p %s', escapeshellarg($cache_directory)));
 
 if (!file_exists($cache_directory)) {

@@ -64,9 +64,7 @@ if (!$uri) {
 
 $docroot = sprintf('/var/www/html/%s.%s/docroot', $site, $env);
 
-// phpcs:ignore
 $cache_directory = exec("/usr/bin/env php /mnt/www/html/$site.$env/vendor/acquia/blt/scripts/blt/drush/cache.php $site $env $uri");
-// phpcs:ignore
 shell_exec(sprintf('mkdir -p %s', escapeshellarg($cache_directory)));
 
 // Execute the updates.
@@ -82,12 +80,10 @@ fwrite(STDERR, "Executing: $command with cache dir $cache_directory;\n");
 
 $result = 0;
 $output = array();
-// phpcs:ignore
 exec($command, $output, $result);
 print implode("\n", $output);
 
 // Clean up the drush cache directory.
-// phpcs:ignore
 shell_exec(sprintf('rm -rf %s', escapeshellarg($cache_directory)));
 
 if ($result) {
