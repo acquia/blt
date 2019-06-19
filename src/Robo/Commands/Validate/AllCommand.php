@@ -24,9 +24,20 @@ class AllCommand extends BltTasks {
       'tests:yaml:lint:all',
       'tests:twig:lint:all',
     ];
+
     // To enable this command, set validate.acsf to TRUE in blt.yml.
     if ($this->getConfigValue('validate.acsf') == TRUE) {
       $commands[] = 'tests:acsf:validate';
+    }
+
+    // To enable this command, set to TRUE in blt.yml.
+    if ($this->getConfigValue('validate.deprecation.modules') == TRUE) {
+      $commands[] = 'tests:deprecated:modules';
+    }
+
+    // To enable this command, set to TRUE in blt.yml.
+    if ($this->getConfigValue('validate.deprecation.themes') == TRUE) {
+      $commands[] = 'tests:deprecated:themes';
     }
 
     $status_code = $this->invokeCommands($commands);
