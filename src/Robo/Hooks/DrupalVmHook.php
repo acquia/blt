@@ -14,7 +14,7 @@ class DrupalVmHook extends BltTasks {
    * Ask whether user would like to execute on host machine.
    *
    * @hook interact @executeInVm
-   * @throws BltException
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function interactExecuteOnHost() {
     if (!$this->getInspector()->isVmCli() && $this->getInspector()->isDrupalVmLocallyInitialized() && $this->getConfigValue('vm.blt-in-vm')) {

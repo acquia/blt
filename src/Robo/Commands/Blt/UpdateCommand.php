@@ -58,7 +58,7 @@ class UpdateCommand extends BltTasks {
    *
    * @hidden
    *
-   * @throws BltException
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function createProject() {
     $this->cleanUpProjectTemplate();
@@ -79,6 +79,7 @@ class UpdateCommand extends BltTasks {
    * @return void
    *
    * @hidden
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function addToProject() {
     $this->rsyncTemplate();
@@ -127,8 +128,10 @@ class UpdateCommand extends BltTasks {
    * @command blt:update
    *
    * @aliases bu update
+   *
    * @param array $options
-   * @throws BltException
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function update($options = ['since' => InputOption::VALUE_REQUIRED]) {
     $this->rsyncTemplate();
@@ -333,7 +336,7 @@ class UpdateCommand extends BltTasks {
    *
    * @return void
    *
-   * @throws BltException
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function rsyncTemplate() {
     $source = $this->getConfigValue('blt.root') . '/subtree-splits/blt-project';

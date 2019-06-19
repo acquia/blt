@@ -32,7 +32,7 @@ class AcHooksCommand extends BltTasks {
    *   The repo type, e.g., git.
    *
    * @command artifact:ac-hooks:post-code-deploy
-   * @throws BltException
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function postCodeDeploy($site, $target_env, $source_branch, $deployed_tag, $repo_url, $repo_type) {
     if (!EnvironmentDetector::isAcsfEnv($site, $target_env)) {
@@ -61,7 +61,7 @@ class AcHooksCommand extends BltTasks {
    *
    * @command artifact:ac-hooks:post-code-update
    *
-   * @throws BltException
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function postCodeUpdate($site, $target_env, $source_branch, $deployed_tag, $repo_url, $repo_type) {
     if (!EnvironmentDetector::isAcsfEnv($site, $target_env)) {
@@ -156,7 +156,8 @@ class AcHooksCommand extends BltTasks {
 
   /**
    * Reinstall Drupal in an ODE.
-   * @throws BltException
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function updateOdeSites() {
     $this->invokeCommand('artifact:install:drupal');
@@ -166,7 +167,8 @@ class AcHooksCommand extends BltTasks {
    * Executes updates against all ACE sites in the target environment.
    *
    * @param $target_env
-   * @throws BltException
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function updateAceSites($target_env) {
     $this->say("Running updates for environment: $target_env");
@@ -256,7 +258,8 @@ class AcHooksCommand extends BltTasks {
    *
    * @param $site
    * @param $target_env
-   * @throws BltException
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function updateSites($site, $target_env) {
     if (EnvironmentDetector::isAhOdeEnv($target_env)) {

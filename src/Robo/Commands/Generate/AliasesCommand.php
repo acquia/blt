@@ -148,7 +148,7 @@ class AliasesCommand extends BltTasks {
    *
    * @return array
    *   Returns credentials as array on success.
-   * @throws BltException
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function askForCloudApiCredentials() {
     $this->say("You may generate new API tokens at <comment>https://cloud.acquia.com/app/profile/tokens</comment>");
@@ -188,7 +188,7 @@ class AliasesCommand extends BltTasks {
    * @param string $secret
    *   The Acquia token secret key.
    *
-   * @throws BltException
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function setCloudApiClient($key, $secret) {
     try {

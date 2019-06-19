@@ -21,8 +21,10 @@ class MultisiteCommand extends BltTasks {
    * @command recipes:multisite:init
    *
    * @aliases rmi multisite
+   *
    * @param array $options
-   * @throws BltException
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function generate($options = [
     'site-dir' => InputOption::VALUE_REQUIRED,
@@ -41,7 +43,6 @@ class MultisiteCommand extends BltTasks {
     $domain = $this->getNewSiteDomain($options, $site_name);
     $url = parse_url($domain);
     // @todo Validate uri, ensure includes scheme.
-
     $newDBSettings = $this->setLocalDbConfig($site_name);
     if ($this->getInspector()->isDrupalVmConfigPresent()) {
       $this->configureDrupalVm($url, $newDBSettings);

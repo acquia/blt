@@ -18,7 +18,7 @@ class ConfigCommand extends BltTasks {
    * @aliases du setup:update
    * @executeInVm
    * @throws \Robo\Exception\TaskException
-   * @throws BltException
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function update() {
     $task = $this->taskDrush()
@@ -49,7 +49,6 @@ class ConfigCommand extends BltTasks {
    * @validateDrushConfig
    * @executeInVm
    * @throws \Robo\Exception\TaskException
-   * @throws BltException
    * @throws \Exception
    */
   public function import() {
