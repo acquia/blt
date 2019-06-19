@@ -39,7 +39,7 @@ class EnvironmentDetector {
     }
 
     $is_acsf_json = file_exists("/mnt/files/$ah_group.$ah_env/files-private/sites.json");
-    $is_acsf_env_name = preg_match('/01(dev|test|live|update)(up)?/', $ah_env);
+    $is_acsf_env_name = preg_match('/\d*(dev|test|live|update)(up)?/', $ah_env);
 
     if ($is_acsf_json != $is_acsf_env_name) {
       throw new BltException("Cannot determine if this is an ACSF environment or not.");
