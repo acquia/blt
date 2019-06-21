@@ -50,6 +50,7 @@ class YamlWriter {
     $commentManager->collect(explode("\n", $this->contents));
     $alteredWithComments = $commentManager->inject(explode("\n", $alteredContents));
     $result = implode("\n", $alteredWithComments);
+    $result .= "\n";
     file_put_contents($this->filepath, $result);
   }
 

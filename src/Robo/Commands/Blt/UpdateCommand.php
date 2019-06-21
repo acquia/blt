@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Blt;
 
 use Acquia\Blt\Robo\BltTasks;
-use Acquia\Blt\Robo\Common\YamlMunge;
+use Acquia\Blt\Robo\Common\YamlWriter;
 use Acquia\Blt\Robo\Config\ConfigInitializer;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Acquia\Blt\Update\Updater;
@@ -378,14 +378,15 @@ class UpdateCommand extends BltTasks {
   }
 
   /**
-   * Sets project.name using the directory name of repot.root.
+   * Sets project.name using the directory name of repo.root.
    */
   protected function setProjectName() {
     $project_name = basename($this->getConfigValue('repo.root'));
     $project_yml = $this->getConfigValue('blt.config-files.project');
-    $project_config = YamlMunge::parseFile($project_yml);
+    $yamlWriter = new YamlWriter($project_yml);
+    $project_config = $yamlWriter->getContents();
     $project_config['project']['machine_name'] = $project_name;
-    YamlMunge::writeFile($project_yml, $project_config);
+    $yamlWriter->write($project_config);
   }
 
 }

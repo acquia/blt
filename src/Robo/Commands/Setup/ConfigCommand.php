@@ -211,6 +211,13 @@ class ConfigCommand extends BltTasks {
    */
   protected function checkConfigOverrides() {
     if (!$this->getConfigValue('cm.allow-overrides') && !$this->getInspector()->isActiveConfigIdentical()) {
+      $task = $this->taskDrush()
+        ->stopOnFail()
+        ->drush("config-status");
+      $result = $task->run();
+      if (!$result->wasSuccessful()) {
+        throw new BltException("Unable to determine configuration status.");
+      }
       throw new BltException("Configuration in the database does not match configuration on disk. This indicates that your configuration on disk needs attention. Please read https://github.com/acquia/blt/wiki/Configuration-override-test-and-errors");
     }
   }

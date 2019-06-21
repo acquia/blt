@@ -239,6 +239,10 @@ tests:
 validate:
   # You can change this to true to have blt automatically validate acsf-init.
   acsf: false
+  # You can change one or both of these to true to have blt automatically scan for deprecated code.
+  deprecation:
+    modules: false
+    themes: false
 
   deprecated:
     filesets:

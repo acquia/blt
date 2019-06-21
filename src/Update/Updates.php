@@ -800,4 +800,19 @@ class Updates {
     }
   }
 
+  /**
+   * 10.1.0.
+   *
+   * @Update(
+   *    version = "10001000",
+   *    description = "Remove composer autoload optimizations."
+   * )
+   */
+  public function update_10001000() {
+    $composer_json = $this->updater->getComposerJson();
+    unset($composer_json['config']['apcu-autoloader']);
+    unset($composer_json['config']['optimize-autoloader']);
+    $this->updater->writeComposerJson($composer_json);
+  }
+
 }
