@@ -801,7 +801,7 @@ class Updates {
   }
 
   /**
-   * 10.1.0.
+   * Version 10.1.0.
    *
    * @Update(
    *    version = "10001000",

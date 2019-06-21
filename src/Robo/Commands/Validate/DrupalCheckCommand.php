@@ -28,6 +28,15 @@ class DrupalCheckCommand extends BltTasks {
     $this->runDrupalCheck('themes');
   }
 
+  /**
+   * Run Drupal checks.
+   *
+   * @param string $type
+   *   Type of check (module or theme).
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Robo\Exception\TaskException
+   */
   public function runDrupalCheck($type) {
     $this->say("Checking for Deprecated Code in docroot/$type/custom");
     $bin = $this->getConfigValue('composer.bin');
