@@ -41,13 +41,17 @@ class ComposerMunge {
   /**
    * Merges specific keyed arrays and objects in composer.json files.
    *
-   * @param $file1_contents
-   * @param $file2_contents
+   * @param mixed $file1_contents
+   *   File 1 contents.
+   * @param mixed $file2_contents
+   *   File 2 contents.
    * @param array $exclude_keys
+   *   Exclude keys.
    *
    * @return mixed
+   *   Mixed.
    */
-  protected static function mergeKeyed($file1_contents, $file2_contents, $exclude_keys = []) {
+  protected static function mergeKeyed($file1_contents, $file2_contents, array $exclude_keys = []) {
     // Merge keyed arrays objects.
     $merge_keys = [
       'config',

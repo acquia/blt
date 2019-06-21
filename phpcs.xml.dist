@@ -2,37 +2,21 @@
 <ruleset name="blt">
   <description>BLT PHP_CodeSniffer standards.</description>
 
-  <!-- By default, warnings and errors cause an exception. -->
-  <config name="ignore_warnings_on_exit" value="0" />
-  <config name="ignore_errors_on_exit" value="0" />
-
-  <!-- Set ignore extensions. -->
-  <!-- @see https://www.drupal.org/node/2867601#comment-12075633 -->
-  <arg name="ignore" value="*.css,*.md,*.txt"/>
-
   <!-- Use colors in output. -->
   <arg name="colors"/>
   <!-- Show progress. -->
   <arg value="p"/>
+  <!-- Run in parallel. -->
+  <arg name="parallel" value="10"/>
 
-  <!-- Include existing standards. -->
-  <rule ref="Drupal">
-    <exclude name="Drupal.Commenting.FunctionComment"/>
-    <exclude name="Drupal.Commenting.DocComment"/>
+  <rule ref="AcquiaDrupal">
+    <!-- BLT makes a lot of shell exec calls. -->
+    <exclude name="Security.BadFunctions.SystemExecFunctions"/>
   </rule>
-  <!--<rule ref="DrupalPractice"/>-->
 
-  <file>bin</file>
-  <file>bin/blt</file>
-  <file>RoboFile.php</file>
-  <file>scripts/blt/examples</file>
-  <file>src/Robo</file>
-  <file>settings</file>
-  <file>tests</file>
-  <file>subtree-splits/blt-project/blt</file>
+  <file>.</file>
 
-  <exclude-pattern>*/node_modules</exclude-pattern>
-  <exclude-pattern>*/vendor</exclude-pattern>
-  <exclude-pattern>*/default.local.settings.php</exclude-pattern>
+  <exclude-pattern>vendor/*</exclude-pattern>
+  <exclude-pattern>tests/**/*.md</exclude-pattern>
 
 </ruleset>

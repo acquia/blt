@@ -1,8 +1,6 @@
 <?php
 
-namespace Acquia\Blt\Tests\BltProject;
-
-use Acquia\Blt\Tests\BltProjectTestBase;
+namespace Acquia\Blt\Tests;
 
 /**
  * Class ConfigImportTest.
@@ -11,6 +9,9 @@ use Acquia\Blt\Tests\BltProjectTestBase;
  */
 class ConfigImportTest extends BltProjectTestBase {
 
+  /**
+   * @throws \Exception
+   */
   public function setUp() {
     parent::setUp();
     $this->importDbFromFixture();
@@ -18,6 +19,7 @@ class ConfigImportTest extends BltProjectTestBase {
 
   /**
    * @group requires-db
+   * @throws \Exception
    */
   public function testNoConfig() {
     $this->drush("config-export --yes");
@@ -26,11 +28,12 @@ class ConfigImportTest extends BltProjectTestBase {
         'cm.strategy=none',
       ],
     ]);
-    $this->assertEquals(0, $status_code);
+    $this::assertEquals(0, $status_code);
   }
 
   /**
    * @group requires-db
+   * @throws \Exception
    */
   public function testFeatures() {
     $this->drush("pm-enable features --yes");
@@ -40,11 +43,12 @@ class ConfigImportTest extends BltProjectTestBase {
         'cm.strategy=features',
       ],
     ]);
-    $this->assertEquals(0, $status_code);
+    $this::assertEquals(0, $status_code);
   }
 
   /**
    * @group requires-db
+   * @throws \Exception
    */
   public function testCoreOnly() {
     $this->drush("config-export --yes");
@@ -53,11 +57,12 @@ class ConfigImportTest extends BltProjectTestBase {
         'cm.strategy=core-only',
       ],
     ]);
-    $this->assertEquals(0, $status_code);
+    static::assertEquals(0, $status_code);
   }
 
   /**
    * @group requires-db
+   * @throws \Exception
    */
   public function testConfigSplit() {
     $this->drush("pm-enable config_split --yes");
@@ -71,7 +76,7 @@ class ConfigImportTest extends BltProjectTestBase {
         'cm.strategy=config-split',
       ],
     ]);
-    $this->assertEquals(0, $status_code);
+    static::assertEquals(0, $status_code);
   }
 
 }

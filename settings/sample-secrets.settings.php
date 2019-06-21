@@ -21,6 +21,7 @@ use Acquia\Blt\Robo\Common\EnvironmentDetector;
  *
  * Note that well-designed modules should use $settings for sensitive data like
  * API keys, but others may use $config.
+ *
  * @see https://anavarre.net/from-conf-to-config-and-settings-in-drupal-8
  *
  * In addition to $ah_env, you can use other variables defined in

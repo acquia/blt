@@ -6,7 +6,7 @@ use Consolidation\Comments\Comments;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Class YamlWriter
+ * Class YamlWriter.
  *
  * @package Acquia\Blt\Robo\Common
  *
@@ -20,7 +20,8 @@ class YamlWriter {
   /**
    * YamlWriter constructor.
    *
-   * @param $filepath
+   * @param string $filepath
+   *   Filepath.
    */
   public function __construct($filepath) {
     $this->filepath = $filepath;
@@ -28,7 +29,10 @@ class YamlWriter {
   }
 
   /**
+   * Get contents.
+   *
    * @return array
+   *   Array.
    */
   public function getContents() {
     return Yaml::parse($this->contents);
@@ -38,6 +42,7 @@ class YamlWriter {
    * Writes contents to file, preserving comments.
    *
    * @param array $yaml
+   *   Yaml.
    */
   public function write(array $yaml) {
     $alteredContents = Yaml::dump($yaml, PHP_INT_MAX, 2);

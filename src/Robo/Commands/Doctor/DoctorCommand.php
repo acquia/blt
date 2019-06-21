@@ -27,6 +27,8 @@ class DoctorCommand extends BltTasks {
   }
 
   /**
+   * Run checks.
+   *
    * @command doctor:check
    *
    * @hidden

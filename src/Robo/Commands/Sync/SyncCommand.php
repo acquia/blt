@@ -148,11 +148,12 @@ class SyncCommand extends BltTasks {
   }
 
   /**
-   * @param $multisites
+   * Print sync map.
    *
-   * @return mixed
+   * @param array $multisites
+   *   Array of multisites.
    */
-  protected function printSyncMap($multisites) {
+  protected function printSyncMap(array $multisites) {
     $this->say("Sync operations be performed for the following drush aliases:");
     $sync_map = [];
     foreach ($multisites as $multisite) {

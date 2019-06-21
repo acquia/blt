@@ -19,6 +19,8 @@ class SettingsCommand extends BltTasks {
   protected $projectBehatLocalConfigFile;
 
   /**
+   * Settings warning.
+   *
    * @var string
    * Warning text added to the end of settings.php to point people to the BLT
    * docs on how to include settings.
@@ -189,7 +191,6 @@ WARNING;
    *
    * @command tests:behat:init:config
    * @aliases tbic setup:behat
-   *
    */
   public function behat() {
     $copy_map = [
@@ -260,6 +261,7 @@ WARNING;
       $result = $this->taskFilesystemStack()
         ->mkdir($this->getConfigValue('repo.root') . '/.git/hooks')
         ->remove($project_hook)
+        // phpcs:ignore
         ->symlink($path_to_hook_source, $project_hook)
         ->stopOnFail()
         ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)

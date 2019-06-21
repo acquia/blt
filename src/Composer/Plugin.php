@@ -2,8 +2,6 @@
 
 namespace Acquia\Blt\Composer;
 
-use Acquia\Blt\Robo\Common\ArrayManipulator;
-use Acquia\Blt\Update\Updater;
 use Composer\Script\Event;
 use Composer\Installer\PackageEvent;
 use Composer\Composer;
@@ -20,12 +18,12 @@ use Composer\Util\Filesystem;
 use function in_array;
 
 /**
- *
+ * Composer plugin.
  */
 class Plugin implements PluginInterface, EventSubscriberInterface {
 
   /**
-   * Package name
+   * Package name.
    */
   const PACKAGE_NAME = 'acquia/blt';
 
@@ -40,36 +38,44 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
   const CALLBACK_PRIORITY = 60000;
 
   /**
-   * @var Composer
+   * Composer.
+   *
+   * @var \Composer\Composer
    */
   protected $composer;
   /**
-   * @var IOInterface
+   * IO.
+   *
+   * @var \Composer\IO\IOInterface
    */
   protected $io;
   /**
-   * @var EventDispatcher
+   * Dispatcher.
+   *
+   * @var \Composer\Script\EventDispatcher
    */
   protected $eventDispatcher;
   /**
-   * @var ProcessExecutor
+   * Process.
+   *
+   * @var \Composer\Util\ProcessExecutor
    */
   protected $executor;
 
   /**
+   * BLT.
+   *
    * @var \Composer\Package\PackageInterface
    */
   protected $bltPackage;
 
   /**
-   * @var string*/
-  protected $blt_prior_version;
-
-  /**
    * Apply plugin modifications to composer.
    *
-   * @param Composer $composer
-   * @param IOInterface $io
+   * @param \Composer\Composer $composer
+   *   Composer.
+   * @param \Composer\IO\IOInterface $io
+   *   Io.
    */
   public function activate(Composer $composer, IOInterface $io) {
     $this->composer = $composer;
@@ -97,6 +103,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    * Modify vendor/composer/installed.json so that composer/installers is first.
    *
    * @param \Composer\Script\Event $event
+   *   Event.
    */
   public static function onPostAutoloadDump(Event $event) {
     $composer = $event->getComposer();
@@ -116,6 +123,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    * Marks blt to be processed after an install or update command.
    *
    * @param \Composer\Installer\PackageEvent $event
+   *   Event.
    */
   public function onPostPackageEvent(PackageEvent $event) {
     $package = $this->getBltPackage($event->getOperation());
@@ -127,9 +135,10 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
   }
 
   /**
-   * Execute blt blt:update after update command has been executed, if applicable.
+   * Execute blt blt:update after update command has been executed.
    *
    * @param \Composer\Script\Event $event
+   *   Event.
    */
   public function onPostCmdEvent(Event $event) {
     // Only install the template files if acquia/blt was installed.
@@ -139,16 +148,21 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     }
   }
 
+  /**
+   * Is windows.
+   */
   public static function isWindows() {
     return DIRECTORY_SEPARATOR === '\\';
   }
 
   /**
-   * Gets the acquia/blt package, if it is the package that is being operated on.
+   * Gets the acquia/blt package, if it is the package being operated on.
    *
-   * @param $operation
+   * @param mixed $operation
+   *   Op.
    *
    * @return mixed
+   *   Mixed.
    */
   protected function getBltPackage($operation) {
     if ($operation instanceof InstallOperation) {
@@ -166,7 +180,8 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
   /**
    * Executes `blt blt:update` and `blt-console blt:update` commands.
    *
-   * @param $version
+   * @param string $version
+   *   Version.
    */
   protected function executeBltUpdate($version) {
     $options = $this->getOptions();
@@ -174,7 +189,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     if ($this->isInitialInstall()) {
       $this->io->write('<info>Creating BLT templated files...</info>');
       if ($this->isNewProject()) {
-        // The BLT command will not work at this point because the .git dir doesn't exist yet.
+        // The BLT command will not work because the .git dir doesn't exist yet.
         $command = $this->getVendorPath() . '/acquia/blt/bin/blt internal:create-project --ansi';
       }
       else {
@@ -215,7 +230,8 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
   /**
    * Determine if this is a project being newly created.
    *
-   * This would execute in the context of `composer create-project acquia/blt-project`.
+   * This would execute in the context of
+   * `composer create-project acquia/blt-project`.
    *
    * @return bool
    *   TRUE if this is a newly create project.
@@ -252,6 +268,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    * Get the path to the 'vendor' directory.
    *
    * @return string
+   *   String.
    */
   public function getVendorPath() {
     $config = $this->composer->getConfig();
@@ -266,6 +283,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    * Retrieve "extra" configuration.
    *
    * @return array
+   *   Options.
    */
   protected function getOptions() {
     $defaults = [
@@ -283,7 +301,9 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    * Example usage: $this->executeCommand("test command %s", [ $value ]).
    *
    * @param string $cmd
+   *   Cmd.
    * @param array $args
+   *   Args.
    * @param bool $display_output
    *   Optional. Defaults to FALSE. If TRUE, command output will be displayed
    *   on screen.
@@ -291,7 +311,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    * @return bool
    *   TRUE if command returns successfully with a 0 exit code.
    */
-  protected function executeCommand($cmd, $args = [], $display_output = FALSE) {
+  protected function executeCommand($cmd, array $args = [], $display_output = FALSE) {
     // Shell-escape all arguments.
     foreach ($args as $index => $arg) {
       $args[$index] = escapeshellarg($arg);
