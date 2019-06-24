@@ -30,7 +30,7 @@ Ensure that [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12) is 
 Then install the minimum dependencies for BLT. The preferred method is via Homebrew, though you could install these yourself without a package manager.
 
         /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-        brew install php71 git composer drush
+        brew install php71 git composer 
         composer global require hirak/prestissimo:^0.3
         composer global require zaporylie/composer-drupal-optimizations:^1.1
 
