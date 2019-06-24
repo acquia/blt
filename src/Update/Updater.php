@@ -16,53 +16,73 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
 
 /**
- *
+ * Helper class to run BLT updates.
  */
 class Updater {
 
   /**
+   * Annotations reader.
+   *
    * @var \Doctrine\Common\Annotations\IndexedReader
    */
   protected $annotationsReader;
 
   /**
+   * Console output.
+   *
    * @var \Symfony\Component\Console\Output\ConsoleOutput*/
   protected $output;
 
   /**
+   * Formatter helper.
+   *
    * @var \Symfony\Component\Console\Helper\FormatterHelper
    */
   protected $formatter;
 
   /**
+   * Repo root.
+   *
    * @var string*/
   protected $repoRoot;
 
   /**
+   * BLT root.
+   *
    * @var string
    */
   protected $bltRoot;
 
   /**
+   * Filesystem.
+   *
    * @var \Symfony\Component\Filesystem\Filesystem*/
   protected $fs;
 
   /**
+   * Composer.json file path.
+   *
    * @var string
    */
   protected $composerJsonFilepath;
 
   /**
+   * Composer.required.json file path.
+   *
    * @var string
    */
   protected $composerRequiredJsonFilepath;
 
   /**
+   * Composer.suggested.json file path.
+   *
    * @var string
    */
   protected $composerSuggestedJsonFilepath;
 
   /**
+   * Cloud hooks status.
+   *
    * @var bool
    */
   protected $cloudHooksAlreadyUpdated = FALSE;
@@ -127,31 +147,44 @@ class Updater {
    * Sets $this->bltRoot.
    *
    * @param string $blt_root
+   *   BLT root.
    */
   public function setBltRoot($blt_root) {
     $this->bltRoot = $blt_root;
   }
 
+  /**
+   * Get BLT root.
+   */
   public function getBltRoot() {
     return $this->bltRoot;
   }
 
   /**
-   * @return ConsoleOutput
+   * Gets output.
+   *
+   * @return \Symfony\Component\Console\Output\ConsoleOutput
+   *   Console output.
    */
   public function getOutput() {
     return $this->output;
   }
 
   /**
+   * Gets formatter.
+   *
    * @return \Symfony\Component\Console\Helper\FormatterHelper
+   *   Formatter helper.
    */
   public function getFormatter() {
     return $this->formatter;
   }
 
   /**
+   * Gets filesystem.
+   *
    * @return \Symfony\Component\Filesystem\Filesystem
+   *   Filesystem.
    */
   public function getFileSystem() {
     return $this->fs;
@@ -160,17 +193,14 @@ class Updater {
   /**
    * Executes an array of updates.
    *
-   * @param $updates \Acquia\Blt\Annotations\Update[]
+   * @param \Acquia\Blt\Annotations\Update[] $updates
+   *   List of updates.
    */
-  public function executeUpdates($updates) {
+  public function executeUpdates(array $updates) {
     /** @var Updates $updates_object */
     $updates_object = new $this->updateClassName($this);
     $this->output->writeln("Executing updates...");
 
-    /**
-     * @var string $method_name
-     * @var Update $update
-     */
     foreach ($updates as $method_name => $update) {
       $this->output->writeln("-> $method_name: {$update->description}");
       call_user_func([$updates_object, $method_name]);
@@ -180,13 +210,10 @@ class Updater {
   /**
    * Prints a human-readable list of update methods to the screen.
    *
-   * @param $updates \Acquia\Blt\Annotations\Update[]
+   * @param \Acquia\Blt\Annotations\Update[] $updates
+   *   List of updates.
    */
-  public function printUpdates($updates) {
-    /**
-     * @var string $method_name
-     * @var Update $update
-     */
+  public function printUpdates(array $updates) {
     foreach ($updates as $method_name => $update) {
       $this->output->writeln(" - $method_name: {$update->description}");
     }
@@ -198,7 +225,6 @@ class Updater {
    *
    * @param string $starting_version
    *   The starting version, e.g., 8005000.
-   *
    * @param string $ending_version
    *   The ending version, e.g., 8005001.
    *
@@ -214,10 +240,6 @@ class Updater {
     $updates = [];
     $update_methods = $this->getAllUpdateMethods();
 
-    /**
-     * @var string $method_name
-     * @var Update $metadata
-     */
     foreach ($update_methods as $method_name => $metadata) {
       $version = $metadata->version;
 
@@ -253,7 +275,7 @@ class Updater {
   /**
    * Gets the latest (highest numbered) update method.
    *
-   * @return int mixed
+   * @return int|mixed
    *   Returns the schema version for the latest update method.
    */
   public function getLatestUpdateMethodVersion() {
@@ -270,12 +292,17 @@ class Updater {
   }
 
   /**
+   * Runs a command.
+   *
    * @param string $command
+   *   Command.
    * @param string $cwd
+   *   Working directory.
    * @param bool $display_output
    *   Optional. Whether to print command output to screen. Changes return
    *   value.
    * @param bool $mustRun
+   *   Must run.
    *
    * @return bool|string
    *   If $display_output is true, method will return TRUE for success, FALSE
@@ -305,7 +332,6 @@ class Updater {
    *
    * @param string $package
    *   The composer package name, e.g., 'drupal/features'.
-   *
    * @param string $url
    *   The URL of the patch.
    *
@@ -434,7 +460,7 @@ class Updater {
    * @param array $contents
    *   The new contents of composer.json.
    */
-  public function writeComposerJson($contents) {
+  public function writeComposerJson(array $contents) {
     // Ensure that require and require-dev are objects and not arrays.
     if (array_key_exists('require', $contents) && is_array($contents['require'])) {
       ksort($contents['require']);
@@ -444,34 +470,46 @@ class Updater {
       ksort($contents['require-dev']);
       $contents['require-dev'] = (object) $contents['require-dev'];
     }
-    file_put_contents($this->composerJsonFilepath, json_encode($contents, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+    file_put_contents($this->composerJsonFilepath, json_encode($contents, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL);
   }
 
   /**
+   * Get project yml.
+   *
    * @return mixed
+   *   Project YAML.
    */
   public function getProjectYml() {
     return YamlMunge::parseFile($this->projectYmlFilepath);
   }
 
   /**
+   * Get project local yml.
+   *
    * @return mixed
+   *   Project YAML.
    */
   public function getProjectLocalYml() {
     return YamlMunge::parseFile($this->projectLocalYmlFilepath);
   }
 
   /**
-   * @param $contents
+   * Write project yml.
+   *
+   * @param array $contents
+   *   YAML contents.
    */
-  public function writeProjectYml($contents) {
+  public function writeProjectYml(array $contents) {
     YamlMunge::writeFile($this->projectYmlFilepath, $contents);
   }
 
   /**
-   * @param $contents
+   * Write project local yml.
+   *
+   * @param array $contents
+   *   YAML contents.
    */
-  public function writeProjectLocalYml($contents) {
+  public function writeProjectLocalYml(array $contents) {
     YamlMunge::writeFile($this->projectLocalYmlFilepath, $contents);
   }
 
@@ -482,6 +520,8 @@ class Updater {
    *   The source filepath, relative to the repository root.
    * @param string $target
    *   The target filepath, relative to the repository root.
+   * @param bool $overwrite
+   *   Whether to overwrite.
    *
    * @return bool
    *   FALSE if nothing happened.
@@ -547,7 +587,10 @@ class Updater {
   }
 
   /**
+   * Delete file.
+   *
    * @param string|array $filepaths
+   *   Filepaths to delete.
    */
   public function deleteFile($filepaths) {
     $filepaths = (array) $filepaths;

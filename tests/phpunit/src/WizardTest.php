@@ -13,7 +13,7 @@ use Symfony\Component\Yaml\Yaml;
 class WizardTest extends BltProjectTestBase {
 
   /**
-   * Tests wizard with recipe file option
+   * Tests wizard with recipe file option.
    */
   public function testWizardUsingRecipe() {
     $recipe_filepath = $this->bltDirectory . '/tests/phpunit/fixtures/recipe.yml';

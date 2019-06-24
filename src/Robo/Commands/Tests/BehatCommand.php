@@ -49,6 +49,7 @@ class BehatCommand extends TestsCommandBase {
    * @validateVmConfig
    * @launchWebServer
    * @executeInVm
+   *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    * @throws \Exception
    */

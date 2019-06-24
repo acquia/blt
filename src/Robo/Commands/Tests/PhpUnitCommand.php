@@ -11,8 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class PhpUnitCommand extends DrupalTestCommand {
 
   /**
-   * An array that contains configuration to override /
-   * customize phpunit commands.
+   * An array that contains configuration to customize phpunit commands.
    *
    * @var array
    */

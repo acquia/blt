@@ -17,8 +17,9 @@ class ConfigCommand extends BltTasks {
    * @command drupal:update
    * @aliases du setup:update
    * @executeInVm
+   *
    * @throws \Robo\Exception\TaskException
-   * @throws BltException
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function update() {
     $task = $this->taskDrush()
@@ -48,8 +49,8 @@ class ConfigCommand extends BltTasks {
    *
    * @validateDrushConfig
    * @executeInVm
+   *
    * @throws \Robo\Exception\TaskException
-   * @throws BltException
    * @throws \Exception
    */
   public function import() {
@@ -121,8 +122,10 @@ class ConfigCommand extends BltTasks {
   /**
    * Import configuration using core config management only.
    *
-   * @param \Acquia\Blt\Robo\Tasks\DrushTask $task
+   * @param mixed $task
+   *   Drush task.
    * @param string $cm_core_key
+   *   Cm core key.
    */
   protected function importCoreOnly($task, $cm_core_key) {
     $task->drush("config-import")->arg($cm_core_key);
@@ -131,8 +134,10 @@ class ConfigCommand extends BltTasks {
   /**
    * Import configuration using config_split module.
    *
-   * @param \Acquia\Blt\Robo\Tasks\DrushTask $task
+   * @param mixed $task
+   *   Drush task.
    * @param string $cm_core_key
+   *   Cm core key.
    */
   protected function importConfigSplit($task, $cm_core_key) {
     $task->drush("pm-enable")->arg('config_split');
@@ -145,8 +150,10 @@ class ConfigCommand extends BltTasks {
   /**
    * Import configuration using features module.
    *
-   * @param \Acquia\Blt\Robo\Tasks\DrushTask $task
+   * @param mixed $task
+   *   Drush task.
    * @param string $cm_core_key
+   *   Cm core key.
    */
   protected function importFeatures($task, $cm_core_key) {
     $task->drush("config-import")->arg($cm_core_key)->option('partial');
@@ -204,6 +211,13 @@ class ConfigCommand extends BltTasks {
    */
   protected function checkConfigOverrides() {
     if (!$this->getConfigValue('cm.allow-overrides') && !$this->getInspector()->isActiveConfigIdentical()) {
+      $task = $this->taskDrush()
+        ->stopOnFail()
+        ->drush("config-status");
+      $result = $task->run();
+      if (!$result->wasSuccessful()) {
+        throw new BltException("Unable to determine configuration status.");
+      }
       throw new BltException("Configuration in the database does not match configuration on disk. This indicates that your configuration on disk needs attention. Please read https://github.com/acquia/blt/wiki/Configuration-override-test-and-errors");
     }
   }
@@ -212,8 +226,10 @@ class ConfigCommand extends BltTasks {
    * Returns the site UUID stored in exported configuration.
    *
    * @param string $cm_core_key
+   *   Cm core key.
    *
    * @return null
+   *   Mixed.
    */
   protected function getExportedSiteUuid($cm_core_key) {
     $site_config_file = $this->getConfigValue('docroot') . '/' . $this->getConfigValue("cm.core.dirs.$cm_core_key.path") . '/system.site.yml';

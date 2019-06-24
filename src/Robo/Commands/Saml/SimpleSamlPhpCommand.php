@@ -16,7 +16,10 @@ class SimpleSamlPhpCommand extends BltTasks {
   protected $bltRoot;
   protected $repoRoot;
   protected $deployDir;
+
   /**
+   * Formatter helper.
+   *
    * @var \Symfony\Component\Console\Helper\FormatterHelper
    */
   protected $formatter;
@@ -38,6 +41,8 @@ class SimpleSamlPhpCommand extends BltTasks {
    *
    * @command recipes:simplesamlphp:init
    * @aliases rsi saml simplesamlphp:init
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function initializeSimpleSamlPhp() {
     $this->requireModule();
@@ -107,7 +112,8 @@ class SimpleSamlPhpCommand extends BltTasks {
    *
    * @command artifact:build:simplesamlphp-config
    * @aliases absc
-   * @throws BltException
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function simpleSamlPhpDeployConfig() {
     $this->say('Copying config files to the appropriate place in simplesamlphp library in the deploy artifact...');
@@ -131,6 +137,7 @@ class SimpleSamlPhpCommand extends BltTasks {
 
   /**
    * Sets value in blt.yml to let targets know simplesamlphp is installed.
+   *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function setSimpleSamlPhpInstalled() {
@@ -151,13 +158,15 @@ class SimpleSamlPhpCommand extends BltTasks {
 
   /**
    * Creates a symlink from the docroot to the web accessible library dir.
+   *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function symlinkDocrootToLibDir() {
     $docroot = $this->getConfigValue('docroot');
 
     $this->say("Creating a symbolic link from ${docroot}/simplesaml to web accessible directory in the simplesamlphp library...");
-    $result = $this->taskFileSystemStack()
+    $result = $this->taskFilesystemStack()
+      //phpcs:ignore
       ->symlink("../vendor/simplesamlphp/simplesamlphp/www", "${docroot}/simplesaml")
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
@@ -172,6 +181,7 @@ class SimpleSamlPhpCommand extends BltTasks {
    *
    * @command source:build:simplesamlphp-config
    * @aliases sbsc
+   *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function simpleSamlPhpBuildConfig() {

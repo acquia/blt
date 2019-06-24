@@ -2,6 +2,7 @@
 
 /**
  * @file
+ * Tugboat settings.
  */
 
 $databases = [

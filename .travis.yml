@@ -7,19 +7,13 @@ addons:
   chrome: stable
 
 cache:
-  bundler: true
-  apt: true
   directories:
     - "$HOME/.composer/cache"
-    - "$HOME/.console"
     - "$HOME/.drush/cache"
-    - "$HOME/.nvm"
-    - "$TMPDIR/blt-sandbox-instance/.rules"
     - "$TMPDIR/phpstan/cache"
 
 services:
   - mysql
-  - xvfb
 
 env:
   global:

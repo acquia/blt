@@ -5,7 +5,8 @@ namespace Acquia\Blt\Robo\Tasks;
 use Robo\Task\Vcs\GitStack;
 
 /**
- * Class GitTask
+ * Class GitTask.
+ *
  * @package Acquia\Blt\Robo\Tasks
  *
  * Runs Git tasks using BLT-specific helpers, such as setting the commit author.
@@ -13,6 +14,8 @@ use Robo\Task\Vcs\GitStack;
 class GitTask extends GitStack {
 
   /**
+   * Commit.
+   *
    * @inheritDoc
    */
   public function commit($message, $options = "") {
@@ -32,6 +35,8 @@ class GitTask extends GitStack {
   }
 
   /**
+   * Tag.
+   *
    * @inheritDoc
    */
   public function tag($tag_name, $message = "") {

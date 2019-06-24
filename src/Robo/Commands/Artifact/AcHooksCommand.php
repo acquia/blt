@@ -20,19 +20,20 @@ class AcHooksCommand extends BltTasks {
    * @param string $site
    *   The site name, e.g., site1.
    * @param string $target_env
-   *   The cloud env, e.g., dev
+   *   The cloud env, e.g., dev.
    * @param string $source_branch
    *   The source branch, e.g., master.
    * @param string $deployed_tag
    *   The tag or branch to which the source was deployed, e.g., master or
-   * 1.0.0.
+   *   1.0.0.
    * @param string $repo_url
-   *   The repo url, e.g., s1@svn-3.bjaspan.hosting.acquia.com:s1.git
+   *   The repo url, e.g., s1@svn-3.bjaspan.hosting.acquia.com:s1.git.
    * @param string $repo_type
    *   The repo type, e.g., git.
    *
    * @command artifact:ac-hooks:post-code-deploy
-   * @throws BltException
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function postCodeDeploy($site, $target_env, $source_branch, $deployed_tag, $repo_url, $repo_type) {
     if (!EnvironmentDetector::isAcsfEnv($site, $target_env)) {
@@ -48,20 +49,20 @@ class AcHooksCommand extends BltTasks {
    * @param string $site
    *   The site name, e.g., site1.
    * @param string $target_env
-   *   The cloud env, e.g., dev
+   *   The cloud env, e.g., dev.
    * @param string $source_branch
    *   The source branch, e.g., master.
    * @param string $deployed_tag
    *   The tag or branch to which the source was deployed, e.g., master or
-   * 1.0.0.
+   *   1.0.0.
    * @param string $repo_url
-   *   The repo url, e.g., s1@svn-3.bjaspan.hosting.acquia.com:s1.git
+   *   The repo url, e.g., s1@svn-3.bjaspan.hosting.acquia.com:s1.git.
    * @param string $repo_type
    *   The repo type, e.g., git.
    *
    * @command artifact:ac-hooks:post-code-update
    *
-   * @throws BltException
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function postCodeUpdate($site, $target_env, $source_branch, $deployed_tag, $repo_url, $repo_type) {
     if (!EnvironmentDetector::isAcsfEnv($site, $target_env)) {
@@ -86,7 +87,7 @@ class AcHooksCommand extends BltTasks {
    * @param string $site
    *   The site name. E.g., site1.
    * @param string $target_env
-   *   The cloud env. E.g., dev
+   *   The cloud env. E.g., dev.
    * @param string $db_name
    *   The source database name.
    * @param string $source_env
@@ -106,7 +107,7 @@ class AcHooksCommand extends BltTasks {
    * @param string $site
    *   The site name. E.g., site1.
    * @param string $target_env
-   *   The cloud env. E.g., dev
+   *   The cloud env. E.g., dev.
    * @param string $source_env
    *   The source environment. E.g., dev.
    *
@@ -124,11 +125,12 @@ class AcHooksCommand extends BltTasks {
    * @param string $site
    *   The site name, e.g., site1.
    * @param string $target_env
-   *   The cloud env, e.g., dev
+   *   The cloud env, e.g., dev.
    * @param string $db_name
    *   The name of the database.
    * @param string $source_env
    *   The source environment.
+   *
    * @command artifact:ac-hooks:db-scrub
    *
    * @throws \Exception
@@ -156,7 +158,8 @@ class AcHooksCommand extends BltTasks {
 
   /**
    * Reinstall Drupal in an ODE.
-   * @throws BltException
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function updateOdeSites() {
     $this->invokeCommand('artifact:install:drupal');
@@ -165,8 +168,10 @@ class AcHooksCommand extends BltTasks {
   /**
    * Executes updates against all ACE sites in the target environment.
    *
-   * @param $target_env
-   * @throws BltException
+   * @param string $target_env
+   *   Target env.
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function updateAceSites($target_env) {
     $this->say("Running updates for environment: $target_env");
@@ -177,11 +182,16 @@ class AcHooksCommand extends BltTasks {
   /**
    * Sends updates to notification endpoints.
    *
-   * @param $site
-   * @param $target_env
-   * @param $source_branch
-   * @param $deployed_tag
-   * @param $success
+   * @param string $site
+   *   Site.
+   * @param string $target_env
+   *   Target Env.
+   * @param string $source_branch
+   *   Source branch.
+   * @param string $deployed_tag
+   *   Deployed tag.
+   * @param string $success
+   *   Success.
    */
   protected function sendPostCodeUpdateNotifications($site, $target_env, $source_branch, $deployed_tag, $success) {
     $is_tag = $source_branch != $deployed_tag;
@@ -202,8 +212,12 @@ class AcHooksCommand extends BltTasks {
   }
 
   /**
-   * @param $success
-   * @param $message
+   * Notify slack.
+   *
+   * @param string $success
+   *   Success.
+   * @param string $message
+   *   Message.
    */
   protected function notifySlack($success, $message) {
     $slack_webhook_url = $this->getSlackWebhookUrl();
@@ -221,6 +235,7 @@ class AcHooksCommand extends BltTasks {
    * Gets slack web url.
    *
    * @return array|false|mixed|null|string
+   *   Hook URL.
    */
   protected function getSlackWebhookUrl() {
     if ($this->getConfig()->has('slack.webhook-url')) {
@@ -237,8 +252,10 @@ class AcHooksCommand extends BltTasks {
   /**
    * Sends a message to a slack channel.
    *
-   * @param $url
-   * @param $payload
+   * @param string $url
+   *   URL.
+   * @param mixed $payload
+   *   Payload.
    */
   protected function sendSlackNotification($url, $payload) {
     $this->say("Sending slack notification...");
@@ -254,9 +271,12 @@ class AcHooksCommand extends BltTasks {
   /**
    * Executes updates against all sites.
    *
-   * @param $site
-   * @param $target_env
-   * @throws BltException
+   * @param string $site
+   *   Site.
+   * @param string $target_env
+   *   Target env.
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function updateSites($site, $target_env) {
     if (EnvironmentDetector::isAhOdeEnv($target_env)) {

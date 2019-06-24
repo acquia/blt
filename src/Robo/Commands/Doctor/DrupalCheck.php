@@ -3,10 +3,15 @@
 namespace Acquia\Blt\Robo\Commands\Doctor;
 
 /**
- *
+ * BLT Doctor checks for Drupal.
  */
 class DrupalCheck extends DoctorCheck {
 
+  /**
+   * Perform all checks.
+   *
+   * @inheritDoc
+   */
   public function performAllChecks() {
     $this->checkCoreExists();
     $this->checkDrupalBootstrapped();
@@ -17,6 +22,7 @@ class DrupalCheck extends DoctorCheck {
    * Indicates whether Drupal core files exist in the docroot.
    *
    * @return bool
+   *   Whether core exists.
    */
   protected function coreExists() {
     return file_exists($this->drushStatus['root'] . '/core/includes/install.core.inc');

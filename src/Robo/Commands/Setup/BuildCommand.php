@@ -38,8 +38,10 @@ class BuildCommand extends BltTasks {
   }
 
   /**
-   * Set correct permissions for directories (755) and files (644) in
-   * docroot/sites/[site] (excluding docroot/sites/[site]/files).
+   * Set correct permissions.
+   *
+   * For directories (755) and files (644) in docroot/sites/[site] (excluding
+   * docroot/sites/[site]/files).
    */
   protected function setSitePermissions() {
     $taskFilesystemStack = $this->taskFilesystemStack();

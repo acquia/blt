@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Blt;
 
 use Acquia\Blt\Robo\BltTasks;
-use Acquia\Blt\Robo\Common\YamlMunge;
+use Acquia\Blt\Robo\Common\YamlWriter;
 use Acquia\Blt\Robo\Config\ConfigInitializer;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Acquia\Blt\Update\Updater;
@@ -17,16 +17,22 @@ use Symfony\Component\Filesystem\Filesystem;
 class UpdateCommand extends BltTasks {
 
   /**
+   * Updater.
+   *
    * @var \Acquia\Blt\Update\Updater
    */
   protected $updater;
 
   /**
+   * Current schema.
+   *
    * @var string
    */
   protected $currentSchemaVersion;
 
   /**
+   * Exclude files.
+   *
    * @var array
    * Files that exist in the BLT Project repo but aren't actually part of the
    * project template. They are only used for testing, licensing, etc...
@@ -50,7 +56,7 @@ class UpdateCommand extends BltTasks {
   }
 
   /**
-   * (internal) Generates all necessary files for a brand new BLTed repo.
+   * Generates all necessary files for a brand new BLTed repo.
    *
    * Called during `composer create-project acquia/blt-project`.
    *
@@ -58,7 +64,7 @@ class UpdateCommand extends BltTasks {
    *
    * @hidden
    *
-   * @throws BltException
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function createProject() {
     $this->cleanUpProjectTemplate();
@@ -72,13 +78,13 @@ class UpdateCommand extends BltTasks {
   }
 
   /**
-   * (internal) Prepares a repo that is adding BLT for the first time.
+   * Prepares a repo that is adding BLT for the first time.
    *
    * @command internal:add-to-project
    *
-   * @return void
-   *
    * @hidden
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function addToProject() {
     $this->rsyncTemplate();
@@ -124,13 +130,16 @@ class UpdateCommand extends BltTasks {
   /**
    * Updates files from BLT's template and executes scripted updates.
    *
+   * @param array $options
+   *   Options.
+   *
    * @command blt:update
    *
    * @aliases bu update
-   * @param array $options
-   * @throws BltException
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
-  public function update($options = ['since' => InputOption::VALUE_REQUIRED]) {
+  public function update(array $options = ['since' => InputOption::VALUE_REQUIRED]) {
     $this->rsyncTemplate();
 
     $starting_version = $options['since'] ?: $this->currentSchemaVersion;
@@ -196,7 +205,7 @@ class UpdateCommand extends BltTasks {
   }
 
   /**
-   * (internal) Initializes the project repo and performs initial commit.
+   * Initializes the project repo and performs initial commit.
    *
    * @command internal:create-project:init-repo
    *
@@ -237,8 +246,6 @@ class UpdateCommand extends BltTasks {
 
   /**
    * Cleans up undesired files left behind by acquia/blt-project.
-   *
-   * @return \Robo\Result
    */
   protected function cleanUpProjectTemplate() {
     $repo_root = $this->getConfigValue('repo.root');
@@ -274,7 +281,8 @@ class UpdateCommand extends BltTasks {
   /**
    * Executes all update hooks for a given schema delta.
    *
-   * @param $starting_version
+   * @param string $starting_version
+   *   Starting version.
    *
    * @return bool
    *   TRUE if updates were successfully executed.
@@ -331,9 +339,7 @@ class UpdateCommand extends BltTasks {
   /**
    * Rsyncs files from BLT's template dir into project root dir.
    *
-   * @return void
-   *
-   * @throws BltException
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function rsyncTemplate() {
     $source = $this->getConfigValue('blt.root') . '/subtree-splits/blt-project';
@@ -364,21 +370,23 @@ class UpdateCommand extends BltTasks {
     }
   }
 
+  /**
+   * Convert path.
+   */
   protected function convertWindowsPathToCygwinPath($path) {
     return str_replace('\\', '/', preg_replace('/([A-Z]):/i', '/cygdrive/$1', $path));
   }
 
   /**
-   * Sets project.name using the directory name of repot.root.
-   *
-   * @return \Robo\Result
+   * Sets project.name using the directory name of repo.root.
    */
   protected function setProjectName() {
     $project_name = basename($this->getConfigValue('repo.root'));
     $project_yml = $this->getConfigValue('blt.config-files.project');
-    $project_config = YamlMunge::parseFile($project_yml);
+    $yamlWriter = new YamlWriter($project_yml);
+    $project_config = $yamlWriter->getContents();
     $project_config['project']['machine_name'] = $project_name;
-    YamlMunge::writeFile($project_yml, $project_config);
+    $yamlWriter->write($project_config);
   }
 
 }

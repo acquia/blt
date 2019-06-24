@@ -3,10 +3,13 @@
 namespace Acquia\Blt\Robo\Commands\Doctor;
 
 /**
- *
+ * BLT doctor checks for PHP.
  */
 class PhpCheck extends DoctorCheck {
 
+  /**
+   * Perform all checks.
+   */
   public function performAllChecks() {
     $this->checkPhpDateTimezone();
   }
