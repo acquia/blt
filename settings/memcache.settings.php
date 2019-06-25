@@ -24,12 +24,11 @@ if ($memcache_module_is_present && ($memcache_exists || $memcached_exists)) {
     $settings['container_yamls'][] = $memcache_services_yml;
 
     // Acquia Default Settings for the memcache module
-    // Default settings for the Memcache module
-
-     // Enable compression for PHP 7.
+    // Default settings for the Memcache module.
+    // Enable compression for PHP 7.
     $settings['memcache']['options'][Memcached::OPT_COMPRESSION] = TRUE;
 
-     // Ensure key_prefix is set to avoid drush cr flushing all memcache bins on multisite
+    // Set key_prefix to avoid drush cr flushing all bins on multisite.
     $settings['memcache']['key_prefix'] = $conf['acquia_hosting_site_info']['db']['name'] . '_';
 
     // Settings for SASL Authenticated Memcached.
@@ -81,9 +80,9 @@ if ($memcache_module_is_present && ($memcache_exists || $memcached_exists)) {
       ],
     ];
 
-    // Use memcache for bootstrap, discovery, config instead of fast chained backend to properly
-    // invalidate caches on multiple webs. See https://www.drupal.org/node/2754947
-
+    // Use memcache for bootstrap, discovery, config instead of fast chained
+    // backend to properly invalidate caches on multiple webs.
+    // See https://www.drupal.org/node/2754947
     $settings['cache']['bins']['bootstrap'] = 'cache.backend.memcache';
     $settings['cache']['bins']['discovery'] = 'cache.backend.memcache';
     $settings['cache']['bins']['config'] = 'cache.backend.memcache';
@@ -91,4 +90,4 @@ if ($memcache_module_is_present && ($memcache_exists || $memcached_exists)) {
     // Use memcache as the default bin.
     $settings['cache']['default'] = 'cache.backend.memcache';
   }
- }
+}
