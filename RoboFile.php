@@ -17,9 +17,32 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
 
   use LoggerAwareTrait;
 
+  /**
+   * BLT root.
+   *
+   * @var string
+   */
   protected $bltRoot;
+
+  /**
+   * Binary.
+   *
+   * @var string
+   */
   protected $bin;
+
+  /**
+   * Drupal PHPCS standard.
+   *
+   * @var string
+   */
   protected $drupalPhpcsStandard;
+
+  /**
+   * PHPCS paths.
+   *
+   * @var string
+   */
   protected $phpcsPaths;
 
   const BLT_DEV_BRANCH = "10.x";

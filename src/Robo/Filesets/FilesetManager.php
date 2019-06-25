@@ -201,7 +201,7 @@ class FilesetManager implements ConfigAwareInterface, LoggerAwareInterface {
    *   The intersection of $files and the fileset.
    */
   public function filterFilesByFileset(array $files, $fileset) {
-    $absolute_files = array_map(array($this, 'prependRepoRoot'), $files);
+    $absolute_files = array_map([$this, 'prependRepoRoot'], $files);
 
     // @todo Compare performance of this vs. using
     // array_intersect($files, array_keys(iterator_to_array($fileset)));

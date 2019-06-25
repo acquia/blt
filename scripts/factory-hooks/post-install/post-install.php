@@ -79,7 +79,7 @@ $command = sprintf(
 fwrite(STDERR, "Executing: $command with cache dir $cache_directory;\n");
 
 $result = 0;
-$output = array();
+$output = [];
 exec($command, $output, $result);
 print implode("\n", $output);
 

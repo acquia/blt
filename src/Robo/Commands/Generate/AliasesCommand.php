@@ -342,7 +342,7 @@ class AliasesCommand extends BltTasks {
    *   The full alias for this site.
    */
   protected function getAliases($uri, $envName, $remoteHost, $remoteUser, $siteID) {
-    $alias = array();
+    $alias = [];
     // Skip wildcard domains.
     $skip_site = FALSE;
     if (strpos($uri, ':*') !== FALSE) {
