@@ -3,10 +3,13 @@
 namespace Acquia\Blt\Robo\Commands\Doctor;
 
 /**
- *
+ * BLT Doctor checks.
  */
 class DbCheck extends DoctorCheck {
 
+  /**
+   * Perform all checks.
+   */
   public function performAllChecks() {
     if ($this->checkRequiredKeys()) {
       $this->checkDbConnection();
@@ -17,6 +20,7 @@ class DbCheck extends DoctorCheck {
    * Check that required drush status keys exist.
    *
    * @return bool
+   *   Bool.
    */
   protected function checkRequiredKeys() {
     $keys = [

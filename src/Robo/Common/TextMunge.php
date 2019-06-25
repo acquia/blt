@@ -38,6 +38,7 @@ class TextMunge {
    *   The second array.
    *
    * @return array
+   *   Array.
    */
   public static function arrayMergeNoDuplicates(array &$array1, array &$array2) {
     $merged = array_merge($array1, $array2);

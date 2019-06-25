@@ -7,7 +7,11 @@
 
 use Acquia\Blt\Robo\Common\EnvironmentDetector;
 
-/** @var array $settings */
+/**
+ * Settings.
+ *
+ * @var array $settings
+ */
 
 if (EnvironmentDetector::isProdEnv() || EnvironmentDetector::isStageEnv()) {
   $config['system.logging']['error_level'] = 'hide';

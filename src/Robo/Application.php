@@ -23,6 +23,8 @@ class Application extends ConsoleApplication {
   }
 
   /**
+   * Run command.
+   *
    * @{inheritdoc}
    */
   protected function doRunCommand(Command $command, InputInterface $input, OutputInterface $output) {

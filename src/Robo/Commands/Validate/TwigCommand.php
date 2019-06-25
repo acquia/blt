@@ -35,11 +35,11 @@ class TwigCommand extends BltTasks {
   /**
    * Executes Twig validator against a list of files, if in twig.filesets.
    *
-   * @command tests:twig:lint:files
-   * @aliases ttlf
-   *
    * @param string $file_list
    *   A list of files to scan, separated by \n.
+   *
+   * @command tests:twig:lint:files
+   * @aliases ttlf
    */
   public function lintFileList($file_list) {
     $this->say("Linting twig files...");
@@ -60,6 +60,7 @@ class TwigCommand extends BltTasks {
    * Lints twig against multiple filesets.
    *
    * @param \Symfony\Component\Finder\Finder[] $filesets
+   *   Filesets.
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
@@ -101,6 +102,7 @@ class TwigCommand extends BltTasks {
    * Creates the Twig lint command.
    *
    * @return \Symfony\Bridge\Twig\Command\LintCommand
+   *   Lint command.
    */
   protected function createTwigLintCommand() {
     $twig = new Environment(new FilesystemLoader());
@@ -149,6 +151,7 @@ class TwigCommand extends BltTasks {
     // Add Drupal Twig parser to include trans tag.
     $token_parser_filename = $repo_root . '/docroot/core/lib/Drupal/Core/Template/TwigTransTokenParser.php';
     if (file_exists($token_parser_filename)) {
+      // phpcs:ignore
       require_once $token_parser_filename;
       $twig->addTokenParser(new TwigTransTokenParser());
     }

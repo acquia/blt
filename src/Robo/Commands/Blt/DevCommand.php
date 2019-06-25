@@ -22,11 +22,12 @@ class DevCommand extends BltTasks {
    * Also sets up DrupalVM NFS mounts to use this BLT path. This currently
    * requires the BLT path to be '../../packages/blt'.
    *
-   * @command blt:dev:link-composer
-   *
    * @param array $options
+   *   Options.
+   *
+   * @command blt:dev:link-composer
    */
-  public function linkComposer($options = ['blt-path' => '../../packages/blt']) {
+  public function linkComposer(array $options = ['blt-path' => '../../packages/blt']) {
     if (!file_exists($options['blt-path'] . '/src/Robo/Blt.php')) {
       $this->logger->error("Could not find BLT at {$options['blt-path']}. Please provide a valid blt-path argument.");
       return;

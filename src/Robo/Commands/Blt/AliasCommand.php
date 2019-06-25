@@ -146,12 +146,13 @@ class AliasCommand extends BltTasks {
   /**
    * Find the position of a closing bracket for a given stanza in a string.
    *
-   * @param $contents
+   * @param string $contents
    *   The string containing the brackets.
    * @param int $start_pos
    *   The position of the opening bracket in the string that should be matched.
    *
    * @return int|null
+   *   Position.
    */
   protected function getClosingBracketPosition($contents, $start_pos) {
     $brackets = ['{'];

@@ -6,33 +6,45 @@ use Consolidation\Config\Loader\YamlConfigLoader;
 use Symfony\Component\Console\Input\InputInterface;
 
 /**
- *
+ * Config init.
  */
 class ConfigInitializer {
 
   /**
+   * Config.
+   *
    * @var \Acquia\Blt\Robo\Config\DefaultConfig
    */
   protected $config;
   /**
+   * Input.
+   *
    * @var \Symfony\Component\Console\Input\InputInterface
    */
   protected $input;
   /**
+   * Loader.
+   *
    * @var \Consolidation\Config\Loader\YamlConfigLoader
    */
   protected $loader;
   /**
+   * Processor.
+   *
    * @var \Acquia\Blt\Robo\Config\YamlConfigProcessor
    */
   protected $processor;
 
   /**
+   * Site.
+   *
    * @var string
    */
   protected $site;
 
   /**
+   * Environment.
+   *
    * @var string
    */
   protected $environment;
@@ -41,7 +53,9 @@ class ConfigInitializer {
    * ConfigInitializer constructor.
    *
    * @param string $repo_root
+   *   Repo root.
    * @param \Symfony\Component\Console\Input\InputInterface $input
+   *   Input.
    */
   public function __construct($repo_root, InputInterface $input) {
     $this->input = $input;
@@ -51,7 +65,10 @@ class ConfigInitializer {
   }
 
   /**
+   * Set site.
+   *
    * @param mixed $site
+   *   Site.
    */
   public function setSite($site) {
     $this->site = $site;
@@ -59,7 +76,10 @@ class ConfigInitializer {
   }
 
   /**
+   * Determine site.
+   *
    * @return mixed|string
+   *   Site.
    */
   protected function determineSite() {
     if ($this->input->hasParameterOption('site')) {
@@ -76,7 +96,10 @@ class ConfigInitializer {
   }
 
   /**
+   * Initialize.
+   *
    * @return \Acquia\Blt\Robo\Config\DefaultConfig
+   *   Config.
    */
   public function initialize() {
     if (!$this->site) {
@@ -91,7 +114,10 @@ class ConfigInitializer {
   }
 
   /**
+   * Load config.
+   *
    * @return $this
+   *   Config.
    */
   public function loadConfigFiles() {
     $this->loadDefaultConfig();
@@ -102,7 +128,10 @@ class ConfigInitializer {
   }
 
   /**
+   * Load config.
+   *
    * @return $this
+   *   Config.
    */
   public function loadDefaultConfig() {
     $this->processor->add($this->config->export());
@@ -112,7 +141,10 @@ class ConfigInitializer {
   }
 
   /**
+   * Load config.
+   *
    * @return $this
+   *   Config.
    */
   public function loadProjectConfig() {
     $this->processor->extend($this->loader->load($this->config->get('repo.root') . '/blt/blt.yml'));
@@ -122,8 +154,10 @@ class ConfigInitializer {
   }
 
   /**
+   * Load config.
    *
    * @return $this
+   *   Config.
    */
   public function loadSiteConfig() {
     if ($this->site) {
@@ -135,7 +169,10 @@ class ConfigInitializer {
   }
 
   /**
+   * Determine env.
+   *
    * @return $this
+   *   Env.
    */
   public function determineEnvironment() {
     // Support BLT_ENV=ci.
@@ -161,7 +198,10 @@ class ConfigInitializer {
   }
 
   /**
+   * Process config.
+   *
    * @return $this
+   *   Config.
    */
   public function processConfigFiles() {
     $this->config->import($this->processor->export());

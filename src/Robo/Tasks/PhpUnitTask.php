@@ -10,21 +10,29 @@ use Robo\Task\Testing\PHPUnit;
 class PhpUnitTask extends PHPUnit {
 
   /**
+   * Test env vars.
+   *
    * @var string
    */
   protected $testEnvVars;
 
   /**
+   * Sudo.
+   *
    * @var bool
    */
   protected $sudo;
 
   /**
+   * User.
+   *
    * @var string
    */
   protected $user;
 
   /**
+   * Test env vars.
+   *
    * @return $this
    */
   public function testEnvVars($testEnvVars) {
@@ -33,6 +41,8 @@ class PhpUnitTask extends PHPUnit {
   }
 
   /**
+   * Sudo.
+   *
    * @return $this
    */
   public function sudo(bool $sudo = TRUE) {
@@ -41,6 +51,8 @@ class PhpUnitTask extends PHPUnit {
   }
 
   /**
+   * User.
+   *
    * @return $this
    */
   public function user($user) {
@@ -49,7 +61,10 @@ class PhpUnitTask extends PHPUnit {
   }
 
   /**
+   * Printer.
+   *
    * @param string $printer
+   *   Printer.
    *
    * @return $this
    */
@@ -59,6 +74,8 @@ class PhpUnitTask extends PHPUnit {
   }
 
   /**
+   * Stop on error.
+   *
    * @return $this
    */
   public function stopOnError() {
@@ -67,6 +84,8 @@ class PhpUnitTask extends PHPUnit {
   }
 
   /**
+   * Stop on failure.
+   *
    * @return $this
    */
   public function stopOnFailure() {
@@ -75,6 +94,8 @@ class PhpUnitTask extends PHPUnit {
   }
 
   /**
+   * Test dox.
+   *
    * @return $this
    */
   public function testdox() {
@@ -83,7 +104,10 @@ class PhpUnitTask extends PHPUnit {
   }
 
   /**
+   * Test suites.
+   *
    * @param string $testsuites
+   *   Test suites.
    *
    * @return $this
    */
@@ -93,6 +117,8 @@ class PhpUnitTask extends PHPUnit {
   }
 
   /**
+   * Verbose.
+   *
    * @return $this
    */
   public function verbose() {

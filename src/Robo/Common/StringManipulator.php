@@ -39,10 +39,15 @@ class StringManipulator {
   }
 
   /**
-   * @param $identifier
+   * Make string machine safe.
+   *
+   * @param string $identifier
+   *   Identifier.
    * @param array $filter
+   *   Filter.
    *
    * @return mixed
+   *   Safe string.
    */
   public static function convertStringToMachineSafe($identifier, array $filter = array(
     ' ' => '_',
@@ -73,9 +78,13 @@ class StringManipulator {
   }
 
   /**
-   * @param $string
+   * Convert string to prefix.
+   *
+   * @param string $string
+   *   String.
    *
    * @return mixed
+   *   Prefix.
    */
   public static function convertStringToPrefix($string) {
     $words = explode(' ', $string);

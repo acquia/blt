@@ -16,7 +16,7 @@ class DoPackagistConverter {
    * @return array
    *   The modified composer.json array.
    */
-  public static function convertComposerJson($composer_json) {
+  public static function convertComposerJson(array $composer_json) {
     // Update version constraints in require.
     foreach ($composer_json['require'] as $package_name => $version_constraint) {
       if ($package_name == 'drupal/core') {

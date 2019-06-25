@@ -1,6 +1,6 @@
 #!/usr/bin/env php
 <?php
-
+// phpcs:ignoreFile
 $alias_locations = [
   "/vagrant/vendor/acquia/blt/scripts/blt/alias",
   // This is the location during "release:test" execution.
@@ -13,7 +13,7 @@ foreach ($alias_locations as $alias_location) {
     $bashrc_contents = file_get_contents($bashrc_file);
     if (!strstr($bashrc_contents, "function blt")) {
       $alias_contents = file_get_contents($alias_location);
-      # Add blt alias to front of .bashrc so that it applies to non-interactive shells.
+      // Add blt alias to front of .bashrc so that it applies to non-interactive shells.
       $new_bashrc_contents = $alias_contents . $bashrc_contents;
       file_put_contents($bashrc_file, $new_bashrc_contents);
       break;

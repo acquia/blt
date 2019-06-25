@@ -14,7 +14,9 @@ class BltCommandInfoAlterer implements CommandInfoAltererInterface {
    * Alters annotated commands.
    *
    * @param \Consolidation\AnnotatedCommand\Parser\CommandInfo $commandInfo
-   * @param $commandFileInstance
+   *   Command info.
+   * @param mixed $commandFileInstance
+   *   Command file instance.
    */
   public function alterCommandInfo(CommandInfo $commandInfo, $commandFileInstance) {
   }

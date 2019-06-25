@@ -44,31 +44,43 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   protected $executor;
 
   /**
+   * Is VM initialized.
+   *
    * @var null
    */
   protected $isDrupalVmLocallyInitialized = NULL;
 
   /**
+   * Is MYSQL available.
+   *
    * @var null
    */
   protected $isMySqlAvailable = NULL;
 
   /**
+   * DrupalVM status.
+   *
    * @var array
    */
   protected $drupalVmStatus = NULL;
 
   /**
+   * Is DrupalVM booted.
+   *
    * @var null
    */
   protected $isDrupalVmBooted = NULL;
 
   /**
+   * Filesystem.
+   *
    * @var \Symfony\Component\Filesystem\Filesystem
    */
   protected $fs;
 
   /**
+   * Warnings were issued.
+   *
    * @var bool
    */
   protected $warningsIssued = FALSE;
@@ -85,21 +97,27 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   }
 
   /**
+   * Get filesystem.
+   *
    * @return \Symfony\Component\Filesystem\Filesystem
+   *   Filesystem.
    */
   public function getFs() {
     return $this->fs;
   }
 
   /**
+   * Set filesystem.
+   *
    * @param \Symfony\Component\Filesystem\Filesystem $fs
+   *   Filesystem.
    */
-  public function setFs($fs) {
+  public function setFs(Filesystem $fs) {
     $this->fs = $fs;
   }
 
   /**
-   *
+   * Clear state.
    */
   public function clearState() {
     $this->isMySqlAvailable = NULL;
@@ -225,7 +243,10 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   }
 
   /**
+   * Get status.
+   *
    * @return mixed
+   *   Status.
    */
   public function getStatus() {
     $status = $this->getDrushStatus();
@@ -256,6 +277,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    * Validates a drush alias.
    *
    * @param string $alias
+   *   Drush alias.
    *
    * @return bool
    *   TRUE if alias is valid.
@@ -436,6 +458,9 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
     return $installed;
   }
 
+  /**
+   * Is devdesktop inited?
+   */
   public function isDevDesktopInitialized() {
     $file_contents = file_get_contents($this->getConfigValue('drupal.settings_file'));
 
@@ -732,6 +757,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    * Gets the Operating system type.
    *
    * @return int
+   *   Is OSX?
    */
   public function isOsx() {
     $os_detector = new Detector();
@@ -758,7 +784,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   }
 
   /**
-   *
+   * Is schema version up to date?
    */
   public function isSchemaVersionUpToDate() {
     return $this->getCurrentSchemaVersion() >= $this->getContainer()->get('updater')->getLatestUpdateMethodVersion();
@@ -776,7 +802,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   /**
    * Issues warnings to user if their local environment is mis-configured.
    *
-   * @param $command_name string
+   * @param string $command_name
    *   The name of the BLT Command being executed.
    */
   public function issueEnvironmentWarnings($command_name) {

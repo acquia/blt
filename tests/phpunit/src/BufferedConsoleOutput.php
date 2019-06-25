@@ -5,7 +5,7 @@ namespace Acquia\Blt\Tests;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 /**
- * Class BufferedConsoleOutput
+ * Class BufferedConsoleOutput.
  *
  * This is a combination of BufferedOutput and ConsoleOutput. It allows us
  * to capture output in a buffer for PHPUnit assertions and simultaneously
@@ -21,6 +21,7 @@ class BufferedConsoleOutput extends ConsoleOutput {
    * Empties buffer and returns its content.
    *
    * @return string
+   *   Contents of buffer
    */
   public function fetch() {
     // For some reason, some blt commands do not appear to always use the same

@@ -52,7 +52,7 @@ If you have trouble creating the project, try clearing the Composer cache or inc
 
 If you have trouble using the `blt` alias, make sure it’s installed correctly and then restart your terminal session:
 
-        ./vendor/bin/blt blt:init:shell-alias -y
+        ./vendor/bin/blt blt:init:shell-alias
         source ~/.bash_profile
 
 If you get syntax errors from vendor packages, check that the version of PHP on your host matches the version of PHP in your VM, or else make sure to always run composer commands from within the VM.
