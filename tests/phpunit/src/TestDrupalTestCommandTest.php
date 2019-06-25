@@ -49,7 +49,7 @@ class DrupalTest extends BltProjectTestBase {
    * @group drupal
    */
   public function testDrupalRunTestsTests() {
-    list($status_code, $output, $config) = $this->blt("tests:drupal:run", [
+    $this->blt("tests:drupal:run", [
       "--define" => [
         "tests.drupal.test-runner=run-tests-script",
         "tests.drupal.drupal-tests.0.color=true",
@@ -76,7 +76,7 @@ class DrupalTest extends BltProjectTestBase {
    * @group drupal
    */
   public function testDrupalRunTestsFunctionalJavascriptTests() {
-    list($status_code, $output, $config) = $this->blt("tests:drupal:run", [
+    $this->blt("tests:drupal:run", [
       "--define" => [
         "tests.drupal.test-runner=run-tests-script",
         "tests.drupal.drupal-tests.0.color=true",
@@ -98,7 +98,7 @@ class DrupalTest extends BltProjectTestBase {
    * @group drupal
    */
   public function testDrupalPhpUnitTests() {
-    list($status_code, $output, $config) = $this->blt("tests:drupal:run", [
+    $this->blt("tests:drupal:run", [
       "--define" => [
         "tests.drupal.test-runner=phpunit",
         "tests.drupal.phpunit.0.config=$this->docroot/core/phpunit.xml.dist",

@@ -21,7 +21,7 @@ class TestsWizard extends Wizard {
       $this->say("BLT can (re)generate tests/behat/local.yml using tests/behat/example.local.yml.");
       $confirm = $this->confirm("Do you want (re)generate local Behat config in <comment>tests/behat/local.yml</comment>?", TRUE);
       if ($confirm) {
-        $bin = $this->getConfigValue('composer.bin');
+        $this->getConfigValue('composer.bin');
         $behat_local_config_file = $this->getConfigValue('repo.root') . "/tests/behat/local.yml";
         if (file_exists($behat_local_config_file)) {
           $this->fs->remove($behat_local_config_file);

@@ -73,7 +73,7 @@ class GitCommand extends BltTasks {
     if (in_array('composer.json', $changed_files_list)
       || in_array('composer.lock', $changed_files_list)) {
       $collection->addCode(
-        function () use ($changed_files) {
+        function () {
           return $this->invokeCommand('tests:composer:validate');
         }
       );

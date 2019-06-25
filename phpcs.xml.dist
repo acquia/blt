@@ -9,7 +9,7 @@
   <!-- Run in parallel. -->
   <arg name="parallel" value="10"/>
 
-  <rule ref="AcquiaDrupalTransitional">
+  <rule ref="AcquiaDrupalStrict">
     <!-- BLT makes a lot of shell exec calls. -->
     <exclude name="Security.BadFunctions.SystemExecFunctions"/>
   </rule>

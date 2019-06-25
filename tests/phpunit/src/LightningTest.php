@@ -13,7 +13,7 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 class LightningTest extends BltProjectTestBase {
 
   public function testSetup() {
-    list($status_code, $output, $config) = $this->blt("setup", [
+    list($status_code) = $this->blt("setup", [
       '--define' => [
         'project.profile.name=lightning',
       ],

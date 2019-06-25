@@ -460,7 +460,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $lines = array_filter(explode("\n", $output));
     $changes = [];
     foreach ($lines as $line) {
-      $num_matches = preg_match("/([a-f0-9]{40}) (.+)/", $line, $matches);
+      preg_match("/([a-f0-9]{40}) (.+)/", $line, $matches);
       $commit_hash = $matches[1];
       $changes[$commit_hash] = $matches[2];
     }

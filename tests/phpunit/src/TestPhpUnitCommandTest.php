@@ -35,7 +35,7 @@ class TestPhpUnitCommandTest extends BltProjectTestBase {
    * Test that ExampleTest.php is correctly executed and passes.
    */
   public function testPhpUnitCommandExampleTests() {
-    list($status_code, $output, $config) = $this->blt("tests:phpunit:run", [
+    $this->blt("tests:phpunit:run", [
       "--define" => [
         "tests.phpunit.0.config=$this->docroot/core/phpunit.xml.dist",
         "tests.phpunit.0.path=$this->reporoot/tests/phpunit",
@@ -52,7 +52,7 @@ class TestPhpUnitCommandTest extends BltProjectTestBase {
    */
   public function testPhpUnitCommandNoTests() {
     $this->fs->remove($this->sandboxInstance . "/tests/phpunit/ExampleTest.php");
-    list($status_code, $output, $config) = $this->blt("tests:phpunit:run", [
+    list($status_code) = $this->blt("tests:phpunit:run", [
       "--define" => [
         "tests.phpunit.0.config=$this->docroot/core/phpunit.xml.dist",
         "tests.phpunit.0.path=$this->reporoot/tests/phpunit",

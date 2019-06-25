@@ -727,7 +727,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
       if (count($parsed_line) < 4) {
         continue;
       }
-      list($timestamp, $target, $type, $data) = $parsed_line;
+      list(, $target, $type, $data) = $parsed_line;
       $this->drupalVmStatus[$target][$type] = $data;
       $this->logger->debug("vagrant $target.$type = $data");
     }

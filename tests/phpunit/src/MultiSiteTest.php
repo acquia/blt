@@ -86,7 +86,7 @@ class MultiSiteTest extends BltProjectTestBase {
     // Sets up site1 locally too.
     $this->createDatabaseDumpFixture();
     // Set up site 2.
-    list($status_code, $output, $config) = $this->blt("setup", [
+    $this->blt("setup", [
       '--define' => [
         'project.profile.name=minimal',
       ],
@@ -127,7 +127,7 @@ class MultiSiteTest extends BltProjectTestBase {
     $output_array = $this->drushJson("@site2.clone config:get system.site");
     $this->assertEquals('Site 2 Clone', $output_array['name']);
 
-    list($status_code, $output, $config) = $this->blt("drupal:sync:all-sites", [
+    list(, $output,) = $this->blt("drupal:sync:all-sites", [
       '--no-interaction' => '',
     ]);
     $this->assertContains("You will destroy data in drupal and replace with data from drupal3", $output);
