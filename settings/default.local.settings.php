@@ -108,16 +108,17 @@ $settings['extension_discovery_scan_tests'] = FALSE;
 /**
  * Configure static caches.
  *
- * Note: you should test with the config, bootstrap, and discovery caches enabled to
- * test that metadata is cached as expected. However, in the early stages of development,
- * you may want to disable them. Overrides to these bins must be explicitly set for each
- * bin to change the default configuration provided by Drupal core in core.services.yml.
+ * Note: you should test with the config, bootstrap, and discovery caches
+ * enabled to test that metadata is cached as expected. However, in the early
+ * stages of development, you may want to disable them. Overrides to these bins
+ * must be explicitly set for each bin to change the default configuration
+ * provided by Drupal core in core.services.yml.
  * See https://www.drupal.org/node/2754947
  */
 
- // $settings['cache']['bins']['bootstrap'] = 'cache.backend.null';
- // $settings['cache']['bins']['discovery'] = 'cache.backend.null';
- // $settings['cache']['bins']['config'] = 'cache.backend.null';
+// $settings['cache']['bins']['bootstrap'] = 'cache.backend.null';
+// $settings['cache']['bins']['discovery'] = 'cache.backend.null';
+// $settings['cache']['bins']['config'] = 'cache.backend.null';
 
 
 /**
@@ -143,7 +144,7 @@ $settings['rebuild_access'] = FALSE;
 $settings['skip_permissions_hardening'] = TRUE;
 
 /**
- * Temporary file path:
+ * Temporary file path.
  *
  * A local file system path where temporary files will be stored. This
  * directory should not be accessible over the web.

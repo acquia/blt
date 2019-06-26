@@ -2,7 +2,7 @@
 
 /**
  * @file
- * SimpleSAMLphp configuration
+ * SimpleSAMLphp configuration.
  */
 
 // Provide universal absolute path to the installation.

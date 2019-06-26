@@ -11,13 +11,17 @@ use Symfony\Component\Process\Process;
  */
 class SandboxManager {
 
-  /** @var \Symfony\Component\Filesystem\Filesystem*/
+  /**
+   * @var \Symfony\Component\Filesystem\Filesystem
+   */
   protected $fs;
   protected $bltDir;
   protected $bltRequireDevPackageDir;
   protected $sandboxMaster;
   protected $sandboxInstance;
-  /** @var \Symfony\Component\Console\Output\ConsoleOutput*/
+  /**
+   * @var \Symfony\Component\Console\Output\ConsoleOutput
+   */
   protected $output;
   protected $tmp;
 
@@ -36,6 +40,7 @@ class SandboxManager {
 
   /**
    * Ensures that sandbox master exists and is up to date.
+   *
    * @throws \Exception
    */
   public function bootstrap() {
@@ -52,6 +57,7 @@ class SandboxManager {
 
   /**
    * Creates a new master sandbox.
+   *
    * @throws \Exception
    */
   public function createSandboxMaster() {
@@ -81,7 +87,8 @@ class SandboxManager {
   /**
    * Outputs debugging message.
    *
-   * @param $message
+   * @param string $message
+   *   Message.
    */
   public function debug($message) {
     if (getenv('BLT_PRINT_COMMAND_OUTPUT')) {
@@ -104,9 +111,10 @@ class SandboxManager {
    *
    * Will not overwrite existing files!
    *
-   * @param $options
+   * @param array $options
+   *   Options.
    */
-  protected function copySandboxMasterToInstance($options = [
+  protected function copySandboxMasterToInstance(array $options = [
     'delete' => TRUE,
     'override' => FALSE,
   ]) {
@@ -124,7 +132,10 @@ class SandboxManager {
   }
 
   /**
+   * Get sandbox instance.
+   *
    * @return mixed
+   *   Mixed.
    */
   public function getSandboxInstance() {
     return $this->sandboxInstance;
@@ -158,6 +169,7 @@ class SandboxManager {
 
   /**
    * Installs composer dependencies in sandbox master dir.
+   *
    * @throws \Exception
    */
   protected function installSandboxMasterDependencies() {

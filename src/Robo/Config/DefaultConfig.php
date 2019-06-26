@@ -64,7 +64,10 @@ class DefaultConfig extends BltConfig {
   }
 
   /**
-   * @param $site
+   * Set site.
+   *
+   * @param string $site
+   *   Site name.
    */
   public function setSite($site) {
     $this->set('site', $site);

@@ -6,13 +6,16 @@ namespace Acquia\Blt\Robo\Datastore;
  * Class FileStore.
  */
 class FileStore implements DataStoreInterface {
+
   /**
-   * @var stringThedirectorytostorethedatafilesin
+   * The directory to store the data files in.
+   *
+   * @var string
    */
   protected $directory;
 
   /**
-   *
+   * Construct.
    */
   public function __construct($directory) {
     $this->directory = $directory;
@@ -24,7 +27,8 @@ class FileStore implements DataStoreInterface {
    * @param string $key
    *   A key.
    *
-   * @return mixed The value fpr the given key or null.
+   * @return mixed
+   *   The value fpr the given key or null.
    */
   public function get($key) {
     $out = NULL;
@@ -56,7 +60,8 @@ class FileStore implements DataStoreInterface {
    * @param string $key
    *   A key.
    *
-   * @return bool Whether a value exists with the given key.
+   * @return bool
+   *   Whether a value exists with the given key.
    */
   public function has($key) {
     $path = $this->getFileName($key);
@@ -88,7 +93,8 @@ class FileStore implements DataStoreInterface {
   /**
    * Return a list of all keys in the store.
    *
-   * @return array A list of keys
+   * @return array
+   *   A list of keys
    */
   public function keys() {
     $root = $this->directory;
@@ -103,8 +109,11 @@ class FileStore implements DataStoreInterface {
    *
    * @param string $key
    *   The data key to be written or read.
+   * @param bool $writable
+   *   Writeable.
    *
-   * @return string A file path
+   * @return string
+   *   A file path
    *
    * @throws \Exception
    */
@@ -127,9 +136,11 @@ class FileStore implements DataStoreInterface {
    * This is a very naive approach to hashing but in practice this doesn't
    * matter since this is only used for a few already safe keys.
    *
-   * @param $key
+   * @param string $key
+   *   Key.
    *
    * @return mixed
+   *   Mixed.
    */
   protected function cleanKey($key) {
     return preg_replace('/[^a-zA-Z0-9\-\_\@\.]/', '-', $key);

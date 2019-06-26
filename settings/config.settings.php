@@ -8,6 +8,8 @@
 use Acquia\Blt\Robo\Common\EnvironmentDetector;
 
 /**
+ * Override config directories.
+ *
  * BLT makes the assumption that, if using multisite, the default configuration
  * directory should be shared between all multi-sites, and each multisite will
  * override this selectively using configuration splits. However, some

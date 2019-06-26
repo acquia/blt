@@ -13,7 +13,8 @@ interface DataStoreInterface {
    * @param string $key
    *   A key.
    *
-   * @return mixed The value fpr the given key or null.
+   * @return mixed
+   *   The value fpr the given key or null.
    */
   public function get($key);
 
@@ -33,7 +34,8 @@ interface DataStoreInterface {
    * @param string $key
    *   A key.
    *
-   * @return bool Whether a value exists with the given key
+   * @return bool
+   *   Whether a value exists with the given key
    */
   public function has($key);
 
@@ -48,7 +50,8 @@ interface DataStoreInterface {
   /**
    * Return a list of all keys in the store.
    *
-   * @return array A list of keys
+   * @return array
+   *   A list of keys
    */
   public function keys();
 

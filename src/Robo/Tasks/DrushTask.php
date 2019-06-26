@@ -8,7 +8,9 @@ use Robo\Common\CommandArguments;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Runs Drush commands in stack. You can use `stopOnFail()` to point that stack
+ * Runs Drush commands in stack.
+ *
+ * You can use `stopOnFail()` to point that stack
  * should be terminated on first fail.
  *
  * ``` php
@@ -69,6 +71,8 @@ class DrushTask extends CommandStack {
   protected $debug;
 
   /**
+   * Defaults init.
+   *
    * @var bool
    */
   protected $defaultsInitialized;
@@ -156,6 +160,7 @@ class DrushTask extends CommandStack {
    * Sets the working directory for each command.
    *
    * @param string $dir
+   *   Dir.
    *
    * @return $this
    *
@@ -172,6 +177,7 @@ class DrushTask extends CommandStack {
    * Indicates if the command output should be verbose.
    *
    * @param string|bool $verbose
+   *   Verbose.
    *
    * @return $this
    */
@@ -184,6 +190,7 @@ class DrushTask extends CommandStack {
    * Indicates if the command output should be very verbose.
    *
    * @param string|bool $verbose
+   *   Verbose.
    *
    * @return $this
    */
@@ -196,6 +203,7 @@ class DrushTask extends CommandStack {
    * Indicates if the command output should be debug verbosity.
    *
    * @param string|bool $verbose
+   *   Verbose.
    *
    * @return $this
    */
@@ -264,6 +272,7 @@ class DrushTask extends CommandStack {
    * Helper function to get the boolean equivalent of a variable.
    *
    * @param mixed $mixedVar
+   *   Mixed.
    *
    * @return bool
    *   TRUE/FALSE as per PHP's cast to boolean ruleset, with the exception that

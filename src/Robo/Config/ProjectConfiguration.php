@@ -6,10 +6,13 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 
 /**
- *
+ * Project config.
  */
 class ProjectConfiguration implements ConfigurationInterface {
 
+  /**
+   * Get config tree builder.
+   */
   public function getConfigTreeBuilder() {
     $treeBuilder = new TreeBuilder();
     $rootNode = $treeBuilder->root('recipe');

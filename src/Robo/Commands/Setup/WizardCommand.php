@@ -63,6 +63,7 @@ class WizardCommand extends BltTasks {
    *   The recipe filename.
    *
    * @return array
+   *   Recipe.
    */
   protected function loadRecipeFile($filename) {
     if (!file_exists($filename)) {
@@ -137,7 +138,7 @@ class WizardCommand extends BltTasks {
    * @param array $answers
    *   Answers from $this->askForAnswers().
    */
-  protected function updateProjectYml($answers) {
+  protected function updateProjectYml(array $answers) {
     $config_file = $this->getConfigValue('blt.config-files.project');
     $config = YamlMunge::parseFile($config_file);
     $config['project']['prefix'] = $answers['prefix'];

@@ -3,18 +3,19 @@
 namespace Acquia\Blt\Robo\Commands\Doctor;
 
 /**
- *
+ * BLT Doctor checks.
  */
 class BehatCheck extends DoctorCheck {
 
+  /**
+   * Perform all checks.
+   */
   public function performAllChecks() {
     $this->checkBehat();
   }
 
   /**
    * Checks Behat configuration in local.yml.
-   *
-   * @return bool
    */
   protected function checkBehat() {
     $this->checkLocalConfig();
@@ -26,9 +27,12 @@ class BehatCheck extends DoctorCheck {
   }
 
   /**
-   * @param $behatDefaultLocalConfig
+   * Check base url.
+   *
+   * @param array $behatDefaultLocalConfig
+   *   Default local config.
    */
-  protected function checkBaseUrl($behatDefaultLocalConfig) {
+  protected function checkBaseUrl(array $behatDefaultLocalConfig) {
     $behat_base_url = $behatDefaultLocalConfig['local']['extensions']['Behat\MinkExtension']['base_url'];
     if ($behat_base_url != $this->drushStatus['uri']) {
       $this->logProblem(__FUNCTION__ . ':uri', [
@@ -40,9 +44,12 @@ class BehatCheck extends DoctorCheck {
   }
 
   /**
-   * @param $behatDefaultLocalConfig
+   * Check DrupalVM.
+   *
+   * @param array $behatDefaultLocalConfig
+   *   Default local config.
    */
-  protected function checkDrupalVm($behatDefaultLocalConfig) {
+  protected function checkDrupalVm(array $behatDefaultLocalConfig) {
     if ($this->getInspector()
       ->isDrupalVmLocallyInitialized() && $this->getInspector()
       ->isDrupalVmBooted()) {
@@ -57,6 +64,9 @@ class BehatCheck extends DoctorCheck {
     }
   }
 
+  /**
+   * Check local config.
+   */
   protected function checkLocalConfig() {
     if (!$this->behatLocalYmlExists()) {
       $this->logProblem(__FUNCTION__ . ':exists', [
@@ -67,7 +77,10 @@ class BehatCheck extends DoctorCheck {
   }
 
   /**
+   * Behat local yml exists.
+   *
    * @return bool
+   *   Bool.
    */
   protected function behatLocalYmlExists() {
     return file_exists($this->getConfigValue('repo.root') . '/tests/behat/local.yml');

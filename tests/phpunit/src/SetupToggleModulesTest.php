@@ -16,6 +16,8 @@ class ToggleModulesTest extends BltProjectTestBase {
    * Verifies the modules for a given environment were enabled as expected.
    *
    * In the event no environment is specified, this test will be skipped.
+   *
+   * @throws \Exception
    */
   public function testModulesEnabled() {
     $this->installDrupalMinimal();
@@ -36,8 +38,12 @@ class ToggleModulesTest extends BltProjectTestBase {
    *
    * @param string $module
    *   The module to test.
+   * @param array $pm_list
+   *   List of enabled modules.
+   *
+   * @throws \Exception
    */
-  protected function assertModuleNotEnabled($module, $pm_list) {
+  protected function assertModuleNotEnabled($module, array $pm_list) {
     $enabled = $this->getModuleEnabledStatus($module, $pm_list);
     $this->assertFalse($enabled,
       "Expected $module to be either 'disabled,' 'not installed' or 'not found.'"
@@ -49,8 +55,12 @@ class ToggleModulesTest extends BltProjectTestBase {
    *
    * @param string $module
    *   The module to test.
+   * @param array $pm_list
+   *   List of enabled modules.
+   *
+   * @throws \Exception
    */
-  protected function assertModuleEnabled($module, $pm_list) {
+  protected function assertModuleEnabled($module, array $pm_list) {
     $enabled = $this->getModuleEnabledStatus($module, $pm_list);
     $this->assertTrue($enabled, "Expected $module to be enabled.");
   }
@@ -60,15 +70,17 @@ class ToggleModulesTest extends BltProjectTestBase {
    *
    * @param string $module
    *   The module to test.
-   *
-   * @throws \Exception
-   *    If a module's status string cannot be parsed.
+   * @param array $pm_list
+   *   List of enabled modules.
    *
    * @return bool
    *   TRUE if $module is enabled, FALSE if a module is either 'disabled,'
    *    'not installed' or 'not found.'
+   *
+   * @throws \Exception
+   *   If a module's status string cannot be parsed.
    */
-  private function getModuleEnabledStatus($module, $pm_list) {
+  private function getModuleEnabledStatus($module, array $pm_list) {
     if (!array_key_exists($module, $pm_list)) {
       return FALSE;
     }
