@@ -63,10 +63,6 @@ if ($memcache_module_is_present && ($memcache_exists || $memcached_exists)) {
           'factory' => ['@memcache.backend.cache.factory', 'get'],
           'arguments' => ['container'],
         ],
-        'lock.container' => [
-          'class' => 'Drupal\memcache\Lock\MemcacheLockBackend',
-          'arguments' => ['container', '@memcache.backend.cache.container'],
-        ],
         'cache_tags_provider.container' => [
           'class' => 'Drupal\Core\Cache\DatabaseCacheTagsChecksum',
           'arguments' => ['@database'],
@@ -76,8 +72,7 @@ if ($memcache_module_is_present && ($memcache_exists || $memcached_exists)) {
           'arguments' => [
             'container',
             '@memcache.backend.cache.container',
-            '@cache_tags_provider.container',
-            '@lock.container',
+            '@cache_tags_provider.container'
           ],
         ],
       ],
