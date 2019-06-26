@@ -54,13 +54,17 @@ if ($memcache_module_is_present && ($memcache_exists || $memcached_exists)) {
           'class' => 'Drupal\memcache\MemcacheSettings',
           'arguments' => ['@settings'],
         ],
-        'memcache.backend.cache.factory' => [
+        'memcache.factory' => [
           'class' => 'Drupal\memcache\Driver\MemcacheDriverFactory',
           'arguments' => ['@memcache.settings'],
         ],
+        'memcache.timestamp.invalidator.bin' => [
+          'class' => 'Drupal\memcache\Invalidator\MemcacheTimestampInvalidator',
+          'arguments' => ['@memcache.factory', 'memcache_bin_timestamps', 0.001],
+        ],
         'memcache.backend.cache.container' => [
-          'class' => 'Drupal\memcache\DrupalMemcacheFactory',
-          'factory' => ['@memcache.backend.cache.factory', 'get'],
+          'class' => 'Drupal\memcache\DrupalMemcacheInterface',
+          'factory' => ['@memcache.factory', 'get'],
           'arguments' => ['container'],
         ],
         'cache_tags_provider.container' => [
@@ -72,7 +76,9 @@ if ($memcache_module_is_present && ($memcache_exists || $memcached_exists)) {
           'arguments' => [
             'container',
             '@memcache.backend.cache.container',
-            '@cache_tags_provider.container'
+            '@cache_tags_provider.container',
+            '@memcache.timestamp.invalidator.bin',
+            '@memcache.settings',
           ],
         ],
       ],
