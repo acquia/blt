@@ -7,10 +7,13 @@
 
 use Composer\Autoload\ClassLoader;
 
+// Don't assume container is injected.
+$app_root = \Drupal::root();
+
 // Check for PHP Memcached libraries.
 $memcache_exists = class_exists('Memcache', FALSE);
 $memcached_exists = class_exists('Memcached', FALSE);
-$memcache_services_yml = \Drupal::root() . '/modules/contrib/memcache/memcache.services.yml';
+$memcache_services_yml = $app_root . '/modules/contrib/memcache/memcache.services.yml';
 $memcache_module_is_present = file_exists($memcache_services_yml);
 if ($memcache_module_is_present && ($memcache_exists || $memcached_exists)) {
   // Use Memcached extension if available.
@@ -19,7 +22,7 @@ if ($memcache_module_is_present && ($memcache_exists || $memcached_exists)) {
   }
   if (class_exists(ClassLoader::class)) {
     $class_loader = new ClassLoader();
-    $class_loader->addPsr4('Drupal\\memcache\\', \Drupal::root() . '/modules/contrib/memcache/src');
+    $class_loader->addPsr4('Drupal\\memcache\\', $app_root . '/modules/contrib/memcache/src');
     $class_loader->register();
     $settings['container_yamls'][] = $memcache_services_yml;
 
