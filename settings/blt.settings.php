@@ -156,9 +156,7 @@ $settings_files[] = DRUPAL_ROOT . "/sites/$site_dir/settings/includes.settings.p
 if (EnvironmentDetector::isCiEnv()) {
   // Default CI settings.
   $settings_files[] = __DIR__ . '/ci.settings.php';
-  if (EnvironmentDetector::getCiEnv()) {
-    $settings_files[] = sprintf("%s/%s.settings.php", __DIR__, EnvironmentDetector::getCiEnv());
-  }
+  $settings_files[] = EnvironmentDetector::getCiSettingsFile();
   // Custom global and site-specific CI settings.
   $settings_files[] = DRUPAL_ROOT . "/sites/settings/ci.settings.php";
   $settings_files[] = DRUPAL_ROOT . "/sites/$site_dir/settings/ci.settings.php";
