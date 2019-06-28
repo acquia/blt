@@ -86,9 +86,13 @@ Linux is fully supported by BLT and DrupalVM and shares many of the same depende
 
 # Installing BLT
 
-Choose your own adventure:
+After you have successfully installed the prerequisites, you can now proceed with installing BLT.
 
 * [Creating a new project with BLT](creating-new-project.md)
-* [Cloning an existing BLT project](onboarding.md)
 * [Adding BLT to an existing project](adding-to-project.md)
+
+If BLT is already setup for a project and you need instructions on how to get started please see:
+* [Cloning an existing BLT project](onboarding.md)
+
+If you are trying to update Acquia BLT please see:
 * [Upgrading BLT](updating-blt.md)
