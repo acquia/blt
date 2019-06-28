@@ -165,6 +165,7 @@ class EnvironmentDetector {
 
     return sprintf("%s/vendor/acquia/blt/settings/%s.settings.php", dirname(DRUPAL_ROOT), self::getCiEnv());
   }
+
   /**
    * Is Pantheon.
    */
