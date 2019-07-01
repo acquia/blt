@@ -282,6 +282,8 @@ class EnvironmentDetector {
    *
    * @return array
    *   Results from each subclass function call (omits any null / false results)
+   *
+   * @throws \ReflectionException
    */
   private static function getSubclassResults($functionName) {
     $autoloader = require DRUPAL_ROOT . '/autoload.php';
@@ -291,7 +293,11 @@ class EnvironmentDetector {
     });
     $results = [];
     foreach ($detectors as $detector => $classPath) {
-      $results[] = call_user_func($detector . '::' . $functionName);
+      // Only call this method if it's been overridden by the child class.
+      $detectorReflector = new \ReflectionMethod($detector, $functionName);
+      if ($detectorReflector->getDeclaringClass()->getName() === $detector) {
+        $results[] = call_user_func([$detector, $functionName]);
+      }
     }
     return array_filter($results);
   }
