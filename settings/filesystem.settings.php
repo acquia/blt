@@ -8,6 +8,7 @@
 use Acquia\Blt\Robo\Common\EnvironmentDetector;
 use Acquia\Blt\Robo\Exceptions\BltException;
 
+// phpcs:ignore
 $settings['file_public_path'] = "sites/$site_dir/files";
 
 try {
@@ -25,5 +26,6 @@ if ($is_acsf_env && $acsf_db_name) {
 }
 elseif (EnvironmentDetector::isAhEnv()) {
   // Acquia cloud file paths.
+  // phpcs:ignore
   $settings['file_private_path'] = EnvironmentDetector::getAhFilesRoot() . "/sites/$site_dir/files-private";
 }

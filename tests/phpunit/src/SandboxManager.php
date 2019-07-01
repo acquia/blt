@@ -15,14 +15,45 @@ class SandboxManager {
    * @var \Symfony\Component\Filesystem\Filesystem
    */
   protected $fs;
+
+  /**
+   * BLT dir.
+   *
+   * @var bool|string
+   */
   protected $bltDir;
+
+  /**
+   * BLT require dev package dir.
+   *
+   * @var string
+   */
   protected $bltRequireDevPackageDir;
+
+  /**
+   * Sandbox master.
+   *
+   * @var string
+   */
   protected $sandboxMaster;
+
+  /**
+   * Sandbox instance.
+   *
+   * @var string
+   */
   protected $sandboxInstance;
+
   /**
    * @var \Symfony\Component\Console\Output\ConsoleOutput
    */
   protected $output;
+
+  /**
+   * Temp.
+   *
+   * @var string
+   */
   protected $tmp;
 
   /**

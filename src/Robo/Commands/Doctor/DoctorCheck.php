@@ -22,8 +22,25 @@ abstract class DoctorCheck implements ConfigAwareInterface, InspectorAwareInterf
   use InspectorAwareTrait;
   use ExecutorAwareTrait;
 
+  /**
+   * Problems.
+   *
+   * @var array
+   */
   protected $problems = [];
+
+  /**
+   * Whether an error was logged.
+   *
+   * @var bool
+   */
   protected $errorLogged = FALSE;
+
+  /**
+   * Drush status.
+   *
+   * @var string
+   */
   protected $drushStatus;
 
   /**

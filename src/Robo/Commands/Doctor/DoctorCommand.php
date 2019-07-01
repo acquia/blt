@@ -10,8 +10,25 @@ use Acquia\Blt\Robo\Exceptions\BltException;
  */
 class DoctorCommand extends BltTasks {
 
+  /**
+   * Output table.
+   *
+   * @var string
+   */
   protected $outputTable;
+
+  /**
+   * Whether passed.
+   *
+   * @var bool
+   */
   protected $passed;
+
+  /**
+   * List of problems.
+   *
+   * @var array
+   */
   protected $problems = [];
 
   /**

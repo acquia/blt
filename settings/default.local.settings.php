@@ -7,6 +7,7 @@
 
 use Drupal\Component\Assertion\Handle;
 
+global $_acsf_site_name;
 $db_name = '${drupal.db.database}';
 if (isset($_acsf_site_name)) {
   $db_name .= '_' . $_acsf_site_name;
@@ -119,8 +120,6 @@ $settings['extension_discovery_scan_tests'] = FALSE;
 // $settings['cache']['bins']['bootstrap'] = 'cache.backend.null';
 // $settings['cache']['bins']['discovery'] = 'cache.backend.null';
 // $settings['cache']['bins']['config'] = 'cache.backend.null';
-
-
 /**
  * Enable access to rebuild.php.
  *
@@ -162,6 +161,7 @@ $config['system.file']['path']['temporary'] = '/tmp';
 $settings['file_private_path'] = $dir . '/files-private';
 if (isset($_acsf_site_name)) {
   $settings['file_public_path'] = "sites/default/files/$_acsf_site_name";
+  // phpcs:ignore
   $settings['file_private_path'] = "$repo_root/files-private/$_acsf_site_name";
 }
 

@@ -65,7 +65,6 @@ class SyncCommand extends BltTasks {
    * @todo Support multisite.
    */
   public function syncFiles() {
-    $local_alias = '@' . $this->getConfigValue('drush.aliases.local');
     $remote_alias = '@' . $this->getConfigValue('drush.aliases.remote');
     $site_dir = $this->getConfigValue('site');
 

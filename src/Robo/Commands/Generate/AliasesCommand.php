@@ -266,7 +266,7 @@ class AliasesCommand extends BltTasks {
       $remoteHost = $ssh_split[1];
       $remoteUser = $ssh_split[0];
 
-      if ($hosting == 'ace') {
+      if (in_array($hosting, ['ace', 'acp'])) {
 
         $siteID = $site_split[1];
         $uri = $env->domains[0];
@@ -342,7 +342,7 @@ class AliasesCommand extends BltTasks {
    *   The full alias for this site.
    */
   protected function getAliases($uri, $envName, $remoteHost, $remoteUser, $siteID) {
-    $alias = array();
+    $alias = [];
     // Skip wildcard domains.
     $skip_site = FALSE;
     if (strpos($uri, ':*') !== FALSE) {

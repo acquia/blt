@@ -14,7 +14,19 @@ use Symfony\Component\Yaml\Yaml;
  * comments when possible.
  */
 class YamlWriter {
+
+  /**
+   * Filepath.
+   *
+   * @var string
+   */
   private $filepath;
+
+  /**
+   * YAML contents.
+   *
+   * @var false|string
+   */
   private $contents;
 
   /**

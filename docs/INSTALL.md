@@ -30,7 +30,7 @@ Ensure that [Xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12) is 
 Then install the minimum dependencies for BLT. The preferred method is via Homebrew, though you could install these yourself without a package manager.
 
         /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-        brew install php71 git composer drush
+        brew install php71 git composer 
         composer global require hirak/prestissimo:^0.3
         composer global require zaporylie/composer-drupal-optimizations:^1.1
 
@@ -86,9 +86,13 @@ Linux is fully supported by BLT and DrupalVM and shares many of the same depende
 
 # Installing BLT
 
-Choose your own adventure:
+After you have successfully installed the prerequisites, you can now proceed with installing BLT.
 
 * [Creating a new project with BLT](creating-new-project.md)
-* [Cloning an existing BLT project](onboarding.md)
 * [Adding BLT to an existing project](adding-to-project.md)
+
+If BLT is already setup for a project and you need instructions on how to get started please see:
+* [Cloning an existing BLT project](onboarding.md)
+
+If you are trying to update Acquia BLT please see:
 * [Upgrading BLT](updating-blt.md)
