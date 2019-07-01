@@ -56,8 +56,25 @@ abstract class BltProjectTestBase extends TestCase {
    */
   protected $bltDirectory;
 
+  /**
+   * Site 1 dir.
+   *
+   * @var string
+   */
   protected $site1Dir;
+
+  /**
+   * Site 2 dir.
+   *
+   * @var string
+   */
   protected $site2Dir;
+
+  /**
+   * Sandbox instance clone.
+   *
+   * @var string
+   */
   protected $sandboxInstanceClone;
 
   /**

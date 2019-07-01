@@ -44,8 +44,11 @@ if (EnvironmentDetector::isProdEnv() || EnvironmentDetector::isStageEnv()) {
  * @see https://www.drupal.org/node/2766509
  */
 if ((EnvironmentDetector::isAhEnv() || EnvironmentDetector::isCiEnv()) &&
+  // phpcs:ignore
   array_key_exists('memcache', $settings) &&
+  // phpcs:ignore
   array_key_exists('servers', $settings['memcache']) &&
+  // phpcs:ignore
   !empty($settings['memcache']['servers'])
 ) {
   require __DIR__ . "/memcache.settings.php";

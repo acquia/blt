@@ -15,16 +15,82 @@ use Symfony\Component\Yaml\Yaml;
  * Defines commands in the "vm" namespace.
  */
 class VmCommand extends BltTasks {
+
+  /**
+   * Drupal VM alias.
+   *
+   * @var string
+   */
   protected $drupalVmAlias;
+
+  /**
+   * Drupal VM version.
+   *
+   * @var string
+   */
   protected $drupalVmVersionConstraint;
+
+  /**
+   * Drupal VM drush aliases.
+   *
+   * @var string
+   */
   protected $defaultDrupalVmDrushAliasesFile;
+
+  /**
+   * Drupal VM config.
+   *
+   * @var string
+   */
   protected $defaultDrupalVmConfigFile;
+
+  /**
+   * Drupal VM Vagrant.
+   *
+   * @var string
+   */
   protected $defaultDrupalVmVagrantfile;
+
+  /**
+   * Project drush aliases.
+   *
+   * @var string
+   */
   protected $projectDrushAliasesFile;
+
+  /**
+   * Drupal VM.
+   *
+   * @var string
+   */
   protected $projectDrupalVmConfigFile;
+
+  /**
+   * Drupal VM Vagrant.
+   *
+   * @var string
+   */
   protected $projectDrupalVmVagrantfile;
+
+  /**
+   * VM config directory.
+   *
+   * @var string
+   */
   protected $vmConfigDir;
+
+  /**
+   * VM config file.
+   *
+   * @var string
+   */
   protected $vmConfigFile;
+
+  /**
+   * VM directory.
+   *
+   * @var string
+   */
   protected $vmDir;
 
   /**

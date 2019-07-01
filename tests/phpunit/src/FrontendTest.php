@@ -28,14 +28,14 @@ class FrontendTest extends BltProjectTestBase {
       ],
     ], $this->sandboxInstance . "/blt/" . getenv("BLT_ENV") . ".blt.yml");
 
-    list($status_code, $output, $config) = $this->blt('source:build:frontend-reqs');
+    list(, $output,) = $this->blt('source:build:frontend-reqs');
     $this->assertContains('hello reqs', $output);
 
-    list($status_code, $output, $config) = $this->blt('source:build:frontend-assets');
+    list(, $output,) = $this->blt('source:build:frontend-assets');
     $this->assertContains('hello assets', $output);
 
     $this->installDrupalMinimal();
-    list($status_code, $output, $config) = $this->blt('tests:frontend:run');
+    list(, $output,) = $this->blt('tests:frontend:run');
     $this->assertContains('hello test', $output);
   }
 

@@ -17,9 +17,32 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
 
   use LoggerAwareTrait;
 
+  /**
+   * BLT root.
+   *
+   * @var string
+   */
   protected $bltRoot;
+
+  /**
+   * Binary.
+   *
+   * @var string
+   */
   protected $bin;
+
+  /**
+   * Drupal PHPCS standard.
+   *
+   * @var string
+   */
   protected $drupalPhpcsStandard;
+
+  /**
+   * PHPCS paths.
+   *
+   * @var string
+   */
   protected $phpcsPaths;
 
   const BLT_DEV_BRANCH = "10.x";
@@ -437,7 +460,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $lines = array_filter(explode("\n", $output));
     $changes = [];
     foreach ($lines as $line) {
-      $num_matches = preg_match("/([a-f0-9]{40}) (.+)/", $line, $matches);
+      preg_match("/([a-f0-9]{40}) (.+)/", $line, $matches);
       $commit_hash = $matches[1];
       $changes[$commit_hash] = $matches[2];
     }

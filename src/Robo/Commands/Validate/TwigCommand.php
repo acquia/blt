@@ -115,7 +115,7 @@ class TwigCommand extends BltTasks {
 
     // Add Twig filters from Drupal TwigExtension to be ignored.
     $drupal_filters = [];
-    if ($matches_count = preg_match_all("#new \\\\Twig_SimpleFilter\('([^']+)',#", $extension_file_contents, $matches)) {
+    if (preg_match_all("#new \\\\Twig_SimpleFilter\('([^']+)',#", $extension_file_contents, $matches)) {
       $drupal_filters = $matches[1];
     }
     $twig_filters = array_merge($twig_filters, $drupal_filters);
@@ -134,7 +134,7 @@ class TwigCommand extends BltTasks {
 
     // Add Twig functions from Drupal TwigExtension to be ignored.
     $drupal_functions = [];
-    if ($matches_count = preg_match_all("#new \\\\Twig_SimpleFunction\('([^']+)',#", $extension_file_contents, $matches)) {
+    if (preg_match_all("#new \\\\Twig_SimpleFunction\('([^']+)',#", $extension_file_contents, $matches)) {
       $drupal_functions = $matches[1];
     }
     $twig_functions = array_merge($twig_functions, $drupal_functions);

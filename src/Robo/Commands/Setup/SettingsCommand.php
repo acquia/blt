@@ -15,7 +15,18 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 class SettingsCommand extends BltTasks {
 
+  /**
+   * Default behat local config file.
+   *
+   * @var string
+   */
   protected $defaultBehatLocalConfigFile;
+
+  /**
+   * Project behat local config file.
+   *
+   * @var string
+   */
   protected $projectBehatLocalConfigFile;
 
   /**

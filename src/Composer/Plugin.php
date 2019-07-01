@@ -89,14 +89,14 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    * Returns an array of event names this subscriber wants to listen to.
    */
   public static function getSubscribedEvents() {
-    return array(
+    return [
       ScriptEvents::POST_AUTOLOAD_DUMP => "onPostAutoloadDump",
       PackageEvents::POST_PACKAGE_INSTALL => "onPostPackageEvent",
       PackageEvents::POST_PACKAGE_UPDATE => "onPostPackageEvent",
-      ScriptEvents::POST_UPDATE_CMD => array(
-        array('onPostCmdEvent'),
-      ),
-    );
+      ScriptEvents::POST_UPDATE_CMD => [
+        ['onPostCmdEvent'],
+      ],
+    ];
   }
 
   /**

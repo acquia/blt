@@ -13,8 +13,25 @@ use Symfony\Component\Console\Helper\FormatterHelper;
  */
 class SimpleSamlPhpCommand extends BltTasks {
 
+  /**
+   * BLT root.
+   *
+   * @var string
+   */
   protected $bltRoot;
+
+  /**
+   * Repo root.
+   *
+   * @var string
+   */
   protected $repoRoot;
+
+  /**
+   * Deploy directory.
+   *
+   * @var string
+   */
   protected $deployDir;
 
   /**
