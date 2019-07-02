@@ -493,6 +493,7 @@ class DeployCommand extends BltTasks {
    * Removes sensitive files from the deploy dir.
    */
   protected function sanitize() {
+    $docroot = $this->getConfigValue('docroot');
     $this->say("Sanitizing artifact...");
 
     $this->logger->info("Find Drupal core text files...");
@@ -500,14 +501,14 @@ class DeployCommand extends BltTasks {
       ->files()
       ->name('*.txt')
       ->notName('LICENSE.txt')
-      ->in("{$this->deployDir}/docroot/core");
+      ->in("{$this->deployDir}/${docroot}/core");
 
     $this->logger->info('Find VCS directories...');
     $vcsFinder = Finder::create()
       ->ignoreDotFiles(FALSE)
       ->ignoreVCS(FALSE)
       ->directories()
-      ->in(["{$this->deployDir}/docroot", "{$this->deployDir}/vendor"])
+      ->in(["{$this->deployDir}/${docroot}", "{$this->deployDir}/vendor"])
       ->name('.git');
     if ($vcsFinder->hasResults()) {
       $sanitizeFinder->append($vcsFinder);
@@ -517,7 +518,7 @@ class DeployCommand extends BltTasks {
     $githubFinder = Finder::create()
       ->ignoreDotFiles(FALSE)
       ->directories()
-      ->in(["{$this->deployDir}/docroot", "{$this->deployDir}/vendor"])
+      ->in(["{$this->deployDir}/${docroot}", "{$this->deployDir}/vendor"])
       ->name('.github');
     if ($githubFinder->hasResults()) {
       $sanitizeFinder->append($githubFinder);
@@ -526,7 +527,7 @@ class DeployCommand extends BltTasks {
     $this->logger->info('Find INSTALL database text files...');
     $dbInstallFinder = Finder::create()
       ->files()
-      ->in(["{$this->deployDir}/docroot"])
+      ->in(["{$this->deployDir}/${docroot}"])
       ->name('/INSTALL\.[a-z]+\.(md|txt)$/');
     if ($dbInstallFinder->hasResults()) {
       $sanitizeFinder->append($dbInstallFinder);
@@ -546,7 +547,7 @@ class DeployCommand extends BltTasks {
     ];
     $textFileFinder = Finder::create()
       ->files()
-      ->in(["{$this->deployDir}/docroot"])
+      ->in(["{$this->deployDir}/${docroot}"])
       ->name('/(' . implode('|', $filenames) . ')\.(md|txt)$/');
     if ($textFileFinder->hasResults()) {
       $sanitizeFinder->append($textFileFinder);
