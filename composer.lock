@@ -2237,16 +2237,16 @@
         },
         {
             "name": "drupal/core",
-            "version": "8.7.3",
+            "version": "8.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core.git",
-                "reference": "b8ca92d4274048aff6bb020c329596c0e9b91269"
+                "reference": "a6d447d41545323f54c5034e551fb43b8050eca9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drupal/core/zipball/b8ca92d4274048aff6bb020c329596c0e9b91269",
-                "reference": "b8ca92d4274048aff6bb020c329596c0e9b91269",
+                "url": "https://api.github.com/repos/drupal/core/zipball/a6d447d41545323f54c5034e551fb43b8050eca9",
+                "reference": "a6d447d41545323f54c5034e551fb43b8050eca9",
                 "shasum": ""
             },
             "require": {
@@ -2477,7 +2477,7 @@
                 "GPL-2.0-or-later"
             ],
             "description": "Drupal is an open source content management platform powering millions of websites and applications.",
-            "time": "2019-06-05T19:21:30+00:00"
+            "time": "2019-07-04T07:26:51+00:00"
         },
         {
             "name": "drush/drush",
@@ -3059,16 +3059,16 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "1.6.0",
+            "version": "1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "dc784032a3f6f4e7a4b882e272b771f6fe4c37cf"
+                "reference": "239400de7a173fe9901b9ac7c06497751f00727a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/dc784032a3f6f4e7a4b882e272b771f6fe4c37cf",
-                "reference": "dc784032a3f6f4e7a4b882e272b771f6fe4c37cf",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/239400de7a173fe9901b9ac7c06497751f00727a",
+                "reference": "239400de7a173fe9901b9ac7c06497751f00727a",
                 "shasum": ""
             },
             "require": {
@@ -3126,7 +3126,7 @@
                 "uri",
                 "url"
             ],
-            "time": "2019-06-30T00:37:05+00:00"
+            "time": "2019-07-01T23:21:34+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -3401,29 +3401,28 @@
         },
         {
             "name": "mglaman/drupal-check",
-            "version": "1.0.10",
+            "version": "1.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mglaman/drupal-check.git",
-                "reference": "adaec25a178e8cbb512d9b27c6e362e419bd1cf2"
+                "reference": "5e42214207a9d1454ac529564b782b29a225fb8a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mglaman/drupal-check/zipball/adaec25a178e8cbb512d9b27c6e362e419bd1cf2",
-                "reference": "adaec25a178e8cbb512d9b27c6e362e419bd1cf2",
+                "url": "https://api.github.com/repos/mglaman/drupal-check/zipball/5e42214207a9d1454ac529564b782b29a225fb8a",
+                "reference": "5e42214207a9d1454ac529564b782b29a225fb8a",
                 "shasum": ""
             },
             "require": {
                 "composer/xdebug-handler": "^1.3",
                 "jean85/pretty-package-versions": "^1.2",
-                "mglaman/phpstan-drupal-deprecations": "^0.11.1",
+                "mglaman/phpstan-drupal": "^0.11.1",
                 "mglaman/phpstan-junit": "^0.11.1",
                 "php": "~7.1",
+                "phpstan/phpstan": "0.11.x-dev#bf4e560b898dd77e5d4b22978e5fddece3d7a364",
+                "phpstan/phpstan-deprecation-rules": "^0.11.0",
                 "symfony/console": "~3.2 || ~4.0",
                 "webflo/drupal-finder": "^1.1"
-            },
-            "conflict": {
-                "phpstan/phpstan": ">=0.11.7"
             },
             "require-dev": {
                 "squizlabs/php_codesniffer": "^3.4"
@@ -3448,7 +3447,7 @@
                 }
             ],
             "description": "CLI tool for running checks on a Drupal code base",
-            "time": "2019-06-12T19:32:17+00:00"
+            "time": "2019-06-14T01:14:20+00:00"
         },
         {
             "name": "mglaman/phpstan-drupal",
@@ -3527,43 +3526,6 @@
             "time": "2019-05-07T21:50:12+00:00"
         },
         {
-            "name": "mglaman/phpstan-drupal-deprecations",
-            "version": "0.11.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mglaman/phpstan-drupal-deprecations.git",
-                "reference": "a6d80b01269894f9d444bba75060def7b4df72ba"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mglaman/phpstan-drupal-deprecations/zipball/a6d80b01269894f9d444bba75060def7b4df72ba",
-                "reference": "a6d80b01269894f9d444bba75060def7b4df72ba",
-                "shasum": ""
-            },
-            "require": {
-                "mglaman/phpstan-drupal": "^0.11.1",
-                "phpstan/phpstan-deprecation-rules": "^0.11.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.11-dev"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "authors": [
-                {
-                    "name": "Matt Glaman",
-                    "email": "nmd.matt@gmail.com"
-                }
-            ],
-            "description": "streamline configuring Drupal deprecation testing",
-            "time": "2019-02-07T14:33:00+00:00"
-        },
-        {
             "name": "mglaman/phpstan-junit",
             "version": "0.11.2",
             "source": {
@@ -3607,39 +3569,39 @@
         },
         {
             "name": "nette/bootstrap",
-            "version": "v2.4.6",
+            "version": "v3.0.0-RC1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/bootstrap.git",
-                "reference": "268816e3f1bb7426c3a4ceec2bd38a036b532543"
+                "reference": "5c323e105b16e80881648cf77fac363509e4fbf8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/bootstrap/zipball/268816e3f1bb7426c3a4ceec2bd38a036b532543",
-                "reference": "268816e3f1bb7426c3a4ceec2bd38a036b532543",
+                "url": "https://api.github.com/repos/nette/bootstrap/zipball/5c323e105b16e80881648cf77fac363509e4fbf8",
+                "reference": "5c323e105b16e80881648cf77fac363509e4fbf8",
                 "shasum": ""
             },
             "require": {
-                "nette/di": "~2.4.7",
-                "nette/utils": "~2.4",
-                "php": ">=5.6.0"
+                "nette/di": "^2.4.7 || ^3.0",
+                "nette/utils": "^2.4 || ^3.0",
+                "php": ">=7.1"
             },
             "conflict": {
                 "nette/nette": "<2.2"
             },
             "require-dev": {
-                "latte/latte": "~2.2",
-                "nette/application": "~2.3",
-                "nette/caching": "~2.3",
-                "nette/database": "~2.3",
-                "nette/forms": "~2.3",
-                "nette/http": "~2.4.0",
-                "nette/mail": "~2.3",
+                "latte/latte": "^2.2",
+                "nette/application": "^2.3 || ^3.0",
+                "nette/caching": "^2.3 || ^3.0",
+                "nette/database": "^2.3 || ^3.0",
+                "nette/forms": "^2.3 || ^3.0",
+                "nette/http": "^2.4.0 || ^3.0",
+                "nette/mail": "^2.3 || ^3.0",
                 "nette/robot-loader": "^2.4.2 || ^3.0",
-                "nette/safe-stream": "~2.2",
-                "nette/security": "~2.3",
-                "nette/tester": "~2.0",
-                "tracy/tracy": "^2.4.1"
+                "nette/safe-stream": "^2.2",
+                "nette/security": "^2.3 || ^3.0",
+                "nette/tester": "^2.0",
+                "tracy/tracy": "^2.5"
             },
             "suggest": {
                 "nette/robot-loader": "to use Configurator::createRobotLoader()",
@@ -3648,7 +3610,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.4-dev"
+                    "dev-master": "3.0-dev"
                 }
             },
             "autoload": {
@@ -3679,7 +3641,7 @@
                 "configurator",
                 "nette"
             ],
-            "time": "2018-05-17T12:52:20+00:00"
+            "time": "2018-11-04T13:05:13+00:00"
         },
         {
             "name": "nette/di",
@@ -3875,16 +3837,16 @@
         },
         {
             "name": "nette/php-generator",
-            "version": "v3.2.2",
+            "version": "v3.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/php-generator.git",
-                "reference": "acff8b136fad84b860a626d133e791f95781f9f5"
+                "reference": "aea6e81437bb238e5f0e5b5ce06337433908e63b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/php-generator/zipball/acff8b136fad84b860a626d133e791f95781f9f5",
-                "reference": "acff8b136fad84b860a626d133e791f95781f9f5",
+                "url": "https://api.github.com/repos/nette/php-generator/zipball/aea6e81437bb238e5f0e5b5ce06337433908e63b",
+                "reference": "aea6e81437bb238e5f0e5b5ce06337433908e63b",
                 "shasum": ""
             },
             "require": {
@@ -3930,30 +3892,27 @@
                 "php",
                 "scaffolding"
             ],
-            "time": "2019-03-15T03:41:13+00:00"
+            "time": "2019-07-05T13:01:56+00:00"
         },
         {
             "name": "nette/robot-loader",
-            "version": "v3.1.1",
+            "version": "v3.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/robot-loader.git",
-                "reference": "3e8d75d6d976e191bdf46752ca40a286671219d2"
+                "reference": "0712a0e39ae7956d6a94c0ab6ad41aa842544b5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/robot-loader/zipball/3e8d75d6d976e191bdf46752ca40a286671219d2",
-                "reference": "3e8d75d6d976e191bdf46752ca40a286671219d2",
+                "url": "https://api.github.com/repos/nette/robot-loader/zipball/0712a0e39ae7956d6a94c0ab6ad41aa842544b5c",
+                "reference": "0712a0e39ae7956d6a94c0ab6ad41aa842544b5c",
                 "shasum": ""
             },
             "require": {
                 "ext-tokenizer": "*",
-                "nette/finder": "^2.3 || ^3.0",
-                "nette/utils": "^2.4 || ^3.0",
-                "php": ">=5.6.0"
-            },
-            "conflict": {
-                "nette/nette": "<2.2"
+                "nette/finder": "^2.5",
+                "nette/utils": "^3.0",
+                "php": ">=7.1"
             },
             "require-dev": {
                 "nette/tester": "^2.0",
@@ -3962,7 +3921,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.1-dev"
+                    "dev-master": "3.2-dev"
                 }
             },
             "autoload": {
@@ -3995,52 +3954,39 @@
                 "nette",
                 "trait"
             ],
-            "time": "2019-03-01T20:23:02+00:00"
+            "time": "2019-03-08T21:57:24+00:00"
         },
         {
-            "name": "nette/utils",
-            "version": "v2.5.3",
+            "name": "nette/schema",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/nette/utils.git",
-                "reference": "17b9f76f2abd0c943adfb556e56f2165460b15ce"
+                "url": "https://github.com/nette/schema.git",
+                "reference": "6241d8d4da39e825dd6cb5bfbe4242912f4d7e4d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/utils/zipball/17b9f76f2abd0c943adfb556e56f2165460b15ce",
-                "reference": "17b9f76f2abd0c943adfb556e56f2165460b15ce",
+                "url": "https://api.github.com/repos/nette/schema/zipball/6241d8d4da39e825dd6cb5bfbe4242912f4d7e4d",
+                "reference": "6241d8d4da39e825dd6cb5bfbe4242912f4d7e4d",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.6.0"
-            },
-            "conflict": {
-                "nette/nette": "<2.2"
+                "nette/utils": "^3.0.1",
+                "php": ">=7.1"
             },
             "require-dev": {
-                "nette/tester": "~2.0",
+                "nette/tester": "^2.2",
                 "tracy/tracy": "^2.3"
-            },
-            "suggest": {
-                "ext-gd": "to use Image",
-                "ext-iconv": "to use Strings::webalize() and toAscii()",
-                "ext-intl": "for script transliteration in Strings::webalize() and toAscii()",
-                "ext-json": "to use Nette\\Utils\\Json",
-                "ext-mbstring": "to use Strings::lower() etc...",
-                "ext-xml": "to use Strings::length() etc. when mbstring is not available"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.5-dev"
+                    "dev-master": "1.0-dev"
                 }
             },
             "autoload": {
                 "classmap": [
                     "src/"
-                ],
-                "files": [
-                    "src/loader.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -4059,7 +4005,71 @@
                     "homepage": "https://nette.org/contributors"
                 }
             ],
-            "description": "? Nette Utils: lightweight utilities for string & array manipulation, image handling, safe JSON encoding/decoding, validation, slug or strong password generating etc.",
+            "description": "📐 Nette Schema: validating data structures against a given Schema.",
+            "homepage": "https://nette.org",
+            "keywords": [
+                "config",
+                "nette"
+            ],
+            "time": "2019-04-03T15:53:25+00:00"
+        },
+        {
+            "name": "nette/utils",
+            "version": "v3.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nette/utils.git",
+                "reference": "bd961f49b211997202bda1d0fbc410905be370d4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nette/utils/zipball/bd961f49b211997202bda1d0fbc410905be370d4",
+                "reference": "bd961f49b211997202bda1d0fbc410905be370d4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "nette/tester": "~2.0",
+                "tracy/tracy": "^2.3"
+            },
+            "suggest": {
+                "ext-gd": "to use Image",
+                "ext-iconv": "to use Strings::webalize() and toAscii()",
+                "ext-intl": "to use Strings::webalize(), toAscii(), normalize() and compare()",
+                "ext-json": "to use Nette\\Utils\\Json",
+                "ext-mbstring": "to use Strings::lower() etc...",
+                "ext-xml": "to use Strings::length() etc. when mbstring is not available"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause",
+                "GPL-2.0",
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "David Grudl",
+                    "homepage": "https://davidgrudl.com"
+                },
+                {
+                    "name": "Nette Community",
+                    "homepage": "https://nette.org/contributors"
+                }
+            ],
+            "description": "🛠 Nette Utils: lightweight utilities for string & array manipulation, image handling, safe JSON encoding/decoding, validation, slug or strong password generating etc.",
             "homepage": "https://nette.org",
             "keywords": [
                 "array",
@@ -4077,7 +4087,7 @@
                 "utility",
                 "validation"
             ],
-            "time": "2018-09-18T10:22:16+00:00"
+            "time": "2019-03-22T01:00:30+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -4528,16 +4538,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.11.6",
+            "version": "0.11.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "7af8b9d02b3ab36444dbf4e1b9ca1c1bd5044d81"
+                "reference": "60ab1540f75363a56373ef9368c5da225febaa5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/7af8b9d02b3ab36444dbf4e1b9ca1c1bd5044d81",
-                "reference": "7af8b9d02b3ab36444dbf4e1b9ca1c1bd5044d81",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/60ab1540f75363a56373ef9368c5da225febaa5c",
+                "reference": "60ab1540f75363a56373ef9368c5da225febaa5c",
                 "shasum": ""
             },
             "require": {
@@ -4546,10 +4556,11 @@
                 "nette/bootstrap": "^2.4 || ^3.0",
                 "nette/di": "^2.4.7 || ^3.0",
                 "nette/robot-loader": "^3.0.1",
+                "nette/schema": "^1.0",
                 "nette/utils": "^2.4.5 || ^3.0",
                 "nikic/php-parser": "^4.0.2",
                 "php": "~7.1",
-                "phpstan/phpdoc-parser": "^0.3",
+                "phpstan/phpdoc-parser": "^0.3.5",
                 "symfony/console": "~3.2 || ~4.0",
                 "symfony/finder": "~3.2 || ~4.0"
             },
@@ -4562,6 +4573,7 @@
                 "dealerdirect/phpcodesniffer-composer-installer": "^0.4.4",
                 "ext-intl": "*",
                 "ext-mysqli": "*",
+                "ext-simplexml": "*",
                 "ext-soap": "*",
                 "ext-zip": "*",
                 "jakub-onderka/php-parallel-lint": "^1.0",
@@ -4597,26 +4609,26 @@
                 "MIT"
             ],
             "description": "PHPStan - PHP Static Analysis Tool",
-            "time": "2019-05-08T16:33:56+00:00"
+            "time": "2019-07-08T16:00:54+00:00"
         },
         {
             "name": "phpstan/phpstan-deprecation-rules",
-            "version": "0.11.1",
+            "version": "0.11.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-deprecation-rules.git",
-                "reference": "4991f7599646f97f7a2fc2b74ead018f2104ac8e"
+                "reference": "5685fe48873efc5af1f2cc95d9c1b8ae82c728fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-deprecation-rules/zipball/4991f7599646f97f7a2fc2b74ead018f2104ac8e",
-                "reference": "4991f7599646f97f7a2fc2b74ead018f2104ac8e",
+                "url": "https://api.github.com/repos/phpstan/phpstan-deprecation-rules/zipball/5685fe48873efc5af1f2cc95d9c1b8ae82c728fe",
+                "reference": "5685fe48873efc5af1f2cc95d9c1b8ae82c728fe",
                 "shasum": ""
             },
             "require": {
                 "nikic/php-parser": "^4.0",
                 "php": "~7.1",
-                "phpstan/phpstan": "^0.11.4"
+                "phpstan/phpstan": "^0.11.8"
             },
             "require-dev": {
                 "consistence/coding-standard": "^3.0.1",
@@ -4648,7 +4660,7 @@
                 "MIT"
             ],
             "description": "PHPStan rules for detecting usage of deprecated classes, methods, properties, constants and traits.",
-            "time": "2019-05-19T19:55:34+00:00"
+            "time": "2019-05-28T19:54:04+00:00"
         },
         {
             "name": "psr/container",
@@ -7383,12 +7395,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/minkphp/Mink.git",
-                "reference": "6d637f7af4816c26ad8a943da2e3f7eef1231bea"
+                "reference": "7f7af8fc7649c4f74935ddd1a1fa82e205eeb25e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/minkphp/Mink/zipball/6d637f7af4816c26ad8a943da2e3f7eef1231bea",
-                "reference": "6d637f7af4816c26ad8a943da2e3f7eef1231bea",
+                "url": "https://api.github.com/repos/minkphp/Mink/zipball/7f7af8fc7649c4f74935ddd1a1fa82e205eeb25e",
+                "reference": "7f7af8fc7649c4f74935ddd1a1fa82e205eeb25e",
                 "shasum": ""
             },
             "require": {
@@ -7434,7 +7446,7 @@
                 "testing",
                 "web"
             ],
-            "time": "2019-05-14T09:56:49+00:00"
+            "time": "2019-07-08T10:19:23+00:00"
         },
         {
             "name": "behat/mink-browserkit-driver",
@@ -10619,16 +10631,16 @@
         },
         {
             "name": "webflo/drupal-core-require-dev",
-            "version": "8.7.3",
+            "version": "8.7.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webflo/drupal-core-require-dev.git",
-                "reference": "75d11db587237934914a1cd150e81462665a19aa"
+                "reference": "6ab0d5c54addc3000ed7797bbcddec105d5f4dd9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webflo/drupal-core-require-dev/zipball/75d11db587237934914a1cd150e81462665a19aa",
-                "reference": "75d11db587237934914a1cd150e81462665a19aa",
+                "url": "https://api.github.com/repos/webflo/drupal-core-require-dev/zipball/6ab0d5c54addc3000ed7797bbcddec105d5f4dd9",
+                "reference": "6ab0d5c54addc3000ed7797bbcddec105d5f4dd9",
                 "shasum": ""
             },
             "require": {
@@ -10636,7 +10648,7 @@
                 "behat/mink-goutte-driver": "^1.2",
                 "behat/mink-selenium2-driver": "1.3.x-dev",
                 "drupal/coder": "^8.3.1",
-                "drupal/core": "8.7.3",
+                "drupal/core": "8.7.4",
                 "jcalderonzumba/gastonjs": "^1.0.2",
                 "jcalderonzumba/mink-phantomjs-driver": "^0.3.1",
                 "justinrainbow/json-schema": "^5.2",
@@ -10653,7 +10665,7 @@
                 "GPL-2.0-or-later"
             ],
             "description": "require-dev dependencies from drupal/core",
-            "time": "2019-06-05T19:31:46+00:00"
+            "time": "2019-07-04T08:01:42+00:00"
         }
     ],
     "aliases": [],
