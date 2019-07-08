@@ -37,7 +37,6 @@
         "grasmash/yaml-cli": "^1.0.0",
         "grasmash/yaml-expander": "^1.2.0",
         "mglaman/drupal-check": "^1.0.10",
-        "mglaman/phpstan-drupal": "0.11.7",
         "oomphinc/composer-installers-extender": "^1.1",
         "sensiolabs/security-checker": "^5.0.0",
         "symfony/config": "^3.0",
