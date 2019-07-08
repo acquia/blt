@@ -59,146 +59,6 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   }
 
   /**
-   * Create test app.
-   *
-   * @param array $options
-   *   Options.
-   */
-  protected function createTestApp(array $options = [
-    'project-type' => 'standalone',
-    'project-dir' => self::BLT_PROJECT_DIR,
-    'vm' => TRUE,
-  ]) {
-    switch ($options['project-type']) {
-      case 'standalone':
-        $this->createFromBltProject($options);
-        break;
-
-      case 'symlink':
-        $this->createFromSymlink($options);
-        break;
-    }
-  }
-
-  /**
-   * Create a new project via symlink from current checkout of BLT.
-   *
-   * Local BLT will be symlinked to blted8/vendor/acquia/blt.
-   *
-   * @option project-dir The directory in which the test project will be
-   *   created.
-   * @option vm Whether a VM will be booted.
-   */
-  public function createFromSymlink($options = [
-    'project-dir' => self::BLT_PROJECT_DIR,
-    'vm' => TRUE,
-  ]) {
-    $test_project_dir = $this->bltRoot . "/" . $options['project-dir'];
-    $bin = $test_project_dir . "/vendor/bin";
-    $this->prepareTestProjectDir($test_project_dir);
-    $this->taskFilesystemStack()
-      ->mkdir($test_project_dir)
-      ->copy($this->bltRoot . '/subtree-splits/blt-project/composer.json', $test_project_dir . '/composer.json')
-      ->run();
-
-    $template_composer_json_filepath = $test_project_dir . '/composer.json';
-    $template_composer_json = json_decode(file_get_contents($template_composer_json_filepath));
-    $template_composer_json->repositories->blt = [
-      'type' => 'path',
-      'url' => '../blt',
-      'options' => [
-        'symlink' => TRUE,
-      ],
-    ];
-    $template_composer_json->require->{'acquia/blt'} = '*@dev';
-
-    file_put_contents($template_composer_json_filepath, json_encode($template_composer_json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-
-    $this->taskExecStack()
-      ->dir($test_project_dir)
-      ->exec("git init")
-      ->exec("git add -A")
-      ->exec("git commit -m \"Initial commit.\"")
-      ->run();
-    if (!$options['vm']) {
-      $this->taskReplaceInFile($test_project_dir . "/composer.json")
-        ->from("../blt")
-        ->to($this->bltRoot)
-        ->run();
-    }
-    $task = $this->taskExecStack()
-      ->dir($test_project_dir)
-      // BLT is the only dependency at this point. Install it.
-      ->exec("composer install");
-
-    if ($options['vm']) {
-      $task->exec("$bin/blt vm --no-boot --no-interaction -v")
-        ->exec("$bin/yaml-cli update:value box/config.yml vagrant_synced_folders.1.local_path '../blt'")
-        ->exec("$bin/yaml-cli update:value box/config.yml vagrant_synced_folders.1.destination '/var/www/blt'")
-        ->exec("$bin/yaml-cli update:value box/config.yml vagrant_synced_folders.1.type nfs");
-    }
-    $task->run();
-  }
-
-  /**
-   * Create a new project using `composer create-project acquia/blt-project`.
-   *
-   * @option base-branch The blt-project (NOT blt) branch to test.
-   * @option project-dir The directory in which the test project will be
-   *   created.
-   * @option vm Whether a VM will be booted.
-   */
-  public function createFromBltProject($options = [
-    'base-branch' => self::BLT_DEV_BRANCH,
-    'project-dir' => self::BLT_PROJECT_DIR,
-  ]) {
-    $test_project_dir = $this->bltRoot . "/" . $options['project-dir'];
-    $this->prepareTestProjectDir($test_project_dir);
-    $this->yell("Creating project from acquia/blt-project:{$options['base-branch']}-dev.");
-    $return = $this->taskExecStack()
-      ->dir($this->bltRoot . "/..")
-      ->exec("COMPOSER_PROCESS_TIMEOUT=2000 composer create-project acquia/blt-project:{$options['base-branch']}-dev blted8 --no-interaction")
-      ->run();
-
-    return $return;
-  }
-
-  /**
-   * Create a new project using `composer require acquia/blt`.
-   *
-   * @option base-branch The blt-project (NOT blt) branch to test.
-   * @option project-dir The directory in which the test project will be
-   *   created.
-   * @option vm Whether a VM will be booted.
-   */
-  public function createFromScratch($options = [
-    'base-branch' => self::BLT_DEV_BRANCH,
-    'project-dir' => self::BLT_PROJECT_DIR,
-    'vm' => TRUE,
-  ]) {
-    $test_project_dir = $this->bltRoot . "/" . $options['project-dir'];
-    $bin = $test_project_dir . "/vendor/bin";
-    $this->prepareTestProjectDir($test_project_dir);
-    $this->taskFilesystemStack()->mkdir("$test_project_dir")->run();
-    $this->taskExecStack()
-      ->dir($test_project_dir)
-      ->exec("composer init --name=acme/project --stability=dev --no-interaction")
-      ->exec("composer config prefer-stable true")
-      ->exec("git init")
-      ->exec("git add -A")
-      ->exec("git commit -m \"Initial commit.\"")
-      ->run();
-    $task = $this->taskExecStack()
-      ->dir($test_project_dir)
-      // BLT is the only dependency at this point. Install it.
-      ->exec("composer require acquia/blt {$options['base-branch']}-dev");
-    if ($options['vm']) {
-      $task->exec("$bin/blt vm --no-boot --no-interaction -v");
-    }
-    $task->run();
-  }
-
-  /**
    * Executes pre-release tests against blt-project self::BLT_DEV_BRANCH.
    */
   public function releaseTest() {
@@ -322,34 +182,6 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   }
 
   /**
-   * Update CHANGELOG.md with notes for new release.
-   *
-   * @param string $tag
-   *   The tag name. E.g, 8.6.10.
-   * @param string $github_token
-   *   A github access token.
-   * @param array $options
-   *   Options.
-   *
-   * @option prev-tag The previous tag on the current branch from which to
-   *   determine diff.
-   */
-  public function releaseNotes(
-    $tag,
-    $github_token,
-    array $options = [
-      'prev-tag' => NULL,
-    ]
-  ) {
-    $current_branch = $this->getCurrentBranch();
-    $prev_tag = $this->getPrevTag($options, $current_branch);
-
-    // @todo Check git version.
-    $changes = $this->generateReleaseNotes($tag, $prev_tag, $github_token);
-    $this->updateChangelog($tag, $changes);
-  }
-
-  /**
    * Generate release notes.
    *
    * @param string $prev_tag
@@ -386,21 +218,6 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     }
 
     return $text;
-  }
-
-  /**
-   * Fixes BLT internal code via PHPCBF.
-   *
-   * @command fix-code
-   */
-  public function fixCode() {
-    $command = "'{$this->bin}/phpcbf'";
-    $task = $this->taskExecStack()
-      ->dir($this->bltRoot)
-      ->exec($command);
-    $result = $task->run();
-
-    return $result->getExitCode();
   }
 
   /**
@@ -775,32 +592,6 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
       ->exec('remote update')
       ->exec("reset --hard upstream/$current_branch")
       ->run();
-  }
-
-  /**
-   * Test project dir.
-   *
-   * @param string $test_project_dir
-   *   Test project dir.
-   *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
-   */
-  protected function prepareTestProjectDir($test_project_dir) {
-    if (file_exists($test_project_dir . "/.vagrant")) {
-      $this->taskExecStack()
-        ->exec("vagrant destroy")
-        ->dir($test_project_dir)
-        ->run();
-    }
-    if (file_exists($test_project_dir)) {
-      $this->logger->warning("This will destroy the $test_project_dir directory!");
-      $continue = $this->confirm("Continue?");
-      if (!$continue) {
-        $this->say("Please run <comment>sudo rm -rf $test_project_dir</comment>");
-        throw new BltException("$test_project_dir already exists.");
-      }
-    }
-    $this->taskDeleteDir($test_project_dir)->run();
   }
 
   /**
