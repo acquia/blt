@@ -14,8 +14,8 @@ class ProjectConfiguration implements ConfigurationInterface {
    * Get config tree builder.
    */
   public function getConfigTreeBuilder() {
-    $treeBuilder = new TreeBuilder();
-    $rootNode = $treeBuilder->root('recipe');
+    $treeBuilder = new TreeBuilder('recipe');
+    $rootNode = $treeBuilder->getRootNode();
 
     // @codingStandardsIgnoreStart
     $rootNode

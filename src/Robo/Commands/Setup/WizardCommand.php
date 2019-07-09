@@ -21,9 +21,17 @@ class WizardCommand extends BltTasks {
   /**
    * Wizard for setting initial configuration.
    *
+   * @param array $options
+   *   Recipe to use.
+   *
+   * @return void|int
+   *   True if aborted.
+   *
    * @command wizard
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
-  public function wizard($options = [
+  public function wizard(array $options = [
     'recipe' => InputOption::VALUE_REQUIRED,
   ]) {
     $recipe_filename = $options['recipe'];

@@ -39,7 +39,7 @@
         "mglaman/drupal-check": "^1.0.10",
         "oomphinc/composer-installers-extender": "^1.1",
         "sensiolabs/security-checker": "^5.0.0",
-        "symfony/config": "^3.0",
+        "symfony/config": "^4.0",
         "symfony/console": "^3.4.0",
         "symfony/twig-bridge": "^3.3",
         "symfony/yaml": "^3.2.8",
