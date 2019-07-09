@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "065a1f3e1715a42c6f79a631895c71b8",
+    "content-hash": "fe908fd36bb56c6770b4cc324eba501f",
     "packages": [
         {
             "name": "acquia/http-hmac-php",
@@ -3401,16 +3401,16 @@
         },
         {
             "name": "mglaman/drupal-check",
-            "version": "1.0.11",
+            "version": "1.0.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mglaman/drupal-check.git",
-                "reference": "5e42214207a9d1454ac529564b782b29a225fb8a"
+                "reference": "f973c95222d59c5fec59fcc87524f1af7ee4a063"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mglaman/drupal-check/zipball/5e42214207a9d1454ac529564b782b29a225fb8a",
-                "reference": "5e42214207a9d1454ac529564b782b29a225fb8a",
+                "url": "https://api.github.com/repos/mglaman/drupal-check/zipball/f973c95222d59c5fec59fcc87524f1af7ee4a063",
+                "reference": "f973c95222d59c5fec59fcc87524f1af7ee4a063",
                 "shasum": ""
             },
             "require": {
@@ -3419,7 +3419,7 @@
                 "mglaman/phpstan-drupal": "^0.11.1",
                 "mglaman/phpstan-junit": "^0.11.1",
                 "php": "~7.1",
-                "phpstan/phpstan": "0.11.x-dev#bf4e560b898dd77e5d4b22978e5fddece3d7a364",
+                "phpstan/phpstan": "^0.11.9",
                 "phpstan/phpstan-deprecation-rules": "^0.11.0",
                 "symfony/console": "~3.2 || ~4.0",
                 "webflo/drupal-finder": "^1.1"
@@ -3447,20 +3447,20 @@
                 }
             ],
             "description": "CLI tool for running checks on a Drupal code base",
-            "time": "2019-06-14T01:14:20+00:00"
+            "time": "2019-07-09T20:45:55+00:00"
         },
         {
             "name": "mglaman/phpstan-drupal",
-            "version": "0.11.9",
+            "version": "0.11.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mglaman/phpstan-drupal.git",
-                "reference": "c599d447768e12f8088aa18167f5efc7bc1c2743"
+                "reference": "decb05ddd5b3f82481db8911ba78b17563a41460"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mglaman/phpstan-drupal/zipball/c599d447768e12f8088aa18167f5efc7bc1c2743",
-                "reference": "c599d447768e12f8088aa18167f5efc7bc1c2743",
+                "url": "https://api.github.com/repos/mglaman/phpstan-drupal/zipball/decb05ddd5b3f82481db8911ba78b17563a41460",
+                "reference": "decb05ddd5b3f82481db8911ba78b17563a41460",
                 "shasum": ""
             },
             "require": {
@@ -3482,8 +3482,11 @@
             "suggest": {
                 "phpstan/phpstan-deprecation-rules": "For catching deprecations, especially in Drupal core."
             },
-            "type": "library",
+            "type": "phpstan-extension",
             "extra": {
+                "branch-alias": {
+                    "dev-master": "0.12-dev"
+                },
                 "installer-paths": {
                     "tests/fixtures/drupal/core": [
                         "type:drupal-core"
@@ -3501,8 +3504,10 @@
                         "type:drupal-theme"
                     ]
                 },
-                "branch-alias": {
-                    "dev-master": "0.12-dev"
+                "phpstan": {
+                    "includes": [
+                        "extension.neon"
+                    ]
                 }
             },
             "autoload": {
@@ -3521,7 +3526,7 @@
                 }
             ],
             "description": "Drupal extension and rules for PHPStan",
-            "time": "2019-06-13T17:48:37+00:00"
+            "time": "2019-07-09T18:58:39+00:00"
         },
         {
             "name": "mglaman/phpstan-junit",
@@ -4537,16 +4542,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.11.x-dev",
+            "version": "0.11.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "60ab1540f75363a56373ef9368c5da225febaa5c"
+                "reference": "56b3eb2a371b60537fd20794e24af9e7e8ed4e30"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/60ab1540f75363a56373ef9368c5da225febaa5c",
-                "reference": "60ab1540f75363a56373ef9368c5da225febaa5c",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/56b3eb2a371b60537fd20794e24af9e7e8ed4e30",
+                "reference": "56b3eb2a371b60537fd20794e24af9e7e8ed4e30",
                 "shasum": ""
             },
             "require": {
@@ -4608,7 +4613,7 @@
                 "MIT"
             ],
             "description": "PHPStan - PHP Static Analysis Tool",
-            "time": "2019-07-08T16:00:54+00:00"
+            "time": "2019-07-08T06:55:18+00:00"
         },
         {
             "name": "phpstan/phpstan-deprecation-rules",
@@ -8444,6 +8449,11 @@
                 "squizlabs/php_codesniffer": ">3.0"
             },
             "type": "library",
+            "extra": {
+                "patches_applied": {
+                    "false positives": "https://patch-diff.githubusercontent.com/raw/FloeDesignTechnologies/phpcs-security-audit/pull/43.patch"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "PHPCS_SecurityAudit\\": "Security/"
