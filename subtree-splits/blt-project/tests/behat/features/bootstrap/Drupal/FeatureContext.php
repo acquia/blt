@@ -8,7 +8,7 @@ use Behat\Behat\Context\SnippetAcceptingContext;
 /**
  * FeatureContext class defines custom step definitions for Behat.
  */
-class FeatureContext extends RawDrupalContext implements SnippetAcceptingContext {
+class FeatureContext extends RawDrupalContext {
 
   /**
    * Every scenario gets its own context instance.
