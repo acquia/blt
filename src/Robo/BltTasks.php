@@ -316,7 +316,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
     $new_config = $config_initializer->initialize();
 
     // Replaces config.
-    $this->getConfig()->import($new_config->export());
+    $this->getConfig()->replace($new_config->export());
   }
 
 }

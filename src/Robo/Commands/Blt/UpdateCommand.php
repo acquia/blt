@@ -110,7 +110,7 @@ class UpdateCommand extends BltTasks {
     // Reinitialize configuration now that project files exist.
     $config_initializer = new ConfigInitializer($this->getConfigValue('repo.root'), $this->input());
     $new_config = $config_initializer->initialize();
-    $this->getConfig()->import($new_config->export());
+    $this->getConfig()->replace($new_config->export());
 
     $this->invokeCommand('blt:init:settings');
     $this->invokeCommand('recipes:blt:init:command');

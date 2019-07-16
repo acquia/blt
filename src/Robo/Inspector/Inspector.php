@@ -596,7 +596,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
     $processor = new YamlConfigProcessor();
     $processor->extend($loader->load($behat_local_config_file));
     $processor->extend($loader->load($this->getConfigValue('repo.root') . '/tests/behat/behat.yml'));
-    $behat_local_config->import($processor->export());
+    $behat_local_config->replace($processor->export());
 
     return $behat_local_config;
   }

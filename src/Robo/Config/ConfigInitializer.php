@@ -204,7 +204,7 @@ class ConfigInitializer {
    *   Config.
    */
   public function processConfigFiles() {
-    $this->config->import($this->processor->export());
+    $this->config->replace($this->processor->export());
     $this->config->populateHelperConfig();
 
     return $this;
