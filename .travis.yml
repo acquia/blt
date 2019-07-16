@@ -58,6 +58,7 @@ before_install:
   # Install ORCA.
   - git clone --branch ${ORCA_VERSION} --depth 1 https://github.com/acquia/orca.git ../orca
   - curl https://patch-diff.githubusercontent.com/raw/acquia/orca/pull/30.patch | git -C ../orca apply
+  - curl https://patch-diff.githubusercontent.com/raw/acquia/orca/pull/33.patch | git -C ../orca apply
   - ../orca/bin/travis/before_install.sh
 
 install:
