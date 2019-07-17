@@ -11,4 +11,4 @@ then
   fi
 fi
 
-set +v
+set +ev
