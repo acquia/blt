@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-set -ev
+set -v
 
-blt validate:all --no-interaction
+travis_wait blt validate:all --no-interaction
 travis_wait blt setup --define drush.alias='${drush.aliases.ci}' --environment=ci --no-interaction --verbose
-blt tests:all --define drush.alias='${drush.aliases.ci}' --define tests.run-server=true --environment=ci --no-interaction --verbose
+travis_wait blt tests:all --define drush.alias='${drush.aliases.ci}' --define tests.run-server=true --environment=ci --no-interaction --verbose
 
 set +v
