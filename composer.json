@@ -37,7 +37,6 @@
         "grasmash/yaml-cli": "^1.0.0",
         "grasmash/yaml-expander": "^1.2.0",
         "mglaman/drupal-check": "^1.0.10",
-        "mglaman/phpstan-drupal": "0.11.7",
         "oomphinc/composer-installers-extender": "^1.1",
         "sensiolabs/security-checker": "^5.0.0",
         "symfony/config": "^3.0",
@@ -83,6 +82,11 @@
             "vendor/drupal/core": [
                 "type:drupal-core"
             ]
+        },
+        "patches": {
+            "pheromone/phpcs-security-audit": {
+                "false positives": "https://patch-diff.githubusercontent.com/raw/FloeDesignTechnologies/phpcs-security-audit/pull/43.patch"
+            }
         },
         "phpcodesniffer-search-depth": 4
     },
