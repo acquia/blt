@@ -62,7 +62,7 @@ class EnvironmentDetector {
   public static function isAhProdEnv() {
     $ah_env = self::getAhEnv();
     // ACE prod is 'prod'; ACSF can be '01live', '02live', ...
-    return $ah_env == 'prod' || preg_match('/^\d+live$/', $ah_env);
+    return $ah_env == 'prod' || preg_match('/^\d*live$/', $ah_env);
   }
 
   /**
@@ -71,7 +71,7 @@ class EnvironmentDetector {
   public static function isAhStageEnv() {
     $ah_env = self::getAhEnv();
     // ACE staging is 'test' or 'stg'; ACSF is '01test', '02test', ...
-    return preg_match('/^\d+test$/', $ah_env) || $ah_env == 'stg';
+    return preg_match('/^\d*test$/', $ah_env) || $ah_env == 'stg';
   }
 
   /**
@@ -79,7 +79,7 @@ class EnvironmentDetector {
    */
   public static function isAhDevEnv() {
     // ACE dev is 'dev', 'dev1', ...; ACSF dev is '01dev', '02dev', ...
-    return (preg_match('/^\d+dev\d+$/', self::getAhEnv()));
+    return (preg_match('/^\d*dev\d*$/', self::getAhEnv()));
   }
 
   /**
@@ -90,7 +90,7 @@ class EnvironmentDetector {
       $ah_env = self::getAhEnv();
     }
     // CDEs (formerly 'ODEs') can be 'ode1', 'ode2', ...
-    return (preg_match('/^ode\d+$/', $ah_env));
+    return (preg_match('/^ode\d*$/', $ah_env));
   }
 
   /**
