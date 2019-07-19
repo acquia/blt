@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fe908fd36bb56c6770b4cc324eba501f",
+    "content-hash": "2d930b94fffdec75382a45f068c7161a",
     "packages": [
         {
             "name": "acquia/http-hmac-php",
@@ -5844,7 +5844,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "backendtea@gmail.com"
+                    "email": "BackEndTea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -6854,16 +6854,16 @@
         },
         {
             "name": "typhonius/acquia-php-sdk-v2",
-            "version": "1.0.3",
+            "version": "1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/typhonius/acquia-php-sdk-v2.git",
-                "reference": "2e046528a1e85eda89cd40c0960cef0e006b84ff"
+                "reference": "c37dab976883d4200e5723b2e21dd5ff5e85d0d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/typhonius/acquia-php-sdk-v2/zipball/2e046528a1e85eda89cd40c0960cef0e006b84ff",
-                "reference": "2e046528a1e85eda89cd40c0960cef0e006b84ff",
+                "url": "https://api.github.com/repos/typhonius/acquia-php-sdk-v2/zipball/c37dab976883d4200e5723b2e21dd5ff5e85d0d7",
+                "reference": "c37dab976883d4200e5723b2e21dd5ff5e85d0d7",
                 "shasum": ""
             },
             "require": {
@@ -6894,7 +6894,7 @@
                 }
             ],
             "description": "A PHP SDK for Acquia CloudAPI v2",
-            "time": "2018-04-11T23:41:25+00:00"
+            "time": "2019-07-17T10:42:35+00:00"
         },
         {
             "name": "typo3/phar-stream-wrapper",
@@ -8235,7 +8235,7 @@
             "time": "2019-01-28T19:31:35+00:00"
         },
         {
-            "name": "mikey179/vfsStream",
+            "name": "mikey179/vfsstream",
             "version": "v1.6.6",
             "source": {
                 "type": "git",
