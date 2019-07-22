@@ -211,7 +211,7 @@ class AliasesCommand extends BltTasks {
       ]);
       $cloud_api = Client::factory($connector);
       // We must call some method on the client to test authentication.
-      $cloud_api->applications();
+      $cloud_api->account();
       $this->cloudApiClient = $cloud_api;
     }
     catch (MalformedResponseExceptionAlias $e) {
