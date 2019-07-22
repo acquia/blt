@@ -7,6 +7,25 @@
 
 **Fixed bugs**
 
+- DT-642: Fix environment detector on ACE. (#3766)
+- Fixes #3734: DT-603: Errors during blt setup do not fail travis builds. (#3756)
+
+**Miscellaneous**
+
+- Updating CHANGELOG.md and setting version for 10.2.1.
+- DT-605: Use account() to test cloud api auth. (#3764)
+- Bumped PHP version in use on Travis CI. (#3758)
+- Update ORCA to alpha18. (#3712)
+- Removed unused functions and improved docs (#3746)
+- Add new BLT logos (PNG and SVG) (#3745)
+- Fixes #3738: Failing deprecation tests. (#3739)
+- Revert "Bump blt-project to stable."
+- Bump blt-project to stable.
+[Full Changelog](https://github.com/acquia/blt/compare/10.2.0...10.2.1)
+
+
+**Fixed bugs**
+
 - Fixes #3734: DT-603: Errors during blt setup do not fail travis builds. (#3756)
 
 **Miscellaneous**
