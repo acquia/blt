@@ -4,6 +4,7 @@ namespace Acquia\Blt\Robo\Commands\Blt;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\YamlWriter;
+use Acquia\Blt\Robo\Inspector\Inspector;
 
 /**
  * Defines commands for developing BLT.
@@ -11,9 +12,13 @@ use Acquia\Blt\Robo\Common\YamlWriter;
 class DevCommand extends BltTasks {
 
   // Map host BLT path to guest BLT path so that symlinks work in guest.
-  const DIRECTORY_MAPPING = [
+  const VM_DIRECTORY_MAPPING = [
     '../../packages/blt' => '/var/packages/blt',
     '../blt' => '/var/www/blt',
+  ];
+  const LANDO_DIRECTORY_MAPPING = [
+    '../../packages/blt' => '/packages/blt',
+    '../blt' => '/blt',
   ];
 
   /**
@@ -32,31 +37,59 @@ class DevCommand extends BltTasks {
       $this->logger->error("Could not find BLT at {$options['blt-path']}. Please provide a valid blt-path argument.");
       return;
     }
-    $this->taskExec("composer config repositories.blt path {$options['blt-path']} && composer require acquia/blt:* --no-update")
-      ->dir($this->getConfigValue('repo.root'))
-      ->run();
 
-    $this->taskExec('rm -rf vendor && composer update acquia/blt --with-dependencies')
-      ->dir($this->getConfigValue('repo.root'))
-      ->run();
+    $symlink = $this->getConfigValue('repo.root') . '/vendor/acquia/blt';
+    if (filetype($symlink) !== 'link') {
+      $this->taskExec("composer config repositories.blt path {$options['blt-path']} && composer require acquia/blt:* --no-update")
+        ->dir($this->getConfigValue('repo.root'))
+        ->run();
 
-    $projectDrupalVmConfigFile = $this->getConfigValue('vm.config');
-    if ($projectDrupalVmConfigFile && isset(self::DIRECTORY_MAPPING[$options['blt-path']])) {
-      $yamlWriter = new YamlWriter($projectDrupalVmConfigFile);
+      $this->taskExec('rm -rf vendor && composer update acquia/blt --with-dependencies')
+        ->dir($this->getConfigValue('repo.root'))
+        ->run();
+    }
+
+    if (!isset(self::VM_DIRECTORY_MAPPING[$options['blt-path']])) {
+      $this->logger->info('BLT path is not valid for usage with Lando or DrupalVM.');
+    }
+
+    if ($this->getInspector()->isDrupalVmConfigPresent()) {
+      $yamlWriter = new YamlWriter($this->getConfigValue('vm.config'));
       $vm_config = $yamlWriter->getContents();
       $existing_entry = array_filter($vm_config['vagrant_synced_folders'], function ($folder) {
-        return in_array($folder['destination'], self::DIRECTORY_MAPPING);
+        return in_array($folder['destination'], self::VM_DIRECTORY_MAPPING);
       });
       if ($existing_entry) {
         return;
       }
       $vm_config['vagrant_synced_folders'][] = [
         'local_path' => $options['blt-path'],
-        'destination' => self::DIRECTORY_MAPPING[$options['blt-path']],
+        'destination' => self::VM_DIRECTORY_MAPPING[$options['blt-path']],
         'type' => 'nfs',
       ];
       $yamlWriter->write($vm_config);
       $this->taskExec('vagrant halt && vagrant up')
+        ->dir($this->getConfigValue('repo.root'))
+        ->run();
+    }
+
+    if ($this->getInspector()->isLandoConfigPresent()) {
+      $yamlWriter = new YamlWriter($this->getConfigValue('repo.root') . '/.lando.yml');
+      $lando_config = $yamlWriter->getContents();
+      if (isset($lando_config['services']['appserver']['overrides']['volumes'])) {
+        $existing_entry = array_filter($lando_config['services']['appserver']['overrides']['volumes'], function ($folder) {
+          list(, $dest) = explode(':', $folder);
+          return in_array($dest, self::LANDO_DIRECTORY_MAPPING);
+        });
+        if ($existing_entry) {
+          return;
+        }
+      }
+      $lando_config['services']['appserver']['overrides']['volumes'] = [
+        $options['blt-path'] . ':' . self::LANDO_DIRECTORY_MAPPING[$options['blt-path']],
+      ];
+      $yamlWriter->write($lando_config);
+      $this->taskExec('lando restart')
         ->dir($this->getConfigValue('repo.root'))
         ->run();
     }

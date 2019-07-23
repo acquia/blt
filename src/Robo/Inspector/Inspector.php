@@ -356,6 +356,16 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   }
 
   /**
+   * Determines if Lando configuration exists in the project.
+   *
+   * @return bool
+   *   TRUE if Lando configuration exists.
+   */
+  public function isLandoConfigPresent() {
+    return file_exists($this->getConfigValue('repo.root') . '/.lando.yml');
+  }
+
+  /**
    * Determines if Drupal VM is initialized for the local machine.
    *
    * I.E., whether Drupal VM is the default LAMP stack for BLT on local machine.
