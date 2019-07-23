@@ -24,7 +24,10 @@
         "acquia/blt-require-dev": "^10.0.0-alpha1"
     },
     "config": {
-        "sort-packages": true
+        "sort-packages": true,
+        "platform": {
+            "php": "7.2"
+        }
     },
     "extra": {
         "composer-exit-on-patch-failure": true,
