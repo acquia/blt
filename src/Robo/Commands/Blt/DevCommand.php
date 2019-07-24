@@ -4,7 +4,6 @@ namespace Acquia\Blt\Robo\Commands\Blt;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\YamlWriter;
-use Acquia\Blt\Robo\Inspector\Inspector;
 
 /**
  * Defines commands for developing BLT.
@@ -56,12 +55,12 @@ class DevCommand extends BltTasks {
         ->run();
     }
 
-    if (!isset(self::VM_DIRECTORY_MAPPING[$options['blt-path']])) {
-      $this->logger->info('BLT path is not valid for usage with Lando or DrupalVM.');
-    }
-
     // Mount local BLT in DrupalVM.
     if ($this->getInspector()->isDrupalVmConfigPresent()) {
+      if (!isset(self::VM_DIRECTORY_MAPPING[$options['blt-path']])) {
+        $this->logger->info('BLT path is not valid for usage with DrupalVM.');
+        return;
+      }
       $yamlWriter = new YamlWriter($this->getConfigValue('vm.config'));
       $vm_config = $yamlWriter->getContents();
       $existing_entry = array_filter($vm_config['vagrant_synced_folders'], function ($folder) {
@@ -81,7 +80,12 @@ class DevCommand extends BltTasks {
         ->run();
     }
 
+    // Mount local BLT in Lando.
     if ($this->getInspector()->isLandoConfigPresent()) {
+      if (!isset(self::VM_DIRECTORY_MAPPING[$options['blt-path']])) {
+        $this->logger->info('BLT path is not valid for usage with Lando.');
+        return;
+      }
       $yamlWriter = new YamlWriter($this->getConfigValue('repo.root') . '/.lando.yml');
       $lando_config = $yamlWriter->getContents();
       if (isset($lando_config['services']['appserver']['overrides']['volumes'])) {
@@ -97,7 +101,7 @@ class DevCommand extends BltTasks {
         $options['blt-path'] . ':' . self::LANDO_DIRECTORY_MAPPING[$options['blt-path']],
       ];
       $yamlWriter->write($lando_config);
-      $this->taskExec('lando restart')
+      $this->taskExec('lando rebuild -y')
         ->dir($this->getConfigValue('repo.root'))
         ->run();
     }
