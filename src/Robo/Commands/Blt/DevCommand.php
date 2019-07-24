@@ -32,14 +32,23 @@ class DevCommand extends BltTasks {
       $this->logger->error("Could not find BLT at {$options['blt-path']}. Please provide a valid blt-path argument.");
       return;
     }
+
+    // Switch to local BLT version.
     $this->taskExec("composer config repositories.blt path {$options['blt-path']} && composer require acquia/blt:* --no-update")
       ->dir($this->getConfigValue('repo.root'))
       ->run();
 
+    // Remove any patches.
+    $this->taskExec("composer config --unset extra.patches.acquia/blt")
+      ->dir($this->getConfigValue('repo.root'))
+      ->run();
+
+    // Nuke and reinitialize Composer to pick up changes.
     $this->taskExec('rm -rf vendor && composer update acquia/blt --with-dependencies')
       ->dir($this->getConfigValue('repo.root'))
       ->run();
 
+    // Mount local BLT in DrupalVM.
     $projectDrupalVmConfigFile = $this->getConfigValue('vm.config');
     if ($projectDrupalVmConfigFile && isset(self::DIRECTORY_MAPPING[$options['blt-path']])) {
       $yamlWriter = new YamlWriter($projectDrupalVmConfigFile);
