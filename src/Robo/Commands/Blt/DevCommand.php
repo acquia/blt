@@ -40,10 +40,17 @@ class DevCommand extends BltTasks {
 
     $symlink = $this->getConfigValue('repo.root') . '/vendor/acquia/blt';
     if (filetype($symlink) !== 'link') {
+      // Switch to local BLT version.
       $this->taskExec("composer config repositories.blt path {$options['blt-path']} && composer require acquia/blt:* --no-update")
         ->dir($this->getConfigValue('repo.root'))
         ->run();
 
+      // Remove any patches.
+      $this->taskExec("composer config --unset extra.patches.acquia/blt")
+        ->dir($this->getConfigValue('repo.root'))
+        ->run();
+
+      // Nuke and reinitialize Composer to pick up changes.
       $this->taskExec('rm -rf vendor && composer update acquia/blt --with-dependencies')
         ->dir($this->getConfigValue('repo.root'))
         ->run();
@@ -53,6 +60,7 @@ class DevCommand extends BltTasks {
       $this->logger->info('BLT path is not valid for usage with Lando or DrupalVM.');
     }
 
+    // Mount local BLT in DrupalVM.
     if ($this->getInspector()->isDrupalVmConfigPresent()) {
       $yamlWriter = new YamlWriter($this->getConfigValue('vm.config'));
       $vm_config = $yamlWriter->getContents();
