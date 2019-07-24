@@ -13,13 +13,60 @@ use Symfony\Component\Finder\Finder;
  */
 class DeployCommand extends BltTasks {
 
+  /**
+   * Whether to create a tag.
+   *
+   * @var bool
+   */
   protected $createTag = FALSE;
+
+  /**
+   * Tag name.
+   *
+   * @var null
+   */
   protected $tagName = NULL;
+
+  /**
+   * Branch name.
+   *
+   * @var string
+   */
   protected $branchName;
+
+  /**
+   * Commit message.
+   *
+   * @var string
+   */
   protected $commitMessage;
+
+  /**
+   * Exclude file tmp.
+   *
+   * @var string
+   */
   protected $excludeFileTemp;
+
+  /**
+   * Deploy directory.
+   *
+   * @var string
+   */
   protected $deployDir;
+
+  /**
+   * Whether to tag source.
+   *
+   * @var bool
+   */
   protected $tagSource;
+
+  /**
+   * Ignore platform requirements.
+   *
+   * @var bool
+   */
   protected $ignorePlatformReqs = FALSE;
 
   /**

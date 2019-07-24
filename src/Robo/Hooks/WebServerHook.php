@@ -10,9 +10,6 @@ use Consolidation\AnnotatedCommand\CommandData;
  */
 class WebServerHook extends BltTasks {
 
-  protected $serverUrl;
-  protected $serverPort;
-
   /**
    * Launch web server.
    *

@@ -264,7 +264,7 @@ class AcHooksCommand extends BltTasks {
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-    $result = curl_exec($ch);
+    curl_exec($ch);
     curl_close($ch);
   }
 

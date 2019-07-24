@@ -38,19 +38,21 @@ Pull requests will be reviewed by a BLT maintainer and are not subject to an SLA
 
 ## Developing BLT locally
 
-If you'd like to contribute by actively developing BLT, we suggest that you clone BLT and also created a BLT-ed project for testing your changes.
+If you'd like to contribute by actively developing BLT, we suggest that you clone BLT and link it to a BLT-based project (referred to here as `blted`) via Composer's path repository functionality. BLT provides a command `blt:dev:link-composer` that does this for you and additionally configures Vagrant to use your development version of BLT.
 
-Use the following commands to create a testable BLT-created project alongside BLT
+Due to restrictions in how Vagrant handles symlinks, only two types of directory structures are currently supported.
 
-```
-git clone https://github.com/acquia/blt.git
-rm -rf blted8
-composer install --working-dir=blt
-cd blt
-./vendor/bin/robo create:from-symlink
-```
+The first is to have BLT directly adjacent to the project you are testing. For instance:
+- BLT is located at `~/blt`
+- Your BLT test project is located at `~/blted`
+- From your project (`~/blted`), run `blt blt:dev:link-composer --blt-path=../blt`
 
-The new `blted8` directory will have a composer dependency on your local clone of BLT via a `../blt` symlink. You can therefore make changes to files in `blt` and see them immediately reflected in `blted8/vendor/acquia/blt`.
+The second supported structure is to have BLT as a sibling once removed from your test project, e.g.:
+- BLT is located at `~/packages/blt`
+- Your BLT test project is located at `~/sites/blted`
+- From your project (`~/blted`), run `blt blt:dev:link-composer` with no arguments (this is the default structure).
+
+Your `blted` project will now have a composer dependency on your local clone of BLT via a symlink. You can therefore make changes to files in `blt` and see them immediately reflected in `blted/vendor/acquia/blt`.
 
 # Testing
 

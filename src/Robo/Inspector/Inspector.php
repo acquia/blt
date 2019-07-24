@@ -545,6 +545,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *   TRUE if the command exists, otherwise FALSE.
    */
   public function commandExists($command) {
+    // phpcs:ignore
     exec("command -v $command >/dev/null 2>&1", $output, $exit_code);
     return $exit_code == 0;
   }
@@ -559,6 +560,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *   TRUE if minimum version is satisfied.
    */
   public function isGitMinimumVersionSatisfied($minimum_version) {
+    // phpcs:ignore
     exec("git --version | cut -d' ' -f3", $output, $exit_code);
     if (version_compare($output[0], $minimum_version, '>=')) {
       return TRUE;
@@ -573,7 +575,9 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *   TRUE if configured, FALSE otherwise.
    */
   public function isGitUserSet() {
+    // phpcs:ignore
     exec("git config user.name", $output, $name_not_set);
+    // phpcs:ignore
     exec("git config user.email", $output, $email_not_set);
     return !($name_not_set || $email_not_set);
   }
@@ -592,7 +596,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
     $processor = new YamlConfigProcessor();
     $processor->extend($loader->load($behat_local_config_file));
     $processor->extend($loader->load($this->getConfigValue('repo.root') . '/tests/behat/behat.yml'));
-    $behat_local_config->import($processor->export());
+    $behat_local_config->replace($processor->export());
 
     return $behat_local_config;
   }
@@ -727,7 +731,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
       if (count($parsed_line) < 4) {
         continue;
       }
-      list($timestamp, $target, $type, $data) = $parsed_line;
+      list(, $target, $type, $data) = $parsed_line;
       $this->drupalVmStatus[$target][$type] = $data;
       $this->logger->debug("vagrant $target.$type = $data");
     }

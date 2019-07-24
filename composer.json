@@ -44,7 +44,7 @@
         "symfony/twig-bridge": "^3.3",
         "symfony/yaml": "^3.2.8",
         "tivie/php-os-detector": "^1.0",
-        "typhonius/acquia-php-sdk-v2": "^1.0.3",
+        "typhonius/acquia-php-sdk-v2": "^1.0.4",
         "zaporylie/composer-drupal-optimizations": "^1.0"
     },
     "conflict": {
@@ -52,7 +52,7 @@
         "drupal/drupal": "*"
     },
     "require-dev": {
-        "acquia/coding-standards": "dev-master",
+        "acquia/coding-standards": "^0.2.0",
         "composer/composer": "^1.6.4",
         "knplabs/github-api": "^2.6",
         "php-http/guzzle6-adapter": "^1.1",
@@ -82,6 +82,11 @@
             "vendor/drupal/core": [
                 "type:drupal-core"
             ]
+        },
+        "patches": {
+            "pheromone/phpcs-security-audit": {
+                "false positives": "https://patch-diff.githubusercontent.com/raw/FloeDesignTechnologies/phpcs-security-audit/pull/43.patch"
+            }
         },
         "phpcodesniffer-search-depth": 4
     },

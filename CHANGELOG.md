@@ -1,5 +1,85 @@
 # Change Log
 
+#### 10.2.1 (2019-07-22)
+
+[Full Changelog](https://github.com/acquia/blt/compare/10.2.0...10.2.1)
+
+
+**Fixed bugs**
+
+- DT-642: Fix environment detector on ACE. (#3766)
+- Fixes #3734: DT-603: Errors during blt setup do not fail travis builds. (#3756)
+
+**Miscellaneous**
+
+- Updating CHANGELOG.md and setting version for 10.2.1.
+- DT-605: Use account() to test cloud api auth. (#3764)
+- Bumped PHP version in use on Travis CI. (#3758)
+- Update ORCA to alpha18. (#3712)
+- Removed unused functions and improved docs (#3746)
+- Add new BLT logos (PNG and SVG) (#3745)
+- Fixes #3738: Failing deprecation tests. (#3739)
+- Revert "Bump blt-project to stable."
+- Bump blt-project to stable.
+[Full Changelog](https://github.com/acquia/blt/compare/10.2.0...10.2.1)
+
+
+**Fixed bugs**
+
+- Fixes #3734: DT-603: Errors during blt setup do not fail travis builds. (#3756)
+
+**Miscellaneous**
+
+- DT-642: Fix environment detector on ACE. (#3766)
+- DT-605: Use account() to test cloud api auth. (#3764)
+- Bumped PHP version in use on Travis CI. (#3758)
+- Update ORCA to alpha18. (#3712)
+- Removed unused functions and improved docs (#3746)
+- Add new BLT logos (PNG and SVG) (#3745)
+- Fixes #3738: Failing deprecation tests. (#3739)
+- Revert "Bump blt-project to stable."
+- Bump blt-project to stable.
+
+
+#### 10.2.0 (2019-07-03)
+
+[Full Changelog](https://github.com/acquia/blt/compare/10.1.0...10.2.0)
+
+**Major / breaking changes**
+
+- DT-485: Update hook for composer autoload change. (#3721)
+
+**Implemented enhancements**
+
+- Fixes #3722 to add a config-status command. (#3723)
+- Fixes #3386 to add drupal check for deprecation. (#3710)
+- Fixes #3684 BLT docs to point at the KB instead of maintaining our own Config Split docs. (#3713)
+
+**Fixed bugs**
+
+- DT-536: Fix ACSF stack detection. (#3724)
+- Fixes #3704: Pin Chromedriver to 74 on TravisCI (#3708)
+
+**Miscellaneous**
+
+- Use AcquiaDrupalStrict coding standards (#3726)
+- Added some clarifying language. (#3736)
+- Update INSTALL.md (#3725)
+- Correcting hosting type check, to generaate aliases. (#3728)
+- Fixes #3639: DT-529: Use Acquia coding standards (#3720)
+- DT-508: Removed references to deprecated -y flag. (#3718)
+- Preserve comments in blt.yml on project creation. (#3714)
+- Cleaned up TravisCI cruft (#3711)
+- Remove RTD references from README.md (#3707)
+- Fixed tests.
+- Updated composer dependencies.
+- Work around Drush 9.5 bug with path based domains (#3705)
+- Cleaned up test matrix. (#3706)
+- Fixed ORCA / Lightning test failures.
+- Revert "Bump blt-project to stable."
+- Bump blt-project to stable.
+
+
 #### 10.1.0 (2019-06-06)
 
 [Full Changelog](https://github.com/acquia/blt/compare/10.0.1...10.1.0)

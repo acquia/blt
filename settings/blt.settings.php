@@ -20,6 +20,7 @@ $request_uri = getenv('REQUEST_URI');
 $http_x_request_id = getenv('HTTP_X_REQUEST_ID');
 
 // If trusted_reverse_proxy_ips is not defined, fail gracefully.
+// phpcs:ignore
 $trusted_reverse_proxy_ips = isset($trusted_reverse_proxy_ips) ? $trusted_reverse_proxy_ips : '';
 if (!is_array($trusted_reverse_proxy_ips)) {
   $trusted_reverse_proxy_ips = [];
@@ -70,6 +71,7 @@ $repo_root = dirname(DRUPAL_ROOT);
  * @var $site_path
  * This is always set and exposed by the Drupal Kernel.
  */
+// phpcs:ignore
 $site_dir = str_replace('sites/', '', $site_path);
 
 // Special site name detection for ACSF sites being developed locally.

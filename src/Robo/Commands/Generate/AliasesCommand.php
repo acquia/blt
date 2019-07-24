@@ -211,7 +211,7 @@ class AliasesCommand extends BltTasks {
       ]);
       $cloud_api = Client::factory($connector);
       // We must call some method on the client to test authentication.
-      $cloud_api->applications();
+      $cloud_api->account();
       $this->cloudApiClient = $cloud_api;
     }
     catch (MalformedResponseExceptionAlias $e) {
@@ -342,7 +342,7 @@ class AliasesCommand extends BltTasks {
    *   The full alias for this site.
    */
   protected function getAliases($uri, $envName, $remoteHost, $remoteUser, $siteID) {
-    $alias = array();
+    $alias = [];
     // Skip wildcard domains.
     $skip_site = FALSE;
     if (strpos($uri, ':*') !== FALSE) {

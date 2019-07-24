@@ -7,6 +7,11 @@ namespace Acquia\Blt\Robo\Commands\Doctor;
  */
 class WebUriCheck extends DoctorCheck {
 
+  /**
+   * Local site drush yml.
+   *
+   * @var string
+   */
   protected $localSiteDrushYml;
 
   /**

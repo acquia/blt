@@ -19,12 +19,14 @@ use Acquia\Blt\Robo\Common\EnvironmentDetector;
  * $config_directories['sync'] = $dir . "/config/$site_dir" in settings.php,
  * and we will not overwrite it.
  */
+// phpcs:ignore
 if (!isset($blt_override_config_directories)) {
   $blt_override_config_directories = TRUE;
 }
 
 // Configuration directories.
 if ($blt_override_config_directories) {
+  // phpcs:ignore
   $config_directories['sync'] = $repo_root . "/config/default";
 }
 
@@ -50,6 +52,7 @@ foreach ($split_envs as $split_env) {
 
 // Enable env splits.
 // Do not set $split unless it is unset. This allows prior scripts to set it.
+// phpcs:ignore
 if (!isset($split)) {
   $split = 'none';
 
@@ -86,6 +89,7 @@ if ($split != 'none') {
 /**
  * Set multisite split.
  */
+// phpcs:ignore
 $config["$split_filename_prefix.$site_dir"]['status'] = TRUE;
 
 // Set acsf site split if explicit global exists.

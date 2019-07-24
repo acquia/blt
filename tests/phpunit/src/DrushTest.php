@@ -18,11 +18,11 @@ class DrushTest extends BltProjectTestBase {
    */
   public function testDrushConfig() {
     // Test that drush can be run from the following directories.
-    $dirs = array(
+    $dirs = [
       $this->sandboxInstance,
       $this->sandboxInstance . '/docroot',
       $this->sandboxInstance . '/docroot/sites/default',
-    );
+    ];
 
     foreach ($dirs as $dir) {
       chdir($dir);

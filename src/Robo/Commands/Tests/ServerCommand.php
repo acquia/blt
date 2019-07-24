@@ -10,7 +10,18 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 class ServerCommand extends TestsCommandBase {
 
+  /**
+   * Server URL.
+   *
+   * @var string
+   */
   protected $serverUrl;
+
+  /**
+   * Server port.
+   *
+   * @var string
+   */
   protected $serverPort;
 
   /**

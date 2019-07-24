@@ -99,7 +99,7 @@ class FileStore implements DataStoreInterface {
   public function keys() {
     $root = $this->directory;
     if (file_exists($root) && is_readable($root)) {
-      return array_diff(scandir($root), array('..', '.'));
+      return array_diff(scandir($root), ['..', '.']);
     }
     return [];
   }

@@ -1,7 +1,7 @@
 ---
 language: php
 
-php: "7.1"
+php: "7.2"
 
 addons:
   chrome: stable
@@ -20,7 +20,7 @@ env:
     # ORCA configuration.
     - ORCA_SUT_NAME=acquia/blt
     - ORCA_SUT_BRANCH=10.x
-    - ORCA_VERSION=v1.0.0-alpha14
+    - ORCA_VERSION=v1.0.0-alpha18
     # Custom configuration.
     - COMPOSER_BIN=$TRAVIS_BUILD_DIR/vendor/bin
     - BLT_DIR=$TRAVIS_BUILD_DIR
@@ -48,8 +48,6 @@ matrix:
     - env: ORCA_JOB=ISOLATED_DEV
     - env: ORCA_JOB=INTEGRATED_DEV
     - env: ORCA_JOB=CORE_NEXT
-    # Temporary allowances.
-    - env: ORCA_JOB=DEPRECATED_CODE_SCAN_SUT
 
 before_install:
   # Exit build early if only documentation was changed in a Pull Request.
@@ -59,6 +57,8 @@ before_install:
   - composer config --global repositories.blt path /tmp/blt-project
   # Install ORCA.
   - git clone --branch ${ORCA_VERSION} --depth 1 https://github.com/acquia/orca.git ../orca
+  - curl https://patch-diff.githubusercontent.com/raw/acquia/orca/pull/30.patch | git -C ../orca apply
+  - curl https://patch-diff.githubusercontent.com/raw/acquia/orca/pull/33.patch | git -C ../orca apply
   - ../orca/bin/travis/before_install.sh
 
 install:
@@ -68,7 +68,14 @@ install:
 before_script: ../orca/bin/travis/before_script.sh
 
 script:
+  - ./bin/travis/orca-fix.sh
   - ../orca/bin/travis/script.sh
   - ./bin/travis/script.sh
 
+before_cache: ../orca/bin/travis/before_cache.sh
+
+after_success: ../orca/bin/travis/after_success.sh
+
 after_failure: ../orca/bin/travis/after_failure.sh
+
+after_script: ../orca/bin/travis/after_script.sh
