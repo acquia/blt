@@ -115,14 +115,21 @@ class EnvironmentDetector {
   }
 
   /**
-   * Get CI.
+   * Get CI env name.
+   *
+   * In the case of multiple environment detectors declaring a CI env name, the
+   * first one wins.
    */
   public static function getCiEnv() {
+    $results = self::getSubclassResults(__FUNCTION__);
+    if ($results) {
+      return current($results);
+    }
+
     $mapping = [
       'TRAVIS' => 'travis',
       'PIPELINE_ENV' => 'pipelines',
       'PROBO_ENVIRONMENT' => 'probo',
-      'TUGBOAT_URL' => 'tugboat',
       'GITLAB_CI' => 'gitlab',
     ];
     foreach ($mapping as $env_var => $ci_name) {
@@ -138,6 +145,25 @@ class EnvironmentDetector {
    */
   public static function isCiEnv() {
     return self::getCiEnv() || isset($_ENV['CI']);
+  }
+
+  /**
+   * Get the settings file include for the current CI environment.
+   *
+   * This may be provided by BLT, or via a Composer package that has provided
+   * its own environment detector. In the case of multiple detectors providing a
+   * settings file, the first one wins.
+   *
+   * @return string
+   *   Settings file full path and filename.
+   */
+  public static function getCiSettingsFile() {
+    $results = array_filter(self::getSubclassResults(__FUNCTION__));
+    if ($results) {
+      return current($results);
+    }
+
+    return sprintf("%s/vendor/acquia/blt/settings/%s.settings.php", dirname(DRUPAL_ROOT), self::getCiEnv());
   }
 
   /**
@@ -186,6 +212,11 @@ class EnvironmentDetector {
    * Is dev.
    */
   public static function isDevEnv() {
+    $results = self::getSubclassResults(__FUNCTION__);
+    if ($results) {
+      return TRUE;
+    }
+
     return self::isAhDevEnv() || self::isPantheonDevEnv();
   }
 
@@ -193,6 +224,11 @@ class EnvironmentDetector {
    * Is stage.
    */
   public static function isStageEnv() {
+    $results = self::getSubclassResults(__FUNCTION__);
+    if ($results) {
+      return TRUE;
+    }
+
     return self::isAhStageEnv() || self::isPantheonStageEnv();
   }
 
@@ -200,6 +236,11 @@ class EnvironmentDetector {
    * Is prod.
    */
   public static function isProdEnv() {
+    $results = self::getSubclassResults(__FUNCTION__);
+    if ($results) {
+      return TRUE;
+    }
+
     return self::isAhProdEnv() || self::isPantheonProdEnv();
   }
 
@@ -227,6 +268,38 @@ class EnvironmentDetector {
    */
   public static function getAcsfDbName() {
     return isset($GLOBALS['gardens_site_settings']) && self::isAcsfEnv() ? $GLOBALS['gardens_site_settings']['conf']['acsf_db_name'] : NULL;
+  }
+
+  /**
+   * Call a given function in all EnvironmentDetector subclasses.
+   *
+   * Composer packages can provide their own version of an EnvironmentDetector
+   * that inherits from this one. This allows for detection of new types of
+   * environments not hardcoded in this class.
+   *
+   * @param string $functionName
+   *   The function name to call in a subclass.
+   *
+   * @return array
+   *   Results from each subclass function call (omits any null / false results)
+   *
+   * @throws \ReflectionException
+   */
+  private static function getSubclassResults($functionName) {
+    $autoloader = require DRUPAL_ROOT . '/autoload.php';
+    $classMap = $autoloader->getClassMap();
+    $detectors = array_filter($classMap, function ($classPath) {
+      return strpos($classPath, 'Blt/Plugin/EnvironmentDetector') !== FALSE;
+    });
+    $results = [];
+    foreach ($detectors as $detector => $classPath) {
+      // Only call this method if it's been overridden by the child class.
+      $detectorReflector = new \ReflectionMethod($detector, $functionName);
+      if ($detectorReflector->getDeclaringClass()->getName() === $detector) {
+        $results[] = call_user_func([$detector, $functionName]);
+      }
+    }
+    return array_filter($results);
   }
 
 }
