@@ -53,7 +53,7 @@ class YamlCommand extends BltTasks {
       $filesets[$fileset_id] = $fileset_manager->filterFilesByFileset($files, $fileset);
     }
 
-    $this->executeCommandAgainstFilesets($filesets, $command);
+    $this->executeCommandAgainstFilesets($filesets, $command, TRUE);
   }
 
 }
