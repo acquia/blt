@@ -82,7 +82,7 @@ class DevCommand extends BltTasks {
 
     // Mount local BLT in Lando.
     if ($this->getInspector()->isLandoConfigPresent()) {
-      if (!isset(self::VM_DIRECTORY_MAPPING[$options['blt-path']])) {
+      if (!isset(self::LANDO_DIRECTORY_MAPPING[$options['blt-path']])) {
         $this->logger->info('BLT path is not valid for usage with Lando.');
         return;
       }
