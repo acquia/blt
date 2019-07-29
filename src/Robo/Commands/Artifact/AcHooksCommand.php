@@ -94,9 +94,16 @@ class AcHooksCommand extends BltTasks {
    *   The source environment. E.g., dev.
    *
    * @command artifact:ac-hooks:post-db-copy
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function postDbCopy($site, $target_env, $db_name, $source_env) {
-    // Do nothing for now. Allow extension of this call.
+    // Only run updates for ODEs, where DBs are copied automatically after new
+    // code has been deployed. In other environments, DBs are usually copied
+    // manually prior to initiating a code deploy, so an update is redundant.
+    if (EnvironmentDetector::isAhOdeEnv($target_env)) {
+      $this->invokeCommand('artifact:update:drupal:all-sites');
+    }
   }
 
   /**
