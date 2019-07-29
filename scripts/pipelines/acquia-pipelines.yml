@@ -48,7 +48,7 @@ events:
             - pipelines-deploy
             # Uncomment this line and replace DB_NAME to sync a db on deploys.
             # @see https://docs.acquia.com/acquia-cloud/develop/pipelines/databases/
-            # - pipelines-sync-db DB_NAME
+            # - pipelines-sync-dbs DB_NAME
   pr-merged:
     steps:
       - deploy:
