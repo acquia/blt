@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Blt;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Common\EnvironmentDetector;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
 
@@ -178,8 +179,7 @@ class AliasCommand extends BltTasks {
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function createBashProfile() {
-    $inspector = $this->getInspector();
-    if ($inspector->isOsx() || $inspector->isAhEnv()) {
+    if (EnvironmentDetector::isDarwin() || EnvironmentDetector::isAhEnv()) {
       $continue = $this->confirm("Would you like to create ~/.bash_profile?");
       if ($continue) {
         $home_dir = getenv('HOME');

@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Tests;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Common\EnvironmentDetector;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Exception;
 use Robo\Contract\VerbosityThresholdInterface;
@@ -135,7 +136,7 @@ class TestsCommandBase extends BltTasks {
     }
 
     $osx_path = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
-    if ($this->getInspector()->isOsx() && file_exists($osx_path)) {
+    if (EnvironmentDetector::isDarwin() && file_exists($osx_path)) {
       return $osx_path;
     }
 
@@ -203,7 +204,7 @@ class TestsCommandBase extends BltTasks {
     }
 
     $osxPath = "/usr/local/bin/chromedriver";
-    if ($this->getInspector()->isOsx() && file_exists($osxPath)) {
+    if (EnvironmentDetector::isDarwin() && file_exists($osxPath)) {
       return $osxPath;
     }
 

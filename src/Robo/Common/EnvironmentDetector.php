@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Common;
 
 use Acquia\Blt\Robo\Exceptions\BltException;
+use drupol\phposinfo\OsInfo;
 
 /**
  * Class EnvironmentDetector.
@@ -256,6 +257,13 @@ class EnvironmentDetector {
    */
   public static function isAcsfInited() {
     return file_exists(DRUPAL_ROOT . "/sites/g");
+  }
+
+  /**
+   * OS is Darwin.
+   */
+  public static function isDarwin() {
+    return OsInfo::isApple();
   }
 
   /**
