@@ -1,18 +1,20 @@
 # Extending / Overriding BLT
 
-BLT uses Robo to provide commands.
+BLT provides an extensive plugin and configuration system to allow for customization.
 
 ## Adding a custom Robo Command or Hook
 
-Robo uses the [Annotated Command](https://github.com/consolidation/annotated-command) library to enable you to add commands as well as hook into existing BLT commands. This allows you to execute custom code in response to various events, typically just before or just after a BLT command is executed.
+BLT uses Robo to provide commands. Robo in turn uses the [Annotated Command](https://github.com/consolidation/annotated-command) library, which enables you to add commands as well as hook into existing BLT commands. This allows you to execute custom code in response to various events, typically just before or just after a BLT command is executed.
 
 For a list of all available hook types, see [Annotated Command's hook types](https://github.com/consolidation/annotated-command#hooks).
 
+You can find an example command and hook that you can extend in `blt/src/Blt/Plugin/Commands`, which is exposed via PSR4 in composer.json at `Example\Blt\Plugin\Commands`.
+
 To create your own Robo PHP command or hook:
 
-1. Create a new file in `blt/src/Blt/Plugin/Commands` named using the pattern `*Commands.php`. The file naming convention is required. You can also provide custom commands in a separate Composer package as long as it exposes them via PSR4.
-1. You must use the namespace `Example\Blt\Plugin\Commands` in your command file.
-1. Generate an example command file by executing `blt example:init`. You may use the generated file as a guide for writing your own command.
+1. Choose a location for your new command file. It can exist in your project's `blt/src` directory like the example above, or another directory in your project, or even a completely separate Composer package.
+1. Name the file using the required pattern `*Commands.php`. 
+1. Use a namespace ending in `*\Blt\Plugin\Commands` and ensure this is exposed via PSR4 (in your composer.json file).
 1. Follow the [Robo PHP Getting Started guide](http://robo.li/getting-started/#commands) to write a custom command.
 
 ## Replacing/Overriding a Robo Command
@@ -38,21 +40,26 @@ This snippet would cause the `tests:phpcs:sniff:all` and `tests:phpcs:sniff:file
 
 To modify the behavior of PHPCS, see [tests:phpcs:sniff:all](#testsphpcssniffall) documentation.
 
-To modify the filesets that are used in other commands, such as `tests:twig:lint:all`, `tests:yaml:lint:all`, and `tests:php:lint`:
+You can also define your own custom filesets or override existing filesets. You can find an example custom fileset that you can extend in `blt/src/Blt/Plugin/Filesets`, which is exposed via PSR4 in composer.json at `Example\Blt\Plugin\Filesets`.
 
-1. Generate an example `Filesets.php` file by executing `blt example:init`. You may use the generated file as a guide for writing your own filesite.
+To define your own fileset:
+
+1. Choose a location for your new fileset definition file. It can exist in your project's `blt/src` directory like the example above, or another directory in your project, or even a completely separate Composer package.
+1. Name the file using the required pattern `*Filesets.php`. 
+1. Use a namespace ending in `*\Blt\Plugin\Filesets` and ensure this is exposed via PSR4 (in your composer.json file).
 1. Create a public method in the `Filesets` class in the generated file.
 1. Add a Fileset annotation to your public method, specifying its id:
 
         @fileset(id="files.yaml.custom")
 
 1. Instantiate and return a `Symfony\Component\Finder\Finder` object. The files found by the finder comprise the fileset.
-1. You may use the Fileset id in various configuration values in your `blt/blt.yml` file, e.g., modify `tests:yaml:lint:all` such that it scans only your custom fileset, you would add the following to `blt/blt.yml`:
 
-        validate:
-          yaml:
-            filesets:
-              - files.yaml.custom
+To modify the filesets that are used in commands such as `tests:twig:lint:all`, `tests:yaml:lint:all`, and `tests:php:lint`, define the filesets to use via the corresponding configuration key in `blt/blt.yml`:
+
+    validate:
+      yaml:
+        filesets:
+          - files.yaml.custom
 
 ## Modifying BLT Configuration
 

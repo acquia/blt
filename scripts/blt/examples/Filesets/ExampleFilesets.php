@@ -1,6 +1,6 @@
 <?php
 
-namespace Acquia\Blt\Custom;
+namespace Example\Blt\Plugin\Filesets;
 
 // Do not remove this, even though it appears to be unused.
 // @codingStandardsIgnoreLine
@@ -17,7 +17,7 @@ use Robo\Contract\ConfigAwareInterface;
  * @package Acquia\Blt\Custom
  * @see \Acquia\Blt\Robo\Filesets\Filesets
  */
-class Filesets implements ConfigAwareInterface {
+class ExampleFilesets implements ConfigAwareInterface {
   use ConfigAwareTrait;
 
 }
