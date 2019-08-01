@@ -203,7 +203,7 @@ tests:
   # The URL of selenium server. Must correspond with setting in behat's yaml config.
   selenium:
     port: 4444
-    url: http://127.0.0.1:${tests.selenium.port}/wd/hub
+    url: http://127.0.0.1:${tests.selenium.port}
   chrome:
     port: 9222
     args: ""
