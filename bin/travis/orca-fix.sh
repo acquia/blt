@@ -5,6 +5,6 @@
 
 source ../orca/bin/travis/_includes.sh
 
-if [[ "$ORCA_JOB" = "DEPRECATED_CODE_SCAN_SUT" ]]; then
+if [[ "$ORCA_JOB" = "DEPRECATED_CODE_SCAN" ]]; then
   composer --working-dir="$ORCA_FIXTURE_DIR" require composer/composer
 fi
