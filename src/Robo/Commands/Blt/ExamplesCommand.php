@@ -30,8 +30,8 @@ class ExamplesCommand extends BltTasks {
         $this->getConfigValue('blt.root') . '/scripts/blt/examples/Test/Examples.feature',
         $this->getConfigValue('repo.root') . '/tests/behat/features/Examples.feature', FALSE)
       ->copy(
-        $this->getConfigValue('blt.root') . '/scripts/blt/examples/Filesets.php',
-        $this->getConfigValue('repo.root') . '/blt/src/Filesets.php', FALSE)
+        $this->getConfigValue('blt.root') . '/scripts/blt/examples/Filesets/ExampleFilesets.php',
+        $this->getConfigValue('repo.root') . '/blt/src/Blt/Plugin/Filesets/ExampleFilesets.php', FALSE)
       ->stopOnFail()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();

@@ -10,6 +10,7 @@ use Doctrine\Common\Annotations\IndexedReader;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Robo\Contract\ConfigAwareInterface;
+use Robo\Robo;
 
 /**
  * Manages BLT filesets.
@@ -52,14 +53,22 @@ class FilesetManager implements ConfigAwareInterface, LoggerAwareInterface {
    * annotations.
    */
   public function registerFilesets() {
-    // @todo Assert that filesets from \Acquia\Blt\Custom\Filesets override
-    // those from \Acquia\Blt\Custom\Filesets.
+    // Built-in BLT filesets.
     $classes = [
       // @codingStandardsIgnoreStart
       \Acquia\Blt\Robo\Filesets\Filesets::class,
       \Acquia\Blt\Custom\Filesets::class,
       // @codingStandardsIgnoreEnd
     ];
+
+    // Find user-defined filesets.
+    /** @var \Robo\ClassDiscovery\RelativeNamespaceDiscovery $discovery */
+    $discovery = Robo::service('relativeNamespaceDiscovery');
+    $discovery->setRelativeNamespace('Blt\Plugin\Filesets')
+      ->setSearchPattern('*Filesets.php');
+    $classes = array_merge($classes, $discovery->getClasses());
+
+    // Load filesets.
     $fileset_annotations = $this->getAllFilesetAnnotations($classes);
     $filesets = $this->getFilesetsFromAnnotations($fileset_annotations);
 
