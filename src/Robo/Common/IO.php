@@ -54,21 +54,6 @@ trait IO {
   }
 
   /**
-   * Prompts a user to confirm an action.
-   *
-   * @param string $question
-   *   The question text.
-   * @param bool $default
-   *   The default value, if user indicated --no-interaction.
-   *
-   * @return string
-   *   The response.
-   */
-  protected function confirm($question, $default = FALSE) {
-    return $this->doAsk(new ConfirmationQuestion($this->formatQuestion($question . ' (y/n)'), $default));
-  }
-
-  /**
    * Asks the user a multiple-choice question.
    *
    * @param string $question
