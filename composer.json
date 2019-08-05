@@ -83,11 +83,6 @@
                 "type:drupal-core"
             ]
         },
-        "patches": {
-            "pheromone/phpcs-security-audit": {
-                "false positives": "https://patch-diff.githubusercontent.com/raw/FloeDesignTechnologies/phpcs-security-audit/pull/43.patch"
-            }
-        },
         "phpcodesniffer-search-depth": 4
     },
     "autoload": {
