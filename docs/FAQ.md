@@ -45,7 +45,7 @@ In this case, BLT is simply executing the following drush command for you:
 ```
 /Users/me/Sites/mysite/vendor/bin/drush @blted10.local --site-name="BLTed 10" --site-mail="no-reply@acquia.com" --account-name="admin" --account-pass="admin" --account-mail="no-reply@acquia.com" --uri=default --yes --verbose site-install "lightning" "install_configure_form.update_status_module='array(FALSE,FALSE)'"
 ```
-To debug the problem, just run the drush command directly on the command line. It may be easier to navigate without BLT. Once the problem is resolved, go back to using BLT's automation layer.
+To debug the problem, run the drush command directly on the command line, as it will be easier to debug without involving BLT. If you still cannot diagnose the issue, contact Acquia Support. Do not open an issue in the BLT queue unless you’ve identified a specific bug or feature request for BLT itself.
 
 ## Common BLT Issues and Solutions
 
