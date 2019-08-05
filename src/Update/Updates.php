@@ -815,4 +815,16 @@ class Updates {
     $this->updater->writeComposerJson($composer_json);
   }
 
+  /**
+   * Version 10.3.0.
+   *
+   * @Update(
+   *   version = "10003000",
+   *   description = "Regenerate acquia-pipelines.yml."
+   * )
+   */
+  public function update_10003000() {
+    $this->updater->regeneratePipelines();
+  }
+
 }

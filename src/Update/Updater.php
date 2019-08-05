@@ -613,4 +613,14 @@ class Updater {
     return FALSE;
   }
 
+  /**
+   * Regenerate Pipelines config if it exists.
+   */
+  public function regeneratePipelines() {
+    if (file_exists($this->getRepoRoot() . '/acquia-pipelines.yml')) {
+      self::executeCommand("./vendor/bin/blt recipes:ci:pipelines:init", NULL, FALSE);
+      $this->getOutput()->writeln("acquia-pipelines.yml has been regenerated. Review the resulting file and re-add any customizations.");
+    }
+  }
+
 }
