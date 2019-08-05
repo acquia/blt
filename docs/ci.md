@@ -38,6 +38,8 @@ To initialize Pipelines support for your BLT project:
         blt recipes:ci:pipelines:init
 
     This will generate an [acquia-pipelines.yml file](https://docs.acquia.com/acquia-cloud/develop/pipelines/yaml/) in your project root based on [BLT's default acquia-pipelines.yml file](https://github.com/acquia/blt/blob/10.x/scripts/pipelines/acquia-pipelines.yml).
+    
+1. Modify `acquia-pipelines.yml` to [specify which DBs you would like to copy](https://docs.acquia.com/acquia-cloud/develop/pipelines/databases/) into your CDEs on deploys. 
 
 1. Commit the new file and push it to your Acquia git remote. Example commands:
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ca4c111e61a26012db7a51ddac3c3eeb",
+    "content-hash": "a4de7111e8f09c855fcf3fd9bbc37ef1",
     "packages": [
         {
             "name": "acquia/http-hmac-php",
@@ -2480,6 +2480,54 @@
             ],
             "description": "Drupal is an open source content management platform powering millions of websites and applications.",
             "time": "2019-07-16T16:24:57+00:00"
+        },
+        {
+            "name": "drupol/phposinfo",
+            "version": "1.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/drupol/phposinfo.git",
+                "reference": "3df5f1200953b792658e517e5b2ec18b54589cb2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/drupol/phposinfo/zipball/3df5f1200953b792658e517e5b2ec18b54589cb2",
+                "reference": "3df5f1200953b792658e517e5b2ec18b54589cb2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">= 7.1"
+            },
+            "require-dev": {
+                "drupol/php-conventions": "^1",
+                "drupol/phpspec-annotation": "^1",
+                "drupol/phpspec-code-coverage": "^5 || ^4",
+                "infection/infection": "^0.13",
+                "phpspec/phpspec": "^5 || ^4",
+                "phptaskman/changelog": "^1.0",
+                "scrutinizer/ocular": "^1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "drupol\\phposinfo\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pol Dellaiera",
+                    "email": "pol.dellaiera@protonmail.com"
+                }
+            ],
+            "description": "Try to guess the host operating system.",
+            "keywords": [
+                "operating system detection"
+            ],
+            "time": "2019-07-23T06:30:45+00:00"
         },
         {
             "name": "drush/drush",
@@ -6740,54 +6788,6 @@
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
             "time": "2019-07-24T13:01:31+00:00"
-        },
-        {
-            "name": "tivie/php-os-detector",
-            "version": "1.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/tivie/php-os-detector.git",
-                "reference": "9461dcd85c00e03842264f2fc8ccdc8d46867321"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/tivie/php-os-detector/zipball/9461dcd85c00e03842264f2fc8ccdc8d46867321",
-                "reference": "9461dcd85c00e03842264f2fc8ccdc8d46867321",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "4.3.*"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Tivie\\OS\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "APACHE 2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Estevão Soares dos Santos",
-                    "email": "estevao@soares-dos-santos.com"
-                }
-            ],
-            "description": "A small utility library that detects the OS the server is running on",
-            "homepage": "http://tivie.github.com/php-os-detector/",
-            "keywords": [
-                "detection",
-                "detector",
-                "identification",
-                "operating system",
-                "os",
-                "os detection"
-            ],
-            "time": "2017-10-21T03:33:59+00:00"
         },
         {
             "name": "twig/twig",
