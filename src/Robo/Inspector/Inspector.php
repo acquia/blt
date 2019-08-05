@@ -20,8 +20,6 @@ use Robo\Contract\BuilderAwareInterface;
 use Robo\Contract\ConfigAwareInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Robo\Contract\VerbosityThresholdInterface;
-use Tivie\OS\Detector;
-use const Tivie\OS\MACOSX;
 
 /**
  * Class Inspector.
@@ -745,39 +743,6 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
       $this->drupalVmStatus[$target][$type] = $data;
       $this->logger->debug("vagrant $target.$type = $data");
     }
-  }
-
-  /**
-   * Indicates whether ACSF has been initialized.
-   *
-   * @return bool
-   *   TRUE if ACSF has been initialized.
-   */
-  public function isAcsfInited() {
-    return file_exists($this->getConfigValue('docroot') . '/sites/g');
-  }
-
-  /**
-   * Determines whether operating in an Acquia Hosting environment or not.
-   *
-   * @return bool
-   *   Returns TRUE if on Acquia Hosting or FALSE if not.
-   */
-  public function isAhEnv() {
-    return isset($_ENV['AH_SITE_ENVIRONMENT']);
-  }
-
-  /**
-   * Gets the Operating system type.
-   *
-   * @return int
-   *   Is OSX?
-   */
-  public function isOsx() {
-    $os_detector = new Detector();
-    $os_type = $os_detector->getType();
-
-    return $os_type == MACOSX;
   }
 
   /**

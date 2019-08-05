@@ -55,10 +55,7 @@ class FilesetManager implements ConfigAwareInterface, LoggerAwareInterface {
   public function registerFilesets() {
     // Built-in BLT filesets.
     $classes = [
-      // @codingStandardsIgnoreStart
-      \Acquia\Blt\Robo\Filesets\Filesets::class,
-      \Acquia\Blt\Custom\Filesets::class,
-      // @codingStandardsIgnoreEnd
+      Filesets::class,
     ];
 
     // Find user-defined filesets.
