@@ -18,7 +18,7 @@ To perform a release:
 
 * Submit a pull request to Canary with BLT updated to HEAD.
     * Update BLT to the tip of HEAD. This is the same commit from which you will cut your tag.
-    * Document update steps in `update.md`. Note any manual steps required and plan to add them to the BLT release notes (generated later).
+    * Note any manual steps required and plan to add them to the BLT release notes (generated later).
 * Ensure tests pass, and smoke test the site in Cloud environments.
 
 ## Create a release
