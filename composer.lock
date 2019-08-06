@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2a35d1fba64863602347623fc906201c",
+    "content-hash": "da1247450d28a2810b42b801448df515",
     "packages": [
         {
             "name": "acquia/http-hmac-php",
@@ -8235,7 +8235,7 @@
             "time": "2019-01-28T19:31:35+00:00"
         },
         {
-            "name": "mikey179/vfsstream",
+            "name": "mikey179/vfsStream",
             "version": "v1.6.6",
             "source": {
                 "type": "git",
