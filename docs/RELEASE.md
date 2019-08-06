@@ -11,10 +11,8 @@ To perform a release:
 
 * [BLT 10.x](https://github.com/acquia/blt):
 [![Build Status](https://travis-ci.com/acquia/blt.svg?branch=10.x)](https://travis-ci.com/acquia/blt)
-[![Documentation Status](https://readthedocs.org/projects/blt/badge/?version=10.x)](http://blt.readthedocs.io/en/10.x/?badge=10.x)
 * [BLT 9.2.x](https://github.com/acquia/blt):
 [![Build Status](https://travis-ci.com/acquia/blt.svg?branch=9.2.x)](https://travis-ci.com/acquia/blt)
-[![Documentation Status](https://readthedocs.org/projects/blt/badge/?version=9.2.x)](http://blt.readthedocs.io/en/9.2.x/?badge=9.2.x)
 
 ## Test via Canary
 
