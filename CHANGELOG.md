@@ -1,5 +1,39 @@
 # Change Log
 
+#### 10.3.0 (2019-08-06)
+
+[Full Changelog](https://github.com/acquia/blt/compare/10.2.1...10.3.0)
+
+
+**Implemented enhancements**
+
+- DT-654: Link to troubleshooting guide for errors. (#3787)
+- Replaced tivie/php-os-detector with drupol/phposinfo. (#3781)
+- DT-597: Run updates after CDE DB copies. (#3778)
+- DT-584: Support custom filesets via BLT plugins (#3782)
+- DT-633: blt:dev:link-composer lando support (#3773)
+- DT-628: Update default Lightning version to 4.x. (#3770)
+- Fixes #3645: Allow EnvironmentDetector to be overridden. (#3737)
+- DT-548: Remove patches when dev-linking BLT. (#3771)
+
+**Fixed bugs**
+
+- Clear cache before sql-sanitise on sync (#3792)
+- Fix Issue-3767 Git commit fails due to yaml linting. (#3775)
+- DT-577: Ensure after_failure runs during Travis tests. (#3768)
+
+**Miscellaneous**
+
+- Update RELEASE.md
+- Update RELEASE.md
+- Removed redundant method override. (#3794)
+- Remove patch that no longer applies (#3797)
+- Remove BLT Project tests. (#3780)
+- Updated to ORCA alpha21 to fix tests. (#3790)
+- DT-649: Update ORCA to alpha19. (#3774)
+- Fixes #3761 - Set Composer PHP Platform to 7.2. (#3769)
+
+
 #### 10.2.1 (2019-07-22)
 
 [Full Changelog](https://github.com/acquia/blt/compare/10.2.0...10.2.1)
