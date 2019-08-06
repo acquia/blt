@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "da1247450d28a2810b42b801448df515",
+    "content-hash": "7d37380ea99d25e92d9898f74b929dad",
     "packages": [
         {
             "name": "acquia/http-hmac-php",
@@ -7341,16 +7341,16 @@
     "packages-dev": [
         {
             "name": "acquia/coding-standards",
-            "version": "v0.2.0",
+            "version": "v0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/acquia/coding-standards-php.git",
-                "reference": "40a86290fe6b428a5755529cb1ff9688f349ab56"
+                "reference": "2ea94f2d05c7027d8138384db60b17d4233fd0d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/acquia/coding-standards-php/zipball/40a86290fe6b428a5755529cb1ff9688f349ab56",
-                "reference": "40a86290fe6b428a5755529cb1ff9688f349ab56",
+                "url": "https://api.github.com/repos/acquia/coding-standards-php/zipball/2ea94f2d05c7027d8138384db60b17d4233fd0d0",
+                "reference": "2ea94f2d05c7027d8138384db60b17d4233fd0d0",
                 "shasum": ""
             },
             "require": {
@@ -7381,8 +7381,8 @@
             "authors": [
                 {
                     "name": "Acquia Engineering",
-                    "homepage": "https://www.acquia.com",
-                    "role": "Maintainer"
+                    "role": "Maintainer",
+                    "homepage": "https://www.acquia.com"
                 }
             ],
             "description": "PHP_CodeSniffer rules (sniffs) for Acquia coding standards",
@@ -7391,7 +7391,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2019-06-21T15:26:57+00:00"
+            "time": "2019-08-06T13:50:17+00:00"
         },
         {
             "name": "behat/mink",
@@ -8432,28 +8432,23 @@
         },
         {
             "name": "pheromone/phpcs-security-audit",
-            "version": "2.0.0",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FloeDesignTechnologies/phpcs-security-audit.git",
-                "reference": "6ca3459ffe27f78ffd6554e662fc71f5f32f7055"
+                "reference": "68a6c53a57156a5efb2073b1eb3f2d79a46c9dc2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FloeDesignTechnologies/phpcs-security-audit/zipball/6ca3459ffe27f78ffd6554e662fc71f5f32f7055",
-                "reference": "6ca3459ffe27f78ffd6554e662fc71f5f32f7055",
+                "url": "https://api.github.com/repos/FloeDesignTechnologies/phpcs-security-audit/zipball/68a6c53a57156a5efb2073b1eb3f2d79a46c9dc2",
+                "reference": "68a6c53a57156a5efb2073b1eb3f2d79a46c9dc2",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.4",
                 "squizlabs/php_codesniffer": ">3.0"
             },
-            "type": "library",
-            "extra": {
-                "patches_applied": {
-                    "false positives": "https://patch-diff.githubusercontent.com/raw/FloeDesignTechnologies/phpcs-security-audit/pull/43.patch"
-                }
-            },
+            "type": "phpcodesniffer-standard",
             "autoload": {
                 "psr-4": {
                     "PHPCS_SecurityAudit\\": "Security/"
@@ -8470,7 +8465,7 @@
                 }
             ],
             "description": "phpcs-security-audit is a set of PHP_CodeSniffer rules that finds vulnerabilities and weaknesses related to security in PHP code",
-            "time": "2018-02-20T07:33:23+00:00"
+            "time": "2019-08-05T19:34:55+00:00"
         },
         {
             "name": "php-http/cache-plugin",
