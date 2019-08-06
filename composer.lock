@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4dfa3b4b9d5066fbdd8000d79dcf0683",
+    "content-hash": "b9fe071bd0ffec68bb53aecce1dfd125",
     "packages": [
         {
             "name": "acquia/http-hmac-php",
@@ -7347,16 +7347,16 @@
     "packages-dev": [
         {
             "name": "acquia/coding-standards",
-            "version": "v0.2.0",
+            "version": "v0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/acquia/coding-standards-php.git",
-                "reference": "40a86290fe6b428a5755529cb1ff9688f349ab56"
+                "reference": "2ea94f2d05c7027d8138384db60b17d4233fd0d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/acquia/coding-standards-php/zipball/40a86290fe6b428a5755529cb1ff9688f349ab56",
-                "reference": "40a86290fe6b428a5755529cb1ff9688f349ab56",
+                "url": "https://api.github.com/repos/acquia/coding-standards-php/zipball/2ea94f2d05c7027d8138384db60b17d4233fd0d0",
+                "reference": "2ea94f2d05c7027d8138384db60b17d4233fd0d0",
                 "shasum": ""
             },
             "require": {
@@ -7387,8 +7387,8 @@
             "authors": [
                 {
                     "name": "Acquia Engineering",
-                    "homepage": "https://www.acquia.com",
-                    "role": "Maintainer"
+                    "role": "Maintainer",
+                    "homepage": "https://www.acquia.com"
                 }
             ],
             "description": "PHP_CodeSniffer rules (sniffs) for Acquia coding standards",
@@ -7397,7 +7397,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2019-06-21T15:26:57+00:00"
+            "time": "2019-08-06T13:50:17+00:00"
         },
         {
             "name": "behat/mink",
