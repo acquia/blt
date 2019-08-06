@@ -5,7 +5,6 @@ namespace Acquia\Blt\Robo\Common;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 
 /**
@@ -51,21 +50,6 @@ trait IO {
    */
   protected function formatQuestion($message) {
     return "<question> $message</question> ";
-  }
-
-  /**
-   * Prompts a user to confirm an action.
-   *
-   * @param string $question
-   *   The question text.
-   * @param bool $default
-   *   The default value, if user indicated --no-interaction.
-   *
-   * @return string
-   *   The response.
-   */
-  protected function confirm($question, $default = FALSE) {
-    return $this->doAsk(new ConfirmationQuestion($this->formatQuestion($question . ' (y/n)'), $default));
   }
 
   /**
