@@ -827,4 +827,6 @@ class Updates {
     $this->updater->regeneratePipelines();
   }
 
+  // TODO: add an update hook that inspects composer.json and if memcache is present, removes and replaces it with acquia/memcache-settings.
+
 }
