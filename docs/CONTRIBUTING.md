@@ -13,7 +13,9 @@ Please choose your issue type carefully. If you aren't sure, odds are you have a
 
 After you have chosen your issue type, make sure to fill out the issue template completely.
 
-Newly-filed issues will be triaged by a BLT maintainer. If additional information is requested and no reply is received within a week, issues may be closed.
+Newly-filed issues will be triaged by a BLT maintainer and added to the "backlog" milestone if accepted. If additional information is requested and no reply is received within a week, issues may be closed.
+
+BLT does not publish timelines or roadmaps as to when individual issues will be addressed. If you would like to request that a specific ticket be prioritized, please do so by submitting product feedback via your Technical Account Manager or a Support ticket on your Cloud subscription. You may also submit a pull request, which will receive priority review.
 
 Note the following when submitting issues:
 * Issues filed directly to the BLT project are not subject to an SLA.
