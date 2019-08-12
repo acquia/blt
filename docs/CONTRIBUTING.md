@@ -4,6 +4,21 @@ BLT feature requests, bugs, support requests, and milestones are tracked via the
 
 Before submitting an issue or pull request, please read and take the time to understand this guide. Issues not adhering to these guidelines may be closed.
 
+## General guidelines
+
+Note the following when submitting issues or pull requests:
+* Issues and pull requests submitted directly to the BLT project are not subject to an SLA.
+* BLT is distributed under the GPLv2 license; all documentation, code, and guidance is provided without warranty.
+* The project maintainers are under no obligation to respond to support requests, feature requests, or pull requests.
+* If additional information is requested and no reply is received within a week, issues may be closed.
+
+Newly-filed issues will be triaged by a BLT maintainer and added to the "backlog" milestone if accepted.
+
+BLT does not publish timelines or roadmaps as to when individual issues will be addressed. If you would like to request that a specific ticket be prioritized, please do one or more of the following:
+* Submit product feedback via your Technical Account Manager or a Support ticket on your Cloud subscription.
+* Upvote the relevant issue by adding a `+1` reaction.
+* Submit a pull request, which will receive priority review.
+
 ## Submitting issues
 
 Please choose your issue type carefully. If you aren't sure, odds are you have a support request.
@@ -11,17 +26,7 @@ Please choose your issue type carefully. If you aren't sure, odds are you have a
 - **Bug report**: a clearly defined instance of BLT not behaving as expected. It is distinct from a feature request in that it represents a mismatch between what BLT _does_ and what BLT _claims to do_. It is distinct from a support request in that it has _specific steps to reproduce the problem_ (ideally starting from a fresh installation of BLT) and _justification_ as to why this is a problem with BLT rather than an underlying tool such as Composer or Drush.
 - **Support request**: a request for help or guidance. Use this if you aren't sure how to do something or can't find a solution to a problem that may or may not be a bug. Before filing a support request, please review the FAQ for solutions to common problems and general troubleshooting techniques. If you have an Acquia subscription, consider filing a Support ticket instead of a BLT issue in order to receive support subject to your SLA.
 
-After you have chosen your issue type, make sure to fill out the issue template completely.
-
-Newly-filed issues will be triaged by a BLT maintainer and added to the "backlog" milestone if accepted. If additional information is requested and no reply is received within a week, issues may be closed.
-
-BLT does not publish timelines or roadmaps as to when individual issues will be addressed. If you would like to request that a specific ticket be prioritized, please do so by submitting product feedback via your Technical Account Manager or a Support ticket on your Cloud subscription. You may also submit a pull request, which will receive priority review.
-
-Note the following when submitting issues:
-* Issues filed directly to the BLT project are not subject to an SLA.
-* BLT is distributed under the GPLv2 license; all documentation, code, and guidance is provided without warranty.
-* The project maintainers are under no obligation to respond to support requests, feature requests, or pull requests.
-
+After you have chosen your issue type, make sure to fill out the issue template completely. 
 
 ## Submitting pull requests
 
@@ -35,8 +40,6 @@ Pull requests must also adhere to the following guidelines:
 - PRs must contain clear testing steps and justification, as well as all other information required by the pull request template.
 - PRs must pass automated tests before they will be reviewed. We recommend you run the tests locally before submitting (see below).
 - PRs must comply with Drupal coding standards and best practices as defined by the project maintainers.
-
-Pull requests will be reviewed by a BLT maintainer and are not subject to an SLA. If additional information or work is requested and no reply is received within a week, PRs may be closed.
 
 ## Developing BLT locally
 
