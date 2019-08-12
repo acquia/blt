@@ -110,6 +110,7 @@ git:
 #  - default
 
 # @todo Move to subkey of validate.
+# Note that PHPCS filesets are not configured here, but via phpcs.xml.dist in the root directory.
 phpcs:
   standard: Drupal,DrupalPractice
 
@@ -236,6 +237,7 @@ tests:
     #   config: ${docroot}/core/phpunit.xml.dist
     #   directory: '${repo.root}/tests/phpunit'
 
+# Note that PHPCS filesets are not configured here, but via phpcs.xml.dist in the root directory.
 validate:
   # You can change this to true to have blt automatically validate acsf-init.
   acsf: false
