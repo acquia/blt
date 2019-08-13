@@ -492,7 +492,7 @@ class DeployCommand extends BltTasks {
       ->stopOnFail()
       ->dir($this->deployDir)
       ->run();
-    if(!$execution_result->wasSuccessful()) {
+    if (!$execution_result->wasSuccessful()) {
       throw new BltException("Composer Install failed, please review and check your composer.json file.");
     }
   }
