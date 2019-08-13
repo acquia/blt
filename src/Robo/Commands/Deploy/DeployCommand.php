@@ -488,7 +488,7 @@ class DeployCommand extends BltTasks {
     if ($this->ignorePlatformReqs) {
       $command .= ' --ignore-platform-reqs';
     }
-    $execution_result = $this->taskExecStack()->exec("composer install --no-dev --no-interaction --optimize-autoloader --ignore-platform-reqs")
+    $execution_result = $this->taskExecStack()->exec($command)
       ->stopOnFail()
       ->dir($this->deployDir)
       ->run();
