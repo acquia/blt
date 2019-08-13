@@ -488,10 +488,13 @@ class DeployCommand extends BltTasks {
     if ($this->ignorePlatformReqs) {
       $command .= ' --ignore-platform-reqs';
     }
-    $this->taskExecStack()->exec($command)
+    $execution_result = $this->taskExecStack()->exec("composer install --no-dev --no-interaction --optimize-autoloader --ignore-platform-reqs")
       ->stopOnFail()
       ->dir($this->deployDir)
       ->run();
+    if(!$execution_result->wasSuccessful()) {
+      throw new BltException("Composer Install failed, please review and check your composer.json file.");
+    }
   }
 
   /**
