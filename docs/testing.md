@@ -107,6 +107,10 @@ Behat's own configuration is defined in the following files:
 * tests/behat/example.local.yml
 * tests/behat/local.yml
 
+### Multisite Configuration
+
+Configuring BLT Behat commands for a multisite setup may require some adjustments to the standard `local.yml` file and in some case may require the use of a site-specific configuration file per multisite.  See [Override BLT variables in docroot/sites/{newsite}/blt.yml](multisite.md#override-blt-variables-in-docrootsitesnewsitebltyml) for more information on configuring Behat per multisite.
+
 #### Screenshots for failed steps
 
 BLT includes the Behat [ScreenshotExtension](https://github.com/elvetemedve/behat-screenshot), configured by default to store a screenshot of any failed step locally. You can configure the extension globally under the `Bex\Behat\ScreenshotExtension` key in `tests/behat/behat.yml`, or override locally inside `tests/behat.local.yml`.
