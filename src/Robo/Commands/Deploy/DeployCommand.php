@@ -406,10 +406,13 @@ class DeployCommand extends BltTasks {
       ->copy($this->getConfigValue('repo.root') . '/composer.lock', $this->deployDir . '/composer.lock', TRUE)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
-    $this->taskExecStack()->exec("composer install --no-dev --no-interaction --optimize-autoloader")
+    $execution_result = $this->taskExecStack()->exec("composer install --no-dev --no-interaction --optimize-autoloader")
       ->stopOnFail()
       ->dir($this->deployDir)
       ->run();
+    if (!$execution_result->wasSuccessful()) {
+      throw new BltException("Composer install failed, please check the output for details.");
+    }
   }
 
   /**
