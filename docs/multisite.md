@@ -13,7 +13,7 @@ There are two parts to setting up a multisite instance on BLT: the local setup a
     * Sets up a new drush alias.
     * Sets up a new vhost in the box/config.yml file.
     * Sets up a new MySQL user in the box/config.yml file.
-    
+
     Some manual configuration is still required via the following steps.
 
 1. Set the new site's local database credentials in the `docroot/sites/{newsite}/settings/local.settings.php` file to ensure your new site connects to the correct database.
@@ -45,6 +45,8 @@ drush:
     local: mysite.local
     remote: mysite.test
 ```
+
+Then, to refresh your local site, you could run: `blt drupal:sync --site=mysite`.
 
 If you wish to use a Behat profile other than `local.yaml` for each site, you can also override the configuration source file and profile values in in `docroot/sites/mysite/blt.yml`:
 
