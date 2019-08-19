@@ -139,7 +139,7 @@ class SyncCommand extends BltTasks {
       $task->drush('sql-sanitize');
     }
 
-    $task->drush('sqlq "TRUNCATE cache_entity"');
+    $task->drush('cr');
 
     $result = $task->run();
 
