@@ -827,6 +827,25 @@ class Updates {
     $this->updater->regeneratePipelines();
   }
 
-  // TODO: add an update hook that inspects composer.json and if memcache is present, removes and replaces it with acquia/memcache-settings.
+  /**
+   * Version 10.4.0.
+   *
+   * @Update(
+   *   version = "10004000",
+   *   description = "Migrate to acquia/memcache-settings."
+   * )
+   */
+  public function update_10004000() {
+    $composer_json = $this->updater->getComposerJson();
+    if (array_key_exists('drupal/memcache', $composer_json['require'])) {
+      unset($composer_json['require']['drupal/memcache']);
+      $composer_json['require']['acquia/memcache-settings'] = '*';
+      $this->updater->writeComposerJson($composer_json);
+      $this->updater->getOutput()->writeln("Memcache settings have moved from acquia/blt to acquia/memcache-settings, a separate Composer package, and additionally have been updated to use the stable Memcache 2.0 release. Your composer.json has been updated to depend on acquia/memcache-settings.");
+      $this->updater->getOutput()->writeln("");
+      $this->updater->getOutput()->writeln("You must run `composer update acquia/memcache-settings drupal/memcache` and commit the resulting changes to composer.json and composer.lock if you wish to use these updated settings.");
+      $this->updater->getOutput()->writeln("");
+    }
+  }
 
 }
