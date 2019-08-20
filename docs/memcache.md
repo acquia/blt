@@ -2,9 +2,9 @@
 
 This document describes how to configure the [Memcache API and Integration](https://www.drupal.org/project/memcache) (Memcache) module for Drupal 8. The Memcache module provides an API for using Memcached and the PECL Memcache or Memcached libraries with Drupal and provides backends for Drupal's caching and locking systems. The most complete and up to date documentation is included with the module, in the [README.txt](http://cgit.drupalcode.org/memcache/tree/README.txt?h=8.x-2.x) file.
 
-## Acquia Cloud and Site Factory
+## Acquia Cloud and Acquia Cloud Site Factory
 
-To enable memcache integration in a Cloud hosting environment, ensure that you've installed the `acquia/memcache-settings` Composer package. If this package is present, BLT will automatically include the relevant settings files that enable memcache integartion.
+To enable memcache integration in a Cloud hosting environment, ensure that you've installed the `acquia/memcache-settings` Composer package. If this package is present, BLT will automatically include the relevant settings files that enable memcache integration.
 
 ## Local Development
 
