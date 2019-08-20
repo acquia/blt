@@ -72,7 +72,9 @@ script:
 
 before_cache: ../orca/bin/travis/before_cache.sh
 
-after_success: ../orca/bin/travis/after_success.sh
+after_success:
+  - travis_retry php vendor/bin/php-coveralls -v
+  - ../orca/bin/travis/after_success.sh
 
 after_failure: ../orca/bin/travis/after_failure.sh
 

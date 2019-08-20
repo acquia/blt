@@ -27,4 +27,7 @@
     <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak" />
   </php>
 
+  <logging>
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
+  </logging>
 </phpunit>
