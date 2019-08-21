@@ -27,7 +27,7 @@ class ConfigCommand extends BltTasks {
       ->drush('status')
       ->option('fields', 'bootstrap')
       ->option('format', 'json')
-      ->silent(true)
+      ->silent(TRUE)
       ->run();
 
     $status = json_decode($result->getMessage());
