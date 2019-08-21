@@ -12,7 +12,7 @@ if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
   # sudo dpkg -i --force-depends google-chrome-stable_current_amd64.deb
   # apt-get -f install
 
-  # Installs chromedriver for Linux 64 bit systems
+  # Installs chromedriver for Linux 64 bit systems.
   [ -z "$CHROMEDRIVER_VERSION" ] && CHROMEDRIVER_VERSION=$(wget -q -O - http://chromedriver.storage.googleapis.com/LATEST_RELEASE)
   wget -N https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip
   unzip chromedriver_linux64.zip
