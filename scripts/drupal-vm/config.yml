@@ -42,6 +42,11 @@ apache_vhosts:
     serveralias: "www.dashboard.{{ drupal_domain }}"
     documentroot: "/var/www/dashboard"
     extra_parameters: "{{ apache_vhost_php_fpm_parameters }}"
+  - servername: 'adminer.{{ drupal_domain }}'
+    serveralias: 'www.adminer.{{ drupal_domain }}'
+    documentroot: '{{ adminer_install_dir }}'
+    extra_parameters: '{{ apache_vhost_php_fpm_parameters }}'
+
 #  - servername: "local.second-drupal-site.com"
 #    documentroot: "{{ drupal_core_path }}"
 #    extra_parameters: "{{ apache_vhost_php_fpm_parameters }}"

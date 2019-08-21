@@ -73,10 +73,15 @@ class DeployCommand extends BltTasks {
    * This hook will fire for all commands in this command file.
    *
    * @hook init
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function initialize() {
     $this->excludeFileTemp = $this->getConfigValue('deploy.exclude_file') . '.tmp';
     $this->deployDir = $this->getConfigValue('deploy.dir');
+    if (!$this->deployDir) {
+      throw new BltException('Configuration deploy.dir must be set to run this command');
+    }
     $this->tagSource = $this->getConfigValue('deploy.tag_source', TRUE);
   }
 
@@ -483,10 +488,13 @@ class DeployCommand extends BltTasks {
     if ($this->ignorePlatformReqs) {
       $command .= ' --ignore-platform-reqs';
     }
-    $this->taskExecStack()->exec($command)
+    $execution_result = $this->taskExecStack()->exec($command)
       ->stopOnFail()
       ->dir($this->deployDir)
       ->run();
+    if (!$execution_result->wasSuccessful()) {
+      throw new BltException("Composer install failed, please check the output for details.");
+    }
   }
 
   /**
