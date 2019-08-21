@@ -22,23 +22,37 @@ class ConfigCommand extends BltTasks {
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function update() {
-    $task = $this->taskDrush()
+    $result = $this->taskDrush()
       ->stopOnFail()
-      // Execute db updates.
-      // This must happen before features are imported or configuration is
-      // imported. For instance, if you add a dependency on a new extension to
-      // an existing configuration file, you must enable that extension via an
-      // update hook before attempting to import the configuration.
-      // If a db update relies on updated configuration, you should import the
-      // necessary configuration file(s) as part of the db update.
-      ->drush("updb");
+      ->drush('status')
+      ->option('fields', 'bootstrap')
+      ->option('format', 'json')
+      ->silent(true)
+      ->run();
 
-    $result = $task->run();
-    if (!$result->wasSuccessful()) {
-      throw new BltException("Failed to execute database updates!");
+    $status = json_decode($result->getMessage());
+
+    if (empty($status->bootstrap) || $status->bootstrap != 'Successful') {
+      $this->logger->warning('Site not bootstrapped. Cannot update database.');
+    } else {
+      $task = $this->taskDrush()
+        ->stopOnFail()
+        // Execute db updates.
+        // This must happen before features are imported or configuration is
+        // imported. For instance, if you add a dependency on a new extension to
+        // an existing configuration file, you must enable that extension via an
+        // update hook before attempting to import the configuration.
+        // If a db update relies on updated configuration, you should import the
+        // necessary configuration file(s) as part of the db update.
+        ->drush("updb");
+
+      $result = $task->run();
+      if (!$result->wasSuccessful()) {
+        throw new BltException("Failed to execute database updates!");
+      }
+
+      $this->invokeCommands(['drupal:config:import', 'drupal:toggle:modules']);
     }
-
-    $this->invokeCommands(['drupal:config:import', 'drupal:toggle:modules']);
   }
 
   /**
