@@ -34,7 +34,8 @@ class ConfigCommand extends BltTasks {
 
     if (empty($status->bootstrap) || $status->bootstrap != 'Successful') {
       $this->logger->warning('Site not bootstrapped. Cannot update database.');
-    } else {
+    }
+    else {
       $task = $this->taskDrush()
         ->stopOnFail()
         // Execute db updates.
