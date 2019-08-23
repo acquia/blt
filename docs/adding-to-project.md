@@ -1,9 +1,8 @@
 # Adding BLT to an existing project
 
-Adding BLT to an existing project can be much more complex than simply creating a new site with BLT. There are a few reasons for this:
+Adding BLT to an existing project can be more complex than simply creating a new site with BLT since BLT includes a project template and expects the files in your project to match the structure and contents of this template.
 
-1. BLT expects your project to have a particular directory structure and set of files.
-1. Your existing dependencies may conflict with BLT's dependencies.
+BLT will attempt to generate any missing files when it is installed, but it can't account for every possible project structure and some manual reconciliation may be required. Adhering closely to the prerequisites and instructions below should guarantee a good outcome.
 
 Prerequisites:
 
@@ -21,8 +20,17 @@ To add BLT to a pre-existing Drupal project, do the following:
 
 1. Add BLT via composer:
 
-        rm -rf vendor composer.lock
-        composer require acquia/blt:^9.0.0 --no-update
+        composer require acquia/blt:^10.0 --no-update
         composer update
 
+1. Replace your `.gitignore` file with BLT's template `.gitignore`:
+
+        cp vendor/acquia/blt/subtree-splits/blt-project/.gitignore .
+        
+1. (optional, but recommended) Replace your `composer.json` with BLT's template `composer.json`, and re-add any packages or other configuration that you wish to preserve from your existing `composer.json`:
+
+        cp vendor/acquia/blt/subtree-splits/blt-project/composer.json .
+        
+1. BLT will have placed a number of files in your project directory that were likely not present before. Be sure to review these, as well as the files listed above, and commit them to Git.
+1. Run `blt doctor` to diagnose any potential remaining issues that require manual intervention.
 1. Continue following instructions after the `composer create-project` command in [Creating a new project with BLT](creating-new-project.md).
