@@ -171,7 +171,8 @@ class AcHooksCommand extends BltTasks {
   public function updateOdeSites($target_env) {
     if ($this->getInspector()->isDrupalInstalled()) {
       $this->updateCloudSites($target_env);
-    } else {
+    }
+    else {
       $this->invokeCommand('artifact:install:drupal');
     }
   }
