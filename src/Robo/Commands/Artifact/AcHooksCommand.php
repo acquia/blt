@@ -164,23 +164,27 @@ class AcHooksCommand extends BltTasks {
   }
 
   /**
-   * Reinstall Drupal in an ODE.
+   * Install or sync Drupal in an ODE.
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
-  public function updateOdeSites() {
-    $this->invokeCommand('artifact:install:drupal');
+  public function updateOdeSites($target_env) {
+    if ($this->getInspector()->isDrupalInstalled()) {
+      $this->updateCloudSites($target_env);
+    } else {
+      $this->invokeCommand('artifact:install:drupal');
+    }
   }
 
   /**
-   * Executes updates against all ACE sites in the target environment.
+   * Executes updates against all sites in the target environment.
    *
    * @param string $target_env
    *   Target env.
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
-  public function updateAceSites($target_env) {
+  public function updateCloudSites($target_env) {
     $this->say("Running updates for environment: $target_env");
     $this->invokeCommand('artifact:update:drupal:all-sites');
     $this->say("Finished updates for environment: $target_env");
@@ -287,10 +291,10 @@ class AcHooksCommand extends BltTasks {
    */
   protected function updateSites($site, $target_env) {
     if (EnvironmentDetector::isAhOdeEnv($target_env)) {
-      $this->updateOdeSites();
+      $this->updateOdeSites($target_env);
     }
     else {
-      $this->updateAceSites($target_env);
+      $this->updateCloudSites($target_env);
     }
   }
 
