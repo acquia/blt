@@ -1,8 +1,10 @@
 # Adding BLT to an existing project
 
-Adding BLT to an existing project can be more complex than simply creating a new site with BLT since BLT includes a project template and expects the files in your project to match the structure and contents of this template.
+BLT is normally used to create new projects from scratch, but you can also add BLT to an existing project to get all of the [same benefits](https://github.com/acquia/blt/tree/10.x#features) as a normal BLT project.
 
-BLT will attempt to generate any missing files when it is installed, but it can't account for every possible project structure and some manual reconciliation may be required. Adhering closely to the prerequisites and instructions below should guarantee a good outcome.
+Adding BLT to an existing project can be more complex than creating a new site with BLT since BLT includes a project template and expects the files in your project to match the structure and contents of this template.
+
+BLT will attempt to generate any missing files when it is installed, but it can't account for every possible project structure and some manual reconciliation may be required. Adhering closely to the prerequisites and instructions below should ensure a good outcome.
 
 Prerequisites:
 
