@@ -23,7 +23,7 @@ To add BLT to a pre-existing Drupal project, do the following:
         composer require acquia/blt:^10.0 --no-update
         composer update
 
-1. Replace your `.gitignore` file with BLT's template `.gitignore`:
+1. Replace your `.gitignore` file with BLT's template `.gitignore`, then re-add any project-specific overrides:
 
         cp vendor/acquia/blt/subtree-splits/blt-project/.gitignore .
         
