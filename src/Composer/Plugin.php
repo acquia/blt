@@ -107,6 +107,10 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    */
   public static function onPostAutoloadDump(Event $event) {
     $composer = $event->getComposer();
+    // This workaround is only necessary for Composer versions before 1.9.0.
+    if (version_compare($composer::VERSION, '1.9.0', '>=')) {
+      return;
+    }
     $vendor_dir = $composer->getConfig()->get('vendor-dir');
     $installed_json = realpath($vendor_dir) . "/composer/installed.json";
     $installed = json_decode(file_get_contents($installed_json));
