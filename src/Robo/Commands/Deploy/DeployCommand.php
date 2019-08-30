@@ -739,12 +739,16 @@ class DeployCommand extends BltTasks {
    *   Multisite.
    */
   protected function updateSite($multisite) {
-    $this->say("Deploying updates to <comment>$multisite</comment>...");
     $this->switchSiteContext($multisite);
 
-    $this->invokeCommand('drupal:update');
-
-    $this->say("Finished deploying updates to $multisite.");
+    if ($this->getInspector()->isDrupalInstalled()) {
+      $this->say("Deploying updates to <comment>$multisite</comment>...");
+      $this->invokeCommand('drupal:update');
+      $this->say("Finished deploying updates to $multisite.");
+    }
+    else {
+      $this->logger->warning("Drupal is not installed for $multisite. Skipping updates.");
+    }
   }
 
   /**

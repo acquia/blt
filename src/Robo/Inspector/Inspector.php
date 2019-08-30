@@ -221,7 +221,8 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    */
   public function isDrupalInstalled() {
     $this->logger->debug("Verifying that Drupal is installed...");
-    $result = $this->executor->drush("sqlq \"SHOW TABLES LIKE 'config'\"")->run();
+    $uri = $this->getConfigValue('drush.uri');
+    $result = $this->executor->drush("sqlq --uri=$uri \"SHOW TABLES LIKE 'config'\"")->run();
     $output = trim($result->getMessage());
     $installed = $result->wasSuccessful() && $output == 'config';
 
