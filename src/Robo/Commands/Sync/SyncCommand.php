@@ -133,13 +133,11 @@ class SyncCommand extends BltTasks {
       ->option('--target-dump', sys_get_temp_dir() . '/tmp.target.sql.gz')
       ->option('structure-tables-key', 'lightweight')
       ->option('create-db');
+    $task->drush('cr');
 
     if ($this->getConfigValue('drush.sanitize')) {
-      $task->drush('cr');
       $task->drush('sql-sanitize');
     }
-
-    $task->drush('sqlq "TRUNCATE cache_entity"');
 
     $result = $task->run();
 
