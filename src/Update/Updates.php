@@ -848,4 +848,24 @@ class Updates {
     }
   }
 
+  /**
+   * Version 10.4.0.
+   *
+   * @Update(
+   *   version = "10004001",
+   *   description = "Work around missing Mink branch."
+   * )
+   */
+  public function update_10004001() {
+    $composer_json = $this->updater->getComposerJson();
+    if (array_key_exists('acquia/blt-require-dev', $composer_json['require-dev'])) {
+      $composer_json['require-dev']['behat/mink-selenium2-driver'] = 'dev-master#a38512485e905738321f793b3acd3e7411a85101 as 1.3.x-dev';
+      $this->updater->writeComposerJson($composer_json);
+      $this->updater->getOutput()->writeln("Your composer.json has been updated to include a workaround for an upstream Mink bug. More details are available at https://github.com/acquia/blt/issues/3835");
+      $this->updater->getOutput()->writeln("");
+      $this->updater->getOutput()->writeln("You must run `composer update` and commit the resulting changes to composer.json and composer.lock if you wish to use these updated settings.");
+      $this->updater->getOutput()->writeln("");
+    }
+  }
+
 }
