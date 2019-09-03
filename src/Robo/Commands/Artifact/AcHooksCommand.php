@@ -67,7 +67,7 @@ class AcHooksCommand extends BltTasks {
   public function postCodeUpdate($site, $target_env, $source_branch, $deployed_tag, $repo_url, $repo_type) {
     if (!EnvironmentDetector::isAcsfEnv($site, $target_env)) {
       try {
-        $this->updateSites($site, $target_env);
+        $this->updateCloudSites($target_env);
         $success = TRUE;
         $this->sendPostCodeUpdateNotifications($site, $target_env, $source_branch, $deployed_tag, $success);
       }
@@ -164,15 +164,6 @@ class AcHooksCommand extends BltTasks {
   }
 
   /**
-   * Reinstall Drupal in an ODE.
-   *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
-   */
-  public function updateOdeSites() {
-    $this->invokeCommand('artifact:install:drupal');
-  }
-
-  /**
    * Executes updates against all ACE sites in the target environment.
    *
    * @param string $target_env
@@ -180,7 +171,7 @@ class AcHooksCommand extends BltTasks {
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
-  public function updateAceSites($target_env) {
+  public function updateCloudSites($target_env) {
     $this->say("Running updates for environment: $target_env");
     $this->invokeCommand('artifact:update:drupal:all-sites');
     $this->say("Finished updates for environment: $target_env");
@@ -273,25 +264,6 @@ class AcHooksCommand extends BltTasks {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
     curl_exec($ch);
     curl_close($ch);
-  }
-
-  /**
-   * Executes updates against all sites.
-   *
-   * @param string $site
-   *   Site.
-   * @param string $target_env
-   *   Target env.
-   *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
-   */
-  protected function updateSites($site, $target_env) {
-    if (EnvironmentDetector::isAhOdeEnv($target_env)) {
-      $this->updateOdeSites();
-    }
-    else {
-      $this->updateAceSites($target_env);
-    }
   }
 
 }
