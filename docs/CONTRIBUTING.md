@@ -21,6 +21,8 @@ BLT does not publish timelines or roadmaps as to when individual issues will be 
 
 ## Submitting issues
 
+Before submitting an issue, be sure to search for existing issues (including **closed** issues) that might match your issue. Duplicate issues will be closed.
+
 Please choose your issue type carefully. If you aren't sure, odds are you have a support request.
 - **Feature request**: a request for a specific enhancement to be made to BLT. This is distinct from a bug in that it represents a _gap_ in BLT functionality, rather than an instance of BLT behaving badly. It is distinct from a support request in that it has a specific and atomic request for new BLT functionality, rather than being a general request for help or guidance.
 - **Bug report**: a clearly defined instance of BLT not behaving as expected. It is distinct from a feature request in that it represents a mismatch between what BLT _does_ and what BLT _claims to do_. It is distinct from a support request in that it has _specific steps to reproduce the problem_ (ideally starting from a fresh installation of BLT) and _justification_ as to why this is a problem with BLT rather than an underlying tool such as Composer or Drush.

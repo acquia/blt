@@ -218,7 +218,7 @@ class ConfigCommand extends BltTasks {
       if (!$result->wasSuccessful()) {
         throw new BltException("Unable to determine configuration status.");
       }
-      throw new BltException("Configuration in the database does not match configuration on disk. This indicates that your configuration on disk needs attention. Please read https://github.com/acquia/blt/wiki/Configuration-override-test-and-errors");
+      throw new BltException("Configuration in the database does not match configuration on disk. This indicates that your configuration on disk needs attention. Please read https://support.acquia.com/hc/en-us/articles/360034687394--Configuration-in-the-database-does-not-match-configuration-on-disk-when-using-BLT");
     }
   }
 
