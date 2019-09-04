@@ -10,6 +10,8 @@ use Acquia\Blt\Robo\Exceptions\BltException;
 use Acquia\Blt\Robo\Inspector\InspectorAwareInterface;
 use Acquia\Blt\Robo\Inspector\InspectorAwareTrait;
 use Acquia\Blt\Robo\Tasks\LoadTasks;
+use Acquia\Blt\Robo\Tasks\BltExecStack;
+use Acquia\Blt\Robo\Tasks\BltExec;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 use Psr\Log\LoggerAwareInterface;
@@ -166,6 +168,24 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
 
       return 0;
     }
+  }
+
+  /**
+   * Use BLT's implementation of the Robo ExecStack.
+   *
+   * @inheritDoc
+   */
+  protected function taskExecStack() {
+    return $this->task(BltExecStack::class);
+  }
+
+  /**
+   * Use BLT's implementation of the Robo Exec.
+   *
+   * @inheritDoc
+   */
+  protected function taskExec($command) {
+    return $this->task(BltExec::class, $command);
   }
 
   /**

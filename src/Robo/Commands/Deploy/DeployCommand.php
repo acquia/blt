@@ -365,25 +365,29 @@ class DeployCommand extends BltTasks {
 
     $this->say("Merging upstream changes into local artifact...");
 
-    // Check if remote branch exists before fetching.
-    $result = $this->taskExecStack()
-      ->dir($this->deployDir)
-      ->stopOnFail(FALSE)
-      ->exec("git ls-remote --exit-code --heads $remote_url {$this->branchName}")
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->run();
-    switch ($result->getExitCode()) {
-      case 0:
-        // The remote branch exists, continue and merge it.
-        break;
+    try {
+      // Check if remote branch exists before fetching.
+      $this->taskExecStack()
+        ->dir($this->deployDir)
+        ->stopOnFail(FALSE)
+        ->exec("git ls-remote --exit-code --heads $remote_url {$this->branchName}")
+        ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+        ->run();
+    }
+    catch (BltException $e) {
+      switch ($e->getCode()) {
+        case 0:
+          // The remote branch exists, continue and merge it.
+          break;
 
-      case 2:
-        // The remote branch doesn't exist, bail out.
-        return;
+        case 2:
+          // The remote branch doesn't exist, bail out.
+          return;
 
-      default:
-        // Some other error code.
-        throw new BltException("Unexpected error while searching for remote branch: " . $result->getMessage());
+        default:
+          // Some other error code.
+          throw new BltException("Unexpected error while searching for remote branch: " . $e->getMessage());
+      }
     }
 
     // Now we know the remote branch exists, let's fetch and merge it.
@@ -488,13 +492,9 @@ class DeployCommand extends BltTasks {
     if ($this->ignorePlatformReqs) {
       $command .= ' --ignore-platform-reqs';
     }
-    $execution_result = $this->taskExecStack()->exec($command)
-      ->stopOnFail()
+    $this->taskExec($command)
       ->dir($this->deployDir)
       ->run();
-    if (!$execution_result->wasSuccessful()) {
-      throw new BltException("Composer install failed, please check the output for details.");
-    }
   }
 
   /**
