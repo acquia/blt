@@ -15,20 +15,21 @@ class SecurityUpdatesCommand extends BltTasks {
    * @command tests:security:check:updates
    * @aliases tscu security tests:security-updates
    * @executeInVm
+   *
+   * @throws \Exception
    */
   public function testsSecurityUpdates() {
-    $result = $this->taskDrush()
-      ->drush("pm:security")
-      ->run();
-
-    if ($result->getExitCode()) {
+    try {
+      $this->taskDrush()
+        ->drush("pm:security")
+        ->run();
+    }
+    catch (\Exception $exception) {
       $this->logger->notice('To disable security checks, set disable-targets.tests.security.check.updates to true in blt.yml.');
-      return 1;
+      throw $exception;
     }
-    else {
-      $this->writeln("<info>There are no outstanding security updates for Drupal projects.</info>");
-      return 0;
-    }
+
+    $this->writeln("<info>There are no outstanding security updates for Drupal projects.</info>");
   }
 
   /**
@@ -37,22 +38,23 @@ class SecurityUpdatesCommand extends BltTasks {
    * @command tests:security:check:composer
    * @aliases tscom security tests:composer
    * @executeInVm
+   *
+   * @throws \Exception
    */
   public function testsSecurityComposer() {
     $bin = $this->getConfigValue('composer.bin');
-    $result = $this->taskExecStack()
-      ->dir($this->getConfigValue('repo.root'))
-      ->exec("$bin/security-checker security:check composer.lock")
-      ->run();
-
-    if ($result->getExitCode()) {
+    try {
+      $this->taskExecStack()
+        ->dir($this->getConfigValue('repo.root'))
+        ->exec("$bin/security-checker security:check composer.lock")
+        ->run();
+    }
+    catch (\Exception $exception) {
       $this->logger->notice('To disable security checks, set disable-targets.tests.security.check.composer to true in blt.yml.');
-      return 1;
+      throw $exception;
     }
-    else {
-      $this->writeln("<info>There are no outstanding security updates for your composer packages.</info>");
-      return 0;
-    }
+
+    $this->writeln("<info>There are no outstanding security updates for your composer packages.</info>");
   }
 
 }

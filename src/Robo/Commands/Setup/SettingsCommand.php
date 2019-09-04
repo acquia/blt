@@ -334,15 +334,17 @@ WARNING;
     }
     $deployment_identifier_file = $this->getConfigValue('repo.root') . '/deployment_identifier';
     $this->say("Generating deployment identifier...");
-    $result = $this->taskWriteToFile($deployment_identifier_file)
-      ->line($options['id'])
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->run();
-
-    if (!$result->wasSuccessful()) {
+    try {
+      $this->taskWriteToFile($deployment_identifier_file)
+        ->line($options['id'])
+        ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+        ->run();
+    }
+    catch (\Exception $exception) {
       $filepath = $this->getInspector()->getFs()->makePathRelative($deployment_identifier_file, $this->getConfigValue('repo.root'));
       throw new BltException("Unable to write deployment identifier to $filepath.");
     }
+
   }
 
 }

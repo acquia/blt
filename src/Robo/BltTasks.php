@@ -10,8 +10,6 @@ use Acquia\Blt\Robo\Exceptions\BltException;
 use Acquia\Blt\Robo\Inspector\InspectorAwareInterface;
 use Acquia\Blt\Robo\Inspector\InspectorAwareTrait;
 use Acquia\Blt\Robo\Tasks\LoadTasks;
-use Acquia\Blt\Robo\Tasks\BltExecStack;
-use Acquia\Blt\Robo\Tasks\BltExec;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 use Psr\Log\LoggerAwareInterface;
@@ -20,7 +18,6 @@ use Robo\Contract\BuilderAwareInterface;
 use Robo\Contract\ConfigAwareInterface;
 use Robo\Contract\IOAwareInterface;
 use Robo\Contract\VerbosityThresholdInterface;
-use Robo\LoadAllTasks;
 use Symfony\Component\Console\Input\ArrayInput;
 
 /**
@@ -29,7 +26,6 @@ use Symfony\Component\Console\Input\ArrayInput;
 class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerAwareInterface, BuilderAwareInterface, IOAwareInterface, ContainerAwareInterface {
 
   use ContainerAwareTrait;
-  use LoadAllTasks;
   use ConfigAwareTrait;
   use InspectorAwareTrait;
   use IO;
@@ -168,24 +164,6 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
 
       return 0;
     }
-  }
-
-  /**
-   * Use BLT's implementation of the Robo ExecStack.
-   *
-   * @inheritDoc
-   */
-  protected function taskExecStack() {
-    return $this->task(BltExecStack::class);
-  }
-
-  /**
-   * Use BLT's implementation of the Robo Exec.
-   *
-   * @inheritDoc
-   */
-  protected function taskExec($command) {
-    return $this->task(BltExec::class, $command);
   }
 
   /**

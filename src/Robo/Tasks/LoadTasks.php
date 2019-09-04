@@ -2,10 +2,14 @@
 
 namespace Acquia\Blt\Robo\Tasks;
 
+use Robo\LoadAllTasks;
+
 /**
  * Load BLT's custom Robo tasks.
  */
 trait LoadTasks {
+
+  use LoadAllTasks;
 
   /**
    * Task drush.
@@ -30,7 +34,7 @@ trait LoadTasks {
    * @param null|string $pathToGit
    *   Path to git.
    *
-   * @return \Acquia\Blt\Robo\Tasks\GitTask
+   * @return \Acquia\Blt\Robo\Tasks\GitTask|\Robo\Collection\CollectionBuilder
    *   Git task.
    */
   protected function taskGit($pathToGit = 'git') {
@@ -43,7 +47,7 @@ trait LoadTasks {
    * @param null|string $pathToPhpUnit
    *   Path to phpunit.
    *
-   * @return \Acquia\Blt\Robo\Tasks\PhpUnitTask
+   * @return \Acquia\Blt\Robo\Tasks\PhpUnitTask|\Robo\Collection\CollectionBuilder
    *   Phpunit task.
    */
   protected function taskPhpUnitTask($pathToPhpUnit = NULL) {
@@ -53,11 +57,38 @@ trait LoadTasks {
   /**
    * Task run tests.
    *
-   * @return \Acquia\Blt\Robo\Tasks\RunTestsTask
+   * @return \Acquia\Blt\Robo\Tasks\RunTestsTask|\Robo\Collection\CollectionBuilder
    *   run tests task.
    */
   protected function taskRunTestsTask($runTestsScriptCommand = NULL) {
     return $this->task(RunTestsTask::class, $runTestsScriptCommand);
+  }
+
+  /**
+   * Use BLT's implementation of the Robo ExecStack.
+   *
+   * @inheritDoc
+   */
+  protected function taskExecStack() {
+    return $this->task(BltExecStack::class);
+  }
+
+  /**
+   * Use BLT's implementation of the Robo Exec.
+   *
+   * @inheritDoc
+   */
+  protected function taskExec($command) {
+    return $this->task(BltExec::class, $command);
+  }
+
+  /**
+   * Use BLT's implementation of the Robo Write.
+   *
+   * @inheritDoc
+   */
+  protected function taskWriteToFile($file) {
+    return $this->task(BltWrite::class, $file);
   }
 
 }

@@ -2,6 +2,7 @@
 
 namespace Acquia\Blt\Robo\Tasks;
 
+use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Exception\TaskException;
 use Robo\Task\CommandStack;
 use Robo\Common\CommandArguments;
@@ -370,6 +371,8 @@ class DrushTask extends CommandStack {
    *
    * Make note that if stopOnFail() is TRUE, then result data isn't returned!
    * Maybe this should be changed.
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function run() {
     $this->setupExecution();
@@ -383,7 +386,11 @@ class DrushTask extends CommandStack {
     // If 'stopOnFail' is not set, or if there is only one command to run,
     // then execute the single command to run.
     if (!$this->stopOnFail || (count($this->exec) == 1)) {
-      return $this->executeCommand($this->getCommand());
+      $result = $this->executeCommand($this->getCommand());
+      if (!$result->wasSuccessful()) {
+        throw new BltException("Task failed with exit code {$result->getExitCode()}. See log output above for details.", $result->getExitCode());
+      }
+      return $result;
     }
 
     // When executing multiple commands in 'stopOnFail' mode, run them
@@ -401,6 +408,10 @@ class DrushTask extends CommandStack {
       if (!$result->wasSuccessful()) {
         return $result;
       }
+    }
+
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Task failed with exit code {$result->getExitCode()}. See log output above for details.", $result->getExitCode());
     }
 
     return $result;
