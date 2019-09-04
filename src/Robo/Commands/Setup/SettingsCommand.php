@@ -306,30 +306,17 @@ WARNING;
    *
    * @command drupal:hash-salt:init
    * @aliases dhsi setup:hash-salt
-   *
-   * @return int
-   *   A CLI exit code.
-   *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function hashSalt() {
     $hash_salt_file = $this->getConfigValue('repo.root') . '/salt.txt';
     if (!file_exists($hash_salt_file)) {
       $this->say("Generating hash salt...");
-      $result = $this->taskWriteToFile($hash_salt_file)
+      $this->taskWriteToFile($hash_salt_file)
         ->line(RandomString::string(55))
         ->run();
-
-      if (!$result->wasSuccessful()) {
-        $filepath = $this->getInspector()->getFs()->makePathRelative($hash_salt_file, $this->getConfigValue('repo.root'));
-        throw new BltException("Unable to write hash salt to $filepath.");
-      }
-
-      return $result->getExitCode();
     }
     else {
       $this->say("Hash salt already exists.");
-      return 0;
     }
   }
 
