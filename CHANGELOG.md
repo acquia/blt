@@ -1,5 +1,42 @@
 # Change Log
 
+#### 10.4.0 (2019-09-09)
+
+[Full Changelog](https://github.com/acquia/blt/compare/10.3.0...10.4.0)
+
+**Major / breaking changes**
+
+- DT-652: Migrate memcache settings to standalone package. (#3801)
+
+**Fixed bugs**
+
+- DT-679: Fixes #3798: Treat CDE and Cloud sites identically. (#3833)
+- Fixes #3815: SQL sanitization fails when using memcache. (#3824)
+- Skip drupal:update if Drupal is not installed (#3831)
+- DT-676: Fixes #3807: Fix composer warnings for Composer 1.9.0. (#3829)
+- use by default latest stable chromedriver released version. (#3822)
+- DT-575: Fixes #3802: Improve documentation of multisite Behat config and profile overrides  (#3803)
+- Fixes #3796: Deploy command continues despite composer failure (#3809)
+
+**Miscellaneous**
+
+- Revert "Hotfix: Alias behat/mink-selenium2-driver version."
+- Revert "Bump blt-project to stable."
+- Bump blt-project to stable.
+- Hotfix: Alias behat/mink-selenium2-driver version.
+- DT-681: Fixes #3810: Replace links to wiki with links to support KB. (#3834)
+- Update adding-to-project.md (#3826)
+- Link New Multi-site Behat Section to the Multisite Page (#3812)
+- Removed Drupal Spec Tool version constraint. (#3808)
+- Note backlog prioritization guidelines (#3805)
+- Add note about PHPCS filesets to build.yml (#3806)
+- Include adminer url with thedrupal-vm default config. (#3800)
+- Fix typo. (#3799)
+- DT-663: Ensure deploy.dir config is set before running deploys. (#3793)
+- Revert "Bump blt-project to stable."
+- Bump blt-project to stable.
+
+
 #### 10.3.0 (2019-08-06)
 
 [Full Changelog](https://github.com/acquia/blt/compare/10.2.1...10.3.0)
