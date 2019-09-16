@@ -275,8 +275,9 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   /**
    * Validates a drush alias.
    *
-   * Note that this runs in the context of the _configured_ Drush alias, but validates the _passed_ Drush alias. So the
-   * generated command might be `drush @self site:alias @self --format=json`
+   * Note that this runs in the context of the _configured_ Drush alias, but
+   * validates the _passed_ Drush alias. So the generated command might be:
+   * `drush @self site:alias @self --format=json`
    *
    * @param string $alias
    *   Drush alias.
