@@ -275,6 +275,10 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   /**
    * Validates a drush alias.
    *
+   * Note that this runs in the context of the _configured_ Drush alias, but
+   * validates the _passed_ Drush alias. So the generated command might be:
+   * `drush @self site:alias @self --format=json`
+   *
    * @param string $alias
    *   Drush alias.
    *
@@ -282,10 +286,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *   TRUE if alias is valid.
    */
   public function isDrushAliasValid($alias) {
-    $bin = $this->getConfigValue('composer.bin');
-    $command = "'$bin/drush' site:alias @$alias --format=json";
-    return $this->executor->execute($command)
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERY_VERBOSE)
+    return $this->executor->drush("site:alias @$alias --format=json")
       ->run()
       ->wasSuccessful();
   }
