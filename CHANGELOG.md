@@ -1,5 +1,21 @@
 # Change Log
 
+#### 10.4.1 (2019-09-17)
+
+[Full Changelog](https://github.com/acquia/blt/compare/10.4.0...10.4.1)
+
+
+**Fixed bugs**
+
+- Fixes #3849: Drush alias check fails on Windows. (#3851)
+- DT-682: Fixes #3811: Ensure all failing commands throw exceptions. (#3846)
+
+**Miscellaneous**
+
+- Revert "Bump blt-project to stable."
+- Bump blt-project to stable.
+
+
 #### 10.4.0 (2019-09-09)
 
 [Full Changelog](https://github.com/acquia/blt/compare/10.3.0...10.4.0)
