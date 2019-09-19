@@ -93,8 +93,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
       // command. We must check the exit code and throw our own exception. This
       // obviates the need to check the exit code of every invoked command.
       if ($exit_code) {
-        $this->output->writeln("The command `$command_name` failed. This most likely indicates a problem with your configuration, and is NOT a BLT bug. Follow this troubleshooting guide to diagnose the issue: https://docs.acquia.com/blt/faq/");
-        throw new BltException("Command `$command_name {$input->__toString()}` exited with code $exit_code.");
+        throw new BltException("Command `$command_name {$input->__toString()}` exited with code $exit_code. This most likely indicates a problem with your configuration, and is not a BLT bug.");
       }
     }
   }

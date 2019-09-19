@@ -18,8 +18,7 @@ class BltException extends \Exception {
     \Throwable $previous = NULL
   ) {
 
-    // @todo Check verbosity level. If not verbose, append "Re-run the command
-    // with -v to see more verbose output."
+    $message .= "\nFor troubleshooting guidance and support, see https://docs.acquia.com/blt/faq/";
     parent::__construct($message, $code, $previous);
 
     $this->transmitAnalytics();
