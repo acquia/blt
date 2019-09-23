@@ -63,7 +63,7 @@ class SyncCommand extends BltTasks {
    *
    * @command drupal:sync:files
    *
-   * @aliases dsf sync:files
+   * @aliases dsf sync:files drupal:sync:public-files
    *
    * @validateDrushConfig
    * @executeInVm
