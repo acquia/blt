@@ -2,7 +2,9 @@
 
 namespace Acquia\Blt\Update;
 
+use Acquia\Blt\Robo\Common\ComposerJson;
 use Acquia\Blt\Robo\Common\YamlMunge;
+use Acquia\Blt\Robo\Exceptions\BltException;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Annotations\IndexedReader;
@@ -60,32 +62,60 @@ class Updater {
   protected $fs;
 
   /**
-   * Composer.json file path.
-   *
-   * @var string
-   */
-  protected $composerJsonFilepath;
-
-  /**
-   * Composer.required.json file path.
-   *
-   * @var string
-   */
-  protected $composerRequiredJsonFilepath;
-
-  /**
-   * Composer.suggested.json file path.
-   *
-   * @var string
-   */
-  protected $composerSuggestedJsonFilepath;
-
-  /**
    * Cloud hooks status.
    *
    * @var bool
    */
   protected $cloudHooksAlreadyUpdated = FALSE;
+
+  /**
+   * Composer.json file.
+   *
+   * @var \Acquia\Blt\Robo\Common\ComposerJson
+   */
+  public $composerJson;
+
+  /**
+   * Composer.required.json file.
+   *
+   * @var \Acquia\Blt\Robo\Common\ComposerJson
+   */
+  public $composerRequiredJson;
+
+  /**
+   * Composer.suggested.json file.
+   *
+   * @var \Acquia\Blt\Robo\Common\ComposerJson
+   */
+  protected $composerSuggestedJson;
+
+  /**
+   * Template composer.json file.
+   *
+   * @var \Acquia\Blt\Robo\Common\ComposerJson
+   */
+  protected $templateComposerJson;
+
+  /**
+   * The name of the class containing the update methods to be executed.
+   *
+   * @var string
+   */
+  private $updateClassName;
+
+  /**
+   * Blt.yml filepath.
+   *
+   * @var string
+   */
+  public $projectYmlFilepath;
+
+  /**
+   * Local.blt.yml filepath.
+   *
+   * @var string
+   */
+  public $projectLocalYmlFilepath;
 
   /**
    * Updater constructor.
@@ -94,6 +124,9 @@ class Updater {
    *   The name of the class containing the update methods to be executed.
    * @param string $repo_root
    *   The root directory for this project.
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Doctrine\Common\Annotations\AnnotationException
    */
   public function __construct($update_class, $repo_root) {
     $this->output = new ConsoleOutput();
@@ -104,10 +137,15 @@ class Updater {
     $this->fs = new Filesystem();
     $this->setRepoRoot($repo_root);
     $this->setBltRoot($repo_root . '/vendor/acquia/blt');
-    $this->composerJsonFilepath = $this->repoRoot . '/composer.json';
-    $this->composerRequiredJsonFilepath = $this->getBltRoot() . '/composer.required.json';
-    $this->composerSuggestedJsonFilepath = $this->getBltRoot() . '/composer.suggested.json';
-    $this->templateComposerJsonFilepath = $this->getBltRoot() . '/subtree-splits/blt-project/composer.json';
+    $this->composerJson = new ComposerJson($this->repoRoot);
+    $this->templateComposerJson = new ComposerJson($this->getBltRoot() . '/subtree-splits/blt-project');
+    try {
+      $this->composerRequiredJson = new ComposerJson($this->getBltRoot(), 'composer.required.json');
+      $this->composerSuggestedJson = new ComposerJson($this->getBltRoot(), 'composer.suggested.json');
+    }
+    catch (BltException $e) {
+      // Must be a newer version of BLT, that's fine.
+    }
     $this->projectYmlFilepath = $this->repoRoot . '/blt/blt.yml';
     $this->projectLocalYmlFilepath = $this->repoRoot . '/blt/local.blt.yml';
     $this->formatter = new FormatterHelper();
@@ -231,6 +269,8 @@ class Updater {
    * @return array
    *   An array of applicable update methods, keyed by method name. Each row
    *   contains the metadata from the Update annotation.
+   *
+   * @throws \ReflectionException
    */
   public function getUpdates($starting_version, $ending_version = NULL) {
     if (!$ending_version) {
@@ -256,6 +296,8 @@ class Updater {
    *
    * This will only return methods using the Update annotation.
    *
+   * @throws \ReflectionException
+   *
    * @see drupal_get_schema_versions()
    */
   public function getAllUpdateMethods() {
@@ -277,6 +319,8 @@ class Updater {
    *
    * @return int|mixed
    *   Returns the schema version for the latest update method.
+   *
+   * @throws \ReflectionException
    */
   public function getLatestUpdateMethodVersion() {
     $update_methods = $this->getAllUpdateMethods();
@@ -339,17 +383,15 @@ class Updater {
    *   TRUE if patch was removed, otherwise FALSE.
    */
   public function removeComposerPatch($package, $url) {
-    $composer_json = $this->getComposerJson();
-    if (!empty($composer_json['extra']['patches'][$package])) {
-      foreach ($composer_json['extra']['patches'][$package] as $key => $patch_url) {
+    if (!empty($this->composerJson->contents['extra']['patches'][$package])) {
+      foreach ($this->composerJson->contents['extra']['patches'][$package] as $key => $patch_url) {
         if ($patch_url == $url) {
-          unset($composer_json['extra']['patches'][$package][$key]);
+          unset($this->composerJson->contents['extra']['patches'][$package][$key]);
           // If that was the only patch for this module, unset the parent too.
-          if (empty($composer_json['extra']['patches'][$package])) {
-            unset($composer_json['extra']['patches'][$package]);
+          if (empty($this->composerJson->contents['extra']['patches'][$package])) {
+            unset($this->composerJson->contents['extra']['patches'][$package]);
           }
-          $this->writeComposerJson($composer_json);
-
+          $this->composerJson->write();
           return TRUE;
         }
       }
@@ -367,14 +409,12 @@ class Updater {
    *   TRUE if repo was removed, otherwise false.
    */
   public function removeComposerRepository($repo_url) {
-    $composer_json = $this->getComposerJson();
-    if (!empty($composer_json['repositories'])) {
-      foreach ($composer_json['repositories'] as $key => $repo) {
+    if (!empty($this->composerJson->contents['repositories'])) {
+      foreach ($this->composerJson->contents['repositories'] as $key => $repo) {
         $url = $repo['url'];
         if ($repo_url == $url) {
-          unset($composer_json['repositories'][$key]);
-          $this->writeComposerJson($composer_json);
-
+          unset($this->composerJson->contents['repositories'][$key]);
+          $this->composerJson->write();
           return TRUE;
         }
       }
@@ -392,13 +432,11 @@ class Updater {
    *   TRUE if script was removed, otherwise false.
    */
   public function removeComposerScript($script_key) {
-    $composer_json = $this->getComposerJson();
-    if (!empty($composer_json['scripts'])) {
-      foreach ($composer_json['scripts'] as $key => $script) {
+    if (!empty($this->composerJson->contents['scripts'])) {
+      foreach ($this->composerJson->contents['scripts'] as $key => $script) {
         if ($script_key == $key) {
-          unset($composer_json['scripts'][$key]);
-          $this->writeComposerJson($composer_json);
-
+          unset($this->composerJson->contents['scripts'][$key]);
+          $this->composerJson->write();
           return TRUE;
         }
       }
@@ -409,68 +447,62 @@ class Updater {
   /**
    * Returns composer.json content.
    *
+   * Deprecated. Use public ComposerJson members instead.
+   *
    * @return array
    *   The contents of composer.json.
    */
   public function getComposerJson() {
-    $composer_json = json_decode(file_get_contents($this->composerJsonFilepath), TRUE);
-
-    return $composer_json;
+    return $this->composerJson->contents;
   }
 
   /**
    * Returns composer.required.json content.
    *
+   * Deprecated. Use public ComposerJson members instead.
+   *
    * @return array
    *   The contents of composer.required.json.
    */
   public function getComposerRequiredJson() {
-    $composer_required_json = json_decode(file_get_contents($this->composerRequiredJsonFilepath), TRUE);
-
-    return $composer_required_json;
+    return $this->composerRequiredJson->contents;
   }
 
   /**
    * Returns composer.suggested.json content.
    *
+   * Deprecated. Use public ComposerJson members instead.
+   *
    * @return array
    *   The contents of composer.suggested.json.
    */
   public function getComposerSuggestedJson() {
-    $composer_suggested_json = json_decode(file_get_contents($this->composerSuggestedJsonFilepath), TRUE);
-
-    return $composer_suggested_json;
+    return $this->composerSuggestedJson->contents;
   }
 
   /**
    * Returns template/composer.json content.
    *
+   * Deprecated. Use public ComposerJson members instead.
+   *
    * @return array
    *   The contents of template/composer.json.
    */
   public function getTemplateComposerJson() {
-    $template_composer_json = json_decode(file_get_contents($this->templateComposerJsonFilepath), TRUE);
-
-    return $template_composer_json;
+    return $this->templateComposerJson->contents;
   }
 
   /**
    * Writes an array to composer.json.
    *
+   * Deprecated. Use public ComposerJson members instead.
+   *
    * @param array $contents
    *   The new contents of composer.json.
    */
   public function writeComposerJson(array $contents) {
-    // Ensure that require and require-dev are objects and not arrays.
-    if (array_key_exists('require', $contents) && is_array($contents['require'])) {
-      ksort($contents['require']);
-      $contents['require'] = (object) $contents['require'];
-    }
-    if (array_key_exists('require-dev', $contents)&& is_array($contents['require-dev'])) {
-      ksort($contents['require-dev']);
-      $contents['require-dev'] = (object) $contents['require-dev'];
-    }
-    file_put_contents($this->composerJsonFilepath, json_encode($contents, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL);
+    $this->composerJson->contents = $contents;
+    $this->composerJson->write();
   }
 
   /**

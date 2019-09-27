@@ -2,6 +2,7 @@
 
 namespace Acquia\Blt\Robo\Commands\Doctor;
 
+use Acquia\Blt\Robo\Common\ComposerJson;
 use Acquia\Blt\Robo\Common\Executor;
 use Acquia\Blt\Robo\Inspector\Inspector;
 use Robo\Config\Config;
@@ -34,8 +35,19 @@ class ComposerCheck extends DoctorCheck {
 
   /**
    * DoctorCheck constructor.
+   *
+   * @param \Robo\Config\Config $config
+   *   Robo config.
+   * @param \Acquia\Blt\Robo\Inspector\Inspector $inspector
+   *   Robo inspector.
+   * @param \Acquia\Blt\Robo\Common\Executor $executor
+   *   Robo executor.
+   * @param array $drush_status
+   *   Drush status info.
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
-  public function __construct(Config $config, Inspector $inspector, Executor $executor, $drush_status) {
+  public function __construct(Config $config, Inspector $inspector, Executor $executor, array $drush_status) {
     parent::__construct($config, $inspector, $executor, $drush_status);
     $this->setComposerJson();
     $this->setComposerLock();
@@ -45,46 +57,21 @@ class ComposerCheck extends DoctorCheck {
   /**
    * Sets $this->composerJson using root composer.json file.
    *
-   * @return array
-   *   Array.
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function setComposerJson() {
-    if (file_exists($this->getConfigValue('repo.root') . '/composer.json')) {
-      $composer_json = json_decode(file_get_contents($this->getConfigValue('repo.root') . '/composer.json'), TRUE);
-      $this->composerJson = $composer_json;
-
-      return $composer_json;
-    }
-
-    return [];
+    $composerJson = new ComposerJson($this->getConfigValue('repo.root'));
+    $this->composerJson = $composerJson->contents;
   }
 
   /**
    * Sets $this->templateComposerJson using template composer.json file.
    *
-   * @return array
-   *   Array.
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function setTemplateComposerJson() {
-    $file_name = $this->getConfigValue('repo.root') . '/vendor/acquia/blt/subtree-splits/blt-project/composer.json';
-    if (file_exists($file_name)) {
-      $template_composer_json = json_decode(file_get_contents($file_name, TRUE), TRUE);
-      $this->templateComposerJson = $template_composer_json;
-
-      return $template_composer_json;
-    }
-
-    return [];
-  }
-
-  /**
-   * Get composer.json.
-   *
-   * @return array
-   *   Array
-   */
-  public function getComposerJson() {
-    return $this->composerJson;
+    $composerJson = new ComposerJson($this->getConfigValue('repo.root') . '/vendor/acquia/blt/subtree-splits/blt-project');
+    $this->templateComposerJson = $composerJson->contents;
   }
 
   /**
@@ -102,16 +89,6 @@ class ComposerCheck extends DoctorCheck {
     }
 
     return [];
-  }
-
-  /**
-   * Get composer.lock.
-   *
-   * @return array
-   *   Array.
-   */
-  public function getComposerLock() {
-    return $this->composerLock;
   }
 
   /**
@@ -187,8 +164,13 @@ class ComposerCheck extends DoctorCheck {
 
   /**
    * Compare composer.
+   *
+   * @param string $key1
+   *   First key to compare.
+   * @param string $key2
+   *   Second key to compare.
    */
-  private function compareComposerConfig($key1, $key2) {
+  private function compareComposerConfig(string $key1, string $key2) {
     if (!array_key_exists($key1, $this->composerJson) ||
       !array_key_exists($key2, $this->composerJson[$key1])) {
       $project_values = NULL;

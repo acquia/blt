@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Acsf;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Common\ComposerJson;
 use Acquia\Blt\Robo\Common\YamlMunge;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
@@ -36,6 +37,8 @@ class AcsfCommand extends BltTasks {
    *
    * @aliases acsf acsf:init
    * @options acsf-version
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function acsfInitialize($options = ['acsf-version' => '^2.47.0']) {
     $this->printPreamble();
@@ -73,10 +76,9 @@ class AcsfCommand extends BltTasks {
     YamlMunge::writeFile($project_yml, $project_config);
 
     // .htaccess was patched, excluding from further updates.
-    $composer_filepath = $this->getConfigValue('repo.root') . '/composer.json';
-    $composer_contents = json_decode(file_get_contents($composer_filepath));
-    $composer_contents->extra->{'drupal-scaffold'}->excludes[] = '.htaccess';
-    file_put_contents($composer_filepath, json_encode($composer_contents, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+    $composerJson = new ComposerJson($this->getConfigValue('repo.root'));
+    $composerJson->contents['extra']['drupal-scaffold']['excludes'][] = '.htaccess';
+    $composerJson->write();
   }
 
   /**

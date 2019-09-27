@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Saml;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Common\ComposerJson;
 use Acquia\Blt\Robo\Common\YamlMunge;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
@@ -254,18 +255,20 @@ class SimpleSamlPhpCommand extends BltTasks {
 
   /**
    * Add a patch to .htaccess.
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Robo\Exception\TaskException
    */
   protected function addHtaccessPatch() {
     $this->taskFilesystemStack()
       ->copy($this->bltRoot . "/scripts/simplesamlphp/htaccess-saml.patch",
         $this->repoRoot . "/patches/htaccess-saml.patch")
       ->run();
-    $composer_json = json_decode(file_get_contents($this->getConfigValue('repo.root') . '/composer.json'));
-    $composer_json->scripts->{"post-drupal-scaffold-cmd"}[] = "cd docroot && patch -p1 <../patches/htaccess-saml.patch";
-    file_put_contents($this->getConfigValue('repo.root') . '/composer.json',
-      json_encode($composer_json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+    $composerJson = new ComposerJson($this->getConfigValue('repo.root'));
+    $composerJson->contents['scripts']['post-drupal-scaffold-cmd'][] = 'cd docroot && patch -p1 <../patches/htaccess-saml.patch';
+    $composerJson->write();
     $this->taskExecStack()
-      ->dir($this->getConfigValue('repo.roou'))
+      ->dir($this->getConfigValue('repo.root'))
       ->exec("composer post-drupal-scaffold-cmd")
       ->run();
     // @todo throw exceptions.
