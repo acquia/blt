@@ -2,9 +2,9 @@
 
 namespace Acquia\Blt\Robo\Commands\Doctor;
 
-use Acquia\Blt\Robo\Common\ComposerJson;
 use Acquia\Blt\Robo\Common\Executor;
 use Acquia\Blt\Robo\Inspector\Inspector;
+use Composer\Json\JsonFile;
 use Robo\Config\Config;
 
 /**
@@ -44,8 +44,6 @@ class ComposerCheck extends DoctorCheck {
    *   Robo executor.
    * @param array $drush_status
    *   Drush status info.
-   *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function __construct(Config $config, Inspector $inspector, Executor $executor, array $drush_status) {
     parent::__construct($config, $inspector, $executor, $drush_status);
@@ -56,22 +54,18 @@ class ComposerCheck extends DoctorCheck {
 
   /**
    * Sets $this->composerJson using root composer.json file.
-   *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function setComposerJson() {
-    $composerJson = new ComposerJson($this->getConfigValue('repo.root'));
-    $this->composerJson = $composerJson->contents;
+    $composerJson = new JsonFile($this->getConfigValue('repo.root') . '/composer.json');
+    $this->composerJson = $composerJson->read();
   }
 
   /**
    * Sets $this->templateComposerJson using template composer.json file.
-   *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function setTemplateComposerJson() {
-    $composerJson = new ComposerJson($this->getConfigValue('repo.root') . '/vendor/acquia/blt/subtree-splits/blt-project');
-    $this->templateComposerJson = $composerJson->contents;
+    $composerJson = new JsonFile($this->getConfigValue('repo.root') . '/vendor/acquia/blt/subtree-splits/blt-project/composer.json');
+    $this->templateComposerJson = $composerJson->read();
   }
 
   /**
@@ -82,16 +76,6 @@ class ComposerCheck extends DoctorCheck {
    */
   public function getComposerJson() {
     return $this->composerJson;
-  }
-
-  /**
-   * Get composer.lock.
-   *
-   * @return array
-   *   Array.
-   */
-  public function getComposerLock() {
-    return $this->composerLock;
   }
 
   /**
@@ -109,6 +93,16 @@ class ComposerCheck extends DoctorCheck {
     }
 
     return [];
+  }
+
+  /**
+   * Get composer.lock.
+   *
+   * @return array
+   *   Array.
+   */
+  public function getComposerLock() {
+    return $this->composerLock;
   }
 
   /**

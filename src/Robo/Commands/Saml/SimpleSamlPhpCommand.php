@@ -3,9 +3,9 @@
 namespace Acquia\Blt\Robo\Commands\Saml;
 
 use Acquia\Blt\Robo\BltTasks;
-use Acquia\Blt\Robo\Common\ComposerJson;
 use Acquia\Blt\Robo\Common\YamlMunge;
 use Acquia\Blt\Robo\Exceptions\BltException;
+use Composer\Json\JsonFile;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Console\Helper\FormatterHelper;
 
@@ -61,6 +61,7 @@ class SimpleSamlPhpCommand extends BltTasks {
    * @aliases rsi saml simplesamlphp:init
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Robo\Exception\TaskException
    */
   public function initializeSimpleSamlPhp() {
     $this->requireModule();
@@ -183,7 +184,7 @@ class SimpleSamlPhpCommand extends BltTasks {
     $docroot = $this->getConfigValue('docroot');
 
     $this->say("Creating a symbolic link from ${docroot}/simplesaml to web accessible directory in the simplesamlphp library...");
-    $result = $this->taskFilesystemStack()
+    $result = $this->taskFileSystemStack()
       //phpcs:ignore
       ->symlink("../vendor/simplesamlphp/simplesamlphp/www", "${docroot}/simplesaml")
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
@@ -212,7 +213,7 @@ class SimpleSamlPhpCommand extends BltTasks {
       throw new BltException("Unable to copy configuration into SimpleSamlPhp.");
     }
 
-    $result = $this->taskFileSystemStack()
+    $result = $this->taskFilesystemStack()
       ->copy("{$this->bltRoot}/scripts/simplesamlphp/gitignore.txt", "{$this->repoRoot}/vendor/simplesamlphp/simplesamlphp/.gitignore", TRUE)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
@@ -225,6 +226,8 @@ class SimpleSamlPhpCommand extends BltTasks {
    * Ensures SimpleSamlPhp enabled repos have config copied on composer runs.
    *
    * @hook post-command source:build:composer
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function postComposerHook() {
     if ($this->getConfig()->has('simplesamlphp') && $this->getConfigValue('simplesamlphp')) {
@@ -256,17 +259,18 @@ class SimpleSamlPhpCommand extends BltTasks {
   /**
    * Add a patch to .htaccess.
    *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    * @throws \Robo\Exception\TaskException
+   * @throws \Exception
    */
   protected function addHtaccessPatch() {
     $this->taskFilesystemStack()
       ->copy($this->bltRoot . "/scripts/simplesamlphp/htaccess-saml.patch",
         $this->repoRoot . "/patches/htaccess-saml.patch")
       ->run();
-    $composerJson = new ComposerJson($this->getConfigValue('repo.root'));
-    $composerJson->contents['scripts']['post-drupal-scaffold-cmd'][] = 'cd docroot && patch -p1 <../patches/htaccess-saml.patch';
-    $composerJson->save();
+    $composerJson = new JsonFile($this->getConfigValue('repo.root') . '/composer.json');
+    $composerContents = $composerJson->read();
+    $composerContents['scripts']['post-drupal-scaffold-cmd'][] = 'cd docroot && patch -p1 <../patches/htaccess-saml.patch';
+    $composerJson->write($composerContents);
     $this->taskExecStack()
       ->dir($this->getConfigValue('repo.root'))
       ->exec("composer post-drupal-scaffold-cmd")
