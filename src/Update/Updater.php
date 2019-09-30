@@ -388,6 +388,7 @@ class Updater {
             unset($composer_json['extra']['patches'][$package]);
           }
           $this->writeComposerJson($composer_json);
+
           return TRUE;
         }
       }
@@ -414,6 +415,7 @@ class Updater {
         if ($repo_url == $url) {
           unset($composer_json['repositories'][$key]);
           $this->writeComposerJson($composer_json);
+
           return TRUE;
         }
       }
@@ -439,6 +441,7 @@ class Updater {
         if ($script_key == $key) {
           unset($composer_json['scripts'][$key]);
           $this->writeComposerJson($composer_json);
+
           return TRUE;
         }
       }
