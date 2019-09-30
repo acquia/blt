@@ -75,6 +75,26 @@ class ComposerCheck extends DoctorCheck {
   }
 
   /**
+   * Get composer.json.
+   *
+   * @return array
+   *   Array
+   */
+  public function getComposerJson() {
+    return $this->composerJson;
+  }
+
+  /**
+   * Get composer.lock.
+   *
+   * @return array
+   *   Array.
+   */
+  public function getComposerLock() {
+    return $this->composerLock;
+  }
+
+  /**
    * Sets $this->composerJson using root composer.lock file.
    *
    * @return array
