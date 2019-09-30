@@ -61,13 +61,6 @@ class Updater {
   protected $fs;
 
   /**
-   * Cloud hooks status.
-   *
-   * @var bool
-   */
-  protected $cloudHooksAlreadyUpdated = FALSE;
-
-  /**
    * Composer.json file.
    *
    * @var \Composer\Json\JsonFile
@@ -117,6 +110,13 @@ class Updater {
   public $projectLocalYmlFilepath;
 
   /**
+   * Cloud hooks status.
+   *
+   * @var bool
+   */
+  protected $cloudHooksAlreadyUpdated = FALSE;
+
+  /**
    * Updater constructor.
    *
    * @param string $update_class
@@ -136,9 +136,9 @@ class Updater {
     $this->setRepoRoot($repo_root);
     $this->setBltRoot($repo_root . '/vendor/acquia/blt');
     $this->composerJson = new JsonFile($this->repoRoot . '/composer.json');
-    $this->templateComposerJson = new JsonFile($this->getBltRoot() . '/subtree-splits/blt-project/composer.json');
     $this->composerRequiredJson = new JsonFile($this->getBltRoot() . '/composer.required.json');
     $this->composerSuggestedJson = new JsonFile($this->getBltRoot() . '/composer.suggested.json');
+    $this->templateComposerJson = new JsonFile($this->getBltRoot() . '/subtree-splits/blt-project/composer.json');
     $this->projectYmlFilepath = $this->repoRoot . '/blt/blt.yml';
     $this->projectLocalYmlFilepath = $this->repoRoot . '/blt/local.blt.yml';
     $this->formatter = new FormatterHelper();
@@ -378,16 +378,16 @@ class Updater {
    * @throws \Exception
    */
   public function removeComposerPatch($package, $url) {
-    $contents = $this->composerJson->read();
-    if (!empty($contents['extra']['patches'][$package])) {
-      foreach ($contents['extra']['patches'][$package] as $key => $patch_url) {
+    $composer_json = $this->getComposerJson();
+    if (!empty($composer_json['extra']['patches'][$package])) {
+      foreach ($composer_json['extra']['patches'][$package] as $key => $patch_url) {
         if ($patch_url == $url) {
-          unset($contents['extra']['patches'][$package][$key]);
+          unset($composer_json['extra']['patches'][$package][$key]);
           // If that was the only patch for this module, unset the parent too.
-          if (empty($contents['extra']['patches'][$package])) {
-            unset($contents['extra']['patches'][$package]);
+          if (empty($composer_json['extra']['patches'][$package])) {
+            unset($composer_json['extra']['patches'][$package]);
           }
-          $this->composerJson->write($contents);
+          $this->writeComposerJson($composer_json);
           return TRUE;
         }
       }
@@ -407,13 +407,13 @@ class Updater {
    * @throws \Exception
    */
   public function removeComposerRepository($repo_url) {
-    $contents = $this->composerJson->read();
-    if (!empty($contents['repositories'])) {
-      foreach ($contents['repositories'] as $key => $repo) {
+    $composer_json = $this->getComposerJson();
+    if (!empty($composer_json['repositories'])) {
+      foreach ($composer_json['repositories'] as $key => $repo) {
         $url = $repo['url'];
         if ($repo_url == $url) {
-          unset($contents['repositories'][$key]);
-          $this->composerJson->write($contents);
+          unset($composer_json['repositories'][$key]);
+          $this->writeComposerJson($composer_json);
           return TRUE;
         }
       }
@@ -433,12 +433,12 @@ class Updater {
    * @throws \Exception
    */
   public function removeComposerScript($script_key) {
-    $contents = $this->composerJson->read();
-    if (!empty($contents['scripts'])) {
-      foreach ($contents['scripts'] as $key => $script) {
+    $composer_json = $this->getComposerJson();
+    if (!empty($composer_json['scripts'])) {
+      foreach ($composer_json['scripts'] as $key => $script) {
         if ($script_key == $key) {
-          unset($contents['scripts'][$key]);
-          $this->composerJson->write($contents);
+          unset($composer_json['scripts'][$key]);
+          $this->writeComposerJson($composer_json);
           return TRUE;
         }
       }
@@ -448,8 +448,6 @@ class Updater {
 
   /**
    * Returns composer.json content.
-   *
-   * Deprecated. Use public ComposerJson members instead.
    *
    * @return array
    *   The contents of composer.json.
@@ -461,8 +459,6 @@ class Updater {
   /**
    * Returns composer.required.json content.
    *
-   * Deprecated. Use public ComposerJson members instead.
-   *
    * @return array
    *   The contents of composer.required.json.
    */
@@ -472,8 +468,6 @@ class Updater {
 
   /**
    * Returns composer.suggested.json content.
-   *
-   * Deprecated. Use public ComposerJson members instead.
    *
    * @return array
    *   The contents of composer.suggested.json.
@@ -485,8 +479,6 @@ class Updater {
   /**
    * Returns template/composer.json content.
    *
-   * Deprecated. Use public ComposerJson members instead.
-   *
    * @return array
    *   The contents of template/composer.json.
    */
@@ -496,8 +488,6 @@ class Updater {
 
   /**
    * Writes an array to composer.json.
-   *
-   * Deprecated. Use public ComposerJson members instead.
    *
    * @param array $contents
    *   The new contents of composer.json.

@@ -77,10 +77,11 @@ class AcsfCommand extends BltTasks {
     YamlMunge::writeFile($project_yml, $project_config);
 
     // .htaccess was patched, excluding from further updates.
-    $composerFile = new JsonFile($this->getConfigValue('repo.root') . '/composer.json');
-    $composerContents = $composerFile->read();
-    $composerContents['extra']['drupal-scaffold']['excludes'][] = '.htaccess';
-    $composerFile->write($composerContents);
+    $composer_filepath = $this->getConfigValue('repo.root') . '/composer.json';
+    $composer_file = new JsonFile($composer_filepath);
+    $composer_contents = $composer_file->read();
+    $composer_contents['extra']['drupal-scaffold']['excludes'][] = '.htaccess';
+    $composer_file->write($composer_contents);
   }
 
   /**
