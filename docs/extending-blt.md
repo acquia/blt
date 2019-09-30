@@ -61,6 +61,26 @@ To modify the filesets that are used in commands such as `tests:twig:lint:all`, 
         filesets:
           - files.yaml.custom
 
+## Overriding the Environment Detector
+
+BLT provides a unified [Environment Detector class](https://github.com/acquia/blt/blob/10.x/src/Robo/Common/EnvironmentDetector.php) that provides information about the current hosting environment, such as the stage (dev/stage/prod), provider (Acquia, Pantheon), type (local, CI), etc... It does this primarily by examining environment variables and features of the filesystem.
+
+You can extend the Environment Detector to make it aware of new environments that it wasn't originally designed to detect, such as custom CI or hosting providers.
+
+Note that the Environment Detector is called both during page requests (via settings.php includes) as well as during BLT commands, so it must be extremely performant and not depend on e.g. a UI, the Drupal container, or Robo configuration.
+
+To override Environment Detector methods, create a new BLT plugin as described above and configure it as follows:
+
+- Create a new custom Environment Detector class that implements BLT's environment detector
+- Override any supported method in your custom class.
+- Expose your custom class via PSR4 and add it to Composer's classmap via your plugin's composer.json file.
+
+BLT's Environment Detector will auto-discover your overrides via PSR4 and redispatch any method calls to your custom implementation.
+ 
+The [BLT Tugboat plugin](https://github.com/acquia/blt-tugboat) is a great reference implementation, and illustrates how to override the Environment Detector in practice.
+
+For additional discussion on the Environment Detector architecture, design choices, and performance considerations, see [this issue](https://github.com/acquia/blt/issues/3804#issuecomment-523623896). 
+  
 ## Modifying BLT Configuration
 
 BLT configuration can be customized by overriding the value of default variable values. You can find the default value of any BLT variable in [build.yml](https://github.com/acquia/blt/blob/10.x/config/build.yml).
