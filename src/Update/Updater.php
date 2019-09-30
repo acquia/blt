@@ -391,7 +391,7 @@ class Updater {
           if (empty($this->composerJson->contents['extra']['patches'][$package])) {
             unset($this->composerJson->contents['extra']['patches'][$package]);
           }
-          $this->composerJson->write();
+          $this->composerJson->save();
           return TRUE;
         }
       }
@@ -414,7 +414,7 @@ class Updater {
         $url = $repo['url'];
         if ($repo_url == $url) {
           unset($this->composerJson->contents['repositories'][$key]);
-          $this->composerJson->write();
+          $this->composerJson->save();
           return TRUE;
         }
       }
@@ -436,7 +436,7 @@ class Updater {
       foreach ($this->composerJson->contents['scripts'] as $key => $script) {
         if ($script_key == $key) {
           unset($this->composerJson->contents['scripts'][$key]);
-          $this->composerJson->write();
+          $this->composerJson->save();
           return TRUE;
         }
       }
@@ -502,7 +502,7 @@ class Updater {
    */
   public function writeComposerJson(array $contents) {
     $this->composerJson->contents = $contents;
-    $this->composerJson->write();
+    $this->composerJson->save();
   }
 
   /**

@@ -78,7 +78,7 @@ class AcsfCommand extends BltTasks {
     // .htaccess was patched, excluding from further updates.
     $composerJson = new ComposerJson($this->getConfigValue('repo.root'));
     $composerJson->contents['extra']['drupal-scaffold']['excludes'][] = '.htaccess';
-    $composerJson->write();
+    $composerJson->save();
   }
 
   /**

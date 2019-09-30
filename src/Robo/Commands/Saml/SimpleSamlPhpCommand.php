@@ -266,7 +266,7 @@ class SimpleSamlPhpCommand extends BltTasks {
       ->run();
     $composerJson = new ComposerJson($this->getConfigValue('repo.root'));
     $composerJson->contents['scripts']['post-drupal-scaffold-cmd'][] = 'cd docroot && patch -p1 <../patches/htaccess-saml.patch';
-    $composerJson->write();
+    $composerJson->save();
     $this->taskExecStack()
       ->dir($this->getConfigValue('repo.root'))
       ->exec("composer post-drupal-scaffold-cmd")

@@ -40,15 +40,22 @@ class ComposerJson {
   public function __construct(string $directory, string $filename = 'composer.json') {
     $this->filepath = $directory . DIRECTORY_SEPARATOR . $filename;
     if (!file_exists($this->filepath)) {
-      throw new BltException("Could not find composer.json");
+      throw new BltException("Could not find $filename");
     }
+    $this->load();
+  }
+
+  /**
+   * Load contents from composer.json.
+   */
+  public function load() {
     $this->contents = json_decode(file_get_contents($this->filepath), TRUE);
   }
 
   /**
-   * Writes contents to file.
+   * Write contents to composer.json.
    */
-  public function write() {
+  public function save() {
     // Ensure that require and require-dev are objects and not arrays.
     if (array_key_exists('require', $this->contents) && is_array($this->contents['require'])) {
       ksort($this->contents['require']);
