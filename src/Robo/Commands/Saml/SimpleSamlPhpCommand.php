@@ -247,6 +247,8 @@ class SimpleSamlPhpCommand extends BltTasks {
       "'blt source:build:simplesamlphp-config'",
       '',
       "See https://docs.acquia.com/blt/tech-architect/simplesamlphp-setup/ for details on how to modify the files.",
+      '',
+      'If you need assistance configuring SimpleSAMLphp, please contact Acquia Support or your Technical Account Manager, or visit https://docs.acquia.com/resource/using-simplesamlphp-acquia-cloud-site/. The BLT team cannot assist with SimpleSAMLphp configuration or implementation issues.',
     ];
     $formattedBlock = $this->formatter->formatBlock($instructions, 'comment', TRUE);
     $this->writeln($formattedBlock);
