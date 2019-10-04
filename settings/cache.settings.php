@@ -5,7 +5,6 @@
  * Contains caching configuration.
  */
 
-use Acquia\Blt\Robo\Common\EnvironmentDetector;
 
 /**
  * Use memcache as cache backend if Acquia configuration is present.
