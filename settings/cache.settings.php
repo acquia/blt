@@ -5,18 +5,6 @@
  * Contains caching configuration.
  */
 
-use Acquia\Blt\Robo\Common\EnvironmentDetector;
-
-/**
- * Settings.
- *
- * @var array $settings
- */
-
-if (EnvironmentDetector::isProdEnv() || EnvironmentDetector::isStageEnv()) {
-  $config['system.logging']['error_level'] = 'hide';
-}
-
 /**
  * Use memcache as cache backend if Acquia configuration is present.
  */
