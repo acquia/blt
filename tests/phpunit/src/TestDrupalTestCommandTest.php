@@ -9,7 +9,7 @@ use Acquia\Blt\Tests\BltProjectTestBase;
  *
  * @group orca_ignore
  */
-class DrupalTest extends BltProjectTestBase {
+class TestDrupalTestCommandTest extends BltProjectTestBase {
 
   /**
    * @var string
