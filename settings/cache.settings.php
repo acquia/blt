@@ -5,7 +5,6 @@
  * Contains caching configuration.
  */
 
-
 /**
  * Use memcache as cache backend if Acquia configuration is present.
  */
