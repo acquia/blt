@@ -9,7 +9,7 @@ use Acquia\Blt\Tests\BltProjectTestBase;
  *
  * @group orca_ignore
  */
-class PipelinesTest extends BltProjectTestBase {
+class CiPipelinesTest extends BltProjectTestBase {
 
   /**
    * Tests recipes:ci:pipelines:init command.

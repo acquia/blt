@@ -10,7 +10,7 @@ use Acquia\Blt\Tests\BltProjectTestBase;
  * @group requires-db
  * @group orca_ignore
  */
-class ToggleModulesTest extends BltProjectTestBase {
+class SetupToggleModulesTest extends BltProjectTestBase {
 
   /**
    * Verifies the modules for a given environment were enabled as expected.
