@@ -57,6 +57,7 @@
         "knplabs/github-api": "^2.6",
         "php-http/guzzle6-adapter": "^1.1",
         "phpunit/phpunit": "^4.8 || ^6.5",
+        "se/selenium-server-standalone": "^2.53",
         "squizlabs/php_codesniffer": "^3.0.1",
         "webflo/drupal-core-require-dev": "^8.6.0"
     },
