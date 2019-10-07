@@ -9,7 +9,7 @@ use Acquia\Blt\Tests\BltProjectTestBase;
  *
  * @group orca_ignore
  */
-class TravisCiTest extends BltProjectTestBase {
+class CiTravisTest extends BltProjectTestBase {
 
   /**
    * Tests recipes:ci:travis:init command.

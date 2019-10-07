@@ -9,7 +9,7 @@ use Acquia\Blt\Tests\BltProjectTestBase;
  *
  * @group orca_ignore
  */
-class BehatTest extends BltProjectTestBase {
+class TestBehatCommandTest extends BltProjectTestBase {
 
   /**
    * Tests tests:behat:init:config command.
