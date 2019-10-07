@@ -44,7 +44,6 @@
         "symfony/console": "^3.4.0",
         "symfony/twig-bridge": "^3.3",
         "symfony/yaml": "^3.2.8",
-        "typhonius/acquia-php-sdk-v2": "^1.0.4",
         "zaporylie/composer-drupal-optimizations": "^1.0"
     },
     "conflict": {
