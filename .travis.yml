@@ -10,6 +10,7 @@ cache:
   directories:
     - "$HOME/.composer/cache"
     - "$HOME/.drush/cache"
+    - "$HOME/.rvm"
     - "$TMPDIR/phpstan/cache"
 
 services:
