@@ -5,7 +5,6 @@ namespace Acquia\Blt\Robo\Commands\Setup;
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\RandomString;
 use Acquia\Blt\Robo\Exceptions\BltException;
-use function file_exists;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Filesystem\Filesystem;
