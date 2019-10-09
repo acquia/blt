@@ -161,15 +161,14 @@ A feature can also stay "overridden" after it is imported, due to another module
 You can use the following code snippet in your profile's install file to enable all features in a given bundle:
 
 ```php
-    <?php
-    $available_modules = system_rebuild_module_data();
-    $dependencies = array();
-    foreach ($available_modules as $name => $module) {
-      if ($module->info['package'] == 'My Bundle') {
-        $dependencies[] = $name;
-      }
-      \Drupal::service('module_installer')->install($dependencies);
-    }
+$available_modules = system_rebuild_module_data();
+$dependencies = array();
+foreach ($available_modules as $name => $module) {
+  if ($module->info['package'] == 'My Bundle') {
+    $dependencies[] = $name;
+  }
+  \Drupal::service('module_installer')->install($dependencies);
+}
 ```
 
 ### Updating custom fields and schema
