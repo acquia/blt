@@ -220,11 +220,15 @@ class TestsCommandBase extends BltTasks {
     $this->createSeleniumLogs();
     $this->killSelenium();
     $this->logger->info("Launching Selenium standalone server...");
+    $selenium_bin = $this->getConfigValue('composer.bin') . '/selenium-server-standalone';
+    if (!file_exists($selenium_bin)) {
+      throw new BltException("Could not find Selenium. Install it via `composer require se/selenium-server-standalone`.");
+    }
     $log_file = $this->getConfigValue('repo.root') . '/tmp/selenium.log';
     /** @var Acquia\Blt\Robo\Common\Executor $executor */
     $executor = $this->getContainer()->get('executor');
     $result = $executor
-      ->execute($this->getConfigValue('composer.bin') . "/selenium-server-standalone -port {$this->seleniumPort} -log {$this->seleniumLogFile}  > $log_file 2>&1")
+      ->execute("$selenium_bin -port {$this->seleniumPort} -log {$this->seleniumLogFile}  > $log_file 2>&1")
       ->background(TRUE)
       // @todo Print output when this command fails.
       ->printOutput(TRUE)

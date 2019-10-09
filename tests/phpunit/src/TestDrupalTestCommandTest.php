@@ -33,6 +33,8 @@ class TestDrupalTestCommandTest extends BltProjectTestBase {
 
   /**
    * {@inheritdoc}
+   *
+   * @throws \Exception
    */
   public function setUp() {
     parent::setUp();
@@ -41,6 +43,7 @@ class TestDrupalTestCommandTest extends BltProjectTestBase {
     $this->reporoot = $this->config->get("repo.root");
     $this->sqlite = $this->config->get("tests.drupal.sqlite");
     $this->url = $this->config->get("tests.drupal.simpletest-base-url");
+    $this->execute('composer require se/selenium-server-standalone');
   }
 
   /**
