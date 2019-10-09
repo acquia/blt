@@ -160,6 +160,7 @@ A feature can also stay "overridden" after it is imported, due to another module
 
 You can use the following code snippet in your profile's install file to enable all features in a given bundle:
 
+```php
     <?php
     $available_modules = system_rebuild_module_data();
     $dependencies = array();
@@ -169,6 +170,7 @@ You can use the following code snippet in your profile's install file to enable 
       }
       \Drupal::service('module_installer')->install($dependencies);
     }
+```
 
 ### Updating custom fields and schema
 There are some configuration changes that Features (and the core config system) doesn’t handle well, including:
