@@ -4,22 +4,22 @@ namespace Acquia\Blt\Robo\Inspector;
 
 use Acquia\Blt\Robo\Blt;
 use Acquia\Blt\Robo\Common\ArrayManipulator;
-use Acquia\Blt\Robo\Config\YamlConfigProcessor;
-use Acquia\Blt\Robo\Exceptions\BltException;
-use League\Container\ContainerAwareInterface;
-use League\Container\ContainerAwareTrait;
-use Consolidation\Config\Loader\YamlConfigLoader;
 use Acquia\Blt\Robo\Common\Executor;
 use Acquia\Blt\Robo\Common\IO;
 use Acquia\Blt\Robo\Config\BltConfig;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
+use Acquia\Blt\Robo\Config\YamlConfigProcessor;
+use Acquia\Blt\Robo\Exceptions\BltException;
+use Consolidation\Config\Loader\YamlConfigLoader;
+use League\Container\ContainerAwareInterface;
+use League\Container\ContainerAwareTrait;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Robo\Common\BuilderAwareTrait;
 use Robo\Contract\BuilderAwareInterface;
 use Robo\Contract\ConfigAwareInterface;
-use Symfony\Component\Filesystem\Filesystem;
 use Robo\Contract\VerbosityThresholdInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Class Inspector.

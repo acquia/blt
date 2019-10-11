@@ -9,7 +9,6 @@ use Acquia\Blt\Robo\Config\ConfigAwareTrait;
 use Acquia\Blt\Robo\Inspector\Inspector;
 use Acquia\Blt\Robo\Inspector\InspectorAwareInterface;
 use Acquia\Blt\Robo\Inspector\InspectorAwareTrait;
-use function is_array;
 use ReflectionClass;
 use Robo\Config\Config;
 use Robo\Contract\ConfigAwareInterface;

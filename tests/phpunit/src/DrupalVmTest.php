@@ -2,8 +2,8 @@
 
 namespace Acquia\Blt\Tests\BltProject;
 
-use Acquia\Blt\Tests\BltProjectTestBase;
 use Acquia\Blt\Robo\Common\YamlMunge;
+use Acquia\Blt\Tests\BltProjectTestBase;
 use Symfony\Component\Yaml\Yaml;
 
 /**

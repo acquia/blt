@@ -2,7 +2,6 @@
 
 namespace Acquia\Blt\Robo\Commands\Doctor;
 
-use function json_decode;
 use Symfony\Component\Yaml\Yaml;
 
 /**

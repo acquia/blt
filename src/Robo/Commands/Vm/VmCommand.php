@@ -5,8 +5,6 @@ namespace Acquia\Blt\Robo\Commands\Vm;
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\ArrayManipulator;
 use Acquia\Blt\Robo\Exceptions\BltException;
-use function file_exists;
-use function file_get_contents;
 use Grasmash\YamlExpander\Expander;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Yaml\Yaml;

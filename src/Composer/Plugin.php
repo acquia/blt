@@ -2,20 +2,19 @@
 
 namespace Acquia\Blt\Composer;
 
-use Composer\Script\Event;
-use Composer\Installer\PackageEvent;
 use Composer\Composer;
 use Composer\DependencyResolver\Operation\InstallOperation;
 use Composer\DependencyResolver\Operation\UpdateOperation;
 use Composer\EventDispatcher\EventSubscriberInterface;
+use Composer\Installer\PackageEvent;
+use Composer\Installer\PackageEvents;
 use Composer\IO\IOInterface;
 use Composer\Package\PackageInterface;
 use Composer\Plugin\PluginInterface;
-use Composer\Installer\PackageEvents;
+use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
-use Composer\Util\ProcessExecutor;
 use Composer\Util\Filesystem;
-use function in_array;
+use Composer\Util\ProcessExecutor;
 
 /**
  * Composer plugin.

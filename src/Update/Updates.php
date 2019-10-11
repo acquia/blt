@@ -6,10 +6,10 @@ namespace Acquia\Blt\Update;
 // phpcs:ignore
 use Acquia\Blt\Annotations\Update;
 use Acquia\Blt\Robo\Common\ArrayManipulator;
+use Acquia\Blt\Robo\Common\ComposerMunge;
 use Dflydev\DotAccessData\Data;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
-use Acquia\Blt\Robo\Common\ComposerMunge;
 
 /**
  * Defines scripted updates for specific version deltas of BLT.
