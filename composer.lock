@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b75bbdcf48816a124d711616f6cddc9f",
+    "content-hash": "eace057e8ea7d0cebf4108d4f07cff16",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -7202,22 +7202,23 @@
     "packages-dev": [
         {
             "name": "acquia/coding-standards",
-            "version": "v0.3.0",
+            "version": "v0.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/acquia/coding-standards-php.git",
-                "reference": "2ea94f2d05c7027d8138384db60b17d4233fd0d0"
+                "reference": "4281b9ec9613f3f1e43869ccf572ae6fb3c18d4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/acquia/coding-standards-php/zipball/2ea94f2d05c7027d8138384db60b17d4233fd0d0",
-                "reference": "2ea94f2d05c7027d8138384db60b17d4233fd0d0",
+                "url": "https://api.github.com/repos/acquia/coding-standards-php/zipball/4281b9ec9613f3f1e43869ccf572ae6fb3c18d4c",
+                "reference": "4281b9ec9613f3f1e43869ccf572ae6fb3c18d4c",
                 "shasum": ""
             },
             "require": {
                 "drupal/coder": "^8.3",
                 "pheromone/phpcs-security-audit": "^2.0",
                 "phpcompatibility/php-compatibility": "^9.0",
+                "slevomat/coding-standard": "^5.0",
                 "squizlabs/php_codesniffer": "^3"
             },
             "suggest": {
@@ -7242,8 +7243,8 @@
             "authors": [
                 {
                     "name": "Acquia Engineering",
-                    "role": "Maintainer",
-                    "homepage": "https://www.acquia.com"
+                    "homepage": "https://www.acquia.com",
+                    "role": "Maintainer"
                 }
             ],
             "description": "PHP_CodeSniffer rules (sniffs) for Acquia coding standards",
@@ -7252,7 +7253,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2019-08-06T13:50:17+00:00"
+            "time": "2019-09-06T19:51:25+00:00"
         },
         {
             "name": "behat/mink",
@@ -10159,6 +10160,46 @@
                 "phra"
             ],
             "time": "2015-10-13T18:44:15+00:00"
+        },
+        {
+            "name": "slevomat/coding-standard",
+            "version": "5.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/slevomat/coding-standard.git",
+                "reference": "287ac3347c47918c0bf5e10335e36197ea10894c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/slevomat/coding-standard/zipball/287ac3347c47918c0bf5e10335e36197ea10894c",
+                "reference": "287ac3347c47918c0bf5e10335e36197ea10894c",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1",
+                "phpstan/phpdoc-parser": "^0.3.1",
+                "squizlabs/php_codesniffer": "^3.4.1"
+            },
+            "require-dev": {
+                "jakub-onderka/php-parallel-lint": "1.0.0",
+                "phing/phing": "2.16.1",
+                "phpstan/phpstan": "0.11.4",
+                "phpstan/phpstan-phpunit": "0.11",
+                "phpstan/phpstan-strict-rules": "0.11",
+                "phpunit/phpunit": "8.0.5"
+            },
+            "type": "phpcodesniffer-standard",
+            "autoload": {
+                "psr-4": {
+                    "SlevomatCodingStandard\\": "SlevomatCodingStandard"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Slevomat Coding Standard for PHP_CodeSniffer complements Consistence Coding Standard by providing sniffs with additional checks.",
+            "time": "2019-03-22T19:10:53+00:00"
         },
         {
             "name": "symfony/browser-kit",

@@ -3,11 +3,11 @@
 namespace Acquia\Blt\Robo\Hooks;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Exceptions\BltException;
 use Acquia\Blt\Robo\Wizards\SetupWizard;
 use Consolidation\AnnotatedCommand\AnnotationData;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Acquia\Blt\Robo\Exceptions\BltException;
 
 /**
  * This class defines hooks that provide user interaction.

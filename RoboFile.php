@@ -2,11 +2,11 @@
 
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Github\Api\Issue;
-use Robo\Contract\VerbosityThresholdInterface;
 use Github\Client;
-use Robo\Tasks;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
+use Robo\Contract\VerbosityThresholdInterface;
+use Robo\Tasks;
 
 /**
  * This is project's console commands configuration for Robo task runner.
