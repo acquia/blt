@@ -10,6 +10,7 @@ cache:
   directories:
     - "$HOME/.composer/cache"
     - "$HOME/.drush/cache"
+    - "$HOME/.rvm"
     - "$TMPDIR/phpstan/cache"
 
 services:
@@ -20,7 +21,7 @@ env:
     # ORCA configuration.
     - ORCA_SUT_NAME=acquia/blt
     - ORCA_SUT_BRANCH=10.x
-    - ORCA_VERSION=v1.0.0-alpha21
+    - ORCA_VERSION=master
     # Custom configuration.
     - COMPOSER_BIN=$TRAVIS_BUILD_DIR/vendor/bin
     - BLT_DIR=$TRAVIS_BUILD_DIR

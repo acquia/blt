@@ -2,9 +2,9 @@
 
 namespace Acquia\Blt\Robo\Tasks;
 
+use Robo\Common\CommandArguments;
 use Robo\Exception\TaskException;
 use Robo\Task\CommandStack;
-use Robo\Common\CommandArguments;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**

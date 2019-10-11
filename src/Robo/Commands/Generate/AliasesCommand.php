@@ -3,12 +3,12 @@
 namespace Acquia\Blt\Robo\Commands\Generate;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Common\YamlMunge;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Acquia\Hmac\Exception\MalformedResponseException as MalformedResponseExceptionAlias;
 use AcquiaCloudApi\CloudApi\Client;
 use AcquiaCloudApi\CloudApi\Connector;
 use Symfony\Component\Yaml\Yaml;
-use Acquia\Blt\Robo\Common\YamlMunge;
 
 /**
  * Defines commands in the "generate:aliases" namespace.

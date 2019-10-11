@@ -8,10 +8,10 @@ use GuzzleHttp\Client;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Robo\Collection\CollectionBuilder;
-use Robo\Contract\VerbosityThresholdInterface;
-use Robo\Robo;
 use Robo\Contract\ConfigAwareInterface;
 use Robo\Contract\IOAwareInterface;
+use Robo\Contract\VerbosityThresholdInterface;
+use Robo\Robo;
 use Symfony\Component\Process\Process;
 
 /**
