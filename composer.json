@@ -52,7 +52,7 @@
         "drupal/drupal": "*"
     },
     "require-dev": {
-        "acquia/coding-standards": "^0.3.0",
+        "acquia/coding-standards": "^0.4.0",
         "composer/composer": "^1.6.4",
         "knplabs/github-api": "^2.6",
         "php-http/guzzle6-adapter": "^1.1",

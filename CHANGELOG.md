@@ -1,5 +1,42 @@
 # Change Log
 
+#### 10.5.0 (2019-10-02)
+
+[Full Changelog](https://github.com/acquia/blt/compare/10.4.1...10.5.0)
+
+
+**Implemented enhancements**
+
+- DT-689: Fixes #3814: Document how to override environment detector. (#3864)
+- DT-728: Fixes #3828: Add BLT plugin directory. (#3868)
+- DT-795: Fixes #3847: Add support link to BltException. (#3856)
+- DT-586: Fixes #3616: Support syncing of private files. (#3853)
+
+**Fixed bugs**
+
+- DT-598: Fixes #2722: ci.blt.yml not consistently applied. (#3857)
+
+**Miscellaneous**
+
+- Removed unused datastore components. (#3861)
+
+
+#### 10.4.1 (2019-09-17)
+
+[Full Changelog](https://github.com/acquia/blt/compare/10.4.0...10.4.1)
+
+
+**Fixed bugs**
+
+- Fixes #3849: Drush alias check fails on Windows. (#3851)
+- DT-682: Fixes #3811: Ensure all failing commands throw exceptions. (#3846)
+
+**Miscellaneous**
+
+- Revert "Bump blt-project to stable."
+- Bump blt-project to stable.
+
+
 #### 10.4.0 (2019-09-09)
 
 [Full Changelog](https://github.com/acquia/blt/compare/10.3.0...10.4.0)

@@ -8,10 +8,10 @@ use GuzzleHttp\Client;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Robo\Collection\CollectionBuilder;
-use Robo\Contract\VerbosityThresholdInterface;
-use Robo\Robo;
 use Robo\Contract\ConfigAwareInterface;
 use Robo\Contract\IOAwareInterface;
+use Robo\Contract\VerbosityThresholdInterface;
+use Robo\Robo;
 use Symfony\Component\Process\Process;
 
 /**
@@ -79,7 +79,7 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
     $bin = $this->getConfigValue('composer.bin');
     /** @var \Robo\Common\ProcessExecutor $process_executor */
     $drush_alias = $this->getConfigValue('drush.alias');
-    $command_string = "'$bin/drush' @$drush_alias $command";
+    $command_string = $bin . DIRECTORY_SEPARATOR . "drush @$drush_alias $command";
 
     // URIs do not work on remote drush aliases in Drush 9. Instead, it is
     // expected that the alias define the uri in its configuration.

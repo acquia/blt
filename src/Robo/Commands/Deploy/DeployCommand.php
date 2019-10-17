@@ -98,6 +98,8 @@ class DeployCommand extends BltTasks {
    * @validateGitConfig
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Robo\Exception\TaskException
+   * @throws \Exception
    */
   public function deploy(array $options = [
     'branch' => InputOption::VALUE_REQUIRED,
@@ -177,10 +179,13 @@ class DeployCommand extends BltTasks {
    *
    * Defaults to the last commit message on the source branch.
    *
+   * @param array $options
+   *   CLI options for command.
+   *
    * @return string
    *   The commit message.
    */
-  protected function getCommitMessage($options) {
+  protected function getCommitMessage(array $options) {
     if (!$options['commit-msg']) {
       chdir($this->getConfigValue('repo.root'));
       $log = explode(' ', shell_exec("git log --oneline -1"), 2);
@@ -255,6 +260,8 @@ class DeployCommand extends BltTasks {
 
   /**
    * Creates artifact, cuts new tag, and pushes.
+   *
+   * @throws \Exception
    */
   protected function deployToTag($options) {
     $this->tagName = $this->getTagName($options);
@@ -281,6 +288,9 @@ class DeployCommand extends BltTasks {
 
   /**
    * Creates artifact on branch and pushes.
+   *
+   * @throws \Robo\Exception\TaskException
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function deployToBranch($options) {
     $this->branchName = $this->getBranchName($options);
@@ -295,6 +305,9 @@ class DeployCommand extends BltTasks {
 
   /**
    * Deletes the existing deploy directory and initializes git repo.
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Robo\Exception\TaskException
    */
   protected function prepareDir() {
     $this->say("Preparing artifact directory...");
@@ -302,24 +315,31 @@ class DeployCommand extends BltTasks {
     $this->taskDeleteDir($deploy_dir)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
-    $this->taskFilesystemStack()
+    $result = $this->taskFilesystemStack()
       ->mkdir($this->deployDir)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->stopOnFail()
       ->run();
-    $this->taskExecStack()
+    if (!$result->wasSuccessful()) {
+      throw new BltException('Failed to create deploy directory');
+    }
+    $result = $this->taskExecStack()
       ->dir($deploy_dir)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->stopOnFail()
       ->exec("git init")
       ->exec("git config --local core.excludesfile false")
       ->exec("git config --local core.fileMode true")
       ->run();
+    if (!$result->wasSuccessful()) {
+      throw new BltException('Failed to initialize git repo');
+    }
     $this->say("Global .gitignore file is being disabled for this repository to prevent unexpected behavior.");
   }
 
   /**
    * Adds remotes from git.remotes to /deploy repository.
+   *
+   * @throws \Robo\Exception\TaskException
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function addGitRemotes() {
     $git_remotes = $this->getConfigValue('git.remotes');
@@ -336,34 +356,45 @@ class DeployCommand extends BltTasks {
    *
    * @param string $remote_url
    *   Remote URL.
+   *
+   * @throws \Robo\Exception\TaskException
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function addGitRemote($remote_url) {
     // Generate an md5 sum of the remote URL to use as remote name.
     $remote_name = md5($remote_url);
-    $this->taskExecStack()
-      ->stopOnFail()
+    $result = $this->taskExecStack()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->dir($this->deployDir)
       ->exec("git remote add $remote_name $remote_url")
       ->run();
+    if (!$result->wasSuccessful()) {
+      throw new BltException('Failed to add remote');
+    }
   }
 
   /**
    * Checks out a new, local branch for artifact.
+   *
+   * @throws \Robo\Exception\TaskException
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function checkoutLocalDeployBranch() {
-    $this->taskExecStack()
+    $result = $this->taskExecStack()
       ->dir($this->deployDir)
-      ->stopOnFail()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->exec("git checkout -b {$this->branchName}")
       ->run();
+    if (!$result->wasSuccessful()) {
+      throw new BltException('Failed to check out branch');
+    }
   }
 
   /**
    * Merges upstream changes into deploy branch.
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Robo\Exception\TaskException
    */
   protected function mergeUpstreamChanges() {
     $git_remotes = $this->getConfigValue('git.remotes');
@@ -394,13 +425,15 @@ class DeployCommand extends BltTasks {
     }
 
     // Now we know the remote branch exists, let's fetch and merge it.
-    $this->taskExecStack()
+    $result = $this->taskExecStack()
       ->dir($this->deployDir)
-      ->stopOnFail()
       ->exec("git fetch $remote_name {$this->branchName} --depth=1")
       ->exec("git merge $remote_name/{$this->branchName}")
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
+    if (!$result->wasSuccessful()) {
+      throw new BltException('Failed to merge branch');
+    }
   }
 
   /**
@@ -408,6 +441,9 @@ class DeployCommand extends BltTasks {
    *
    * @command artifact:build
    * @aliases ab deploy:build
+   *
+   * @throws \Robo\Exception\TaskException
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function build() {
     $this->say("Generating build artifact...");
@@ -439,6 +475,9 @@ class DeployCommand extends BltTasks {
 
   /**
    * Copies files from source repo into artifact.
+   *
+   * @throws \Robo\Exception\TaskException
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function buildCopy() {
     $exclude_list_file = $this->getExcludeListFile();
@@ -447,11 +486,13 @@ class DeployCommand extends BltTasks {
 
     $this->setMultisiteFilePermissions(0777);
     $this->say("Rsyncing files from source repo into the build artifact...");
-    $this->taskExecStack()->exec("rsync -a --no-g --delete --delete-excluded --exclude-from='$exclude_list_file' '$source/' '$dest/' --filter 'protect /.git/'")
+    $result = $this->taskExecStack()->exec("rsync -a --no-g --delete --delete-excluded --exclude-from='$exclude_list_file' '$source/' '$dest/' --filter 'protect /.git/'")
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->stopOnFail()
       ->dir($this->getConfigValue('repo.root'))
       ->run();
+    if (!$result->wasSuccessful()) {
+      throw new BltException('Failed to rsync artifact');
+    }
     $this->setMultisiteFilePermissions(0755);
 
     // Remove temporary file that may have been created by
@@ -474,6 +515,7 @@ class DeployCommand extends BltTasks {
    *   Bool.
    *
    * @throws \Robo\Exception\TaskException
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function composerInstall() {
     if (!$this->getConfigValue('deploy.build-dependencies')) {
@@ -496,7 +538,6 @@ class DeployCommand extends BltTasks {
       $command .= ' --ignore-platform-reqs';
     }
     $execution_result = $this->taskExecStack()->exec($command)
-      ->stopOnFail()
       ->dir($this->deployDir)
       ->run();
     if (!$execution_result->wasSuccessful()) {
@@ -655,6 +696,7 @@ class DeployCommand extends BltTasks {
    *   Bool.
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Robo\Exception\TaskException
    */
   protected function push($identifier, array $options) {
     if ($options['dry-run']) {
@@ -689,8 +731,7 @@ class DeployCommand extends BltTasks {
   protected function cutTag($repo = 'build') {
     $taskGit = $this->taskGit()
       ->tag($this->tagName, $this->commitMessage)
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->stopOnFail();
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE);
 
     if ($repo == 'build') {
       $taskGit->dir($this->deployDir);
@@ -705,6 +746,8 @@ class DeployCommand extends BltTasks {
 
   /**
    * Executes artifact:build:simplesamlphp-config command.
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function deploySamlConfig() {
     if ($this->getConfigValue('simplesamlphp')) {
@@ -717,6 +760,8 @@ class DeployCommand extends BltTasks {
    *
    * @command artifact:update:drupal
    * @aliases aud deploy:update
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function update() {
     // Disable alias since we are targeting specific uri.
@@ -729,6 +774,8 @@ class DeployCommand extends BltTasks {
    *
    * @command artifact:update:drupal:all-sites
    * @aliases auda
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function updateAll() {
     // Disable alias since we are targeting specific uri.
@@ -744,6 +791,8 @@ class DeployCommand extends BltTasks {
    *
    * @param string $multisite
    *   Multisite.
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function updateSite($multisite) {
     $this->switchSiteContext($multisite);
@@ -763,6 +812,8 @@ class DeployCommand extends BltTasks {
    *
    * @command artifact:sync:all-sites
    * @aliases asas
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function syncRefresh() {
     // Disable alias since we are targeting specific uri.

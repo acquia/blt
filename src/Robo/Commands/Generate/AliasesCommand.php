@@ -3,12 +3,12 @@
 namespace Acquia\Blt\Robo\Commands\Generate;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Common\YamlMunge;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Acquia\Hmac\Exception\MalformedResponseException as MalformedResponseExceptionAlias;
 use AcquiaCloudApi\CloudApi\Client;
 use AcquiaCloudApi\CloudApi\Connector;
 use Symfony\Component\Yaml\Yaml;
-use Acquia\Blt\Robo\Common\YamlMunge;
 
 /**
  * Defines commands in the "generate:aliases" namespace.
@@ -65,6 +65,7 @@ class AliasesCommand extends BltTasks {
    * @aliases raia aliases
    */
   public function generateAliasesAcquia() {
+    $this->say('<comment>Alias generation is deprecated and will be removed in the next major version of BLT (11.x). Use Acquia Developer Studio to generate aliases instead: https://docs.acquia.com/dev-studio/</comment>');
     $this->cloudConfDir = $_SERVER['HOME'] . '/.acquia';
     $this->setAppId();
     $this->cloudConfFileName = 'cloud_api.conf';
@@ -98,7 +99,7 @@ class AliasesCommand extends BltTasks {
       $this->appId = $app_id;
     }
     else {
-      $this->say("<info>To generate an alias for the Acquia Cloud, BLT require's your Acquia Cloud application ID.</info>");
+      $this->say("<info>To generate an alias for the Acquia Cloud, BLT requires your Acquia Cloud application ID.</info>");
       $this->say("<info>See https://docs.acquia.com/acquia-cloud/manage/applications.</info>");
       $this->appId = $this->askRequired('Please enter your Acquia Cloud application ID');
       $this->writeAppConfig($this->appId);

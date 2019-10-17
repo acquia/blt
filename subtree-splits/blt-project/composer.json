@@ -76,7 +76,7 @@
         "patchLevel": {
             "drupal/core": "-p2"
         },
-        "patches": []
+        "patches": {}
     },
     "autoload": {
         "psr-4": {

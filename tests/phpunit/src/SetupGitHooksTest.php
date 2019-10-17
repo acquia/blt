@@ -10,7 +10,7 @@ use Symfony\Component\Process\Process;
  *
  * @group orca_ignore
  */
-class GitTasksTest extends BltProjectTestBase {
+class SetupGitHooksTest extends BltProjectTestBase {
 
   /**
    * Tests setup of git hooks via blt:init:git-hooks command.

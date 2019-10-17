@@ -138,6 +138,7 @@ sync:
   # Set this value to 'true' or pass -D sync.files=true
   # to override this behavior.
   files: false
+  private-files: false
   # Paths to exclude during file syncing operations.
   exclude-paths:
     - styles
