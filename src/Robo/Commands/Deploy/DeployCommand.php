@@ -162,6 +162,13 @@ class DeployCommand extends BltTasks {
         $this->logger->warning("There are uncommitted changes on the source repository.");
       }
       else {
+        if ($options['verbose']) {
+          $this->taskExec('git diff --exit-code')
+            ->printMetadata(FALSE)
+            ->printOutput(TRUE)
+            ->interactive(FALSE)
+            ->run();
+        }
         throw new BltException("There are uncommitted changes, commit or stash these changes before deploying.");
       }
     }
