@@ -107,8 +107,8 @@ class TwigCommand extends BltTasks {
   protected function createTwigLintCommand() {
     $twig = new Environment(new FilesystemLoader());
 
-    $repo_root = $this->getConfigValue('repo.root');
-    $extension_file_contents = file_get_contents($repo_root . '/docroot/core/lib/Drupal/Core/Template/TwigExtension.php');
+    $docroot = $this->getConfigValue('docroot');
+    $extension_file_contents = file_get_contents($docroot . '/core/lib/Drupal/Core/Template/TwigExtension.php');
 
     // Get any custom defined Twig filters to be ignored by linter.
     $twig_filters = (array) $this->getConfigValue('validate.twig.filters');
@@ -149,7 +149,7 @@ class TwigCommand extends BltTasks {
     }
 
     // Add Drupal Twig parser to include trans tag.
-    $token_parser_filename = $repo_root . '/docroot/core/lib/Drupal/Core/Template/TwigTransTokenParser.php';
+    $token_parser_filename = $docroot . '/core/lib/Drupal/Core/Template/TwigTransTokenParser.php';
     if (file_exists($token_parser_filename)) {
       // phpcs:ignore
       require_once $token_parser_filename;
