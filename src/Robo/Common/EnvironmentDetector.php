@@ -2,7 +2,6 @@
 
 namespace Acquia\Blt\Robo\Common;
 
-use Acquia\Blt\Robo\Exceptions\BltException;
 use drupol\phposinfo\OsInfo;
 
 /**
