@@ -2,7 +2,6 @@
 
 namespace Acquia\Blt\Robo\Common;
 
-use Acquia\Blt\Robo\Exceptions\BltException;
 use drupol\phposinfo\OsInfo;
 
 /**
@@ -22,7 +21,9 @@ class EnvironmentDetector {
   }
 
   /**
-   * Is ACSF env.
+   * Check if this is an ACSF env.
+   *
+   * Roughly duplicates the detection logic implemented by the ACSF module.
    *
    * @param mixed $ah_group
    *   The Acquia Hosting site / group name (e.g. my_subscription).
@@ -30,9 +31,9 @@ class EnvironmentDetector {
    *   The Acquia Hosting environment name (e.g. 01dev).
    *
    * @return bool
-   *   Bool.
+   *   TRUE if this is an ACSF environment, FALSE otherwise.
    *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @see https://git.drupalcode.org/project/acsf/blob/8.x-2.62/acsf_init/lib/sites/default/acsf.settings.php#L14
    */
   public static function isAcsfEnv($ah_group = NULL, $ah_env = NULL) {
     if (is_null($ah_group)) {
@@ -47,14 +48,7 @@ class EnvironmentDetector {
       return FALSE;
     }
 
-    $is_acsf_json = file_exists("/mnt/files/$ah_group.$ah_env/files-private/sites.json");
-    $is_acsf_env_name = preg_match('/\d+(dev|test|live|update)(up)?/', $ah_env);
-
-    if ($is_acsf_json != $is_acsf_env_name) {
-      throw new BltException("Cannot determine if this is an ACSF environment or not.");
-    }
-
-    return ($is_acsf_env_name && $is_acsf_json);
+    return file_exists("/mnt/files/$ah_group.$ah_env/files-private/sites.json");
   }
 
   /**
