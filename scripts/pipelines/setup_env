@@ -14,7 +14,7 @@ git config --global user.email "noreply@acquia.com"
 # Create MySQL DB.
 mysql -u root -proot -e "CREATE DATABASE IF NOT EXISTS drupal"
 
-# Setup NVM.
+# Setup NVM and install latest node/npm versions. This is necessary to avoid a common Pipelines support request related to resource exhaustion on older versions of NPM.
 nvm install stable --latest-npm
 
 set +v
