@@ -50,8 +50,8 @@ class PhpcsCommand extends BltTasks {
    *
    * This command will execute PHP Codesniffer against a list of files. Note
    * that files excluded by phpcs.xml will not be sniffed, even if specifically
-   * included here. However, files passed as arguments and not specifically
-   * included or excluded by phpcs.xml _will_ be sniffed.
+   * included here. However, files passed as arguments will be sniffed even if
+   * they are _not_ specifically included/whitelisted in phpcs.xml.
    *
    * @param string $file_list
    *   A list of files to scan, separated by \n.
