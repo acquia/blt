@@ -33,7 +33,7 @@
         "drupal/coder": "^8.3.1",
         "drupal/core": "^8.5.0",
         "drupol/phposinfo": "^1.6",
-        "drush/drush": "^9.5.0",
+        "drush/drush": "^10.0.0",
         "grasmash/drupal-security-warning": "^1.0.0",
         "grasmash/yaml-cli": "^1.0.0",
         "grasmash/yaml-expander": "^1.2.0",
