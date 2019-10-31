@@ -158,7 +158,7 @@ $config['system.file']['path']['temporary'] = '/tmp';
 /**
  * Private file path.
  */
-$settings['file_private_path'] = $dir . '/files-private';
+$settings['file_private_path'] = $dir . '/files-private/default';
 if (isset($_acsf_site_name)) {
   $settings['file_public_path'] = "sites/default/files/$_acsf_site_name";
   // phpcs:ignore
