@@ -100,7 +100,7 @@ class SyncCommand extends BltTasks {
   public function syncPrivateFiles() {
     $remote_alias = '@' . $this->getConfigValue('drush.aliases.remote');
     $site_dir = $this->getConfigValue('site');
-    $private_files_local_path = $this->getConfigValue('repo.root') . '/files-private' . "/$site_dir";
+    $private_files_local_path = $this->getConfigValue('repo.root') . "/files-private/$site_dir";
 
     $task = $this->taskDrush()
       ->alias('')
