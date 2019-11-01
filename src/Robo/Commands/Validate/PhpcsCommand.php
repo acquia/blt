@@ -11,21 +11,17 @@ use Acquia\Blt\Robo\Exceptions\BltException;
 class PhpcsCommand extends BltTasks {
 
   /**
-   * Executes PHP Code Sniffer against all phpcs.filesets files.
+   * Executes PHP Code Sniffer against configured files.
    *
-   * By default, these include custom themes, modules, and tests.
+   * By default, these include custom themes, modules, and tests. This is
+   * configured via phpcs.xml in the project root directory.
    *
    * @command tests:phpcs:sniff:all
    *
    * @aliases tpsa phpcs tests:phpcs:sniff validate:phpcs
    */
   public function sniffFileSets() {
-    $bin = $this->getConfigValue('composer.bin');
-    $result = $this->taskExecStack()
-      ->dir($this->getConfigValue('repo.root'))
-      ->exec("$bin/phpcs")
-      ->run();
-    $exit_code = $result->getExitCode();
+    $exit_code = $this->doSniff();
     if ($exit_code) {
       if ($this->input()->isInteractive()) {
         $this->fixViolationsInteractively();
@@ -50,10 +46,12 @@ class PhpcsCommand extends BltTasks {
   }
 
   /**
-   * Executes PHP Code Sniffer against a list of files, if in phpcs.filesets.
+   * Executes PHP Code Sniffer against a list of files.
    *
-   * This command will execute PHP Codesniffer against a list of files if those
-   * files are a subset of the phpcs.filesets filesets.
+   * This command will execute PHP Codesniffer against a list of files. Note
+   * that files excluded by phpcs.xml will not be sniffed, even if specifically
+   * included here. However, files passed as arguments will be sniffed even if
+   * they are _not_ specifically included/whitelisted in phpcs.xml.
    *
    * @param string $file_list
    *   A list of files to scan, separated by \n.
@@ -97,7 +95,7 @@ class PhpcsCommand extends BltTasks {
    */
   public function sniffModified() {
     $this->say("Sniffing modified and untracked files in repo...");
-    $arguments = "--filter=gitmodified " . $this->getConfigValue('repo.root');
+    $arguments = "--filter=GitModified";
     $exit_code = $this->doSniff($arguments);
 
     return $exit_code;
@@ -112,7 +110,7 @@ class PhpcsCommand extends BltTasks {
    * @return int
    *   Exit code.
    */
-  protected function doSniff($arguments) {
+  protected function doSniff($arguments = '') {
     $bin = $this->getConfigValue('composer.bin') . '/phpcs';
     $command = "'$bin' $arguments";
     if ($this->output()->isVerbose()) {
@@ -122,6 +120,7 @@ class PhpcsCommand extends BltTasks {
       $command .= ' -vv';
     }
     $result = $this->taskExecStack()
+      ->dir($this->getConfigValue('repo.root'))
       ->exec($command)
       ->printMetadata(FALSE)
       ->run();
