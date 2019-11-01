@@ -21,7 +21,7 @@
         "drupal/shield": "^1.2.0"
     },
     "require-dev": {
-        "acquia/blt-require-dev": "^10.0.0-alpha1"
+        "acquia/blt-require-dev": "^11.0.0-alpha1"
     },
     "config": {
         "platform": {
