@@ -2,6 +2,7 @@
 
 namespace Acquia\Blt\Robo\Config;
 
+use Acquia\Blt\Robo\Common\EnvironmentDetector;
 use Consolidation\Config\Loader\YamlConfigLoader;
 use Symfony\Component\Console\Input\InputInterface;
 
@@ -186,6 +187,9 @@ class ConfigInitializer {
     // Support --define environment=ci.
     elseif ($this->input->hasParameterOption('environment')) {
       $environment = ltrim($this->input->getParameterOption('environment'), '=');
+    }
+    elseif (EnvironmentDetector::isCiEnv()) {
+      $environment = 'ci';
     }
     else {
       $environment = 'local';
