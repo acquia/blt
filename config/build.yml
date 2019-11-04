@@ -135,9 +135,9 @@ setup:
 
 sync:
   # By default, files are not synced during sync:refresh.
-  # Set this value to 'true' or pass -D sync.files=true
+  # Set this value to 'true' or pass -D sync.public-files=true
   # to override this behavior.
-  files: false
+  public-files: false
   private-files: false
   # Paths to exclude during file syncing operations.
   exclude-paths:

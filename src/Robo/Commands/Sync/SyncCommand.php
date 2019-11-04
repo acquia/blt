@@ -45,12 +45,12 @@ class SyncCommand extends BltTasks {
    * @executeInVm
    */
   public function sync(array $options = [
-    'sync-files' => FALSE,
+    'sync-public-files' => FALSE,
     'sync-private-files' => FALSE,
   ]) {
     $commands = $this->getConfigValue('sync.commands');
-    if ($options['sync-files'] || $this->getConfigValue('sync.files')) {
-      $commands[] = 'drupal:sync:files';
+    if ($options['sync-public-files'] || $this->getConfigValue('sync.public-files')) {
+      $commands[] = 'drupal:sync:public-files';
     }
     if ($options['sync-private-files'] || $this->getConfigValue('sync.private-files')) {
       $commands[] = 'drupal:sync:private-files';
