@@ -848,4 +848,22 @@ class Updates {
     }
   }
 
+  /**
+   * Version 11.0.0.
+   *
+   * @Update(
+   *   version = "11000000",
+   *   description = "Updates for BLT 11."
+   * )
+   */
+  public function update_11000000() {
+    $composer_json = $this->updater->getComposerJson();
+    $template_composer_json = $this->updater->getTemplateComposerJson();
+    // Update blt-require-dev to 11.x.
+    if (array_key_exists('acquia/blt-require-dev', $composer_json['require-dev'])) {
+      $composer_json['require-dev']['acquia/blt-require-dev'] = $template_composer_json['require-dev']['acquia/blt-require-dev'];
+      $this->updater->writeComposerJson($composer_json);
+    }
+  }
+
 }
