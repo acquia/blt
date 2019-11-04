@@ -105,6 +105,7 @@ class DrupalTestCommand extends TestsCommandBase {
    *   Throws an exception if any Drupal test fails.
    */
   public function executeTests() {
+    $this->logger->notice("Ensure that you have installed Drupal Core's dev dependencies (such as via https://github.com/webflo/drupal-core-require-dev) prior to running this command.");
     if (empty(shell_exec('which java'))) {
       $this->logger->warning("Cannot find Java. Drupal tests require Selenium, which requires Java. Drupal tests will be skipped.");
       return;
