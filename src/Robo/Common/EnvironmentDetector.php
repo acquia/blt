@@ -288,6 +288,10 @@ class EnvironmentDetector {
    * @throws \ReflectionException
    */
   private static function getSubclassResults($functionName) {
+    if (!defined(DRUPAL_ROOT)) {
+      // Do nothing if called outside of a Drupal bootstrap.
+      return [];
+    }
     $autoloader = require DRUPAL_ROOT . '/autoload.php';
     $classMap = $autoloader->getClassMap();
     $detectors = array_filter($classMap, function ($classPath) {
