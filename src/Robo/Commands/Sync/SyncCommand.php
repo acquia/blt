@@ -45,12 +45,12 @@ class SyncCommand extends BltTasks {
    * @executeInVm
    */
   public function sync(array $options = [
-    'sync-files' => FALSE,
+    'sync-public-files' => FALSE,
     'sync-private-files' => FALSE,
   ]) {
     $commands = $this->getConfigValue('sync.commands');
-    if ($options['sync-files'] || $this->getConfigValue('sync.files')) {
-      $commands[] = 'drupal:sync:files';
+    if ($options['sync-public-files'] || $this->getConfigValue('sync.public-files')) {
+      $commands[] = 'drupal:sync:public-files';
     }
     if ($options['sync-private-files'] || $this->getConfigValue('sync.private-files')) {
       $commands[] = 'drupal:sync:private-files';
@@ -59,18 +59,18 @@ class SyncCommand extends BltTasks {
   }
 
   /**
-   * Copies remote files to local machine.
+   * Copies public remote files to local machine.
    *
-   * @command drupal:sync:files
+   * @command drupal:sync:public-files
    *
-   * @aliases dsf sync:files drupal:sync:public-files
+   * @aliases dsf sync:files drupal:sync:files
    *
    * @validateDrushConfig
    * @executeInVm
    *
    * @todo Support multisite.
    */
-  public function syncFiles() {
+  public function syncPublicFiles() {
     $remote_alias = '@' . $this->getConfigValue('drush.aliases.remote');
     $site_dir = $this->getConfigValue('site');
 
@@ -100,10 +100,7 @@ class SyncCommand extends BltTasks {
   public function syncPrivateFiles() {
     $remote_alias = '@' . $this->getConfigValue('drush.aliases.remote');
     $site_dir = $this->getConfigValue('site');
-    $private_files_local_path = $this->getConfigValue('repo.root') . '/files-private';
-    if ($site_dir != 'default') {
-      $private_files_local_path .= "/$site_dir";
-    }
+    $private_files_local_path = $this->getConfigValue('repo.root') . "/files-private/$site_dir";
 
     $task = $this->taskDrush()
       ->alias('')
