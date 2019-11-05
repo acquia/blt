@@ -96,9 +96,9 @@ class ArrayManipulator {
    */
   public static function flattenMultidimensionalArray(array $array, $glue) {
     $iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($array));
-    $result = array();
+    $result = [];
     foreach ($iterator as $leafValue) {
-      $keys = array();
+      $keys = [];
       foreach (range(0, $iterator->getDepth()) as $depth) {
         $keys[] = $iterator->getSubIterator($depth)->key();
       }

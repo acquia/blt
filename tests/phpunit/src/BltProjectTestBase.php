@@ -10,6 +10,7 @@ use Robo\Robo;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Terminal;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
@@ -50,11 +51,30 @@ abstract class BltProjectTestBase extends TestCase {
    */
   protected $output;
 
-  /** @var string*/
+  /**
+   * @var string
+   */
   protected $bltDirectory;
 
+  /**
+   * Site 1 dir.
+   *
+   * @var string
+   */
   protected $site1Dir;
+
+  /**
+   * Site 2 dir.
+   *
+   * @var string
+   */
   protected $site2Dir;
+
+  /**
+   * Sandbox instance clone.
+   *
+   * @var string
+   */
   protected $sandboxInstanceClone;
 
   /**
@@ -65,7 +85,10 @@ abstract class BltProjectTestBase extends TestCase {
   protected static $initialized = FALSE;
 
   /**
-   * {@inheritDoc}
+   * Set up.
+   *
+   * {@inheritDoc}.
+   *
    * @throws \Exception
    */
   public static function setUpBeforeClass() {
@@ -108,7 +131,8 @@ abstract class BltProjectTestBase extends TestCase {
   /**
    * Outputs debugging message.
    *
-   * @param $message
+   * @param string $message
+   *   Message.
    */
   public function debug($message) {
     if (getenv('BLT_PRINT_COMMAND_OUTPUT')) {
@@ -117,7 +141,8 @@ abstract class BltProjectTestBase extends TestCase {
   }
 
   /**
-   * @param $input
+   * @param mixed $input
+   *   Input.
    */
   protected function reInitializeConfig($input) {
     unset($this->config);
@@ -134,11 +159,16 @@ abstract class BltProjectTestBase extends TestCase {
   }
 
   /**
-   * @param $command
-   * @param null $cwd
+   * @param mixed $command
+   *   Command.
+   * @param mixed $cwd
+   *   CWD.
    * @param bool $stop_on_error
+   *   Stop on error.
    *
    * @return \Symfony\Component\Process\Process
+   *   Process
+   *
    * @throws \Exception
    */
   protected function execute($command, $cwd = NULL, $stop_on_error = TRUE) {
@@ -176,11 +206,18 @@ abstract class BltProjectTestBase extends TestCase {
   }
 
   /**
-   * @param $command
-   * @param null $root
+   * Drush.
    *
+   * @param string $command
+   *   Command.
+   * @param mixed $root
+   *   Root.
    * @param bool $stop_on_error
+   *   Stop on error.
+   *
    * @return string
+   *   String.
+   *
    * @throws \Exception
    */
   protected function drush($command, $root = NULL, $stop_on_error = TRUE) {
@@ -196,11 +233,18 @@ abstract class BltProjectTestBase extends TestCase {
   }
 
   /**
-   * @param $command
-   * @param null $root
+   * Drush JSON.
+   *
+   * @param string $command
+   *   Command.
+   * @param mixed $root
+   *   Root.
    * @param bool $stop_on_error
+   *   Stop on error.
    *
    * @return mixed
+   *   Mixed.
+   *
    * @throws \Exception
    */
   protected function drushJson($command, $root = NULL, $stop_on_error = TRUE) {
@@ -211,8 +255,13 @@ abstract class BltProjectTestBase extends TestCase {
   }
 
   /**
-   * @param null $root
+   * Import DB.
+   *
+   * @param mixed $root
+   *   Root.
    * @param string $uri
+   *   Uri.
+   *
    * @throws \Exception
    */
   protected function importDbFromFixture($root = NULL, $uri = 'default') {
@@ -232,6 +281,7 @@ abstract class BltProjectTestBase extends TestCase {
 
   /**
    * Installs the minimal profile and dumps it to sql file at $this->dbDump.
+   *
    * @throws \Exception
    */
   protected function createDatabaseDumpFixture() {
@@ -255,15 +305,21 @@ abstract class BltProjectTestBase extends TestCase {
   /**
    * Executes a BLT command.
    *
-   * @param $command
+   * @param string $command
+   *   Command.
    * @param array $args
+   *   Args.
    * @param bool $stop_on_error
+   *   Stop on error.
    *
    * @return array
+   *   Array.
+   *
    * @throws \Exception
+   *
    * @internal param null $cwd
    */
-  protected function blt($command, $args = [], $stop_on_error = TRUE) {
+  protected function blt($command, array $args = [], $stop_on_error = TRUE) {
     chdir($this->sandboxInstance);
     $input = $this->createBltInput($command, $args);
 
@@ -299,10 +355,14 @@ abstract class BltProjectTestBase extends TestCase {
   }
 
   /**
-   * @param $message
+   * Write full width line.
+   *
+   * @param string $message
+   *   Message.
    * @param \Symfony\Component\Console\Output\OutputInterface $output
+   *   Output.
    */
-  protected function writeFullWidthLine($message, $output) {
+  protected function writeFullWidthLine($message, OutputInterface $output) {
     $terminal_width = (new Terminal())->getWidth();
     $padding_len = ($terminal_width - strlen($message)) / 2;
     $pad = $padding_len > 0 ? str_repeat('-', $padding_len) : '';
@@ -310,12 +370,17 @@ abstract class BltProjectTestBase extends TestCase {
   }
 
   /**
-   * @param $command
-   * @param $args
+   * Create input.
+   *
+   * @param string $command
+   *   Command.
+   * @param array $args
+   *   Args.
    *
    * @return \Symfony\Component\Console\Input\InputInterface
+   *   Input interface.
    */
-  protected function createBltInput($command = '', $args = []) {
+  protected function createBltInput($command = '', array $args = []) {
     $defaults = [
       '--environment' => getenv('BLT_ENV'),
       '-vvv' => '',
@@ -350,10 +415,17 @@ abstract class BltProjectTestBase extends TestCase {
   }
 
   /**
-   * @param $site1_dir
-   * @param $site2_dir
-   * @param $test_project_dir
-   * @param $test_project_clone_dir
+   * Prepare multisites.
+   *
+   * @param string $site1_dir
+   *   Dir.
+   * @param string $site2_dir
+   *   Dir.
+   * @param string $test_project_dir
+   *   Dir.
+   * @param string $test_project_clone_dir
+   *   Dir.
+   *
    * @throws \Exception
    */
   protected function prepareMultisites($site1_dir, $site2_dir, $test_project_dir, $test_project_clone_dir) {

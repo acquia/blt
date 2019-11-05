@@ -3,12 +3,20 @@
 namespace Acquia\Blt\Robo\Commands\Doctor;
 
 /**
- *
+ * BLT Doctor checks for weburi.
  */
 class WebUriCheck extends DoctorCheck {
 
+  /**
+   * Local site drush yml.
+   *
+   * @var string
+   */
   protected $localSiteDrushYml;
 
+  /**
+   * Perform all checks.
+   */
   public function performAllChecks() {
     $this->localSiteDrushYml = $this->getConfigValue('docroot') . "/sites/" . $this->getConfigValue('site') . "/local.drush.yml";
     $uri_isset = $this->checkUri();
@@ -19,7 +27,10 @@ class WebUriCheck extends DoctorCheck {
   }
 
   /**
+   * Check URI.
+   *
    * @return bool
+   *   Bool.
    */
   protected function checkUri() {
     if (!$this->drushStatus['uri'] || $this->drushStatus['uri'] == 'default') {

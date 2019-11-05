@@ -13,7 +13,7 @@ There are two parts to setting up a multisite instance on BLT: the local setup a
     * Sets up a new drush alias.
     * Sets up a new vhost in the box/config.yml file.
     * Sets up a new MySQL user in the box/config.yml file.
-    
+
     Some manual configuration is still required via the following steps.
 
 1. Set the new site's local database credentials in the `docroot/sites/{newsite}/settings/local.settings.php` file to ensure your new site connects to the correct database.
@@ -47,6 +47,21 @@ drush:
 ```
 
 Then, to refresh your local site, you could run: `blt drupal:sync --site=mysite`.
+
+If you wish to use a Behat profile other than `local.yaml` for each site, you can also override the configuration source file and profile values in in `docroot/sites/mysite/blt.yml`:
+
+```yaml
+behat:
+  tags: mysite
+  # When tests:behat:run target is executed, this Behat profile will be used.
+  # @see tests/behat/example.local.yml for Behat profile definition.
+  profile: mysite
+  config: /app/tests/behat/mysite.behat.yml
+```
+
+Per the above configuration, a functional 'mysite.behat.yml' configuration file would need to exit at `app/tests/behat/` and would need to include correct configuration for a `mysite` profile. This would permit more granular configuration of Behat suites, contexts and extensions per multisite.
+
+Running the following command would then trigger Behat to use the `mysite` configuration and profile: `blt tets:behat:run --site=mysite`.
 
 ## Acquia Cloud setup
 

@@ -29,11 +29,16 @@ class YamlMunge {
   }
 
   /**
-   * @param $array
-   * @param $file
+   * Merge array into file.
+   *
+   * @param array $array
+   *   Array.
+   * @param string $file
+   *   File.
    * @param bool $overwrite
+   *   Overwrite.
    */
-  public static function mergeArrayIntoFile($array, $file, $overwrite = TRUE) {
+  public static function mergeArrayIntoFile(array $array, $file, $overwrite = TRUE) {
     if (file_exists($file)) {
       $file_contents = (array) self::parseFile($file);
       if ($overwrite) {
@@ -66,10 +71,14 @@ class YamlMunge {
   }
 
   /**
-   * @params string $file
+   * Write file.
+   *
+   * @param string $file
+   *   File.
    * @param array $contents
+   *   Contents.
    */
-  public static function writeFile($file, $contents) {
+  public static function writeFile($file, array $contents) {
     $fs = new Filesystem();
     $yaml_string = Yaml::dump($contents, 3, 2);
     $fs->dumpFile($file, $yaml_string);
@@ -87,6 +96,7 @@ class YamlMunge {
    *   The second array.
    *
    * @return array
+   *   Array.
    */
   public static function arrayMergeRecursiveExceptEmpty(array &$array1, array &$array2) {
     $merged = $array1;

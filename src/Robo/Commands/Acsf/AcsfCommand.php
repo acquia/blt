@@ -26,7 +26,7 @@ class AcsfCommand extends BltTasks {
     $this->logger->notice("You may wish to adjust the PHP version of your local environment and CI tools to match.");
     $this->logger->notice("");
     $this->logger->notice("For more information, see:");
-    $this->logger->notice("<comment>http://blt.readthedocs.io/en/latest/readme/acsf-setup</comment>");
+    $this->logger->notice("<comment>https://docs.acquia.com/blt/tech-architect/acsf-setup/</comment>");
   }
 
   /**
@@ -71,6 +71,14 @@ class AcsfCommand extends BltTasks {
       $project_config['modules']['local']['uninstall'][] = 'acsf';
     }
     YamlMunge::writeFile($project_yml, $project_config);
+
+    // .htaccess was patched, excluding from further updates.
+    $composer_filepath = $this->getConfigValue('repo.root') . '/composer.json';
+    $composer_contents = json_decode(file_get_contents($composer_filepath));
+    if (!property_exists($composer_contents->extra->{'drupal-scaffold'}, 'excludes') || !in_array('.htaccess', $composer_contents->extra->{'drupal-scaffold'}->excludes)) {
+      $composer_contents->extra->{'drupal-scaffold'}->excludes[] = '.htaccess';
+    }
+    file_put_contents($composer_filepath, json_encode($composer_contents, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
   }
 
   /**

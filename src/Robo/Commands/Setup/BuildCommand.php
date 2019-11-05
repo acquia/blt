@@ -38,8 +38,10 @@ class BuildCommand extends BltTasks {
   }
 
   /**
-   * Set correct permissions for directories (755) and files (644) in
-   * docroot/sites/[site] (excluding docroot/sites/[site]/files).
+   * Set correct permissions.
+   *
+   * For directories (755) and files (644) in docroot/sites/[site] (excluding
+   * docroot/sites/[site]/files).
    */
   protected function setSitePermissions() {
     $taskFilesystemStack = $this->taskFilesystemStack();
@@ -102,7 +104,7 @@ class BuildCommand extends BltTasks {
   public function composerInstall() {
     $result = $this->taskExec(
       (DIRECTORY_SEPARATOR == "\\") ? 'set' : 'export' .
-        " COMPOSER_EXIT_ON_PATCH_FAILURE=1 && composer install --ansi --no-interaction --optimize-autoloader --apcu-autoloader"
+        " COMPOSER_EXIT_ON_PATCH_FAILURE=1 && composer install --ansi --no-interaction"
     )
       ->dir($this->getConfigValue('repo.root'))
       ->interactive($this->input()->isInteractive())

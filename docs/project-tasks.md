@@ -44,7 +44,7 @@ This all in one command will make sure your local is in sync with the remote sit
 
 This will sync your site and execute all necessary updates afterwards (cache clears, database updates, config imports).
 
-By default, BLT will not sync your public and private files directories. However, you may set `sync.files` to `true` in your `blt.yml` file to perform a file sync during `sync:refresh` tasks by default
+By default, BLT will not sync your public and private files directories. However, you may set `sync.public-files` and `sync.private-files` to `true` in your `blt.yml` file to perform a file sync during `sync:refresh` tasks by default
 within your project.
 
 ### Multisite
@@ -57,7 +57,7 @@ If you are using multisite, you may refresh every single multisite on your local
 
     blt drupal:sync:db
 
-This will copy the database (and files if sync.files is set to true) but will not execute any updates afterwards.
+This will copy the database (and files if sync.public-files is set to true) but will not execute any updates afterwards.
 
 ### Update: Run update tasks locally
 

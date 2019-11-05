@@ -31,11 +31,11 @@ class YamlCommand extends BltTasks {
   /**
    * Executes YAML validator against files, if in validate.yaml.filesets.
    *
-   * @command tests:yaml:lint:files
-   * @aliases tylf
-   *
    * @param string $file_list
    *   A list of files to scan, separated by \n.
+   *
+   * @command tests:yaml:lint:files
+   * @aliases tylf
    */
   public function lintFileList($file_list) {
     $this->say("Linting YAML files...");
@@ -53,7 +53,7 @@ class YamlCommand extends BltTasks {
       $filesets[$fileset_id] = $fileset_manager->filterFilesByFileset($files, $fileset);
     }
 
-    $this->executeCommandAgainstFilesets($filesets, $command);
+    $this->executeCommandAgainstFilesets($filesets, $command, TRUE);
   }
 
 }

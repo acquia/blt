@@ -1,5 +1,254 @@
 # Change Log
 
+#### 10.5.0 (2019-10-02)
+
+[Full Changelog](https://github.com/acquia/blt/compare/10.4.1...10.5.0)
+
+
+**Implemented enhancements**
+
+- DT-689: Fixes #3814: Document how to override environment detector. (#3864)
+- DT-728: Fixes #3828: Add BLT plugin directory. (#3868)
+- DT-795: Fixes #3847: Add support link to BltException. (#3856)
+- DT-586: Fixes #3616: Support syncing of private files. (#3853)
+
+**Fixed bugs**
+
+- DT-598: Fixes #2722: ci.blt.yml not consistently applied. (#3857)
+
+**Miscellaneous**
+
+- Removed unused datastore components. (#3861)
+
+
+#### 10.4.1 (2019-09-17)
+
+[Full Changelog](https://github.com/acquia/blt/compare/10.4.0...10.4.1)
+
+
+**Fixed bugs**
+
+- Fixes #3849: Drush alias check fails on Windows. (#3851)
+- DT-682: Fixes #3811: Ensure all failing commands throw exceptions. (#3846)
+
+**Miscellaneous**
+
+- Revert "Bump blt-project to stable."
+- Bump blt-project to stable.
+
+
+#### 10.4.0 (2019-09-09)
+
+[Full Changelog](https://github.com/acquia/blt/compare/10.3.0...10.4.0)
+
+**Major / breaking changes**
+
+- DT-652: Migrate memcache settings to standalone package. (#3801)
+
+**Fixed bugs**
+
+- DT-679: Fixes #3798: Treat CDE and Cloud sites identically. (#3833)
+- Fixes #3815: SQL sanitization fails when using memcache. (#3824)
+- Skip drupal:update if Drupal is not installed (#3831)
+- DT-676: Fixes #3807: Fix composer warnings for Composer 1.9.0. (#3829)
+- use by default latest stable chromedriver released version. (#3822)
+- DT-575: Fixes #3802: Improve documentation of multisite Behat config and profile overrides  (#3803)
+- Fixes #3796: Deploy command continues despite composer failure (#3809)
+
+**Miscellaneous**
+
+- Revert "Hotfix: Alias behat/mink-selenium2-driver version."
+- Revert "Bump blt-project to stable."
+- Bump blt-project to stable.
+- Hotfix: Alias behat/mink-selenium2-driver version.
+- DT-681: Fixes #3810: Replace links to wiki with links to support KB. (#3834)
+- Update adding-to-project.md (#3826)
+- Link New Multi-site Behat Section to the Multisite Page (#3812)
+- Removed Drupal Spec Tool version constraint. (#3808)
+- Note backlog prioritization guidelines (#3805)
+- Add note about PHPCS filesets to build.yml (#3806)
+- Include adminer url with thedrupal-vm default config. (#3800)
+- Fix typo. (#3799)
+- DT-663: Ensure deploy.dir config is set before running deploys. (#3793)
+- Revert "Bump blt-project to stable."
+- Bump blt-project to stable.
+
+
+#### 10.3.0 (2019-08-06)
+
+[Full Changelog](https://github.com/acquia/blt/compare/10.2.1...10.3.0)
+
+
+**Implemented enhancements**
+
+- DT-654: Link to troubleshooting guide for errors. (#3787)
+- Replaced tivie/php-os-detector with drupol/phposinfo. (#3781)
+- DT-597: Run updates after CDE DB copies. (#3778)
+- DT-584: Support custom filesets via BLT plugins (#3782)
+- DT-633: blt:dev:link-composer lando support (#3773)
+- DT-628: Update default Lightning version to 4.x. (#3770)
+- Fixes #3645: Allow EnvironmentDetector to be overridden. (#3737)
+- DT-548: Remove patches when dev-linking BLT. (#3771)
+
+**Fixed bugs**
+
+- Clear cache before sql-sanitise on sync (#3792)
+- Fix Issue-3767 Git commit fails due to yaml linting. (#3775)
+- DT-577: Ensure after_failure runs during Travis tests. (#3768)
+
+**Miscellaneous**
+
+- Update RELEASE.md
+- Update RELEASE.md
+- Removed redundant method override. (#3794)
+- Remove patch that no longer applies (#3797)
+- Remove BLT Project tests. (#3780)
+- Updated to ORCA alpha21 to fix tests. (#3790)
+- DT-649: Update ORCA to alpha19. (#3774)
+- Fixes #3761 - Set Composer PHP Platform to 7.2. (#3769)
+
+
+#### 10.2.1 (2019-07-22)
+
+[Full Changelog](https://github.com/acquia/blt/compare/10.2.0...10.2.1)
+
+
+**Fixed bugs**
+
+- DT-642: Fix environment detector on ACE. (#3766)
+- Fixes #3734: DT-603: Errors during blt setup do not fail travis builds. (#3756)
+
+**Miscellaneous**
+
+- Updating CHANGELOG.md and setting version for 10.2.1.
+- DT-605: Use account() to test cloud api auth. (#3764)
+- Bumped PHP version in use on Travis CI. (#3758)
+- Update ORCA to alpha18. (#3712)
+- Removed unused functions and improved docs (#3746)
+- Add new BLT logos (PNG and SVG) (#3745)
+- Fixes #3738: Failing deprecation tests. (#3739)
+- Revert "Bump blt-project to stable."
+- Bump blt-project to stable.
+[Full Changelog](https://github.com/acquia/blt/compare/10.2.0...10.2.1)
+
+
+**Fixed bugs**
+
+- Fixes #3734: DT-603: Errors during blt setup do not fail travis builds. (#3756)
+
+**Miscellaneous**
+
+- DT-642: Fix environment detector on ACE. (#3766)
+- DT-605: Use account() to test cloud api auth. (#3764)
+- Bumped PHP version in use on Travis CI. (#3758)
+- Update ORCA to alpha18. (#3712)
+- Removed unused functions and improved docs (#3746)
+- Add new BLT logos (PNG and SVG) (#3745)
+- Fixes #3738: Failing deprecation tests. (#3739)
+- Revert "Bump blt-project to stable."
+- Bump blt-project to stable.
+
+
+#### 10.2.0 (2019-07-03)
+
+[Full Changelog](https://github.com/acquia/blt/compare/10.1.0...10.2.0)
+
+**Major / breaking changes**
+
+- DT-485: Update hook for composer autoload change. (#3721)
+
+**Implemented enhancements**
+
+- Fixes #3722 to add a config-status command. (#3723)
+- Fixes #3386 to add drupal check for deprecation. (#3710)
+- Fixes #3684 BLT docs to point at the KB instead of maintaining our own Config Split docs. (#3713)
+
+**Fixed bugs**
+
+- DT-536: Fix ACSF stack detection. (#3724)
+- Fixes #3704: Pin Chromedriver to 74 on TravisCI (#3708)
+
+**Miscellaneous**
+
+- Use AcquiaDrupalStrict coding standards (#3726)
+- Added some clarifying language. (#3736)
+- Update INSTALL.md (#3725)
+- Correcting hosting type check, to generaate aliases. (#3728)
+- Fixes #3639: DT-529: Use Acquia coding standards (#3720)
+- DT-508: Removed references to deprecated -y flag. (#3718)
+- Preserve comments in blt.yml on project creation. (#3714)
+- Cleaned up TravisCI cruft (#3711)
+- Remove RTD references from README.md (#3707)
+- Fixed tests.
+- Updated composer dependencies.
+- Work around Drush 9.5 bug with path based domains (#3705)
+- Cleaned up test matrix. (#3706)
+- Fixed ORCA / Lightning test failures.
+- Revert "Bump blt-project to stable."
+- Bump blt-project to stable.
+
+
+#### 10.1.0 (2019-06-06)
+
+[Full Changelog](https://github.com/acquia/blt/compare/10.0.1...10.1.0)
+
+
+**Implemented enhancements**
+
+- Fixes #3665: Drupal Spec Tool dependency version. (#3667)
+- Fixes #3436: Reduce verbosity of BLT internal test output. (#3663)
+- Preserve comments in DrupalVM config when adding multisites. (#3629)
+- Fixes #3643: Allow directory argument for Drupal phpunit tests. (#3652)
+- Fixes #3650: Squelch Drush runserver output. (#3651)
+- Fixes #3617: Run cache clears for config strategy 'none'. (#3632)
+- Tracing the Drupal requests in drupal-requests.log on acquia cloud. (#3625)
+- Improve multisite generate command. (#3614)
+
+**Fixed bugs**
+
+- Fixes #3674 to repair site splits in 10.x. (#3676)
+- Fixes #3671: Remove posix dependency. (#3672)
+- Fixes #3661: Abort deploy if Git repo is inaccessible. (#3662)
+- Fixes #3647: Removed stale references to failOnDirty option. (#3659)
+- Fixes #3653 to update saml documentation. (#3654)
+- Fixed drush alias generation loop. (#3646)
+
+**Miscellaneous**
+
+- Fixes #3148: Frivolous composer notices. (#3701)
+- DT-483: Disable interactive input on vm command. (#3700)
+- DT-482: Fix deprecated SUT tests (#3694)
+- Don't optimize Composer autoloader locally. (#3692)
+- Updated ORCA implementation. (#3696)
+- Fixed config split template needs description field. (#3681)
+- Prevent patched htaccess from being overwritten for ACSF customers. (#3682)
+- DT-481: Removed references to readthedocs. (#3691)
+- Allow easier non-interactive Behat tests on multiple sites. (#3517)
+- Updated ACSF documentation. (#3680)
+- Removed docs on updating from non-Composer versions. (#3678)
+- Improve dev:link-composer command. (#3649)
+- Minor settings cleanup: removed unnecessary logic. (#3666)
+- Fixed symlinks after moving template to blt-project. (#3670)
+- Remove stale composer files. (#3669)
+- Update bug_report.md
+- Updates links to documentation in template/README.md. (#3656)
+- Combine template with blt-project subtree split. (#3648)
+- Standardize on \Drupal instead of Drupal. (#3657)
+- Updates FAQ to further elaborate on the check dirty issues. (#3655)
+- Don't use bootstrap for sandboxmanager and phpunit tests. (#3640)
+- Removed cruft.
+- Moved logo.
+- Delete .github_changelog_generator
+- Delete .ruby-version
+- Delete mkdocs.yml
+- Disabled RTD buids.
+- Fixed rtd builds.
+- Fixed rtd builds.
+- Fixed rtd builds.
+- Deprecate RTD documentation. (#3631)
+- Integrate with ORCA for automated testing (#3578)
+
+
 #### 10.0.1 (2019-05-03)
 
 [Full Changelog](https://github.com/acquia/blt/compare/10.0.0...10.0.1)

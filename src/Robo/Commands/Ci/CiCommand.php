@@ -30,6 +30,8 @@ class CiCommand extends BltTasks {
     }
 
     $this->say("<info>A pre-configured acquia-pipelines.yml file was copied to your repository root.</info>");
+    $this->say("<info>To support copying DBs into newly-deployed CDEs, follow these instructions:</info>");
+    $this->say("<info>https://docs.acquia.com/acquia-cloud/develop/pipelines/cli/install</info>");
   }
 
   /**

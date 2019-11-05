@@ -25,12 +25,19 @@ if ($output->isVerbose()) {
 }
 
 // Initialize configuration.
+// phpcs:ignore
 $config_initializer = new ConfigInitializer($repo_root, $input);
 $config = $config_initializer->initialize();
 
 // Execute command.
+// phpcs:ignore
 $blt = new Blt($config, $input, $output, $classLoader);
 $status_code = (int) $blt->run($input, $output);
+
+if (!$input->getFirstArgument() || $input->getFirstArgument() == 'list') {
+  $output->writeln("<comment>To create custom BLT commands, see https://docs.acquia.com/blt/extending-blt/#adding-a-custom-robo-hook-or-command.</comment>");
+  $output->writeln("<comment>To add BLT commands via community plugins, see https://github.com/acquia/blt/blob/10.x/docs/plugins.md.</comment>");
+}
 
 // Stop timer.
 $timer->stop();

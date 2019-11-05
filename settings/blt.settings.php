@@ -10,9 +10,9 @@ use Acquia\Blt\Robo\Config\ConfigInitializer;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Symfony\Component\Console\Input\ArgvInput;
 
-/*******************************************************************************
+/**
  * Detect environments, sites, and hostnames.
- ******************************************************************************/
+ */
 
 $http_host = getenv('HTTP_HOST');
 $request_method = getenv('REQUEST_METHOD');
@@ -20,6 +20,7 @@ $request_uri = getenv('REQUEST_URI');
 $http_x_request_id = getenv('HTTP_X_REQUEST_ID');
 
 // If trusted_reverse_proxy_ips is not defined, fail gracefully.
+// phpcs:ignore
 $trusted_reverse_proxy_ips = isset($trusted_reverse_proxy_ips) ? $trusted_reverse_proxy_ips : '';
 if (!is_array($trusted_reverse_proxy_ips)) {
   $trusted_reverse_proxy_ips = [];
@@ -65,9 +66,12 @@ if ($ip) {
 
 $repo_root = dirname(DRUPAL_ROOT);
 /**
+ * Site path.
+ *
  * @var $site_path
  * This is always set and exposed by the Drupal Kernel.
  */
+// phpcs:ignore
 $site_dir = str_replace('sites/', '', $site_path);
 
 // Special site name detection for ACSF sites being developed locally.
@@ -91,7 +95,7 @@ if (EnvironmentDetector::isAcsfInited()) {
   }
 }
 
-/*******************************************************************************
+/**
  * Include additional settings files.
  *
  * Settings are included in a very particular order to ensure that they always
@@ -105,8 +109,7 @@ if (EnvironmentDetector::isAcsfInited()) {
  * 4. Default CI settings (provided by BLT)
  * 5. Custom CI settings (provided by the project)
  * 6. Local settings (provided by the project)
- *
- ******************************************************************************/
+ */
 
 $settings_files = [];
 
@@ -155,9 +158,7 @@ $settings_files[] = DRUPAL_ROOT . "/sites/$site_dir/settings/includes.settings.p
 if (EnvironmentDetector::isCiEnv()) {
   // Default CI settings.
   $settings_files[] = __DIR__ . '/ci.settings.php';
-  if (EnvironmentDetector::getCiEnv()) {
-    $settings_files[] = sprintf("%s/%s.settings.php", __DIR__, EnvironmentDetector::getCiEnv());
-  }
+  $settings_files[] = EnvironmentDetector::getCiSettingsFile();
   // Custom global and site-specific CI settings.
   $settings_files[] = DRUPAL_ROOT . "/sites/settings/ci.settings.php";
   $settings_files[] = DRUPAL_ROOT . "/sites/$site_dir/settings/ci.settings.php";
@@ -171,6 +172,7 @@ if (EnvironmentDetector::isLocalEnv()) {
 
 foreach ($settings_files as $settings_file) {
   if (file_exists($settings_file)) {
+    // phpcs:ignore
     require $settings_file;
   }
 }

@@ -5,8 +5,6 @@ namespace Acquia\Blt\Robo\Commands\Vm;
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\ArrayManipulator;
 use Acquia\Blt\Robo\Exceptions\BltException;
-use function file_exists;
-use function file_get_contents;
 use Grasmash\YamlExpander\Expander;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Yaml\Yaml;
@@ -15,16 +13,82 @@ use Symfony\Component\Yaml\Yaml;
  * Defines commands in the "vm" namespace.
  */
 class VmCommand extends BltTasks {
+
+  /**
+   * Drupal VM alias.
+   *
+   * @var string
+   */
   protected $drupalVmAlias;
+
+  /**
+   * Drupal VM version.
+   *
+   * @var string
+   */
   protected $drupalVmVersionConstraint;
+
+  /**
+   * Drupal VM drush aliases.
+   *
+   * @var string
+   */
   protected $defaultDrupalVmDrushAliasesFile;
+
+  /**
+   * Drupal VM config.
+   *
+   * @var string
+   */
   protected $defaultDrupalVmConfigFile;
+
+  /**
+   * Drupal VM Vagrant.
+   *
+   * @var string
+   */
   protected $defaultDrupalVmVagrantfile;
+
+  /**
+   * Project drush aliases.
+   *
+   * @var string
+   */
   protected $projectDrushAliasesFile;
+
+  /**
+   * Drupal VM.
+   *
+   * @var string
+   */
   protected $projectDrupalVmConfigFile;
+
+  /**
+   * Drupal VM Vagrant.
+   *
+   * @var string
+   */
   protected $projectDrupalVmVagrantfile;
+
+  /**
+   * VM config directory.
+   *
+   * @var string
+   */
   protected $vmConfigDir;
+
+  /**
+   * VM config file.
+   *
+   * @var string
+   */
   protected $vmConfigFile;
+
+  /**
+   * VM directory.
+   *
+   * @var string
+   */
   protected $vmDir;
 
   /**
@@ -34,7 +98,8 @@ class VmCommand extends BltTasks {
    */
   public function initialize() {
     $this->drupalVmAlias = $this->getConfigValue('project.machine_name') . '.local';
-    $this->drupalVmVersionConstraint = '^5.0';
+    // Use tilde instead of more traditional caret version to avoid Windows bug.
+    $this->drupalVmVersionConstraint = '~5.0';
     $this->defaultDrupalVmDrushAliasesFile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/drupal-vm.site.yml';
     $this->defaultDrupalVmConfigFile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/config.yml';
     $this->defaultDrupalVmVagrantfile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/Vagrantfile';
@@ -88,6 +153,7 @@ class VmCommand extends BltTasks {
    *
    * @command recipes:drupalvm:destroy
    * @aliases rdd vm:nuke
+   *
    * @throws \Exception
    */
   public function nuke() {
@@ -113,6 +179,7 @@ class VmCommand extends BltTasks {
 
   /**
    * Installs and configures default Drupal VM instance.
+   *
    * @throws \Exception
    */
   protected function install() {
@@ -168,6 +235,7 @@ class VmCommand extends BltTasks {
 
   /**
    * Boots a Drupal VM.
+   *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function boot() {
@@ -234,6 +302,7 @@ class VmCommand extends BltTasks {
    * Checks local system for Drupal VM requirements.
    *
    * Verifies that vagrant and its required plugins are installed.
+   *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function checkRequirements() {
@@ -263,7 +332,8 @@ class VmCommand extends BltTasks {
   /**
    * Sets the Drupal VM base box.
    *
-   * @param \Acquia\Blt\Robo\Config\BltConfig $config
+   * @param mixed $config
+   *   Config.
    */
   protected function setBaseBox($config) {
     $base_box = $this->askChoice(

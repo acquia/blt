@@ -11,16 +11,14 @@ To perform a release:
 
 * [BLT 10.x](https://github.com/acquia/blt):
 [![Build Status](https://travis-ci.com/acquia/blt.svg?branch=10.x)](https://travis-ci.com/acquia/blt)
-[![Documentation Status](https://readthedocs.org/projects/blt/badge/?version=10.x)](http://blt.readthedocs.io/en/10.x/?badge=10.x)
 * [BLT 9.2.x](https://github.com/acquia/blt):
 [![Build Status](https://travis-ci.com/acquia/blt.svg?branch=9.2.x)](https://travis-ci.com/acquia/blt)
-[![Documentation Status](https://readthedocs.org/projects/blt/badge/?version=9.2.x)](http://blt.readthedocs.io/en/9.2.x/?badge=9.2.x)
 
 ## Test via Canary
 
 * Submit a pull request to Canary with BLT updated to HEAD.
     * Update BLT to the tip of HEAD. This is the same commit from which you will cut your tag.
-    * Document update steps in `update.md`. Note any manual steps required and plan to add them to the BLT release notes (generated later).
+    * Note any manual steps required and plan to add them to the BLT release notes (generated later).
 * Ensure tests pass, and smoke test the site in Cloud environments.
 
 ## Create a release

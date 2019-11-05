@@ -16,7 +16,7 @@ class BltLogStyle extends RoboLogStyle {
    *   The log event label.
    * @param string $message
    *   The log message.
-   * @param array $context
+   * @param mixed $context
    *   The context, e.g., $context['time'] for task duration.
    * @param string $taskNameStyle
    *   The style wrapper for the label, e.g., 'comment' for

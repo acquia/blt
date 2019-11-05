@@ -24,7 +24,7 @@ You have probably been linked to this documentation by a project that is using B
 
 1. If your project uses separate `master` and `develop` branches, checkout the `develop` branch: `git checkout develop`
 1. Run `composer install` (you must already have Composer installed).
-1. Install `blt` alias: `./vendor/bin/blt blt:init:shell-alias -y`. At this point you might need restart your shell in order for the alias work.
+1. Install `blt` alias: `./vendor/bin/blt blt:init:shell-alias`. At this point you might need restart your shell in order for the alias work.
 
 If your project uses a virtual development environment such as [Drupal VM](local-development/#using-drupal-vm-for-blt-generated-projects):
 

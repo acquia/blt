@@ -37,35 +37,40 @@ class SyncCommand extends BltTasks {
    * Copies remote db to local db, re-imports config, and executes db updates
    * for each multisite.
    *
+   * @param array $options
+   *   Array of CLI options.
+   *
    * @command drupal:sync:default:site
    * @aliases ds drupal:sync drupal:sync:default sync sync:refresh
    * @executeInVm
    */
-  public function sync($options = [
-    'sync-files' => FALSE,
+  public function sync(array $options = [
+    'sync-public-files' => FALSE,
+    'sync-private-files' => FALSE,
   ]) {
-
     $commands = $this->getConfigValue('sync.commands');
-    if ($options['sync-files'] || $this->getConfigValue('sync.files')) {
-      $commands[] = 'drupal:sync:files';
+    if ($options['sync-public-files'] || $this->getConfigValue('sync.public-files')) {
+      $commands[] = 'drupal:sync:public-files';
+    }
+    if ($options['sync-private-files'] || $this->getConfigValue('sync.private-files')) {
+      $commands[] = 'drupal:sync:private-files';
     }
     $this->invokeCommands($commands);
   }
 
   /**
-   * Copies remote files to local machine.
+   * Copies public remote files to local machine.
    *
-   * @command drupal:sync:files
+   * @command drupal:sync:public-files
    *
-   * @aliases dsf sync:files
+   * @aliases dsf sync:files drupal:sync:files
    *
    * @validateDrushConfig
    * @executeInVm
    *
    * @todo Support multisite.
    */
-  public function syncFiles() {
-    $local_alias = '@' . $this->getConfigValue('drush.aliases.local');
+  public function syncPublicFiles() {
     $remote_alias = '@' . $this->getConfigValue('drush.aliases.remote');
     $site_dir = $this->getConfigValue('site');
 
@@ -75,6 +80,34 @@ class SyncCommand extends BltTasks {
       ->drush('rsync')
       ->arg($remote_alias . ':%files/')
       ->arg($this->getConfigValue('docroot') . "/sites/$site_dir/files")
+      ->option('exclude-paths', implode(':', $this->getConfigValue('sync.exclude-paths')));
+
+    $result = $task->run();
+
+    return $result;
+  }
+
+  /**
+   * Copies private remote files to local machine.
+   *
+   * @command drupal:sync:private-files
+   *
+   * @aliases dspf
+   *
+   * @validateDrushConfig
+   * @executeInVm
+   */
+  public function syncPrivateFiles() {
+    $remote_alias = '@' . $this->getConfigValue('drush.aliases.remote');
+    $site_dir = $this->getConfigValue('site');
+    $private_files_local_path = $this->getConfigValue('repo.root') . "/files-private/$site_dir";
+
+    $task = $this->taskDrush()
+      ->alias('')
+      ->uri('')
+      ->drush('rsync')
+      ->arg($remote_alias . ':%private/')
+      ->arg($private_files_local_path)
       ->option('exclude-paths', implode(':', $this->getConfigValue('sync.exclude-paths')));
 
     $result = $task->run();
@@ -134,13 +167,11 @@ class SyncCommand extends BltTasks {
       ->option('--target-dump', sys_get_temp_dir() . '/tmp.target.sql.gz')
       ->option('structure-tables-key', 'lightweight')
       ->option('create-db');
+    $task->drush('cr');
 
     if ($this->getConfigValue('drush.sanitize')) {
       $task->drush('sql-sanitize');
     }
-
-    $task->drush('cr');
-    $task->drush('sqlq "TRUNCATE cache_entity"');
 
     $result = $task->run();
 
@@ -148,11 +179,12 @@ class SyncCommand extends BltTasks {
   }
 
   /**
-   * @param $multisites
+   * Print sync map.
    *
-   * @return mixed
+   * @param array $multisites
+   *   Array of multisites.
    */
-  protected function printSyncMap($multisites) {
+  protected function printSyncMap(array $multisites) {
     $this->say("Sync operations be performed for the following drush aliases:");
     $sync_map = [];
     foreach ($multisites as $multisite) {

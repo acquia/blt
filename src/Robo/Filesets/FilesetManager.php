@@ -10,6 +10,7 @@ use Doctrine\Common\Annotations\IndexedReader;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Robo\Contract\ConfigAwareInterface;
+use Robo\Robo;
 
 /**
  * Manages BLT filesets.
@@ -24,11 +25,15 @@ class FilesetManager implements ConfigAwareInterface, LoggerAwareInterface {
   use LoggerAwareTrait;
 
   /**
+   * Finder.
+   *
    * @var \Symfony\Component\Finder\Finder[]
    */
   protected $filesets = [];
 
   /**
+   * Index reader.
+   *
    * @var \Doctrine\Common\Annotations\IndexedReader
    */
   protected $annotationsReader;
@@ -48,14 +53,19 @@ class FilesetManager implements ConfigAwareInterface, LoggerAwareInterface {
    * annotations.
    */
   public function registerFilesets() {
-    // @todo Assert that filesets from \Acquia\Blt\Custom\Filesets override
-    // those from \Acquia\Blt\Custom\Filesets.
+    // Built-in BLT filesets.
     $classes = [
-      // @codingStandardsIgnoreStart
-      \Acquia\Blt\Robo\Filesets\Filesets::class,
-      \Acquia\Blt\Custom\Filesets::class,
-      // @codingStandardsIgnoreEnd
+      Filesets::class,
     ];
+
+    // Find user-defined filesets.
+    /** @var \Robo\ClassDiscovery\RelativeNamespaceDiscovery $discovery */
+    $discovery = Robo::service('relativeNamespaceDiscovery');
+    $discovery->setRelativeNamespace('Blt\Plugin\Filesets')
+      ->setSearchPattern('*Filesets.php');
+    $classes = array_merge($classes, $discovery->getClasses());
+
+    // Load filesets.
     $fileset_annotations = $this->getAllFilesetAnnotations($classes);
     $filesets = $this->getFilesetsFromAnnotations($fileset_annotations);
 
@@ -75,7 +85,7 @@ class FilesetManager implements ConfigAwareInterface, LoggerAwareInterface {
    *       'files.php.tests' => ['getFilesetPhpTests'],
    *     ]].
    */
-  protected function getAllFilesetAnnotations($classes) {
+  protected function getAllFilesetAnnotations(array $classes) {
     $fileset_annotations = [];
     foreach ($classes as $class) {
       $fileset_annotations[$class] = isset($fileset_annotations[$class]) ? $fileset_annotations[$class] : [];
@@ -166,7 +176,7 @@ class FilesetManager implements ConfigAwareInterface, LoggerAwareInterface {
    * @return \Symfony\Component\Finder\Finder[]
    *   An array of instantiated filesets.
    */
-  protected function getFilesetsFromAnnotations($fileset_annotations) {
+  protected function getFilesetsFromAnnotations(array $fileset_annotations) {
     $filesets = [];
     $this->logger->debug("Gathering filesets from annotated methods...");;
     foreach ($fileset_annotations as $class => $fileset) {
@@ -190,14 +200,14 @@ class FilesetManager implements ConfigAwareInterface, LoggerAwareInterface {
    *
    * @param array $files
    *   An array of absolute file paths.
-   * @param \Symfony\Component\Finder\Finder $fileset
+   * @param mixed $fileset
    *   The ID for a given fileset.
    *
    * @return \Symfony\Component\Finder\Finder
    *   The intersection of $files and the fileset.
    */
-  public function filterFilesByFileset($files, $fileset) {
-    $absolute_files = array_map(array($this, 'prependRepoRoot'), $files);
+  public function filterFilesByFileset(array $files, $fileset) {
+    $absolute_files = array_map([$this, 'prependRepoRoot'], $files);
 
     // @todo Compare performance of this vs. using
     // array_intersect($files, array_keys(iterator_to_array($fileset)));

@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Tests;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Common\EnvironmentDetector;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Exception;
 use Robo\Contract\VerbosityThresholdInterface;
@@ -135,7 +136,7 @@ class TestsCommandBase extends BltTasks {
     }
 
     $osx_path = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
-    if ($this->getInspector()->isOsx() && file_exists($osx_path)) {
+    if (EnvironmentDetector::isDarwin() && file_exists($osx_path)) {
       return $osx_path;
     }
 
@@ -203,7 +204,7 @@ class TestsCommandBase extends BltTasks {
     }
 
     $osxPath = "/usr/local/bin/chromedriver";
-    if ($this->getInspector()->isOsx() && file_exists($osxPath)) {
+    if (EnvironmentDetector::isDarwin() && file_exists($osxPath)) {
       return $osxPath;
     }
 
@@ -212,17 +213,22 @@ class TestsCommandBase extends BltTasks {
 
   /**
    * Launches selenium server and waits for it to become available.
-   * @throws BltException
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function launchSelenium() {
     $this->createSeleniumLogs();
     $this->killSelenium();
     $this->logger->info("Launching Selenium standalone server...");
+    $selenium_bin = $this->getConfigValue('composer.bin') . '/selenium-server-standalone';
+    if (!file_exists($selenium_bin)) {
+      throw new BltException("Could not find Selenium. Install it via `composer require se/selenium-server-standalone`.");
+    }
     $log_file = $this->getConfigValue('repo.root') . '/tmp/selenium.log';
     /** @var Acquia\Blt\Robo\Common\Executor $executor */
     $executor = $this->getContainer()->get('executor');
     $result = $executor
-      ->execute($this->getConfigValue('composer.bin') . "/selenium-server-standalone -port {$this->seleniumPort} -log {$this->seleniumLogFile}  > $log_file 2>&1")
+      ->execute("$selenium_bin -port {$this->seleniumPort} -log {$this->seleniumLogFile}  > $log_file 2>&1")
       ->background(TRUE)
       // @todo Print output when this command fails.
       ->printOutput(TRUE)

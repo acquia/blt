@@ -39,18 +39,23 @@ class StringManipulator {
   }
 
   /**
-   * @param $identifier
+   * Make string machine safe.
+   *
+   * @param string $identifier
+   *   Identifier.
    * @param array $filter
+   *   Filter.
    *
    * @return mixed
+   *   Safe string.
    */
-  public static function convertStringToMachineSafe($identifier, array $filter = array(
+  public static function convertStringToMachineSafe($identifier, array $filter = [
     ' ' => '_',
     '-' => '_',
     '/' => '_',
     '[' => '_',
     ']' => '',
-  )) {
+  ]) {
     $identifier = str_replace(array_keys($filter), array_values($filter), $identifier);
     // Valid characters are:
     // - a-z (U+0030 - U+0039)
@@ -65,17 +70,21 @@ class StringManipulator {
       $identifier);
     // Identifiers cannot start with a digit, two hyphens, or a hyphen followed
     // by a digit.
-    $identifier = preg_replace(array(
+    $identifier = preg_replace([
       '/^[0-9]/',
       '/^(-[0-9])|^(--)/',
-    ), array('_', '__'), $identifier);
+    ], ['_', '__'], $identifier);
     return strtolower($identifier);
   }
 
   /**
-   * @param $string
+   * Convert string to prefix.
+   *
+   * @param string $string
+   *   String.
    *
    * @return mixed
+   *   Prefix.
    */
   public static function convertStringToPrefix($string) {
     $words = explode(' ', $string);

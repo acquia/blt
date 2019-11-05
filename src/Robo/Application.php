@@ -2,11 +2,11 @@
 
 namespace Acquia\Blt\Robo;
 
+use Symfony\Component\Console\Application as ConsoleApplication;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Application as ConsoleApplication;
 
 /**
  * Class Application.
@@ -23,6 +23,8 @@ class Application extends ConsoleApplication {
   }
 
   /**
+   * Run command.
+   *
    * @{inheritdoc}
    */
   protected function doRunCommand(Command $command, InputInterface $input, OutputInterface $output) {

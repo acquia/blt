@@ -9,23 +9,42 @@ use Acquia\Blt\Robo\Config\ConfigAwareTrait;
 use Acquia\Blt\Robo\Inspector\Inspector;
 use Acquia\Blt\Robo\Inspector\InspectorAwareInterface;
 use Acquia\Blt\Robo\Inspector\InspectorAwareTrait;
-use function is_array;
 use ReflectionClass;
 use Robo\Config\Config;
 use Robo\Contract\ConfigAwareInterface;
 
 /**
- *
+ * BLT Doctor checks.
  */
 abstract class DoctorCheck implements ConfigAwareInterface, InspectorAwareInterface, ExecutorAwareInterface {
   use ConfigAwareTrait;
   use InspectorAwareTrait;
   use ExecutorAwareTrait;
 
+  /**
+   * Problems.
+   *
+   * @var array
+   */
   protected $problems = [];
+
+  /**
+   * Whether an error was logged.
+   *
+   * @var bool
+   */
   protected $errorLogged = FALSE;
+
+  /**
+   * Drush status.
+   *
+   * @var string
+   */
   protected $drushStatus;
 
+  /**
+   * Constructor.
+   */
   public function __construct(
     Config $config,
     Inspector $inspector,
@@ -38,6 +57,9 @@ abstract class DoctorCheck implements ConfigAwareInterface, InspectorAwareInterf
     $this->executor = $executor;
   }
 
+  /**
+   * Log problem.
+   */
   public function logProblem($check, $message, $type) {
     if (is_array($message)) {
       $message = implode("\n", $message);
@@ -53,19 +75,28 @@ abstract class DoctorCheck implements ConfigAwareInterface, InspectorAwareInterf
   }
 
   /**
+   * Was error logged.
+   *
    * @return bool
+   *   Was error logged.
    */
   public function wasErrorLogged() {
     return $this->errorLogged;
   }
 
   /**
+   * Perform all checks.
+   *
    * @return array
+   *   Array.
    */
   abstract public function performAllChecks();
 
   /**
+   * Get problems.
+   *
    * @return array
+   *   Problems?
    */
   public function getProblems() {
     return $this->problems;

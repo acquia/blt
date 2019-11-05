@@ -17,7 +17,11 @@ class FactoryHooksCommand extends BltTasks {
    * @param string $site
    *   The site name, e.g., site1.
    * @param string $target_env
-   *   The cloud env, e.g., dev
+   *   The cloud env, e.g., dev.
+   * @param string $db_role
+   *   DB Role.
+   * @param string $domain
+   *   Domain.
    *
    * @command artifact:acsf-hooks:db-update
    */
@@ -28,8 +32,10 @@ class FactoryHooksCommand extends BltTasks {
   /**
    * Executes updates against all ACSF sites in the target environment.
    *
-   * @param $site
-   * @param $target_env
+   * @param string $site
+   *   Site.
+   * @param string $target_env
+   *   Target env.
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */

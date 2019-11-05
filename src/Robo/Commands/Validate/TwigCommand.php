@@ -35,11 +35,11 @@ class TwigCommand extends BltTasks {
   /**
    * Executes Twig validator against a list of files, if in twig.filesets.
    *
-   * @command tests:twig:lint:files
-   * @aliases ttlf
-   *
    * @param string $file_list
    *   A list of files to scan, separated by \n.
+   *
+   * @command tests:twig:lint:files
+   * @aliases ttlf
    */
   public function lintFileList($file_list) {
     $this->say("Linting twig files...");
@@ -60,6 +60,7 @@ class TwigCommand extends BltTasks {
    * Lints twig against multiple filesets.
    *
    * @param \Symfony\Component\Finder\Finder[] $filesets
+   *   Filesets.
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
@@ -101,19 +102,20 @@ class TwigCommand extends BltTasks {
    * Creates the Twig lint command.
    *
    * @return \Symfony\Bridge\Twig\Command\LintCommand
+   *   Lint command.
    */
   protected function createTwigLintCommand() {
     $twig = new Environment(new FilesystemLoader());
 
-    $repo_root = $this->getConfigValue('repo.root');
-    $extension_file_contents = file_get_contents($repo_root . '/docroot/core/lib/Drupal/Core/Template/TwigExtension.php');
+    $docroot = $this->getConfigValue('docroot');
+    $extension_file_contents = file_get_contents($docroot . '/core/lib/Drupal/Core/Template/TwigExtension.php');
 
     // Get any custom defined Twig filters to be ignored by linter.
     $twig_filters = (array) $this->getConfigValue('validate.twig.filters');
 
     // Add Twig filters from Drupal TwigExtension to be ignored.
     $drupal_filters = [];
-    if ($matches_count = preg_match_all("#new \\\\Twig_SimpleFilter\('([^']+)',#", $extension_file_contents, $matches)) {
+    if (preg_match_all("#new \\\\Twig_SimpleFilter\('([^']+)',#", $extension_file_contents, $matches)) {
       $drupal_filters = $matches[1];
     }
     $twig_filters = array_merge($twig_filters, $drupal_filters);
@@ -132,7 +134,7 @@ class TwigCommand extends BltTasks {
 
     // Add Twig functions from Drupal TwigExtension to be ignored.
     $drupal_functions = [];
-    if ($matches_count = preg_match_all("#new \\\\Twig_SimpleFunction\('([^']+)',#", $extension_file_contents, $matches)) {
+    if (preg_match_all("#new \\\\Twig_SimpleFunction\('([^']+)',#", $extension_file_contents, $matches)) {
       $drupal_functions = $matches[1];
     }
     $twig_functions = array_merge($twig_functions, $drupal_functions);
@@ -147,8 +149,9 @@ class TwigCommand extends BltTasks {
     }
 
     // Add Drupal Twig parser to include trans tag.
-    $token_parser_filename = $repo_root . '/docroot/core/lib/Drupal/Core/Template/TwigTransTokenParser.php';
+    $token_parser_filename = $docroot . '/core/lib/Drupal/Core/Template/TwigTransTokenParser.php';
     if (file_exists($token_parser_filename)) {
+      // phpcs:ignore
       require_once $token_parser_filename;
       $twig->addTokenParser(new TwigTransTokenParser());
     }

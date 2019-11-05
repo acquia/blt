@@ -6,8 +6,9 @@
     "require": {
         "php": ">=7.1",
         "acquia/blt": "10.x-dev",
-        "acquia/drupal-spec-tool": ">=2.0.0",
-        "acquia/lightning": "^3.1.0",
+        "acquia/drupal-spec-tool": "*",
+        "acquia/lightning": "^4.0.0",
+        "acquia/memcache-settings": "*",
         "drupal/acquia_connector": "^1.5.0",
         "drupal/acquia_purge": "^1.0-beta3",
         "drupal/cog": "^1.0.0",
@@ -15,17 +16,17 @@
         "drupal/core": "^8.6.0",
         "drupal/devel": "^2.0.0",
         "drupal/features": "^3.8.0",
-        "drupal/memcache": "2.0-alpha7",
         "drupal/qa_accounts": "^1.0.0-alpha1",
         "drupal/seckit": "^1.0.0-alpha2",
         "drupal/shield": "^1.2.0"
     },
     "require-dev": {
-        "acquia/blt-require-dev": "^10.0.0-alpha1"
+        "acquia/blt-require-dev": "11.x-dev"
     },
     "config": {
-        "apcu-autoloader": true,
-        "optimize-autoloader": true,
+        "platform": {
+            "php": "7.2"
+        },
         "sort-packages": true
     },
     "extra": {
@@ -75,7 +76,7 @@
         "patchLevel": {
             "drupal/core": "-p2"
         },
-        "patches": []
+        "patches": {}
     },
     "autoload": {
         "psr-4": {

@@ -5,7 +5,6 @@ namespace Acquia\Blt\Robo\Commands\Setup;
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\RandomString;
 use Acquia\Blt\Robo\Exceptions\BltException;
-use function file_exists;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Filesystem\Filesystem;
@@ -15,10 +14,23 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 class SettingsCommand extends BltTasks {
 
+  /**
+   * Default behat local config file.
+   *
+   * @var string
+   */
   protected $defaultBehatLocalConfigFile;
+
+  /**
+   * Project behat local config file.
+   *
+   * @var string
+   */
   protected $projectBehatLocalConfigFile;
 
   /**
+   * Settings warning.
+   *
    * @var string
    * Warning text added to the end of settings.php to point people to the BLT
    * docs on how to include settings.
@@ -30,7 +42,7 @@ class SettingsCommand extends BltTasks {
  * Do not include additional settings here. Instead, add them to settings
  * included by `blt.settings.php`. See BLT's documentation for more detail.
  *
- * @link http://blt.readthedocs.io
+ * @link https://docs.acquia.com/blt/
  */
 WARNING;
 
@@ -189,7 +201,6 @@ WARNING;
    *
    * @command tests:behat:init:config
    * @aliases tbic setup:behat
-   *
    */
   public function behat() {
     $copy_map = [
@@ -260,6 +271,7 @@ WARNING;
       $result = $this->taskFilesystemStack()
         ->mkdir($this->getConfigValue('repo.root') . '/.git/hooks')
         ->remove($project_hook)
+        // phpcs:ignore
         ->symlink($path_to_hook_source, $project_hook)
         ->stopOnFail()
         ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)

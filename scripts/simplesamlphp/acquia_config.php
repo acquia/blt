@@ -36,7 +36,6 @@ $config['auth.adminpassword'] = 'mysupersecret';
  * This is a requirement in SimpleSAML when providing a redirect path.
  *
  * @link https://github.com/simplesamlphp/simplesamlphp/issues/450
- *
  */
 /* $_SERVER['SERVER_PORT'] = 443;
 $_SERVER['HTTPS'] = 'true';
@@ -76,12 +75,10 @@ if (!getenv('AH_SITE_ENVIRONMENT')) {
 
 }
 elseif (getenv('AH_SITE_ENVIRONMENT')) {
-  /**
-   * Support multi-site and single site installations at different base URLs.
-   *
-   * Overide $config['baseurlpath'] = "https://{yourdomain}/simplesaml/"
-   * to customize the default Acquia configuration.
-   */
+  // Support multi-site and single site installations at different base URLs.
+  // Overide $config['baseurlpath'] = "https://{yourdomain}/simplesaml/"
+  // to customize the default Acquia configuration.
+  // phpcs:ignore
   $config['baseurlpath'] = $protocol . $_SERVER['HTTP_HOST'] . $port . '/simplesaml/';
   // Set ACE and ACSF sites based on hosting database and site name.
   $config['certdir'] = "/mnt/www/html/{$_ENV['AH_SITE_GROUP']}.{$_ENV['AH_SITE_ENVIRONMENT']}/simplesamlphp/cert/";
@@ -89,6 +86,7 @@ elseif (getenv('AH_SITE_ENVIRONMENT')) {
   $config['baseurlpath'] = 'simplesaml/';
   // Setup basic logging.
   $config['logging.handler'] = 'file';
+  // phpcs:ignore
   $config['loggingdir'] = dirname(getenv('ACQUIA_HOSTING_DRUPAL_LOG'));
   $config['logging.logfile'] = 'simplesamlphp-' . date('Ymd') . '.log';
   $creds_json = file_get_contents('/var/www/site-php/' . $_ENV['AH_SITE_GROUP'] . '.' . $_ENV['AH_SITE_ENVIRONMENT'] . '/creds.json');

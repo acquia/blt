@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
+# This file is managed by Composer and should not be modified by end users. To
+# override its default behavior, copy it into your project and modify
+# acquia-pipelines.yml to call your custom version.
 
 set -ev
 
 export PATH=${COMPOSER_BIN}:${PATH}
 
-blt tests:all --define drush.alias='${drush.aliases.ci}' --environment=ci -D behat.web-driver=chrome --no-interaction --ansi --verbose
+blt tests:all --define drush.alias='${drush.aliases.ci}' -D behat.web-driver=chrome --no-interaction --ansi --verbose
 
 set +v

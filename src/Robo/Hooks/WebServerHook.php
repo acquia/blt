@@ -10,10 +10,9 @@ use Consolidation\AnnotatedCommand\CommandData;
  */
 class WebServerHook extends BltTasks {
 
-  protected $serverUrl;
-  protected $serverPort;
-
   /**
+   * Launch web server.
+   *
    * @hook pre-command @launchWebServer
    */
   public function launchWebServer(CommandData $commandData) {
@@ -23,6 +22,8 @@ class WebServerHook extends BltTasks {
   }
 
   /**
+   * Kill web server.
+   *
    * @hook post-command @launchWebServer
    */
   public function killWebServer($result, CommandData $commandData) {

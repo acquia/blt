@@ -9,6 +9,7 @@ behat:
     - ${repo.root}/tests/behat
   tags: '~ajax&&~experimental&&~lightningextension'
   extra: ''
+  validate: true
   # May be chrome, selenium.
   web-driver: chrome
 
@@ -109,6 +110,7 @@ git:
 #  - default
 
 # @todo Move to subkey of validate.
+# Note that PHPCS filesets are not configured here, but via phpcs.xml.dist in the root directory. See "Extending BLT" in docs.
 phpcs:
   standard: Drupal,DrupalPractice
 
@@ -133,9 +135,10 @@ setup:
 
 sync:
   # By default, files are not synced during sync:refresh.
-  # Set this value to 'true' or pass -D sync.files=true
+  # Set this value to 'true' or pass -D sync.public-files=true
   # to override this behavior.
-  files: false
+  public-files: false
+  private-files: false
   # Paths to exclude during file syncing operations.
   exclude-paths:
     - styles
@@ -235,9 +238,14 @@ tests:
     #   config: ${docroot}/core/phpunit.xml.dist
     #   directory: '${repo.root}/tests/phpunit'
 
+# Note that PHPCS filesets are not configured here, but via phpcs.xml.dist in the root directory. See "Extending BLT" in docs.
 validate:
   # You can change this to true to have blt automatically validate acsf-init.
   acsf: false
+  # You can change one or both of these to true to have blt automatically scan for deprecated code.
+  deprecation:
+    modules: false
+    themes: false
 
   deprecated:
     filesets:

@@ -1,36 +1,31 @@
 ---
 language: php
 
-php: 7.1
+php: "7.2"
 
 addons:
   chrome: stable
 
 cache:
-  bundler: true
-  apt: true
   directories:
     - "$HOME/.composer/cache"
-    - "$HOME/.console"
     - "$HOME/.drush/cache"
-    - "$HOME/.nvm"
-    - "$TMPDIR/blt-sandbox-instance/.rules"
+    - "$HOME/.rvm"
     - "$TMPDIR/phpstan/cache"
 
 services:
   - mysql
-  - xvfb
 
 env:
   global:
     # ORCA configuration.
     - ORCA_SUT_NAME=acquia/blt
     - ORCA_SUT_BRANCH=10.x
-    - ORCA_VERSION=v1.0.0-alpha11
+    - ORCA_VERSION=master
     # Custom configuration.
     - COMPOSER_BIN=$TRAVIS_BUILD_DIR/vendor/bin
     - BLT_DIR=$TRAVIS_BUILD_DIR
-    - DRUPAL_CORE_HEAD=^8.7.0-alpha1
+    - DRUPAL_CORE_HEAD=8.8.x-dev
     - BLT_PRINT_COMMAND_OUTPUT=0
 
 matrix:
@@ -38,8 +33,7 @@ matrix:
   include:
     # Standard ORCA jobs.
     - { name: "Static code analysis", env: ORCA_JOB=STATIC_CODE_ANALYSIS }
-    - { name: "Deprecated code scan of SUT only", env: ORCA_JOB=DEPRECATED_CODE_SCAN_SUT }
-    - { name: "Deprecated code scan of SUT plus contrib", env: ORCA_JOB=DEPRECATED_CODE_SCAN_CONTRIB }
+    - { name: "Deprecated code scan", env: ORCA_JOB=DEPRECATED_CODE_SCAN }
     - { name: "Isolated test w/ recommended package versions", env: ORCA_JOB=ISOLATED_RECOMMENDED }
     - { name: "Integrated test w/ recommended package versions", env: ORCA_JOB=INTEGRATED_RECOMMENDED }
     - { name: "Integrated test w/ recommended package versions & previous minor release of Drupal core", env: ORCA_JOB=CORE_PREVIOUS }
@@ -47,17 +41,14 @@ matrix:
     - { name: "Integrated test w/ dev package versions", env: ORCA_JOB=INTEGRATED_DEV }
     - { name: "Integrated test w/ dev package versions & next minor dev version of Drupal core", env: ORCA_JOB=CORE_NEXT }
     # Custom jobs.
-    - { env: DRUPAL_CORE_VERSION=default PHPUNIT_EXCLUDE_GROUP='drupal,long,requires-vm' }
-    - { env: DRUPAL_CORE_VERSION=default PHPUNIT_GROUP='long' PHPUNIT_EXCLUDE_GROUP='drupal,requires-vm' }
-    - { env: DRUPAL_CORE_VERSION=default PHPUNIT_GROUP='drupal' PHPUNIT_EXCLUDE_GROUP='long,requires-vm' }
-    - { env: DRUPAL_CORE_VERSION=$DRUPAL_CORE_HEAD }
+    - env: DRUPAL_CORE_VERSION=default PHPUNIT_EXCLUDE_GROUP='drupal,requires-vm'
+    - env: DRUPAL_CORE_VERSION=default PHPUNIT_GROUP='drupal'
+    - env: DRUPAL_CORE_VERSION=$DRUPAL_CORE_HEAD
   allow_failures:
-    - env: ORCA_JOB=DEPRECATED_CODE_SCAN_CONTRIB
+    - env: DRUPAL_CORE_VERSION=$DRUPAL_CORE_HEAD
     - env: ORCA_JOB=ISOLATED_DEV
     - env: ORCA_JOB=INTEGRATED_DEV
     - env: ORCA_JOB=CORE_NEXT
-    # Temporary allowances.
-    - env: ORCA_JOB=DEPRECATED_CODE_SCAN_SUT
 
 before_install:
   # Exit build early if only documentation was changed in a Pull Request.
@@ -76,7 +67,14 @@ install:
 before_script: ../orca/bin/travis/before_script.sh
 
 script:
+  - ./bin/travis/orca-fix.sh
   - ../orca/bin/travis/script.sh
   - ./bin/travis/script.sh
 
+before_cache: ../orca/bin/travis/before_cache.sh
+
+after_success: ../orca/bin/travis/after_success.sh
+
 after_failure: ../orca/bin/travis/after_failure.sh
+
+after_script: ../orca/bin/travis/after_script.sh

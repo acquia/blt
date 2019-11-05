@@ -93,7 +93,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
       // command. We must check the exit code and throw our own exception. This
       // obviates the need to check the exit code of every invoked command.
       if ($exit_code) {
-        throw new BltException("Command `$command_name {$input->__toString()}` exited with code $exit_code.");
+        throw new BltException("Command `$command_name {$input->__toString()}` exited with code $exit_code. This most likely indicates a problem with your configuration, and is not a BLT bug.");
       }
     }
   }
@@ -139,6 +139,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    *   The hook name.
    *
    * @return int
+   *   Int.
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
@@ -183,7 +184,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    * Executes a given command against multiple filesets.
    *
    * @param \Symfony\Component\Finder\Finder[] $filesets
-   *
+   *   Filesets.
    * @param string $command
    *   The command to execute. The command should contain '%s', which will be
    *   replaced with the file path of each file in the filesets.
@@ -224,7 +225,6 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    *
    * @param array $files
    *   A flat array of absolute file paths.
-   *
    * @param string $command
    *   The command to execute. The command should contain '%s', which will be
    *   replaced with the file path of each file in the fileset.
@@ -235,7 +235,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    * @return \Robo\Result
    *   The result of the command execution.
    */
-  protected function executeCommandAgainstFiles($files, $command, $parallel = FALSE) {
+  protected function executeCommandAgainstFiles(array $files, $command, $parallel = FALSE) {
     if ($parallel) {
       return $this->executeCommandAgainstFilesInParallel($files, $command);
     }
@@ -245,12 +245,17 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
   }
 
   /**
-   * @param $files
-   * @param $command
+   * Execute command in parallel.
+   *
+   * @param array $files
+   *   Files.
+   * @param string $command
+   *   Command.
    *
    * @return \Robo\Result
+   *   Result.
    */
-  protected function executeCommandAgainstFilesInParallel($files, $command) {
+  protected function executeCommandAgainstFilesInParallel(array $files, $command) {
     $task = $this->taskParallelExec()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERY_VERBOSE);
 
@@ -268,12 +273,17 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
   }
 
   /**
-   * @param $files
-   * @param $command
+   * Execute commands.
+   *
+   * @param array $files
+   *   Files.
+   * @param string $command
+   *   Command.
    *
    * @return null|\Robo\Result
+   *   Result.
    */
-  protected function executeCommandAgainstFilesProcedurally($files, $command) {
+  protected function executeCommandAgainstFilesProcedurally(array $files, $command) {
     $task = $this->taskExecStack()
       ->printMetadata(FALSE)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERY_VERBOSE);
@@ -306,7 +316,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
     $new_config = $config_initializer->initialize();
 
     // Replaces config.
-    $this->getConfig()->import($new_config->export());
+    $this->getConfig()->replace($new_config->export());
   }
 
 }

@@ -4,12 +4,11 @@ namespace Acquia\Blt\Robo\Commands\Generate;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\YamlMunge;
+use Acquia\Blt\Robo\Common\YamlWriter;
 use Acquia\Blt\Robo\Exceptions\BltException;
-use Consolidation\Comments\Comments;
 use Grasmash\YamlExpander\Expander;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * Defines commands in the "recipes:multisite:init" namespace.
@@ -19,13 +18,16 @@ class MultisiteCommand extends BltTasks {
   /**
    * Generates a new multisite.
    *
+   * @param array $options
+   *   Options.
+   *
    * @command recipes:multisite:init
    *
    * @aliases rmi multisite
-   * @param array $options
-   * @throws BltException
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
-  public function generate($options = [
+  public function generate(array $options = [
     'site-dir' => InputOption::VALUE_REQUIRED,
     'site-uri' => InputOption::VALUE_REQUIRED,
     'remote-alias' => InputOption::VALUE_REQUIRED,
@@ -42,7 +44,6 @@ class MultisiteCommand extends BltTasks {
     $domain = $this->getNewSiteDomain($options, $site_name);
     $url = parse_url($domain);
     // @todo Validate uri, ensure includes scheme.
-
     $newDBSettings = $this->setLocalDbConfig($site_name);
     if ($this->getInspector()->isDrupalVmConfigPresent()) {
       $this->configureDrupalVm($url, $newDBSettings);
@@ -78,12 +79,11 @@ class MultisiteCommand extends BltTasks {
    * @param array $newDBSettings
    *   An array of database configuration options or empty array.
    */
-  protected function configureDrupalVm($url, $newDBSettings) {
+  protected function configureDrupalVm(array $url, array $newDBSettings) {
     $configure_vm = $this->confirm("Would you like to generate new virtual host entry and database for this site inside Drupal VM?", TRUE);
     if ($configure_vm) {
-      $projectDrupalVmConfigFile = $this->getConfigValue('vm.config');
-      $original_contents = file_get_contents($projectDrupalVmConfigFile);
-      $vm_config = Yaml::parse($original_contents);
+      $yamlWriter = new YamlWriter($this->getConfigValue('vm.config'));
+      $vm_config = $yamlWriter->getContents();
       $vm_config['apache_vhosts'][] = [
         'servername' => $url['host'],
         'documentroot' => $vm_config['apache_vhosts'][0]['documentroot'],
@@ -107,20 +107,16 @@ class MultisiteCommand extends BltTasks {
         ];
       }
 
-      // Dump YAML file while preserving as many comments as possible.
-      $altered_contents = Yaml::dump($vm_config, PHP_INT_MAX, 2);
-      $commentManager = new Comments();
-      $commentManager->collect(explode("\n", $original_contents));
-      $altered_with_comments = $commentManager->inject(explode("\n", $altered_contents));
-      $result = implode("\n", $altered_with_comments);
-      file_put_contents($projectDrupalVmConfigFile, $result);
+      $yamlWriter->write($vm_config);
     }
   }
 
   /**
    * Prompts for and sets config for new database.
    *
-   * @param $site_name
+   * @param string $site_name
+   *   Site name.
+   *
    * @return array
    *   Empty array if user did not want to configure local db. Populated array
    *   otherwise.
@@ -148,8 +144,13 @@ class MultisiteCommand extends BltTasks {
   }
 
   /**
-   * @param $default_site_dir
+   * Create yaml file.
+   *
+   * @param string $default_site_dir
+   *   Default site dir.
+   *
    * @return string
+   *   Site dir.
    */
   protected function createDefaultBltSiteYml($default_site_dir) {
     if (!file_exists($default_site_dir . "/blt.yml")) {
@@ -179,12 +180,20 @@ class MultisiteCommand extends BltTasks {
   }
 
   /**
-   * @param $new_site_dir
-   * @param $site_name
-   * @param $url
-   * @param $local_alias
-   * @param $remote_alias
-   * @param $newDbSettings
+   * Create new site.yml.
+   *
+   * @param string $new_site_dir
+   *   New site dir.
+   * @param string $site_name
+   *   Site name.
+   * @param string $url
+   *   Site url.
+   * @param string $local_alias
+   *   Local alias.
+   * @param string $remote_alias
+   *   Remote alias.
+   * @param array $newDbSettings
+   *   New db settings.
    */
   protected function createNewBltSiteYml(
     $new_site_dir,
@@ -192,7 +201,7 @@ class MultisiteCommand extends BltTasks {
     $url,
     $local_alias,
     $remote_alias,
-    $newDbSettings
+    array $newDbSettings
   ) {
     $site_yml_filename = $new_site_dir . '/blt.yml';
     $site_yml['project']['machine_name'] = $site_name;
@@ -206,8 +215,12 @@ class MultisiteCommand extends BltTasks {
   }
 
   /**
-   * @param $default_site_dir
-   * @param $new_site_dir
+   * Create new site dir.
+   *
+   * @param string $default_site_dir
+   *   Default site dir.
+   * @param string $new_site_dir
+   *   New site dir.
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
@@ -224,7 +237,10 @@ class MultisiteCommand extends BltTasks {
   }
 
   /**
-   * @param $site_name
+   * Create new config dir.
+   *
+   * @param string $site_name
+   *   Site name.
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
@@ -239,6 +255,9 @@ class MultisiteCommand extends BltTasks {
     }
   }
 
+  /**
+   * Reset config.
+   */
   protected function resetMultisiteConfig() {
     /** @var \Acquia\Blt\Robo\Config\DefaultConfig $config */
     $config = $this->getConfig();
@@ -247,12 +266,17 @@ class MultisiteCommand extends BltTasks {
   }
 
   /**
-   * @param $options
-   * @param $site_name
+   * Get new domain.
+   *
+   * @param array $options
+   *   Options.
+   * @param string $site_name
+   *   Site name.
    *
    * @return string
+   *   Domain.
    */
-  protected function getNewSiteDomain($options, $site_name) {
+  protected function getNewSiteDomain(array $options, $site_name) {
     if (empty($options['site-uri'])) {
       $domain = $this->askDefault("Local domain name",
         "http://local.$site_name.com");
@@ -264,11 +288,15 @@ class MultisiteCommand extends BltTasks {
   }
 
   /**
-   * @param $options
+   * Get new site name.
+   *
+   * @param array $options
+   *   Options.
    *
    * @return string
+   *   Site name.
    */
-  protected function getNewSiteName($options) {
+  protected function getNewSiteName(array $options) {
     if (empty($options['site-dir'])) {
       $site_name = $this->askRequired("Site machine name (e.g. 'example')");
     }
@@ -279,13 +307,19 @@ class MultisiteCommand extends BltTasks {
   }
 
   /**
-   * @param $site_name
-   * @param $options
-   * @param $dest
+   * Get alias.
+   *
+   * @param string $site_name
+   *   Site name.
+   * @param array $options
+   *   Options.
+   * @param string $dest
+   *   Destination.
    *
    * @return string
+   *   Alias.
    */
-  protected function getNewSiteAlias($site_name, $options, $dest) {
+  protected function getNewSiteAlias($site_name, array $options, $dest) {
     $option = $dest . '-alias';
     if (!empty($options[$option])) {
       return $options[$option];
@@ -297,7 +331,10 @@ class MultisiteCommand extends BltTasks {
   }
 
   /**
-   * @param $site_name
+   * Create alias.
+   *
+   * @param string $site_name
+   *   Site name.
    */
   protected function createSiteDrushAlias($site_name) {
     $aliases = [

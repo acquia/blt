@@ -8,10 +8,10 @@ use GuzzleHttp\Client;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Robo\Collection\CollectionBuilder;
-use Robo\Contract\VerbosityThresholdInterface;
-use Robo\Robo;
 use Robo\Contract\ConfigAwareInterface;
 use Robo\Contract\IOAwareInterface;
+use Robo\Contract\VerbosityThresholdInterface;
+use Robo\Robo;
 use Symfony\Component\Process\Process;
 
 /**
@@ -79,7 +79,7 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
     $bin = $this->getConfigValue('composer.bin');
     /** @var \Robo\Common\ProcessExecutor $process_executor */
     $drush_alias = $this->getConfigValue('drush.alias');
-    $command_string = "'$bin/drush' @$drush_alias $command";
+    $command_string = $bin . DIRECTORY_SEPARATOR . "drush @$drush_alias $command";
 
     // URIs do not work on remote drush aliases in Drush 9. Instead, it is
     // expected that the alias define the uri in its configuration.
@@ -124,7 +124,9 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
     $this->logger->info("Killing all processes on port '$port'...");
     // This is allowed to fail.
     // @todo Replace with standardized call to Symfony Process.
+    // phpcs:ignore
     exec("command -v lsof && lsof -ti tcp:$port | xargs kill l 2>&1");
+    // phpcs:ignore
     exec("pkill -f $port 2>&1");
   }
 
@@ -138,6 +140,7 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
     $this->logger->info("Killing all processing containing string '$name'...");
     // This is allowed to fail.
     // @todo Replace with standardized call to Symfony Process.
+    // phpcs:ignore
     exec("ps aux | grep -i $name | grep -v grep | awk '{print $2}' | xargs kill -9 2>&1");
     // exec("ps aux | awk '/$name/ {print $2}' 2>&1 | xargs kill -9");.
   }

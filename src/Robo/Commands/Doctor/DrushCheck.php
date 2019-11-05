@@ -5,10 +5,13 @@ namespace Acquia\Blt\Robo\Commands\Doctor;
 use function file_exists;
 
 /**
- *
+ * BLT Doctor checks.
  */
 class DrushCheck extends DoctorCheck {
 
+  /**
+   * Perform all checks.
+   */
   public function performAllChecks() {
     // TODO: Implement performAllChecks() method.
   }
@@ -28,7 +31,7 @@ class DrushCheck extends DoctorCheck {
   }
 
   /**
-   *
+   * Check drush aliases.
    */
   protected function checkDrushAliases() {
     $result = $this->getExecutor()->drush('site:alias --format=json')->silent(TRUE)->run();

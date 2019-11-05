@@ -3,12 +3,11 @@
 namespace Acquia\Blt\Robo\Hooks;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Exceptions\BltException;
 use Acquia\Blt\Robo\Wizards\SetupWizard;
-use Acquia\Blt\Robo\Wizards\TestsWizard;
 use Consolidation\AnnotatedCommand\AnnotationData;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Acquia\Blt\Robo\Exceptions\BltException;
 
 /**
  * This class defines hooks that provide user interaction.
@@ -60,21 +59,6 @@ class InteractHook extends BltTasks {
     /** @var \Acquia\Blt\Robo\Wizards\SetupWizard $setup_wizard */
     $setup_wizard = $this->getContainer()->get(SetupWizard::class);
     $setup_wizard->wizardInstallDrupal();
-  }
-
-  /**
-   * Runs wizard for configuring Behat.
-   *
-   * @hook interact @interactConfigureBehat
-   */
-  public function interactConfigureBehat(
-    InputInterface $input,
-    OutputInterface $output,
-    AnnotationData $annotationData
-  ) {
-    /** @var \Acquia\Blt\Robo\Wizards\TestsWizard $tests_wizard */
-    $tests_wizard = $this->getContainer()->get(TestsWizard::class);
-    $tests_wizard->wizardConfigureBehat();
   }
 
   /**

@@ -3,10 +3,13 @@
 namespace Acquia\Blt\Robo\Commands\Doctor;
 
 /**
- *
+ * BLT Doctor checks for dev desktop.
  */
 class DevDesktopCheck extends DoctorCheck {
 
+  /**
+   * Perform all checks.
+   */
   public function performAllChecks() {
     $this->checkDevDesktop();
   }
