@@ -5,7 +5,7 @@
     "license": "GPL-2.0-only",
     "require": {
         "php": ">=7.1",
-        "acquia/blt": "10.x-dev",
+        "acquia/blt": "^10.6.0",
         "acquia/drupal-spec-tool": "*",
         "acquia/lightning": "^4.0.0",
         "acquia/memcache-settings": "*",
