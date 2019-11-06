@@ -1,5 +1,33 @@
 # Change Log
 
+#### 10.6.0 (2019-11-06)
+
+[Full Changelog](https://github.com/acquia/blt/compare/10.5.0...10.6.0)
+
+
+**Implemented enhancements**
+
+- Show diff for the dirty build. (#3885)
+- Issue #3865: Move location of logging UI override to appropriate file. (#3866)
+
+**Fixed bugs**
+
+- DT-593: Codesniffing via pre-commit hook doesn't respect filesets. (#3902)
+- DT-948: Improve ACSF detection logic. (#3896)
+- TwigCommand should use configured project docroot. (#3892)
+- DT-880: Fixes #3869: duplicate .htaccess in composer.json with acsf:init (#3881)
+
+**Miscellaneous**
+
+- Update ORCA version (#3884) (#3887)
+- DT-458: Deprecate Drush alias generation. (#3876)
+- DT-879: Composer updates. (#3879)
+- Corrected extra.patches data type in blt-project/composer.json. (#3875)
+- DT-773: Fixes #3845: Clean up SAML docs and support policy. (#3872)
+- Revert "Bump blt-project to stable."
+- Bump blt-project to stable.
+
+
 #### 10.5.0 (2019-10-02)
 
 [Full Changelog](https://github.com/acquia/blt/compare/10.4.1...10.5.0)
