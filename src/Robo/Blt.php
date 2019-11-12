@@ -4,6 +4,8 @@ namespace Acquia\Blt\Robo;
 
 use Acquia\Blt\Robo\Common\EnvironmentDetector;
 use Acquia\Blt\Robo\Common\Executor;
+use Acquia\Blt\Robo\Common\IO;
+use Acquia\Blt\Robo\Common\UserConfig;
 use Acquia\Blt\Robo\Filesets\FilesetManager;
 use Acquia\Blt\Robo\Inspector\Inspector;
 use Acquia\Blt\Robo\Inspector\InspectorAwareInterface;
@@ -35,6 +37,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
   use ConfigAwareTrait;
   use ContainerAwareTrait;
   use LoggerAwareTrait;
+  use IO;
 
   /**
    * The BLT version.
@@ -234,12 +237,6 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
    *   The exiting status code of the application
    */
   public function run(InputInterface $input, OutputInterface $output) {
-    // @todo make telemetry opt-in/opt-out
-    $event_properties = [
-      'app_version' => $this::VERSION,
-      'platform' => EnvironmentDetector::getPlatform(),
-    ];
-    Amplitude::getInstance()->queueEvent('blt ' . $input->getFirstArgument(), $event_properties);
     $application = $this->getContainer()->get('application');
     $status_code = $this->runner->run($input, $output, $application, $this->commands);
 

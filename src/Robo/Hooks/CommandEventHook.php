@@ -2,8 +2,11 @@
 
 namespace Acquia\Blt\Robo\Hooks;
 
+use Acquia\Blt\Robo\Blt;
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Common\UserConfig;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
+use Zumba\Amplitude\Amplitude as Amplitude;
 
 /**
  * This class defines hooks that provide user interaction.
@@ -39,6 +42,39 @@ class CommandEventHook extends BltTasks {
     // The inspector tracks whether warnings have been issued because it is
     // shared in the container.
     $this->getInspector()->issueEnvironmentWarnings($command_name);
+  }
+
+  /**
+   * Ask users to set a telemetry preference.
+   *
+   * @hook command-event *
+   */
+  public function telemetry(ConsoleCommandEvent $event) {
+    $command = $event->getCommand();
+    $command_name = $command->getName();
+    $userConfig = new UserConfig(getenv('HOME') . DIRECTORY_SEPARATOR . '.config' . DIRECTORY_SEPARATOR . 'blt');
+
+    // Ask to enable telemetry if necessary.
+    if (!$userConfig->isTelemetrySet() && $this->input()->isInteractive()) {
+      $this->say("We strive to give you the best tools for development.\nYou can really help us improve by sharing anonymous performance and usage data.\n");
+      $preference = $this->confirm("Do you want to help us make this tool even better?", TRUE);
+      $userConfig->setTelemetryEnabled($preference);
+      if ($preference) {
+        $this->say("🎉 Awesome! Thank you for helping out!");
+      }
+      else {
+        $this->say("Ok, no data will be tracked and reported.\nWe take privacy seriously.");
+      }
+      sleep(2);
+    }
+
+    // Report telemetry if enabled.
+    if (!$userConfig->isTelemetryEnabled()) {
+      Amplitude::getInstance()->setOptOut(TRUE);
+    }
+    $event_properties = $userConfig->getTelemetryUserData();
+    $event_properties['app_version'] = Blt::VERSION;
+    Amplitude::getInstance()->queueEvent($command_name, $event_properties);
   }
 
 }

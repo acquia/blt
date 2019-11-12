@@ -326,7 +326,7 @@ class EnvironmentDetector {
    * @throws \ReflectionException
    */
   private static function getSubclassResults($functionName) {
-    if (!defined(DRUPAL_ROOT)) {
+    if (!defined('DRUPAL_ROOT')) {
       // Do nothing if called outside of a Drupal bootstrap.
       return [];
     }
