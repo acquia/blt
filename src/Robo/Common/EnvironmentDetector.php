@@ -2,6 +2,7 @@
 
 namespace Acquia\Blt\Robo\Common;
 
+use drupol\phposinfo\Enum\FamilyName;
 use drupol\phposinfo\OsInfo;
 
 /**
@@ -275,15 +276,15 @@ class EnvironmentDetector {
    */
   public static function getMachineUuid() {
     switch (self::getPlatform()) {
-      case 'linux':
+      case FamilyName::LINUX:
         return shell_exec('( cat /var/lib/dbus/machine-id /etc/machine-id 2> /dev/null || hostname ) | head -n 1 || :');
 
-      case 'darwin':
+      case FamilyName::DARWIN:
         $output = shell_exec('ioreg -rd1 -c IOPlatformExpertDevice | grep IOPlatformUUID');
         $parts = explode('=', str_replace('"', '', $output));
         return strtolower(trim($parts[1]));
 
-      case 'win32':
+      case FamilyName::WINDOWS:
         return shell_exec('%windir%\\System32\\reg query "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Cryptography" /v MachineGuid');
 
       default:
