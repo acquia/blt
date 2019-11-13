@@ -6,7 +6,6 @@ use Acquia\Blt\Robo\Blt;
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\UserConfig;
 use Symfony\Component\Console\Event\ConsoleCommandEvent;
-use Zumba\Amplitude\Amplitude as Amplitude;
 
 /**
  * This class defines hooks that provide user interaction.

@@ -261,6 +261,7 @@ class EnvironmentDetector {
    *   Name of the OS family.
    */
   public static function getPlatform() {
+    // phpcs:ignore
     return OsInfo::family();
   }
 
