@@ -2,6 +2,8 @@
 
 namespace Acquia\Blt\Robo\Common;
 
+use Acquia\Blt\Robo\Blt;
+
 /**
  * Store user preferences.
  */
@@ -33,7 +35,7 @@ class UserConfig {
       $this->config = json_decode(file_get_contents($this->configPath), TRUE);
     }
     else {
-      mkdir($configDir);
+      mkdir($configDir, 0777, TRUE);
       $this->setTelemetryUserData();
     }
   }
@@ -76,7 +78,10 @@ class UserConfig {
    *   Telemetry user data.
    */
   public function getTelemetryUserData() {
-    return $this->config['telemetryUserData'];
+    $data = $this->config['telemetryUserData'];
+    $data['app_version'] = Blt::VERSION;
+
+    return $data;
   }
 
   /**

@@ -50,9 +50,7 @@ class CommandEventHook extends BltTasks {
    * @hook command-event *
    */
   public function telemetry(ConsoleCommandEvent $event) {
-    $command = $event->getCommand();
-    $command_name = $command->getName();
-    $userConfig = new UserConfig(getenv('HOME') . DIRECTORY_SEPARATOR . '.config' . DIRECTORY_SEPARATOR . 'blt');
+    $userConfig = new UserConfig(Blt::configDir());
 
     // Ask to enable telemetry if necessary.
     if (!$userConfig->isTelemetrySet() && $this->input()->isInteractive()) {
@@ -68,13 +66,6 @@ class CommandEventHook extends BltTasks {
       sleep(2);
     }
 
-    // Report telemetry if enabled.
-    if (!$userConfig->isTelemetryEnabled()) {
-      Amplitude::getInstance()->setOptOut(TRUE);
-    }
-    $event_properties = $userConfig->getTelemetryUserData();
-    $event_properties['app_version'] = Blt::VERSION;
-    Amplitude::getInstance()->queueEvent($command_name, $event_properties);
   }
 
 }

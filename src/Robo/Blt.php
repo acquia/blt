@@ -101,10 +101,14 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
    * Initializes Amplitude.
    */
   private function initializeAmplitude() {
+    $userConfig = new UserConfig(self::configDir());
     $amplitude = Amplitude::getInstance();
     $amplitude->init('dfd3cba7fa72065cde9edc2ca22d0f37')
-      ->setDeviceId(EnvironmentDetector::getMachineUuid())
-      ->logQueuedEvents();
+      ->setDeviceId(EnvironmentDetector::getMachineUuid());
+    if (!$userConfig->isTelemetryEnabled()) {
+      $amplitude->setOptOut(TRUE);
+    }
+    $amplitude->logQueuedEvents();
   }
 
   /**
@@ -240,7 +244,21 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     $application = $this->getContainer()->get('application');
     $status_code = $this->runner->run($input, $output, $application, $this->commands);
 
+    $userConfig = new UserConfig(self::configDir());
+    $event_properties = $userConfig->getTelemetryUserData();
+    Amplitude::getInstance()->queueEvent('blt ' . $input->getFirstArgument(), $event_properties);
+
     return $status_code;
+  }
+
+  /**
+   * Common config directory.
+   *
+   * @return string
+   *   Config directory path.
+   */
+  public static function configDir() {
+    return getenv('HOME') . DIRECTORY_SEPARATOR . '.config' . DIRECTORY_SEPARATOR . 'blt';
   }
 
 }
