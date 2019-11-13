@@ -293,6 +293,26 @@ class EnvironmentDetector {
   }
 
   /**
+   * OS name.
+   *
+   * @return string
+   *   The OS name.
+   */
+  public static function getOsName() {
+    return OsInfo::os();
+  }
+
+  /**
+   * OS version.
+   *
+   * @return string
+   *   The OS version.
+   */
+  public static function getOsVersion() {
+    return OsInfo::version();
+  }
+
+  /**
    * OS is Darwin.
    */
   public static function isDarwin() {

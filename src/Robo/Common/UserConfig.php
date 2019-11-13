@@ -85,6 +85,8 @@ class UserConfig {
   public function setTelemetryUserData() {
     $this->config['telemetryUserData'] = [
       'platform' => EnvironmentDetector::getPlatform(),
+      'os_name' => EnvironmentDetector::getOsName(),
+      'os_version' => EnvironmentDetector::getOsVersion(),
     ];
     $this->save();
   }
