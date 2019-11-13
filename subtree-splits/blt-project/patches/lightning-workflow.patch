@@ -1,0 +1,13 @@
+diff --git a/tests/src/FunctionalJavascript/ModerationSidebarTest.php b/tests/src/FunctionalJavascript/ModerationSidebarTest.php
+index 824e59b..ccbd086 100644
+--- a/tests/src/FunctionalJavascript/ModerationSidebarTest.php
++++ b/tests/src/FunctionalJavascript/ModerationSidebarTest.php
+@@ -6,6 +6,8 @@ use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
+ 
+ /**
+  * Tests Lightning Workflow's integration with Moderation Sidebar.
++ *
++ * @group lightning_workflow
+  */
+ class ModerationSidebarTest extends WebDriverTestBase {
+ 
