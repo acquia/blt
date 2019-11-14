@@ -153,8 +153,8 @@ class UpdateCommand extends BltTasks {
   /**
    * Removes deprecated BLT files and directories.
    *
-   * @command blt:source:cleanup
-   * @aliases bsc cleanup
+   * @command blt:update:cleanup
+   * @aliases blt:source:cleanup bsc cleanup
    */
   public function cleanup() {
     $this->say("Removing deprecated files and directories...");
