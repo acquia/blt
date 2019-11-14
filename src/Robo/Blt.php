@@ -122,8 +122,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     $discovery = new CommandFileDiscovery();
     $discovery
       ->setSearchPattern('*Command.php')
-      ->setSearchLocations([])
-      ->addExclude('Internal');
+      ->setSearchLocations([]);
     return $discovery->discover($options['path'], $options['namespace']);
   }
 

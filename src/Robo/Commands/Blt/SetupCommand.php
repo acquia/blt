@@ -7,7 +7,7 @@ use Acquia\Blt\Robo\BltTasks;
 /**
  * Defines commands in the "setup:all" namespace.
  */
-class AllCommand extends BltTasks {
+class SetupCommand extends BltTasks {
 
   /**
    * Executes source:build:* and installs Drupal via setup.strategy.
