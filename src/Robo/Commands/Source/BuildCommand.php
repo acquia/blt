@@ -3,9 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Source;
 
 use Acquia\Blt\Robo\BltTasks;
-use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
-use Symfony\Component\Finder\Finder;
 
 /**
  * Defines commands in the "source:build" namespace.
