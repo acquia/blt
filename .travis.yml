@@ -21,7 +21,8 @@ env:
     # ORCA configuration.
     - ORCA_SUT_NAME=acquia/blt
     - ORCA_SUT_BRANCH=10.x
-    - ORCA_VERSION=master
+    - ORCA_VERSION=feature/coveralls
+    - ORCA_COVERALLS_ENABLE=TRUE
     # Custom configuration.
     - COMPOSER_BIN=$TRAVIS_BUILD_DIR/vendor/bin
     - BLT_DIR=$TRAVIS_BUILD_DIR
@@ -36,6 +37,7 @@ matrix:
     - { name: "Deprecated code scan", env: ORCA_JOB=DEPRECATED_CODE_SCAN }
     - { name: "Isolated test w/ recommended package versions", env: ORCA_JOB=ISOLATED_RECOMMENDED }
     - { name: "Integrated test w/ recommended package versions", env: ORCA_JOB=INTEGRATED_RECOMMENDED }
+    - { name: "Isolated test w/ recommended package versions and code coverage", env: ORCA_JOB=ISOLATED_RECOMMENDED_COVERAGE }
     - { name: "Integrated test w/ recommended package versions & previous minor release of Drupal core", env: ORCA_JOB=CORE_PREVIOUS }
     - { name: "Isolated test w/ dev package versions", env: ORCA_JOB=ISOLATED_DEV }
     - { name: "Integrated test w/ dev package versions", env: ORCA_JOB=INTEGRATED_DEV }
@@ -45,6 +47,7 @@ matrix:
     - env: DRUPAL_CORE_VERSION=default PHPUNIT_GROUP='drupal'
     - env: DRUPAL_CORE_VERSION=$DRUPAL_CORE_HEAD
   allow_failures:
+    - env: ORCA_JOB=ISOLATED_RECOMMENDED_COVERAGE
     - env: DRUPAL_CORE_VERSION=$DRUPAL_CORE_HEAD
     - env: ORCA_JOB=ISOLATED_DEV
     - env: ORCA_JOB=INTEGRATED_DEV
@@ -57,7 +60,7 @@ before_install:
   - cp -r subtree-splits/blt-project /tmp/
   - composer config --global repositories.blt path /tmp/blt-project
   # Install ORCA.
-  - git clone --branch ${ORCA_VERSION} --depth 1 https://github.com/acquia/orca.git ../orca
+  - git clone --branch ${ORCA_VERSION} --depth 1 https://github.com/TravisCarden/orca.git ../orca
   - ../orca/bin/travis/before_install.sh
 
 install:
