@@ -5,14 +5,16 @@ namespace Acquia\Blt\Robo\Commands\Blt;
 use Acquia\Blt\Robo\BltTasks;
 
 /**
- * Defines doctor command.
+ * Defines status command.
  */
 class StatusCommand extends BltTasks {
 
   /**
    * Gets BLT status.
    *
-   * @command status
+   * @command blt:status
+   *
+   * @aliases status
    */
   public function status() {
     $status = $this->getInspector()->getStatus();
