@@ -26,7 +26,7 @@ class TestPhpUnitCommandTest extends BltProjectTestBase {
    */
   public function setUp() {
     parent::setUp();
-    $this->blt('recipes:blt:init:command');
+    $this->blt('recipes:phpunit:init');
     $this->docroot = $this->config->get("docroot");
     $this->reporoot = $this->config->get("repo.root");
   }
