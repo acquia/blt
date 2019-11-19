@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 
 ROOT_DIR="$(pwd)/"
-LIST=$( git diff --name-only --cached --diff-filter=ACM )
-PHPCS_BIN=vendor/bin/phpcs
 
 echo "Executing .git/hooks/pre-push..."
-"${ROOT_DIR}"/vendor/bin/blt internal:git-hook:execute:pre-push "${LIST}"
+"${ROOT_DIR}"/vendor/bin/blt internal:git-hook:execute:pre-push
 
 # Return the status of the last run command.
 exit $?

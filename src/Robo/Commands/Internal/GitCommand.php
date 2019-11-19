@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Internal;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
 
 /**
@@ -57,47 +58,6 @@ class GitCommand extends BltTasks {
    *   Result.
    */
   public function preCommitHook($changed_files) {
-    $result = $this->validateFiles($changed_files);
-
-    if ($result->wasSuccessful()) {
-      $this->say("<info>Your local code has passed git pre-commit validation.</info>");
-    }
-
-    return $result;
-  }
-
-  /**
-   * Validates staged files.
-   *
-   * @param string $changed_files
-   *   A list of staged files, separated by \n.
-   *
-   * @command internal:git-hook:execute:pre-push
-   * @hidden
-   *
-   * @return \Robo\Result
-   *   Result.
-   */
-  public function prePushHook($changed_files) {
-    $result = $this->validateFiles($changed_files);
-
-    if ($result->wasSuccessful()) {
-      $this->say("<info>Your local code has passed git pre-push validation.</info>");
-    }
-
-    return $result;
-  }
-
-  /**
-   * Validates staged files.
-   *
-   * @param string $changed_files
-   *   A list of staged files, separated by \n.
-   *
-   * @return \Robo\Result
-   *   Result.
-   */
-  public function validateFiles($changed_files) {
     $collection = $this->collectionBuilder();
     $collection->setProgressIndicator(NULL);
     $collection->addCode(
@@ -124,7 +84,29 @@ class GitCommand extends BltTasks {
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
+    if ($result->wasSuccessful()) {
+      $this->say("<info>Your local code has passed git pre-commit validation.</info>");
+    }
+
     return $result;
+  }
+
+  /**
+   * Validates staged files.
+   *
+   * @command internal:git-hook:execute:pre-push
+   * @hidden
+   */
+  public function prePushHook() {
+    try {
+      $this->invokeCommand('validate');
+    }
+    catch (BltException $e) {
+      $this->yell('Your code has failed pre-push validation.');
+      return;
+    }
+
+    $this->say("<info>Your local code has passed git pre-push validation.</info>");
   }
 
 }
