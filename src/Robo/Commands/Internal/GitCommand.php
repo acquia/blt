@@ -25,7 +25,7 @@ class GitCommand extends BltTasks {
     $pattern = $this->getConfigValue('git.commit-msg.pattern');
     $help_description = $this->getConfigValue('git.commit-msg.help_description');
     $example = $this->getConfigValue('git.commit-msg.example');
-    $this->logger->debug("Validing commit message with regex <comment>$pattern</comment>.");
+    $this->logger->debug("Validating commit message with regex <comment>$pattern</comment>.");
     if (!preg_match($pattern, $message)) {
       $this->logger->error("Invalid commit message!");
       $this->say("Commit messages must conform to the regex $pattern");
@@ -57,6 +57,47 @@ class GitCommand extends BltTasks {
    *   Result.
    */
   public function preCommitHook($changed_files) {
+    $result = $this->validateFiles($changed_files);
+
+    if ($result->wasSuccessful()) {
+      $this->say("<info>Your local code has passed git pre-commit validation.</info>");
+    }
+
+    return $result;
+  }
+
+  /**
+   * Validates staged files.
+   *
+   * @param string $changed_files
+   *   A list of staged files, separated by \n.
+   *
+   * @command internal:git-hook:execute:pre-push
+   * @hidden
+   *
+   * @return \Robo\Result
+   *   Result.
+   */
+  public function prePushHook($changed_files) {
+    $result = $this->validateFiles($changed_files);
+
+    if ($result->wasSuccessful()) {
+      $this->say("<info>Your local code has passed git pre-push validation.</info>");
+    }
+
+    return $result;
+  }
+
+  /**
+   * Validates staged files.
+   *
+   * @param string $changed_files
+   *   A list of staged files, separated by \n.
+   *
+   * @return \Robo\Result
+   *   Result.
+   */
+  public function validateFiles($changed_files) {
     $collection = $this->collectionBuilder();
     $collection->setProgressIndicator(NULL);
     $collection->addCode(
@@ -82,10 +123,6 @@ class GitCommand extends BltTasks {
     $result = $collection
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
-
-    if ($result->wasSuccessful()) {
-      $this->say("<info>Your local code has passed git pre-commit validation.</info>");
-    }
 
     return $result;
   }
