@@ -7,28 +7,46 @@ use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
 
 /**
- * Defines commands in the "examples:*" namespace.
+ * Defines commands in the "recipes:blt:*" namespace.
  */
-class ExamplesCommand extends BltTasks {
+class BltCommand extends BltTasks {
 
   /**
    * Generates example files for writing custom commands and hooks.
    *
-   * @command recipes:blt:init:command
+   * @command recipes:blt:command:init
    *
-   * @aliases rbic examples:init
+   * @aliases rbci rbic examples:init
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
-  public function init() {
+  public function commandInit() {
     $result = $this->taskFilesystemStack()
       ->copy(
         $this->getConfigValue('blt.root') . '/scripts/blt/examples/Commands/ExampleCommands.php',
         $this->getConfigValue('repo.root') . '/blt/src/Blt/Plugin/Commands/ExampleCommands.php', FALSE)
-      ->copy(
-        $this->getConfigValue('blt.root') . '/scripts/blt/examples/Test/ExampleTest.php',
-        $this->getConfigValue('repo.root') . '/tests/phpunit/ExampleTest.php', FALSE)
-      ->copy(
-        $this->getConfigValue('blt.root') . '/scripts/blt/examples/Test/Examples.feature',
-        $this->getConfigValue('repo.root') . '/tests/behat/features/Examples.feature', FALSE)
+      ->stopOnFail()
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->run();
+
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Could not copy example files into the repository root.");
+    }
+
+    $this->say("<info>Example commands and hooks were copied into your application.</info>");
+  }
+
+  /**
+   * Generates example files for writing custom filesets.
+   *
+   * @command recipes:blt:filesystem:init
+   *
+   * @aliases rbfi
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   */
+  public function filesetInit() {
+    $result = $this->taskFilesystemStack()
       ->copy(
         $this->getConfigValue('blt.root') . '/scripts/blt/examples/Filesets/ExampleFilesets.php',
         $this->getConfigValue('repo.root') . '/blt/src/Blt/Plugin/Filesets/ExampleFilesets.php', FALSE)
@@ -40,7 +58,7 @@ class ExamplesCommand extends BltTasks {
       throw new BltException("Could not copy example files into the repository root.");
     }
 
-    $this->say("<info>Example commands and hooks were copied to your repository root.</info>");
+    $this->say("<info>Example filesets were copied into your application.</info>");
   }
 
 }
