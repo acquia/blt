@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Internal;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
 
 /**
@@ -25,7 +26,7 @@ class GitCommand extends BltTasks {
     $pattern = $this->getConfigValue('git.commit-msg.pattern');
     $help_description = $this->getConfigValue('git.commit-msg.help_description');
     $example = $this->getConfigValue('git.commit-msg.example');
-    $this->logger->debug("Validing commit message with regex <comment>$pattern</comment>.");
+    $this->logger->debug("Validating commit message with regex <comment>$pattern</comment>.");
     if (!preg_match($pattern, $message)) {
       $this->logger->error("Invalid commit message!");
       $this->say("Commit messages must conform to the regex $pattern");
@@ -88,6 +89,24 @@ class GitCommand extends BltTasks {
     }
 
     return $result;
+  }
+
+  /**
+   * Validates staged files.
+   *
+   * @command internal:git-hook:execute:pre-push
+   * @hidden
+   */
+  public function prePushHook() {
+    try {
+      $this->invokeCommand('validate');
+    }
+    catch (BltException $e) {
+      $this->yell('Your code has failed pre-push validation.');
+      return;
+    }
+
+    $this->say("<info>Your local code has passed git pre-push validation.</info>");
   }
 
 }

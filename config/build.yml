@@ -86,6 +86,7 @@ git:
   # You should execute `blt blt:init:git-hooks` after modifying these values.
   hooks:
     pre-commit: ${blt.root}/scripts/git-hooks
+    pre-push: ${blt.root}/scripts/git-hooks
     commit-msg: ${blt.root}/scripts/git-hooks
   commit-msg:
     # Commit messages must conform to this pattern.

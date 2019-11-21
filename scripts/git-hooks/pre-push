@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+ROOT_DIR="$(pwd)/"
+
+echo "Executing .git/hooks/pre-push..."
+"${ROOT_DIR}"/vendor/bin/blt internal:git-hook:execute:pre-push
+
+# Return the status of the last run command.
+exit $?
