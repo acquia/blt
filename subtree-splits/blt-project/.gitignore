@@ -34,6 +34,7 @@ deployment_identifier
 bin/*
 tmp
 reports
+/travis_wait*
 
 # OS X
 .DS_Store
