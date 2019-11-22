@@ -171,7 +171,7 @@ class DeployCommand extends BltTasks {
             ->interactive(FALSE)
             ->run();
         }
-        throw new BltException("There are uncommitted changes, commit or stash these changes before deploying.");
+        throw new BltException("There are uncommitted changes on the source repository (listed above). Commit, stash, or remove these changes before deploying, or use the --ignore-dirty flag. Additional guidance is available at https://support.acquia.com/hc/en-us/articles/360035204013-Dirty-BLT-source-directory-prevents-deploys.");
       }
     }
   }
