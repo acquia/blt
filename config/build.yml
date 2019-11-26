@@ -215,7 +215,7 @@ tests:
     args: null
   drupal:
     # May be phpunit or run-tests-script.
-    test-runner: run-tests-script
+    test-runner: phpunit
     sudo-run-tests: true
     # Only chromedriver is supported at this time.
     web-driver: chromedriver
