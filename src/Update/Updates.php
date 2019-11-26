@@ -863,6 +863,7 @@ class Updates {
     if (array_key_exists('acquia/blt-require-dev', $composer_json['require-dev'])) {
       $composer_json['require-dev']['acquia/blt-require-dev'] = $template_composer_json['require-dev']['acquia/blt-require-dev'];
       $this->updater->writeComposerJson($composer_json);
+      $this->updater->getOutput()->writeln("acquia/blt-require-dev version has been updated in composer.json. You must run `composer update` and commit both composer.json and composer.lock to apply the changes.");
     }
   }
 
