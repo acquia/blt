@@ -217,8 +217,8 @@ tests:
     # May be phpunit or run-tests-script.
     test-runner: phpunit
     sudo-run-tests: true
-    # Only chromedriver is supported at this time.
-    web-driver: chromedriver
+    # Chrome or chromedriver.
+    web-driver: chrome
     sqlite: '${repo.root}/tmp/test.sqlite'
     browsertest-output-directory: 'browser_output'
     apache-run-group: 'www-data'

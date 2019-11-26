@@ -161,6 +161,9 @@ class DrupalTestCommand extends TestsCommandBase {
       $this->launchSelenium();
       $this->launchChromeDriver();
     }
+    elseif ($this->getConfigValue('tests.drupal.web-driver') == 'chrome') {
+      $this->launchChrome();
+    }
   }
 
   /**
@@ -170,6 +173,9 @@ class DrupalTestCommand extends TestsCommandBase {
     if ($this->getConfigValue('tests.drupal.web-driver') == 'chromedriver') {
       $this->killSelenium();
       $this->killChromeDriver();
+    }
+    elseif ($this->getConfigValue('tests.drupal.web-driver') == 'chrome') {
+      $this->killChrome();
     }
   }
 
