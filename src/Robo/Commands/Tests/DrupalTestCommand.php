@@ -114,6 +114,7 @@ class DrupalTestCommand extends TestsCommandBase {
       $this->invokeCommand('tests:drupal:phpunit:run');
     }
     elseif ($this->drupalTestRunner == 'run-tests-script') {
+      $this->logger->notice("The run-tests-script option and tests:drupal:phpunit:run command are deprecated in BLT 11 and will be removed in BLT 12. Use PHPUnit to run Drupal core tests instead.");
       $this->invokeCommand('tests:drupal:run-tests:run');
     }
     else {
@@ -160,6 +161,9 @@ class DrupalTestCommand extends TestsCommandBase {
       $this->launchSelenium();
       $this->launchChromeDriver();
     }
+    elseif ($this->getConfigValue('tests.drupal.web-driver') == 'chrome') {
+      $this->launchChrome();
+    }
   }
 
   /**
@@ -169,6 +173,9 @@ class DrupalTestCommand extends TestsCommandBase {
     if ($this->getConfigValue('tests.drupal.web-driver') == 'chromedriver') {
       $this->killSelenium();
       $this->killChromeDriver();
+    }
+    elseif ($this->getConfigValue('tests.drupal.web-driver') == 'chrome') {
+      $this->killChrome();
     }
   }
 
