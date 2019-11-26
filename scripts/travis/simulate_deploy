@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -ev
+
+blt artifact:deploy --dry-run --commit-msg "Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" --no-interaction --verbose
+
+set +v

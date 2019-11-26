@@ -11,6 +11,7 @@ local.blt.yml
 # Ignore build artifacts.
 /tmp/
 /reports/
+/travis_wait*
 
 # Node.js package manager.
 npm-debug.log

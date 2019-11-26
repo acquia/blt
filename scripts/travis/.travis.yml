@@ -48,6 +48,7 @@ script:
   # Uncomment these lines to test database updates using live content.
   # - blt drupal:sync:default:site
   - source ${BLT_DIR}/scripts/travis/run_tests
+  - source ${BLT_DIR}/scripts/travis/simulate_deploy
 
 deploy:
    - provider: script
