@@ -1,5 +1,51 @@
 # Change Log
 
+#### 11.0.0-alpha1 (2019-11-26)
+
+[Full Changelog](https://github.com/acquia/blt/compare/10.5.0...11.0.0-alpha1)
+
+**Major / breaking changes**
+
+- DT-878: Support Drush 10. (#3905)
+- DT-747: Removing dependency on webflo. (#3908)
+- DT-850: Renamed sync.files config to sync.public-files. (#3907)
+- DT-950: Update node version in Pipelines. (#3901)
+- DT-655: Removed selenium-server-standalone from blt-require-dev. (#3878)
+- DT-458: Removed drush alias generation. (#3877)
+
+**Implemented enhancements**
+
+- DT-587: Fixes #3564: Simulate deploys on TravisCI. (#3927)
+- DT-596: Fixes #3052: Add Git pre-push validation. (#3925)
+- DT-657: Fixes #3785: Split up examples:init command, don't run automatically (#3923)
+- DT-658: Anonymous telemetry (#3912)
+- DT-849: Fixes #3859: Better CI environment detection for BLT config. (#3909)
+- Show diff for the dirty build. (#3885)
+- Issue #3865: Move location of logging UI override to appropriate file. (#3866)
+
+**Fixed bugs**
+
+- DT-593: Codesniffing via pre-commit hook doesn't respect filesets. (#3902)
+- DT-851: Fix local private files path. (#3906)
+- DT-948: Improve ACSF detection logic. (#3896)
+- TwigCommand should use configured project docroot. (#3892)
+- DT-880: Fixes #3869: duplicate .htaccess in composer.json with acsf:init (#3881)
+
+**Miscellaneous**
+
+- DT-971: Fixes #3917: Deprecate run-tests.sh, support Chrome for Drupal core tests. (#3931)
+- Update RELEASE.md
+- Remove clear-twig-cache.sh which is now done by the main platform (#3913)
+- DT-602: Fixes #3735: Reorganize robo commands and directories. (#3919)
+- Update ORCA version (#3884)
+- DT-879: Composer updates. (#3879)
+- Update README.md
+- Corrected extra.patches data type in blt-project/composer.json. (#3875)
+- DT-773: Fixes #3845: Clean up SAML docs and support policy. (#3872)
+- Revert "Bump blt-project to stable."
+- Bump blt-project to stable.
+
+
 #### 10.5.0 (2019-10-02)
 
 [Full Changelog](https://github.com/acquia/blt/compare/10.4.1...10.5.0)
