@@ -84,7 +84,7 @@ In this case, Acquia BLT is executing the following Drush command for you:
         "install_configure_form.update_status_module='array(FALSE,FALSE)'"
 
 To debug the problem, run the Drush command directly from the command line, as
-it will be easier to debug without involving Acquia BLT. If you still cannot diagnose the issue, contact Acquia Support. Do not open an issue in the BLT queue unless you’ve identified a specific bug or feature request for Acquia BLT itself.
+it will be easier to debug without involving Acquia BLT. If you still cannot diagnose the issue, contact Acquia Support. Do not open an issue in the BLT queue unless you have identified a specific bug or feature request for Acquia BLT itself.
 
 
 .. Next review date 20200424
