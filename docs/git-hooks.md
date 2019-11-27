@@ -1,1 +1,0 @@
-../scripts/git-hooks/README.md
