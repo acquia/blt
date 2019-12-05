@@ -13,7 +13,6 @@ class DrupalTestCommand extends TestsCommandBase {
   const APACHE_RUN_GROUP = 'APACHE_RUN_GROUP';
   const APACHE_RUN_USER = 'APACHE_RUN_USER';
   const BROWSERTEST_OUTPUT_DIRECTORY = 'BROWSERTEST_OUTPUT_DIRECTORY';
-  const DRUPAL_TEST_CHROMEDRIVER_AUTOSTART = 'DRUPAL_TEST_CHROMEDRIVER_AUTOSTART';
   const MINK_DRIVER_ARGS = 'MINK_DRIVER_ARGS';
   const MINK_DRIVER_ARGS_WEBDRIVER = 'MINK_DRIVER_ARGS_WEBDRIVER';
   const MINK_DRIVER_CLASS = 'MINK_DRIVER_CLASS';
@@ -145,7 +144,6 @@ class DrupalTestCommand extends TestsCommandBase {
       self::APACHE_RUN_GROUP => $this->sudoRunTests ? $this->getConfigValue('tests.drupal.apache-run-user') : NULL,
       self::APACHE_RUN_USER => $this->sudoRunTests ? $this->apacheRunUser : NULL,
       self::BROWSERTEST_OUTPUT_DIRECTORY => $this->browsertestOutputDirectory,
-      self::DRUPAL_TEST_CHROMEDRIVER_AUTOSTART => 'false',
       self::MINK_DRIVER_ARGS => $this->getConfigValue('tests.drupal.mink-driver-args'),
       self::MINK_DRIVER_ARGS_WEBDRIVER => $this->getConfigValue('tests.drupal.mink-driver-args-webdriver'),
       self::MINK_DRIVER_CLASS => $this->getConfigValue('tests.drupal.mink-driver-class'),
@@ -171,8 +169,8 @@ class DrupalTestCommand extends TestsCommandBase {
    */
   protected function launchWebDriver() {
     if ($this->getConfigValue('tests.drupal.web-driver') == 'chromedriver') {
+      $this->launchSelenium();
       $this->launchChromeDriver();
-      $this->launchChrome();
     }
     elseif ($this->getConfigValue('tests.drupal.web-driver') == 'chrome') {
       $this->launchChrome();
@@ -184,8 +182,8 @@ class DrupalTestCommand extends TestsCommandBase {
    */
   protected function killWebDriver() {
     if ($this->getConfigValue('tests.drupal.web-driver') == 'chromedriver') {
+      $this->killSelenium();
       $this->killChromeDriver();
-      $this->killChrome();
     }
     elseif ($this->getConfigValue('tests.drupal.web-driver') == 'chrome') {
       $this->killChrome();
