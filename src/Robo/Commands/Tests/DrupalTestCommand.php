@@ -118,7 +118,6 @@ class DrupalTestCommand extends TestsCommandBase {
       if (!$this->validateCommand('java')) {
         return;
       }
-      $this->logger->notice("The run-tests-script option and tests:drupal:phpunit:run command are deprecated in BLT 11 and will be removed in BLT 12. Use PHPUnit to run Drupal core tests instead.");
       $this->invokeCommand('tests:drupal:run-tests:run');
     }
     elseif ($this->drupalTestRunner == 'nightwatch') {
