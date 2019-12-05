@@ -59,9 +59,9 @@ the issue type is probably a support request.
 
 -  *Support request*: A request for help or guidance. Use this issue type if
    you are not sure how to do something or can't find a solution to a problem
-   that may or may not be a bug. Before filing a support request, review the
-   :doc:`FAQ </blt/faq/>` for solutions to common problems and general
-   troubleshooting techniques.
+   that may or may not be a bug. Before filing a support request, review
+   :doc:`BLT support </blt/support/>` for solutions to common problems and
+   general troubleshooting techniques.
 
    If you have an Acquia subscription, consider :ref:`filing a Support ticket
    <contact-Acquia-Support>` instead of an Acquia BLT issue to receive support
