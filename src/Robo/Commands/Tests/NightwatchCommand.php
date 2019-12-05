@@ -31,7 +31,9 @@ class NightwatchCommand extends DrupalTestCommand {
    */
   public function executeTests() {
     $drupal_core_dir = $this->getConfigValue('docroot') . '/core';
-    // Depends on env file existing. How to automate this? cli params?
+    $this->taskFilesystemStack()
+      ->copy($drupal_core_dir . '/.env.example', $drupal_core_dir . '/.env')
+      ->run();
     $this->taskExec('yarn install')
       ->dir($drupal_core_dir)
       ->run();
