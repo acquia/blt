@@ -13,7 +13,7 @@ Acquia BLT
    /blt/tech-architect
    /blt/extending-blt/
    /blt/contributing/
-   /blt/faq/
+   /blt/support/
 
 Acquia BLT (Build and Launch Tool), `available on GitHub
 <https://github.com/acquia/blt>`__, provides an automation layer for testing,
@@ -28,7 +28,7 @@ Services' best practices.
    :doc:`Release notes </blt/release-notes/>`  |
    :doc:`Developer resources </blt/developer/>`  |
    :doc:`Tech Architect resources </blt/tech-architect/>`  |
-   :doc:`FAQ </blt/faq/>`
+   :doc:`Getting support </blt/support/>`
 
 To improve efficiency and collaboration across Drupal projects, Acquia BLT
 provides both a common suite of tools and standardized structure. The tools
