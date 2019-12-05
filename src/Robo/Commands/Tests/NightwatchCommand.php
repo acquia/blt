@@ -19,7 +19,8 @@ class NightwatchCommand extends DrupalTestCommand {
    */
   public function runDrupalTests() {
     $this->reportsDir = $this->getConfigValue('tests.reports.localDir') . '/drupal/nightwatch';
-    // Normally we'd call parent::run() here, but we don't need to start or stop any web drivers so we override it.
+    // Normally we'd call parent::run() here, but we don't need to start or stop
+    // any web drivers so we override it.
     $this->setTestingConfig();
     $this->getTestingEnvString();
     $this->createLogs();
@@ -42,4 +43,5 @@ class NightwatchCommand extends DrupalTestCommand {
       ->env($this->testingEnv)
       ->run();
   }
+
 }
