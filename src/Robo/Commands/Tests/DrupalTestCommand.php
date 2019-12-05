@@ -136,11 +136,12 @@ class DrupalTestCommand extends TestsCommandBase {
    * Validate that a command exists.
    */
   protected function validateCommand(string $command) {
+    // phpcs:ignore
     if (empty(shell_exec("which $command"))) {
       $this->logger->warning("Cannot find $command. The test runner you have selected, {$this->drupalTestRunner}, requires $command.");
-      return false;
+      return FALSE;
     }
-    return true;
+    return TRUE;
   }
 
   /**
