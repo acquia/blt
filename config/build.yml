@@ -214,7 +214,7 @@ tests:
     port: 9515
     args: null
   drupal:
-    # May be phpunit or run-tests-script.
+    # May be phpunit, run-tests-script, or nightwatch.
     test-runner: phpunit
     sudo-run-tests: true
     # Chrome or chromedriver.
