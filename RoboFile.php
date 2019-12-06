@@ -201,7 +201,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     $text = '';
     $text .= "[Full Changelog](https://github.com/acquia/blt/compare/$prev_tag...$tag)\n\n";
     if (!empty($changes['breaking'])) {
-      $text .= "**Major / breaking changes**\n\n";
+      $text .= "**Breaking changes**\n\n";
       $text .= $this->processReleaseNotesSection($changes['breaking']);
     }
     if (!empty($changes['enhancements'])) {

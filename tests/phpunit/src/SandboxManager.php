@@ -193,7 +193,7 @@ class SandboxManager {
         'symlink' => TRUE,
       ],
     ];
-    $composer_json_contents->{'require-dev'}->{'acquia/blt-require-dev'} = '*@dev';
+    $composer_json_contents->{'require-dev'}->{'acquia/blt-require-dev'} = 'dev-master';
     $this->fs->dumpFile($composer_json_path,
       json_encode($composer_json_contents, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
   }
