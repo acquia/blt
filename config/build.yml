@@ -214,7 +214,7 @@ tests:
     port: 9515
     args: null
   drupal:
-    # May be phpunit or run-tests-script.
+    # May be phpunit, run-tests-script, or nightwatch.
     test-runner: phpunit
     sudo-run-tests: true
     # Chrome or chromedriver.
@@ -223,6 +223,7 @@ tests:
     browsertest-output-directory: 'browser_output'
     apache-run-group: 'www-data'
     apache-run-user: 'www-data'
+    chrome-args: '--disable-gpu --headless --no-sandbox'
     # mink-driver-args: ''
     mink-driver-args-webdriver: '["chrome", {"browserName":"chrome","chromeOptions":{"args":["--disable-gpu","--headless","--no-sandbox"]}}, "http://localhost:9515"]'
     # mink-driver-class: 'Drupal\FunctionalJavascriptTests\DrupalSelenium2Driver'
