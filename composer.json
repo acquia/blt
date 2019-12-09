@@ -52,11 +52,11 @@
     "require-dev": {
         "acquia/coding-standards": "^0.4.0",
         "composer/composer": "^1.6.4",
+        "drupal/core-dev": "^8.8.0",
         "knplabs/github-api": "^2.6",
         "php-http/guzzle6-adapter": "^1.1",
         "phpunit/phpunit": "^4.8 || ^6.5",
-        "squizlabs/php_codesniffer": "^3.0.1",
-        "drupal/core-dev": "^8.8.0"
+        "squizlabs/php_codesniffer": "^3.0.1"
     },
     "suggest": {
         "davereid/drush-acquia-hook-invoke": "dev-master",
