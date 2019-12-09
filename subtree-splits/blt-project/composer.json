@@ -31,7 +31,7 @@
     },
     "extra": {
         "composer-exit-on-patch-failure": true,
-        "composer-scaffold": {
+        "drupal-scaffold": {
             "locations": {
                 "web-root": "./docroot"
             },
