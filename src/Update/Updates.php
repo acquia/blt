@@ -853,17 +853,34 @@ class Updates {
    *
    * @Update(
    *   version = "11000000",
-   *   description = "Updates for BLT 11."
+   *   description = "Update blt-require-dev version."
    * )
    */
   public function update_11000000() {
     $composer_json = $this->updater->getComposerJson();
     $template_composer_json = $this->updater->getTemplateComposerJson();
-    // Update blt-require-dev to 11.x.
     if (array_key_exists('acquia/blt-require-dev', $composer_json['require-dev'])) {
       $composer_json['require-dev']['acquia/blt-require-dev'] = $template_composer_json['require-dev']['acquia/blt-require-dev'];
       $this->updater->writeComposerJson($composer_json);
       $this->updater->getOutput()->writeln("acquia/blt-require-dev version has been updated in composer.json. You must run `composer update` and commit both composer.json and composer.lock to apply the changes.");
+    }
+  }
+
+  /**
+   * Version 11.0.0.
+   *
+   * @Update(
+   *   version = "11000001",
+   *   description = "Move Drupal Scaffold to project composer.json."
+   * )
+   */
+  public function update_11000001() {
+    $composer_json = $this->updater->getComposerJson();
+    $template_composer_json = $this->updater->getTemplateComposerJson();
+    if (!array_key_exists('drupal-composer/drupal-scaffold', $composer_json['require'])) {
+      $composer_json['require']['drupal-composer/drupal-scaffold'] = $template_composer_json['require']['drupal-composer/drupal-scaffold'];
+      $this->updater->writeComposerJson($composer_json);
+      $this->updater->getOutput()->writeln("Drupal Scaffold has been added to your composer.json. You must run `composer update` and commit both composer.json and composer.lock to apply the changes.");
     }
   }
 
