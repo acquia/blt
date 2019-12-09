@@ -13,6 +13,8 @@ class DrupalTestCommand extends TestsCommandBase {
   const APACHE_RUN_GROUP = 'APACHE_RUN_GROUP';
   const APACHE_RUN_USER = 'APACHE_RUN_USER';
   const BROWSERTEST_OUTPUT_DIRECTORY = 'BROWSERTEST_OUTPUT_DIRECTORY';
+  const DRUPAL_TEST_BASE_URL = 'DRUPAL_TEST_BASE_URL';
+  const DRUPAL_TEST_WEBDRIVER_CHROME_ARGS = 'DRUPAL_TEST_WEBDRIVER_CHROME_ARGS';
   const MINK_DRIVER_ARGS = 'MINK_DRIVER_ARGS';
   const MINK_DRIVER_ARGS_WEBDRIVER = 'MINK_DRIVER_ARGS_WEBDRIVER';
   const MINK_DRIVER_CLASS = 'MINK_DRIVER_CLASS';
@@ -106,19 +108,39 @@ class DrupalTestCommand extends TestsCommandBase {
    */
   public function executeTests() {
     $this->logger->notice("Ensure that you have installed Drupal Core's dev dependencies (such as via https://github.com/webflo/drupal-core-require-dev) prior to running this command.");
-    if (empty(shell_exec('which java'))) {
-      $this->logger->warning("Cannot find Java. Drupal tests require Selenium, which requires Java. Drupal tests will be skipped.");
-      return;
-    }
     if ($this->drupalTestRunner == 'phpunit') {
+      if (!$this->validateCommand('java')) {
+        return;
+      }
       $this->invokeCommand('tests:drupal:phpunit:run');
     }
     elseif ($this->drupalTestRunner == 'run-tests-script') {
+      if (!$this->validateCommand('java')) {
+        return;
+      }
       $this->invokeCommand('tests:drupal:run-tests:run');
+    }
+    elseif ($this->drupalTestRunner == 'nightwatch') {
+      if (!$this->validateCommand('yarn')) {
+        return;
+      }
+      $this->invokeCommand('tests:drupal:nightwatch:run');
     }
     else {
       throw new BltException("You must have tests.drupal.test-runner set to either phpunit or run-tests-script.");
     }
+  }
+
+  /**
+   * Validate that a command exists.
+   */
+  protected function validateCommand(string $command) {
+    // phpcs:ignore
+    if (empty(shell_exec("which $command"))) {
+      $this->logger->warning("Cannot find $command. The test runner you have selected, {$this->drupalTestRunner}, requires $command.");
+      return FALSE;
+    }
+    return TRUE;
   }
 
   /**
@@ -132,6 +154,8 @@ class DrupalTestCommand extends TestsCommandBase {
       self::APACHE_RUN_GROUP => $this->sudoRunTests ? $this->getConfigValue('tests.drupal.apache-run-user') : NULL,
       self::APACHE_RUN_USER => $this->sudoRunTests ? $this->apacheRunUser : NULL,
       self::BROWSERTEST_OUTPUT_DIRECTORY => $this->browsertestOutputDirectory,
+      self::DRUPAL_TEST_BASE_URL => $this->getConfigValue('tests.drupal.simpletest-base-url'),
+      self::DRUPAL_TEST_WEBDRIVER_CHROME_ARGS => $this->getConfigValue('tests.drupal.chrome-args'),
       self::MINK_DRIVER_ARGS => $this->getConfigValue('tests.drupal.mink-driver-args'),
       self::MINK_DRIVER_ARGS_WEBDRIVER => $this->getConfigValue('tests.drupal.mink-driver-args-webdriver'),
       self::MINK_DRIVER_CLASS => $this->getConfigValue('tests.drupal.mink-driver-class'),
