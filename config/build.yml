@@ -25,7 +25,7 @@ blt:
     schema-version: ${repo.root}/blt/.schema_version
   command-cache-dir: ${blt.root}/cache/commands
   alias:
-    auto-install: false
+    auto-install: true
 
 composer:
   bin: ${repo.root}/${bin.path}
