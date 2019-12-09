@@ -40,14 +40,14 @@ class AliasCommand extends BltTasks {
       }
       $this->say("BLT can automatically create a Bash alias to make it easier to run BLT tasks.");
       $this->say("This alias will be created in <comment>$config_file</comment>.");
-      $confirm = $this->confirm("Install alias?");
+      $confirm = $this->confirm("Install alias?", $this->getConfigValue('blt.alias.auto-install'));
       if ($confirm) {
         $this->createNewAlias();
       }
     }
     elseif (!$this->isBltAliasUpToDate()) {
       $this->logger->warning("Your BLT alias is out of date.");
-      $confirm = $this->confirm("Would you like to update it?");
+      $confirm = $this->confirm("Would you like to update it?", $this->getConfigValue('blt.alias.auto-install'));
       if ($confirm) {
         $this->updateAlias();
       }
@@ -180,7 +180,7 @@ class AliasCommand extends BltTasks {
    */
   protected function createBashProfile() {
     if (EnvironmentDetector::isDarwin() || EnvironmentDetector::isAhEnv()) {
-      $continue = $this->confirm("Would you like to create ~/.bash_profile?");
+      $continue = $this->confirm("Would you like to create ~/.bash_profile?", $this->getConfigValue('blt.alias.auto-install'));
       if ($continue) {
         $home_dir = getenv('HOME');
         $bash_profile = $home_dir . '/.bash_profile';
