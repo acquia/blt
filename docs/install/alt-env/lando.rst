@@ -88,7 +88,7 @@ The solution is to invoke the ``chrome`` command with the ``--no-sandbox``
 option by patching your Acquia BLT installation. Patching your installation
 adds the ``--no-sandbox`` option to the `launchChrome() function in the Behat
 command
-<https://github.com/acquia/blt/blob/9.x/src/Robo/Commands/Tests/BehatCommand.php#L178>`__.
+<https://github.com/acquia/blt/blob/10.x/src/Robo/Commands/Tests/BehatCommand.php#L178>`__.
 
 For information about how to apply patches to packages using Composer, see
 :doc:`/blt/developer/patches/`.
