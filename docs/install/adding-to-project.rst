@@ -3,13 +3,18 @@
 Adding Acquia BLT to an existing project
 ========================================
 
+Acquia BLT is best used to create new projects from scratch, but you
+can also add Acquia BLT to an existing project to receive all the
+:ref:`same benefits <blt-features>`.
+
 Adding Acquia BLT to an existing project is more complex than creating a new
-website with Acquia BLT for the following reasons:
+website with Acquia BLT. Acquia BLT includes a project template and
+expects the files in your project to match the structure and contents of the
+template.
 
--  Acquia BLT expects your project to have a particular directory structure
-   and suite of files.
--  Your existing dependencies may conflict with Acquia BLT's dependencies.
-
+Acquia BLT will try to generate any missing files during installation, but some
+projects may require manual reconciliation. Adhering to the following
+prerequisites and instructions should ensure a good outcome.
 
 .. _blt-prerequisites:
 
@@ -50,8 +55,29 @@ steps:
    .. code-block:: bash
 
       rm -rf vendor composer.lock
-      composer require acquia/blt:^9.0.0 --no-update
+      composer require acquia/blt:^10.0 --no-update
       composer update
+
+#. Replace your ``.gitignore`` file with Acquia BLT's template ``.gitignore``,
+   then re-add any project-specific overrides:
+
+   .. code-block:: bash
+
+      cp vendor/acquia/blt/subtree-splits/blt-project/.gitignore .
+
+#. (optional, but recommended) Replace your ``composer.json`` with Acquia BLT's
+   template ``composer.json``, and re-add any packages or other configuration
+   you want to preserve from your existing ``composer.json``:
+
+   .. code-block:: bash
+
+      cp vendor/acquia/blt/subtree-splits/blt-project/composer.json .
+
+#. Acquia BLT will have placed new files in your project directory. Review all
+   new and modified files and commit them to Git.
+
+#. Run ``blt doctor`` to diagnose any potential remaining issues requiring
+   manual intervention.
 
 #. Continue with the installation instructions immediately following the
    ``composer create-project``-based step in
