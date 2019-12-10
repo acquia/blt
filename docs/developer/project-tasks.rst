@@ -16,18 +16,18 @@ Pre-requisites to installation:
 
 -  Ensure that the ``docroot/sites/default/settings/local.settings.php``
    file exists by running the following command:
-   
+
    .. code-block:: bash
-   
+
         blt setup:settings
 
 -  Verify that correct local database credentials are set in the
    ``local.settings.php`` file.
 -  Ensure project dependencies have already been built running the
    following command:
-   
+
    .. code-block:: bash
-   
+
         blt source:build
 
 To re-install Drupal, run the following command:
@@ -110,9 +110,21 @@ the remote environment:
 This command will sync your website and run all necessary updates, including
 clearing the cache, database updates, and configuration imports.
 
-By default, Acquia BLT will not sync your public and private files
-directories. However, to perform a file sync during ``sync:refresh`` tasks in
-your project, you can set ``sync.files`` to ``true`` in your ``blt.yml`` file.
+.. tabs::
+
+   .. tab:: 10.x
+
+      By default, Acquia BLT will not sync your public and private files
+      directories. However, to perform a file sync during ``sync:refresh``
+      tasks in your project, you can set ``sync.files`` to ``true`` in your
+      ``blt.yml`` file.
+
+   .. tab:: 11.x
+
+      By default, Acquia BLT will not sync your public and private files
+      directories. However, to perform a file sync during ``sync:refresh``
+      tasks in your project, you can set ``sync.public-files`` and
+      ``sync.private-files`` to ``true`` in your ``blt.yml`` file.
 
 Multisite
 ~~~~~~~~~
