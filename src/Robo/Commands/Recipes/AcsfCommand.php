@@ -40,6 +40,7 @@ class AcsfCommand extends BltTasks {
   public function acsfInitialize($options = ['acsf-version' => '^2.47.0']) {
     $this->printPreamble();
     $this->acsfHooksInitialize();
+    $this->acsfComposerInitialize();
     $this->say('Adding acsf module as a dependency...');
     $package_options = [
       'package_name' => 'drupal/acsf',
@@ -71,8 +72,13 @@ class AcsfCommand extends BltTasks {
       $project_config['modules']['local']['uninstall'][] = 'acsf';
     }
     YamlMunge::writeFile($project_yml, $project_config);
+  }
 
-    // .htaccess was patched, excluding from further updates.
+  /**
+   * Ensure that ACSF-modified assets don't get overridden.
+   */
+  public function acsfComposerInitialize() {
+    // .htaccess will be patched, excluding from further updates.
     $composer_filepath = $this->getConfigValue('repo.root') . '/composer.json';
     $composer_contents = json_decode(file_get_contents($composer_filepath));
     // Drupal Scaffold version (deprecate in Drupal 8.8, remove in Drupal 9).
@@ -82,7 +88,7 @@ class AcsfCommand extends BltTasks {
     // Composer Scaffold version (supported as of Drupal 8.8).
     if (!property_exists($composer_contents->extra->{'drupal-scaffold'}, 'file-mapping') || !property_exists($composer_contents->extra->{'drupal-scaffold'}->{'file-mapping'}, '[web-root]/.htaccess')) {
       $composer_contents->extra->{'drupal-scaffold'}->{'file-mapping'} = new \stdClass();
-      $composer_contents->extra->{'drupal-scaffold'}->{'file-mapping'}->{'web-root/.htaccess'} = FALSE;
+      $composer_contents->extra->{'drupal-scaffold'}->{'file-mapping'}->{'[web-root]/.htaccess'} = FALSE;
     }
     file_put_contents($composer_filepath, json_encode($composer_contents, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
   }
