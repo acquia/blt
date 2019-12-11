@@ -80,7 +80,12 @@ the following steps:
    The preceding code will generate an :doc:`acquia-pipelines.yml file
    </acquia-cloud/develop/pipelines/yaml/>` in your project root based on
    `BLT's default acquia-pipelines.yml file
-   <https://github.com/acquia/blt/blob/9.x/scripts/pipelines/acquia-pipelines.yml>`__.
+   <https://github.com/acquia/blt/blob/10.x/scripts/pipelines/acquia-pipelines.yml>`__.
+
+#. Change the :doc:`acquia-pipelines.yml file
+   </acquia-cloud/develop/pipelines/yaml/>` to
+   :doc:`specify which databases to copy
+   </acquia-cloud/develop/pipelines/databases/>` into CDEs on deployment.
 
 #. Commit the new file, and push then it to your Acquia Git remote by using
    commands based on the following example:
