@@ -52,7 +52,7 @@ $port = ':' . $_SERVER['SERVER_PORT'];*/
  *
  * @link https://docs.acquia.com/resource/using-simplesamlphp-acquia-cloud-site
  */
-// setcookie('NO_CACHE', '1');.
+// setcookie('NO_CACHE', '1');
 /**
  * Generate Acquia session storage via hosting creds.json.
  *
