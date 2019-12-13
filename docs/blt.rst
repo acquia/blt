@@ -12,6 +12,7 @@ Acquia BLT
    /blt/developer
    /blt/tech-architect
    /blt/extending-blt/
+   /blt/plugins
    /blt/contributing/
    /blt/support/
 

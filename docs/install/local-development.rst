@@ -22,7 +22,7 @@ Regardless of the local environment you select, use the following guidelines:
 
 Acquia developers use `PHPStorm <http://www.jetbrains.com/phpstorm/>`__ and
 recommend it for local development environments. Acquia has written several
-`Knowledge Base articles <https://support.acquia.com/>`__ regarding using
+`Knowledge Base articles <https://support.acquia.com/>`__ about using
 PHPStorm for Drupal development.
 
 
@@ -59,7 +59,7 @@ that is generated with Acquia BLT:
          git add -A
          git commit -m <your commit meessage>
 
-#.  Install Drupal and finalize your Acquia BLT installation:
+#.  Install Drupal and complete your Acquia BLT installation:
 
     .. code-block:: bash
 
@@ -104,7 +104,7 @@ environment, you must do the following:
 #. SSH into the VM ``vagrant ssh``
 #. Execute behat tests ``blt tests:behat:run``
 
-Alternatively, you may choose to write only behat tests that utilize the
+Alternately, you may choose to write only behat tests that utilize the
 Drupal Extension's "drush" driver. Doing this will allow you to run
 ``blt tests:behat:run`` from the host machine.
 
@@ -142,8 +142,7 @@ Desktop, you must complete the following steps:
          export DEVDESKTOP_DRUPAL_SETTINGS_DIR="$HOME/.acquia/DevDesktop/DrupalSettings"
 
 #.  Ensure that Acquia Dev Desktop's PHP binary is being used on the CLI. This
-    will require adding a line similar to the following to your
-    ``~/.bash_profile``:
+    will require adding a line like the following to your ``~/.bash_profile``:
 
     .. code-block:: text
 
@@ -161,7 +160,7 @@ Desktop, you must complete the following steps:
 
 #.  Restart your terminal session.
 
-#.  Optionally, run the following command to verify your configuration:
+#.  Optionally, run the following command to check your configuration:
 
     .. code-block:: text
 
@@ -178,9 +177,9 @@ VM offers flexibility and a uniform configuration, but sometimes a tool
 (such as Acquia Dev Desktop, MAMP or XAMPP, or a bespoke Docker-based dev
 environment) may be preferable.
 
-It is up to each team to choose how to handle local development, but
-some of the main things that help a project's velocity with regard to
-local development include the following:
+It's up to each team to choose how to handle local development, but some main
+factors that help a project's velocity with local development include the
+following:
 
 -  Uniformity and the same configuration across all developer
    environments.
@@ -193,16 +192,14 @@ local development include the following:
 -  Ease of use across Windows, Mac, and Linux workstations.
 
 If you select a different solution than recommended here, be sure it meets
-all of your team's and project's needs, and will not be a hindrance to project
+all your team's and project's needs, and won't be a hindrance to project
 development velocity.
 
-Although the Acquia cannot officially support these alternative environments,
+Although Acquia can't officially support these alternative environments,
 feel free to submit documentation of any special steps necessary with the tool
-you choose so that others can learn from your experience. Environments for
-which others have contributed tips include:
+you choose so that others can learn from your experience. Other users have
+contributed tips to the following environment:
 
--  :doc:`DDEV </blt/install/alt-env/ddev/>`
--  :doc:`Docksal </blt/install/alt-env/docksal/>`
 -  :doc:`Lando </blt/install/alt-env/lando/>`
 
 .. Next review date 20200422

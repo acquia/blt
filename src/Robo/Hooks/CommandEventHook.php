@@ -57,10 +57,10 @@ class CommandEventHook extends BltTasks {
       $preference = $this->confirm("Do you want to help us make this tool even better?", TRUE);
       $userConfig->setTelemetryEnabled($preference);
       if ($preference) {
-        $this->say("🎉 Awesome! Thank you for helping out!");
+        $this->say($userConfig::OPT_IN_MESSAGE);
       }
       else {
-        $this->say("Ok, no data will be tracked and reported.\nWe take privacy seriously.");
+        $this->say($userConfig::OPT_OUT_MESSAGE);
       }
       sleep(2);
     }

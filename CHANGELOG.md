@@ -1,5 +1,29 @@
 # Change Log
 
+#### 11.0.0-rc1 (2019-12-09)
+
+[Full Changelog](https://github.com/acquia/blt/compare/11.0.0-alpha1...11.0.0-rc1)
+
+
+**Implemented enhancements**
+
+- Allow blt:init:shell-alias install confirmation to be configurable when run with --no-interaction (#3937)
+- DT-581: Added nightwatch support. (#3941)
+
+**Miscellaneous**
+
+- DT-1035: Fixes #3929: Move Drupal Scaffold to project composer.json. (#3942)
+- Auto install aliases by default.
+- DT-1045: Removed duplicate markdown docs. (#3943)
+- Convert CONTRIBUTING to rst. (#3934)
+- Converted faq.rst to support.rst. (#3935)
+- DT-1016: BLT 10.x tests broken. (#3938)
+- Composer update.
+- Release notes clarify breaking changes
+- Replaced docs with RST versions from docs.acquia.com.
+- Update Updates.php
+
+
 #### 11.0.0-alpha1 (2019-11-26)
 
 [Full Changelog](https://github.com/acquia/blt/compare/10.5.0...11.0.0-alpha1)
