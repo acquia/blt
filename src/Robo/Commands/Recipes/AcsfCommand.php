@@ -89,6 +89,7 @@ class AcsfCommand extends BltTasks {
     if (!property_exists($composer_contents->extra->{'drupal-scaffold'}, 'file-mapping') || !property_exists($composer_contents->extra->{'drupal-scaffold'}->{'file-mapping'}, '[web-root]/.htaccess')) {
       $composer_contents->extra->{'drupal-scaffold'}->{'file-mapping'} = new \stdClass();
       $composer_contents->extra->{'drupal-scaffold'}->{'file-mapping'}->{'[web-root]/.htaccess'} = FALSE;
+      $composer_contents->extra->{'drupal-scaffold'}->{'gitignore'} = FALSE;
     }
     file_put_contents($composer_filepath, json_encode($composer_contents, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
   }
