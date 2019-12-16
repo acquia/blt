@@ -29,8 +29,7 @@ This is intended to coincide with the [Drupal core release cycle](https://www.dr
 |-------------|-----------------------|----------------|-------------------|----------------|
 | **11.x**    | **Supported, stable** | **>=Dec 2020** | **8.7\*\*, 8.8**      | **>=10.0**     |
 | 10.x        | Bug fixes only        | May 2020       | 8.7, 8.8          | >=9.5.0        |
-| 9.2.x       | Bug fixes only        | Dec 2019       | 8.6, 8.7          | >=9.4.0        |
-| <=9.x       | Unsupported           | May 2019       | 8.5               | >=9.1.0        |
+| <=9.2.x     | Unsupported           | Dec 2019       | 8.6, 8.7          | >=9.4.0        |
 
 *When any upstream package release stops being supported by its maintainer, BLT will cease supporting that release as well. For instance, as of December 2019, BLT 10.x will no longer support Drupal 8.6, and will instead support Drupal 8.7 and 8.8  in accordance with [Drupal security policy](https://www.drupal.org/drupal-security-team/general-information).
 
