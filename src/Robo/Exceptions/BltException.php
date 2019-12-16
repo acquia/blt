@@ -18,7 +18,7 @@ class BltException extends \Exception {
     \Throwable $previous = NULL
   ) {
 
-    $message .= "\nFor troubleshooting guidance and support, see https://docs.acquia.com/blt/faq/";
+    $message .= "\nFor troubleshooting guidance and support, see https://docs.acquia.com/blt/support/";
     parent::__construct($message, $code, $previous);
 
     $this->transmitAnalytics();
