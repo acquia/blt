@@ -1,5 +1,20 @@
 # Change Log
 
+#### 11.0.1 (2019-12-16)
+
+[Full Changelog](https://github.com/acquia/blt/compare/11.0.0...11.0.1)
+
+
+**Miscellaneous**
+
+- Fixed update script.
+- Update README.md
+- Revert "Bump blt-project to stable."
+- Bump blt-project to stable.
+- Require PHP 7.2.
+- Update README.md
+
+
 #### 11.0.0 (2019-12-16)
 
 [Full Changelog](https://github.com/acquia/blt/compare/11.0.0-rc1...11.0.0)
