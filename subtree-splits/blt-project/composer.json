@@ -6,15 +6,15 @@
     "require": {
         "php": ">=7.1",
         "acquia/blt": "11.x-dev",
+        "acquia/composer-scaffold": "dev-master",
         "acquia/drupal-spec-tool": "*",
-        "acquia/lightning": "^4.0.0",
+        "acquia/lightning": "dev-8.x-4.x",
         "acquia/memcache-settings": "*",
-        "drupal-composer/drupal-scaffold": "^2.5.4",
         "drupal/acquia_connector": "^1.5.0",
         "drupal/acquia_purge": "^1.0-beta3",
         "drupal/cog": "^1.0.0",
         "drupal/config_split": "^1.0.0",
-        "drupal/core": "^8.6.0",
+        "drupal/core-recommended": "^8.8.0",
         "drupal/devel": "^2.0.0",
         "drupal/features": "^3.8.0",
         "drupal/qa_accounts": "^1.0.0-alpha1",
@@ -33,9 +33,23 @@
     "extra": {
         "composer-exit-on-patch-failure": true,
         "drupal-scaffold": {
-            "initial": {
-                "sites/default/default.services.yml": "sites/default/services.yml",
-                "sites/default/default.settings.php": "sites/default/settings.php"
+            "locations": {
+                "web-root": "./docroot"
+            },
+            "allowed-packages": {
+                "drupal/core": "*"
+            },
+            "file-mapping": {
+                "[web-root]/sites/default/default.services.yml": {
+                    "mode": "replace",
+                    "path": "docroot/core/assets/scaffold/files/default.services.yml",
+                    "overwrite": false
+                },
+                "[web-root]/sites/default/default.settings.php": {
+                    "mode": "replace",
+                    "path": "docroot/core/assets/scaffold/files/default.settings.php",
+                    "overwrite": false
+                }
             }
         },
         "enable-patching": true,
