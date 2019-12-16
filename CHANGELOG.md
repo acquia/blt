@@ -1,5 +1,22 @@
 # Change Log
 
+#### 10.7.0 (2019-12-16)
+
+[Full Changelog](https://github.com/acquia/blt/compare/10.6.0...10.7.0)
+
+
+**Implemented enhancements**
+
+- Allow blt:init:shell-alias install confirmation to be configurable when run with --no-interaction (#3937)
+
+**Miscellaneous**
+
+- DT-1016: BLT 10.x tests broken. (#3938)
+- Remove clear-twig-cache.sh which is now done by the main platform (#3913)
+- Revert "Bump blt-project to stable."
+- Bump blt-project to stable.
+
+
 #### 10.6.0 (2019-11-06)
 
 [Full Changelog](https://github.com/acquia/blt/compare/10.5.0...10.6.0)
