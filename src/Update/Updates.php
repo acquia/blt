@@ -876,9 +876,8 @@ class Updates {
    */
   public function update_11000001() {
     $composer_json = $this->updater->getComposerJson();
-    $template_composer_json = $this->updater->getTemplateComposerJson();
     if (!array_key_exists('drupal-composer/drupal-scaffold', $composer_json['require'])) {
-      $composer_json['require']['drupal-composer/drupal-scaffold'] = $template_composer_json['require']['drupal-composer/drupal-scaffold'];
+      $composer_json['require']['drupal-composer/drupal-scaffold'] = "^2.5.4";
       $this->updater->writeComposerJson($composer_json);
       $this->updater->getOutput()->writeln("Drupal Scaffold has been added to your composer.json. You must run `composer update` and commit both composer.json and composer.lock to apply the changes.");
     }
