@@ -27,12 +27,14 @@ This is intended to coincide with the [Drupal core release cycle](https://www.dr
 
 | BLT version | Support status        | End of life    |  Drupal versions* | Drush versions |
 |-------------|-----------------------|----------------|-------------------|----------------|
-| 11.x        | Unsupported, unstable | >= Dec 2020    | 8.8               | >= 10.0        |
-| **10.x**    | **Supported, stable** | **>=May 2020** | **8.7, 8.8**      | **>=9.5.0**    |
+| **11.x**    | **Supported, stable** | **>=Dec 2020** | **8.7\*\*, 8.8**      | **>=10.0**     |
+| 10.x        | Bug fixes only        | May 2020       | 8.7, 8.8          | >=9.5.0        |
 | 9.2.x       | Bug fixes only        | Dec 2019       | 8.6, 8.7          | >=9.4.0        |
 | <=9.x       | Unsupported           | May 2019       | 8.5               | >=9.1.0        |
 
-*Note that when a particular release of any package (such as Drupal or PHP) stops being supported by its maintainer, BLT may cease supporting that release as well. For instance, as of December 2019, BLT 10.x will no longer support Drupal 8.6, and will instead support Drupal 8.7 and 8.8  in accordance with [Drupal security policy](https://www.drupal.org/drupal-security-team/general-information).
+*When any upstream package release stops being supported by its maintainer, BLT will cease supporting that release as well. For instance, as of December 2019, BLT 10.x will no longer support Drupal 8.6, and will instead support Drupal 8.7 and 8.8  in accordance with [Drupal security policy](https://www.drupal.org/drupal-security-team/general-information).
+
+**Existing Drupal 8.7 projects can use BLT 11. However, when creating _new_ projects, BLT 11 only supports Drupal 8.8 due to its dependency on Composer Scaffold.
 
 ## Philosophy and Purpose
 
