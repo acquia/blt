@@ -1,5 +1,27 @@
 # Change Log
 
+#### 11.0.0 (2019-12-16)
+
+[Full Changelog](https://github.com/acquia/blt/compare/11.0.0-rc1...11.0.0)
+
+
+**Implemented enhancements**
+
+- DT-981: Fixes #3921: Enabled D9 deprecated code scanning by default. (#3946)
+- DT-980: Fixes #3922: Anonymous telemetry commands. (#3947)
+
+**Miscellaneous**
+
+- DT-588: New projects use Composer Scaffold. (#3944)
+- Delete plugins.md
+- Update README.md
+- Composer updates.
+- Sync docs changes.
+- ORCA Travis template updates. (#3945)
+- Revert "Bump blt-project to stable."
+- Bump blt-project to stable.
+
+
 #### 11.0.0-rc1 (2019-12-09)
 
 [Full Changelog](https://github.com/acquia/blt/compare/11.0.0-alpha1...11.0.0-rc1)
