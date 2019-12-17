@@ -25,7 +25,7 @@ env:
     # Custom configuration.
     - COMPOSER_BIN=$TRAVIS_BUILD_DIR/vendor/bin
     - BLT_DIR=$TRAVIS_BUILD_DIR
-    - DRUPAL_CORE_HEAD=8.8.x-dev
+    - DRUPAL_CORE_HEAD=8.7.x-dev
     - BLT_PRINT_COMMAND_OUTPUT=0
 
 matrix:
