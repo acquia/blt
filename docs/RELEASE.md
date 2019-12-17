@@ -36,6 +36,7 @@ To perform a release:
 
 * Add any manual steps or notable changes to the release notes.
 * Click publish. Packagist is automatically updated.
+* Add fix version and close tickets in JIRA.
 
 ## Finish updating Canary
 
