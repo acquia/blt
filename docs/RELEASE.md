@@ -70,4 +70,6 @@ In order to update the `require-dev` dependencies for BLT based projects, you mu
 
 ## For major releases only
 
+Coordinate with ORCA prior to release to ensure global test suites don't break.
+
 Make sure to update the README and default branches in acquia/blt as well as acquia/blt-project to use the new major release.
