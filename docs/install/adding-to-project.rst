@@ -14,7 +14,8 @@ template.
 
 Acquia BLT will try to generate any missing files during installation, but some
 projects may require manual reconciliation. Adhering to the following
-prerequisites and instructions should ensure a good outcome.
+prerequisites and instructions should ensure the expected outcome.
+
 
 .. _blt-prerequisites:
 
@@ -27,8 +28,8 @@ Prerequisites
    Drupal website dependencies
    <https://www.drupal.org/docs/develop/using-composer/using-composer-to-manage-drupal-site-dependencies>`__
    and change your project accordingly.
--  Ensure your dependencies are up-to-date using ``composer update``,
-   and the dependencies do not break your project.
+-  Be sure your dependencies are up-to-date by executing the command:
+   ``composer update``, and the dependencies don't break your project.
 
 
 .. _blt-add-to-existing-project:
@@ -65,22 +66,22 @@ steps:
 
       cp vendor/acquia/blt/subtree-splits/blt-project/.gitignore .
 
-#. (optional, but recommended) Replace your ``composer.json`` with Acquia BLT's
-   template ``composer.json``, and re-add any packages or other configuration
-   you want to preserve from your existing ``composer.json``:
+#. (*Optional*, but recommended) Replace your ``composer.json`` with Acquia
+   BLT's template ``composer.json``, and re-add any packages or other
+   configuration you want to preserve from your existing ``composer.json``:
 
    .. code-block:: bash
 
       cp vendor/acquia/blt/subtree-splits/blt-project/composer.json .
 
-#. Acquia BLT will have placed new files in your project directory. Review all
+#. Acquia BLT will place new files in your project directory. Review all
    new and modified files and commit them to Git.
 
 #. Run ``blt doctor`` to diagnose any potential remaining issues requiring
    manual intervention.
 
-#. Continue with the installation instructions immediately following the
+#. Continue with the installation instructions directly following the
    ``composer create-project``-based step in
    :doc:`/blt/install/creating-new-project/`.
 
-.. Next review date 20200417
+.. Next review date 20201223
