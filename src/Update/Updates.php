@@ -883,4 +883,20 @@ class Updates {
     }
   }
 
+  /**
+   * Version 11.0.2.
+   *
+   * @Update(
+   *   version = "11000020",
+   *   description = "Update phpcs.xml.dist."
+   * )
+   */
+  public function update_11000020() {
+    $this->updater->syncWithTemplate('phpcs.xml.dist', TRUE);
+    $this->updater->getOutput()->writeln("phpcs.xml.dist has been updated to accommodate changes in Coder 8.3.7. You should review and commit the changes.");
+    if (file_exists($this->updater->getRepoRoot() . '/phpcs.xml')) {
+      $this->updater->getOutput()->writeln('Also review phpcs.xml.dist for changes that should be copied to your custom phpcs.xml');
+    }
+  }
+
 }
