@@ -196,6 +196,7 @@ command-hooks:
     dir: ${docroot}
     command: null
 
+# Warning: BLT will attempt to kill processes on the ports listed below, which could lead to unexpected behavior if you use common ports (e.g. 80).
 tests:
   reports:
     localDir: ${repo.root}/reports
