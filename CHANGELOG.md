@@ -1,5 +1,23 @@
 # Change Log
 
+#### 10.7.1 (2020-01-02)
+
+[Full Changelog](https://github.com/acquia/blt/compare/10.7.0...10.7.1)
+
+
+**Fixed bugs**
+
+- DT-1082: Fixes #3957: Fix unexpected PHPCS behavior with Coder 8.3.7. (#3962)
+- Fixes #3956: Broken support link.
+
+**Miscellaneous**
+
+- Switch back to ORCA dev-master (#3963) (#3969)
+- Removed broken docs.
+- Composer updates.
+- ORCA create BLT 10 projects. (#3960)
+
+
 #### 10.7.0 (2019-12-16)
 
 [Full Changelog](https://github.com/acquia/blt/compare/10.6.0...10.7.0)
