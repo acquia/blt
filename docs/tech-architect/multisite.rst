@@ -3,7 +3,7 @@
 Multisite
 =========
 
-Configuring a multisite instance on |acquia-product:blt| involves two parts:
+Configuring a multisite instance on Acquia BLT involves two parts:
 the local configuration and the Acquia Cloud configuration.
 
 
@@ -56,7 +56,7 @@ Add a multisite array
 
 You have the option to explicitly define your multisites in
 ``blt/blt.yml`` by creating a ``multisites`` array. If you don't
-manually define this variable, |acquia-product:blt| will set it based on
+manually define this variable, Acquia BLT will set it based on
 discovered multisite directories:
 
 .. code-block:: text
@@ -72,9 +72,9 @@ be installed on Acquia Cloud.
 Override BLT variables
 ~~~~~~~~~~~~~~~~~~~~~~
 
-You may override |acquia-product:blt| variables on a per-website basis by
+You may override Acquia BLT variables on a per-website basis by
 editing the ``blt.yml`` file in ``docroot/sites/{newsite}/``. You may then run
-|acquia-product:blt| with the ``site`` variable set at the command line to
+Acquia BLT with the ``site`` variable set at the command line to
 load the website's properties.
 
 For instance, if the ``drush`` aliases for your website in

@@ -54,8 +54,8 @@ Memcache integrations. It is important that the settings for
 ``memcache_key_prefix`` and ``memcache_servers`` not be modified on
 Acquia Cloud.
 
-|acquia-product:blt| modifies the Memcache module integration on Acquia Cloud.
-|acquia-product:blt|'s configuration explicitly overrides the default bins for
+Acquia BLT modifies the Memcache module integration on Acquia Cloud.
+Acquia BLT's configuration explicitly overrides the default bins for
 the discovery, bootstrap, and configuration cache bins because Drupal core
 permanently caches these static bins by default. This is required for
 rebuilding service definitions accurately on cache rebuilds and deploys. See
@@ -68,12 +68,12 @@ rebuilding service definitions accurately on cache rebuilds and deploys. See
 Acquia Cloud Site Factory
 -------------------------
 
-As of |acquia-product:blt| 9.2, the factory hooks contain the necessary
+As of Acquia BLT 9.2, the factory hooks contain the necessary
 code to handle memcache integration with Acquia Cloud Site Factory provided
 that your subscription and hardware are properly configured.
 :doc:`/acquia-cloud/performance/memcached/` provides more information.
 
-If you are upgrading from a previous version of |acquia-product:blt| to 9.2.x,
+If you are upgrading from a previous version of Acquia BLT to 9.2.x,
 make sure and re-generate your factory hooks using:
 
 .. code-block:: text
@@ -90,7 +90,7 @@ Local Development
 -----------------
 
 The below has been tested with DrupalVM as configured through
-|acquia-product:blt|'s ``blt vm`` command, but should also work for most
+Acquia BLT's ``blt vm`` command, but should also work for most
 CI environments where the memcache back end is ``localhost`` on port ``11211``.
 
 Add the below statements to an environment's ``local.settings.php`` to
