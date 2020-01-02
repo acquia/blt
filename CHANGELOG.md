@@ -1,5 +1,24 @@
 # Change Log
 
+#### 11.1.0 (2020-01-02)
+
+[Full Changelog](https://github.com/acquia/blt/compare/11.0.1...11.1.0)
+
+
+**Fixed bugs**
+
+- DT-1082: Fixes #3957: Fix unexpected PHPCS behavior with Coder 8.3.7. (#3962)
+- BLT-3953: Fix example SimpleSAMLphp code. (#3954)
+
+**Miscellaneous**
+
+- Update RELEASE.md
+- DT-1055: Reconcile adding-to-project doc. (#3950)
+- Switch back to ORCA dev-master (#3963)
+- Update RELEASE.md
+- Update RELEASE.md
+
+
 #### 11.0.1 (2019-12-16)
 
 [Full Changelog](https://github.com/acquia/blt/compare/11.0.0...11.0.1)
