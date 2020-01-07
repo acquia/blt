@@ -127,7 +127,7 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
     // phpcs:ignore
     exec("command -v lsof && lsof -ti tcp:$port | xargs kill l 2>&1");
     // phpcs:ignore
-    exec("pkill -f $port 2>&1");
+    exec("pkill -f :$port 2>&1");
   }
 
   /**
