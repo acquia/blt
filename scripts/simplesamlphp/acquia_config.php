@@ -30,17 +30,20 @@ $config['auth.adminpassword'] = 'mysupersecret';
 /**
  * Support SSL Redirects to SAML login pages.
  *
- * Uncomment the code following code block to set
- * server port to 443 on HTTPS environment.
+ * Uncomment the following code block to set server port to 443 on HTTPS
+ * environment.
  *
  * This is a requirement in SimpleSAML when providing a redirect path.
  *
  * @link https://github.com/simplesamlphp/simplesamlphp/issues/450
+ *
+ * @code
+ * $_SERVER['SERVER_PORT'] = 443;
+ * $_SERVER['HTTPS'] = 'true';
+ * $protocol = 'https://';
+ * $port = ':' . $_SERVER['SERVER_PORT'];
+ * @endcode
  */
-/* $_SERVER['SERVER_PORT'] = 443;
-$_SERVER['HTTPS'] = 'true';
-$protocol = 'https://';
-$port = ':' . $_SERVER['SERVER_PORT'];*/
 
 /**
  * Cookies No Cache.
@@ -51,8 +54,12 @@ $port = ':' . $_SERVER['SERVER_PORT'];*/
  * Warning: This has performance implications for anonymous users.
  *
  * @link https://docs.acquia.com/resource/using-simplesamlphp-acquia-cloud-site
+ *
+ * @code
+ * setcookie('NO_CACHE', '1');
+ * @endcode
  */
-// setcookie('NO_CACHE', '1');.
+
 /**
  * Generate Acquia session storage via hosting creds.json.
  *

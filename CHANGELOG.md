@@ -1,5 +1,61 @@
 # Change Log
 
+#### 11.1.0 (2020-01-02)
+
+[Full Changelog](https://github.com/acquia/blt/compare/11.0.1...11.1.0)
+
+
+**Fixed bugs**
+
+- DT-1082: Fixes #3957: Fix unexpected PHPCS behavior with Coder 8.3.7. (#3962)
+- BLT-3953: Fix example SimpleSAMLphp code. (#3954)
+
+**Miscellaneous**
+
+- Update RELEASE.md
+- DT-1055: Reconcile adding-to-project doc. (#3950)
+- Switch back to ORCA dev-master (#3963)
+- Update RELEASE.md
+- Update RELEASE.md
+
+
+#### 11.0.1 (2019-12-16)
+
+[Full Changelog](https://github.com/acquia/blt/compare/11.0.0...11.0.1)
+
+
+**Miscellaneous**
+
+- Fixed update script.
+- Update README.md
+- Revert "Bump blt-project to stable."
+- Bump blt-project to stable.
+- Require PHP 7.2.
+- Update README.md
+
+
+#### 11.0.0 (2019-12-16)
+
+[Full Changelog](https://github.com/acquia/blt/compare/11.0.0-rc1...11.0.0)
+
+
+**Implemented enhancements**
+
+- DT-981: Fixes #3921: Enabled D9 deprecated code scanning by default. (#3946)
+- DT-980: Fixes #3922: Anonymous telemetry commands. (#3947)
+
+**Miscellaneous**
+
+- DT-588: New projects use Composer Scaffold. (#3944)
+- Delete plugins.md
+- Update README.md
+- Composer updates.
+- Sync docs changes.
+- ORCA Travis template updates. (#3945)
+- Revert "Bump blt-project to stable."
+- Bump blt-project to stable.
+
+
 #### 11.0.0-rc1 (2019-12-09)
 
 [Full Changelog](https://github.com/acquia/blt/compare/11.0.0-alpha1...11.0.0-rc1)

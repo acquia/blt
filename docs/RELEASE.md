@@ -3,6 +3,7 @@ This document outlines the process for creating a new BLT release.
 To perform a release:
 
 1. [Check build statuses](#check-build-statuses)
+1. [Review issue labels](#review-issue-labels)
 1. [Test via Canary](#test-via-canary)
 1. [Create a release](#create-a-release)
 1. [Update the blt-project repo](#update-the-blt-project-repo)
@@ -15,6 +16,10 @@ To perform a release:
 [![Build Status](https://travis-ci.com/acquia/blt.svg?branch=10.x)](https://travis-ci.com/acquia/blt)
 * [BLT 9.2.x](https://github.com/acquia/blt):
 [![Build Status](https://travis-ci.com/acquia/blt.svg?branch=9.2.x)](https://travis-ci.com/acquia/blt)
+
+## Review issue labels
+
+Review the issues and pull requests that will make up the release and ensure they are labelled correctly so that the changelog and release notes will be generated with the correct categories (new features, bug fixes, etc...).
 
 ## Test via Canary
 
@@ -36,6 +41,7 @@ To perform a release:
 
 * Add any manual steps or notable changes to the release notes.
 * Click publish. Packagist is automatically updated.
+* Add fix version and close tickets in JIRA.
 
 ## Finish updating Canary
 
@@ -68,5 +74,7 @@ In order to update the `require-dev` dependencies for BLT based projects, you mu
 * Tag and release a new version of blt-require-dev.
 
 ## For major releases only
+
+Coordinate with ORCA prior to release to ensure global test suites don't break.
 
 Make sure to update the README and default branches in acquia/blt as well as acquia/blt-project to use the new major release.

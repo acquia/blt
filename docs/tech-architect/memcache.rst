@@ -13,7 +13,6 @@ the `README.txt
 <http://cgit.drupalcode.org/memcache/tree/README.txt?h=8.x-2.x>`__
 file.
 
-
 Acquia Cloud and Acquia Cloud Site Factory
 ------------------------------------------
 
@@ -29,7 +28,7 @@ Local Development
 -----------------
 
 The below has been tested with DrupalVM as configured through
-|acquia-product:blt|'s ``blt vm`` command, but should also work for most
+Acquia BLT's ``blt vm`` command, but should also work for most
 CI environments where the memcache back end is ``localhost`` on port ``11211``.
 
 Add the below statements to an environment's ``local.settings.php`` to

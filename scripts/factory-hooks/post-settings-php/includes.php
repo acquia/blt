@@ -4,7 +4,7 @@
  * @file
  * ACSF post-settings-php hook.
  *
- * @see https://docs.acquia.com/site-factory/tiers/paas/workflow/hooks
+ * @see https://docs.acquia.com/site-factory/extend/hooks/settings-php/
  *
  * phpcs:disable DrupalPractice.CodeAnalysis.VariableAnalysis
  */

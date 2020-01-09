@@ -9,6 +9,9 @@ use Acquia\Blt\Robo\Blt;
  */
 class UserConfig {
 
+  const OPT_IN_MESSAGE = "🎉 Awesome! Thank you for helping out!";
+  const OPT_OUT_MESSAGE = "Ok, no data will be tracked and reported.\nWe take privacy seriously.";
+
   /**
    * User configuration file path.
    *

@@ -876,11 +876,26 @@ class Updates {
    */
   public function update_11000001() {
     $composer_json = $this->updater->getComposerJson();
-    $template_composer_json = $this->updater->getTemplateComposerJson();
     if (!array_key_exists('drupal-composer/drupal-scaffold', $composer_json['require'])) {
-      $composer_json['require']['drupal-composer/drupal-scaffold'] = $template_composer_json['require']['drupal-composer/drupal-scaffold'];
+      $composer_json['require']['drupal-composer/drupal-scaffold'] = "^2.5.4";
       $this->updater->writeComposerJson($composer_json);
       $this->updater->getOutput()->writeln("Drupal Scaffold has been added to your composer.json. You must run `composer update` and commit both composer.json and composer.lock to apply the changes.");
+    }
+  }
+
+  /**
+   * Version 11.0.2.
+   *
+   * @Update(
+   *   version = "11000020",
+   *   description = "Update phpcs.xml.dist."
+   * )
+   */
+  public function update_11000020() {
+    $this->updater->syncWithTemplate('phpcs.xml.dist', TRUE);
+    $this->updater->getOutput()->writeln("phpcs.xml.dist has been updated to accommodate changes in Coder 8.3.7. You should review and commit the changes.");
+    if (file_exists($this->updater->getRepoRoot() . '/phpcs.xml')) {
+      $this->updater->getOutput()->writeln('Also review phpcs.xml.dist for changes that should be copied to your custom phpcs.xml');
     }
   }
 
