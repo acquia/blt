@@ -56,6 +56,13 @@ class DeployCommand extends BltTasks {
   protected $deployDir;
 
   /**
+   * Deploy docroot directory.
+   *
+   * @var string
+   */
+  protected $deployDocroot;
+
+  /**
    * Whether to tag source.
    *
    * @var bool
@@ -79,8 +86,9 @@ class DeployCommand extends BltTasks {
   public function initialize() {
     $this->excludeFileTemp = $this->getConfigValue('deploy.exclude_file') . '.tmp';
     $this->deployDir = $this->getConfigValue('deploy.dir');
-    if (!$this->deployDir) {
-      throw new BltException('Configuration deploy.dir must be set to run this command');
+    $this->deployDocroot = $this->getConfigValue('deploy.docroot');
+    if (!$this->deployDir || !$this->deployDocroot) {
+      throw new BltException('Configuration deploy.dir and deploy.docroot must be set to run this command');
     }
     $this->tagSource = $this->getConfigValue('deploy.tag_source', TRUE);
   }
@@ -558,14 +566,14 @@ class DeployCommand extends BltTasks {
       ->files()
       ->name('*.txt')
       ->notName('LICENSE.txt')
-      ->in("{$this->deployDir}/docroot/core");
+      ->in("{$this->deployDocroot}/core");
 
     $this->logger->info('Find VCS directories...');
     $vcsFinder = Finder::create()
       ->ignoreDotFiles(FALSE)
       ->ignoreVCS(FALSE)
       ->directories()
-      ->in(["{$this->deployDir}/docroot", "{$this->deployDir}/vendor"])
+      ->in([$this->deployDocroot, "{$this->deployDir}/vendor"])
       ->name('.git');
     if ($vcsFinder->hasResults()) {
       $sanitizeFinder->append($vcsFinder);
@@ -575,7 +583,7 @@ class DeployCommand extends BltTasks {
     $githubFinder = Finder::create()
       ->ignoreDotFiles(FALSE)
       ->directories()
-      ->in(["{$this->deployDir}/docroot", "{$this->deployDir}/vendor"])
+      ->in([$this->deployDocroot, "{$this->deployDir}/vendor"])
       ->name('.github');
     if ($githubFinder->hasResults()) {
       $sanitizeFinder->append($githubFinder);
@@ -584,7 +592,7 @@ class DeployCommand extends BltTasks {
     $this->logger->info('Find INSTALL database text files...');
     $dbInstallFinder = Finder::create()
       ->files()
-      ->in(["{$this->deployDir}/docroot"])
+      ->in([$this->deployDocroot])
       ->name('/INSTALL\.[a-z]+\.(md|txt)$/');
     if ($dbInstallFinder->hasResults()) {
       $sanitizeFinder->append($dbInstallFinder);
@@ -604,7 +612,7 @@ class DeployCommand extends BltTasks {
     ];
     $textFileFinder = Finder::create()
       ->files()
-      ->in(["{$this->deployDir}/docroot"])
+      ->in([$this->deployDocroot])
       ->name('/(' . implode('|', $filenames) . ')\.(md|txt)$/');
     if ($textFileFinder->hasResults()) {
       $sanitizeFinder->append($textFileFinder);
