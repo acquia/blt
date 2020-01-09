@@ -13,76 +13,14 @@ the `README.txt
 <http://cgit.drupalcode.org/memcache/tree/README.txt?h=8.x-2.x>`__
 file.
 
-Before enabling the Memcache module, it is important to understand how
-the Drupal 8 `Cache API
-<https://api.drupal.org/api/drupal/core%21core.api.php/group/cache/8.4.x>`__
-functions and the how Drupal determines which cache back end to use for a
-specific cache bin, see `New cache back end configuration order
-<https://www.drupal.org/node/2754947>`__.
+Acquia Cloud and Acquia Cloud Site Factory
+------------------------------------------
 
-.. note::
-
-   Drupal 8 does not handle configurations where a given cache back end is set
-   as default, but the module providing the back end is not enabled. See
-   `this article on Drupal.org
-   <https://www.drupal.org/node/2766509>`__ for more information.
-
-The snippets below provide logic that allows for using memcache as a cache
-back end if the memcached extension is available and the Drupal module exists
-in the codebase but is not yet enabled. Using memcache as a cache back end
-negates patching core for graceful fallback and allows for purging stale cache
-objects when the service definition container is updated on website install or
-deployments. This allows for using alternative cache bins such as memcache on
-website install and deployments as needed. Using alternative cache bins such
-as memcache can help resolve website installation and deploy issues caused by
-cache race conditions. Cache race conditions are common on multisite
-applications using the `Content translation
-<https://www.drupal.org/docs/8/core/modules/content-translation>`__ module
-where the service container contains negotiation methods that override a
-locked default language on website install.
-
-
-.. _blt-memcache-ac:
-
-Acquia Cloud
-------------
-
-:doc:`/acquia-cloud/performance/memcached/` provides detailed information
-regarding how Acquia supports Memcached for its subscriptions and products,
-and is a good resource in general for information regarding Drupal and
-Memcache integrations. It is important that the settings for
-``memcache_key_prefix`` and ``memcache_servers`` not be modified on
-Acquia Cloud.
-
-Acquia BLT modifies the Memcache module integration on Acquia Cloud.
-Acquia BLT's configuration explicitly overrides the default bins for
-the discovery, bootstrap, and configuration cache bins because Drupal core
-permanently caches these static bins by default. This is required for
-rebuilding service definitions accurately on cache rebuilds and deploys. See
-`caching.settings.php
-<https://github.com/acquia/blt/blob/10.x/settings/cache.settings.php>`__.
-
-
-.. _blt-memcache-acsf:
-
-Acquia Cloud Site Factory
--------------------------
-
-As of Acquia BLT 9.2, the factory hooks contain the necessary
-code to handle memcache integration with Acquia Cloud Site Factory provided
-that your subscription and hardware are properly configured.
-:doc:`/acquia-cloud/performance/memcached/` provides more information.
-
-If you are upgrading from a previous version of Acquia BLT to 9.2.x,
-make sure and re-generate your factory hooks using:
-
-.. code-block:: text
-
-   recipes:acsf:init:hooks
-
-The preceding command will create a new memcache factory hook for use on
-Acquia Cloud Site Factory.
-
+To enable memcache integration in a Cloud hosting environment, ensure the
+`acquia/memcache-settings Composer package
+<https://github.com/acquia/memcache-settings>`__ is installed. If this package
+is present, Acquia BLT will include the relevant settings files to enable
+memcache integration. No additional setup or configuration is required.
 
 .. _blt-memcache-local-dev:
 

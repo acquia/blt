@@ -83,7 +83,7 @@ Initial set up
 
     .. code-block:: bash
 
-          ./vendor/bin/blt blt:init:shell-alias -y
+          ./vendor/bin/blt blt:init:shell-alias
 
     At this point, restart your shell for the alias work.
 
