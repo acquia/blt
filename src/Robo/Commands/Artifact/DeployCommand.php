@@ -565,7 +565,10 @@ class DeployCommand extends BltTasks {
       ->ignoreDotFiles(FALSE)
       ->ignoreVCS(FALSE)
       ->directories()
-      ->in(["{$this->deployDir}/docroot", "{$this->deployDir}/vendor"])
+      ->in(["{$this->deployDir}/docroot",
+        "{$this->deployDir}/drush",
+        "{$this->deployDir}/vendor",
+      ])
       ->name('.git');
     if ($vcsFinder->hasResults()) {
       $sanitizeFinder->append($vcsFinder);
