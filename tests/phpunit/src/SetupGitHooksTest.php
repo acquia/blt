@@ -105,8 +105,7 @@ class SetupGitHooksTest extends BltProjectTestBase {
     $process = new Process("./.git/hooks/pre-commit", $this->sandboxInstance);
     $process->run();
     $output = $process->getOutput();
-    // @todo Assert only changed files are validated.
-    $this->assertContains('tests:phpcs:sniff:modified', $output);
+    $this->assertContains('tests:phpcs:sniff:staged', $output);
     $this->assertContains('tests:yaml:lint:files', $output);
     $this->assertContains('tests:twig:lint:files', $output);
   }
