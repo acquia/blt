@@ -169,7 +169,6 @@ class ComposerCheck extends DoctorCheck {
     $this->compareComposerConfig('extra', 'patchLevel');
     $this->compareComposerConfig('repositories', 'drupal');
     $this->compareComposerConfig('scripts', 'nuke');
-    $this->compareComposerConfig('scripts', 'drupal-scaffold');
   }
 
   /**
