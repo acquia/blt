@@ -102,6 +102,26 @@ class PhpcsCommand extends BltTasks {
   }
 
   /**
+   * Executes PHPCS against staged files in repo.
+   *
+   * This command will execute PHP Codesniffer against staged files
+   * if those files are a subset of the phpcs.filesets filesets.
+   *
+   * @command tests:phpcs:sniff:staged
+   * @aliases tpss
+   *
+   * @return int
+   *   Exit code.
+   */
+  public function sniffStaged() {
+    $this->say("Sniffing staged files in repo...");
+    $arguments = "--filter=GitStaged";
+    $exit_code = $this->doSniff($arguments);
+
+    return $exit_code;
+  }
+
+  /**
    * Executes PHP Code Sniffer using specified options/arguments.
    *
    * @param string $arguments
