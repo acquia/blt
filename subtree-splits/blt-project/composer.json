@@ -6,7 +6,6 @@
     "require": {
         "php": ">=7.2",
         "acquia/blt": "11.x-dev",
-        "acquia/composer-scaffold": "dev-master",
         "acquia/drupal-spec-tool": "*",
         "acquia/lightning": "dev-8.x-4.x",
         "acquia/memcache-settings": "*",
@@ -14,6 +13,7 @@
         "drupal/acquia_purge": "^1.0-beta3",
         "drupal/cog": "^1.0.0",
         "drupal/config_split": "^1.0.0",
+        "drupal/core-composer-scaffold": "^8.8",
         "drupal/core-recommended": "^8.8.0",
         "drupal/devel": "^2.0.0",
         "drupal/features": "^3.8.0",
@@ -119,7 +119,6 @@
         "post-create-project-cmd": [
             "blt internal:create-project:init-repo"
         ],
-        "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
         "nuke": [
             "rm -rf vendor composer.lock docroot/core docroot/modules/contrib docroot/profiles/contrib docroot/themes/contrib",
             "@composer clearcache --ansi",
