@@ -32,7 +32,7 @@ installed tools available for use from the command line:
 
 -  `Git <https://git-scm.com/>`__
 -  `Composer <https://getcomposer.org/download/>`__
--  `PHP 7.1 or greater <http://php.net/manual/en/install.php>`__
+-  `PHP 7.2+ minimum, 7.3+ recommended <http://php.net/manual/en/install.php>`__
 
 Install the most recent version of these tools, unless otherwise noted.
 
