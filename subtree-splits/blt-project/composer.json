@@ -36,9 +36,6 @@
             "locations": {
                 "web-root": "./docroot"
             },
-            "allowed-packages": {
-                "drupal/core": "*"
-            },
             "file-mapping": {
                 "[web-root]/sites/default/default.services.yml": {
                     "mode": "replace",
