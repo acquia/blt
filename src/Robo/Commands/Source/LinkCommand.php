@@ -21,10 +21,12 @@ class LinkCommand extends BltTasks {
    * Composer path repository and mount your package in a DrupalVM or Lando
    * environment if one is present.
    *
-   * Due to limitations of NFS mounts, your package must exist either in a
+   * Due to limitations of NFS mounts, your package should exist either in a
    * sibling or cousin directory to your Drupal application. In other words, if
    * your package is named "foo", the only valid package paths relative to your
    * Drupal application are `../foo` or `../../[*]/foo`.
+   *
+   * Other structures might work but are untested.
    *
    * @param array $options
    *   The package name, path, and version to link.
@@ -38,18 +40,10 @@ class LinkCommand extends BltTasks {
     'package-version' => '*',
   ]) {
     $path_parts = explode('/', $options['package-path']);
-    // Do some validation and see if we are working with sibling or cousin
-    // directories. Assume it's a sibling to start.
-    $levels = 1;
+    $path_counts = array_count_values($path_parts);
+    $levels = $path_counts['..'];
     if ($path_parts[0] != '..') {
       throw new BltException("Package must exist outside of the current directory.");
-    }
-    if ($path_parts[1] == '..') {
-      // Cousin directory.
-      $levels = 2;
-    }
-    if ($path_parts[2] == '..') {
-      throw new BltException("Package must exist as a cousin or sibling to your Drupal application (with a common parent directory no more than 2 levels higher than your Drupal application)");
     }
     if (!file_exists($options['package-path'] . '/composer.json')) {
       throw new BltException("Could not find a valid Composer project at {$options['package-path']}. Please provide a valid package-path argument.");
@@ -74,7 +68,18 @@ class LinkCommand extends BltTasks {
     if ($this->getInspector()->isDrupalVmConfigPresent()) {
       $yamlWriter = new YamlWriter($this->getConfigValue('vm.config'));
       $vm_config = $yamlWriter->getContents();
-      $destination = $levels == 1 ? '/var/www/' . end($path_parts) : '/var/' . end($path_parts);
+      switch ($levels) {
+        case 1:
+          $destination = '/var/www/' . end($path_parts);
+          break;
+
+        case 2:
+          $destination = '/var/' . $path_parts[2] . '/' . $path_parts[3];
+          break;
+
+        default:
+          $destination = '/' . implode('/', $path_parts);
+      }
       $vm_config['vagrant_synced_folders'][] = [
         'local_path' => $options['package-path'],
         'destination' => $destination,
@@ -90,7 +95,18 @@ class LinkCommand extends BltTasks {
     if ($this->getInspector()->isLandoConfigPresent()) {
       $yamlWriter = new YamlWriter($this->getConfigValue('repo.root') . '/.lando.yml');
       $lando_config = $yamlWriter->getContents();
-      $destination = $levels == 1 ? '/' . end($path_parts) : '/' . $path_parts[2] . '/' . end($path_parts);
+      switch ($levels) {
+        case 1:
+          $destination = '/' . end($path_parts);
+          break;
+
+        case 2:
+          $destination = '/' . $path_parts[2] . '/' . $path_parts[3];
+          break;
+
+        default:
+          $destination = '/' . implode('/', $path_parts);
+      }
       if (!isset($lando_config['services']['appserver']['overrides']['volumes'])) {
         $lando_config['services']['appserver']['overrides']['volumes'] = [];
       }
