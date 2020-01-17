@@ -32,6 +32,7 @@ class LinkCommand extends BltTasks {
    *   The package name, path, and version to link.
    *
    * @command source:link
+   *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function linkComposer(array $options = [
