@@ -5,44 +5,43 @@
 Extending and overriding Acquia BLT
 ===================================
 
-Acquia BLT uses `Robo <https://github.com/consolidation/Robo>`__ to provide
-commands.
-
+Acquia BLT provides an extensive plugin and configuration system to support
+customization.
 
 .. _blt-add-robo-hook:
 
 Adding a custom Robo hook or command
 ------------------------------------
 
-Robo uses the `Annotated Command
-<https://github.com/consolidation/annotated-command>`__ library to enable you
-to add commands and hook into existing BLT commands. This allows you
-to execute custom code in response to various events, typically before
-or after executing a BLT command.
+Acquia BLT uses `Robo <https://github.com/consolidation/Robo>`__ and the
+`Annotated Command <https://github.com/consolidation/annotated-command>`__
+library to define commands. You can use annotated commands to define new custom
+commands or hook into existing commands, such as executing custom code before
+or after an existing Acquia BLT command.
 
-For a list of all available hook types, see `Annotated Command's hook types
-<https://github.com/consolidation/annotated-command#hooks>`__.
+You can generate a file containing an example custom command and hook by
+running the following command:
+
+.. code-block:: bash
+
+   blt recipes:blt:command:init
+
+You can place custom commands in a different directory in your project or even
+a separate Composer package, as long as you expose the command file using PSR4.
 
 To create your own Robo PHP command or hook, complete the following steps:
 
-#.  Create a new file in ``blt/src/Blt/Plugin/Commands`` named using the
-    pattern ``*Commands.php``. The file naming convention is required. You
-    can also provide custom commands in a separate Composer package if it
-    exposes the commands with PSR4.
+#.  Create a new file named using the required pattern ``*Commands.php``. For
+    instance, the generated example uses the file name ``ExampleCommands.php``.
 
-    You must use the namespace ``Example\Blt\Plugin\Commands`` in your
-    command file.
-
-#.  Generate an example command file by running the following command:
-
-    .. code-block:: bash
-
-       blt example:init
-
-    You may use the generated file as a guide for writing your own command.
+#.  Use a namespace ending in ``*\Blt\Plugin\Commands`` exposed using PSR4 in
+    your ``composer.json`` file. For instance, the generated example uses the
+    namespace ``Example\Blt\Plugin\Commands``.
 
 #.  Follow the `Robo PHP Getting Started guide
     <http://robo.li/getting-started/#commands>`__ to write a custom command.
+    For a list of all available hook types, see `Annotated Command's hook types
+    <https://github.com/consolidation/annotated-command#hooks>`__.
 
 
 .. _blt-replacing-overriding-robo-command:
@@ -50,7 +49,7 @@ To create your own Robo PHP command or hook, complete the following steps:
 Replacing or overriding a Robo command
 --------------------------------------
 
-To replace an Acquia BLT command with your own custom version, implement the
+To replace an Acquia BLT command with your own custom version, use the
 `replace command annotation
 <https://github.com/consolidation/annotated-command#replace-command-hook>`__
 for your custom command.
@@ -89,22 +88,32 @@ and ``tests:phpcs:sniff:files`` targets.
 Adding or overriding filesets
 -----------------------------
 
-To modify the behavior of PHPCS, see the `tests:phpcs:sniff:all
-<https://blt.readthedocs.io/en/latest/extending-blt/#testsphpcssniffall>`__
-documentation.
+You can also define your own custom filesets or override existing filesets.
 
-To modify the filesets that are used in other commands (such as
-``tests:twig:lint:all``, ``tests:yaml:lint:all``, and ``tests:php:lint``),
-complete the following steps:
+.. note::
 
-#.  Generate an example ``Filesets.php`` file by running the following
-    command:
+   To change the behavior of PHPCodeSniffer, see the documentation on the
+   ``tests:phpcs:sniff:all`` command in :ref:`the following section <blt-override-runtime>`.
 
-    .. code-block:: bash
 
-       blt example:init
+You can generate a file with an example custom fileset by running the following
+command:
 
-    You may use the generated file as a guide for writing your own fileset.
+.. code-block:: bash
+
+   blt recipes:blt:filesystem:init
+
+You can place custom commands in a different directory in your project or even
+a separate Composer package, as long as you expose the command file using PSR4.
+
+To create your own fileset definition, complete the following steps:
+
+#.  Create a new file named using the required pattern ``*Filesets.php``. For
+    instance, the generated example uses the file name ``ExampleFilesets.php``.
+
+#.  Use a namespace ending in ``*\Blt\Plugin\Filesets`` exposed using PSR4 in
+    your ``composer.json`` file. For instance, the generated example uses the
+    namespace ``Example\Blt\Plugin\Filesets``.
 
 #.  Create a public method in the ``Filesets`` class in the generated file.
 #.  Add a Fileset annotation to your public method, specifying its id:
@@ -114,12 +123,11 @@ complete the following steps:
           @fileset(id="files.yaml.custom")
 
 #.  Instantiate and return a ``Symfony\Component\Finder\Finder`` object. The
-    files found by the finder comprise the fileset.
+    files found by the finder form the fileset.
 
-You can use the Fileset id in various configuration values in your
-``blt/blt.yml`` file. For example, you may modify ``tests:yaml:lint:all`` to
-scan only your custom fileset by adding the following information to the
-``blt/blt.yml`` file:
+To change the filesets used in commands such as ``tests:twig:lint:all``,
+``tests:yaml:lint:all``, and ``tests:php:lint``, add the following
+configuration key to ``blt/blt.yml``:
 
 .. code-block:: yaml
 
@@ -129,6 +137,48 @@ scan only your custom fileset by adding the following information to the
             - files.yaml.custom
 
 
+.. _blt-overriding-env-detector:
+
+Overriding the environment detector
+-----------------------------------
+
+Acquia BLT includes a unified `environment detector class
+<https://github.com/acquia/blt/blob/HEAD/src/Robo/Common/EnvironmentDetector.php>`__
+providing information about the current hosting environment such as the
+stage (``dev``, ``stage``, or ``prod``), provider (Acquia or Pantheon), and
+type (local or CI). The environment detector primarily examines environment
+variables and system configuration files to give details about the current
+environment.
+
+You can extend the environment detector to support custom environments or
+override the detection behavior of built-in environments.
+
+.. note::
+
+   Page requests (due to ``settings.php`` includes) and BLT commands, can both
+   invoke the environment detector, so performance is critical. The detector
+   can't depend on a UI, the Drupal container, or Robo configuration.
+
+To override environment detector methods, create a new BLT plugin as follows:
+
+#.  Create a new custom environment detector class implementing Acquia BLT's
+    environment detector.
+#.  Override any supported method in your custom class.
+#.  Expose your custom class using PSR4 and add your class to Composer's
+    ``classmap`` in your plugin's ``composer.json`` file.
+
+Acquia BLT's Environment Detector will discover your overrides using PSR4 and
+re-dispatch any method calls to your custom implementation.
+
+As a reference implementation, the `BLT Tugboat plugin
+<https://github.com/acquia/blt-tugboat>`__ illustrates how to override the
+Environment Detector in practice.
+
+For more discussion on the Environment Detector architecture, design choices,
+and performance considerations, see `this issue
+<https://github.com/acquia/blt/issues/3804#issuecomment-523623896>`__.
+
+
 .. _blt-modify-blt-config:
 
 Modifying your Acquia BLT configuration
@@ -136,7 +186,7 @@ Modifying your Acquia BLT configuration
 
 You can customize your Acquia BLT configuration by overriding the value of
 default variable values. The `build.yml
-<https://github.com/acquia/blt/blob/9.x/config/build.yml>`__ file contains
+<https://github.com/acquia/blt/blob/HEAD/config/build.yml>`__ file contains
 the default values of all Acquia BLT variables.
 
 
@@ -158,8 +208,8 @@ Values loaded from the later files will overwrite values in earlier files.
 
 .. note::
 
-      If you want to override a non-empty value with an empty value, the
-      override value must be set to ``null``, and not ``''`` or ``[]``.
+   If you want to override a non-empty value with an empty value, the
+   override value must be set to ``null``, and not ``''`` or ``[]``.
 
 
 .. _blt-override-project:
@@ -219,15 +269,14 @@ example:
 For configuration values that are indexed arrays, you can override individual
 values using the numeric index, such as ``git.remotes.0``.
 
-The following list includes some of the more commonly customized Acquia BLT
-targets:
+The following list includes some commonly customized Acquia BLT targets:
 
-*  **artifact:\***
+-  **artifact:\***
 
    -  **artifact:build**: To modify the behavior of the ``artifact:build``
       target, you may override Acquia BLT's ``deploy`` configuration. For
       example contents, review the ``deploy`` key in the `build.yml
-      <https://github.com/acquia/blt/blob/9.x/config/build.yml#L54>`__ file.
+      <https://github.com/acquia/blt/blob/HEAD/config/build.yml#L54>`__ file.
 
       More specifically, you can modify the build artifact using the
       following methods:
@@ -235,7 +284,7 @@ targets:
       -  Change which files are rsynced to the artifact by providing your
          own ``deploy.exclude_file`` value in the ``blt.yml`` file. For
          example contents, review the `upstream deploy-exclude.txt
-         <https://github.com/acquia/blt/blob/9.x/scripts/blt/deploy/deploy-exclude.txt>`__
+         <https://github.com/acquia/blt/blob/HEAD/scripts/blt/deploy/deploy-exclude.txt>`__
          file:
 
          .. code-block:: yaml
@@ -244,8 +293,8 @@ targets:
                 exclude_file: ${repo.root}/blt/deploy/rsync-exclude.txt
 
       -  If you want to add to the `upstream deploy-exclude.txt
-         <https://github.com/acquia/blt/blob/9.x/scripts/blt/deploy/deploy-exclude.txt>`__
-         file instead of overriding it, you need not define your own
+         <https://github.com/acquia/blt/blob/HEAD/scripts/blt/deploy/deploy-exclude.txt>`__
+         file instead of overriding it, you don't need to define your own
          ``deploy.exclude_file``. Instead, leverage the
          ``deploy-exclude-additions.txt`` file found under the top-level
          Acquia BLT directory by adding each file or directory you want to
@@ -256,11 +305,10 @@ targets:
               /directorytoexclude
               excludeme.txt
 
-      -  Change which files are gitignored in the artifact by providing your
-         own ``deploy.gitignore_file`` value in the ``blt.yml`` file. For
-         example contents, review the `upstream .gitignore
-         <https://github.com/acquia/blt/blob/9.x/scripts/blt/deploy/.gitignore>`__
-         file.
+      -  Change which files Git ignores in the artifact by providing your own
+         ``deploy.gitignore_file`` value in the ``blt.yml`` file. For example
+         contents, review the `upstream .gitignore
+         <https://github.com/acquia/blt/blob/HEAD/scripts/blt/deploy/.gitignore>`__ file.
 
          .. code-block:: yaml
 
@@ -303,7 +351,7 @@ targets:
 
       You can use a custom Git hook in place of Acquia BLT's default Git hooks
       by setting its value under ``git.hooks`` to the directory path
-      containing of the hook. The directory must contain an executable file
+      containing the hook. The directory must contain an executable file
       named after the Git hook:
 
       .. code-block:: text
@@ -326,22 +374,22 @@ targets:
       regular expression defined in ``git.commit-msg.pattern``. You can
       :ref:`override the default configuration <blt-modify-blt-config>`.
 
-*  **tests:\***
+-  **tests:\***
 
    -  **tests:behat:run**: To modify the behavior of the ``tests:behat:run``
       target, you may override Acquia BLT's Behat configuration. For examples,
       review the `build.yml
-      <https://github.com/acquia/blt/blob/9.x/config/build.yml#L2>`__ file.
+      <https://github.com/acquia/blt/blob/HEAD/config/build.yml#L2>`__ file.
 
-   -  **tests:phpcs:sniff:all**: To modify the behavior of the
+   -  **tests:phpcs:sniff:all**: To change the behavior of the
       ``tests:phpcs:sniff:all`` target, you may copy ``phpcs.xml.dist`` to
-      ``phpcs.xml`` in your repository root directory, and then  modify the
+      ``phpcs.xml`` in your repository root directory, and then modify the
       XML. For more information, see the official `PHPCS documentation
       <https://github.com/squizlabs/PHP_CodeSniffer/wiki/Advanced-Usage#using-a-default-configuration-file>`__.
 
    -  **tests:twig:lint:all**: To prevent validation failures on any Twig
       filters or functions created in custom or contrib module
-      ``twig.extension`` services, add filters and functions similar to the
+      ``twig.extension`` services, add filters and functions like the
       following:
 
       .. code-block:: text
