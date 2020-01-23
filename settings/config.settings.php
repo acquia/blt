@@ -73,6 +73,7 @@ if (!isset($split)) {
   }
   // Acquia only envs.
   if (EnvironmentDetector::isAhEnv()) {
+    $config_directories['vcs'] = $config_directories['sync'];
     $split = 'ah_other';
   }
 
