@@ -143,19 +143,6 @@ $settings['rebuild_access'] = FALSE;
 $settings['skip_permissions_hardening'] = TRUE;
 
 /**
- * Temporary file path.
- *
- * A local file system path where temporary files will be stored. This
- * directory should not be accessible over the web.
- *
- * Note: Caches need to be cleared when this value is changed.
- *
- * See https://www.drupal.org/node/1928898 for more information
- * about global configuration override.
- */
-$config['system.file']['path']['temporary'] = '/tmp';
-
-/**
  * Private file path.
  */
 $settings['file_private_path'] = $dir . '/files-private/default';
