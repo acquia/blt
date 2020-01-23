@@ -16,8 +16,8 @@ use Acquia\Blt\Robo\Common\EnvironmentDetector;
  * applications may prefer to manage the configuration for each multisite
  * completely separately. If this is the case, they can set
  * $blt_override_config_directories to FALSE and
- * $config_directories['sync'] = $dir . "/config/$site_dir" in settings.php,
- * and we will not overwrite it.
+ * $settings['config_sync_directory'] = $dir . "/config/$site_dir" in
+ * settings.php, and we will not overwrite it.
  */
 // phpcs:ignore
 if (!isset($blt_override_config_directories)) {
@@ -28,10 +28,17 @@ if (!isset($blt_override_config_directories)) {
 if ($blt_override_config_directories) {
   // phpcs:ignore
   $config_directories['sync'] = $repo_root . "/config/default";
+  // phpcs:ignore
+  $settings['config_sync_directory'] = $repo_root . "/config/default";
 }
 
 $split_filename_prefix = 'config_split.config_split';
-$split_filepath_prefix = $config_directories['sync'] . '/' . $split_filename_prefix;
+if (isset($config_directories['sync'])) {
+  $split_filepath_prefix = $config_directories['sync'] . '/' . $split_filename_prefix;
+}
+else {
+  $split_filepath_prefix = $settings['config_sync_directory'] . '/' . $split_filename_prefix;
+}
 
 /**
  * Set environment splits.
@@ -66,7 +73,6 @@ if (!isset($split)) {
   }
   // Acquia only envs.
   if (EnvironmentDetector::isAhEnv()) {
-    $config_directories['vcs'] = $config_directories['sync'];
     $split = 'ah_other';
   }
 
