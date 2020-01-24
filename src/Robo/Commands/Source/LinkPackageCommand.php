@@ -9,13 +9,13 @@ use Acquia\Blt\Robo\Exceptions\BltException;
 /**
  * Defines commands for linking packages for development.
  */
-class LinkCommand extends BltTasks {
+class LinkPackageCommand extends BltTasks {
 
   /**
    * Link a package into your Drupal installation for development purposes.
    *
    * Use this command when developing a Drupal module or other Composer package
-   * a separate working directory from your Drupal application.
+   * in a separate working directory from your Drupal application.
    *
    * This command will link the package into your Drupal application using a
    * Composer path repository and mount your package in a DrupalVM or Lando
@@ -31,37 +31,37 @@ class LinkCommand extends BltTasks {
    * @param array $options
    *   The package name, path, and version to link.
    *
-   * @command source:link
+   * @command source:link-package
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function linkComposer(array $options = [
-    'package-name' => 'acquia/blt',
-    'package-path' => '../../packages/blt',
-    'package-version' => '*',
+    'name' => 'acquia/blt',
+    'path' => '../../packages/blt',
+    'version' => '*',
   ]) {
-    $path_parts = explode('/', $options['package-path']);
+    $path_parts = explode('/', $options['path']);
     $path_counts = array_count_values($path_parts);
     $levels = $path_counts['..'];
     if ($path_parts[0] != '..') {
       throw new BltException("Package must exist outside of the current directory.");
     }
-    if (!file_exists($options['package-path'] . '/composer.json')) {
-      throw new BltException("Could not find a valid Composer project at {$options['package-path']}. Please provide a valid package-path argument.");
+    if (!file_exists($options['path'] . '/composer.json')) {
+      throw new BltException("Could not find a valid Composer project at {$options['path']}. Please provide a valid path argument.");
     }
 
     // Set up composer path repository.
-    $this->taskExec("composer config repositories." . end($path_parts) . " path {$options['package-path']} && composer require {$options['package-name']}:{$options['package-version']} --no-update")
+    $this->taskExec("composer config repositories." . end($path_parts) . " path {$options['path']} && composer require {$options['name']}:{$options['version']} --no-update")
       ->dir($this->getConfigValue('repo.root'))
       ->run();
 
     // Remove any patches.
-    $this->taskExec("composer config --unset extra.patches.{$options['package-name']}")
+    $this->taskExec("composer config --unset extra.patches.{$options['name']}")
       ->dir($this->getConfigValue('repo.root'))
       ->run();
 
     // Nuke and reinitialize Composer to pick up changes.
-    $this->taskExec("rm -rf vendor && composer update {$options['package-name']} --with-dependencies")
+    $this->taskExec("rm -rf vendor && composer update {$options['name']} --with-dependencies")
       ->dir($this->getConfigValue('repo.root'))
       ->run();
 
@@ -82,7 +82,7 @@ class LinkCommand extends BltTasks {
           $destination = '/' . implode('/', $path_parts);
       }
       $vm_config['vagrant_synced_folders'][] = [
-        'local_path' => $options['package-path'],
+        'local_path' => $options['path'],
         'destination' => $destination,
         'type' => 'nfs',
       ];
@@ -111,7 +111,7 @@ class LinkCommand extends BltTasks {
       if (!isset($lando_config['services']['appserver']['overrides']['volumes'])) {
         $lando_config['services']['appserver']['overrides']['volumes'] = [];
       }
-      $lando_config['services']['appserver']['overrides']['volumes'][] = $options['package-path'] . ':' . $destination;
+      $lando_config['services']['appserver']['overrides']['volumes'][] = $options['path'] . ':' . $destination;
       $yamlWriter->write($lando_config);
       $this->taskExec('lando rebuild -y')
         ->dir($this->getConfigValue('repo.root'))
