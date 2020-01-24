@@ -38,7 +38,7 @@ class LinkPackageCommand extends BltTasks {
   public function linkComposer(array $options = [
     'name' => 'acquia/blt',
     'path' => '../../packages/blt',
-    'version' => '*',
+    'version-constraint' => '*',
   ]) {
     $path_parts = explode('/', $options['path']);
     $path_counts = array_count_values($path_parts);
@@ -51,7 +51,7 @@ class LinkPackageCommand extends BltTasks {
     }
 
     // Set up composer path repository.
-    $this->taskExec("composer config repositories." . end($path_parts) . " path {$options['path']} && composer require {$options['name']}:{$options['version']} --no-update")
+    $this->taskExec("composer config repositories." . end($path_parts) . " path {$options['path']} && composer require {$options['name']}:{$options['version-constraint']} --no-update")
       ->dir($this->getConfigValue('repo.root'))
       ->run();
 
