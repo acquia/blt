@@ -15,8 +15,8 @@ Local configuration
 #. Set up a single website on BLT, following the standard instructions, and
    ssh to the vm (``vagrant ssh``).
 
-#. Run ``blt recipes:multisite:init``. It is suggested to use an easy
-   machine name (rather than a domain name) for your site for `maximum
+#. Run ``blt recipes:multisite:init``. It's suggested to use an easy
+   machine name (rather than a domain name) for your website for `maximum
    compatibility with other BLT features
    <https://github.com/acquia/blt/pull/3503#issuecomment-477416463>`__.
 
@@ -35,10 +35,10 @@ Local configuration
    ``docroot/sites/{newsite}/settings/local.settings.php`` file to
    ensure your new website connects to the correct database.
 
-#. Copy core's ``example.sites.php`` file, rename it to ``sites.php``,
-   and add entries for your new website.
+#. Copy the ``example.sites.php`` file from Drupal core, rename it to
+   ``sites.php``, and add entries for your new website.
 
-#. If desired override any BLT settings in the
+#. If applicable, override any BLT settings in the
    ``docroot/sites/{newsite}/blt.yml`` file.
 
 #. Once you've completed the above and any relevant manual steps, exit
@@ -65,8 +65,8 @@ discovered multisite directories:
      - default
      - example
 
-At this point you should have a functional multisite codebase that can
-be installed on Acquia Cloud.
+At this point, you should have a functional multisite codebase you can
+install on Acquia Cloud.
 
 
 Override BLT variables
@@ -79,7 +79,7 @@ load the website's properties.
 
 For instance, if the ``drush`` aliases for your website in
 ``docroot/sites/mysite`` where ``@mysite.local`` and ``@mysite.test``,
-you could define these in ``docroot/sites/mysite/blt.yml`` as:
+you can define the aliases in ``docroot/sites/mysite/blt.yml`` as:
 
 .. code-block:: yaml
 
@@ -88,8 +88,32 @@ you could define these in ``docroot/sites/mysite/blt.yml`` as:
        local: mysite.local
        remote: mysite.test
 
-Then, to refresh your local website, you could run:
+Then, to refresh your local website, you can run:
 ``blt drupal:sync --site=mysite``.
+
+Behat configuration
+~~~~~~~~~~~~~~~~~~~
+
+If you want to use a Behat profile other than ``local.yaml`` for each website,
+you can override the configuration source file and profile values in
+``docroot/sites/mysite/blt.yml``:
+
+.. code-block:: yaml
+
+   behat:
+     tags: mysite
+     # When tests:behat:run target is executed, this Behat profile will be used.
+     # @see tests/behat/example.local.yml for Behat profile definition.
+     profile: mysite
+     config: /app/tests/behat/mysite.behat.yml
+
+Using the example configuration, a functional ``mysite.behat.yml`` file must
+exist at ``app/tests/behat/`` and must include correct configuration for a
+``mysite`` profile. Using tags and profiles enables more granular configuration
+of Behat suites, contexts, and extensions per multisite.
+
+Running the following command would then trigger Behat to use the ``mysite``
+configuration and profile: ``blt tets:behat:run --site=mysite``.
 
 
 .. _blt-multisite-ac-config:
@@ -98,8 +122,8 @@ Acquia Cloud configuration
 --------------------------
 
 Start by following the :doc:`/acquia-cloud/develop/drupal/multisite/` to
-configure your codebase for Acquia Cloud. Specifically, these
-instructions should walk you through:
+configure your codebase for Acquia Cloud. These instructions should walk you
+through:
 
 #. Creating a new database in Acquia Cloud.
 
@@ -121,10 +145,10 @@ Drush aliases
 
 The default Drush website aliases provided by :doc:`Acquia
 Cloud </acquia-cloud/manage/ssh/drush/aliases/>` and `Club
-<https://github.com/acquia/club#usage>`__ are not currently
+<https://github.com/acquia/club#usage>`__ aren't currently
 multisite-aware. They will connect to the first ("default") website /
-database on the subscription by default. You will need to create your
-own Drush aliases for each site.
+database on the subscription by default. You must create your own Drush
+aliases for each website.
 
 Acquia recommends copying the aliases file provided by Acquia Cloud
 or Club to create a separate aliases file for each website. Change the

@@ -18,8 +18,8 @@ Installing Acquia BLT
 
 .. note::
 
-   Do not clone the Acquia BLT repository to use it; only clone the
-   repository to contribute to the Acquia BLT project.
+   You must use Composer to install Acquia BLT. Don't clone the Acquia BLT
+   repository unless you are contributing to the Acquia BLT project.
 
 
 .. _blt-system-requirements:
@@ -32,9 +32,9 @@ installed tools available for use from the command line:
 
 -  `Git <https://git-scm.com/>`__
 -  `Composer <https://getcomposer.org/download/>`__
--  `PHP 7.2+ minimum, 7.3+ recommended <http://php.net/manual/en/install.php>`__
+-  `PHP 7.2 or later (7.3 recommended) <http://php.net/manual/en/install.php>`__
 
-Install the most recent version of these tools, unless otherwise noted.
+Install the most recent versions of dependencies unless otherwise noted.
 
 
 .. _blt-networking:
@@ -43,8 +43,8 @@ Networking considerations
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Building project dependencies requires your local computer to make HTTP and
-HTTPS requests to several remote software providers. Ensure your local- and
-network-level security settings permit these requests to occur.
+HTTPS requests to several remote software providers. Your local- and
+network-level security settings must not block requests.
 
 If you must make requests using a proxy server, `configure Git to use a proxy
 <http://stackoverflow.com/a/19213999>`__, which will address all Git-based
@@ -53,19 +53,17 @@ requests made by Composer.
 
 .. _blt-installation-requirements:
 
-Installing Acquia BLT
----------------------
+Installing dependencies
+-----------------------
 
-After confirming your computer has the :ref:`required command line tools
-<blt-system-requirements>` installed, use the following procedures
-(based on your operating system) to both ensure you meet the Acquia BLT system
-requirements, and to install Acquia BLT.
+Use the following procedures (based on your operating system) to install the
+necessary :ref:`dependencies listed above <blt-system-requirements>`.
 
 .. tabs::
 
    .. group-tab:: macOS
 
-      To install Acquia BLT on macOS, complete the following steps:
+      To install Acquia BLT dependencies on macOS, complete the following steps:
 
       #.  Ensure that you have installed `Xcode
           <https://itunes.apple.com/us/app/xcode/id497799835?mt=12>`__. Xcode
@@ -84,10 +82,11 @@ requirements, and to install Acquia BLT.
           .. code-block:: bash
 
               /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-              brew install php71 git composer drush
-              composer global require "hirak/prestissimo:^0.3"
+              brew install php git composer
+              composer global require hirak/prestissimo:^0.3
+              composer global require zaporylie/composer-drupal-optimizations:^1.1
 
-      #.  Install Drush **only** as a dependency of individual projects
+      #.  Install Drush *only* as a dependency of individual projects
           (instead of installing Drush system-wide). Acquia BLT will manage
           this dependency for you with projects, but for you to run Drush
           commands independently of Acquia BLT commands, `install the Drush
@@ -97,7 +96,7 @@ requirements, and to install Acquia BLT.
       #.  Set up your LAMP stack for use with your development, based on your
           selected environment choice:
 
-          *  `Drupal VM <https://www.drupalvm.com/>`__ – Use the installation
+          *  `Drupal VM <https://www.drupalvm.com/>`__: Use the installation
              instructions in the :ref:`Drupal VM requirements
              <blt-drupal-vm-blt-projects>`.
 
@@ -108,13 +107,13 @@ requirements, and to install Acquia BLT.
                 for files to be available in Drupal VM. `Learn more
                 <https://github.com/geerlingguy/drupal-vm/issues/1828>`__.
 
-          * Other LAMP stacks – See :doc:`/blt/install/local-development/`.
+          * Other LAMP stacks: See :doc:`/blt/install/local-development/`.
 
           .. note::
 
-              If you are not using a virtual machine (VM) and you want to run
-              Behat tests from the host computer, you will need to use Java.
-              Use the following commands to install Java:
+             If you are not using a virtual machine (VM) and you want to run
+             Behat tests from the host computer, you will need to use Java.
+             Use the following commands to install Java:
 
               .. code-block:: bash
 
@@ -151,19 +150,19 @@ requirements, and to install Acquia BLT.
 
         .. note::
 
-              You must create a UNIX username with a password when prompted
-              at the end of the installation process. Certain Acquia BLT
-              commands will not function if you install the Windows Subsystem
-              for Linux using an account without a password.
+           You must create a UNIX username with a password when prompted
+           at the end of the installation process. Certain Acquia BLT
+           commands will not function if you install the Windows Subsystem
+           for Linux using an account without a password.
 
         If you cannot use WSL, you can instead set up virtualization, and
         then run Acquia BLT in a virtual machine (VM) or container running
         Windows, based on the following tools:
 
-        -  `Docksal <https://blog.docksal.io/docksal-and-acquia-blt-1552540a3b9f>`__ –
+        -  `Docksal <https://blog.docksal.io/docksal-and-acquia-blt-1552540a3b9f>`__:
            Supports VirtualBox and Docker
-        -  `Lando <https://thinktandem.io/blog/2017/12/09/lando-blt-acquia/>`__ –
-           Support Docker
+        -  `Lando <https://thinktandem.io/blog/2017/12/09/lando-blt-acquia/>`__:
+           Supports Docker
 
       **Installation**
 
@@ -240,7 +239,7 @@ requirements, and to install Acquia BLT.
           git config --global user.name "Your Name"
 
       If you haven't already configured an SSH identity (useful for working
-      with projects on GitHub and interacting with your sites on
+      with projects on GitHub and interacting with your websites on
       Acquia Cloud), you should :doc:`generate an SSH key
       </acquia-cloud/manage/ssh/generate/>`.
 
@@ -251,14 +250,15 @@ requirements, and to install Acquia BLT.
       commands based on your installed version of Linux to install
       Acquia BLT:
 
-      -  *Ubuntu or Debian* –
+      -  *Ubuntu or Debian*:
 
          .. code-block:: bash
 
               apt-get install git composer drush
-              composer global require "hirak/prestissimo:^0.3"
+              composer global require hirak/prestissimo:^0.3
+              composer global require zaporylie/composer-drupal-optimizations:^1.1
 
-      -  *Fedora* –
+      -  *Fedora*:
 
          .. code-block:: bash
 
@@ -274,15 +274,21 @@ requirements, and to install Acquia BLT.
                   && sudo firewall-cmd --permanent --add-service=mountd \
                   && sudo firewall-cmd --reload
 
-Getting started with Acquia BLT
--------------------------------
 
-After you have successfully installed Acquia BLT, select from the following
-resources to assist you with your development:
+.. _blt-installing:
+
+Installing Acquia BLT
+---------------------
+
+After you have installed the dependencies, proceed to create a new project with
+Acquia BLT or add Acquia BLT to an existing project:
 
 -  :doc:`/blt/install/creating-new-project/`
--  :doc:`/blt/developer/onboarding/`
 -  :doc:`/blt/install/adding-to-project/`
--  :doc:`/blt/install/updating-blt/`
+
+If Acquia BLT is already set up for your project and you need instructions on
+how to get started, see :doc:`/blt/developer/onboarding/`. If you are trying to
+update an existing version of Acquia BLT, see
+:doc:`/blt/install/updating-blt/`.
 
 .. Next review date 20200422
