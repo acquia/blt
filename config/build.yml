@@ -39,6 +39,8 @@ cm:
     path: ../config
     # The default config key to use for imports. This is the key used in Drupal's global $config_directories variable.
     # E.g., $config_directories['sync']. It must have a corresponding key in cm.core.dirs. E.g., `cm.core.dirs.sync`.
+    # @todo This feature is deprecated in Drupal 8.8, remove it when we drop support for Drupal 8.8.
+    # @see https://www.drupal.org/node/3018145
     key: sync
     dirs:
       # Corresponding value is defined in config.settings.php.
