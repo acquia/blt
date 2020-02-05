@@ -1,5 +1,50 @@
 # Change Log
 
+#### 11.2.0 (2020-02-05)
+
+[Full Changelog](https://github.com/acquia/blt/compare/11.1.0...11.2.0)
+
+**Breaking changes**
+
+- DT-1036: Command to migrate projects to Composer Scaffold. (#3982)
+
+**Implemented enhancements**
+
+- Added source:link command to support local package development. (#3986)
+- Adds a config value for deployment docroot. (#3975)
+
+**Fixed bugs**
+
+- DT-1166: Restrict drupal-check version to fix Pipelines TTY error. (#4001)
+- DT-1108: Fixes #3965: Stop setting tmp file path. (#3991)
+- Fixes #3984: updates docs to refer to PHP 7.2 and 7.3 instead of 7.1. (#3985)
+- DT-1141: Fixes #3980: pre-commit validation doesn't catch code standards errors. (#3981)
+- DT-1129: Avoid PHPUnit version conflict with Drupal core. (#3978)
+- DT-1128: Fixes #3952: Contributed Drush commands deployed as subprojects. (#3977)
+
+**Miscellaneous**
+
+- Fixed pipelines deploys.
+- Fixed Pipelines deploy issue.
+- Revert "MS-4593| Prevents test command to kill wrong processes (#3971)" (#3995)
+- Fixes #3940: DT-1053: $config_directories deprecated in Drupal 8.8. (#3990)
+- DT-1056: Reconciled saml docs.
+- DT-1057: Reconciled multisite docs.
+- DT-1060: Reconciled install docs.
+- DT-1059: Reconciled extending-blt docs.
+- Fix README.md 404 links. (#3988)
+- Removed unnecessary allowed-packages key
+- DT-1061: Minor docs reconciliation (#3951)
+- Fix broken link in factory-hooks/post-settings-php/includes.php (#3972)
+- MS-4593| Prevents test command to kill wrong processes (#3971)
+- DT-1058: Reconcile frontend docs.
+- DT-1052: Reconcile testing doc. (#3949)
+- Warning about using port 80 in tests targets
+- Upstream docs sync: product names.
+- Revert "Bump blt-project to stable."
+- Bump blt-project to stable.
+
+
 #### 11.1.0 (2020-01-02)
 
 [Full Changelog](https://github.com/acquia/blt/compare/11.0.1...11.1.0)
