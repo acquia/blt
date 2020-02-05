@@ -589,7 +589,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     // Clean up all staged and unstaged files on current branch.
     $this->taskGitStack()
       ->exec('clean -fd .')
-      ->exec('remote update')
+      ->exec('remote update upstream')
       ->exec("reset --hard upstream/$current_branch")
       ->run();
   }
