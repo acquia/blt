@@ -1,5 +1,29 @@
 # Change Log
 
+#### 10.7.2 (2020-02-05)
+
+[Full Changelog](https://github.com/acquia/blt/compare/10.7.1...10.7.2)
+
+
+**Implemented enhancements**
+
+- Revert "Adds a config value for deployment docroot. (#3975)"
+- Adds a config value for deployment docroot. (#3975)
+
+**Fixed bugs**
+
+- DT-1166: Restrict drupal-check version to fix Pipelines TTY error. (#4001)
+- DT-1141: Fixes #3980: pre-commit validation doesn't catch code standards errors. (#3981)
+- DT-1129: Avoid PHPUnit version conflict with Drupal core. (#3978)
+- DT-1128: Fixes #3952: Contributed Drush commands deployed as subprojects. (#3977)
+
+**Miscellaneous**
+
+- Remove branch alias from blt-require-dev.
+- Revert "Bump blt-project to stable."
+- Bump blt-project to stable.
+
+
 #### 10.7.1 (2020-01-02)
 
 [Full Changelog](https://github.com/acquia/blt/compare/10.7.0...10.7.1)
