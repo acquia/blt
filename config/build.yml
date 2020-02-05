@@ -54,7 +54,6 @@ deploy:
   # If true, dependencies will be built during deploy. If false, you should commit dependencies directly.
   build-dependencies: true
   dir: ${repo.root}/deploy
-  docroot: ${deploy.dir}/docroot
   exclude_file: ${blt.root}/scripts/blt/deploy/deploy-exclude.txt
   exclude_additions_file: ${repo.root}/blt/deploy-exclude-additions.txt
   gitignore_file: ${blt.root}/scripts/blt/deploy/.gitignore
