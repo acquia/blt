@@ -13,6 +13,9 @@ the `README.txt
 <http://cgit.drupalcode.org/memcache/tree/README.txt?h=8.x-2.x>`__
 file.
 
+
+.. _blt-memcache-ac-acsf:
+
 Acquia Cloud and Acquia Cloud Site Factory
 ------------------------------------------
 
