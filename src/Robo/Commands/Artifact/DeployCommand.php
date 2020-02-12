@@ -543,7 +543,7 @@ class DeployCommand extends BltTasks {
       ->copy($this->getConfigValue('repo.root') . '/composer.lock', $this->deployDir . '/composer.lock', TRUE)
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
-    $command = 'composer install --no-dev --no-interaction --optimize-autoloader';
+    $command = 'composer install --no-dev --no-interaction --optimize-autoloader --prefer-dist';
     if ($this->ignorePlatformReqs) {
       $command .= ' --ignore-platform-reqs';
     }
