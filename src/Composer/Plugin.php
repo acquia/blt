@@ -92,7 +92,6 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
       ScriptEvents::POST_AUTOLOAD_DUMP => "onPostAutoloadDump",
       PackageEvents::POST_PACKAGE_INSTALL => "onPostPackageEvent",
       PackageEvents::POST_PACKAGE_UPDATE => "onPostPackageEvent",
-      ScriptEvents::PRE_UPDATE_CMD => "onPreUpdateCmdEvent",
       ScriptEvents::POST_UPDATE_CMD => [
         ['onPostCmdEvent'],
       ],
@@ -135,6 +134,9 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
       // By explicitly setting the blt package, the onPostCmdEvent() will
       // process the update automatically.
       $this->bltPackage = $package;
+      $config = $this->composer->getConfig();
+      $config->merge(array('config' => array('platform' => array('php' => PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION))));
+      $this->composer->setConfig($config);
     }
   }
 
@@ -150,13 +152,6 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
       $version = $this->bltPackage->getVersion();
       $this->executeBltUpdate($version);
     }
-  }
-
-  public function onPreUpdateCmdEvent(Event $event) {
-    // Modify composer.json in ways that would otherwise require an update.
-    $config = $this->composer->getPackage()->getConfig();
-    $config['platform']['php'] = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
-    $this->composer->getPackage()->setConfig($config);
   }
 
   /**
