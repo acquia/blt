@@ -155,7 +155,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
   public function onPreUpdateCmdEvent(Event $event) {
     // Modify composer.json in ways that would otherwise require an update.
     $config = $this->composer->getPackage()->getConfig();
-    $config['platform']['php'] = "7.3";
+    $config['platform']['php'] = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
     $this->composer->getPackage()->setConfig($config);
   }
 
