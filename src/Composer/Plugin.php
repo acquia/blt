@@ -92,6 +92,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
       ScriptEvents::POST_AUTOLOAD_DUMP => "onPostAutoloadDump",
       PackageEvents::POST_PACKAGE_INSTALL => "onPostPackageEvent",
       PackageEvents::POST_PACKAGE_UPDATE => "onPostPackageEvent",
+      ScriptEvents::PRE_UPDATE_CMD => "onPreUpdateCmdEvent",
       ScriptEvents::POST_UPDATE_CMD => [
         ['onPostCmdEvent'],
       ],
@@ -149,6 +150,13 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
       $version = $this->bltPackage->getVersion();
       $this->executeBltUpdate($version);
     }
+  }
+
+  public function onPreUpdateCmdEvent(Event $event) {
+    // Modify composer.json in ways that would otherwise require an update.
+    $config = $this->composer->getPackage()->getConfig();
+    $config['platform']['php'] = "7.3";
+    $this->composer->getPackage()->setConfig($config);
   }
 
   /**
