@@ -349,10 +349,12 @@ class EnvironmentDetector {
    */
   private static function getSubclassResults($functionName) {
     if (!defined('DRUPAL_ROOT')) {
-      // Do nothing if called outside of a Drupal bootstrap.
-      return [];
+      $path = __DIR__ . "../../../../../../../docroot";
     }
-    $autoloader = require DRUPAL_ROOT . '/autoload.php';
+    else {
+      $path = DRUPAL_ROOT;
+    }
+    $autoloader = require $path . "/autoload.php";
     $classMap = $autoloader->getClassMap();
     $detectors = array_filter($classMap, function ($classPath) {
       return strpos($classPath, 'Blt/Plugin/EnvironmentDetector') !== FALSE;
