@@ -134,9 +134,15 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
       // By explicitly setting the blt package, the onPostCmdEvent() will
       // process the update automatically.
       $this->bltPackage = $package;
+
       $config = $this->composer->getConfig();
-      $config->merge(array('config' => array('platform' => array('php' => PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION))));
-      $this->composer->setConfig($config);
+      if ($this->isInitialInstall() && !isset($config->get('config')['platform'])) {
+        // Inject php platform constraint into composer.lock.
+        $config->merge(['config' => ['platform' => ['php' => PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION]]]);
+        $this->composer->setConfig($config);
+        // Inject php platform contraint into composer.json.
+        $this->setComposerConfig();
+      }
     }
   }
 
@@ -335,6 +341,17 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
       };
     }
     return ($this->executor->execute($command, $output) == 0);
+  }
+
+  /**
+   * Sets composer.json configuration.
+   */
+  protected function setComposerConfig() {
+    $repo_root = $this->getRepoRoot();
+    $composer_filepath = $repo_root . '/composer.json';
+    $composer_contents = json_decode(file_get_contents($composer_filepath), TRUE);
+    $composer_contents['config']['platform']['php'] = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
+    file_put_contents($composer_filepath, json_encode($composer_contents, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL);
   }
 
 }

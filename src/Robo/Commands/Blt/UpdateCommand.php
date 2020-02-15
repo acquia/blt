@@ -67,7 +67,6 @@ class UpdateCommand extends BltTasks {
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function createProject() {
-    $this->setComposerConfig();
     $this->cleanUpProjectTemplate();
     $this->initializeBlt();
     $this->setProjectName();
@@ -88,7 +87,6 @@ class UpdateCommand extends BltTasks {
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function addToProject() {
-    $this->setComposerConfig();
     $this->rsyncTemplate();
     $this->initializeBlt();
     $this->displayArt();
@@ -388,19 +386,6 @@ class UpdateCommand extends BltTasks {
     $project_config = $yamlWriter->getContents();
     $project_config['project']['machine_name'] = $project_name;
     $yamlWriter->write($project_config);
-  }
-
-  /**
-   * Sets composer.json configuration.
-   */
-  protected function setComposerConfig() {
-    $repo_root = $this->getConfigValue('repo.root');
-    $composer_filepath = $repo_root . '/composer.json';
-    $composer_contents = json_decode(file_get_contents($composer_filepath), TRUE);
-    if (!isset($composer_contents['config']['platform']['php'])) {
-      $composer_contents['config']['platform']['php'] = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
-    }
-    file_put_contents($composer_filepath, json_encode($composer_contents, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL);
   }
 
 }
