@@ -359,7 +359,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
    */
   protected function sortChanges(array $log_entries, $github_token) {
     $client = new Client();
-    $client->authenticate($github_token, NULL, Client::AUTH_URL_TOKEN);
+    $client->authenticate($github_token, NULL, Client::AUTH_HTTP_TOKEN);
     /** @var \Github\Api\Issue $issue_api */
     $issue_api = $client->api('issue');
 
@@ -589,7 +589,7 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
     // Clean up all staged and unstaged files on current branch.
     $this->taskGitStack()
       ->exec('clean -fd .')
-      ->exec('remote update')
+      ->exec('remote update upstream')
       ->exec("reset --hard upstream/$current_branch")
       ->run();
   }
