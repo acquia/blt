@@ -137,7 +137,7 @@ class EnvironmentDetector {
         var_dump($_ENV[$env_var]);
       }
       else {
-        print('$_ENV[$env_var] is not set');
+        print('$_ENV[' . $env_var . '] is not set');
       }
       if (getenv($env_var)) {
         return $ci_name;
