@@ -130,8 +130,13 @@ class EnvironmentDetector {
     ];
     foreach ($mapping as $env_var => $ci_name) {
       print("\n $env_var results:\n");
-      print('getenv: ' . getenv($env_var) . "\n");
-      print('ENV: ' . $_ENV[$env_var] . "\n");
+      print('getenv: ' . var_dump(getenv($env_var)) . "\n");
+      if (isset($_ENV[$env_var])) {
+        print('ENV: ' . var_dump($_ENV[$env_var]) . "\n");
+      }
+      else {
+        print('$_ENV[$env_var] is not set');
+      }
       if (getenv($env_var)) {
         return $ci_name;
       }
