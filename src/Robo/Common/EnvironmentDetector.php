@@ -100,14 +100,14 @@ class EnvironmentDetector {
    * Get AH group.
    */
   public static function getAhGroup() {
-    return isset($_ENV['AH_SITE_GROUP']) ? $_ENV['AH_SITE_GROUP'] : NULL;
+    return getenv('AH_SITE_GROUP');
   }
 
   /**
    * Get AH env.
    */
   public static function getAhEnv() {
-    return isset($_ENV['AH_SITE_ENVIRONMENT']) ? $_ENV['AH_SITE_ENVIRONMENT'] : NULL;
+    return getenv('AH_SITE_ENVIRONMENT');
   }
 
   /**
@@ -129,7 +129,7 @@ class EnvironmentDetector {
       'GITLAB_CI' => 'gitlab',
     ];
     foreach ($mapping as $env_var => $ci_name) {
-      if (isset($_ENV[$env_var])) {
+      if (getenv($env_var)) {
         return $ci_name;
       }
     }
@@ -140,7 +140,7 @@ class EnvironmentDetector {
    * Is CI.
    */
   public static function isCiEnv() {
-    return self::getCiEnv() || isset($_ENV['CI']);
+    return self::getCiEnv() || getenv('CI');
   }
 
   /**
@@ -166,14 +166,14 @@ class EnvironmentDetector {
    * Is Pantheon.
    */
   public static function isPantheonEnv() {
-    return isset($_ENV['PANTHEON_ENVIRONMENT']);
+    return getenv('PANTHEON_ENVIRONMENT');
   }
 
   /**
    * Get Pantheon.
    */
   public static function getPantheonEnv() {
-    return self::isPantheonEnv() ? $_ENV['PANTHEON_ENVIRONMENT'] : NULL;
+    return self::isPantheonEnv() ? getenv('PANTHEON_ENVIRONMENT') : NULL;
   }
 
   /**

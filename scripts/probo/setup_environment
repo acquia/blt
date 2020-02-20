@@ -23,8 +23,6 @@ ln -s /bin/true /usr/sbin/sendmail
 echo 'max_execution_time = 120' >> /etc/php/${PHP_VERSION}/cli/conf.d/probo.ini
 echo 'sendmail_path = /bin/true' >> /etc/php/${PHP_VERSION}/cli/conf.d/probo.ini
 
-# Enable $_ENV variables in PHP.
-echo 'variables_order = "EGPCS"' >> /etc/php/${PHP_VERSION}/cli/conf.d/probo.ini
 # Ensure that always_populate_raw_post_data PHP setting: Not set to -1 does not happen.
 echo "always_populate_raw_post_data = -1" >> /etc/php/${PHP_VERSION}/cli/conf.d/probo.ini
 # Set PHP memory limit to something more realistic.

@@ -12,7 +12,7 @@
  * make splitting them up very hard.
  */
 
-if (isset($_ENV['AH_SITE_ENVIRONMENT']) && PHP_SAPI === 'cli') {
+if (getenv('AH_SITE_ENVIRONMENT') && PHP_SAPI === 'cli') {
   // Set the `request method`.
   putenv('REQUEST_METHOD=CLI');
   // Set the `domain`.

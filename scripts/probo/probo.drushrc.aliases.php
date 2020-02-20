@@ -7,5 +7,5 @@
 
 $aliases['${project.machine_name}.ci'] = [
   'uri' => 'http://localhost',
-  'root' => $_ENV['SRC_DIR'] . '/docroot',
+  'root' => getenv('SRC_DIR') . '/docroot',
 ];

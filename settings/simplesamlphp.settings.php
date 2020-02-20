@@ -6,8 +6,8 @@
  */
 
 // Provide universal absolute path to the installation.
-if (isset($_ENV['AH_SITE_NAME']) && is_dir('/var/www/html/' . $_ENV['AH_SITE_NAME'] . '/vendor/simplesamlphp/simplesamlphp')) {
-  $settings['simplesamlphp_dir'] = '/var/www/html/' . $_ENV['AH_SITE_NAME'] . '/vendor/simplesamlphp/simplesamlphp';
+if (getenv('AH_SITE_NAME') && is_dir('/var/www/html/' . getenv('AH_SITE_NAME') . '/vendor/simplesamlphp/simplesamlphp')) {
+  $settings['simplesamlphp_dir'] = '/var/www/html/' . getenv('AH_SITE_NAME') . '/vendor/simplesamlphp/simplesamlphp';
 
   // Force server port to 443 with HTTPS environments when behind a load
   // balancer which is a requirement for SimpleSAML with ADFS when providing a
