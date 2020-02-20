@@ -129,7 +129,7 @@ class EnvironmentDetector {
       'GITLAB_CI' => 'gitlab',
     ];
     foreach ($mapping as $env_var => $ci_name) {
-      if (isset($_ENV[$env_var])) {
+      if (getenv($env_var)) {
         return $ci_name;
       }
     }
