@@ -166,14 +166,14 @@ class EnvironmentDetector {
    * Is Pantheon.
    */
   public static function isPantheonEnv() {
-    return getenv('PANTHEON_ENVIRONMENT');
+    return (bool) getenv('PANTHEON_ENVIRONMENT');
   }
 
   /**
    * Get Pantheon.
    */
   public static function getPantheonEnv() {
-    return self::isPantheonEnv() ? getenv('PANTHEON_ENVIRONMENT') : NULL;
+    return getenv('PANTHEON_ENVIRONMENT');
   }
 
   /**
