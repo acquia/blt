@@ -55,6 +55,8 @@ jobs:
     - env: ORCA_JOB=CORE_NEXT
 
 before_install:
+  # Enable $_ENV variables in PHP.
+  - echo 'variables_order = "EGPCS"' >> /etc/php/${PHP_VERSION}/cli/conf.d/probo.ini
   # Exit build early if only documentation was changed in a Pull Request.
   - source ${BLT_DIR}/scripts/travis/exit_early
   # Prepare local testing version of blt-project so it can be used by ORCA.
