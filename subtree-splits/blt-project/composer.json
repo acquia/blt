@@ -4,8 +4,8 @@
     "description": "Project template for Drupal 8 sites built with BLT.",
     "license": "GPL-2.0-only",
     "require": {
-        "php": ">=7.2",
-        "acquia/blt": "11.x-dev",
+        "php": ">=7.3",
+        "acquia/blt": "12.x-dev",
         "acquia/drupal-spec-tool": "*",
         "acquia/lightning": "dev-8.x-4.x",
         "acquia/memcache-settings": "*",
@@ -26,7 +26,7 @@
     },
     "config": {
         "platform": {
-            "php": "7.2"
+            "php": "7.3"
         },
         "sort-packages": true
     },
