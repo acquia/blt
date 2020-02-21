@@ -12,6 +12,7 @@ use Composer\IO\IOInterface;
 use Composer\Json\JsonFile;
 use Composer\Package\Locker;
 use Composer\Package\PackageInterface;
+use Composer\Plugin\PluginEvents;
 use Composer\Plugin\PluginInterface;
 use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
@@ -97,6 +98,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
       ScriptEvents::POST_UPDATE_CMD => [
         ['onPostCmdEvent'],
       ],
+      PluginEvents::INIT => "doStuff",
     ];
   }
 
@@ -142,18 +144,21 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
         // Inject php platform constraint into composer.lock.
         $config->merge(['config' => ['platform' => ['php' => PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION]]]);
         $this->composer->setConfig($config);
-        // Inject php platform contraint into composer.json.
-        $repo_root = $this->getRepoRoot();
-        $composer_filepath = $repo_root . '/composer.json';
-        $composer_lock_filepath = $repo_root . '/composer.lock';
-        $composer_contents = json_decode(file_get_contents($composer_filepath), TRUE);
-        $composer_contents['config']['platform']['php'] = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
-        file_put_contents($composer_filepath, json_encode($composer_contents, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL);
-        // Update lock hash.
-        $locker = new Locker($this->io, new JsonFile($composer_lock_filepath, NULL, $this->io), $this->composer->getRepositoryManager(), $this->composer->getInstallationManager(), file_get_contents($composer_filepath));
-        $this->composer->setLocker($locker);
       }
     }
+  }
+
+  public function doStuff(\Composer\EventDispatcher\Event $event) {
+    // Inject php platform contraint into composer.json.
+    $repo_root = $this->getRepoRoot();
+    $composer_filepath = $repo_root . '/composer.json';
+    $composer_lock_filepath = $repo_root . '/composer.lock';
+    $composer_contents = json_decode(file_get_contents($composer_filepath), TRUE);
+    $composer_contents['config']['platform']['php'] = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION;
+    file_put_contents($composer_filepath, json_encode($composer_contents, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . PHP_EOL);
+    // Update lock hash.
+    $locker = new Locker($this->io, new JsonFile($composer_lock_filepath, NULL, $this->io), $this->composer->getRepositoryManager(), $this->composer->getInstallationManager(), file_get_contents($composer_filepath));
+    $this->composer->setLocker($locker);
   }
 
   /**
