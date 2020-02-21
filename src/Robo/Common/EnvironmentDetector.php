@@ -333,6 +333,31 @@ class EnvironmentDetector {
   }
 
   /**
+   * Find the repo root.
+   *
+   * This isn't as trivial as it sounds, since a simple relative path
+   * (__DIR__ . '/../../../../../../') won't work if this package is symlinked
+   * using a Composer path repository, and this file can be invoked from both
+   * web requests and BLT CLI calls.
+   *
+   * @return string
+   *   The repo root as an absolute path.
+   */
+  public static function getRepoRoot() {
+    if (defined('DRUPAL_ROOT')) {
+      // This is a web or Drush request.
+      return DRUPAL_ROOT . '/..';
+    }
+    else {
+      // This is a BLT CLI call. Get the $repo_root that was set in
+      // bin/blt-robo.php.
+      // phpcs:ignore
+      global $repo_root;
+      return $repo_root;
+    }
+  }
+
+  /**
    * Call a given function in all EnvironmentDetector subclasses.
    *
    * Composer packages can provide their own version of an EnvironmentDetector
@@ -348,11 +373,7 @@ class EnvironmentDetector {
    * @throws \ReflectionException
    */
   private static function getSubclassResults($functionName) {
-    if (!defined('DRUPAL_ROOT')) {
-      // Do nothing if called outside of a Drupal bootstrap.
-      return [];
-    }
-    $autoloader = require DRUPAL_ROOT . '/autoload.php';
+    $autoloader = require self::getRepoRoot() . '/vendor/autoload.php';
     $classMap = $autoloader->getClassMap();
     $detectors = array_filter($classMap, function ($classPath) {
       return strpos($classPath, 'Blt/Plugin/EnvironmentDetector') !== FALSE;

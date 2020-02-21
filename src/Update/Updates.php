@@ -899,4 +899,20 @@ class Updates {
     }
   }
 
+  /**
+   * Version 11.2.0.
+   *
+   * @Update(
+   *   version = "11002000",
+   *   description = "Update .gitignore with travis_wait."
+   * )
+   */
+  public function update_11002000() {
+    $filename = $this->updater->getRepoRoot() . '/.gitignore';
+    $lines = file($filename);
+    if (!in_array("/travis_wait*\n", $lines)) {
+      file_put_contents($filename, "\n# BLT 11.2.0 update to support simulated deploys\n/travis_wait*\n", FILE_APPEND);
+    }
+  }
+
 }
