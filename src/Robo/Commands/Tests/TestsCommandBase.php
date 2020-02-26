@@ -135,6 +135,10 @@ class TestsCommandBase extends BltTasks {
       return 'google-chrome';
     }
 
+    if ($this->getInspector()->commandExists('chromium-browser')) {
+      return 'chromium-browser';
+    }
+
     $osx_path = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
     if (EnvironmentDetector::isDarwin() && file_exists($osx_path)) {
       return $osx_path;
@@ -154,7 +158,7 @@ class TestsCommandBase extends BltTasks {
    */
   protected function checkChromeVersion($bin) {
     $version = (int) $this->getContainer()->get('executor')
-      ->execute("'$bin' --version | cut -f3 -d' ' | cut -f1 -d'.'")
+      ->execute("'$bin' --version | cut -f1 -d'.' | rev | cut -f1 -d' ' | rev")
       ->run()
       ->getMessage();
 
