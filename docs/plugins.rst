@@ -30,7 +30,7 @@ Available on Github: https://github.com/acquia/blt-probo
 .. _blt-plugins-azure-piplines:
 
 Azure Pipelines
--------
+---------------
 
 Integrates Acquia BLT with the Azure Devops Pipelines CI service.
 
