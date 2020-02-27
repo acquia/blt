@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8a256c5141f6460f8216bedbbff0a787",
+    "content-hash": "6d8d4129299b2ea65248c71799be3d49",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2259,16 +2259,16 @@
         },
         {
             "name": "drush/drush",
-            "version": "10.2.1",
+            "version": "10.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drush-ops/drush.git",
-                "reference": "756e7a9e82bfe424f02ff5eb006bf514b9a4365d"
+                "reference": "8307a4e7dae9c63a279d8b59b9dca6c1973576c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drush-ops/drush/zipball/756e7a9e82bfe424f02ff5eb006bf514b9a4365d",
-                "reference": "756e7a9e82bfe424f02ff5eb006bf514b9a4365d",
+                "url": "https://api.github.com/repos/drush-ops/drush/zipball/8307a4e7dae9c63a279d8b59b9dca6c1973576c2",
+                "reference": "8307a4e7dae9c63a279d8b59b9dca6c1973576c2",
                 "shasum": ""
             },
             "require": {
@@ -2384,7 +2384,7 @@
             ],
             "description": "Drush is a command line shell and scripting interface for Drupal, a veritable Swiss Army knife designed to make life easier for those of us who spend some of our working hours hacking away at the command prompt.",
             "homepage": "http://www.drush.org",
-            "time": "2020-02-07T17:53:36+00:00"
+            "time": "2020-02-26T21:07:53+00:00"
         },
         {
             "name": "egulias/email-validator",

@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-set -ev
-
-# @TODO find a way of identifying if this is a tag build
-#blt artifact:deploy --commit-msg "Automated commit by Probo CI for Build ${BUILD_ID}" --tag "${BRANCH_NAME}-build" --ignore-dirty -v
-
-set +v
