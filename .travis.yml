@@ -29,7 +29,7 @@ env:
     # Custom configuration.
     - COMPOSER_BIN=$TRAVIS_BUILD_DIR/vendor/bin
     - BLT_DIR=$TRAVIS_BUILD_DIR
-    - DRUPAL_CORE_HEAD=8.8.x-dev
+    - DRUPAL_CORE_HEAD=8.9.x-dev
     # Change to 1 to debug failed tests.
     - BLT_PRINT_COMMAND_OUTPUT=0
 
@@ -46,6 +46,8 @@ jobs:
     - { name: "Integrated test w/ dev package versions & next minor dev version of Drupal core", env: ORCA_JOB=CORE_NEXT }
     # Custom jobs.
     - env: DRUPAL_CORE_VERSION=default PHPUNIT_EXCLUDE_GROUP='drupal,requires-vm'
+    - env: DRUPAL_CORE_VERSION=default PHPUNIT_EXCLUDE_GROUP='drupal,requires-vm'
+      php: "7.4"
     - env: DRUPAL_CORE_VERSION=default PHPUNIT_GROUP='drupal'
     - env: DRUPAL_CORE_VERSION=$DRUPAL_CORE_HEAD
   allow_failures:
