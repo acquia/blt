@@ -17,6 +17,16 @@ Integrates Acquia BLT with the Tugboat CI service.
 Available on Github: https://github.com/acquia/blt-tugboat
 
 
+.. _blt-plugins-azure-piplines:
+
+Azure Pipelines
+-------
+
+Integrates Acquia BLT with the Azure Devops Pipelines CI service.
+
+Available on Github: https://github.com/mikemadison13/blt-azure-pipelines
+
+
 .. _blt-plugins-docksal:
 
 Docksal
@@ -29,7 +39,7 @@ Available on Github: https://github.com/docksal/blt-docksal
 
 .. _blt-plugins-ddev:
 
-ddev
+DDev
 ----
 
 Integrates Acquia BLT with the ddev local development environment.
