@@ -17,6 +17,16 @@ Integrates Acquia BLT with the Tugboat CI service.
 Available on Github: https://github.com/acquia/blt-tugboat
 
 
+.. _blt-plugins-probo:
+
+Probo
+-------
+
+Integrates Acquia BLT with the Probo CI service.
+
+Available on Github: https://github.com/acquia/blt-probo
+
+
 .. _blt-plugins-azure-piplines:
 
 Azure Pipelines
