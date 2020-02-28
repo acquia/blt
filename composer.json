@@ -56,7 +56,7 @@
         "drupal/core-dev": "^8.8.0",
         "knplabs/github-api": "^2.6",
         "php-http/guzzle6-adapter": "^1.1",
-        "phpunit/phpunit": "^4.8.35 || ^6.5 || ^7",
+        "phpunit/phpunit": "^4.8.35 || ^6.5 || ^7"
     },
     "suggest": {
         "davereid/drush-acquia-hook-invoke": "dev-master",
