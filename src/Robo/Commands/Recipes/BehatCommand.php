@@ -39,12 +39,8 @@ class BehatCommand extends BltTasks {
     ];
 
     foreach ($packages as $package_name => $package_version) {
-      $package_options = [
-        'package_name' => $package_name,
-        'package_version' => $package_version,
-        ['dev' => TRUE],
-      ];
-      $this->invokeCommand('internal:composer:require', $package_options);
+      $this->taskExec("composer require --dev --update-with-all-dependencies $package_name:$package_version")
+        ->run();
     }
 
     $this->say("<info>Example Behat tests were copied into your application.</info>");
