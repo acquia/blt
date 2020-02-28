@@ -31,6 +31,7 @@ class BehatCommand extends BltTasks {
 
     $packages = [
       'behat/behat' => '^3.1',
+      'behat/gherkin' => '^4.6.1',
       'bex/behat-screenshot' => '^1.2',
       'dmore/behat-chrome-extension' => '^1.0.0',
       'drupal/drupal-extension' => '~3.2',
