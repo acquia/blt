@@ -1,0 +1,13 @@
+# This file defines drush configuration that applies to drush commands
+# for the entire application. For site-specific settings, like URI, use
+# ../docroot/sites/[site]/drush.yml
+drush:
+  paths:
+    config:
+      # Load a drush.yml configuration file from the current working directory.
+      - ../docroot/sites/default/local.drush.yml
+      # Allow local global config overrides.
+      - local.drush.yml
+    include:
+      - '${env.home}/.drush'
+      - /usr/share/drush/commands
