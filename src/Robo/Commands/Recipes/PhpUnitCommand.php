@@ -31,6 +31,13 @@ class PhpUnitCommand extends BltTasks {
       throw new BltException("Could not copy example files into the repository root.");
     }
 
+    $package_options = [
+      'package_name' => 'phpunit/phpunit',
+      'package_version' => '^4.8.35 || ^6.5 || ^7',
+      ['dev' => TRUE],
+    ];
+    $this->invokeCommand('internal:composer:require', $package_options);
+
     $this->say("<info>Example PHPUnit files were copied to your application.</info>");
   }
 
