@@ -67,7 +67,6 @@ class UpdateCommand extends BltTasks {
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function createProject() {
-    $this->cleanUpProjectTemplate();
     $this->initializeBlt();
     $this->setProjectName();
     $this->initAndCommitRepo();
@@ -87,8 +86,9 @@ class UpdateCommand extends BltTasks {
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function addToProject() {
-    $this->rsyncTemplate();
     $this->initializeBlt();
+    $this->setProjectName();
+    $this->initAndCommitRepo();
     $this->displayArt();
     $this->yell("BLT has been added to your project.");
     $this->say("This required a full `composer update`.");
@@ -100,6 +100,9 @@ class UpdateCommand extends BltTasks {
    * Creates initial BLT files in their default state.
    */
   protected function initializeBlt() {
+    $this->taskCopyDir([$this->getConfigValue('blt.root') . '/scripts/blt/template' => $this->getConfigValue('repo.root')])
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->run();
     $this->updateSchemaVersionFile();
     $this->taskExecStack()
       ->dir($this->getConfigValue("repo.root"))
