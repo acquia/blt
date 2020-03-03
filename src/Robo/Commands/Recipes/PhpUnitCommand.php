@@ -31,6 +31,11 @@ class PhpUnitCommand extends BltTasks {
       throw new BltException("Could not copy example files into the repository root.");
     }
 
+    $this->taskExec("composer require --dev --no-update phpunit/phpunit:'^4.8.35 || ^6.5 || ^7'")
+      ->run();
+    $this->taskExec("composer update")
+      ->run();
+
     $this->say("<info>Example PHPUnit files were copied to your application.</info>");
   }
 
