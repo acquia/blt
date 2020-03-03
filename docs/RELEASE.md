@@ -66,15 +66,6 @@ In order to accomplish this, the composer.json in the blt-project subtree split 
 
 Obviously this is a clunky process, but it produces the best result for end users and fortunately shouldn't need to happen often. It could probably be automated by incorporating the above steps into a Robo command, and/or setting up a Github service to automatically push subtree changes to the blt-project split.
 
-## Update the blt-require-dev repo
-
-In order to update the `require-dev` dependencies for BLT based projects, you must:
-
-* Update the `composer.json` file in the `subtree-splits/blt-require-dev` directory's `composer.json`.
-* Commit the changes.
-* Execute `./vendor/bin/robo subtree:push:blt-require-dev`
-* Tag and release a new version of blt-require-dev.
-
 ## Publicize the release
 
 Let folks in the #blt Drupal Slack channel know about exciting features or important changes in the new release and link to the release notes.

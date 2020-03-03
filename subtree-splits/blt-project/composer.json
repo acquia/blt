@@ -21,9 +21,6 @@
         "drupal/seckit": "^1.0.0-alpha2",
         "drupal/shield": "^1.2.0"
     },
-    "require-dev": {
-        "acquia/blt-require-dev": "11.x-dev"
-    },
     "config": {
         "platform": {
             "php": "7.3"
