@@ -119,7 +119,6 @@ class ComposerCheck extends DoctorCheck {
    */
   public function performAllChecks() {
     $this->checkRequire();
-    $this->checkBltRequireDev();
     if (!$this->getInspector()->isVmCli()) {
       $this->checkPrestissimo();
     }
@@ -169,19 +168,6 @@ class ComposerCheck extends DoctorCheck {
     $this->compareComposerConfig('extra', 'patchLevel');
     $this->compareComposerConfig('repositories', 'drupal');
     $this->compareComposerConfig('scripts', 'nuke');
-  }
-
-  /**
-   * Check BLT.
-   */
-  protected function checkBltRequireDev() {
-    if (empty($this->composerJson['require-dev']['acquia/blt-require-dev'])) {
-      $this->logProblem('acquia/blt-require-dev', [
-        "acquia/blt-require-dev is not defined as a development dependency in composer.json",
-        "  Move add acquia/blt-require-dev to the require-dev object in composer.json.",
-        "  This is necessary for BLT to run development tasks.",
-      ], 'error');
-    }
   }
 
   /**

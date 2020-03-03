@@ -24,13 +24,6 @@ class SandboxManager {
   protected $bltDir;
 
   /**
-   * BLT require dev package dir.
-   *
-   * @var string
-   */
-  protected $bltRequireDevPackageDir;
-
-  /**
    * Sandbox master.
    *
    * @var string
@@ -65,7 +58,6 @@ class SandboxManager {
     $this->tmp = sys_get_temp_dir();
     $this->sandboxMaster = $this->tmp . "/blt-sandbox-master";
     $this->sandboxInstance = $this->tmp . "/blt-sandbox-instance";
-    $this->bltRequireDevPackageDir = $this->tmp . '/blt-require-dev';
     $this->bltDir = realpath(dirname(__FILE__) . '/../../../');
   }
 
@@ -98,7 +90,6 @@ class SandboxManager {
     // This essentially mirrors what composer create-project would do, i.e. git
     // clone and composer install, but with tweaks to use local packages.
     $this->fs->mirror($this->bltDir . '/subtree-splits/blt-project', $this->sandboxMaster);
-    $this->createBltRequireDevPackage();
     $this->updateSandboxMasterBltRepoSymlink();
     $this->installSandboxMasterDependencies();
     $this->removeSandboxInstance();
@@ -186,14 +177,6 @@ class SandboxManager {
       ],
     ];
     $composer_json_contents->require->{'acquia/blt'} = '*@dev';
-    $composer_json_contents->repositories->{'blt-require-dev'} = (object) [
-      'type' => 'path',
-      'url' => $this->bltRequireDevPackageDir,
-      'options' => [
-        'symlink' => TRUE,
-      ],
-    ];
-    $composer_json_contents->{'require-dev'}->{'acquia/blt-require-dev'} = 'dev-master';
     $this->fs->dumpFile($composer_json_path,
       json_encode($composer_json_contents, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
   }
@@ -219,18 +202,6 @@ class SandboxManager {
     if (!$process->isSuccessful()) {
       throw new \Exception("Composer installation failed.");
     }
-  }
-
-  /**
-   * Create temporary copy of blt-require-dev.
-   *
-   * This new dir will be used as the reference path for acquia/blt-require-dev
-   * in local testing. It cannot be a subdir of blt because Composer cannot
-   * reference a package nested within another package.
-   */
-  protected function createBltRequireDevPackage() {
-    $this->fs->mirror($this->bltDir . '/subtree-splits/blt-require-dev',
-      $this->bltRequireDevPackageDir);
   }
 
 }
