@@ -19,16 +19,28 @@ class BehatCommand extends BltTasks {
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function init() {
-    $result = $this->taskFilesystemStack()
-      ->copy(
-        $this->getConfigValue('blt.root') . '/scripts/blt/examples/Test/Examples.feature',
-        $this->getConfigValue('repo.root') . '/tests/behat/features/Examples.feature', FALSE)
-      ->stopOnFail()
+    $source = $this->getConfigValue('blt.root') . '/scripts/behat';
+    $dest = $this->getConfigValue('repo.root') . '/tests/behat';
+    $result = $this->taskCopyDir([$source => $dest])
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
 
     if (!$result->wasSuccessful()) {
       throw new BltException("Could not copy example files into the repository root.");
+    }
+
+    $packages = [
+      'behat/behat' => '^3.1',
+      'behat/gherkin' => '^4.6.1',
+      'bex/behat-screenshot' => '^1.2',
+      'dmore/behat-chrome-extension' => '^1.0.0',
+      'drupal/drupal-extension' => '~3.2',
+      'jarnaiz/behat-junit-formatter' => '^1.3.2',
+    ];
+
+    foreach ($packages as $package_name => $package_version) {
+      $this->taskExec("composer require --dev --update-with-all-dependencies $package_name:$package_version")
+        ->run();
     }
 
     $this->say("<info>Example Behat tests were copied into your application.</info>");

@@ -125,7 +125,6 @@ class EnvironmentDetector {
     $mapping = [
       'TRAVIS' => 'travis',
       'PIPELINE_ENV' => 'pipelines',
-      'PROBO_ENVIRONMENT' => 'probo',
       'GITLAB_CI' => 'gitlab',
     ];
     foreach ($mapping as $env_var => $ci_name) {
