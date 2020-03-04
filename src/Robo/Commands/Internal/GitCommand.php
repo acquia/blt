@@ -103,7 +103,7 @@ class GitCommand extends BltTasks {
     }
     catch (BltException $e) {
       $this->yell('Your code has failed pre-push validation.');
-      return;
+      return 1;
     }
 
     $this->say("<info>Your local code has passed git pre-push validation.</info>");
