@@ -7,6 +7,12 @@ To configure a project to run on Acquia Cloud Site Factory, complete the
 following steps after initially configuring Acquia BLT, but *before* creating
 any websites in ACSF:
 
+.. note::
+
+   If you are working with Acquia BLT 11 or greater on Acquia Cloud Site
+   Factory, see :ref:`this issue <acsf-drush10-incompatibilty>` for a workaround.
+
+
 #. From the project root, run the following command and commit any changes:
 
    .. code-block:: bash
@@ -68,4 +74,3 @@ Resources
 -  `Acquia Cloud Site Factory Connector
    <https://www.drupal.org/project/acsf>`__ module on Drupal.org
 
-.. Next review date 20200417
