@@ -18,9 +18,7 @@ Acquia BLT
 
 Acquia BLT (Build and Launch Tool), `available on GitHub
 <https://github.com/acquia/blt>`__, provides an automation layer for testing,
-building, and launching Drupal 8 applications. Acquia BLT generates new Drupal
-projects using a standardized template based on Acquia Professional
-Services' best practices.
+building, and launching Drupal 8 applications.
 
 .. container:: message-status
 
@@ -145,18 +143,22 @@ Release support status
      - Support status
      - Drupal versions
      - Drush versions
+   * - 12.x
+     - Unsupported and unstable
+     - 9.0
+     - 9.5.0 or greater, 10.0.1 or greater
+   * - 11.x
+     - Supported and stable
+     - 8.7 or 8.8
+     - 9.5.0 or greater, 10.0.1 or greater
    * - 10.x
-     - Supported, stable
-     - 8.6 or greater
-     - 9.5.0 or greater
-   * - 9.2.x
      - Bug fixes only
-     - 8.6 or greater
-     - 9.4.0 or greater
-   * - 9.x or earlier
+     - 8.7 or 8.8
+     - 9.5.0 or greater
+   * - 9.2.x or earlier
      - Unsupported
-     - 8.5
-     - 9.1.0 or greater
+     - 8.6 or 8.7
+     - 9.4.0 or greater
 
 .. note::
 
@@ -164,7 +166,8 @@ Release support status
     Drupal or PHP) stops supporting that package, Acquia may end its
     support for that release in Acquia BLT. For example, as of December
     2019, Acquia BLT 10.x will stop supporting Drupal 8.6, and will instead
-    support Drupal 8.7 or greater, based on the Drupal security policy.
+    support Drupal 8.7 or greater, based on the `Drupal security policy
+    <https://www.drupal.org/drupal-security-team/general-information>`__.
 
 For information about end-of-life announcements for Acquia's products, see
 :doc:`/support/eol/`.
