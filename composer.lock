@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d759ad085e61e9b91b7d44458ab0166c",
+    "content-hash": "34ef4290ca85be5db1104a650cb4af41",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1981,16 +1981,16 @@
         },
         {
             "name": "drupal/core",
-            "version": "9.0.0-alpha1",
+            "version": "9.0.0-alpha2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core.git",
-                "reference": "b3be17114997f4e3ae95b5607744bc0c1031356f"
+                "reference": "e7430881bfe5eea47cb384a82bda9d73ae9072f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drupal/core/zipball/b3be17114997f4e3ae95b5607744bc0c1031356f",
-                "reference": "b3be17114997f4e3ae95b5607744bc0c1031356f",
+                "url": "https://api.github.com/repos/drupal/core/zipball/e7430881bfe5eea47cb384a82bda9d73ae9072f4",
+                "reference": "e7430881bfe5eea47cb384a82bda9d73ae9072f4",
                 "shasum": ""
             },
             "require": {
@@ -2021,7 +2021,6 @@
                 "psr/log": "^1.0",
                 "stack/builder": "^1.0",
                 "symfony-cmf/routing": "^2.1",
-                "symfony/class-loader": "~3.4.0",
                 "symfony/console": "^4.4",
                 "symfony/dependency-injection": "^4.4",
                 "symfony/event-dispatcher": "^4.4",
@@ -2052,7 +2051,6 @@
                 "drupal/big_pipe": "self.version",
                 "drupal/block": "self.version",
                 "drupal/block_content": "self.version",
-                "drupal/block_place": "self.version",
                 "drupal/book": "self.version",
                 "drupal/breakpoint": "self.version",
                 "drupal/ckeditor": "self.version",
@@ -2138,7 +2136,6 @@
                 "drupal/settings_tray": "self.version",
                 "drupal/seven": "self.version",
                 "drupal/shortcut": "self.version",
-                "drupal/simpletest": "self.version",
                 "drupal/standard": "self.version",
                 "drupal/stark": "self.version",
                 "drupal/statistics": "self.version",
@@ -2195,11 +2192,29 @@
                 },
                 "classmap": [
                     "lib/Drupal.php",
+                    "lib/Drupal/Component/DependencyInjection/Container.php",
+                    "lib/Drupal/Component/DependencyInjection/PhpArrayContainer.php",
+                    "lib/Drupal/Component/FileCache/FileCacheFactory.php",
                     "lib/Drupal/Component/Utility/Timer.php",
                     "lib/Drupal/Component/Utility/Unicode.php",
+                    "lib/Drupal/Core/Cache/Cache.php",
+                    "lib/Drupal/Core/Cache/CacheBackendInterface.php",
+                    "lib/Drupal/Core/Cache/CacheTagsChecksumInterface.php",
+                    "lib/Drupal/Core/Cache/CacheTagsChecksumTrait.php",
+                    "lib/Drupal/Core/Cache/CacheTagsInvalidatorInterface.php",
+                    "lib/Drupal/Core/Cache/DatabaseBackend.php",
+                    "lib/Drupal/Core/Cache/DatabaseCacheTagsChecksum.php",
+                    "lib/Drupal/Core/Database/Connection.php",
                     "lib/Drupal/Core/Database/Database.php",
+                    "lib/Drupal/Core/Database/Driver/mysql/Connection.php",
+                    "lib/Drupal/Core/Database/Driver/pgsql/Connection.php",
+                    "lib/Drupal/Core/Database/Driver/sqlite/Connection.php",
+                    "lib/Drupal/Core/Database/Statement.php",
+                    "lib/Drupal/Core/Database/StatementInterface.php",
+                    "lib/Drupal/Core/DependencyInjection/Container.php",
                     "lib/Drupal/Core/DrupalKernel.php",
                     "lib/Drupal/Core/DrupalKernelInterface.php",
+                    "lib/Drupal/Core/Installer/InstallerRedirectTrait.php",
                     "lib/Drupal/Core/Site/Settings.php"
                 ]
             },
@@ -2208,7 +2223,7 @@
                 "GPL-2.0-or-later"
             ],
             "description": "Drupal is an open source content management platform powering millions of websites and applications.",
-            "time": "2020-02-11T18:17:58+00:00"
+            "time": "2020-03-04T18:12:13+00:00"
         },
         {
             "name": "drupol/phposinfo",
@@ -3795,16 +3810,16 @@
         },
         {
             "name": "nette/neon",
-            "version": "v3.1.1",
+            "version": "v3.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/neon.git",
-                "reference": "bf658bafcf56e36cfa0922f4866869927672cf2c"
+                "reference": "3c3dcbc6bf6c80dc97b1fc4ba9a22ae67930fc0e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/neon/zipball/bf658bafcf56e36cfa0922f4866869927672cf2c",
-                "reference": "bf658bafcf56e36cfa0922f4866869927672cf2c",
+                "url": "https://api.github.com/repos/nette/neon/zipball/3c3dcbc6bf6c80dc97b1fc4ba9a22ae67930fc0e",
+                "reference": "3c3dcbc6bf6c80dc97b1fc4ba9a22ae67930fc0e",
                 "shasum": ""
             },
             "require": {
@@ -3853,7 +3868,7 @@
                 "nette",
                 "yaml"
             ],
-            "time": "2020-02-12T11:15:48+00:00"
+            "time": "2020-03-04T11:47:04+00:00"
         },
         {
             "name": "nette/php-generator",
@@ -5158,62 +5173,6 @@
                 "routing"
             ],
             "time": "2019-12-10T10:41:58+00:00"
-        },
-        {
-            "name": "symfony/class-loader",
-            "version": "v3.4.38",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/class-loader.git",
-                "reference": "bcdf6ff46e115b29be3186391f29e0da82cd6f72"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/class-loader/zipball/bcdf6ff46e115b29be3186391f29e0da82cd6f72",
-                "reference": "bcdf6ff46e115b29be3186391f29e0da82cd6f72",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.5.9|>=7.0.8"
-            },
-            "require-dev": {
-                "symfony/finder": "~2.8|~3.0|~4.0",
-                "symfony/polyfill-apcu": "~1.1"
-            },
-            "suggest": {
-                "symfony/polyfill-apcu": "For using ApcClassLoader on HHVM"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.4-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\ClassLoader\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony ClassLoader Component",
-            "homepage": "https://symfony.com",
-            "time": "2020-01-04T12:05:51+00:00"
         },
         {
             "name": "symfony/config",
@@ -10803,7 +10762,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.2",
+        "php": ">=7.3",
         "ext-json": "*",
         "composer-plugin-api": "^1.1.0"
     },
