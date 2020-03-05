@@ -1,5 +1,30 @@
 # Change Log
 
+#### 11.3.0 (2020-03-04)
+
+[Full Changelog](https://github.com/acquia/blt/compare/11.2.0...11.3.0)
+
+
+**Implemented enhancements**
+
+- support Chromium Browser (#4027)
+
+**Fixed bugs**
+
+- Fixes #3998: Support PHP 7.4 (#3997) (#4030)
+- Fixes #3994: Get environment detector subclass results on bootstrap. (#4017)
+
+**Miscellaneous**
+
+- adding azure pipelines to plugin docs. (#4028)
+- Fixes #4012: Added update hook for #587 (gitignore for simulated deploys). (#4016)
+- Memcache doc cloud sync.
+- Update RELEASE.md
+- Updated release process to use Github API HTTP auth.
+- Revert "Bump blt-project to stable."
+- Bump blt-project to stable.
+
+
 #### 11.2.0 (2020-02-05)
 
 [Full Changelog](https://github.com/acquia/blt/compare/11.1.0...11.2.0)
