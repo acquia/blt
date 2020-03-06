@@ -56,7 +56,8 @@ before_install:
   - cp -r subtree-splits/blt-project /tmp/
   - composer config --global repositories.blt path /tmp/blt-project
   # Install ORCA.
-  - composer create-project --no-dev acquia/orca ../orca "$ORCA_VERSION"
+  - git clone --branch ${ORCA_VERSION} --depth 1 https://github.com/acquia/orca.git ../orca
+  - curl https://patch-diff.githubusercontent.com/raw/acquia/orca/pull/65.patch | git -C ../orca apply
   - ../orca/bin/travis/before_install.sh
 
 install:
