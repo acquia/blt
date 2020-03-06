@@ -38,8 +38,8 @@ jobs:
   include:
     # Standard ORCA jobs.
     - { name: "Static code analysis", env: ORCA_JOB=STATIC_CODE_ANALYSIS }
-    # ORCA D9 custom job.
-    - { name: "Drupal 9 ORCA testing", env: ORCA_JOB=CUSTOM ORCA_CUSTOM_FIXTURE_INIT_ARGS="--core=9.0.0-alpha1"}
+    # Force ORCA to install Drupal 9, and avoid installing company packages that don't yet support D9.
+    - { name: "Drupal 9 ORCA testing", env: ORCA_JOB=CUSTOM ORCA_CUSTOM_FIXTURE_INIT_ARGS="--core=9.0.0-alpha1 --sut-only"}
     # Custom jobs.
     - env: DRUPAL_CORE_VERSION=default PHPUNIT_EXCLUDE_GROUP='drupal,requires-vm,d8'
     - env: DRUPAL_CORE_VERSION=default PHPUNIT_EXCLUDE_GROUP='drupal,requires-vm,d8'
