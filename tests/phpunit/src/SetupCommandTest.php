@@ -9,6 +9,7 @@ use Acquia\Blt\Tests\BltProjectTestBase;
  *
  * @group requires-db
  * @group orca_ignore
+ * @group d8
  */
 class SetupCommandTest extends BltProjectTestBase {
 
