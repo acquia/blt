@@ -53,8 +53,8 @@ before_install:
   # Exit build early if only documentation was changed in a Pull Request.
   - source ${BLT_DIR}/scripts/travis/exit_early
   # Prepare local testing version of blt-project so it can be used by ORCA.
-  - pwd
-  - composer config --global repositories.blt-project path /home/travis/build/acquia/blt/subtree-splits/blt-project
+  - cp -r subtree-splits/blt-project /tmp/
+  - composer config --global repositories.blt path /tmp/blt-project
   # Install ORCA.
   - composer create-project --no-dev acquia/orca ../orca "$ORCA_VERSION"
   - ../orca/bin/travis/before_install.sh
