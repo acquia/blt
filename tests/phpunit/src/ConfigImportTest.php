@@ -6,6 +6,7 @@ namespace Acquia\Blt\Tests;
  * Class ConfigImportTest.
  *
  * @group orca_ignore
+ * @group d8
  */
 class ConfigImportTest extends BltProjectTestBase {
 
