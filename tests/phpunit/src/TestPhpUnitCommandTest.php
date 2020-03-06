@@ -8,6 +8,7 @@ use Acquia\Blt\Tests\BltProjectTestBase;
  * Class TestPhpUnitCommandTest.
  *
  * @group orca_ignore
+ * @group d8
  */
 class TestPhpUnitCommandTest extends BltProjectTestBase {
 
