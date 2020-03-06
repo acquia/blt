@@ -35,21 +35,6 @@ class ConfigImportTest extends BltProjectTestBase {
    * @group requires-db
    * @throws \Exception
    */
-  public function testFeatures() {
-    $this->drush("pm-enable features --yes");
-    $this->drush("config-export --yes");
-    list($status_code) = $this->blt("drupal:config:import", [
-      '--define' => [
-        'cm.strategy=features',
-      ],
-    ]);
-    $this::assertEquals(0, $status_code);
-  }
-
-  /**
-   * @group requires-db
-   * @throws \Exception
-   */
   public function testCoreOnly() {
     $this->drush("config-export --yes");
     list($status_code) = $this->blt("drupal:config:import", [
