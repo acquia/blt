@@ -38,12 +38,8 @@ jobs:
   include:
     # Standard ORCA jobs.
     - { name: "Static code analysis", env: ORCA_JOB=STATIC_CODE_ANALYSIS }
-    - { name: "Deprecated code scan", env: ORCA_JOB=DEPRECATED_CODE_SCAN }
-    - { name: "Isolated test w/ recommended package versions", env: ORCA_JOB=ISOLATED_RECOMMENDED }
-    - { name: "Integrated test w/ recommended package versions", env: ORCA_JOB=INTEGRATED_RECOMMENDED }
-    - { name: "Isolated test w/ dev package versions", env: ORCA_JOB=ISOLATED_DEV }
-    - { name: "Integrated test w/ dev package versions", env: ORCA_JOB=INTEGRATED_DEV }
-    - { name: "Integrated test w/ dev package versions & next minor dev version of Drupal core", env: ORCA_JOB=CORE_NEXT }
+    # ORCA D9 custom job.
+    - { name: "Drupal 9 ORCA testing", env: ORCA_JOB=ISOLATED_RECOMMENDED ORCA_CUSTOM_FIXTURE_INIT_ARGS="--core=9.0.0-alpha1"}
     # Custom jobs.
     - env: DRUPAL_CORE_VERSION=default PHPUNIT_EXCLUDE_GROUP='drupal,requires-vm'
     - env: DRUPAL_CORE_VERSION=default PHPUNIT_EXCLUDE_GROUP='drupal,requires-vm'
@@ -52,9 +48,6 @@ jobs:
     - env: DRUPAL_CORE_VERSION=$DRUPAL_CORE_HEAD
   allow_failures:
     - env: DRUPAL_CORE_VERSION=$DRUPAL_CORE_HEAD
-    - env: ORCA_JOB=ISOLATED_DEV
-    - env: ORCA_JOB=INTEGRATED_DEV
-    - env: ORCA_JOB=CORE_NEXT
 
 before_install:
   # Exit build early if only documentation was changed in a Pull Request.
