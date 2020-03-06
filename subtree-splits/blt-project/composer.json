@@ -6,8 +6,8 @@
     "require": {
         "php": ">=7.3",
         "acquia/blt": "12.x-dev",
-        "drupal/core-composer-scaffold": "^8.8",
-        "drupal/core-recommended": "^8.8.0"
+        "drupal/core-composer-scaffold": "^9.0.0-alpha1",
+        "drupal/core-recommended": "^9.0.0-alpha1"
     },
     "config": {
         "platform": {
