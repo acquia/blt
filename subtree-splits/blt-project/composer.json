@@ -6,6 +6,7 @@
     "require": {
         "php": ">=7.3",
         "acquia/blt": "12.x-dev",
+        "drupal/acquia_connector": "^2.0.0-beta1",
         "drupal/core-composer-scaffold": "^9.0.0-alpha1",
         "drupal/core-recommended": "^9.0.0-alpha1"
     },
