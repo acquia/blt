@@ -17,8 +17,8 @@ class ToggleModulesCommand extends BltTasks {
    * Enables and uninstalls specified modules.
    *
    * You may define the environment for which modules should be toggled by
-   * passing the --environment=[value] option to this command setting
-   * $_ENV['environment'] via the CLI, or defining environment in one of your
+   * passing the --environment=[value] option to this command, setting the
+   * 'environnment' environment variable, or defining environment in one of your
    * BLT configuration files.
    *
    * @command drupal:toggle:modules
@@ -35,8 +35,8 @@ class ToggleModulesCommand extends BltTasks {
     elseif ($this->getConfig()->has('environment')) {
       $environment = $this->getConfigValue('environment');
     }
-    elseif (!empty($_ENV['environment'])) {
-      $environment = $_ENV['environment'];
+    elseif (getenv('environment')) {
+      $environment = getenv('environment');
     }
 
     if (isset($environment)) {

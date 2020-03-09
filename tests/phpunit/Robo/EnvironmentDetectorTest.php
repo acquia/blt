@@ -21,7 +21,7 @@ class EnvironmentDetectorTest extends TestCase {
    * @dataProvider providerTestIsEnv
    */
   public function testIsAhDevEnv($ah_site_env, $expected_env) {
-    $_ENV['AH_SITE_ENVIRONMENT'] = $ah_site_env;
+    putenv("AH_SITE_ENVIRONMENT=$ah_site_env");
     $this::assertEquals($expected_env === 'dev', EnvironmentDetector::isAhDevEnv());
   }
 
@@ -36,7 +36,7 @@ class EnvironmentDetectorTest extends TestCase {
    * @dataProvider providerTestIsEnv
    */
   public function testIsAhStageEnv($ah_site_env, $expected_env) {
-    $_ENV['AH_SITE_ENVIRONMENT'] = $ah_site_env;
+    putenv("AH_SITE_ENVIRONMENT=$ah_site_env");
     $this::assertEquals($expected_env === 'stage', EnvironmentDetector::isAhStageEnv());
   }
 
@@ -51,7 +51,7 @@ class EnvironmentDetectorTest extends TestCase {
    * @dataProvider providerTestIsEnv
    */
   public function testIsAhProdEnv($ah_site_env, $expected_env) {
-    $_ENV['AH_SITE_ENVIRONMENT'] = $ah_site_env;
+    putenv("AH_SITE_ENVIRONMENT=$ah_site_env");
     $this::assertEquals($expected_env === 'prod', EnvironmentDetector::isAhProdEnv());
   }
 
@@ -66,7 +66,7 @@ class EnvironmentDetectorTest extends TestCase {
    * @dataProvider providerTestIsEnv
    */
   public function testIsAhOdeEnv($ah_site_env, $expected_env) {
-    $_ENV['AH_SITE_ENVIRONMENT'] = $ah_site_env;
+    putenv("AH_SITE_ENVIRONMENT=$ah_site_env");
     $this::assertEquals($expected_env === 'ode', EnvironmentDetector::isAhOdeEnv());
   }
 
