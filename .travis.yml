@@ -25,7 +25,7 @@ env:
     # ORCA configuration.
     - ORCA_SUT_NAME=acquia/blt
     - ORCA_SUT_BRANCH=11.x
-    - ORCA_VERSION=develop
+    - ORCA_VERSION=dev-develop
     # Custom configuration.
     - COMPOSER_BIN=$TRAVIS_BUILD_DIR/vendor/bin
     - BLT_DIR=$TRAVIS_BUILD_DIR
@@ -63,8 +63,7 @@ before_install:
   - cp -r subtree-splits/blt-project /tmp/
   - composer config --global repositories.blt path /tmp/blt-project
   # Install ORCA.
-  - git clone --branch ${ORCA_VERSION} --depth 1 https://github.com/acquia/orca.git ../orca
-  - curl https://patch-diff.githubusercontent.com/raw/acquia/orca/pull/64.patch | git -C ../orca apply
+  - composer create-project --no-dev acquia/orca ../orca "$ORCA_VERSION"
   - ../orca/bin/travis/before_install.sh
 
 install:
