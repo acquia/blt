@@ -91,7 +91,7 @@ abstract class BltProjectTestBase extends TestCase {
    *
    * @throws \Exception
    */
-  public static function setUpBeforeClass() {
+  public static function setUpBeforeClass(): void {
     if (!self::$initialized) {
       // Only initialize the sandbox once for the entire test suite.
       $sandbox_manager = new SandboxManager();
@@ -104,7 +104,7 @@ abstract class BltProjectTestBase extends TestCase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     $this->output = new ConsoleOutput();
     $this->printTestName();
     $this->bltDirectory = realpath(dirname(__FILE__) . '/../../../');
