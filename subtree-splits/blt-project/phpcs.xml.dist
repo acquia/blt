@@ -25,11 +25,7 @@
   <arg value="p"/>
 
   <!-- Include existing standards. -->
-  <rule ref="Drupal"/>
-  <rule ref="DrupalPractice">
-    <!-- Ignore specific sniffs. -->
-    <exclude name="DrupalPractice.InfoFiles.NamespacedDependency"/>
-  </rule>
+  <rule ref="AcquiaDrupalTransitional"/>
 
   <file>docroot/modules/custom</file>
   <file>docroot/themes/custom</file>
