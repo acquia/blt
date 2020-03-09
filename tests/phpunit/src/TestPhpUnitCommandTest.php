@@ -25,7 +25,7 @@ class TestPhpUnitCommandTest extends BltProjectTestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
     $this->blt('recipes:phpunit:init');
     $this->docroot = $this->config->get("docroot");

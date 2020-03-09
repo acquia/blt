@@ -13,7 +13,7 @@ class ConfigImportTest extends BltProjectTestBase {
   /**
    * @throws \Exception
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
     $this->importDbFromFixture();
   }
