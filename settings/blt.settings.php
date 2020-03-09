@@ -31,7 +31,7 @@ if (!is_array($trusted_reverse_proxy_ips)) {
 if (getenv('HTTP_X_FORWARDED_PROTO') == 'https'
  && getenv('REMOTE_ADDR')
  && in_array(getenv('REMOTE_ADDR'), $trusted_reverse_proxy_ips)) {
-  $_ENV['HTTPS'] = 'on';
+  putenv("HTTPS=on");
   $_SERVER['HTTPS'] = 'on';
   putenv('HTTPS=on');
 }
