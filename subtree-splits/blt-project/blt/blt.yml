@@ -42,37 +42,4 @@ drush:
   default_alias: '${drush.aliases.local}'
 # An array of modules to be enabled or uninstalled automatically in local, ci,
 # and deploy contexts.
-modules:
-  local:
-    enable:
-      - dblog
-      - devel
-      - seckit
-      - views_ui
-    uninstall:
-      - acquia_connector
-      - shield
-  ci:
-    enable: {  }
-    uninstall:
-      - acquia_connector
-      - shield
-  dev:
-    enable:
-      - acquia_connector
-      - shield
-    uninstall: {  }
-  test:
-    enable:
-      - acquia_connector
-      - shield
-    uninstall:
-      - devel
-      - views_ui
-  prod:
-    enable:
-      - acquia_connector
-      - shield
-    uninstall:
-      - devel
-      - views_ui
+modules: null

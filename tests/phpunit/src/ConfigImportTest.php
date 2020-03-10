@@ -6,13 +6,14 @@ namespace Acquia\Blt\Tests;
  * Class ConfigImportTest.
  *
  * @group orca_ignore
+ * @group d8
  */
 class ConfigImportTest extends BltProjectTestBase {
 
   /**
    * @throws \Exception
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
     $this->importDbFromFixture();
   }
@@ -26,21 +27,6 @@ class ConfigImportTest extends BltProjectTestBase {
     list($status_code) = $this->blt("drupal:config:import", [
       '--define' => [
         'cm.strategy=none',
-      ],
-    ]);
-    $this::assertEquals(0, $status_code);
-  }
-
-  /**
-   * @group requires-db
-   * @throws \Exception
-   */
-  public function testFeatures() {
-    $this->drush("pm-enable features --yes");
-    $this->drush("config-export --yes");
-    list($status_code) = $this->blt("drupal:config:import", [
-      '--define' => [
-        'cm.strategy=features',
       ],
     ]);
     $this::assertEquals(0, $status_code);

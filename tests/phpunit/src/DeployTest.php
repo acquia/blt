@@ -14,7 +14,7 @@ class DeployTest extends BltProjectTestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
     $this->deploy_dir = $this->sandboxInstance . '/deploy';
   }

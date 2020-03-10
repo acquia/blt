@@ -240,7 +240,7 @@ class VmCommand extends BltTasks {
    */
   protected function boot() {
     $this->checkRequirements();
-    $this->yell(" * We have configured your new Drupal VM to use PHP 7.2. If you would like to change this, edit box/config.yml.");
+    $this->yell(" * We have configured your new Drupal VM to use PHP 7.3. If you would like to change this, edit box/config.yml.");
     $confirm = $this->confirm("Do you want to boot Drupal VM?", TRUE);
     if ($confirm) {
       $this->say("In the future, run <comment>vagrant up</comment> to boot the VM.");

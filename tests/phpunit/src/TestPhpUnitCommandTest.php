@@ -8,6 +8,7 @@ use Acquia\Blt\Tests\BltProjectTestBase;
  * Class TestPhpUnitCommandTest.
  *
  * @group orca_ignore
+ * @group d8
  */
 class TestPhpUnitCommandTest extends BltProjectTestBase {
 
@@ -24,7 +25,7 @@ class TestPhpUnitCommandTest extends BltProjectTestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
     $this->blt('recipes:phpunit:init');
     $this->docroot = $this->config->get("docroot");

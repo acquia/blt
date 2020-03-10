@@ -89,11 +89,11 @@ class UpdateCommand extends BltTasks {
   public function addToProject() {
     $this->rsyncTemplate();
     $this->initializeBlt();
+    $this->setProjectName();
     $this->displayArt();
     $this->yell("BLT has been added to your project.");
-    $this->say("This required a full `composer update`.");
-    $this->say("BLT has added and modified various project files.");
-    $this->say("Please inspect your repository.");
+    $this->say("Please continue by following the \"Adding BLT to an existing project\" instructions:");
+    $this->say("<comment>https://docs.acquia.com/blt/install/adding-to-project/</comment>");
   }
 
   /**
