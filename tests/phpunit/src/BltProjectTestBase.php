@@ -400,7 +400,7 @@ abstract class BltProjectTestBase extends TestCase {
   /**
    * @throws \Exception
    */
-  protected function tearDown() {
+  protected function tearDown(): void {
     $this->dropDatabase();
     unset($this->config);
     parent::tearDown();
