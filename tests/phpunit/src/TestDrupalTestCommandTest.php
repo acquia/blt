@@ -36,7 +36,7 @@ class TestDrupalTestCommandTest extends BltProjectTestBase {
    *
    * @throws \Exception
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
     $this->installDrupalMinimal();
     $this->docroot = $this->config->get("docroot");
