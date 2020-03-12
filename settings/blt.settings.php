@@ -89,6 +89,7 @@ if (EnvironmentDetector::isAcsfInited()) {
     $domain_fragments = explode('.', $http_host);
     $name = $domain_fragments[1];
     $acsf_sites = $blt_config->get('multisites');
+    global $_acsf_site_name;
     if (in_array($name, $acsf_sites)) {
       $_acsf_site_name = $name;
     }
