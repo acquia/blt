@@ -77,6 +77,14 @@ $site_dir = str_replace('sites/', '', $site_path);
 // Special site name detection for ACSF sites being developed locally.
 if (EnvironmentDetector::isAcsfInited()) {
   if (EnvironmentDetector::isLocalEnv()) {
+    // Honor 'uri' configuraiton if within Drush context
+    if (PHP_SAPI === 'cli' && function_exists('drush_main')) {
+      $boot_manager = \Drush\Drush::bootstrapManager();
+      $uri = $boot_manager->getUri();
+      $uri_info = parse_url($uri);
+      $http_host = $uri_info['host'];
+    }
+
     // When developing locally, we use the host name to determine which site
     // factory site is active. The hostname must have a corresponding entry
     // under the multisites key.
@@ -92,6 +100,11 @@ if (EnvironmentDetector::isAcsfInited()) {
     if (in_array($name, $acsf_sites)) {
       $_acsf_site_name = $name;
     }
+    // Try http_host, in drush context, it can be the site name.
+    elseif (in_array($http_host, $acsf_sites)) {
+      $_acsf_site_name = $http_host;
+    }
+
   }
 }
 

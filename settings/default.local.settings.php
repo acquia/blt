@@ -147,7 +147,7 @@ $settings['skip_permissions_hardening'] = TRUE;
  */
 $settings['file_private_path'] = $dir . '/files-private/default';
 if (isset($_acsf_site_name)) {
-  $settings['file_public_path'] = "sites/default/files/$_acsf_site_name";
+  $settings['file_public_path'] = "sites/$_acsf_site_name/files";
   // phpcs:ignore
   $settings['file_private_path'] = "$repo_root/files-private/$_acsf_site_name";
 }
