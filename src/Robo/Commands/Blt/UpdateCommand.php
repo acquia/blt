@@ -336,40 +336,6 @@ class UpdateCommand extends BltTasks {
   }
 
   /**
-   * Rsyncs files from BLT's template dir into project root dir.
-   *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
-   */
-  protected function rsyncTemplate() {
-    $source = $this->getConfigValue('blt.root') . '/subtree-splits/blt-project';
-    $destination = $this->getConfigValue('repo.root');
-    // There is no native rsync on Windows.
-    // The most used one on Windows is https://itefix.net/cwrsync,
-    // which runs with cygwin, so doesn't cope with regular Windows paths.
-    if (DIRECTORY_SEPARATOR === '\\') {
-      $source = $this->convertWindowsPathToCygwinPath($source);
-      $destination = $this->convertWindowsPathToCygwinPath($destination);
-    }
-    $exclude_from = $this->getConfigValue('blt.update.ignore-existing-file');
-    $this->say("Copying files from BLT's template into your project...");
-    $rsync_command1 = "rsync -a --no-g '$source/' '$destination/' --exclude-from='$exclude_from'";
-    $rsync_command2 = "rsync -a --no-g '$source/' '$destination/' --include-from='$exclude_from' --ignore-existing";
-    foreach (self::BLT_PROJECT_EXCLUDE_FILES as $file) {
-      $rsync_command1 .= " --exclude=$file";
-      $rsync_command2 .= " --exclude=$file";
-    }
-    $result = $this->taskExecStack()
-      ->exec($rsync_command1)
-      ->exec($rsync_command2)
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->run();
-
-    if (!$result->wasSuccessful()) {
-      throw new BltException("Could not rsync files from BLT into your repository.");
-    }
-  }
-
-  /**
    * Convert path.
    */
   protected function convertWindowsPathToCygwinPath($path) {
