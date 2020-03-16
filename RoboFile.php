@@ -134,30 +134,6 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   }
 
   /**
-   * Pushes to acquia/blt-project.
-   *
-   * @param array $options
-   *   Options.
-   *
-   * @command subtree:push:blt-project
-   *
-   * @option branch (optional) The branch to push to. Defaults to current branch.
-   */
-  public function subtreePushBltProject(array $options = [
-    'branch' => NULL,
-  ]) {
-    $this->say("Pushing to acquia/blt-project");
-    $prefix = "subtree-splits/blt-project";
-    $url = "git@github.com:acquia/blt-project.git";
-    if (!$options['branch']) {
-      $options['branch'] = $this->getCurrentBranch();
-    }
-    $this->_exec("git subtree add --prefix $prefix $url {$options['branch']} --squash");
-    $this->_exec("git subtree pull --prefix $prefix $url {$options['branch']} --squash");
-    $this->_exec("git subtree push --prefix $prefix $url {$options['branch']} --squash");
-  }
-
-  /**
    * Generate release notes.
    *
    * @param string $prev_tag
