@@ -87,9 +87,15 @@ class SandboxManager {
     $this->output->writeln("Creating master sandbox in <comment>{$this->sandboxMaster}</comment>...");
     $this->fs->remove($this->sandboxMaster);
 
-    // This essentially mirrors what composer create-project would do, i.e. git
-    // clone and composer install, but with tweaks to use local packages.
-    $this->fs->mirror($this->bltDir . '/subtree-splits/blt-project', $this->sandboxMaster);
+    $command = "composer create-project acquia/blt-project:12.x-dev --no-interaction --no-scripts --no-install {$this->sandboxMaster}";
+    $process = new Process($command);
+    $process->setTimeout(60 * 60);
+    $process->run(function ($type, $buffer) {
+      $this->output->write($buffer);
+    });
+    if (!$process->isSuccessful()) {
+      throw new \Exception("Composer create-project failed.");
+    }
     $this->updateSandboxMasterBltRepoSymlink();
     $this->installSandboxMasterDependencies();
     $this->removeSandboxInstance();
