@@ -35,9 +35,6 @@ blt="/mnt/www/html/$sitegroup.$env/vendor/acquia/blt/bin/blt"
 # that persist after initial attempts at addressing in BLT: https://github.com/acquia/blt/pull/2922
 cache_dir=`/usr/bin/env php /mnt/www/html/$sitegroup.$env/vendor/acquia/blt/scripts/blt/drush/cache.php $sitegroup $env $internal_domain`
 
-# Print to Site Factory SiteInstall task log.
-echo "Executing: DRUSH_PATHS_CACHE_DIRECTORY=$cache_dir $blt drupal:update --environment=$env --site=${name[0]} --define drush.uri=$internal_domain --verbose --no-interaction"
-
 # Execute the updates.
 DRUSH_PATHS_CACHE_DIRECTORY="$cache_dir" $blt drupal:update --environment=$env --site=${name[0]} --define drush.uri=$internal_domain --verbose --no-interaction
 result=$?
