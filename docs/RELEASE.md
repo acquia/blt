@@ -50,22 +50,6 @@ Review the issues and pull requests that will make up the release and ensure the
 * Update PR to use new stable release
 * Merge PR
 
-## Update the blt-project repo
-
-If there have been any changes to the blt-project subtree since you last created a release, you should push these to blt-project and create a new release now.
-
-The mainline branches of blt-project (e.g. 10.x) should always install a development version of BLT (e.g. 10.x-dev), while stable releases of blt-project (e.g. 10.0.0) should always install stable versions of BLT (e.g. 10.0.0).
-
-In order to accomplish this, the composer.json in the blt-project subtree split should depend on a development version of BLT by default. When you create a new release of blt-project, you'll need to temporarily override this to a stable dependency by following these steps.
-
-* Modify `subtree-splits/blt-project/composer.json` to depend on the latest stable release of BLT and commit and push this change to BLT.
-* Push these changes to blt-project (this will become your stable release): `./vendor/bin/robo subtree:push:blt-project`
-* Create a stable release for blt-project on Github using this latest release as a tag.
-* Revert the previous commit so that blt-project once again requires a development version of BLT, and push to BLT.
-* Push these changes to blt-project a final time: `./vendor/bin/robo subtree:push:blt-project`.
-
-Obviously this is a clunky process, but it produces the best result for end users and fortunately shouldn't need to happen often. It could probably be automated by incorporating the above steps into a Robo command, and/or setting up a Github service to automatically push subtree changes to the blt-project split.
-
 ## Publicize the release
 
 Let folks in the #blt Drupal Slack channel know about exciting features or important changes in the new release and link to the release notes.
