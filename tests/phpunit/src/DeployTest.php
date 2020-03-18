@@ -6,8 +6,6 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
  * Class DeployTest.
- *
- * @group orca_ignore
  */
 class DeployTest extends BltProjectTestBase {
 

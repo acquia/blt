@@ -10,7 +10,6 @@ use Symfony\Component\Yaml\Yaml;
  * Class MultiSiteTest.
  *
  * @group requires-db
- * @group orca_ignore
  */
 class MultiSiteTest extends BltProjectTestBase {
 

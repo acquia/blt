@@ -7,8 +7,6 @@ use Symfony\Component\Yaml\Yaml;
 
 /**
  * Class WizardTest.
- *
- * @group orca_ignore
  */
 class WizardTest extends BltProjectTestBase {
 

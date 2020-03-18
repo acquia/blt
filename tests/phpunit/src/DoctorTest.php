@@ -8,7 +8,6 @@ use Acquia\Blt\Tests\BltProjectTestBase;
  * Class DoctorTest.
  *
  * @group requires-db
- * @group orca_ignore
  */
 class DoctorTest extends BltProjectTestBase {
 

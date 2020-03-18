@@ -7,8 +7,6 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
  * Class FrontendTest.
- *
- * @group orca_ignore
  */
 class FrontendTest extends BltProjectTestBase {
 

@@ -6,8 +6,6 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
  * Class TravisCiTest.
- *
- * @group orca_ignore
  */
 class CiTravisTest extends BltProjectTestBase {
 

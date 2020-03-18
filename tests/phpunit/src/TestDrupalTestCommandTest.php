@@ -6,8 +6,6 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
  * Class DrupalTest.
- *
- * @group orca_ignore
  */
 class TestDrupalTestCommandTest extends BltProjectTestBase {
 
