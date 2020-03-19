@@ -24,7 +24,7 @@ class FrontendTest extends BltProjectTestBase {
           'command' => 'echo "hello test"',
         ],
       ],
-    ], $this->sandboxInstance . "/blt/" . getenv("BLT_ENV") . ".blt.yml");
+    ], $this->sandboxInstance . "/blt/ci.blt.yml");
 
     list(, $output,) = $this->blt('source:build:frontend-reqs');
     $this->assertContains('hello reqs', $output);

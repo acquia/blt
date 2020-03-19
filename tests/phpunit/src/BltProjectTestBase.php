@@ -382,7 +382,6 @@ abstract class BltProjectTestBase extends TestCase {
    */
   protected function createBltInput($command = '', array $args = []) {
     $defaults = [
-      '--environment' => getenv('BLT_ENV'),
       '-vvv' => '',
       '--no-interaction' => '',
     ];

@@ -372,7 +372,12 @@ class EnvironmentDetector {
    * @throws \ReflectionException
    */
   private static function getSubclassResults($functionName) {
-    $autoloader = require self::getRepoRoot() . '/vendor/autoload.php';
+    $autoload_file = self::getRepoRoot() . '/vendor/autoload.php';
+    if (!file_exists($autoload_file)) {
+      return [];
+    }
+    // phpcs:ignore
+    $autoloader = require $autoload_file;
     $classMap = $autoloader->getClassMap();
     $detectors = array_filter($classMap, function ($classPath) {
       return strpos($classPath, 'Blt/Plugin/EnvironmentDetector') !== FALSE;
