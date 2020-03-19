@@ -24,6 +24,11 @@ class SandboxManager {
   protected $bltDir;
 
   /**
+   * @var bool
+   */
+  protected $recreateMaster;
+
+  /**
    * Sandbox master.
    *
    * @var string
@@ -58,6 +63,11 @@ class SandboxManager {
     $this->tmp = sys_get_temp_dir();
     $this->sandboxMaster = $this->tmp . "/blt-sandbox-master";
     $this->sandboxInstance = $this->tmp . "/blt-sandbox-instance";
+    $this->recreateMaster = getenv('BLT_RECREATE_SANDBOX_MASTER');
+    if (getenv('ORCA_FIXTURE_DIR')) {
+      $this->sandboxMaster = getenv('ORCA_FIXTURE_DIR');
+      $this->recreateMaster = FALSE;
+    }
     $this->bltDir = realpath(dirname(__FILE__) . '/../../../');
   }
 
@@ -68,8 +78,7 @@ class SandboxManager {
    */
   public function bootstrap() {
     $this->output->writeln("Bootstrapping BLT testing framework...");
-    $recreate_master = getenv('BLT_RECREATE_SANDBOX_MASTER');
-    if (!file_exists($this->sandboxMaster) || $recreate_master) {
+    if (!file_exists($this->sandboxMaster) || $this->recreateMaster) {
       $this->output->writeln("<comment>To prevent recreation of sandbox master on each bootstrap, set BLT_RECREATE_SANDBOX_MASTER=0</comment>");
       $this->createSandboxMaster();
     }
