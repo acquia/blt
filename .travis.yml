@@ -40,10 +40,6 @@ jobs:
     # Standard ORCA jobs.
     - { name: "Static code analysis", env: ORCA_JOB=STATIC_CODE_ANALYSIS }
     - { name: "D9 readiness test", php: "7.3", env: ORCA_JOB=D9_READINESS}
-    # Custom jobs.
-    - env: DRUPAL_CORE_VERSION=default PHPUNIT_EXCLUDE_GROUP='drupal,requires-vm,d8'
-    - env: DRUPAL_CORE_VERSION=default PHPUNIT_EXCLUDE_GROUP='drupal,requires-vm,d8'
-      php: "7.4"
 
 before_install:
   # Exit build early if only documentation was changed in a Pull Request.
