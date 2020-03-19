@@ -30,7 +30,6 @@ class DeployTest extends BltProjectTestBase {
     // Ensure docroot was built into to deploy directory.
     $this->assertFileExists($this->deploy_dir . '/docroot');
     $this->assertFileExists($this->deploy_dir . '/docroot/core');
-    $this->assertFileExists($this->deploy_dir . '/docroot/modules/contrib');
 
     // Ensure settings files were copied to deploy directory.
     $this->assertFileExists($this->deploy_dir . '/docroot/index.php');
