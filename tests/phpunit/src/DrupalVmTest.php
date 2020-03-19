@@ -27,7 +27,7 @@ class DrupalVmTest extends BltProjectTestBase {
     $drush_alias_file = $this->sandboxInstance . '/drush/sites/' . $this->config->get('project.machine_name') . '.site.yml';
     $drush_alias_contents = YamlMunge::parseFile($drush_alias_file);
 
-    $this->assertNotContains(
+    $this->assertStringNotContainsString(
       '${project.machine_name}',
       file_get_contents($this->sandboxInstance . '/box/config.yml')
     );
@@ -38,32 +38,6 @@ class DrupalVmTest extends BltProjectTestBase {
     $this->assertArrayHasKey('vm', $local_config);
     $this->assertArrayHasKey('enable', $local_config['vm']);
     $this->assertEquals(TRUE, $local_config['vm']['enable']);
-  }
-
-  /**
-   *
-   * @group requires-vm
-   */
-  public function testVmConnection() {
-    $this->blt('vm --no-boot');
-
-    // Since blt is symlinked into our sandbox instance, we need to mount
-    // and additional directory.
-    $config = [
-      'vagrant_synced_folders' => [
-        1 => [
-          'local_path' => $this->bltDirectory,
-          'destination' => '/var/www/blt',
-          'type' => 'nfs',
-        ],
-      ],
-    ];
-    YamlMunge::mergeArrayIntoFile($config, $this->config->get('repo.root') . "/box/config.yml");
-    $this->execute('vagrant up');
-    $this->blt('setup');
-    $this->blt('doctor');
-    $this->prepareMultisites($this->site1Dir, $this->site2Dir, $this->sandboxInstance, $this->sandboxInstanceClone);
-    $this->blt('doctor');
   }
 
 }

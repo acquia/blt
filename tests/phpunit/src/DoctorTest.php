@@ -12,6 +12,7 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 class DoctorTest extends BltProjectTestBase {
 
   public function testDoctorCommand() {
+    $this->blt('blt:init:settings');
     $this->installDrupalMinimal();
     list($status_code) = $this->blt("doctor");
     $this->assertEquals(0, $status_code);

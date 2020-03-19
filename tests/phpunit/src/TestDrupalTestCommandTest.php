@@ -67,11 +67,11 @@ class TestDrupalTestCommandTest extends BltProjectTestBase {
       ],
     ]);
     $results = file_get_contents($this->sandboxInstance . '/reports/drupal/run-tests-script/Drupal_Tests_action_Kernel_Migrate_d7_MigrateActionsTest.xml');
-    $this->assertNotContains('failure type="failure"', $results);
+    $this->assertStringNotContainsString('failure type="failure"', $results);
     $results = file_get_contents($this->sandboxInstance . '/reports/drupal/run-tests-script/Drupal_Tests_action_Kernel_Plugin_migrate_source_ActionTest.xml');
-    $this->assertNotContains('failure type="failure"', $results);
+    $this->assertStringNotContainsString('failure type="failure"', $results);
     $results = file_get_contents($this->sandboxInstance . '/reports/drupal/run-tests-script/Drupal_Tests_action_Unit_Menu_ActionLocalTasksTest.xml');
-    $this->assertNotContains('failure type="failure"', $results);
+    $this->assertStringNotContainsString('failure type="failure"', $results);
   }
 
   /**
@@ -106,7 +106,7 @@ class TestDrupalTestCommandTest extends BltProjectTestBase {
       "--define" => [
         "tests.drupal.test-runner=phpunit",
         "tests.drupal.phpunit.0.config=$this->docroot/core/phpunit.xml.dist",
-        "tests.drupal.phpunit.0.path=$this->reporoot/core",
+        "tests.drupal.phpunit.0.path=$this->docroot/core",
         "tests.drupal.phpunit.0.group=action",
         "tests.drupal.phpunit.0.testsuites.0=unit",
         "tests.drupal.phpunit.0.testsuites.1=kernel",
@@ -114,10 +114,10 @@ class TestDrupalTestCommandTest extends BltProjectTestBase {
       ],
     ]);
     $results = file_get_contents($this->sandboxInstance . '/reports/drupal/phpunit/results.xml');
-    $this->assertContains('testsuite name="unit"', $results);
-    $this->assertContains('testsuite name="kernel"', $results);
-    $this->assertContains('testsuite name="functional-javascript"', $results);
-    $this->assertContains('errors="0" failures="0" skipped="0"', $results);
+    $this->assertStringContainsString('testsuite name="unit"', $results);
+    $this->assertStringContainsString('testsuite name="kernel"', $results);
+    $this->assertStringContainsString('testsuite name="functional-javascript"', $results);
+    $this->assertStringContainsString('errors="0" failures="0" skipped="0"', $results);
   }
 
 }
