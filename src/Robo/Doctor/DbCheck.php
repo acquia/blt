@@ -47,9 +47,7 @@ class DbCheck extends DoctorCheck {
    * Checks that drush is able to connect to database.
    */
   protected function checkDbConnection() {
-    print('here');
     if ($this->getInspector()->isDatabaseAvailable()) {
-      print('there');
       return TRUE;
     }
 
