@@ -124,6 +124,11 @@ class ConfigCommand extends BltTasks {
 
     $result = $this->invokeHook('post-config-import');
 
+    // Redundant cache-rebuild upon the conclusion of drupal:config:import
+    // to resolve fatal errors post-config actions.
+    $task = $this->taskDrush();
+    $task->drush("cache-rebuild")->run();
+
     return $result;
   }
 
