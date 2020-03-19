@@ -70,6 +70,7 @@ class SandboxManager {
       $this->recreateMaster = FALSE;
       // ORCA uses a relative symlink for BLT. This breaks in the sandbox
       // instance. Not fun!
+      // @see https://github.com/composer/composer/issues/8700
       $this->fs->symlink($this->bltDir, $this->sandboxMaster . '/vendor/acquia/blt');
     }
   }
