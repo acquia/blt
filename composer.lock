@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "59d76695406873819f47a5aed40c76fc",
+    "content-hash": "6218d8682571c21b51c361cdb38b5218",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -5288,7 +5288,7 @@
                     "dev-master": "4.4-dev"
                 },
                 "patches_applied": {
-                    "tty fix": "https://github.com/symfony/symfony/files/4356765/symfony-console-36031.txt"
+                    "symfony console breaks non-interactive input": "https://github.com/symfony/symfony/files/4356765/symfony-console-36031.txt"
                 }
             },
             "autoload": {
