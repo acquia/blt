@@ -8,7 +8,6 @@ use Acquia\Blt\Tests\BltProjectTestBase;
  * Class SimpleSamlPhpTest.
  *
  * @group orca_ignore
- * @group d8
  */
 class SimpleSamlPhpTest extends BltProjectTestBase {
 
