@@ -63,6 +63,11 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   protected $isPostgreSqlAvailable = NULL;
 
   /**
+   * Is Sqlite available.
+   */
+  protected $isSqliteAvailable = NULL;
+
+  /**
    * DrupalVM status.
    *
    * @var array
@@ -127,6 +132,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   public function clearState() {
     $this->isMySqlAvailable = NULL;
     $this->isPostgreSqlAvailable = NULL;
+    $this->isSqliteAvailable = NULL;
     $this->drupalVmStatus = [];
     $this->isDrupalVmLocallyInitialized = NULL;
     $this->isDrupalVmBooted = NULL;
@@ -331,11 +337,13 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
     $db = $this->getDrushStatus()['db-driver'];
     switch ($db) {
       case 'mysql':
-        return $this->isMySqlAvailable;
+        return $this->isMySqlAvailable();
 
       case 'pgsql':
-        return $this->isPostgreSqlAvailable;
+        return $this->isPostgreSqlAvailable();
 
+      case 'sqlite':
+        return $this->isSqliteAvailable();
     }
 
   }
@@ -401,6 +409,39 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
     $this->logger->debug("Verifying that PostgreSQL is available...");
     /** @var \Robo\Result $result */
     $result = $this->executor->drush("sqlq \"SHOW DATABASES\"")
+      ->run();
+
+    return $result->wasSuccessful();
+  }
+
+  /**
+   * Determines if Sqlite is available, caches result.
+   *
+   * This method caches its result in $this->isSqliteAvailable.
+   *
+   * @return bool
+   *   TRUE if Sqlite is available.
+   */
+  public function isSqliteAvailable() {
+    if (is_null($this->isSqliteAvailable)) {
+      $this->isSqliteAvailable = $this->getSqliteAvailable();
+    }
+
+    return $this->isSqliteAvailable;
+  }
+
+  /**
+   * Determines if Sqlite is available. Uses credentials from Drush.
+   *
+   * This method does not cache its result.
+   *
+   * @return bool
+   *   TRUE if Sqlite is available.
+   */
+  public function getSqliteAvailable() {
+    $this->logger->debug("Verifying that Sqlite is available...");
+    /** @var \Robo\Result $result */
+    $result = $this->executor->drush("sqlq \".tables\"")
       ->run();
 
     return $result->wasSuccessful();
@@ -803,7 +844,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
       if (count($parsed_line) < 4) {
         continue;
       }
-      list(, $target, $type, $data) = $parsed_line;
+      [, $target, $type, $data] = $parsed_line;
       $this->drupalVmStatus[$target][$type] = $data;
       $this->logger->debug("vagrant $target.$type = $data");
     }
