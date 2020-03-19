@@ -64,6 +64,8 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
 
   /**
    * Is Sqlite available.
+   *
+   * @var null
    */
   protected $isSqliteAvailable = NULL;
 
