@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "34ef4290ca85be5db1104a650cb4af41",
+    "content-hash": "6218d8682571c21b51c361cdb38b5218",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -5286,6 +5286,9 @@
             "extra": {
                 "branch-alias": {
                     "dev-master": "4.4-dev"
+                },
+                "patches_applied": {
+                    "symfony console breaks non-interactive input": "https://github.com/symfony/symfony/files/4356765/symfony-console-36031.txt"
                 }
             },
             "autoload": {
@@ -5312,6 +5315,20 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-02-24T13:10:00+00:00"
         },
         {
@@ -10766,5 +10783,6 @@
         "ext-json": "*",
         "composer-plugin-api": "^1.1.0"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }

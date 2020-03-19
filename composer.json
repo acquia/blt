@@ -40,7 +40,7 @@
         "sensiolabs/security-checker": "^5.0.0",
         "squizlabs/php_codesniffer": "^3.0.1",
         "symfony/config": "^4.4",
-        "symfony/console": "^4.4",
+        "symfony/console": "4.4.5",
         "symfony/twig-bridge": "^3.3",
         "symfony/yaml": "^4.4",
         "zaporylie/composer-drupal-optimizations": "^1.0",
@@ -79,6 +79,11 @@
             "vendor/drupal/core": [
                 "type:drupal-core"
             ]
+        },
+        "patches": {
+            "symfony/console": {
+                "symfony console breaks non-interactive input": "https://github.com/symfony/symfony/files/4356765/symfony-console-36031.txt"
+            }
         },
         "phpcodesniffer-search-depth": 4
     },
