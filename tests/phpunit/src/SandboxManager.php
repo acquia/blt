@@ -64,11 +64,14 @@ class SandboxManager {
     $this->sandboxMaster = $this->tmp . "/blt-sandbox-master";
     $this->sandboxInstance = $this->tmp . "/blt-sandbox-instance";
     $this->recreateMaster = getenv('BLT_RECREATE_SANDBOX_MASTER');
+    $this->bltDir = realpath(dirname(__FILE__) . '/../../../');
     if (getenv('ORCA_FIXTURE_DIR')) {
       $this->sandboxMaster = getenv('ORCA_FIXTURE_DIR');
       $this->recreateMaster = FALSE;
+      // ORCA uses a relative symlink for BLT. This breaks in the sandbox
+      // instance. Not fun!
+      $this->fs->symlink($this->bltDir, $this->sandboxMaster . '/vendor/acquia/blt');
     }
-    $this->bltDir = realpath(dirname(__FILE__) . '/../../../');
   }
 
   /**
