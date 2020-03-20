@@ -32,23 +32,6 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   protected $bin;
 
   /**
-   * Drupal PHPCS standard.
-   *
-   * @var string
-   */
-  protected $drupalPhpcsStandard;
-
-  /**
-   * PHPCS paths.
-   *
-   * @var string
-   */
-  protected $phpcsPaths;
-
-  const BLT_DEV_BRANCH = "10.x";
-  const BLT_PROJECT_DIR = "../blted8";
-
-  /**
    * This hook will fire for all commands in this command file.
    *
    * @hook init
@@ -56,34 +39,6 @@ class RoboFile extends Tasks implements LoggerAwareInterface {
   public function initialize() {
     $this->bltRoot = __DIR__;
     $this->bin = $this->bltRoot . '/vendor/bin';
-  }
-
-  /**
-   * Executes pre-release tests against blt-project self::BLT_DEV_BRANCH.
-   */
-  public function releaseTest() {
-    $task = $this->taskExecStack()
-      ->printMetadata(TRUE)
-      ->exec("{$this->bltRoot}/vendor/bin/robo sniff-code --load-from {$this->bltRoot}");
-
-    $phpunit_group = getenv('PHPUNIT_GROUP');
-    $phpunit_exclude_group = getenv('PHPUNIT_EXCLUDE_GROUP');
-    $phpunit_filter = getenv('PHPUNIT_FILTER');
-    $phpunit_command_string = "{$this->bltRoot}/vendor/bin/phpunit";
-    if ($phpunit_group) {
-      $phpunit_command_string .= " --group=" . $phpunit_group;
-    }
-    if ($phpunit_exclude_group) {
-      $phpunit_command_string .= " --exclude-group=" . $phpunit_exclude_group;
-    }
-    if ($phpunit_filter) {
-      $phpunit_command_string .= " --filter " . $phpunit_filter;
-    }
-    $task->exec($phpunit_command_string);
-
-    $result = $task->run();
-
-    return $result;
   }
 
   /**

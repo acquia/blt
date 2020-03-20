@@ -176,12 +176,8 @@ class ConfigInitializer {
    *   Env.
    */
   public function determineEnvironment() {
-    // Support BLT_ENV=ci.
-    if (getenv("BLT_ENV")) {
-      $environment = getenv("BLT_ENV");
-    }
     // Support --environment=ci.
-    elseif ($this->input->hasParameterOption('--environment')) {
+    if ($this->input->hasParameterOption('--environment')) {
       $environment = $this->input->getParameterOption('--environment');
     }
     // Support --define environment=ci.

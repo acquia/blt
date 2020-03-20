@@ -6,14 +6,12 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
  * Class DoctorTest.
- *
- * @group requires-db
- * @group orca_ignore
  */
 class DoctorTest extends BltProjectTestBase {
 
   public function testDoctorCommand() {
-    $this->installDrupalMinimal();
+    $this->blt('blt:init:settings');
+    $this->blt('tests:behat:init:config');
     list($status_code) = $this->blt("doctor");
     $this->assertEquals(0, $status_code);
   }

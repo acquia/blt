@@ -47,21 +47,12 @@ class DbCheck extends DoctorCheck {
    * Checks that drush is able to connect to database.
    */
   protected function checkDbConnection() {
-    $connection = @mysqli_connect(
-      $this->drushStatus['db-hostname'],
-      $this->drushStatus['db-username'],
-      $this->drushStatus['db-password'],
-      $this->drushStatus['db-name'],
-      $this->drushStatus['db-port']
-    );
-
-    if ($connection) {
-      mysqli_close($connection);
+    if ($this->getInspector()->isDatabaseAvailable()) {
       return TRUE;
     }
 
     $outcome = [
-      'Could not connect to MySQL database.',
+      'Could not connect to database.',
       "",
       "Is your *AMP stack running?",
       'Are your database credentials correct?',

@@ -8,7 +8,6 @@ use Acquia\Blt\Tests\BltProjectTestBase;
  * Class BehatTest.
  *
  * @group orca_ignore
- * @group d8
  */
 class TestBehatCommandTest extends BltProjectTestBase {
 
@@ -27,11 +26,10 @@ class TestBehatCommandTest extends BltProjectTestBase {
   }
 
   /**
-   * @group requires-db
+   * Tests behat command.
    */
   public function testBehatCommand() {
     $this->blt("recipes:behat:init");
-    $this->installDrupalMinimal();
     list($status_code) = $this->blt("tests:behat:run");
     $this->assertEquals(0, $status_code);
     list($status_code) = $this->blt("tests:behat:list:definitions");

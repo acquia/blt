@@ -7,8 +7,6 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
  * Class FrontendTest.
- *
- * @group orca_ignore
  */
 class FrontendTest extends BltProjectTestBase {
 
@@ -26,17 +24,16 @@ class FrontendTest extends BltProjectTestBase {
           'command' => 'echo "hello test"',
         ],
       ],
-    ], $this->sandboxInstance . "/blt/" . getenv("BLT_ENV") . ".blt.yml");
+    ], $this->sandboxInstance . "/blt/ci.blt.yml");
 
     list(, $output,) = $this->blt('source:build:frontend-reqs');
-    $this->assertContains('hello reqs', $output);
+    $this->assertStringContainsString('hello reqs', $output);
 
     list(, $output,) = $this->blt('source:build:frontend-assets');
-    $this->assertContains('hello assets', $output);
+    $this->assertStringContainsString('hello assets', $output);
 
-    $this->installDrupalMinimal();
     list(, $output,) = $this->blt('tests:frontend:run');
-    $this->assertContains('hello test', $output);
+    $this->assertStringContainsString('hello test', $output);
   }
 
 }

@@ -7,17 +7,14 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
  * Class DrupalSettingsTest.
- *
- * @group orca_ignore
  */
 class DrupalSettingsTest extends BltProjectTestBase {
 
   /**
    * Tests blt:init:settings command.
-   *
-   * This command should have been run during sandbox master creation.
    */
   public function testSetupDefaultLocalSettings() {
+    $this->blt('blt:init:settings');
     $sites = $this->config->get("multisites");
 
     foreach ($sites as $site) {
@@ -25,13 +22,13 @@ class DrupalSettingsTest extends BltProjectTestBase {
       $this->assertFileExists("$this->sandboxInstance/docroot/sites/$site/default.settings.php");
       $this->assertFileExists("$this->sandboxInstance/docroot/sites/$site/settings/local.settings.php");
 
-      $this->assertContains('${drupal.db.database}', file_get_contents("$this->sandboxInstance/docroot/sites/$site/settings/default.local.settings.php"));
-      $this->assertContains($this->config->get("drupal.db.database"), file_get_contents("$this->sandboxInstance/docroot/sites/$site/settings/local.settings.php"));
-      $this->assertNotContains('${drupal.db.database}', file_get_contents("$this->sandboxInstance/docroot/sites/$site/settings/local.settings.php"));
+      $this->assertStringContainsString('${drupal.db.database}', file_get_contents("$this->sandboxInstance/docroot/sites/$site/settings/default.local.settings.php"));
+      $this->assertStringContainsString($this->config->get("drupal.db.database"), file_get_contents("$this->sandboxInstance/docroot/sites/$site/settings/local.settings.php"));
+      $this->assertStringNotContainsString('${drupal.db.database}', file_get_contents("$this->sandboxInstance/docroot/sites/$site/settings/local.settings.php"));
 
       $this->assertFileExists("$this->sandboxInstance/docroot/sites/$site/settings.php");
 
-      $this->assertContains(
+      $this->assertStringContainsString(
         'require DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php"',
         file_get_contents("$this->sandboxInstance/docroot/sites/$site/settings.php")
       );

@@ -6,8 +6,6 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
  * Class BltConfigTest.
- *
- * @group orca_ignore
  */
 class BltConfigTest extends BltProjectTestBase {
 
@@ -19,7 +17,7 @@ class BltConfigTest extends BltProjectTestBase {
     list(, $output,) = $this->blt('blt:config:dump', [
       '--site' => 'site2',
     ]);
-    $this->assertContains('site2', $output);
+    $this->assertStringContainsString('site2', $output);
     $this->blt('blt:config:dump', [
       '--environment' => 'local',
     ]);

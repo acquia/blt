@@ -85,23 +85,6 @@ abstract class BltProjectTestBase extends TestCase {
   protected static $initialized = FALSE;
 
   /**
-   * Set up.
-   *
-   * {@inheritDoc}.
-   *
-   * @throws \Exception
-   */
-  public static function setUpBeforeClass(): void {
-    if (!self::$initialized) {
-      // Only initialize the sandbox once for the entire test suite.
-      $sandbox_manager = new SandboxManager();
-      $sandbox_manager->bootstrap();
-      self::$initialized = TRUE;
-    }
-    parent::setUpBeforeClass();
-  }
-
-  /**
    * {@inheritdoc}
    */
   public function setUp(): void {
@@ -382,9 +365,9 @@ abstract class BltProjectTestBase extends TestCase {
    */
   protected function createBltInput($command = '', array $args = []) {
     $defaults = [
-      '--environment' => getenv('BLT_ENV'),
       '-vvv' => '',
       '--no-interaction' => '',
+      '--environment' => 'ci',
     ];
     $args = array_merge($args, $defaults);
     $prepend = [
@@ -397,139 +380,12 @@ abstract class BltProjectTestBase extends TestCase {
     return $input;
   }
 
-  /**
-   * @throws \Exception
-   */
-  protected function tearDown(): void {
-    $this->dropDatabase();
-    unset($this->config);
-    parent::tearDown();
-  }
-
   protected function printTestName() {
     if (getenv('BLT_PRINT_COMMAND_OUTPUT')) {
       $this->output->writeln("");
       $this->writeFullWidthLine(get_class($this) . "::" . $this->getName(),
         $this->output);
     }
-  }
-
-  /**
-   * Prepare multisites.
-   *
-   * @param string $site1_dir
-   *   Dir.
-   * @param string $site2_dir
-   *   Dir.
-   * @param string $test_project_dir
-   *   Dir.
-   * @param string $test_project_clone_dir
-   *   Dir.
-   *
-   * @throws \Exception
-   */
-  protected function prepareMultisites($site1_dir, $site2_dir, $test_project_dir, $test_project_clone_dir) {
-    // Set test project vars.
-    $site1_local_uri = 'local.blted8.site1.com';
-    $site2_local_uri = 'local.blted8.site2.com';
-    $site1_local_db_name = 'drupal';
-    $site2_local_db_name = 'drupal2';
-    $site1_local_human_name = "Site 1 Local";
-    $site2_local_human_name = "Site 2 Local";
-    $site1_remote_drush_alias = "$site1_dir.clone";
-    $site2_remote_drush_alias = "$site2_dir.clone";
-
-    // Create test project clone vars.
-    $site1_clone_uri = 'local.blted82.site1.com';
-    $site2_clone_uri = 'local.blted82.site2.com';
-    $site1_clone_db_name = 'drupal3';
-    $site2_clone_db_name = 'drupal4';
-    $site1_clone_human_name = "Site 1 Clone";
-    $site2_clone_human_name = "Site 2 Clone";
-    $this->blt("recipes:multisite:init", [
-      '--site-dir' => $site2_dir,
-      '--site-uri' => "http://" . $site2_local_uri,
-      '--remote-alias' => $site2_remote_drush_alias,
-      '--no-interaction' => '',
-    ]);
-
-    $this->fs->remove($test_project_clone_dir);
-    $this->fs->mirror($test_project_dir, $test_project_clone_dir);
-
-    // Create drush alias for site1.
-    $aliases['clone'] = [
-      'root' => $test_project_clone_dir,
-      'uri' => $site1_dir,
-    ];
-    YamlMunge::mergeArrayIntoFile($aliases,
-      "$test_project_dir/drush/sites/$site1_dir.site.yml");
-
-    // Create drush alias for site2.
-    $aliases['clone'] = [
-      'root' => $test_project_clone_dir,
-      'uri' => $site2_dir,
-    ];
-    YamlMunge::mergeArrayIntoFile($aliases,
-      "$test_project_dir/drush/sites/$site2_dir.site.yml");
-
-    // Site 1 local.
-    $project_yml = [];
-    $project_yml['project']['local']['hostname'] = $site1_local_uri;
-    $project_yml['project']['human_name'] = $site1_local_human_name;
-    $project_yml['drupal']['db']['database'] = $site1_local_db_name;
-    $project_yml['drush']['aliases']['remote'] = $site1_remote_drush_alias;
-    YamlMunge::mergeArrayIntoFile($project_yml,
-      $test_project_dir . "/docroot/sites/$site1_dir/blt.yml");
-
-    // Site 2 local.
-    $project_yml = [];
-    $project_yml['project']['human_name'] = $site2_local_human_name;
-    $project_yml['drupal']['db']['database'] = $site2_local_db_name;
-    // drush.aliases.remote should already have been set via generate command.
-    YamlMunge::mergeArrayIntoFile($project_yml,
-      $test_project_dir . "/docroot/sites/$site2_dir/blt.yml");
-
-    // Site 1 clone.
-    $project_yml = [];
-    $project_yml['project']['human_name'] = $site1_clone_human_name;
-    $project_yml['drupal']['db']['database'] = $site1_clone_db_name;
-    YamlMunge::mergeArrayIntoFile($project_yml,
-      $test_project_clone_dir . "/docroot/sites/$site1_dir/blt.yml");
-
-    // Site 2 clone.
-    $project_yml = [];
-    $project_yml['project']['human_name'] = $site2_clone_human_name;
-    $project_yml['drupal']['db']['database'] = $site2_clone_db_name;
-    YamlMunge::mergeArrayIntoFile($project_yml,
-      $test_project_clone_dir . "/docroot/sites/$site2_dir/blt.yml");
-
-    // Generate sites.php for local app.
-    $sites[$site1_local_uri] = $site1_dir;
-    $sites[$site2_local_uri] = $site2_dir;
-    $contents = "<?php\n \$sites = " . var_export($sites, TRUE) . ";";
-    file_put_contents($test_project_dir . "/docroot/sites/sites.php",
-      $contents);
-
-    // Generate sites.php for clone app.
-    $sites[$site1_clone_uri] = $site1_dir;
-    $sites[$site2_clone_uri] = $site2_dir;
-    $contents = "<?php\n \$sites = " . var_export($sites, TRUE) . ";";
-    file_put_contents($test_project_clone_dir . "/docroot/sites/sites.php",
-      $contents);
-
-    // Delete local.settings.php files so they can be regenerated with new
-    // values in blt.yml files.
-    $this->fs->remove([
-      "$test_project_dir/docroot/sites/$site1_dir/settings/local.settings.php",
-      "$test_project_dir/docroot/sites/$site2_dir/settings/local.settings.php",
-      "$test_project_dir/docroot/sites/$site1_dir/local.drush.yml",
-      "$test_project_dir/docroot/sites/$site2_dir/local.drush.yml",
-      "$test_project_clone_dir/docroot/sites/$site1_dir/settings/local.settings.php",
-      "$test_project_clone_dir/docroot/sites/$site2_dir/settings/local.settings.php",
-      "$test_project_clone_dir/docroot/sites/$site1_dir/local.drush.yml",
-      "$test_project_clone_dir/docroot/sites/$site2_dir/local.drush.yml",
-    ]);
-
   }
 
 }
