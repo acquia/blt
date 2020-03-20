@@ -7,7 +7,7 @@
 # regular database update (drush updatedb) command. So that update command will
 # normally be part of the commands executed below.
 #
-# Usage: post-code-deploy site env db-role domain custom-arg
+# Usage: '/mnt/www/html/site.env/factory-hooks/db-update/db-update.sh' 'site' 'env' 'db-role' 'domain'
 # Map the script inputs to convenient names.
 
 # Exit immediately on error and enable verbose log output.
@@ -49,5 +49,9 @@ echo "Running BLT deploy tasks on $uri domain in $env environment on the $site s
 # Drush < 9.6 for path based domains: "domain.com/subpath/" is considered a
 # valid URI but "domain.com/subpath" is not.
 DRUSH_PATHS_CACHE_DIRECTORY=$cacheDir $blt drupal:update --environment=$env --site=${name[0]} --define drush.uri=$domain/ --verbose --no-interaction
+
+# Clean up the drush cache directory.
+echo "Removing temporary drush cache files."
+rm -rf "$cacheDir"
 
 set +v
