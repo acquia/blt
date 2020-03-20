@@ -380,15 +380,6 @@ abstract class BltProjectTestBase extends TestCase {
     return $input;
   }
 
-  /**
-   * @throws \Exception
-   */
-  protected function tearDown(): void {
-    $this->dropDatabase();
-    unset($this->config);
-    parent::tearDown();
-  }
-
   protected function printTestName() {
     if (getenv('BLT_PRINT_COMMAND_OUTPUT')) {
       $this->output->writeln("");
