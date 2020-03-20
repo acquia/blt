@@ -32,7 +32,6 @@ class FrontendTest extends BltProjectTestBase {
     list(, $output,) = $this->blt('source:build:frontend-assets');
     $this->assertStringContainsString('hello assets', $output);
 
-    $this->installDrupalMinimal();
     list(, $output,) = $this->blt('tests:frontend:run');
     $this->assertStringContainsString('hello test', $output);
   }

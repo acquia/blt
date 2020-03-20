@@ -19,7 +19,6 @@ class SetupToggleModulesTest extends BltProjectTestBase {
    * @throws \Exception
    */
   public function testModulesEnabled() {
-    $this->installDrupalMinimal();
     $env = $this->config->get('environment');
     $modules = (array) $this->config->get("modules.$env.enable");
     $pm_list = $this->drushJson("pm:list --fields=name,status");

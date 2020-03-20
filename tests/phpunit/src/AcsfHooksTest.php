@@ -24,8 +24,6 @@ class AcsfHooksTest extends BltProjectTestBase {
     list($status_code) = $this->blt("tests:acsf:validate");
     $this->assertEquals(0, $status_code);
 
-    $this->installDrupalMinimal();
-
     // Mimics factory-hooks/db-update/db-update.sh.
     list($status_code) = $this->blt("artifact:acsf-hooks:db-update", [
       'site' => 'blt',

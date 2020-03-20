@@ -22,8 +22,6 @@ class AcCloudHooksTest extends BltProjectTestBase {
     $filePermissions = substr(sprintf('%o', fileperms($commonPostCodeDeployScript)), -4);
     $this->assertEquals('0755', $filePermissions);
 
-    $this->installDrupalMinimal();
-
     // Mimics hooks/post-code-deploy/post-code-deploy.sh.
     list($status_code, $output) = $this->blt("artifact:ac-hooks:post-code-update", [
       'site' => 's1',
