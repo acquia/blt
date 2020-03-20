@@ -2,11 +2,10 @@
 #
 # Factory Hook: post-site-install
 #
-# This is used so that an ACSF site install is identical to the local BLT site
-# install, with the environment, site, and uri CLI runtime arguments overriding
-# all other configuration.
+# This is necessary so that blt drupal:install tasks are invoked automatically
+# when a site is created on ACSF. 
 #
-# Usage: SCRIPTNAME site env db-role domain
+# Usage: '/mnt/www/html/site.env/factory-hooks/post-site-install/post-site-install.sh' 'site' 'env' 'db-role' 'domain'
 
 # Exit immediately on error and enable verbose log output.
 set -ev
