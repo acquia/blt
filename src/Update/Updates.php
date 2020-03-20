@@ -915,4 +915,25 @@ class Updates {
     }
   }
 
+  /**
+   * Version 11.4.0.
+   *
+   * @Update(
+   *   version = "11004000",
+   *   description = "Regenerate factory hooks from updated templates."
+   * )
+   */
+  public function update_11004000() {
+    if (file_exists($this->updater->getRepoRoot() . '/factory-hooks')) {
+      $messages = [
+        "Factory Hooks have been regenerated in your existing /factory-hooks directory.",
+        "Review the resulting file(s) and re-add any customizations.",
+      ];
+      $this->updater->executeCommand("./vendor/bin/blt recipes:acsf:init:hooks");
+      $formattedBlock = $this->updater->getFormatter()->formatBlock($messages, 'ice');
+      $this->updater->getOutput()->writeln("");
+      $this->updater->getOutput()->writeln($formattedBlock);
+      $this->updater->getOutput()->writeln("");
+    }
+  }
 }
