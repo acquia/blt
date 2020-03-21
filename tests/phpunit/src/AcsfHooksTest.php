@@ -10,7 +10,6 @@ use Acquia\Blt\Tests\BltProjectTestBase;
  * Verifies that acsf support has been initialized.
  *
  * @group orca_ignore
- * @group d8
  */
 class AcsfHooksTest extends BltProjectTestBase {
 
@@ -24,8 +23,6 @@ class AcsfHooksTest extends BltProjectTestBase {
     $this->assertFileExists($this->sandboxInstance . '/factory-hooks');
     list($status_code) = $this->blt("tests:acsf:validate");
     $this->assertEquals(0, $status_code);
-
-    $this->installDrupalMinimal();
 
     // Mimics factory-hooks/db-update/db-update.sh.
     list($status_code) = $this->blt("artifact:acsf-hooks:db-update", [

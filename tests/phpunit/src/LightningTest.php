@@ -7,9 +7,7 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 /**
  * Class LightningTest.
  *
- * @group requires-db
  * @group orca_ignore
- * @group d8
  */
 class LightningTest extends BltProjectTestBase {
 

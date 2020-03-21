@@ -56,6 +56,20 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   protected $isMySqlAvailable = NULL;
 
   /**
+   * Is PostgreSQL available.
+   *
+   * @var null
+   */
+  protected $isPostgreSqlAvailable = NULL;
+
+  /**
+   * Is Sqlite available.
+   *
+   * @var null
+   */
+  protected $isSqliteAvailable = NULL;
+
+  /**
    * DrupalVM status.
    *
    * @var array
@@ -119,6 +133,8 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    */
   public function clearState() {
     $this->isMySqlAvailable = NULL;
+    $this->isPostgreSqlAvailable = NULL;
+    $this->isSqliteAvailable = NULL;
     $this->drupalVmStatus = [];
     $this->isDrupalVmLocallyInitialized = NULL;
     $this->isDrupalVmBooted = NULL;
@@ -222,9 +238,9 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   public function isDrupalInstalled() {
     $this->logger->debug("Verifying that Drupal is installed...");
     $uri = $this->getConfigValue('drush.uri');
-    $result = $this->executor->drush("sqlq --uri=$uri \"SHOW TABLES LIKE 'config'\"")->run();
+    $result = $this->executor->drush("--uri=$uri status bootstrap")->run();
     $output = trim($result->getMessage());
-    $installed = $result->wasSuccessful() && $output == 'config';
+    $installed = $result->wasSuccessful() && $output == 'Drupal bootstrap : Successful';
 
     return $installed;
   }
@@ -312,9 +328,32 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   }
 
   /**
+   * Determines if database is available, caches result.
+   *
+   * This method caches its result in $this->isDatabaseAvailable.
+   *
+   * @return bool
+   *   TRUE if MySQL is available.
+   */
+  public function isDatabaseAvailable() {
+    $db = $this->getDrushStatus()['db-driver'];
+    switch ($db) {
+      case 'mysql':
+        return $this->isMySqlAvailable();
+
+      case 'pgsql':
+        return $this->isPostgreSqlAvailable();
+
+      case 'sqlite':
+        return $this->isSqliteAvailable();
+    }
+
+  }
+
+  /**
    * Determines if MySQL is available, caches result.
    *
-   * This method caches its result in $this->mySqlAvailable.
+   * This method caches its result in $this->isMySqlAvailable.
    *
    * @return bool
    *   TRUE if MySQL is available.
@@ -339,6 +378,72 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
     $this->logger->debug("Verifying that MySQL is available...");
     /** @var \Robo\Result $result */
     $result = $this->executor->drush("sqlq \"SHOW DATABASES\"")
+      ->run();
+
+    return $result->wasSuccessful();
+  }
+
+  /**
+   * Determines if PostgreSQL is available, caches result.
+   *
+   * This method caches its result in $this->isPostgreSqlAvailable.
+   *
+   * @return bool
+   *   TRUE if MySQL is available.
+   */
+  public function isPostgreSqlAvailable() {
+    if (is_null($this->isPostgreSqlAvailable)) {
+      $this->isPostgreSqlAvailable = $this->getPostgreSqlAvailable();
+    }
+
+    return $this->isPostgreSqlAvailable;
+  }
+
+  /**
+   * Determines if PostgreSQL is available. Uses credentials from Drush.
+   *
+   * This method does not cache its result.
+   *
+   * @return bool
+   *   TRUE if PostgreSQL is available.
+   */
+  public function getPostgreSqlAvailable() {
+    $this->logger->debug("Verifying that PostgreSQL is available...");
+    /** @var \Robo\Result $result */
+    $result = $this->executor->drush("sqlq \"SHOW DATABASES\"")
+      ->run();
+
+    return $result->wasSuccessful();
+  }
+
+  /**
+   * Determines if Sqlite is available, caches result.
+   *
+   * This method caches its result in $this->isSqliteAvailable.
+   *
+   * @return bool
+   *   TRUE if Sqlite is available.
+   */
+  public function isSqliteAvailable() {
+    if (is_null($this->isSqliteAvailable)) {
+      $this->isSqliteAvailable = $this->getSqliteAvailable();
+    }
+
+    return $this->isSqliteAvailable;
+  }
+
+  /**
+   * Determines if Sqlite is available. Uses credentials from Drush.
+   *
+   * This method does not cache its result.
+   *
+   * @return bool
+   *   TRUE if Sqlite is available.
+   */
+  public function getSqliteAvailable() {
+    $this->logger->debug("Verifying that Sqlite is available...");
+    /** @var \Robo\Result $result */
+    $result = $this->executor->drush("sqlq \".tables\"")
       ->run();
 
     return $result->wasSuccessful();

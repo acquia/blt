@@ -7,8 +7,6 @@ use Symfony\Component\Process\Process;
 
 /**
  * Class GitTasksTest.
- *
- * @group orca_ignore
  */
 class SetupGitHooksTest extends BltProjectTestBase {
 
@@ -105,9 +103,9 @@ class SetupGitHooksTest extends BltProjectTestBase {
     $process = new Process("./.git/hooks/pre-commit", $this->sandboxInstance);
     $process->run();
     $output = $process->getOutput();
-    $this->assertContains('tests:phpcs:sniff:staged', $output);
-    $this->assertContains('tests:yaml:lint:files', $output);
-    $this->assertContains('tests:twig:lint:files', $output);
+    $this->assertStringContainsString('tests:phpcs:sniff:staged', $output);
+    $this->assertStringContainsString('tests:yaml:lint:files', $output);
+    $this->assertStringContainsString('tests:twig:lint:files', $output);
   }
 
   /**

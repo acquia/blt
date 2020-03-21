@@ -68,7 +68,7 @@ Its scope is discretely defined. It is *not* intended to provide:
     * Building production-only dependencies
     * Sanitation of production code
 * [Continuous Integration & Deployment](https://docs.acquia.com/blt/tech-architect/ci/)
-    * [Acquia Pipelines](https://dev.acquia.com/request-invite-acquia-pipelines)
+    * [Acquia Pipelines](https://docs.acquia.com/acquia-cloud/develop/pipelines/)
     * [Travis CI](https://travis-ci.com)
     * [GitHub](https://github.com)
 

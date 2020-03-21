@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b674bb11e359d5ba2cb52f4112f0863f",
+    "content-hash": "5d3b3e392d5c9312081e044184b312e5",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1967,16 +1967,16 @@
         },
         {
             "name": "drupal/core",
-            "version": "9.0.0-alpha2",
+            "version": "9.0.0-beta1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core.git",
-                "reference": "e7430881bfe5eea47cb384a82bda9d73ae9072f4"
+                "reference": "a3547cf77d19b680834e3fae5cb159219814641a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drupal/core/zipball/e7430881bfe5eea47cb384a82bda9d73ae9072f4",
-                "reference": "e7430881bfe5eea47cb384a82bda9d73ae9072f4",
+                "url": "https://api.github.com/repos/drupal/core/zipball/a3547cf77d19b680834e3fae5cb159219814641a",
+                "reference": "a3547cf77d19b680834e3fae5cb159219814641a",
                 "shasum": ""
             },
             "require": {
@@ -2014,7 +2014,7 @@
                 "symfony/http-kernel": "^4.4",
                 "symfony/polyfill-iconv": "^1.0",
                 "symfony/process": "^4.4",
-                "symfony/psr-http-message-bridge": "^1.2.0",
+                "symfony/psr-http-message-bridge": "^2.0",
                 "symfony/routing": "^4.4",
                 "symfony/serializer": "^4.4",
                 "symfony/translation": "^4.4",
@@ -2209,7 +2209,7 @@
                 "GPL-2.0-or-later"
             ],
             "description": "Drupal is an open source content management platform powering millions of websites and applications.",
-            "time": "2020-03-04T18:12:13+00:00"
+            "time": "2020-03-20T19:21:18+00:00"
         },
         {
             "name": "drupol/phposinfo",
@@ -5102,38 +5102,38 @@
         },
         {
             "name": "symfony-cmf/routing",
-            "version": "2.1.1",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony-cmf/Routing.git",
-                "reference": "fbba5ec9626f7a5eaa1c8c1a26e8bfa79c32356f"
+                "reference": "12f3f64a0ab89ee0dc5ead8802167de762eac024"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony-cmf/Routing/zipball/fbba5ec9626f7a5eaa1c8c1a26e8bfa79c32356f",
-                "reference": "fbba5ec9626f7a5eaa1c8c1a26e8bfa79c32356f",
+                "url": "https://api.github.com/repos/symfony-cmf/Routing/zipball/12f3f64a0ab89ee0dc5ead8802167de762eac024",
+                "reference": "12f3f64a0ab89ee0dc5ead8802167de762eac024",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1",
                 "psr/log": "^1.0",
-                "symfony/http-kernel": "^2.8 || ^3.3 || ^4.0",
-                "symfony/routing": "^2.8 || ^3.3 || ^4.0"
+                "symfony/http-kernel": "^3.4 || ^4.3",
+                "symfony/routing": "^3.4 || ^4.3"
             },
             "require-dev": {
-                "symfony-cmf/testing": "^2.1.0",
-                "symfony/config": "^2.8 || ^3.3 || ^4.0",
-                "symfony/dependency-injection": "^2.8 || ^3.3 || ^4.0",
-                "symfony/event-dispatcher": "^2.8 || ^3.3 || ^4.0",
+                "symfony-cmf/testing": "^3@dev",
+                "symfony/config": "^3.4 || ^4.3",
+                "symfony/dependency-injection": "^3.4 || ^4.3",
+                "symfony/event-dispatcher": "^3.4 || ^4.3",
                 "symfony/phpunit-bridge": "^4.2.2"
             },
             "suggest": {
-                "symfony/event-dispatcher": "DynamicRouter can optionally trigger an event at the start of matching. Minimal version (~2.1)"
+                "symfony/event-dispatcher": "DynamicRouter can optionally trigger an event at the start of matching. Minimal version (^3.4 || ^4.3)"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.1-dev"
+                    "dev-master": "2.2-dev"
                 }
             },
             "autoload": {
@@ -5157,7 +5157,7 @@
                 "database",
                 "routing"
             ],
-            "time": "2019-12-10T10:41:58+00:00"
+            "time": "2019-12-10T10:45:30+00:00"
         },
         {
             "name": "symfony/config",
@@ -5271,6 +5271,9 @@
             "extra": {
                 "branch-alias": {
                     "dev-master": "4.4-dev"
+                },
+                "patches_applied": {
+                    "symfony console breaks non-interactive input": "https://github.com/symfony/symfony/files/4356765/symfony-console-36031.txt"
                 }
             },
             "autoload": {
@@ -5297,6 +5300,20 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
             "time": "2020-02-24T13:10:00+00:00"
         },
         {
@@ -6320,16 +6337,16 @@
         },
         {
             "name": "symfony/psr-http-message-bridge",
-            "version": "v1.3.0",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/psr-http-message-bridge.git",
-                "reference": "9d3e80d54d9ae747ad573cad796e8e247df7b796"
+                "reference": "ce709cd9c90872c08c2427b45739d5f3c781ab4f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/psr-http-message-bridge/zipball/9d3e80d54d9ae747ad573cad796e8e247df7b796",
-                "reference": "9d3e80d54d9ae747ad573cad796e8e247df7b796",
+                "url": "https://api.github.com/repos/symfony/psr-http-message-bridge/zipball/ce709cd9c90872c08c2427b45739d5f3c781ab4f",
+                "reference": "ce709cd9c90872c08c2427b45739d5f3c781ab4f",
                 "shasum": ""
             },
             "require": {
@@ -6339,8 +6356,7 @@
             },
             "require-dev": {
                 "nyholm/psr7": "^1.1",
-                "symfony/phpunit-bridge": "^4.4 || ^5.0",
-                "zendframework/zend-diactoros": "^1.4.1 || ^2.0"
+                "symfony/phpunit-bridge": "^4.4 || ^5.0"
             },
             "suggest": {
                 "nyholm/psr7": "For a super lightweight PSR-7/17 implementation"
@@ -6348,7 +6364,7 @@
             "type": "symfony-bridge",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.3-dev"
+                    "dev-master": "2.0-dev"
                 }
             },
             "autoload": {
@@ -6381,7 +6397,7 @@
                 "psr-17",
                 "psr-7"
             ],
-            "time": "2019-11-25T19:33:50+00:00"
+            "time": "2020-01-02T08:07:11+00:00"
         },
         {
             "name": "symfony/routing",
@@ -7400,20 +7416,20 @@
     "packages-dev": [
         {
             "name": "acquia/coding-standards",
-            "version": "v0.4.2",
+            "version": "v0.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/acquia/coding-standards-php.git",
-                "reference": "319ef6711ca60cd6ccc40bbd4eaf176c62dd3c6e"
+                "reference": "8a0cbe436775dd945b2f51856b0ddfee5f3fd800"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/acquia/coding-standards-php/zipball/319ef6711ca60cd6ccc40bbd4eaf176c62dd3c6e",
-                "reference": "319ef6711ca60cd6ccc40bbd4eaf176c62dd3c6e",
+                "url": "https://api.github.com/repos/acquia/coding-standards-php/zipball/8a0cbe436775dd945b2f51856b0ddfee5f3fd800",
+                "reference": "8a0cbe436775dd945b2f51856b0ddfee5f3fd800",
                 "shasum": ""
             },
             "require": {
-                "drupal/coder": "^8.3",
+                "drupal/coder": "^8.3.7",
                 "pheromone/phpcs-security-audit": "^2.0",
                 "phpcompatibility/php-compatibility": "^9.0",
                 "slevomat/coding-standard": "^5.0",
@@ -7451,7 +7467,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2020-02-12T15:16:30+00:00"
+            "time": "2020-03-20T20:14:11+00:00"
         },
         {
             "name": "behat/mink",
@@ -7816,6 +7832,16 @@
                 "autoload",
                 "dependency",
                 "package"
+            ],
+            "funding": [
+                {
+                    "url": "https://packagist.com",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/composer/composer",
+                    "type": "tidelift"
+                }
             ],
             "time": "2020-03-13T19:34:27+00:00"
         },
@@ -8286,6 +8312,12 @@
                 "gh",
                 "gist",
                 "github"
+            ],
+            "funding": [
+                {
+                    "url": "https://github.com/acrobat",
+                    "type": "github"
+                }
             ],
             "time": "2020-03-16T19:57:05+00:00"
         },
@@ -10754,5 +10786,6 @@
         "ext-json": "*",
         "composer-plugin-api": "^1.1.0"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }
