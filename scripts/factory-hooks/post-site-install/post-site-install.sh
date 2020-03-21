@@ -5,7 +5,7 @@
 # This is necessary so that blt drupal:install tasks are invoked automatically
 # when a site is created on ACSF. 
 #
-# Usage: '/mnt/www/html/site.env/factory-hooks/post-site-install/post-site-install.sh' 'site' 'env' 'db-role' 'domain'
+# Usage: post-site-install.sh sitegroup env db-role domain custom-arg
 
 # Exit immediately on error and enable verbose log output.
 set -ev
