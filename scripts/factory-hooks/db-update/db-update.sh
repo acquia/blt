@@ -24,7 +24,7 @@ db_role="$3"
 domain="$4"
 
 # BLT wants the name of the website, which we can derive from its internal
-# domain name. Use the uri.php file provided by  the acsf module to get the
+# domain name. Use the uri.php file provided by the acsf module to get the
 # internal domain name based on the site, environment and db role arguments.
 uri=`/usr/bin/env php /mnt/www/html/$sitegroup.$env/hooks/acquia/uri.php $sitegroup $env $db_role`
 # To get only the site name in ${name[0]}:
