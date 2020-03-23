@@ -936,4 +936,5 @@ class Updates {
       $this->updater->getOutput()->writeln("");
     }
   }
+
 }
