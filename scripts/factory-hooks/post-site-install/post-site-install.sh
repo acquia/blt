@@ -3,9 +3,9 @@
 # Factory Hook: post-site-install
 #
 # This is necessary so that blt drupal:install tasks are invoked automatically
-# when a site is created on ACSF. 
+# when a site is created on ACSF.
 #
-# Usage: post-site-install.sh sitegroup env db-role domain custom-arg
+# Usage: post-site-install.sh sitegroup env db-role domain
 
 # Exit immediately on error and enable verbose log output.
 set -ev

@@ -8,7 +8,6 @@
 # normally be part of the commands executed below.
 #
 # Usage: db-update.sh sitegroup env db-role domain custom-arg
-# Map the script inputs to convenient names.
 
 # Exit immediately on error and enable verbose log output.
 set -ev
@@ -24,15 +23,11 @@ db_role="$3"
 # the path is appended (without trailing slash), e.g. "domain.com/subpath".
 domain="$4"
 
-# BLT executable:
-blt="/mnt/www/html/$sitegroup.$env/vendor/acquia/blt/bin/blt"
-
-# You need the URI of the site factory website in order for drush to target that
-# site. Without it, the drush command will fail. Use the uri.php file provided by the acsf module to
-# locate the URI based on the site, environment and db role arguments.
+# BLT wants the name of the website, which we can derive from its internal
+# domain name. Use the uri.php file provided by  the acsf module to get the
+# internal domain name based on the site, environment and db role arguments.
 uri=`/usr/bin/env php /mnt/www/html/$sitegroup.$env/hooks/acquia/uri.php $sitegroup $env $db_role`
-
-# Create array with site name fragments from ACSF uri.
+# To get only the site name in ${name[0]}:
 IFS='.' read -a name <<< "${uri}"
 
 # BLT executable:
@@ -47,9 +42,9 @@ echo "Generated temporary drush cache directory: $cache_dir."
 
 echo "Running BLT deploy tasks on $uri domain in $env environment on the $sitegroup subscription."
 
-# Run blt drupal:update tasks The trailing slash behind the domain works around a bug in
-# Drush < 9.6 for path based domains: "domain.com/subpath/" is considered a
-# valid URI but "domain.com/subpath" is not.
+# Run blt drupal:update tasks. The trailing slash behind the domain works
+# around a bug in Drush < 9.6 for path based domains: "domain.com/subpath/" is
+# considered a valid URI but "domain.com/subpath" is not.
 DRUSH_PATHS_CACHE_DIRECTORY="$cache_dir" $blt drupal:update --environment=$env --site=${name[0]} --define drush.uri=$domain/ --verbose --no-interaction
 
 # Clean up the drush cache directory.
@@ -60,4 +55,4 @@ set +v
 
 # @todo Exit with the status of the BLT commmand. If the exit status is non-zero,
 # Site Factory will send a notification of a failed 'blt drupal:update',
-# interruptting the execution of additional db-update scripts.
+# interrupting the execution of additional db-update scripts.
