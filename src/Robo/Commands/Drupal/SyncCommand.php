@@ -31,7 +31,7 @@ class SyncCommand extends BltTasks {
       $this->switchSiteContext($multisite);
       $this->sync([
         'sync-public-files' => $sync_public_file,
-        'sync-private-files' =>  $sync_private_file,
+        'sync-private-files' => $sync_private_file,
       ]);
     }
   }
