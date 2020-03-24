@@ -6,15 +6,13 @@ use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
  * Class DeployTest.
- *
- * @group orca_ignore
  */
 class DeployTest extends BltProjectTestBase {
 
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  public function setUp(): void {
     parent::setUp();
     $this->deploy_dir = $this->sandboxInstance . '/deploy';
   }
@@ -32,7 +30,6 @@ class DeployTest extends BltProjectTestBase {
     // Ensure docroot was built into to deploy directory.
     $this->assertFileExists($this->deploy_dir . '/docroot');
     $this->assertFileExists($this->deploy_dir . '/docroot/core');
-    $this->assertFileExists($this->deploy_dir . '/docroot/modules/contrib');
 
     // Ensure settings files were copied to deploy directory.
     $this->assertFileExists($this->deploy_dir . '/docroot/index.php');

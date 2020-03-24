@@ -79,8 +79,8 @@ configure_drush_aliases: false
 extra_packages: ${extra_packages}
 installed_extras: ${installed_extras}
 
-# PHP 7.2.
-php_version: "7.2"
+# PHP 7.3.
+php_version: "7.3"
 php_packages_extra:
   - "php{{ php_version }}-bz2"
   - "php{{ php_version }}-imagick"

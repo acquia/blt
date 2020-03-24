@@ -109,15 +109,9 @@ class DrupalTestCommand extends TestsCommandBase {
   public function executeTests() {
     $this->logger->notice("Ensure that you have installed Drupal Core's dev dependencies (such as via https://github.com/webflo/drupal-core-require-dev) prior to running this command.");
     if ($this->drupalTestRunner == 'phpunit') {
-      if (!$this->validateCommand('java')) {
-        return;
-      }
       $this->invokeCommand('tests:drupal:phpunit:run');
     }
     elseif ($this->drupalTestRunner == 'run-tests-script') {
-      if (!$this->validateCommand('java')) {
-        return;
-      }
       $this->invokeCommand('tests:drupal:run-tests:run');
     }
     elseif ($this->drupalTestRunner == 'nightwatch') {
