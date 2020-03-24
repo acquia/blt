@@ -73,7 +73,7 @@ class InstallCommand extends BltTasks {
     $result = $taskFilesystemStack->run();
 
     if (!$result->wasSuccessful()) {
-      throw new BltException("Unable to set permissions for site directories and files.");
+      $this->logger->warning('Unable to set permissions for site directories and files.');
     }
   }
 
