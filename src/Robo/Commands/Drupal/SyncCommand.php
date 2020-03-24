@@ -19,6 +19,8 @@ class SyncCommand extends BltTasks {
    */
   public function allSites() {
     $multisites = $this->getConfigValue('multisites');
+    $sync_public_file  = $this->getConfigValue('sync.public-files');
+    $sync_private_file = $this->getConfigValue('sync.private-files');
     $this->printSyncMap($multisites);
     $continue = $this->confirm("Continue?", TRUE);
     if (!$continue) {
@@ -27,7 +29,10 @@ class SyncCommand extends BltTasks {
     foreach ($multisites as $multisite) {
       $this->say("Refreshing site <comment>$multisite</comment>...");
       $this->switchSiteContext($multisite);
-      $this->sync();
+      $this->sync([
+        'sync-public-files' => $sync_public_file,
+        'sync-private-files' =>  $sync_private_file,
+      ]);
     }
   }
 
