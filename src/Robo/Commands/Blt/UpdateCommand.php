@@ -87,7 +87,6 @@ class UpdateCommand extends BltTasks {
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function addToProject() {
-    $this->rsyncTemplate();
     $this->initializeBlt();
     $this->setProjectName();
     $this->displayArt();
@@ -139,8 +138,6 @@ class UpdateCommand extends BltTasks {
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function update(array $options = ['since' => InputOption::VALUE_REQUIRED]) {
-    $this->rsyncTemplate();
-
     $starting_version = $options['since'] ?: $this->currentSchemaVersion;
     if ($this->executeSchemaUpdates($starting_version)) {
       $this->updateSchemaVersionFile();
