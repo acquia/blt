@@ -39,7 +39,7 @@ class UserConfig {
     }
     else {
       if (!file_exists($configDir)) {
-        if (is_writeable(dirname($configDir))) {
+        if (is_writable(dirname($configDir))) {
           mkdir($configDir, 0777, TRUE);
         }
         else {
