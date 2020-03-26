@@ -38,7 +38,14 @@ class UserConfig {
       $this->config = json_decode(file_get_contents($this->configPath), TRUE);
     }
     else {
-      mkdir($configDir, 0777, TRUE);
+      if (!file_exists($configDir)) {
+        if (is_writable(dirname($configDir))) {
+          mkdir($configDir, 0777, TRUE);
+        }
+        else {
+          return;
+        }
+      }
       $this->setTelemetryUserData();
     }
   }
