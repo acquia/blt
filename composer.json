@@ -38,7 +38,6 @@
         "mglaman/drupal-check": ">=1.0.10 <1.1.0 || 1.1.1",
         "oomphinc/composer-installers-extender": "^1.1",
         "sensiolabs/security-checker": "^5.0.0",
-        "squizlabs/php_codesniffer": "^3.0.1",
         "symfony/config": "^4.4",
         "symfony/console": "4.4.5",
         "symfony/twig-bridge": "^3.3",
@@ -55,7 +54,8 @@
         "drupal/core-dev": "^9.0.0-alpha1",
         "knplabs/github-api": "^2.6",
         "php-http/guzzle6-adapter": "^1.1",
-        "phpunit/phpunit": "^4.8.35 || ^6.5 || ^7"
+        "phpunit/phpunit": "^4.8.35 || ^6.5 || ^7",
+        "squizlabs/php_codesniffer": "^3.0.1"
     },
     "suggest": {
         "davereid/drush-acquia-hook-invoke": "dev-master",

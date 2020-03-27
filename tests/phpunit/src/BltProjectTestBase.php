@@ -321,7 +321,9 @@ abstract class BltProjectTestBase extends TestCase {
     $config = $config_initializer->initialize();
 
     // Execute command.
-    $blt = new Blt($config, $input, $output);
+    $repo_root = getenv('ORCA_FIXTURE_DIR');
+    $classLoader = require $repo_root . '/vendor/autoload.php';
+    $blt = new Blt($config, $input, $output, $classLoader);
     $status_code = (int) $blt->run($input, $output);
     Robo::unsetContainer();
 
