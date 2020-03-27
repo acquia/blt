@@ -26,11 +26,11 @@ class DrushTest extends BltProjectTestBase {
       chdir($dir);
       $drush_output = $this->drushJson('status');
 
-      $config_file = $this->sandboxInstance . '/vendor/drush/drush/drush.yml';
+      $config_file = basename($this->sandboxInstance) . '/vendor/drush/drush/drush.yml';
       $message = "Failed asserting that the output of `drush status` contains $config_file when executed from $dir.";
       $this->assertContains($config_file, $drush_output['drush-conf'], $message);
 
-      $config_file = $this->sandboxInstance . '/drush/drush.yml';
+      $config_file = basename($this->sandboxInstance) . '/drush/drush.yml';
       $message = "Failed asserting that the output of `drush status` contains $config_file when executed from $dir.";
       $this->assertContains($config_file, $drush_output['drush-conf'], $message);
 
