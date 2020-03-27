@@ -92,9 +92,8 @@ abstract class BltProjectTestBase extends TestCase {
     $this->printTestName();
     $this->bltDirectory = realpath(dirname(__FILE__) . '/../../../');
     $this->fs = new Filesystem();
-    $this->sandboxManager = new SandboxManager();
-    $this->sandboxManager->replaceSandboxInstance();
-    $this->sandboxInstance = $this->sandboxManager->getSandboxInstance();
+    $this->execute('./bin/orca fixture:reset -f', getenv('ORCA_ROOT'));
+    $this->sandboxInstance = getenv('ORCA_FIXTURE_DIR');
 
     $ci_config = YamlMunge::mungeFiles($this->sandboxInstance . "/blt/ci.blt.yml", $this->bltDirectory . "/scripts/blt/ci/internal/ci.yml");
     YamlMunge::writeFile($this->sandboxInstance . "/blt/ci.blt.yml", $ci_config);
