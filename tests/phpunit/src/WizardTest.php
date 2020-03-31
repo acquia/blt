@@ -1,8 +1,7 @@
 <?php
 
-namespace Acquia\Blt\Tests\BltProject;
+namespace Acquia\Blt\Tests;
 
-use Acquia\Blt\Tests\BltProjectTestBase;
 use Symfony\Component\Yaml\Yaml;
 
 /**
