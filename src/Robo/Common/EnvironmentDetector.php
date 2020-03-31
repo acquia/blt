@@ -373,11 +373,14 @@ class EnvironmentDetector {
    * @throws \ReflectionException
    */
   private static function getSubclassResults($functionName) {
-    $autoloader = require self::getRepoRoot() . '/vendor/autoload.php';
-    $classMap = $autoloader->getClassMap();
-    $detectors = array_filter($classMap, function ($classPath) {
-      return strpos($classPath, 'Blt/Plugin/EnvironmentDetector') !== FALSE;
-    });
+    static $detectors;
+    if (!isset($detectors)) {
+      $autoloader = require self::getRepoRoot() . '/vendor/autoload.php';
+      $classMap = $autoloader->getClassMap();
+      $detectors = array_filter($classMap, function ($classPath) {
+        return strpos($classPath, 'Blt/Plugin/EnvironmentDetector') !== FALSE;
+      });
+    }
     $results = [];
     foreach ($detectors as $detector => $classPath) {
       // Only call this method if it's been overridden by the child class.
