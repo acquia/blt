@@ -138,17 +138,47 @@ Pull requests must also adhere to the following guidelines:
 Developing Acquia BLT locally
 -----------------------------
 
-If you want to contribute to developing Acquia BLT, Acquia recommends
-cloning Acquia BLT and linking it to a BLT-based project (referred to here as
-``blted``) through Composer's path repository feature. BLT provides a command
-``blt:dev:link-composer`` that does this for you and configures `Vagrant
-<https://www.vagrantup.com/>`__ to use your development version of BLT.
+Developing and testing changes to Acquia BLT requires linking Acquia BLT into a
+functioning Drupal codebase (referred to as the "test fixture") and then
+running tests using PHPUnit. Acquia BLT is fully integrated with
+`Acquia ORCA <https://github.com/acquia/orca>`__, which accelerates the process
+of creating the test fixture and running automated tests.
+
+Creating the test fixture with ORCA
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Acquia recommends using `ORCA <https://github.com/acquia/orca>`__ to create the
+test fixture, since Acquia BLT's continuous integration also uses ORCA
+and the ORCA fixture doesn't rely on dependencies such as MySQL or Vagrant.
+Follow `ORCA's getting started instructions
+<https://github.com/acquia/orca/blob/develop/docs/getting-started.md#local-installation>`__
+to clone and set up ORCA locally.
+
+From the ORCA installation directory, run the following command to create the
+fixture in a sibling ``../orca-build`` directory:
+
+.. code-block:: text
+
+   ./bin/orca fixture:init -f --sut=acquia/blt --sut-only --core='~9' --dev
+
+See ORCA's documentation or inline command help for details on how to change
+the fixture location or configuration.
+
+Creating the test fixture without ORCA
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can link Acquia BLT into an existing codebase without using ORCA. Use the
+command ``blt:dev:link-composer`` to link a local version of Acquia BLT into
+your codebase using a `Composer path repository
+<https://getcomposer.org/doc/05-repositories.md#path>`__. This command also
+configures `Vagrant <https://www.vagrantup.com/>`__ to use your development
+version of BLT.
 
 Due to Vagrant restrictions for handling symlinks, Vagrant supports two types
 of directory structures:
 
-The first is to place BLT directly next to the project you are testing. For
-instance:
+The first is to place Acquia BLT directly next to the project you are testing.
+For instance:
 
 - BLT is located at ``~/blt``
 - Your BLT test project is located at ``~/blted``
@@ -178,39 +208,23 @@ changes to files in ``blt`` and see them instantly reflected in
 
 .. _blt-testing:
 
-Testing
--------
+Running automated tests
+~~~~~~~~~~~~~~~~~~~~~~~
 
-To complete the same release testing performed during continuous integration
-(CI) execution, run the following command:
+Acquia recommends using ORCA to run automated tests. You must set the
+``ORCA_FIXTURE_DIR`` environment variable to inform Acquia BLT of the fixture
+location. For example, if your fixture directory is
+``/home/me/packages/orca-build``, you could run automated tests with the
+following command:
 
 .. code-block:: bash
 
-   ./vendor/bin/robo release:test
+   ORCA_FIXTURE_DIR=/home/me/packages/orca-build ./bin/orca qa:automated-tests --sut=acquia/blt --sut-only
 
-Acquia BLT version 10.x requires the following to run the same release testing
-performed during CI execution:
+ORCA uses sqlite databases and the Drush built-in web server for testing, so
+there is no dependency on an external database or web server.
 
-- Four local MySQL databases available, with ``drupal``, ``drupal2``,
-  ``drupal3``, and ``drupal4`` as the db names.
-
-- A MySQL user with access to the four local MySQL databases with ``drupal``
-  as the username and password which may be sensitive to the MySQL version. In
-  newer versions of MySQL (8+), you may want to set the user password as
-  follows:
-
-  .. code-block:: text
-
-      alter user 'drupal'@'localhost' identified with mysql_native_password by 'drupal';
-
-- Enabling the PHP MySQL extension.
-
-- `Chromedriver <https://chromedriver.chromium.org/>`__, `sqlite
-  <https://www.sqlite.org/index.html>`__, and the `php-sqlite3
-  <https://www.php.net/manual/en/book.sqlite3.php>`__ extension to run
-  ``@group drupal`` tests.
-
-- *(Optional)* Exclude ``@group requires-vm``.
-
-
-.. Next review date 20200424
+You can also run PHPUnit directly from the Acquia BLT directory, but this is
+not supported or recommended. If you don't use ORCA, you are responsible for
+configuring PHPUnit and all necessary dependencies (such as a database, web
+server, and related credentials in the Drupal codebase).
