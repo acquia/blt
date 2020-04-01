@@ -1,5 +1,31 @@
 # Change Log
 
+#### 11.4.0 (2020-04-01)
+
+[Full Changelog](https://github.com/acquia/blt/compare/11.3.0...11.4.0)
+
+
+**Implemented enhancements**
+
+- DT-1356: Support drupal-check 1.1.1. (#4076)
+- fix(inspector): remove dependency on MySQL database (#4049)
+
+**Fixed bugs**
+
+- Backport #4084 to 11.x (#4087)
+- Fix warnings due to missing env var during blt updates. (#4074)
+- Public/Private File Sync Options Aren't Respected In "drupal:sync:all-sites" (#4073)
+- Fixes #4067: Adds a redundant cache-rebuild after drupal:update. (#4068)
+- DT-1171: Fixed #3993: Cannot run Drupal functional tests in Pipelines. (#4060)
+- Failed pre-push validation doesn't prevent push. (#4044)
+- Fixes #4005: DT-1193: Remove usage of $_ENV (#4020) (#4043)
+
+**Miscellaneous**
+
+- Replace factory-hooks/post-install by post-site-install (#4061)
+- Make exception output cleaner. (#4047)
+
+
 #### 11.3.0 (2020-03-04)
 
 [Full Changelog](https://github.com/acquia/blt/compare/11.2.0...11.3.0)
