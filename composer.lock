@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c4e1f3a6615b0d981def3eb0dddbdc56",
+    "content-hash": "11aa742384cf0a1a1707408dcb547125",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3482,16 +3482,16 @@
         },
         {
             "name": "mglaman/phpstan-drupal",
-            "version": "0.12.2",
+            "version": "0.12.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mglaman/phpstan-drupal.git",
-                "reference": "bcd4ba1db8f49d282f3fb6558bda5cc21f677cc9"
+                "reference": "c72367d12498c9f5d3738852d4089b4570690a55"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mglaman/phpstan-drupal/zipball/bcd4ba1db8f49d282f3fb6558bda5cc21f677cc9",
-                "reference": "bcd4ba1db8f49d282f3fb6558bda5cc21f677cc9",
+                "url": "https://api.github.com/repos/mglaman/phpstan-drupal/zipball/c72367d12498c9f5d3738852d4089b4570690a55",
+                "reference": "c72367d12498c9f5d3738852d4089b4570690a55",
                 "shasum": ""
             },
             "require": {
@@ -3557,7 +3557,17 @@
                 }
             ],
             "description": "Drupal extension and rules for PHPStan",
-            "time": "2020-01-27T20:01:01+00:00"
+            "funding": [
+                {
+                    "url": "https://github.com/mglaman",
+                    "type": "github"
+                },
+                {
+                    "url": "https://liberapay.com/mglaman",
+                    "type": "liberapay"
+                }
+            ],
+            "time": "2020-03-31T19:03:49+00:00"
         },
         {
             "name": "nette/finder",
@@ -4819,16 +4829,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v4.4.5",
+            "version": "v4.4.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "4fa15ae7be74e53f6ec8c83ed403b97e23b665e9"
+                "reference": "10bb3ee3c97308869d53b3e3d03f6ac23ff985f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/4fa15ae7be74e53f6ec8c83ed403b97e23b665e9",
-                "reference": "4fa15ae7be74e53f6ec8c83ed403b97e23b665e9",
+                "url": "https://api.github.com/repos/symfony/console/zipball/10bb3ee3c97308869d53b3e3d03f6ac23ff985f7",
+                "reference": "10bb3ee3c97308869d53b3e3d03f6ac23ff985f7",
                 "shasum": ""
             },
             "require": {
@@ -4865,9 +4875,6 @@
             "extra": {
                 "branch-alias": {
                     "dev-master": "4.4-dev"
-                },
-                "patches_applied": {
-                    "symfony console breaks non-interactive input": "https://github.com/symfony/symfony/files/4356765/symfony-console-36031.txt"
                 }
             },
             "autoload": {
@@ -4908,7 +4915,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-02-24T13:10:00+00:00"
+            "time": "2020-03-30T11:41:10+00:00"
         },
         {
             "name": "symfony/debug",
