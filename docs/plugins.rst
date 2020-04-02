@@ -7,6 +7,14 @@ Users can extend Acquia BLT core features through the use of
 community-supported plugins. The following plugins are available:
 
 
+.. _blt-ci-plugins:
+
+Continuous Integration Plugins
+-------
+
+Tugboat
+-------
+
 .. _blt-plugins-tugboat:
 
 Tugboat
@@ -25,6 +33,12 @@ Azure Pipelines
 Integrates Acquia BLT with the Azure Devops Pipelines CI service.
 
 Available on Github: https://github.com/mikemadison13/blt-azure-pipelines
+
+
+.. _blt-local-envrionments:
+
+Local Environment Plugins
+-------
 
 
 .. _blt-plugins-docksal:

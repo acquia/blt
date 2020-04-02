@@ -3,27 +3,12 @@
 Continuous integration
 ======================
 
-Acquia BLT provides automation commands used in most macOS and Linux
-environments. The Acquia BLT automation commands intend to be used both
-locally and on continuous integration (CI) platforms.
-
-Acquia BLT natively supports the following CI solutions:
-
-* :ref:`Acquia pipelines <blt-ci-pipelines>`
-* :ref:`Travis CI <blt-ci-travis-ci>`
-
-Acquia BLT provides one default instruction file (such as ``.travis.yml`` or
-``acquia-pipelines.yml``) for each of the CI solutions, allowing you to
-quickly have a working build. To use the default instruction file, you must
-run the :ref:`following initialization command <blt-ci-workflow>`. The command
-will copy the default instruction file to the required location, in the same
-manner that Drupal requires you to copy ``default.settings.php`` to
-``settings.php.``
-
-The instruction files are intended for customization. Acquia will provide
-updates to the default instruction files, but merging those updates into your
-customized files is your responsibility.
-
+Continuous integration (CI) is a software engineering best practice and should
+be a part of any Drupal project. Acquia BLT's automation commands ensure
+that (when used properly) local development, CI, and
+deployment all execute the same commands in the same order (which is
+critical to ensure that a success or failure in lower environments
+aligns with CI and/or deployment successes and failures).
 
 .. _blt-ci-workflow:
 
@@ -33,23 +18,67 @@ Workflow
 The typical CI workflow is as follows:
 
 #. A pull request or commit to GitHub triggers a CI build.
-#. The CI tool reads and executes an instruction file. The instruction file
-   executes Acquia BLT commands to build and test your application. For
-   example, the CI tool completes the following tasks:
+#. The CI tool reads and executes a series of build steps based on a script
+   (usually contained in an script file inside the repo). The build steps
+   execute Acquia BLT commands to build and test the application against all
+   changes made in the pull request.
 
-   -  Builds `Composer <https://getcomposer.org/>`__ dependencies.
-   -  Lints and validates code.
-   -  Installs Drupal.
-   -  Runs tests such as PHPUnit and Behat against the installed
+By default a BLT build will include the following steps for CI:
+
+   - Configure the build environment to closely match the hosting environment
+   -  Install dependencies (using `Composer <https://getcomposer.org/>`__ and, if
+      configured, a frontend dependency manager such as NPM).
+   -  Lint and validate code (using tools like
+      `PHPCS <https://github.com/squizlabs/PHP_CodeSniffer>`__). Note that as of BLT 11,
+      validation also includes testing for deprecated code using the
+      `Drupal Check <https://github.com/mglaman/drupal-check>`__ library.
+   -  Install Drupal and import configuration using the chosen configuration
+      management strategy (if any, defaults to Config Split)
+   -  Run `automated tests <https://docs.acquia.com/blt/developer/testing/>`__
+      (using tools like `PHPUnit <https://phpunit.de/>`__, and
+      `Behat <https://docs.behat.org/en/latest/>`__) against the installed
       instance of Drupal.
+
+Each of these steps is intended to ascertain if anything in the pull request
+fundamentally changes the stability / functionality of a stable codebase.
+
+Once the build has concluded:
 
 #. The CI tool reports the status of the build (success or failure) back
    to GitHub.
-#. If the build is successful, you merge the pull request.
-#. The merge triggers another CI build, builds, and tests your application
-   again, and generates an artifact suitable for deployment.
-#. The CI tool deploys the artifact. If you automate deployment, the
-   deployment is *Continuous Deployment*.
+#. If the build is successful, the pull request can be manually merged (if
+   not, the developer should revisit and resolve any failures).
+#. The merge triggers another CI build which follows the same steps as above
+   to build and test the application as well as generating an artifact
+   suitable for deployment.
+#. The CI tool deploys the artifact to the hosting git repository. This step
+   is known as *Continuous Deployment (CD).*
+
+.. _blt-supported-solutions:
+
+Supported CI Solutions
+--------
+
+Acquia BLT natively supports the following CI solutions:
+
+* :ref:`Acquia pipelines <blt-ci-pipelines>`
+* :ref:`Travis CI <blt-ci-travis-ci>`
+
+There are also a number of community developed plugins for other CI
+tools. These can be found on the `BLT plugins page <https://docs.acquia.com/blt/plugins/>`__.
+
+Acquia BLT provides one default script file (such as ``.travis.yml`` or
+``acquia-pipelines.yml``) for each of the CI solutions, allowing you to
+quickly have a working build (which uses the default steps outlined above.)
+To use the default script file, you must run the
+:ref:`following initialization command <blt-ci-workflow>`. The command
+will copy the default script file to the required location, in the same
+manner that Drupal requires you to copy ``default.settings.php`` to
+``settings.php.``
+
+The script files are intended for customization. Acquia will provide
+updates to the default script files, but merging those updates into your
+customized files is your responsibility.
 
 
 .. _blt-ci-pipelines:
