@@ -4,7 +4,6 @@ namespace Acquia\Blt\Update;
 
 use Acquia\Blt\Robo\Common\YamlMunge;
 use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Annotations\IndexedReader;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
