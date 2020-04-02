@@ -98,7 +98,6 @@ class Updater {
   public function __construct($update_class, $repo_root) {
     $this->output = new ConsoleOutput();
     $this->output->setFormatter(new OutputFormatter(TRUE));
-    AnnotationRegistry::registerFile(__DIR__ . '/../Annotations/Update.php');
     $this->annotationsReader = new IndexedReader(new AnnotationReader());
     $this->updateClassName = $update_class;
     $this->fs = new Filesystem();

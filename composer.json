@@ -26,6 +26,7 @@
         "cweagans/composer-patches": "^1.6.5",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
         "dflydev/dot-access-data": "^1.1.0",
+        "doctrine/annotations":"^1.10.0",
         "doctrine/common": "^2.5",
         "drupal/coder": "^8.3.1",
         "drupal/core": "^9.0.0-alpha1",

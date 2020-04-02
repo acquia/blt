@@ -42,7 +42,6 @@ class FilesetManager implements ConfigAwareInterface, LoggerAwareInterface {
    * FilesetManager constructor.
    */
   public function __construct() {
-    AnnotationRegistry::registerFile(__DIR__ . '/../../Annotations/Fileset.php');
     $this->annotationsReader = new IndexedReader(new AnnotationReader());
   }
 
