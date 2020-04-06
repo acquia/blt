@@ -49,6 +49,8 @@ class AcsfCommand extends BltTasks {
     $this->invokeCommand('internal:composer:require', $package_options);
     $this->say("In the future, you may pass in a custom value for acsf-version to override the default version, e.g., blt recipes:acsf:init:all --acsf-version='8.1.x-dev'");
     $this->acsfDrushInitialize();
+    /**
+    // Disable for D9.
     $this->say('Adding acsf-tools drush module as a dependency...');
     $package_options = [
       'package_name' => 'acquia/acsf-tools',
@@ -66,6 +68,7 @@ class AcsfCommand extends BltTasks {
     $this->invokeCommand('internal:composer:require', $package_options);
     $this->say('<comment>nedsbeds/profile_split_enable module has been added.</comment>');
     $this->say('<comment>Enable the module and setup profile splits to utilize.</comment>');
+     **/
     $project_yml = $this->getConfigValue('blt.config-files.project');
     $project_config = YamlMunge::parseFile($project_yml);
     if (!empty($project_config['modules'])) {
