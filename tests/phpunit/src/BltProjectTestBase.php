@@ -195,6 +195,9 @@ abstract class BltProjectTestBase extends TestCase {
       '--define' => [
         'project.profile.name=minimal',
       ],
+      '-D' => [
+        'cm.strategy=core',
+      ],
     ]);
   }
 

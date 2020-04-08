@@ -17,16 +17,6 @@ class SetupCommandTest extends BltProjectTestBase {
     $this->assertDeploymentIdentifierSetupValidity();
   }
 
-  public function testImportStrategy() {
-    $this->blt("setup", [
-      '--define' => [
-        'setup.strategy=import',
-        'setup.dump-file=' . $this->dbDump,
-      ],
-    ]);
-    $this->assertDeploymentIdentifierSetupValidity();
-  }
-
   /**
    * Test that config import when exported system UUID != installed UUID.
    */
