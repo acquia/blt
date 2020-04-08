@@ -31,10 +31,6 @@ abstract class BltProjectTestBase extends TestCase {
    */
   protected $config = NULL;
   /**
-   * @var \Acquia\Blt\Tests\SandboxManager
-   */
-  protected $sandboxManager;
-  /**
    * @var \Symfony\Component\Filesystem\Filesystem
    */
   protected $fs;
@@ -55,27 +51,6 @@ abstract class BltProjectTestBase extends TestCase {
    * @var string
    */
   protected $bltDirectory;
-
-  /**
-   * Site 1 dir.
-   *
-   * @var string
-   */
-  protected $site1Dir;
-
-  /**
-   * Site 2 dir.
-   *
-   * @var string
-   */
-  protected $site2Dir;
-
-  /**
-   * Sandbox instance clone.
-   *
-   * @var string
-   */
-  protected $sandboxInstanceClone;
 
   /**
    * @var bool
@@ -102,24 +77,7 @@ abstract class BltProjectTestBase extends TestCase {
     $this->reInitializeConfig($this->createBltInput(NULL, []));
     $this->dbDump = $this->sandboxInstance . "/bltDbDump.sql";
 
-    // Multisite settings.
-    $this->site1Dir = 'default';
-    $this->site2Dir = 'site2';
-    $this->sandboxInstanceClone = $this->sandboxInstance . "2";
-
     parent::setUp();
-  }
-
-  /**
-   * Outputs debugging message.
-   *
-   * @param string $message
-   *   Message.
-   */
-  public function debug($message) {
-    if (getenv('BLT_PRINT_COMMAND_OUTPUT')) {
-      $this->output->writeln($message);
-    }
   }
 
   /**
@@ -130,14 +88,6 @@ abstract class BltProjectTestBase extends TestCase {
     unset($this->config);
     $config_initializer = new ConfigInitializer($this->sandboxInstance, $input);
     $this->config = $config_initializer->initialize();
-  }
-
-  /**
-   * @throws \Exception
-   */
-  protected function dropDatabase() {
-    $drush_bin = $this->sandboxInstance . '/vendor/bin/drush';
-    $this->execute("$drush_bin sql-drop", NULL, FALSE);
   }
 
   /**
@@ -237,42 +187,6 @@ abstract class BltProjectTestBase extends TestCase {
   }
 
   /**
-   * Import DB.
-   *
-   * @param mixed $root
-   *   Root.
-   * @param string $uri
-   *   Uri.
-   *
-   * @throws \Exception
-   */
-  protected function importDbFromFixture($root = NULL, $uri = 'default') {
-    if (!$root) {
-      $root = $this->config->get('docroot');
-    }
-    if (!file_exists($this->dbDump)) {
-      $this->createDatabaseDumpFixture();
-    }
-
-    $drush_bin = $this->sandboxInstance . '/vendor/bin/drush';
-    $this->execute("$drush_bin sql-drop --root=$root --uri=$uri", NULL, FALSE);
-    $this->blt('drupal:hash-salt:init');
-    $this->blt('drupal:deployment-identifier:init');
-    $this->execute("$drush_bin sql-cli --root=$root --uri=$uri < {$this->dbDump}");
-  }
-
-  /**
-   * Installs the minimal profile and dumps it to sql file at $this->dbDump.
-   *
-   * @throws \Exception
-   */
-  protected function createDatabaseDumpFixture() {
-    $this->dropDatabase();
-    $this->installDrupalMinimal();
-    $this->drush("sql-dump --result-file={$this->dbDump}");
-  }
-
-  /**
    *
    * @throws \Exception
    */
@@ -280,6 +194,7 @@ abstract class BltProjectTestBase extends TestCase {
     return $this->blt('setup', [
       '--define' => [
         'project.profile.name=minimal',
+        'cm.strategy=core',
       ],
     ]);
   }

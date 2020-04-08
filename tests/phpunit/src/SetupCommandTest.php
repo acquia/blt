@@ -4,8 +4,6 @@ namespace Acquia\Blt\Tests;
 
 /**
  * Class SetupCommandTest.
- *
- * @group orca_ignore
  */
 class SetupCommandTest extends BltProjectTestBase {
 
@@ -19,25 +17,10 @@ class SetupCommandTest extends BltProjectTestBase {
     $this->assertDeploymentIdentifierSetupValidity();
   }
 
-  public function testImportStrategy() {
-    $this->createDatabaseDumpFixture();
-    $this->dropDatabase();
-    $this->blt("setup", [
-      '--define' => [
-        'setup.strategy=import',
-        'setup.dump-file=' . $this->dbDump,
-      ],
-    ]);
-    $this->assertDeploymentIdentifierSetupValidity();
-  }
-
   /**
    * Test that config import when exported system UUID != installed UUID.
-   *
-   * @group requires-db
    */
   public function testChangedUuid() {
-    $this->importDbFromFixture();
     $this->drush("config-export --yes");
     $this->drush("sql-drop --yes");
     list($status_code) = $this->installDrupalMinimal();
