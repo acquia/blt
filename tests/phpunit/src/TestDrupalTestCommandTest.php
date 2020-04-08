@@ -101,7 +101,7 @@ class TestDrupalTestCommandTest extends BltProjectTestBase {
       "--define" => [
         "tests.drupal.test-runner=phpunit",
         "tests.drupal.phpunit.0.config=$this->docroot/core/phpunit.xml.dist",
-        "tests.drupal.phpunit.0.path=$this->reporoot/core",
+        "tests.drupal.phpunit.0.path=$this->docroot/core",
         "tests.drupal.phpunit.0.group=action",
         "tests.drupal.phpunit.0.testsuites.0=unit",
         "tests.drupal.phpunit.0.testsuites.1=kernel",
