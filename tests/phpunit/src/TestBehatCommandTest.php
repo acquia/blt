@@ -4,8 +4,6 @@ namespace Acquia\Blt\Tests;
 
 /**
  * Class BehatTest.
- *
- * @group orca_ignore
  */
 class TestBehatCommandTest extends BltProjectTestBase {
 
