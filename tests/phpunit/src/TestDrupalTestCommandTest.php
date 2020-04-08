@@ -4,8 +4,6 @@ namespace Acquia\Blt\Tests;
 
 /**
  * Class DrupalTest.
- *
- * @group orca_ignore
  */
 class TestDrupalTestCommandTest extends BltProjectTestBase {
 
@@ -42,9 +40,6 @@ class TestDrupalTestCommandTest extends BltProjectTestBase {
     $this->sqlite = $this->config->get("tests.drupal.sqlite");
     $this->url = $this->config->get("tests.drupal.simpletest-base-url");
     $this->execute('composer require se/selenium-server-standalone');
-    // drupal-core-require-dev has some nasty dependency conflicts.
-    $this->execute('composer require drupal/core-dev:^9.0.0-alpha2 --no-update');
-    $this->execute('composer update');
   }
 
   /**
@@ -106,7 +101,7 @@ class TestDrupalTestCommandTest extends BltProjectTestBase {
       "--define" => [
         "tests.drupal.test-runner=phpunit",
         "tests.drupal.phpunit.0.config=$this->docroot/core/phpunit.xml.dist",
-        "tests.drupal.phpunit.0.path=$this->reporoot/core",
+        "tests.drupal.phpunit.0.path=$this->docroot/core",
         "tests.drupal.phpunit.0.group=action",
         "tests.drupal.phpunit.0.testsuites.0=unit",
         "tests.drupal.phpunit.0.testsuites.1=kernel",
