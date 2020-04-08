@@ -34,7 +34,7 @@ class BehatCommand extends BltTasks {
       'behat/gherkin' => '^4.6.1',
       'bex/behat-screenshot' => '^1.2',
       'dmore/behat-chrome-extension' => '^1.0.0',
-      'drupal/drupal-extension' => '~3.2',
+      'drupal/drupal-extension' => '~4.0',
       'jarnaiz/behat-junit-formatter' => '^1.3.2',
     ];
 
