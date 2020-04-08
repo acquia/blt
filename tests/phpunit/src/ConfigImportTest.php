@@ -36,6 +36,9 @@ class ConfigImportTest extends BltProjectTestBase {
   }
 
   /**
+   * Todo: re-enable after Config Split D9 release.
+   *
+   * @group orca_ignore
    * @group requires-db
    * @throws \Exception
    */
