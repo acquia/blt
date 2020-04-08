@@ -8,14 +8,6 @@ namespace Acquia\Blt\Tests;
 class ConfigImportTest extends BltProjectTestBase {
 
   /**
-   * @throws \Exception
-   */
-  public function setUp(): void {
-    parent::setUp();
-    $this->importDbFromFixture();
-  }
-
-  /**
    * @group requires-db
    * @throws \Exception
    */
