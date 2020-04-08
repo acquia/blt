@@ -194,8 +194,6 @@ abstract class BltProjectTestBase extends TestCase {
     return $this->blt('setup', [
       '--define' => [
         'project.profile.name=minimal',
-      ],
-      '-D' => [
         'cm.strategy=core',
       ],
     ]);
