@@ -40,9 +40,6 @@ class TestDrupalTestCommandTest extends BltProjectTestBase {
     $this->sqlite = $this->config->get("tests.drupal.sqlite");
     $this->url = $this->config->get("tests.drupal.simpletest-base-url");
     $this->execute('composer require se/selenium-server-standalone');
-    // drupal-core-require-dev has some nasty dependency conflicts.
-    $this->execute('composer require drupal/core-dev:^9.0.0-alpha2 --no-update');
-    $this->execute('composer update');
   }
 
   /**
