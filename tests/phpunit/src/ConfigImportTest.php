@@ -4,21 +4,10 @@ namespace Acquia\Blt\Tests;
 
 /**
  * Class ConfigImportTest.
- *
- * @group orca_ignore
  */
 class ConfigImportTest extends BltProjectTestBase {
 
   /**
-   * @throws \Exception
-   */
-  public function setUp(): void {
-    parent::setUp();
-    $this->importDbFromFixture();
-  }
-
-  /**
-   * @group requires-db
    * @throws \Exception
    */
   public function testNoConfig() {
@@ -32,7 +21,6 @@ class ConfigImportTest extends BltProjectTestBase {
   }
 
   /**
-   * @group requires-db
    * @throws \Exception
    */
   public function testCoreOnly() {
@@ -46,7 +34,9 @@ class ConfigImportTest extends BltProjectTestBase {
   }
 
   /**
-   * @group requires-db
+   * Todo: re-enable after Config Split D9 release.
+   *
+   * @group orca_ignore
    * @throws \Exception
    */
   public function testConfigSplit() {
