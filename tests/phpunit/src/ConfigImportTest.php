@@ -8,7 +8,6 @@ namespace Acquia\Blt\Tests;
 class ConfigImportTest extends BltProjectTestBase {
 
   /**
-   * @group requires-db
    * @throws \Exception
    */
   public function testNoConfig() {
@@ -22,7 +21,6 @@ class ConfigImportTest extends BltProjectTestBase {
   }
 
   /**
-   * @group requires-db
    * @throws \Exception
    */
   public function testCoreOnly() {
@@ -39,7 +37,6 @@ class ConfigImportTest extends BltProjectTestBase {
    * Todo: re-enable after Config Split D9 release.
    *
    * @group orca_ignore
-   * @group requires-db
    * @throws \Exception
    */
   public function testConfigSplit() {
