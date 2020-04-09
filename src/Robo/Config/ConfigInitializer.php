@@ -162,6 +162,8 @@ class ConfigInitializer {
    */
   public function loadSiteConfig() {
     if ($this->site) {
+      // Since docroot can change in the project, we need to respect that here.
+      $this->config->replace($this->processor->export());
       $this->processor->extend($this->loader->load($this->config->get('docroot') . "/sites/{$this->site}/blt.yml"));
       $this->processor->extend($this->loader->load($this->config->get('docroot') . "/sites/{$this->site}/{$this->environment}.blt.yml"));
     }
