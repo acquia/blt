@@ -224,7 +224,6 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
       }
       else {
         $this->logger->info("Response code: " . $res->getStatusCode());
-        $this->logger->info($res->getBody());
         $this->logger->debug($res->getBody());
         return FALSE;
       }
