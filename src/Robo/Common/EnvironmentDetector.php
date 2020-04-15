@@ -2,8 +2,10 @@
 
 namespace Acquia\Blt\Robo\Common;
 
+use Acquia\Blt\Robo\Config\ConfigInitializer;
 use drupol\phposinfo\Enum\FamilyName;
 use drupol\phposinfo\OsInfo;
+use Symfony\Component\Console\Input\ArgvInput;
 
 /**
  * Class EnvironmentDetector.
@@ -332,6 +334,51 @@ class EnvironmentDetector {
   }
 
   /**
+   * Get a standardized site / db name.
+   *
+   * On ACE or simple multisite installs, this is the site directory under
+   * 'docroot/sites'.
+   *
+   * On ACSF, this is the ACSF db name.
+   *
+   * @return string|null
+   *   Site name.
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   */
+  public static function getSiteName() {
+    if (self::isAcsfEnv()) {
+      return self::getAcsfDbName();
+    }
+    if (EnvironmentDetector::isAcsfInited() && EnvironmentDetector::isLocalEnv()) {
+      // When developing locally, we use the host name to determine which site
+      // factory site is active. The hostname must have a corresponding entry
+      // under the multisites key.
+      $input = new ArgvInput(!empty($_SERVER['argv']) ? $_SERVER['argv'] : ['']);
+      $config_initializer = new ConfigInitializer(self::getRepoRoot(), $input);
+      $blt_config = $config_initializer->initialize();
+
+      // The hostname must match the pattern local.[site-name].com, where
+      // [site-name] is a value in the multisites array.
+      $domain_fragments = explode('.', getenv('HTTP_HOST'));
+      $name = $domain_fragments[1];
+      $acsf_sites = $blt_config->get('multisites');
+      if (in_array($name, $acsf_sites)) {
+        return $name;
+      }
+
+    }
+    /**
+     * Site path.
+     *
+     * @var $site_path
+     * This is always set and exposed by the Drupal Kernel.
+     */
+    // phpcs:ignore
+    return str_replace('sites/', '', $site_path);
+  }
+
+  /**
    * Find the repo root.
    *
    * This isn't as trivial as it sounds, since a simple relative path
@@ -345,7 +392,7 @@ class EnvironmentDetector {
   public static function getRepoRoot() {
     if (defined('DRUPAL_ROOT')) {
       // This is a web or Drush request.
-      return DRUPAL_ROOT . '/..';
+      return dirname(DRUPAL_ROOT);
     }
     else {
       // This is a BLT CLI call. Get the $repo_root that was set in

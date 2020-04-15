@@ -96,8 +96,9 @@ if ($split != 'none') {
 /**
  * Set multisite split.
  */
+$site_name = EnvironmentDetector::getSiteName();
 // phpcs:ignore
-$config["$split_filename_prefix.$site_dir"]['status'] = TRUE;
+$config["$split_filename_prefix.$site_name"]['status'] = TRUE;
 
 // Set acsf site split if explicit global exists.
 global $_acsf_site_name;
