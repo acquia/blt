@@ -80,7 +80,14 @@ if ($ip) {
 
 $settings_files = [];
 
-$site_name = EnvironmentDetector::getSiteName();
+/**
+ * Site path.
+ *
+ * @var $site_path
+ * This is always set and exposed by the Drupal Kernel.
+ */
+// phpcs:ignore
+$site_name = EnvironmentDetector::getSiteName($site_path);
 // Acquia Cloud settings.
 if (EnvironmentDetector::isAhEnv()) {
   $ah_group = EnvironmentDetector::getAhGroup();

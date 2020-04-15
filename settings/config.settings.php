@@ -96,7 +96,14 @@ if ($split != 'none') {
 /**
  * Set multisite split.
  */
-$site_name = EnvironmentDetector::getSiteName();
+/**
+ * Site path.
+ *
+ * @var $site_path
+ * This is always set and exposed by the Drupal Kernel.
+ */
+// phpcs:ignore
+$site_name = EnvironmentDetector::getSiteName($site_path);
 // phpcs:ignore
 $config["$split_filename_prefix.$site_name"]['status'] = TRUE;
 

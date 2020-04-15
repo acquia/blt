@@ -341,12 +341,15 @@ class EnvironmentDetector {
    *
    * On ACSF, this is the ACSF db name.
    *
+   * @param string $site_path
+   *   Directory site path.
+   *
    * @return string|null
    *   Site name.
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
-  public static function getSiteName() {
+  public static function getSiteName($site_path) {
     if (self::isAcsfEnv()) {
       return self::getAcsfDbName();
     }
@@ -368,13 +371,7 @@ class EnvironmentDetector {
       }
 
     }
-    /**
-     * Site path.
-     *
-     * @var $site_path
-     * This is always set and exposed by the Drupal Kernel.
-     */
-    // phpcs:ignore
+
     return str_replace('sites/', '', $site_path);
   }
 

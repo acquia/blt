@@ -8,8 +8,14 @@
 use Acquia\Blt\Robo\Common\EnvironmentDetector;
 use Acquia\Blt\Robo\Exceptions\BltException;
 
+/**
+ * Site path.
+ *
+ * @var $site_path
+ * This is always set and exposed by the Drupal Kernel.
+ */
 // phpcs:ignore
-$settings['file_public_path'] = "sites/" . EnvironmentDetector::getSiteName() . "/files";
+$settings['file_public_path'] = "sites/" . EnvironmentDetector::getSiteName($site_path) . "/files";
 
 try {
   $acsf_db_name = EnvironmentDetector::getAcsfDbName();
@@ -26,6 +32,12 @@ if ($is_acsf_env && $acsf_db_name) {
 }
 elseif (EnvironmentDetector::isAhEnv()) {
   // Acquia cloud file paths.
+  /**
+   * Site path.
+   *
+   * @var $site_path
+   * This is always set and exposed by the Drupal Kernel.
+   */
   // phpcs:ignore
-  $settings['file_private_path'] = EnvironmentDetector::getAhFilesRoot() . "/sites/" . EnvironmentDetector::getSiteName() . "/files-private";
+  $settings['file_private_path'] = EnvironmentDetector::getAhFilesRoot() . "/sites/" . EnvironmentDetector::getSiteName($site_path) . "/files-private";
 }

@@ -10,7 +10,7 @@ use Drupal\Component\Assertion\Handle;
 
 $db_name = '${drupal.db.database}';
 if (EnvironmentDetector::isAcsfInited()) {
-  $db_name .= '_' . EnvironmentDetector::getSiteName();
+  $db_name .= '_' . EnvironmentDetector::getAcsfDbName();
 }
 
 /**
@@ -144,7 +144,14 @@ $settings['skip_permissions_hardening'] = TRUE;
  * Files paths.
  */
 $settings['file_private_path'] = EnvironmentDetector::getRepoRoot() . '/files-private/default';
-$settings['file_public_path'] = EnvironmentDetector::getRepoRoot() . '/sites/' . EnvironmentDetector::getSiteName() . '/files';
+/**
+ * Site path.
+ *
+ * @var $site_path
+ * This is always set and exposed by the Drupal Kernel.
+ */
+// phpcs:ignore
+$settings['file_public_path'] = EnvironmentDetector::getRepoRoot() . '/sites/' . EnvironmentDetector::getSiteName($site_path) . '/files';
 
 /**
  * Trusted host configuration.
