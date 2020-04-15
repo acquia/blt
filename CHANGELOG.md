@@ -1,5 +1,20 @@
 # Change Log
 
+#### 11.4.1 (2020-04-15)
+
+[Full Changelog](https://github.com/acquia/blt/compare/11.4.0...11.4.1)
+
+
+**Fixed bugs**
+
+- Fix logic to make sure user config directory exists. (#4109)
+
+**Miscellaneous**
+
+- Log more details about the response from the test server. (#4104)
+- Export unprocessed config to use proper docroot in multisites. (#4106)
+
+
 #### 11.4.0 (2020-04-01)
 
 [Full Changelog](https://github.com/acquia/blt/compare/11.3.0...11.4.0)
