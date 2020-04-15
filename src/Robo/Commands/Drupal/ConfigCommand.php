@@ -70,7 +70,7 @@ class ConfigCommand extends BltTasks {
       return $result;
     }
 
-    $cm_core_key = $this->getConfigValue('cm.core.key');
+    $cm_core_key = 'sync';
     $this->logConfig($this->getConfigValue('cm'), 'cm');
     $task = $this->taskDrush();
 

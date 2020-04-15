@@ -27,18 +27,11 @@ if (!isset($blt_override_config_directories)) {
 // Configuration directories.
 if ($blt_override_config_directories) {
   // phpcs:ignore
-  $config_directories['sync'] = $repo_root . "/config/default";
-  // phpcs:ignore
   $settings['config_sync_directory'] = $repo_root . "/config/default";
 }
 
 $split_filename_prefix = 'config_split.config_split';
-if (isset($config_directories['sync'])) {
-  $split_filepath_prefix = $config_directories['sync'] . '/' . $split_filename_prefix;
-}
-else {
-  $split_filepath_prefix = $settings['config_sync_directory'] . '/' . $split_filename_prefix;
-}
+$split_filepath_prefix = $settings['config_sync_directory'] . '/' . $split_filename_prefix;
 
 /**
  * Set environment splits.
@@ -73,7 +66,6 @@ if (!isset($split)) {
   }
   // Acquia only envs.
   if (EnvironmentDetector::isAhEnv()) {
-    $config_directories['vcs'] = $config_directories['sync'];
     $split = 'ah_other';
   }
 
