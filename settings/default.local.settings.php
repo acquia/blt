@@ -5,12 +5,12 @@
  * Local development override configuration feature.
  */
 
+use Acquia\Blt\Robo\Common\EnvironmentDetector;
 use Drupal\Component\Assertion\Handle;
 
-global $_acsf_site_name;
 $db_name = '${drupal.db.database}';
-if (isset($_acsf_site_name)) {
-  $db_name .= '_' . $_acsf_site_name;
+if (EnvironmentDetector::isAcsfInited()) {
+  $db_name .= '_' . EnvironmentDetector::getAcsfDbName();
 }
 
 /**
@@ -33,11 +33,9 @@ $databases = [
   ],
 ];
 
-$dir = dirname(DRUPAL_ROOT);
-
 // Use development service parameters.
-$settings['container_yamls'][] = $dir . '/docroot/sites/development.services.yml';
-$settings['container_yamls'][] = $dir . '/docroot/sites/blt.development.services.yml';
+$settings['container_yamls'][] = EnvironmentDetector::getRepoRoot() . '/docroot/sites/development.services.yml';
+$settings['container_yamls'][] = EnvironmentDetector::getRepoRoot() . '/docroot/sites/blt.development.services.yml';
 
 // Allow access to update.php.
 $settings['update_free_access'] = TRUE;
@@ -143,14 +141,17 @@ $settings['rebuild_access'] = FALSE;
 $settings['skip_permissions_hardening'] = TRUE;
 
 /**
- * Private file path.
+ * Files paths.
  */
-$settings['file_private_path'] = $dir . '/files-private/default';
-if (isset($_acsf_site_name)) {
-  $settings['file_public_path'] = "sites/default/files/$_acsf_site_name";
-  // phpcs:ignore
-  $settings['file_private_path'] = "$repo_root/files-private/$_acsf_site_name";
-}
+$settings['file_private_path'] = EnvironmentDetector::getRepoRoot() . '/files-private/default';
+/**
+ * Site path.
+ *
+ * @var $site_path
+ * This is always set and exposed by the Drupal Kernel.
+ */
+// phpcs:ignore
+$settings['file_public_path'] = EnvironmentDetector::getRepoRoot() . '/sites/' . EnvironmentDetector::getSiteName($site_path) . '/files';
 
 /**
  * Trusted host configuration.

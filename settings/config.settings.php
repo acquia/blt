@@ -96,8 +96,16 @@ if ($split != 'none') {
 /**
  * Set multisite split.
  */
+/**
+ * Site path.
+ *
+ * @var $site_path
+ * This is always set and exposed by the Drupal Kernel.
+ */
 // phpcs:ignore
-$config["$split_filename_prefix.$site_dir"]['status'] = TRUE;
+$site_name = EnvironmentDetector::getSiteName($site_path);
+// phpcs:ignore
+$config["$split_filename_prefix.$site_name"]['status'] = TRUE;
 
 // Set acsf site split if explicit global exists.
 global $_acsf_site_name;

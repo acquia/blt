@@ -6,9 +6,7 @@
  */
 
 use Acquia\Blt\Robo\Common\EnvironmentDetector;
-use Acquia\Blt\Robo\Config\ConfigInitializer;
 use Acquia\Blt\Robo\Exceptions\BltException;
-use Symfony\Component\Console\Input\ArgvInput;
 
 /**
  * Detect environments, sites, and hostnames.
@@ -64,38 +62,6 @@ if ($ip) {
   }
 }
 
-$repo_root = dirname(DRUPAL_ROOT);
-/**
- * Site path.
- *
- * @var $site_path
- * This is always set and exposed by the Drupal Kernel.
- */
-// phpcs:ignore
-$site_dir = str_replace('sites/', '', $site_path);
-
-// Special site name detection for ACSF sites being developed locally.
-if (EnvironmentDetector::isAcsfInited()) {
-  if (EnvironmentDetector::isLocalEnv()) {
-    // When developing locally, we use the host name to determine which site
-    // factory site is active. The hostname must have a corresponding entry
-    // under the multisites key.
-    $input = new ArgvInput(!empty($_SERVER['argv']) ? $_SERVER['argv'] : ['']);
-    $config_initializer = new ConfigInitializer($repo_root, $input);
-    $blt_config = $config_initializer->initialize();
-
-    // The hostname must match the pattern local.[site-name].com, where
-    // [site-name] is a value in the multisites array.
-    $domain_fragments = explode('.', $http_host);
-    $name = $domain_fragments[1];
-    $acsf_sites = $blt_config->get('multisites');
-    global $_acsf_site_name;
-    if (in_array($name, $acsf_sites)) {
-      $_acsf_site_name = $name;
-    }
-  }
-}
-
 /**
  * Include additional settings files.
  *
@@ -114,16 +80,24 @@ if (EnvironmentDetector::isAcsfInited()) {
 
 $settings_files = [];
 
+/**
+ * Site path.
+ *
+ * @var $site_path
+ * This is always set and exposed by the Drupal Kernel.
+ */
+// phpcs:ignore
+$site_name = EnvironmentDetector::getSiteName($site_path);
 // Acquia Cloud settings.
 if (EnvironmentDetector::isAhEnv()) {
   $ah_group = EnvironmentDetector::getAhGroup();
   try {
     if (!EnvironmentDetector::isAcsfEnv()) {
-      if ($site_dir == 'default') {
+      if ($site_name == 'default') {
         $settings_files[] = "/var/www/site-php/$ah_group/$ah_group-settings.inc";
       }
       else {
-        $settings_files[] = "/var/www/site-php/$ah_group/$site_dir-settings.inc";
+        $settings_files[] = "/var/www/site-php/$ah_group/$site_name-settings.inc";
       }
     }
   }
@@ -135,7 +109,7 @@ if (EnvironmentDetector::isAhEnv()) {
   // @see settings/sample-secrets.settings.php for sample code.
   // @see https://docs.acquia.com/resource/secrets/#secrets-settings-php-file
   $settings_files[] = EnvironmentDetector::getAhFilesRoot() . '/secrets.settings.php';
-  $settings_files[] = EnvironmentDetector::getAhFilesRoot() . "/$site_dir/secrets.settings.php";
+  $settings_files[] = EnvironmentDetector::getAhFilesRoot() . "/$site_name/secrets.settings.php";
 }
 
 // Default global settings.
@@ -153,7 +127,7 @@ foreach ($blt_settings_files as $blt_settings_file) {
 
 // Custom global and site-specific settings.
 $settings_files[] = DRUPAL_ROOT . '/sites/settings/global.settings.php';
-$settings_files[] = DRUPAL_ROOT . "/sites/$site_dir/settings/includes.settings.php";
+$settings_files[] = DRUPAL_ROOT . "/sites/$site_name/settings/includes.settings.php";
 
 if (EnvironmentDetector::isCiEnv()) {
   // Default CI settings.
@@ -161,13 +135,13 @@ if (EnvironmentDetector::isCiEnv()) {
   $settings_files[] = EnvironmentDetector::getCiSettingsFile();
   // Custom global and site-specific CI settings.
   $settings_files[] = DRUPAL_ROOT . "/sites/settings/ci.settings.php";
-  $settings_files[] = DRUPAL_ROOT . "/sites/$site_dir/settings/ci.settings.php";
+  $settings_files[] = DRUPAL_ROOT . "/sites/$site_name/settings/ci.settings.php";
 }
 
 // Local global and site-specific settings.
 if (EnvironmentDetector::isLocalEnv()) {
   $settings_files[] = DRUPAL_ROOT . '/sites/settings/local.settings.php';
-  $settings_files[] = DRUPAL_ROOT . "/sites/$site_dir/settings/local.settings.php";
+  $settings_files[] = DRUPAL_ROOT . "/sites/$site_name/settings/local.settings.php";
 }
 
 foreach ($settings_files as $settings_file) {
