@@ -46,14 +46,6 @@ class WizardCommand extends BltTasks {
     if (!empty($answers['ci']['provider'])) {
       $this->invokeCommand("ci:{$answers['ci']['provider']}:init");
     }
-
-    if ($answers['vm']) {
-      $this->invokeCommand('vm', [
-        [
-          'no-boot' => '--no-interaction',
-        ],
-      ]);
-    }
   }
 
   /**

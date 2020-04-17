@@ -1,7 +1,0 @@
-local:
-  root: /var/www/${project.machine_name}/docroot
-  uri: ${project.local.uri}
-  host: ${project.local.hostname}
-  user: vagrant
-  ssh:
-    options: -o StrictHostKeyChecking=no -o PasswordAuthentication=no -i $HOME/.vagrant.d/insecure_private_key
