@@ -15,7 +15,6 @@ class SyncCommand extends BltTasks {
    *
    * @command drupal:sync:all-sites
    * @aliases dsa sync:all
-   * @executeInVm
    */
   public function allSites() {
     $multisites = $this->getConfigValue('multisites');
@@ -47,7 +46,6 @@ class SyncCommand extends BltTasks {
    *
    * @command drupal:sync:default:site
    * @aliases ds drupal:sync drupal:sync:default sync sync:refresh
-   * @executeInVm
    */
   public function sync(array $options = [
     'sync-public-files' => FALSE,
@@ -71,7 +69,6 @@ class SyncCommand extends BltTasks {
    * @aliases dsf sync:files drupal:sync:files
    *
    * @validateDrushConfig
-   * @executeInVm
    *
    * @todo Support multisite.
    */
@@ -100,7 +97,6 @@ class SyncCommand extends BltTasks {
    * @aliases dspf
    *
    * @validateDrushConfig
-   * @executeInVm
    */
   public function syncPrivateFiles() {
     $remote_alias = '@' . $this->getConfigValue('drush.aliases.remote');
@@ -125,7 +121,6 @@ class SyncCommand extends BltTasks {
    *
    * @command drupal:sync:db:all-sites
    * @aliases dsba sync:all:db
-   * @executeInVm
    */
   public function syncDbAllSites() {
     $exit_code = 0;
@@ -157,7 +152,6 @@ class SyncCommand extends BltTasks {
    *
    * @aliases dsb drupal:sync:db sync:db
    * @validateDrushConfig
-   * @executeInVm
    */
   public function syncDb() {
     $local_alias = '@' . $this->getConfigValue('drush.aliases.local');

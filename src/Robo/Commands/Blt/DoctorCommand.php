@@ -81,7 +81,6 @@ class DoctorCommand extends BltTasks {
       DbCheck::class,
       DevDesktopCheck::class,
       DrupalCheck::class,
-      DrupalVmCheck::class,
       DrushCheck::class,
       FileSystemCheck::class,
       NodeCheck::class,
