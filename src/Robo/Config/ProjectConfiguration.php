@@ -67,7 +67,7 @@ class ProjectConfiguration implements ConfigurationInterface {
               ->cannotBeEmpty()
               ->defaultValue('config-split')
               ->validate()
-                ->ifNotInArray(['config-split', 'features', 'none'])
+                ->ifNotInArray(['config-split', 'none'])
                 ->thenInvalid('Invalid configuration management strategy %s')
               ->end()
             ->end()
