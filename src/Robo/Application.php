@@ -30,10 +30,7 @@ class Application extends ConsoleApplication {
   protected function doRunCommand(Command $command, InputInterface $input, OutputInterface $output) {
     $exit_code = parent::doRunCommand($command, $input, $output);
 
-    // If we disabled a command, do not consider it a failure. Because of this
-    // logic, we MUST throw exceptions in all cases of failure for BLT commands.
-    // Otherwise, we might disable a command, execute it in the VM via
-    // executeInDrupalVm(), and return a false success.
+    // If we disabled a command, do not consider it a failure.
     if ($exit_code == ConsoleCommandEvent::RETURN_CODE_DISABLED) {
       $exit_code = 0;
     }

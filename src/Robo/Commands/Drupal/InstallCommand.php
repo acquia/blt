@@ -24,7 +24,6 @@ class InstallCommand extends BltTasks {
    *
    * @validateDrushConfig
    * @validateDocrootIsPresent
-   * @executeInVm
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    *

@@ -26,7 +26,6 @@ class ToggleModulesCommand extends BltTasks {
    * @aliases dtm toggle setup:toggle-modules
    *
    * @validateDrushConfig
-   * @executeInVm
    */
   public function toggleModules() {
     if ($this->input()->hasArgument('environment')) {

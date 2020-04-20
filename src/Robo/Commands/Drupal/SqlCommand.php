@@ -18,7 +18,6 @@ class SqlCommand extends BltTasks {
    * @aliases dsi
    *
    * @validateDrushConfig
-   * @executeInVm
    */
   public function import() {
     $task = $this->taskDrush()

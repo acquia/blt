@@ -14,7 +14,6 @@ class SecurityUpdatesCommand extends BltTasks {
    *
    * @command tests:security:check:updates
    * @aliases tscu security tests:security-updates
-   * @executeInVm
    */
   public function testsSecurityUpdates() {
     $result = $this->taskDrush()
@@ -36,7 +35,6 @@ class SecurityUpdatesCommand extends BltTasks {
    *
    * @command tests:security:check:composer
    * @aliases tscom security tests:composer
-   * @executeInVm
    */
   public function testsSecurityComposer() {
     $bin = $this->getConfigValue('composer.bin');
