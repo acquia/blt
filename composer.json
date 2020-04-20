@@ -29,7 +29,6 @@
         "drupal/core": "^9.0.0-alpha1",
         "drupol/phposinfo": "^1.6",
         "drush/drush": "^10.2.2",
-        "grasmash/drupal-security-warning": "^1.0.0",
         "grasmash/yaml-cli": "^2.0.0",
         "grasmash/yaml-expander": "^1.2.0",
         "mglaman/drupal-check": ">=1.0.10 <1.1.0 || 1.1.1",
