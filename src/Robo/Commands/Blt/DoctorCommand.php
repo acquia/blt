@@ -10,7 +10,6 @@ use Acquia\Blt\Robo\Doctor\ConfigCheck;
 use Acquia\Blt\Robo\Doctor\DbCheck;
 use Acquia\Blt\Robo\Doctor\DevDesktopCheck;
 use Acquia\Blt\Robo\Doctor\DrupalCheck;
-use Acquia\Blt\Robo\Doctor\DrupalVmCheck;
 use Acquia\Blt\Robo\Doctor\DrushCheck;
 use Acquia\Blt\Robo\Doctor\FileSystemCheck;
 use Acquia\Blt\Robo\Doctor\NodeCheck;
@@ -54,7 +53,6 @@ class DoctorCommand extends BltTasks {
    * @aliases doctor
    *
    * @launchWebServer
-   * @executeInVm
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
@@ -83,7 +81,6 @@ class DoctorCommand extends BltTasks {
       DbCheck::class,
       DevDesktopCheck::class,
       DrupalCheck::class,
-      DrupalVmCheck::class,
       DrushCheck::class,
       FileSystemCheck::class,
       NodeCheck::class,
