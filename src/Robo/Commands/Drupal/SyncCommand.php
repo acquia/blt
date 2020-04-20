@@ -4,6 +4,7 @@ namespace Acquia\Blt\Robo\Commands\Drupal;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
+use Robo\Exception\TaskException;
 
 /**
  * Defines commands in the "sync" namespace.
@@ -152,6 +153,7 @@ class SyncCommand extends BltTasks {
    *
    * @aliases dsb drupal:sync:db sync:db
    * @validateDrushConfig
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function syncDb() {
     $local_alias = '@' . $this->getConfigValue('drush.aliases.local');
@@ -172,7 +174,13 @@ class SyncCommand extends BltTasks {
       $task->drush('sql-sanitize');
     }
 
-    $result = $task->run();
+    try {
+      $result = $task->run();
+    }
+    catch (TaskException $e) {
+      $this->say('Sync failed. Often this is due to Drush version mismatches: https://support.acquia.com/hc/en-us/articles/360035203713-Permission-denied-during-BLT-sync-or-drush-sql-sync');
+      throw new BltException($e->getMessage());
+    }
 
     return $result;
   }
