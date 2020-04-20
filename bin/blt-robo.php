@@ -36,7 +36,7 @@ function find_repo_root() {
     array_unshift($possible_repo_roots, $_SERVER['PWD']);
   }
   foreach ($possible_repo_roots as $possible_repo_root) {
-    if ($repo_root = find_directory_containing_files($possible_repo_root, ['vendor/bin/blt', 'vendor/autoload.php'])) {
+    if ($repo_root = find_directory_containing_files($possible_repo_root, ['vendor/acquia/blt', 'vendor/autoload.php'])) {
       return $repo_root;
     }
   }
@@ -63,8 +63,7 @@ function find_repo_root() {
  */
 function find_directory_containing_files($working_directory, array $files, $max_height = 10) {
   // Find the root directory of the git repository containing BLT.
-  // We traverse the file tree upwards $max_height times until we find
-  // vendor/bin/blt.
+  // We traverse the file tree upwards $max_height times until we find $files.
   $file_path = $working_directory;
   for ($i = 0; $i <= $max_height; $i++) {
     if (files_exist($file_path, $files)) {
