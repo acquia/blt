@@ -6,11 +6,15 @@ Acquia BLT plugins
 Users can extend Acquia BLT core features through the use of
 community-supported plugins. The following plugins are available:
 
+.. _blt-ci-plugins:
+
+Continuous integration plugins
+------------------------------
 
 .. _blt-plugins-tugboat:
 
 Tugboat
--------
+~~~~~~~
 
 Integrates Acquia BLT with the Tugboat CI service.
 
@@ -20,7 +24,7 @@ Available on Github: https://github.com/acquia/blt-tugboat
 .. _blt-plugins-probo:
 
 Probo
--------
+~~~~~
 
 Integrates Acquia BLT with the Probo CI service.
 
@@ -30,17 +34,21 @@ Available on Github: https://github.com/acquia/blt-probo
 .. _blt-plugins-azure-piplines:
 
 Azure Pipelines
----------------
+~~~~~~~~~~~~~~~
 
 Integrates Acquia BLT with the Azure Devops Pipelines CI service.
 
 Available on Github: https://github.com/mikemadison13/blt-azure-pipelines
 
+.. _blt-local-envrionments:
+
+Local environment plugins
+-------------------------
 
 .. _blt-plugins-docksal:
 
 Docksal
--------
+~~~~~~~
 
 Integrates Acquia BLT with the Docksal web development environment.
 
@@ -50,7 +58,7 @@ Available on Github: https://github.com/docksal/blt-docksal
 .. _blt-plugins-ddev:
 
 DDev
-----
+~~~~
 
 Integrates Acquia BLT with the ddev local development environment.
 

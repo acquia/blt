@@ -6,6 +6,8 @@ use Symfony\Component\Process\Process;
 
 /**
  * Class GitTasksTest.
+ *
+ * @group orca_ignore
  */
 class SetupGitHooksTest extends BltProjectTestBase {
 

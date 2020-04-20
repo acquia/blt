@@ -280,15 +280,22 @@ necessary :ref:`dependencies listed above <blt-system-requirements>`.
 Installing Acquia BLT
 ---------------------
 
-After you have installed the dependencies, proceed to create a new project with
-Acquia BLT or add Acquia BLT to an existing project:
+.. tabs::
 
--  :doc:`/blt/install/creating-new-project/`
--  :doc:`/blt/install/adding-to-project/`
+   .. tab:: 12.x and above
+
+      Acquia BLT version 12 and above can be added to almost any Drupal
+      distribution or existing application:
+      :doc:`/blt/install/adding-to-project/`
+
+   .. tab:: 11.x
+
+      Acquia BLT version 11 and below only supports creating new projects from
+      scratch using the BLT project template:
+      :doc:`/blt/install/creating-new-project/`
+
 
 If Acquia BLT is already set up for your project and you need instructions on
 how to get started, see :doc:`/blt/developer/onboarding/`. If you are trying to
 update an existing version of Acquia BLT, see
 :doc:`/blt/install/updating-blt/`.
-
-.. Next review date 20200422

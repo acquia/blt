@@ -11,6 +11,7 @@ class DrushTest extends BltProjectTestBase {
    * Tests that correct drush configuration is loaded.
    *
    * @group blted8
+   * @group orca_ignore
    */
   public function testDrushConfig() {
     // Test that drush can be run from the following directories.

@@ -17,6 +17,11 @@ require_once __DIR__ . '/blt-robo-run.php';
 /**
  * Finds the root directory for the repository.
  *
+ * Ordinarily this function is robust, but it can fail if you've symlinked BLT
+ * into your vendor directory (as with a Composer path repository) and are not
+ * running commands from the project root. In this state, BLT has no possible
+ * way to identify the root directory.
+ *
  * @return bool|string
  *   Root.
  */
@@ -35,6 +40,8 @@ function find_repo_root() {
       return $repo_root;
     }
   }
+  print "Unable to determine the BLT root directory.\n";
+  exit(1);
 }
 
 /**

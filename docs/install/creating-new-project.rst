@@ -8,6 +8,13 @@ Creating a new project with Acquia BLT
    To use Acquia BLT, do not clone either Acquia BLT or the ``blt-project``
    project.
 
+.. important::
+
+   The BLT project template is minimally maintained for backwards compatibility
+   with BLT 11. If you are using BLT 12, you should instead add BLT to your
+   preferred distribution or existing application:
+   :doc:`/blt/install/adding-to-project/`
+
 To create a new Acquia BLT project, complete the following steps:
 
 #. Determine a *machine name* for your new project (such as ``my-project``).
@@ -37,9 +44,9 @@ To create a new Acquia BLT project, complete the following steps:
    By default, Acquia BLT installs websites using the :doc:`Lightning
    </lightning/>` profile. You can change this setting to any other core,
    contributed, or custom profile in your codebase.
-   
+
    To change to another profile, complete the following steps:
-   
+
    a. Download the profile of your choice, based on the following command:
 
       .. code-block:: bash
@@ -152,5 +159,3 @@ resources:
 -  :doc:`Review other Acquia BLT documentation pages </blt/>`.
 -  `Search for relevant issues <https://github.com/acquia/blt/issues>`__.
 -  `Create a new issue <https://github.com/acquia/blt/issues/new>`__.
-
-.. Next review date 20200424
