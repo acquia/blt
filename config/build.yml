@@ -32,7 +32,7 @@ composer:
   extra: ''
 
 cm:
-  # Possible values: core-only, config-split, features, none.
+  # Possible values: core-only, config-split, none.
   strategy: config-split
   core:
     # The parent directory for configuration directories, relative to the docroot.
@@ -44,8 +44,6 @@ cm:
     # Install site directly from existing config.
     # This cannot be used if your install profile implements hook_install.
     install_from_config: false
-  features:
-    no-overrides: true
 
 deploy:
   # If true, dependencies will be built during deploy. If false, you should commit dependencies directly.

@@ -27,12 +27,12 @@ class ConfigCommand extends BltTasks {
     $task = $this->taskDrush()
       ->stopOnFail()
       // Execute db updates.
-      // This must happen before features are imported or configuration is
-      // imported. For instance, if you add a dependency on a new extension to
-      // an existing configuration file, you must enable that extension via an
-      // update hook before attempting to import the configuration.
-      // If a db update relies on updated configuration, you should import the
-      // necessary configuration file(s) as part of the db update.
+      // This must happen before configuration is imported. For instance, if you
+      // add a dependency on a new extension to an existing configuration file,
+      // you must enable that extension via an update hook before attempting to
+      // import the configuration. If a db update relies on updated
+      // configuration, you should import the necessary configuration file(s) as
+      // part of the db update.
       ->drush("updb");
 
     $result = $task->run();
@@ -102,14 +102,6 @@ class ConfigCommand extends BltTasks {
       case 'config-split':
         $this->importConfigSplit($task, $cm_core_key);
         break;
-
-      case 'features':
-        $this->importFeatures($task, $cm_core_key);
-
-        if ($this->getConfigValue('cm.features.no-overrides')) {
-          $this->checkFeaturesOverrides();
-        }
-        break;
     }
 
     $task->drush("cache-rebuild");
@@ -151,63 +143,6 @@ class ConfigCommand extends BltTasks {
     // Runs a second import to ensure splits are
     // both defined and imported.
     $task->drush("config-import")->arg($cm_core_key);
-  }
-
-  /**
-   * Import configuration using features module.
-   *
-   * @param mixed $task
-   *   Drush task.
-   * @param string $cm_core_key
-   *   Cm core key.
-   */
-  protected function importFeatures($task, $cm_core_key) {
-    $task->drush("config-import")->arg($cm_core_key)->option('partial');
-    $task->drush("pm-enable")->arg('features');
-    $task->drush("cc")->arg('drush');
-    if ($this->getConfig()->has('cm.features.bundle')) {
-      // Clear drush caches to register features drush commands.
-      foreach ($this->getConfigValue('cm.features.bundle') as $bundle) {
-        $task->drush("features-import-all")->option('bundle', $bundle);
-        // Revert all features again!
-        // @see https://www.drupal.org/node/2851532
-        $task->drush("features-import-all")->option('bundle', $bundle);
-      }
-    }
-  }
-
-  /**
-   * Checks whether features are overridden.
-   *
-   * @throws \Exception
-   *   If cm.features.no-overrides is true, and there are features overrides
-   *   an exception will be thrown.
-   */
-  protected function checkFeaturesOverrides() {
-    if ($this->getConfigValue('cm.features.no-overrides')) {
-      // @codingStandardsIgnoreStart
-      $this->say("Checking for features overrides...");
-      if ($this->getConfig()->has('cm.features.bundle')) {
-        $task = $this->taskDrush()->stopOnFail();
-        foreach ($this->getConfigValue('cm.features.bundle') as $bundle) {
-          $task->drush("fl")
-            ->option('bundle', $bundle)
-            ->option('format', 'json');
-          $result = $task->printOutput(TRUE)->run();
-
-          if (!$result->wasSuccessful()) {
-            throw new BltException("Unable to determine if features in bundle $bundle are overridden.");
-          }
-
-          $output = $result->getMessage();
-          $features_overridden = preg_match('/(changed|conflicts|added)( *)$/', $output);
-          if ($features_overridden) {
-            throw new BltException("A feature in the $bundle bundle is overridden. You must re-export this feature to incorporate the changes.");
-          }
-        }
-      }
-    }
-    // @codingStandardsIgnoreEnd
   }
 
   /**
