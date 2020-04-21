@@ -245,8 +245,8 @@ validate:
   acsf: false
   # You can change one or both of these to false to disable deprecated code scanning.
   deprecation:
-    modules: true
-    themes: true
+    modules: false
+    themes: false
 
   deprecated:
     filesets:
