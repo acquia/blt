@@ -25,6 +25,8 @@ events:
             script:
               - source ${BLT_DIR}/scripts/pipelines/validate
         # Uncomment these lines to test database updates using live content.
+        # You will need to set up SSH keys for your Pipelines container:
+        # @see https://docs.acquia.com/acquia-cloud/develop/pipelines/encrypt/
         # - test-updates:
         #     type: script
         #     script:
