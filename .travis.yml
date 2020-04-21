@@ -48,16 +48,11 @@ before_install:
   - composer create-project --no-dev acquia/orca ../orca "$ORCA_VERSION"
   - ../orca/bin/travis/before_install.sh
 
-install:
-  - ../orca/bin/travis/install.sh
-  - ./bin/travis/install.sh
+install: ../orca/bin/travis/install.sh
 
 before_script: ../orca/bin/travis/before_script.sh
 
-script:
-  - ./bin/travis/orca-fix.sh
-  - ../orca/bin/travis/script.sh
-  - ./bin/travis/script.sh
+script: ../orca/bin/travis/script.sh
 
 before_cache: ../orca/bin/travis/before_cache.sh
 
