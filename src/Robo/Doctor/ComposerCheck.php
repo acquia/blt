@@ -28,7 +28,7 @@ class ComposerCheck extends DoctorCheck {
   /**
    * DoctorCheck constructor.
    */
-  public function __construct(Config $config, Inspector $inspector, Executor $executor, string $drush_status) {
+  public function __construct(Config $config, Inspector $inspector, Executor $executor, array $drush_status) {
     parent::__construct($config, $inspector, $executor, $drush_status);
     $this->setComposerJson();
     $this->setComposerLock();
