@@ -4,8 +4,37 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cd1d9af23cd7fad2db86f710e519ec23",
+    "content-hash": "c4e47cedb817561c756512b9195f4abb",
     "packages": [
+        {
+            "name": "acquia/environment-detector",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "../environment-detector",
+                "reference": "add43362df5731ae5dda16fa7ee6c09f4c55c4a7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Acquia\\EnvironmentDetector\\": "./src/"
+                }
+            },
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Acquia Engineering",
+                    "homepage": "https://www.acquia.com",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Provides common methods for detecting the current Acquia environment",
+            "transport-options": {
+                "relative": true
+            }
+        },
         {
             "name": "asm89/stack-cors",
             "version": "1.3.0",

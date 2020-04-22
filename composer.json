@@ -18,6 +18,7 @@
     "require": {
         "php": ">=7.3",
         "ext-json": "*",
+        "acquia/environment-detector": "*",
         "composer-plugin-api": "^1.1.0",
         "composer/semver": "^1.4",
         "consolidation/comments": "^1.0",
@@ -99,5 +100,11 @@
     "support": {
         "issues": "https://github.com/acquia/blt/issues",
         "docs": "https://docs.acquia.com/blt/"
+    },
+    "repositories": {
+        "environment-detector": {
+            "type": "path",
+            "url": "../environment-detector"
+        }
     }
 }
