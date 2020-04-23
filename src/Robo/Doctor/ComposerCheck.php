@@ -26,20 +26,12 @@ class ComposerCheck extends DoctorCheck {
   protected $composerLock;
 
   /**
-   * Template composer.json.
-   *
-   * @var array
-   */
-  protected $templateComposerJson;
-
-  /**
    * DoctorCheck constructor.
    */
-  public function __construct(Config $config, Inspector $inspector, Executor $executor, $drush_status) {
+  public function __construct(Config $config, Inspector $inspector, Executor $executor, array $drush_status) {
     parent::__construct($config, $inspector, $executor, $drush_status);
     $this->setComposerJson();
     $this->setComposerLock();
-    $this->setTemplateComposerJson();
   }
 
   /**
@@ -60,34 +52,6 @@ class ComposerCheck extends DoctorCheck {
   }
 
   /**
-   * Sets $this->templateComposerJson using template composer.json file.
-   *
-   * @return array
-   *   Array.
-   */
-  protected function setTemplateComposerJson() {
-    $file_name = $this->getConfigValue('repo.root') . '/vendor/acquia/blt/scripts/blt/project-template/composer.json';
-    if (file_exists($file_name)) {
-      $template_composer_json = json_decode(file_get_contents($file_name, TRUE), TRUE);
-      $this->templateComposerJson = $template_composer_json;
-
-      return $template_composer_json;
-    }
-
-    return [];
-  }
-
-  /**
-   * Get composer.json.
-   *
-   * @return array
-   *   Array
-   */
-  public function getComposerJson() {
-    return $this->composerJson;
-  }
-
-  /**
    * Sets $this->composerJson using root composer.lock file.
    *
    * @return array
@@ -105,24 +69,12 @@ class ComposerCheck extends DoctorCheck {
   }
 
   /**
-   * Get composer.lock.
-   *
-   * @return array
-   *   Array.
-   */
-  public function getComposerLock() {
-    return $this->composerLock;
-  }
-
-  /**
    * Checks that composer.json is configured correctly.
    */
   public function performAllChecks() {
     $this->checkRequire();
-    if (!$this->getInspector()->isVmCli()) {
-      $this->checkPrestissimo();
-    }
-    $this->checkComposerConfig();
+    $this->checkPrestissimo();
+    $this->checkDrupalCore();
 
     return $this->problems;
   }
@@ -155,41 +107,14 @@ class ComposerCheck extends DoctorCheck {
   }
 
   /**
-   * Emits a warning if project Composer config is different than default.
+   * Check Drupal core.
    */
-  protected function checkComposerConfig() {
-    // @todo specify third key Acquia\\Blt\\Custom\\.
-    $this->compareComposerConfig('autoload', 'psr-4');
-    // @todo specify third key Drupal\\Tests\\PHPUnit\\\.
-    $this->compareComposerConfig('autoload-dev', 'psr-4');
-    $this->compareComposerConfig('extra', 'installer-paths');
-    $this->compareComposerConfig('extra', 'enable-patching');
-    $this->compareComposerConfig('extra', 'composer-exit-on-patch-failure');
-    $this->compareComposerConfig('extra', 'patchLevel');
-    $this->compareComposerConfig('repositories', 'drupal');
-    $this->compareComposerConfig('scripts', 'nuke');
-  }
-
-  /**
-   * Compare composer.
-   */
-  private function compareComposerConfig($key1, $key2) {
-    if (!array_key_exists($key1, $this->composerJson) ||
-      !array_key_exists($key2, $this->composerJson[$key1])) {
-      $project_values = NULL;
-    }
-    else {
-      $project_values = json_encode($this->composerJson[$key1][$key2], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-    }
-    $template_values = json_encode($this->templateComposerJson[$key1][$key2], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-    $has_diff = $template_values != $project_values;
-
-    if ($has_diff) {
-      $this->logProblem("composer.$key1.$key2", [
-        "The Composer configuration for $key1.$key2 differs from BLT's default, recommended values.",
-        "  Change your configuration to match BLT's defaults in",
-        "  vendor/acquia/blt/subtree-splits/blt-project/composer.json.",
-      ], 'error');
+  protected function checkDrupalCore() {
+    if (empty($this->composerJson['require']['drupal/core']) && empty($this->composerJson['require']['drupal/core-recommended'])) {
+      $this->logProblem(__FUNCTION__ . ":plugins", [
+        "drupal/core or drupal/core-recommended are not required by the root composer.json.",
+        "  This impairs performance by preventing zaporylie/composer-drupal-optimizations from taking effect.",
+      ], 'comment');
     }
   }
 
