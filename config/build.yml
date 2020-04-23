@@ -131,6 +131,8 @@ setup:
   # If setup.strategy is import, this file will be imported. File path is
   # relative to drupal docroot directory.
   dump-file: null
+  # Arguments to pass to drush si.
+  install-args: 'install_configure_form.enable_update_status_module=NULL'
 
 sync:
   # By default, files are not synced during sync:refresh.
