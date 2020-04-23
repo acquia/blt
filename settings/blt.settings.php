@@ -97,7 +97,9 @@ if (EnvironmentDetector::isAhEnv()) {
         $settings_files[] = "/var/www/site-php/$ah_group/$ah_group-settings.inc";
       }
       else {
-        $settings_files[] = "/var/www/site-php/$ah_group/$site_name-settings.inc";
+        // Acquia Cloud does not support periods in db names.
+        $safe_site_name = str_replace('.', '_', $site_name);
+        $settings_files[] = "/var/www/site-php/$ah_group/$safe_site_name-settings.inc";
       }
     }
   }
