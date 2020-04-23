@@ -15,6 +15,7 @@ class ValidateAllCommand extends BltTasks {
    * @command validate
    * @aliases validate:all
    * @hidden
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function all() {
     $commands = [
@@ -40,7 +41,7 @@ class ValidateAllCommand extends BltTasks {
       $commands[] = 'tests:deprecated:themes';
     }
 
-    $status_code = $this->invokeCommands($commands);
+    $status_code = $this->invokeCommands($commands, TRUE);
     return $status_code;
   }
 

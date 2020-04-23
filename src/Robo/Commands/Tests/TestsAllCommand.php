@@ -15,6 +15,7 @@ class TestsAllCommand extends BltTasks {
    * @command tests
    *
    * @aliases ta test tests:all
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function tests() {
     $this->invokeCommands([
@@ -24,7 +25,7 @@ class TestsAllCommand extends BltTasks {
       'tests:security:check:updates',
       'tests:security:check:composer',
       'tests:frontend:run',
-    ]);
+    ], TRUE);
   }
 
 }

@@ -19,6 +19,7 @@ use Robo\Contract\ConfigAwareInterface;
 use Robo\Contract\IOAwareInterface;
 use Robo\Contract\VerbosityThresholdInterface;
 use Robo\LoadAllTasks;
+use Symfony\Component\Console\Exception\CommandNotFoundException;
 use Symfony\Component\Console\Input\ArrayInput;
 
 /**
@@ -49,8 +50,12 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    *
    * @param array $commands
    *   An array of Symfony commands to invoke, e.g., 'tests:behat:run'.
+   * @param bool $optional
+   *   Allow processing to continue if any command is missing.
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
-  protected function invokeCommands(array $commands) {
+  protected function invokeCommands(array $commands, bool $optional = FALSE) {
     foreach ($commands as $key => $value) {
       if (is_numeric($key)) {
         $command = $value;
@@ -60,7 +65,14 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
         $command = $key;
         $args = $value;
       }
-      $this->invokeCommand($command, $args);
+      try {
+        $this->invokeCommand($command, $args);
+      }
+      catch (CommandNotFoundException $e) {
+        if (!$optional) {
+          throw new BltException("Command $command not found");
+        }
+      }
     }
   }
 
