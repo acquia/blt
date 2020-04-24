@@ -14,18 +14,10 @@ class TestsAllCommand extends BltTasks {
    *
    * @command tests
    *
-   * @aliases ta test tests:all
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function tests() {
-    $this->invokeCommands([
-      'tests:behat:run',
-      'tests:phpunit:run',
-      'tests:drupal:run',
-      'tests:security:check:updates',
-      'tests:security:check:composer',
-      'tests:frontend:run',
-    ], TRUE);
+    return $this->invokeNamespace('tests');
   }
 
 }

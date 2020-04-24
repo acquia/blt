@@ -21,7 +21,7 @@ class BuildCommand extends BltTasks {
    */
   public function build() {
     $this->invokeCommands([
-      'tests:behat:init:config',
+      'setup:behat',
       // source:build:composer must run prior to blt:init:settings to ensure
       // that scaffold files are present.
       'source:build:composer',

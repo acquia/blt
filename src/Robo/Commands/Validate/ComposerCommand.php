@@ -1,6 +1,6 @@
 <?php
 
-namespace Acquia\Blt\Robo\Commands\Tests;
+namespace Acquia\Blt\Robo\Commands\Validate;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
@@ -13,9 +13,7 @@ class ComposerCommand extends BltTasks {
   /**
    * Validates root composer.json and composer.lock files.
    *
-   * @command tests:composer:validate
-   *
-   * @aliases tcv validate:composer
+   * @command validate:composer
    */
   public function validate() {
     $this->say("Validating composer.json and composer.lock...");
