@@ -6,7 +6,7 @@ use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
 
 /**
- * Defines commands in the "tests:composer:validate*" namespace.
+ * Defines commands in the "validate:composer" namespace.
  */
 class ComposerCommand extends BltTasks {
 
