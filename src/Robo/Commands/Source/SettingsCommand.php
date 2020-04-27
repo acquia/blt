@@ -173,7 +173,7 @@ WARNING;
         ->run();
 
       if (!$result->wasSuccessful()) {
-        $filepath = $this->getInspector()->getFs()->makePathRelative($project_settings_file, $this->getConfigValue('repo.root'));
+        $this->getInspector()->getFs()->makePathRelative($project_settings_file, $this->getConfigValue('repo.root'));
         throw new BltException("Unable to set permissions on $project_settings_file.");
       }
     }
