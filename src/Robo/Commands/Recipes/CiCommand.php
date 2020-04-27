@@ -55,24 +55,4 @@ class CiCommand extends BltTasks {
     $this->say("<info>A pre-configured .travis.yml file was copied to your repository root.</info>");
   }
 
-  /**
-   * Initializes default GitLab Pipelines configuration for this project.
-   *
-   * @command recipes:ci:gitlab:init
-   *
-   * @aliases rcgi ci:gitlab:init
-   */
-  public function gitlabInit() {
-    $result = $this->taskFilesystemStack()
-      ->copy($this->getConfigValue('blt.root') . '/scripts/gitlab/gitlab-ci.yml', $this->getConfigValue('repo.root') . '/.gitlab-ci.yml', TRUE)
-      ->stopOnFail()
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->run();
-    if (!$result->wasSuccessful()) {
-      throw new BltException("Could not initialize the GitLab Pipelines configuration.");
-    }
-    $this->say("<info>A pre-configured .gitlab-ci.yml file was copied to your repository root.</info>");
-    $this->logger->warning("GitLab support is experimental and may not support all BLT features.");
-  }
-
 }

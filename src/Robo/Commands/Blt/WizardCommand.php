@@ -103,7 +103,6 @@ class WizardCommand extends BltTasks {
     if ($cm) {
       $strategy_options = [
         'config-split' => 'Config Split (recommended)',
-        'features' => 'Features',
         'core-only' => 'Core only',
       ];
       $answers['cm']['strategy'] = $this->askChoice('Choose a configuration management strategy:', $strategy_options, 'config-split');

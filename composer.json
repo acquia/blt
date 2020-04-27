@@ -31,7 +31,6 @@
         "drush/drush": "^10.2.2",
         "grasmash/yaml-cli": "^2.0.0",
         "grasmash/yaml-expander": "^1.2.0",
-        "mglaman/drupal-check": ">=1.0.10 <1.1.0 || 1.1.1",
         "sensiolabs/security-checker": "^5.0.0",
         "symfony/config": "^4.4",
         "symfony/console": "^4.4.6",

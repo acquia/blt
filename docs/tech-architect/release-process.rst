@@ -122,11 +122,6 @@ the actual deployment process will occur similar to the following:
 Be aware of the following suggestions for actions to avoid for your production
 websites:
 
-- **Do not revert all features using** ``drush fra -y`` – This command
-  poses a website stability risk and also risks wiping a feature that may be
-  been accidentally overridden in production. Feature should be explicitly
-  reverted using a call to ``features_revert_module()`` in a
-  ``hook_update_N()`` implementation.
 - **Do not run** ``drush cc all``: Whenever possible, attempt to target
   specific caches.
 - **Do not use** ``drush use``: This command introduces the risk that the

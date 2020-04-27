@@ -31,7 +31,7 @@ Integrates Acquia BLT with the Probo CI service.
 Available on Github: https://github.com/acquia/blt-probo
 
 
-.. _blt-plugins-azure-piplines:
+.. _blt-plugins-azure-pipelines:
 
 Azure Pipelines
 ~~~~~~~~~~~~~~~
@@ -40,7 +40,17 @@ Integrates Acquia BLT with the Azure Devops Pipelines CI service.
 
 Available on Github: https://github.com/mikemadison13/blt-azure-pipelines
 
-.. _blt-local-envrionments:
+
+.. _blt-gitlab-gitlab-pipelines:
+
+Gitlab Pipelines
+~~~~~~~~~~~~~~~
+
+Integrates Acquia BLT with the Gitlab Devops Pipelines CI service.
+
+Available on Github: https://github.com/mikemadison13/blt-gitlab-pipelines
+
+.. _blt-local-environments:
 
 Local environment plugins
 -------------------------

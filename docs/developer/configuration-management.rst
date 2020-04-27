@@ -15,10 +15,7 @@ Acquia BLT *strongly recommends* a CM workflow based on the
 described in `Managing Configuration with Config Split
 <https://support.acquia.com/hc/en-us/articles/360024009393>`__. For most
 projects, configuration split strikes the best balance of flexibility,
-reliability, and ease of maintenance and development. A Features-based
-workflow (analogous to most CM workflows in Drupal 7) can better handle
-certain multisite architectures, but has a much greater development and
-maintenance overhead.
+reliability, and ease of maintenance and development.
 
 
 .. _blt-gen-principles-config-mgmt:
@@ -93,14 +90,6 @@ updates (see ``drupal:config:import``):
    any configuration stored in the root ``config`` directory. The import is
    either a full or partial import, depending on how you configure
    Acquia BLT.
--  Features import (optional): runs ``features-import-all``, which imports
-   any configuration stored in a feature module's ``config/install``
-   directory.
-
-   .. note::
-
-      The ``features-import-all`` command only runs if you have configured the
-      ``cm.features.bundle`` property in ``blt/blt.yml``.
 
 There are also pre and post-config import hooks you can use to run custom
 commands.
@@ -185,12 +174,11 @@ stored configuration <https://github.com/acquia/blt/issues/842>`__.
 Ensuring the integrity of stored configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Configuration stored on disk, whether through the core configuration system
-or features, is essentially a flat-file database and must be treated as
-such. For instance, you must make all changes to configuration through the
-user interface, through an appropriate API, and then export to disk. You
-must never make changes to individual configuration files by hand, in the same
-way you must never write a raw SQL query to add a Drupal content type. Even
+Configuration stored on disk is essentially a flat-file database and must be
+treated as such. For instance, you must make all changes to configuration
+through the user interface, through an appropriate API, and then export to disk.
+You must never make changes to individual configuration files by hand, in the
+same way you must never write a raw SQL query to add a Drupal content type. Even
 seemingly small changes to one part of the configuration can have sweeping and
 unanticipated changes. For instance, enabling the `Panelizer
 <https://www.drupal.org/project/panelizer>`__ or `Workbench
@@ -296,222 +284,5 @@ custom profile:
      }
      return $storage->read($id);
    }
-
-
-.. _blt-features-based-workflow:
-
-Features-based workflow
------------------------
-
-The `Features <https://www.drupal.org/project/features>`__ module allows
-you to bundle related configuration files such as a content type and its
-fields into individual feature modules. Drupal treats features like normal
-modules, but Features and its dependencies allow features to provide default
-configuration and update changes to the configuration.
-
-Due to the modular architecture, Features is a better solution for certain
-multisite applications where you must customize features on a per-website
-basis. If you have several content types exported as separate features,
-but a website needs a subset of those content types, you can disable the
-unused features for a cleaner content editing experience. This also has the
-advantage of logically grouping features and custom code alongside its
-corresponding configuration.
-
-The downside to the more granular approach is Features can't make some of the
-same assumptions as the core configuration system. Features relies much more
-heavily on the developer to manage the architecture and handle configuration
-changes Features can't handle. Relying on the developer to handle
-configuration changes makes the system much more error-prone and more of a
-burden to maintain.
-
-To configure a Features-based workflow, you must configure ``cm.strategy``
-to ``features`` in the ``blt/blt.yml`` file.
-
-Using bundles
-~~~~~~~~~~~~~
-
-Features allows you to define custom "bundles" essentially letting you train
-Features to support your project's individual workflow. Bundles are a way to
-namespace your features. You want to choose a bundle name based on your
-project name (an Acme bundle would prefix all your feature server names with
-``acme\_``).
-
-Bundles can also do more to make your life easier. For instance,
-Features automates suggested features based around content types and
-taxonomies. If you want to create features for custom block types, for
-example, you can configure your preference in the custom bundle. You can
-choose to exclude certain types of configuration. You can exclude permissions,
-or group certain types of configuration such as field storage into a core
-bundle, which is helpful for breaking circular dependencies.
-
-.. note::
-
-   As of version 8.3.3, Features can manage user roles and permissions, but
-   not independently. You can only export permissions for an entire role at
-   once, unlike in Drupal 7, where you can export roles and their associated
-   permissions separately.
-
-For this reason, Features excludes roles and permissions by default. If you
-want to export roles and permissions, change the ``alters`` configuration on
-your Features bundle, see `User permission handling
-<https://www.drupal.org/node/2383439>`__.
-
-Testing features
-~~~~~~~~~~~~~~~~
-
-You must ensure, through automated testing, your features can be
-installed on a new website and enabled on existing sites.
-
-Features can fail to install or import properly for various reasons. The most
-frequent cause is circular dependencies. For instance, if feature A depends on
-a field exported in feature B, and feature B depends on a field exported in
-feature A. You can't enable either feature first, and website installs will
-break. Circular dependencies are not important if you have a single-website
-installation, but you want to prevent them if you are building a multisite
-platform.
-
-A feature can also stay overridden after importing, due to another module
-overriding the provided configuration. For instance, the Workbench module
-adds a special field to content types when enabled. If the field is not
-exported to the feature containing a content type, the feature will be
-perpetually overridden. Overriding the features is not necessarily harmful,
-but can make it difficult to diagnose other more serious issues. Acquia
-recommends configuring Acquia BLT's CM ``allow overrides`` property to
-``false`` to automate testing for overrides.
-
-You can use the following code snippet in your profile's install file to
-enable all features in a given bundle:
-
-.. code-block:: text
-
-   <?php
-   $available_modules = system_rebuild_module_data();
-   $dependencies = array();
-   foreach ($available_modules as $name => $module) {
-     if ($module->info['package'] == 'My Bundle') {
-       $dependencies[] = $name;
-     }
-     \Drupal::service('module_installer')->install($dependencies);
-   }
-
-
-Updating custom fields and schema
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Features and the core configuration system don't handle some configuration
-changes well, including:
-
--  Updating field storage such as changing a single-value field to an
-   unlimited-value field
--  Adding a `new custom block
-   type <https://www.drupal.org/node/2702659>`__ to an existing feature. You
-   must create a new feature for every block type
--  Deleting a field (you must remove the field from the feature
-   and then use the following code snippet to delete the field)
--  Adding a field to some types of content (such as `block content
-   <https://www.drupal.org/node/2661806>`__)
--  Adding several configuration entities at once depending on one another
-   (leading to `cryptic exceptions <https://www.drupal.org/node/2726839>`__
-   when you run ``features-import``, use the following workaround)
-
-To handle the configuration changes, you want to use update hooks. For
-example, you can use the following snippet of code to create or delete a
-field:
-
-.. code-block:: text
-
-   use Drupal\field\Entity\FieldStorageConfig;
-   use Drupal\field\Entity\FieldConfig;
-
-   // Create a new field.
-   module_load_include('profile', 'foo', 'foo'); // See below; foo is your profile name.
-   $storage_values = foo_read_config('field.storage.block_content.field_my_new_field', 'foo_feature');
-   FieldStorageConfig::create($storage_values)->save();
-   $field_values = foo_read_config('field.field.block_content.foo_my_block.field_my_new_field', 'foo_feature');
-   FieldConfig::create($field_values)->save();
-
-   // Delete an existing field.
-   $field = FieldStorageConfig::loadByName('block_content', 'field_my_field');
-   $field->delete();
-
-The preceding code depends on a helper feature such as the following code,
-which Acquia suggests adding to your custom profile. Lightning includes the
-helper feature out-of-the-box:
-
-.. code-block:: text
-
-   use Drupal\Core\Config\FileStorage;
-   use Drupal\Core\Config\InstallStorage;
-
-   /**
-    * Reads a stored config file from a module's config/install directory.
-    *
-    * @param string $id
-    *   The config ID.
-    * @param string $module
-    *   (optional) The module to search. Defaults to 'foo' profile (not technically
-    *   a module, but profiles are treated like modules by the install system).
-    *
-    * @return array
-    *   The config data.
-    */
-   function foo_read_config($id, $module = 'foo') {
-     // Statically cache all FileStorage objects, keyed by module.
-     static $storage = [];
-
-     if (empty($storage[$module])) {
-       $dir = \Drupal::service('module_handler')->getModule($module)->getPath();
-       $storage[$module] = new FileStorage($dir . '/' . InstallStorage::CONFIG_INSTALL_DIRECTORY);
-     }
-     return $storage[$module]->read($id);
-   }
-
-Overriding configuration
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-Drupal typically prevents modules from overriding configuration that already
-exists in the system, producing an exception such as the following:
-
-.. code-block:: text
-
-   Configuration objects (foo) provided by bar already exist in active configuration
-
-If you must override the default configuration provided by another
-project (or core), the available solutions include:
-
--  Recommended: use Features. Features will prevent a
-   ``PreExistingConfigException`` from being thrown when a feature
-   containing pre-existing configuration is installed. Ensure Features is
-   already enabled before installing any individual features containing
-   configuration overrides (listing Features as a dependency is not enough).
--  Move your configuration into a custom profile. Configuration imports for
-   profiles are treated differently than for modules. Importing pre-existing
-   configuration for a profile won't throw a ``PreExistingConfigException``.
--  Use `config rewrite <https://www.drupal.org/project/config_rewrite>`__,
-   which will allow you to rewrite the configuration of another module prior
-   to installation.
--  Use the `config override system
-   <https://www.drupal.org/docs/8/api/configuration-api/configuration-override-system>`__
-   built into core. For awareness, the configuration override system has `some
-   limitations <https://www.drupal.org/node/2614480#comment-10573274>`__.
-
-Other caveats
-~~~~~~~~~~~~~
-
-Be aware that reverting all features and configurations on every deploy
-creates a risk of discarding server-side changes. You must control the risk by
-managing permissions with caution. You must balance the risk against the
-greater risk of allowing for divergent configuration between your database and
-VCS.
-
-Configuration Management in Drupal 8 is still improving early in the Drupal 8
-lifecycle. You must continue to watch Drupal Core's issue queue and `Drupal
-Planet <https://www.drupal.org/planet>`__ blog posts for refinements to the CM
-workflows explained here.
-
-Features is a ground-up rewrite in Drupal 8 and is maturing fast, but may
-still have some traps. Developers must keep a close eye on exported features,
-and architects must review features in pull requests for the preceding caveats
-and best practices.
 
 .. Next review date 20200422

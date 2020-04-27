@@ -5,6 +5,7 @@ LIST=$( git diff --name-only --cached --diff-filter=ACM )
 PHPCS_BIN=vendor/bin/phpcs
 
 echo "Executing .git/hooks/pre-commit..."
+git diff-index --quiet HEAD -- || echo "Untracked files are present, this may impact the validity of pre-commit checks."
 "${ROOT_DIR}"/vendor/bin/blt internal:git-hook:execute:pre-commit "${LIST}"
 
 # Return the status of the last run command.
