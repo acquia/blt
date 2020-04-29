@@ -1,6 +1,6 @@
 <?php
 
-namespace Acquia\Blt\Robo\Commands\Tests;
+namespace Acquia\Blt\Robo\Commands\Validate;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
@@ -18,9 +18,7 @@ class TwigCommand extends BltTasks {
   /**
    * Executes Twig validator against all validate.twig.filesets files.
    *
-   * @command tests:twig:lint:all
-   *
-   * @aliases ttla twig tests:twig:lint validate:twig
+   * @command validate:twig
    */
   public function lintFileSets() {
     $this->say("Validating twig syntax for all custom modules and themes...");
@@ -38,8 +36,7 @@ class TwigCommand extends BltTasks {
    * @param string $file_list
    *   A list of files to scan, separated by \n.
    *
-   * @command tests:twig:lint:files
-   * @aliases ttlf
+   * @command validate:twig:lint:files
    */
   public function lintFileList($file_list) {
     $this->say("Linting twig files...");

@@ -243,13 +243,6 @@ tests:
 
 # Note that PHPCS filesets are not configured here, but via phpcs.xml.dist in the root directory. See "Extending BLT" in docs.
 validate:
-  # You can change this to true to have blt automatically validate acsf-init.
-  acsf: false
-  # You can change one or both of these to false to disable deprecated code scanning.
-  deprecation:
-    modules: false
-    themes: false
-
   deprecated:
     filesets:
       - files.php.custom.modules

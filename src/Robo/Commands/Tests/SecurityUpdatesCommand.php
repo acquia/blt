@@ -12,8 +12,7 @@ class SecurityUpdatesCommand extends BltTasks {
   /**
    * Check local Drupal installation for security updates.
    *
-   * @command tests:security:check:updates
-   * @aliases tscu security tests:security-updates
+   * @command tests:security-drupal
    */
   public function testsSecurityUpdates() {
     $result = $this->taskDrush()
@@ -33,8 +32,7 @@ class SecurityUpdatesCommand extends BltTasks {
   /**
    * Check composer.lock for security updates.
    *
-   * @command tests:security:check:composer
-   * @aliases tscom security tests:composer
+   * @command tests:security-composer
    */
   public function testsSecurityComposer() {
     $bin = $this->getConfigValue('composer.bin');

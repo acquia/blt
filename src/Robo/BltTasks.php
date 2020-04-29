@@ -49,6 +49,8 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    *
    * @param array $commands
    *   An array of Symfony commands to invoke, e.g., 'tests:behat:run'.
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   protected function invokeCommands(array $commands) {
     foreach ($commands as $key => $value) {
@@ -97,6 +99,31 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
         throw new BltException("Command `$command_name {$input->__toString()}` exited with code $exit_code.");
       }
     }
+  }
+
+  /**
+   * Invoke all second-level commands in a top-level namespace.
+   *
+   * For `validate` namespace, run `validate:phpcs`, `validate:composer`, etc...
+   *
+   * @param string $namespace
+   *   Top-level namespace to run commands.
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   */
+  public function invokeNamespace(string $namespace) {
+    /** @var \Acquia\Blt\Robo\Application $application */
+    $application = $this->getContainer()->get('application');
+    $commands = $application->all($namespace);
+    $namespace_commands = [];
+    foreach ($commands as $command_name => $command) {
+      $command_parts = explode(':', $command_name);
+      $namespace_command = $command_parts[0] . ':' . $command_parts[1];
+      if (!in_array($namespace_command, $namespace_commands)) {
+        $namespace_commands[] = $namespace_command;
+      }
+    }
+    return $this->invokeCommands($namespace_commands);
   }
 
   /**

@@ -186,8 +186,7 @@ WARNING;
   /**
    * Generates tests/behat/local.yml file for executing Behat tests locally.
    *
-   * @command tests:behat:init:config
-   * @aliases tbic setup:behat
+   * @command setup:behat
    */
   public function behat() {
     $copy_map = [

@@ -1,6 +1,6 @@
 <?php
 
-namespace Acquia\Blt\Robo\Commands\Tests;
+namespace Acquia\Blt\Robo\Commands\Validate;
 
 use Acquia\Blt\Robo\BltTasks;
 
@@ -12,9 +12,7 @@ class YamlCommand extends BltTasks {
   /**
    * Executes YAML validator against all validate.yaml.filesets files.
    *
-   * @command tests:yaml:lint:all
-   *
-   * @aliases tyla yaml tests:yaml:lint validate:yaml
+   * @command validate:yaml
    */
   public function lintFileSets() {
     $this->say("Validating yaml syntax for all custom modules and exported config...");
@@ -34,8 +32,7 @@ class YamlCommand extends BltTasks {
    * @param string $file_list
    *   A list of files to scan, separated by \n.
    *
-   * @command tests:yaml:lint:files
-   * @aliases tylf
+   * @command validate:yaml:lint:files
    */
   public function lintFileList($file_list) {
     $this->say("Linting YAML files...");

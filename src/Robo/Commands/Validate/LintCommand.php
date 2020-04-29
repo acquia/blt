@@ -1,6 +1,6 @@
 <?php
 
-namespace Acquia\Blt\Robo\Commands\Tests;
+namespace Acquia\Blt\Robo\Commands\Validate;
 
 use Acquia\Blt\Robo\BltTasks;
 
@@ -12,9 +12,7 @@ class LintCommand extends BltTasks {
   /**
    * Runs a PHP Lint against all validate.lint.filesets files.
    *
-   * @command tests:php:lint
-   *
-   * @aliases tpl lint validate:lint
+   * @command validate:php
    */
   public function lint() {
     $this->say("Linting PHP files...");
