@@ -107,7 +107,7 @@ class EnvironmentDetector extends AcquiaEnvironmentDetector {
    * Is local.
    */
   public static function isLocalEnv() {
-    return !self::isAhEnv() && !self::isPantheonEnv() && !self::isCiEnv();
+    return !parent::isLocalEnv() && !self::isPantheonEnv() && !self::isCiEnv();
   }
 
   /**
