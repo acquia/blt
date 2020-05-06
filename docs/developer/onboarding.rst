@@ -42,8 +42,7 @@ what's most important to do and know before getting started:
 -  Verify that your local system and network meet the
    :doc:`Acquia BLT system requirements </blt/install/>`. Also ensure that you
    have dependencies installed for any virtual development environment (such
-   as
-   :ref:`VirtualBox and Vagrant for DrupalVM <blt-drupal-vm-blt-projects>`).
+   as VirtualBox and Vagrant for DrupalVM).
 -  Since Acquia BLT makes use of a variety of best practice development
    tools and processes (including Composer and Git), you should verify that
    you have the necessary :doc:`skillset </blt/developer/skills/>` to develop
@@ -87,8 +86,8 @@ Initial set up
 
     At this point, restart your shell for the alias work.
 
-If your project uses a virtual development environment (such as
-:ref:`Drupal VM <blt-drupal-vm-blt-projects>`), complete the following steps:
+If your project uses a virtual development environment (such as Drupal VM),
+complete the following steps:
 
 #.  Start the VM:
 

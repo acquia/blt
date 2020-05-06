@@ -2,7 +2,6 @@
 
 ROOT_DIR="$(pwd)/"
 LIST=$( git diff --name-only --cached --diff-filter=ACM )
-PHPCS_BIN=vendor/bin/phpcs
 
 echo "Executing .git/hooks/pre-commit..."
 git diff-index --quiet HEAD -- || echo "Untracked files are present, this may impact the validity of pre-commit checks."

@@ -14,7 +14,7 @@ Acquia BLT *strongly recommends* a CM workflow based on the
 `Configuration split <https://www.drupal.org/project/config_split>`__ module,
 described in `Managing Configuration with Config Split
 <https://support.acquia.com/hc/en-us/articles/360024009393>`__. For most
-projects, configuration split strikes the best balance of flexibility,
+projects, configuration split strikes the balance of flexibility,
 reliability, and ease of maintenance and development.
 
 

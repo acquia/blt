@@ -49,7 +49,7 @@ class BehatCheck extends DoctorCheck {
     if (!$this->behatLocalYmlExists()) {
       $this->logProblem(__FUNCTION__ . ':exists', [
         "tests/behat/local.yml is missing!",
-        "  Run `blt tests:behat:init:config` to generate it from example.local.yml.",
+        "  Run `blt setup:behat` to generate it from example.local.yml.",
       ], 'error');
     }
   }

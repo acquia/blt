@@ -61,8 +61,10 @@ Acquia BLT natively supports the following CI platforms:
 * :ref:`Acquia Cloud Pipelines <blt-ci-pipelines>`
 * :ref:`Travis CI <blt-ci-travis-ci>`
 
-The `BLT plugins page <https://docs.acquia.com/blt/plugins/>`__ lists a number
-of community-developed plugins providing support for other CI platforms.
+The `Acquia BLT Plugins
+<https://support.acquia.com/hc/en-us/articles/360046918614-Acquia-BLT-Plugins/>`__
+page lists a number of community-developed plugins providing support for other
+CI platforms.
 
 Acquia BLT provides a template script file (such as ``.travis.yml`` or
 ``acquia-pipelines.yml``) for each of the CI platforms, allowing you to
