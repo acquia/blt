@@ -26,7 +26,7 @@ class TestsWizard extends Wizard {
         if (file_exists($behat_local_config_file)) {
           $this->fs->remove($behat_local_config_file);
         }
-        $this->invokeCommand('tests:behat:init:config');
+        $this->invokeCommand('setup:behat');
       }
     }
   }

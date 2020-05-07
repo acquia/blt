@@ -25,6 +25,14 @@ class ServerCommand extends TestsCommandBase {
   protected $serverPort;
 
   /**
+   * Do nothing.
+   *
+   * @command tests:server
+   * @hidden
+   */
+  public function testsServer() {}
+
+  /**
    * Starts a temporary PHP web server.
    *
    * @command tests:server:start
