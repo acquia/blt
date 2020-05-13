@@ -21,6 +21,9 @@
         "drupal/seckit": "^1.0.0-alpha2",
         "drupal/shield": "^1.2.0"
     },
+    "conflict": {
+        "drupal/coder": ">8.3.8"
+    },
     "require-dev": {
         "acquia/blt-require-dev": "11.x-dev"
     },
