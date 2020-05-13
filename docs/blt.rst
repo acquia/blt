@@ -17,7 +17,7 @@ Acquia BLT
 
 Acquia BLT (Build and Launch Tool), `available on GitHub
 <https://github.com/acquia/blt>`__, provides an automation layer for testing,
-building, and launching Drupal 8 applications.
+building, and launching Drupal 8 and 9 applications.
 
 .. container:: message-status
 
@@ -85,14 +85,10 @@ documentation:
 -  :doc:`/blt/developer/repo-architecture/`: How code is organized, and why.
 -  :doc:`/blt/developer/project-tasks/`: How to complete tasks on your local
    computer.
--  :doc:`/blt/developer/dev-workflow/`: How to contribute your code to Acquia
-   BLT.
 -  :doc:`/blt/developer/testing/`: How to write and run tests, and why you
    should care.
 -  :doc:`/blt/tech-architect/deploy/`
--  :doc:`/blt/tech-architect/release-process/`
 -  :doc:`/blt/tech-architect/ci/`
--  :doc:`/blt/tech-architect/os-contribution/`
 
 
 .. _blt-videos:

@@ -49,7 +49,7 @@ For installation instructions, see :doc:`/blt/install/`.
        Composer is the default package manager for the PHP community, and
        is also used by Drupal core. |br|
        For information about using Composer in conjunction with Acquia BLT,
-       see :doc:`/blt/developer/dependency-management/`. |br|
+       see `Using Composer to manage dependencies <https://support.acquia.com/hc/en-us/articles/360048081273>`__. |br|
        You can update to the latest version of Composer by using the following
        command: ``composer self-update``
    * - `Git <https://git-scm.com/>`__

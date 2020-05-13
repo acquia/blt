@@ -51,7 +51,7 @@ Dependency management
 **Additional resources**
 
 -  `Getting Started with Composer <https://getcomposer.org/doc/00-intro.md>`__
--  :doc:`/blt/developer/dependency-management/`
+-  `Using Composer to manage dependencies <https://support.acquia.com/hc/en-us/articles/360048081273>`__
 
 **Common commands**
 
@@ -75,7 +75,6 @@ Version control
 -  `Getting Started with Git
    <https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control>`__
 -  :doc:`BLT Repository Architecture </blt/developer/repo-architecture/>`
--  :ref:`BLT Git Workflow <blt-git-workflow>`
 
 **Common commands**
 
@@ -192,7 +191,6 @@ Acquia BLT, they are often integrated directly into Acquia BLT commands.
    thousands of developers, and assemble them in powerful new ways.
 
    -  `Getting Started with NPM <https://docs.npmjs.com/>`__
-   -  :ref:`Acquia BLT front-end dependencies <blt-front-end-dependencies>`
 
    **Common Commands**
 

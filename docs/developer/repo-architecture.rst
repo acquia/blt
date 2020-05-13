@@ -42,7 +42,7 @@ in the project template:
      ├── blt      - Contains custom build config files for CI solutions
      ├── box      - Contains DrupalVM Configuration (optional, created by
      |              `blt vm`)
-     ├── config   - Contains Drupal 8 configuration files
+     ├── config   - Contains Drupal configuration files
      ├── drush    - Contain drush configuration that is not site or
      |              environment specific
      ├── docroot  - The Drupal docroot
