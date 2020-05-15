@@ -1,5 +1,16 @@
 # Change Log
 
+#### 12.0.0-beta1 (2020-05-15)
+
+[Full Changelog](https://github.com/acquia/blt/compare/12.0.0-alpha1...12.0.0-beta1)
+
+
+**Miscellaneous**
+
+- Docs sync.
+- DT-1399: Composer 2 compatibility. (#4144)
+
+
 #### 12.0.0-alpha1 (2020-05-07)
 
 [Full Changelog](https://github.com/acquia/blt/compare/11.2.0...12.0.0-alpha1)
