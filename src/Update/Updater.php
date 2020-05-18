@@ -4,7 +4,6 @@ namespace Acquia\Blt\Update;
 
 use Acquia\Blt\Robo\Common\YamlMunge;
 use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Annotations\IndexedReader;
 use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
@@ -98,7 +97,6 @@ class Updater {
   public function __construct($update_class, $repo_root) {
     $this->output = new ConsoleOutput();
     $this->output->setFormatter(new OutputFormatter(TRUE));
-    AnnotationRegistry::registerFile(__DIR__ . '/../Annotations/Update.php');
     $this->annotationsReader = new IndexedReader(new AnnotationReader());
     $this->updateClassName = $update_class;
     $this->fs = new Filesystem();
