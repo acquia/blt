@@ -106,7 +106,7 @@ class EnvironmentDetector extends AcquiaDrupalEnvironmentDetector {
    * Is local.
    */
   public static function isLocalEnv() {
-    return !parent::isLocalEnv() && !self::isPantheonEnv() && !self::isCiEnv();
+    return parent::isLocalEnv() && !self::isPantheonEnv() && !self::isCiEnv();
   }
 
   /**
