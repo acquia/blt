@@ -3,18 +3,12 @@
 Adding Acquia BLT to an existing project
 ========================================
 
-Acquia BLT is best used to create new projects from scratch, but you
-can also add Acquia BLT to an existing project to receive all the
-:ref:`same benefits <blt-features>`.
+.. important::
 
-Adding Acquia BLT to an existing project is more complex than creating a new
-website with Acquia BLT. Acquia BLT includes a project template and
-expects the files in your project to match the structure and contents of the
-template.
-
-Acquia BLT will try to generate any missing files during installation, but some
-projects may require manual reconciliation. Adhering to the following
-prerequisites and instructions should ensure the expected outcome.
+   You can add Acquia BLT versions 12 and later to third-party Drupal
+   distributions and existing applications. If you are using BLT 11, you must
+   instead create a new project from scratch using the BLT project template:
+   :doc:`/blt/install/creating-new-project/`
 
 
 .. _blt-prerequisites:
@@ -56,23 +50,8 @@ steps:
    .. code-block:: bash
 
       rm -rf vendor composer.lock
-      composer require acquia/blt:^10.0 --no-update
+      composer require acquia/blt:^12.0 --no-update
       composer update
-
-#. Replace your ``.gitignore`` file with Acquia BLT's template ``.gitignore``,
-   then re-add any project-specific overrides:
-
-   .. code-block:: bash
-
-      cp vendor/acquia/blt/subtree-splits/blt-project/.gitignore .
-
-#. (*Optional*, but recommended) Replace your ``composer.json`` with Acquia
-   BLT's template ``composer.json``, and re-add any packages or other
-   configuration you want to preserve from your existing ``composer.json``:
-
-   .. code-block:: bash
-
-      cp vendor/acquia/blt/subtree-splits/blt-project/composer.json .
 
 #. Acquia BLT will place new files in your project directory. Review all
    new and modified files and commit them to Git.
@@ -80,8 +59,5 @@ steps:
 #. Run ``blt doctor`` to diagnose any potential remaining issues requiring
    manual intervention.
 
-#. Continue with the installation instructions directly following the
-   ``composer create-project``-based step in
-   :doc:`/blt/install/creating-new-project/`.
-
-.. Next review date 20201223
+#. For information about common instructions and how to begin using Acquia BLT,
+   see :doc:`/blt/install/next-steps/`.

@@ -24,7 +24,6 @@ class InstallCommand extends BltTasks {
    *
    * @validateDrushConfig
    * @validateDocrootIsPresent
-   * @executeInVm
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    *
@@ -33,7 +32,7 @@ class InstallCommand extends BltTasks {
   public function drupalInstall() {
     $commands = ['internal:drupal:install'];
     $strategy = $this->getConfigValue('cm.strategy');
-    if (in_array($strategy, ['core-only', 'config-split', 'features'])) {
+    if (in_array($strategy, ['core-only', 'config-split'])) {
       $commands[] = 'drupal:config:import';
     }
     $this->invokeCommands($commands);
@@ -111,7 +110,7 @@ class InstallCommand extends BltTasks {
     $task = $this->taskDrush()
       ->drush("site-install")
       ->arg($this->getConfigValue('project.profile.name'))
-      ->rawArg("install_configure_form.enable_update_status_module=NULL")
+      ->rawArg($this->getConfigValue('setup.install-args'))
       ->option('sites-subdir', $this->getConfigValue('site'))
       ->option('site-name', $this->getConfigValue('project.human_name'))
       ->option('site-mail', $this->getConfigValue('drupal.account.mail'))
@@ -123,7 +122,7 @@ class InstallCommand extends BltTasks {
 
     // Install site from existing config if supported.
     $strategy = $this->getConfigValue('cm.strategy');
-    $cm_core_key = $this->getConfigValue('cm.core.key');
+    $cm_core_key = 'sync';
     $install_from_config = $this->getConfigValue('cm.core.install_from_config');
     if (in_array($strategy, ['core-only', 'config-split']) && $cm_core_key == 'sync' && $install_from_config) {
       $core_config_file = $this->getConfigValue('docroot') . '/' . $this->getConfigValue("cm.core.dirs.$cm_core_key.path") . '/core.extension.yml';

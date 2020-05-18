@@ -4,6 +4,7 @@ namespace Acquia\Blt\Robo\Commands\Drupal;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Exceptions\BltException;
+use Robo\Exception\TaskException;
 
 /**
  * Defines commands in the "sync" namespace.
@@ -15,7 +16,6 @@ class SyncCommand extends BltTasks {
    *
    * @command drupal:sync:all-sites
    * @aliases dsa sync:all
-   * @executeInVm
    */
   public function allSites() {
     $multisites = $this->getConfigValue('multisites');
@@ -47,7 +47,6 @@ class SyncCommand extends BltTasks {
    *
    * @command drupal:sync:default:site
    * @aliases ds drupal:sync drupal:sync:default sync sync:refresh
-   * @executeInVm
    */
   public function sync(array $options = [
     'sync-public-files' => FALSE,
@@ -71,7 +70,6 @@ class SyncCommand extends BltTasks {
    * @aliases dsf sync:files drupal:sync:files
    *
    * @validateDrushConfig
-   * @executeInVm
    *
    * @todo Support multisite.
    */
@@ -100,7 +98,6 @@ class SyncCommand extends BltTasks {
    * @aliases dspf
    *
    * @validateDrushConfig
-   * @executeInVm
    */
   public function syncPrivateFiles() {
     $remote_alias = '@' . $this->getConfigValue('drush.aliases.remote');
@@ -125,7 +122,6 @@ class SyncCommand extends BltTasks {
    *
    * @command drupal:sync:db:all-sites
    * @aliases dsba sync:all:db
-   * @executeInVm
    */
   public function syncDbAllSites() {
     $exit_code = 0;
@@ -157,7 +153,7 @@ class SyncCommand extends BltTasks {
    *
    * @aliases dsb drupal:sync:db sync:db
    * @validateDrushConfig
-   * @executeInVm
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function syncDb() {
     $local_alias = '@' . $this->getConfigValue('drush.aliases.local');
@@ -178,7 +174,13 @@ class SyncCommand extends BltTasks {
       $task->drush('sql-sanitize');
     }
 
-    $result = $task->run();
+    try {
+      $result = $task->run();
+    }
+    catch (TaskException $e) {
+      $this->say('Sync failed. Often this is due to Drush version mismatches: https://support.acquia.com/hc/en-us/articles/360035203713-Permission-denied-during-BLT-sync-or-drush-sql-sync');
+      throw new BltException($e->getMessage());
+    }
 
     return $result;
   }

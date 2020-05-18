@@ -46,14 +46,6 @@ class WizardCommand extends BltTasks {
     if (!empty($answers['ci']['provider'])) {
       $this->invokeCommand("ci:{$answers['ci']['provider']}:init");
     }
-
-    if ($answers['vm']) {
-      $this->invokeCommand('vm', [
-        [
-          'no-boot' => '--no-interaction',
-        ],
-      ]);
-    }
   }
 
   /**
@@ -98,7 +90,6 @@ class WizardCommand extends BltTasks {
     $answers['prefix'] = $this->askDefault("Project prefix:", $default_prefix);
 
     $this->say("<info>Great. Now let's make some choices about how your project will be set up.</info>");
-    $answers['vm'] = $this->confirm('Do you want to create a VM?');
     $ci = $this->confirm('Do you want to use Continuous Integration?');
     if ($ci) {
       $provider_options = [
@@ -112,7 +103,6 @@ class WizardCommand extends BltTasks {
     if ($cm) {
       $strategy_options = [
         'config-split' => 'Config Split (recommended)',
-        'features' => 'Features',
         'core-only' => 'Core only',
       ];
       $answers['cm']['strategy'] = $this->askChoice('Choose a configuration management strategy:', $strategy_options, 'config-split');

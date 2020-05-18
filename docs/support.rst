@@ -30,7 +30,7 @@ not limited to) the following:
 
 -  `Behat <https://behat.org/en/latest/>`__
 -  `Composer <https://getcomposer.org/>`__
--  `Drupal 8 <https://www.drupal.org/8>`__
+-  `Drupal <https://www.drupal.org/8>`__
 -  `Drupal VM <https://www.drupalvm.com/>`__
 -  `Drush <https://www.drush.org/>`__
 -  `Git <https://git-scm.com/>`__

@@ -32,16 +32,11 @@ composer:
   extra: ''
 
 cm:
-  # Possible values: core-only, config-split, features, none.
+  # Possible values: core-only, config-split, none.
   strategy: config-split
   core:
     # The parent directory for configuration directories, relative to the docroot.
     path: ../config
-    # The default config key to use for imports. This is the key used in Drupal's global $config_directories variable.
-    # E.g., $config_directories['sync']. It must have a corresponding key in cm.core.dirs. E.g., `cm.core.dirs.sync`.
-    # @todo This feature is deprecated in Drupal 8.8, remove it when we drop support for Drupal 8.8.
-    # @see https://www.drupal.org/node/3018145
-    key: sync
     dirs:
       # Corresponding value is defined in config.settings.php.
       sync:
@@ -49,8 +44,6 @@ cm:
     # Install site directly from existing config.
     # This cannot be used if your install profile implements hook_install.
     install_from_config: false
-  features:
-    no-overrides: true
 
 deploy:
   # If true, dependencies will be built during deploy. If false, you should commit dependencies directly.
@@ -138,6 +131,8 @@ setup:
   # If setup.strategy is import, this file will be imported. File path is
   # relative to drupal docroot directory.
   dump-file: null
+  # Arguments to pass to drush si.
+  install-args: 'install_configure_form.enable_update_status_module=NULL'
 
 sync:
   # By default, files are not synced during sync:refresh.
@@ -248,13 +243,6 @@ tests:
 
 # Note that PHPCS filesets are not configured here, but via phpcs.xml.dist in the root directory. See "Extending BLT" in docs.
 validate:
-  # You can change this to true to have blt automatically validate acsf-init.
-  acsf: false
-  # You can change one or both of these to false to disable deprecated code scanning.
-  deprecation:
-    modules: true
-    themes: true
-
   deprecated:
     filesets:
       - files.php.custom.modules

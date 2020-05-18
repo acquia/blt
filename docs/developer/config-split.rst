@@ -5,8 +5,7 @@ Configuration split
 ===================
 
 Config split is the *standard* Configuration Management Strategy provided by
-Acquia BLT. Acquia BLT does support other options for configuration management
-(or none), see :doc:`/blt/developer/configuration-management/`.
+Acquia BLT.
 
 For more information, review `Managing Configuration with Config Split
 <https://support.acquia.com/hc/en-us/articles/360024009393>`__.

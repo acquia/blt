@@ -9,7 +9,6 @@ Installing Acquia BLT
 
    /blt/install/windows-install/
    /blt/install/tooling/
-   /blt/install/alt-env
    /blt/install/creating-new-project/
    /blt/install/adding-to-project/
    /blt/install/local-development/
@@ -93,32 +92,8 @@ necessary :ref:`dependencies listed above <blt-system-requirements>`.
           Launcher
           <https://github.com/drush-ops/drush-launcher#installation---phar>`__.
 
-      #.  Set up your LAMP stack for use with your development, based on your
-          selected environment choice:
-
-          *  `Drupal VM <https://www.drupalvm.com/>`__: Use the installation
-             instructions in the :ref:`Drupal VM requirements
-             <blt-drupal-vm-blt-projects>`.
-
-             .. note::
-
-                When using Acquia BLT and Drupal VM on macOS 10.14 (Mojave),
-                you must allow Full Disk Access for the iTerm application
-                for files to be available in Drupal VM. `Learn more
-                <https://github.com/geerlingguy/drupal-vm/issues/1828>`__.
-
-          * Other LAMP stacks: See :doc:`/blt/install/local-development/`.
-
-          .. note::
-
-             If you are not using a virtual machine (VM) and you want to run
-             Behat tests from the host computer, you will need to use Java.
-             Use the following commands to install Java:
-
-              .. code-block:: bash
-
-                  brew cask install java
-                  brew cask install chromedriver
+      #.  Set up your LAMP stack for use with your development. See
+          :doc:`/blt/install/local-development/`.
 
       #.  If you want to use the `Cog base theme
           <https://github.com/acquia-pso/cog>`__ (included with Acquia BLT),
@@ -280,15 +255,22 @@ necessary :ref:`dependencies listed above <blt-system-requirements>`.
 Installing Acquia BLT
 ---------------------
 
-After you have installed the dependencies, proceed to create a new project with
-Acquia BLT or add Acquia BLT to an existing project:
+.. tabs::
 
--  :doc:`/blt/install/creating-new-project/`
--  :doc:`/blt/install/adding-to-project/`
+   .. tab:: 12.x and above
+
+      Acquia BLT version 12 and above can be added to almost any Drupal
+      distribution or existing application:
+      :doc:`/blt/install/adding-to-project/`
+
+   .. tab:: 11.x
+
+      Acquia BLT version 11 and below only supports creating new projects from
+      scratch using the BLT project template:
+      :doc:`/blt/install/creating-new-project/`
+
 
 If Acquia BLT is already set up for your project and you need instructions on
 how to get started, see :doc:`/blt/developer/onboarding/`. If you are trying to
 update an existing version of Acquia BLT, see
 :doc:`/blt/install/updating-blt/`.
-
-.. Next review date 20200422

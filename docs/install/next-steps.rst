@@ -74,15 +74,6 @@ Acquia BLT includes additional commonly used commands, as follows:
    * - ``composer update acquia/blt --with-dependencies``
      - Update Acquia BLT.
 
-
-.. _blt-drush-aliases:
-
-Drush aliases
--------------
-
-For more information about Drush aliases, see :doc:`/blt/developer/drush/`.
-
-
 .. _blt-adding-settings-settings-php:
 
 Adding settings to settings.php

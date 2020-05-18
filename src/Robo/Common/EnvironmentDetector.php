@@ -2,8 +2,11 @@
 
 namespace Acquia\Blt\Robo\Common;
 
+use Acquia\Blt\Robo\Config\ConfigInitializer;
+use Acquia\DrupalEnvironmentDetector\AcquiaDrupalEnvironmentDetector;
 use drupol\phposinfo\Enum\FamilyName;
 use drupol\phposinfo\OsInfo;
+use Symfony\Component\Console\Input\ArgvInput;
 
 /**
  * Class EnvironmentDetector.
@@ -12,103 +15,7 @@ use drupol\phposinfo\OsInfo;
  *
  * Attempts to detect various properties about the current hosting environment.
  */
-class EnvironmentDetector {
-
-  /**
-   * Is AH env.
-   */
-  public static function isAhEnv() {
-    return (bool) self::getAhEnv();
-  }
-
-  /**
-   * Check if this is an ACSF env.
-   *
-   * Roughly duplicates the detection logic implemented by the ACSF module.
-   *
-   * @param mixed $ah_group
-   *   The Acquia Hosting site / group name (e.g. my_subscription).
-   * @param mixed $ah_env
-   *   The Acquia Hosting environment name (e.g. 01dev).
-   *
-   * @return bool
-   *   TRUE if this is an ACSF environment, FALSE otherwise.
-   *
-   * @see https://git.drupalcode.org/project/acsf/blob/8.x-2.62/acsf_init/lib/sites/default/acsf.settings.php#L14
-   */
-  public static function isAcsfEnv($ah_group = NULL, $ah_env = NULL) {
-    if (is_null($ah_group)) {
-      $ah_group = self::getAhGroup();
-    }
-
-    if (is_null($ah_env)) {
-      $ah_env = self::getAhEnv();
-    }
-
-    if (empty($ah_group) || empty($ah_env)) {
-      return FALSE;
-    }
-
-    return file_exists("/mnt/files/$ah_group.$ah_env/files-private/sites.json");
-  }
-
-  /**
-   * Is AH prod.
-   */
-  public static function isAhProdEnv() {
-    $ah_env = self::getAhEnv();
-    // ACE prod is 'prod'; ACSF can be '01live', '02live', ...
-    return $ah_env == 'prod' || preg_match('/^\d*live$/', $ah_env);
-  }
-
-  /**
-   * Is AH stage.
-   */
-  public static function isAhStageEnv() {
-    $ah_env = self::getAhEnv();
-    // ACE staging is 'test' or 'stg'; ACSF is '01test', '02test', ...
-    return preg_match('/^\d*test$/', $ah_env) || $ah_env == 'stg';
-  }
-
-  /**
-   * Is AH dev.
-   */
-  public static function isAhDevEnv() {
-    // ACE dev is 'dev', 'dev1', ...; ACSF dev is '01dev', '02dev', ...
-    return (preg_match('/^\d*dev\d*$/', self::getAhEnv()));
-  }
-
-  /**
-   * Is AH ODE.
-   */
-  public static function isAhOdeEnv($ah_env = NULL) {
-    if (is_null($ah_env)) {
-      $ah_env = self::getAhEnv();
-    }
-    // CDEs (formerly 'ODEs') can be 'ode1', 'ode2', ...
-    return (preg_match('/^ode\d*$/', $ah_env));
-  }
-
-  /**
-   * Is AH devcloud.
-   */
-  public static function isAhDevCloud() {
-    return (!empty($_SERVER['HTTP_HOST']) && strstr($_SERVER['HTTP_HOST'], 'devcloud'));
-  }
-
-  /**
-   * Get AH group.
-   */
-  public static function getAhGroup() {
-    return getenv('AH_SITE_GROUP');
-  }
-
-  /**
-   * Get AH env.
-   */
-  public static function getAhEnv() {
-    return getenv('AH_SITE_ENVIRONMENT');
-  }
+class EnvironmentDetector extends AcquiaDrupalEnvironmentDetector {
 
   /**
    * Get CI env name.
@@ -125,7 +32,6 @@ class EnvironmentDetector {
     $mapping = [
       'TRAVIS' => 'travis',
       'PIPELINE_ENV' => 'pipelines',
-      'GITLAB_CI' => 'gitlab',
     ];
     foreach ($mapping as $env_var => $ci_name) {
       if (getenv($env_var)) {
@@ -200,7 +106,7 @@ class EnvironmentDetector {
    * Is local.
    */
   public static function isLocalEnv() {
-    return !self::isAhEnv() && !self::isPantheonEnv() && !self::isCiEnv();
+    return !parent::isLocalEnv() && !self::isPantheonEnv() && !self::isCiEnv();
   }
 
   /**
@@ -237,13 +143,6 @@ class EnvironmentDetector {
     }
 
     return self::isAhProdEnv() || self::isPantheonProdEnv();
-  }
-
-  /**
-   * Get AH files.
-   */
-  public static function getAhFilesRoot() {
-    return '/mnt/files/' . self::getAhGroup() . '.' . self::getAhEnv();
   }
 
   /**
@@ -320,15 +219,43 @@ class EnvironmentDetector {
   }
 
   /**
-   * Get ACSF db.
+   * Get a standardized site / db name.
+   *
+   * On ACE or simple multisite installs, this is the site directory under
+   * 'docroot/sites'.
+   *
+   * On ACSF, this is the ACSF db name.
+   *
+   * @param string $site_path
+   *   Directory site path.
    *
    * @return string|null
-   *   ACSF db name.
-   *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   *   Site name.
    */
-  public static function getAcsfDbName() {
-    return isset($GLOBALS['gardens_site_settings']) && self::isAcsfEnv() ? $GLOBALS['gardens_site_settings']['conf']['acsf_db_name'] : NULL;
+  public static function getSiteName($site_path) {
+    if (self::isAcsfEnv()) {
+      return self::getAcsfDbName();
+    }
+    if (EnvironmentDetector::isAcsfInited() && EnvironmentDetector::isLocalEnv()) {
+      // When developing locally, we use the host name to determine which site
+      // factory site is active. The hostname must have a corresponding entry
+      // under the multisites key.
+      $input = new ArgvInput(!empty($_SERVER['argv']) ? $_SERVER['argv'] : ['']);
+      $config_initializer = new ConfigInitializer(self::getRepoRoot(), $input);
+      $blt_config = $config_initializer->initialize();
+
+      // The hostname must match the pattern local.[site-name].com, where
+      // [site-name] is a value in the multisites array.
+      $domain_fragments = explode('.', getenv('HTTP_HOST'));
+      $name = $domain_fragments[1];
+      $acsf_sites = $blt_config->get('multisites');
+      if (in_array($name, $acsf_sites)) {
+        return $name;
+      }
+
+    }
+
+    return str_replace('sites/', '', $site_path);
   }
 
   /**
@@ -345,7 +272,7 @@ class EnvironmentDetector {
   public static function getRepoRoot() {
     if (defined('DRUPAL_ROOT')) {
       // This is a web or Drush request.
-      return DRUPAL_ROOT . '/..';
+      return dirname(DRUPAL_ROOT);
     }
     else {
       // This is a BLT CLI call. Get the $repo_root that was set in

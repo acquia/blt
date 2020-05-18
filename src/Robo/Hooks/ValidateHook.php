@@ -99,17 +99,6 @@ class ValidateHook implements ConfigAwareInterface, LoggerAwareInterface, Inspec
   }
 
   /**
-   * Validates that current PHP process is being executed inside of the VM.
-   *
-   * @hook validate validateVmConfig
-   */
-  public function validateVmConfig() {
-    if ($this->getInspector()->isDrupalVmLocallyInitialized() && $this->getInspector()->isDrupalVmBooted() && !$this->getInspector()->isDrupalVmConfigValid()) {
-      throw new BltException("Drupal VM configuration is invalid.");
-    }
-  }
-
-  /**
    * Validates that Git user is configured.
    *
    * @hook validate @validateGitConfig

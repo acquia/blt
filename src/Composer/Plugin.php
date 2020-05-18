@@ -11,30 +11,15 @@ use Composer\Installer\PackageEvents;
 use Composer\IO\IOInterface;
 use Composer\Package\PackageInterface;
 use Composer\Plugin\PluginInterface;
-use Composer\Script\Event;
 use Composer\Script\ScriptEvents;
 use Composer\Util\Filesystem;
 use Composer\Util\ProcessExecutor;
+use Exception;
 
 /**
  * Composer plugin.
  */
 class Plugin implements PluginInterface, EventSubscriberInterface {
-
-  /**
-   * Package name.
-   */
-  const PACKAGE_NAME = 'acquia/blt';
-
-  /**
-   * BLT config directory.
-   */
-  const BLT_DIR = 'blt';
-
-  /**
-   * Priority that plugin uses to register callbacks.
-   */
-  const CALLBACK_PRIORITY = 60000;
 
   /**
    * Composer.
@@ -51,7 +36,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
   /**
    * Dispatcher.
    *
-   * @var \Composer\Script\EventDispatcher
+   * @var \Composer\EventDispatcher\EventDispatcher
    */
   protected $eventDispatcher;
   /**
@@ -85,41 +70,27 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
   }
 
   /**
+   * {@inheritDoc}
+   */
+  public function deactivate(Composer $composer, IOInterface $io) {
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public function uninstall(Composer $composer, IOInterface $io) {
+  }
+
+  /**
    * Returns an array of event names this subscriber wants to listen to.
    */
   public static function getSubscribedEvents() {
     return [
-      ScriptEvents::POST_AUTOLOAD_DUMP => "onPostAutoloadDump",
       PackageEvents::POST_PACKAGE_INSTALL => "onPostPackageEvent",
       PackageEvents::POST_PACKAGE_UPDATE => "onPostPackageEvent",
-      ScriptEvents::POST_UPDATE_CMD => [
-        ['onPostCmdEvent'],
-      ],
+      ScriptEvents::POST_UPDATE_CMD => "onPostCmdEvent",
+      ScriptEvents::POST_INSTALL_CMD => "onPostCmdEvent",
     ];
-  }
-
-  /**
-   * Modify vendor/composer/installed.json so that composer/installers is first.
-   *
-   * @param \Composer\Script\Event $event
-   *   Event.
-   */
-  public static function onPostAutoloadDump(Event $event) {
-    $composer = $event->getComposer();
-    // This workaround is only necessary for Composer versions before 1.9.0.
-    if (version_compare($composer::VERSION, '1.9.0', '>=')) {
-      return;
-    }
-    $vendor_dir = $composer->getConfig()->get('vendor-dir');
-    $installed_json = realpath($vendor_dir) . "/composer/installed.json";
-    $installed = json_decode(file_get_contents($installed_json));
-    foreach ($installed as $key => $package) {
-      if ($package->name == 'composer/installers') {
-        unset($installed[$key]);
-        array_unshift($installed, $package);
-      }
-    }
-    file_put_contents($installed_json, json_encode($installed, 448));
   }
 
   /**
@@ -140,14 +111,12 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
   /**
    * Execute blt blt:update after update command has been executed.
    *
-   * @param \Composer\Script\Event $event
-   *   Event.
+   * @throws \Exception
    */
-  public function onPostCmdEvent(Event $event) {
+  public function onPostCmdEvent() {
     // Only install the template files if acquia/blt was installed.
     if (isset($this->bltPackage)) {
-      $version = $this->bltPackage->getVersion();
-      $this->executeBltUpdate($version);
+      $this->executeBltUpdate();
     }
   }
 
@@ -183,14 +152,13 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
   /**
    * Executes `blt blt:update` and `blt-console blt:update` commands.
    *
-   * @param string $version
-   *   Version.
+   * @throws \Exception
    */
-  protected function executeBltUpdate($version) {
+  protected function executeBltUpdate() {
     $options = $this->getOptions();
 
     if ($this->isInitialInstall()) {
-      $this->io->write('<info>Creating BLT templated files...</info>');
+      $this->io->write('<info>Creating BLT template files...</info>');
       if ($this->isNewProject()) {
         // The BLT command will not work because the .git dir doesn't exist yet.
         $command = $this->getVendorPath() . '/acquia/blt/bin/blt internal:create-project --ansi';
@@ -201,18 +169,18 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
       $success = $this->executeCommand($command, [], TRUE);
       if (!$success) {
         $this->io->writeError("<error>BLT installation failed! Please execute <comment>$command --verbose</comment> to debug the issue.</error>");
-        throw new \Exception('Installation aborted due to error');
+        throw new Exception('Installation aborted due to error');
       }
     }
     elseif ($options['blt']['update']) {
-      $this->io->write('<info>Updating BLT templated files...</info>');
+      $this->io->write('<info>Updating BLT template files...</info>');
       $success = $this->executeCommand('blt blt:update --ansi --no-interaction', [], TRUE);
       if (!$success) {
         $this->io->writeError("<error>BLT update script failed! Run `blt blt:update --verbose` to retry.</error>");
       }
     }
     else {
-      $this->io->write('<comment>Skipping update of BLT templated files</comment>');
+      $this->io->write('<comment>Skipping update of BLT template files</comment>');
     }
   }
 
@@ -250,10 +218,13 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
   /**
    * Create a new directory.
    *
+   * @param string $path
+   *   Path to create.
+   *
    * @return bool
    *   TRUE if directory exists or is created.
    */
-  protected function createDirectory($path) {
+  protected function createDirectory(string $path) {
     return is_dir($path) || mkdir($path);
   }
 
@@ -277,9 +248,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
     $config = $this->composer->getConfig();
     $filesystem = new Filesystem();
     $filesystem->ensureDirectoryExists($config->get('vendor-dir'));
-    $vendorPath = $filesystem->normalizePath(realpath($config->get('vendor-dir')));
-
-    return $vendorPath;
+    return $filesystem->normalizePath(realpath($config->get('vendor-dir')));
   }
 
   /**

@@ -1,5 +1,123 @@
 # Change Log
 
+#### 12.0.0-beta1 (2020-05-15)
+
+[Full Changelog](https://github.com/acquia/blt/compare/12.0.0-alpha1...12.0.0-beta1)
+
+
+**Miscellaneous**
+
+- Docs sync.
+- DT-1399: Composer 2 compatibility. (#4144)
+
+
+#### 12.0.0-alpha1 (2020-05-07)
+
+[Full Changelog](https://github.com/acquia/blt/compare/11.2.0...12.0.0-alpha1)
+
+**Breaking changes**
+
+- DT-1150: Fixes #3983: Better location for secrets.settings.php for ACSF. (#4120)
+- DT-589: Support Behat 3.4+. (#4032)
+- DT-1179: Moved probo integration to plugin. (#4026)
+
+**Implemented enhancements**
+
+- DT-1584: Run BLT updates and install shell alias after composer install. (#4142)
+- Fixes #4132: Removing BLT Gitlab support. (#4133)
+- Fixes #3973: Acquia Cloud db does not support periods. (#4135)
+- Fixes #3970: Document Pipelines setup.:
+- Fixed #3886: Handle non-standard bin dirs.
+- Fixes #3685: Print warning for Drush version mismatches.
+- Fixes #3557: Pre-commit check warning for untracked files.
+- DT-1177: Fixes #3825: Move DrupalVM integration to plugin. (#4125)
+- DT-1356: Support drupal-check 1.1.1. (#4076)
+- fix(inspector): remove dependency on MySQL database (#4049)
+- support Chromium Browser (#4027)
+
+**Fixed bugs**
+
+- Fixes #4136: Dynamically run all tests/validate commands in namespace. (#4138)
+- Fixes #4123: Move Drupal Check integration to plugin. (#4129)
+- Fixes #4108: Dev Desktop doctor check missing env var. (#4119)
+- Fix logic to make sure user config directory exists. (#4109)
+- Fix warnings due to missing env var during blt updates. (#4074)
+- Public/Private File Sync Options Aren't Respected In "drupal:sync:all-sites" (#4073)
+- Correctly detect `$_acsf_site_name` for local multisites setup. (#4052)
+- Removed drush-request-trace.settings.php. (#4059)
+- DT-1171: Fixed #3993: Cannot run Drupal functional tests in Pipelines. (#4060)
+- Fixes #4041: Updated pipelines link in readme.
+- Failed pre-push validation doesn't prevent push. (#4044)
+- Fixes #4005: DT-1193: Remove usage of $_ENV (#4020)
+- Fixes #3998: Support PHP 7.4 (#3997)
+- DT-1183-2: Fixes #4003: Create 12.x branch of BLT Project for Drupal 9. (#4023)
+- Fixes #3994: Get environment detector subclass results on bootstrap. (#4017)
+
+**Miscellaneous**
+
+- DT-1399: Evaluate Composer 2.0 readiness. (#4088)
+- DT-1515: Move Acquia Environment Detector to standalone package. (#4130)
+- Moved plugins to kb article.
+- Fixed pre-commit error.
+- Docs sync.
+- Fix composer installs. (#4140)
+- adds bootstrap results to debug log (#4128)
+- DT-3914: Custom drush install args. (#4131)
+- DT-1507: Make composer doctor check more permissive. (#4134)
+- Clean up travis scripts. (#4126)
+- DT-1214: Fixes #4040: Removed support for Features. (#4124)
+- DT-1159: Removed references to deprecated config_directories. (#4121)
+- Docs sync.
+- Log more details about the response from the test server. (#4104)
+- DT-1034: Moved Behat integration to plugin. (#4115)
+- DT-1069: Moved SimpleSAMLPhp integration to plugin. (#4114)
+- DT-1494: Moved Drupal tests to plugin. (#4113)
+- Export unprocessed config to use proper docroot in multisites. (#4106)
+- CI docs update. (#4099)
+- DT-1492: Restore drupal core tests. (#4102)
+- DT-1490: Restore setup command test. (#4101)
+- DT-1488: Restore config import test. (#4100)
+- Updates suggest for latest version of typhonius/acquia_cli. (#4095)
+- DT-1486: Moved ACSF integration to plugin. (#4098)
+- Docs sync.
+- DT-1489: Remove Lightning integration test. (#4097)
+- More informative error when BLT can't locate repo root. (#4090)
+- Remove custom sandbox manager. (#4080)
+- Removed unused composer installers extender. (#4089)
+- Remove symfony console patch. (#4079)
+- Cache environment detectors. (#4085)
+- Fixed PSR-4 standards for internal tests. (#4083)
+- Updated contributing docs. (#4086)
+- ORCA back to master. (#4082)
+- Move phpcs to standalone plugin. (#4077)
+- Remove update hooks from prior to BLT 9. (#4075)
+- Replace factory-hooks/post-install by post-site-install (#4061)
+- Downgrade permissions error on read-only filesystems. (#4071)
+- Support Robo 2. (#4063)
+- Remove ORCA patch.
+- DT-1201: Run BLT tests with ORCA fixture (#4064)
+- Patch symfony console to fix interactive input BC-breaking change (#4066)
+- Remove BLT Project subtree split (#4057)
+- Removed ORCA patch. (#4058)
+- Make exception output cleaner. (#4047)
+- Use ORCA's D9 readiness job. (#4056)
+- Remove merged ORCA patch. (#4050)
+- DT-1181: Updated dependencies for Drupal 9. (#4037)
+- Docs sync.
+- DT-1178: Kill blt-require-dev. (#4036)
+- DT-1178: Moved Behat out of blt-project and blt-require-dev. (#4034)
+- DT-1178: Moved PHPUnit out of blt-project and blt-require-dev. (#4035)
+- Minor doc fix.
+- updating readme to better represent supported drush versions. (#4029)
+- adding azure pipelines to plugin docs. (#4028)
+- Fixes #4012: Added update hook for #587 (gitignore for simulated deploys). (#4016)
+- Memcache doc cloud sync.
+- Update RELEASE.md
+- Updated release process to use Github API HTTP auth.
+- Revert "Bump blt-project to stable."
+- Bump blt-project to stable.
+
+
 #### 11.2.0 (2020-02-05)
 
 [Full Changelog](https://github.com/acquia/blt/compare/11.1.0...11.2.0)

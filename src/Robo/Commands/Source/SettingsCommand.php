@@ -64,19 +64,6 @@ WARNING;
    * @aliases blt:init:settings bis settings setup:settings
    */
   public function generateSiteConfigFiles() {
-    if (!file_exists($this->getConfigValue('blt.config-files.local'))) {
-      $result = $this->taskFilesystemStack()
-        ->copy($this->getConfigValue('blt.config-files.example-local'), $this->getConfigValue('blt.config-files.local'))
-        ->stopOnFail()
-        ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-        ->run();
-
-      if (!$result->wasSuccessful()) {
-        $filepath = $this->getInspector()->getFs()->makePathRelative($this->getConfigValue('blt.config-files.local'), $this->getConfigValue('repo.root'));
-        throw new BltException("Unable to create $filepath.");
-      }
-    }
-
     // Generate hash file in salt.txt.
     $this->hashSalt();
 
@@ -186,7 +173,7 @@ WARNING;
         ->run();
 
       if (!$result->wasSuccessful()) {
-        $filepath = $this->getInspector()->getFs()->makePathRelative($project_settings_file, $this->getConfigValue('repo.root'));
+        $this->getInspector()->getFs()->makePathRelative($project_settings_file, $this->getConfigValue('repo.root'));
         throw new BltException("Unable to set permissions on $project_settings_file.");
       }
     }
@@ -199,8 +186,7 @@ WARNING;
   /**
    * Generates tests/behat/local.yml file for executing Behat tests locally.
    *
-   * @command tests:behat:init:config
-   * @aliases tbic setup:behat
+   * @command setup:behat
    */
   public function behat() {
     $copy_map = [
