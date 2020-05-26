@@ -582,6 +582,12 @@ class DeployCommand extends BltTasks {
       $sanitizeFinder->append($vcsFinder);
     }
 
+    $this->logger->info("Find .gitignore files...");
+    $sanitizeFinder = Finder::create()
+      ->files()
+      ->name('.gitignore')
+      ->in("{$this->deployDocroot}");
+
     $this->logger->info("Find Github directories...");
     $githubFinder = Finder::create()
       ->ignoreDotFiles(FALSE)
