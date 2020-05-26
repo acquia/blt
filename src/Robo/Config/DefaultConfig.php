@@ -23,6 +23,7 @@ class DefaultConfig extends BltConfig {
     $this->set('docroot', $repo_root . '/docroot');
     $this->set('blt.root', $this->getBltRoot());
     $this->set('composer.bin', $repo_root . '/vendor/bin');
+    $this->set('tmp.dir', sys_get_temp_dir());
   }
 
   /**

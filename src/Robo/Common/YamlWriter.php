@@ -25,7 +25,7 @@ class YamlWriter {
   /**
    * YAML contents.
    *
-   * @var false|string
+   * @var null|string
    */
   private $contents;
 
@@ -37,7 +37,9 @@ class YamlWriter {
    */
   public function __construct($filepath) {
     $this->filepath = $filepath;
-    $this->contents = file_get_contents($filepath);
+    if (file_exists($this->filepath)) {
+      $this->contents = file_get_contents($filepath);
+    }
   }
 
   /**
@@ -47,7 +49,12 @@ class YamlWriter {
    *   Array.
    */
   public function getContents() {
-    return Yaml::parse($this->contents);
+    if ($this->contents) {
+      return Yaml::parse($this->contents);
+    }
+    else {
+      return [];
+    }
   }
 
   /**
