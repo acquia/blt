@@ -12,7 +12,7 @@ class DeployTest extends BltProjectTestBase {
    */
   public function setUp(): void {
     parent::setUp();
-    $this->deploy_dir = $this->sandboxInstance . '/deploy';
+    $this->deploy_dir = sys_get_temp_dir() . '/blt-deploy';
   }
 
   /**

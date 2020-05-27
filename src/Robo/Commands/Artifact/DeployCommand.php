@@ -574,12 +574,25 @@ class DeployCommand extends BltTasks {
       ->ignoreVCS(FALSE)
       ->directories()
       ->in([$this->deployDocroot,
-        "{$this->deployDir}/drush",
         "{$this->deployDir}/vendor",
       ])
       ->name('.git');
+    $drush_dir = "{$this->deployDir}/drush";
+    if (file_exists($drush_dir)) {
+      $vcsFinder->in($drush_dir);
+    }
     if ($vcsFinder->hasResults()) {
       $sanitizeFinder->append($vcsFinder);
+    }
+
+    $this->logger->info("Find .gitignore files...");
+    $gitignoreFinder = Finder::create()
+      ->ignoreDotFiles(FALSE)
+      ->files()
+      ->name('.gitignore')
+      ->in("{$this->deployDocroot}");
+    if ($gitignoreFinder->hasResults()) {
+      $sanitizeFinder->append($gitignoreFinder);
     }
 
     $this->logger->info("Find Github directories...");
