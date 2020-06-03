@@ -1,5 +1,20 @@
 # Change Log
 
+#### 12.0.0 (2020-06-03)
+
+[Full Changelog](https://github.com/acquia/blt/compare/12.0.0-beta1...12.0.0)
+
+
+**Fixed bugs**
+
+- Handle docroot/.gitignore on deploys. (#4154)
+
+**Miscellaneous**
+
+- Fix local environment detection.
+- Remove deprecated annotation registry usage. (#4092)
+
+
 #### 12.0.0-beta1 (2020-05-15)
 
 [Full Changelog](https://github.com/acquia/blt/compare/12.0.0-alpha1...12.0.0-beta1)
