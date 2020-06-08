@@ -70,6 +70,8 @@ abstract class BltProjectTestBase extends TestCase {
     $this->execute('./bin/orca fixture:reset -f', getenv('ORCA_ROOT'));
     $this->sandboxInstance = getenv('ORCA_FIXTURE_DIR');
 
+    $this->fs->copy($this->bltDirectory . "/scripts/blt/ci/internal/ci.yml", $this->sandboxInstance . "/blt/ci.blt.yml", TRUE);
+
     // Config is overwritten for each $this->blt execution.
     $this->reInitializeConfig($this->createBltInput(NULL, []));
     $this->dbDump = $this->sandboxInstance . "/bltDbDump.sql";
