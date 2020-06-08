@@ -127,6 +127,8 @@ phpcbf:
 
 project:
   local:
+    protocol: http
+    hostname: 'local.${project.machine_name}.com'
     uri: ${project.local.protocol}://${project.local.hostname}
 
 setup:
