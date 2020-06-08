@@ -75,6 +75,7 @@ drush:
   aliases:
     local: self
     ci: self
+  default_alias: '${drush.aliases.local}'
   bin: ${composer.bin}/drush
   dir: ${docroot}
   alias-dir: ${repo.root}/drush/sites
