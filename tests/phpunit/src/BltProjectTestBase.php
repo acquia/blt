@@ -3,7 +3,6 @@
 namespace Acquia\Blt\Tests;
 
 use Acquia\Blt\Robo\Blt;
-use Acquia\Blt\Robo\Common\YamlMunge;
 use Acquia\Blt\Robo\Config\ConfigInitializer;
 use PHPUnit\Framework\TestCase;
 use Robo\Robo;
