@@ -3,3 +3,6 @@ modules.ci.enable: [ views_ui ]
 vm.vagrant.hostname: local.${project.machine_name}.com
 drush.debug: false
 drush.verbose: true
+tests.run-server: true
+tests.drupal.sudo-run-tests: false
+project.local.hostname: 127.0.0.1:8888
