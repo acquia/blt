@@ -11,7 +11,7 @@ use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
 /**
- * Defines commands in the "tests:twig:lint:all*" namespace.
+ * Defines commands in the "validate:twig:lint:all*" namespace.
  */
 class TwigCommand extends BltTasks {
 

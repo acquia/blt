@@ -125,8 +125,8 @@ To create your own fileset definition, complete the following steps:
 #.  Instantiate and return a ``Symfony\Component\Finder\Finder`` object. The
     files found by the finder form the fileset.
 
-To change the filesets used in commands such as ``tests:twig:lint:all``,
-``tests:yaml:lint:all``, and ``tests:php:lint``, add the following
+To change the filesets used in commands such as ``validate:twig:lint:all``,
+``validate:yaml:lint:all``, and ``tests:php:lint``, add the following
 configuration key to ``blt/blt.yml``:
 
 .. code-block:: yaml
@@ -387,7 +387,7 @@ The following list includes some commonly customized Acquia BLT targets:
       XML. For more information, see the official `PHPCS documentation
       <https://github.com/squizlabs/PHP_CodeSniffer/wiki/Advanced-Usage#using-a-default-configuration-file>`__.
 
-   -  **tests:twig:lint:all**: To prevent validation failures on any Twig
+   -  **validate:twig:lint:all**: To prevent validation failures on any Twig
       filters or functions created in custom or contrib module
       ``twig.extension`` services, add filters and functions like the
       following:
