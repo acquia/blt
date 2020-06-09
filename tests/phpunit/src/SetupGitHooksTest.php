@@ -105,8 +105,8 @@ class SetupGitHooksTest extends BltProjectTestBase {
     $process->run();
     $output = $process->getOutput();
     $this->assertStringContainsString('tests:phpcs:sniff:staged', $output);
-    $this->assertStringContainsString('tests:yaml:lint:files', $output);
-    $this->assertStringContainsString('tests:twig:lint:files', $output);
+    $this->assertStringContainsString('validate:yaml:lint:files', $output);
+    $this->assertStringContainsString('validate:twig:lint:files', $output);
   }
 
   /**
