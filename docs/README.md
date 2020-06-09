@@ -25,16 +25,16 @@ This is intended to coincide with the [Drupal core release cycle](https://www.dr
 
 ### Release support status
 
-| BLT version | Support status        | End of life    |  Drupal versions* | Drush versions         |
-|-------------|-----------------------|----------------|-------------------|------------------------|
-| 12.x        | Unsupported, unstable | \>=May 2021    | 9.0               | \>=10.0.1<br>\>=9.5.0    |
-| **11.x**    | **Supported, stable** | **>=Dec 2020** | **8.7\*\*, 8.8**  | **>=10.0.1**<br>\>=9.5.0 |
-| 10.x        | Bug fixes only        | May 2020       | 8.7, 8.8          | \>=9.5.0               |
-| <=9.2.x     | Unsupported           | Dec 2019       | 8.6, 8.7          | \>=9.4.0               |
+| BLT version | Support status        | End of life    |  Drupal versions*         | Drush versions           |
+|-------------|-----------------------|----------------|---------------------------|--------------------------|
+| 12.x        | Unsupported, unstable | \>=May 2021    | 9.0                       | \>=10.0.1<br>\>=9.5.0    |
+| **11.x**    | **Supported, stable** | **>=Dec 2020** | **8.7\*\*, 8.8, 8.9 LTS** | **>=10.0.1**<br>\>=9.5.0 |
+| 10.x        | Bug fixes only        | May 2020       | 8.7, 8.8                  | \>=9.5.0                 |
+| <=9.2.x     | Unsupported           | Dec 2019       | 8.6, 8.7                  | \>=9.4.0                 |
 
 *When any upstream package release stops being supported by its maintainer, BLT will cease supporting that release as well. For instance, as of December 2019, BLT 10.x will no longer support Drupal 8.6, and will instead support Drupal 8.7 and 8.8  in accordance with [Drupal security policy](https://www.drupal.org/drupal-security-team/general-information).
 
-**Existing Drupal 8.7 projects can use BLT 11. However, when creating _new_ projects, BLT 11 only supports Drupal 8.8 due to its dependency on Composer Scaffold.
+**Existing Drupal 8.7 projects can use BLT 11. However, when creating _new_ projects, BLT 11 only supports Drupal 8.8 and 8.9 due to its dependency on Composer Scaffold.
 
 ## Philosophy and Purpose
 
