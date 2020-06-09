@@ -27,7 +27,7 @@ This is intended to coincide with the [Drupal core release cycle](https://www.dr
 
 | BLT version | Support status        | End of life    |  Drupal versions*   | Drush versions           |
 |-------------|-----------------------|----------------|---------------------|--------------------------|
-| 12.x        | Unsupported, unstable | \>=May 2021    | 9.  0               | \>=10.0.1<br>\>=9.5.0    |
+| **12.x**    | **Supported, stable** | **\>=May 2021**| **9.0**             | **\>=10.0.1**<br>\>=9.5.0|
 | **11.x**    | **Supported, stable** | **>=Dec 2020** | **8.8, 8.9 LTS**    | **>=10.0.1**<br>\>=9.5.0 |
 | 10.x        | Bug fixes only        | May 2020       | 8.8                 | \>=9.5.0                 |
 | <=9.2.x     | Unsupported           | Dec 2019       | 8.6, 8.7            | \>=9.4.0                 |
