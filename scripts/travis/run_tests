@@ -5,7 +5,7 @@
 
 set -v
 
-blt validate:all --no-interaction || { set +v && return 1; }
+blt validate --no-interaction || { set +v && return 1; }
 travis_wait blt setup --define drush.alias='${drush.aliases.ci}' --no-interaction --verbose || { set +v && return 1; }
 blt tests:all --define drush.alias='${drush.aliases.ci}' --define tests.run-server=true --no-interaction --verbose || { set +v && return 1; }
 

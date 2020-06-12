@@ -5,7 +5,7 @@ namespace Acquia\Blt\Robo\Commands\Validate;
 use Acquia\Blt\Robo\BltTasks;
 
 /**
- * Defines commands in the "validate:all*" namespace.
+ * Defines commands in the "validate*" namespace.
  */
 class ValidateAllCommand extends BltTasks {
 

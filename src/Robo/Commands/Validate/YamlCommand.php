@@ -5,7 +5,7 @@ namespace Acquia\Blt\Robo\Commands\Validate;
 use Acquia\Blt\Robo\BltTasks;
 
 /**
- * Defines commands in the "tests:yaml:lint:all*" namespace.
+ * Defines commands in the "validate:yaml:lint:all*" namespace.
  */
 class YamlCommand extends BltTasks {
 

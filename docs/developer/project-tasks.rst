@@ -72,7 +72,7 @@ following command:
 
 .. code-block:: bash
 
-   blt validate:all
+   blt validate
 
 
 .. _building-front-end-assets:

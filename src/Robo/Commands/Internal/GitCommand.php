@@ -63,8 +63,8 @@ class GitCommand extends BltTasks {
     $collection->addCode(
       function () use ($changed_files) {
         return $this->invokeCommands([
-          'tests:twig:lint:files' => ['file_list' => $changed_files],
-          'tests:yaml:lint:files' => ['file_list' => $changed_files],
+          'validate:twig:lint:files' => ['file_list' => $changed_files],
+          'validate:yaml:lint:files' => ['file_list' => $changed_files],
         ]);
       }
     );
@@ -74,7 +74,7 @@ class GitCommand extends BltTasks {
       || in_array('composer.lock', $changed_files_list)) {
       $collection->addCode(
         function () {
-          return $this->invokeCommand('tests:composer:validate');
+          return $this->invokeCommand('validate:composer');
         }
       );
     }
