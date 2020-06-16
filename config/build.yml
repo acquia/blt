@@ -78,7 +78,7 @@ drush:
     ci: self
   ansi: true
   bin: ${composer.bin}/drush
-  default_alias: '${drush.aliases.local}'
+  default_alias: ${drush.aliases.local}
   dir: ${docroot}
   sanitize: true
 
