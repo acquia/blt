@@ -72,11 +72,15 @@ drupal:
     port: 3306
 
 drush:
-  bin: ${composer.bin}/drush
-  dir: ${docroot}
   alias-dir: ${repo.root}/drush/sites
-  sanitize: true
+  aliases:
+    local: self
+    ci: self
   ansi: true
+  bin: ${composer.bin}/drush
+  default_alias: '${drush.aliases.local}'
+  dir: ${docroot}
+  sanitize: true
 
 git:
   # The value of a hook should be the file path to a directory containing an
@@ -123,6 +127,8 @@ phpcbf:
 
 project:
   local:
+    hostname: local.${project.machine_name}.com
+    protocol: http
     uri: ${project.local.protocol}://${project.local.hostname}
 
 setup:
