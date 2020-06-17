@@ -1,5 +1,22 @@
 # Change Log
 
+#### 11.4.2 (2020-06-17)
+
+[Full Changelog](https://github.com/acquia/blt/compare/11.4.1...11.4.2)
+
+
+**Fixed bugs**
+
+- Revert "Fixes #4145: Added temporary workaround for Drupal Coder bug." (#4150)
+- Fixes #4145: Added temporary workaround for Drupal Coder bug.
+- Fixes #4108: Dev Desktop doctor check missing env var. (#4119)
+
+**Miscellaneous**
+
+- Removing failing test. (#4148)
+- adds bootstrap results to debug log (#4128)
+
+
 #### 11.4.1 (2020-04-15)
 
 [Full Changelog](https://github.com/acquia/blt/compare/11.4.0...11.4.1)
