@@ -126,6 +126,7 @@ phpcbf:
     - files.frontend.custom.themes
 
 project:
+  human_name: My BLT site
   local:
     hostname: local.${project.machine_name}.com
     protocol: http
