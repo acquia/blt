@@ -130,6 +130,8 @@ project:
     hostname: local.${project.machine_name}.com
     protocol: http
     uri: ${project.local.protocol}://${project.local.hostname}
+  profile:
+    name: standard
 
 setup:
   # Valid values are install, sync, import.
