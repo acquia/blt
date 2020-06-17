@@ -72,15 +72,15 @@ drupal:
     port: 3306
 
 drush:
+  alias-dir: ${repo.root}/drush/sites
   aliases:
     local: self
     ci: self
-  default_alias: '${drush.aliases.local}'
-  bin: ${composer.bin}/drush
-  dir: ${docroot}
-  alias-dir: ${repo.root}/drush/sites
-  sanitize: true
   ansi: true
+  bin: ${composer.bin}/drush
+  default_alias: ${drush.aliases.local}
+  dir: ${docroot}
+  sanitize: true
 
 git:
   # The value of a hook should be the file path to a directory containing an
@@ -126,10 +126,13 @@ phpcbf:
     - files.frontend.custom.themes
 
 project:
+  human_name: My BLT site
   local:
+    hostname: local.${project.machine_name}.com
     protocol: http
-    hostname: 'local.${project.machine_name}.com'
-    uri: '${project.local.protocol}://${project.local.hostname}'
+    uri: ${project.local.protocol}://${project.local.hostname}
+  profile:
+    name: standard
 
 setup:
   # Valid values are install, sync, import.
