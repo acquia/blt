@@ -8,7 +8,7 @@
 /**
  * An example global include file.
  *
- * To use this file, rename to global.settings.php.
+ * To use this file, copy and rename to global.settings.php.
  */
 
 /**
