@@ -9,6 +9,8 @@ use Symfony\Bridge\Twig\Command\LintCommand as TwigLintCommand;
 use Symfony\Component\Console\Input\ArrayInput;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
+use Twig\TwigFilter;
+use Twig\TwigFunction;
 
 /**
  * Defines commands in the "validate:twig:lint:all*" namespace.
@@ -112,7 +114,7 @@ class TwigCommand extends BltTasks {
 
     // Add Twig filters from Drupal TwigExtension to be ignored.
     $drupal_filters = [];
-    if (preg_match_all("#new \\\\Twig_SimpleFilter\('([^']+)',#", $extension_file_contents, $matches)) {
+    if (preg_match_all("#new TwigFilter\('([^']+)',#", $extension_file_contents, $matches)) {
       $drupal_filters = $matches[1];
     }
     $twig_filters = array_merge($twig_filters, $drupal_filters);
@@ -121,7 +123,7 @@ class TwigCommand extends BltTasks {
       // named arguments will be whitelisted.
       // @see \TwigNode_Expression_Call::getArguments
       // @see \TwigNode_Expression_Call::call()
-      $twig->addFilter(new \Twig_SimpleFilter($filter, function ($node = '', array $args = []) {}, [
+      $twig->addFilter(new TwigFilter($filter, function ($node = '', array $args = []) {}, [
         'is_variadic' => TRUE,
       ]));
     }
@@ -131,7 +133,7 @@ class TwigCommand extends BltTasks {
 
     // Add Twig functions from Drupal TwigExtension to be ignored.
     $drupal_functions = [];
-    if (preg_match_all("#new \\\\Twig_SimpleFunction\('([^']+)',#", $extension_file_contents, $matches)) {
+    if (preg_match_all("#new TwigFunction\('([^']+)',#", $extension_file_contents, $matches)) {
       $drupal_functions = $matches[1];
     }
     $twig_functions = array_merge($twig_functions, $drupal_functions);
@@ -140,7 +142,7 @@ class TwigCommand extends BltTasks {
       // arguments will be whitelisted.
       // @see \TwigNode_Expression_Call::getArguments
       // @see \TwigNode_Expression_Call::call()
-      $twig->addFunction(new \Twig_SimpleFunction($function, function (array $args = []) {}, [
+      $twig->addFunction(new TwigFunction($function, function (array $args = []) {}, [
         'is_variadic' => TRUE,
       ]));
     }
