@@ -1,5 +1,20 @@
 # Change Log
 
+#### 12.1.0 (2020-07-01)
+
+[Full Changelog](https://github.com/acquia/blt/compare/12.0.1...12.1.0)
+
+
+**Implemented enhancements**
+
+- Fix #4156: Clarify instructions to copy and rename default settings files.
+
+**Miscellaneous**
+
+- checks for existing settings files before adding default files (#4157)
+- BLT-4192: Fix validate twig syntax with Drupal 9. (#4193)
+
+
 #### 12.0.1 (2020-06-17)
 
 [Full Changelog](https://github.com/acquia/blt/compare/12.0.0...12.0.1)
