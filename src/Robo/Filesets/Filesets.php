@@ -8,7 +8,6 @@ use Acquia\Blt\Annotations\Fileset;
 // @codingStandardsIgnoreEnd
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
 use Robo\Contract\ConfigAwareInterface;
-use Symfony\Component\Finder\Finder;
 
 /**
  * Defines filesets.
