@@ -24,7 +24,7 @@ class UserConfig {
    *
    * @var array
    */
-  private $config;
+  private $config = [];
 
   /**
    * UserConfig constructor.
@@ -87,7 +87,7 @@ class UserConfig {
    *   Telemetry user data.
    */
   public function getTelemetryUserData() {
-    $data = $this->config['telemetryUserData'];
+    $data = isset($this->config['telemetryUserData']) ? $this->config['telemetryUserData'] : [];
     $data['app_version'] = Blt::VERSION;
 
     return $data;
