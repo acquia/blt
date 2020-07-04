@@ -39,11 +39,11 @@ class UserConfig {
     }
     else {
       // Make sure directory tree for user config file exists.
-      if (!file_exists($configDir) && !mkdir($configDir, 0777, TRUE)) {
+      if (!file_exists($configDir) && !@mkdir($configDir, 0777, TRUE)) {
         return;
       }
       // Make sure directory for user config file is writable.
-      if (is_writable($configDir) || chmod($configDir, 0777)) {
+      if (is_writable($configDir) || @chmod($configDir, 0777)) {
         $this->setTelemetryUserData();
       }
     }
@@ -109,7 +109,7 @@ class UserConfig {
    * Write user config to disk.
    */
   public function save() {
-    file_put_contents($this->configPath, json_encode($this->config));
+    @file_put_contents($this->configPath, json_encode($this->config));
   }
 
 }
