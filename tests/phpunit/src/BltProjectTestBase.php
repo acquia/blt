@@ -70,6 +70,7 @@ abstract class BltProjectTestBase extends TestCase {
     $this->sandboxInstance = getenv('ORCA_FIXTURE_DIR');
 
     $this->fs->copy($this->bltDirectory . "/scripts/blt/ci/internal/ci.yml", $this->sandboxInstance . "/blt/ci.blt.yml", TRUE);
+    $this->fs->copy($this->bltDirectory . "/tests/phpunit/fixtures/drush.yml", $this->sandboxInstance . "/drush/drush.yml", TRUE);
 
     // Config is overwritten for each $this->blt execution.
     $this->reInitializeConfig($this->createBltInput(NULL, []));
