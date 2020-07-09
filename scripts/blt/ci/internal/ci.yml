@@ -5,4 +5,4 @@ drush.debug: false
 drush.verbose: true
 tests.run-server: true
 tests.drupal.sudo-run-tests: false
-project.local.hostname: 127.0.0.1:8888
+project.local.hostname: 127.0.0.1:8080
