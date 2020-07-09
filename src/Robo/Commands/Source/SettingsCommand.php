@@ -100,6 +100,7 @@ WARNING;
       // Generate sites/settings/default.global.settings.php.
       $blt_glob_settings_file = $this->getConfigValue('blt.root') . '/settings/default.global.settings.php';
       $default_glob_settings_file = $this->getConfigValue('docroot') . "/sites/settings/default.global.settings.php";
+      $global_settings_file = $this->getConfigValue('docroot') . "/sites/settings/global.settings.php";
 
       // Generate local.drush.yml.
       $blt_local_drush_file = $this->getConfigValue('blt.root') . '/settings/default.local.drush.yml';
@@ -110,7 +111,6 @@ WARNING;
         $blt_local_settings_file => $default_local_settings_file,
         $default_local_settings_file => $project_local_settings_file,
         $blt_includes_settings_file => $default_includes_settings_file,
-        $blt_glob_settings_file => $default_glob_settings_file,
         $blt_local_drush_file => $default_local_drush_file,
         $default_local_drush_file => $project_local_drush_file,
       ];
@@ -120,12 +120,17 @@ WARNING;
         $default_local_drush_file => $project_local_drush_file,
       ];
 
+      // Add default.global.settings.php if global.settings.php does not exist.
+      if (!file_exists($global_settings_file)) {
+        $copy_map[$blt_glob_settings_file] = $default_glob_settings_file;
+      }
+
       // Only add the settings file if the default exists.
       if (file_exists($default_project_default_settings_file)) {
         $copy_map[$default_project_default_settings_file] = $project_default_settings_file;
         $copy_map[$project_default_settings_file] = $project_settings_file;
       }
-      else {
+      elseif (!file_exists($project_settings_file)) {
         $this->logger->warning("No $default_project_default_settings_file file found.");
       }
 

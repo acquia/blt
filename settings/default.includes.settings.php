@@ -8,7 +8,7 @@
 /**
  * Adds any additional settings files required by your application.
  *
- * To use, rename this file to be `includes.settings.php and
+ * To use, copy and rename this file to be `includes.settings.php and
  * add file references to the `additionalSettingsFiles` array below.
  *
  * Files required into this file are included into the blt.settings.php file

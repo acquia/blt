@@ -1,5 +1,40 @@
 # Change Log
 
+#### 12.1.0 (2020-07-01)
+
+[Full Changelog](https://github.com/acquia/blt/compare/12.0.1...12.1.0)
+
+
+**Implemented enhancements**
+
+- Fix #4156: Clarify instructions to copy and rename default settings files.
+
+**Miscellaneous**
+
+- checks for existing settings files before adding default files (#4157)
+- BLT-4192: Fix validate twig syntax with Drupal 9. (#4193)
+
+
+#### 12.0.1 (2020-06-17)
+
+[Full Changelog](https://github.com/acquia/blt/compare/12.0.0...12.0.1)
+
+
+**Fixed bugs**
+
+- Fix #4182: Missing project.human_name attribute (#4188)
+- Fix #4177: Missing docroot on default file_public_path (#4187)
+- Fix #4174: Pipelines and Travis CI missing tests:all command (#4186)
+- Fix #4183: Notice when running blt drupal:install (#4185)
+- Fixes #4171: blt.yml missing drush section. (#4178)
+- Issue #4166: Change from valiate:all to just validate. (#4167)
+- Issue #4164: Changing twig and yaml linting namespace (#4165)
+
+**Miscellaneous**
+
+- back to blt project (#4170)
+
+
 #### 12.0.0 (2020-06-03)
 
 [Full Changelog](https://github.com/acquia/blt/compare/12.0.0-beta1...12.0.0)
