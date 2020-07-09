@@ -33,7 +33,7 @@ class BltCommand extends BltTasks {
       throw new BltException("Could not copy example files into the repository root.");
     }
 
-    $this->say("<info>Example commands and hooks were copied into your application.</info>");
+    $this->say("<info>Example commands and hooks were copied into your application. You must modify composer.json to autoload them via PSR-4, as shown here: https://github.com/acquia/blt-project/blob/11.2.0/composer.json#L93</info>");
   }
 
   /**
@@ -58,7 +58,7 @@ class BltCommand extends BltTasks {
       throw new BltException("Could not copy example files into the repository root.");
     }
 
-    $this->say("<info>Example filesets were copied into your application.</info>");
+    $this->say("<info>Example filesets were copied into your application. You must modify composer.json to autoload them via PSR-4, as shown here: https://github.com/acquia/blt-project/blob/11.2.0/composer.json#L93</info>");
   }
 
 }
