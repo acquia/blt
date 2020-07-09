@@ -131,15 +131,29 @@ class WizardCommand extends BltTasks {
   protected function updateProjectYml(array $answers) {
     $config_file = $this->getConfigValue('blt.config-files.project');
     $config = YamlMunge::parseFile($config_file);
+    if (!isset($config['project'])) {
+      $config['project'] = [];
+    }
     $config['project']['prefix'] = $answers['prefix'];
     $config['project']['machine_name'] = $answers['machine_name'];
     $config['project']['human_name'] = $answers['human_name'];
+    if (!isset($config['project']['profile'])) {
+      $config['project']['profile'] = [];
+    }
     $config['project']['profile']['name'] = $answers['profile'];
     // Hostname cannot contain underscores.
     $machine_name_safe = str_replace('_', '-', $answers['machine_name']);
-    $config['project']['local']['hostname'] = str_replace('${project.machine_name}', $machine_name_safe, $config['project']['local']['hostname']);
+    if (isset($config['project']['local']['hostname'])) {
+      $config['project']['local']['hostname'] = str_replace('${project.machine_name}', $machine_name_safe, $config['project']['local']['hostname']);
+    }
+    else {
+      $config['project']['local'] = ['hostname' => $machine_name_safe];
+    }
 
     if (isset($answers['cm']['strategy'])) {
+      if (!isset($config['cm'])) {
+        $config['cm'] = [];
+      }
       $config['cm']['strategy'] = $answers['cm']['strategy'];
     }
 

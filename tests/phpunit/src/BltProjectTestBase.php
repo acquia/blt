@@ -3,7 +3,6 @@
 namespace Acquia\Blt\Tests;
 
 use Acquia\Blt\Robo\Blt;
-use Acquia\Blt\Robo\Common\YamlMunge;
 use Acquia\Blt\Robo\Config\ConfigInitializer;
 use PHPUnit\Framework\TestCase;
 use Robo\Robo;
@@ -70,8 +69,9 @@ abstract class BltProjectTestBase extends TestCase {
     $this->execute('./bin/orca fixture:reset -f', getenv('ORCA_ROOT'));
     $this->sandboxInstance = getenv('ORCA_FIXTURE_DIR');
 
-    $ci_config = YamlMunge::mungeFiles($this->sandboxInstance . "/blt/ci.blt.yml", $this->bltDirectory . "/scripts/blt/ci/internal/ci.yml");
-    YamlMunge::writeFile($this->sandboxInstance . "/blt/ci.blt.yml", $ci_config);
+    $this->fs->copy($this->bltDirectory . "/scripts/blt/ci/internal/ci.yml", $this->sandboxInstance . "/blt/ci.blt.yml", TRUE);
+    $this->fs->copy($this->bltDirectory . "/tests/phpunit/fixtures/drush.yml", $this->sandboxInstance . "/drush/drush.yml", TRUE);
+    $this->fs->copy($this->bltDirectory . "/tests/phpunit/fixtures/local.drush.yml", $this->sandboxInstance . "/docroot/sites/default/local.drush.yml", TRUE);
 
     // Config is overwritten for each $this->blt execution.
     $this->reInitializeConfig($this->createBltInput(NULL, []));

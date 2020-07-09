@@ -27,7 +27,6 @@ env:
     - ORCA_SUT_BRANCH=12.x
     - ORCA_VERSION=^2
     - ORCA_PHPCS_STANDARD=AcquiaDrupalStrict
-    - ORCA_FIXTURE_PROJECT_TEMPLATE=acquia/blt-project
     # Custom configuration.
     - COMPOSER_BIN=$TRAVIS_BUILD_DIR/vendor/bin
     - BLT_DIR=$TRAVIS_BUILD_DIR

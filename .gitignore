@@ -1,11 +1,3 @@
-# Ignore blted8 files
-blted8/composer.lock
-blted8/vendor
-
-# Ignore config files
-/blt.yml
-local.*
-
 build
 
 # OS X

@@ -1,0 +1,10 @@
+# This file defines drush configuration that applies to drush commands
+# for the entire application. For site-specific settings, like URI, use
+# ../docroot/sites/[site]/drush.yml
+drush:
+  paths:
+    include:
+      - '${env.home}/.drush'
+      - /usr/share/drush/commands
+options:
+  uri: 'http://127.0.0.1:8080'

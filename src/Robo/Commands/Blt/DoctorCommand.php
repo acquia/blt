@@ -4,7 +4,6 @@ namespace Acquia\Blt\Robo\Commands\Blt;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Doctor\AcsfCheck;
-use Acquia\Blt\Robo\Doctor\BehatCheck;
 use Acquia\Blt\Robo\Doctor\ComposerCheck;
 use Acquia\Blt\Robo\Doctor\ConfigCheck;
 use Acquia\Blt\Robo\Doctor\DbCheck;
@@ -75,7 +74,6 @@ class DoctorCommand extends BltTasks {
 
     $checks = [
       AcsfCheck::class,
-      BehatCheck::class,
       ComposerCheck::class,
       ConfigCheck::class,
       DbCheck::class,
