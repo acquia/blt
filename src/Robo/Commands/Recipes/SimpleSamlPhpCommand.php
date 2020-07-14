@@ -262,12 +262,12 @@ class SimpleSamlPhpCommand extends BltTasks {
       ->copy($this->bltRoot . "/scripts/simplesamlphp/htaccess-saml.patch",
         $this->repoRoot . "/patches/htaccess-saml.patch")
       ->run();
-    $composer_json = json_decode(file_get_contents($this->getConfigValue('repo.root') . '/composer.json'));
+    $composer_json = json_decode(file_get_contents("{$this->repoRoot}/composer.json"));
     $composer_json->scripts->{"post-drupal-scaffold-cmd"}[] = "cd docroot && patch -p1 <../patches/htaccess-saml.patch";
-    file_put_contents($this->getConfigValue('repo.root') . '/composer.json',
+    file_put_contents("{$this->repoRoot}/composer.json",
       json_encode($composer_json, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
     $this->taskExecStack()
-      ->dir($this->getConfigValue('repo.roou'))
+      ->dir($this->repoRoot)
       ->exec("composer post-drupal-scaffold-cmd")
       ->run();
     // @todo throw exceptions.
