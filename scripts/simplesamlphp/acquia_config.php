@@ -88,15 +88,16 @@ elseif (getenv('AH_SITE_ENVIRONMENT')) {
   // phpcs:ignore
   $config['baseurlpath'] = $protocol . $_SERVER['HTTP_HOST'] . $port . '/simplesaml/';
   // Set ACE and ACSF sites based on hosting database and site name.
-  $config['certdir'] = "/mnt/www/html/{getenv('AH_SITE_GROUP')}.{getenv('AH_SITE_ENVIRONMENT')}/simplesamlphp/cert/";
-  $config['metadatadir'] = "/mnt/www/html/{getenv('AH_SITE_GROUP')}.{getenv('AH_SITE_ENVIRONMENT')}/simplesamlphp/metadata";
+  $ah_site_dir = getenv('AH_SITE_GROUP') . '.' . getenv('AH_SITE_ENVIRONMENT');
+  $config['certdir'] = '/mnt/www/html/' . $ah_site_dir . '/simplesamlphp/cert/';
+  $config['metadatadir'] = '/mnt/www/html/' . $ah_site_dir . '/simplesamlphp/metadata';
   $config['baseurlpath'] = 'simplesaml/';
   // Setup basic logging.
   $config['logging.handler'] = 'file';
   // phpcs:ignore
   $config['loggingdir'] = dirname(getenv('ACQUIA_HOSTING_DRUPAL_LOG'));
   $config['logging.logfile'] = 'simplesamlphp-' . date('Ymd') . '.log';
-  $creds_json = file_get_contents('/var/www/site-php/' . getenv('AH_SITE_GROUP') . '.' . getenv('AH_SITE_ENVIRONMENT') . '/creds.json');
+  $creds_json = file_get_contents('/var/www/site-php/' . $ah_site_dir . '/creds.json');
   $databases = json_decode($creds_json, TRUE);
   $creds = $databases['databases'][getenv('AH_SITE_GROUP')];
   if (substr(getenv('AH_SITE_ENVIRONMENT'), 0, 3) === 'ode') {
