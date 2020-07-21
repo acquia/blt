@@ -46,7 +46,7 @@ in the project template:
      ├── drush    - Contain drush configuration that is not site or
      |              environment specific
      ├── docroot  - The Drupal docroot
-     ├── hooks    - Contains Acquia Cloud hooks (optional, created by
+     ├── hooks    - Contains Cloud Platform hooks (optional, created by
      |              `blt recipes:cloud-hooks:init`)
      ├── patches  - Contains private patches to be used by composer.json
      ├── reports  - Contains output of automated tests; is .gitignored

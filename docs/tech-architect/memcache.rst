@@ -16,7 +16,7 @@ file.
 
 .. _blt-memcache-ac-acsf:
 
-Acquia Cloud and Acquia Cloud Site Factory
+Cloud Platform and Site Factory
 ------------------------------------------
 
 To enable memcache integration in a Cloud hosting environment, ensure the

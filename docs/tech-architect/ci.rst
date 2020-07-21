@@ -58,7 +58,7 @@ Supported CI platforms
 
 Acquia BLT natively supports the following CI platforms:
 
-* :ref:`Acquia Cloud Pipelines <blt-ci-pipelines>`
+* :ref:`Cloud Platform Pipelines <blt-ci-pipelines>`
 * :ref:`Travis CI <blt-ci-travis-ci>`
 
 The `Acquia BLT Plugins
@@ -78,24 +78,24 @@ is your responsibility.
 
 .. _blt-ci-pipelines:
 
-Acquia Cloud Pipelines
-~~~~~~~~~~~~~~~~~~~~~~
+Cloud Platform Pipelines
+~~~~~~~~~~~~~---~~~~~~~~~
 
-:doc:`Acquia Cloud Pipelines
+:doc:`Cloud Platform Pipelines
 </acquia-cloud/develop/pipelines/>` is a continuous integration and continuous
-deployment solution built on the Acquia Cloud infrastructure. For Acquia Cloud
-users, Pipelines provides the benefit of integrating directly with
-an Acquia Cloud subscription, which allows you to deploy build artifacts with
-less effort.
+deployment solution built on the Cloud Platform infrastructure. For
+Cloud Platform users, Pipelines provides the benefit of integrating directly
+with an Cloud Platform subscription, which allows you to deploy build artifacts
+with less effort.
 
-To initialize Acquia Cloud Pipelines support for your Acquia BLT project,
+To initialize Cloud Platform Pipelines support for your Acquia BLT project,
 complete the following steps:
 
-#. :doc:`Connect Acquia Cloud Pipelines
+#. :doc:`Connect Cloud Platform Pipelines
    </acquia-cloud/develop/pipelines/connect/>` to your GitHub or Bitbucket
    repository
 
-#. Initialize Acquia Cloud Pipelines for your project:
+#. Initialize Cloud Platform Pipelines for your project:
 
    .. code-block:: bash
 
@@ -124,11 +124,11 @@ complete the following steps:
 
 Your new pull request will trigger a pipelines build to begin. The pull
 request's web page reflects the pipelines build status. If merged, the
-pipelines feature will generate a new branch on your Acquia Cloud
+pipelines feature will generate a new branch on your Cloud Platform
 subscription named ``pipelines-[source-branch]-build``. The branch will
 contain a deployment artifact deployable to an Acquia environment.
 
-You can use the Acquia Cloud Pipelines user interface or :doc:`the Pipelines
+You can use the Cloud Platform Pipelines user interface or :doc:`the Pipelines
 CLI client </acquia-cloud/develop/pipelines/cli/install/>` to review the
 status or logs for your build.
 
@@ -142,11 +142,11 @@ Travis CI
 ~~~~~~~~~
 
 `Travis CI <https://travis-ci.com/>`__ is a continuous integration and
-continuous deployment solution. Travis can integrate with Acquia Cloud,
-but requires more initial configuration work than the Acquia Cloud pipelines
+continuous deployment solution. Travis can integrate with Cloud Platform,
+but requires more initial configuration work than the Cloud Platform pipelines
 feature.
 
-You must configure Acquia Cloud, GitHub, and Travis CI to work together using
+You must configure Cloud Platform, GitHub, and Travis CI to work together using
 the following steps:
 
 .. note::
@@ -162,7 +162,7 @@ the following steps:
       blt recipes:ci:travis:init
 
 #. Run the following command to generate an SSH key locally so Travis can
-   authenticate to Acquia Cloud:
+   authenticate to Cloud Platform:
 
    .. code-block:: bash
 
@@ -174,16 +174,16 @@ the following steps:
    Due to Travis requiring legacy RSA PEM keys, you must explicitly define
    the format with the ``-m`` flag.
 
-#. Create a new Acquia Cloud account used primarily as a container for the SSH
-   keys granting Travis push access to Acquia Cloud. You can create a new
-   account by inviting a new team member on **Teams** in Acquia Cloud using an
+#. Create a new Cloud Platform account used primarily as a container for the SSH
+   keys granting Travis push access to Cloud Platform. You can create a new
+   account by inviting a new team member on **Teams** in Cloud Platform using an
    email address such as ``<email>+<project>.travis@acquia.com``. The team
    member must have SSH push access with the *Team Lead* role. Acquia doesn't
    recommend using a personal account or re-using the shell account across
    projects posing a security risk, and causing deployments to fail if your
    account is removed from the project.
 
-#. Sign in to the new Acquia Cloud account and add the public SSH key from the
+#. Sign in to the new Cloud Platform account and add the public SSH key from the
    key pair generated in the preceding step by editing the profile and then
    clicking **Credentials**.
 
@@ -199,7 +199,7 @@ the following steps:
 #. Add the private SSH key to your project's Travis CI settings located at
    ``https://magnum.travis-ci.com/acquia-pso/[project-name]/settings``.
 
-#. Add your Acquia Cloud Git repository to the remotes section of your
+#. Add your Cloud Platform Git repository to the remotes section of your
    ``blt.yml`` file by running the following command and replacing
    ``[example]`` with your Git repository information:
 
@@ -208,7 +208,7 @@ the following steps:
       remotes:
          - [example]@svn-14671.prod.hosting.acquia.com:[example].git
 
-#. Add your Acquia Cloud Git repository's server host name to
+#. Add your Cloud Platform Git repository's server host name to
    ``ssh_known_hosts`` in your ``.travis.yml`` file. Use only the host name and
    don't include the user name and file name (example.git):
 
@@ -221,7 +221,7 @@ the following steps:
    .. note::
 
       If you are planning to run any ``drush sql-syncs`` or ``drush sql-rsync``
-      commands between Acquia Cloud and your environment, be sure to add the
+      commands between Cloud Platform and your environment, be sure to add the
       test or stage server host to the preceding code.
 
 Commits or merges to the develop branch on GitHub will now trigger a

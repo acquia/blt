@@ -31,9 +31,9 @@ Development environments
    development).
 -  :doc:`/dev-desktop/`: Acquia Dev Desktop is a free application that
    allows you to run and develop Drupal sites locally on your computer and
-   optionally host them using Acquia Cloud. Use Acquia Dev Desktop to evaluate
-   Drupal, add and test other Drupal modules, and develop sites while on a
-   plane or away from an internet connection.
+   optionally host them using Cloud Platform. Use Acquia Dev Desktop to
+   evaluate Drupal, add and test other Drupal modules, and develop sites while
+   on a plane or away from an internet connection.
 
 **Additional resources**
 

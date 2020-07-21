@@ -4,7 +4,7 @@ Multisite
 =========
 
 Configuring a multisite instance on Acquia BLT involves two parts:
-the local configuration and the Acquia Cloud configuration.
+the local configuration and the Cloud Platform configuration.
 
 
 .. _blt-multisite-local-config:
@@ -66,7 +66,7 @@ discovered multisite directories:
      - example
 
 At this point, you should have a functional multisite codebase you can
-install on Acquia Cloud.
+install on Cloud Platform.
 
 
 Override BLT variables
@@ -118,14 +118,14 @@ configuration and profile: ``blt tets:behat:run --site=mysite``.
 
 .. _blt-multisite-ac-config:
 
-Acquia Cloud configuration
---------------------------
+Cloud Platform configuration
+-----------------------------
 
 Start by following the :doc:`/acquia-cloud/develop/drupal/multisite/` to
-configure your codebase for Acquia Cloud. These instructions should walk you
+configure your codebase for Cloud Platform. These instructions should walk you
 through:
 
-#. Creating a new database in Acquia Cloud.
+#. Creating a new database in Cloud Platform.
 
 #. Adding the website-specific settings include to each website's
    ``settings.php`` file. In the ``settings.php`` for your multisite, add the
@@ -150,7 +150,7 @@ multisite-aware. They will connect to the first ("default") website /
 database on the subscription by default. You must create your own Drush
 aliases for each website.
 
-Acquia recommends copying the aliases file provided by Acquia Cloud
+Acquia recommends copying the aliases file provided by Cloud Platform
 or Club to create a separate aliases file for each website. Change the
 ``uri`` and ``parent`` keys for the aliases within each file to match
 the correct database or website.

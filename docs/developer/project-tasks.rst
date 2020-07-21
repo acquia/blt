@@ -53,10 +53,10 @@ see `Using Composer to manage dependencies <https://support.acquia.com/hc/en-us/
 
 .. _blt-deploying-to-ac:
 
-Deploying to Acquia Cloud
--------------------------
+Deploying to Cloud Platform
+----------------------------
 
-For a detailed description of how to deploy to Acquia Cloud, see
+For a detailed description of how to deploy to Cloud Platform, see
 :doc:`/blt/tech-architect/deploy/`.
 
 
@@ -72,7 +72,7 @@ following command:
 
 .. code-block:: bash
 
-   blt validate
+   blt validate:all
 
 
 .. _building-front-end-assets:

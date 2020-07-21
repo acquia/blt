@@ -7,9 +7,9 @@ Use the following information to set up single sign-on (SSO) with SimpleSAMLphp
 on a working Acquia BLT website.
 
 Acquia BLT provides commands for automating the setup process for SimpleSAMLphp
-and assists in deploying configuration files to Acquia Cloud. You must
+and assists in deploying configuration files to Cloud Platform. You must
 already be familiar with the process of configuring SimpleSAMLphp as described
-in the :doc:`instructions for using SimpleSAMLphp on Acquia Cloud
+in the :doc:`instructions for using SimpleSAMLphp on Cloud Platform
 </resource/simplesaml/>`.
 
 Acquia BLT doesn't offer support for issues related to SimpleSAMLphp
@@ -35,11 +35,11 @@ following tasks:
        ``${project.root}/simplesamlphp/config``.
     -  Adds a ``simplesamlphp`` property to the ``blt/blt.yml`` file, which
        instructs Acquia BLT to include your SimpleSAMLphp configuration during
-       deployments to Acquia Cloud.
+       deployments to Cloud Platform.
     -  Creates a symbolic link in the docroot to the web-accessible
        directory of the ``simplesamlphp`` library.
 
-#.  Follow the :doc:`instructions for using SimpleSAMLphp on Acquia Cloud
+#.  Follow the :doc:`instructions for using SimpleSAMLphp on Cloud Platform
     </resource/simplesaml/>` to update the configuration files located in the
     ``${project.root}/simplesamlphp/config`` directory.
 
@@ -57,9 +57,10 @@ following tasks:
        command will make not make any changes that are visible to Git.
 
 SimpleSAMLphp should now be ready for testing in your local environment. When
-you are ready to test in an Acquia Cloud environment, commit your configuration
-files and deploy a build artifact as usual using ``blt artifact:deploy`` or one
-of Acquia BLT's supported continuous integration services. Acquia BLT will add
-and commit your configuration files when building a deploy artifact.
+you are ready to test in an Cloud Platform environment, commit your
+configuration files and deploy a build artifact as usual using ``blt
+artifact:deploy`` or one of Acquia BLT's supported continuous integration
+services. Acquia BLT will add and commit your configuration files when building
+a deploy artifact.
 
 .. Next review date 20200422

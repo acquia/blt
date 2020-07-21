@@ -5,30 +5,30 @@ Deployment workflow
 
 This document outlines the workflow to build a complete Drupal application
 (plus supporting features, such as Cloud Hooks) which can be deployed directly
-to Acquia Cloud. Collectively, this bundle of code is referred to as the *build
-artifact*.
+to Cloud Platform. Collectively, this bundle of code is referred to as the
+*build artifact*.
 
 The most important thing to remember about this workflow is that the GitHub
-and Acquia Cloud repositories are not clones of one another. GitHub only
-stores the source code, and Acquia Cloud only stores the production code (for
+and Cloud Platform repositories are not clones of one another. GitHub only
+stores the source code, and Cloud Platform only stores the production code (for
 example, the build artifacts).
 
 Currently, this workflow can either be followed manually, or integrated into
 a continuous integration (CI) solution such as the
-:doc:`Acquia Cloud pipelines feature </acquia-cloud/develop/pipelines/>`,
+:doc:`Cloud Platform pipelines feature </acquia-cloud/develop/pipelines/>`,
 Travis CI, or Jenkins.
 
 
 First time setup
 ----------------
 
-You should have your GitHub repository checked out locally. Your Acquia Cloud
+You should have your GitHub repository checked out locally. Your Cloud Platform
 repository should be empty, or nearly empty.
 
 Check out a new branch to match whatever branch you are working on in GitHub
 (typically ``develop``).
 
-Ensure your Acquia Cloud remote is listed in ``blt.yml`` under
+Ensure your Cloud Platform remote is listed in ``blt.yml`` under
 ``git:remotes``. For example:
 
 .. code-block:: text
@@ -61,7 +61,7 @@ differences:
 -  *(planned)* Sensitive files, such as ``CHANGELOG.txt``, are removed.
 
 After the artifact is created, you can inspect it or even run it as a website
-locally. You may also manually commit and push it to Acquia Cloud.
+locally. You may also manually commit and push it to Cloud Platform.
 
 
 .. _arch-create-and-deploy-the-build-artifact:
@@ -134,7 +134,7 @@ Continuous integration
 ----------------------
 
 Instead of performing these deployments manually, you can enlist the help of a
-CI tool, such as the Acquia Cloud pipelines feature, Travis CI, or Jenkins.
+CI tool, such as the Cloud Platform pipelines feature, Travis CI, or Jenkins.
 This will allow you to generate deployment artifacts whenever code is merged
 into a given branch. For information about configuring a CI tool,
 see :doc:`/blt/tech-architect/ci/`.
@@ -143,22 +143,22 @@ see :doc:`/blt/tech-architect/ci/`.
 Cloud Hooks
 -----------
 
-On Acquia Cloud, :doc:`Cloud Hooks </acquia-cloud/develop/api/cloud-hooks/>`
+On Cloud Platform, :doc:`Cloud Hooks </acquia-cloud/develop/api/cloud-hooks/>`
 are the preferred method to run database updates and configuration imports on
 each deploy. Acquia BLT provides a post-code-deploy hook that will run these
 updates and fail the deployment task in Insight if anything goes wrong.
 
-To install Acquia Cloud hooks for your Acquia BLT project, complete the
+To install Cloud Platform hooks for your Acquia BLT project, complete the
 following steps:
 
-#.  Initialize Acquia Cloud hooks by running the following command:
+#.  Initialize Cloud Platform hooks by running the following command:
 
     .. code-block:: bash
 
           blt recipes:cloud-hooks:init
 
     This will add a hooks directory in your project root based on `Acquia
-    BLT's default Acquia Cloud hooks
+    BLT's default Cloud Platform hooks
     <https://github.com/acquia/blt/tree/10.x/scripts/cloud-hooks/hooks>`__.
 
 #.  Commit the new directory and push it to your Acquia Git remote. Refer to
@@ -167,7 +167,7 @@ following steps:
     .. code-block:: bash
 
           git add hooks
-          git commit -m 'Initializing Acquia Cloud hooks.'
+          git commit -m 'Initializing Cloud Platform hooks.'
           git push origin
 
 For consistency and reliability, you should run the same updates on deployment
@@ -182,7 +182,7 @@ more information), and then store the webhook URL in ``slack.webhook-url`` in
 ``blt/blt.yml``. You may also set it as an environmental variable
 ``SLACK_WEBHOOK_URL``.
 
-For more information, see the `Acquia Cloud Hooks Slack example
+For more information, see the `Cloud Platform Hooks Slack example
 <https://github.com/acquia/cloud-hooks/tree/master/samples/slack>`__.
 
 .. Next review date 20200422

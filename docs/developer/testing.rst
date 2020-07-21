@@ -136,10 +136,9 @@ configuration variable. You can modify the behavior of the Acquia BLT
 information about overriding configuration variables, see
 :doc:`/blt/extending-blt/`.
 
-Multisite or Acquia Cloud Site Factory applications may need to modify the
-``behat`` configuration variable on a per-site basis by following the
-:ref:`multisite variable override instructions
-<blt-multisite-optional-local-configuration>`.
+Multisite or Site Factory applications may need to modify the ``behat``
+configuration variable on a per-site basis by following the :ref:`multisite
+variable override instructions <blt-multisite-optional-local-configuration>`.
 
 Behat's own configuration is defined in the following files:
 
@@ -378,7 +377,7 @@ details):
 
 .. note::
 
-   Selenium is required to run Drupal tests, and the Acquia Cloud pipelines
+   Selenium is required to run Drupal tests, and the Cloud Platform pipelines
    feature doesn't support Selenium (due to Java not being installed). Thus,
    you can't run these tests using the pipelines feature. You can still run
    the rest of the test suite (such as Behat and PHPUnit) using Chrome.

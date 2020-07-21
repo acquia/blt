@@ -137,7 +137,7 @@ Although you can use *any* continuous integration (CI) or continuous
 delivery (CD) tool with Acquia BLT, specific support (in the form of default
 configuration files) is provided for the following tools:
 
--  :doc:`Acquia Cloud pipelines feature </acquia-cloud/develop/pipelines/>`
+-  :doc:`Cloud Platform pipelines feature </acquia-cloud/develop/pipelines/>`
 -  Travis CI
 
 For more information, see :doc:`/blt/tech-architect/ci/`.
@@ -149,12 +149,12 @@ Hosting
 -------
 
 Although you can host an Acquia BLT project in *any* Drupal-compatible hosting
-environment, specific support is provided for both Acquia Cloud and
-Acquia Cloud Site Factory with the following services:
+environment, specific support is provided for both Cloud Platform and
+Site Factory with the following services:
 
 -  Providing Cloud hooks.
 -  Providing Acquia-specific default configuration in ``settings.php``.
--  Structuring project directories to match Acquia Cloud repository's
+-  Structuring project directories to match Cloud Platform repository's
    default structure.
 
 

@@ -221,7 +221,7 @@ Acquia BLT has built-in support for the following environment splits:
      - ``../config/envs/local``
 
    * - ``ci``
-     - Acquia Cloud pipelines feature or Travis CI
+     - Cloud Platform pipelines feature or Travis CI
      - ``../config/envs/ci``
 
    * - ``dev``
@@ -555,7 +555,7 @@ change in a configuration split.
 Resources
 ---------
 
--  `Adding Configuration Split to a Drupal site using BLT and Acquia Cloud
+-  `Adding Configuration Split to a Drupal site using BLT and Cloud Platform
    <https://www.jeffgeerling.com/blog/2017/adding-configuration-split-drupal-site-using-blt-and-acquia-cloud>`__
 -  :doc:`BLT multisite documentation </blt/tech-architect/multisite/>`
 -  `Configuration split <https://www.drupal.org/project/config_split>`__

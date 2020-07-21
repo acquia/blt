@@ -1,7 +1,7 @@
 .. include:: common/global.rst
 
-Acquia BLT
-==========
+BLT
+===
 
 .. toctree::
    :hidden:
@@ -68,7 +68,7 @@ Acquia BLT offers the following features for your organization's use:
    Includes building production-only dependencies and sanitizing
    production-environment code.
 -  :doc:`Continuous integration and deployment tools
-   </blt/tech-architect/ci/>`: Supports both the Acquia Cloud pipelines
+   </blt/tech-architect/ci/>`: Supports both the Cloud Platform pipelines
    feature and Travis CI.
 
 
@@ -98,7 +98,7 @@ Videos
 
 -  `Acquia BLT project creation
    <https://www.youtube.com/watch?v=KBwS0fsmXRs>`__
--  `Deploying to Acquia Cloud <https://www.youtube.com/watch?v=jjnPMvZ2x-c>`__
+-  `Deploying to Cloud Platform <https://www.youtube.com/watch?v=jjnPMvZ2x-c>`__
 
 
 .. _blt-releases-versioning:

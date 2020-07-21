@@ -96,8 +96,8 @@ support local development.
 .. important::
 
    When using Acquia BLT, do not add settings directly to ``settings.php``.
-   This is also the case with Acquia Cloud Site Factory, which will ignore
-   settings directly added to ``settings.php``.
+   This is also the case with Site Factory, which will ignore settings directly
+   added to ``settings.php``.
 
 The first level of Acquia BLT's settings management is the
 ``blt.settings.php`` file. When websites are created, Acquia BLT adds a
