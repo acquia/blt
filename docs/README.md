@@ -10,12 +10,6 @@ BLT (Build and Launch Tool) provides an automation layer for testing, building, 
 
 You can also find source (Markdown/RST) versions of documentation in the `/docs` directory.
 
-# Support and contribution
-
-BLT is provided as an open source tool in the hope that it will enable developers to easily generate new Drupal projects that conform to Acquia Professional Services' best practices. See [Acquia BLT support](https://docs.acquia.com/blt/support/) to find resources that are available for support with BLT issues.
-
-Please feel free to contribute to the project or file issues via the GitHub issue queue. See [Contributing to Acquia BLT](https://docs.acquia.com/blt/contributing/) for contribution guidelines and instructions.
-
 # License
 
 Copyright (C) 2020 Acquia, Inc.
