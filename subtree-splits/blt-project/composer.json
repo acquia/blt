@@ -7,7 +7,7 @@
         "php": ">=7.2",
         "acquia/blt": "11.x-dev",
         "acquia/drupal-spec-tool": "*",
-        "acquia/lightning": "dev-8.x-4.x",
+        "acquia/lightning": "^4.0.7",
         "acquia/memcache-settings": "*",
         "drupal/acquia_connector": "^1.5.0",
         "drupal/acquia_purge": "^1.0-beta3",
