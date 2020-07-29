@@ -26,6 +26,7 @@ blt:
   command-cache-dir: ${blt.root}/cache/commands
   alias:
     auto-install: true
+    bypass: false
 
 composer:
   bin: ${repo.root}/${bin.path}

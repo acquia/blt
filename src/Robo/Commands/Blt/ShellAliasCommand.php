@@ -20,6 +20,9 @@ class ShellAliasCommand extends BltTasks {
    * @aliases blt:init:shell-alias alias install-alias
    */
   public function installBltAlias() {
+    if ($this->getConfigValue('blt.alias.bypass')) {
+      return;
+    }
     if (isset($_SERVER['ComSpec'])) {
       $bltRoot = $this->getConfigValue('blt.root') . '\\vendor\\bin';
       $this->logger->error("Setting a blt alias is not supported in cmd.exe");
