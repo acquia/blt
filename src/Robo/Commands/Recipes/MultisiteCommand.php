@@ -57,7 +57,7 @@ class MultisiteCommand extends BltTasks {
     $local_alias = $this->getNewSiteAlias($site_name, $options, 'local');
     $this->createNewBltSiteYml($new_site_dir, $site_name, $url, $local_alias, $remote_alias, $newDBSettings);
     $this->createNewSiteConfigDir($site_name);
-    $this->createSiteDrushAlias($site_name);
+    $this->createSiteDrushAlias($site_name, $domain);
     $this->resetMultisiteConfig();
 
     $this->invokeCommand('blt:init:settings');
@@ -335,11 +335,13 @@ class MultisiteCommand extends BltTasks {
    *
    * @param string $site_name
    *   Site name.
+   * @param string $site_url
+   *   Site URL (optional). Defaults to $site_name.
    */
-  protected function createSiteDrushAlias($site_name) {
+  protected function createSiteDrushAlias($site_name, $site_url = '') {
     $aliases = [
       'local' => [
-        'uri' => $site_name,
+        'uri' => $site_url ?: $site_name,
         'root' => '${env.cwd}/docroot',
       ],
     ];
