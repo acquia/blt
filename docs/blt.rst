@@ -138,31 +138,31 @@ Release support status
      - Support status
      - Drupal versions
      - Drush versions
-   * - 12.x
+   * - 13.x
      - Unsupported and unstable
+     -
+     -
+   * - 12.x
+     - Supported and stable
      - 9.0
      - 9.5.0 or greater, 10.0.1 or greater
    * - 11.x
-     - Supported and stable
-     - 8.7 or 8.8
-     - 9.5.0 or greater, 10.0.1 or greater
-   * - 10.x
      - Bug fixes only
-     - 8.7 or 8.8
-     - 9.5.0 or greater
-   * - 9.2.x or earlier
+     - 8.8 or 8.9
+     - 9.5.0 or greater, 10.0.1 or greater
+   * - 10.x or earlier
      - Unsupported
-     - 8.6 or 8.7
-     - 9.4.0 or greater
+     -
+     -
 
 .. note::
 
     When the maintainer of a particular release of any package (such as
     Drupal or PHP) stops supporting that package, Acquia may end its
-    support for that release in Acquia BLT. For example, as of December
-    2019, Acquia BLT 10.x will stop supporting Drupal 8.6, and will instead
-    support Drupal 8.7 or greater, based on the `Drupal security policy
-    <https://www.drupal.org/drupal-security-team/general-information>`__.
+    support for that release in Acquia BLT. For example, as of June
+    2021, Acquia BLT 12 will stop supporting Drupal 9.0, and will instead
+    support Drupal 9.1 or greater, based on the `Drupal release cycle
+    <https://www.drupal.org/core/release-cycle-overview>`__.
 
 For information about end-of-life announcements for Acquia's products, see
 :doc:`/support/eol/`.

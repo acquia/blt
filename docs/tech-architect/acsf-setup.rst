@@ -5,7 +5,7 @@ Configuring a project for use with Site Factory
 
 To configure a project to run on Site Factory, complete the
 following steps after initially configuring Acquia BLT, but *before* creating
-any websites in ACSF:
+any websites in Site Factory:
 
 #. From the project root, run the following command and commit any changes:
 
@@ -23,23 +23,20 @@ any websites in ACSF:
       <https://hechoendrupal.gitbooks.io/drupal-console/content/en/commands/generate-profile.html>`__.
 
 #. Ensure the ``acsf`` module will be enabled when you install websites on
-   Site Factory, either by adding it as a dependency to your
-   custom profile or by adding it to your remote environment configuration
-   splits.
+   Site Factory, either by adding it as a dependency to your custom profile or
+   by adding it to your remote environment configuration splits.
 
 #. Deploy to Cloud Platform using ``blt artifact:deploy``. You can also
    deploy code by using a :doc:`continuous integration configuration
    </blt/tech-architect/deploy/>`.
 
-#. Use the Site Factory ``update code`` feature to deploy the
-   artifact.
+#. Use the Site Factory ``update code`` feature to deploy the artifact.
 
 #. When creating a new website, select your custom profile as the profile.
 
 In all other respects, Acquia BLT treats Site Factory
 installations as multisite installations. To finish setup, including to set
-up a local development environment for your Site Factory
-project, see :doc:`/blt/tech-architect/multisite/`.
+up a local development environment for your Site Factory project, see :doc:`/blt/tech-architect/multisite/`.
 
 .. note::
 
@@ -68,3 +65,4 @@ Resources
 -  `Site Factory Connector
    <https://www.drupal.org/project/acsf>`__ module on Drupal.org
 
+.. Next review date 20210727
