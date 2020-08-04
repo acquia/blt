@@ -31,6 +31,7 @@ class ShellAliasCommand extends BltTasks {
       if (is_null($config_file)) {
         $this->logger->warning("Could not find your CLI configuration file.");
         $this->logger->warning("Looked in ~/.zsh, ~/.bash_profile, ~/.bashrc, ~/.profile, and ~/.functions.");
+        $this->logger->warning("To disable the blt:shell-alias:init command, see https://docs.acquia.com/blt/extending-blt/#disabling-a-command");
         $created = $this->createBashProfile();
         $config_file = $this->getInspector()->getCliConfigFile();
         if (!$created || is_null($config_file)) {
