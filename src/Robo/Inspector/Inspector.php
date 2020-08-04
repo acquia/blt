@@ -240,7 +240,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
     $uri = $this->getConfigValue('drush.uri');
     $result = $this->executor->drush("--uri=$uri status bootstrap")->run();
     $output = trim($result->getMessage());
-    $installed = $result->wasSuccessful() && strpos($output, 'Drupal bootstrap : Successful') !== false;
+    $installed = $result->wasSuccessful() && strpos($output, 'Drupal bootstrap : Successful') !== FALSE;
     $this->logger->debug("Drupal bootstrap results: $output");
 
     return $installed;
