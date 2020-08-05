@@ -247,10 +247,12 @@ class EnvironmentDetector extends AcquiaDrupalEnvironmentDetector {
       // The hostname must match the pattern local.[site-name].com, where
       // [site-name] is a value in the multisites array.
       $domain_fragments = explode('.', getenv('HTTP_HOST'));
-      $name = $domain_fragments[1];
-      $acsf_sites = $blt_config->get('multisites');
-      if (in_array($name, $acsf_sites)) {
-        return $name;
+      if (isset($domain_fragments[1])) {
+        $name = $domain_fragments[1];
+        $acsf_sites = $blt_config->get('multisites');
+        if (in_array($name, $acsf_sites)) {
+          return $name;
+        }
       }
 
     }
