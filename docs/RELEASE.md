@@ -8,7 +8,7 @@ To perform a release:
 1. [Create a release](#create-a-release)
 1. [Update the blt-project repo](#update-the-blt-project-repo)
 
-For major releases, coordinate with ORCA prior to starting this process to ensure global test suites don't break. Afterwards, update the README and default branches in acquia/blt as well as acquia/blt-project to use the new major release.
+For major releases, coordinate with ORCA prior to starting this process to ensure global test suites don't break. Afterwards, update the README and default branches in acquia/blt to use the new major release.
 
 ## Check build statuses
 
