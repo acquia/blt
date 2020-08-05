@@ -345,8 +345,8 @@ class MultisiteCommand extends BltTasks {
         'root' => '${env.cwd}/docroot',
       ],
     ];
-    if ($this->getInspector()->isDrupalVmConfigPresent()) {
-      $defaultDrupalVmDrushAliasesFile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/drupal-vm.site.yml';
+    $defaultDrupalVmDrushAliasesFile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/drupal-vm.site.yml';
+    if ($this->getInspector()->isDrupalVmConfigPresent() && file_exists($defaultDrupalVmDrushAliasesFile)) {
       $aliases = Expander::parse(file_get_contents($defaultDrupalVmDrushAliasesFile), $this->getConfig()->export());
     }
 
