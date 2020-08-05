@@ -1,5 +1,35 @@
 # Change Log
 
+#### 12.2.0 (2020-08-05)
+
+[Full Changelog](https://github.com/acquia/blt/compare/12.1.0...12.2.0)
+
+
+**Implemented enhancements**
+
+- Fix #4218: Link to disabling alias command from warning message
+- 4213: Use the provided URI in the drush site alias (#4214)
+- Introduce new FilesetsTrait and move all protected filesets helper methods to it (#4202)
+
+**Fixed bugs**
+
+- Set file_public_path relative to the Drupal root in local.settings.php. (#4222)
+
+**Miscellaneous**
+
+- Fix undefined index on Lando
+- Update RELEASE.md
+- Remove unsupported releases from release.md
+- Code style fix.
+- Fix #4215: More permissive bootstrap checking
+- Docs sync
+- Updated README.
+- Updated README.
+- Docs sync.
+- Switch to acquia/drupal-recommended-project (#4168)
+- Pin ORCA to 2.x. (#4203)
+
+
 #### 12.1.0 (2020-07-01)
 
 [Full Changelog](https://github.com/acquia/blt/compare/12.0.1...12.1.0)
