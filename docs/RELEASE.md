@@ -12,12 +12,10 @@ For major releases, coordinate with ORCA prior to starting this process to ensur
 
 ## Check build statuses
 
+* [BLT 12.x](https://github.com/acquia/blt):
+[![Build Status](https://travis-ci.com/acquia/blt.svg?branch=12.x)](https://travis-ci.com/acquia/blt)
 * [BLT 11.x](https://github.com/acquia/blt):
 [![Build Status](https://travis-ci.com/acquia/blt.svg?branch=11.x)](https://travis-ci.com/acquia/blt)
-* [BLT 10.x](https://github.com/acquia/blt):
-[![Build Status](https://travis-ci.com/acquia/blt.svg?branch=10.x)](https://travis-ci.com/acquia/blt)
-* [BLT 9.2.x](https://github.com/acquia/blt):
-[![Build Status](https://travis-ci.com/acquia/blt.svg?branch=9.2.x)](https://travis-ci.com/acquia/blt)
 
 ## Review issue labels
 
