@@ -151,7 +151,7 @@ $settings['file_private_path'] = EnvironmentDetector::getRepoRoot() . '/files-pr
  * This is always set and exposed by the Drupal Kernel.
  */
 // phpcs:ignore
-$settings['file_public_path'] = EnvironmentDetector::getRepoRoot() . '/docroot/sites/' . EnvironmentDetector::getSiteName($site_path) . '/files';
+$settings['file_public_path'] = 'sites/' . EnvironmentDetector::getSiteName($site_path) . '/files';
 
 /**
  * Trusted host configuration.
