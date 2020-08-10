@@ -36,53 +36,9 @@ $split_filepath_prefix = $settings['config_sync_directory'] . '/' . $split_filen
 /**
  * Set environment splits.
  */
-$split_envs = [
-  'local',
-  'dev',
-  'stage',
-  'prod',
-  'ci',
-  'ah_other',
-];
-
-// Disable all split by default.
-foreach ($split_envs as $split_env) {
-  $config["$split_filename_prefix.$split_env"]['status'] = FALSE;
-}
-
-// Enable env splits.
-// Do not set $split unless it is unset. This allows prior scripts to set it.
-// phpcs:ignore
-if (!isset($split)) {
-  $split = 'none';
-
-  // Local envs.
-  if (EnvironmentDetector::isLocalEnv()) {
-    $split = 'local';
-  }
-  // CI envs.
-  if (EnvironmentDetector::isCiEnv()) {
-    $split = 'ci';
-  }
-  // Acquia only envs.
-  if (EnvironmentDetector::isAhEnv()) {
-    $split = 'ah_other';
-  }
-
-  if (EnvironmentDetector::isDevEnv() || EnvironmentDetector::isAhOdeEnv()) {
-    $split = 'dev';
-  }
-  elseif (EnvironmentDetector::isStageEnv()) {
-    $split = 'stage';
-  }
-  elseif (EnvironmentDetector::isProdEnv()) {
-    $split = 'prod';
-  }
-}
-
-// Enable the environment split only if it exists.
-if ($split != 'none') {
-  $config["$split_filename_prefix.$split"]['status'] = TRUE;
+$split_envs = EnvironmentDetector::getEnvironments();
+foreach ($split_envs as $split_env => $status) {
+  $config["$split_filename_prefix.$split_env"]['status'] = $status;
 }
 
 /**
