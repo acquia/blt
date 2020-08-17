@@ -286,6 +286,21 @@ class EnvironmentDetector extends AcquiaDrupalEnvironmentDetector {
   }
 
   /**
+   * List detectable environments and whether they are currently active.
+   */
+  public static function getEnvironments() {
+    return [
+      'local' => self::isLocalEnv(),
+      'dev' => self::isDevEnv(),
+      'stage' => self::isStageEnv(),
+      'prod' => self::isProdEnv(),
+      'ci' => self::isCiEnv(),
+      'ode' => self::isAhOdeEnv(),
+      'ah_other' => self::isAhEnv(),
+    ];
+  }
+
+  /**
    * Call a given function in all EnvironmentDetector subclasses.
    *
    * Composer packages can provide their own version of an EnvironmentDetector
