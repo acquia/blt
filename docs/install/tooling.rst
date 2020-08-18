@@ -137,7 +137,7 @@ Although you can use *any* continuous integration (CI) or continuous
 delivery (CD) tool with Acquia BLT, specific support (in the form of default
 configuration files) is provided for the following tools:
 
--  :doc:`Cloud Platform pipelines feature </acquia-cloud/develop/pipelines/>`
+-  :doc:`Cloud Platform pipelines feature </cloud-platform/develop/pipelines/>`
 -  Travis CI
 
 For more information, see :doc:`/blt/tech-architect/ci/`.

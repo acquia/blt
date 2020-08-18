@@ -82,7 +82,7 @@ Cloud Platform Pipelines
 ~~~~~~~~~~~~~---~~~~~~~~~
 
 :doc:`Cloud Platform Pipelines
-</acquia-cloud/develop/pipelines/>` is a continuous integration and continuous
+</cloud-platform/develop/pipelines/>` is a continuous integration and continuous
 deployment solution built on the Cloud Platform infrastructure. For
 Cloud Platform users, Pipelines provides the benefit of integrating directly
 with an Cloud Platform subscription, which allows you to deploy build artifacts
@@ -92,7 +92,7 @@ To initialize Cloud Platform Pipelines support for your Acquia BLT project,
 complete the following steps:
 
 #. :doc:`Connect Cloud Platform Pipelines
-   </acquia-cloud/develop/pipelines/connect/>` to your GitHub or Bitbucket
+   </cloud-platform/develop/pipelines/connect/>` to your GitHub or Bitbucket
    repository
 
 #. Initialize Cloud Platform Pipelines for your project:
@@ -102,14 +102,14 @@ complete the following steps:
       blt recipes:ci:pipelines:init
 
    The preceding code will generate an :doc:`acquia-pipelines.yml file
-   </acquia-cloud/develop/pipelines/yaml/>` in your project root based on
+   </cloud-platform/develop/pipelines/yaml/>` in your project root based on
    `BLT's default acquia-pipelines.yml file
    <https://github.com/acquia/blt/blob/10.x/scripts/pipelines/acquia-pipelines.yml>`__.
 
 #. Change the :doc:`acquia-pipelines.yml file
-   </acquia-cloud/develop/pipelines/yaml/>` to
+   </cloud-platform/develop/pipelines/yaml/>` to
    :doc:`specify which databases to copy
-   </acquia-cloud/develop/pipelines/databases/>` into CDEs on deployment.
+   </cloud-platform/develop/pipelines/databases/>` into CDEs on deployment.
 
 #. Commit and push the new file to your Acquia Git remote using commands such
    as the following:
@@ -129,11 +129,11 @@ subscription named ``pipelines-[source-branch]-build``. The branch will
 contain a deployment artifact deployable to an Acquia environment.
 
 You can use the Cloud Platform Pipelines user interface or :doc:`the Pipelines
-CLI client </acquia-cloud/develop/pipelines/cli/install/>` to review the
+CLI client </cloud-platform/develop/pipelines/cli/install/>` to review the
 status or logs for your build.
 
 If you encounter problems, see
-:doc:`/acquia-cloud/develop/pipelines/troubleshooting/`.
+:doc:`/cloud-platform/develop/pipelines/troubleshooting/`.
 
 
 .. _blt-ci-travis-ci:

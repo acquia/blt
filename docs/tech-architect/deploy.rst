@@ -15,7 +15,7 @@ example, the build artifacts).
 
 Currently, this workflow can either be followed manually, or integrated into
 a continuous integration (CI) solution such as the
-:doc:`Cloud Platform pipelines feature </acquia-cloud/develop/pipelines/>`,
+:doc:`Cloud Platform pipelines feature </cloud-platform/develop/pipelines/>`,
 Travis CI, or Jenkins.
 
 
@@ -143,7 +143,7 @@ see :doc:`/blt/tech-architect/ci/`.
 Cloud Hooks
 -----------
 
-On Cloud Platform, :doc:`Cloud Hooks </acquia-cloud/develop/api/cloud-hooks/>`
+On Cloud Platform, :doc:`Cloud Hooks </cloud-platform/develop/api/cloud-hooks/>`
 are the preferred method to run database updates and configuration imports on
 each deploy. Acquia BLT provides a post-code-deploy hook that will run these
 updates and fail the deployment task in Insight if anything goes wrong.

@@ -377,10 +377,9 @@ details):
 
 .. note::
 
-   Selenium is required to run Drupal tests, and the Cloud Platform pipelines
-   feature doesn't support Selenium (due to Java not being installed). Thus,
-   you can't run these tests using the pipelines feature. You can still run
-   the rest of the test suite (such as Behat and PHPUnit) using Chrome.
+   You can run Drupal tests using either Selenium or headless Chrome. Acquia
+   Pipelines doesn't support Selenium (due to Java not being installed).
+   Therefore, you must run the tests using headless Chrome in Pipelines.
 
 Drupal's run-tests.sh script
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~

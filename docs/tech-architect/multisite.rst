@@ -121,7 +121,7 @@ configuration and profile: ``blt tets:behat:run --site=mysite``.
 Cloud Platform configuration
 -----------------------------
 
-Start by following the :doc:`/acquia-cloud/develop/drupal/multisite/` to
+Start by following the :doc:`/cloud-platform/develop/drupal/multisite/` to
 configure your codebase for Cloud Platform. These instructions should walk you
 through:
 
@@ -144,7 +144,7 @@ Drush aliases
 ~~~~~~~~~~~~~
 
 The default Drush website aliases provided by :doc:`Acquia
-Cloud </acquia-cloud/manage/ssh/drush/aliases/>` and `Club
+Cloud </cloud-platform/manage/ssh/drush/aliases/>` and `Club
 <https://github.com/acquia/club#usage>`__ aren't currently
 multisite-aware. They will connect to the first ("default") website /
 database on the subscription by default. You must create your own Drush

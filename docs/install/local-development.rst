@@ -20,7 +20,7 @@ Regardless of the local environment you select, use the following guidelines:
 
 -  To guarantee similar behavior, use Apache as your web server.
 -  If you host your project on Cloud Platform, be sure to match
-   :doc:`our software versions </acquia-cloud/arch/tech-platform/>`.
+   :doc:`our software versions </cloud-platform/arch/tech-platform/>`.
 
 Acquia developers use `PHPStorm <http://www.jetbrains.com/phpstorm/>`__ and
 recommend it for local development environments. Acquia has written several

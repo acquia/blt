@@ -216,7 +216,7 @@ necessary :ref:`dependencies listed above <blt-system-requirements>`.
       If you haven't already configured an SSH identity (useful for working
       with projects on GitHub and interacting with your websites on
       Cloud Platform), you should :doc:`generate an SSH key
-      </acquia-cloud/manage/ssh/generate/>`.
+      </cloud-platform/manage/ssh/generate/>`.
 
    .. group-tab:: Linux
 
