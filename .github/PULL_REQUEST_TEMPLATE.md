@@ -1,24 +1,19 @@
 Fixes # 
 --------
+If this fixes an existing issue, link to that issue. Otherwise remove this section.
 
-Changes proposed
+Motivation
+----------
+What problem does this solve? Why is it important? What's the context?
+
+Proposed changes
 ---------
-(What are you proposing we change? How does this impact end users? Are manual or automatic updates required?)
+What does this PR change? How does this impact end users? Are manual or automatic updates required?
 
--
--
+Alternatives considered
+---------
+How else could the original issue / use case be addressed? Why did you choose this solution over any others?
 
-Steps to replicate the issue
-----------
-1. 
-2. 
-
-Previous (bad) behavior, before applying PR
-----------
-(remove if this is not a bug fix)
-
-Expected behavior, after applying PR and re-running test steps
------------
-
-Additional details
------------
+Testing steps
+---------
+How can we replicate the issue and verify that this PR fixes it?
