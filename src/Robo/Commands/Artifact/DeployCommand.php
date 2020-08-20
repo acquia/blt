@@ -590,6 +590,10 @@ class DeployCommand extends BltTasks {
       ->ignoreDotFiles(FALSE)
       ->files()
       ->name('.gitignore')
+      ->notPath([
+        "sites/g/.gitignore",
+        "sites/default/.gitignore",
+      ])
       ->in("{$this->deployDocroot}");
     if ($gitignoreFinder->hasResults()) {
       $sanitizeFinder->append($gitignoreFinder);
