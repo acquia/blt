@@ -9,7 +9,7 @@ use Acquia\Blt\Robo\Common\EnvironmentDetector;
 use Drupal\Component\Assertion\Handle;
 
 $db_name = '${drupal.db.database}';
-if (EnvironmentDetector::isAcsfInited()) {
+if (EnvironmentDetector::isAcsfEnv()) {
   $db_name .= '_' . EnvironmentDetector::getAcsfDbName();
 }
 
