@@ -60,8 +60,8 @@ class AcsfCommand extends BltTasks {
     $this->say('<info>ACSF was successfully initialized.</info>');
     $this->say('Adding nedsbeds/profile_split_enable module as a dependency...');
     $package_options = [
-      'package_name' => 'nedsbeds/profile_split_enable',
-      'package_version' => '^1.0',
+      'package_name' => 'drupal/profile_split_enable',
+      'package_version' => '^2.0',
     ];
     $this->invokeCommand('internal:composer:require', $package_options);
     $this->say('<comment>nedsbeds/profile_split_enable module has been added.</comment>');
