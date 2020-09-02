@@ -64,6 +64,18 @@ WARNING;
    * @aliases blt:init:settings bis settings setup:settings
    */
   public function generateSiteConfigFiles() {
+    if (!file_exists($this->getConfigValue('blt.config-files.local'))) {
+      $result = $this->taskFilesystemStack()
+        ->copy($this->getConfigValue('blt.config-files.example-local'), $this->getConfigValue('blt.config-files.local'))
+        ->stopOnFail()
+        ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+        ->run();
+
+      if (!$result->wasSuccessful()) {
+        $filepath = $this->getInspector()->getFs()->makePathRelative($this->getConfigValue('blt.config-files.local'), $this->getConfigValue('repo.root'));
+        throw new BltException("Unable to create $filepath.");
+      }
+    }
     // Generate hash file in salt.txt.
     $this->hashSalt();
 
