@@ -1,5 +1,29 @@
 # Change Log
 
+#### 11.5.0 (2020-09-04)
+
+[Full Changelog](https://github.com/acquia/blt/compare/11.4.2...11.5.0)
+
+
+**Implemented enhancements**
+
+- Fixes #4232: Update drupal-extension (#4237)
+- DX-2291: Fix failing tests due to nedsbeds/profile_split_enable (#4235)
+- checks for existing settings files before adding default files (#4157)
+
+**Fixed bugs**
+
+- Backport from 12.x: Removed drush-request-trace.settings.php. (#4226)
+- Fix path to simplesamlphp cert and metadata (#4207)
+- Fix reference to config key 'repo.roou' (#4205)
+
+**Miscellaneous**
+
+- Removed failing test
+- Fixes #4220: Support drupal-check 1.1.3 (#4221)
+- Use stable Lightning release.
+
+
 #### 11.4.2 (2020-06-17)
 
 [Full Changelog](https://github.com/acquia/blt/compare/11.4.1...11.4.2)
