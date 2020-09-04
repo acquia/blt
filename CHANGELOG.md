@@ -1,5 +1,30 @@
 # Change Log
 
+#### 12.3.0 (2020-09-04)
+
+[Full Changelog](https://github.com/acquia/blt/compare/12.2.0...12.3.0)
+
+
+**Implemented enhancements**
+
+- Fix #4176: Support arbitrary config splits (#4224)
+- Fix #4217: Warning during multisite init if alias file is missing
+
+**Fixed bugs**
+
+- DX-2267: Restore local.blt.yml generation (#4239)
+- Fixes #4229: Stop modifying local db name for ACSF (#4238)
+- BLT-ACSF-3: Preserve gitignore files required by ACSF (#4227)
+
+**Miscellaneous**
+
+- Fix security check disable command
+- Composer updates
+- Update PULL_REQUEST_TEMPLATE.md
+- Docs sync
+- Composer updates
+
+
 #### 12.2.0 (2020-08-05)
 
 [Full Changelog](https://github.com/acquia/blt/compare/12.1.0...12.2.0)
