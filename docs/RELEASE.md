@@ -19,7 +19,7 @@ For major releases, coordinate with ORCA prior to starting this process to ensur
 
 ## Review issue labels
 
-Review the issues and pull requests that will make up the release and ensure they are labelled correctly so that the changelog and release notes will be generated with the correct categories (new features, bug fixes, etc...).
+Review the issues and pull requests that will make up the release and ensure they are labelled correctly so that the changelog and release notes will be generated with the correct categories (new features, bug fixes, etc...). [Github releases](https://github.com/acquia/blt/releases) have a link to display all commits since a given release.
 
 ## Test via Canary
 
