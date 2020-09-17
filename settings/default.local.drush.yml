@@ -1,2 +1,2 @@
 options:
-  uri: '${project.local.uri}'
+  uri: 'self'
