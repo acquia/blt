@@ -128,7 +128,7 @@ phpcbf:
 project:
   human_name: My BLT site
   local:
-    hostname: local.${project.machine_name}.com
+    hostname: self
     protocol: http
     uri: ${project.local.protocol}://${project.local.hostname}
   profile:
