@@ -127,12 +127,13 @@ phpcbf:
 
 project:
   human_name: My BLT site
+  machine_name: my_blt_site
   local:
     hostname: local.${project.machine_name}.com
     protocol: http
     uri: ${project.local.protocol}://${project.local.hostname}
   profile:
-    name: standard
+    name: minimal
 
 setup:
   # Valid values are install, sync, import.
