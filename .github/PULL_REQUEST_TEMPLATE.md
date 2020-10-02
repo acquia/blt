@@ -1,10 +1,8 @@
-Fixes # 
---------
-If this fixes an existing issue, link to that issue. Otherwise remove this section.
-
 Motivation
 ----------
-What problem does this solve? Why is it important? What's the context?
+Fixes #NNN
+
+What problem does this solve? Why is it important? What's the context? If this fixes an issue, link to it above. 
 
 Proposed changes
 ---------
