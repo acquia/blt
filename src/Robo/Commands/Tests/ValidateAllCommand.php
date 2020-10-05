@@ -30,16 +30,6 @@ class ValidateAllCommand extends BltTasks {
       $commands[] = 'tests:acsf:validate';
     }
 
-    // To enable this command, set to TRUE in blt.yml.
-    if ($this->getConfigValue('validate.deprecation.modules') == TRUE) {
-      $commands[] = 'tests:deprecated:modules';
-    }
-
-    // To enable this command, set to TRUE in blt.yml.
-    if ($this->getConfigValue('validate.deprecation.themes') == TRUE) {
-      $commands[] = 'tests:deprecated:themes';
-    }
-
     $status_code = $this->invokeCommands($commands);
     return $status_code;
   }
