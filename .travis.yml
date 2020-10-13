@@ -5,7 +5,7 @@ os: linux
 
 version: ~> 1.0
 
-php: "7.2"
+php: "7.3"
 
 addons:
   chrome: stable
@@ -62,6 +62,7 @@ before_install:
   # Prepare local testing version of blt-project so it can be used by ORCA.
   - cp -r subtree-splits/blt-project /tmp/
   - composer config --global repositories.blt path /tmp/blt-project
+  - composer global require zaporylie/composer-drupal-optimizations
   # Install ORCA.
   - composer create-project --no-dev acquia/orca ../orca "$ORCA_VERSION"
   - ../orca/bin/travis/before_install.sh
