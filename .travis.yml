@@ -32,6 +32,8 @@ env:
     - DRUPAL_CORE_HEAD=8.9.x-dev
     # Change to 1 to debug failed tests.
     - BLT_PRINT_COMMAND_OUTPUT=1
+    # Remove this after updating to Composer 2
+    - COMPOSER_MEMORY_LIMIT=-1
 
 jobs:
   fast_finish: true
@@ -63,7 +65,7 @@ before_install:
   - cp -r subtree-splits/blt-project /tmp/
   - composer config --global repositories.blt path /tmp/blt-project
   # Install ORCA.
-  - COMPOSER_MEMORY_LIMIT=-1 composer create-project --no-dev acquia/orca ../orca "$ORCA_VERSION"
+  - composer create-project --no-dev acquia/orca ../orca "$ORCA_VERSION"
   - ../orca/bin/travis/before_install.sh
 
 install:
