@@ -1,13 +1,12 @@
 <?php
 
-namespace Acquia\Blt\Tests\BltProject;
+namespace Acquia\Blt\Tests;
 
 use Acquia\Blt\Robo\Common\YamlMunge;
-use Acquia\Blt\Tests\BltProjectTestBase;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Class MultiSiteTest.
+ * Test MultiSite.
  *
  * @group requires-db
  * @group orca_ignore

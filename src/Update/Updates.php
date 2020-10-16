@@ -536,7 +536,7 @@ class Updates {
       $project_local_yml = $this->updater->getProjectLocalYml();
       unset($project_local_yml['drush']['default_alias']);
       unset($project_local_yml['drush']['aliases']['local']);
-      $this->updater->writeProjectLocalYml($project_local_yml);;
+      $this->updater->writeProjectLocalYml($project_local_yml);
     }
 
     $process = new Process("blt blt:init:settings", $this->updater->getRepoRoot());

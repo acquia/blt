@@ -5,7 +5,7 @@ namespace Acquia\Blt\Robo\Wizards;
 use function file_exists;
 
 /**
- * Class TestsWizard.
+ * Tests wizard.
  *
  * @package Acquia\Blt\Robo\Wizards
  */

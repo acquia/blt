@@ -1,12 +1,11 @@
 <?php
 
-namespace Acquia\Blt\Tests\BltProject;
+namespace Acquia\Blt\Tests;
 
 use Acquia\Blt\Robo\Common\YamlMunge;
-use Acquia\Blt\Tests\BltProjectTestBase;
 
 /**
- * Class FrontendTest.
+ * Tests frontend commands.
  *
  * @group orca_ignore
  */

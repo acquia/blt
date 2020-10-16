@@ -1,14 +1,11 @@
 <?php
 
-namespace Acquia\Blt\Tests\BltProject;
+namespace Acquia\Blt\Tests;
 
 use Acquia\Blt\Robo\Common\YamlMunge;
-use Acquia\Blt\Tests\BltProjectTestBase;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Class DrupalVM.
- *
  * Verifies that Drupal VM integration works as expected.
  *
  * @group orca_ignore

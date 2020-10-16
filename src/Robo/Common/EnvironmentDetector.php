@@ -6,11 +6,9 @@ use drupol\phposinfo\Enum\FamilyName;
 use drupol\phposinfo\OsInfo;
 
 /**
- * Class EnvironmentDetector.
+ * Attempts to detect various properties about the current hosting environment.
  *
  * @package Acquia\Blt\Robo\Common
- *
- * Attempts to detect various properties about the current hosting environment.
  */
 class EnvironmentDetector {
 

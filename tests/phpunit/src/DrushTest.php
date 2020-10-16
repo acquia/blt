@@ -1,11 +1,9 @@
 <?php
 
-namespace Acquia\Blt\Tests\BltProject;
-
-use Acquia\Blt\Tests\BltProjectTestBase;
+namespace Acquia\Blt\Tests;
 
 /**
- * Class DrushTest.
+ * Test Drush.
  *
  * @group orca_ignore
  */

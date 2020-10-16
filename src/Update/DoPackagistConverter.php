@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Update;
 
 /**
- * Class DoPackagistConverter.
+ * Convert packagist information.
  */
 class DoPackagistConverter {
 

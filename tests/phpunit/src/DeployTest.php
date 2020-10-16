@@ -1,11 +1,9 @@
 <?php
 
-namespace Acquia\Blt\Tests\BltProject;
-
-use Acquia\Blt\Tests\BltProjectTestBase;
+namespace Acquia\Blt\Tests;
 
 /**
- * Class DeployTest.
+ * Test deploys.
  *
  * @group orca_ignore
  */

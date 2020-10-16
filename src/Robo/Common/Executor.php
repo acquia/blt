@@ -154,7 +154,8 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
    *   The URL to wait for.
    */
   public function waitForUrlAvailable($url) {
-    $this->wait([$this, 'checkUrl'], [$url], "Waiting for non-50x response from $url...");
+    $callable = [$this, 'checkUrl'];
+    $this->wait($callable, [$url], "Waiting for non-50x response from $url...");
   }
 
   /**

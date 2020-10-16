@@ -125,7 +125,8 @@ class InstallCommand extends BltTasks {
     $strategy = $this->getConfigValue('cm.strategy');
     $cm_core_key = $this->getConfigValue('cm.core.key');
     $install_from_config = $this->getConfigValue('cm.core.install_from_config');
-    if (in_array($strategy, ['core-only', 'config-split']) && $cm_core_key == 'sync' && $install_from_config) {
+    $strategies = ['core-only', 'config-split'];
+    if (in_array($strategy, $strategies) && $cm_core_key == 'sync' && $install_from_config) {
       $core_config_file = $this->getConfigValue('docroot') . '/' . $this->getConfigValue("cm.core.dirs.$cm_core_key.path") . '/core.extension.yml';
       if (file_exists($core_config_file)) {
         $task->option('existing-config');
