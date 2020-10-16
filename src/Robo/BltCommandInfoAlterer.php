@@ -6,7 +6,7 @@ use Consolidation\AnnotatedCommand\CommandInfoAltererInterface;
 use Consolidation\AnnotatedCommand\Parser\CommandInfo;
 
 /**
- * Class BltCommandInfoAlterer.
+ * Alters commands.
  */
 class BltCommandInfoAlterer implements CommandInfoAltererInterface {
 

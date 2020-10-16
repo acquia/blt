@@ -6,12 +6,11 @@ use Consolidation\Comments\Comments;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Class YamlWriter.
+ * Reads and writes to YAML files in a friendly and consistent way.
  *
  * @package Acquia\Blt\Robo\Common
  *
- * Reads and writes to YAML files in a friendly and consistent way, preserving
- * comments when possible.
+ * Preserves comments when possible.
  */
 class YamlWriter {
 
