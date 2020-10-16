@@ -5,7 +5,7 @@ namespace Acquia\Blt\Tests;
 use Acquia\Blt\Robo\Common\YamlMunge;
 
 /**
- * Class DrupalSettingsTest.
+ * Test Drupal settings.
  *
  * @group orca_ignore
  */

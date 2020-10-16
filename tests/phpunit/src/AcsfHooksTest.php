@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Tests;
 
 /**
- * Class AcsfHooksTests.
+ * Test ACSF factory hooks.
  *
  * Verifies that acsf support has been initialized.
  *

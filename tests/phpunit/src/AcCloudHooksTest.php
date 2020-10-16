@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Tests;
 
 /**
- * Class AcCloudHooksTest.
+ * Test Acquia Cloud hooks.
  *
  * @group orca_ignore
  */

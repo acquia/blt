@@ -6,8 +6,6 @@ use Acquia\Blt\Robo\Common\YamlMunge;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Class DrupalVM.
- *
  * Verifies that Drupal VM integration works as expected.
  *
  * @group orca_ignore

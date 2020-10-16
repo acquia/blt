@@ -5,7 +5,7 @@ namespace Acquia\Blt\Tests;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Class WizardTest.
+ * Test wizard.
  *
  * @group orca_ignore
  */

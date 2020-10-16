@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Tests;
 
 /**
- * Class CustomCommandTest.
+ * Test custom commands.
  *
  * @group orca_ignore
  */

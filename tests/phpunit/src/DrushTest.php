@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Tests;
 
 /**
- * Class DrushTest.
+ * Test Drush.
  *
  * @group orca_ignore
  */

@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Tests;
 
 /**
- * Class DeployTest.
+ * Test deploys.
  *
  * @group orca_ignore
  */

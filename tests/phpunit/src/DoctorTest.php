@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Tests;
 
 /**
- * Class DoctorTest.
+ * Test Doctor.
  *
  * @group requires-db
  * @group orca_ignore

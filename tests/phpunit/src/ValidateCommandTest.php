@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Tests;
 
 /**
- * Class ValidateCommandTest.
+ * Test Validate command.
  *
  * @group orca_ignore
  */

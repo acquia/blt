@@ -5,7 +5,7 @@ namespace Acquia\Blt\Tests;
 use Symfony\Component\Process\Process;
 
 /**
- * Class GitTasksTest.
+ * Test GitTasksTest.
  *
  * @group orca_ignore
  */

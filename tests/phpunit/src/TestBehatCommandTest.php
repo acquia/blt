@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Tests;
 
 /**
- * Class BehatTest.
+ * Test Behat.
  *
  * @group orca_ignore
  */

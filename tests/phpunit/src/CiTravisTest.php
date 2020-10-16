@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Tests;
 
 /**
- * Class TravisCiTest.
+ * Test Travis CI.
  *
  * @group orca_ignore
  */

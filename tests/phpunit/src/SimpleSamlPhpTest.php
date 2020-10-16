@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Tests;
 
 /**
- * Class SimpleSamlPhpTest.
+ * Test SimpleSamlPhp.
  *
  * @group orca_ignore
  */

@@ -5,7 +5,7 @@ namespace Acquia\Blt\Tests;
 use Acquia\Blt\Robo\Common\YamlMunge;
 
 /**
- * Class FrontendTest.
+ * Tests frontend commands.
  *
  * @group orca_ignore
  */

@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Tests;
 
 /**
- * Class PipelinesTest.
+ * Test Pipelines.
  *
  * @group orca_ignore
  */

@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Tests;
 
 /**
- * Class BltConfigTest.
+ * Test BLT config.
  *
  * @group orca_ignore
  */
