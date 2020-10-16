@@ -241,7 +241,8 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
    */
   protected function isNewProject() {
     $composer_json = json_decode(file_get_contents($this->getRepoRoot() . '/composer.json'), TRUE);
-    if (isset($composer_json['name']) && in_array($composer_json['name'], ['acquia/blt-project', 'acquia/blted8'])) {
+    $templates = ['acquia/blt-project', 'acquia/blted8'];
+    if (isset($composer_json['name']) && in_array($composer_json['name'], $templates)) {
       return TRUE;
     }
     return FALSE;
