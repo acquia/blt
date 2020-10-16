@@ -178,7 +178,7 @@ class FilesetManager implements ConfigAwareInterface, LoggerAwareInterface {
    */
   protected function getFilesetsFromAnnotations(array $fileset_annotations) {
     $filesets = [];
-    $this->logger->debug("Gathering filesets from annotated methods...");;
+    $this->logger->debug("Gathering filesets from annotated methods...");
     foreach ($fileset_annotations as $class => $fileset) {
       if (class_exists($class)) {
         $fileset_class = new $class();
