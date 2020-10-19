@@ -132,6 +132,8 @@ project:
     hostname: local.${project.machine_name}.com
     protocol: http
     uri: ${project.local.protocol}://${project.local.hostname}
+  # Used for enforcing correct git commit msg syntax.
+  prefix: CHANGEME
   profile:
     name: minimal
 
