@@ -1,5 +1,27 @@
 # Change Log
 
+#### 11.6.0 (2020-10-21)
+
+[Full Changelog](https://github.com/acquia/blt/compare/11.5.0...11.6.0)
+
+
+**Implemented enhancements**
+
+- Fixes #4250 to backport Composer 2.x functionality into 11.x. (#4260)
+
+**Fixed bugs**
+
+- Fix #4257: ACSF post-siteinstall.sh not executable (#4264)
+- Fix #4253: Remove Drupal Check commands (#4254)
+
+**Miscellaneous**
+
+- Update Coder and style fixes (#4263)
+- Fix memory exhaustion (#4262)
+- Fix memory errors (#4259)
+- Use PHP 7.3
+
+
 #### 11.5.0 (2020-09-04)
 
 [Full Changelog](https://github.com/acquia/blt/compare/11.4.2...11.5.0)
