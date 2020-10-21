@@ -1,5 +1,21 @@
 # Change Log
 
+#### 12.3.1 (2020-10-21)
+
+[Full Changelog](https://github.com/acquia/blt/compare/12.3.0...12.3.1)
+
+
+**Fixed bugs**
+
+- Fixes #4258: Project prefix missing by default (#4265)
+- Fix #4251: TTY mode errors on Pipelines deploys (#4255)
+- Fix #4244 and 4247: Set better config defaults, switch profile to minimal. (#4249)
+
+**Miscellaneous**
+
+- Update PULL_REQUEST_TEMPLATE.md
+
+
 #### 12.3.0 (2020-09-04)
 
 [Full Changelog](https://github.com/acquia/blt/compare/12.2.0...12.3.0)
