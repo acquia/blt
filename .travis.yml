@@ -64,6 +64,8 @@ before_install:
   # Prepare local testing version of blt-project so it can be used by ORCA.
   - cp -r subtree-splits/blt-project /tmp/
   - composer config --global repositories.blt path /tmp/blt-project
+  # Workaround for Composer 2.
+  - composer self-update 1.10.16
   # Install ORCA.
   - composer create-project --no-dev acquia/orca ../orca "$ORCA_VERSION"
   - ../orca/bin/travis/before_install.sh
