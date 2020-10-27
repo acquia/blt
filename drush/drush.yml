@@ -1,6 +1,0 @@
-drush:
-  paths:
-    include:
-      # Add Acquia cloud commands.
-      - /usr/local/drush8/commands
-    drush-script: drush8
