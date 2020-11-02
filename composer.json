@@ -20,7 +20,7 @@
         "ext-json": "*",
         "acquia/drupal-environment-detector": "*",
         "composer-plugin-api": "^1.1.0 || ^2.0",
-        "composer/semver": "^1.4",
+        "composer/semver": "^1.4 || ^3.2",
         "consolidation/comments": "^1.0",
         "consolidation/config": "^1.0.0",
         "consolidation/robo": "^1.4.12 || ^2",
