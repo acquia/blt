@@ -18,7 +18,7 @@
     "require": {
         "php": ">=7.3",
         "ext-json": "*",
-        "acquia/drupal-environment-detector": "*",
+        "acquia/drupal-environment-detector": "^1.2.1",
         "composer-plugin-api": "^1.1.0 || ^2.0",
         "consolidation/comments": "^1.0",
         "consolidation/config": "^1.0.0",

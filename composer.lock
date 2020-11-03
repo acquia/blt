@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "195cb2fcfdacb1ed6a7b304e716e2c69",
+    "content-hash": "a35c886ec6d97687c4b9875790506a34",
     "packages": [
         {
             "name": "acquia/drupal-environment-detector",
-            "version": "v1.2.0",
+            "version": "v1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/acquia/drupal-environment-detector.git",
-                "reference": "ffb5c22abc2b13cc4a374c37aa5c4c4c5cb09da6"
+                "reference": "75a6038aec028c8f2c0136e1e291d6305b94f64e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/acquia/drupal-environment-detector/zipball/ffb5c22abc2b13cc4a374c37aa5c4c4c5cb09da6",
-                "reference": "ffb5c22abc2b13cc4a374c37aa5c4c4c5cb09da6",
+                "url": "https://api.github.com/repos/acquia/drupal-environment-detector/zipball/75a6038aec028c8f2c0136e1e291d6305b94f64e",
+                "reference": "75a6038aec028c8f2c0136e1e291d6305b94f64e",
                 "shasum": ""
             },
             "require-dev": {
@@ -47,7 +47,7 @@
                 }
             ],
             "description": "Provides common methods for detecting the current Acquia environment",
-            "time": "2020-08-25T16:06:40+00:00"
+            "time": "2020-10-28T22:12:55+00:00"
         },
         {
             "name": "asm89/stack-cors",
