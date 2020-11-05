@@ -1,5 +1,17 @@
 # Change Log
 
+#### 12.4.0 (2020-11-05)
+
+[Full Changelog](https://github.com/acquia/blt/compare/12.3.1...12.4.0)
+
+
+**Miscellaneous**
+
+- Clean up Composer dependencies (#4274)
+- Remove unused semver dependency (#4273)
+- Remove RST docs (#4269)
+
+
 #### 12.3.1 (2020-10-21)
 
 [Full Changelog](https://github.com/acquia/blt/compare/12.3.0...12.3.1)
