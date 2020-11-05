@@ -61,6 +61,7 @@ jobs:
 before_install:
   # Exit build early if only documentation was changed in a Pull Request.
   - source ${BLT_DIR}/scripts/travis/exit_early
+  - composer self-update 1.10.16
   # Prepare local testing version of blt-project so it can be used by ORCA.
   - cp -r subtree-splits/blt-project /tmp/
   - composer config --global repositories.blt path /tmp/blt-project
