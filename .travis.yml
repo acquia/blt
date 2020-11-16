@@ -26,7 +26,7 @@ env:
     # ORCA configuration.
     - ORCA_SUT_NAME=acquia/blt
     - ORCA_SUT_BRANCH=11.x
-    - ORCA_VERSION=dev-master
+    - ORCA_VERSION=^2
     # Custom configuration.
     - COMPOSER_BIN=$TRAVIS_BUILD_DIR/vendor/bin
     - BLT_DIR=$TRAVIS_BUILD_DIR
