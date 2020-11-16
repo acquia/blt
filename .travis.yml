@@ -2,6 +2,7 @@
 language: php
 
 os: linux
+dist: bionic
 
 version: ~> 1.0
 
