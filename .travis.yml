@@ -35,7 +35,6 @@ jobs:
   fast_finish: true
   include:
     - { env: ORCA_JOB=STATIC_CODE_ANALYSIS, name: "Static code analysis" }
-    - { env: ORCA_JOB=INTEGRATED_TEST_ON_LATEST_LTS, name: "Integrated test on latest LTS Drupal core version" }
     - { env: ORCA_JOB=INTEGRATED_TEST_ON_PREVIOUS_MINOR, name: "Integrated test on previous minor Drupal core version" }
     - { env: ORCA_JOB=INTEGRATED_UPGRADE_TEST_FROM_PREVIOUS_MINOR, name: "Integrated upgrade test from previous minor" }
     - { env: ORCA_JOB=ISOLATED_TEST_ON_CURRENT, name: "Isolated test on current Drupal core version" }
