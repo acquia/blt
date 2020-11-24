@@ -27,7 +27,6 @@ class WizardTest extends BltProjectTestBase {
     $this->assertEquals($recipe['prefix'], $project_configuration['project']['prefix']);
     $this->assertEquals($recipe['human_name'], $project_configuration['project']['human_name']);
     $this->assertFileExists($this->sandboxInstance . '/acquia-pipelines.yml');
-    $this->assertFileNotExists($this->sandboxInstance . '/Vagrantfile');
   }
 
 }
