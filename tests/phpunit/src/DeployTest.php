@@ -35,7 +35,6 @@ class DeployTest extends BltProjectTestBase {
     $this->assertFileExists($this->deploy_dir . '/composer.lock');
     $this->assertFileExists($this->deploy_dir . '/.gitignore');
     $this->assertFileExists($this->deploy_dir . '/docroot/sites/default/settings.php');
-    $this->assertFileNotExists($this->deploy_dir . '/docroot/sites/default/settings/local.settings.php');
 
     // Ensure hooks were copied to deploy directory.
     $this->assertFileExists($this->deploy_dir . '/hooks');
