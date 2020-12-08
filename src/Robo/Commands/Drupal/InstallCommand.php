@@ -113,7 +113,7 @@ class InstallCommand extends BltTasks {
       ->rawArg($this->getConfigValue('setup.install-args'))
       ->option('sites-subdir', $this->getConfigValue('site'))
       ->option('site-name', $this->getConfigValue('project.human_name'))
-      ->option('site-mail', $this->getConfigValue('drupal.account.mail'))
+      ->option('site-mail', $this->getConfigValue('drupal.site.mail'))
       ->option('account-name', $username, '=')
       ->option('account-mail', $this->getConfigValue('drupal.account.mail'))
       ->option('locale', $this->getConfigValue('drupal.locale'))

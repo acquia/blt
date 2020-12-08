@@ -61,6 +61,7 @@ docroot: ${repo.root}/docroot
 drupal:
   #account.name: admin
   account.mail: no-reply@acquia.com
+  site.mail: ${drupal.account.mail}
   locale: en
   local_settings_file: ${docroot}/sites/${site}/settings/local.settings.php
   settings_file: ${docroot}/sites/${site}/settings.php
