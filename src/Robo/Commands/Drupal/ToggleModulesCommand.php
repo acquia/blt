@@ -28,14 +28,8 @@ class ToggleModulesCommand extends BltTasks {
    * @validateDrushConfig
    */
   public function toggleModules() {
-    if ($this->input()->hasArgument('environment')) {
-      $environment = $this->input()->getArgument('environment');
-    }
-    elseif ($this->getConfig()->has('environment')) {
+    if ($this->getConfig()->has('environment')) {
       $environment = $this->getConfigValue('environment');
-    }
-    elseif (getenv('environment')) {
-      $environment = getenv('environment');
     }
 
     if (isset($environment)) {
