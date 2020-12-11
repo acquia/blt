@@ -29,9 +29,13 @@ class ComposerCheck extends DoctorCheck {
    * DoctorCheck constructor.
    *
    * @param \Robo\Config\Config $config
+   *   Robo config.
    * @param \Acquia\Blt\Robo\Inspector\Inspector $inspector
+   *   BLT inspector.
    * @param \Acquia\Blt\Robo\Common\Executor $executor
+   *   BLT executor.
    * @param array $drush_status
+   *   Drush status.
    */
   public function __construct(Config $config, Inspector $inspector, Executor $executor, array $drush_status) {
     parent::__construct($config, $inspector, $executor, $drush_status);
@@ -103,7 +107,7 @@ class ComposerCheck extends DoctorCheck {
     if (!$this->getInspector()->isComposerMinimumVersionSatisfied('2')) {
       $this->logProblem(__FUNCTION__, [
         "Composer 1 detected.",
-        "  Composer 1 is end of life, and Composer 2 includes significant performance improvements. Upgrade to Composer 2 as soon as possible."
+        "  Composer 1 is end of life, and Composer 2 includes significant performance improvements. Upgrade to Composer 2 as soon as possible.",
       ], 'comment');
     }
   }
