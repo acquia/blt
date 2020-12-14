@@ -27,6 +27,15 @@ class ComposerCheck extends DoctorCheck {
 
   /**
    * DoctorCheck constructor.
+   *
+   * @param \Robo\Config\Config $config
+   *   Robo config.
+   * @param \Acquia\Blt\Robo\Inspector\Inspector $inspector
+   *   BLT inspector.
+   * @param \Acquia\Blt\Robo\Common\Executor $executor
+   *   BLT executor.
+   * @param array $drush_status
+   *   Drush status.
    */
   public function __construct(Config $config, Inspector $inspector, Executor $executor, array $drush_status) {
     parent::__construct($config, $inspector, $executor, $drush_status);
@@ -73,8 +82,7 @@ class ComposerCheck extends DoctorCheck {
    */
   public function performAllChecks() {
     $this->checkRequire();
-    $this->checkPrestissimo();
-    $this->checkDrupalCore();
+    $this->checkVersion();
 
     return $this->problems;
   }
@@ -93,27 +101,13 @@ class ComposerCheck extends DoctorCheck {
   }
 
   /**
-   * Check prestissimo.
+   * Check Composer version.
    */
-  protected function checkPrestissimo() {
-    $prestissimo_intalled = $this->getExecutor()->execute("composer global show | grep hirak/prestissimo")->run()->wasSuccessful();
-    if (!$prestissimo_intalled) {
-      $this->logProblem(__FUNCTION__ . ":plugins", [
-        "hirak/prestissimo plugin for composer is not installed.",
-        "  Run <comment>composer global require hirak/prestissimo</comment> to install it.",
-        "  This will improve composer install/update performance by parallelizing the download of dependency information.",
-      ], 'comment');
-    }
-  }
-
-  /**
-   * Check Drupal core.
-   */
-  protected function checkDrupalCore() {
-    if (empty($this->composerJson['require']['drupal/core']) && empty($this->composerJson['require']['drupal/core-recommended'])) {
-      $this->logProblem(__FUNCTION__ . ":plugins", [
-        "drupal/core or drupal/core-recommended are not required by the root composer.json.",
-        "  This impairs performance by preventing zaporylie/composer-drupal-optimizations from taking effect.",
+  protected function checkVersion() {
+    if (!$this->getInspector()->isComposerMinimumVersionSatisfied('2')) {
+      $this->logProblem(__FUNCTION__, [
+        "Composer 1 detected.",
+        "  Composer 1 is end of life, and Composer 2 includes significant performance improvements. Upgrade to Composer 2 as soon as possible.",
       ], 'comment');
     }
   }

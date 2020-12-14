@@ -600,6 +600,24 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   }
 
   /**
+   * Verifies that installed minimum Composer version is met.
+   *
+   * @param string $minimum_version
+   *   The minimum Composer version that is required.
+   *
+   * @return bool
+   *   TRUE if minimum version is satisfied.
+   */
+  public function isComposerMinimumVersionSatisfied($minimum_version) {
+    // phpcs:ignore
+    exec("composer --version | cut -d' ' -f3", $output, $exit_code);
+    if (version_compare($output[0], $minimum_version, '>=')) {
+      return TRUE;
+    }
+    return FALSE;
+  }
+
+  /**
    * Checks to see if BLT alias is installed on CLI.
    *
    * @return bool
