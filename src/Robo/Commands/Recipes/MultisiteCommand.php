@@ -341,10 +341,12 @@ class MultisiteCommand extends BltTasks {
   protected function createSiteDrushAlias($site_name, $site_url = '') {
     $aliases = [
       'local' => [
-        'uri' => $site_url ?: $site_name,
         'root' => '${env.cwd}/docroot',
       ],
     ];
+    if ($site_url) {
+      $aliases['local']['uri'] = $site_url;
+    }
     $defaultDrupalVmDrushAliasesFile = $this->getConfigValue('blt.root') . '/scripts/drupal-vm/drupal-vm.site.yml';
     if ($this->getInspector()->isDrupalVmConfigPresent() && file_exists($defaultDrupalVmDrushAliasesFile)) {
       $aliases = Expander::parse(file_get_contents($defaultDrupalVmDrushAliasesFile), $this->getConfig()->export());
