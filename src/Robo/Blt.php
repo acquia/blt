@@ -97,6 +97,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
    * Get installed BLT version.
    *
    * @return mixed|null
+   *   BLT version.
    */
   public static function getVersion() {
     return InstalledVersions::getVersion('acquia/blt');
