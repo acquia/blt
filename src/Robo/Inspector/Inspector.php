@@ -279,7 +279,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
     ];
 
     $status['composer-version'] = $this->getComposerVersion();
-    $status['blt-version'] = Blt::VERSION;
+    $status['blt-version'] = Blt::getVersion();
     $status['stacks']['drupal-vm']['inited'] = $this->isDrupalVmLocallyInitialized();
     $status['stacks']['dev-desktop']['inited'] = $this->isDevDesktopInitialized();
 

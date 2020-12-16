@@ -14,6 +14,7 @@ use Acquia\Blt\Robo\Wizards\SetupWizard;
 use Acquia\Blt\Robo\Wizards\TestsWizard;
 use Acquia\Blt\Update\Updater;
 use Composer\Autoload\ClassLoader;
+use Composer\InstalledVersions;
 use Consolidation\AnnotatedCommand\CommandFileDiscovery;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
@@ -38,11 +39,6 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
   use ContainerAwareTrait;
   use LoggerAwareTrait;
   use IO;
-
-  /**
-   * The BLT version.
-   */
-  const VERSION = '12.4.0';
 
   /**
    * The Robo task runner.
@@ -78,7 +74,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
   ) {
 
     $this->setConfig($config);
-    $application = new Application('BLT', Blt::VERSION);
+    $application = new Application('BLT', Blt::getVersion());
     $container = Robo::createDefaultContainer($input, $output, $application,
       $config, $classLoader);
     $this->setContainer($container);
@@ -95,6 +91,10 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     $this->setLogger($container->get('logger'));
 
     $this->initializeAmplitude();
+  }
+
+  public static function getVersion() {
+    return InstalledVersions::getVersion('acquia/blt');
   }
 
   /**

@@ -21,7 +21,7 @@ $output = new ConsoleOutput();
 
 // Write BLT version for debugging.
 if ($output->isVerbose()) {
-  $output->writeln("<comment>BLT version " . Blt::VERSION . "</comment>");
+  $output->writeln("<comment>BLT version " . Blt::getVersion() . "</comment>");
 }
 
 // Initialize configuration.
