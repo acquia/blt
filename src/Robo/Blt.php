@@ -93,6 +93,11 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     $this->initializeAmplitude();
   }
 
+  /**
+   * Get installed BLT version.
+   *
+   * @return mixed|null
+   */
   public static function getVersion() {
     return InstalledVersions::getVersion('acquia/blt');
   }
