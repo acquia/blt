@@ -25,6 +25,7 @@
         "consolidation/robo": "^1.4.12 || ^2",
         "dflydev/dot-access-data": "^1.1.0",
         "doctrine/annotations": "^1.10.0",
+        "drupal/config_split": "^1.7",
         "drupal/core": "^9.0.0-alpha1",
         "drupol/phposinfo": "^1.6",
         "drush/drush": "^10.2.2",
@@ -77,6 +78,16 @@
         "files": [
             "RoboFile.php"
         ]
+    },
+    "repositories": {
+        "drupal": {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        },
+        "asset-packagist": {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
