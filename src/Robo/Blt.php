@@ -14,7 +14,6 @@ use Acquia\Blt\Robo\Wizards\SetupWizard;
 use Acquia\Blt\Robo\Wizards\TestsWizard;
 use Acquia\Blt\Update\Updater;
 use Composer\Autoload\ClassLoader;
-use Composer\InstalledVersions;
 use Consolidation\AnnotatedCommand\CommandFileDiscovery;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
@@ -100,7 +99,11 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
    *   BLT version.
    */
   public static function getVersion() {
-    return InstalledVersions::getVersion('acquia/blt');
+    if (class_exists('\Composer\InstalledVersions')) {
+      return \Composer\InstalledVersions::getVersion('acquia/blt');
+    }
+
+    return 'Unknown';
   }
 
   /**
