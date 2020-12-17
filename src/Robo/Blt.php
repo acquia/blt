@@ -100,6 +100,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
    */
   public static function getVersion() {
     if (class_exists('\Composer\InstalledVersions')) {
+      // phpcs:ignore
       return \Composer\InstalledVersions::getVersion('acquia/blt');
     }
 
