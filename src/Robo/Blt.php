@@ -40,11 +40,6 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
   use IO;
 
   /**
-   * The BLT version.
-   */
-  const VERSION = '12.4.0';
-
-  /**
    * The Robo task runner.
    *
    * @var \Robo\Runner
@@ -78,7 +73,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
   ) {
 
     $this->setConfig($config);
-    $application = new Application('BLT', Blt::VERSION);
+    $application = new Application('BLT', Blt::getVersion());
     $container = Robo::createDefaultContainer($input, $output, $application,
       $config, $classLoader);
     $this->setContainer($container);
@@ -95,6 +90,23 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     $this->setLogger($container->get('logger'));
 
     $this->initializeAmplitude();
+  }
+
+  /**
+   * Get installed BLT version.
+   *
+   * @return mixed|null
+   *   BLT version.
+   */
+  public static function getVersion() {
+    if (class_exists('\Composer\InstalledVersions')) {
+      // phpcs:ignore
+      if (\Composer\InstalledVersions::isInstalled('acquia/blt') && $version = \Composer\InstalledVersions::getVersion('acquia/blt')) {
+        return $version;
+      }
+    }
+
+    return 'Unknown';
   }
 
   /**

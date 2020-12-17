@@ -88,7 +88,7 @@ class UserConfig {
    */
   public function getTelemetryUserData() {
     $data = $this->config['telemetryUserData'];
-    $data['app_version'] = Blt::VERSION;
+    $data['app_version'] = Blt::getVersion();
 
     return $data;
   }
