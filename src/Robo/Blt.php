@@ -11,7 +11,6 @@ use Acquia\Blt\Robo\Inspector\Inspector;
 use Acquia\Blt\Robo\Inspector\InspectorAwareInterface;
 use Acquia\Blt\Robo\Log\BltLogStyle;
 use Acquia\Blt\Robo\Wizards\SetupWizard;
-use Acquia\Blt\Robo\Wizards\TestsWizard;
 use Acquia\Blt\Update\Updater;
 use Composer\Autoload\ClassLoader;
 use Consolidation\AnnotatedCommand\CommandFileDiscovery;
@@ -223,8 +222,6 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
       ->invokeMethod('setInspector', ['inspector']);
 
     $container->add(SetupWizard::class)
-      ->withArgument('executor');
-    $container->add(TestsWizard::class)
       ->withArgument('executor');
 
     $container->share('filesetManager', FilesetManager::class);
