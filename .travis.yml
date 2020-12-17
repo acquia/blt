@@ -84,6 +84,7 @@ jobs:
 
 before_install:
   - nvm use 12.13.1
+  - composer self-update 1.10.16
   - composer create-project --no-dev acquia/orca ../orca "$ORCA_VERSION"
   - ../orca/bin/travis/before_install.sh
 
