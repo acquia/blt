@@ -15,20 +15,6 @@ use Symfony\Component\Filesystem\Filesystem;
 class SettingsCommand extends BltTasks {
 
   /**
-   * Default behat local config file.
-   *
-   * @var string
-   */
-  protected $defaultBehatLocalConfigFile;
-
-  /**
-   * Project behat local config file.
-   *
-   * @var string
-   */
-  protected $projectBehatLocalConfigFile;
-
-  /**
    * Settings warning.
    *
    * @var string
@@ -45,16 +31,6 @@ class SettingsCommand extends BltTasks {
  * @link https://docs.acquia.com/blt/
  */
 WARNING;
-
-  /**
-   * This hook will fire for all commands in this command file.
-   *
-   * @hook init
-   */
-  public function initialize() {
-    $this->defaultBehatLocalConfigFile = $this->getConfigValue('repo.root') . '/tests/behat/example.local.yml';
-    $this->projectBehatLocalConfigFile = $this->getConfigValue('repo.root') . '/tests/behat/local.yml';
-  }
 
   /**
    * Generates default settings files for Drupal and drush.
@@ -188,46 +164,6 @@ WARNING;
 
     if ($current_site != $initial_site) {
       $this->switchSiteContext($initial_site);
-    }
-  }
-
-  /**
-   * Generates tests/behat/local.yml file for executing Behat tests locally.
-   *
-   * @command setup:behat
-   */
-  public function behat() {
-    $copy_map = [
-      $this->getConfigValue('blt.root') . '/scripts/behat/behat.yml' => $this->getConfigValue('repo.root') . '/tests/behat/behat.yml',
-      $this->getConfigValue('blt.root') . '/scripts/behat/example.local.yml' => $this->defaultBehatLocalConfigFile,
-      $this->defaultBehatLocalConfigFile => $this->projectBehatLocalConfigFile,
-    ];
-
-    $task = $this->taskFilesystemStack()
-      ->stopOnFail()
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE);
-
-    // Copy files without overwriting.
-    foreach ($copy_map as $from => $to) {
-      if (file_exists($to)) {
-        unset($copy_map[$from]);
-      }
-    }
-
-    if ($copy_map) {
-      $this->say("Generating Behat configuration files...");
-      foreach ($copy_map as $from => $to) {
-        $task->copy($from, $to);
-      }
-      $result = $task->run();
-      foreach ($copy_map as $from => $to) {
-        $this->getConfig()->expandFileProperties($to);
-      }
-
-      if (!$result->wasSuccessful()) {
-        $filepath = $this->getInspector()->getFs()->makePathRelative($this->defaultBehatLocalConfigFile, $this->getConfigValue('repo.root'));
-        throw new BltException("Unable to copy $filepath into your repository.");
-      }
     }
   }
 
