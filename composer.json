@@ -38,7 +38,8 @@
         "zumba/amplitude-php": "^1.0"
     },
     "conflict": {
-        "drupal/drupal": "*"
+        "drupal/drupal": "*",
+        "acquia/blt-behat": "<=1.0.0"
     },
     "require-dev": {
         "knplabs/github-api": "^2.6",
