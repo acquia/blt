@@ -5,7 +5,7 @@
 /.idea
 /.travis.yml
 /.vagrant
-/acquia-pipelines.yml
+/acquia-pipelines.yaml
 /blt.sh
 /box
 /build

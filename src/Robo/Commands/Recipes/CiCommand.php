@@ -20,7 +20,7 @@ class CiCommand extends BltTasks {
    */
   public function pipelinesInit() {
     $result = $this->taskFilesystemStack()
-      ->copy($this->getConfigValue('blt.root') . '/scripts/pipelines/acquia-pipelines.yml', $this->getConfigValue('repo.root') . '/acquia-pipelines.yml', TRUE)
+      ->copy($this->getConfigValue('blt.root') . '/scripts/pipelines/acquia-pipelines.yaml', $this->getConfigValue('repo.root') . '/acquia-pipelines.yaml', TRUE)
       ->stopOnFail()
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
@@ -29,7 +29,7 @@ class CiCommand extends BltTasks {
       throw new BltException("Could not initialize Acquia Pipelines configuration.");
     }
 
-    $this->say("<info>A pre-configured acquia-pipelines.yml file was copied to your repository root.</info>");
+    $this->say("<info>A pre-configured acquia-pipelines.yaml file was copied to your repository root.</info>");
     $this->say("<info>To support copying DBs into newly-deployed CDEs, follow these instructions:</info>");
     $this->say("<info>https://docs.acquia.com/acquia-cloud/develop/pipelines/cli/install</info>");
   }
