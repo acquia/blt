@@ -14,7 +14,7 @@ class CiPipelinesTest extends BltProjectTestBase {
    */
   public function testPipelinesInit() {
     $this->blt('recipes:ci:pipelines:init');
-    $this->assertFileExists($this->sandboxInstance . '/acquia-pipelines.yml');
+    $this->assertFileExists($this->sandboxInstance . '/acquia-pipelines.yaml');
   }
 
 }

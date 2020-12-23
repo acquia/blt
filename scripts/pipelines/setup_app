@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # This file is managed by Composer and should not be modified by end users. To
 # override its default behavior, copy it into your project and modify
-# acquia-pipelines.yml to call your custom version.
+# acquia-pipelines.yaml to call your custom version.
 
 set -ev
 
@@ -10,4 +10,3 @@ export PATH=${COMPOSER_BIN}:$PATH
 blt setup --define drush.alias='${drush.aliases.ci}' --no-interaction --ansi --verbose
 
 set +v
-
