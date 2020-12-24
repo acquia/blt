@@ -255,7 +255,8 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     $userConfig = new UserConfig(self::configDir());
     $event_properties = $userConfig->getTelemetryUserData();
     $event_properties['exit_code'] = $status_code;
-    Amplitude::getInstance()->queueEvent('blt ' . $input->getFirstArgument(), $event_properties);
+    $event_properties['command'] = $input->getFirstArgument();
+    Amplitude::getInstance()->queueEvent('run command', $event_properties);
 
     return $status_code;
   }
