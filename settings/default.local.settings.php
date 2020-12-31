@@ -13,20 +13,14 @@ $db_name = '${drupal.db.database}';
 /**
  * Database configuration.
  */
-$databases = [
-  'default' =>
-  [
-    'default' =>
-    [
-      'database' => $db_name,
-      'username' => '${drupal.db.username}',
-      'password' => '${drupal.db.password}',
-      'host' => '${drupal.db.host}',
-      'port' => '${drupal.db.port}',
-      'driver' => 'mysql',
-      'prefix' => '',
-    ],
-  ],
+$databases['default']['default'] = [
+  'database' => $db_name,
+  'username' => '${drupal.db.username}',
+  'password' => '${drupal.db.password}',
+  'host' => '${drupal.db.host}',
+  'port' => '${drupal.db.port}',
+  'driver' => 'mysql',
+  'prefix' => '',
 ];
 
 // Use development service parameters.
