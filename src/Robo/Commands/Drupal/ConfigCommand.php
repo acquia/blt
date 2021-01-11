@@ -100,6 +100,11 @@ class ConfigCommand extends BltTasks {
         break;
 
       case 'config-split':
+        if (!$this->getInspector()->isComposerPackageInstalled('drupal/config_split')) {
+          $this->logger->warning('Import strategy is config-split, but the config_split module does not exist. Falling back to core-only.');
+          $this->importCoreOnly($task, $cm_core_key);
+          break;
+        }
         $this->importConfigSplit($task, $cm_core_key);
         break;
     }
