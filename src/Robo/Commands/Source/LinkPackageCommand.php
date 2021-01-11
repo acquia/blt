@@ -37,7 +37,7 @@ class LinkPackageCommand extends BltTasks {
    */
   public function linkComposer(array $options = [
     'name' => 'acquia/blt',
-    'path' => '../../src/blt',
+    'path' => '../../dev/blt',
     'version-constraint' => '*',
   ]) {
     $path_parts = explode('/', $options['path']);
