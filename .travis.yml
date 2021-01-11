@@ -25,7 +25,7 @@ env:
   global:
     # ORCA configuration.
     - ORCA_SUT_NAME=acquia/blt
-    - ORCA_SUT_BRANCH=12.x
+    - ORCA_SUT_BRANCH=main
     - ORCA_VERSION=^3
     - ORCA_PHPCS_STANDARD=AcquiaDrupalStrict
     # Change to 1 to debug failed tests.
