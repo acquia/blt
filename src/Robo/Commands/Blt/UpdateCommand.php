@@ -10,6 +10,7 @@ use Acquia\Blt\Update\Updater;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Filesystem\Filesystem;
+use Webmozart\PathUtil\Path;
 
 /**
  * Defines commands for installing and updating BLT..
@@ -31,21 +32,6 @@ class UpdateCommand extends BltTasks {
   protected $currentSchemaVersion;
 
   /**
-   * Exclude files.
-   *
-   * @var array
-   * Files that exist in the BLT Project repo but aren't actually part of the
-   * project template. They are only used for testing, licensing, etc...
-   */
-  const BLT_PROJECT_EXCLUDE_FILES = [
-    '.test-packages.json',
-    '.travis.yml',
-    'LICENSE.txt',
-    'README.md',
-    'README-template.md',
-  ];
-
-  /**
    * This hook will fire for all commands in this command file.
    *
    * @hook init
@@ -53,28 +39,6 @@ class UpdateCommand extends BltTasks {
   public function initialize() {
     $this->updater = $this->getContainer()->get('updater');
     $this->currentSchemaVersion = $this->getInspector()->getCurrentSchemaVersion();
-  }
-
-  /**
-   * Generates all necessary files for a brand new BLTed repo.
-   *
-   * Called during `composer create-project acquia/blt-project`.
-   *
-   * @command internal:create-project
-   *
-   * @hidden
-   *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
-   */
-  public function createProject() {
-    $this->cleanUpProjectTemplate();
-    $this->initializeBlt();
-    $this->setProjectName();
-    $this->initAndCommitRepo();
-    $this->displayArt();
-    $this->yell("Your new BLT-based project has been created in {$this->getConfigValue('repo.root')}.");
-    $this->say("Please continue by following the \"Creating a new project with BLT\" instructions:");
-    $this->say("<comment>https://docs.acquia.com/blt/install/creating-new-project/</comment>");
   }
 
   /**
@@ -89,6 +53,8 @@ class UpdateCommand extends BltTasks {
   public function addToProject() {
     $this->initializeBlt();
     $this->setProjectName();
+    $this->initGitignore();
+    $this->initAndCommitRepo();
     $this->displayArt();
     $this->yell("BLT has been added to your project.");
     $this->say("Please continue by following the \"Adding BLT to an existing project\" instructions:");
@@ -142,62 +108,36 @@ class UpdateCommand extends BltTasks {
     if ($this->executeSchemaUpdates($starting_version)) {
       $this->updateSchemaVersionFile();
     }
-    $this->cleanup();
     $this->invokeCommand('blt:init:shell-alias');
   }
 
   /**
-   * Removes deprecated BLT files and directories.
-   *
-   * @command blt:update:cleanup
-   * @aliases blt:source:cleanup bsc cleanup
+   * Creates or appends to .gitignore with BLT-specific files.
    */
-  public function cleanup() {
-    $this->say("Removing deprecated files and directories...");
-    $this->taskFilesystemStack()
-      ->remove([
-        "blt/composer.required.json",
-        "blt/composer.suggested.json",
-        "build",
-        "docroot/sites/default/settings/apcu_fix.yml",
-        "docroot/sites/default/settings/base.settings.php",
-        "docroot/sites/default/settings/blt.settings.php",
-        "docroot/sites/default/settings/cache.settings.php",
-        "docroot/sites/default/settings/filesystem.settings.php",
-        "docroot/sites/default/settings/logging.settings.php",
-        "docroot/sites/default/settings/travis.settings.php",
-        "docroot/sites/default/settings/pipelines.settings.php",
-        "docroot/sites/default/settings/tugboat.settings.php",
-        "docroot/sites/settings/global.settings.default.php",
-        "tests/phpunit/blt",
-        "tests/phpunit/Bolt",
-        "scripts/blt",
-        "scripts/drupal",
-        "scripts/drupal-vm",
-        "scripts/git-hooks",
-        "scripts/release-notes",
-        "scripts/tugboat",
-        "blt.sh",
-        "project.yml",
-        "project.local.yml",
-        "example.project.local.yml",
-        "readme/acsf-setup.md",
-        "readme/architecture.md",
-        "readme/best-practices.md",
-        "readme/deploy.md",
-        "readme/dev-workflow.md",
-        "readme/features-workflow.md",
-        "readme/local-development.md",
-        "readme/onboarding.md",
-        "readme/project-tasks.md",
-        "readme/release-process.md",
-        "readme/repo-architecture.md",
-        "readme/views.md",
-        "drush/policy.drush.inc",
-        ".test-packages.json",
-      ])
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->run();
+  public function initGitignore() {
+    $gitignore = [];
+    $gitignore_file = Path::join($this->getConfigValue('repo.root'), '.gitignore');
+    if (file_exists($gitignore_file)) {
+      $gitignore = file($gitignore_file, FILE_IGNORE_NEW_LINES);
+    }
+    $blt_files = [
+      'local.settings.php',
+      'local.drush.yml',
+      'local.site.yml',
+      'local.services.yml',
+      '*.local',
+      'local.blt.yml',
+      'deployment_identifier',
+      '/travis_wait*',
+      '/files-private',
+      '.phpcs-cache',
+    ];
+    foreach ($blt_files as $blt_file) {
+      if (!in_array($blt_file, $gitignore)) {
+        $gitignore[] = $blt_file;
+      }
+    }
+    file_put_contents($gitignore_file, implode(PHP_EOL, $gitignore));
   }
 
   /**
@@ -241,28 +181,6 @@ class UpdateCommand extends BltTasks {
   }
 
   /**
-   * Cleans up undesired files left behind by acquia/blt-project.
-   */
-  protected function cleanUpProjectTemplate() {
-    $repo_root = $this->getConfigValue('repo.root');
-    // Remove files leftover from acquia/blt-project.
-    $cleanupTask = $this->taskFilesystemStack();
-    foreach (self::BLT_PROJECT_EXCLUDE_FILES as $file) {
-      if ($file != 'README-template.md') {
-        $cleanupTask->remove($repo_root . '/' . $file);
-      }
-    }
-    $result = $cleanupTask
-      ->rename($repo_root . '/README-template.md', $repo_root . '/README.md', TRUE)
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-      ->run();
-
-    if (!$result->wasSuccessful()) {
-      throw new BltException("Could not remove deprecated files provided by acquia/blt-project.");
-    }
-  }
-
-  /**
    * Updates blt/.schema_version with latest schema version.
    */
   protected function updateSchemaVersionFile() {
@@ -284,7 +202,6 @@ class UpdateCommand extends BltTasks {
    *   TRUE if updates were successfully executed.
    */
   protected function executeSchemaUpdates($starting_version) {
-    $starting_version = $this->convertLegacySchemaVersion($starting_version);
     $updater = new Updater('Acquia\Blt\Update\Updates', $this->getConfigValue('repo.root'));
     $updates = $updater->getUpdates($starting_version);
     if ($updates) {
@@ -303,40 +220,6 @@ class UpdateCommand extends BltTasks {
         }
       }
     }
-  }
-
-  /**
-   * Converts legacy BLT schema version to current version.
-   *
-   * @param string $version
-   *   The legacy version.
-   *
-   * @return string
-   *   The version in correct syntax.
-   */
-  protected function convertLegacySchemaVersion($version) {
-    // Check to see if version is Semver (legacy format). Convert to expected
-    // syntax. Luckily, there are a finite number of known legacy versions.
-    // We check specifically for those.
-    // E.g., 8.6.6 => 8006006.
-    if (strpos($version, '.') !== FALSE) {
-      str_replace('-beta1', '', $version);
-      $semver_array = explode('.', $version);
-      $semver_array[1] = str_pad($semver_array[1], 3, "0", STR_PAD_LEFT);
-      $semver_array[2] = str_pad($semver_array[2], 3, "0", STR_PAD_LEFT);
-      $version = implode('', $semver_array);
-    }
-    if (strpos($version, 'dev') !== FALSE) {
-      $version = '0';
-    }
-    return $version;
-  }
-
-  /**
-   * Convert path.
-   */
-  protected function convertWindowsPathToCygwinPath($path) {
-    return str_replace('\\', '/', preg_replace('/([A-Z]):/i', '/cygdrive/$1', $path));
   }
 
   /**

@@ -159,13 +159,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
 
     if ($this->isInitialInstall()) {
       $this->io->write('<info>Creating BLT template files...</info>');
-      if ($this->isNewProject()) {
-        // The BLT command will not work because the .git dir doesn't exist yet.
-        $command = $this->getVendorPath() . '/acquia/blt/bin/blt internal:create-project --ansi';
-      }
-      else {
-        $command = $this->getVendorPath() . '/acquia/blt/bin/blt internal:add-to-project --ansi -n';
-      }
+      $command = $this->getVendorPath() . '/acquia/blt/bin/blt internal:add-to-project --ansi -n';
       $success = $this->executeCommand($command, [], TRUE);
       if (!$success) {
         $this->io->writeError("<error>BLT installation failed! Please execute <comment>$command --verbose</comment> to debug the issue.</error>");
@@ -195,23 +189,6 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
       return TRUE;
     }
 
-    return FALSE;
-  }
-
-  /**
-   * Determine if this is a project being newly created.
-   *
-   * This would execute in the context of
-   * `composer create-project acquia/blt-project`.
-   *
-   * @return bool
-   *   TRUE if this is a newly create project.
-   */
-  protected function isNewProject() {
-    $composer_json = json_decode(file_get_contents($this->getRepoRoot() . '/composer.json'), TRUE);
-    if (isset($composer_json['name']) && in_array($composer_json['name'], ['acquia/blt-project', 'acquia/blted8'])) {
-      return TRUE;
-    }
     return FALSE;
   }
 
