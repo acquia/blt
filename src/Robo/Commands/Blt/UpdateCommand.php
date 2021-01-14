@@ -129,6 +129,8 @@ class UpdateCommand extends BltTasks {
       'local.blt.yml',
       'deployment_identifier',
       '/travis_wait*',
+      '/files-private',
+      '.phpcs-cache',
     ];
     foreach ($blt_files as $blt_file) {
       if (!in_array($blt_file, $gitignore)) {
