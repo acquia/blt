@@ -107,7 +107,7 @@ class ComposerCheck extends DoctorCheck {
     if (!$this->getInspector()->isComposerMinimumVersionSatisfied('2')) {
       $this->logProblem(__FUNCTION__, [
         "Composer 1 detected.",
-        "  Composer 1 is end of life, and Composer 2 includes significant performance improvements. Upgrade to Composer 2 as soon as possible.",
+        "  BLT requires Composer 2 to operate correctly. Composer 1 is end of life, and Composer 2 includes significant performance improvements. Upgrade to Composer 2 as soon as possible.",
       ], 'comment');
     }
   }
