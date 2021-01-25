@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Tests;
 
 /**
- * Class ValidateCommandTest.
+ * Tests the validate command.
  */
 class ValidateCommandTest extends BltProjectTestBase {
 

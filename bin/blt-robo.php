@@ -31,12 +31,13 @@ function find_repo_root() {
     realpath(__DIR__ . '/../'),
     realpath(__DIR__ . '/../../../'),
   ];
+  $blt_files = ['vendor/acquia/blt', 'vendor/autoload.php'];
   // Check for PWD - some local environments will not have this key.
   if (isset($_SERVER['PWD'])) {
     array_unshift($possible_repo_roots, $_SERVER['PWD']);
   }
   foreach ($possible_repo_roots as $possible_repo_root) {
-    if ($repo_root = find_directory_containing_files($possible_repo_root, ['vendor/acquia/blt', 'vendor/autoload.php'])) {
+    if ($repo_root = find_directory_containing_files($possible_repo_root, $blt_files)) {
       return $repo_root;
     }
   }

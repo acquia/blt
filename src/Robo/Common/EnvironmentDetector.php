@@ -9,11 +9,9 @@ use drupol\phposinfo\OsInfo;
 use Symfony\Component\Console\Input\ArgvInput;
 
 /**
- * Class EnvironmentDetector.
+ * Attempts to detect various properties about the current hosting environment.
  *
  * @package Acquia\Blt\Robo\Common
- *
- * Attempts to detect various properties about the current hosting environment.
  */
 class EnvironmentDetector extends AcquiaDrupalEnvironmentDetector {
 

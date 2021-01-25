@@ -5,7 +5,7 @@ namespace My\Example\Project\Tests;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class ExampleTest.
+ * Example PHPUnit test for BLT.
  */
 class ExampleTest extends TestCase {
 

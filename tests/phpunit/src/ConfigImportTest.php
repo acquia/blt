@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Tests;
 
 /**
- * Class ConfigImportTest.
+ * Test blt config imports.
  */
 class ConfigImportTest extends BltProjectTestBase {
 

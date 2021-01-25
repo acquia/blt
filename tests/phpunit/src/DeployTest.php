@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Tests;
 
 /**
- * Class DeployTest.
+ * Test blt deploy.
  */
 class DeployTest extends BltProjectTestBase {
 

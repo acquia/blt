@@ -47,7 +47,7 @@ foreach ($split_envs as $split_env => $status) {
 /**
  * Site path.
  *
- * @var $site_path
+ * @var string $site_path
  * This is always set and exposed by the Drupal Kernel.
  */
 // phpcs:ignore

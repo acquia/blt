@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Tests;
 
 /**
- * Class PipelinesTest.
+ * Tests Pipelines recipe.
  */
 class CiPipelinesTest extends BltProjectTestBase {
 
