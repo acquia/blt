@@ -31,7 +31,6 @@ if ($blt_override_config_directories) {
 }
 
 $split_filename_prefix = 'config_split.config_split';
-$split_filepath_prefix = $settings['config_sync_directory'] . '/' . $split_filename_prefix;
 
 /**
  * Set environment splits.

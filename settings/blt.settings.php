@@ -12,11 +12,6 @@ use Acquia\Blt\Robo\Exceptions\BltException;
  * Detect environments, sites, and hostnames.
  */
 
-$http_host = getenv('HTTP_HOST');
-$request_method = getenv('REQUEST_METHOD');
-$request_uri = getenv('REQUEST_URI');
-$http_x_request_id = getenv('HTTP_X_REQUEST_ID');
-
 // If trusted_reverse_proxy_ips is not defined, fail gracefully.
 // phpcs:ignore
 $trusted_reverse_proxy_ips = isset($trusted_reverse_proxy_ips) ? $trusted_reverse_proxy_ips : '';
