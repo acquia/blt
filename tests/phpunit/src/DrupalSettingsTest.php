@@ -5,7 +5,7 @@ namespace Acquia\Blt\Tests;
 use Acquia\Blt\Robo\Common\YamlMunge;
 
 /**
- * Class DrupalSettingsTest.
+ * Tests Drupal settings.
  */
 class DrupalSettingsTest extends BltProjectTestBase {
 

@@ -31,7 +31,6 @@ if ($blt_override_config_directories) {
 }
 
 $split_filename_prefix = 'config_split.config_split';
-$split_filepath_prefix = $settings['config_sync_directory'] . '/' . $split_filename_prefix;
 
 /**
  * Set environment splits.
@@ -47,7 +46,7 @@ foreach ($split_envs as $split_env => $status) {
 /**
  * Site path.
  *
- * @var $site_path
+ * @var string $site_path
  * This is always set and exposed by the Drupal Kernel.
  */
 // phpcs:ignore

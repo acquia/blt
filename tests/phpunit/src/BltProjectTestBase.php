@@ -15,8 +15,6 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
 
 /**
- * Class BltProjectTestBase.
- *
  * Base class for all tests that are executed within a blt project.
  */
 abstract class BltProjectTestBase extends TestCase {

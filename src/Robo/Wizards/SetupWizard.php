@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Robo\Wizards;
 
 /**
- * Class SetupWizard.
+ * Wizard for generating setup files.
  *
  * @package Acquia\Blt\Robo\Wizards
  */

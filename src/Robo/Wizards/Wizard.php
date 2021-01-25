@@ -15,11 +15,9 @@ use Robo\Contract\IOAwareInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * Class Wizard.
+ * This class should be used as the super class for all Wizards.
  *
  * @package Acquia\Blt\Robo\Wizards
- *
- * This class should be used as the super class for all Wizards.
  *
  * Wizards should take the following form:
  *   1. Evaluate a condition via an Inspector method.

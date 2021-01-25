@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class Application.
+ * The main console application.
  *
  * @package Acquia\Blt\Robo
  */

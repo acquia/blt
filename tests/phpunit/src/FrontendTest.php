@@ -5,7 +5,7 @@ namespace Acquia\Blt\Tests;
 use Acquia\Blt\Robo\Common\YamlMunge;
 
 /**
- * Class FrontendTest.
+ * Test frontend commands.
  */
 class FrontendTest extends BltProjectTestBase {
 

@@ -5,7 +5,7 @@ namespace Acquia\Blt\Tests;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Class WizardTest.
+ * Tests BLT wizard command.
  */
 class WizardTest extends BltProjectTestBase {
 

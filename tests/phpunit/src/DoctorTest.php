@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Tests;
 
 /**
- * Class DoctorTest.
+ * Test blt doctor.
  */
 class DoctorTest extends BltProjectTestBase {
 

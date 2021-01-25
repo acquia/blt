@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Tests;
 
 /**
- * Class SetupCommandTest.
+ * Test blt setup.
  */
 class SetupCommandTest extends BltProjectTestBase {
 

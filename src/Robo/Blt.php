@@ -234,7 +234,6 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     // Tell the command loader to only allow command functions that have a
     // name/alias.
     $factory->setIncludeAllPublicMethods(FALSE);
-    $factory->addCommandInfoAlterer(new BltCommandInfoAlterer());
   }
 
   /**
