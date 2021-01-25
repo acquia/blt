@@ -38,6 +38,7 @@ WARNING;
    * @command source:build:settings
    *
    * @aliases blt:init:settings bis settings setup:settings
+   *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function generateSiteConfigFiles() {

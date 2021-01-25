@@ -14,7 +14,6 @@ use Composer\Plugin\PluginInterface;
 use Composer\Script\ScriptEvents;
 use Composer\Util\Filesystem;
 use Composer\Util\ProcessExecutor;
-use Exception;
 
 /**
  * Composer plugin.
@@ -163,7 +162,7 @@ class Plugin implements PluginInterface, EventSubscriberInterface {
       $success = $this->executeCommand($command, [], TRUE);
       if (!$success) {
         $this->io->writeError("<error>BLT installation failed! Please execute <comment>$command --verbose</comment> to debug the issue.</error>");
-        throw new Exception('Installation aborted due to error');
+        throw new \Exception('Installation aborted due to error');
       }
     }
     elseif ($options['blt']['update']) {

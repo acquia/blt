@@ -14,6 +14,7 @@ class ValidateAllCommand extends BltTasks {
    *
    * @command validate
    * @hidden
+   *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function all() {
