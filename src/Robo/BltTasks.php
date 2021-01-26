@@ -19,7 +19,6 @@ use Robo\Contract\ConfigAwareInterface;
 use Robo\Contract\IOAwareInterface;
 use Robo\Contract\VerbosityThresholdInterface;
 use Robo\LoadAllTasks;
-use Symfony\Component\Console\Input\ArrayInput;
 
 /**
  * Base class for BLT Robo commands.
