@@ -19,6 +19,7 @@ use Robo\Contract\ConfigAwareInterface;
 use Robo\Contract\IOAwareInterface;
 use Robo\Contract\VerbosityThresholdInterface;
 use Robo\LoadAllTasks;
+use Symfony\Component\Console\Input\ArrayInput;
 
 /**
  * Base class for BLT Robo commands.
@@ -83,10 +84,16 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
       $application = $this->getContainer()->get('application');
       $command = $application->find($command_name);
 
-      $input = $this->input();
-      foreach ($args as $arg => $value) {
-        $input->setArgument($arg, $value);
+      // Build a new input object that inherits options from parent command.
+      $definition = $application->getDefinition();
+      $args['command'] = $command_name;
+      if ($this->input()->hasOption('environment')) {
+        $args['--environment'] = $this->input()->getOption('environment');
       }
+      $input = new ArrayInput($args, $definition);
+      $input->setInteractive($this->input()->isInteractive());
+
+      // Now run the command.
       $prefix = str_repeat(">", $this->invokeDepth);
       $this->output->writeln("<comment>$prefix $command_name</comment>");
       $exit_code = $application->runCommand($command, $input, $this->output());
