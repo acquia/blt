@@ -85,12 +85,11 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
       $command = $application->find($command_name);
 
       // Build a new input object that inherits options from parent command.
-      $definition = $application->getDefinition();
       $args['command'] = $command_name;
       if ($this->input()->hasOption('environment')) {
         $args['--environment'] = $this->input()->getOption('environment');
       }
-      $input = new ArrayInput($args, $definition);
+      $input = new ArrayInput($args);
       $input->setInteractive($this->input()->isInteractive());
 
       // Now run the command.
