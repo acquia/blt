@@ -153,6 +153,7 @@ class SyncCommand extends BltTasks {
    *
    * @aliases dsb drupal:sync:db sync:db
    * @validateDrushConfig
+   *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function syncDb() {

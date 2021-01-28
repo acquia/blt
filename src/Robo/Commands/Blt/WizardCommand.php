@@ -12,7 +12,7 @@ use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Class WizardCommand.
+ * Wizard for setting initial configuration.
  *
  * @package Acquia\Blt\Robo\Wizards
  */

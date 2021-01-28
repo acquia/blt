@@ -3,8 +3,6 @@
 namespace Acquia\Blt\Tests;
 
 /**
- * Class AcsfHooksTests.
- *
  * Verifies that acsf support has been initialized.
  *
  * @group orca_ignore

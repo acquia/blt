@@ -5,11 +5,9 @@ namespace Acquia\Blt\Robo\Tasks;
 use Robo\Task\Vcs\GitStack;
 
 /**
- * Class GitTask.
+ * Runs Git tasks using BLT-specific helpers, such as setting the commit author.
  *
  * @package Acquia\Blt\Robo\Tasks
- *
- * Runs Git tasks using BLT-specific helpers, such as setting the commit author.
  */
 class GitTask extends GitStack {
 

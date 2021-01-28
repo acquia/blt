@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Robo\Exceptions;
 
 /**
- * Class BltException.
+ * Custom reporting and error handling for exceptions.
  *
  * @package Acquia\Blt\Robo\Exceptions
  */

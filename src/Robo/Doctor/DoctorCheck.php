@@ -9,7 +9,6 @@ use Acquia\Blt\Robo\Config\ConfigAwareTrait;
 use Acquia\Blt\Robo\Inspector\Inspector;
 use Acquia\Blt\Robo\Inspector\InspectorAwareInterface;
 use Acquia\Blt\Robo\Inspector\InspectorAwareTrait;
-use ReflectionClass;
 use Robo\Config\Config;
 use Robo\Contract\ConfigAwareInterface;
 
@@ -64,7 +63,7 @@ abstract class DoctorCheck implements ConfigAwareInterface, InspectorAwareInterf
     if (is_array($message)) {
       $message = implode("\n", $message);
     }
-    $reflection = new ReflectionClass($this);
+    $reflection = new \ReflectionClass($this);
     $class_name = $reflection->getShortName();
     $label = "<$type>$class_name:$check</$type>";
     $this->problems[$label] = $message;

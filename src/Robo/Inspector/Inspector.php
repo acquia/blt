@@ -22,7 +22,7 @@ use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * Class Inspector.
+ * Inspects various details about the current project.
  *
  * @package Acquia\Blt\Robo\Common
  */

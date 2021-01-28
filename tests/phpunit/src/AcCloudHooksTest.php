@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Tests;
 
 /**
- * Class AcCloudHooksTest.
+ * Test cloud hooks recipes.
  */
 class AcCloudHooksTest extends BltProjectTestBase {
 

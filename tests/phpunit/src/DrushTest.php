@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Tests;
 
 /**
- * Class DrushTest.
+ * Tests Drush integration.
  */
 class DrushTest extends BltProjectTestBase {
 

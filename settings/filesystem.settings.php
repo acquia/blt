@@ -11,7 +11,7 @@ use Acquia\Blt\Robo\Exceptions\BltException;
 /**
  * Site path.
  *
- * @var $site_path
+ * @var string $site_path
  * This is always set and exposed by the Drupal Kernel.
  */
 // phpcs:ignore
@@ -35,7 +35,7 @@ elseif (EnvironmentDetector::isAhEnv()) {
   /**
    * Site path.
    *
-   * @var $site_path
+   * @var string $site_path
    * This is always set and exposed by the Drupal Kernel.
    */
   // phpcs:ignore
