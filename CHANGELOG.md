@@ -1,5 +1,21 @@
 # Change Log
 
+#### 11.7.0 (2021-02-02)
+
+[Full Changelog](https://github.com/acquia/blt/compare/11.6.0...11.7.0)
+
+
+**Implemented enhancements**
+
+- Travis CI: Use bionic (#4284)
+
+**Miscellaneous**
+
+- Backport of security-checker changes for 11.x (#4332)
+- Fix orca tests
+- Fix ORCA tests for Composer 2 (#4270)
+
+
 #### 11.6.0 (2020-10-21)
 
 [Full Changelog](https://github.com/acquia/blt/compare/11.5.0...11.6.0)
