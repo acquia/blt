@@ -13,7 +13,6 @@ addons:
 
 cache:
   directories:
-    - "$HOME/.composer/cache"
     - "$HOME/.drush/cache"
     - "$HOME/.rvm"
     - "${TMPDIR:-/tmp}/phpstan/cache"
