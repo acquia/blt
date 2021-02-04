@@ -199,6 +199,11 @@ class EnvironmentDetector {
    * Is local.
    */
   public static function isLocalEnv() {
+    $results = self::getSubclassResults(__FUNCTION__);
+    if ($results) {
+      return TRUE;
+    }
+
     return !self::isAhEnv() && !self::isPantheonEnv() && !self::isCiEnv();
   }
 
