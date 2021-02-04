@@ -1,4 +1,4 @@
-# This file will be copied into the docroot of the build artifact.
+# This file will be copied into the root directory of the build artifact.
 local.*
 *.local
 local.blt.yml
