@@ -107,9 +107,12 @@ class ConfigInitializer {
   protected function findDefinedParameter($parameter) {
     foreach (['--define', '-D'] as $define) {
       if ($this->input->hasParameterOption($define)) {
-        [$passed_param, $passed_value] = explode('=', $this->input->getParameterOption($define));
-        if ($passed_param == $parameter) {
-          return $passed_value;
+        $option = $this->input->getParameterOption($define);
+        if (is_string($option)) {
+          $parts = explode('=', $option);
+          if ($parts[0] === $parameter) {
+            return $parts[1];
+          }
         }
       }
     }
