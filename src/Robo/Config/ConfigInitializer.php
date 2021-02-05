@@ -196,7 +196,7 @@ class ConfigInitializer {
   /**
    * Determine env.
    *
-   * @return
+   * @return string|bool
    *   Env.
    */
   public function determineEnvironment() {
