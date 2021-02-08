@@ -83,17 +83,40 @@ class ConfigInitializer {
    *   Site.
    */
   protected function determineSite() {
-    if ($this->input->hasParameterOption('site')) {
-      $site = $this->input->getParameterOption('site');
+    // Support --define site=foo.
+    if ($site = $this->findDefinedParameter('site')) {
+      return $site;
     }
-    elseif ($this->input->hasParameterOption('--site')) {
-      $site = $this->input->getParameterOption('--site');
+    // Support --site=foo.
+    if ($this->input->hasParameterOption('--site')) {
+      return $this->input->getParameterOption('--site');
     }
-    else {
-      $site = 'default';
-    }
+    return 'default';
+  }
 
-    return $site;
+  /**
+   * Find a parameter defined via --define.
+   *
+   * The --define parameter is used to set config at runtime. However, special
+   * config keys (especially site and environment) are used in the BLT bootstrap
+   * and thus need to be extracted prior to config being fully processed. This
+   * isn't trivial because reasons.
+   *
+   * @see https://github.com/acquia/blt/issues/4325
+   */
+  protected function findDefinedParameter($parameter) {
+    foreach (['--define', '-D'] as $define) {
+      if ($this->input->hasParameterOption($define)) {
+        $option = $this->input->getParameterOption($define);
+        if (is_string($option)) {
+          $parts = explode('=', $option);
+          if ($parts[0] === $parameter) {
+            return $parts[1];
+          }
+        }
+      }
+    }
+    return FALSE;
   }
 
   /**
@@ -107,7 +130,9 @@ class ConfigInitializer {
       $site = $this->determineSite();
       $this->setSite($site);
     }
-    $this->determineEnvironment();
+    $environment = $this->determineEnvironment();
+    $this->environment = $environment;
+    $this->config->set('environment', $environment);
     $this->loadConfigFiles();
     $this->processConfigFiles();
 
@@ -174,29 +199,22 @@ class ConfigInitializer {
   /**
    * Determine env.
    *
-   * @return $this
+   * @return string|bool
    *   Env.
    */
   public function determineEnvironment() {
     // Support --environment=ci.
     if ($this->input->hasParameterOption('--environment')) {
-      $environment = $this->input->getParameterOption('--environment');
+      return $this->input->getParameterOption('--environment');
     }
     // Support --define environment=ci.
-    elseif ($this->input->hasParameterOption('environment')) {
-      $environment = ltrim($this->input->getParameterOption('environment'), '=');
+    if ($environment = $this->findDefinedParameter('environment')) {
+      return $environment;
     }
-    elseif (EnvironmentDetector::isCiEnv()) {
-      $environment = 'ci';
+    if (EnvironmentDetector::isCiEnv()) {
+      return 'ci';
     }
-    else {
-      $environment = 'local';
-    }
-
-    $this->environment = $environment;
-    $this->config->set('environment', $environment);
-
-    return $this;
+    return 'local';
   }
 
   /**
