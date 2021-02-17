@@ -12,7 +12,6 @@ env:
 
 cache:
   directories:
-    - "$HOME/.composer/cache"
     - "$HOME/.drush/cache"
   # Cache front end dependencies to dramatically improve build time.
   # - "docroot/themes/custom/mytheme/node_modules"
