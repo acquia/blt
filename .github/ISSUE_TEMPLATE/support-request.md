@@ -7,8 +7,7 @@ assignees: ''
 
 ---
 
-<!-- Before posting, please read the contribution guidelines (linked to the right) to ensure that you get the best support. -->
-<!-- Please also read the FAQ (linked from the contribution guidelines) to ensure that your question has not already been answered. -->
+<!-- Before posting, please read the support guidelines (linked to the right) to ensure that you get the best support. Especially note that Acquia does not monitor support requests via Github. -->
 
 **I want to...**
 Describe specifically what you are trying to accomplish.
