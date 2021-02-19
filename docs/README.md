@@ -6,9 +6,7 @@
 
 BLT (Build and Launch Tool) provides an automation layer for testing, building, and launching Drupal 8 and 9 applications.
 
-**All BLT documentation is available at https://docs.acquia.com/blt**
-
-You can also find source (Markdown/RST) versions of documentation in the `/docs` directory.
+**To learn more and get started, see the documentation: https://docs.acquia.com/blt**
 
 # License
 
