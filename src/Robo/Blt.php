@@ -13,6 +13,7 @@ use Acquia\Blt\Robo\Log\BltLogStyle;
 use Acquia\Blt\Robo\Wizards\SetupWizard;
 use Acquia\Blt\Update\Updater;
 use Composer\Autoload\ClassLoader;
+use Composer\InstalledVersions;
 use Consolidation\AnnotatedCommand\CommandFileDiscovery;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
@@ -26,7 +27,7 @@ use Robo\Runner as RoboRunner;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Zumba\Amplitude\Amplitude as Amplitude;
+use Zumba\Amplitude\Amplitude;
 
 /**
  * The BLT Robo application.
@@ -98,11 +99,8 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
    *   BLT version.
    */
   public static function getVersion() {
-    if (class_exists('\Composer\InstalledVersions')) {
-      // phpcs:ignore
-      if (\Composer\InstalledVersions::isInstalled('acquia/blt') && $version = \Composer\InstalledVersions::getVersion('acquia/blt')) {
-        return $version;
-      }
+    if (InstalledVersions::isInstalled('acquia/blt') && $version = InstalledVersions::getVersion('acquia/blt')) {
+      return $version;
     }
 
     return 'Unknown';
