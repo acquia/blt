@@ -7,6 +7,7 @@
 
 use Acquia\Blt\Robo\Common\EnvironmentDetector;
 use Acquia\Blt\Robo\Exceptions\BltException;
+use Acquia\DrupalEnvironmentDetector\FilePaths;
 
 /**
  * Detect environments, sites, and hostnames.
@@ -85,17 +86,9 @@ $settings_files = [];
 $site_name = EnvironmentDetector::getSiteName($site_path);
 // Acquia Cloud settings.
 if (EnvironmentDetector::isAhEnv()) {
-  $ah_group = EnvironmentDetector::getAhGroup();
   try {
     if (!EnvironmentDetector::isAcsfEnv()) {
-      if ($site_name == 'default') {
-        $settings_files[] = "/var/www/site-php/$ah_group/$ah_group-settings.inc";
-      }
-      else {
-        // Acquia Cloud does not support periods in db names.
-        $safe_site_name = str_replace('.', '_', $site_name);
-        $settings_files[] = "/var/www/site-php/$ah_group/$safe_site_name-settings.inc";
-      }
+      $settings_files[] = FilePaths::ahSettingsFile(EnvironmentDetector::getAhGroup(), $site_name);
     }
   }
   catch (BltException $e) {

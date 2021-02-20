@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2e1e9669e1d88db9a12df99624b5e0d9",
+    "content-hash": "daa82248fd0c43f2ccfc61fdd7d70034",
     "packages": [
         {
             "name": "acquia/drupal-environment-detector",
-            "version": "v1.2.1",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/acquia/drupal-environment-detector.git",
-                "reference": "75a6038aec028c8f2c0136e1e291d6305b94f64e"
+                "reference": "7bd7903feeff29e37b239e65db8b0f1612a887b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/acquia/drupal-environment-detector/zipball/75a6038aec028c8f2c0136e1e291d6305b94f64e",
-                "reference": "75a6038aec028c8f2c0136e1e291d6305b94f64e",
+                "url": "https://api.github.com/repos/acquia/drupal-environment-detector/zipball/7bd7903feeff29e37b239e65db8b0f1612a887b8",
+                "reference": "7bd7903feeff29e37b239e65db8b0f1612a887b8",
                 "shasum": ""
             },
             "require-dev": {
@@ -27,6 +27,9 @@
             },
             "type": "library",
             "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                },
                 "phpcodesniffer-search-depth": "4"
             },
             "autoload": {
@@ -49,9 +52,9 @@
             "description": "Provides common methods for detecting the current Acquia environment",
             "support": {
                 "issues": "https://github.com/acquia/drupal-environment-detector/issues",
-                "source": "https://github.com/acquia/drupal-environment-detector/tree/v1.2.1"
+                "source": "https://github.com/acquia/drupal-environment-detector/tree/v1.3.0"
             },
-            "time": "2020-10-28T22:12:55+00:00"
+            "time": "2021-02-20T01:48:44+00:00"
         },
         {
             "name": "asm89/stack-cors",
