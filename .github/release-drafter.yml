@@ -1,8 +1,10 @@
 name-template: '$RESOLVED_VERSION'
 tag-template: '$RESOLVED_VERSION'
 categories:
-  - title: '🚨 Major changes'
-    label: 'Breaking change'
+  - title: '🚨 Significant changes'
+    labels:
+      - 'Major change'
+      - 'Minor change'
   - title: '🚀 Enhancements'
     label: 'Enhancement'
   - title: '🐛 Bug Fixes'
@@ -14,13 +16,10 @@ change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add
 version-resolver:
   major:
     labels:
-      - 'Breaking change'
+      - 'Major change'
   minor:
     labels:
-      - 'Enhancement'
-  patch:
-    labels:
-      - 'Bug'
+      - 'Minor change'
   default: patch
 template: |
   ## What's new since $PREVIOUS_TAG
