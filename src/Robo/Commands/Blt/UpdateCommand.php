@@ -54,7 +54,8 @@ class UpdateCommand extends BltTasks {
     $this->initializeBlt();
     $this->setProjectName();
     $this->initGitignore();
-    $this->initAndCommitRepo();
+    // Invoke command instead of calling method to ensure hooks run.
+    $this->invokeCommand('internal:create-project:init-repo');
     $this->displayArt();
     $this->yell("BLT has been added to your project.");
     $this->say("Please continue by following the \"Adding BLT to an existing project\" instructions:");
