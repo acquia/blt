@@ -14,8 +14,7 @@ class ProjectConfiguration implements ConfigurationInterface {
    * Get config tree builder.
    */
   public function getConfigTreeBuilder() {
-    $treeBuilder = new TreeBuilder();
-    $rootNode = $treeBuilder->root('recipe');
+    $rootNode = new TreeBuilder('recipe');
 
     // @codingStandardsIgnoreStart
     $rootNode
@@ -93,7 +92,7 @@ class ProjectConfiguration implements ConfigurationInterface {
       ->end();
     // @codingStandardsIgnoreEnd
 
-    return $treeBuilder;
+    return $rootNode;
   }
 
 }
