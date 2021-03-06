@@ -90,13 +90,9 @@ class WizardCommand extends BltTasks {
     $answers['prefix'] = $this->askDefault("Project prefix:", $default_prefix);
 
     $this->say("<info>Great. Now let's make some choices about how your project will be set up.</info>");
-    $ci = $this->confirm('Do you want to use Continuous Integration?');
+    $ci = $this->confirm('Do you want to use Acquia Pipelines CI?');
     if ($ci) {
-      $provider_options = [
-        'pipelines' => 'Acquia Pipelines',
-        'travis' => 'Travis CI',
-      ];
-      $answers['ci']['provider'] = $this->askChoice('Choose a Continuous Integration provider:', $provider_options, 'travis');
+      $answers['ci']['provider'] = 'pipelines';
     }
 
     $cm = $this->confirm('Do you want use Drupal core configuration management?');
