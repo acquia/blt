@@ -81,8 +81,8 @@ class DefaultConfig extends BltConfig {
   /**
    * Gets an array of sites for the Drupal application.
    *
-   * I.e., sites under docroot/sites, not including acsf 'g' pseudo-site and
-   * 'settings' directory globbed in blt.settings.php.
+   * Include sites under docroot/sites, excluding 'all' and acsf 'g'
+   * pseudo-sites and 'settings' directory globbed in blt.settings.php.
    *
    * @return array
    *   An array of sites.
@@ -102,7 +102,7 @@ class DefaultConfig extends BltConfig {
       ->in($sites_dir)
       ->directories()
       ->depth('< 1')
-      ->exclude(['g', 'settings'])
+      ->exclude(['g', 'settings', 'all'])
       ->sortByName();
     foreach ($dirs->getIterator() as $dir) {
       $sites[] = $dir->getRelativePathname();
