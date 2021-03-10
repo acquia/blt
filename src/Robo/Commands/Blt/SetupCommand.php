@@ -41,8 +41,6 @@ class SetupCommand extends BltTasks {
         break;
     }
 
-    $commands[] = 'blt:init:shell-alias';
-
     $this->invokeCommands($commands);
   }
 
