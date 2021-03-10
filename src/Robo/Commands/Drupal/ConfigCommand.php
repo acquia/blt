@@ -40,7 +40,7 @@ class ConfigCommand extends BltTasks {
       throw new BltException("Failed to execute database updates!");
     }
 
-    $this->invokeCommands(['drupal:config:import', 'drupal:toggle:modules']);
+    $this->invokeCommand('drupal:config:import');
   }
 
   /**
