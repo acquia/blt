@@ -54,7 +54,7 @@ class ProjectConfiguration implements ConfigurationInterface {
               ->cannotBeEmpty()
               ->defaultValue('pipelines')
               ->validate()
-                ->ifNotInArray(['pipelines', 'travis_ci'])
+                ->ifNotInArray(['pipelines'])
                 ->thenInvalid('Invalid continuous integration provider %s')
               ->end()
             ->end()

@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-set -ev
-
-blt artifact:deploy --commit-msg "Automated commit by Travis CI for Build ${TRAVIS_BUILD_ID}" --branch "${TRAVIS_BRANCH}-build" --no-interaction --verbose
-
-set +v
