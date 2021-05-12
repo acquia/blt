@@ -1,8 +1,10 @@
-version: 1.2.0
+version: 1.3.0
 services:
+  - composer:
+      version: 2
   - mysql
   - php:
-      version: 7.3
+      version: 8.0
 
 variables:
   global:
