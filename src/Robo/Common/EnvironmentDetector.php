@@ -4,8 +4,8 @@ namespace Acquia\Blt\Robo\Common;
 
 use Acquia\Blt\Robo\Config\ConfigInitializer;
 use Acquia\DrupalEnvironmentDetector\AcquiaDrupalEnvironmentDetector;
-use drupol\phposinfo\Enum\FamilyName;
-use drupol\phposinfo\OsInfo;
+use loophp\phposinfo\Enum\FamilyName;
+use loophp\phposinfo\OsInfo;
 use Symfony\Component\Console\Input\ArgvInput;
 
 /**

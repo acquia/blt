@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d2e6b9e83ef3189faba4af316f2b5f3f",
+    "content-hash": "629294503ea4c675a24ea722483dc452",
     "packages": [
         {
             "name": "acquia/drupal-environment-detector",
@@ -1472,62 +1472,6 @@
                 "source": "https://github.com/drupal/core/tree/9.1.8"
             },
             "time": "2021-05-05T11:09:15+00:00"
-        },
-        {
-            "name": "drupol/phposinfo",
-            "version": "1.6.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/drupol/phposinfo.git",
-                "reference": "36b0250d38279c8a131a1898a31e359606024507"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/drupol/phposinfo/zipball/36b0250d38279c8a131a1898a31e359606024507",
-                "reference": "36b0250d38279c8a131a1898a31e359606024507",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">= 7.1.3"
-            },
-            "require-dev": {
-                "drupol/php-conventions": "^1.7.1",
-                "friends-of-phpspec/phpspec-code-coverage": "^4.3.2",
-                "infection/infection": "^0.13.6 || ^0.15.0",
-                "phpspec/phpspec": "^5.1.2 || ^6.1.1"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "drupol\\phposinfo\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Pol Dellaiera",
-                    "email": "pol.dellaiera@protonmail.com"
-                }
-            ],
-            "description": "Try to guess the host operating system.",
-            "keywords": [
-                "operating system detection"
-            ],
-            "support": {
-                "issues": "https://github.com/drupol/phposinfo/issues",
-                "source": "https://github.com/drupol/phposinfo/tree/master"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/drupol",
-                    "type": "github"
-                }
-            ],
-            "abandoned": "loophp/phposinfo",
-            "time": "2020-05-19T14:14:28+00:00"
         },
         {
             "name": "drush/drush",
