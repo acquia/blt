@@ -1,13 +1,43 @@
+# Example Travis CI configuration.
+#
+# This configuration file will cover ORCA integration for most packages almost
+# without modification. Use as follows:
+#
+# 1. Copy this file to your package root:
+#
+#    $ cp example/.travis.yml ../my_package/.travis.yml
+#
+# 2. Change the values in env.global for your package. No other changes are
+#    strictly necessary for a basic integration.
+#
+# 3. Review the other comments in the file for additional configuration options.
+#
+# 4. Strip the (now unnecessary) comments:
+#
+#    $ sed -i'.bak' -e '/^[[:blank:]]*#/d;s/#.*//' .travis.yml && rm .travis.yml.bak
+#
+# For advanced needs,
+# @see https://github.com/acquia/orca/blob/main/docs/advanced-usage.md
+#
+# For all Travis CI build config options,
+# @see https://config.travis-ci.com/
 ---
 language: php
 
 os: linux
+dist: bionic
 
+# Activate build config validation.
+# @see https://docs.travis-ci.com/user/build-config-validation
 version: ~> 1.0
 
+# The lowest version of PHP supported by all of Drupal, Acquia, and ORCA itself.
+# @see https://www.drupal.org/docs/8/system-requirements/php-requirements
+# @see https://docs.acquia.com/acquia-cloud/arch/tech-platform/
 php: "7.3"
 
 addons:
+  # Chrome is used via ChromeDriver for web testing and browser automation.
   chrome: stable
 
 cache:
@@ -17,73 +47,201 @@ cache:
     - "$HOME/.rvm"
     - "${TMPDIR:-/tmp}/phpstan/cache"
 
-services:
-  - mysql
-
 env:
+  # Change the following values for your implementation.
   global:
-    # ORCA configuration.
+    # Provide your package's name.
     - ORCA_SUT_NAME=acquia/blt
+    # Specify the name of the nearest Git version branch, e.g., 1.x or 8.x-1.x.
+    # This may be the destination branch of a pull request or the nearest
+    # ancestor of a topic branch. ORCA will rename the checked out Git branch to
+    # this value to make Composer resolve dependencies correctly on pull
+    # requests and topic branches.
     - ORCA_SUT_BRANCH=11.x
-    - ORCA_VERSION=^2
-    # Custom configuration.
+    # Specify the version of ORCA to use. Use dev-main to track the latest
+    # release, dev-develop to track Dev/HEAD, or any other Composer version
+    # string. Since ORCA uses Semantic Versioning, the current major version
+    # branch is recommended in order to receive new features but not unexpected
+    # backward compatibility breaking changes.
+    # @see https://getcomposer.org/doc/articles/versions.md
+    # @see https://semver.org/
+    # It is also recommended to watch ORCA releases.
+    # @see https://help.github.com/en/enterprise/2.20/user/github/receiving-notifications-about-activity-on-github/watching-and-unwatching-releases-for-a-repository
+    - ORCA_VERSION=^3
+    # If your package isn't in ORCA's packages.yml or conflicts with details
+    # that are, you can modify the active packages configuration at runtime by
+    # uncommenting the following line and specifying your own alter file.
+    # @see https://github.com/acquia/orca/blob/main/docs/advanced-usage.md#ORCA_PACKAGES_CONFIG_ALTER
+    # - ORCA_PACKAGES_CONFIG_ALTER=../example/tests/packages_alter.yml
+    #
+    # If your package is a Drupal installation profile, uncomment the following
+    # line and specify its machine name.
+    # @see https://github.com/acquia/orca/blob/main/docs/advanced-usage.md#ORCA_FIXTURE_PROFILE
+    # - ORCA_FIXTURE_PROFILE=example
+    #
+    # If your package is a Composer project template or requires a different
+    # one to test with, uncomment the following line and specify its Packagist
+    # name.
+    # @see https://github.com/acquia/orca/blob/main/docs/advanced-usage.md#ORCA_FIXTURE_PROJECT_TEMPLATE
+    # - ORCA_FIXTURE_PROJECT_TEMPLATE=acquia/drupal-minimal-project
+    #
+    # Change the PHP Code Sniffer standard used for static analysis. Acceptable
+    # values are "AcquiaPHP", "AcquiaDrupalStrict", and
+    # "AcquiaDrupalTransitional". Defaults to "AcquiaDrupalTransitional".
+    # @see https://github.com/acquia/orca/blob/main/docs/advanced-usage.md#ORCA_PHPCS_STANDARD
+    # - ORCA_PHPCS_STANDARD=AcquiaDrupalTransitional
+    #
+    # To enable telemetry with Amplitude on cron runs, uncomment the following
+    # line and set ORCA_AMPLITUDE_API_KEY in your Travis CI repository settings:
+    # @see https://github.com/acquia/orca/blob/main/docs/advanced-usage.md#ORCA_TELEMETRY_ENABLE
+    # @see https://github.com/acquia/orca/blob/main/docs/advanced-usage.md#ORCA_AMPLITUDE_API_KEY
+    # - ORCA_TELEMETRY_ENABLE=TRUE
     - COMPOSER_BIN=$TRAVIS_BUILD_DIR/vendor/bin
     - BLT_DIR=$TRAVIS_BUILD_DIR
     - DRUPAL_CORE_HEAD=8.9.x-dev
     # Change to 1 to debug failed tests.
     - BLT_PRINT_COMMAND_OUTPUT=1
-    # Remove this after updating to Composer 2
-    - COMPOSER_MEMORY_LIMIT=-1
 
+# Execution time is drastically reduced by splitting the build into multiple
+# concurrent jobs.
 jobs:
+  # Mark the build as finished once the only remaining jobs are allowed to fail.
   fast_finish: true
+  # The standard ORCA jobs provide broad out-of-the-box coverage.
+  # @see https://github.com/acquia/orca/blob/main/docs/understanding-orca.md#continuous-integration
   include:
-    # Standard ORCA jobs.
-    - { name: "Static code analysis", env: ORCA_JOB=STATIC_CODE_ANALYSIS }
-    - { name: "Deprecated code scan", env: ORCA_JOB=DEPRECATED_CODE_SCAN }
-    - { name: "Isolated test w/ recommended package versions", env: ORCA_JOB=ISOLATED_RECOMMENDED }
-    - { name: "Integrated test w/ recommended package versions", env: ORCA_JOB=INTEGRATED_RECOMMENDED }
-    - { name: "Isolated test w/ dev package versions", env: ORCA_JOB=ISOLATED_DEV }
-    - { name: "Integrated test w/ dev package versions", env: ORCA_JOB=INTEGRATED_DEV }
-    - { name: "Integrated test w/ dev package versions & next minor dev version of Drupal core", env: ORCA_JOB=CORE_NEXT }
+    - { env: ORCA_JOB=STATIC_CODE_ANALYSIS, name: "Static code analysis" }
+    - { env: ORCA_JOB=INTEGRATED_TEST_ON_OLDEST_SUPPORTED, name: "Integrated test on oldest supported Drupal core version" }
+    - { env: ORCA_JOB=INTEGRATED_TEST_ON_LATEST_LTS, name: "Integrated test on latest LTS Drupal core version" }
+    - { env: ORCA_JOB=INTEGRATED_TEST_ON_PREVIOUS_MINOR, name: "Integrated test on previous minor Drupal core version" }
+    - { env: ORCA_JOB=INTEGRATED_UPGRADE_TEST_FROM_PREVIOUS_MINOR, name: "Integrated upgrade test from previous minor" }
+    - { env: ORCA_JOB=ISOLATED_TEST_ON_CURRENT, name: "Isolated test on current Drupal core version" }
+    # To send PHPUnit test coverage data to Coveralls (coveralls.io), configure
+    # your GitHub repository according to the FAQ below and uncomment the
+    # following line. By default this job is allowed to fail (see below) so that
+    # the total build can be marked finished sooner, because it will have the
+    # same testing outcome as the above ISOLATED_TEST_ON_CURRENT but may take
+    # significantly longer. Note: this setting implies ORCA_COVERAGE_ENABLE,
+    # which need not be set separately.
+    # @see https://github.com/acquia/orca/blob/main/docs/faq.md#coveralls
+    # @see https://github.com/acquia/orca/blob/main/docs/advanced-usage.md#ORCA_COVERALLS_ENABLE
+    # @see https://github.com/acquia/orca/blob/main/docs/advanced-usage.md#ORCA_COVERAGE_ENABLE
+    # - { env: ORCA_JOB=ISOLATED_TEST_ON_CURRENT ORCA_COVERALLS_ENABLE=TRUE, name: "Isolated test on current Drupal core version with test coverage" }
+    #
+    # To generate test coverage data to send somewhere other than Coveralls, use
+    # the ORCA_COVERAGE_ENABLE variable instead.
+    # - { env: ORCA_JOB=ISOLATED_TEST_ON_CURRENT ORCA_COVERAGE_ENABLE=TRUE, name: "Isolated test on current Drupal core version with test coverage" }
+    - { env: ORCA_JOB=INTEGRATED_TEST_ON_CURRENT, name: "Integrated test on current Drupal core version" }
+    - { env: ORCA_JOB=INTEGRATED_UPGRADE_TEST_TO_NEXT_MINOR, name: "Integrated upgrade test to next minor Drupal core version" }
+    - { env: ORCA_JOB=INTEGRATED_UPGRADE_TEST_TO_NEXT_MINOR_DEV, name: "Integrated upgrade test to next minor dev Drupal core version" }
+    - { env: ORCA_JOB=ISOLATED_TEST_ON_CURRENT_DEV, name: "Isolated test on current dev Drupal core version" }
+    - { env: ORCA_JOB=INTEGRATED_TEST_ON_CURRENT_DEV, name: "Integrated test on current dev Drupal core version" }
+    - { env: ORCA_JOB=LOOSE_DEPRECATED_CODE_SCAN, name: "Loose deprecated code scan" }
+    - { env: ORCA_JOB=STRICT_DEPRECATED_CODE_SCAN, name: "Strict deprecated code scan" }
+    - { env: ORCA_JOB=DEPRECATED_CODE_SCAN_W_CONTRIB, name: "Deprecated code scan w/ contrib" }
+    - { env: ORCA_JOB=ISOLATED_TEST_ON_NEXT_MINOR, name: "Isolated test on next minor Drupal core version" }
+    - { env: ORCA_JOB=INTEGRATED_TEST_ON_NEXT_MINOR, name: "Integrated test on next minor Drupal core version" }
+    - { env: ORCA_JOB=ISOLATED_TEST_ON_NEXT_MINOR_DEV, name: "Isolated test on next minor dev Drupal core version" }
+    - { env: ORCA_JOB=INTEGRATED_TEST_ON_NEXT_MINOR_DEV, name: "Integrated test on next minor dev Drupal core version" }
+    # Uncomment the following four lines to enable the corresponding tests once
+    # the next major version of Drupal core has an alpha release or earlier.
+    # Until then it's wasteful to use CI jobs on them, even if they exit early.
+    # - { env: ORCA_JOB=ISOLATED_TEST_ON_NEXT_MAJOR_LATEST_MINOR_BETA_OR_LATER, name: "Isolated test on next major, latest minor beta-or-later Drupal core version" }
+    # - { env: ORCA_JOB=INTEGRATED_TEST_ON_NEXT_MAJOR_LATEST_MINOR_BETA_OR_LATER, name: "Integrated test on next major, latest minor beta-or-later Drupal core version" }
+    # - { env: ORCA_JOB=ISOLATED_TEST_ON_NEXT_MAJOR_LATEST_MINOR_DEV, name: "Isolated test on next major, latest minor dev Drupal core version" }
+    # - { env: ORCA_JOB=INTEGRATED_TEST_ON_NEXT_MAJOR_LATEST_MINOR_DEV, name: "Integrated test on next major, latest minor dev Drupal core version" }
+    - { env: ORCA_JOB=ISOLATED_UPGRADE_TEST_TO_NEXT_MAJOR_BETA_OR_LATER, name: "Isolated upgrade test to next major beta-or-later Drupal core version" }
+    - { env: ORCA_JOB=ISOLATED_UPGRADE_TEST_TO_NEXT_MAJOR_DEV, name: "Isolated upgrade test to next major dev Drupal core version" }
     # Custom jobs.
     - env: DRUPAL_CORE_VERSION=default PHPUNIT_EXCLUDE_GROUP='drupal,requires-vm'
     - env: DRUPAL_CORE_VERSION=default PHPUNIT_EXCLUDE_GROUP='drupal,requires-vm'
       php: "7.4"
     - env: DRUPAL_CORE_VERSION=default PHPUNIT_GROUP='drupal'
     - env: DRUPAL_CORE_VERSION=$DRUPAL_CORE_HEAD
+  # For various reasons, some jobs are allowed to fail without failing the whole
+  # build. They should still be watched for advance notice of future problems.
+  # @see https://docs.travis-ci.com/user/customizing-the-build#rows-that-are-allowed-to-fail
   allow_failures:
-    - env: DRUPAL_CORE_VERSION=$DRUPAL_CORE_HEAD
-    - env: ORCA_JOB=ISOLATED_DEV
-    - env: ORCA_JOB=INTEGRATED_DEV
-    - env: ORCA_JOB=CORE_NEXT
+    - env: ORCA_JOB=ISOLATED_TEST_ON_CURRENT ORCA_COVERALLS_ENABLE=TRUE
+    - env: ORCA_JOB=INTEGRATED_UPGRADE_TEST_TO_NEXT_MINOR_DEV
+    - env: ORCA_JOB=LOOSE_DEPRECATED_CODE_SCAN
+    - env: ORCA_JOB=DEPRECATED_CODE_SCAN_W_CONTRIB
+    - env: ORCA_JOB=ISOLATED_TEST_ON_NEXT_MINOR_DEV
+    - env: ORCA_JOB=INTEGRATED_TEST_ON_NEXT_MINOR_DEV
+    - env: ORCA_JOB=ISOLATED_TEST_ON_NEXT_MAJOR_LATEST_MINOR_DEV
+    - env: ORCA_JOB=INTEGRATED_TEST_ON_NEXT_MAJOR_LATEST_MINOR_DEV
+    - env: ORCA_JOB=ISOLATED_UPGRADE_TEST_TO_NEXT_MAJOR_DEV
 
+# Install ORCA and prepare the environment.
 before_install:
   # Exit build early if only documentation was changed in a Pull Request.
   - source ${BLT_DIR}/scripts/travis/exit_early
-  - composer self-update 1.10.16
   # Prepare local testing version of blt-project so it can be used by ORCA.
   - cp -r subtree-splits/blt-project /tmp/
   - composer config --global repositories.blt path /tmp/blt-project
-  # Install ORCA.
+  # Set Node.js to a version compatible with Drupal 9 + Nightwatch.js.
+  - nvm use 12.13.1
   - composer create-project --no-dev acquia/orca ../orca "$ORCA_VERSION"
   - ../orca/bin/travis/before_install.sh
+  # For custom testing needs, add your own scripts here. See the example script
+  # for more details.
+  # - ./bin/travis/example.sh
 
+# Create the test fixture and place the SUT.
 install:
   - ../orca/bin/travis/install.sh
   - ./bin/travis/install.sh
 
+# Display details about the fixture.
 before_script: ../orca/bin/travis/before_script.sh
 
-script:
+# Run the test script.
+-script:
   - ./bin/travis/orca-fix.sh
   - ../orca/bin/travis/script.sh
   - ./bin/travis/script.sh
 
+# Reserved for future use.
 before_cache: ../orca/bin/travis/before_cache.sh
 
+# Conditionally send code coverage data to Coveralls.
 after_success: ../orca/bin/travis/after_success.sh
 
+# Display debugging information in case of failure.
 after_failure: ../orca/bin/travis/after_failure.sh
 
+# Perform final, post-script tasks.
 after_script: ../orca/bin/travis/after_script.sh
+
+# Get build notifications.
+# @see https://docs.travis-ci.com/user/notifications
+# notifications:
+#   slack:
+#     # @see https://docs.travis-ci.com/user/notifications#configuring-slack-notifications
+#     rooms:
+#       # Get this value from your Slack Travis CI app configuration and encrypt
+#       # it if your .travis.yml is stored in a public repository.
+#       # @see https://docs.travis-ci.com/user/notifications#configuring-slack-notifications
+#       # @see https://github.com/travis-ci/travis.rb#encrypt
+#       - secure: example_value_hdfgubdsifgudfbgs3453durghssecurestringidsuag34522irueg=
+#     # Limit to when the build changes from passing to failing or vice versa.
+#     on_success: change
+#     on_failure: change
+#     # Limit to the major version branches.
+#     if: branch = env(ORCA_SUT_BRANCH)
+#   email:
+#     # @see https://docs.travis-ci.com/user/notifications#configuring-email-notifications
+#     recipients:
+#       # Email distribution lists (groups) are preferable to individual addresses
+#       # so that personnel changes don't require corresponding code changes.
+#       # Though the online documentation doesn't explicitly mention it, this
+#       # value can also be encrypted if your .travis.yml is stored in a public
+#       # repository, e.g.:
+#       # @code travis encrypt username@example.com
+#       # @see https://github.com/travis-ci/travis.rb#encrypt
+#       - secure: example_value_hdfgubdsifgudfbgs3453durghssecurestringidsuag34522irueg=
+#     # Limit to when the build changes from passing to failing or vice versa.
+#     on_success: change
+#     on_failure: change
+#     # Limit to the major version branches.
+#     if: branch = env(ORCA_SUT_BRANCH)
