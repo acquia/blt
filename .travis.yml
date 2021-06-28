@@ -47,6 +47,9 @@ cache:
     - "$HOME/.rvm"
     - "${TMPDIR:-/tmp}/phpstan/cache"
 
+services:
+  - mysql
+
 env:
   # Change the following values for your implementation.
   global:
