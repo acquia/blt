@@ -151,6 +151,7 @@ jobs:
   # build. They should still be watched for advance notice of future problems.
   # @see https://docs.travis-ci.com/user/customizing-the-build#rows-that-are-allowed-to-fail
   allow_failures:
+    - env: DRUPAL_CORE_VERSION=$DRUPAL_CORE_HEAD
     - env: ORCA_JOB=ISOLATED_TEST_ON_CURRENT ORCA_COVERALLS_ENABLE=TRUE
     - env: ORCA_JOB=LOOSE_DEPRECATED_CODE_SCAN
     - env: ORCA_JOB=DEPRECATED_CODE_SCAN_W_CONTRIB
