@@ -29,7 +29,9 @@ env:
     - COMPOSER_BIN=$TRAVIS_BUILD_DIR/vendor/bin
     - BLT_DIR=$TRAVIS_BUILD_DIR
     - DRUPAL_CORE_HEAD=8.9.x-dev
+    # Change to 1 to debug failed tests.
     - BLT_PRINT_COMMAND_OUTPUT=1
+    # Remove this after updating to Composer 2
     - COMPOSER_MEMORY_LIMIT=-1
 
 jobs:
@@ -53,7 +55,9 @@ jobs:
     - env: ORCA_JOB=DEPRECATED_CODE_SCAN_W_CONTRIB
 
 before_install:
+  # Exit build early if only documentation was changed in a Pull Request.
   - source ${BLT_DIR}/scripts/travis/exit_early
+  # Prepare local testing version of blt-project so it can be used by ORCA.
   - cp -r subtree-splits/blt-project /tmp/
   - composer config --global repositories.blt path /tmp/blt-project
   - nvm use 12.13.1
@@ -78,4 +82,3 @@ after_success: ../orca/bin/travis/after_success.sh
 after_failure: ../orca/bin/travis/after_failure.sh
 
 after_script: ../orca/bin/travis/after_script.sh
-
