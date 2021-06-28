@@ -115,7 +115,6 @@ jobs:
     - { env: ORCA_JOB=INTEGRATED_TEST_ON_LATEST_LTS, name: "Integrated test on latest LTS Drupal core version" }
     - { env: ORCA_JOB=INTEGRATED_TEST_ON_PREVIOUS_MINOR, name: "Integrated test on previous minor Drupal core version" }
     - { env: ORCA_JOB=INTEGRATED_UPGRADE_TEST_FROM_PREVIOUS_MINOR, name: "Integrated upgrade test from previous minor" }
-    - { env: ORCA_JOB=ISOLATED_TEST_ON_CURRENT, name: "Isolated test on current Drupal core version" }
     # To send PHPUnit test coverage data to Coveralls (coveralls.io), configure
     # your GitHub repository according to the FAQ below and uncomment the
     # following line. By default this job is allowed to fail (see below) so that
