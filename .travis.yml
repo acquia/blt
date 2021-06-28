@@ -131,18 +131,9 @@ jobs:
     # To generate test coverage data to send somewhere other than Coveralls, use
     # the ORCA_COVERAGE_ENABLE variable instead.
     # - { env: ORCA_JOB=ISOLATED_TEST_ON_CURRENT ORCA_COVERAGE_ENABLE=TRUE, name: "Isolated test on current Drupal core version with test coverage" }
-    - { env: ORCA_JOB=INTEGRATED_TEST_ON_CURRENT, name: "Integrated test on current Drupal core version" }
-    - { env: ORCA_JOB=INTEGRATED_UPGRADE_TEST_TO_NEXT_MINOR, name: "Integrated upgrade test to next minor Drupal core version" }
-    - { env: ORCA_JOB=INTEGRATED_UPGRADE_TEST_TO_NEXT_MINOR_DEV, name: "Integrated upgrade test to next minor dev Drupal core version" }
-    - { env: ORCA_JOB=ISOLATED_TEST_ON_CURRENT_DEV, name: "Isolated test on current dev Drupal core version" }
-    - { env: ORCA_JOB=INTEGRATED_TEST_ON_CURRENT_DEV, name: "Integrated test on current dev Drupal core version" }
     - { env: ORCA_JOB=LOOSE_DEPRECATED_CODE_SCAN, name: "Loose deprecated code scan" }
     - { env: ORCA_JOB=STRICT_DEPRECATED_CODE_SCAN, name: "Strict deprecated code scan" }
     - { env: ORCA_JOB=DEPRECATED_CODE_SCAN_W_CONTRIB, name: "Deprecated code scan w/ contrib" }
-    - { env: ORCA_JOB=ISOLATED_TEST_ON_NEXT_MINOR, name: "Isolated test on next minor Drupal core version" }
-    - { env: ORCA_JOB=INTEGRATED_TEST_ON_NEXT_MINOR, name: "Integrated test on next minor Drupal core version" }
-    - { env: ORCA_JOB=ISOLATED_TEST_ON_NEXT_MINOR_DEV, name: "Isolated test on next minor dev Drupal core version" }
-    - { env: ORCA_JOB=INTEGRATED_TEST_ON_NEXT_MINOR_DEV, name: "Integrated test on next minor dev Drupal core version" }
     # Uncomment the following four lines to enable the corresponding tests once
     # the next major version of Drupal core has an alpha release or earlier.
     # Until then it's wasteful to use CI jobs on them, even if they exit early.
@@ -150,8 +141,6 @@ jobs:
     # - { env: ORCA_JOB=INTEGRATED_TEST_ON_NEXT_MAJOR_LATEST_MINOR_BETA_OR_LATER, name: "Integrated test on next major, latest minor beta-or-later Drupal core version" }
     # - { env: ORCA_JOB=ISOLATED_TEST_ON_NEXT_MAJOR_LATEST_MINOR_DEV, name: "Isolated test on next major, latest minor dev Drupal core version" }
     # - { env: ORCA_JOB=INTEGRATED_TEST_ON_NEXT_MAJOR_LATEST_MINOR_DEV, name: "Integrated test on next major, latest minor dev Drupal core version" }
-    - { env: ORCA_JOB=ISOLATED_UPGRADE_TEST_TO_NEXT_MAJOR_BETA_OR_LATER, name: "Isolated upgrade test to next major beta-or-later Drupal core version" }
-    - { env: ORCA_JOB=ISOLATED_UPGRADE_TEST_TO_NEXT_MAJOR_DEV, name: "Isolated upgrade test to next major dev Drupal core version" }
     # Custom jobs.
     - env: DRUPAL_CORE_VERSION=default PHPUNIT_EXCLUDE_GROUP='drupal,requires-vm'
     - env: DRUPAL_CORE_VERSION=default PHPUNIT_EXCLUDE_GROUP='drupal,requires-vm'
@@ -163,14 +152,8 @@ jobs:
   # @see https://docs.travis-ci.com/user/customizing-the-build#rows-that-are-allowed-to-fail
   allow_failures:
     - env: ORCA_JOB=ISOLATED_TEST_ON_CURRENT ORCA_COVERALLS_ENABLE=TRUE
-    - env: ORCA_JOB=INTEGRATED_UPGRADE_TEST_TO_NEXT_MINOR_DEV
     - env: ORCA_JOB=LOOSE_DEPRECATED_CODE_SCAN
     - env: ORCA_JOB=DEPRECATED_CODE_SCAN_W_CONTRIB
-    - env: ORCA_JOB=ISOLATED_TEST_ON_NEXT_MINOR_DEV
-    - env: ORCA_JOB=INTEGRATED_TEST_ON_NEXT_MINOR_DEV
-    - env: ORCA_JOB=ISOLATED_TEST_ON_NEXT_MAJOR_LATEST_MINOR_DEV
-    - env: ORCA_JOB=INTEGRATED_TEST_ON_NEXT_MAJOR_LATEST_MINOR_DEV
-    - env: ORCA_JOB=ISOLATED_UPGRADE_TEST_TO_NEXT_MAJOR_DEV
 
 # Install ORCA and prepare the environment.
 before_install:
