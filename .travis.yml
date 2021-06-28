@@ -104,6 +104,8 @@ env:
     - DRUPAL_CORE_HEAD=8.9.x-dev
     # Change to 1 to debug failed tests.
     - BLT_PRINT_COMMAND_OUTPUT=1
+    # Remove this after updating to Composer 2
+    - COMPOSER_MEMORY_LIMIT=-1
 
 # Execution time is drastically reduced by splitting the build into multiple
 # concurrent jobs.
