@@ -48,7 +48,7 @@
         "drupal/drupal": "*"
     },
     "require-dev": {
-        "acquia/coding-standards": "^0.4.0",
+        "acquia/coding-standards": "^0.5.0",
         "composer/composer": "^1.6.4",
         "drupal/core-dev": "^8.8.0",
         "knplabs/github-api": "^2.6",
