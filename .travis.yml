@@ -2,7 +2,6 @@
 language: php
 
 os: linux
-dist: bionic
 
 version: ~> 1.0
 
@@ -25,7 +24,7 @@ env:
   global:
     - ORCA_SUT_NAME=acquia/blt
     - ORCA_SUT_BRANCH=11.x
-    - ORCA_VERSION=^2
+    - ORCA_VERSION=^3
     - COMPOSER_BIN=$TRAVIS_BUILD_DIR/vendor/bin
     - BLT_DIR=$TRAVIS_BUILD_DIR
     - DRUPAL_CORE_HEAD=8.9.x-dev
@@ -57,10 +56,10 @@ jobs:
 before_install:
   # Exit build early if only documentation was changed in a Pull Request.
   - source ${BLT_DIR}/scripts/travis/exit_early
-  - composer self-update 1.10.16
   # Prepare local testing version of blt-project so it can be used by ORCA.
   - cp -r subtree-splits/blt-project /tmp/
   - composer config --global repositories.blt path /tmp/blt-project
+  - nvm use 12.13.1
   - composer create-project --no-dev acquia/orca ../orca "$ORCA_VERSION"
   - ../orca/bin/travis/before_install.sh
 
