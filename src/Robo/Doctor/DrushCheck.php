@@ -13,7 +13,7 @@ class DrushCheck extends DoctorCheck {
    * Perform all checks.
    */
   public function performAllChecks() {
-    // TODO: Implement performAllChecks() method.
+    // @todo Implement performAllChecks() method.
   }
 
   /**

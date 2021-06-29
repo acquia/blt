@@ -33,26 +33,31 @@
     "extra": {
         "composer-exit-on-patch-failure": true,
         "drupal-scaffold": {
-            "locations": {
-                "web-root": "./docroot"
-            },
             "file-mapping": {
                 "[web-root]/sites/default/default.services.yml": {
                     "mode": "replace",
-                    "path": "docroot/core/assets/scaffold/files/default.services.yml",
-                    "overwrite": false
+                    "overwrite": false,
+                    "path": "docroot/core/assets/scaffold/files/default.services.yml"
                 },
                 "[web-root]/sites/default/default.settings.php": {
                     "mode": "replace",
-                    "path": "docroot/core/assets/scaffold/files/default.settings.php",
-                    "overwrite": false
+                    "overwrite": false,
+                    "path": "docroot/core/assets/scaffold/files/default.settings.php"
                 }
+            },
+            "locations": {
+                "web-root": "./docroot"
             }
         },
         "enable-patching": true,
         "installer-paths": {
             "docroot/core": [
                 "type:drupal-core"
+            ],
+            "docroot/libraries/{$name}": [
+                "type:drupal-library",
+                "type:bower-asset",
+                "type:npm-asset"
             ],
             "docroot/modules/contrib/{$name}": [
                 "type:drupal-module"
@@ -71,11 +76,6 @@
             ],
             "docroot/themes/custom/{$name}": [
                 "type:drupal-custom-theme"
-            ],
-            "docroot/libraries/{$name}": [
-                "type:drupal-library",
-                "type:bower-asset",
-                "type:npm-asset"
             ],
             "drush/Commands/{$name}": [
                 "type:drupal-drush"
