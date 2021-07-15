@@ -37,6 +37,7 @@ jobs:
     - { env: ORCA_JOB=INTEGRATED_TEST_ON_PREVIOUS_MINOR, name: "Integrated test on previous minor Drupal core version" }
     - { env: ORCA_JOB=INTEGRATED_UPGRADE_TEST_FROM_PREVIOUS_MINOR, name: "Integrated upgrade test from previous minor" }
     - { env: ORCA_JOB=ISOLATED_TEST_ON_CURRENT, name: "Isolated test on current Drupal core version" }
+    - { env: ORCA_JOB=ISOLATED_TEST_ON_CURRENT, php: "8.0", dist: focal, name: "Isolated test on current Drupal core version and PHP 8" }
     # To send PHPUnit test coverage data to Coveralls (coveralls.io), configure
     # your GitHub repository and uncomment the following line. The job on the
     # line immediately before is otherwise identical and can be removed. Note:
@@ -82,8 +83,8 @@ jobs:
     - env: ORCA_JOB=ISOLATED_UPGRADE_TEST_TO_NEXT_MAJOR_DEV
 
 before_install:
-  - nvm use 12.13.1
-  - composer create-project --no-dev acquia/orca ../orca "$ORCA_VERSION"
+  - nvm install 12.13.1; nvm use 12.13.1
+  - composer create-project --no-dev --ignore-platform-req=php acquia/orca ../orca "$ORCA_VERSION"
   - ../orca/bin/travis/before_install.sh
 
 install: ../orca/bin/travis/install.sh
