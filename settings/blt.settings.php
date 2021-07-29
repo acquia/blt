@@ -38,7 +38,7 @@ if (getenv('REMOTE_ADDR')) {
 }
 
 // Check firstly for the bal and then check for an internal IP immediately.
-$settings['reverse_proxy_addresses'] = [];
+$settings['reverse_proxy_addresses'] = isset($settings['reverse_proxy_addresses']) ? $settings['reverse_proxy_addresses'] : [];
 $ip = array_pop($x_ips);
 if ($ip) {
   if (in_array($ip, $trusted_reverse_proxy_ips)) {
