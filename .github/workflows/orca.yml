@@ -1,0 +1,32 @@
+name: ORCA CI
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      ORCA_SUT_NAME: acquia/blt
+      ORCA_SUT_BRANCH: main
+      ORCA_VERSION: ^3
+      ORCA_PHPCS_STANDARD: AcquiaDrupalStrict
+      BLT_PRINT_COMMAND_OUTPUT: 1
+    strategy:
+      matrix:
+        include:
+          - orca-job: "STATIC_CODE_ANALYSIS"
+            name: "Static code analysis"
+          - orca-job: "INTEGRATED_TEST_ON_PREVIOUS_MINOR"
+            name: "Integrated test on previous minor Drupal core version"
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Before install
+        env:
+          ORCA_JOB: ${{ matrix.orca-job }}
+        run: |
+          nvm install 12.13.1; nvm use 12.13.1
+          composer create-project --no-dev --ignore-platform-req=php acquia/orca ../orca "$ORCA_VERSION"
+          ../orca/bin/travis/before_install.sh
+      - name: Install
+        env:
+          ORCA_JOB: ${{ matrix.orca-job }}
+        run: ../orca/bin/travis/install.sh
