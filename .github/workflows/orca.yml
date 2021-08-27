@@ -13,9 +13,27 @@ jobs:
       matrix:
         include:
           - name: "Static code analysis"
-            orca-job: "STATIC_CODE_ANALYSIS"
+            orca-job: STATIC_CODE_ANALYSIS
           - name: "Integrated test on previous minor Drupal core version"
-            orca-job: "INTEGRATED_TEST_ON_PREVIOUS_MINOR"
+            orca-job: INTEGRATED_TEST_ON_PREVIOUS_MINOR
+          - name: "Integrated upgrade test from previous minor"
+            orca-job: INTEGRATED_UPGRADE_TEST_FROM_PREVIOUS_MINOR
+          - name: "Isolated test on current Drupal core version"
+            orca-job: ISOLATED_TEST_ON_CURRENT
+          - name: "Integrated test on current Drupal core version"
+            orca-job: INTEGRATED_TEST_ON_CURRENT
+          - name: "Isolated test on current dev Drupal core version"
+            orca-job: ISOLATED_TEST_ON_CURRENT_DEV
+          - name: "Integrated test on current dev Drupal core version"
+            orca-job: INTEGRATED_TEST_ON_CURRENT_DEV
+          - name: "Strict deprecated code scan"
+            orca-job: STRICT_DEPRECATED_CODE_SCAN
+          - name: "Isolated test on next minor Drupal core version"
+            orca-job: ISOLATED_TEST_ON_NEXT_MINOR
+          - name: "Integrated test on next minor Drupal core version"
+            orca-job: INTEGRATED_TEST_ON_NEXT_MINOR
+          - name: "Isolated upgrade test to next major beta-or-later Drupal core version"
+            orca-job: ISOLATED_UPGRADE_TEST_TO_NEXT_MAJOR_BETA_OR_LATER
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -26,6 +44,7 @@ jobs:
         env:
           ORCA_JOB: ${{ matrix.orca-job }}
         run: |
+          sudo update-alternatives --set php /usr/bin/php7.4
           git clone https://github.com/danepowell/orca.git ../orca
           git -C ../orca checkout ORCA-189
           composer install -d ../orca --no-dev --ignore-platform-req=php
