@@ -10,7 +10,6 @@ jobs:
       ORCA_PHPCS_STANDARD: AcquiaDrupalStrict
       BLT_PRINT_COMMAND_OUTPUT: 1
     strategy:
-      fail-fast: true
       matrix:
         include:
           - name: "Static code analysis"
