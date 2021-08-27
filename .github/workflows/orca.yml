@@ -12,10 +12,10 @@ jobs:
     strategy:
       matrix:
         include:
-          - orca-job: "STATIC_CODE_ANALYSIS"
-            name: "Static code analysis"
-          - orca-job: "INTEGRATED_TEST_ON_PREVIOUS_MINOR"
-            name: "Integrated test on previous minor Drupal core version"
+          - name: "Static code analysis"
+            orca-job: "STATIC_CODE_ANALYSIS"
+          - name: "Integrated test on previous minor Drupal core version"
+            orca-job: "INTEGRATED_TEST_ON_PREVIOUS_MINOR"
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
