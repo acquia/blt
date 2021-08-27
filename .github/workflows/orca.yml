@@ -26,7 +26,6 @@ jobs:
         env:
           ORCA_JOB: ${{ matrix.orca-job }}
         run: |
-          nvm install 12.13.1; nvm use 12.13.1
           composer create-project --no-dev --ignore-platform-req=php acquia/orca ../orca "$ORCA_VERSION"
           ../orca/bin/travis/before_install.sh
       - name: Install
