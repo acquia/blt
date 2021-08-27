@@ -26,8 +26,10 @@ jobs:
         env:
           ORCA_JOB: ${{ matrix.orca-job }}
         run: |
-          composer create-project --no-dev --ignore-platform-req=php acquia/orca ../orca "$ORCA_VERSION"
-          curl https://patch-diff.githubusercontent.com/raw/acquia/orca/pull/151.patch | git -C ../orca apply
+          git clone git@github.com:danepowell/orca.git ../orca
+          git -C ../orca checkout ORCA-189
+          composer -d ../orca install --no-dev --ignore-platform-req=php
+          # composer create-project --no-dev --ignore-platform-req=php acquia/orca ../orca "$ORCA_VERSION"
           ../orca/bin/actions/before_install.sh
       - name: Install
         env:
