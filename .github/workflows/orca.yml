@@ -68,3 +68,13 @@ jobs:
         env:
           ORCA_JOB: ${{ matrix.orca-job }}
         run: ../orca/bin/actions/after_script.sh
+      - name: After success
+        if: ${{ success() }}
+        env:
+          ORCA_JOB: ${{ matrix.orca-job }}
+        run: ../orca/bin/actions/after_success.sh
+      - name: After failure
+        if: ${{ failure() }}
+        env:
+          ORCA_JOB: ${{ matrix.orca-job }}
+        run: ../orca/bin/actions/after_failure.sh
