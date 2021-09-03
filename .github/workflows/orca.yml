@@ -46,6 +46,7 @@ jobs:
       - name: Before install
         env:
           ORCA_JOB: ${{ matrix.orca-job }}
+          PHP_VERSION: ${{ steps.setup-php.outputs.php-version }}
         run: |
           git clone https://github.com/danepowell/orca.git ../orca
           git -C ../orca checkout ORCA-189
