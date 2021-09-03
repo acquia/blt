@@ -39,7 +39,9 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 12.x
-      - uses: shivammathur/setup-php@v2
+      - name: Setup PHP
+        id: setup-php
+        uses: shivammathur/setup-php@v2
         with:
           php-version: '7.3'
           coverage: xdebug2
