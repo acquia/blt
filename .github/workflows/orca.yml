@@ -12,33 +12,43 @@ jobs:
       ORCA_JOB: ${{ matrix.orca-job }}
     strategy:
       matrix:
-        php-version: ["7.3"]
         include:
           - name: "Static code analysis"
             orca-job: STATIC_CODE_ANALYSIS
+            php-version: "7.3"
           - name: "Integrated test on previous minor Drupal core version"
             orca-job: INTEGRATED_TEST_ON_PREVIOUS_MINOR
+            php-version: "7.3"
           - name: "Integrated upgrade test from previous minor"
             orca-job: INTEGRATED_UPGRADE_TEST_FROM_PREVIOUS_MINOR
+            php-version: "7.3"
           - name: "Isolated test on current Drupal core version"
             orca-job: ISOLATED_TEST_ON_CURRENT
+            php-version: "7.3"
           - name: "Isolated test on current Drupal core version and PHP 8"
             orca-job: ISOLATED_TEST_ON_CURRENT
             php-version: "8.0"
           - name: "Integrated test on current Drupal core version"
             orca-job: INTEGRATED_TEST_ON_CURRENT
+            php-version: "7.3"
           - name: "Isolated test on current dev Drupal core version"
             orca-job: ISOLATED_TEST_ON_CURRENT_DEV
+            php-version: "7.3"
           - name: "Integrated test on current dev Drupal core version"
             orca-job: INTEGRATED_TEST_ON_CURRENT_DEV
+            php-version: "7.3"
           - name: "Strict deprecated code scan"
             orca-job: STRICT_DEPRECATED_CODE_SCAN
+            php-version: "7.3"
           - name: "Isolated test on next minor Drupal core version"
             orca-job: ISOLATED_TEST_ON_NEXT_MINOR
+            php-version: "7.3"
           - name: "Integrated test on next minor Drupal core version"
             orca-job: INTEGRATED_TEST_ON_NEXT_MINOR
+            php-version: "7.3"
           - name: "Isolated upgrade test to next major beta-or-later Drupal core version"
             orca-job: ISOLATED_UPGRADE_TEST_TO_NEXT_MAJOR_BETA_OR_LATER
+            php-version: "7.3"
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
