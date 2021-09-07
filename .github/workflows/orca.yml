@@ -3,6 +3,7 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.allow-failure }}
     env:
       ORCA_SUT_NAME: acquia/blt
       ORCA_SUT_BRANCH: main
@@ -12,43 +13,45 @@ jobs:
       ORCA_JOB: ${{ matrix.orca-job }}
     strategy:
       matrix:
+        orca-job:
+          - STATIC_CODE_ANALYSIS
+          - INTEGRATED_TEST_ON_OLDEST_SUPPORTED
+          - INTEGRATED_TEST_ON_LATEST_LTS
+          - INTEGRATED_TEST_ON_PREVIOUS_MINOR
+          - INTEGRATED_UPGRADE_TEST_FROM_PREVIOUS_MINOR
+          - ISOLATED_TEST_ON_CURRENT
+          - INTEGRATED_TEST_ON_CURRENT
+          - INTEGRATED_UPGRADE_TEST_TO_NEXT_MINOR
+          - ISOLATED_TEST_ON_CURRENT_DEV
+          - INTEGRATED_TEST_ON_CURRENT_DEV
+          - STRICT_DEPRECATED_CODE_SCAN
+          - ISOLATED_TEST_ON_NEXT_MINOR
+          - INTEGRATED_TEST_ON_NEXT_MINOR
+          - ISOLATED_UPGRADE_TEST_TO_NEXT_MAJOR_BETA_OR_LATER
+        php-version: ["7.3"]
+        allow-failure: [false]
         include:
-          - name: "Static code analysis"
-            orca-job: STATIC_CODE_ANALYSIS
-            php-version: "7.3"
-          - name: "Integrated test on previous minor Drupal core version"
-            orca-job: INTEGRATED_TEST_ON_PREVIOUS_MINOR
-            php-version: "7.3"
-          - name: "Integrated upgrade test from previous minor"
-            orca-job: INTEGRATED_UPGRADE_TEST_FROM_PREVIOUS_MINOR
-            php-version: "7.3"
-          - name: "Isolated test on current Drupal core version"
-            orca-job: ISOLATED_TEST_ON_CURRENT
-            php-version: "7.3"
-          - name: "Isolated test on current Drupal core version and PHP 8"
-            orca-job: ISOLATED_TEST_ON_CURRENT
+          - orca-job: ISOLATED_TEST_ON_CURRENT
             php-version: "8.0"
-          - name: "Integrated test on current Drupal core version"
-            orca-job: INTEGRATED_TEST_ON_CURRENT
+            allow-failure: false
+          - orca-job: INTEGRATED_UPGRADE_TEST_TO_NEXT_MINOR_DEV
             php-version: "7.3"
-          - name: "Isolated test on current dev Drupal core version"
-            orca-job: ISOLATED_TEST_ON_CURRENT_DEV
+            allow-failure: true
+          - orca-job: LOOSE_DEPRECATED_CODE_SCAN
             php-version: "7.3"
-          - name: "Integrated test on current dev Drupal core version"
-            orca-job: INTEGRATED_TEST_ON_CURRENT_DEV
+            allow-failure: true
+          - orca-job: DEPRECATED_CODE_SCAN_W_CONTRIB
             php-version: "7.3"
-          - name: "Strict deprecated code scan"
-            orca-job: STRICT_DEPRECATED_CODE_SCAN
+            allow-failure: true
+          - orca-job: ISOLATED_TEST_ON_NEXT_MINOR_DEV
             php-version: "7.3"
-          - name: "Isolated test on next minor Drupal core version"
-            orca-job: ISOLATED_TEST_ON_NEXT_MINOR
+            allow-failure: true
+          - orca-job: INTEGRATED_TEST_ON_NEXT_MINOR_DEV
             php-version: "7.3"
-          - name: "Integrated test on next minor Drupal core version"
-            orca-job: INTEGRATED_TEST_ON_NEXT_MINOR
+            allow-failure: true
+          - orca-job: ISOLATED_UPGRADE_TEST_TO_NEXT_MAJOR_DEV
             php-version: "7.3"
-          - name: "Isolated upgrade test to next major beta-or-later Drupal core version"
-            orca-job: ISOLATED_UPGRADE_TEST_TO_NEXT_MAJOR_BETA_OR_LATER
-            php-version: "7.3"
+            allow-failure: true
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
