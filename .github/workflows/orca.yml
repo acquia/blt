@@ -12,6 +12,7 @@ jobs:
       ORCA_JOB: ${{ matrix.orca-job }}
     strategy:
       matrix:
+        php-version: ["7.3"]
         include:
           - name: "Static code analysis"
             orca-job: STATIC_CODE_ANALYSIS
@@ -21,6 +22,9 @@ jobs:
             orca-job: INTEGRATED_UPGRADE_TEST_FROM_PREVIOUS_MINOR
           - name: "Isolated test on current Drupal core version"
             orca-job: ISOLATED_TEST_ON_CURRENT
+          - name: "Isolated test on current Drupal core version and PHP 8"
+            orca-job: ISOLATED_TEST_ON_CURRENT
+            php-version: "8.0"
           - name: "Integrated test on current Drupal core version"
             orca-job: INTEGRATED_TEST_ON_CURRENT
           - name: "Isolated test on current dev Drupal core version"
@@ -42,7 +46,7 @@ jobs:
           node-version: 12.x
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.3'
+          php-version: ${{ matrix.php-version }}
           coverage: xdebug2
       - name: Before install
         run: |
