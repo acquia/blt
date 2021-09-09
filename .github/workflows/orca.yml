@@ -1,5 +1,5 @@
 name: ORCA CI
-on: [push, pull_request]
+on: [ push, pull_request ]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -27,57 +27,72 @@ jobs:
           - ISOLATED_TEST_ON_NEXT_MINOR
           - INTEGRATED_TEST_ON_NEXT_MINOR
           - ISOLATED_UPGRADE_TEST_TO_NEXT_MAJOR_BETA_OR_LATER
-        php-version: ["7.3"]
-        allow-failure: [false]
+        php-version: [ "7.3" ]
+        allow-failure: [ false ]
         include:
           - orca-job: ISOLATED_TEST_ON_CURRENT
             php-version: "8.0"
             allow-failure: false
+
           - orca-job: INTEGRATED_UPGRADE_TEST_TO_NEXT_MINOR_DEV
             php-version: "7.3"
             allow-failure: true
+
           - orca-job: LOOSE_DEPRECATED_CODE_SCAN
             php-version: "7.3"
             allow-failure: true
+
           - orca-job: DEPRECATED_CODE_SCAN_W_CONTRIB
             php-version: "7.3"
             allow-failure: true
+
           - orca-job: ISOLATED_TEST_ON_NEXT_MINOR_DEV
             php-version: "7.3"
             allow-failure: true
+
           - orca-job: INTEGRATED_TEST_ON_NEXT_MINOR_DEV
             php-version: "7.3"
             allow-failure: true
+
           - orca-job: ISOLATED_UPGRADE_TEST_TO_NEXT_MAJOR_DEV
             php-version: "7.3"
             allow-failure: true
     steps:
       - uses: actions/checkout@v2
+
       - uses: actions/setup-node@v2
         with:
           node-version: 12.x
+
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
           coverage: xdebug2
+
       - name: Before install
         run: |
           git clone https://github.com/danepowell/orca.git ../orca
           git -C ../orca checkout ORCA-189
           composer install -d ../orca --no-dev --ignore-platform-req=php
           # composer create-project --no-dev --ignore-platform-req=php acquia/orca ../orca "$ORCA_VERSION"
-          ../orca/bin/actions/before_install.sh
+          ../orca/bin/common/before_install.sh
+
       - name: Install
-        run: ../orca/bin/actions/install.sh
+        run: ../orca/bin/common/install.sh
+
       - name: Before script
-        run: ../orca/bin/actions/before_script.sh
+        run: ../orca/bin/common/before_script.sh
+
       - name: Script
-        run: ../orca/bin/actions/script.sh
+        run: ../orca/bin/common/script.sh
+
       - name: After script
-        run: ../orca/bin/actions/after_script.sh
+        run: ../orca/bin/common/after_script.sh
+
       - name: After success
         if: ${{ success() }}
-        run: ../orca/bin/actions/after_success.sh
+        run: ../orca/bin/common/after_success.sh
+
       - name: After failure
         if: ${{ failure() }}
-        run: ../orca/bin/actions/after_failure.sh
+        run: ../orca/bin/common/after_failure.sh
