@@ -72,7 +72,7 @@ jobs:
       - name: Before install
         run: |
           git clone https://github.com/danepowell/orca.git ../orca
-          git -C ../orca checkout ORCA-189
+          git -C ../orca checkout ORCA-189-2
           composer install -d ../orca --no-dev --ignore-platform-req=php
           # composer create-project --no-dev --ignore-platform-req=php acquia/orca ../orca "$ORCA_VERSION"
           ../orca/bin/common/before_install.sh
