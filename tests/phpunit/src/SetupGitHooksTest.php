@@ -133,7 +133,7 @@ class SetupGitHooksTest extends BltProjectTestBase {
     foreach ($hooks as $hook => $path) {
       $project_hook = $this->sandboxInstance . '/.git/hooks' . "/$hook";
       if (array_key_exists($hook, $disabled_hooks)) {
-        $this->assertFileNotExists($project_hook, "Failed asserting that the disabled {$hook} hook was not setup.");
+        $this->assertFileDoesNotExist($project_hook, "Failed asserting that the disabled {$hook} hook was not setup.");
       }
       else {
         $this->assertFileExists($project_hook, "Failed asserting that the enabled {$hook} hook was setup.");
