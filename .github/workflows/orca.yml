@@ -16,6 +16,7 @@ jobs:
         orca-job:
           - STATIC_CODE_ANALYSIS
           - INTEGRATED_TEST_ON_OLDEST_SUPPORTED
+          - INTEGRATED_TEST_ON_LATEST_LTS
           - INTEGRATED_TEST_ON_PREVIOUS_MINOR
           - INTEGRATED_UPGRADE_TEST_FROM_PREVIOUS_MINOR
           - ISOLATED_TEST_ON_CURRENT
@@ -72,24 +73,24 @@ jobs:
       - name: Before install
         run: |
           composer create-project --no-dev --ignore-platform-req=php acquia/orca ../orca "$ORCA_VERSION"
-          ../orca/bin/common/before_install.sh
+          ../orca/bin/ci/before_install.sh
 
       - name: Install
-        run: ../orca/bin/common/install.sh
+        run: ../orca/bin/ci/install.sh
 
       - name: Before script
-        run: ../orca/bin/common/before_script.sh
+        run: ../orca/bin/ci/before_script.sh
 
       - name: Script
-        run: ../orca/bin/common/script.sh
+        run: ../orca/bin/ci/script.sh
 
       - name: After script
-        run: ../orca/bin/common/after_script.sh
+        run: ../orca/bin/ci/after_script.sh
 
       - name: After success
         if: ${{ success() }}
-        run: ../orca/bin/common/after_success.sh
+        run: ../orca/bin/ci/after_success.sh
 
       - name: After failure
         if: ${{ failure() }}
-        run: ../orca/bin/common/after_failure.sh
+        run: ../orca/bin/ci/after_failure.sh
