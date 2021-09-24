@@ -7,7 +7,7 @@ jobs:
     env:
       ORCA_SUT_NAME: acquia/blt
       ORCA_SUT_BRANCH: main
-      ORCA_VERSION: ^3
+      ORCA_VERSION: dev-develop
       ORCA_PHPCS_STANDARD: AcquiaDrupalStrict
       BLT_PRINT_COMMAND_OUTPUT: 1
       ORCA_JOB: ${{ matrix.orca-job }}
@@ -71,10 +71,7 @@ jobs:
 
       - name: Before install
         run: |
-          git clone https://github.com/danepowell/orca.git ../orca
-          git -C ../orca checkout ORCA-189-2
-          composer install -d ../orca --no-dev --ignore-platform-req=php
-          # composer create-project --no-dev --ignore-platform-req=php acquia/orca ../orca "$ORCA_VERSION"
+          composer create-project --no-dev --ignore-platform-req=php acquia/orca ../orca "$ORCA_VERSION"
           ../orca/bin/common/before_install.sh
 
       - name: Install
