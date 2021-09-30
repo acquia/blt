@@ -2,7 +2,6 @@
 language: php
 
 os: linux
-dist: bionic
 
 version: ~> 1.0
 
@@ -61,6 +60,7 @@ before_install:
   - cp -r subtree-splits/blt-project /tmp/
   - composer config --global repositories.blt path /tmp/blt-project
   - composer create-project --no-dev acquia/orca ../orca "$ORCA_VERSION"
+  - curl https://patch-diff.githubusercontent.com/raw/acquia/orca/pull/159.patch | git -C ../orca apply
   - ../orca/bin/travis/before_install.sh
 
 install:
