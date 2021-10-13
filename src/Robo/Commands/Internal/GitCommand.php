@@ -79,6 +79,12 @@ class GitCommand extends BltTasks {
       );
     }
 
+    $collection->addCode(
+      function() {
+        return $this->invokeCommand('validate:phpcs');
+      }
+    );
+
     $result = $collection
       ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
       ->run();
