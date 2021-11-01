@@ -30,6 +30,7 @@ jobs:
           - STRICT_DEPRECATED_CODE_SCAN
           - ISOLATED_TEST_ON_NEXT_MINOR
           - ISOLATED_UPGRADE_TEST_TO_NEXT_MAJOR_BETA_OR_LATER
+          - LOOSE_DEPRECATED_CODE_SCAN
         php-version: [ "7.3" ]
         allow-failure: [ false ]
         include:
