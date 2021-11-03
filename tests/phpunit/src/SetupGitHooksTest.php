@@ -95,8 +95,6 @@ class SetupGitHooksTest extends BltProjectTestBase {
 
   /**
    * Tests operation of scripts/git-hooks/pre-commit.
-   *
-   * Should assert that code validation via phpcs is functioning.
    */
   public function testGitPreCommitHook() {
     $this->blt("blt:init:git-hooks");
@@ -104,7 +102,6 @@ class SetupGitHooksTest extends BltProjectTestBase {
     $process = new Process("./.git/hooks/pre-commit", $this->sandboxInstance);
     $process->run();
     $output = $process->getOutput();
-    $this->assertStringContainsString('tests:phpcs:sniff:staged', $output);
     $this->assertStringContainsString('validate:yaml:lint:files', $output);
     $this->assertStringContainsString('validate:twig:lint:files', $output);
   }
