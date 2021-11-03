@@ -107,6 +107,38 @@ class SetupGitHooksTest extends BltProjectTestBase {
   }
 
   /**
+   * Tests command-hook of scripts/git-hooks/pre-commit.
+   *
+   * @param string $command
+   *   The command to run after git pre-commit.
+   * @param string $output
+   *   The PHPUnit message to be output for this datapoint.
+   *
+   * @dataProvider providerTestGitPreCommitCommandHook
+   */
+  public function testGitPreCommitCommandHook($command, $message) {
+    $this->blt("blt:init:git-hooks");
+    $this->config->set("command-hooks.pre-commit.command", $command);
+    // Commits must be executed inside of new project directory.
+    $process = new Process("./.git/hooks/pre-commit", $this->sandboxInstance);
+    $process->run();
+    $output = $process->getOutput();
+
+    $this->assertStringContainsString("Running $command", $output);
+    $this->assertStringContainsString($message, $output);
+  }
+
+  /**
+   * Data provider.
+   */
+  public function providerTestGitPreCommitCommandHook() {
+    return [
+      ['return 1;', 'Executing target-hook pre-commit failed.'],
+      ["echo \"I'm running after git:pre-commit!\"", "\nI'm running after git:pre-commit!\n"],
+    ];
+  }
+
+  /**
    * Disables a given list of git hooks.
    *
    * @param array $hooks
