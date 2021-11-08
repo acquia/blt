@@ -111,7 +111,7 @@ class SetupGitHooksTest extends BltProjectTestBase {
    *
    * @param string $command
    *   The command to run after git pre-commit.
-   * @param string $output
+   * @param string $message
    *   The PHPUnit message to be output for this datapoint.
    *
    * @dataProvider providerTestGitPreCommitCommandHook
