@@ -60,7 +60,7 @@ docroot: ${repo.root}/docroot
 # Drupal Account Credentials. These are used for installing Drupal.
 drupal:
   #account.name: admin
-  account.mail: no-reply@acquia.com
+  account.mail: no-reply@example.com
   site.mail: ${drupal.account.mail}
   locale: en
   local_settings_file: ${docroot}/sites/${site}/settings/local.settings.php
