@@ -87,6 +87,8 @@ class GitCommand extends BltTasks {
       $this->say("<info>Your local code has passed git pre-commit validation.</info>");
     }
 
+    $this->invokeHook('pre-commit');
+
     return $result;
   }
 
