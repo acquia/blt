@@ -108,11 +108,15 @@ $blt_settings_files = [
   'config',
   'logging',
   'filesystem',
-  'simplesamlphp',
   'misc',
 ];
 foreach ($blt_settings_files as $blt_settings_file) {
   $settings_files[] = __DIR__ . "/$blt_settings_file.settings.php";
+}
+
+// Add 'simplesamlphp' settings.
+if (is_dir(DRUPAL_ROOT . '/../vendor/acquia/blt-simplesamlphp')) {
+  $settings_files[] = DRUPAL_ROOT . '/../vendor/acquia/blt-simplesamlphp/settings/simplesamlphp.settings.php';
 }
 
 // Custom global and site-specific settings.
