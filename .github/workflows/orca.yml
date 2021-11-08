@@ -7,7 +7,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    continue-on-error: ${{ matrix.allow-failure }}
     env:
       ORCA_SUT_NAME: acquia/blt
       ORCA_SUT_BRANCH: main
@@ -29,34 +28,18 @@ jobs:
           - INTEGRATED_TEST_ON_CURRENT_DEV
           - STRICT_DEPRECATED_CODE_SCAN
           - ISOLATED_TEST_ON_NEXT_MINOR
-          - INTEGRATED_TEST_ON_NEXT_MINOR
           - ISOLATED_UPGRADE_TEST_TO_NEXT_MAJOR_BETA_OR_LATER
+          - ISOLATED_UPGRADE_TEST_TO_NEXT_MAJOR_DEV
+          - DEPRECATED_CODE_SCAN_W_CONTRIB
+          - INTEGRATED_TEST_ON_NEXT_MINOR_DEV
+          - ISOLATED_TEST_ON_NEXT_MINOR_DEV
+          - INTEGRATED_UPGRADE_TEST_TO_NEXT_MINOR_DEV
+          - LOOSE_DEPRECATED_CODE_SCAN
         php-version: [ "7.3" ]
-        allow-failure: [ false ]
         include:
           - orca-job: ISOLATED_TEST_ON_CURRENT
             php-version: "8.0"
-            allow-failure: false
 
-          - orca-job: INTEGRATED_UPGRADE_TEST_TO_NEXT_MINOR_DEV
-            php-version: "7.3"
-            allow-failure: true
-
-          - orca-job: LOOSE_DEPRECATED_CODE_SCAN
-            php-version: "7.3"
-            allow-failure: true
-
-          - orca-job: ISOLATED_TEST_ON_NEXT_MINOR_DEV
-            php-version: "7.3"
-            allow-failure: true
-
-          - orca-job: INTEGRATED_TEST_ON_NEXT_MINOR_DEV
-            php-version: "7.3"
-            allow-failure: true
-
-          - orca-job: ISOLATED_UPGRADE_TEST_TO_NEXT_MAJOR_DEV
-            php-version: "7.3"
-            allow-failure: true
     steps:
       - uses: actions/checkout@v2
 
@@ -72,6 +55,7 @@ jobs:
       - name: Before install
         run: |
           composer create-project --no-dev --ignore-platform-req=php acquia/orca ../orca "$ORCA_VERSION"
+          curl https://patch-diff.githubusercontent.com/raw/acquia/orca/pull/174.patch | git -C ../orca apply
           ../orca/bin/ci/before_install.sh
 
       - name: Install
