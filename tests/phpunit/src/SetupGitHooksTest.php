@@ -95,8 +95,6 @@ class SetupGitHooksTest extends BltProjectTestBase {
 
   /**
    * Tests operation of scripts/git-hooks/pre-commit.
-   *
-   * Should assert that code validation via phpcs is functioning.
    */
   public function testGitPreCommitHook() {
     $this->blt("blt:init:git-hooks");
@@ -104,9 +102,40 @@ class SetupGitHooksTest extends BltProjectTestBase {
     $process = new Process("./.git/hooks/pre-commit", $this->sandboxInstance);
     $process->run();
     $output = $process->getOutput();
-    $this->assertStringContainsString('tests:phpcs:sniff:staged', $output);
     $this->assertStringContainsString('validate:yaml:lint:files', $output);
     $this->assertStringContainsString('validate:twig:lint:files', $output);
+  }
+
+  /**
+   * Tests command-hook of scripts/git-hooks/pre-commit.
+   *
+   * @param string $command
+   *   The command to run after git pre-commit.
+   * @param string $message
+   *   The PHPUnit message to be output for this datapoint.
+   *
+   * @dataProvider providerTestGitPreCommitCommandHook
+   */
+  public function testGitPreCommitCommandHook($command, $message) {
+    $this->blt("blt:init:git-hooks");
+    $this->config->set("command-hooks.pre-commit.command", $command);
+    // Commits must be executed inside of new project directory.
+    $process = new Process("./.git/hooks/pre-commit", $this->sandboxInstance);
+    $process->run();
+    $output = $process->getOutput();
+
+    $this->assertStringContainsString("Running $command", $output);
+    $this->assertStringContainsString($message, $output);
+  }
+
+  /**
+   * Data provider.
+   */
+  public function providerTestGitPreCommitCommandHook() {
+    return [
+      ['return 1;', 'Executing target-hook pre-commit failed.'],
+      ["echo \"I'm running after git:pre-commit!\"", "\nI'm running after git:pre-commit!\n"],
+    ];
   }
 
   /**
