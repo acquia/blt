@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cadfcb2945ab6788bffa392241c251ff",
+    "content-hash": "5721c52b8ad2ca1327c6a0992dff1b7f",
     "packages": [
         {
             "name": "acquia/drupal-environment-detector",
@@ -6511,6 +6511,7 @@
                 "issues": "https://github.com/webmozart/path-util/issues",
                 "source": "https://github.com/webmozart/path-util/tree/2.3.0"
             },
+            "abandoned": "symfony/filesystem",
             "time": "2015-12-17T08:42:14+00:00"
         },
         {
