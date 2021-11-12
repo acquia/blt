@@ -69,7 +69,42 @@
                 "type:drupal-core"
             ]
         },
-        "phpcodesniffer-search-depth": 4
+        "phpcodesniffer-search-depth": 4,
+        "violinist": {
+            "allow_updates_beyond_constraint": 0,
+            "blocklist": [
+                "symfony/cache",
+                "symfony/config",
+                "symfony/dependency-injection",
+                "symfony/dotenv",
+                "symfony/event-dispatcher",
+                "symfony/expression-language",
+                "symfony/filesystem",
+                "symfony/finder",
+                "symfony/http-kernel",
+                "symfony/process",
+                "symfony/validator",
+                "symfony/yaml"
+            ],
+            "bundled_packages": {
+                "symfony/console": [
+                    "symfony/cache",
+                    "symfony/config",
+                    "symfony/dependency-injection",
+                    "symfony/dotenv",
+                    "symfony/event-dispatcher",
+                    "symfony/expression-language",
+                    "symfony/filesystem",
+                    "symfony/finder",
+                    "symfony/http-kernel",
+                    "symfony/process",
+                    "symfony/validator",
+                    "symfony/yaml"
+                ]
+            },
+            "number_of_concurrent_updates": 2,
+            "one_pull_request_per_package": 1
+        }
     },
     "autoload": {
         "psr-4": {
