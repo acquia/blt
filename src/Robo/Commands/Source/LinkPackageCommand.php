@@ -65,33 +65,6 @@ class LinkPackageCommand extends BltTasks {
       ->dir($this->getConfigValue('repo.root'))
       ->run();
 
-    // Mount local BLT in DrupalVM.
-    if ($this->getInspector()->isDrupalVmConfigPresent()) {
-      $yamlWriter = new YamlWriter($this->getConfigValue('vm.config'));
-      $vm_config = $yamlWriter->getContents();
-      switch ($levels) {
-        case 1:
-          $destination = '/var/www/' . end($path_parts);
-          break;
-
-        case 2:
-          $destination = '/var/' . $path_parts[2] . '/' . $path_parts[3];
-          break;
-
-        default:
-          $destination = '/' . implode('/', $path_parts);
-      }
-      $vm_config['vagrant_synced_folders'][] = [
-        'local_path' => $options['path'],
-        'destination' => $destination,
-        'type' => 'nfs',
-      ];
-      $yamlWriter->write($vm_config);
-      $this->taskExec('vagrant halt && vagrant up')
-        ->dir($this->getConfigValue('repo.root'))
-        ->run();
-    }
-
     // Mount local BLT in Lando.
     if ($this->getInspector()->isLandoConfigPresent()) {
       $yamlWriter = new YamlWriter($this->getConfigValue('repo.root') . '/.lando.yml');

@@ -202,19 +202,6 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
   }
 
   /**
-   * Installs a vagrant plugin if it is not already installed.
-   *
-   * @param string $plugin
-   *   The vagrant plugin name.
-   */
-  protected function installVagrantPlugin($plugin) {
-    if (!$this->getInspector()->isVagrantPluginInstalled($plugin)) {
-      $this->logger->warning("The $plugin plugin is not installed! Attempting to install it...");
-      $this->taskExec("vagrant plugin install $plugin")->run();
-    }
-  }
-
-  /**
    * Executes a given command against multiple filesets.
    *
    * @param \Symfony\Component\Finder\Finder[] $filesets
