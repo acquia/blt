@@ -8,7 +8,9 @@ namespace Acquia\Blt\Tests;
 class ValidateCommandTest extends BltProjectTestBase {
 
   public function testValidateCommand() {
-    $this->blt("validate");
+    list($status_code) = $this->blt("validate");
+
+    static::assertEquals(0, $status_code);
   }
 
 }

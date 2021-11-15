@@ -7,7 +7,6 @@ use Acquia\Blt\Robo\Doctor\AcsfCheck;
 use Acquia\Blt\Robo\Doctor\ComposerCheck;
 use Acquia\Blt\Robo\Doctor\ConfigCheck;
 use Acquia\Blt\Robo\Doctor\DbCheck;
-use Acquia\Blt\Robo\Doctor\DevDesktopCheck;
 use Acquia\Blt\Robo\Doctor\DrupalCheck;
 use Acquia\Blt\Robo\Doctor\DrushCheck;
 use Acquia\Blt\Robo\Doctor\FileSystemCheck;
@@ -77,7 +76,6 @@ class DoctorCommand extends BltTasks {
       ComposerCheck::class,
       ConfigCheck::class,
       DbCheck::class,
-      DevDesktopCheck::class,
       DrupalCheck::class,
       DrushCheck::class,
       FileSystemCheck::class,
