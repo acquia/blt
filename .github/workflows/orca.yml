@@ -15,6 +15,7 @@ jobs:
       BLT_PRINT_COMMAND_OUTPUT: 1
       ORCA_JOB: ${{ matrix.orca-job }}
       ORCA_COVERALLS_ENABLE: ${{ matrix.coveralls-enable }}
+      COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     strategy:
       matrix:
         orca-job:
