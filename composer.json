@@ -118,5 +118,8 @@
     "support": {
         "issues": "https://github.com/acquia/blt/issues",
         "docs": "https://docs.acquia.com/blt/"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.6"
     }
 }
