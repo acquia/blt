@@ -42,10 +42,6 @@
         "acquia/blt-behat": "<=1.0.0",
         "drupal/drupal": "*"
     },
-    "require-dev": {
-        "knplabs/github-api": "^2.6",
-        "symfony/http-client": "^5.1"
-    },
     "suggest": {
         "davereid/drush-acquia-hook-invoke": "dev-master",
         "hirak/prestissimo": "^0.3",
