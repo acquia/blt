@@ -27,7 +27,15 @@ class EnvironmentDetector extends AcquiaDrupalEnvironmentDetector {
       return current($results);
     }
 
-    return isset($_ENV['PIPELINE_ENV']) ? 'pipelines' : FALSE;
+    if (isset($_ENV['PIPELINE_ENV'])) {
+      return 'pipelines';
+    }
+
+    if (isset($_ENV['GITLAB_CI_TOKEN'])) {
+      return 'codestudio';
+    }
+
+    return FALSE;
   }
 
   /**
