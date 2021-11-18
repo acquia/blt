@@ -211,16 +211,16 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     $blt_tasks->setBuilder($builder);
     $container->add('builder', $builder);
     $container->add('executor', Executor::class)
-      ->withArgument('builder');
+      ->addArgument('builder');
 
     $container->share('inspector', Inspector::class)
-      ->withArgument('executor');
+      ->addArgument('executor');
 
     $container->inflector(InspectorAwareInterface::class)
       ->invokeMethod('setInspector', ['inspector']);
 
     $container->add(SetupWizard::class)
-      ->withArgument('executor');
+      ->addArgument('executor');
 
     $container->share('filesetManager', FilesetManager::class);
 
