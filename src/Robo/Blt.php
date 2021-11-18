@@ -17,6 +17,7 @@ use Composer\InstalledVersions;
 use Consolidation\AnnotatedCommand\CommandFileDiscovery;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
+use League\Container\Definition\DefinitionInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Robo\Collection\CollectionBuilder;
@@ -276,7 +277,14 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     return getenv('HOME') . DIRECTORY_SEPARATOR . '.config' . DIRECTORY_SEPARATOR . 'blt';
   }
 
+  /**
+   * Determine if the legacy version of league/container is in use.
+   *
+   * @return bool
+   *  TRUE if using the legacy container, FALSE otherwise.
+   */
   protected static function usingLegacyContainer() {
-    return method_exists(\League\Container\Definition\DefinitionInterface::class, 'withArgument');
+    return method_exists(DefinitionInterface::class, 'withArgument');
   }
+
 }
