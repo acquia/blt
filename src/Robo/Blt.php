@@ -281,7 +281,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
    * Determine if the legacy version of league/container is in use.
    *
    * @return bool
-   *  TRUE if using the legacy container, FALSE otherwise.
+   *   TRUE if using the legacy container, FALSE otherwise.
    */
   protected static function usingLegacyContainer() {
     return method_exists(DefinitionInterface::class, 'withArgument');
