@@ -17,6 +17,7 @@ use Composer\InstalledVersions;
 use Consolidation\AnnotatedCommand\CommandFileDiscovery;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
+use League\Container\Definition\DefinitionInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Robo\Collection\CollectionBuilder;
@@ -210,17 +211,25 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     $builder = new CollectionBuilder($blt_tasks);
     $blt_tasks->setBuilder($builder);
     $container->add('builder', $builder);
-    $container->add('executor', Executor::class)
-      ->withArgument('builder');
-
-    $container->share('inspector', Inspector::class)
-      ->withArgument('executor');
+    if (self::usingLegacyContainer()) {
+      $container->add('executor', Executor::class)
+        ->withArgument('builder');
+      $container->share('inspector', Inspector::class)
+        ->withArgument('executor');
+      $container->add(SetupWizard::class)
+        ->withArgument('executor');
+    }
+    else {
+      $container->add('executor', Executor::class)
+        ->addArgument('builder');
+      $container->share('inspector', Inspector::class)
+        ->addArgument('executor');
+      $container->add(SetupWizard::class)
+        ->addArgument('executor');
+    }
 
     $container->inflector(InspectorAwareInterface::class)
       ->invokeMethod('setInspector', ['inspector']);
-
-    $container->add(SetupWizard::class)
-      ->withArgument('executor');
 
     $container->share('filesetManager', FilesetManager::class);
 
@@ -266,6 +275,16 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
    */
   public static function configDir() {
     return getenv('HOME') . DIRECTORY_SEPARATOR . '.config' . DIRECTORY_SEPARATOR . 'blt';
+  }
+
+  /**
+   * Determine if the legacy version of league/container is in use.
+   *
+   * @return bool
+   *   TRUE if using the legacy container, FALSE otherwise.
+   */
+  protected static function usingLegacyContainer() {
+    return method_exists(DefinitionInterface::class, 'withArgument');
   }
 
 }
