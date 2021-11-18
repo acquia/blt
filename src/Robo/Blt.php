@@ -210,17 +210,25 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     $builder = new CollectionBuilder($blt_tasks);
     $blt_tasks->setBuilder($builder);
     $container->add('builder', $builder);
-    $container->add('executor', Executor::class)
-      ->addArgument('builder');
-
-    $container->share('inspector', Inspector::class)
-      ->addArgument('executor');
+    if (self::usingLegacyContainer()) {
+      $container->add('executor', Executor::class)
+        ->withArgument('builder');
+      $container->share('inspector', Inspector::class)
+        ->withArgument('executor');
+      $container->add(SetupWizard::class)
+        ->withArgument('executor');
+    }
+    else {
+      $container->add('executor', Executor::class)
+        ->addArgument('builder');
+      $container->share('inspector', Inspector::class)
+        ->addArgument('executor');
+      $container->add(SetupWizard::class)
+        ->addArgument('executor');
+    }
 
     $container->inflector(InspectorAwareInterface::class)
       ->invokeMethod('setInspector', ['inspector']);
-
-    $container->add(SetupWizard::class)
-      ->addArgument('executor');
 
     $container->share('filesetManager', FilesetManager::class);
 
@@ -268,4 +276,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     return getenv('HOME') . DIRECTORY_SEPARATOR . '.config' . DIRECTORY_SEPARATOR . 'blt';
   }
 
+  protected static function usingLegacyContainer() {
+    return method_exists(\League\Container\Definition\DefinitionInterface::class, 'withArgument');
+  }
 }
