@@ -60,7 +60,7 @@
     "extra": {
         "branch-alias": {
             "10.x-dev": "10.0.x-dev",
-            "dev-main": "13.x-dev"
+            "dev-main": "12.x-dev"
         },
         "class": "Acquia\\Blt\\Composer\\Plugin",
         "installer-paths": {
