@@ -92,3 +92,9 @@ deployment_identifier
 
 # Ignore phpunit.xml, only phpunit.xml.dist should be committed.
 phpunit.xml
+
+.DS_Store
+ .idea/
+ .php_cache
+ vendor/
+
