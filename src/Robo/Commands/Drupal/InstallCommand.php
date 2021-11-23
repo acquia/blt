@@ -120,6 +120,11 @@ class InstallCommand extends BltTasks {
       ->verbose(TRUE)
       ->printOutput(TRUE);
 
+    // Allow installs to define a custom user 1 password.
+    if ($this->getConfigValue('drupal.account.pass') !== NULL) {
+      $task->option('account-pass', $this->getConfigValue('drupal.account.pass'));
+    }
+
     // Install site from existing config if supported.
     $strategy = $this->getConfigValue('cm.strategy');
     $cm_core_key = 'sync';
