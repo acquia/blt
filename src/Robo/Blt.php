@@ -81,6 +81,8 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     }
     else {
       $container = Robo::createContainer($application, $config, $classLoader);
+      $container->share('input', $input);
+      $container->share('output', $output);
     }
     $this->setContainer($container);
     $this->addDefaultArgumentsAndOptions($application);
