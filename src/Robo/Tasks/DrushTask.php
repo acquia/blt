@@ -377,9 +377,6 @@ class DrushTask extends CommandStack {
       throw new TaskException($this, 'You must add at least one command');
     }
 
-    // Set $input to NULL so that it is not inherited by the process.
-    $this->setInput(NULL);
-
     // If 'stopOnFail' is not set, or if there is only one command to run,
     // then execute the single command to run.
     if (!$this->stopOnFail || (count($this->exec) == 1)) {
