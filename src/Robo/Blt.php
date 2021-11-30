@@ -15,6 +15,7 @@ use Acquia\Blt\Update\Updater;
 use Composer\Autoload\ClassLoader;
 use Composer\InstalledVersions;
 use Consolidation\AnnotatedCommand\CommandFileDiscovery;
+use League\Container\Container;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 use League\Container\Definition\DefinitionInterface;
@@ -80,9 +81,9 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
         $config, $classLoader);
     }
     else {
-      $container = Robo::createContainer($application, $config, $classLoader);
-      $container->share('input', $input);
-      $container->share('output', $output);
+      $container = new Container();
+      Robo::configureContainer($container, $application, $config, $input, $output, $classLoader);
+      Robo::finalizeContainer($container);
     }
     $this->setContainer($container);
     $this->addDefaultArgumentsAndOptions($application);
