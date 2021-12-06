@@ -34,7 +34,7 @@
         "loophp/phposinfo": "^1.7.1",
         "symfony/config": "^4.4",
         "symfony/console": "^4.4.6",
-        "symfony/twig-bridge": "^3.3",
+        "symfony/twig-bridge": "^3.4 || ^4 || ^5",
         "symfony/yaml": "^4.4",
         "zumba/amplitude-php": "^1.0"
     },
