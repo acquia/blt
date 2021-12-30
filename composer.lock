@@ -5829,16 +5829,16 @@
         },
         {
             "name": "symfony/twig-bridge",
-            "version": "v4.4.34",
+            "version": "v4.4.36",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/twig-bridge.git",
-                "reference": "55a4045e1fb0431dbc158c3c071bb175f1c598fa"
+                "reference": "9ca8db38f34058b4e94fb540a18dca1a9cd77111"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/twig-bridge/zipball/55a4045e1fb0431dbc158c3c071bb175f1c598fa",
-                "reference": "55a4045e1fb0431dbc158c3c071bb175f1c598fa",
+                "url": "https://api.github.com/repos/symfony/twig-bridge/zipball/9ca8db38f34058b4e94fb540a18dca1a9cd77111",
+                "reference": "9ca8db38f34058b4e94fb540a18dca1a9cd77111",
                 "shasum": ""
             },
             "require": {
@@ -5926,7 +5926,7 @@
             "description": "Provides integration for Twig with various Symfony components",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/twig-bridge/tree/v4.4.34"
+                "source": "https://github.com/symfony/twig-bridge/tree/v4.4.36"
             },
             "funding": [
                 {
@@ -5942,7 +5942,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-11-18T18:14:15+00:00"
+            "time": "2021-11-25T16:40:00+00:00"
         },
         {
             "name": "symfony/validator",
@@ -6627,5 +6627,5 @@
         "composer-runtime-api": "^2.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.2.0"
 }
