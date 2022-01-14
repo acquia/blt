@@ -133,7 +133,7 @@ $settings['skip_permissions_hardening'] = TRUE;
 /**
  * Files paths.
  */
-$settings['file_private_path'] = EnvironmentDetector::getRepoRoot() . '/files-private/default';
+$settings['file_private_path'] = EnvironmentDetector::getRepoRoot() . '/files-private/' . EnvironmentDetector::getSiteName($site_path);
 /**
  * Site path.
  *
