@@ -47,7 +47,6 @@
     },
     "suggest": {
         "davereid/drush-acquia-hook-invoke": "dev-master",
-        "hirak/prestissimo": "^0.3",
         "typhonius/acquia_cli": "^2.0"
     },
     "config": {
