@@ -78,15 +78,15 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     $application = new Application('BLT', Blt::getVersion());
     $container = new Container();
     Robo::configureContainer($container, $application, $config, $input, $output, $classLoader);
-    $this->setContainer($container);
-    $this->addDefaultArgumentsAndOptions($application);
-    $this->configureContainer($container);
     if (self::usingLegacyContainer()) {
       $application->setDispatcher($container->get('eventDispatcher'));
     }
     else {
-      Robo:finalizeContainer($container);
+      Robo::finalizeContainer($container);
     }
+    $this->setContainer($container);
+    $this->addDefaultArgumentsAndOptions($application);
+    $this->configureContainer($container);
     $this->addBuiltInCommandsAndHooks();
     $this->runner = new RoboRunner();
     if (isset($classLoader)) {
