@@ -104,8 +104,8 @@ class EnvironmentDetector extends AcquiaDrupalEnvironmentDetector {
    */
   public static function isLocalEnv() {
     $results = self::getSubclassResults(__FUNCTION__);
-    if ($results) {
-      return TRUE;
+    if ( !empty($results) ) {
+      return !in_array(FALSE, $results);
     }
 
     return parent::isLocalEnv() && !self::isPantheonEnv() && !self::isCiEnv();
@@ -116,8 +116,8 @@ class EnvironmentDetector extends AcquiaDrupalEnvironmentDetector {
    */
   public static function isDevEnv() {
     $results = self::getSubclassResults(__FUNCTION__);
-    if ($results) {
-      return TRUE;
+    if ( !empty($results) ) {
+      return !in_array(FALSE, $results);
     }
 
     return self::isAhDevEnv() || self::isPantheonDevEnv();
@@ -128,8 +128,8 @@ class EnvironmentDetector extends AcquiaDrupalEnvironmentDetector {
    */
   public static function isStageEnv() {
     $results = self::getSubclassResults(__FUNCTION__);
-    if ($results) {
-      return TRUE;
+    if ( !empty($results) ) {
+      return !in_array(FALSE, $results);
     }
 
     return self::isAhStageEnv() || self::isPantheonStageEnv();
@@ -140,8 +140,8 @@ class EnvironmentDetector extends AcquiaDrupalEnvironmentDetector {
    */
   public static function isProdEnv() {
     $results = self::getSubclassResults(__FUNCTION__);
-    if ($results) {
-      return TRUE;
+    if ( !empty($results) ) {
+      return in_array(TRUE, $results);
     }
 
     return self::isAhProdEnv() || self::isPantheonProdEnv();
@@ -339,7 +339,7 @@ class EnvironmentDetector extends AcquiaDrupalEnvironmentDetector {
         $results[] = call_user_func([$detector, $functionName]);
       }
     }
-    return array_filter($results);
+    return $results;
   }
 
 }
