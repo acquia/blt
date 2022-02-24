@@ -24,7 +24,7 @@
         "consolidation/comments": "^1.0",
         "consolidation/config": "^1.0.0",
         "consolidation/robo": "^1.4.12 || ^2 || ^3",
-        "dflydev/dot-access-data": "^1.1.0",
+        "dflydev/dot-access-data": "^1.1.0 | ^2 | ^3",
         "doctrine/annotations": "^1.10.0",
         "drupal/core": "^9.0.0-alpha1",
         "drush/drush": "^10.2.2",
