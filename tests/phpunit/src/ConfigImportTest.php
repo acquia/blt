@@ -28,7 +28,7 @@ class ConfigImportTest extends BltProjectTestBase {
   public function testNoConfigException() {
 
     $this->drush("config-export --yes");
-    $this::expectException(BltException::class);
+    $this->expectException('Exception');
     $this->blt("drupal:config:import", [
       '--define' => [
         'cm.strategy=no',
