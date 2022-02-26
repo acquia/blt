@@ -132,7 +132,6 @@ class ConfigCommand extends BltTasks {
    *
    * @param mixed $task
    *   Drush task.
-   *
    */
   protected function importCoreOnly($task) {
     $task->drush("config-import");
@@ -143,7 +142,6 @@ class ConfigCommand extends BltTasks {
    *
    * @param mixed $task
    *   Drush task.
-   *
    */
   protected function importConfigSplit($task) {
     $task->drush("config-import");
