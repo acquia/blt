@@ -52,6 +52,7 @@ class ConfigImportTest extends BltProjectTestBase {
       $this::assertEquals(0, $status_code);
     }
     catch (\Exception $e) {
+      $this->expectException('Exception');
       throw new \Exception("Command exited with non-zero exit code.");
     }
   }
