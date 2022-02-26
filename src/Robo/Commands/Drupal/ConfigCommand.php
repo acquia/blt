@@ -96,7 +96,7 @@ class ConfigCommand extends BltTasks {
 
     switch ($strategy) {
       case 'core-only':
-        $this->importCoreOnly($task, $cm_core_key);
+        $this->importCoreOnly($task);
         break;
 
       case 'config-split':
@@ -107,10 +107,10 @@ class ConfigCommand extends BltTasks {
         $result = $check_task->run();
         if (!$result->wasSuccessful()) {
           $this->logger->warning('Import strategy is config-split, but the config_split module does not exist. Falling back to core-only.');
-          $this->importCoreOnly($task, $cm_core_key);
+          $this->importCoreOnly($task);
           break;
         }
-        $this->importConfigSplit($task, $cm_core_key);
+        $this->importConfigSplit($task);
         break;
     }
 
@@ -135,8 +135,8 @@ class ConfigCommand extends BltTasks {
    * @param string $cm_core_key
    *   Cm core key.
    */
-  protected function importCoreOnly($task, $cm_core_key) {
-    $task->drush("config-import")->arg($cm_core_key);
+  protected function importCoreOnly($task, $cm_core_key='') {
+    $task->drush("config-import");
   }
 
   /**
@@ -147,11 +147,11 @@ class ConfigCommand extends BltTasks {
    * @param string $cm_core_key
    *   Cm core key.
    */
-  protected function importConfigSplit($task, $cm_core_key) {
-    $task->drush("config-import")->arg($cm_core_key);
+  protected function importConfigSplit($task, $cm_core_key='') {
+    $task->drush("config-import");
     // Runs a second import to ensure splits are
     // both defined and imported.
-    $task->drush("config-import")->arg($cm_core_key);
+    $task->drush("config-import");
   }
 
   /**
