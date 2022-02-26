@@ -3,7 +3,6 @@
 namespace Acquia\Blt\Tests;
 
 use Acquia\Blt\Robo\Commands\Drupal\ConfigCommand;
-use Robo\ResultData;
 
 /**
  * Test blt config imports.
@@ -44,7 +43,7 @@ class ConfigImportTest extends BltProjectTestBase {
   /**
    * @throws \Exception
    */
-   public function testUnSuccessCase(){
+  public function testUnSuccessCase(){
      try {
        $mockconfigcommand = $this->createMock(ConfigCommand::class);
        $mockconfigcommand->method('getConfigValue')->willReturn(false);
@@ -55,7 +54,8 @@ class ConfigImportTest extends BltProjectTestBase {
      catch (\Exception $e){
        throw new \Exception("Command exited with non-zero exit code.");
      }
-   }
+  }
+
   /**
    * @throws \Exception
    */
