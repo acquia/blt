@@ -2,6 +2,8 @@
 
 namespace Acquia\Blt\Tests;
 
+use Acquia\Blt\Robo\Exceptions\BltException;
+
 /**
  * Test blt config imports.
  */
@@ -18,6 +20,21 @@ class ConfigImportTest extends BltProjectTestBase {
       ],
     ]);
     $this::assertEquals(0, $status_code);
+  }
+
+  /**
+   * @throws \Exception
+   */
+  public function testNoConfigException() {
+    $this->drush("config-export --yes");
+    list($status_code) = $this->blt("drupal:config:import", [
+      '--define' => [
+        'cm.strategy=no',
+      ],
+    ]);
+    //$this::assertEquals(0, $status_code);
+    $this::expectException(BltException::class);
+    //$this->expectExceptionMessage('Expected Exception Message');
   }
 
   /**
