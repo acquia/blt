@@ -2,8 +2,6 @@
 
 namespace Acquia\Blt\Tests;
 
-use Acquia\Blt\Robo\Exceptions\BltException;
-
 /**
  * Test blt config imports.
  */
