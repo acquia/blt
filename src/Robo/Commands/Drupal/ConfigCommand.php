@@ -96,7 +96,7 @@ class ConfigCommand extends BltTasks {
 
     switch ($strategy) {
       case 'core-only':
-        $this->importCoreOnly($task);
+        $this->importCoreOnly($task, $cm_core_key);
         break;
 
       case 'config-split':
@@ -107,10 +107,10 @@ class ConfigCommand extends BltTasks {
         $result = $check_task->run();
         if (!$result->wasSuccessful()) {
           $this->logger->warning('Import strategy is config-split, but the config_split module does not exist. Falling back to core-only.');
-          $this->importCoreOnly($task);
+          $this->importCoreOnly($task, $cm_core_key);
           break;
         }
-        $this->importConfigSplit($task);
+        $this->importConfigSplit($task, $cm_core_key);
         break;
     }
 
@@ -132,11 +132,11 @@ class ConfigCommand extends BltTasks {
    *
    * @param mixed $task
    *   Drush task.
+   * @param string $cm_core_key
+   *   Cm core key.
    */
-  protected function importCoreOnly($task) {
-    // Config import.
-    // Config import.
-    $task->drush("config-import");
+  protected function importCoreOnly($task, $cm_core_key) {
+    $task->drush("config-import")->arg($cm_core_key);;
   }
 
   /**
@@ -144,14 +144,14 @@ class ConfigCommand extends BltTasks {
    *
    * @param mixed $task
    *   Drush task.
+   * @param string $cm_core_key
+   *   Cm core key.
    */
-  protected function importConfigSplit($task) {
-    // Config import.
-    $task->drush("config-import");
+  protected function importConfigSplit($task, $cm_core_key) {
+    $task->drush("config-import")->arg($cm_core_key);;
     // Runs a second import to ensure splits are
     // both defined and imported.
-    // Config import.
-    $task->drush("config-import");
+    $task->drush("config-import")->arg($cm_core_key);;
   }
 
   /**
