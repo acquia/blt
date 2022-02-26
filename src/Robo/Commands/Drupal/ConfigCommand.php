@@ -134,8 +134,8 @@ class ConfigCommand extends BltTasks {
    *   Drush task.
    */
   protected function importCoreOnly($task) {
-    // config import
-    // config import
+    // Config import.
+    // Config import.
     $task->drush("config-import");
   }
 
@@ -146,11 +146,11 @@ class ConfigCommand extends BltTasks {
    *   Drush task.
    */
   protected function importConfigSplit($task) {
-    // config import
+    // Config import.
     $task->drush("config-import");
     // Runs a second import to ensure splits are
     // both defined and imported.
-    // config import
+    // Config import.
     $task->drush("config-import");
   }
 
