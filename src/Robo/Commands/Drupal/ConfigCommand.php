@@ -132,10 +132,10 @@ class ConfigCommand extends BltTasks {
    *
    * @param mixed $task
    *   Drush task.
-   * @param string $cm_core_key
-   *   Cm core key.
+   * 
+   *
    */
-  protected function importCoreOnly($task, $cm_core_key='') {
+  protected function importCoreOnly($task) {
     $task->drush("config-import");
   }
 
@@ -144,10 +144,10 @@ class ConfigCommand extends BltTasks {
    *
    * @param mixed $task
    *   Drush task.
-   * @param string $cm_core_key
-   *   Cm core key.
+   *
+   *
    */
-  protected function importConfigSplit($task, $cm_core_key='') {
+  protected function importConfigSplit($task) {
     $task->drush("config-import");
     // Runs a second import to ensure splits are
     // both defined and imported.
