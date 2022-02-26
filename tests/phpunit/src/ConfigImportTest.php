@@ -26,12 +26,16 @@ class ConfigImportTest extends BltProjectTestBase {
   public function testNoConfigException() {
 
     $this->drush("config-export --yes");
-    $this->expectException('Exception');
-    $this->blt("drupal:config:import", [
-      '--define' => [
-        'cm.strategy=no',
-      ],
-    ]);
+    try{
+      list($status_code) = $this->blt("drupal:config:import", [
+        '--define' => [
+          'cm.strategy=no',
+        ],
+      ]);
+      $this::assertEquals(0, $status_code);
+    }catch (\Exception $e){
+      throw new \Exception("Command exited with non-zero exit code.");
+    }
 
   }
 
