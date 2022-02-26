@@ -2,6 +2,9 @@
 
 namespace Acquia\Blt\Tests;
 
+use Acquia\Blt\Robo\Commands\Drupal\ConfigCommand;
+use Robo\ResultData;
+
 /**
  * Test blt config imports.
  */
@@ -24,7 +27,6 @@ class ConfigImportTest extends BltProjectTestBase {
    * @throws \Exception
    */
   public function testNoConfigException() {
-
     $this->drush("config-export --yes");
     try {
       list($status_code) = $this->blt("drupal:config:import", [
@@ -39,6 +41,21 @@ class ConfigImportTest extends BltProjectTestBase {
     }
   }
 
+  /**
+   * @throws \Exception
+   */
+   public function testUnSuccessCase(){
+     try {
+       $mockconfigcommand = $this->createMock(ConfigCommand::class);
+       $mockconfigcommand->method('getConfigValue')->willReturn(false);
+       $mockconfigcommand->getInspector()->method('isActiveConfigIdentical')->willReturn(false);
+       list($status_code) = $mockconfigcommand->checkConfigOverrides();
+       $this::assertEquals(0, $status_code);
+     }
+     catch (\Exception $e){
+       throw new \Exception("Command exited with non-zero exit code.");
+     }
+   }
   /**
    * @throws \Exception
    */
