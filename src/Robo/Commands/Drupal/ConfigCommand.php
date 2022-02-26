@@ -129,9 +129,7 @@ class ConfigCommand extends BltTasks {
 
   /**
    * Import configuration using core config management only.
-   * Import configuration using core config management only.
-   * Import configuration using core config management only.
-   * 
+   *
    * @param mixed $task
    *   Drush task.
    */
@@ -140,8 +138,6 @@ class ConfigCommand extends BltTasks {
   }
 
   /**
-   * Import configuration using config_split module.
-   * Import configuration using config_split module.
    * Import configuration using config_split module.
    *
    * @param mixed $task
@@ -192,5 +188,8 @@ class ConfigCommand extends BltTasks {
 
     return NULL;
   }
+
+
+
 
 }
