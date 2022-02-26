@@ -136,7 +136,7 @@ class ConfigCommand extends BltTasks {
    *   Cm core key.
    */
   protected function importCoreOnly($task, $cm_core_key) {
-    $task->drush("config-import")->arg($cm_core_key);;
+    $task->drush("config-import")->arg($cm_core_key);
   }
 
   /**
@@ -148,10 +148,10 @@ class ConfigCommand extends BltTasks {
    *   Cm core key.
    */
   protected function importConfigSplit($task, $cm_core_key) {
-    $task->drush("config-import")->arg($cm_core_key);;
+    $task->drush("config-import")->arg($cm_core_key);
     // Runs a second import to ensure splits are
     // both defined and imported.
-    $task->drush("config-import")->arg($cm_core_key);;
+    $task->drush("config-import")->arg($cm_core_key);
   }
 
   /**
