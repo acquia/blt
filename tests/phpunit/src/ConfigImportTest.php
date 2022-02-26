@@ -46,12 +46,12 @@ class ConfigImportTest extends BltProjectTestBase {
   public function testUnSuccessCase() {
     try {
       $mockconfigcommand = $this->createMock(ConfigCommand::class);
-      $mockconfigcommand->method('getConfigValue')->willReturn(false);
-      $mockconfigcommand->getInspector()->method('isActiveConfigIdentical')->willReturn(false);
+      $mockconfigcommand->method('getConfigValue')->willReturn(FALSE);
+      $mockconfigcommand->getInspector()->method('isActiveConfigIdentical')->willReturn(FALSE);
       list($status_code) = $mockconfigcommand->checkConfigOverrides();
       $this::assertEquals(0, $status_code);
     }
-    catch (\Exception $e){
+    catch (\Exception $e) {
       throw new \Exception("Command exited with non-zero exit code.");
     }
   }
