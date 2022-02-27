@@ -213,11 +213,11 @@ class ConfigImportTest extends BltProjectTestBase {
       ->onlyMethods([
         'getConfigValue',
         'taskDrush',
-        'logConfig'
+        'logConfig',
       ])
       ->getMock();
     $mockconfigcommand->expects($this->any())->method('getConfigValue')->willReturn('config-split');
-    $mockconfigcommand->expects($this->any())->method('logConfig')->with([],'cm');
+    $mockconfigcommand->expects($this->any())->method('logConfig')->with([], 'cm');
 
     $mockdrushtask = $this->getMockBuilder(DrushTask::class)
       ->disableOriginalConstructor()
