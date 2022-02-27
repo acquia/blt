@@ -4,6 +4,8 @@ namespace Acquia\Blt\Tests;
 
 use Acquia\Blt\Robo\Commands\Drupal\ConfigCommand;
 use Acquia\Blt\Robo\Inspector\Inspector;
+use Acquia\Blt\Robo\Tasks\DrushTask;
+use Robo\Result;
 
 /**
  * Test blt config imports.
@@ -60,6 +62,24 @@ class ConfigImportTest extends BltProjectTestBase {
       ])
       ->getMock();
     $mockinspector->expects($this->once())->method('isActiveConfigIdentical')->willReturn(FALSE);
+    $mockdrushtask = $this->getMockBuilder(DrushTask::class)
+      ->disableOriginalConstructor()
+      ->onlyMethods([
+        'stopOnFail',
+        'drush',
+        'run',
+      ])
+      ->getMock();
+    $mockdrushtask->expects($this->once())->method('stopOnFail')->willReturn($mockdrushtask);
+    $mockdrushtask->expects($this->once())->method('drush')->willReturn($mockdrushtask);
+    $mockresult = $this->getMockBuilder(Result::class)
+      ->disableOriginalConstructor()
+      ->onlyMethods([
+        'wasSuccessful',
+      ])
+      ->getMock();
+    $mockresult->expects($this->once())->method('wasSuccessful')->willReturn(FALSE);
+    $mockdrushtask->expects($this->once())->method('run')->willReturn($mockresult);
     $mockconfigcommand->expects($this->once())->method('getInspector')->willReturn($mockinspector);
     $mockconfigcommand->expects($this->once())->method('getConfigValue')->willReturn(NULL);
     $testMethod = new \ReflectionMethod(
