@@ -162,8 +162,8 @@ class ConfigImportTest extends BltProjectTestBase {
   }
 
   /**
- * @throws \Exception
- */
+   * @throws \Exception
+   */
   public function testImportConfigSplit() {
     $mockconfigcommand = $this->getMockBuilder(ConfigCommand::class)
       ->disableOriginalConstructor()
@@ -192,6 +192,27 @@ class ConfigImportTest extends BltProjectTestBase {
       ->disableOriginalConstructor()
       ->onlyMethods([
         'getConfigValue',
+      ])
+      ->getMock();
+    $mockconfigcommand->expects($this->any())->method('getConfigValue')->willReturn('invalid_path');
+    $testExportedSiteUuidMethod = new \ReflectionMethod(
+      ConfigCommand::class,
+      'getExportedSiteUuid'
+    );
+    $testExportedSiteUuidMethod->setAccessible(TRUE);
+    $this->assertNull($testExportedSiteUuidMethod->invokeArgs($mockconfigcommand, ['invalid_path']));
+  }
+
+  /**
+   * @throws \Exception
+   */
+  public function testImportMethod() {
+    $mockconfigcommand = $this->getMockBuilder(ConfigCommand::class)
+      ->disableOriginalConstructor()
+      ->onlyMethods([
+        'getConfigValue',
+        'getInspector',
+        'taskDrush',
       ])
       ->getMock();
     $mockconfigcommand->expects($this->any())->method('getConfigValue')->willReturn('invalid_path');
