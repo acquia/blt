@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Tests;
 
 use Acquia\Blt\Robo\Commands\Drupal\ConfigCommand;
+use Acquia\Blt\Robo\Inspector\Inspector;
 
 /**
  * Test blt config imports.
@@ -43,15 +44,26 @@ class ConfigImportTest extends BltProjectTestBase {
   /**
    * @throws \Exception
    */
-  public function testUnSuccessCase() {
-    $mockconfigcommand = $this->createMock(ConfigCommand::class)
-      ->shouldAllowMockingProtectedMethods();
-    $mockconfigcommand->method('getConfigValue')->willReturn(FALSE);
-    $mockconfigcommand->getInspector()->method('isActiveConfigIdentical')->willReturn(FALSE);
-    $this->expectException('Exception');
+  public function testUnSuccessCase()
+  {
+    $this->expectException('BltException');
+    $mockconfigcommand = $this->getMockBuilder(ConfigCommand::class)
+      ->disableOriginalConstructor()
+      ->setMethods([
+        'getConfigValue',
+        'getInspector'])
+      ->getMock();
+    $mockinspector = $this->->getMockBuilder(Inspector::class)
+      ->disableOriginalConstructor()
+      ->setMethods([
+        'isActiveConfigIdentical'
+      ])
+      ->getMock();
+    $mockinspector->expects($this->once())->method('isActiveConfigIdentical')->willReturn(FALSE);
+    $mockconfigcommand->expects($this->once())->method('getInspector')->willReturn($mockinspector);
+    $mockconfigcommand->expects($this->once())->method('getConfigValue')->willReturn(NULL);
     $mockconfigcommand->checkConfigOverrides();
   }
-
   /**
    * @throws \Exception
    */
