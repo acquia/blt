@@ -44,8 +44,7 @@ class ConfigImportTest extends BltProjectTestBase {
   /**
    * @throws \Exception
    */
-  public function testUnSuccessCase()
-  {
+  public function testUnSuccessCase(){
     $this->expectException('Exception');
     $mockconfigcommand = $this->getMockBuilder(ConfigCommand::class)
       ->disableOriginalConstructor()
@@ -67,9 +66,10 @@ class ConfigImportTest extends BltProjectTestBase {
       ConfigCommand::class,
       'checkConfigOverrides'
     );
-    $testMethod->setAccessible(true);
+    $testMethod->setAccessible(TRUE);
     $testMethod->invoke($mockconfigcommand);
   }
+  
   /**
    * @throws \Exception
    */
