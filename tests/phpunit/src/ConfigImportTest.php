@@ -45,7 +45,7 @@ class ConfigImportTest extends BltProjectTestBase {
    * @throws \Exception
    */
   public function testUnSuccessCase() {
-    $this->expectException('BltException');
+    $this->expectException('Exception');
     $mockconfigcommand = $this->getMockBuilder(ConfigCommand::class)
       ->disableOriginalConstructor()
       ->onlyMethods([
