@@ -90,22 +90,6 @@ class ConfigImportTest extends BltProjectTestBase {
     );
     $testMethod->setAccessible(TRUE);
     $testMethod->invoke($mockconfigcommand);
-//    try {
-//
-//
-//    }
-//    catch (\Exception $e) {
-//      $mockresult->expects($this->any())->method('wasSuccessful')->willReturn(FALSE);
-//      $mockdrushtask->expects($this->any())->method('run')->willReturn($mockresult);
-//      $mockconfigcommand->expects($this->any())->method('taskDrush')->willReturn($mockdrushtask);
-//      $this->expectException('Exception');
-//      $testMethod->invoke($mockconfigcommand);
-//    }
-//    $testImportConfigSplitMethod = new \ReflectionMethod(
-//      ConfigCommand::class,
-//      'importConfigSplit'
-//    );
-//    $this->assertNull($testImportConfigSplitMethod->invokeArgs($mockconfigcommand, $mockdrushtask));
   }
 
   /**
