@@ -217,7 +217,6 @@ class ConfigImportTest extends BltProjectTestBase {
       ])
       ->getMock();
     $mockconfigcommand->expects($this->any())->method('getConfigValue')->with('cm.strategy')->willReturn('config-split');
-    $mockconfigcommand->expects($this->any())->method('getConfigValue')->with('cm')->willReturn([]);
     $mockconfigcommand->expects($this->any())->method('logConfig');
 
     $mockdrushtask = $this->getMockBuilder(DrushTask::class)
