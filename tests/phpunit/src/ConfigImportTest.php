@@ -213,9 +213,12 @@ class ConfigImportTest extends BltProjectTestBase {
       ->onlyMethods([
         'getConfigValue',
         'taskDrush',
+        'logConfig'
       ])
       ->getMock();
     $mockconfigcommand->expects($this->any())->method('getConfigValue')->willReturn('config-split');
+    $mockconfigcommand->expects($this->any())->method('logConfig')->with([],'cm');
+
     $mockdrushtask = $this->getMockBuilder(DrushTask::class)
       ->disableOriginalConstructor()
       ->onlyMethods([
@@ -236,6 +239,55 @@ class ConfigImportTest extends BltProjectTestBase {
     $mockdrushtask->expects($this->any())->method('run')->willReturn($mockresult);
     $mockconfigcommand->expects($this->any())->method('taskDrush')->willReturn($mockdrushtask);
     $mockconfigcommand->import();
+  }
+
+  /**
+   * @throws \Exception
+   */
+  public function testUnSuccessCaseException() {
+    $this->expectException('Exception');
+    $mockconfigcommand = $this->getMockBuilder(ConfigCommand::class)
+      ->disableOriginalConstructor()
+      ->onlyMethods([
+        'getConfigValue',
+        'getInspector',
+        'taskDrush',
+      ])
+      ->getMock();
+    $mockinspector = $this->getMockBuilder(Inspector::class)
+      ->disableOriginalConstructor()
+      ->onlyMethods([
+        'isActiveConfigIdentical',
+      ])
+      ->getMock();
+    $mockinspector->expects($this->any())->method('isActiveConfigIdentical')->willReturn(FALSE);
+    $mockdrushtask = $this->getMockBuilder(DrushTask::class)
+      ->disableOriginalConstructor()
+      ->onlyMethods([
+        'stopOnFail',
+        'drush',
+        'run',
+      ])
+      ->getMock();
+    $mockdrushtask->expects($this->any())->method('stopOnFail')->willReturn($mockdrushtask);
+    $mockdrushtask->expects($this->any())->method('drush')->willReturn($mockdrushtask);
+    $mockresult = $this->getMockBuilder(Result::class)
+      ->disableOriginalConstructor()
+      ->onlyMethods([
+        'wasSuccessful',
+      ])
+      ->getMock();
+    $mockresult->expects($this->any())->method('wasSuccessful')->willReturn(FALSE);
+    $mockdrushtask->expects($this->any())->method('run')->willReturn($mockresult);
+    $mockconfigcommand->expects($this->any())->method('getInspector')->willReturn($mockinspector);
+    $mockconfigcommand->expects($this->any())->method('getConfigValue')->willReturn(NULL);
+    $mockconfigcommand->expects($this->any())->method('taskDrush')->willReturn($mockdrushtask);
+    $testMethod = new \ReflectionMethod(
+      ConfigCommand::class,
+      'checkConfigOverrides'
+    );
+    $testMethod->setAccessible(TRUE);
+    $testMethod->invoke($mockconfigcommand);
   }
 
 }
