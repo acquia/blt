@@ -237,7 +237,7 @@ class ConfigImportTest extends BltProjectTestBase {
     $mockconfigcommand = $this->getMockBuilder(ConfigCommand::class)
       ->disableOriginalConstructor();
     if (!empty($methods)) {
-       $mockconfigcommand->onlyMethods($methods);
+      $mockconfigcommand->onlyMethods($methods);
     }
     return $mockconfigcommand->getMock();
   }
