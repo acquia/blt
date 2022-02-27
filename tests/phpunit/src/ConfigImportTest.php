@@ -64,7 +64,7 @@ class ConfigImportTest extends BltProjectTestBase {
     $mockconfigcommand->expects($this->once())->method('getConfigValue')->willReturn(NULL);
     $mockconfigcommand->checkConfigOverrides();
   }
-  
+
   /**
    * @throws \Exception
    */
