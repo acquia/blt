@@ -206,44 +206,6 @@ class ConfigImportTest extends BltProjectTestBase {
   /**
    * @throws \Exception
    */
-  public function testImportMethod() {
-    $this->expectException('Exception');
-    $mockconfigcommand = $this->getMockBuilder(ConfigCommand::class)
-      ->disableOriginalConstructor()
-      ->onlyMethods([
-        'getConfigValue',
-        'taskDrush',
-        'logConfig',
-      ])
-      ->getMock();
-    $mockconfigcommand->expects($this->any())->method('getConfigValue')->with('cm.strategy')->willReturn('config-split');
-    $mockconfigcommand->expects($this->any())->method('logConfig');
-
-    $mockdrushtask = $this->getMockBuilder(DrushTask::class)
-      ->disableOriginalConstructor()
-      ->onlyMethods([
-        'stopOnFail',
-        'drush',
-        'run',
-      ])
-      ->getMock();
-    $mockdrushtask->expects($this->any())->method('stopOnFail')->willReturn($mockdrushtask);
-    $mockdrushtask->expects($this->any())->method('drush')->willReturn($mockdrushtask);
-    $mockresult = $this->getMockBuilder(Result::class)
-      ->disableOriginalConstructor()
-      ->onlyMethods([
-        'wasSuccessful',
-      ])
-      ->getMock();
-    $mockresult->expects($this->any())->method('wasSuccessful')->willReturn(FALSE);
-    $mockdrushtask->expects($this->any())->method('run')->willReturn($mockresult);
-    $mockconfigcommand->expects($this->any())->method('taskDrush')->willReturn($mockdrushtask);
-    $mockconfigcommand->import();
-  }
-
-  /**
-   * @throws \Exception
-   */
   public function testUnSuccessCaseException() {
     $this->expectException('Exception');
     $mockconfigcommand = $this->getMockBuilder(ConfigCommand::class)
