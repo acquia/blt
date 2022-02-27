@@ -181,7 +181,7 @@ class ConfigImportTest extends BltProjectTestBase {
       'importConfigSplit'
     );
     $testImportConfigSplitMethod->setAccessible(TRUE);
-    $this->assertNull($testImportConfigSplitMethod->invokeArgs($mockconfigcommand, $mockdrushtask));
+    $this->assertNull($testImportConfigSplitMethod->invokeArgs($mockconfigcommand, [$mockdrushtask]));
   }
 
 }
