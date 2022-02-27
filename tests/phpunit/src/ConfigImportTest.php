@@ -53,7 +53,7 @@ class ConfigImportTest extends BltProjectTestBase {
         'getInspector',
       ])
       ->getMock();
-    $mockinspector = $this->->getMockBuilder(Inspector::class)
+    $mockinspector = $this->getMockBuilder(Inspector::class)
       ->disableOriginalConstructor()
       ->setMethods([
         'isActiveConfigIdentical',
