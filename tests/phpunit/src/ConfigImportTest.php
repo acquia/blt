@@ -47,7 +47,7 @@ class ConfigImportTest extends BltProjectTestBase {
    * @throws \Exception
    */
   public function testUnSuccessCase() {
-
+    $this->expectException('Exception');
     $mockconfigcommand = $this->getMockBuilder(ConfigCommand::class)
       ->disableOriginalConstructor()
       ->onlyMethods([
@@ -89,22 +89,23 @@ class ConfigImportTest extends BltProjectTestBase {
       'checkConfigOverrides'
     );
     $testMethod->setAccessible(TRUE);
-    try {
-      $this->expectException('Exception');
-      $testMethod->invoke($mockconfigcommand);
-    }
-    catch (\Exception $e) {
-      $mockresult->expects($this->any())->method('wasSuccessful')->willReturn(FALSE);
-      $mockdrushtask->expects($this->any())->method('run')->willReturn($mockresult);
-      $mockconfigcommand->expects($this->any())->method('taskDrush')->willReturn($mockdrushtask);
-      $this->expectException('Exception');
-      $testMethod->invoke($mockconfigcommand);
-    }
-    $testImportConfigSplitMethod = new \ReflectionMethod(
-      ConfigCommand::class,
-      'importConfigSplit'
-    );
-    $this->assertNull($testImportConfigSplitMethod->invokeArgs($mockconfigcommand, $mockdrushtask));
+    $testMethod->invoke($mockconfigcommand);
+//    try {
+//
+//
+//    }
+//    catch (\Exception $e) {
+//      $mockresult->expects($this->any())->method('wasSuccessful')->willReturn(FALSE);
+//      $mockdrushtask->expects($this->any())->method('run')->willReturn($mockresult);
+//      $mockconfigcommand->expects($this->any())->method('taskDrush')->willReturn($mockdrushtask);
+//      $this->expectException('Exception');
+//      $testMethod->invoke($mockconfigcommand);
+//    }
+//    $testImportConfigSplitMethod = new \ReflectionMethod(
+//      ConfigCommand::class,
+//      'importConfigSplit'
+//    );
+//    $this->assertNull($testImportConfigSplitMethod->invokeArgs($mockconfigcommand, $mockdrushtask));
   }
 
   /**
@@ -140,6 +141,62 @@ class ConfigImportTest extends BltProjectTestBase {
       ],
     ]);
     static::assertEquals(0, $status_code);
+  }
+
+  /**
+   * @throws \Exception
+   */
+  public function testUpdateFailed() {
+    $this->expectException('Exception');
+    $mockconfigcommand = $this->getMockBuilder(ConfigCommand::class)
+      ->disableOriginalConstructor()
+      ->onlyMethods([
+        'taskDrush',
+      ])
+      ->getMock();
+
+    $mockdrushtask = $this->getMockBuilder(DrushTask::class)
+      ->disableOriginalConstructor()
+      ->onlyMethods([
+        'stopOnFail',
+        'drush',
+        'run',
+      ])
+      ->getMock();
+    $mockdrushtask->expects($this->any())->method('stopOnFail')->willReturn($mockdrushtask);
+    $mockdrushtask->expects($this->any())->method('drush')->willReturn($mockdrushtask);
+    $mockresult = $this->getMockBuilder(Result::class)
+      ->disableOriginalConstructor()
+      ->onlyMethods([
+        'wasSuccessful',
+      ])
+      ->getMock();
+    $mockresult->expects($this->any())->method('wasSuccessful')->willReturn(FALSE);
+    $mockdrushtask->expects($this->any())->method('run')->willReturn($mockresult);
+    $mockconfigcommand->expects($this->any())->method('taskDrush')->willReturn($mockdrushtask);
+    $mockconfigcommand->update();
+  }
+
+  /**
+   * @throws \Exception
+   */
+  public function testImportConfigSplit() {
+    $mockconfigcommand = $this->getMockBuilder(ConfigCommand::class)
+      ->disableOriginalConstructor()
+      ->getMock();
+
+    $mockdrushtask = $this->getMockBuilder(DrushTask::class)
+      ->disableOriginalConstructor()
+      ->onlyMethods([
+        'drush',
+      ])
+      ->getMock();
+    $mockdrushtask->expects($this->any())->method('drush')->willReturn($mockdrushtask);
+    $testImportConfigSplitMethod = new \ReflectionMethod(
+      ConfigCommand::class,
+      'importConfigSplit'
+    );
+    $this->assertNull($testImportConfigSplitMethod->invokeArgs($mockconfigcommand, $mockdrushtask));
   }
 
 }
