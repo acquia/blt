@@ -48,14 +48,11 @@ class ConfigImportTest extends BltProjectTestBase {
    */
   public function testUnSuccessCase() {
     $this->expectException('Exception');
-    $mockconfigcommand = $this->getMockBuilder(ConfigCommand::class)
-      ->disableOriginalConstructor()
-      ->onlyMethods([
-        'getConfigValue',
-        'getInspector',
-        'taskDrush',
-      ])
-      ->getMock();
+    $mockconfigcommand = $this->getMockBuilderConfigCommand([
+      'getConfigValue',
+      'getInspector',
+      'taskDrush',
+    ]);
     $mockinspector = $this->getMockBuilder(Inspector::class)
       ->disableOriginalConstructor()
       ->onlyMethods([
@@ -63,14 +60,11 @@ class ConfigImportTest extends BltProjectTestBase {
       ])
       ->getMock();
     $mockinspector->expects($this->any())->method('isActiveConfigIdentical')->willReturn(FALSE);
-    $mockdrushtask = $this->getMockBuilder(DrushTask::class)
-      ->disableOriginalConstructor()
-      ->onlyMethods([
-        'stopOnFail',
-        'drush',
-        'run',
-      ])
-      ->getMock();
+    $mockdrushtask = $this->getMockDrushTask([
+      'stopOnFail',
+      'drush',
+      'run',
+    ]);
     $mockdrushtask->expects($this->any())->method('stopOnFail')->willReturn($mockdrushtask);
     $mockdrushtask->expects($this->any())->method('drush')->willReturn($mockdrushtask);
     $mockresult = $this->getMockBuilder(Result::class)
@@ -132,21 +126,14 @@ class ConfigImportTest extends BltProjectTestBase {
    */
   public function testUpdateFailed() {
     $this->expectException('Exception');
-    $mockconfigcommand = $this->getMockBuilder(ConfigCommand::class)
-      ->disableOriginalConstructor()
-      ->onlyMethods([
-        'taskDrush',
-      ])
-      ->getMock();
-
-    $mockdrushtask = $this->getMockBuilder(DrushTask::class)
-      ->disableOriginalConstructor()
-      ->onlyMethods([
-        'stopOnFail',
-        'drush',
-        'run',
-      ])
-      ->getMock();
+    $mockconfigcommand = $this->getMockBuilderConfigCommand([
+      'taskDrush',
+    ]);
+    $mockdrushtask = $this->getMockDrushTask([
+      'stopOnFail',
+      'drush',
+      'run',
+    ]);
     $mockdrushtask->expects($this->any())->method('stopOnFail')->willReturn($mockdrushtask);
     $mockdrushtask->expects($this->any())->method('drush')->willReturn($mockdrushtask);
     $mockresult = $this->getMockBuilder(Result::class)
@@ -165,16 +152,10 @@ class ConfigImportTest extends BltProjectTestBase {
    * @throws \Exception
    */
   public function testImportConfigSplit() {
-    $mockconfigcommand = $this->getMockBuilder(ConfigCommand::class)
-      ->disableOriginalConstructor()
-      ->getMock();
-
-    $mockdrushtask = $this->getMockBuilder(DrushTask::class)
-      ->disableOriginalConstructor()
-      ->onlyMethods([
-        'drush',
-      ])
-      ->getMock();
+    $mockconfigcommand = $this->getMockBuilderConfigCommand([]);
+    $mockdrushtask = $this->getMockDrushTask([
+      'drush',
+    ]);
     $mockdrushtask->expects($this->any())->method('drush')->willReturn($mockdrushtask);
     $testImportConfigSplitMethod = new \ReflectionMethod(
       ConfigCommand::class,
@@ -188,12 +169,9 @@ class ConfigImportTest extends BltProjectTestBase {
    * @throws \Exception
    */
   public function testExportedSiteUuidNull() {
-    $mockconfigcommand = $this->getMockBuilder(ConfigCommand::class)
-      ->disableOriginalConstructor()
-      ->onlyMethods([
-        'getConfigValue',
-      ])
-      ->getMock();
+    $mockconfigcommand = $this->getMockBuilderConfigCommand([
+      'getConfigValue',
+    ]);
     $mockconfigcommand->expects($this->any())->method('getConfigValue')->willReturn('invalid_path');
     $testExportedSiteUuidMethod = new \ReflectionMethod(
       ConfigCommand::class,
@@ -208,14 +186,11 @@ class ConfigImportTest extends BltProjectTestBase {
    */
   public function testUnSuccessCaseException() {
     $this->expectException('Exception');
-    $mockconfigcommand = $this->getMockBuilder(ConfigCommand::class)
-      ->disableOriginalConstructor()
-      ->onlyMethods([
-        'getConfigValue',
-        'getInspector',
-        'taskDrush',
-      ])
-      ->getMock();
+    $mockconfigcommand = $this->getMockBuilderConfigCommand([
+      'getConfigValue',
+      'getInspector',
+      'taskDrush',
+    ]);
     $mockinspector = $this->getMockBuilder(Inspector::class)
       ->disableOriginalConstructor()
       ->onlyMethods([
@@ -223,14 +198,11 @@ class ConfigImportTest extends BltProjectTestBase {
       ])
       ->getMock();
     $mockinspector->expects($this->any())->method('isActiveConfigIdentical')->willReturn(FALSE);
-    $mockdrushtask = $this->getMockBuilder(DrushTask::class)
-      ->disableOriginalConstructor()
-      ->onlyMethods([
-        'stopOnFail',
-        'drush',
-        'run',
-      ])
-      ->getMock();
+    $mockdrushtask = $this->getMockDrushTask([
+      'stopOnFail',
+      'drush',
+      'run',
+    ]);
     $mockdrushtask->expects($this->any())->method('stopOnFail')->willReturn($mockdrushtask);
     $mockdrushtask->expects($this->any())->method('drush')->willReturn($mockdrushtask);
     $mockresult = $this->getMockBuilder(Result::class)
@@ -250,6 +222,34 @@ class ConfigImportTest extends BltProjectTestBase {
     );
     $testMethod->setAccessible(TRUE);
     $testMethod->invoke($mockconfigcommand);
+  }
+
+  /**
+   * Mock object of drupal config command.
+   * @param array $methods
+   * @return mixed
+   */
+  public function getMockBuilderConfigCommand($methods=[]) {
+    $mockconfigcommand = $this->getMockBuilder(ConfigCommand::class)
+      ->disableOriginalConstructor();
+    if(!empty($methods)) {
+       $mockconfigcommand->onlyMethods($methods);
+    }
+    return $mockconfigcommand->getMock();
+  }
+
+  /**
+   * Mock object of drupal config command.
+   * @param array $methods
+   * @return mixed
+   */
+  public function getMockDrushTask($methods=[]) {
+    $mockdrushtask = $this->getMockBuilder(DrushTask::class)
+      ->disableOriginalConstructor();
+    if(!empty($methods)) {
+      $mockdrushtask->onlyMethods($methods);
+    }
+    return $mockdrushtask->getMock();
   }
 
 }
