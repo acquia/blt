@@ -44,14 +44,14 @@ class ConfigImportTest extends BltProjectTestBase {
   /**
    * @throws \Exception
    */
-  public function testUnSuccessCase()
-  {
+  public function testUnSuccessCase() {
     $this->expectException('BltException');
     $mockconfigcommand = $this->getMockBuilder(ConfigCommand::class)
       ->disableOriginalConstructor()
       ->setMethods([
         'getConfigValue',
-        'getInspector'])
+        'getInspector',
+      ])
       ->getMock();
     $mockinspector = $this->->getMockBuilder(Inspector::class)
       ->disableOriginalConstructor()
@@ -64,6 +64,7 @@ class ConfigImportTest extends BltProjectTestBase {
     $mockconfigcommand->expects($this->once())->method('getConfigValue')->willReturn(NULL);
     $mockconfigcommand->checkConfigOverrides();
   }
+  
   /**
    * @throws \Exception
    */
