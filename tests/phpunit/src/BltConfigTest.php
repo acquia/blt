@@ -4,6 +4,7 @@ namespace Acquia\Blt\Tests;
 
 use Acquia\Blt\Robo\Commands\Blt\ConfigCommand;
 use Robo\Config\Config;
+
 /**
  * Test config commands.
  */
@@ -43,6 +44,5 @@ class BltConfigTest extends BltProjectTestBase {
     $mockconfigcommand->expects($this->any())->method('getConfig')->willReturn($mockconfig);
     $mockconfigcommand->getValue('abc');
   }
-
 
 }
