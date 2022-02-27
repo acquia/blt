@@ -228,14 +228,15 @@ class ConfigImportTest extends BltProjectTestBase {
    * Mock object of drupal config command.
    *
    * @param array $methods
-   * Name of methods.
+   *   Name of methods.
    *
    * @return mixed
+   *   Return mock object of drupal config command.
    */
   public function getMockBuilderConfigCommand(array $methods) {
     $mockconfigcommand = $this->getMockBuilder(ConfigCommand::class)
       ->disableOriginalConstructor();
-    if(!empty($methods)) {
+    if (!empty($methods)) {
        $mockconfigcommand->onlyMethods($methods);
     }
     return $mockconfigcommand->getMock();
@@ -245,9 +246,10 @@ class ConfigImportTest extends BltProjectTestBase {
    * Mock object of drupal config command.
    *
    * @param array $methods
-   * Name of methods.
+   *   Name of methods.
    *
    * @return mixed
+   *   Return mock object of drupal config command.
    */
   public function getMockDrushTask(array $methods) {
     $mockdrushtask = $this->getMockBuilder(DrushTask::class)
