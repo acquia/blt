@@ -31,6 +31,7 @@ class BltConfigTest extends BltProjectTestBase {
    * Tests getvalue of config command.
    */
   public function testGetValueConfigCommand() {
+    $this->expectException('Exception');
     $mockconfigcommand = $this->getMockBuilder(ConfigCommand::class)
       ->disableOriginalConstructor()
       ->onlyMethods([
