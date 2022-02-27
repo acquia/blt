@@ -53,6 +53,7 @@ class ConfigImportTest extends BltProjectTestBase {
       ->onlyMethods([
         'getConfigValue',
         'getInspector',
+        'taskDrush',
       ])
       ->getMock();
     $mockinspector = $this->getMockBuilder(Inspector::class)
@@ -82,6 +83,7 @@ class ConfigImportTest extends BltProjectTestBase {
     $mockdrushtask->expects($this->once())->method('run')->willReturn($mockresult);
     $mockconfigcommand->expects($this->once())->method('getInspector')->willReturn($mockinspector);
     $mockconfigcommand->expects($this->once())->method('getConfigValue')->willReturn(NULL);
+    $mockconfigcommand->expects($this->once())->method('taskDrush')->willReturn($mockdrushtask);
     $testMethod = new \ReflectionMethod(
       ConfigCommand::class,
       'checkConfigOverrides'
