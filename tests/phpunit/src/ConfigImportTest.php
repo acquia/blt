@@ -113,7 +113,6 @@ class ConfigImportTest extends BltProjectTestBase {
    * @throws \Exception
    */
   public function testConfigSplit() {
-    $this->drush("pm-enable config_split --yes");
     $this->drush("config-export --yes");
     $this->fs->copy(
       $this->bltDirectory . "/scripts/blt/ci/internal/config_split.config_split.ci.yml",
@@ -192,27 +191,6 @@ class ConfigImportTest extends BltProjectTestBase {
       ->disableOriginalConstructor()
       ->onlyMethods([
         'getConfigValue',
-      ])
-      ->getMock();
-    $mockconfigcommand->expects($this->any())->method('getConfigValue')->willReturn('invalid_path');
-    $testExportedSiteUuidMethod = new \ReflectionMethod(
-      ConfigCommand::class,
-      'getExportedSiteUuid'
-    );
-    $testExportedSiteUuidMethod->setAccessible(TRUE);
-    $this->assertNull($testExportedSiteUuidMethod->invokeArgs($mockconfigcommand, ['invalid_path']));
-  }
-
-  /**
-   * @throws \Exception
-   */
-  public function testImportMethod() {
-    $mockconfigcommand = $this->getMockBuilder(ConfigCommand::class)
-      ->disableOriginalConstructor()
-      ->onlyMethods([
-        'getConfigValue',
-        'getInspector',
-        'taskDrush',
       ])
       ->getMock();
     $mockconfigcommand->expects($this->any())->method('getConfigValue')->willReturn('invalid_path');
