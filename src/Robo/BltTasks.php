@@ -88,6 +88,9 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
       if ($this->input()->hasParameterOption('--environment')) {
         $args['--environment'] = $this->input()->getParameterOption('--environment');
       }
+      if ($this->input()->hasParameterOption('--site')) {
+        $args['--site'] = $this->input()->getParameterOption('--site');
+      }
       $input = new ArrayInput($args);
       $input->setInteractive($this->input()->isInteractive());
 

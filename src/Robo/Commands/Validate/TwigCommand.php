@@ -155,8 +155,7 @@ class TwigCommand extends BltTasks {
       $twig->addTokenParser(new TwigTransTokenParser());
     }
 
-    $command = new TwigLintCommand();
-    $command->setTwigEnvironment($twig);
+    $command = new TwigLintCommand($twig);
 
     return $command;
   }

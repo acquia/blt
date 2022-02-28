@@ -15,6 +15,7 @@ use Acquia\Blt\Update\Updater;
 use Composer\Autoload\ClassLoader;
 use Composer\InstalledVersions;
 use Consolidation\AnnotatedCommand\CommandFileDiscovery;
+use League\Container\Container;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
 use League\Container\Definition\DefinitionInterface;
@@ -75,8 +76,14 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
 
     $this->setConfig($config);
     $application = new Application('BLT', Blt::getVersion());
-    $container = Robo::createDefaultContainer($input, $output, $application,
-      $config, $classLoader);
+    $container = new Container();
+    Robo::configureContainer($container, $application, $config, $input, $output, $classLoader);
+    if (self::usingLegacyContainer()) {
+      $application->setDispatcher($container->get('eventDispatcher'));
+    }
+    else {
+      Robo::finalizeContainer($container);
+    }
     $this->setContainer($container);
     $this->addDefaultArgumentsAndOptions($application);
     $this->configureContainer($container);
@@ -283,7 +290,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
    * @return bool
    *   TRUE if using the legacy container, FALSE otherwise.
    */
-  protected static function usingLegacyContainer() {
+  public static function usingLegacyContainer() {
     return method_exists(DefinitionInterface::class, 'withArgument');
   }
 
