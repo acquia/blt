@@ -217,7 +217,6 @@ class ConfigImportTest extends BltProjectTestBase {
    *
    * @param mixed $class
    *   Class name of mock obj.
-   * 
    * @param array $methods
    *   Name of methods.
    *
