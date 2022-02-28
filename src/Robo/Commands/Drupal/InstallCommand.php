@@ -6,6 +6,7 @@ use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\RandomString;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Robo\Contract\VerbosityThresholdInterface;
+use Robo\Result;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -90,7 +91,7 @@ class InstallCommand extends BltTasks {
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    * @throws \Robo\Exception\TaskException
    */
-  public function install() {
+  public function install(): Result {
 
     // Allows for installs to define custom user 0 name.
     if ($this->getConfigValue('drupal.account.name') !== NULL) {
@@ -106,7 +107,6 @@ class InstallCommand extends BltTasks {
         'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!#%^&*()_?/.,+=><'
       );
     }
-    /** @var \Acquia\Blt\Robo\Tasks\DrushTask $task */
     $task = $this->taskDrush()
       ->drush("site-install")
       ->arg($this->getConfigValue('project.profile.name'))
@@ -114,7 +114,7 @@ class InstallCommand extends BltTasks {
       ->option('sites-subdir', $this->getConfigValue('site'))
       ->option('site-name', $this->getConfigValue('project.human_name'))
       ->option('site-mail', $this->getConfigValue('drupal.site.mail'))
-      ->option('account-name', $username, '=')
+      ->option('account-name', $username)
       ->option('account-mail', $this->getConfigValue('drupal.account.mail'))
       ->option('locale', $this->getConfigValue('drupal.locale'))
       ->verbose(TRUE)
@@ -122,10 +122,9 @@ class InstallCommand extends BltTasks {
 
     // Install site from existing config if supported.
     $strategy = $this->getConfigValue('cm.strategy');
-    $cm_core_key = 'sync';
     $install_from_config = $this->getConfigValue('cm.core.install_from_config');
-    if (in_array($strategy, ['core-only', 'config-split']) && $cm_core_key == 'sync' && $install_from_config) {
-      $core_config_file = $this->getConfigValue('docroot') . '/' . $this->getConfigValue("cm.core.dirs.$cm_core_key.path") . '/core.extension.yml';
+    if ($install_from_config && in_array($strategy, ['core-only', 'config-split'])) {
+      $core_config_file = $this->getConfigValue('docroot') . '/' . $this->getConfigValue("cm.core.dirs.sync.path") . '/core.extension.yml';
       if (file_exists($core_config_file)) {
         $task->option('existing-config');
       }

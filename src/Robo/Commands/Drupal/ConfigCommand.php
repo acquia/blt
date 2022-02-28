@@ -23,7 +23,7 @@ class ConfigCommand extends BltTasks {
    * @throws \Robo\Exception\TaskException
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
-  public function update() {
+  public function update(): void {
     $task = $this->taskDrush()
       ->stopOnFail()
       // Execute db updates.
@@ -62,13 +62,11 @@ class ConfigCommand extends BltTasks {
     $eventInfo['strategy'] = $strategy;
     Amplitude::getInstance()->queueEvent('config import', $eventInfo);
 
-    if ($strategy == 'none') {
+    if ($strategy === 'none') {
       // Still clear caches to regenerate frontend assets and such.
-      $result = $this->taskDrush()->drush("cache-rebuild")->run();
-      return $result;
+      return $this->taskDrush()->drush("cache-rebuild")->run();
     }
 
-    $cm_core_key = 'sync';
     $this->logConfig($this->getConfigValue('cm'), 'cm');
     $task = $this->taskDrush();
 
@@ -77,7 +75,7 @@ class ConfigCommand extends BltTasks {
     // If using core-only or config-split strategies, first check to see if
     // required config is exported.
     if (in_array($strategy, ['core-only', 'config-split'])) {
-      $core_config_file = $this->getConfigValue('docroot') . '/' . $this->getConfigValue("cm.core.dirs.$cm_core_key.path") . '/core.extension.yml';
+      $core_config_file = $this->getConfigValue('docroot') . '/' . $this->getConfigValue("cm.core.dirs.sync.path") . '/core.extension.yml';
 
       if (!file_exists($core_config_file)) {
         $this->logger->warning("BLT will NOT import configuration, $core_config_file was not found.");
@@ -89,7 +87,7 @@ class ConfigCommand extends BltTasks {
     // If exported site UUID does not match site active site UUID, set active
     // to equal exported.
     // @see https://www.drupal.org/project/drupal/issues/1613424
-    $exported_site_uuid = $this->getExportedSiteUuid($cm_core_key);
+    $exported_site_uuid = $this->getExportedSiteUuid();
     if ($exported_site_uuid) {
       $task->drush("config:set system.site uuid $exported_site_uuid");
     }
@@ -133,7 +131,7 @@ class ConfigCommand extends BltTasks {
    * @param mixed $task
    *   Drush task.
    */
-  protected function importCoreOnly($task) {
+  protected function importCoreOnly($task): void {
     $task->drush("config-import");
   }
 
@@ -143,7 +141,7 @@ class ConfigCommand extends BltTasks {
    * @param mixed $task
    *   Drush task.
    */
-  protected function importConfigSplit($task) {
+  protected function importConfigSplit($task): void {
     $task->drush("config-import");
     // Runs a second import to ensure splits are
     // both defined and imported.
@@ -153,9 +151,9 @@ class ConfigCommand extends BltTasks {
   /**
    * Checks whether core config is overridden.
    *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException|\Robo\Exception\TaskException
    */
-  protected function checkConfigOverrides() {
+  protected function checkConfigOverrides(): void {
     if (!$this->getConfigValue('cm.allow-overrides') && !$this->getInspector()->isActiveConfigIdentical()) {
       $task = $this->taskDrush()
         ->stopOnFail()
@@ -171,19 +169,14 @@ class ConfigCommand extends BltTasks {
   /**
    * Returns the site UUID stored in exported configuration.
    *
-   * @param string $cm_core_key
-   *   Cm core key.
-   *
    * @return null
    *   Mixed.
    */
-  protected function getExportedSiteUuid($cm_core_key) {
-    $site_config_file = $this->getConfigValue('docroot') . '/' . $this->getConfigValue("cm.core.dirs.$cm_core_key.path") . '/system.site.yml';
+  protected function getExportedSiteUuid() {
+    $site_config_file = $this->getConfigValue('docroot') . '/' . $this->getConfigValue("cm.core.dirs.sync.path") . '/system.site.yml';
     if (file_exists($site_config_file)) {
       $site_config = Yaml::parseFile($site_config_file);
-      $site_uuid = $site_config['uuid'];
-
-      return $site_uuid;
+      return $site_config['uuid'];
     }
 
     return NULL;
