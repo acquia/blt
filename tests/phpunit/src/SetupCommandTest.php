@@ -35,5 +35,31 @@ class SetupCommandTest extends BltProjectTestBase {
     $this->assertNotEmpty(file_get_contents($this->config->get('repo.root') . '/deployment_identifier'));
   }
 
+  /**
+   * @throws \Exception
+   */
+  public function testSyncStrategy() {
+    $this->blt("setup", [
+      '--define' => [
+        'setup.strategy=sync',
+        'project.profile.name=minimal',
+      ],
+    ]);
+    $this->assertDeploymentIdentifierSetupValidity();
+  }
+
+  /**
+   * @throws \Exception
+   */
+  public function testImportStrategy() {
+    $this->blt("setup", [
+      '--define' => [
+        'setup.strategy=import',
+        'project.profile.name=minimal',
+      ],
+    ]);
+    $this->assertDeploymentIdentifierSetupValidity();
+  }
+
   // Sync strategy is tested is MultisiteTest.php.
 }
