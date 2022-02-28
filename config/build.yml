@@ -54,13 +54,16 @@ deploy:
   exclude_additions_file: ${repo.root}/blt/deploy-exclude-additions.txt
   gitignore_file: ${blt.root}/scripts/blt/deploy/.gitignore
 
-# File and Directory locations.
+# Drupal docroot.
 docroot: ${repo.root}/docroot
 
-# Drupal Account Credentials. These are used for installing Drupal.
+# Settings for installing Drupal.
 drupal:
-  #account.name: admin
-  account.mail: no-reply@example.com
+  account:
+    # Admin account name and password will be randomly generated unless set here.
+    #name: admin
+    #pass:
+    mail: no-reply@example.com
   site.mail: ${drupal.account.mail}
   locale: en
   local_settings_file: ${docroot}/sites/${site}/settings/local.settings.php
