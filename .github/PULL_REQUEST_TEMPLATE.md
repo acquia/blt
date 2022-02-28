@@ -12,5 +12,6 @@ Fixes #NNN
 <!-- How can we replicate the issue and verify that this PR fixes it? -->
 
 **Merge requirements**
-- [ ] _Major change_, _Minor change_, _Bug_, _Enhancement_, and/or _Chore_ label applied
+- [ ] _Major change_ or _Minor change_ semver label applied, if relevant
+- [ ] _Bug_, _Enhancement_, or _Chore_ label applied, if relevant
 - [ ] Manual testing by a reviewer
