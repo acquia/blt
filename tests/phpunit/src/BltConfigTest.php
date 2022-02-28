@@ -2,6 +2,9 @@
 
 namespace Acquia\Blt\Tests;
 
+use Acquia\Blt\Robo\Commands\Blt\ConfigCommand;
+use Robo\Config\Config;
+
 /**
  * Test config commands.
  */
@@ -22,6 +25,25 @@ class BltConfigTest extends BltProjectTestBase {
     $this->blt('blt:config:dump', [
       '--environment' => 'ci',
     ]);
+  }
+
+  /**
+   * Tests getvalue of config command.
+   */
+  public function testGetValueConfigCommand() {
+    $this->expectException('Exception');
+    $mockconfigcommand = $this->getMockBuilder(ConfigCommand::class)
+      ->disableOriginalConstructor()
+      ->onlyMethods([
+        'getConfig',
+      ])
+      ->getMock();
+    $mockconfig = $this->getMockBuilder(Config::class)
+      ->disableOriginalConstructor()
+      ->getMock();
+
+    $mockconfigcommand->expects($this->any())->method('getConfig')->willReturn($mockconfig);
+    $mockconfigcommand->getValue('abc');
   }
 
 }
