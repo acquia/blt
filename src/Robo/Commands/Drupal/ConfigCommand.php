@@ -151,7 +151,8 @@ class ConfigCommand extends BltTasks {
   /**
    * Checks whether core config is overridden.
    *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException|\Robo\Exception\TaskException
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Robo\Exception\TaskException
    */
   protected function checkConfigOverrides(): void {
     if (!$this->getConfigValue('cm.allow-overrides') && !$this->getInspector()->isActiveConfigIdentical()) {

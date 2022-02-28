@@ -123,7 +123,8 @@ class InstallCommand extends BltTasks {
     // Install site from existing config if supported.
     $strategy = $this->getConfigValue('cm.strategy');
     $install_from_config = $this->getConfigValue('cm.core.install_from_config');
-    if ($install_from_config && in_array($strategy, ['core-only', 'config-split'])) {
+    $strategy_uses_config = in_array($strategy, ['core-only', 'config-split']);
+    if ($install_from_config && $strategy_uses_config) {
       $core_config_file = $this->getConfigValue('docroot') . '/' . $this->getConfigValue("cm.core.dirs.sync.path") . '/core.extension.yml';
       if (file_exists($core_config_file)) {
         $task->option('existing-config');
