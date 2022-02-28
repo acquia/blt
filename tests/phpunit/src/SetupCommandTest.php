@@ -39,26 +39,26 @@ class SetupCommandTest extends BltProjectTestBase {
    * @throws \Exception
    */
   public function testSyncStrategy() {
-    list($status_code) = $this->blt("setup", [
+    $this->expectException('Exception');
+    $this->blt("setup", [
       '--define' => [
         'setup.strategy=sync',
         'project.profile.name=minimal',
       ],
     ]);
-    $this::assertEquals(1, $status_code);
   }
 
   /**
    * @throws \Exception
    */
   public function testImportStrategy() {
-    list($status_code) = $this->blt("setup", [
+    $this->expectException('Exception');
+    $this->blt("setup", [
       '--define' => [
         'setup.strategy=import',
         'project.profile.name=minimal',
       ],
     ]);
-    $this::assertEquals(1, $status_code);
   }
 
   // Sync strategy is tested is MultisiteTest.php.
