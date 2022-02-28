@@ -48,16 +48,16 @@ class ConfigImportTest extends BltProjectTestBase {
    */
   public function testUnSuccessCase() {
     $this->expectException('Exception');
-    $mockconfigcommand = $this->getMockBuilderObj(ConfigCommand::class,[
+    $mockconfigcommand = $this->getMockBuilderObj(ConfigCommand::class, [
       'getConfigValue',
       'getInspector',
       'taskDrush',
     ]);
-    $mockinspector = $this->getMockBuilderObj(Inspector::class,[
+    $mockinspector = $this->getMockBuilderObj(Inspector::class, [
       'isActiveConfigIdentical',
     ]);
     $mockinspector->expects($this->any())->method('isActiveConfigIdentical')->willReturn(FALSE);
-    $mockdrushtask = $this->getMockBuilderObj(DrushTask::class,[
+    $mockdrushtask = $this->getMockBuilderObj(DrushTask::class, [
       'stopOnFail',
       'drush',
       'run',
@@ -215,6 +215,9 @@ class ConfigImportTest extends BltProjectTestBase {
   /**
    * Mock object of drupal config command.
    *
+   * @param mixed $class
+   *   Class name of mock obj.
+   * 
    * @param array $methods
    *   Name of methods.
    *
