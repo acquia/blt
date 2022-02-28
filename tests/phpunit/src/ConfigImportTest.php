@@ -48,19 +48,16 @@ class ConfigImportTest extends BltProjectTestBase {
    */
   public function testUnSuccessCase() {
     $this->expectException('Exception');
-    $mockconfigcommand = $this->getMockBuilderConfigCommand([
+    $mockconfigcommand = $this->getMockBuilderObj(ConfigCommand::class, [
       'getConfigValue',
       'getInspector',
       'taskDrush',
     ]);
-    $mockinspector = $this->getMockBuilder(Inspector::class)
-      ->disableOriginalConstructor()
-      ->onlyMethods([
-        'isActiveConfigIdentical',
-      ])
-      ->getMock();
+    $mockinspector = $this->getMockBuilderObj(Inspector::class, [
+      'isActiveConfigIdentical',
+    ]);
     $mockinspector->expects($this->any())->method('isActiveConfigIdentical')->willReturn(FALSE);
-    $mockdrushtask = $this->getMockDrushTask([
+    $mockdrushtask = $this->getMockBuilderObj(DrushTask::class, [
       'stopOnFail',
       'drush',
       'run',
@@ -126,22 +123,19 @@ class ConfigImportTest extends BltProjectTestBase {
    */
   public function testUpdateFailed() {
     $this->expectException('Exception');
-    $mockconfigcommand = $this->getMockBuilderConfigCommand([
+    $mockconfigcommand = $this->getMockBuilderObj(ConfigCommand::class, [
       'taskDrush',
     ]);
-    $mockdrushtask = $this->getMockDrushTask([
+    $mockdrushtask = $this->getMockBuilderObj(DrushTask::class, [
       'stopOnFail',
       'drush',
       'run',
     ]);
     $mockdrushtask->expects($this->any())->method('stopOnFail')->willReturn($mockdrushtask);
     $mockdrushtask->expects($this->any())->method('drush')->willReturn($mockdrushtask);
-    $mockresult = $this->getMockBuilder(Result::class)
-      ->disableOriginalConstructor()
-      ->onlyMethods([
-        'wasSuccessful',
-      ])
-      ->getMock();
+    $mockresult = $this->getMockBuilderObj(Result::class, [
+      'wasSuccessful',
+    ]);
     $mockresult->expects($this->any())->method('wasSuccessful')->willReturn(FALSE);
     $mockdrushtask->expects($this->any())->method('run')->willReturn($mockresult);
     $mockconfigcommand->expects($this->any())->method('taskDrush')->willReturn($mockdrushtask);
@@ -152,8 +146,8 @@ class ConfigImportTest extends BltProjectTestBase {
    * @throws \Exception
    */
   public function testImportConfigSplit() {
-    $mockconfigcommand = $this->getMockBuilderConfigCommand([]);
-    $mockdrushtask = $this->getMockDrushTask([
+    $mockconfigcommand = $this->getMockBuilderObj(ConfigCommand::class, []);
+    $mockdrushtask = $this->getMockBuilderObj(DrushTask::class, [
       'drush',
     ]);
     $mockdrushtask->expects($this->any())->method('drush')->willReturn($mockdrushtask);
@@ -169,7 +163,7 @@ class ConfigImportTest extends BltProjectTestBase {
    * @throws \Exception
    */
   public function testExportedSiteUuidNull() {
-    $mockconfigcommand = $this->getMockBuilderConfigCommand([
+    $mockconfigcommand = $this->getMockBuilderObj(ConfigCommand::class, [
       'getConfigValue',
     ]);
     $mockconfigcommand->expects($this->any())->method('getConfigValue')->willReturn('invalid_path');
@@ -186,31 +180,25 @@ class ConfigImportTest extends BltProjectTestBase {
    */
   public function testUnSuccessCaseException() {
     $this->expectException('Exception');
-    $mockconfigcommand = $this->getMockBuilderConfigCommand([
+    $mockconfigcommand = $this->getMockBuilderObj(ConfigCommand::class, [
       'getConfigValue',
       'getInspector',
       'taskDrush',
     ]);
-    $mockinspector = $this->getMockBuilder(Inspector::class)
-      ->disableOriginalConstructor()
-      ->onlyMethods([
-        'isActiveConfigIdentical',
-      ])
-      ->getMock();
+    $mockinspector = $this->getMockBuilderObj(Inspector::class, [
+      'isActiveConfigIdentical',
+    ]);
     $mockinspector->expects($this->any())->method('isActiveConfigIdentical')->willReturn(FALSE);
-    $mockdrushtask = $this->getMockDrushTask([
+    $mockdrushtask = $this->getMockBuilderObj(DrushTask::class, [
       'stopOnFail',
       'drush',
       'run',
     ]);
     $mockdrushtask->expects($this->any())->method('stopOnFail')->willReturn($mockdrushtask);
     $mockdrushtask->expects($this->any())->method('drush')->willReturn($mockdrushtask);
-    $mockresult = $this->getMockBuilder(Result::class)
-      ->disableOriginalConstructor()
-      ->onlyMethods([
-        'wasSuccessful',
-      ])
-      ->getMock();
+    $mockresult = $this->getMockBuilderObj(Result::class, [
+      'wasSuccessful',
+    ]);
     $mockresult->expects($this->any())->method('wasSuccessful')->willReturn(FALSE);
     $mockdrushtask->expects($this->any())->method('run')->willReturn($mockresult);
     $mockconfigcommand->expects($this->any())->method('getInspector')->willReturn($mockinspector);
@@ -227,37 +215,21 @@ class ConfigImportTest extends BltProjectTestBase {
   /**
    * Mock object of drupal config command.
    *
+   * @param mixed $class
+   *   Class name of mock obj.
    * @param array $methods
    *   Name of methods.
    *
    * @return mixed
    *   Return mock object of drupal config command.
    */
-  public function getMockBuilderConfigCommand(array $methods) {
-    $mockconfigcommand = $this->getMockBuilder(ConfigCommand::class)
+  public function getMockBuilderObj($class, array $methods) {
+    $mockconfigcommand = $this->getMockBuilder($class)
       ->disableOriginalConstructor();
     if (!empty($methods)) {
       $mockconfigcommand->onlyMethods($methods);
     }
     return $mockconfigcommand->getMock();
-  }
-
-  /**
-   * Mock object of drupal config command.
-   *
-   * @param array $methods
-   *   Name of methods.
-   *
-   * @return mixed
-   *   Return mock object of drupal config command.
-   */
-  public function getMockDrushTask(array $methods) {
-    $mockdrushtask = $this->getMockBuilder(DrushTask::class)
-      ->disableOriginalConstructor();
-    if (!empty($methods)) {
-      $mockdrushtask->onlyMethods($methods);
-    }
-    return $mockdrushtask->getMock();
   }
 
 }
