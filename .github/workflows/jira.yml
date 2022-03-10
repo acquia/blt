@@ -1,9 +1,11 @@
-on: push
-name: Jira Example
+on:
+  issues:
+    types: [opened]
+name: Create new tickets in Jira
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Jira Example
+    name: Create new tickets in Jira
     steps:
     - name: Login
       uses: danepowell/gajira-login@server
@@ -16,10 +18,8 @@ jobs:
       with:
         project: DX
         issuetype: Task
-        summary: |
-          Build completed for ${{ github.repository }}
-        description: |
-          Compare branch
+        summary: ${{ github.events.issue.title }}
+        description: ${{ github.events.issue.url }}
         fields: '{"components": [{"id": "21989"}]}'
     - name: Log created issue
       run: echo "Issue ${{ steps.create.outputs.issue }} was created"
