@@ -1,6 +1,6 @@
-on:
-  issues:
-    types: [opened]
+on: push
+#  issues:
+#    types: [opened]
 name: Create new tickets in Jira
 jobs:
   build:
