@@ -6,13 +6,13 @@ jobs:
     name: Jira Example
     steps:
     - name: Login
-      uses: acquia/gajira-login-2@master
+      uses: danepowell/gajira-login@master
       env:
         JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
         JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
         JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
     - name: Create
-      uses: acquia/gajira-create@master
+      uses: danepowell/gajira-create@master
       with:
         project: DX
         issuetype: Task
