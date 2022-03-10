@@ -20,5 +20,6 @@ jobs:
           Build completed for ${{ github.repository }}
         description: |
           Compare branch
+        fields: '{"components": "21989"}'
     - name: Log created issue
       run: echo "Issue ${{ steps.create.outputs.issue }} was created"
