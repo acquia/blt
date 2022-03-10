@@ -6,13 +6,13 @@ jobs:
     name: Jira Example
     steps:
     - name: Login
-      uses: danepowell/gajira-login@master
+      uses: danepowell/gajira-login@server
       env:
         JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
         JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
         JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
     - name: Create
-      uses: danepowell/gajira-create@master
+      uses: danepowell/gajira-create@server
       with:
         project: DX
         issuetype: Task
