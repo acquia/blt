@@ -8,7 +8,7 @@ jobs:
     name: Create new tickets in Jira
     steps:
     - name: Login
-      uses: acquia/gajira-login-2@server
+      uses: acquia/gajira-login@server
       env:
         JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
         JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
