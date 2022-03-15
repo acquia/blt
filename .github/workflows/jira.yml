@@ -21,8 +21,8 @@ jobs:
       with:
         project: DX
         issuetype: Task
-        summary: ${{ github.events.issue.title }}
-        description: ${{ github.events.issue.url }}
+        summary: ${{ github.event.issue.title }}
+        description: ${{ github.event.issue.url }}
         fields: '{"components": [{"id": "21989"}]}'
     - name: Log created issue
       run: echo "Issue ${{ steps.create.outputs.issue }} was created"
