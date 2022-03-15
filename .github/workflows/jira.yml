@@ -25,12 +25,12 @@ jobs:
         project: DX
         issuetype: Task
         summary: ${{ github.event.issue.title }}
-        description: ${{ github.event.issue.url }}
+        description: ${{ github.event.issue.html_url }}
         fields: '{"components": [{"id": "21989"}]}'
     - name: Update Github issue with Jira ticket prefix
       run: 'gh issue edit $GH_ISSUE --title "$JIRA_ISSUE: $ISSUE_TITLE"'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GH_ISSUE: ${{ github.event.issue.url }}
+        GH_ISSUE: ${{ github.event.issue.html_url }}
         JIRA_ISSUE: ${{ steps.create.outputs.issue }}
         ISSUE_TITLE: ${{ github.event.issue.title }}
