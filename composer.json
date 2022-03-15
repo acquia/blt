@@ -39,21 +39,16 @@
         "zumba/amplitude-php": "^1.0"
     },
     "conflict": {
-        "acquia/blt-behat": "<=1.0.0",
-        "drupal/drupal": "*"
+        "acquia/blt-behat": "<=1.0.0"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.6"
     },
     "suggest": {
-        "davereid/drush-acquia-hook-invoke": "dev-master",
-        "typhonius/acquia_cli": "^2.0"
+        "davereid/drush-acquia-hook-invoke": "dev-master"
     },
     "config": {
         "php": "7",
-        "preferred-install": {
-            "drupal/core": "dist"
-        },
         "sort-packages": true
     },
     "extra": {
@@ -62,11 +57,6 @@
             "dev-main": "13.x-dev"
         },
         "class": "Acquia\\Blt\\Composer\\Plugin",
-        "installer-paths": {
-            "vendor/drupal/core": [
-                "type:drupal-core"
-            ]
-        },
         "phpcodesniffer-search-depth": 4,
         "violinist": {
             "allow_updates_beyond_constraint": 0,
