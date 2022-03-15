@@ -19,6 +19,7 @@ jobs:
         JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
         JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
     - name: Create
+      id: create
       uses: acquia/gajira-create@server
       with:
         project: DX
@@ -30,6 +31,6 @@ jobs:
       run: 'gh issue edit $GH_ISSUE --title "$JIRA_ISSUE: $ISSUE_TITLE"'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GH_ISSUE: ${{ github.event.issue.number }}
+        GH_ISSUE: ${{ github.event.issue.url }}
         JIRA_ISSUE: ${{ steps.create.outputs.issue }}
         ISSUE_TITLE: ${{ github.event.issue.title }}
