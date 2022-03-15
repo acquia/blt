@@ -21,6 +21,7 @@
         "composer-plugin-api": "^2.0",
         "composer-runtime-api": "^2.0",
         "acquia/drupal-environment-detector": "^1.3.0",
+        "composer/installers": "*",
         "consolidation/comments": "^1.0",
         "consolidation/config": "^1.0.0",
         "consolidation/robo": "^1.4.12 || ^2 || ^3",
@@ -50,6 +51,9 @@
         "typhonius/acquia_cli": "^2.0"
     },
     "config": {
+        "allow-plugins": {
+            "composer/installers": true
+        },
         "php": "7",
         "preferred-install": {
             "drupal/core": "dist"
