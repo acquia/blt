@@ -9,6 +9,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     name: Create new tickets in Jira
+    permissions:
+      contents: write
     steps:
     - name: Login
       uses: acquia/gajira-login@server
@@ -24,5 +26,10 @@ jobs:
         summary: ${{ github.event.issue.title }}
         description: ${{ github.event.issue.url }}
         fields: '{"components": [{"id": "21989"}]}'
-    - name: Log created issue
-      run: echo "Issue ${{ steps.create.outputs.issue }} was created"
+    - name: Update Github issue with Jira ticket prefix
+      run: 'gh issue edit $GH_ISSUE --title "$JIRA_ISSUE: $ISSUE_TITLE"'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_ISSUE: ${{ github.event.issue.number }}
+        JIRA_ISSUE: ${{ steps.create.outputs.issue }}
+        ISSUE_TITLE: ${{ github.event.issue.title }}
