@@ -1,7 +1,10 @@
-on: push
-#  issues:
-#    types: [opened]
+on:
+  issues:
+    types:
+      - opened
+
 name: Create new tickets in Jira
+
 jobs:
   build:
     runs-on: ubuntu-latest
