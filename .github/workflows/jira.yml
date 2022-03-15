@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Create new tickets in Jira
     permissions:
-      contents: write
+      issues: write
     steps:
     - name: Login
       uses: acquia/gajira-login@server
