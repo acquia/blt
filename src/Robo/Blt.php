@@ -215,6 +215,8 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     $blt_tasks = new BltTasks();
     $builder = new CollectionBuilder($blt_tasks);
     $blt_tasks->setBuilder($builder);
+    $updater = new Updater('Acquia\Blt\Update\Updates', $this->getConfig()->get('repo.root'));
+    // Checks for league/container 1.x or 2.x.
     if (self::usingLegacyContainer()) {
       $container->share('logStyler', BltLogStyle::class);
       $container->add('builder', $builder);
@@ -225,24 +227,39 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
       $container->add(SetupWizard::class)
         ->withArgument('executor');
       $container->share('filesetManager', FilesetManager::class);
+      $container->share('updater', $updater);
     }
     else {
-      $container->addShared('logStyler', BltLogStyle::class);
-      $container->add('builder', $builder);
-      $container->add('executor', Executor::class)
-        ->addArgument('builder');
-      $container->addShared('inspector', Inspector::class)
-        ->addArgument('executor');
-      $container->add(SetupWizard::class)
-        ->addArgument('executor');
-      $container->addShared('filesetManager', FilesetManager::class);
+      // Checks for league/container 3.x.
+      if (self::usingContainerVersionThree()) {
+        $container->share('logStyler', BltLogStyle::class);
+        $container->add('builder', $builder);
+        $container->add('executor', Executor::class)
+          ->addArgument('builder');
+        $container->share('inspector', Inspector::class)
+          ->addArgument('executor');
+        $container->add(SetupWizard::class)
+          ->addArgument('executor');
+        $container->share('filesetManager', FilesetManager::class);
+        $container->share('updater', $updater);
+      }
+      // Checks for league/container 4.x+.
+      else {
+        $container->addShared('logStyler', BltLogStyle::class);
+        $container->add('builder', $builder);
+        $container->add('executor', Executor::class)
+          ->addArgument('builder');
+        $container->addShared('inspector', Inspector::class)
+          ->addArgument('executor');
+        $container->add(SetupWizard::class)
+          ->addArgument('executor');
+        $container->addShared('filesetManager', FilesetManager::class);
+        $container->addShared('updater', $updater);
+      }
     }
 
     $container->inflector(InspectorAwareInterface::class)
       ->invokeMethod('setInspector', ['inspector']);
-
-    $updater = new Updater('Acquia\Blt\Update\Updates', $this->getConfig()->get('repo.root'));
-    $container->addShared('updater', $updater);
 
     /** @var \Consolidation\AnnotatedCommand\AnnotatedCommandFactory $factory */
     $factory = $container->get('commandFactory');
@@ -293,6 +310,16 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
    */
   public static function usingLegacyContainer() {
     return method_exists(DefinitionInterface::class, 'withArgument');
+  }
+
+  /**
+   * Determine if the 3.x version of league/container is in use.
+   *
+   * @return bool
+   *   TRUE if using the legacy container, FALSE otherwise.
+   */
+  public static function usingContainerVersionThree() {
+    return method_exists(Container::class, 'share');
   }
 
 }
