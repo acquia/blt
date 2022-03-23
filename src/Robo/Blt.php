@@ -208,8 +208,6 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
    * Register the necessary classes for BLT.
    */
   public function configureContainer($container) {
-    $container->share('logStyler', BltLogStyle::class);
-
     // We create our own builder so that non-command classes are able to
     // implement task methods, like taskExec(). Yes, there are now two builders
     // in the container. "collectionBuilder" used for the actual command that
@@ -217,31 +215,34 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     $blt_tasks = new BltTasks();
     $builder = new CollectionBuilder($blt_tasks);
     $blt_tasks->setBuilder($builder);
-    $container->add('builder', $builder);
     if (self::usingLegacyContainer()) {
+      $container->share('logStyler', BltLogStyle::class);
+      $container->add('builder', $builder);
       $container->add('executor', Executor::class)
         ->withArgument('builder');
       $container->share('inspector', Inspector::class)
         ->withArgument('executor');
       $container->add(SetupWizard::class)
         ->withArgument('executor');
+      $container->share('filesetManager', FilesetManager::class);
     }
     else {
+      $container->addShared('logStyler', BltLogStyle::class);
+      $container->add('builder', $builder);
       $container->add('executor', Executor::class)
         ->addArgument('builder');
-      $container->share('inspector', Inspector::class)
+      $container->addShared('inspector', Inspector::class)
         ->addArgument('executor');
       $container->add(SetupWizard::class)
         ->addArgument('executor');
+      $container->addShared('filesetManager', FilesetManager::class);
     }
 
     $container->inflector(InspectorAwareInterface::class)
       ->invokeMethod('setInspector', ['inspector']);
 
-    $container->share('filesetManager', FilesetManager::class);
-
     $updater = new Updater('Acquia\Blt\Update\Updates', $this->getConfig()->get('repo.root'));
-    $container->share('updater', $updater);
+    $container->addShared('updater', $updater);
 
     /** @var \Consolidation\AnnotatedCommand\AnnotatedCommandFactory $factory */
     $factory = $container->get('commandFactory');
