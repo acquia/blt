@@ -2,7 +2,8 @@
 
 namespace Acquia\Blt\Robo\Config;
 
-use Grasmash\YamlExpander\Expander;
+use Grasmash\YamlExpander\YamlExpander;
+use Psr\Log\NullLogger;
 use Robo\Config\Config;
 
 /**
@@ -11,13 +12,26 @@ use Robo\Config\Config;
 class BltConfig extends Config {
 
   /**
+   * Config Constructor.
+   *
+   * @param array $data
+   *   Data array, if available.
+   */
+  public function __construct(array $data = NULL) {
+    parent::__construct($data);
+    $logger = new NullLogger();
+    $this->expander = new YamlExpander($logger);
+  }
+
+  /**
    * Expands YAML placeholders in a given file, using config object.
    *
    * @param string $filename
    *   The file in which placeholders should be expanded.
    */
   public function expandFileProperties($filename) {
-    $expanded_contents = Expander::expandArrayProperties(file($filename), $this->export());
+
+    $expanded_contents = $this->expander->expandArrayProperties(file($filename), $this->export());
     file_put_contents($filename, implode("", $expanded_contents));
   }
 
@@ -43,7 +57,7 @@ class BltConfig extends Config {
     // -D drush.alias=${drush.ci.aliases} at runtime and still expand
     // properties.
     if (is_string($value) && strstr($value, '$')) {
-      $expanded = Expander::expandArrayProperties([$value], $this->export());
+      $expanded = $this->expander->expandArrayProperties([$value], $this->export());
       $value = $expanded[0];
     }
 
@@ -68,7 +82,7 @@ class BltConfig extends Config {
 
     // Last ditch effort to expand properties that may not have been processed.
     if (is_string($value) && strstr($value, '$')) {
-      $expanded = Expander::expandArrayProperties([$value], $this->export());
+      $expanded = $this->expander->expandArrayProperties([$value], $this->export());
       $value = $expanded[0];
     }
 
