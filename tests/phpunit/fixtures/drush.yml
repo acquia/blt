@@ -7,4 +7,4 @@ drush:
       - '${env.home}/.drush'
       - /usr/share/drush/commands
 options:
-  uri: 'http://127.0.0.1:8080'
+  uri: 'http://127.0.0.1:8888'
