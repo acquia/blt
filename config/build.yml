@@ -86,13 +86,16 @@ drush:
   dir: ${docroot}
   sanitize: true
 
+# Valid options are bash or zsh to support git hooks for both shells.
+shell: bash
+
 git:
   # The value of a hook should be the file path to a directory containing an
   # executable file named after the hook. Changing a hook value to 'false' will disable it.
   # You should execute `blt blt:init:git-hooks` after modifying these values.
   hooks:
-    pre-commit: ${blt.root}/scripts/git-hooks
-    pre-push: ${blt.root}/scripts/git-hooks
+    pre-commit: ${blt.root}/scripts/git-hooks/${shell}
+    pre-push: ${blt.root}/scripts/git-hooks/${shell}
     commit-msg: ${blt.root}/scripts/git-hooks
   commit-msg:
     # Commit messages must conform to this pattern.
