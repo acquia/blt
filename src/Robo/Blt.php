@@ -18,7 +18,6 @@ use Consolidation\AnnotatedCommand\CommandFileDiscovery;
 use League\Container\Container;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
-use League\Container\Definition\DefinitionInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Robo\Collection\CollectionBuilder;
@@ -208,8 +207,6 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
    * Register the necessary classes for BLT.
    */
   public function configureContainer($container) {
-    $container->share('logStyler', BltLogStyle::class);
-
     // We create our own builder so that non-command classes are able to
     // implement task methods, like taskExec(). Yes, there are now two builders
     // in the container. "collectionBuilder" used for the actual command that
@@ -218,30 +215,31 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     $builder = new CollectionBuilder($blt_tasks);
     $blt_tasks->setBuilder($builder);
     $container->add('builder', $builder);
+    $updater = new Updater('Acquia\Blt\Update\Updates', $this->getConfig()->get('repo.root'));
+
     if (self::usingLegacyContainer()) {
-      $container->add('executor', Executor::class)
-        ->withArgument('builder');
+      // Logic for league/container 3.x.
+      $container->share('logStyler', BltLogStyle::class);
       $container->share('inspector', Inspector::class)
-        ->withArgument('executor');
-      $container->add(SetupWizard::class)
-        ->withArgument('executor');
+        ->addArgument('executor');
+      $container->share('filesetManager', FilesetManager::class);
+      $container->share('updater', $updater);
     }
     else {
-      $container->add('executor', Executor::class)
-        ->addArgument('builder');
-      $container->share('inspector', Inspector::class)
+      // Logic for league/container 4.x.
+      $container->addShared('logStyler', BltLogStyle::class);
+      $container->addShared('inspector', Inspector::class)
         ->addArgument('executor');
-      $container->add(SetupWizard::class)
-        ->addArgument('executor');
+      $container->addShared('filesetManager', FilesetManager::class);
+      $container->addShared('updater', $updater);
     }
 
+    $container->add(SetupWizard::class)
+      ->addArgument('executor');
+    $container->add('executor', Executor::class)
+      ->addArgument('builder');
     $container->inflector(InspectorAwareInterface::class)
       ->invokeMethod('setInspector', ['inspector']);
-
-    $container->share('filesetManager', FilesetManager::class);
-
-    $updater = new Updater('Acquia\Blt\Update\Updates', $this->getConfig()->get('repo.root'));
-    $container->share('updater', $updater);
 
     /** @var \Consolidation\AnnotatedCommand\AnnotatedCommandFactory $factory */
     $factory = $container->get('commandFactory');
@@ -291,7 +289,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
    *   TRUE if using the legacy container, FALSE otherwise.
    */
   public static function usingLegacyContainer() {
-    return method_exists(DefinitionInterface::class, 'withArgument');
+    return method_exists(Container::class, 'share');
   }
 
 }
