@@ -7,6 +7,8 @@ use Drupal\Component\Uuid\Php;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Acquia\Blt\Robo\Common\YamlMunge;
 use Robo\Contract\VerbosityThresholdInterface;
+use Twig\Loader\FilesystemLoader;
+use Twig\Environment;
 
 /**
  * Defines commands in the recipes:config:init:splits namespace.
@@ -23,7 +25,7 @@ class ConfigSplitCommand extends BltTasks {
   /**
    * An instance of the Twig template environment.
    *
-   * @var \Twig_Environment
+   * @var \Twig\Environment
    */
   protected $twig;
 
@@ -49,8 +51,8 @@ class ConfigSplitCommand extends BltTasks {
   public function initialize() {
     $this->uuidGenerator = new Php();
     $template_dir = $this->getConfigValue('blt.root') . '/scripts/config-split/templates';
-    $loader = new \Twig_Loader_Filesystem($template_dir);
-    $this->twig = new \Twig_Environment($loader);
+    $loader = new FilesystemLoader($template_dir);
+    $this->twig = new Environment($loader);
     $docroot = $this->getConfigValue('docroot');
     $this->configSyncDir = $docroot . '/' . $this->getConfigValue('cm.core.dirs.sync.path');
     $this->configSplitDir = $docroot . '/' . $this->getConfigValue('cm.core.path') . '/envs';
