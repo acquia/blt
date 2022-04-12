@@ -6,6 +6,7 @@ use Acquia\Blt\Robo\BltTasks;
 use Drupal\Component\Uuid\Php;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Acquia\Blt\Robo\Common\YamlMunge;
+use Robo\Contract\VerbosityThresholdInterface;
 
 /**
  * Defines commands in the recipes:config:init:splits namespace.
@@ -130,6 +131,17 @@ class ConfigSplitCommand extends BltTasks {
         'name' => $split,
       ]);
       file_put_contents($split_dir . '/README.md', $readme);
+    }
+    if (!file_exists($split_dir . '/.htaccess')) {
+      $result = $this->taskFilesystemStack()
+        ->copy($this->getConfigValue('repo.root') . '/vendor/acquia/blt/scripts/config-split/templates/.htaccess', $split_dir . '/.htaccess', TRUE)
+        ->stopOnFail()
+        ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+        ->run();
+
+      if (!$result->wasSuccessful()) {
+        throw new BltException("Could not place .htaccess file in $split_dir.");
+      }
     }
   }
 
