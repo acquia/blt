@@ -3,12 +3,12 @@
 namespace Acquia\Blt\Robo\Commands\Recipes;
 
 use Acquia\Blt\Robo\BltTasks;
-use Drupal\Component\Uuid\Php;
-use Acquia\Blt\Robo\Exceptions\BltException;
 use Acquia\Blt\Robo\Common\YamlMunge;
+use Acquia\Blt\Robo\Exceptions\BltException;
+use Drupal\Component\Uuid\Php;
 use Robo\Contract\VerbosityThresholdInterface;
-use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 /**
  * Defines commands in the recipes:config:init:splits namespace.
@@ -66,27 +66,32 @@ class ConfigSplitCommand extends BltTasks {
    * @aliases rcis splits
    */
   public function generateConfigSplits() {
-    $this->say("This command will generate configuration and directories for the following environment based splits: Local, CI, Dev, Stage, and Prod.");
+    $this->say("Creating config splits for the following environments: Local, CI, Dev, Stage, and Prod.");
 
     $default_splits = ['Local', 'CI', 'Dev', 'Stage', 'Prod'];
     foreach ($default_splits as $split) {
       $this->createSplitConfig($split);
     }
 
-    // Automatically add config split and config ignore to project configuration.
-    $core_extensions = YamlMunge::parseFile($this->configSyncDir . '/core.extension.yml');
-    if (!array_key_exists("config_split", $core_extensions['module'])) {
-      $core_extensions['module']['config_split'] = 0;
+    if (file_exists($this->configSyncDir . '/core.extension.yml')) {
+      // Automatically enable config split module.
+      $core_extensions = YamlMunge::parseFile($this->configSyncDir . '/core.extension.yml');
+      if (!array_key_exists("config_split", $core_extensions['module'])) {
+        $core_extensions['module']['config_split'] = 0;
+      }
+      if (!array_key_exists("config_filter", $core_extensions['module'])) {
+        $core_extensions['module']['config_filter'] = 0;
+      }
+      try {
+        ksort($core_extensions['module']);
+        YamlMunge::writeFile($this->configSyncDir . '/core.extension.yml', $core_extensions);
+      }
+      catch (\Exception $e) {
+        throw new BltException("Unable to update core.extension.yml");
+      }
     }
-    if (!array_key_exists("config_filter", $core_extensions['module'])) {
-      $core_extensions['module']['config_filter'] = 0;
-    }
-    try {
-      ksort($core_extensions['module']);
-      YamlMunge::writeFile($this->configSyncDir . '/core.extension.yml', $core_extensions);
-    }
-    catch (\Exception $e) {
-      throw new BltException("Unable to update core.extension.yml");
+    else {
+      $this->say("No core.extension file found, skipping step to enable config split and config filter modules.");
     }
   }
 
