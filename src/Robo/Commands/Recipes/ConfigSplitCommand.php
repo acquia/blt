@@ -4,6 +4,8 @@ namespace Acquia\Blt\Robo\Commands\Recipes;
 
 use Acquia\Blt\Robo\BltTasks;
 use Drupal\Component\Uuid\Php;
+use Acquia\Blt\Robo\Exceptions\BltException;
+use Acquia\Blt\Robo\Common\YamlMunge;
 
 /**
  * Defines commands in the recipes:config:init:splits namespace.
@@ -66,6 +68,22 @@ class ConfigSplitCommand extends BltTasks {
     $default_splits = ['Local', 'CI', 'Dev', 'Stage', 'Prod'];
     foreach ($default_splits as $split) {
       $this->createSplitConfig($split);
+    }
+
+    // Automatically add config split and config ignore to project configuration.
+    $core_extensions = YamlMunge::parseFile($this->configSyncDir . '/core.extension.yml');
+    if (!array_key_exists("config_split", $core_extensions['module'])) {
+      $core_extensions['module']['config_split'] = 0;
+    }
+    if (!array_key_exists("config_filter", $core_extensions['module'])) {
+      $core_extensions['module']['config_filter'] = 0;
+    }
+    try {
+      ksort($core_extensions['module']);
+      YamlMunge::writeFile($this->configSyncDir . '/core.extension.yml', $core_extensions);
+    }
+    catch (\Exception $e) {
+      throw new BltException("Unable to update core.extension.yml");
     }
   }
 
