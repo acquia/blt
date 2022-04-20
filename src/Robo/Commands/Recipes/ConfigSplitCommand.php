@@ -3,7 +3,12 @@
 namespace Acquia\Blt\Robo\Commands\Recipes;
 
 use Acquia\Blt\Robo\BltTasks;
+use Acquia\Blt\Robo\Common\YamlMunge;
+use Acquia\Blt\Robo\Exceptions\BltException;
 use Drupal\Component\Uuid\Php;
+use Robo\Contract\VerbosityThresholdInterface;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 /**
  * Defines commands in the recipes:config:init:splits namespace.
@@ -20,7 +25,7 @@ class ConfigSplitCommand extends BltTasks {
   /**
    * An instance of the Twig template environment.
    *
-   * @var \Twig_Environment
+   * @var \Twig\Environment
    */
   protected $twig;
 
@@ -46,8 +51,8 @@ class ConfigSplitCommand extends BltTasks {
   public function initialize() {
     $this->uuidGenerator = new Php();
     $template_dir = $this->getConfigValue('blt.root') . '/scripts/config-split/templates';
-    $loader = new \Twig_Loader_Filesystem($template_dir);
-    $this->twig = new \Twig_Environment($loader);
+    $loader = new FilesystemLoader($template_dir);
+    $this->twig = new Environment($loader);
     $docroot = $this->getConfigValue('docroot');
     $this->configSyncDir = $docroot . '/' . $this->getConfigValue('cm.core.dirs.sync.path');
     $this->configSplitDir = $docroot . '/' . $this->getConfigValue('cm.core.path') . '/envs';
@@ -61,11 +66,32 @@ class ConfigSplitCommand extends BltTasks {
    * @aliases rcis splits
    */
   public function generateConfigSplits() {
-    $this->say("This command will generate configuration and directories for the following environment based splits: Local, CI, Dev, Stage, and Prod.");
+    $this->say("Creating config splits for the following environments: Local, CI, Dev, Stage, and Prod.");
 
     $default_splits = ['Local', 'CI', 'Dev', 'Stage', 'Prod'];
     foreach ($default_splits as $split) {
       $this->createSplitConfig($split);
+    }
+
+    if (file_exists($this->configSyncDir . '/core.extension.yml')) {
+      // Automatically enable config split module.
+      $core_extensions = YamlMunge::parseFile($this->configSyncDir . '/core.extension.yml');
+      if (!array_key_exists("config_split", $core_extensions['module'])) {
+        $core_extensions['module']['config_split'] = 0;
+      }
+      if (!array_key_exists("config_filter", $core_extensions['module'])) {
+        $core_extensions['module']['config_filter'] = 0;
+      }
+      try {
+        ksort($core_extensions['module']);
+        YamlMunge::writeFile($this->configSyncDir . '/core.extension.yml', $core_extensions);
+      }
+      catch (\Exception $e) {
+        throw new BltException("Unable to update core.extension.yml");
+      }
+    }
+    else {
+      $this->say("No core.extension file found, skipping step to enable config split and config filter modules.");
     }
   }
 
@@ -112,6 +138,17 @@ class ConfigSplitCommand extends BltTasks {
         'name' => $split,
       ]);
       file_put_contents($split_dir . '/README.md', $readme);
+    }
+    if (!file_exists($split_dir . '/.htaccess')) {
+      $result = $this->taskFilesystemStack()
+        ->copy($this->getConfigValue('repo.root') . '/vendor/acquia/blt/scripts/config-split/templates/.htaccess', $split_dir . '/.htaccess', TRUE)
+        ->stopOnFail()
+        ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+        ->run();
+
+      if (!$result->wasSuccessful()) {
+        throw new BltException("Could not place .htaccess file in $split_dir.");
+      }
     }
   }
 
