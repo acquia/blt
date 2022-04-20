@@ -1195,16 +1195,16 @@
         },
         {
             "name": "drupal/core",
-            "version": "9.3.11",
+            "version": "9.3.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core.git",
-                "reference": "b8978dd6a4639bdc0930a6eb7791afffcd931a1b"
+                "reference": "ed6af33093f66a9c5048d02f9f2c326ad0e7e90c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drupal/core/zipball/b8978dd6a4639bdc0930a6eb7791afffcd931a1b",
-                "reference": "b8978dd6a4639bdc0930a6eb7791afffcd931a1b",
+                "url": "https://api.github.com/repos/drupal/core/zipball/ed6af33093f66a9c5048d02f9f2c326ad0e7e90c",
+                "reference": "ed6af33093f66a9c5048d02f9f2c326ad0e7e90c",
                 "shasum": ""
             },
             "require": {
@@ -1446,9 +1446,9 @@
             ],
             "description": "Drupal is an open source content management platform powering millions of websites and applications.",
             "support": {
-                "source": "https://github.com/drupal/core/tree/9.3.11"
+                "source": "https://github.com/drupal/core/tree/9.3.12"
             },
-            "time": "2022-04-14T00:39:08+00:00"
+            "time": "2022-04-20T14:25:27+00:00"
         },
         {
             "name": "drush/drush",
