@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8abc25faaa6feaf1e389ac3ba640b8b3",
+    "content-hash": "ccb587eea02aa333375836128847034b",
     "packages": [
         {
             "name": "acquia/drupal-environment-detector",
@@ -5960,7 +5960,7 @@
         },
         {
             "name": "zumba/amplitude-php",
-            "version": "dev-master",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zumba/amplitude-php.git",
@@ -5982,7 +5982,6 @@
                 "phpunit/phpunit": "8.3.* | ^9",
                 "squizlabs/php_codesniffer": "3.4.*"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -6015,7 +6014,7 @@
             ],
             "support": {
                 "issues": "https://github.com/zumba/amplitude-php/issues",
-                "source": "https://github.com/zumba/amplitude-php/tree/master"
+                "source": "https://github.com/zumba/amplitude-php/tree/1.0.3"
             },
             "time": "2022-05-02T20:36:39+00:00"
         }
@@ -6081,8 +6080,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "grasmash/yaml-expander": 20,
-        "zumba/amplitude-php": 20
+        "grasmash/yaml-expander": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

@@ -36,7 +36,7 @@
         "symfony/console": "^6.0",
         "symfony/twig-bridge": "^6",
         "symfony/yaml": "^6.0",
-        "zumba/amplitude-php": "dev-master"
+        "zumba/amplitude-php": "^1.0.3"
     },
     "conflict": {
         "acquia/blt-behat": "<=1.0.0"
@@ -48,7 +48,7 @@
         "davereid/drush-acquia-hook-invoke": "dev-master"
     },
     "config": {
-        "php": "7",
+        "php": "8",
         "platform": {
             "php": "8.1"
         },
