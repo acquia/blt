@@ -49,7 +49,12 @@ class WebUriCheck extends DoctorCheck {
    * Checks that configured URI responds to requests.
    */
   protected function checkUriResponse() {
-    $site_available = $this->getExecutor()->execute("curl -I --insecure " . $this->drushStatus['uri'])->run()->wasSuccessful();
+    $site_available = $this->getExecutor()->execute([
+      "curl",
+      "-I",
+      "--insecure",
+      $this->drushStatus['uri'],
+    ])->run()->wasSuccessful();
     if (!$site_available) {
       $this->logProblem(__FUNCTION__, [
         "Did not get a response from {$this->drushStatus['uri']}",
@@ -66,7 +71,11 @@ class WebUriCheck extends DoctorCheck {
    */
   protected function checkHttps() {
     if (strstr($this->drushStatus['uri'], 'https')) {
-      if (!$this->getExecutor()->execute('curl -cacert ' . $this->drushStatus['uri'])->run()->wasSuccessful()) {
+      if (!$this->getExecutor()->execute([
+        'curl',
+        '-cacert',
+        $this->drushStatus['uri'],
+      ])->run()->wasSuccessful()) {
         $this->logProblem(__FUNCTION__, [
           "The SSL certificate for your local site appears to be invalid for {$this->drushStatus['uri']}.",
         ], 'error');
