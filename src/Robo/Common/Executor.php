@@ -68,26 +68,26 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
   /**
    * Executes a drush command.
    *
-   * @param string $command
+   * @param array $command
    *   The command to execute, without "drush" prefix.
    *
    * @return \Robo\Common\ProcessExecutor
    *   The unexecuted process.
    */
-  public function drush($command) {
+  public function drush(array $command) {
+    $drush_array = [];
     // @todo Set to silent if verbosity is less than very verbose.
-    $bin = $this->getConfigValue('composer.bin');
-    /** @var \Robo\Common\ProcessExecutor $process_executor */
-    $drush_alias = $this->getConfigValue('drush.alias');
-    $command_string = $bin . DIRECTORY_SEPARATOR . "drush @$drush_alias $command";
+    $drush_array[] = $this->getConfigValue('composer.bin') . DIRECTORY_SEPARATOR . "drush";
+    $drush_array[] = "@" . $this->getConfigValue('drush.alias');
 
     // URIs do not work on remote drush aliases in Drush 9. Instead, it is
     // expected that the alias define the uri in its configuration.
-    if ($drush_alias != 'self') {
-      $command_string .= ' --uri=' . $this->getConfigValue('site');
+    if ($this->getConfigValue('drush.alias') != 'self') {
+      $drush_array[] = ' --uri=' . $this->getConfigValue('site');
     }
+    $command_array = array_merge($drush_array, $command);
 
-    $process_executor = Robo::process(new Process($command_string));
+    $process_executor = Robo::process(new Process($command_array));
 
     return $process_executor->dir($this->getConfigValue('docroot'))
       ->interactive(FALSE)
@@ -99,13 +99,13 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
   /**
    * Executes a command.
    *
-   * @param string $command
+   * @param array $command
    *   The command.
    *
    * @return \Robo\Common\ProcessExecutor
    *   The unexecuted command.
    */
-  public function execute($command) {
+  public function execute(array $command) {
     /** @var \Robo\Common\ProcessExecutor $process_executor */
     $process_executor = Robo::process(new Process($command));
     return $process_executor->dir($this->getConfigValue('repo.root'))
