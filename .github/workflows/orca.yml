@@ -41,6 +41,9 @@ jobs:
         coveralls-enable: [ "FALSE" ]
         include:
           - orca-job: ISOLATED_TEST_ON_CURRENT
+            php-version: "8.1"
+            coveralls-enable: "FALSE"
+          - orca-job: ISOLATED_TEST_ON_CURRENT
             php-version: "8.0"
             coveralls-enable: "FALSE"
           - orca-job: ISOLATED_TEST_ON_CURRENT
