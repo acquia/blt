@@ -64,7 +64,7 @@ abstract class BltProjectTestBase extends TestCase {
     $this->printTestName();
     $this->bltDirectory = realpath(dirname(__FILE__) . '/../../../');
     $this->fs = new Filesystem();
-    $this->execute('./bin/orca fixture:reset -f', getenv('ORCA_ROOT'));
+    $this->execute(['./bin/orca', 'fixture:reset', '-f'], getenv('ORCA_ROOT'));
     $this->sandboxInstance = getenv('ORCA_FIXTURE_DIR');
 
     $this->fs->copy($this->bltDirectory . "/scripts/blt/ci/internal/ci.yml", $this->sandboxInstance . "/blt/ci.blt.yml", TRUE);
@@ -89,7 +89,7 @@ abstract class BltProjectTestBase extends TestCase {
   }
 
   /**
-   * @param mixed $command
+   * @param array $command
    *   Command.
    * @param mixed $cwd
    *   CWD.
@@ -101,7 +101,7 @@ abstract class BltProjectTestBase extends TestCase {
    *
    * @throws \Exception
    */
-  protected function execute($command, $cwd = NULL, $stop_on_error = TRUE) {
+  protected function execute(array $command, $cwd = NULL, $stop_on_error = TRUE) {
     if (!$cwd) {
       $cwd = $this->sandboxInstance;
     }
@@ -110,8 +110,9 @@ abstract class BltProjectTestBase extends TestCase {
     $process->setTimeout(NULL);
     $output = new ConsoleOutput();
     if (getenv('BLT_PRINT_COMMAND_OUTPUT')) {
+      $string = implode(" ", $command);
       $output->writeln("");
-      $output->writeln("Executing <comment>$command</comment>...");
+      $output->writeln("Executing <comment>$string</comment>...");
       if (!$stop_on_error) {
         $output->writeln("Command failure is permitted.");
       }
@@ -138,7 +139,7 @@ abstract class BltProjectTestBase extends TestCase {
   /**
    * Drush.
    *
-   * @param string $command
+   * @param array $command
    *   Command.
    * @param mixed $root
    *   Root.
@@ -150,13 +151,17 @@ abstract class BltProjectTestBase extends TestCase {
    *
    * @throws \Exception
    */
-  protected function drush($command, $root = NULL, $stop_on_error = TRUE) {
+  protected function drush(array $command, $root = NULL, $stop_on_error = TRUE) {
     if (!$root) {
       $root = $this->config->get('docroot');
     }
-    $drush_bin = $this->sandboxInstance . '/vendor/bin/drush';
-    $command_string = "$drush_bin $command --root=$root --no-interaction --ansi";
-    $process = $this->execute($command_string, $root, $stop_on_error);
+    $command_array[] = $this->sandboxInstance . '/vendor/bin/drush';
+    $drush_array = array_merge($command_array, $command);
+    $drush_array[] = "--root=$root";
+    $drush_array[] = "--no-interaction";
+    $drush_array[] = "--ansi";
+
+    $process = $this->execute($drush_array, $root, $stop_on_error);
     $output = $process->getOutput();
 
     return $output;
@@ -165,7 +170,7 @@ abstract class BltProjectTestBase extends TestCase {
   /**
    * Drush JSON.
    *
-   * @param string $command
+   * @param array $command
    *   Command.
    * @param mixed $root
    *   Root.
@@ -177,8 +182,9 @@ abstract class BltProjectTestBase extends TestCase {
    *
    * @throws \Exception
    */
-  protected function drushJson($command, $root = NULL, $stop_on_error = TRUE) {
-    $output = $this->drush($command . " --format=json", $root, $stop_on_error);
+  protected function drushJson(array $command, $root = NULL, $stop_on_error = TRUE) {
+    $command[] = "--format=json";
+    $output = $this->drush($command, $root, $stop_on_error);
     $array = json_decode($output, TRUE);
 
     return $array;
