@@ -209,6 +209,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
       'status',
       '--format=json',
       '--fields=*',
+      "--root=$this->getConfigValue('docroot')",
     ])->run()->getMessage(), TRUE);
 
     return $status_info;
@@ -314,7 +315,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   public function getMySqlAvailable() {
     $this->logger->debug("Verifying that MySQL is available...");
     /** @var \Robo\Result $result */
-    $result = $this->executor->drush(["sqlq \"SHOW DATABASES\""])
+    $result = $this->executor->drush(["sqlq", "SHOW DATABASES"])
       ->run();
 
     return $result->wasSuccessful();
@@ -611,12 +612,16 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *   TRUE if config is identical.
    */
   public function isActiveConfigIdentical() {
-    $uri = $this->getConfigValue('drush.uri');
-    $result = $this->executor->drush(["config:status --uri=$uri 2>&1"])->run();
+    $result = $this->executor->drush(["config:status"])->run();
     $message = trim($result->getMessage());
-    $identical = strstr($message, 'No differences between DB and sync directory') !== FALSE;
 
-    return $identical;
+    // A successful test here results in "no message" so check for null.
+    if ($message == NULL) {
+      return TRUE;
+    }
+    else {
+      return FALSE;
+    }
   }
 
 }
