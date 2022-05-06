@@ -3,6 +3,7 @@
 namespace Acquia\Blt\Tests;
 
 use Acquia\Blt\Robo\Blt;
+use Acquia\Blt\Robo\Common\StringManipulator;
 use Acquia\Blt\Robo\Config\ConfigInitializer;
 use PHPUnit\Framework\TestCase;
 use Robo\Robo;
@@ -38,6 +39,11 @@ abstract class BltProjectTestBase extends TestCase {
    * is bootstrapped. Setting BLT_RECREATE_SANDBOX_MASTER=0 will prevent this.
    */
   protected $dbDump;
+
+  /**
+   * @var \Acquia\Blt\Robo\Common\Executor
+   */
+  protected $executor;
 
   /**
    * @var \Symfony\Component\Console\Output\ConsoleOutput
@@ -89,8 +95,9 @@ abstract class BltProjectTestBase extends TestCase {
   }
 
   /**
-   * @param array $command
-   *   Command.
+   * @param mixed $command
+   *   The command string|array.
+   *   Warning: symfony/process 5.x expects an array.
    * @param mixed $cwd
    *   CWD.
    * @param bool $stop_on_error
@@ -101,7 +108,11 @@ abstract class BltProjectTestBase extends TestCase {
    *
    * @throws \Exception
    */
-  protected function execute(array $command, $cwd = NULL, $stop_on_error = TRUE) {
+  protected function execute($command, $cwd = NULL, $stop_on_error = TRUE) {
+    // Backwards compatibility check for legacy commands.
+    if (!is_array($command)) {
+      $command = StringManipulator::commandConvert($command);
+    }
     if (!$cwd) {
       $cwd = $this->sandboxInstance;
     }
@@ -139,8 +150,9 @@ abstract class BltProjectTestBase extends TestCase {
   /**
    * Drush.
    *
-   * @param array $command
-   *   Command.
+   * @param mixed $command
+   *   The command string|array.
+   *   Warning: symfony/process 5.x expects an array.
    * @param mixed $root
    *   Root.
    * @param bool $stop_on_error
@@ -151,7 +163,11 @@ abstract class BltProjectTestBase extends TestCase {
    *
    * @throws \Exception
    */
-  protected function drush(array $command, $root = NULL, $stop_on_error = TRUE) {
+  protected function drush($command, $root = NULL, $stop_on_error = TRUE) {
+    // Backwards compatibility check for legacy commands.
+    if (!is_array($command)) {
+      $command = StringManipulator::commandConvert($command);
+    }
     if (!$root) {
       $root = $this->config->get('docroot');
     }
@@ -170,8 +186,9 @@ abstract class BltProjectTestBase extends TestCase {
   /**
    * Drush JSON.
    *
-   * @param array $command
-   *   Command.
+   * @param mixed $command
+   *   The command string|array.
+   *   Warning: symfony/process 5.x expects an array.
    * @param mixed $root
    *   Root.
    * @param bool $stop_on_error
@@ -182,7 +199,11 @@ abstract class BltProjectTestBase extends TestCase {
    *
    * @throws \Exception
    */
-  protected function drushJson(array $command, $root = NULL, $stop_on_error = TRUE) {
+  protected function drushJson($command, $root = NULL, $stop_on_error = TRUE) {
+    // Backwards compatibility check for legacy commands.
+    if (!is_array($command)) {
+      $command = StringManipulator::commandConvert($command);
+    }
     $command[] = "--format=json";
     $output = $this->drush($command, $root, $stop_on_error);
     $array = json_decode($output, TRUE);

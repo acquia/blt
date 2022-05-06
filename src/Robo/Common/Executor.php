@@ -56,7 +56,8 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
    * Wrapper for taskExec().
    *
    * @param string $command
-   *   The command to execute.
+   *   The command string|array.
+   *   Warning: symfony/process 5.x expects an array.
    *
    * @return \Robo\Task\Base\Exec
    *   The task. You must call run() on this to execute it!
@@ -68,14 +69,21 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
   /**
    * Executes a drush command.
    *
-   * @param array $command
+   * @param mixed $command
    *   The command to execute, without "drush" prefix.
    *
    * @return \Robo\Common\ProcessExecutor
    *   The unexecuted process.
    */
-  public function drush(array $command) {
+  public function drush($command) {
     $drush_array = [];
+
+    // Backwards compatibility check for legacy commands.
+    if (!is_array($command)) {
+      $this->say(StringManipulator::stringToArrayMsg());
+      $command = StringManipulator::commandConvert($command);
+    }
+
     // @todo Set to silent if verbosity is less than very verbose.
     $drush_array[] = $this->getConfigValue('composer.bin') . DIRECTORY_SEPARATOR . "drush";
     $drush_array[] = "@" . $this->getConfigValue('drush.alias');
@@ -99,13 +107,19 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
   /**
    * Executes a command.
    *
-   * @param array $command
-   *   The command.
+   * @param mixed $command
+   *   The command string|array.
+   *   Warning: symfony/process 5.x expects an array.
    *
    * @return \Robo\Common\ProcessExecutor
    *   The unexecuted command.
    */
-  public function execute(array $command) {
+  public function execute($command) {
+    // Backwards compatibility check for legacy commands.
+    if (!is_array($command)) {
+      $this->say(StringManipulator::stringToArrayMsg());
+      $command = StringManipulator::commandConvert($command);
+    }
     /** @var \Robo\Common\ProcessExecutor $process_executor */
     $process_executor = Robo::process(new Process($command));
     return $process_executor->dir($this->getConfigValue('repo.root'))
