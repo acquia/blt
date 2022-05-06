@@ -35,7 +35,7 @@ class DrupalSettingsTest extends BltProjectTestBase {
       $this->assertFileExists("$this->sandboxInstance/docroot/sites/$site/local.drush.yml");
       $this->assertFileExists("$this->sandboxInstance/docroot/sites/$site/default.local.drush.yml");
 
-      $output_array = $this->drushJson('status');
+      $output_array = $this->drushJson(['status']);
       $this->assertEquals($output_array['uri'], $this->config->get('project.local.uri'));
       $drush_local_site_yml = YamlMunge::parseFile("$this->sandboxInstance/docroot/sites/$site/local.drush.yml");
       $this->assertEquals($output_array['uri'], $drush_local_site_yml['options']['uri']);

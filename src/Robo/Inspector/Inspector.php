@@ -190,7 +190,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   public function isDrupalInstalled() {
     $this->logger->debug("Verifying that Drupal is installed...");
     $uri = $this->getConfigValue('drush.uri');
-    $result = $this->executor->drush("--uri=$uri status bootstrap")->run();
+    $result = $this->executor->drush(["--uri=$uri", "status", "bootstrap"])->run();
     $output = trim($result->getMessage());
     $installed = $result->wasSuccessful() && strpos($output, 'Drupal bootstrap : Successful') !== FALSE;
     $this->logger->debug("Drupal bootstrap results: $output");
@@ -205,7 +205,13 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *   The result of `drush status`.
    */
   public function getDrushStatus() {
-    $status_info = (array) json_decode($this->executor->drush('status --format=json --fields=*')->run()->getMessage(), TRUE);
+    $docroot = $this->getConfigValue('docroot');
+    $status_info = (array) json_decode($this->executor->drush([
+      'status',
+      '--format=json',
+      '--fields=*',
+      "--root=$docroot",
+    ])->run()->getMessage(), TRUE);
 
     return $status_info;
   }
@@ -253,9 +259,11 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *   TRUE if alias is valid.
    */
   public function isDrushAliasValid($alias) {
-    return $this->executor->drush("site:alias @$alias --format=json")
-      ->run()
-      ->wasSuccessful();
+    return $this->executor->drush([
+      "site:alias",
+      "@$alias",
+      "--format=json",
+    ])->run()->wasSuccessful();
   }
 
   /**
@@ -308,7 +316,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   public function getMySqlAvailable() {
     $this->logger->debug("Verifying that MySQL is available...");
     /** @var \Robo\Result $result */
-    $result = $this->executor->drush("sqlq \"SHOW DATABASES\"")
+    $result = $this->executor->drush(["sqlq", "SHOW DATABASES"])
       ->run();
 
     return $result->wasSuccessful();
@@ -341,7 +349,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   public function getPostgreSqlAvailable() {
     $this->logger->debug("Verifying that PostgreSQL is available...");
     /** @var \Robo\Result $result */
-    $result = $this->executor->drush("sqlq \"SHOW DATABASES\"")
+    $result = $this->executor->drush(["sqlq \"SHOW DATABASES\""])
       ->run();
 
     return $result->wasSuccessful();
@@ -374,7 +382,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   public function getSqliteAvailable() {
     $this->logger->debug("Verifying that Sqlite is available...");
     /** @var \Robo\Result $result */
-    $result = $this->executor->drush("sqlq \".tables\"")
+    $result = $this->executor->drush(["sqlq", ".tables"])
       ->run();
 
     return $result->wasSuccessful();
@@ -397,7 +405,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *   The version of Composer.
    */
   public function getComposerVersion() {
-    $version = $this->executor->execute("composer --version")
+    $version = $this->executor->execute(["composer", "--version"])
       ->interactive(FALSE)
       ->silent(TRUE)
       ->run()
@@ -605,12 +613,16 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    *   TRUE if config is identical.
    */
   public function isActiveConfigIdentical() {
-    $uri = $this->getConfigValue('drush.uri');
-    $result = $this->executor->drush("config:status --uri=$uri 2>&1")->run();
+    $result = $this->executor->drush(["config:status"])->run();
     $message = trim($result->getMessage());
-    $identical = strstr($message, 'No differences between DB and sync directory') !== FALSE;
 
-    return $identical;
+    // A successful test here results in "no message" so check for null.
+    if ($message == NULL) {
+      return TRUE;
+    }
+    else {
+      return FALSE;
+    }
   }
 
 }
