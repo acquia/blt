@@ -36,14 +36,13 @@ class BufferedConsoleOutput extends ConsoleOutput {
    * {@inheritdoc}
    */
   protected function doWrite($message, $newline) {
-    if (!getenv('blt_phpunit_buffer_output')) {
-      putenv('blt_phpunit_buffer_output=');
-    }
-
-    putenv("blt_phpunit_buffer_output=$message");
+    $output = getenv('blt_phpunit_buffer_output');
 
     if ($newline) {
-      putenv('blt_phpunit_buffer_output=' . PHP_EOL);
+      putenv('blt_phpunit_buffer_output=' . $output . $message . PHP_EOL);
+    }
+    else {
+      putenv('blt_phpunit_buffer_output=' . $output . $message);
     }
 
     parent::doWrite($message, $newline);
