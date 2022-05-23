@@ -50,14 +50,14 @@
         "davereid/drush-acquia-hook-invoke": "dev-master"
     },
     "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        },
         "php": "7",
         "platform": {
             "php": "7.4"
         },
-        "sort-packages": true,
-        "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": true
-        }
+        "sort-packages": true
     },
     "extra": {
         "branch-alias": {

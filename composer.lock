@@ -1851,7 +1851,7 @@
             "description": "Expands internal property references in a yaml file.",
             "support": {
                 "issues": "https://github.com/grasmash/yaml-expander/issues",
-                "source": "https://github.com/grasmash/yaml-expander/tree/master"
+                "source": "https://github.com/grasmash/yaml-expander/tree/3.0.1"
             },
             "time": "2022-03-28T16:25:24+00:00"
         },
