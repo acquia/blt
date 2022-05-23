@@ -21,7 +21,7 @@ class AcCloudHooksTest extends BltProjectTestBase {
     $this->assertEquals('0755', $filePermissions);
 
     // Mimics hooks/post-code-deploy/post-code-deploy.sh.
-    list($status_code, $output) = $this->blt("artifact:ac-hooks:post-code-update", [
+    [$status_code, $output] = $this->blt("artifact:ac-hooks:post-code-update", [
       'site' => 's1',
       'target_env' => 'dev',
       'source_branch' => 'master',
@@ -34,7 +34,7 @@ class AcCloudHooksTest extends BltProjectTestBase {
     $this->assertStringContainsString('Finished updates for environment: dev', $output);
 
     // Mimics hooks/post-code-deploy/post-code-deploy.sh.
-    list($status_code, $output) = $this->blt("artifact:ac-hooks:post-code-deploy", [
+    [$status_code, $output] = $this->blt("artifact:ac-hooks:post-code-deploy", [
       'site' => 's1',
       'target_env' => 'dev',
       'source_branch' => 'master',
@@ -48,7 +48,7 @@ class AcCloudHooksTest extends BltProjectTestBase {
     $this->assertStringContainsString('Finished updates for environment: dev', $output);
 
     // Mimics hooks/post-db-copy/db-scrub.sh.
-    list($status_code, $output) = $this->blt("artifact:ac-hooks:db-scrub", [
+    [$status_code, $output] = $this->blt("artifact:ac-hooks:db-scrub", [
       'site' => 's1',
       'target_env' => 'dev',
       'db_name' => 'dev',

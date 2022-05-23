@@ -15,7 +15,7 @@ class BltConfigTest extends BltProjectTestBase {
    */
   public function testPipelinesInit() {
     $this->blt('blt:config:dump', []);
-    list(, $output,) = $this->blt('blt:config:dump', [
+    [, $output] = $this->blt('blt:config:dump', [
       '--site' => 'site2',
     ]);
     $this->assertStringContainsString('site2', $output);
