@@ -16,7 +16,7 @@ $timer = new TimeKeeper();
 $timer->start();
 
 // Initialize input and output.
-$input = new ArgvInput(getenv('argv'));
+$input = new ArgvInput(getenv()['argv']);
 $output = new ConsoleOutput();
 
 // Write BLT version for debugging.
