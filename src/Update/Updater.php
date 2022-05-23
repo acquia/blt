@@ -308,10 +308,7 @@ class Updater {
    */
   public static function executeCommand($command, $cwd = NULL, $display_output = TRUE, $mustRun = TRUE) {
     $timeout = 10800;
-    $env = [
-      'COMPOSER_PROCESS_TIMEOUT' => $timeout,
-    ] + $_ENV;
-    $process = new Process($command, $cwd, $env, NULL, $timeout);
+    $process = new Process($command, $cwd, NULL, NULL, $timeout);
     $method = $mustRun ? 'mustRun' : 'run';
     if ($display_output) {
       $process->$method(function ($type, $buffer) {

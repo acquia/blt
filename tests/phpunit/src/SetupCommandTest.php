@@ -23,7 +23,7 @@ class SetupCommandTest extends BltProjectTestBase {
   public function testChangedUuid() {
     $this->drush(["config-export", "--yes"]);
     $this->drush(["sql-drop", "--yes"]);
-    list($status_code) = $this->installDrupalMinimal();
+    [$status_code] = $this->installDrupalMinimal();
     $this->assertEquals(0, $status_code);
   }
 

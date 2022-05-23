@@ -25,13 +25,13 @@ class FrontendTest extends BltProjectTestBase {
       ],
     ], $this->sandboxInstance . "/blt/ci.blt.yml");
 
-    list(, $output,) = $this->blt('source:build:frontend-reqs');
+    [, $output] = $this->blt('source:build:frontend-reqs');
     $this->assertStringContainsString('hello reqs', $output);
 
-    list(, $output,) = $this->blt('source:build:frontend-assets');
+    [, $output] = $this->blt('source:build:frontend-assets');
     $this->assertStringContainsString('hello assets', $output);
 
-    list(, $output,) = $this->blt('tests:frontend:run');
+    [, $output] = $this->blt('tests:frontend:run');
     $this->assertStringContainsString('hello test', $output);
   }
 

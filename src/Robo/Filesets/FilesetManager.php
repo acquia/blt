@@ -86,7 +86,7 @@ class FilesetManager implements ConfigAwareInterface, LoggerAwareInterface {
   protected function getAllFilesetAnnotations(array $classes) {
     $fileset_annotations = [];
     foreach ($classes as $class) {
-      $fileset_annotations[$class] = isset($fileset_annotations[$class]) ? $fileset_annotations[$class] : [];
+      $fileset_annotations[$class] = $fileset_annotations[$class] ?? [];
       if (class_exists($class)) {
         $fileset_annotations[$class] = array_merge($fileset_annotations[$class],
           $this->getClassFilesetAnnotations($class));
