@@ -48,7 +48,8 @@ class YamlWriter {
    *   Array.
    */
   public function getContents(): array {
-    return Yaml::parse($this->contents);
+    $yaml = Yaml::parse($this->contents);
+    return is_array($yaml) ? $yaml : [];
   }
 
   /**
