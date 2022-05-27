@@ -2,8 +2,6 @@
 
 namespace Acquia\Blt\Tests;
 
-use Acquia\Blt\Robo\Common\YamlMunge;
-
 /**
  * Tests Drupal settings.
  */
@@ -20,6 +18,7 @@ class DrupalSettingsTest extends BltProjectTestBase {
       $this->assertFileExists("$this->sandboxInstance/docroot/sites/$site/settings/default.local.settings.php");
       $this->assertFileExists("$this->sandboxInstance/docroot/sites/$site/default.settings.php");
       $this->assertFileExists("$this->sandboxInstance/docroot/sites/$site/settings/local.settings.php");
+      $this->assertFileExists("$this->sandboxInstance/docroot/sites/$site/settings/local.settings.php");
 
       $this->assertStringContainsString('${drupal.db.database}', file_get_contents("$this->sandboxInstance/docroot/sites/$site/settings/default.local.settings.php"));
       $this->assertStringContainsString($this->config->get("drupal.db.database"), file_get_contents("$this->sandboxInstance/docroot/sites/$site/settings/local.settings.php"));
@@ -35,10 +34,8 @@ class DrupalSettingsTest extends BltProjectTestBase {
       $this->assertFileExists("$this->sandboxInstance/docroot/sites/$site/local.drush.yml");
       $this->assertFileExists("$this->sandboxInstance/docroot/sites/$site/default.local.drush.yml");
 
-      $output_array = $this->drushJson('status');
-      $this->assertEquals($output_array['uri'], $this->config->get('project.local.uri'));
-      $drush_local_site_yml = YamlMunge::parseFile("$this->sandboxInstance/docroot/sites/$site/local.drush.yml");
-      $this->assertEquals($output_array['uri'], $drush_local_site_yml['options']['uri']);
+      $this->assertFileExists("$this->sandboxInstance/blt/blt.yml");
+      $this->assertFileExists("$this->sandboxInstance/blt/ci.blt.yml");
     }
   }
 

@@ -22,12 +22,10 @@ if (!is_array($trusted_reverse_proxy_ips)) {
 
 // Tell Drupal whether the client arrived via HTTPS. Ensure the
 // request is coming from our load balancers by checking the IP address.
-if (getenv('HTTP_X_FORWARDED_PROTO') == 'https'
+if (getenv('HTTP_X_FORWARDED_PROTO') === 'https'
  && getenv('REMOTE_ADDR')
- && in_array(getenv('REMOTE_ADDR'), $trusted_reverse_proxy_ips)) {
+ && in_array(getenv('REMOTE_ADDR'), $trusted_reverse_proxy_ips, TRUE)) {
   putenv("HTTPS=on");
-  $_SERVER['HTTPS'] = 'on';
-  putenv('HTTPS=on');
 }
 $x_ips = getenv('HTTP_X_FORWARDED_FOR') ? explode(',', getenv('HTTP_X_FORWARDED_FOR')) : [];
 $x_ips = array_map('trim', $x_ips);
@@ -38,7 +36,7 @@ if (getenv('REMOTE_ADDR')) {
 }
 
 // Check firstly for the bal and then check for an internal IP immediately.
-$settings['reverse_proxy_addresses'] = isset($settings['reverse_proxy_addresses']) ? $settings['reverse_proxy_addresses'] : [];
+$settings['reverse_proxy_addresses'] = $settings['reverse_proxy_addresses'] ?? [];
 $ip = array_pop($x_ips);
 if ($ip) {
   if (in_array($ip, $trusted_reverse_proxy_ips)) {

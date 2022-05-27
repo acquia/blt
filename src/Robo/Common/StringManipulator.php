@@ -95,4 +95,27 @@ class StringManipulator {
     return strtoupper($prefix);
   }
 
+  /**
+   * Converts a command string to command array.
+   *
+   * @param string $command
+   *   The command string to conver to array.
+   *
+   * @return array
+   *   Command array.
+   */
+  public static function commandConvert($command) {
+    return explode(" ", $command);
+  }
+
+  /**
+   * Provides a common warning for command string / array use.
+   *
+   * @return string
+   *   The deprecation warning.
+   */
+  public static function stringToArrayMsg() {
+    return "Deprecation Warning: this command is passing a command string and should pass a command arary.";
+  }
+
 }

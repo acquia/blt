@@ -417,7 +417,7 @@ class DrushTask extends CommandStack {
         $command = "@{$this->alias} {$command}";
       }
 
-      $options = isset($this->options[$commandNumber]) ? $this->options[$commandNumber] : '';
+      $options = $this->options[$commandNumber] ?? '';
 
       // Add in global options, as well as those set via option method.
       $command = $command . $options . $globalOptions;

@@ -56,7 +56,8 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
    * Wrapper for taskExec().
    *
    * @param string $command
-   *   The command to execute.
+   *   The command string|array.
+   *   Warning: symfony/process 5.x expects an array.
    *
    * @return \Robo\Task\Base\Exec
    *   The task. You must call run() on this to execute it!
@@ -68,26 +69,33 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
   /**
    * Executes a drush command.
    *
-   * @param string $command
+   * @param mixed $command
    *   The command to execute, without "drush" prefix.
    *
    * @return \Robo\Common\ProcessExecutor
    *   The unexecuted process.
    */
   public function drush($command) {
+    $drush_array = [];
+
+    // Backwards compatibility check for legacy commands.
+    if (!is_array($command)) {
+      $this->say(StringManipulator::stringToArrayMsg());
+      $command = StringManipulator::commandConvert($command);
+    }
+
     // @todo Set to silent if verbosity is less than very verbose.
-    $bin = $this->getConfigValue('composer.bin');
-    /** @var \Robo\Common\ProcessExecutor $process_executor */
-    $drush_alias = $this->getConfigValue('drush.alias');
-    $command_string = $bin . DIRECTORY_SEPARATOR . "drush @$drush_alias $command";
+    $drush_array[] = $this->getConfigValue('composer.bin') . DIRECTORY_SEPARATOR . "drush";
+    $drush_array[] = "@" . $this->getConfigValue('drush.alias');
 
     // URIs do not work on remote drush aliases in Drush 9. Instead, it is
     // expected that the alias define the uri in its configuration.
-    if ($drush_alias != 'self') {
-      $command_string .= ' --uri=' . $this->getConfigValue('site');
+    if ($this->getConfigValue('drush.alias') != 'self') {
+      $drush_array[] = ' --uri=' . $this->getConfigValue('site');
     }
+    $command_array = array_merge($drush_array, $command);
 
-    $process_executor = Robo::process(new Process($command_string));
+    $process_executor = Robo::process(new Process($command_array));
 
     return $process_executor->dir($this->getConfigValue('docroot'))
       ->interactive(FALSE)
@@ -99,13 +107,19 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
   /**
    * Executes a command.
    *
-   * @param string $command
-   *   The command.
+   * @param mixed $command
+   *   The command string|array.
+   *   Warning: symfony/process 5.x expects an array.
    *
    * @return \Robo\Common\ProcessExecutor
    *   The unexecuted command.
    */
   public function execute($command) {
+    // Backwards compatibility check for legacy commands.
+    if (!is_array($command)) {
+      $this->say(StringManipulator::stringToArrayMsg());
+      $command = StringManipulator::commandConvert($command);
+    }
     /** @var \Robo\Common\ProcessExecutor $process_executor */
     $process_executor = Robo::process(new Process($command));
     return $process_executor->dir($this->getConfigValue('repo.root'))

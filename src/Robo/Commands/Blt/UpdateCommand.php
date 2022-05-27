@@ -51,8 +51,13 @@ class UpdateCommand extends BltTasks {
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
   public function addToProject() {
+    // Initializes the project template / scaffold.
     $this->initializeBlt();
+    // Creates the blt/blt.yml file.
     $this->setProjectName();
+    // Places the blt/ci.blt.yml file.
+    $this->createCiConfig();
+    // Adds default BLT values into the project .gitignore file.
     $this->initGitignore();
     // Invoke command instead of calling method to ensure hooks run.
     $this->invokeCommand('internal:create-project:init-repo');
@@ -231,6 +236,21 @@ class UpdateCommand extends BltTasks {
     $project_config = $yamlWriter->getContents();
     $project_config['project']['machine_name'] = $project_name;
     $yamlWriter->write($project_config);
+  }
+
+  /**
+   * Sets project.name using the directory name of repo.root.
+   */
+  protected function createCiConfig() {
+    $result = $this->taskFilesystemStack()
+      ->copy($this->getConfigValue('blt.root') . '/scripts/blt/ci/internal/ci.yml', $this->getConfigValue('repo.root') . '/blt/ci.blt.yml', TRUE)
+      ->stopOnFail()
+      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
+      ->run();
+
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Could not initialize the CI specific BLT file.");
+    }
   }
 
 }

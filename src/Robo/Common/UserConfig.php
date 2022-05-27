@@ -66,7 +66,7 @@ class UserConfig {
    *   TRUE if enabled, FALSE otherwise.
    */
   public function isTelemetryEnabled() {
-    return isset($this->config['telemetry']) ? $this->config['telemetry'] : FALSE;
+    return $this->config['telemetry'] ?? FALSE;
   }
 
   /**

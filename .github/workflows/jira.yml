@@ -1,0 +1,36 @@
+on:
+  issues:
+    types:
+      - opened
+
+name: Create new tickets in Jira
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Create new tickets in Jira
+    permissions:
+      issues: write
+    steps:
+    - name: Login
+      uses: acquia/gajira-login@server
+      env:
+        JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+        JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+        JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+    - name: Create
+      id: create
+      uses: acquia/gajira-create@server
+      with:
+        project: DX
+        issuetype: Task
+        summary: ${{ github.event.issue.title }}
+        description: ${{ github.event.issue.html_url }}
+        fields: '{"components": [{"id": "21989"}]}'
+    - name: Update Github issue with Jira ticket prefix
+      run: 'gh issue edit $GH_ISSUE --title "$JIRA_ISSUE: $ISSUE_TITLE"'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_ISSUE: ${{ github.event.issue.html_url }}
+        JIRA_ISSUE: ${{ steps.create.outputs.issue }}
+        ISSUE_TITLE: ${{ github.event.issue.title }}

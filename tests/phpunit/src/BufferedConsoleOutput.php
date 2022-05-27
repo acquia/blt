@@ -26,8 +26,8 @@ class BufferedConsoleOutput extends ConsoleOutput {
     // For some reason, some blt commands do not appear to always use the same
     // output buffer that is passed to it. recipes:multisite:init works, setup
     // does not. Moving buffer to global namespace works around this.
-    $content = $GLOBALS['blt_phpunit_buffer_output'];
-    $GLOBALS['blt_phpunit_buffer_output'] = '';
+    $content = getenv('blt_phpunit_buffer_output');
+    putenv('blt_phpunit_buffer_output=');
 
     return $content;
   }
@@ -36,14 +36,13 @@ class BufferedConsoleOutput extends ConsoleOutput {
    * {@inheritdoc}
    */
   protected function doWrite($message, $newline) {
-    if (!array_key_exists('blt_phpunit_buffer_output', $GLOBALS)) {
-      $GLOBALS['blt_phpunit_buffer_output'] = '';
-    }
-
-    $GLOBALS['blt_phpunit_buffer_output'] .= $message;
+    $output = getenv('blt_phpunit_buffer_output');
 
     if ($newline) {
-      $GLOBALS['blt_phpunit_buffer_output'] .= PHP_EOL;
+      putenv('blt_phpunit_buffer_output=' . $output . $message . PHP_EOL);
+    }
+    else {
+      putenv('blt_phpunit_buffer_output=' . $output . $message);
     }
 
     parent::doWrite($message, $newline);
