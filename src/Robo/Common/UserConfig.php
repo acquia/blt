@@ -39,7 +39,7 @@ class UserConfig {
     }
     else {
       // Make sure directory tree for user config file exists.
-      if (!file_exists($configDir) && !mkdir($configDir, 0777, TRUE)) {
+      if (!file_exists($configDir) && (!is_writable(getenv('HOME')) || !mkdir($configDir, 0777, TRUE))) {
         return;
       }
       // Make sure directory for user config file is writable.
@@ -66,7 +66,7 @@ class UserConfig {
    *   TRUE if enabled, FALSE otherwise.
    */
   public function isTelemetryEnabled() {
-    return isset($this->config['telemetry']) ? $this->config['telemetry'] : FALSE;
+    return $this->config['telemetry'] ?? FALSE;
   }
 
   /**
@@ -87,7 +87,7 @@ class UserConfig {
    *   Telemetry user data.
    */
   public function getTelemetryUserData() {
-    $data = $this->config['telemetryUserData'];
+    $data = $this->config['telemetryUserData'] ?? [];
     $data['app_version'] = Blt::getVersion();
 
     return $data;

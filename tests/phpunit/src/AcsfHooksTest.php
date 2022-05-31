@@ -13,15 +13,15 @@ class AcsfHooksTest extends BltProjectTestBase {
    * Tests recipes:acsf:init:all command.
    */
   public function testAcsfInit() {
-    list($status_code) = $this->blt("recipes:acsf:init:all");
+    [$status_code] = $this->blt("recipes:acsf:init:all");
     $this->assertEquals(0, $status_code);
     $this->assertFileExists($this->sandboxInstance . '/docroot/modules/contrib/acsf');
     $this->assertFileExists($this->sandboxInstance . '/factory-hooks');
-    list($status_code) = $this->blt("tests:acsf:validate");
+    [$status_code] = $this->blt("tests:acsf:validate");
     $this->assertEquals(0, $status_code);
 
     // Mimics factory-hooks/db-update/db-update.sh.
-    list($status_code) = $this->blt("artifact:acsf-hooks:db-update", [
+    [$status_code] = $this->blt("artifact:acsf-hooks:db-update", [
       'site' => 'blt',
       'target_env' => '01dev',
       'db_role' => 'blt123dev',

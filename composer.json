@@ -42,12 +42,17 @@
         "acquia/blt-behat": "<=1.0.0"
     },
     "require-dev": {
+        "acquia/coding-standards": "^1.0",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
         "squizlabs/php_codesniffer": "^3.6"
     },
     "suggest": {
         "davereid/drush-acquia-hook-invoke": "dev-master"
     },
     "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        },
         "php": "7",
         "platform": {
             "php": "7.4"
@@ -60,7 +65,7 @@
             "dev-main": "13.x-dev"
         },
         "class": "Acquia\\Blt\\Composer\\Plugin",
-        "phpcodesniffer-search-depth": 4,
+        "phpcodesniffer-search-depth": "4",
         "violinist": {
             "allow_updates_beyond_constraint": 0,
             "bundled_packages": {

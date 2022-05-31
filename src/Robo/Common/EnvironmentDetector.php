@@ -8,6 +8,8 @@ use loophp\phposinfo\Enum\FamilyName;
 use loophp\phposinfo\OsInfo;
 use Symfony\Component\Console\Input\ArgvInput;
 
+global $argv;
+
 /**
  * Attempts to detect various properties about the current hosting environment.
  *
@@ -27,11 +29,11 @@ class EnvironmentDetector extends AcquiaDrupalEnvironmentDetector {
       return current($results);
     }
 
-    if (isset($_ENV['PIPELINE_ENV'])) {
+    if (getenv('PIPELINE_ENV')) {
       return 'pipelines';
     }
 
-    if (isset($_ENV['GITLAB_CI_TOKEN'])) {
+    if (getenv('GITLAB_CI_TOKEN')) {
       return 'codestudio';
     }
 
@@ -241,7 +243,7 @@ class EnvironmentDetector extends AcquiaDrupalEnvironmentDetector {
       // When developing locally, we use the host name to determine which site
       // factory site is active. The hostname must have a corresponding entry
       // under the multisites key.
-      $input = new ArgvInput(!empty($_SERVER['argv']) ? $_SERVER['argv'] : ['']);
+      $input = new ArgvInput($argv);
       $config_initializer = new ConfigInitializer(self::getRepoRoot(), $input);
       $blt_config = $config_initializer->initialize();
 
