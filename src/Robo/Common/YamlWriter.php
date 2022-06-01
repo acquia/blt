@@ -24,9 +24,9 @@ class YamlWriter {
   /**
    * YAML contents.
    *
-   * @var null|string
+   * @var string
    */
-  private $contents;
+  private $contents = "\n";
 
   /**
    * YamlWriter constructor.
@@ -34,7 +34,7 @@ class YamlWriter {
    * @param string $filepath
    *   Filepath.
    */
-  public function __construct($filepath) {
+  public function __construct(string $filepath) {
     $this->filepath = $filepath;
     if (file_exists($this->filepath)) {
       $this->contents = file_get_contents($filepath);
@@ -47,13 +47,9 @@ class YamlWriter {
    * @return array
    *   Array.
    */
-  public function getContents() {
-    if ($this->contents) {
-      return Yaml::parse($this->contents);
-    }
-    else {
-      return [];
-    }
+  public function getContents(): array {
+    $yaml = Yaml::parse($this->contents);
+    return is_array($yaml) ? $yaml : [];
   }
 
   /**
@@ -62,7 +58,7 @@ class YamlWriter {
    * @param array $yaml
    *   Yaml.
    */
-  public function write(array $yaml) {
+  public function write(array $yaml): void {
     $alteredContents = Yaml::dump($yaml, PHP_INT_MAX, 2);
     $commentManager = new Comments();
     $commentManager->collect(explode("\n", $this->contents));
