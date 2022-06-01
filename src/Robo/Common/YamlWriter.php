@@ -19,14 +19,14 @@ class YamlWriter {
    *
    * @var string
    */
-  private string $filepath;
+  private $filepath;
 
   /**
    * YAML contents.
    *
    * @var string
    */
-  private string $contents = "\n";
+  private $contents = "\n";
 
   /**
    * YamlWriter constructor.
