@@ -4,6 +4,9 @@ on:
   pull_request:
   schedule:
     - cron: "0 0 * * *"
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -89,6 +92,8 @@ jobs:
 
   all-successful:
     # https://github.community/t/is-it-possible-to-require-all-github-actions-tasks-to-pass-without-enumerating-them/117957/4?u=graingert
+    permissions:
+      contents: none
     runs-on: ubuntu-latest
     needs: [build]
     steps:
