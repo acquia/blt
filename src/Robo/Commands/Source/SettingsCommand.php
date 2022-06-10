@@ -47,6 +47,7 @@ WARNING;
 
     // Reload config.
     $config_initializer = new ConfigInitializer($this->getConfigValue('repo.root'), $this->input());
+    $config_initializer->setSite($this->getConfig()->get('site'));
     $new_config = $config_initializer->initialize();
 
     // Replaces config.
