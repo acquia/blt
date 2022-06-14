@@ -162,7 +162,7 @@ class TestsCommandBase extends BltTasks {
       ->getMessage();
 
     if ($version < 59) {
-      throw new BltException("You must have Google Chrome version 59+ to execute headless tests.");
+      throw new BltException("You must have Google Chrome version 59+ to execute headless tests. You have $version.");
     }
   }
 
