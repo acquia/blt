@@ -115,7 +115,7 @@ class StringManipulator {
    *   The deprecation warning.
    */
   public static function stringToArrayMsg() {
-    return "Deprecation Warning: this command is passing a command string and should pass a command arary.";
+    return "Deprecation Warning: this command is passing a command string and should pass a command array.";
   }
 
 }
