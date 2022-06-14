@@ -129,6 +129,23 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
   }
 
   /**
+   * Executes a shell command.
+   *
+   * @param string $command
+   *   The shell command string.
+   *
+   * @return \Robo\Common\ProcessExecutor
+   *   The unexecuted command.
+   */
+  public function executeShell($command) {
+    $process_executor = Robo::process(Process::fromShellCommandline($command));
+    return $process_executor->dir($this->getConfigValue('repo.root'))
+      ->printOutput(FALSE)
+      ->printMetadata(FALSE)
+      ->interactive(FALSE);
+  }
+
+  /**
    * Kills all system processes that are using a particular port.
    *
    * @param string $port
