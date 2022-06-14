@@ -104,7 +104,7 @@ class TestsCommandBase extends BltTasks {
     $this->logger->info("Launching headless chrome...");
     $this->getContainer()
       ->get('executor')
-      ->execute("'$chrome_bin' --headless --no-sandbox --disable-web-security --remote-debugging-port={$this->chromePort} {$this->chromeArgs} $chrome_host")
+      ->executeShell("'$chrome_bin' --headless --no-sandbox --disable-web-security --remote-debugging-port={$this->chromePort} {$this->chromeArgs} $chrome_host")
       ->background(TRUE)
       ->printOutput(TRUE)
       ->printMetadata(TRUE)
@@ -157,7 +157,7 @@ class TestsCommandBase extends BltTasks {
    */
   protected function checkChromeVersion($bin) {
     $version = (int) $this->getContainer()->get('executor')
-      ->execute("'$bin' --version | cut -f1 -d'.' | rev | cut -f1 -d' ' | rev")
+      ->executeShell("'$bin' --version | cut -f1 -d'.' | rev | cut -f1 -d' ' | rev")
       ->run()
       ->getMessage();
 
@@ -231,7 +231,7 @@ class TestsCommandBase extends BltTasks {
     /** @var Acquia\Blt\Robo\Common\Executor $executor */
     $executor = $this->getContainer()->get('executor');
     $result = $executor
-      ->execute("$selenium_bin -port {$this->seleniumPort} -log {$this->seleniumLogFile}  > $log_file 2>&1")
+      ->executeShell("$selenium_bin -port {$this->seleniumPort} -log {$this->seleniumLogFile}  > $log_file 2>&1")
       ->background(TRUE)
       // @todo Print output when this command fails.
       ->printOutput(TRUE)
