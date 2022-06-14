@@ -157,7 +157,7 @@ class TestsCommandBase extends BltTasks {
    */
   protected function checkChromeVersion($bin) {
     $version = (int) $this->getContainer()->get('executor')
-      ->execute("'$bin' --version | cut -f1 -d'.' | rev | cut -f1 -d' ' | rev")
+      ->execute("'$bin'", "--version | cut", "-f1", "-d'.' | rev | cut -f1 -d'\" ' | rev",)
       ->run()
       ->getMessage();
 
