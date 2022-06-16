@@ -153,12 +153,10 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
    */
   public function killProcessByPort($port) {
     $this->logger->info("Killing all processes on port '$port'...");
-    // This is allowed to fail.
-    // @todo Replace with standardized call to Symfony Process.
-    // phpcs:ignore
-    exec("command -v lsof && lsof -ti tcp:$port | xargs kill l 2>&1");
-    // phpcs:ignore
-    exec("pkill -f $port 2>&1");
+
+    $this->executeShell("command -v lsof && lsof -ti tcp:$port | xargs kill l 2>&1");
+
+    $this->executeShell("pkill -f $port 2>&1");
   }
 
   /**
@@ -169,11 +167,8 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
    */
   public function killProcessByName($name) {
     $this->logger->info("Killing all processing containing string '$name'...");
-    // This is allowed to fail.
-    // @todo Replace with standardized call to Symfony Process.
-    // phpcs:ignore
-    exec("ps aux | grep -i $name | grep -v grep | awk '{print $2}' | xargs kill -9 2>&1");
-    // exec("ps aux | awk '/$name/ {print $2}' 2>&1 | xargs kill -9");.
+
+    $this->executeShell("ps aux | grep -i $name | grep -v grep | awk '{print $2}' | xargs kill -9 2>&1");
   }
 
   /**
