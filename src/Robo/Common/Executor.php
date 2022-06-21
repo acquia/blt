@@ -80,6 +80,7 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
 
     // Backwards compatibility check for legacy commands.
     if (!is_array($command)) {
+      $this->say($command);
       $this->say(StringManipulator::stringToArrayMsg());
       $command = StringManipulator::commandConvert($command);
     }
@@ -117,6 +118,7 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
   public function execute($command) {
     // Backwards compatibility check for legacy commands.
     if (!is_array($command)) {
+      $this->say($command);
       $this->say(StringManipulator::stringToArrayMsg());
       $command = StringManipulator::commandConvert($command);
     }
