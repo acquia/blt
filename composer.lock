@@ -6764,23 +6764,23 @@
         },
         {
             "name": "zumba/amplitude-php",
-            "version": "1.0.4",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zumba/amplitude-php.git",
-                "reference": "c0d14d5fce750c76710024601b0d698df2bdf365"
+                "reference": "3cace0b64d5b92eb42792f7696b874bec865aa4a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zumba/amplitude-php/zipball/c0d14d5fce750c76710024601b0d698df2bdf365",
-                "reference": "c0d14d5fce750c76710024601b0d698df2bdf365",
+                "url": "https://api.github.com/repos/zumba/amplitude-php/zipball/3cace0b64d5b92eb42792f7696b874bec865aa4a",
+                "reference": "3cace0b64d5b92eb42792f7696b874bec865aa4a",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
                 "ext-json": "*",
                 "php": ">=7.2",
-                "psr/log": "^1.0 | ^2.0"
+                "psr/log": "^1.0 | ^2.0 | ^3.0"
             },
             "require-dev": {
                 "php-coveralls/php-coveralls": "^2.4",
@@ -6819,9 +6819,9 @@
             ],
             "support": {
                 "issues": "https://github.com/zumba/amplitude-php/issues",
-                "source": "https://github.com/zumba/amplitude-php/tree/1.0.4"
+                "source": "https://github.com/zumba/amplitude-php/tree/1.0.5"
             },
-            "time": "2022-05-09T20:55:33+00:00"
+            "time": "2022-06-22T01:58:20+00:00"
         }
     ],
     "packages-dev": [
