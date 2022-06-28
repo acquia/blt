@@ -29,7 +29,12 @@ class SetupWizard extends Wizard {
       if ($confirm) {
         $bin = $this->getConfigValue('composer.bin');
         $this->executor
-          ->execute("$bin/blt blt:init:settings")->printOutput(TRUE)->run();
+          ->execute([
+            "$bin/blt",
+            "blt:init:settings",
+          ])
+          ->printOutput(TRUE)
+          ->run();
       }
     }
   }
@@ -49,7 +54,10 @@ class SetupWizard extends Wizard {
       if ($confirm) {
         $bin = $this->getConfigValue('composer.bin');
         $this->executor
-          ->execute("$bin/blt setup")
+          ->execute([
+            "$bin/blt",
+            "setup",
+          ])
           ->interactive($this->input()->isInteractive())
           ->run();
         $this->getInspector()->clearState();
