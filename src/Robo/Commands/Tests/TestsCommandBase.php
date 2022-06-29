@@ -104,15 +104,7 @@ class TestsCommandBase extends BltTasks {
     $this->logger->info("Launching headless chrome...");
     $this->getContainer()
       ->get('executor')
-      ->execute([
-        $chrome_bin,
-        "--headless",
-        "--no-sandbox",
-        "--disable-web-security",
-        "--remote-debugging-port={$this->chromePort}",
-        // "{$this->chromeArgs}",
-        "$chrome_host",
-      ])
+      ->executeShell("'$chrome_bin' --headless --no-sandbox --disable-web-security --remote-debugging-port={$this->chromePort} {$this->chromeArgs} $chrome_host")
       ->background(TRUE)
       ->printOutput(TRUE)
       ->printMetadata(TRUE)
