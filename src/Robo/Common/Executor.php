@@ -10,7 +10,6 @@ use Psr\Log\LoggerAwareTrait;
 use Robo\Collection\CollectionBuilder;
 use Robo\Contract\ConfigAwareInterface;
 use Robo\Contract\IOAwareInterface;
-use Robo\Contract\VerbosityThresholdInterface;
 use Robo\Robo;
 use Symfony\Component\Process\Process;
 
@@ -77,14 +76,6 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
    */
   public function drush($command) {
     $drush_array = [];
-
-    // Backwards compatibility check for legacy commands.
-    if (!is_array($command)) {
-      $this->say($command);
-      $this->say(StringManipulator::stringToArrayMsg());
-      $command = StringManipulator::commandConvert($command);
-    }
-
     // @todo Set to silent if verbosity is less than very verbose.
     $drush_array[] = $this->getConfigValue('composer.bin') . DIRECTORY_SEPARATOR . "drush";
     $drush_array[] = "@" . $this->getConfigValue('drush.alias');
@@ -94,15 +85,18 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
     if ($this->getConfigValue('drush.alias') != 'self') {
       $drush_array[] = ' --uri=' . $this->getConfigValue('site');
     }
-    $command_array = array_merge($drush_array, $command);
 
-    $process_executor = Robo::process(new Process($command_array));
-
-    return $process_executor->dir($this->getConfigValue('docroot'))
-      ->interactive(FALSE)
-      ->printOutput(TRUE)
-      ->printMetadata(TRUE)
-      ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERY_VERBOSE);
+    if (is_array($command)) {
+      $command_array = array_merge($drush_array, $command);
+      $this->logger->info("Running command " . implode(" ", $command_array));
+      $process_executor = $this->execute($command_array);
+    }
+    else {
+      $drush_string = implode (" ", $drush_array);
+      $this->logger->info("$drush_string $command");
+      $process_executor = $this->executeShell("$drush_string $command");
+    }
+    return $process_executor;
   }
 
   /**
