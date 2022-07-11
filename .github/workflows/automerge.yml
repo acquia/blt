@@ -14,7 +14,7 @@ jobs:
     if: >-
       github.event.workflow_run.event == 'pull_request' &&
       github.event.workflow_run.conclusion == 'success' &&
-      github.event.workflow_run.actor.login == 'violinist-bot'
+      github.event.workflow_run.actor.login == 'dependabot[bot]'
     steps:
     - name: "Get PR information"
       uses: potiuk/get-workflow-origin@v1_3
