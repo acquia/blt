@@ -10,7 +10,3 @@ Fixes #NNN
 
 **Testing steps**
 <!-- How can we replicate the issue and verify that this PR fixes it? -->
-
-**Merge requirements**
-- [ ] Apply _one_ of the following labels: _Major change_, _Minor change_, _Bug_, _Enhancement_, or _Chore_
-- [ ] Manual testing by a reviewer
