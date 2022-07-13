@@ -56,18 +56,8 @@ class ServerCommand extends TestsCommandBase {
     $result = $executor
       ->drush("runserver --quiet --uri=$this->serverUrl > $log_file 2>&1")
       ->background(TRUE)
+      ->printOutput(TRUE)
       ->run();
-
-    if (!$result->wasSuccessful()) {
-      $output = NULL;
-      $unsuccessful = "Failed to execute Drush runserver on $this->serverUrl";
-
-      if (file_exists($log_file)) {
-        $output = file_get_contents($log_file);
-      }
-      $executor->executeShell("tail -n 50 $log_file")->run();
-      throw new BltException($unsuccessful . "\n" . $output);
-    }
 
     try {
       $executor->waitForUrlAvailable($this->serverUrl);
