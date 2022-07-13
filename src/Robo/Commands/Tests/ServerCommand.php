@@ -54,8 +54,9 @@ class ServerCommand extends TestsCommandBase {
     /** @var \Acquia\Blt\Robo\Common\Executor $executor */
     $executor = $this->getContainer()->get('executor');
     $result = $executor
-      ->drush(["runserver", "--quiet", "$this->serverUrl > $log_file 2>&1"])
+      ->drush("runserver --quiet --uri=$this->serverUrl > $log_file 2>&1")
       ->background(TRUE)
+      ->printOutput(TRUE)
       ->run();
 
     try {
@@ -63,8 +64,7 @@ class ServerCommand extends TestsCommandBase {
     }
     catch (\Exception $e) {
       if (!$result->wasSuccessful() && file_exists($log_file)) {
-        $output = file_get_contents($log_file);
-        throw new BltException($e->getMessage() . "\nDrush logged the following errors while attempting to start the web server:\n" . $output);
+        throw new BltException($e->getMessage() . "\nConnection timed out.");
       }
     }
   }
