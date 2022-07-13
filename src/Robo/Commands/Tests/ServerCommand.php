@@ -54,8 +54,7 @@ class ServerCommand extends TestsCommandBase {
     /** @var \Acquia\Blt\Robo\Common\Executor $executor */
     $executor = $this->getContainer()->get('executor');
     $result = $executor
-      ->drush("runserver --quiet --uri=$this->serverUrl")
-      ->background(TRUE)
+      ->drush("runserver --uri=$this->serverUrl")
       ->printOutput(TRUE)
       ->run();
 
