@@ -4,11 +4,14 @@ namespace Acquia\Blt\Tests;
 
 use Acquia\Blt\Robo\Blt;
 use Acquia\Blt\Robo\Common\Executor;
+use Acquia\Blt\Robo\Common\IO;
 use Acquia\Blt\Robo\Common\StringManipulator;
+use Acquia\Blt\Robo\Config\ConfigAwareTrait;
 use Acquia\Blt\Robo\Config\ConfigInitializer;
 use Acquia\Blt\Robo\Inspector\Inspector;
-use League\Container\Container;
 use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerAwareTrait;
+use Psr\Log\Test\TestLogger;
 use Robo\Collection\CollectionBuilder;
 use Robo\Config\Config;
 use Robo\Robo;
@@ -25,6 +28,10 @@ use Symfony\Component\Process\Process;
  * Base class for all tests that are executed within a blt project.
  */
 abstract class BltProjectTestBase extends TestCase {
+
+  use ConfigAwareTrait;
+  use IO;
+  use LoggerAwareTrait;
 
   /**
    * @var string
@@ -91,10 +98,13 @@ abstract class BltProjectTestBase extends TestCase {
 
     // Inject executor and inspector for test execution.
     $this->config = new Config();
-    $this->config->set('repo.root', $this->sandboxInstance);
+    $this->config->set('repo.root', getenv('ORCA_FIXTURE_DIR'));
+
     $this->blt = new Blt($this->config);
-    $container = new Container();
+    $container = Robo::getContainer();
     $this->blt->setContainer($container);
+    $logger = new TestLogger();
+    $this->blt->setLogger($logger);
     $this->commandFile = new Tasks();
     $this->builder = new CollectionBuilder($this->commandFile);
     $this->executor = new Executor($this->builder);
