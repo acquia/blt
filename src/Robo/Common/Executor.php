@@ -82,8 +82,8 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
 
     // URIs do not work on remote drush aliases in Drush 9. Instead, it is
     // expected that the alias define the uri in its configuration.
-    if ($this->getConfigValue('drush.alias') != 'self') {
-      $drush_array[] = ' --uri=' . $this->getConfigValue('site');
+    if ($this->getConfigValue('site') !== 'default') {
+      $drush_array[] = '--uri=' . $this->getConfigValue('drush.uri');
     }
 
     if (is_array($command)) {
