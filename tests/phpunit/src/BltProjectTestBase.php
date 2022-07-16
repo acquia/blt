@@ -69,15 +69,9 @@ abstract class BltProjectTestBase extends TestCase {
   /**
    * {@inheritdoc}
    */
-  public function __construct() {
+  public function setUp(): void {
     $this->executor = $this->createMock('Acquia\Blt\Robo\Common\\Executor');
     $this->inspector = $this->createMock('Acquia\Blt\Robo\Inspector\Inspector');
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setUp(): void {
     $this->output = new ConsoleOutput();
     $this->printTestName();
     $this->bltDirectory = realpath(dirname(__FILE__) . '/../../../');
@@ -233,9 +227,7 @@ abstract class BltProjectTestBase extends TestCase {
       '--no-interaction' => '',
       '--environment' => 'ci',
     ];
-    if ($args == NULL) {
-      $args = [];
-    }
+
     $args = array_merge($args, $defaults);
     $prepend = [
       'command' => $command,
