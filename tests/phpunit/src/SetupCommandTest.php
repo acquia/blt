@@ -21,8 +21,8 @@ class SetupCommandTest extends BltProjectTestBase {
    * Test that config import when exported system UUID != installed UUID.
    */
   public function testChangedUuid() {
-    $this->executor->drush(["config-export", "--yes"]);
-    $this->executor->drush(["sql-drop", "--yes"]);
+    $this->executor->drush(["config-export", "--yes"])->run();
+    $this->executor->drush(["sql-drop", "--yes"])->run();
     [$status_code] = $this->installDrupalMinimal();
     $this->assertEquals(0, $status_code);
   }

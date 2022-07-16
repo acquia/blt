@@ -122,7 +122,7 @@ abstract class BltProjectTestBase extends TestCase {
       $command = StringManipulator::commandConvert($command);
     }
     $command[] = "--format=json";
-    $output = $this->executor->drush($command, $root, $stop_on_error);
+    $output = $this->executor->drush($command, $root, $stop_on_error)->run();
     $array = json_decode($output, TRUE);
 
     return $array;
