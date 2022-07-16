@@ -13,7 +13,6 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Terminal;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Process\Process;
 
 /**
  * Base class for all tests that are executed within a blt project.
@@ -63,6 +62,19 @@ abstract class BltProjectTestBase extends TestCase {
   protected static $initialized = FALSE;
 
   /**
+   * @var \Acquia\Blt\Robo\Inspector\Inspector
+   */
+  protected $inspector;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function __construct() {
+    $this->executor = $this->createMock('Acquia\Blt\Robo\Common\\Executor');
+    $this->inspector = $this->createMock('Acquia\Blt\Robo\Inspector\Inspector');
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function setUp(): void {
@@ -70,7 +82,7 @@ abstract class BltProjectTestBase extends TestCase {
     $this->printTestName();
     $this->bltDirectory = realpath(dirname(__FILE__) . '/../../../');
     $this->fs = new Filesystem();
-    $this->execute(['./bin/orca', 'fixture:reset', '-f'], getenv('ORCA_ROOT'));
+    $this->executor->execute(['./bin/orca', 'fixture:reset', '-f'], getenv('ORCA_ROOT'));
     $this->sandboxInstance = getenv('ORCA_FIXTURE_DIR');
 
     $this->fs->copy($this->bltDirectory . "/scripts/blt/ci/internal/ci.yml", $this->sandboxInstance . "/blt/ci.blt.yml", TRUE);
@@ -95,95 +107,6 @@ abstract class BltProjectTestBase extends TestCase {
   }
 
   /**
-   * @param mixed $command
-   *   The command string|array.
-   *   Warning: symfony/process 5.x expects an array.
-   * @param mixed $cwd
-   *   CWD.
-   * @param bool $stop_on_error
-   *   Stop on error.
-   *
-   * @return \Symfony\Component\Process\Process
-   *   Process
-   *
-   * @throws \Exception
-   */
-  protected function execute($command, $cwd = NULL, $stop_on_error = TRUE) {
-    // Backwards compatibility check for legacy commands.
-    if (!is_array($command)) {
-      $command = StringManipulator::commandConvert($command);
-    }
-    if (!$cwd) {
-      $cwd = $this->sandboxInstance;
-    }
-
-    $process = new Process($command, $cwd);
-    $process->setTimeout(NULL);
-    $output = new ConsoleOutput();
-    if (getenv('BLT_PRINT_COMMAND_OUTPUT')) {
-      $string = implode(" ", $command);
-      $output->writeln("");
-      $output->writeln("Executing <comment>$string</comment>...");
-      if (!$stop_on_error) {
-        $output->writeln("Command failure is permitted.");
-      }
-      $output->writeln("<comment>------Begin command output-------</comment>");
-      $process->run(function ($type, $buffer) use ($output) {
-        $output->write($buffer);
-      });
-    }
-    else {
-      $process->run();
-    }
-    if (getenv('BLT_PRINT_COMMAND_OUTPUT')) {
-      $output->writeln("<comment>------End command output---------</comment>");
-      $output->writeln("");
-    }
-
-    if (!$process->isSuccessful() && $stop_on_error) {
-      throw new \Exception("Command exited with non-zero exit code.");
-    }
-
-    return $process;
-  }
-
-  /**
-   * Drush.
-   *
-   * @param mixed $command
-   *   The command string|array.
-   *   Warning: symfony/process 5.x expects an array.
-   * @param mixed $root
-   *   Root.
-   * @param bool $stop_on_error
-   *   Stop on error.
-   *
-   * @return string
-   *   String.
-   *
-   * @throws \Exception
-   */
-  protected function drush($command, $root = NULL, $stop_on_error = TRUE) {
-    // Backwards compatibility check for legacy commands.
-    if (!is_array($command)) {
-      $command = StringManipulator::commandConvert($command);
-    }
-    if (!$root) {
-      $root = $this->config->get('docroot');
-    }
-    $command_array[] = $this->sandboxInstance . '/vendor/bin/drush';
-    $drush_array = array_merge($command_array, $command);
-    $drush_array[] = "--root=$root";
-    $drush_array[] = "--no-interaction";
-    $drush_array[] = "--ansi";
-
-    $process = $this->execute($drush_array, $root, $stop_on_error);
-    $output = $process->getOutput();
-
-    return $output;
-  }
-
-  /**
    * Drush JSON.
    *
    * @param mixed $command
@@ -205,7 +128,7 @@ abstract class BltProjectTestBase extends TestCase {
       $command = StringManipulator::commandConvert($command);
     }
     $command[] = "--format=json";
-    $output = $this->drush($command, $root, $stop_on_error);
+    $output = $this->executor->drush($command, $root, $stop_on_error);
     $array = json_decode($output, TRUE);
 
     return $array;
