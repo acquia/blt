@@ -3,9 +3,15 @@
 namespace Acquia\Blt\Tests;
 
 use Acquia\Blt\Robo\Blt;
+use Acquia\Blt\Robo\Common\Executor;
 use Acquia\Blt\Robo\Config\ConfigInitializer;
+use Acquia\Blt\Robo\Inspector\Inspector;
+use League\Container\Container;
 use PHPUnit\Framework\TestCase;
+use Robo\Collection\CollectionBuilder;
+use Robo\Config\Config;
 use Robo\Robo;
+use Robo\Tasks;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -69,14 +75,10 @@ abstract class BltProjectTestBase extends TestCase {
    * {@inheritdoc}
    */
   public function setUp(): void {
-    $this->executor = $this->createMock('Acquia\Blt\Robo\Common\\Executor');
-    $this->inspector = $this->createMock('Acquia\Blt\Robo\Inspector\Inspector');
     $this->output = new ConsoleOutput();
     $this->printTestName();
     $this->bltDirectory = realpath(dirname(__FILE__) . '/../../../');
     $this->fs = new Filesystem();
-    $this->executor->execute(['./bin/orca', 'fixture:reset', '-f'], getenv('ORCA_ROOT'));
-    $this->sandboxInstance = getenv('ORCA_FIXTURE_DIR');
 
     $this->fs->copy($this->bltDirectory . "/scripts/blt/ci/internal/ci.yml", $this->sandboxInstance . "/blt/ci.blt.yml", TRUE);
     $this->fs->copy($this->bltDirectory . "/tests/phpunit/fixtures/drush.yml", $this->sandboxInstance . "/drush/drush.yml", TRUE);
@@ -84,8 +86,20 @@ abstract class BltProjectTestBase extends TestCase {
 
     // Config is overwritten for each $this->blt execution.
     $this->reInitializeConfig($this->createBltInput(NULL, []));
-    $this->dbDump = $this->sandboxInstance . "/bltDbDump.sql";
 
+    // Inject executor and inspector for test execution.
+    $this->config = new Config();
+    $this->blt = new Blt($this->config);
+    $container = new Container();
+    $this->blt->setContainer($container);
+    $this->commandFile = new Tasks();
+    $this->builder = new CollectionBuilder($this->commandFile);
+    $this->executor = new Executor($this->builder);
+    $this->inspector = new Inspector($this->executor);
+
+    $this->executor->execute(['./bin/orca', 'fixture:reset', '-f'], getenv('ORCA_ROOT'));
+    $this->sandboxInstance = getenv('ORCA_FIXTURE_DIR');
+    $this->dbDump = $this->sandboxInstance . "/bltDbDump.sql";
     parent::setUp();
   }
 
