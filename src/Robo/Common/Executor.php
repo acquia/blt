@@ -70,11 +70,13 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
    *
    * @param mixed $command
    *   The command to execute, without "drush" prefix.
+   * @param string $format
+   *   Allows for tests to pass a json format request.
    *
    * @return \Robo\Common\ProcessExecutor
    *   The unexecuted process.
    */
-  public function drush($command) {
+  public function drush($command, $format = NULL) {
     $drush_array = [];
     // @todo Set to silent if verbosity is less than very verbose.
     $drush_array[] = $this->getConfigValue('composer.bin') . DIRECTORY_SEPARATOR . "drush";
@@ -84,6 +86,10 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
     // expected that the alias define the uri in its configuration.
     if ($this->getConfigValue('drush.alias') != 'self') {
       $drush_array[] = ' --uri=' . $this->getConfigValue('site');
+    }
+
+    if (isset($format) && $format == 'json') {
+      $drush_array[] = "--format=json";
     }
 
     if (is_array($command)) {

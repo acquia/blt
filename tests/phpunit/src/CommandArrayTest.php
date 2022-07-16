@@ -23,7 +23,7 @@ class CommandArrayTest extends BltProjectTestBase {
 
   public function testStringDrush() {
     $string = "status --yes";
-    $this->drushJson($string);
+    $this->executor->drush($string, "json")->run();
   }
 
   public function getKeys() {

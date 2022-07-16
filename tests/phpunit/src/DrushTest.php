@@ -23,7 +23,7 @@ class DrushTest extends BltProjectTestBase {
 
     foreach ($dirs as $dir) {
       chdir($dir);
-      $drush_output = $this->drushJson(['status']);
+      $drush_output = $this->executor->drush(['status'], 'json')->run();
 
       $config_file = $this->sandboxInstance . '/vendor/drush/drush/drush.yml';
       $message = "Failed asserting that the output of `drush status` contains $config_file when executed from $dir.";

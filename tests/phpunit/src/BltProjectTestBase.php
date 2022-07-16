@@ -3,7 +3,6 @@
 namespace Acquia\Blt\Tests;
 
 use Acquia\Blt\Robo\Blt;
-use Acquia\Blt\Robo\Common\StringManipulator;
 use Acquia\Blt\Robo\Config\ConfigInitializer;
 use PHPUnit\Framework\TestCase;
 use Robo\Robo;
@@ -98,34 +97,6 @@ abstract class BltProjectTestBase extends TestCase {
     unset($this->config);
     $config_initializer = new ConfigInitializer($this->sandboxInstance, $input);
     $this->config = $config_initializer->initialize();
-  }
-
-  /**
-   * Drush JSON.
-   *
-   * @param mixed $command
-   *   The command string|array.
-   *   Warning: symfony/process 5.x expects an array.
-   * @param mixed $root
-   *   Root.
-   * @param bool $stop_on_error
-   *   Stop on error.
-   *
-   * @return mixed
-   *   Mixed.
-   *
-   * @throws \Exception
-   */
-  protected function drushJson($command, $root = NULL, $stop_on_error = TRUE) {
-    // Backwards compatibility check for legacy commands.
-    if (!is_array($command)) {
-      $command = StringManipulator::commandConvert($command);
-    }
-    $command[] = "--format=json";
-    $output = $this->executor->drush($command, $root, $stop_on_error)->run();
-    $array = json_decode($output, TRUE);
-
-    return $array;
   }
 
   /**
