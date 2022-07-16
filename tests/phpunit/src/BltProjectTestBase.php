@@ -148,39 +148,59 @@ abstract class BltProjectTestBase extends TestCase {
   }
 
   /**
+   * Executes a shell command.
+   *
+   * @param string $command
+   *   The shell command string.
+   *
+   * @return \Robo\Common\ProcessExecutor
+   *   The unexecuted command.
+   */
+  public function executeShell($command) {
+    $process_executor = Robo::process(Process::fromShellCommandline($command));
+    return $process_executor->dir($this->getConfigValue('repo.root'))
+      ->printOutput(FALSE)
+      ->printMetadata(FALSE)
+      ->interactive(FALSE);
+  }
+
+  /**
    * Drush.
    *
    * @param mixed $command
    *   The command string|array.
    *   Warning: symfony/process 5.x expects an array.
-   * @param mixed $root
-   *   Root.
-   * @param bool $stop_on_error
-   *   Stop on error.
    *
    * @return string
    *   String.
    *
    * @throws \Exception
    */
-  protected function drush($command, $root = NULL, $stop_on_error = TRUE) {
-    // Backwards compatibility check for legacy commands.
-    if (!is_array($command)) {
-      $command = StringManipulator::commandConvert($command);
-    }
-    if (!$root) {
-      $root = $this->config->get('docroot');
-    }
-    $command_array[] = $this->sandboxInstance . '/vendor/bin/drush';
-    $drush_array = array_merge($command_array, $command);
-    $drush_array[] = "--root=$root";
-    $drush_array[] = "--no-interaction";
-    $drush_array[] = "--ansi";
+  public function drush($command) {
+    $drush_array = [];
+    // @todo Set to silent if verbosity is less than very verbose.
+    $drush_array[] = $this->getConfigValue('composer.bin') . DIRECTORY_SEPARATOR . "drush";
+    $drush_array[] = "@" . $this->getConfigValue('drush.alias');
 
-    $process = $this->execute($drush_array, $root, $stop_on_error);
-    $output = $process->getOutput();
+    // URIs do not work on remote drush aliases in Drush 9. Instead, it is
+    // expected that the alias define the uri in its configuration.
+    if ($this->getConfigValue('drush.alias') != 'self') {
+      $drush_array[] = ' --uri=' . $this->getConfigValue('site');
+    }
 
-    return $output;
+    if (is_array($command)) {
+      $command_array = array_merge($drush_array, $command);
+      $output = new BufferedConsoleOutput();
+      $output->writeln("Running command " . implode(" ", $command_array));
+      $process_executor = $this->execute($command_array);
+    }
+    else {
+      $drush_string = implode (" ", $drush_array);
+      $output = new BufferedConsoleOutput();
+      $output->writeln("Running command $drush_string $command");
+      $process_executor = $this->executeShell("$drush_string $command");
+    }
+    return $process_executor;
   }
 
   /**
@@ -205,7 +225,7 @@ abstract class BltProjectTestBase extends TestCase {
       $command = StringManipulator::commandConvert($command);
     }
     $command[] = "--format=json";
-    $output = $this->drush($command, $root, $stop_on_error);
+    $output = $this->drush($command)->run();
     $array = json_decode($output, TRUE);
 
     return $array;
