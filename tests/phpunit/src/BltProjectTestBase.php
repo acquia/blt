@@ -4,6 +4,7 @@ namespace Acquia\Blt\Tests;
 
 use Acquia\Blt\Robo\Blt;
 use Acquia\Blt\Robo\Common\Executor;
+use Acquia\Blt\Robo\Common\StringManipulator;
 use Acquia\Blt\Robo\Config\ConfigInitializer;
 use Acquia\Blt\Robo\Inspector\Inspector;
 use League\Container\Container;
@@ -18,6 +19,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Terminal;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Process\Process;
 
 /**
  * Base class for all tests that are executed within a blt project.
@@ -79,6 +81,7 @@ abstract class BltProjectTestBase extends TestCase {
     $this->printTestName();
     $this->bltDirectory = realpath(dirname(__FILE__) . '/../../../');
     $this->fs = new Filesystem();
+    $this->ex(['./bin/orca', 'fixture:reset', '-f'], getenv('ORCA_ROOT'));
     $this->sandboxInstance = getenv('ORCA_FIXTURE_DIR');
     // Config is overwritten for each $this->blt execution.
     $this->reInitializeConfig($this->createBltInput(NULL, []));
@@ -88,6 +91,7 @@ abstract class BltProjectTestBase extends TestCase {
 
     // Inject executor and inspector for test execution.
     $this->config = new Config();
+    $this->config->set('repo.root', $this->sandboxInstance);
     $this->blt = new Blt($this->config);
     $container = new Container();
     $this->blt->setContainer($container);
@@ -96,7 +100,6 @@ abstract class BltProjectTestBase extends TestCase {
     $this->executor = new Executor($this->builder);
     $this->inspector = new Inspector($this->executor);
 
-    $this->executor->execute(['./bin/orca', 'fixture:reset', '-f'], getenv('ORCA_ROOT'));
     $this->dbDump = $this->sandboxInstance . "/bltDbDump.sql";
     parent::setUp();
   }
@@ -228,6 +231,59 @@ abstract class BltProjectTestBase extends TestCase {
       $this->writeFullWidthLine(get_class($this) . "::" . $this->getName(),
         $this->output);
     }
+  }
+
+  /**
+   * @param mixed $command
+   *   The command string|array.
+   *   Warning: symfony/process 5.x expects an array.
+   * @param mixed $cwd
+   *   CWD.
+   * @param bool $stop_on_error
+   *   Stop on error.
+   *
+   * @return \Symfony\Component\Process\Process
+   *   Process
+   *
+   * @throws \Exception
+   */
+  protected function ex($command, $cwd = NULL, $stop_on_error = TRUE) {
+    // Backwards compatibility check for legacy commands.
+    if (!is_array($command)) {
+      $command = StringManipulator::commandConvert($command);
+    }
+    if (!$cwd) {
+      $cwd = $this->sandboxInstance;
+    }
+
+    $process = new Process($command, $cwd);
+    $process->setTimeout(NULL);
+    $output = new ConsoleOutput();
+    if (getenv('BLT_PRINT_COMMAND_OUTPUT')) {
+      $string = implode(" ", $command);
+      $output->writeln("");
+      $output->writeln("Executing <comment>$string</comment>...");
+      if (!$stop_on_error) {
+        $output->writeln("Command failure is permitted.");
+      }
+      $output->writeln("<comment>------Begin command output-------</comment>");
+      $process->run(function ($type, $buffer) use ($output) {
+        $output->write($buffer);
+      });
+    }
+    else {
+      $process->run();
+    }
+    if (getenv('BLT_PRINT_COMMAND_OUTPUT')) {
+      $output->writeln("<comment>------End command output---------</comment>");
+      $output->writeln("");
+    }
+
+    if (!$process->isSuccessful() && $stop_on_error) {
+      throw new \Exception("Command exited with non-zero exit code.");
+    }
+
+    return $process;
   }
 
 }
