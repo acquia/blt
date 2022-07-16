@@ -16,7 +16,7 @@ class ConfigImportTest extends BltProjectTestBase {
    * @throws \Exception
    */
   public function testNoConfig() {
-    $this->drush(["config-export", "--yes"]);
+    $this->executor->drush(["config-export", "--yes"]);
     [$status_code] = $this->blt("drupal:config:import", [
       '--define' => [
         'cm.strategy=none',
@@ -29,7 +29,7 @@ class ConfigImportTest extends BltProjectTestBase {
    * @throws \Exception
    */
   public function testNoConfigException() {
-    $this->drush(["config-export", "--yes"]);
+    $this->executor->drush(["config-export", "--yes"]);
     try {
       [$status_code] = $this->blt("drupal:config:import", [
         '--define' => [
@@ -87,7 +87,7 @@ class ConfigImportTest extends BltProjectTestBase {
    * @throws \Exception
    */
   public function testCoreOnly() {
-    $this->drush(["config-export", "--yes"]);
+    $this->executor->drush(["config-export", "--yes"]);
     [$status_code] = $this->blt("drupal:config:import", [
       '--define' => [
         'cm.strategy=core-only',
@@ -104,8 +104,8 @@ class ConfigImportTest extends BltProjectTestBase {
    * @throws \Exception
    */
   public function testConfigSplit() {
-    $this->drush(["pm-enable config_split", "--yes"]);
-    $this->drush(["config-export", "--yes"]);
+    $this->executor->drush(["pm-enable config_split", "--yes"]);
+    $this->executor->drush(["config-export", "--yes"]);
     $this->fs->copy(
       $this->bltDirectory . "/scripts/blt/ci/internal/config_split.config_split.ci.yml",
       $this->sandboxInstance . "/config/default/config_split.config_split.ci.yml"
