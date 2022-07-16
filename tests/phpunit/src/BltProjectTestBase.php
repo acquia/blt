@@ -233,6 +233,9 @@ abstract class BltProjectTestBase extends TestCase {
       '--no-interaction' => '',
       '--environment' => 'ci',
     ];
+    if ($args == NULL) {
+      $args = [];
+    }
     $args = array_merge($args, $defaults);
     $prepend = [
       'command' => $command,
