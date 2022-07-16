@@ -614,6 +614,8 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   public function isActiveConfigIdentical() {
     $result = $this->executor->drush(["config:status"])->run();
     $message = trim($result->getMessage());
+    $this->logger->debug("Config status check results:");
+    $this->logger->debug($message);
 
     // A successful test here results in "no message" so check for null.
     if ($message == NULL) {
