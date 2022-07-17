@@ -11,7 +11,7 @@ class DrupalSettingsTest extends BltProjectTestBase {
    * Tests blt:init:settings command.
    */
   public function testSetupDefaultLocalSettings() {
-    $this->blt('blt:init:settings');
+    $this->executor->execute('./vendor/bin/blt blt:init:settings');
     $sites = $this->config->get("multisites");
 
     foreach ($sites as $site) {
