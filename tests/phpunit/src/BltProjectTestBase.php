@@ -11,7 +11,6 @@ use Acquia\Blt\Robo\Config\ConfigInitializer;
 use Acquia\Blt\Robo\Inspector\Inspector;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerAwareTrait;
-use Psr\Log\Test\TestLogger;
 use Robo\Collection\CollectionBuilder;
 use Robo\Config\Config;
 use Robo\Robo;
@@ -103,8 +102,8 @@ abstract class BltProjectTestBase extends TestCase {
     $this->blt = new Blt($this->config);
     $container = Robo::getContainer();
     $this->blt->setContainer($container);
-    $logger = new TestLogger();
-    $this->blt->setLogger($logger);
+    // $logger = new TestLogger();
+    $this->blt->setLogger(Robo::logger());
     $this->commandFile = new Tasks();
     $this->builder = new CollectionBuilder($this->commandFile);
     $this->executor = new Executor($this->builder);
