@@ -100,7 +100,8 @@ abstract class BltProjectTestBase extends TestCase {
     $this->config->set('repo.root', getenv('ORCA_FIXTURE_DIR'));
 
     $this->blt = new Blt($this->config);
-    $container = Robo::getContainer();
+    $container = Robo::createContainer();
+    Robo::finalizeContainer($container);
     $this->blt->setContainer($container);
     // $logger = new TestLogger();
     $this->blt->setLogger(Robo::logger());
