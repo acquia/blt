@@ -177,7 +177,7 @@ abstract class BltProjectTestBase extends TestCase {
     $classLoader = require $repo_root . '/vendor/autoload.php';
     $blt = new Blt($config, $input, $output, $classLoader);
     $status_code = (int) $blt->run($input, $output);
-    Robo::unsetContainer();
+    // Robo::unsetContainer();
 
     if (getenv('BLT_PRINT_COMMAND_OUTPUT')) {
       $output->writeln("<comment>------End BLT output---------</comment>");
