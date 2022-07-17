@@ -94,12 +94,12 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
 
     if (is_array($command)) {
       $command_array = array_merge($drush_array, $command);
-      $this->logger->info("Running command " . implode(" ", $command_array));
+      $this->say("Running command " . implode(" ", $command_array));
       $process_executor = $this->execute($command_array);
     }
     else {
       $drush_string = implode (" ", $drush_array);
-      $this->logger->info("$drush_string $command");
+      $this->say("$drush_string $command");
       $process_executor = $this->executeShell("$drush_string $command");
     }
     return $process_executor;
