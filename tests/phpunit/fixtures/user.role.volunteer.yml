@@ -1,0 +1,15 @@
+uuid: e0f61e4a-09e3-4e98-afb2-573dd1a5b418
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+third_party_settings:
+  lightning_core:
+    description: 'Conference volunteer'
+id: volunteer
+label: Volunteer
+weight: 7
+is_admin: null
+permissions:
+  - 'access content overview'
