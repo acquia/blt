@@ -178,7 +178,6 @@ abstract class BltProjectTestBase extends TestCase {
     $blt = new Blt($config, $input, $output, $classLoader);
     $status_code = (int) $blt->run($input, $output);
     // Robo::unsetContainer();
-
     if (getenv('BLT_PRINT_COMMAND_OUTPUT')) {
       $output->writeln("<comment>------End BLT output---------</comment>");
       $output->writeln("");

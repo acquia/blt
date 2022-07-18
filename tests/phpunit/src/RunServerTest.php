@@ -8,7 +8,8 @@ namespace Acquia\Blt\Tests;
 class RunServerTest extends BltProjectTestBase {
 
   public function testRunServer() {
-    $this->blt("tests:server");
+    [$status_code] = $this->blt("tests:server");
+    $this->assertEquals(0, $status_code);
   }
 
 }

@@ -10,7 +10,7 @@ class ConfigStatusTest extends BltProjectTestBase {
   public function testSingleSiteConfig() {
     $this->installDrupalMinimal();
     $result = $this->inspector->isActiveConfigIdentical();
-    $this->assertEquals(0, $result);
+    $this->assertEquals(TRUE, $result);
 
   }
 
