@@ -38,6 +38,10 @@ class SetupCommand extends BltTasks {
         $commands[] = 'drupal:sql:import';
         $commands[] = 'drupal:update';
         break;
+
+      case 'acms':
+        $commands[] = 'acms:install';
+        break;
     }
 
     $this->invokeCommands($commands);

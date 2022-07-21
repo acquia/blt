@@ -32,12 +32,41 @@ class InstallCommand extends BltTasks {
    */
   public function drupalInstall() {
     $commands = ['internal:drupal:install'];
+    $commands = $this->configInstall($commands);
+    $this->invokeCommands($commands);
+    $this->setSitePermissions();
+  }
+
+  /**
+   * Installs Drupal and sets correct file/directory permissions.
+   *
+   * @command acms:install
+   *
+   * @aliases di setup:acms:install
+   *
+   * @interactGenerateSettingsFiles
+   *
+   * @validateDrushConfig
+   * @validateDocrootIsPresent
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   *
+   * @todo Add a @validateSettingsFilesArePresent
+   */
+  public function acmsInstall() {
+    $commands = ['internal:acms:install'];
+    $commands = $this->configInstall($commands);
+    $this->invokeCommands($commands);
+    $this->setSitePermissions();
+  }
+
+
+  public function configInstall($commands) {
     $strategy = $this->getConfigValue('cm.strategy');
     if (in_array($strategy, ['core-only', 'config-split'])) {
       $commands[] = 'drupal:config:import';
     }
-    $this->invokeCommands($commands);
-    $this->setSitePermissions();
+    return $commands;
   }
 
   /**
@@ -139,6 +168,34 @@ class InstallCommand extends BltTasks {
     $result = $task->interactive($this->input()->isInteractive())->run();
     if (!$result->wasSuccessful()) {
       throw new BltException("Failed to install Drupal!");
+    }
+
+    return $result;
+  }
+
+  /**
+   * Installs ACMS.
+   *
+   * @command internal:acms:install
+   *
+   * @validateDrushConfig
+   * @hidden
+   *
+   * @return \Robo\Result
+   *   The `composer acms-install` command result.
+   *
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Robo\Exception\TaskException
+   */
+  public function acms(): Result {
+
+    $task = $this->taskExec('composer', 'acms:install')
+      ->verbose(TRUE)
+      ->printOutput(TRUE);
+
+    $result = $task->interactive($this->input()->isInteractive())->run();
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Failed to install ACMS");
     }
 
     return $result;
