@@ -1,6 +1,9 @@
 name: ORCA CI
 on:
   push:
+    # Prevent duplicate jobs on Dependabot PRs that interfere with automerge.
+    branches-ignore:
+      - 'dependabot/**'
   pull_request:
   schedule:
     - cron: "0 0 * * *"
