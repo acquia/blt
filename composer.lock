@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a7f914fdfc871a646e58528eec9f8074",
+    "content-hash": "06997eb904f0143a3f608b778d2f0324",
     "packages": [
         {
             "name": "acquia/drupal-environment-detector",
@@ -1685,20 +1685,20 @@
         },
         {
             "name": "grasmash/yaml-expander",
-            "version": "dev-master",
+            "version": "3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/grasmash/yaml-expander.git",
-                "reference": "bc3c0331ce167d7c9a0765b7c90a4b9d3badbc70"
+                "reference": "f6dd6be2a899316528e201c91fc317b16794b1c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/grasmash/yaml-expander/zipball/bc3c0331ce167d7c9a0765b7c90a4b9d3badbc70",
-                "reference": "bc3c0331ce167d7c9a0765b7c90a4b9d3badbc70",
+                "url": "https://api.github.com/repos/grasmash/yaml-expander/zipball/f6dd6be2a899316528e201c91fc317b16794b1c0",
+                "reference": "f6dd6be2a899316528e201c91fc317b16794b1c0",
                 "shasum": ""
             },
             "require": {
-                "grasmash/expander": "^1.0.0 || ^2",
+                "grasmash/expander": "^1 || ^2 || ^3",
                 "symfony/yaml": "^4 || ^5 || ^6"
             },
             "require-dev": {
@@ -1706,13 +1706,7 @@
                 "phpunit/phpunit": "^8.0 || ^9",
                 "squizlabs/php_codesniffer": "^2.7 || ^3.3"
             },
-            "default-branch": true,
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Grasmash\\YamlExpander\\": "src/"
@@ -1730,9 +1724,9 @@
             "description": "Expands internal property references in a yaml file.",
             "support": {
                 "issues": "https://github.com/grasmash/yaml-expander/issues",
-                "source": "https://github.com/grasmash/yaml-expander/tree/3.0.1"
+                "source": "https://github.com/grasmash/yaml-expander/tree/3.0.2"
             },
-            "time": "2022-03-28T16:25:24+00:00"
+            "time": "2022-05-10T13:29:17+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -7257,9 +7251,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "grasmash/yaml-expander": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
