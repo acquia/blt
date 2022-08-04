@@ -8,8 +8,6 @@ use loophp\phposinfo\Enum\FamilyName;
 use loophp\phposinfo\OsInfo;
 use Symfony\Component\Console\Input\ArgvInput;
 
-global $argv;
-
 /**
  * Attempts to detect various properties about the current hosting environment.
  *
@@ -240,6 +238,8 @@ class EnvironmentDetector extends AcquiaDrupalEnvironmentDetector {
       return self::getAcsfDbName();
     }
     if (EnvironmentDetector::isAcsfInited() && EnvironmentDetector::isLocalEnv()) {
+      global $argv;
+
       // When developing locally, we use the host name to determine which site
       // factory site is active. The hostname must have a corresponding entry
       // under the multisites key.
