@@ -11,6 +11,7 @@ use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
+use Twig\TwigTest;
 
 /**
  * Defines commands in the "validate:twig:lint:all*" namespace.
@@ -143,6 +144,19 @@ class TwigCommand extends BltTasks {
       // @see \TwigNode_Expression_Call::getArguments
       // @see \TwigNode_Expression_Call::call()
       $twig->addFunction(new TwigFunction($function, function (array $args = []) {}, [
+        'is_variadic' => TRUE,
+      ]));
+    }
+
+    // Get any custom defined Twig tests to be allowed by linter.
+    $twig_tests = (array) $this->getConfigValue('validate.twig.tests', []);
+
+    foreach ($twig_tests as $test) {
+      // Add default argument and set to variadic so that tests with named
+      // arguments will be whitelisted.
+      // @see \TwigNode_Expression_Call::getArguments
+      // @see \TwigNode_Expression_Call::call()
+      $twig->addTest(new TwigTest($test, function ($value = '', array $args = []) {}, [
         'is_variadic' => TRUE,
       ]));
     }
