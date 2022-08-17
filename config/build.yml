@@ -270,10 +270,12 @@ validate:
   twig:
     filesets:
       - files.twig
-    # Add any custom Twig filters for linter to ignore.
+    # Add any custom Twig filters for linter to allow.
     filters: { }
-    # Add any custom Twig functions for linter to ignore.
+    # Add any custom Twig functions for linter to allow.
     functions: { }
+    # Add any custom Twig tests for linter to allow.
+    tests: { }
   yaml:
     filesets:
       - files.yaml
