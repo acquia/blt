@@ -20,6 +20,8 @@ class EnvironmentDetector extends AcquiaDrupalEnvironmentDetector {
    *
    * In the case of multiple environment detectors declaring a CI env name, the
    * first one wins.
+   *
+   * @throws \ReflectionException
    */
   public static function getCiEnv() {
     $results = self::getSubclassResults(__FUNCTION__);
@@ -40,8 +42,10 @@ class EnvironmentDetector extends AcquiaDrupalEnvironmentDetector {
 
   /**
    * Is CI.
+   *
+   * @throws \ReflectionException
    */
-  public static function isCiEnv() {
+  public static function isCiEnv(): bool {
     return self::getCiEnv() || getenv('CI');
   }
 
@@ -54,8 +58,9 @@ class EnvironmentDetector extends AcquiaDrupalEnvironmentDetector {
    *
    * @return string
    *   Settings file full path and filename.
+   * @throws \ReflectionException
    */
-  public static function getCiSettingsFile() {
+  public static function getCiSettingsFile(): string {
     $results = array_filter(self::getSubclassResults(__FUNCTION__));
     if ($results) {
       return current($results);
@@ -67,7 +72,7 @@ class EnvironmentDetector extends AcquiaDrupalEnvironmentDetector {
   /**
    * Is Pantheon.
    */
-  public static function isPantheonEnv() {
+  public static function isPantheonEnv(): bool {
     return (bool) getenv('PANTHEON_ENVIRONMENT');
   }
 
@@ -81,28 +86,30 @@ class EnvironmentDetector extends AcquiaDrupalEnvironmentDetector {
   /**
    * Is Pantheon.
    */
-  public static function isPantheonDevEnv() {
-    return self::getPantheonEnv() == 'dev';
+  public static function isPantheonDevEnv(): bool {
+    return self::getPantheonEnv() === 'dev';
   }
 
   /**
    * Is Pantheon.
    */
-  public static function isPantheonStageEnv() {
-    return self::getPantheonEnv() == 'test';
+  public static function isPantheonStageEnv(): bool {
+    return self::getPantheonEnv() === 'test';
   }
 
   /**
    * Is Pantheon.
    */
-  public static function isPantheonProdEnv() {
-    return self::getPantheonEnv() == 'live';
+  public static function isPantheonProdEnv(): bool {
+    return self::getPantheonEnv() === 'live';
   }
 
   /**
    * Is local.
+   *
+   * @throws \ReflectionException
    */
-  public static function isLocalEnv() {
+  public static function isLocalEnv(): bool {
     $results = self::getSubclassResults(__FUNCTION__);
     if ($results) {
       return TRUE;
@@ -113,8 +120,10 @@ class EnvironmentDetector extends AcquiaDrupalEnvironmentDetector {
 
   /**
    * Is dev.
+   *
+   * @throws \ReflectionException
    */
-  public static function isDevEnv() {
+  public static function isDevEnv(): bool {
     $results = self::getSubclassResults(__FUNCTION__);
     if ($results) {
       return TRUE;
@@ -125,8 +134,10 @@ class EnvironmentDetector extends AcquiaDrupalEnvironmentDetector {
 
   /**
    * Is stage.
+   *
+   * @throws \ReflectionException
    */
-  public static function isStageEnv() {
+  public static function isStageEnv(): bool {
     $results = self::getSubclassResults(__FUNCTION__);
     if ($results) {
       return TRUE;
@@ -137,8 +148,10 @@ class EnvironmentDetector extends AcquiaDrupalEnvironmentDetector {
 
   /**
    * Is prod.
+   *
+   * @throws \ReflectionException
    */
-  public static function isProdEnv() {
+  public static function isProdEnv(): bool {
     $results = self::getSubclassResults(__FUNCTION__);
     if ($results) {
       return TRUE;
@@ -150,7 +163,7 @@ class EnvironmentDetector extends AcquiaDrupalEnvironmentDetector {
   /**
    * Is ACSF.
    */
-  public static function isAcsfInited() {
+  public static function isAcsfInited(): bool {
     return file_exists(DRUPAL_ROOT . "/sites/g");
   }
 
@@ -160,7 +173,7 @@ class EnvironmentDetector extends AcquiaDrupalEnvironmentDetector {
    * @return string
    *   Name of the OS family.
    */
-  public static function getPlatform() {
+  public static function getPlatform(): string {
     return OsInfo::family();
   }
 
@@ -174,7 +187,7 @@ class EnvironmentDetector extends AcquiaDrupalEnvironmentDetector {
    * @return string|null
    *   The machine UUID.
    */
-  public static function getMachineUuid() {
+  public static function getMachineUuid(): ?string {
     switch (self::getPlatform()) {
       case FamilyName::LINUX:
         return shell_exec('( cat /var/lib/dbus/machine-id /etc/machine-id 2> /dev/null || hostname ) | head -n 1 || :');
@@ -198,7 +211,7 @@ class EnvironmentDetector extends AcquiaDrupalEnvironmentDetector {
    * @return string
    *   The OS name.
    */
-  public static function getOsName() {
+  public static function getOsName(): string {
     return OsInfo::os();
   }
 
@@ -208,14 +221,14 @@ class EnvironmentDetector extends AcquiaDrupalEnvironmentDetector {
    * @return string
    *   The OS version.
    */
-  public static function getOsVersion() {
+  public static function getOsVersion(): string {
     return OsInfo::version();
   }
 
   /**
    * OS is Darwin.
    */
-  public static function isDarwin() {
+  public static function isDarwin(): bool {
     return OsInfo::isApple();
   }
 
@@ -232,12 +245,13 @@ class EnvironmentDetector extends AcquiaDrupalEnvironmentDetector {
    *
    * @return string|null
    *   Site name.
+   * @throws \ReflectionException
    */
-  public static function getSiteName($site_path) {
+  public static function getSiteName(string $site_path): ?string {
     if (self::isAcsfEnv()) {
       return self::getAcsfDbName();
     }
-    if (EnvironmentDetector::isAcsfInited() && EnvironmentDetector::isLocalEnv()) {
+    if (self::isAcsfInited() && self::isLocalEnv()) {
       global $argv;
 
       // When developing locally, we use the host name to determine which site
@@ -253,7 +267,7 @@ class EnvironmentDetector extends AcquiaDrupalEnvironmentDetector {
       if (isset($domain_fragments[1])) {
         $name = $domain_fragments[1];
         $acsf_sites = $blt_config->get('multisites');
-        if (in_array($name, $acsf_sites)) {
+        if (in_array($name, $acsf_sites, TRUE)) {
           return $name;
         }
       }
@@ -274,24 +288,25 @@ class EnvironmentDetector extends AcquiaDrupalEnvironmentDetector {
    * @return string
    *   The repo root as an absolute path.
    */
-  public static function getRepoRoot() {
+  public static function getRepoRoot(): string {
     if (defined('DRUPAL_ROOT')) {
       // This is a web or Drush request.
       return dirname(DRUPAL_ROOT);
     }
-    else {
-      // This is a BLT CLI call. Get the $repo_root that was set in
-      // bin/blt-robo.php.
-      // phpcs:ignore
-      global $repo_root;
-      return $repo_root;
-    }
+
+    // This is a BLT CLI call. Get the $repo_root that was set in
+    // bin/blt-robo.php.
+    // phpcs:ignore
+    global $repo_root;
+    return $repo_root;
   }
 
   /**
    * List detectable environments and whether they are currently active.
+   *
+   * @throws \ReflectionException
    */
-  public static function getEnvironments() {
+  public static function getEnvironments(): array {
     return [
       'local' => self::isLocalEnv(),
       'dev' => self::isDevEnv(),
@@ -318,7 +333,7 @@ class EnvironmentDetector extends AcquiaDrupalEnvironmentDetector {
    *
    * @throws \ReflectionException
    */
-  private static function getSubclassResults($functionName) {
+  private static function getSubclassResults(string $functionName): array {
     static $detectors;
     if (!isset($detectors)) {
       $autoload_file = self::getRepoRoot() . '/vendor/autoload.php';
