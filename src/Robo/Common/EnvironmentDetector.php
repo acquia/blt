@@ -58,6 +58,7 @@ class EnvironmentDetector extends AcquiaDrupalEnvironmentDetector {
    *
    * @return string
    *   Settings file full path and filename.
+   *
    * @throws \ReflectionException
    */
   public static function getCiSettingsFile(): string {
@@ -245,6 +246,7 @@ class EnvironmentDetector extends AcquiaDrupalEnvironmentDetector {
    *
    * @return string|null
    *   Site name.
+   *
    * @throws \ReflectionException
    */
   public static function getSiteName(string $site_path): ?string {
