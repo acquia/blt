@@ -39,7 +39,8 @@
         "zumba/amplitude-php": "^1.0.3"
     },
     "conflict": {
-        "acquia/blt-behat": "<=1.0.0"
+        "acquia/blt-behat": "<=1.0.0",
+        "acquia/drupal-environment-detector": "<1.5.0"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",
