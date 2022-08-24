@@ -39,6 +39,9 @@ if (!$input->getFirstArgument() || $input->getFirstArgument() == 'list') {
   $output->writeln("<comment>To add BLT commands via community plugins, see https://github.com/acquia/blt/blob/10.x/docs/plugins.md.</comment>");
 }
 
+$output->writeln("<warning>BLT 12 is end-of-life and unmaintained. Upgrade immediately to the latest major release.</warning>");
+$output->writeln("<warning>See https://docs.acquia.com/blt/#releases-and-versioning</warning>");
+
 // Stop timer.
 $timer->stop();
 if ($output->isVerbose()) {
