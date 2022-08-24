@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aeaf18b02bbe8ccc97efe2432d2096f4",
+    "content-hash": "cbea35c95a684068b2564d22ad460d6f",
     "packages": [
         {
             "name": "acquia/drupal-environment-detector",
-            "version": "v1.4.0",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/acquia/drupal-environment-detector.git",
-                "reference": "63b1bd0fd393c5e96e45042e2d7922682aaed6e4"
+                "reference": "1155ed6cd62cacc4dfa9545a612a4981d6560bcc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/acquia/drupal-environment-detector/zipball/63b1bd0fd393c5e96e45042e2d7922682aaed6e4",
-                "reference": "63b1bd0fd393c5e96e45042e2d7922682aaed6e4",
+                "url": "https://api.github.com/repos/acquia/drupal-environment-detector/zipball/1155ed6cd62cacc4dfa9545a612a4981d6560bcc",
+                "reference": "1155ed6cd62cacc4dfa9545a612a4981d6560bcc",
                 "shasum": ""
             },
             "require-dev": {
@@ -52,9 +52,9 @@
             "description": "Provides common methods for detecting the current Acquia environment",
             "support": {
                 "issues": "https://github.com/acquia/drupal-environment-detector/issues",
-                "source": "https://github.com/acquia/drupal-environment-detector/tree/v1.4.0"
+                "source": "https://github.com/acquia/drupal-environment-detector/tree/1.4.1"
             },
-            "time": "2021-04-15T17:44:09+00:00"
+            "time": "2022-03-15T20:59:14+00:00"
         },
         {
             "name": "asm89/stack-cors",
@@ -6638,5 +6638,5 @@
         "composer-runtime-api": "^2.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.3.0"
 }
