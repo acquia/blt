@@ -13,14 +13,13 @@ jobs:
       issues: write
     steps:
     - name: Login
-      uses: acquia/gajira-login@server
+      uses: acquia/gajira-login@bearer
       env:
         JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
         JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
-        JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
     - name: Create
       id: create
-      uses: acquia/gajira-create@server
+      uses: acquia/gajira-create@bearer
       with:
         project: DX
         issuetype: Task
