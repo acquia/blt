@@ -40,10 +40,18 @@ jobs:
           - ISOLATED_TEST_ON_NEXT_MINOR_DEV
           - INTEGRATED_UPGRADE_TEST_TO_NEXT_MINOR_DEV
           - LOOSE_DEPRECATED_CODE_SCAN
+          - ISOLATED_TEST_ON_NEXT_MAJOR_LATEST_MINOR_DEV
+          - INTEGRATED_TEST_ON_NEXT_MAJOR_LATEST_MINOR_DEV
         php-version: [ "7.4" ]
         coveralls-enable: [ "FALSE" ]
         include:
           - orca-job: ISOLATED_TEST_ON_CURRENT
+            php-version: "8.1"
+            coveralls-enable: "FALSE"
+          - orca-job: ISOLATED_TEST_ON_NEXT_MAJOR_LATEST_MINOR_DEV
+            php-version: "8.1"
+            coveralls-enable: "FALSE"
+          - orca-job: INTEGRATED_TEST_ON_NEXT_MAJOR_LATEST_MINOR_DEV
             php-version: "8.1"
             coveralls-enable: "FALSE"
           - orca-job: ISOLATED_TEST_ON_CURRENT
