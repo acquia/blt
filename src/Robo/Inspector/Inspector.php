@@ -10,6 +10,7 @@ use Acquia\Blt\Robo\Config\BltConfig;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
 use Acquia\Blt\Robo\Config\YamlConfigProcessor;
 use Acquia\Blt\Robo\Exceptions\BltException;
+use Composer\XdebugHandler\XdebugHandler;
 use Consolidation\Config\Loader\YamlConfigLoader;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
@@ -576,7 +577,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   public function issueEnvironmentWarnings($command_name) {
     if (!$this->warningsIssued) {
       $this->warnIfPhpOutdated();
-      $this->warnIfXdebugLoaded();
+      $this->warnIfXdebugActive();
 
       $this->warningsIssued = TRUE;
     }
@@ -598,10 +599,9 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   /**
    * Warns the user if the xDebug extension is loaded.
    */
-  protected function warnIfXdebugLoaded() {
-    $xdebug_loaded = extension_loaded('xdebug');
-    if ($xdebug_loaded) {
-      $this->logger->warning("The xDebug extension is loaded. This will significantly decrease performance.");
+  protected function warnIfXdebugActive(): void {
+    if (XdebugHandler::isXdebugActive()) {
+      $this->logger->warning("The xDebug extension is active. This will significantly decrease performance.");
     }
   }
 
