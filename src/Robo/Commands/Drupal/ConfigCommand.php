@@ -41,6 +41,7 @@ class ConfigCommand extends BltTasks {
     }
 
     $this->invokeCommand('drupal:config:import');
+    $this->invokeCommand('drupal:deploy:hook');
   }
 
   /**
@@ -181,6 +182,29 @@ class ConfigCommand extends BltTasks {
     }
 
     return NULL;
+  }
+
+  /**
+   * Runs drush's deploy hook.
+   * See: https://www.drush.org/latest/commands/deploy_hook/.
+   *
+   * @command drupal:deploy:hook
+   *
+   * @throws \Robo\Exception\TaskException
+   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   */
+  public function deployHook(): void {
+    $task = $this->taskDrush()
+      ->stopOnFail()
+      // Execute drush's deploy:hook. This runs "deploy" functions.
+      // These are one-time functions that run AFTER config is imported.
+      // See:
+      ->drush("deploy:hook");
+
+    $result = $task->run();
+    if (!$result->wasSuccessful()) {
+      throw new BltException("Failed to run deploy:hook!");
+    }
   }
 
 }
