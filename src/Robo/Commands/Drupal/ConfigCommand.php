@@ -198,12 +198,11 @@ class ConfigCommand extends BltTasks {
       ->stopOnFail()
       // Execute drush's deploy:hook. This runs "deploy" functions.
       // These are one-time functions that run AFTER config is imported.
-      // See:
       ->drush("deploy:hook");
 
     $result = $task->run();
     if (!$result->wasSuccessful()) {
-      throw new BltException("Failed to run deploy:hook!");
+      throw new BltException("Failed to run 'drush deploy:hook'!");
     }
   }
 
