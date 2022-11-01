@@ -186,7 +186,8 @@ class ConfigCommand extends BltTasks {
 
   /**
    * Runs drush's deploy hook.
-   * See: https://www.drush.org/latest/commands/deploy_hook/.
+   *
+   * @see https://www.drush.org/latest/commands/deploy_hook/
    *
    * @command drupal:deploy:hook
    *
