@@ -36,6 +36,7 @@
         "symfony/console": "^4.4.6 || ^6",
         "symfony/twig-bridge": "^3.4 || ^4 || ^5 || ^6",
         "symfony/yaml": "^4.4 || ^5 || ^6",
+        "webmozart/path-util": "^2.3",
         "zumba/amplitude-php": "^1.0.3"
     },
     "conflict": {
