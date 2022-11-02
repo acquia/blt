@@ -17,7 +17,7 @@ class BltConfig extends Config {
    * @param array $data
    *   Data array, if available.
    */
-  public function __construct(array $data = NULL) {
+  public function __construct(array $data = []) {
     parent::__construct($data);
     $logger = new NullLogger();
     $this->expander = new YamlExpander($logger);
