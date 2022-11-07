@@ -7,7 +7,7 @@ behat:
     # - ${docroot}/modules
     # - ${docroot}/profiles
     - ${repo.root}/tests/behat
-  tags: '~ajax&&~experimental&&'
+  tags: '~ajax&&~experimental'
   extra: ''
   validate: true
   # May be chrome, selenium.
