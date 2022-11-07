@@ -108,12 +108,11 @@ class WizardCommand extends BltTasks {
     }
 
     $profile_options = [
-      'lightning' => 'Lightning',
       'minimal' => 'Minimal',
       'standard' => 'Standard',
     ];
     $this->say("You may change the installation profile later.");
-    $answers['profile'] = $this->askChoice('Choose an installation profile:', $profile_options, 'lightning');
+    $answers['profile'] = $this->askChoice('Choose an installation profile:', $profile_options, 'minimal');
 
     return $answers;
   }
