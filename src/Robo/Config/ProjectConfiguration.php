@@ -40,7 +40,7 @@ class ProjectConfiguration implements ConfigurationInterface {
           ->cannotBeEmpty()
           ->isRequired()
           ->validate()
-            ->ifNotInArray(['lightning', 'standard', 'minimal'])
+            ->ifNotInArray(['standard', 'minimal'])
             ->thenInvalid('Invalid installation profile %s')
           ->end()
         ->end()
