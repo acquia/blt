@@ -86,6 +86,8 @@ $site_name = EnvironmentDetector::getSiteName($site_path);
 if (EnvironmentDetector::isAhEnv()) {
   try {
     if (!EnvironmentDetector::isAcsfEnv()) {
+      // Pull in Acquia environment settings file. This eliminates the need to
+      // add the Acquia require line in settings.php.
       $settings_files[] = FilePaths::ahSettingsFile(EnvironmentDetector::getAhGroup(), $site_name);
     }
   }
