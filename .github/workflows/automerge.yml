@@ -5,6 +5,11 @@ on:
       - "completed"
     workflows:
       - "ORCA CI"
+
+permissions:
+  contents: write
+  pull_requests: write
+
 jobs:
   automerge:
     uses: acquia/cli/.github/workflows/automerge.yml@main
