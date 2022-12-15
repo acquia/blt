@@ -4,24 +4,24 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5cfd95263d51a457eb8c68587e02098a",
+    "content-hash": "7c58be0e6ba2e0b787f9697f9f85a55a",
     "packages": [
         {
             "name": "acquia/drupal-environment-detector",
-            "version": "1.5.2",
+            "version": "1.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/acquia/drupal-environment-detector.git",
-                "reference": "03a86edef4fb9dd75596462e08bc8737cf7f6c4a"
+                "reference": "b001874469c29ecd41dca1468ff4533f3cbec453"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/acquia/drupal-environment-detector/zipball/03a86edef4fb9dd75596462e08bc8737cf7f6c4a",
-                "reference": "03a86edef4fb9dd75596462e08bc8737cf7f6c4a",
+                "url": "https://api.github.com/repos/acquia/drupal-environment-detector/zipball/b001874469c29ecd41dca1468ff4533f3cbec453",
+                "reference": "b001874469c29ecd41dca1468ff4533f3cbec453",
                 "shasum": ""
             },
             "conflict": {
-                "acquia/blt": "<13.5.2"
+                "acquia/blt": ">=12.0.0 <13.5.2"
             },
             "require-dev": {
                 "acquia/coding-standards": "^1.0.0",
@@ -55,9 +55,9 @@
             "description": "Provides common methods for detecting the current Acquia environment",
             "support": {
                 "issues": "https://github.com/acquia/drupal-environment-detector/issues",
-                "source": "https://github.com/acquia/drupal-environment-detector/tree/1.5.2"
+                "source": "https://github.com/acquia/drupal-environment-detector/tree/1.5.3"
             },
-            "time": "2022-09-01T17:55:45+00:00"
+            "time": "2022-12-15T16:49:52+00:00"
         },
         {
             "name": "asm89/stack-cors",

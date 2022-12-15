@@ -19,7 +19,7 @@
         "ext-json": "*",
         "composer-plugin-api": "^2.0",
         "composer-runtime-api": "^2.0",
-        "acquia/drupal-environment-detector": "^1.5.0",
+        "acquia/drupal-environment-detector": "^1.5.3",
         "consolidation/comments": "^1.0",
         "consolidation/config": "^1.0.0 || ^2.0.0",
         "consolidation/robo": "^3 || ^4",
