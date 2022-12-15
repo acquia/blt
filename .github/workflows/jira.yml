@@ -21,7 +21,7 @@ jobs:
       id: create
       uses: acquia/gajira-create@bearer
       with:
-        project: DX
+        project: BLT
         issuetype: Task
         summary: ${{ github.event.issue.title }}
         description: ${{ github.event.issue.html_url }}
