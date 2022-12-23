@@ -2,9 +2,7 @@
 
 namespace Acquia\Blt\Robo\Commands\Blt;
 
-use Acquia\Blt\Robo\Blt;
 use Acquia\Blt\Robo\BltTasks;
-use Acquia\Blt\Robo\Common\UserConfig;
 
 /**
  * Defines commands in the 'blt:telemetry' namespace.
@@ -17,9 +15,7 @@ class TelemetryCommand extends BltTasks {
    * @command blt:telemetry:enable
    */
   public function telemetryEnable() {
-    $userConfig = new UserConfig(Blt::configDir());
-    $userConfig->setTelemetryEnabled(TRUE);
-    $this->say($userConfig::OPT_IN_MESSAGE);
+    $this->say('Telemetry has been removed from BLT, this command does nothing.');
   }
 
   /**
@@ -28,9 +24,7 @@ class TelemetryCommand extends BltTasks {
    * @command blt:telemetry:disable
    */
   public function telemetryDisable() {
-    $userConfig = new UserConfig(Blt::configDir());
-    $userConfig->setTelemetryEnabled(FALSE);
-    $this->say($userConfig::OPT_OUT_MESSAGE);
+    $this->say('Telemetry has been removed from BLT, this command does nothing.');
   }
 
 }

@@ -2,12 +2,9 @@
 
 namespace Acquia\Blt\Robo\Commands\Drupal;
 
-use Acquia\Blt\Robo\Blt;
 use Acquia\Blt\Robo\BltTasks;
-use Acquia\Blt\Robo\Common\UserConfig;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Symfony\Component\Yaml\Yaml;
-use Zumba\Amplitude\Amplitude;
 
 /**
  * Defines commands in the "setup:config*" namespace.
@@ -57,11 +54,6 @@ class ConfigCommand extends BltTasks {
    */
   public function import() {
     $strategy = $this->getConfigValue('cm.strategy');
-
-    $userConfig = new UserConfig(Blt::configDir());
-    $eventInfo = $userConfig->getTelemetryUserData();
-    $eventInfo['strategy'] = $strategy;
-    Amplitude::getInstance()->queueEvent('config import', $eventInfo);
 
     if ($strategy === 'none') {
       // Still clear caches to regenerate frontend assets and such.
