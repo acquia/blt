@@ -2,10 +2,8 @@
 
 namespace Acquia\Blt\Robo;
 
-use Acquia\Blt\Robo\Common\EnvironmentDetector;
 use Acquia\Blt\Robo\Common\Executor;
 use Acquia\Blt\Robo\Common\IO;
-use Acquia\Blt\Robo\Common\UserConfig;
 use Acquia\Blt\Robo\Filesets\FilesetManager;
 use Acquia\Blt\Robo\Inspector\Inspector;
 use Acquia\Blt\Robo\Inspector\InspectorAwareInterface;
@@ -28,7 +26,6 @@ use Robo\Runner as RoboRunner;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Zumba\Amplitude\Amplitude;
 
 /**
  * The BLT Robo application.
@@ -96,7 +93,6 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
 
     $this->setLogger($container->get('logger'));
 
-    $this->initializeAmplitude();
   }
 
   /**
@@ -111,20 +107,6 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     }
 
     return 'Unknown';
-  }
-
-  /**
-   * Initializes Amplitude.
-   */
-  private function initializeAmplitude() {
-    $userConfig = new UserConfig(self::configDir());
-    $amplitude = Amplitude::getInstance();
-    $amplitude->init('dfd3cba7fa72065cde9edc2ca22d0f37')
-      ->setDeviceId(EnvironmentDetector::getMachineUuid());
-    if (!$userConfig->isTelemetryEnabled()) {
-      $amplitude->setOptOut(TRUE);
-    }
-    $amplitude->logQueuedEvents();
   }
 
   /**
@@ -258,18 +240,13 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
    *
    * @return int
    *   The exiting status code of the application
+   *
+   * @throws \Psr\Container\ContainerExceptionInterface
+   * @throws \Psr\Container\NotFoundExceptionInterface
    */
-  public function run(InputInterface $input, OutputInterface $output) {
+  public function run(InputInterface $input, OutputInterface $output): int {
     $application = $this->getContainer()->get('application');
-    $status_code = $this->runner->run($input, $output, $application, $this->commands);
-
-    $userConfig = new UserConfig(self::configDir());
-    $event_properties = $userConfig->getTelemetryUserData();
-    $event_properties['exit_code'] = $status_code;
-    $event_properties['command'] = $input->getFirstArgument();
-    Amplitude::getInstance()->queueEvent('run command', $event_properties);
-
-    return $status_code;
+    return $this->runner->run($input, $output, $application, $this->commands);
   }
 
   /**
