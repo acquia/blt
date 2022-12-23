@@ -240,6 +240,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
    *
    * @return int
    *   The exiting status code of the application
+   *
    * @throws \Psr\Container\ContainerExceptionInterface
    * @throws \Psr\Container\NotFoundExceptionInterface
    */
