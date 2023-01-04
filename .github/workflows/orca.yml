@@ -13,7 +13,7 @@ jobs:
     env:
       ORCA_SUT_NAME: acquia/blt
       ORCA_SUT_BRANCH: main
-      ORCA_VERSION: ^3
+      ORCA_VERSION: 3.26.0
       ORCA_PHPCS_STANDARD: AcquiaDrupalStrict
       BLT_PRINT_COMMAND_OUTPUT: 1
       ORCA_JOB: ${{ matrix.orca-job }}
