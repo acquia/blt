@@ -64,7 +64,7 @@ if ($ip) {
  * (local custom site-specific settings). Each step in the cascade also includes
  * a global (all sites) and site-specific component. The entire order is:
  *
- * 1. Custom early settings (provided bu the project)
+ * 1. Custom early settings (provided by the project)
  * 2. Acquia Cloud settings (including secret settings)
  * 3. Default general settings (provided by BLT)
  * 4. Custom general settings (provided by the project)
