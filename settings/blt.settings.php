@@ -64,12 +64,13 @@ if ($ip) {
  * (local custom site-specific settings). Each step in the cascade also includes
  * a global (all sites) and site-specific component. The entire order is:
  *
- * 1. Acquia Cloud settings (including secret settings)
- * 2. Default general settings (provided by BLT)
- * 3. Custom general settings (provided by the project)
- * 4. Default CI settings (provided by BLT)
- * 5. Custom CI settings (provided by the project)
- * 6. Local settings (provided by the project)
+ * 1. Custom early settings (provided by the project)
+ * 2. Acquia Cloud settings (including secret settings)
+ * 3. Default general settings (provided by BLT)
+ * 4. Custom general settings (provided by the project)
+ * 5. Default CI settings (provided by BLT)
+ * 6. Custom CI settings (provided by the project)
+ * 7. Local settings (provided by the project)
  */
 
 $settings_files = [];
@@ -82,6 +83,10 @@ $settings_files = [];
  */
 // phpcs:ignore
 $site_name = EnvironmentDetector::getSiteName($site_path);
+
+$settings_files[] = DRUPAL_ROOT . "/sites/settings/early.settings.php";
+$settings_files[] = DRUPAL_ROOT . "/sites/$site_name/settings/early.settings.php";
+
 // Acquia Cloud settings.
 if (EnvironmentDetector::isAhEnv()) {
   try {
