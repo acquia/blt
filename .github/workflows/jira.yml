@@ -2,12 +2,14 @@ on:
   issues:
     types:
       - opened
+      - closed
 
-name: Create new tickets in Jira
+name: Sync GitHub issues to Jira
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  open:
+    if: github.event.action == 'opened'
+    runs-on: ubuntu-22.04
     name: Create new tickets in Jira
     permissions:
       issues: write
@@ -33,3 +35,30 @@ jobs:
         GH_ISSUE: ${{ github.event.issue.html_url }}
         JIRA_ISSUE: ${{ steps.create.outputs.issue }}
         ISSUE_TITLE: ${{ github.event.issue.title }}
+  close:
+    if: github.event.action == 'closed'
+    runs-on: ubuntu-22.04
+    name: Comment in Jira
+    permissions:
+      issues: write
+    steps:
+      - name: Get Jira issue
+        id: get-issue
+        run: |
+          if [[ "$ISSUE_TITLE" =~ ^(BLT-[0-9]+): ]]; then
+              echo "issue=${BASH_REMATCH[1]}" >> $GITHUB_OUTPUT
+          fi
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+      - name: Login
+        if: steps.get-issue.outputs.issue
+        uses: acquia/gajira-login@bearer
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+      - name: Comment
+        if: steps.get-issue.outputs.issue
+        uses: acquia/gajira-comment@bearer
+        with:
+          issue: ${{ steps.get-issue.outputs.issue }}
+          comment: The GitHub issue corresponding to this ticket has been closed
