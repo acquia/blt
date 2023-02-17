@@ -244,7 +244,7 @@ class Executor implements ConfigAwareInterface, IOAwareInterface, LoggerAwareInt
       $res = $client->request('GET', $url, [
         'connection_timeout' => 2,
         'timeout' => 2,
-        'exceptions' => FALSE,
+        'http_errors' => FALSE,
       ]);
       if ($res->getStatusCode() && substr($res->getStatusCode(), 0, 1) != '5') {
         return TRUE;
