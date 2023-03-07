@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e9649cfbbc78b838a73a8609258df13e",
+    "content-hash": "00ec98584f70b758d012ab128eb932b5",
     "packages": [
         {
             "name": "acquia/drupal-environment-detector",
@@ -6818,16 +6818,16 @@
     "packages-dev": [
         {
             "name": "acquia/coding-standards",
-            "version": "v1.1.0",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/acquia/coding-standards-php.git",
-                "reference": "92f87ecabcd0e54ff347fb86a041540e0bbc18e5"
+                "reference": "bb52b780a00ca7586e8b2e502e09dc53c5e90a60"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/acquia/coding-standards-php/zipball/92f87ecabcd0e54ff347fb86a041540e0bbc18e5",
-                "reference": "92f87ecabcd0e54ff347fb86a041540e0bbc18e5",
+                "url": "https://api.github.com/repos/acquia/coding-standards-php/zipball/bb52b780a00ca7586e8b2e502e09dc53c5e90a60",
+                "reference": "bb52b780a00ca7586e8b2e502e09dc53c5e90a60",
                 "shasum": ""
             },
             "require": {
@@ -6843,7 +6843,7 @@
             "type": "phpcodesniffer-standard",
             "extra": {
                 "branch-alias": {
-                    "dev-develop": "0.x-dev"
+                    "dev-develop": "2.x-dev"
                 }
             },
             "autoload": {
@@ -6873,7 +6873,7 @@
                 "issues": "https://github.com/acquia/coding-standards/issues",
                 "source": "https://github.com/acquia/coding-standards"
             },
-            "time": "2023-03-03T22:51:37+00:00"
+            "time": "2023-03-06T17:49:20+00:00"
         },
         {
             "name": "dealerdirect/phpcodesniffer-composer-installer",
