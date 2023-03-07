@@ -42,7 +42,7 @@
     },
     "require-dev": {
         "acquia/coding-standards": "^2.0",
-        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
+        "dealerdirect/phpcodesniffer-composer-installer": "^1.0.0",
         "roave/security-advisories": "dev-latest",
         "squizlabs/php_codesniffer": "^3.6"
     },
