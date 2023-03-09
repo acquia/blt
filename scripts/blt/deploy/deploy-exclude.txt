@@ -17,7 +17,7 @@
 /files-private
 /docroot/sites/*/private
 /docroot/themes/contrib
-/drush/Commands
+/drush/Commands/contrib
 /README.md
 /readme
 /sites/development.services.yml
