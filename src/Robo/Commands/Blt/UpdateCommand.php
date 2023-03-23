@@ -10,6 +10,7 @@ use Acquia\Blt\Update\Updater;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Path;
 
 /**
  * Defines commands for installing and updating BLT..
@@ -119,8 +120,7 @@ class UpdateCommand extends BltTasks {
    */
   public function initGitignore() {
     $gitignore = [];
-    $filesystem = new Filesystem();
-    $gitignore_file = $filesystem->tempnam($this->getConfigValue('repo.root'), '', '.gitignore');
+    $gitignore_file = Path::join($this->getConfigValue('repo.root'), '.gitignore');
     if (file_exists($gitignore_file)) {
       $gitignore = file($gitignore_file, FILE_IGNORE_NEW_LINES);
     }
