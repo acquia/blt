@@ -138,7 +138,7 @@ if (EnvironmentDetector::isCiEnv()) {
 }
 
 // Local global and site-specific settings.
-if (EnvironmentDetector::isLocalEnv()) {
+if (EnvironmentDetector::isLocalEnv() || EnvironmentDetector::isAhIdeEnv()) {
   $settings_files[] = DRUPAL_ROOT . '/sites/settings/local.settings.php';
   $settings_files[] = DRUPAL_ROOT . "/sites/$site_name/settings/local.settings.php";
 }
