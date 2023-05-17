@@ -13,7 +13,7 @@ jobs:
     env:
       ORCA_SUT_NAME: acquia/blt
       ORCA_SUT_BRANCH: main
-      ORCA_VERSION: ^3
+      ORCA_VERSION: ${{ matrix.orca-version }}
       ORCA_PHPCS_STANDARD: AcquiaDrupalStrict
       BLT_PRINT_COMMAND_OUTPUT: 1
       ORCA_JOB: ${{ matrix.orca-job }}
@@ -42,22 +42,33 @@ jobs:
           - LOOSE_DEPRECATED_CODE_SCAN
         php-version: [ "8.1" ]
         coveralls-enable: [ "FALSE" ]
+        orca-version: [ "^4" ]
         include:
           - orca-job: INTEGRATED_TEST_ON_OLDEST_SUPPORTED
             php-version: "7.4"
             coveralls-enable: "FALSE"
+            orca-version: "^3"
 
           - orca-job: INTEGRATED_TEST_ON_OLDEST_SUPPORTED
             php-version: "8.0"
             coveralls-enable: "FALSE"
+            orca-version: "^3"
 
           - orca-job: INTEGRATED_TEST_ON_LATEST_LTS
             php-version: "7.4"
+            coveralls-enable: "FALSE"
+            orca-version: "^3"
+
+          - orca-job: INTEGRATED_TEST_ON_LATEST_LTS
+            php-version: "8.2"
             coveralls-enable: "FALSE"
 
           - orca-job: ISOLATED_TEST_ON_CURRENT
             php-version: "8.1"
             coveralls-enable: "TRUE"
+
+          - orca-job: ISOLATED_TEST_ON_CURRENT
+            php-version: "8.2"
           # - orca-job: ISOLATED_TEST_ON_NEXT_MAJOR_LATEST_MINOR_DEV
           #   php-version: "8.1"
           #   coveralls-enable: "FALSE"
