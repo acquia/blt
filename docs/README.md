@@ -12,15 +12,15 @@ BLT (Build and Launch Tool) provides an automation layer for testing, building, 
 
 ## BLT Versions
 
-| BLT Version | Supported? | Major Drupal Version | PHP Version   | Drush Version   |
-|-------------|------------|----------------------|---------------|-----------------|
-| 13.x        | Yes        | 9.x and 10.x         | 8.0 and 8.1 * | 11.x and 12.x * |
-| 12.x        | **No**     | 9.x                  | 7.4           | 10.x            |
-| 11.x        | **No**     | 8.x                  | 7.4           | 9.x and 10.x    |
+| BLT Version | Supported? | Major Drupal Version | PHP Version     | Drush Version |
+|-------------|------------|----------------------|-----------------|---------------|
+| 13.x        | Yes        | 9.x, 10.x            | 8.0, 8.1, 8.2 * | 11.x, 12.x *  |
+| 12.x        | **No**     | 9.x                  | 7.4             | 10.x          |
+| 11.x        | **No**     | 8.x                  | 7.4             | 9.x, 10.x     |
 
 \* BLT users must upgrade to at least BLT 13.5.x to upgrade to PHP 8.1. and Drush 11.0.7 (or beyond).
 
-Drush 12 support is unstable.
+PHP 8.2, Drush 12, and Drupal 10 support is unstable.
 
 # License
 
