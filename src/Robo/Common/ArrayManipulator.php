@@ -132,6 +132,9 @@ class ArrayManipulator {
           elseif ($sub_value === FALSE) {
             $sub_value = 'false';
           }
+          elseif ($sub_value === NULL) {
+            $sub_value = '';
+          }
           $rows[] = [
             "$key.$sub_key",
             wordwrap($sub_value, $max_line_length, "\n", TRUE),
@@ -144,6 +147,9 @@ class ArrayManipulator {
         }
         elseif ($value === FALSE) {
           $contents = 'false';
+        }
+        elseif ($value === NULL) {
+          $contents = '';
         }
         else {
           $contents = wordwrap($value, $max_line_length, "\n", TRUE);

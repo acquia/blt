@@ -189,9 +189,8 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
    */
   public function isDrupalInstalled() {
     $this->logger->debug("Verifying that Drupal is installed...");
-    $result = $this->executor->drush(["status", "bootstrap"])->run();
-    $output = trim($result->getMessage());
-    $installed = $result->wasSuccessful() && strpos($output, 'Drupal bootstrap : Successful') !== FALSE;
+    $output = $this->getDrushStatus()['bootstrap'];
+    $installed = $output === 'Successful';
     $this->logger->debug("Drupal bootstrap results: $output");
 
     return $installed;
