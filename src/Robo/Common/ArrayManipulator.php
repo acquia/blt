@@ -148,6 +148,9 @@ class ArrayManipulator {
         elseif ($value === FALSE) {
           $contents = 'false';
         }
+        elseif ($value === NULL) {
+          $contents = '';
+        }
         else {
           $contents = wordwrap($value, $max_line_length, "\n", TRUE);
         }
