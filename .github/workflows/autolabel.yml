@@ -1,0 +1,52 @@
+name: Auto-label pull requests
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+
+jobs:
+  autolabel:
+    runs-on: ubuntu-22.04
+    permissions:
+      pull-requests: write
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_PR: ${{ github.event.pull_request.number }}
+    steps:
+      - name: Get linked issue label
+        run: |
+          ISSUE_LABEL=$(gh api graphql -F owner=$GITHUB_REPOSITORY_OWNER -F name='cli' -F number=$GITHUB_PR -f query='
+            query($owner:String!, $name:String!, $number:Int!){
+              repository(owner:$owner, name:$name) {
+                pullRequest(number:$number) {
+                  closingIssuesReferences (first:1) {
+                    edges {
+                      node {
+                        labels (first:1) {
+                          edges {
+                            node {
+                              name
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          ' --jq '.data.repository.pullRequest.closingIssuesReferences.edges.[].node.labels.edges.[].node.name')
+          echo "ISSUE_LABEL=$ISSUE_LABEL" >> $GITHUB_ENV
+      - name: Apply label
+        if: env.ISSUE_LABEL != ''
+        run: gh pr edit https://github.com/$GITHUB_REPOSITORY/pull/$GITHUB_PR --add-label "$ISSUE_LABEL"
+  require_label:
+    runs-on: ubuntu-22.04
+    permissions:
+      pull-requests: read
+    needs: autolabel
+    steps:
+      - run: gh pr view --json labels https://github.com/$GITHUB_REPOSITORY/pull/$GITHUB_PR | jq -r '.labels[0].name' | grep -q 'null' && echo "You must apply at least one label" && exit 1 || exit 0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_PR: ${{ github.event.pull_request.number }}

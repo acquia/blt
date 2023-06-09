@@ -1,4 +1,4 @@
-name: Merge dependency updates
+name: Auto-merge dependency updates
 on:
   workflow_run:
     types:
