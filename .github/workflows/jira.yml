@@ -1,64 +1,15 @@
+name: Sync GitHub issues to Jira
 on:
   issues:
     types:
       - opened
       - closed
-
-name: Sync GitHub issues to Jira
-
+permissions:
+  issues: write
 jobs:
-  open:
-    if: github.event.action == 'opened'
-    runs-on: ubuntu-22.04
-    name: Create new tickets in Jira
-    permissions:
-      issues: write
-    steps:
-    - name: Login
-      uses: acquia/gajira-login@bearer
-      env:
-        JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
-        JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
-    - name: Create
-      id: create
-      uses: acquia/gajira-create@bearer
-      with:
-        project: BLT
-        issuetype: Task
-        summary: ${{ github.event.issue.title }}
-        description: ${{ github.event.issue.html_url }}
-        fields: '{"components": [{"id": "21989"}]}'
-    - name: Update Github issue with Jira ticket prefix
-      run: 'gh issue edit $GH_ISSUE --title "$JIRA_ISSUE: $ISSUE_TITLE"'
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        GH_ISSUE: ${{ github.event.issue.html_url }}
-        JIRA_ISSUE: ${{ steps.create.outputs.issue }}
-        ISSUE_TITLE: ${{ github.event.issue.title }}
-  close:
-    if: github.event.action == 'closed'
-    runs-on: ubuntu-22.04
-    name: Comment in Jira
-    permissions:
-      issues: write
-    steps:
-      - name: Get Jira issue
-        id: get-issue
-        run: |
-          if [[ "$ISSUE_TITLE" =~ ^(BLT-[0-9]+): ]]; then
-              echo "issue=${BASH_REMATCH[1]}" >> $GITHUB_OUTPUT
-          fi
-        env:
-          ISSUE_TITLE: ${{ github.event.issue.title }}
-      - name: Login
-        if: steps.get-issue.outputs.issue
-        uses: acquia/gajira-login@bearer
-        env:
-          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
-          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
-      - name: Comment
-        if: steps.get-issue.outputs.issue
-        uses: acquia/gajira-comment@bearer
-        with:
-          issue: ${{ steps.get-issue.outputs.issue }}
-          comment: The GitHub issue corresponding to this ticket has been closed
+  jira:
+    uses: acquia/.github/.github/workflows/jira.yml@main
+    secrets:
+      jira-base-url: ${{ secrets.JIRA_BASE_URL }}
+      jira-api-token: ${{ secrets.JIRA_API_TOKEN }}
+      github-token: ${{ secrets.GITHUB_TOKEN }}
