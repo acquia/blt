@@ -5,7 +5,7 @@ namespace Acquia\Blt\Update;
 // The following line is required for annotations to work.
 // phpcs:ignore
 use Acquia\Blt\Annotations\Update;
-use Acquia\Blt\Robo\Common\ArrayManipulator;
+use Acquia\Drupal\RecommendedSettings\Common\ArrayManipulator;
 
 /**
  * Defines scripted updates for specific version deltas of BLT.

@@ -6,7 +6,7 @@
  */
 
 use Acquia\Blt\Robo\Blt;
-use Acquia\Blt\Robo\Config\ConfigInitializer;
+use Acquia\Drupal\RecommendedSettings\Config\ConfigInitializer;
 use Robo\Common\TimeKeeper;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;

@@ -5,8 +5,8 @@
  * Setup BLT utility variables, include required files.
  */
 
-use Acquia\Blt\Robo\Common\EnvironmentDetector;
-use Acquia\Blt\Robo\Exceptions\BltException;
+use Acquia\Drupal\RecommendedSettings\Helpers\EnvironmentDetector;
+use Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException;
 use Acquia\DrupalEnvironmentDetector\FilePaths;
 
 /**

@@ -2,7 +2,7 @@
 
 namespace Acquia\Blt\Tests\Robo;
 
-use Acquia\Blt\Robo\Common\ArrayManipulator;
+use Acquia\Drupal\RecommendedSettings\Common\ArrayManipulator;
 use PHPUnit\Framework\TestCase;
 
 /**

@@ -4,7 +4,7 @@ namespace Acquia\Blt\Robo\Commands\Recipes;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\YamlMunge;
-use Acquia\Blt\Robo\Exceptions\BltException;
+use Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException;
 use Drupal\Component\Uuid\Php;
 use Robo\Contract\VerbosityThresholdInterface;
 use Twig\Environment;

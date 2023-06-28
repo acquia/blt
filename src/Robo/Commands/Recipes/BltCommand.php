@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Recipes;
 
 use Acquia\Blt\Robo\BltTasks;
-use Acquia\Blt\Robo\Exceptions\BltException;
+use Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException;
 use Robo\Contract\VerbosityThresholdInterface;
 
 /**
@@ -18,7 +18,7 @@ class BltCommand extends BltTasks {
    *
    * @aliases rbci rbic examples:init
    *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException
    */
   public function commandInit() {
     $result = $this->taskFilesystemStack()
@@ -43,7 +43,7 @@ class BltCommand extends BltTasks {
    *
    * @aliases rbfi
    *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException
    */
   public function filesetInit() {
     $result = $this->taskFilesystemStack()

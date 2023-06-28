@@ -15,7 +15,7 @@ use Acquia\Blt\Robo\Doctor\PhpCheck;
 use Acquia\Blt\Robo\Doctor\SettingsFilesCheck;
 use Acquia\Blt\Robo\Doctor\SimpleSamlPhpCheck;
 use Acquia\Blt\Robo\Doctor\WebUriCheck;
-use Acquia\Blt\Robo\Exceptions\BltException;
+use Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException;
 
 /**
  * Defines doctor command.
@@ -52,7 +52,7 @@ class DoctorCommand extends BltTasks {
    *
    * @launchWebServer
    *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException
    */
   public function doctor() {
     $this->doctorCheck();
@@ -65,7 +65,7 @@ class DoctorCommand extends BltTasks {
    *
    * @hidden
    *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException
    */
   public function doctorCheck() {
     $status = $this->getInspector()->getStatus();

@@ -4,7 +4,7 @@ namespace Acquia\Blt\Tests;
 
 use Acquia\Blt\Robo\Blt;
 use Acquia\Blt\Robo\Common\StringManipulator;
-use Acquia\Blt\Robo\Config\ConfigInitializer;
+use Acquia\Drupal\RecommendedSettings\Config\ConfigInitializer;
 use PHPUnit\Framework\TestCase;
 use Robo\Robo;
 use Symfony\Component\Console\Input\ArrayInput;

@@ -15,7 +15,7 @@ class ValidateAllCommand extends BltTasks {
    * @command validate
    * @hidden
    *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException
    */
   public function all() {
     return $this->invokeNamespace('validate');

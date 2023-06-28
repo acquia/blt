@@ -2,11 +2,11 @@
 
 namespace Acquia\Blt\Robo;
 
-use Acquia\Blt\Robo\Common\ArrayManipulator;
+use Acquia\Drupal\RecommendedSettings\Common\ArrayManipulator;
 use Acquia\Blt\Robo\Common\IO;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
-use Acquia\Blt\Robo\Config\ConfigInitializer;
-use Acquia\Blt\Robo\Exceptions\BltException;
+use Acquia\Drupal\RecommendedSettings\Config\ConfigInitializer;
+use Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException;
 use Acquia\Blt\Robo\Inspector\InspectorAwareInterface;
 use Acquia\Blt\Robo\Inspector\InspectorAwareTrait;
 use Acquia\Blt\Robo\Tasks\LoadTasks;
@@ -50,7 +50,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    * @param array $commands
    *   An array of Symfony commands to invoke, e.g., 'tests:behat:run'.
    *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException
    */
   protected function invokeCommands(array $commands) {
     foreach ($commands as $key => $value) {
@@ -74,7 +74,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    * @param array $args
    *   An array of arguments to pass to the command.
    *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException
    */
   protected function invokeCommand($command_name, array $args = []) {
     $this->invokeDepth++;
@@ -118,7 +118,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    * @param string $namespace
    *   Top-level namespace to run commands.
    *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException
    */
   public function invokeNamespace(string $namespace) {
     /** @var \Acquia\Blt\Robo\Application $application */
@@ -178,7 +178,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    * @return int
    *   Int.
    *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException
    */
   protected function invokeHook($hook) {
     if ($this->getConfig()->has("command-hooks.$hook.command")
@@ -216,7 +216,7 @@ class BltTasks implements ConfigAwareInterface, InspectorAwareInterface, LoggerA
    *   Indicates whether commands should be run in parallel or sequentially.
    *   Defaults to FALSE.
    *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException
    */
   protected function executeCommandAgainstFilesets(array $filesets, $command, $parallel = FALSE) {
     $passed = TRUE;

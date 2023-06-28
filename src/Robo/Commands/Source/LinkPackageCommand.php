@@ -4,7 +4,7 @@ namespace Acquia\Blt\Robo\Commands\Source;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\YamlWriter;
-use Acquia\Blt\Robo\Exceptions\BltException;
+use Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException;
 
 /**
  * Defines commands for linking packages for development.
@@ -33,7 +33,7 @@ class LinkPackageCommand extends BltTasks {
    *
    * @command source:link-package
    *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException
    */
   public function linkComposer(array $options = [
     'name' => 'acquia/blt',

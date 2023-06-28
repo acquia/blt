@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Robo\Filesets;
 
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
-use Acquia\Blt\Robo\Exceptions\BltException;
+use Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\IndexedReader;
 use Psr\Log\LoggerAwareInterface;
@@ -125,7 +125,7 @@ class FilesetManager implements ConfigAwareInterface, LoggerAwareInterface {
    * @return \Symfony\Component\Finder\Finder[]
    *   An array of instantiated filesets.
    *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException
    */
   public function getFilesets($fileset_ids = [], $resetFinder = FALSE) {
     if (!$this->filesets || $resetFinder) {

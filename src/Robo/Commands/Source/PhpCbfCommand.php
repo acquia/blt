@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Source;
 
 use Acquia\Blt\Robo\BltTasks;
-use Acquia\Blt\Robo\Exceptions\BltException;
+use Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException;
 
 /**
  * Defines commands in the "source:fix:php-standards*" namespace.

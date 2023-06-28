@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Blt;
 
 use Acquia\Blt\Robo\BltTasks;
-use Acquia\Blt\Robo\Exceptions\BltException;
+use Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException;
 
 /**
  * Defines commands in the 'config:*' namespace.
@@ -20,7 +20,7 @@ class ConfigCommand extends BltTasks {
    *
    * @aliases bcg config:get
    *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException
    */
   public function getValue($key) {
     if (!$this->getConfig()->has($key)) {

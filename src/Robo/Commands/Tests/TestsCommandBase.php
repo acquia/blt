@@ -3,8 +3,8 @@
 namespace Acquia\Blt\Robo\Commands\Tests;
 
 use Acquia\Blt\Robo\BltTasks;
-use Acquia\Blt\Robo\Common\EnvironmentDetector;
-use Acquia\Blt\Robo\Exceptions\BltException;
+use Acquia\Drupal\RecommendedSettings\Helpers\EnvironmentDetector;
+use Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException;
 use Robo\Contract\VerbosityThresholdInterface;
 
 /**
@@ -126,7 +126,7 @@ class TestsCommandBase extends BltTasks {
    * @return null|string
    *   NULL if Chrome could not be found.
    *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException
    *   Throws exception if google-chrome cannot be found.
    */
   protected function findChrome() {
@@ -152,7 +152,7 @@ class TestsCommandBase extends BltTasks {
    * @param string $bin
    *   Absolute file path to the google chrome bin.
    *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException
    *   Throws exception if minimum version is not met.
    */
   protected function checkChromeVersion($bin) {
@@ -198,7 +198,7 @@ class TestsCommandBase extends BltTasks {
    * @return null|string
    *   NULL if Chrome could not be found.
    *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException
    *   Throws exception if chromedriver cannot be found.
    */
   protected function findChromeDriver() {
@@ -217,7 +217,7 @@ class TestsCommandBase extends BltTasks {
   /**
    * Launches selenium server and waits for it to become available.
    *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException
    */
   protected function launchSelenium() {
     $this->createSeleniumLogs();

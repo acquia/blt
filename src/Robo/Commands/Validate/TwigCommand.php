@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Validate;
 
 use Acquia\Blt\Robo\BltTasks;
-use Acquia\Blt\Robo\Exceptions\BltException;
+use Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException;
 use Drupal\Core\Template\TwigTransTokenParser;
 use Symfony\Bridge\Twig\Command\LintCommand as TwigLintCommand;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -62,7 +62,7 @@ class TwigCommand extends BltTasks {
    * @param \Symfony\Component\Finder\Finder[] $filesets
    *   Filesets.
    *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException
    */
   protected function executeTwigLintCommandAgainstFilesets(array $filesets) {
     $command = $this->createTwigLintCommand();

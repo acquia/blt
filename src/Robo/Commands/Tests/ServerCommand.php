@@ -2,7 +2,7 @@
 
 namespace Acquia\Blt\Robo\Commands\Tests;
 
-use Acquia\Blt\Robo\Exceptions\BltException;
+use Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**

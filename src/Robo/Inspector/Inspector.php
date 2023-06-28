@@ -3,13 +3,13 @@
 namespace Acquia\Blt\Robo\Inspector;
 
 use Acquia\Blt\Robo\Blt;
-use Acquia\Blt\Robo\Common\ArrayManipulator;
+use Acquia\Drupal\RecommendedSettings\Common\ArrayManipulator;
 use Acquia\Blt\Robo\Common\Executor;
 use Acquia\Blt\Robo\Common\IO;
-use Acquia\Blt\Robo\Config\BltConfig;
+use Acquia\Drupal\RecommendedSettings\Config\SettingsConfig;
 use Acquia\Blt\Robo\Config\ConfigAwareTrait;
-use Acquia\Blt\Robo\Config\YamlConfigProcessor;
-use Acquia\Blt\Robo\Exceptions\BltException;
+use Acquia\Drupal\RecommendedSettings\Config\YamlConfigProcessor;
+use Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException;
 use Consolidation\Config\Loader\YamlConfigLoader;
 use League\Container\ContainerAwareInterface;
 use League\Container\ContainerAwareTrait;
@@ -480,7 +480,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   /**
    * Gets the local behat configuration defined in local.yml.
    *
-   * @return \Acquia\Blt\Robo\Config\BltConfig
+   * @return \Acquia\Drupal\RecommendedSettings\Config\SettingsConfig
    *   The local Behat configuration.
    */
   public function getLocalBehatConfig() {
@@ -583,7 +583,7 @@ class Inspector implements BuilderAwareInterface, ConfigAwareInterface, Containe
   /**
    * Throws an exception if the minimum PHP version is not met.
    *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException
    */
   public function warnIfPhpOutdated() {
     $minimum_php_version = 7;

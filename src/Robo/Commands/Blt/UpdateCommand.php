@@ -4,8 +4,8 @@ namespace Acquia\Blt\Robo\Commands\Blt;
 
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\YamlWriter;
-use Acquia\Blt\Robo\Config\ConfigInitializer;
-use Acquia\Blt\Robo\Exceptions\BltException;
+use Acquia\Drupal\RecommendedSettings\Config\ConfigInitializer;
+use Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException;
 use Acquia\Blt\Update\Updater;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -48,7 +48,7 @@ class UpdateCommand extends BltTasks {
    *
    * @hidden
    *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException
    */
   public function addToProject() {
     // Initializes the project template / scaffold.
@@ -106,7 +106,7 @@ class UpdateCommand extends BltTasks {
    *
    * @aliases bu update
    *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException
    */
   public function update(array $options = ['since' => InputOption::VALUE_REQUIRED]) {
     $starting_version = $options['since'] ?: $this->currentSchemaVersion;

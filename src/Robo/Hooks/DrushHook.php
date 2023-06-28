@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Robo\Hooks;
 
 use Acquia\Blt\Robo\BltTasks;
-use Acquia\Blt\Robo\Exceptions\BltException;
+use Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException;
 use Consolidation\AnnotatedCommand\CommandData;
 
 /**

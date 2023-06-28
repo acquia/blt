@@ -3,7 +3,7 @@
 namespace Acquia\Blt\Robo\Commands\Internal;
 
 use Acquia\Blt\Robo\BltTasks;
-use Acquia\Blt\Robo\Exceptions\BltException;
+use Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException;
 use Robo\Contract\VerbosityThresholdInterface;
 
 /**

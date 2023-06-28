@@ -2,7 +2,7 @@
 
 namespace Acquia\Blt\Robo\Common;
 
-use Acquia\Blt\Robo\Config\ConfigInitializer;
+use Acquia\Drupal\RecommendedSettings\Config\ConfigInitializer;
 use Acquia\DrupalEnvironmentDetector\AcquiaDrupalEnvironmentDetector;
 use loophp\phposinfo\Enum\FamilyName;
 use loophp\phposinfo\OsInfo;

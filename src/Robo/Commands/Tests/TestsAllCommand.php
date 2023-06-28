@@ -14,7 +14,7 @@ class TestsAllCommand extends BltTasks {
    *
    * @command tests
    *
-   * @throws \Acquia\Blt\Robo\Exceptions\BltException
+   * @throws \Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException
    */
   public function tests() {
     return $this->invokeNamespace('tests');
