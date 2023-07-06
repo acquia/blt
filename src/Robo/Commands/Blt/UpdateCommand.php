@@ -5,12 +5,11 @@ namespace Acquia\Blt\Robo\Commands\Blt;
 use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\YamlWriter;
 use Acquia\Drupal\RecommendedSettings\Config\ConfigInitializer;
-use Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException;
 use Acquia\Blt\Update\Updater;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Filesystem\Filesystem;
-use Webmozart\PathUtil\Path;
+use Symfony\Component\Filesystem\Path;
 
 /**
  * Defines commands for installing and updating BLT..
