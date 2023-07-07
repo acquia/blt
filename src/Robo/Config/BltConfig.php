@@ -11,6 +11,8 @@ use Robo\Config\Config;
  */
 class BltConfig extends Config {
 
+  protected $expander;
+
   /**
    * Config Constructor.
    *

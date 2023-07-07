@@ -86,6 +86,14 @@ class Updater {
    */
   protected $cloudHooksAlreadyUpdated = FALSE;
 
+  protected $projectLocalYmlFilepath;
+
+  protected $projectYmlFilepath;
+
+  protected $templateComposerJsonFilepath;
+
+  protected $updateClassName;
+
   /**
    * Updater constructor.
    *
