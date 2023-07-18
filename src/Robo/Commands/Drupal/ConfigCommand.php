@@ -56,6 +56,7 @@ class ConfigCommand extends BltTasks {
     $strategy = $this->getConfigValue('cm.strategy');
 
     if ($strategy === 'none') {
+      $this->logger->warning("CM strategy set to none in blt.yml. BLT will NOT import configuration.");
       // Still clear caches to regenerate frontend assets and such.
       return $this->taskDrush()->drush("cache-rebuild")->run();
     }
