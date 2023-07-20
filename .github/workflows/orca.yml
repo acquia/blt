@@ -20,6 +20,10 @@ jobs:
       ORCA_COVERALLS_ENABLE: ${{ matrix.coveralls-enable }}
       COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       ORCA_PACKAGES_CONFIG_ALTER: ../blt/tests/packages_alter.yml
+      # Google env variables.
+      ORCA_GOOGLE_API_CLIENT_ID: ${{ secrets.ORCA_GOOGLE_API_CLIENT_ID }}
+      ORCA_GOOGLE_API_CLIENT_SECRET: ${{ secrets.ORCA_GOOGLE_API_CLIENT_SECRET }}
+      ORCA_GOOGLE_API_REFRESH_TOKEN: ${{ secrets.ORCA_GOOGLE_API_REFRESH_TOKEN }}
     strategy:
       matrix:
         orca-job:
