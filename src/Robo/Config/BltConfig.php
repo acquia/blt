@@ -11,6 +11,11 @@ use Robo\Config\Config;
  */
 class BltConfig extends Config {
 
+  /**
+   * Expander.
+   *
+   * @var YamlExpander
+   */
   protected $expander;
 
   /**
