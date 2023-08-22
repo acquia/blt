@@ -14,7 +14,7 @@ class BltConfig extends Config {
   /**
    * Expander.
    *
-   * @var YamlExpander
+   * @var \Grasmash\YamlExpander\YamlExpander
    */
   protected $expander;
 
