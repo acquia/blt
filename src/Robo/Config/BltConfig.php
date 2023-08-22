@@ -12,6 +12,13 @@ use Robo\Config\Config;
 class BltConfig extends Config {
 
   /**
+   * Expander.
+   *
+   * @var \Grasmash\YamlExpander\YamlExpander
+   */
+  protected $expander;
+
+  /**
    * Config Constructor.
    *
    * @param array $data
