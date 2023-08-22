@@ -1,19 +1,23 @@
 {
     "name": "acquia/blt",
-    "type": "composer-plugin",
     "description": "BLT",
+    "license": "GPL-2.0-only",
+    "type": "composer-plugin",
     "keywords": [
         "drupal",
         "deployment",
         "automation",
         "template"
     ],
-    "license": "GPL-2.0-only",
     "authors": [
         {
             "name": "Matthew Grasmick"
         }
     ],
+    "support": {
+        "issues": "https://github.com/acquia/blt/issues",
+        "docs": "https://docs.acquia.com/blt/"
+    },
     "require": {
         "php": ">=7.4",
         "ext-json": "*",
@@ -37,17 +41,30 @@
         "symfony/yaml": "^4.4 || ^5 || ^6",
         "webmozart/path-util": "^2.3"
     },
-    "conflict": {
-        "acquia/blt-behat": "<=1.0.0"
-    },
     "require-dev": {
         "acquia/coding-standards": "^2.0",
         "dealerdirect/phpcodesniffer-composer-installer": "^1.0.0",
         "squizlabs/php_codesniffer": "^3.6"
     },
+    "conflict": {
+        "acquia/blt-behat": "<=1.0.0"
+    },
     "suggest": {
         "davereid/drush-acquia-hook-invoke": "dev-master"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Acquia\\Blt\\": "src/",
+            "Acquia\\Blt\\Tests\\": "tests/phpunit/src/",
+            "Acquia\\Blt\\Tests\\Robo\\": "tests/phpunit/Robo/"
+        }
+    },
+    "bin": [
+        "bin/blt",
+        "bin/blt.bat"
+    ],
     "config": {
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true
@@ -65,22 +82,5 @@
         },
         "class": "Acquia\\Blt\\Composer\\Plugin",
         "phpcodesniffer-search-depth": "4"
-    },
-    "autoload": {
-        "psr-4": {
-            "Acquia\\Blt\\": "src/",
-            "Acquia\\Blt\\Tests\\": "tests/phpunit/src/",
-            "Acquia\\Blt\\Tests\\Robo\\": "tests/phpunit/Robo/"
-        }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "bin": [
-        "bin/blt",
-        "bin/blt.bat"
-    ],
-    "support": {
-        "issues": "https://github.com/acquia/blt/issues",
-        "docs": "https://docs.acquia.com/blt/"
     }
 }
