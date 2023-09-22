@@ -63,6 +63,7 @@ class GitCommand extends BltTasks {
     $collection->addCode(
       function () use ($changed_files) {
         return $this->invokeCommands([
+          'validate:phpcs:staged' => [], 
           'validate:twig:lint:files' => ['file_list' => $changed_files],
           'validate:yaml:lint:files' => ['file_list' => $changed_files],
         ]);
