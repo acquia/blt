@@ -12,11 +12,16 @@ class SecurityUpdatesCommand extends BltTasks {
   /**
    * Check local Drupal installation for security updates.
    *
+   * This used to only check Drupal projects via the drush pm:security command,
+   * but since that command is deprecated we now use `composer audit` to check
+   * all Composer packages, even non-Drupal ones.
+   *
    * @command tests:security-drupal
    */
   public function testsSecurityUpdates() {
-    $result = $this->taskDrush()
-      ->drush("pm:security")
+    $result = $this->taskExecStack()
+      ->dir($this->getConfigValue('repo.root'))
+      ->exec('composer audit')
       ->run();
 
     if ($result->getExitCode()) {
@@ -24,7 +29,7 @@ class SecurityUpdatesCommand extends BltTasks {
       return 1;
     }
     else {
-      $this->writeln("<info>There are no outstanding security updates for Drupal projects.</info>");
+      $this->writeln("<info>There are no outstanding security updates for Composer projects.</info>");
       return 0;
     }
   }
