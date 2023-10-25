@@ -49,21 +49,6 @@ jobs:
         coveralls-enable: [ "FALSE" ]
         orca-version: [ "^4" ]
         include:
-          - orca-job: INTEGRATED_TEST_ON_OLDEST_SUPPORTED
-            php-version: "7.4"
-            coveralls-enable: "FALSE"
-            orca-version: "^3"
-
-          - orca-job: INTEGRATED_TEST_ON_OLDEST_SUPPORTED
-            php-version: "8.0"
-            coveralls-enable: "FALSE"
-            orca-version: "^3"
-
-          - orca-job: INTEGRATED_TEST_ON_LATEST_LTS
-            php-version: "7.4"
-            coveralls-enable: "FALSE"
-            orca-version: "^3"
-
           - orca-job: INTEGRATED_TEST_ON_LATEST_LTS
             php-version: "8.2"
             coveralls-enable: "FALSE"
