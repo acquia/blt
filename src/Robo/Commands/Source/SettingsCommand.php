@@ -6,6 +6,7 @@ use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\RandomString;
 use Acquia\Blt\Robo\Config\ConfigInitializer;
 use Acquia\Blt\Robo\Exceptions\BltException;
+use Acquia\Drupal\RecommendedSettings\Settings;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Filesystem\Filesystem;
@@ -14,24 +15,6 @@ use Symfony\Component\Filesystem\Filesystem;
  * Defines commands in the "blt:init:settings" namespace.
  */
 class SettingsCommand extends BltTasks {
-
-  /**
-   * Settings warning.
-   *
-   * @var string
-   * Warning text added to the end of settings.php to point people to the BLT
-   * docs on how to include settings.
-   */
-  private $settingsWarning = <<<WARNING
-/**
- * IMPORTANT.
- *
- * Do not include additional settings here. Instead, add them to settings
- * included by `blt.settings.php`. See BLT's documentation for more detail.
- *
- * @link https://docs.acquia.com/blt/
- */
-WARNING;
 
   /**
    * Generates default settings files for Drupal and drush.
@@ -50,14 +33,7 @@ WARNING;
     $config_initializer->setSite($this->getConfig()->get('site'));
     $new_config = $config_initializer->initialize();
 
-    // Replaces config.
     $this->getConfig()->replace($new_config->export());
-
-    // Generate hash file in salt.txt.
-    $this->hashSalt();
-
-    $default_multisite_dir = $this->getConfigValue('docroot') . "/sites/default";
-    $default_project_default_settings_file = "$default_multisite_dir/default.settings.php";
 
     $multisites = $this->getConfigValue('multisites');
     $initial_site = $this->getConfigValue('site');
@@ -70,26 +46,22 @@ WARNING;
       if ($current_site != $multisite) {
         $this->switchSiteContext($multisite);
         $current_site = $multisite;
+
+        // Get db spec of current site.
+        $dbSpec = $this->getConfig()->get('drupal.db');
+        if ($dbSpec) {
+          $dbSpec = ['drupal' => ['db' => $dbSpec]];
+        }
+
+        // Generate settings file using DRS for current site.
+        $drupalRecommendedSettings = new Settings($this->getConfigValue('docroot'), $current_site);
+        $drupalRecommendedSettings->generate($dbSpec);
       }
-
-      // Generate settings.php.
       $multisite_dir = $this->getConfigValue('docroot') . "/sites/$multisite";
-      $project_default_settings_file = "$multisite_dir/default.settings.php";
-      $project_settings_file = "$multisite_dir/settings.php";
 
-      // Generate local.settings.php.
-      $blt_local_settings_file = $this->getConfigValue('blt.root') . '/settings/default.local.settings.php';
-      $default_local_settings_file = "$multisite_dir/settings/default.local.settings.php";
-      $project_local_settings_file = "$multisite_dir/settings/local.settings.php";
-
-      // Generate default.includes.settings.php.
-      $blt_includes_settings_file = $this->getConfigValue('blt.root') . '/settings/default.includes.settings.php';
-      $default_includes_settings_file = "$multisite_dir/settings/default.includes.settings.php";
-
-      // Generate sites/settings/default.global.settings.php.
-      $blt_glob_settings_file = $this->getConfigValue('blt.root') . '/settings/default.global.settings.php';
-      $default_glob_settings_file = $this->getConfigValue('docroot') . "/sites/settings/default.global.settings.php";
-      $global_settings_file = $this->getConfigValue('docroot') . "/sites/settings/global.settings.php";
+      // Use settings file from DRS.
+      $drupalRecommendedSettings = new Settings($this->getConfigValue('docroot'), $multisite);
+      $drupalRecommendedSettings->generate();
 
       // Generate local.drush.yml.
       $blt_local_drush_file = $this->getConfigValue('blt.root') . '/settings/default.local.drush.yml';
@@ -97,40 +69,18 @@ WARNING;
       $project_local_drush_file = "$multisite_dir/local.drush.yml";
 
       $copy_map = [
-        $blt_local_settings_file => $default_local_settings_file,
-        $default_local_settings_file => $project_local_settings_file,
-        $blt_includes_settings_file => $default_includes_settings_file,
         $blt_local_drush_file => $default_local_drush_file,
         $default_local_drush_file => $project_local_drush_file,
       ];
       // Define an array of files that require property expansion.
       $expand_map = [
-        $default_local_settings_file => $project_local_settings_file,
         $default_local_drush_file => $project_local_drush_file,
       ];
-
-      // Add default.global.settings.php if global.settings.php does not exist.
-      if (!file_exists($global_settings_file)) {
-        $copy_map[$blt_glob_settings_file] = $default_glob_settings_file;
-      }
-
-      // Only add the settings file if the default exists.
-      if (file_exists($default_project_default_settings_file)) {
-        $copy_map[$default_project_default_settings_file] = $project_default_settings_file;
-        $copy_map[$project_default_settings_file] = $project_settings_file;
-      }
-      elseif (!file_exists($project_settings_file)) {
-        $this->logger->warning("No $default_project_default_settings_file file found.");
-      }
 
       $task = $this->taskFilesystemStack()
         ->stopOnFail()
         ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
         ->chmod($multisite_dir, 0777);
-
-      if (file_exists($project_settings_file)) {
-        $task->chmod($project_settings_file, 0777);
-      }
 
       // Copy files without overwriting.
       foreach ($copy_map as $from => $to) {
@@ -147,28 +97,6 @@ WARNING;
 
       if (!$result->wasSuccessful()) {
         throw new BltException("Unable to copy files settings files from BLT into your repository.");
-      }
-
-      $result = $this->taskWriteToFile($project_settings_file)
-        ->appendUnlessMatches('#vendor/acquia/blt/settings/blt.settings.php#', 'require DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php";' . "\n")
-        ->appendUnlessMatches('#Do not include additional settings here#', $this->settingsWarning . "\n")
-        ->append(TRUE)
-        ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-        ->run();
-
-      if (!$result->wasSuccessful()) {
-        throw new BltException("Unable to modify $project_settings_file.");
-      }
-
-      $result = $this->taskFilesystemStack()
-        ->chmod($project_settings_file, 0644)
-        ->stopOnFail()
-        ->setVerbosityThreshold(VerbosityThresholdInterface::VERBOSITY_VERBOSE)
-        ->run();
-
-      if (!$result->wasSuccessful()) {
-        $this->getInspector()->getFs()->makePathRelative($project_settings_file, $this->getConfigValue('repo.root'));
-        throw new BltException("Unable to set permissions on $project_settings_file.");
       }
     }
 
