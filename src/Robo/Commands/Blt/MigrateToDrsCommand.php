@@ -120,16 +120,14 @@ WARNING;
   private function updateSettingsFile(string $settingFile): void {
     $fileContent = file_get_contents($settingFile);
 
-    // Let remove BLT require section from settings.php
-    if (preg_match($this->bltSettingsWarning, $fileContent)) {
+    // Let remove BLT require section from settings.php.
+    if (substr_count($fileContent, $this->drsSettingsWarning) < 1) {
+      $fileContent = str_replace($this->bltSettingsWarning, $this->drsSettingsWarning, $fileContent);
+    }
+    else {
       $fileContent = str_replace($this->bltSettingsWarning, '', $fileContent);
-      file_put_contents($settingFile, $fileContent);
     }
-    // Let add DRS require section in settings.php
-    if (!preg_match($this->drsSettingsWarning, $fileContent)) {
-      $fileContent .= $this->drsSettingsWarning;
-      file_put_contents($settingFile, $fileContent);
-    }
+    file_put_contents($settingFile, $fileContent);
   }
 
   /**
