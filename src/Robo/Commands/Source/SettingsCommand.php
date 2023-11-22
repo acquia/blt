@@ -6,6 +6,7 @@ use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\RandomString;
 use Acquia\Blt\Robo\Config\ConfigInitializer;
 use Acquia\Blt\Robo\Exceptions\BltException;
+use Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException;
 use Acquia\Drupal\RecommendedSettings\Settings;
 use Robo\Contract\VerbosityThresholdInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -48,20 +49,24 @@ class SettingsCommand extends BltTasks {
         $current_site = $multisite;
 
         // Get db spec of current site.
-        $dbSpec = $this->getConfig()->get('drupal.db');
-        if ($dbSpec) {
-          $dbSpec = ['drupal' => ['db' => $dbSpec]];
+        $db_spec = $this->getConfig()->get('drupal.db');
+        if ($db_spec) {
+          $db_spec = [
+            'drupal' => [
+              'db' => $db_spec
+            ]
+          ];
         }
 
         // Generate settings file using DRS for current site.
         $drupalRecommendedSettings = new Settings($this->getConfigValue('docroot'), $current_site);
-        $drupalRecommendedSettings->generate($dbSpec);
+        try {
+          $drupalRecommendedSettings->generate($db_spec);
+        } catch (SettingsException $e) {
+          $this->logger->warning($e->getMessage());
+        }
       }
       $multisite_dir = $this->getConfigValue('docroot') . "/sites/$multisite";
-
-      // Use settings file from DRS.
-      $drupalRecommendedSettings = new Settings($this->getConfigValue('docroot'), $multisite);
-      $drupalRecommendedSettings->generate();
 
       // Generate local.drush.yml.
       $blt_local_drush_file = $this->getConfigValue('blt.root') . '/settings/default.local.drush.yml';
