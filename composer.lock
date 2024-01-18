@@ -1102,16 +1102,16 @@
         },
         {
             "name": "drupal/core",
-            "version": "10.2.1",
+            "version": "10.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/drupal/core.git",
-                "reference": "0050280087b8ed1fb145fcf22e01ad53c85931db"
+                "reference": "fc9abad1ab687635a5eddec00aa1a5f2a29a23bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/drupal/core/zipball/0050280087b8ed1fb145fcf22e01ad53c85931db",
-                "reference": "0050280087b8ed1fb145fcf22e01ad53c85931db",
+                "url": "https://api.github.com/repos/drupal/core/zipball/fc9abad1ab687635a5eddec00aa1a5f2a29a23bd",
+                "reference": "fc9abad1ab687635a5eddec00aa1a5f2a29a23bd",
                 "shasum": ""
             },
             "require": {
@@ -1259,9 +1259,9 @@
             ],
             "description": "Drupal is an open source content management platform powering millions of websites and applications.",
             "support": {
-                "source": "https://github.com/drupal/core/tree/10.2.1"
+                "source": "https://github.com/drupal/core/tree/10.2.2"
             },
-            "time": "2024-01-05T09:27:16+00:00"
+            "time": "2024-01-16T21:10:58+00:00"
         },
         {
             "name": "drush/drush",
@@ -2226,16 +2226,16 @@
         },
         {
             "name": "mck89/peast",
-            "version": "v1.15.4",
+            "version": "v1.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mck89/peast.git",
-                "reference": "1df4dc28a6b5bb7ab117ab073c1712256e954e18"
+                "reference": "63dee902bd281c792f1dd760b6df268682032ed0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mck89/peast/zipball/1df4dc28a6b5bb7ab117ab073c1712256e954e18",
-                "reference": "1df4dc28a6b5bb7ab117ab073c1712256e954e18",
+                "url": "https://api.github.com/repos/mck89/peast/zipball/63dee902bd281c792f1dd760b6df268682032ed0",
+                "reference": "63dee902bd281c792f1dd760b6df268682032ed0",
                 "shasum": ""
             },
             "require": {
@@ -2248,7 +2248,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.15.4-dev"
+                    "dev-master": "1.16.0-dev"
                 }
             },
             "autoload": {
@@ -2269,9 +2269,9 @@
             "description": "Peast is PHP library that generates AST for JavaScript code",
             "support": {
                 "issues": "https://github.com/mck89/peast/issues",
-                "source": "https://github.com/mck89/peast/tree/v1.15.4"
+                "source": "https://github.com/mck89/peast/tree/v1.16.0"
             },
-            "time": "2023-08-12T08:29:29+00:00"
+            "time": "2024-01-11T14:36:12+00:00"
         },
         {
             "name": "nikic/php-parser",
