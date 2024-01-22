@@ -61,6 +61,16 @@ WARNING;
   private string $drsUseStmt = 'use Acquia\Drupal\RecommendedSettings\Helpers\EnvironmentDetector;';
 
   /**
+   * Blt config override variable.
+   */
+  private string $bltConfigOverrideVar = '$blt_override_config_directories';
+
+  /**
+   * Drs config override variable.
+   */
+  private string $drsConfigOverrideVar = '$drs_override_config_directories';
+
+  /**
    * Migrate BLT to use DRS.
    *
    * @command blt:migrate-drs
@@ -73,6 +83,7 @@ WARNING;
       $this->io()->warning('This script will update settings.php and local.settings.php files from site [' . implode(',', $multiSites) . '] with following changes.');
       $this->io()->table(['File', 'Snippet to remove', 'Snippet to add'], [
         ['settings.php', $this->bltSettingsWarning, $this->drsSettingsWarning],
+        ['settings.php', $this->bltConfigOverrideVar, $this->drsConfigOverrideVar],
         ['local.settings.php', $this->bltUseStmt, $this->drsUseStmt],
       ]);
     }
@@ -121,14 +132,17 @@ WARNING;
    */
   private function updateSettingsFile(string $settingFile): void {
     $fileContent = file_get_contents($settingFile);
-
     // Let remove BLT require section from settings.php.
     $settingsFileContent = str_replace($this->bltSettingsWarning, '', $fileContent);
     if (substr_count($fileContent, $this->drsSettingsWarning) < 1) {
       $settingsFileContent = str_replace($this->bltSettingsWarning, $this->drsSettingsWarning, $fileContent);
     }
+    // Check whether $blt_override_config_directories variable exists.
+    if (substr_count($settingsFileContent, $this->bltConfigOverrideVar) < 1) {
+      $settingsFileContent = str_replace($this->bltConfigOverrideVar, $this->drsConfigOverrideVar, $settingsFileContent);
+    }
 
-    file_put_contents($settingFile, $fileContent);
+    file_put_contents($settingFile, $settingsFileContent);
   }
 
   /**
