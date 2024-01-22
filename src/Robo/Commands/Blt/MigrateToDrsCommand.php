@@ -98,16 +98,18 @@ WARNING;
     $root = $this->getConfigValue('docroot');
     $sitePath = Path::join($root, 'sites/' . $site);
 
-    // Update settings file content.
+    // Relative paths of settings.php file.
+    $relativePaths = [
+      "$sitePath/settings.php",
+      "$sitePath/settings/local.settings.php",
+      "$sitePath/settings/default.local.settings.php",
+    ]
     $filesystem = new Filesystem();
-    if ($filesystem->exists($sitePath . '/settings.php')) {
-      $this->updateSettingsFile($sitePath . '/settings.php');
-    }
-    if ($filesystem->exists($sitePath . '/settings/local.settings.php')) {
-      $this->updateLocalSettingsFile($sitePath . '/settings/local.settings.php');
-    }
-    if ($filesystem->exists($sitePath . '/settings/default.local.settings.php')) {
-      $this->updateLocalSettingsFile($sitePath . '/settings/default.local.settings.php');
+    foreach ($relativePaths as $relativePath) {
+      if ($filesystem->exists($relativePath)) {
+        // Update settings file content.
+        $this->updateSettingsFile($relativePath);
+      }
     }
   }
 
@@ -121,12 +123,11 @@ WARNING;
     $fileContent = file_get_contents($settingFile);
 
     // Let remove BLT require section from settings.php.
+    $settingsFileContent = str_replace($this->bltSettingsWarning, '', $fileContent);
     if (substr_count($fileContent, $this->drsSettingsWarning) < 1) {
-      $fileContent = str_replace($this->bltSettingsWarning, $this->drsSettingsWarning, $fileContent);
+      $settingsFileContent = str_replace($this->bltSettingsWarning, $this->drsSettingsWarning, $fileContent);
     }
-    else {
-      $fileContent = str_replace($this->bltSettingsWarning, '', $fileContent);
-    }
+
     file_put_contents($settingFile, $fileContent);
   }
 
