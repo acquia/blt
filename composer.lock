@@ -84,9 +84,9 @@
             "require-dev": {
                 "acquia/coding-standards": "^2.0",
                 "composer/composer": "^2.2",
-                "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
+                "dealerdirect/phpcodesniffer-composer-installer": "^1.0.0",
                 "ergebnis/composer-normalize": "^2.30.2",
-                "phpro/grumphp-shim": "^1.5",
+                "phpro/grumphp-shim": "^2.2",
                 "phpunit/phpunit": "^9 || ^10"
             },
             "default-branch": true,
