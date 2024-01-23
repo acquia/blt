@@ -24,7 +24,6 @@
         "composer-plugin-api": "^2.0",
         "composer-runtime-api": "^2.0",
         "acquia/drupal-environment-detector": "^1.5.3",
-        "acquia/drupal-recommended-settings": "dev-develop",
         "consolidation/comments": "^1.0",
         "consolidation/config": "^2.0.0",
         "consolidation/robo": "^4",
@@ -68,8 +67,7 @@
     ],
     "config": {
         "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": true,
-            "acquia/drupal-recommended-settings": true
+            "dealerdirect/phpcodesniffer-composer-installer": true
         },
         "php": "8",
         "platform": {

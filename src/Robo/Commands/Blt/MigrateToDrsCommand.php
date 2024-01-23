@@ -63,12 +63,12 @@ WARNING;
   /**
    * Blt config override variable.
    */
-  private string $bltConfigOverrideVar = '$blt_override_config_directories';
+  private string $bltConfigOverrideVar = 'blt_override_config_directories';
 
   /**
    * Drs config override variable.
    */
-  private string $drsConfigOverrideVar = '$drs_override_config_directories';
+  private string $drsConfigOverrideVar = 'drs_override_config_directories';
 
   /**
    * Migrate BLT to use DRS.
@@ -114,7 +114,7 @@ WARNING;
       "$sitePath/settings.php",
       "$sitePath/settings/local.settings.php",
       "$sitePath/settings/default.local.settings.php",
-    ]
+    ];
     $filesystem = new Filesystem();
     foreach ($relativePaths as $relativePath) {
       if ($filesystem->exists($relativePath)) {
@@ -132,17 +132,20 @@ WARNING;
    */
   private function updateSettingsFile(string $settingFile): void {
     $fileContent = file_get_contents($settingFile);
-    // Let remove BLT require section from settings.php.
-    $settingsFileContent = str_replace($this->bltSettingsWarning, '', $fileContent);
-    if (substr_count($fileContent, $this->drsSettingsWarning) < 1) {
-      $settingsFileContent = str_replace($this->bltSettingsWarning, $this->drsSettingsWarning, $fileContent);
-    }
+
     // Check whether $blt_override_config_directories variable exists.
-    if (substr_count($settingsFileContent, $this->bltConfigOverrideVar) < 1) {
-      $settingsFileContent = str_replace($this->bltConfigOverrideVar, $this->drsConfigOverrideVar, $settingsFileContent);
+    if (str_contains($fileContent, $this->bltConfigOverrideVar)) {
+      $fileContent = str_replace($this->bltConfigOverrideVar, $this->drsConfigOverrideVar, $fileContent);
+    }
+    // Let remove BLT require section from settings.php.
+    if (substr_count($fileContent, $this->drsSettingsWarning) < 1) {
+      $fileContent = str_replace($this->bltSettingsWarning, $this->drsSettingsWarning, $fileContent);
+    }
+    else {
+      $fileContent = str_replace($this->bltSettingsWarning, '', $fileContent);
     }
 
-    file_put_contents($settingFile, $settingsFileContent);
+    file_put_contents($settingFile, $fileContent);
   }
 
   /**
