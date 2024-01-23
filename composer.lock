@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8798857a1adbb0eb26c6930401091b6e",
+    "content-hash": "9419d1bcd0af1123bfe04300d956a99e",
     "packages": [
         {
             "name": "acquia/drupal-environment-detector",
@@ -61,16 +61,16 @@
         },
         {
             "name": "acquia/drupal-recommended-settings",
-            "version": "dev-develop",
+            "version": "dev-ACMS-3508",
             "source": {
                 "type": "git",
                 "url": "https://github.com/acquia/drupal-recommended-settings.git",
-                "reference": "3bdd6881a214a67db84ada2b6ca1966130176e42"
+                "reference": "0db00f6f260a3d56c554787ef0944e26d79251da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/acquia/drupal-recommended-settings/zipball/3bdd6881a214a67db84ada2b6ca1966130176e42",
-                "reference": "3bdd6881a214a67db84ada2b6ca1966130176e42",
+                "url": "https://api.github.com/repos/acquia/drupal-recommended-settings/zipball/0db00f6f260a3d56c554787ef0944e26d79251da",
+                "reference": "0db00f6f260a3d56c554787ef0944e26d79251da",
                 "shasum": ""
             },
             "require": {
@@ -89,7 +89,6 @@
                 "phpro/grumphp-shim": "^2.2",
                 "phpunit/phpunit": "^9 || ^10"
             },
-            "default-branch": true,
             "type": "composer-plugin",
             "extra": {
                 "class": "Acquia\\Drupal\\RecommendedSettings\\Plugin"
@@ -118,9 +117,9 @@
             "support": {
                 "docs": "https://docs.acquia.com/drupal-recommended-settings/",
                 "issues": "https://github.com/acquia/drupal-recommended-settings/issues",
-                "source": "https://github.com/acquia/drupal-recommended-settings/tree/develop"
+                "source": "https://github.com/acquia/drupal-recommended-settings/tree/ACMS-3508"
             },
-            "time": "2023-11-21T12:48:07+00:00"
+            "time": "2024-01-22T10:38:33+00:00"
         },
         {
             "name": "asm89/stack-cors",
