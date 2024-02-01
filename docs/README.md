@@ -10,6 +10,10 @@ BLT (Build and Launch Tool) provides an automation layer for testing, building, 
 
 **To review the Acquia and community provided plugins for BLT, see the [plugin registry](https://support-acquia.force.com/s/article/360046918614-Acquia-BLT-Plugins).**
 
+## BLT End of Life
+
+Acquia has announced the end of life for BLT. For more details, see https://github.com/acquia/blt/issues/4736
+
 ## BLT Versions
 
 | BLT Version | Supported? | Major Drupal Version | PHP Version     | Drush Version |
