@@ -24,7 +24,7 @@
         "composer-plugin-api": "^2.0",
         "composer-runtime-api": "^2.0",
         "acquia/drupal-environment-detector": "^1.5.3",
-        "acquia/drupal-recommended-settings": "dev-ACMS-3508",
+        "acquia/drupal-recommended-settings": "dev-develop",
         "consolidation/comments": "^1.0",
         "consolidation/config": "^2.0.0",
         "consolidation/robo": "^4",
