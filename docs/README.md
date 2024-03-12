@@ -4,7 +4,7 @@
 
 ![Build Status](https://github.com/acquia/blt/actions/workflows/orca.yml/badge.svg?main) [![Packagist](https://img.shields.io/packagist/v/acquia/blt.svg)](https://packagist.org/packages/acquia/blt)
 
-BLT (Build and Launch Tool) provides an automation layer for testing, building, and launching Drupal 8 and 9 applications.
+BLT (Build and Launch Tool) provides an automation layer for testing, building, and launching Drupal 8, 9 and (not yet stable) 10 applications.
 
 **To learn more and get started, see the documentation: https://docs.acquia.com/blt**
 
