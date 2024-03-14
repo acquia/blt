@@ -26,7 +26,7 @@ class SettingsCommand extends BltTasks {
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
-  public function generateSiteConfigFiles() {
+  public function generateSiteConfigFiles(): void {
     $this->generateLocalConfigFile();
 
     // Reload config.
@@ -53,8 +53,8 @@ class SettingsCommand extends BltTasks {
         if ($db_spec) {
           $db_spec = [
             'drupal' => [
-              'db' => $db_spec
-            ]
+              'db' => $db_spec,
+            ],
           ];
         }
 
@@ -62,7 +62,8 @@ class SettingsCommand extends BltTasks {
         $drupalRecommendedSettings = new Settings($this->getConfigValue('docroot'), $current_site);
         try {
           $drupalRecommendedSettings->generate($db_spec);
-        } catch (SettingsException $e) {
+        }
+        catch (SettingsException $e) {
           $this->logger->warning($e->getMessage());
         }
       }
@@ -116,7 +117,7 @@ class SettingsCommand extends BltTasks {
    * @command blt:init:git-hooks
    * @aliases big setup:git-hooks
    */
-  public function gitHooks() {
+  public function gitHooks(): void {
     foreach ($this->getConfigValue('git.hooks') as $hook => $path) {
       $this->installGitHook($hook);
     }
@@ -132,7 +133,7 @@ class SettingsCommand extends BltTasks {
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
-  protected function installGitHook($hook) {
+  protected function installGitHook(string $hook): void {
     $fs = new Filesystem();
     $project_hook_directory = $this->getConfigValue('repo.root') . "/.git/hooks";
     $project_hook = $project_hook_directory . "/$hook";
@@ -184,7 +185,7 @@ class SettingsCommand extends BltTasks {
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
-  public function hashSalt() {
+  public function hashSalt(): int {
     $hash_salt_file = $this->getConfigValue('repo.root') . '/salt.txt';
     if (!file_exists($hash_salt_file)) {
       $this->say("Generating hash salt...");
@@ -213,7 +214,7 @@ class SettingsCommand extends BltTasks {
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
-  public function createDeployId($options = ['id' => InputOption::VALUE_REQUIRED]) {
+  public function createDeployId($options = ['id' => InputOption::VALUE_REQUIRED]): void {
     if (!$options['id']) {
       $options['id'] = RandomString::string(8);
     }
@@ -235,7 +236,7 @@ class SettingsCommand extends BltTasks {
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
-  private function generateLocalConfigFile() {
+  private function generateLocalConfigFile(): void {
     $localConfigFile = $this->getConfigValue('blt.config-files.local');
     $exampleLocalConfigFile = $this->getConfigValue('blt.config-files.example-local');
     $localConfigFilepath = $this->getInspector()
