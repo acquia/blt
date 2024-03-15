@@ -137,6 +137,10 @@ WARNING;
     if (str_contains($fileContent, $this->bltConfigOverrideVar)) {
       $fileContent = str_replace($this->bltConfigOverrideVar, $this->drsConfigOverrideVar, $fileContent);
     }
+    // Check if blt use statement exists.
+    if (str_contains($fileContent, $this->bltUseStmt)) {
+      $fileContent = str_replace($this->bltUseStmt, $this->drsUseStmt, $fileContent);
+    }
     // Let remove BLT require section from settings.php.
     if (substr_count($fileContent, $this->drsSettingsWarning) < 1) {
       $fileContent = str_replace($this->bltSettingsWarning, $this->drsSettingsWarning, $fileContent);
@@ -146,18 +150,6 @@ WARNING;
     }
 
     file_put_contents($settingFile, $fileContent);
-  }
-
-  /**
-   * Update local settings file.
-   *
-   * @param string $localSettingsFile
-   *   The local settings file path.
-   */
-  private function updateLocalSettingsFile(string $localSettingsFile): void {
-    $fileContent = file_get_contents($localSettingsFile);
-    $updatedFileContent = str_replace($this->bltUseStmt, $this->drsUseStmt, $fileContent);
-    file_put_contents($localSettingsFile, $updatedFileContent);
   }
 
 }
