@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "44f05c97560579300c571848262ac12e",
+    "content-hash": "8798857a1adbb0eb26c6930401091b6e",
     "packages": [
         {
             "name": "acquia/drupal-environment-detector",
@@ -61,16 +61,16 @@
         },
         {
             "name": "acquia/drupal-recommended-settings",
-            "version": "1.0.0-beta1",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/acquia/drupal-recommended-settings.git",
-                "reference": "29c517dc57605b7a93c0dbe072722eaa5135851c"
+                "reference": "e6ccc08c63d2be8e3e02f0f75061bf1e0499dea7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/acquia/drupal-recommended-settings/zipball/29c517dc57605b7a93c0dbe072722eaa5135851c",
-                "reference": "29c517dc57605b7a93c0dbe072722eaa5135851c",
+                "url": "https://api.github.com/repos/acquia/drupal-recommended-settings/zipball/e6ccc08c63d2be8e3e02f0f75061bf1e0499dea7",
+                "reference": "e6ccc08c63d2be8e3e02f0f75061bf1e0499dea7",
                 "shasum": ""
             },
             "require": {
@@ -85,10 +85,12 @@
                 "acquia/coding-standards": "^2.0",
                 "composer/composer": "^2.2",
                 "dealerdirect/phpcodesniffer-composer-installer": "^1.0.0",
+                "drush/drush": "^11.6 || ^12",
                 "ergebnis/composer-normalize": "^2.30.2",
                 "phpro/grumphp-shim": "^2.2",
                 "phpunit/phpunit": "^9 || ^10"
             },
+            "default-branch": true,
             "type": "composer-plugin",
             "extra": {
                 "class": "Acquia\\Drupal\\RecommendedSettings\\Plugin"
@@ -117,9 +119,9 @@
             "support": {
                 "docs": "https://docs.acquia.com/drupal-recommended-settings/",
                 "issues": "https://github.com/acquia/drupal-recommended-settings/issues",
-                "source": "https://github.com/acquia/drupal-recommended-settings/tree/1.0.0-beta1"
+                "source": "https://github.com/acquia/drupal-recommended-settings/tree/develop"
             },
-            "time": "2024-01-18T06:50:22+00:00"
+            "time": "2024-03-14T17:21:37+00:00"
         },
         {
             "name": "asm89/stack-cors",
@@ -3152,16 +3154,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.12.0",
+            "version": "v0.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "750bf031a48fd07c673dbe3f11f72362ea306d0d"
+                "reference": "39621c73e0754328252f032c6997b983afc50431"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/750bf031a48fd07c673dbe3f11f72362ea306d0d",
-                "reference": "750bf031a48fd07c673dbe3f11f72362ea306d0d",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/39621c73e0754328252f032c6997b983afc50431",
+                "reference": "39621c73e0754328252f032c6997b983afc50431",
                 "shasum": ""
             },
             "require": {
@@ -3225,9 +3227,9 @@
             ],
             "support": {
                 "issues": "https://github.com/bobthecow/psysh/issues",
-                "source": "https://github.com/bobthecow/psysh/tree/v0.12.0"
+                "source": "https://github.com/bobthecow/psysh/tree/v0.12.1"
             },
-            "time": "2023-12-20T15:28:09+00:00"
+            "time": "2024-03-15T03:22:57+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -6785,7 +6787,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "acquia/drupal-recommended-settings": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
