@@ -6,7 +6,6 @@
  */
 
 use Acquia\Blt\Robo\Common\EnvironmentDetector;
-use Drupal\Component\Assertion\Handle;
 
 $db_name = '${drupal.db.database}';
 
@@ -46,7 +45,7 @@ $settings['update_free_access'] = TRUE;
  * @see https://wiki.php.net/rfc/expectations
  */
 assert_options(ASSERT_ACTIVE, TRUE);
-Handle::register();
+assert_options(ASSERT_EXCEPTION, TRUE);
 
 /**
  * Show all error messages, with backtrace information.
