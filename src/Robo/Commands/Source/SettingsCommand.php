@@ -6,9 +6,11 @@ use Acquia\Blt\Robo\BltTasks;
 use Acquia\Blt\Robo\Common\RandomString;
 use Acquia\Blt\Robo\Config\ConfigInitializer;
 use Acquia\Blt\Robo\Exceptions\BltException;
+use Acquia\Drupal\RecommendedSettings\Drush\Commands\SettingsDrushCommands;
 use Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException;
 use Acquia\Drupal\RecommendedSettings\Settings;
 use Robo\Contract\VerbosityThresholdInterface;
+use Robo\ResultData;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -48,23 +50,14 @@ class SettingsCommand extends BltTasks {
         $this->switchSiteContext($multisite);
         $current_site = $multisite;
 
-        // Get db spec of current site.
-        $db_spec = $this->getConfig()->get('drupal.db');
-        if ($db_spec) {
-          $db_spec = [
-            'drupal' => [
-              'db' => $db_spec
-            ]
-          ];
+        $result = $this->taskDrush()
+          ->drush(SettingsDrushCommands::SETTINGS_COMMAND)
+          ->uri($multisite)
+          ->run();
+        if ($result->getExitCode() == ResultData::EXITCODE_ERROR) {
+          $this->io->error($result->getMessage());
         }
 
-        // Generate settings file using DRS for current site.
-        $drupalRecommendedSettings = new Settings($this->getConfigValue('docroot'), $current_site);
-        try {
-          $drupalRecommendedSettings->generate($db_spec);
-        } catch (SettingsException $e) {
-          $this->logger->warning($e->getMessage());
-        }
       }
       $multisite_dir = $this->getConfigValue('docroot') . "/sites/$multisite";
 
