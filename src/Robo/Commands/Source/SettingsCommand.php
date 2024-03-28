@@ -7,8 +7,6 @@ use Acquia\Blt\Robo\Common\RandomString;
 use Acquia\Blt\Robo\Config\ConfigInitializer;
 use Acquia\Blt\Robo\Exceptions\BltException;
 use Acquia\Drupal\RecommendedSettings\Drush\Commands\SettingsDrushCommands;
-use Acquia\Drupal\RecommendedSettings\Exceptions\SettingsException;
-use Acquia\Drupal\RecommendedSettings\Settings;
 use Robo\Contract\VerbosityThresholdInterface;
 use Robo\ResultData;
 use Symfony\Component\Console\Input\InputOption;

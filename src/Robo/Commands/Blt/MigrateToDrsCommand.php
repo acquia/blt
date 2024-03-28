@@ -12,14 +12,18 @@ use Symfony\Component\Filesystem\Path;
 class MigrateToDrsCommand extends BltTasks {
 
   /**
-   * Settings warning.
+   * An array of search replace pairs.
    *
-   * @var string
-   * Warning text added to the end of settings.php to point people to the BLT
-   * docs on how to include settings.
+   * @var array|\string[][]
    */
-  private string $bltSettingsWarning = <<<WARNING
-require DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php";
+  private array $searchReplacePairs = [
+    [
+      'search' => 'require DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php";',
+      'replace' => 'require DRUPAL_ROOT . "/../vendor/acquia/drupal-recommended-settings/settings/acquia-recommended.settings.php";',
+      'file' => 'settings.php',
+    ],
+    [
+      'search' => <<<BLT_WARNING
 /**
  * IMPORTANT.
  *
@@ -28,18 +32,8 @@ require DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php";
  *
  * @link https://docs.acquia.com/blt/
  */
-WARNING;
-
-  /**
-   * Settings warning.
-   *
-   * @var string
-   * Warning text added to the end of settings.php to point people
-   * to the Acquia Drupal Recommended Settings
-   * docs on how to include settings.
-   */
-  private string $drsSettingsWarning = <<<WARNING
-require DRUPAL_ROOT . "/../vendor/acquia/drupal-recommended-settings/settings/acquia-recommended.settings.php";
+BLT_WARNING,
+      'replace' => <<<DRS_WARNING
 /**
  * IMPORTANT.
  *
@@ -48,27 +42,20 @@ require DRUPAL_ROOT . "/../vendor/acquia/drupal-recommended-settings/settings/ac
  *
  * @link https://docs.acquia.com/
  */
-WARNING;
-
-  /**
-   * Blt use statement.
-   */
-  private string $bltUseStmt = 'use Acquia\Blt\Robo\Common\EnvironmentDetector;';
-
-  /**
-   * Drs use statement.
-   */
-  private string $drsUseStmt = 'use Acquia\Drupal\RecommendedSettings\Helpers\EnvironmentDetector;';
-
-  /**
-   * Blt config override variable.
-   */
-  private string $bltConfigOverrideVar = 'blt_override_config_directories';
-
-  /**
-   * Drs config override variable.
-   */
-  private string $drsConfigOverrideVar = 'drs_override_config_directories';
+DRS_WARNING,
+      'file' => 'settings.php',
+    ],
+    [
+      'search' => 'use Acquia\Blt\Robo\Common\EnvironmentDetector;',
+      'replace' => 'use Acquia\Drupal\RecommendedSettings\Helpers\EnvironmentDetector;',
+      'file' => 'settings.php',
+    ],
+    [
+      'search' => 'blt_override_config_directories',
+      'replace' => 'drs_override_config_directories',
+      'file' => 'local.settings.php',
+    ],
+  ];
 
   /**
    * Migrate BLT to use DRS.
@@ -80,12 +67,15 @@ WARNING;
   public function migrateDrs(): void {
     $multiSites = $this->getConfigValue('multisites');
     if (!empty($multiSites)) {
-      $this->io()->warning('This script will update settings.php and local.settings.php files from site [' . implode(',', $multiSites) . '] with following changes.');
-      $this->io()->table(['File', 'Snippet to remove', 'Snippet to add'], [
-        ['settings.php', $this->bltSettingsWarning, $this->drsSettingsWarning],
-        ['settings.php', $this->bltConfigOverrideVar, $this->drsConfigOverrideVar],
-        ['local.settings.php', $this->bltUseStmt, $this->drsUseStmt],
-      ]);
+      $rows = array_map(function ($pair) {
+        return [
+          $pair["file"],
+          $pair["search"],
+          $pair["replace"],
+        ];
+      }, $this->searchReplacePairs);
+      $this->io()->warning('This script will update following files from site [' . implode(',', $multiSites) . '] with following changes.');
+      $this->io()->table(['File', 'Snippet to remove', 'Snippet to add'], $rows);
     }
 
     // Don't proceed further if aborted by user.
@@ -133,22 +123,16 @@ WARNING;
   private function updateSettingsFile(string $settingFile): void {
     $fileContent = file_get_contents($settingFile);
 
-    // Check whether $blt_override_config_directories variable exists.
-    if (str_contains($fileContent, $this->bltConfigOverrideVar)) {
-      $fileContent = str_replace($this->bltConfigOverrideVar, $this->drsConfigOverrideVar, $fileContent);
-    }
-    // Check if blt use statement exists.
-    if (str_contains($fileContent, $this->bltUseStmt)) {
-      $fileContent = str_replace($this->bltUseStmt, $this->drsUseStmt, $fileContent);
-    }
-    // Let remove BLT require section from settings.php.
-    if (substr_count($fileContent, $this->drsSettingsWarning) < 1) {
-      $fileContent = str_replace($this->bltSettingsWarning, $this->drsSettingsWarning, $fileContent);
-    }
-    else {
-      $fileContent = str_replace($this->bltSettingsWarning, '', $fileContent);
+    // Loop through the search/replace pairs.
+    foreach ($this->searchReplacePairs as $pair) {
+      // Check if the search string exists in the file content.
+      if (strpos($fileContent, $pair['search']) !== FALSE) {
+        // Replace the search string with the replace string.
+        $fileContent = str_replace($pair['search'], $pair['replace'], $fileContent);
+      }
     }
 
+    // Write the modified content back to the file.
     file_put_contents($settingFile, $fileContent);
   }
 

@@ -39,8 +39,8 @@ class SettingsFilesCheck extends DoctorCheck {
     }
     else {
       if (!$this->getInspector()->isDrupalSettingsFileValid()) {
-        $this->logProblem('blt-settings',
-          "BLT settings are not included in settings file.", 'error');
+        $this->logProblem('drs-settings',
+          "DRS settings are not included in settings file.", 'error');
       }
       if (strstr($this->getConfigValue('drupal.settings_file'),
         '/sites/default/settings/blt.settings.php')) {
