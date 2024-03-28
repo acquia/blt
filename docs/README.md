@@ -26,6 +26,50 @@ Acquia has announced the end of life for BLT. For more details, see https://gith
 
 PHP 8.2, Drush 12, and Drupal 10 support is unstable.
 
+## Steps to use Acquia Drupal Recommended Settings with BLT.
+
+- Update the BLT plugin to the latest release, which includes acquia/drupal-recommended-settings OOTB.
+```
+composer update acquia/blt -W
+```
+
+### Manual Process:
+
+- Remove BLT reference from settings.php file located at `/docroot/sites/<site-name>/settings.php`.
+```diff
+- require DRUPAL_ROOT . "/../vendor/acquia/blt/settings/blt.settings.php";
+- /**
+-  * IMPORTANT.
+-  *
+-  * Do not include additional settings here. Instead, add them to settings
+-  * included by `blt.settings.php`. See BLT's documentation for more detail.
+-  *
+-  * @link https://docs.acquia.com/blt/
+-  */
++ require DRUPAL_ROOT . "/../vendor/acquia/drupal-recommended-settings/settings/acquia-recommended.settings.php";
++ /**
++  * IMPORTANT.
++  *
++  * Do not include additional settings here. Instead, add them to settings
++  * included by `acquia-recommended.settings.php`. See Acquia's documentation for more detail.
++  *
++  * @link https://docs.acquia.com/
++  */
+```
+
+- Update `default.local.settings.php` and `local.settings.php` to use the
+  Environment Detector provided by this DSR plugin instead of BLT:
+```diff
+- use Acquia\Blt\Robo\Common\EnvironmentDetector;
++ use Acquia\Drupal\RecommendedSettings\Helpers\EnvironmentDetector;
+```
+
+### Automated Process:
+- Use migrate command provided in BLT.
+```
+./vendor/bin/blt blt:migrate
+```
+
 # License
 
 Copyright (C) 2020 Acquia, Inc.
