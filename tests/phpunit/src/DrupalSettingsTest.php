@@ -14,10 +14,9 @@ class DrupalSettingsTest extends BltProjectTestBase {
     $this->blt('blt:init:settings');
     $sites = $this->config->get("multisites");
 
+    $this->assertFileExists("$this->sandboxInstance/docroot/sites/default/default.settings.php");
     foreach ($sites as $site) {
       $this->assertFileExists("$this->sandboxInstance/docroot/sites/$site/settings/default.local.settings.php");
-      $this->assertFileExists("$this->sandboxInstance/docroot/sites/$site/default.settings.php");
-      $this->assertFileExists("$this->sandboxInstance/docroot/sites/$site/settings/local.settings.php");
       $this->assertFileExists("$this->sandboxInstance/docroot/sites/$site/settings/local.settings.php");
 
       $this->assertStringContainsString('${drupal.db.database}', file_get_contents("$this->sandboxInstance/docroot/sites/$site/settings/default.local.settings.php"));
