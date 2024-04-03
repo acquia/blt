@@ -2,6 +2,3 @@ acquia/blt:
   type: composer-plugin
   version: 13.x
   version_dev: 13.x-dev
-
-acquia/drupal-recommended-settings:
-  type: composer-plugin
