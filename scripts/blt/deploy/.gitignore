@@ -1,5 +1,8 @@
 # This file will be copied into the root directory of the build artifact.
-local.*
+local.settings.php
+local.drush.yml
+local.site.yml
+local.services.yml
 *.local
 local.blt.yml
 
