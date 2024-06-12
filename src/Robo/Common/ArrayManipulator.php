@@ -24,7 +24,7 @@ class ArrayManipulator {
    */
   public static function arrayMergeRecursiveDistinct(
     array &$array1,
-    array &$array2
+    array &$array2,
   ) {
     $merged = $array1;
     foreach ($array2 as $key => &$value) {

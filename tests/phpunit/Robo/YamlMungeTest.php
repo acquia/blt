@@ -20,7 +20,7 @@ class YamlMungeTest extends TestCase {
   public function testArrayMergeRecursiveExceptEmpty(
     $array1,
     $array2,
-    $expected_array
+    $expected_array,
   ) {
     $this->assertEquals(YamlMunge::arrayMergeRecursiveExceptEmpty($array1,
       $array2), $expected_array);

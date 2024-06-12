@@ -35,11 +35,13 @@ class LinkPackageCommand extends BltTasks {
    *
    * @throws \Acquia\Blt\Robo\Exceptions\BltException
    */
-  public function linkComposer(array $options = [
-    'name' => 'acquia/blt',
-    'path' => '../../dev/blt',
-    'version-constraint' => '*',
-  ]) {
+  public function linkComposer(
+    array $options = [
+      'name' => 'acquia/blt',
+      'path' => '../../dev/blt',
+      'version-constraint' => '*',
+    ],
+  ) {
     $path_parts = explode('/', $options['path']);
     $path_counts = array_count_values($path_parts);
     $levels = $path_counts['..'];

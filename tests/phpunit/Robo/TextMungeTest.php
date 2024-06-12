@@ -20,7 +20,7 @@ class TextMungeTest extends TestCase {
   public function testArrayMergeNoDuplicates(
     $array1,
     $array2,
-    $expected_array
+    $expected_array,
   ) {
     $munged = TextMunge::arrayMergeNoDuplicates($array1, $array2);
     $this->assertEquals($munged, $expected_array);

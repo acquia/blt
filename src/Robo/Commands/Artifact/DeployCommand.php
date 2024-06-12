@@ -109,14 +109,16 @@ class DeployCommand extends BltTasks {
    * @throws \Robo\Exception\TaskException
    * @throws \Exception
    */
-  public function deploy(array $options = [
-    'branch' => InputOption::VALUE_REQUIRED,
-    'tag' => InputOption::VALUE_REQUIRED,
-    'commit-msg' => InputOption::VALUE_REQUIRED,
-    'ignore-dirty' => FALSE,
-    'dry-run' => FALSE,
-    'ignore-platform-reqs' => FALSE,
-  ]) {
+  public function deploy(
+    array $options = [
+      'branch' => InputOption::VALUE_REQUIRED,
+      'tag' => InputOption::VALUE_REQUIRED,
+      'commit-msg' => InputOption::VALUE_REQUIRED,
+      'ignore-dirty' => FALSE,
+      'dry-run' => FALSE,
+      'ignore-platform-reqs' => FALSE,
+    ],
+  ) {
     if ($options['dry-run']) {
       $this->logger->warning("This will be a dry run, the artifact will not be pushed.");
     }

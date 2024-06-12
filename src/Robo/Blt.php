@@ -67,7 +67,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
     Config $config,
     InputInterface $input = NULL,
     OutputInterface $output = NULL,
-    ClassLoader $classLoader = NULL
+    ClassLoader $classLoader = NULL,
   ) {
 
     $this->setConfig($config);
@@ -136,7 +136,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
    *   An array of Command classes
    */
   private function getCommands(
-    array $options = ['path' => NULL, 'namespace' => NULL]
+    array $options = ['path' => NULL, 'namespace' => NULL],
   ) {
     $discovery = new CommandFileDiscovery();
     $discovery
@@ -157,7 +157,7 @@ class Blt implements ContainerAwareInterface, LoggerAwareInterface {
    *   An array of Hook classes
    */
   private function getHooks(
-    array $options = ['path' => NULL, 'namespace' => NULL]
+    array $options = ['path' => NULL, 'namespace' => NULL],
   ) {
     $discovery = new CommandFileDiscovery();
     $discovery->setSearchPattern('*Hook.php')->setSearchLocations([]);

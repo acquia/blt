@@ -48,10 +48,12 @@ class SyncCommand extends BltTasks {
    * @command drupal:sync:default:site
    * @aliases ds drupal:sync drupal:sync:default sync sync:refresh
    */
-  public function sync(array $options = [
-    'sync-public-files' => FALSE,
-    'sync-private-files' => FALSE,
-  ]) {
+  public function sync(
+    array $options = [
+      'sync-public-files' => FALSE,
+      'sync-private-files' => FALSE,
+    ],
+  ) {
     $commands = $this->getConfigValue('sync.commands');
     if ($options['sync-public-files'] || $this->getConfigValue('sync.public-files')) {
       $commands[] = 'drupal:sync:public-files';

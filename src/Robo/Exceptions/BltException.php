@@ -15,7 +15,7 @@ class BltException extends \Exception {
   public function __construct(
     $message = "",
     $code = 0,
-    \Throwable $previous = NULL
+    \Throwable $previous = NULL,
   ) {
 
     $message .= "\nFor troubleshooting guidance and support, see https://docs.acquia.com/blt/support/";
