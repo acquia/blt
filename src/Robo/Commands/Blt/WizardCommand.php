@@ -23,9 +23,11 @@ class WizardCommand extends BltTasks {
    *
    * @command wizard
    */
-  public function wizard($options = [
-    'recipe' => InputOption::VALUE_REQUIRED,
-  ]) {
+  public function wizard(
+    $options = [
+      'recipe' => InputOption::VALUE_REQUIRED,
+    ],
+  ) {
     $recipe_filename = $options['recipe'];
     if ($recipe_filename) {
       $answers = $this->loadRecipeFile($recipe_filename);

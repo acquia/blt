@@ -39,7 +39,7 @@ class InteractHook extends BltTasks {
   public function interactGenerateSettingsFiles(
     InputInterface $input,
     OutputInterface $output,
-    AnnotationData $annotationData
+    AnnotationData $annotationData,
   ) {
     /** @var \Acquia\Blt\Robo\Wizards\SetupWizard $setup_wizard */
     $setup_wizard = $this->getContainer()->get(SetupWizard::class);
@@ -54,7 +54,7 @@ class InteractHook extends BltTasks {
   public function interactInstallDrupal(
     InputInterface $input,
     OutputInterface $output,
-    AnnotationData $annotationData
+    AnnotationData $annotationData,
   ) {
     /** @var \Acquia\Blt\Robo\Wizards\SetupWizard $setup_wizard */
     $setup_wizard = $this->getContainer()->get(SetupWizard::class);
@@ -69,7 +69,7 @@ class InteractHook extends BltTasks {
   public function interactExecuteUpdates(
     InputInterface $input,
     OutputInterface $output,
-    AnnotationData $annotationData
+    AnnotationData $annotationData,
   ) {
     if ($this->invokeDepth == 0
       && $input->getFirstArgument() != 'blt:update'
@@ -94,7 +94,7 @@ class InteractHook extends BltTasks {
   public function interactConfigIdentical(
     InputInterface $input,
     OutputInterface $output,
-    AnnotationData $annotationData
+    AnnotationData $annotationData,
   ) {
     $cm_strategies = [
       'config-split',

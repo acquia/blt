@@ -48,7 +48,7 @@ abstract class DoctorCheck implements ConfigAwareInterface, InspectorAwareInterf
     Config $config,
     Inspector $inspector,
     Executor $executor,
-    $drush_status
+    $drush_status,
   ) {
     $this->setConfig($config);
     $this->setInspector($inspector);

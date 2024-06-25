@@ -18,7 +18,7 @@ class ArrayManipulatorTest extends TestCase {
   public function testArrayMergeRecursiveDistinct(
     $array1,
     $array2,
-    $expected_array
+    $expected_array,
   ) {
     $this->assertEquals(ArrayManipulator::arrayMergeRecursiveDistinct($array1,
       $array2), $expected_array);
